@@ -9,20 +9,22 @@ import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, Constants} from 'utils/constants';
 import {Channel} from '@mattermost/types/channels';
+import {Permissions} from 'mattermost-redux/constants';
 import * as Utils from 'utils/utils';
 
 type Props = {
     channel: Channel;
-    permissions?: string[];
 }
 
-const SetHeaderButton = ({channel, permissions}: Props): (React.ReactElement | null) => {
+const SetHeaderButton = ({channel}: Props): (React.ReactElement | null) => {
     const channelIsArchived = channel.delete_at !== 0;
     if (channelIsArchived) {
         return null;
     }
+
+    const permissions = channel.type === Constants.PRIVATE_CHANNEL ? [Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES] : [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES];
 
     const toggleButton = (
         <ToggleModalButton

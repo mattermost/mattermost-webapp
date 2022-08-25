@@ -11,7 +11,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import {t} from 'utils/i18n';
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers} from 'utils/constants';
 import ToggleModalButton from 'components/toggle_modal_button';
 
 import LocalizedIcon from 'components/localized_icon';
@@ -44,17 +44,10 @@ const DefaultIntroMessage = ({
     let teamInviteLink = null;
     const channelIsArchived = channel.delete_at !== 0;
     const totalUsers = stats.total_users_count;
-    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     const renderButtons = !isReadOnly && !channelIsArchived;
-    const permissions = [isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES];
     const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
-    const setHeaderButton = renderButtons ? (
-        <SetHeaderButton
-            channel={channel}
-            permissions={permissions}
-        />
-    ) : null;
+    const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
 
     if (!isReadOnly && enableUserCreation) {
         teamInviteLink = (
