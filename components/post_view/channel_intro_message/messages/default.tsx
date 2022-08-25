@@ -47,11 +47,12 @@ const DefaultIntroMessage = ({
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     const renderButtons = !isReadOnly && !channelIsArchived;
+    const permissions = [isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES];
     const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
     const setHeaderButton = renderButtons ? (
         <SetHeaderButton
             channel={channel}
-            permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]}
+            permissions={permissions}
         />
     ) : null;
 
@@ -65,7 +66,24 @@ const DefaultIntroMessage = ({
                     teamId={channel.team_id}
                     permissions={[Permissions.ADD_USER_TO_TEAM]}
                 >
-                    {!teamIsGroupConstrained &&
+                    {teamIsGroupConstrained ? (
+                        <ToggleModalButton
+                            className='intro-links color--link'
+                            modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
+                            dialogType={AddGroupsToTeamModal}
+                            dialogProps={{channel}}
+                        >
+                            {/* MM-46602: convert to compass icon after localization is added */}
+                            <LocalizedIcon
+                                className='fa fa-user-plus'
+                                title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
+                            />
+                            <FormattedMessage
+                                id='intro_messages.addGroupsToTeam'
+                                defaultMessage='Add other groups to this team'
+                            />
+                        </ToggleModalButton>
+                    ) : (
                         <AddMembersButton
                             setHeader={setHeaderButton}
                             totalUsers={totalUsers}
@@ -73,25 +91,7 @@ const DefaultIntroMessage = ({
                             channel={channel}
                             createBoard={boardCreateButton}
                         />
-                    }
-                    {teamIsGroupConstrained &&
-                    <ToggleModalButton
-                        className='intro-links color--link'
-                        modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
-                        dialogType={AddGroupsToTeamModal}
-                        dialogProps={{channel}}
-                    >
-                        {/* MM-46602: convert to compass icon after localization is added */}
-                        <LocalizedIcon
-                            className='fa fa-user-plus'
-                            title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
-                        />
-                        <FormattedMessage
-                            id='intro_messages.addGroupsToTeam'
-                            defaultMessage='Add other groups to this team'
-                        />
-                    </ToggleModalButton>
-                    }
+                    )}
                 </TeamPermissionGate>
             </TeamPermissionGate>
         );
@@ -109,16 +109,7 @@ const DefaultIntroMessage = ({
                 />
             </h2>
             <p className='channel-intro__content'>
-                {!isReadOnly &&
-                    <FormattedMarkdownMessage
-                        id='intro_messages.default'
-                        defaultMessage='**Welcome to {display_name}!**\n \nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.'
-                        values={{
-                            display_name: channel.display_name,
-                        }}
-                    />
-                }
-                {isReadOnly &&
+                {isReadOnly ? (
                     <FormattedMarkdownMessage
                         id='intro_messages.readonly.default'
                         defaultMessage='**Welcome to {display_name}!**\n \nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team.'
@@ -126,7 +117,15 @@ const DefaultIntroMessage = ({
                             display_name: channel.display_name,
                         }}
                     />
-                }
+                ) : (
+                    <FormattedMarkdownMessage
+                        id='intro_messages.default'
+                        defaultMessage='**Welcome to {display_name}!**\n \nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.'
+                        values={{
+                            display_name: channel.display_name,
+                        }}
+                    />
+                )}
             </p>
             {teamInviteLink}
             {teamIsGroupConstrained && boardCreateButton}

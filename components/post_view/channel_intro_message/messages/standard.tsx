@@ -150,7 +150,6 @@ const StandardIntroMessage = ({
     }, [channel.purpose, channel.type]);
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-
     const renderButtons = !channelIsArchived;
     const permissions = [isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES];
     const setHeaderButton = renderButtons ? (
