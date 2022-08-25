@@ -18,21 +18,21 @@ import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 
 type Props = {
-    boardComponent?: PluginComponent;
     channel: Channel;
     creatorName: string;
     locale: string;
     stats: any;
     usersLimit: number;
+    boardComponent?: PluginComponent;
 }
 
 const StandardIntroMessage = ({
-    boardComponent,
     channel,
     creatorName,
     locale,
     stats,
     usersLimit,
+    boardComponent,
 }: Props) => {
     const uiName = channel.display_name;
     const channelIsArchived = channel.delete_at !== 0;

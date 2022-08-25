@@ -16,8 +16,8 @@ import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 
 type Props = {
-    boardComponent?: PluginComponent;
     channel: Channel;
+    boardComponent?: PluginComponent;
     teammate?: UserProfileRedux;
     teammateName?: string;
 }

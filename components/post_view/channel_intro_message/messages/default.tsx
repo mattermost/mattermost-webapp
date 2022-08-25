@@ -24,23 +24,23 @@ import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 
 type Props = {
-    boardComponent?: PluginComponent;
     channel: Channel;
+    stats: any;
+    usersLimit: number;
+    boardComponent?: PluginComponent;
     enableUserCreation?: boolean;
     isReadOnly?: boolean;
-    stats: any;
     teamIsGroupConstrained?: boolean;
-    usersLimit: number;
 }
 
 const DefaultIntroMessage = ({
-    boardComponent,
     channel,
+    stats,
+    usersLimit,
+    boardComponent,
     enableUserCreation,
     isReadOnly,
-    stats,
     teamIsGroupConstrained,
-    usersLimit,
 }: Props) => {
     let teamInviteLink = null;
     const totalUsers = stats.total_users_count;

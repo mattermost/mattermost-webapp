@@ -17,17 +17,17 @@ import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 
 type Props = {
-    boardComponent?: PluginComponent;
     channel: Channel;
     stats: any;
     usersLimit: number;
+    boardComponent?: PluginComponent;
 }
 
 const OffTopicIntroMessage = ({
-    boardComponent,
     channel,
     stats,
     usersLimit,
+    boardComponent,
 }: Props) => {
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const boardCreateButton = (

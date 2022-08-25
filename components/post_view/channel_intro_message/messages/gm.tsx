@@ -15,17 +15,17 @@ import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 
 type Props = {
-    boardComponent?: PluginComponent;
     channel: Channel;
     currentUserId: string;
     profiles: UserProfileRedux[];
+    boardComponent?: PluginComponent;
 }
 
 const GMIntroMessage = ({
-    boardComponent,
     channel,
     currentUserId,
     profiles,
+    boardComponent,
 }: Props) => {
     if (profiles.length > 0) {
         const pictures = profiles.
