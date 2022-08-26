@@ -4,13 +4,13 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 
+import {GfycatAPIItem} from '@mattermost/types/gifs';
+
 import {
     searchCategory,
     searchIfNeededInitial,
     saveSearchScrollPosition,
 } from 'mattermost-redux/actions/gifs';
-
-import {GfycatAPIItem} from '@mattermost/types/gifs';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
 import {appProps} from 'components/gif_picker/gif_picker';
