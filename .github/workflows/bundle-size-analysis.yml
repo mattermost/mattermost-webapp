@@ -4,13 +4,6 @@ on:
   pull_request:
     branches:
       - master
-    paths: 
-      - "**.js"
-      - "**.jsx"
-      - "**.ts"
-      - "**.tsx"
-      - "**.json"
-  
     paths-ignore:
       - "e2e/**"
       - "**.snap"
