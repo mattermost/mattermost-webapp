@@ -246,7 +246,7 @@ function uiGotoDirectMessageWithUser(user: User) {
 
     // # Type username
     cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-        type(user.username).wait(TIMEOUTS.ONE_SEC);
+        type(user.username, {force: true}).wait(TIMEOUTS.ONE_SEC);
 
     // * Expect user count in the list to be 1
     cy.get('#multiSelectList').
