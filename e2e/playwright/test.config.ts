@@ -10,6 +10,9 @@ export type TestConfig = {
     percyEnabled: boolean;
     lessThanCloudUserLimit: boolean;
     resetBeforeTest: boolean;
+    haClusterEnabled: boolean;
+    haClusterNodeCount: number;
+    haClusterName: string;
 };
 
 const config: TestConfig = {
@@ -17,10 +20,13 @@ const config: TestConfig = {
     adminUsername: process.env.PW_ADMIN_USERNAME || 'sysadmin',
     adminPassword: process.env.PW_ADMIN_PASSWORD || 'Sys@dmin-sample1',
     adminEmail: process.env.PW_ADMIN_EMAIL || 'sysadmin@sample.mattermost.com',
-    applitoolsEnabled: process.env.APPLITOOLS_ENABLE === 'true',
-    percyEnabled: process.env.PERCY_ENABLE === 'true',
-    lessThanCloudUserLimit: process.env.LESS_THAN_CLOUD_USER_LIMIT === 'true',
-    resetBeforeTest: process.env.RESET_BEFORE_TEST === 'true',
+    applitoolsEnabled: process.env.PW_APPLITOOLS_ENABLE === 'true',
+    percyEnabled: process.env.PW_PERCY_ENABLE === 'true',
+    lessThanCloudUserLimit: process.env.PW_LESS_THAN_CLOUD_USER_LIMIT === 'true',
+    resetBeforeTest: process.env.PW_RESET_BEFORE_TEST === 'true',
+    haClusterEnabled: process.env.PW_HA_CLUSTER_ENABLED === 'true',
+    haClusterNodeCount: parseInt(process.env.PW_HA_CLUSTER_NODE_COUNT, 10) || 3,
+    haClusterName: process.env.PW_HA_CLUSTER_NAME || 'mm_dev_cluster',
 };
 
 export default config;

@@ -11,8 +11,8 @@ export default async function snapshotWithApplitools(page: Page, isMobile: boole
     let targetWindow: CheckSettings;
 
     if (!isMobile && browserName === 'chromium' && testConfig.applitoolsEnabled) {
-        if (!process.env.APPLITOOLS_API_KEY) {
-            console.error('Error: API key is missing! Please set using: "export APPLITOOLS_API_KEY=<change_me>"');
+        if (!process.env.PW_APPLITOOLS_API_KEY) {
+            console.error('Error: API key is missing! Please set using: "export PW_APPLITOOLS_API_KEY=<change_me>"');
         }
         const runner = new ClassicRunner();
         eyes = new Eyes(runner);

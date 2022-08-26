@@ -5,7 +5,7 @@ import {test, expect} from '@playwright/test';
 import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
 import {initSetup} from '@support/server';
-import {ChannelPage, LandingLoginPage, LoginPage} from '@support/ui/page';
+import {ChannelPage, LoginPage} from '@support/ui/page';
 import {hideTeamHeader, hidePostHeaderTime} from '@support/ui/style';
 import {snapshotWithApplitools, snapshotWithPercy} from '@support/visual';
 import testConfig from '@test.config';
@@ -25,12 +25,6 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName}, t
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);
     await loginPage.goto();
-
-    if (isMobile) {
-        // Click view in browser
-        const landingLoginPage = new LandingLoginPage(page);
-        await landingLoginPage.viewInBrowserButton.click();
-    }
 
     // Login as a new user
     await loginPage.title.waitFor();

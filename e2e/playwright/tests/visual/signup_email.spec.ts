@@ -5,7 +5,7 @@ import {test, expect} from '@playwright/test';
 import {Eyes, CheckSettings} from '@applitools/eyes-playwright';
 
 import {getAdminClient} from '@support/server';
-import {LandingLoginPage, LoginPage, SignupPage} from '@support/ui/page';
+import {LoginPage, SignupPage} from '@support/ui/page';
 import {duration, wait} from '@support/utils';
 import {snapshotWithApplitools, snapshotWithPercy} from '@support/visual';
 import testConfig from '@test.config';
@@ -26,12 +26,6 @@ test('/signup_email', async ({page, isMobile, browserName}, testInfo) => {
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);
     await loginPage.goto();
-
-    if (isMobile) {
-        // Click view in browser
-        const landingLoginPage = new LandingLoginPage(page);
-        await landingLoginPage.viewInBrowserButton.click();
-    }
 
     // Wait for sign in button to be shown
     await loginPage.signInButton.waitFor();
