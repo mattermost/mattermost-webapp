@@ -11,12 +11,12 @@ import {SelectChangeEvent} from '@mui/material/Select';
 
 import {FormattedMessage} from 'react-intl';
 
-import Modal from '@mattermost/compass-ui/lib/components/modal/modal';
-import TextField from '@mattermost/compass-ui/lib/components/textfield/textfield';
-import ModalTitle from '@mattermost/compass-ui/lib/components/modal/modal_title';
-import Select from '@mattermost/compass-ui/lib/components/select/select';
-import ListItemIcon from '@mattermost/compass-ui/lib/components/list-item-icon/list-item-icon';
-import MenuItem from '@mattermost/compass-ui/lib/components/menu-item/menu-item';
+import Modal from '@mattermost/compass-ui/components/modal/modal';
+import TextField from '@mattermost/compass-ui/components/textfield/textfield';
+import ModalTitle from '@mattermost/compass-ui/components/modal/modal_title';
+import Select from '@mattermost/compass-ui/components/select/select';
+import ListItemIcon from '@mattermost/compass-ui/components/list-item-icon/list-item-icon';
+import MenuItem from '@mattermost/compass-ui/components/menu-item/menu-item';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {Group, GroupSearachParams} from '@mattermost/types/groups';

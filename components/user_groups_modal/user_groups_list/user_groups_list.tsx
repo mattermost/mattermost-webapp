@@ -5,9 +5,9 @@ import {useIntl} from 'react-intl';
 import {AccountMultipleOutlineIcon, DotsVerticalIcon, TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
 import {Menu, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography} from '@mui/material';
 
-import ListItemIcon from '@mattermost/compass-ui/componentslist-item-icon/list-item-icon';
+import ListItemIcon from '@mattermost/compass-ui/components/list-item-icon/list-item-icon';
 
-import MenuItem from '@mattermost/compass-ui/componentsmenu-item/menu-item';
+import MenuItem from '@mattermost/compass-ui/components/menu-item/menu-item';
 
 import {Group, GroupPermissions} from '@mattermost/types/groups';
 

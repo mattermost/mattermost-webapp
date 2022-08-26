@@ -22,6 +22,7 @@
     "baseUrl": ".",
     "paths": {
         "@mattermost/client": ["packages/client/src"],
+        "@mattermost/compass-ui/*": ["packages/compass-ui/src/*"],
         "@mattermost/types/*": ["packages/types/src/*"],
         "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
         "reselect": ["packages/reselect/src"],
@@ -39,6 +40,7 @@
   ],
   "references": [
     {"path": "./packages/client"},
+    {"path": "./packages/compass-ui"},
     {"path": "./packages/types"},
   ]
 }
