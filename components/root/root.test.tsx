@@ -2,8 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {RouteComponentProps} from 'react-router-dom';
 import {shallow} from 'enzyme';
 import rudderAnalytics from 'rudder-sdk-js';
+
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {Client4} from 'mattermost-redux/client';
 import {GeneralTypes} from 'mattermost-redux/action_types';
@@ -11,7 +14,7 @@ import {GeneralTypes} from 'mattermost-redux/action_types';
 import Root from 'components/root/root';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
-import matchMedia from 'tests/helpers/match_media.mock.ts';
+import matchMedia from 'tests/helpers/match_media.mock';
 
 jest.mock('rudder-sdk-js', () => ({
     identify: jest.fn(),
@@ -43,7 +46,7 @@ describe('components/Root', () => {
         telemetryId: '1234ab',
         noAccounts: false,
         showTermsOfService: false,
-        theme: {},
+        theme: {} as Theme,
         actions: {
             loadConfigAndMe: jest.fn().mockImplementation(() => {
                 return Promise.resolve({
@@ -51,7 +54,7 @@ describe('components/Root', () => {
                 });
             }),
             emitBrowserWindowResized: () => {},
-            getFirstAdminSetupComplete: jest.fn(() => ({
+            getFirstAdminSetupComplete: jest.fn(() => Promise.resolve({
                 type: GeneralTypes.FIRST_ADMIN_COMPLETE_SETUP_RECEIVED,
                 data: true,
             })),
@@ -60,9 +63,16 @@ describe('components/Root', () => {
             savePreferences: jest.fn(),
             registerCustomPostRenderer: jest.fn(),
         },
-        location: {
-            pathname: '/',
-        },
+        permalinkRedirectTeamName: '',
+        showLaunchingWorkspace: false,
+        plugins: [],
+        products: [],
+        ...{
+            location: {
+                pathname: '/',
+            },
+        } as RouteComponentProps,
+        isCloud: false,
     };
 
     test('should load config and license on mount and redirect to sign-up page', () => {
@@ -71,12 +81,12 @@ describe('components/Root', () => {
             noAccounts: true,
             history: {
                 push: jest.fn(),
-            },
+            } as unknown as RouteComponentProps['history'],
         };
 
         const wrapper = shallow(<Root {...props}/>);
 
-        wrapper.instance().onConfigLoaded();
+        (wrapper.instance() as any).onConfigLoaded();
         expect(props.history.push).toHaveBeenCalledWith('/signup_user_complete');
         wrapper.unmount();
     });
@@ -117,7 +127,7 @@ describe('components/Root', () => {
             ...baseProps,
             location: {
                 pathname: '/admin_console',
-            },
+            } as RouteComponentProps['location'],
             actions: {
                 ...baseProps.actions,
                 loadConfigAndMe: jest.fn().mockImplementation(() => {
@@ -146,7 +156,7 @@ describe('components/Root', () => {
             noAccounts: false,
             history: {
                 push: jest.fn(),
-            },
+            } as unknown as RouteComponentProps['history'],
         };
         const wrapper = shallow(<Root {...props}/>);
         expect(props.history.push).not.toHaveBeenCalled();
@@ -188,8 +198,6 @@ describe('components/Root', () => {
         test('should not set a TelemetryHandler when onConfigLoaded is called if Rudder is not configured', () => {
             const wrapper = shallow(<Root {...baseProps}/>);
 
-            wrapper.instance().onConfigLoaded();
-
             Client4.trackEvent('category', 'event');
 
             expect(Client4.telemetryHandler).not.toBeDefined();
@@ -203,7 +211,7 @@ describe('components/Root', () => {
 
             const wrapper = shallow(<Root {...baseProps}/>);
 
-            wrapper.instance().onConfigLoaded();
+            (wrapper.instance() as any).onConfigLoaded();
 
             Client4.trackEvent('category', 'event');
 
@@ -213,7 +221,7 @@ describe('components/Root', () => {
         });
 
         test('should not set a TelemetryHandler when onConfigLoaded is called but Rudder has been blocked', () => {
-            rudderAnalytics.ready.mockImplementation(() => {
+            (rudderAnalytics.ready as any).mockImplementation(() => {
                 // Simulate an error occurring and the callback not getting called
             });
 
@@ -222,7 +230,7 @@ describe('components/Root', () => {
 
             const wrapper = shallow(<Root {...baseProps}/>);
 
-            wrapper.instance().onConfigLoaded();
+            (wrapper.instance() as any).onConfigLoaded();
 
             Client4.trackEvent('category', 'event');
 

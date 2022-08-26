@@ -1,22 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import deepEqual from 'fast-deep-equal';
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import Scrollbars from 'react-custom-scrollbars';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import DelayedAction from 'utils/delayed_action';
-import Constants, {RHSStates} from 'utils/constants';
+import Constants from 'utils/constants';
+
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import UserProfile from 'components/user_profile';
 import PostProfilePicture from 'components/post_profile_picture';
-import * as GlobalActions from 'actions/global_actions';
 
-export function renderView(props) {
+import {Post} from '@mattermost/types/posts';
+
+import {RhsState} from 'types/store/rhs';
+import {PostPluginComponent} from 'types/store/plugins';
+
+import {emitCloseRightHandSide} from 'actions/global_actions';
+
+type Props = {
+    isMobileView: boolean;
+    selected?: Post;
+    pluginPostCardTypes?: Record<string, PostPluginComponent>;
+    previousRhsState?: RhsState;
+    enablePostUsernameOverride?: boolean;
+    teamUrl?: string;
+};
+
+type State = {
+    isScrolling: boolean;
+};
+
+export function renderView(props: Props) {
     return (
         <div
             {...props}
@@ -24,7 +42,7 @@ export function renderView(props) {
         />);
 }
 
-export function renderThumbHorizontal(props) {
+export function renderThumbHorizontal(props: Props) {
     return (
         <div
             {...props}
@@ -32,7 +50,7 @@ export function renderThumbHorizontal(props) {
         />);
 }
 
-export function renderThumbVertical(props) {
+export function renderThumbVertical(props: Props) {
     return (
         <div
             {...props}
@@ -40,35 +58,24 @@ export function renderThumbVertical(props) {
         />);
 }
 
-export default class RhsCard extends React.Component {
-    static propTypes = {
-        selected: PropTypes.object,
-        pluginPostCardTypes: PropTypes.object,
-        previousRhsState: PropTypes.oneOf(Object.values(RHSStates)),
-        enablePostUsernameOverride: PropTypes.bool,
-        isMobileView: PropTypes.bool.isRequired,
-        teamUrl: PropTypes.string,
-    }
+export default class RhsCard extends React.Component<Props, State> {
+    scrollStopAction: DelayedAction;
 
     static defaultProps = {
         pluginPostCardTypes: {},
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.scrollStopAction = new DelayedAction(this.handleScrollStop);
 
         this.state = {
             isScrolling: false,
-            topRhsPostCreateAt: 0,
         };
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (!deepEqual(nextState.selected, this.props.selected)) {
-            return true;
-        }
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
         if (nextState.isScrolling !== this.state.isScrolling) {
             return true;
         }
@@ -93,7 +100,7 @@ export default class RhsCard extends React.Component {
 
     handleClick = () => {
         if (this.props.isMobileView) {
-            GlobalActions.emitCloseRightHandSide();
+            emitCloseRightHandSide();
         }
     };
 
@@ -104,8 +111,8 @@ export default class RhsCard extends React.Component {
 
         const {selected, pluginPostCardTypes, teamUrl} = this.props;
         const postType = selected.type;
-        let content = null;
-        if (pluginPostCardTypes.hasOwnProperty(postType)) {
+        let content: ReactNode = null;
+        if (pluginPostCardTypes?.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostCardTypes[postType].component;
             content = <PluginComponent post={selected}/>;
         }

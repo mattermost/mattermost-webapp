@@ -10,14 +10,10 @@ import throttle from 'lodash/throttle';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import {redirectUserToDefaultTeam} from 'actions/global_actions';
-import {addUserToTeamFromInvite} from 'actions/team_actions';
-import {setNeedsLoggedInLimitReachedCheck} from 'actions/views/admin';
-import LocalStorageStore from 'stores/local_storage_store';
-import {login} from 'mattermost-redux/actions/users';
+import {Team} from '@mattermost/types/teams';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
+import {getUseCaseOnboarding, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
@@ -25,7 +21,14 @@ import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {Team} from '@mattermost/types/teams';
+import {loadMe, loadMeREST} from 'mattermost-redux/actions/users';
+
+import LocalStorageStore from 'stores/local_storage_store';
+
+import {redirectUserToDefaultTeam} from 'actions/global_actions';
+import {addUserToTeamFromInvite} from 'actions/team_actions';
+import {login} from 'actions/views/login';
+import {setNeedsLoggedInLimitReachedCheck} from 'actions/views/admin';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
@@ -43,15 +46,14 @@ import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
+import {SubmitOptions} from 'components/claim/components/email_to_ldap';
 
 import {GlobalState} from 'types/store';
-import Constants from 'utils/constants';
 
+import Constants from 'utils/constants';
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n';
 import {setCSRFFromCookie} from 'utils/utils';
-
-import {SubmitOptions} from 'components/claim/components/email_to_ldap';
 
 import LoginMfa from './login_mfa';
 
@@ -103,6 +105,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const experimentalPrimaryTeamMember = useSelector((state: GlobalState) => getMyTeamMember(state, experimentalPrimaryTeam?.id ?? ''));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
     const isCloud = useSelector(isCurrentLicenseCloud);
+    const graphQLEnabled = useSelector(isGraphQLEnabled);
 
     const loginIdInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -518,14 +521,13 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
-        const {data: userProfile, error} = await dispatch(login(loginId, password, token));
+        const {data: userProfile, error: loginError} = await dispatch(login(loginId, password, token));
 
-        // Ignore MFA required error (actions/views/login.js : ignoreMfaRequiredError)
-        if (error && error.server_error_id !== 'api.context.mfa_required.app_error') {
-            if (error.server_error_id === 'api.user.login.not_verified.app_error') {
+        if (loginError && loginError.server_error_id && loginError.server_error_id.length !== 0) {
+            if (loginError.server_error_id === 'api.user.login.not_verified.app_error') {
                 history.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
-            } else if (error.server_error_id === 'store.sql_user.get_for_login.app_error' ||
-                error.server_error_id === 'ent.ldap.do_login.user_not_registered.app_error') {
+            } else if (loginError.server_error_id === 'store.sql_user.get_for_login.app_error' ||
+                loginError.server_error_id === 'ent.ldap.do_login.user_not_registered.app_error') {
                 setShowMfa(false);
                 setIsWaiting(false);
                 setAlertBanner({
@@ -536,8 +538,8 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                     }),
                 });
                 setHasError(true);
-            } else if (error.server_error_id === 'api.user.check_user_password.invalid.app_error' ||
-                error.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
+            } else if (loginError.server_error_id === 'api.user.check_user_password.invalid.app_error' ||
+                loginError.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
                 setShowMfa(false);
                 setIsWaiting(false);
                 setAlertBanner({
@@ -548,9 +550,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                     }),
                 });
                 setHasError(true);
-            } else if (!showMfa && error.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+            } else if (!showMfa && loginError.server_error_id === 'mfa.validate_token.authenticate.app_error') {
                 setShowMfa(true);
-            } else if (error.server_error_id === 'api.user.login.invalid_credentials_email_username') {
+            } else if (loginError.server_error_id === 'api.user.login.invalid_credentials_email_username') {
                 setShowMfa(false);
                 setIsWaiting(false);
                 setAlertBanner({
@@ -566,12 +568,17 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 setIsWaiting(false);
                 setAlertBanner({
                     mode: 'danger',
-                    title: error.message,
+                    title: loginError.message,
                 });
                 setHasError(true);
             }
-
             return;
+        }
+
+        if (graphQLEnabled) {
+            await dispatch(loadMe());
+        } else {
+            await dispatch(loadMeREST());
         }
 
         // check for query params brought over from signup_user_complete

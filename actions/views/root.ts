@@ -4,15 +4,20 @@
 import {Client4} from 'mattermost-redux/client';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {loadMe, loadMeREST} from 'mattermost-redux/actions/users';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {GlobalState} from 'types/store';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
+import {Translations} from 'types/store/i18n';
 import {ActionTypes} from 'utils/constants';
 import en from 'i18n/en.json';
 
-const pluginTranslationSources = {};
+const pluginTranslationSources: Record<string, TranslationPluginFunction> = {};
+
+type TranslationPluginFunction = (locale: string) => Translations
 
 export function loadConfigAndMe() {
-    return async (dispatch) => {
+    return async (dispatch: DispatchFunc) => {
         const [{data: clientConfig}] = await Promise.all([
             dispatch(getClientConfig()),
             dispatch(getLicenseConfig()),
@@ -35,10 +40,10 @@ export function loadConfigAndMe() {
     };
 }
 
-export function registerPluginTranslationsSource(pluginId, sourceFunction) {
+export function registerPluginTranslationsSource(pluginId: string, sourceFunction: TranslationPluginFunction) {
     pluginTranslationSources[pluginId] = sourceFunction;
-    return (dispatch, getState) => {
-        const state = getState();
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
         const locale = getCurrentLocale(state);
         const immutableTranslations = getTranslations(state, locale);
         const translations = {};
@@ -56,12 +61,12 @@ export function registerPluginTranslationsSource(pluginId, sourceFunction) {
     };
 }
 
-export function unregisterPluginTranslationsSource(pluginId) {
+export function unregisterPluginTranslationsSource(pluginId: string) {
     Reflect.deleteProperty(pluginTranslationSources, pluginId);
 }
 
-export function loadTranslations(locale, url) {
-    return async (dispatch) => {
+export function loadTranslations(locale: string, url: string) {
+    return async (dispatch: DispatchFunc) => {
         const translations = {...en};
         Object.values(pluginTranslationSources).forEach((pluginFunc) => {
             Object.assign(translations, pluginFunc(locale));
@@ -83,11 +88,12 @@ export function loadTranslations(locale, url) {
                 translations,
             },
         });
+        return {data: true};
     };
 }
 
-export function registerCustomPostRenderer(type, component, id) {
-    return async (dispatch) => {
+export function registerCustomPostRenderer(type: string, component: any, id: string) {
+    return async (dispatch: DispatchFunc) => {
         // piggyback on plugins state to register a custom post renderer
         dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT,
@@ -98,5 +104,6 @@ export function registerCustomPostRenderer(type, component, id) {
                 component,
             },
         });
+        return {data: true};
     };
 }

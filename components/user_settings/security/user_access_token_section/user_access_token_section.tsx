@@ -16,7 +16,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SaveButton from 'components/save_button';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 const SECTION_TOKENS = 'tokens';

@@ -21,7 +21,7 @@ import App from 'components/app';
 
 // This is for anything that needs to be done for ALL react components.
 // This runs before we start to render anything.
-function preRenderSetup(callwhendone) {
+function preRenderSetup(callwhendone: () => void) {
     window.onerror = (msg, url, line, column, stack) => {
         if (msg === 'ResizeObserver loop limit exceeded') {
             return;
@@ -36,9 +36,9 @@ function preRenderSetup(callwhendone) {
             logError({
                 type: AnnouncementBarTypes.DEVELOPER,
                 message: 'A JavaScript error in the webapp client has occurred. (msg: ' + msg + ', row: ' + line + ', col: ' + column + ').',
-                stack,
+                stack: stack as any,
                 url,
-            },
+            } as any,
             displayable,
             true,
             ),
@@ -58,17 +58,12 @@ function renderRootComponent() {
 /**
  * Adds a function to be invoked onload appended to any existing onload
  * event handlers.
- *
- * @param   {function} fn onload event handler
- *
  */
-function appendOnLoadEvent(fn) {
-    if (window.attachEvent) {
-        window.attachEvent('onload', fn);
-    } else if (window.onload) {
+function appendOnLoadEvent(fn: (evt: Event) => void) {
+    if (window.onload) {
         const curronload = window.onload;
         window.onload = (evt) => {
-            curronload(evt);
+            (curronload as any)(evt);
             fn(evt);
         };
     } else {
