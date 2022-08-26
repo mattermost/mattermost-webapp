@@ -4,7 +4,9 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
 <div
   className="sidebar-right__body sidebar-right__card"
 >
-  <Connect(RhsCardHeader) />
+  <Connect(RhsCardHeader)
+    previousRhsState={Object {}}
+  />
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -46,17 +48,37 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
                   compactDisplay={false}
                   post={
                     Object {
+                      "channel_id": "",
                       "create_at": 1542994995740,
+                      "delete_at": 0,
+                      "edit_at": 0,
+                      "hashtags": "",
                       "id": "123",
+                      "is_pinned": false,
                       "message": "test",
+                      "metadata": Object {
+                        "embeds": Array [],
+                        "emojis": Array [],
+                        "files": Array [],
+                        "images": Object {},
+                        "reactions": Array [],
+                      },
+                      "original_id": "",
+                      "pending_post_id": "",
                       "props": Object {},
-                      "type": "test",
+                      "reply_count": 0,
+                      "root_id": "",
+                      "type": "system_add_remove",
+                      "update_at": 0,
+                      "user_id": "user_id",
                     }
                   }
+                  userId="user_id"
                 />,
                 "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
+                  userId="user_id"
                 />,
               }
             }
@@ -68,7 +90,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when no plugin defini
           <Link
             className="post__permalink"
             onClick={[Function]}
-            to="undefined/pl/123"
+            to="test-team-url/pl/123"
           >
             <MemoizedFormattedMessage
               defaultMessage="Jump"
@@ -86,7 +108,9 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
 <div
   className="sidebar-right__body sidebar-right__card"
 >
-  <Connect(RhsCardHeader) />
+  <Connect(RhsCardHeader)
+    previousRhsState={Object {}}
+  />
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -128,17 +152,37 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                   compactDisplay={false}
                   post={
                     Object {
+                      "channel_id": "",
                       "create_at": 1542994995740,
+                      "delete_at": 0,
+                      "edit_at": 0,
+                      "hashtags": "",
                       "id": "123",
+                      "is_pinned": false,
                       "message": "test",
+                      "metadata": Object {
+                        "embeds": Array [],
+                        "emojis": Array [],
+                        "files": Array [],
+                        "images": Object {},
+                        "reactions": Array [],
+                      },
+                      "original_id": "",
+                      "pending_post_id": "",
                       "props": Object {},
-                      "type": "test",
+                      "reply_count": 0,
+                      "root_id": "",
+                      "type": "system_add_remove",
+                      "update_at": 0,
+                      "user_id": "user_id",
                     }
                   }
+                  userId="user_id"
                 />,
                 "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
+                  userId="user_id"
                 />,
               }
             }
@@ -150,7 +194,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
           <Link
             className="post__permalink"
             onClick={[Function]}
-            to="undefined/pl/123"
+            to="test-team-url/pl/123"
           >
             <MemoizedFormattedMessage
               defaultMessage="Jump"
@@ -168,7 +212,9 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
 <div
   className="sidebar-right__body sidebar-right__card"
 >
-  <Connect(RhsCardHeader) />
+  <Connect(RhsCardHeader)
+    previousRhsState={Object {}}
+  />
   <Scrollbars
     autoHeight={false}
     autoHeightMax={200}
@@ -190,17 +236,11 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
     <div
       className="post-right__scroll"
     >
-      <component
-        post={
-          Object {
-            "create_at": 1542994995740,
-            "id": "123",
-            "message": "test",
-            "props": Object {},
-            "type": "test",
-          }
-        }
-      />
+      <div
+        className="info-card"
+      >
+        <Connect(Markdown) />
+      </div>
       <div
         className="d-flex post-card--info"
       >
@@ -216,17 +256,37 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
                   compactDisplay={false}
                   post={
                     Object {
+                      "channel_id": "",
                       "create_at": 1542994995740,
+                      "delete_at": 0,
+                      "edit_at": 0,
+                      "hashtags": "",
                       "id": "123",
+                      "is_pinned": false,
                       "message": "test",
+                      "metadata": Object {
+                        "embeds": Array [],
+                        "emojis": Array [],
+                        "files": Array [],
+                        "images": Object {},
+                        "reactions": Array [],
+                      },
+                      "original_id": "",
+                      "pending_post_id": "",
                       "props": Object {},
-                      "type": "test",
+                      "reply_count": 0,
+                      "root_id": "",
+                      "type": "system_add_remove",
+                      "update_at": 0,
+                      "user_id": "user_id",
                     }
                   }
+                  userId="user_id"
                 />,
                 "user": <Memo(Connect(UserProfile))
                   disablePopover={true}
                   hideStatus={true}
+                  userId="user_id"
                 />,
               }
             }
@@ -238,7 +298,7 @@ exports[`comoponents/rhs_card/RhsCard should match on post when plugin defining 
           <Link
             className="post__permalink"
             onClick={[Function]}
-            to="undefined/pl/123"
+            to="test-team-url/pl/123"
           >
             <MemoizedFormattedMessage
               defaultMessage="Jump"

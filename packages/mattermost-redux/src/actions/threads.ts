@@ -348,7 +348,7 @@ export function handleReadChanged(
                 newUnreadMentions,
                 prevUnreadReplies,
                 newUnreadReplies,
-                channelType: channel.type,
+                channelType: channel?.type,
             },
         });
     };

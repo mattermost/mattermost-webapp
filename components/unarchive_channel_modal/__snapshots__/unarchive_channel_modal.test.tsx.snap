@@ -54,7 +54,7 @@ exports[`components/unarchive_channel_modal should match snapshot for unarchive_
     <div
       className="alert alert-danger"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="Are you sure you wish to unarchive the **{display_name}** channel?"
         id="unarchive_channel.viewArchived.question"
         values={

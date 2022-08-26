@@ -8,7 +8,7 @@ import './actions_menu.scss';
 
 import {Tooltip} from 'react-bootstrap';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {Post} from '@mattermost/types/posts';
 import {AppBinding} from '@mattermost/types/apps';
