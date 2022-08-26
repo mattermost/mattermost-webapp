@@ -21,6 +21,42 @@ function withTrialLicense(trial) {
     cy.intercept('GET', '**/api/v4/license/client?format=old', {
         statusCode: 200,
         body: {
+            Announcement:"true",
+            Cloud:"true",
+            Cluster:"true",
+            Company:"Mattermost",
+            Compliance:"true",
+            CustomPermissionsSchemes:"true",
+            CustomTermsOfService:"true",
+            DataRetention:"true",
+            Elasticsearch:"true",
+            Email:"joram@mattermost.com",
+            EmailNotificationContents:"true",
+            // ExpiresAt:"1686196799000",
+            GoogleOAuth:"true",
+            GuestAccounts:"true",
+            GuestAccountsPermissions:"true",
+            IDLoadedPushNotifications:"true",
+            Id:"4earufpagdb9ojoxam7m9ga4er",
+            IsGovSku:"false",
+            IssuedAt:"1623094721996",
+            LDAP:"true",
+            LDAPGroups:"true",
+            LockTeammateNameDisplay:"true",
+            MFA:"true",
+            MHPNS:"true",
+            MessageExport:"true",
+            Metrics:"true",
+            Name:"Mattermost Cloud",
+            Office365OAuth:"true",
+            OpenId:"true",
+            RemoteClusterService:"true",
+            SAML:"true",
+            SharedChannels:"true",
+            SkuName:"Enterprise",
+            SkuShortName:"enterprise",
+            // StartsAt:"1623094721996",
+            Users:"200000",
             IsLicensed: 'true',
             IsTrial: trial,
         },
@@ -32,17 +68,16 @@ describe('Self hosted Pricing modal', () => {
     let createdUser;
 
     before(() => {
-        cy.apiDeleteLicense('Cloud');
-    });
-
-    it('should show Upgrade button in global header for admin users on starter plan', () => {
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             urlL = url;
             createdUser = user;
             cy.apiAdminLogin();
+            cy.apiDeleteLicense('Cloud');
             cy.visit(url);
         });
+    });
 
+    it('should show Upgrade button in global header for admin users on starter plan', () => {
         // * Check that Upgrade button does not show
         cy.get('#UpgradeButton').should('exist').contains('Upgrade');
 
@@ -65,10 +100,13 @@ describe('Self hosted Pricing modal', () => {
         // * Ensure the server has trial license
         withTrialBefore('false');
         withTrialLicense('false');
-
         cy.apiLogout();
         cy.apiAdminLogin();
-        cy.visit(urlL);
+
+        // * Verify the license is not trial
+        cy.visit('admin_console/about/license')
+        cy.get('div.Badge').should('not.exist');
+        cy.findByTitle('Back Icon').should('be.visible').click();
 
         // * Open pricing modal
         cy.get('#UpgradeButton').should('not.exist');
@@ -132,13 +170,18 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#enterprise_action').should('not.be.disabled').contains('Contact Sales');
     });
 
-    it('Upgrade button should open pricing modal admin users when the server is on a trial', () => {
+    it.only('Upgrade button should open pricing modal admin users when the server is on a trial', () => {
         // * Ensure the server has trial license
         withTrialBefore('false');
         withTrialLicense('true');
 
         cy.apiLogout();
         cy.apiAdminLogin();
+        // // * Verify the license is not trial
+        // cy.visit('admin_console/about/license')
+        // cy.get('div.Badge').should('exist').should('contain', 'Trial');
+        // // cy.findByTitle('Back Icon').should('be.visible').click();
+
         cy.visit(urlL);
 
         // * Open pricing modal
