@@ -1,5 +1,61 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+export type GifsState = {
+    app: GifsAppState;
+    cache: GifsCacheState;
+    categories: GifsCategoriesState;
+    search: GifsSearchState;
+};
+
+export type GifsAppState = {
+    appClassName: string;
+    appId: string;
+    appName: string;
+    basePath: string;
+    enableHistory: boolean;
+    header: {
+        tabs: number[];
+        displayText: boolean;
+    };
+    itemTapType: number;
+    shareEvent: string;
+}
+
+type GifsCacheState = {
+    gifs: Record<string, Record<string, GfycatAPIItem>>;
+    updating: boolean;
+}
+
+type GifsCategoriesState = {
+    cursor: string;
+    hasMore: boolean;
+    isFetching: boolean;
+    tagsDict: Record<string, boolean>;
+    tagsList: GfycatAPITag[];
+}
+
+type GifsSearchState = {
+    priorLocation: string | null;
+    resultsByTerm: Record<string, GifsResult>;
+    scrollPosition: number;
+    searchBarText: string;
+    searchText: string;
+}
+
+type GifsResult = {
+    count: number;
+    currentPage: number;
+    cursor: string;
+    didInvalidate: boolean;
+    found: number;
+    isFetching: boolean;
+    items: string[];
+    moreRemaining: boolean;
+    pages: Record<number, string[]>;
+    start: number;
+}
+
 export interface GfycatAPIPaginatedResponse {
     cursor: null | string;
     gfycats: GfycatAPIItem[];
@@ -106,3 +162,4 @@ export interface GfycatAPITag {
     tagName: string;
     gfyId: string;
 }
+
