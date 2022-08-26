@@ -1,3 +1,23 @@
+@mixin channel-display-name {
+    overflow: hidden;
+    margin-left: 7px;
+    color: var(--center-channel-color);
+    font-family: 'Open Sans';
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 16px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin channel-icon {
+    width: 14px;
+    height: 14px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 14px;
+}
+
 .ActivityAndInsights {
     background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
@@ -40,7 +60,6 @@
         }
 
         .top-reactions-card {
-            &.medium,
             &.small {
                 @media screen and (max-width: 1279px) and (min-width: 769px) {
                     width: calc(100% - 16px);
@@ -52,7 +71,9 @@
             }
         }
 
+        .top-playbooks-card,
         .top-boards-card,
+        .least-active-channels-card,
         .top-threads-card {
             &.small {
                 @media screen and (max-width: 1279px) and (min-width: 1020px) {
@@ -60,12 +81,6 @@
                 }
 
                 @media screen and (max-width: 1019px) and (min-width: 769px) {
-                    width: calc(100% - 16px);
-                }
-            }
-
-            &.medium {
-                @media screen and (max-width: 1279px) and (min-width: 769px) {
                     width: calc(100% - 16px);
                 }
             }
@@ -79,6 +94,7 @@
             }
         }
 
+        .top-playbooks-card,
         .top-boards-card {
             .Card__body {
                 padding: 0 12px 18px;
@@ -239,23 +255,11 @@
                         flex: 1 0;
 
                         i.icon {
-                            width: 14px;
-                            height: 14px;
-                            color: rgba(var(--center-channel-color-rgb), 0.56);
-                            font-size: 14px;
+                            @include channel-icon;
                         }
 
                         .display-name {
-                            overflow: hidden;
-                            margin-left: 7px;
-                            color: var(--center-channel-color);
-                            font-family: 'Open Sans';
-                            font-size: 12px;
-                            font-style: normal;
-                            font-weight: 600;
-                            line-height: 16px;
-                            text-overflow: ellipsis;
-                            white-space: nowrap;
+                            @include channel-display-name;
                         }
                     }
 
@@ -525,6 +529,200 @@
                     .Avatars.Avatars___xs {
                         margin-left: auto;
                         float: right;
+                    }
+                }
+            }
+        }
+
+        .least-active-channels-container {
+            .least-active-channels-loading-container {
+                display: flex;
+                width: 100%;
+                align-items: center;
+                padding: 0 12px;
+                margin-top: 24px;
+
+                &:nth-of-type(1) {
+                    margin-top: 10px;
+                }
+
+                &:nth-of-type(4) {
+                    margin-bottom: 10px;
+                }
+
+                .title {
+                    margin-left: 6px;
+
+                    &:nth-of-type(3) {
+                        margin-left: 30px;
+                    }
+
+                    &:nth-of-type(4) {
+                        margin-left: 50px;
+                    }
+                }
+            }
+
+            .channel-list {
+                .channel-row {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 12px;
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    &:focus {
+                        text-decoration: none;
+                    }
+
+                    .channel-info {
+                        display: flex;
+                        overflow: hidden;
+                        flex: 0.4;
+                        flex-direction: column;
+
+                        .channel-display-name {
+                            display: flex;
+                            overflow: hidden;
+
+                            i.icon {
+                                @include channel-icon;
+                            }
+
+                            .display-name {
+                                @include channel-display-name;
+                            }
+                        }
+
+                        .last-activity {
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
+                            font-family: 'Open Sans';
+                            font-size: 11px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 16px;
+                        }
+                    }
+
+                    .Avatars {
+                        margin-left: auto;
+                    }
+                }
+            }
+        }
+
+        .top-playbooks-container {
+            .top-playbooks-loading-container {
+                padding: 0 12px;
+
+                .title {
+                    &:nth-of-type(1) {
+                        height: 12px;
+                        margin-bottom: 8px;
+                    }
+
+                    &:nth-of-type(2) {
+                        max-width: 80%;
+                        height: 8px;
+                        margin-bottom: 8px;
+                    }
+                }
+
+                &:nth-of-type(1) {
+                    margin-top: 2px;
+                }
+
+                &:nth-of-type(2) {
+                    margin-top: 24px;
+                    margin-bottom: 24px;
+                }
+
+                &:nth-of-type(3) {
+                    margin-bottom: 2px;
+
+                    .title {
+                        &:nth-of-type(2) {
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+
+            .playbooks-list {
+                .playbook-item {
+                    display: flex;
+                    align-items: center;
+                    padding: 10px 12px;
+
+                    &:hover {
+                        background: rgba(var(--center-channel-color-rgb), 0.08);
+                        border-radius: 4px;
+                        cursor: pointer;
+                        text-decoration: none;
+                    }
+
+                    &:focus {
+                        text-decoration: none;
+                    }
+
+                    &:nth-of-type(2) {
+                        .horizontal-bar {
+                            opacity: 0.7;
+                        }
+                    }
+
+                    &:nth-of-type(3) {
+                        .horizontal-bar {
+                            opacity: 0.5;
+                        }
+                    }
+
+                    .display-info {
+                        display: flex;
+                        overflow: hidden;
+                        flex: 0.6 0;
+                        flex-direction: column;
+
+                        &.run-info {
+                            flex: 0.4 0;
+                        }
+
+                        .display-name {
+                            overflow: hidden;
+                            margin-right: 10px;
+                            margin-bottom: 2px;
+                            color: var(--center-channel-color);
+                            float: left;
+                            font-family: 'Open Sans';
+                            font-size: 12px;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: 16px;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                        }
+
+                        .last-run-time {
+                            color: rgba(var(--center-channel-color-rgb), 0.56);
+                            font-family: 'Open Sans';
+                            font-size: 12px;
+                            font-style: normal;
+                            font-weight: 400;
+                            line-height: 16px;
+                        }
+                    }
+
+                    .horizontal-bar {
+                        height: 8px;
+                        margin-top: 4px;
+                        margin-bottom: 4px;
+                        background-color: var(--button-bg);
+                        border-radius: 6px;
                     }
                 }
             }

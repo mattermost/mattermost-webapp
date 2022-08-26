@@ -5,7 +5,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {Constants, ActionTypes, WindowSizes} from 'utils/constants';
 
-export function emitBrowserWindowResized(windowSize: string): GenericAction {
+export function emitBrowserWindowResized(windowSize?: string): GenericAction {
     let newWindowSize = windowSize;
     if (!windowSize) {
         const width = window.innerWidth;

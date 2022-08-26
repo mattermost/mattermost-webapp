@@ -645,7 +645,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
               />
             }
             createJobHelpText={
-              <injectIntl(FormattedMarkdownMessage)
+              <FormattedMarkdownMessage
                 defaultMessage="This is some help text for the jobs table field."
                 id="help-text-l"
               />

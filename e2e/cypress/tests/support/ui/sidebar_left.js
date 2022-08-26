@@ -129,6 +129,8 @@ Cypress.Commands.add('uiClickSidebarItem', (name) => {
             }
         });
         cy.findByRole('heading', {name: 'Followed threads'});
+    } else if (name === 'insights') {
+        cy.get('#insightsFilterDropdown').should('be.visible').should('contain.text', 'Team insights');
     } else {
         cy.findAllByTestId('postView').should('be.visible');
     }
