@@ -455,8 +455,10 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                                     fileInfo={fileInfo}
                                     enablePublicLink={this.props.enablePublicLink}
                                     canDownloadFiles={this.props.canDownloadFiles}
+                                    canCopyContent={canCopyContent}
                                     isExternalFile={isExternalFile}
                                     handleModalClose={this.handleModalClose}
+                                    content={this.state.content}
                                 />
                             }
                         </div>
