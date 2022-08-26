@@ -85,9 +85,6 @@ jobs:
     name: "compare"
     runs-on: ubuntu-latest
     
-    # Since we dont want to block the PR when we are not able to show the bundle size
-    continue-on-error: true
-    
     needs: [build-pr, build-main]
     
     permissions:
