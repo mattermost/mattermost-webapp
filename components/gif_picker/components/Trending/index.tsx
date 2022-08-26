@@ -10,7 +10,7 @@ import {
     saveSearchScrollPosition,
 } from 'mattermost-redux/actions/gifs';
 
-import {GfycatAPIItem} from 'types/external/gfycat';
+import {GfycatAPIItem} from '@mattermost/types/gifs';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
 import {appProps} from 'components/gif_picker/gif_picker';

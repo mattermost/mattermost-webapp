@@ -10,7 +10,7 @@ import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_ut
 import {Theme} from 'mattermost-redux/types/themes';
 
 import {GlobalState} from 'types/store';
-import {GfycatAPITag} from 'types/external/gfycat';
+import {GfycatAPITag} from '@mattermost/types/gifs';
 
 import {t} from 'utils/i18n';
 

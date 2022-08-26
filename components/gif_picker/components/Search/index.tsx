@@ -11,7 +11,7 @@ import SearchGrid from 'components/gif_picker/components/SearchGrid';
 import {appProps} from 'components/gif_picker/gif_picker';
 
 import {GlobalState} from 'types/store';
-import {GfycatAPIItem} from 'types/external/gfycat';
+import {GfycatAPIItem} from '@mattermost/types/gifs';
 
 const GIF_SEARCH_THROTTLE_TIME_MS = 1000;
 
