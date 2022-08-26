@@ -11,19 +11,17 @@ import {SelectChangeEvent} from '@mui/material/Select';
 
 import {FormattedMessage} from 'react-intl';
 
-import Modal from 'components/compass/modal/modal';
+import Modal from '@mattermost/compass-ui/lib/components/modal/modal';
+import TextField from '@mattermost/compass-ui/lib/components/textfield/textfield';
+import ModalTitle from '@mattermost/compass-ui/lib/components/modal/modal_title';
+import Select from '@mattermost/compass-ui/lib/components/select/select';
+import ListItemIcon from '@mattermost/compass-ui/lib/components/list-item-icon/list-item-icon';
+import MenuItem from '@mattermost/compass-ui/lib/components/menu-item/menu-item';
 
-import Constants, {ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils';
-
-import {Group, GroupSearachParams} from '@mattermost/types/groups';
 import {debounce} from 'mattermost-redux/actions/helpers';
-
-import TextField from '../compass/textfield/textfield';
-import ModalTitle from '../compass/modal/modal_title';
-import Select from '../compass/select/select';
-import ListItemIcon from '../compass/list-item-icon/list-item-icon';
-import MenuItem from '../compass/menu-item/menu-item';
+import {Group, GroupSearachParams} from '@mattermost/types/groups';
+import * as Utils from 'utils/utils';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import CreateUserGroupsModal from '../create_user_groups_modal';
 
 import UserGroupsList from './user_groups_list';

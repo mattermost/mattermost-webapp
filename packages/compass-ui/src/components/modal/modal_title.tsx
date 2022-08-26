@@ -7,7 +7,7 @@ import MUIDialogTitle, {DialogTitleProps as MUIDialogTitleProps} from '@mui/mate
 
 import {CloseIcon} from '@mattermost/compass-icons/components';
 
-import IconButton from 'components/compass/icon-button/icon-button';
+import IconButton from '../icon-button/icon-button';
 
 type DialogTitleProps = MUIDialogTitleProps & { hasCloseButton: boolean };
 

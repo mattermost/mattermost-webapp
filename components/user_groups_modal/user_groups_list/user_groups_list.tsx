@@ -5,14 +5,16 @@ import {useIntl} from 'react-intl';
 import {AccountMultipleOutlineIcon, DotsVerticalIcon, TrashCanOutlineIcon} from '@mattermost/compass-icons/components';
 import {Menu, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography} from '@mui/material';
 
+import ListItemIcon from '@mattermost/compass-ui/componentslist-item-icon/list-item-icon';
+
+import MenuItem from '@mattermost/compass-ui/componentsmenu-item/menu-item';
+
 import {Group, GroupPermissions} from '@mattermost/types/groups';
 
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 import ViewUserGroupModal from 'components/view_user_group_modal';
-import ListItemIcon from 'components/compass/list-item-icon/list-item-icon';
-import MenuItem from 'components/compass/menu-item/menu-item';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';

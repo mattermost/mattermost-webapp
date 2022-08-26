@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "noEmit": false,
+    "emitDeclarationOnly": false,
+    "declaration": true,
+    "outDir": "./lib"
+  },
+  "exclude": ["**/*.spec.*", "**/*.stories.*", "**/*.types.ts", "**/types.ts", "**/*.props.ts", "**/Swatch.*.*"]
+}

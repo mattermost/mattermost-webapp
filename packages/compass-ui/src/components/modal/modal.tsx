@@ -10,7 +10,7 @@ import DialogActions from '@mui/material/DialogActions';
 import Slide from '@mui/material/Slide';
 import {TransitionProps} from '@mui/material/transitions';
 
-import ThemeProvider from 'components/compass/themeprovider/themeprovider';
+import ThemeProvider from '../../themeprovider/themeprovider';
 
 const Transition = React.forwardRef((
     {children, ...props}: TransitionProps & {

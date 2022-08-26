@@ -236,6 +236,7 @@ var config = {
         ],
         alias: {
             '@mattermost/client': 'packages/client/src',
+            '@mattermost/compass-ui': 'packages/compass-ui/src',
             '@mattermost/types': 'packages/types/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
