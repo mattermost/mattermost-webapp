@@ -196,14 +196,14 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                     ) : (
                         <FormattedMessage
                             id='admin.feature_discovery.trial-request.accept-terms'
-                            defaultMessage='By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy>.'
+                            defaultMessage='By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails.'
                             values={{
                                 highlight: (msg: React.ReactNode) => (
                                     <strong>{msg}</strong>
                                 ),
                                 linkEvaluation: (msg: React.ReactNode) => (
                                     <a
-                                        href='https://mattermost.com/software-evaluation-agreement/'
+                                        href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -212,7 +212,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                                 ),
                                 linkPrivacy: (msg: React.ReactNode) => (
                                     <a
-                                        href='https://mattermost.com/privacy-policy/'
+                                        href={AboutLinks.PRIVACY_POLICY}
                                         target='_blank'
                                         rel='noreferrer'
                                     >
