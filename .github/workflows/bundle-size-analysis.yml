@@ -19,7 +19,7 @@ permissions:
 jobs:  
   # Build main branch and upload its's bundle stats file
   build-main:
-    name: "Master"
+    name: "master"
     runs-on: ubuntu-latest
     
     # Only run on prs within the same repository, and not from forks.
