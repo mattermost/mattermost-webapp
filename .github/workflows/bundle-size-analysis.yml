@@ -52,6 +52,8 @@ jobs:
 
     permissions:
       contents: read
+      
+    needs: [build-main]
     
     steps:
     - name: Checkout PR branch 
@@ -87,6 +89,10 @@ jobs:
     needs: [build-pr, build-main]
     
     steps:
+      - uses: actions/checkout@v3.0.2
+        with:
+          repository: mattermost/mattermost-webapp
+
       - name: Setting up Node.js
         uses: actions/setup-node@v3.4.1
         with:
