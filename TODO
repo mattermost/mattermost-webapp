@@ -1,0 +1,7 @@
+- fix remaining tests that are failing due to unhandled promise rejections
+- e2e tests
+
+
+import mockStore from 'tests/test_store';
+
+{"awayIndicator":"#f5ab00","buttonBg":"#8d2afb","buttonColor":"#ffffff","centerChannelBg":"#090a0b","centerChannelColor":"#dddfe4","codeTheme":"monokai","dndIndicator":"#d24b4e","errorTextColor":"#da6c6e","linkColor":"#8d2afb","mentionBg":"#1c58d9","mentionBj":"#1c58d9","mentionColor":"#ffffff","mentionHighlightBg":"#0d6e6e","mentionHighlightLink":"#a4f4f4","newMessageSeparator":"#1adbdb","onlineIndicator":"#3db887","sidebarBg":"#121317","sidebarHeaderBg":"#1b1d22","sidebarHeaderTextColor":"#dddfe4","sidebarTeamBarBg":"#000000","sidebarText":"#ffffff","sidebarTextActiveBorder":"#8d2afb","sidebarTextActiveColor":"#ffffff","sidebarTextHoverBg":"#25262a","sidebarUnreadText":"#ffffff"}
