@@ -142,13 +142,25 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         }
     };
 
+    formatMessage({id: 'mattermost.feature.guest_accounts'});
+    formatMessage({id: 'mattermost.feature.custom_user_groups'});
+    formatMessage({id: 'mattermost.feature.create_multiple_teams'});
+    formatMessage({id: 'mattermost.feature.start_call'});
+    formatMessage({id: 'mattermost.feature.playbooks_retro'});
+    formatMessage({id: 'mattermost.feature.unlimited_messages'});
+    formatMessage({id: 'mattermost.feature.unlimited_file_storage'});
+    formatMessage({id: 'mattermost.feature.unlimited_integrations'});
+    formatMessage({id: 'mattermost.feature.unlimited_board_cards'});
+    formatMessage({id: 'mattermost.feature.all_professional'});
+    formatMessage({id: 'mattermost.feature.all_enterprise'});
+
     if (requestFeatures) {
         for (const featureName of Object.keys(requestFeatures)) {
             const title = (
                 <div id={`${featureName}-title`.replaceAll(' ', '-')}>
                     <span>
                         <b>
-                            {`${featureName}`}
+                            {formatMessage({id: featureName})}
                         </b>
                     </span>
                     <span>
