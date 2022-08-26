@@ -771,7 +771,6 @@ export default class SwitchChannelProvider extends Provider {
                 wrappedChannel.unread = true;
             }
 
-            // wrappedChannel.type = isChannelMuted(member) ? Constants.MENTION_RECENT_CHANNELS : channelType;
             wrappedChannel.type = channelType;
             channelList.push(wrappedChannel);
         }
