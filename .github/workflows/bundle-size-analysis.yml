@@ -89,15 +89,6 @@ jobs:
     needs: [build-pr, build-main]
     
     steps:
-      - uses: actions/checkout@v3.0.2
-        with:
-          repository: mattermost/mattermost-webapp
-
-      - name: Setting up Node.js
-        uses: actions/setup-node@v3.4.1
-        with:
-          node-version-file: '.nvmrc'
-      
       - name: Downloading Main bundle stats
         uses: actions/download-artifact@v3.0.0
         with:
@@ -107,14 +98,9 @@ jobs:
         uses: actions/download-artifact@v3.0.0
         with:
           name: pr-bundle-stats
-      
-      - name: Checkout action repository
-        uses: actions/checkout@v3.0.2
-        with:
-          repository: github/webpack-bundlesize-compare-action
-    
+          
       - name: Bundlesize compare
-        uses: github/webpack-bundlesize-compare-action@v1.4.0
+        uses: github/webpack-bundlesize-compare-action@v1.5.0
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           current-stats-json-path: ./pr-bundle-stats/bundlestats.json
