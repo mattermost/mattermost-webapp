@@ -5,6 +5,8 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Route, Switch} from 'react-router-dom';
 
+import {createGlobalStyle} from 'styled-components';
+
 import Bots from 'components/integrations/bots';
 import AddBot from 'components/integrations/bots/add_bot';
 
@@ -202,8 +204,15 @@ export default class BackstageController extends React.PureComponent {
                             component={Bots}
                         />
                     </Switch>
+                    <GlobalStyleBackstage/>
                 </div>
             </>
         );
     }
 }
+
+const GlobalStyleBackstage = createGlobalStyle`
+    #root > :not(.backstage-navbar):not(.backstage-body) {
+        display: none;
+    }
+`;
