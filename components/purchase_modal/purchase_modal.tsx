@@ -10,10 +10,11 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
+import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
+
 import {localizeMessage, getNextBillingDate} from 'utils/utils';
 
 import BillingHistoryModal from 'components/admin_console/billing/billing_history_modal';
-import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {
     Constants,
@@ -522,6 +523,103 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         });
     }
 
+    purchaseScreenCard = () => {
+        if (this.props.isDelinquencyModal) {
+            return (
+                <>
+                    {this.props.isCloudDelinquencyGreaterThan90Days ? null : (
+                        <div className='plan_comparison'>
+                            {this.comparePlan}
+                        </div>
+                    )}
+                    <DelinquencyCard
+                        topColor='#4A69AC'
+                        plan={''}
+                        price={this.getDelinquencyTotalString()}
+                        planBriefing={
+                            <div className='button-description'>
+                                <FormattedMessage
+                                    id={
+                                        'cloud_delinquency.cc_modal.card.buttonDescription'
+                                    }
+                                    defaultMessage={
+                                        'Upon reactivation you will be charged {amount}'
+                                    }
+                                    values={{
+                                        amount: this.getDelinquencyTotalString(),
+                                    }}
+                                />
+                            </div>
+                        }
+                        buttonDetails={{
+                            action: this.handleSubmitClick,
+                            text: localizeMessage(
+                                'cloud_delinquency.cc_modal.card.reactivate',
+                                'Re-active',
+                            ),
+                            customClass: this.state.paymentInfoIsValid ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
+                            disabled: !this.state.paymentInfoIsValid,
+                        }}
+                        onViewBreakdownClick={this.handleViewBreakdownClick}
+                    />
+                </>
+            );
+        }
+
+        const showPlanLabel =
+                    this.state.selectedProduct?.sku ===
+                    CloudProducts.PROFESSIONAL;
+        const {formatMessage} = this.props.intl;
+
+        return (
+            <>
+                <div
+                    className='plan_comparison'
+                    style={{
+                        marginBottom: `${showPlanLabel ? '51' : '0'}px`,
+                    }} //remove bottom space when not taken up by PlanLabel
+                >
+                    {this.comparePlan}
+                </div>
+                <Card
+                    topColor='#4A69AC'
+                    plan={this.getPlanNameFromProductName(
+                        this.state.selectedProduct ? this.state.selectedProduct.name : '',
+                    )}
+                    price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
+                    rate='/user/month'
+                    planBriefing={this.paymentFooterText()}
+                    buttonDetails={{
+                        action: this.handleSubmitClick,
+                        text: 'Upgrade',
+                        customClass:
+                            !this.state.paymentInfoIsValid ||
+                            this.state.selectedProduct?.billing_scheme ===
+                                BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                        disabled:
+                            !this.state.paymentInfoIsValid ||
+                            this.state.selectedProduct?.billing_scheme ===
+                                BillingSchemes.SALES_SERVE,
+                    }}
+                    planLabel={
+                        showPlanLabel ? (
+                            <PlanLabel
+                                text={formatMessage({
+                                    id: 'pricing_modal.planLabel.mostPopular',
+                                    defaultMessage: 'MOST POPULAR',
+                                })}
+                                bgColor='var(--title-color-indigo-500)'
+                                color='var(--button-color)'
+                                firstSvg={<StarMarkSvg/>}
+                                secondSvg={<StarMarkSvg/>}
+                            />
+                        ) : undefined
+                    }
+                />
+            </>
+        );
+    }
+
     purchaseScreen = () => {
         const title = (
             <FormattedMessage
@@ -546,9 +644,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
             validBillingDetails = areBillingDetailsValid(initialBillingDetails);
         }
-
-        const showPlanLabel = this.state.selectedProduct?.sku === CloudProducts.PROFESSIONAL;
-        const {formatMessage} = this.props.intl;
 
         return (
             <div className={this.state.processing ? 'processing' : ''}>
@@ -594,100 +689,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     )}
                 </div>
                 <div className='RHS'>
-                    {this.props.isDelinquencyModal ? (
-                        <>
-                            {this.props.
-                                isCloudDelinquencyGreaterThan90Days ? null : (
-                                    <div
-                                        className='plan_comparison'
-                                    >
-                                        {this.comparePlan}
-                                    </div>
-                                )}
-                            <DelinquencyCard
-                                topColor='#4A69AC'
-                                plan={''}
-                                price={this.getDelinquencyTotalString()}
-                                planBriefing={
-                                    <div className='button-description'>
-                                        <FormattedMessage
-                                            id={
-                                                'cloud_delinquency.cc_modal.card.buttonDescription'
-                                            }
-                                            defaultMessage={
-                                                'Upon reactivation you will be charged {amount}'
-                                            }
-                                            values={{
-                                                amount: this.getDelinquencyTotalString(),
-                                            }}
-                                        />
-                                    </div>
-                                }
-                                buttonDetails={{
-                                    action: this.handleSubmitClick,
-                                    text: localizeMessage(
-                                        'cloud_delinquency.cc_modal.card.reactivate',
-                                        'Re-active',
-                                    ),
-                                    customClass: this.state.paymentInfoIsValid ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
-                                    disabled: !this.state.paymentInfoIsValid,
-                                }}
-                                onViewBreakdownClick={
-                                    this.handleViewBreakdownClick
-                                }
-                            />
-                        </>
-                    ) : (
-                        <>
-                            <div
-                                className='plan_comparison'
-                                style={{
-                                    marginBottom: `${
-                                        showPlanLabel ? '51' : '0'
-                                    }px`,
-                                }} //remove bottom pace when not taken up by PlanLabel
-                            >
-                                {this.comparePlan}
-                            </div>
-                            <Card
-                                topColor='#4A69AC'
-                                plan={this.getPlanNameFromProductName(
-                                    this.state.selectedProduct ? this.state.selectedProduct.name : '',
-                                )}
-                                price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
-                                rate='/user/month'
-                                planBriefing={this.paymentFooterText()}
-                                buttonDetails={{
-                                    action: this.handleSubmitClick,
-                                    text: 'Upgrade',
-                                    customClass:
-                                        !this.state.paymentInfoIsValid ||
-                                        this.state.selectedProduct?.
-                                            billing_scheme ===
-                                            BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
-                                    disabled:
-                                        !this.state.paymentInfoIsValid ||
-                                        this.state.selectedProduct?.
-                                            billing_scheme ===
-                                            BillingSchemes.SALES_SERVE,
-                                }}
-                                planLabel={
-                                    showPlanLabel ? (
-                                        <PlanLabel
-                                            text={formatMessage({
-                                                id: 'pricing_modal.planLabel.mostPopular',
-                                                defaultMessage: 'MOST POPULAR',
-                                            })}
-                                            bgColor='var(--title-color-indigo-500)'
-                                            color='var(--button-color)'
-                                            firstSvg={<StarMarkSvg/>}
-                                            secondSvg={<StarMarkSvg/>}
-                                        />
-                                    ) : undefined
-                                }
-                            />
-                        </>
-                    )}
+                    {this.purchaseScreenCard()}
                 </div>
             </div>
         );

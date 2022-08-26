@@ -53,18 +53,11 @@ export const getCloudDelinquentInvoices = createSelector(
     'getCloudDelinquentInvoices',
     (state: GlobalState) => state.entities.cloud.invoices as Record<string, Invoice>,
     (invoices: Record<string, Invoice>) => {
-        const delinquentInvoices = [];
         if (!invoices) {
             return [];
         }
 
-        // No first element in the destructure, because we don't care about the object key
-        for (const [, invoice] of Object.entries(invoices)) {
-            if (invoice.status !== 'paid' && invoice.total > 0) {
-                delinquentInvoices.push(invoice);
-            }
-        }
-        return delinquentInvoices;
+        return Object.values(invoices || []).filter((invoice) => invoice.status !== 'paid' && invoice.total > 0);
     },
 );
 

@@ -1,12 +1,9 @@
 .CloudInvoicePreview {
-    top: 50%;
-    left: 50%;
+    top: 15px;
     width: 860px;
     height: 1030px;
     border-radius: 8px;
     overflow-y: hidden !important;
-    -webkit-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
 
     .modal-header {
         display: block;

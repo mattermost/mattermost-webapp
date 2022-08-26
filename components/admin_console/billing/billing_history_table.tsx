@@ -61,7 +61,7 @@ export default function BillingHistoryTable({invoices}: BillingHistoryTableProps
         undefined,
     );
     const [firstRecord, setFirstRecord] = useState(1);
-
+    const numInvoices = Object.values(invoices || []).length;
     const previousPage = () => {
         if (firstRecord > PAGE_LENGTH) {
             setFirstRecord(firstRecord - PAGE_LENGTH);
@@ -70,7 +70,7 @@ export default function BillingHistoryTable({invoices}: BillingHistoryTableProps
     const nextPage = () => {
         if (
             invoices &&
-            firstRecord + PAGE_LENGTH < Object.values(invoices).length
+            firstRecord + PAGE_LENGTH < numInvoices
         ) {
             setFirstRecord(firstRecord + PAGE_LENGTH);
         }
@@ -79,7 +79,7 @@ export default function BillingHistoryTable({invoices}: BillingHistoryTableProps
     };
 
     useEffect(() => {
-        if (invoices && Object.values(invoices).length) {
+        if (invoices && numInvoices) {
             const invoicesByDate = Object.values(invoices).sort(
                 (a, b) => b.period_start - a.period_start,
             );
@@ -116,7 +116,7 @@ export default function BillingHistoryTable({invoices}: BillingHistoryTableProps
                 onClick={nextPage}
                 disabled={
                     !invoices ||
-                    firstRecord + PAGE_LENGTH >= Object.values(invoices).length
+                    firstRecord + PAGE_LENGTH >= numInvoices
                 }
             >
                 <i className='icon icon-chevron-right'/>

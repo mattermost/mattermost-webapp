@@ -68,7 +68,7 @@ function CloudInvoicePreview(props: Props) {
                         fileInfo={{
                             extension: 'pdf',
                             size: 0,
-                            name: 'some-name.pdf',
+                            name: '',
                         }}
                         fileUrl={props.url}
                         scale={1.4}
