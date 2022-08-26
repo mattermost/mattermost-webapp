@@ -23,7 +23,7 @@ export type GifsAppState = {
 }
 
 type GifsCacheState = {
-    gifs: Record<string, Record<string, GfycatAPIItem>>;
+    gifs: Record<string, GfycatAPIItem>;
     updating: boolean;
 }
 
@@ -43,10 +43,9 @@ type GifsSearchState = {
     searchText: string;
 }
 
-type GifsResult = {
+type GifsResult = GfycatAPIPaginatedResponse & {
     count: number;
     currentPage: number;
-    cursor: string;
     didInvalidate: boolean;
     found: number;
     isFetching: boolean;
@@ -57,7 +56,7 @@ type GifsResult = {
 }
 
 export interface GfycatAPIPaginatedResponse {
-    cursor: null | string;
+    cursor?: string;
     gfycats: GfycatAPIItem[];
     totalCount?: number;
 }
