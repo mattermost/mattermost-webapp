@@ -32,10 +32,17 @@ const CopyButton: React.FC<Props> = (props: Props) => {
         copyToClipboard(props.content);
     };
 
+    const getId = () => {
+        if (isCopied) {
+            return t('copied.message')
+        }
+        return props.beforeCopyText ? t('copy.message') : t('copy.block.message');
+    }
+
     const tooltip = (
         <Tooltip id='copyButton'>
             <FormattedMessage
-                id={isCopied ? t('copied.message') : t('copy.block.message')}
+                id={getId()}
                 defaultMessage={isCopied ? props.afterCopyText : props.beforeCopyText}
             />
         </Tooltip>
@@ -70,7 +77,6 @@ const CopyButton: React.FC<Props> = (props: Props) => {
 };
 
 CopyButton.defaultProps = {
-    beforeCopyText: 'Copy code block',
     afterCopyText: 'Copied',
     placement: 'top'
 };
