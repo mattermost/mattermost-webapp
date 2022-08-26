@@ -25,7 +25,7 @@ jobs:
 
     steps:
       - name: Checkout master branch 
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3.0.2
         with:
           repository: mattermost/mattermost-webapp
           ref: master
@@ -34,9 +34,10 @@ jobs:
         uses: actions/setup-node@v3.4.1
         with:
           node-version: "${{ env.NODE }}"
+          cache: "npm"
           
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1.6.0
+        run: npm ci
       
       - name: Build app
         run: npm run build
@@ -57,17 +58,16 @@ jobs:
     
     steps:
     - name: Checkout PR branch 
-      uses: actions/checkout@v3.0.0
+      uses: actions/checkout@v3.0.2
     
     - name: Setting up Node v16.10.0
       uses: actions/setup-node@v3.4.1
       with:
-        node-version: "${{ env.NODE }}"
+        node-version-file: '.nvmrc'
+        cache: "npm"
 
     - name: Install dependencies
-      uses: bahmutov/npm-install@v1.6.0
-      with:
-       install-command: npm install --force
+      run: npm ci 
       
     - name: Build app
       run: npm run build
@@ -93,7 +93,7 @@ jobs:
       - name: Setting up Node v16.10.0
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: 16.10.0
+          node-version-file: '.nvmrc'
       
       - name: Downloading Main bundle stats
         uses: actions/download-artifact@v3.0.0
@@ -106,7 +106,7 @@ jobs:
           name: pr-bundle-stats
       
       - name: Checkout action repository
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3.0.2
         with:
           repository: github/webpack-bundlesize-compare-action
     
