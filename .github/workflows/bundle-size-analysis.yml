@@ -21,6 +21,8 @@ jobs:
   build-main:
     name: "master"
     runs-on: ubuntu-latest
+    
+    if: github.repository == 'mattermost/mattermost-webapp'
 
     steps:
       - name: Checkout master branch 
