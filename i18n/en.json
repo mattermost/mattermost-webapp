@@ -1838,6 +1838,8 @@
   "admin.plugins.settings.marketplaceUrlDesc.empty": " Marketplace URL is a required field.",
   "admin.plugins.settings.requirePluginSignature": "Require Plugin Signature:",
   "admin.plugins.settings.requirePluginSignatureDesc": "When true, uploading plugins is disabled and may only be installed through the Marketplace. Plugins are always verified during Mattermost server startup and initialization. See <link>documentation</link> to learn more.",
+  "admin.posts.postPriority.desc": "When enabled, users can configure a visual indicator to communicate messages that are important or urgent. Learn more about message priority in our <link>documentation</link>.",
+  "admin.posts.postPriority.title": "Message Priority",
   "admin.privacy.showEmailDescription": "When false, hides the email address of members from everyone except System Administrators.",
   "admin.privacy.showEmailTitle": "Show Email Address: ",
   "admin.privacy.showFullNameDescription": "When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.",
