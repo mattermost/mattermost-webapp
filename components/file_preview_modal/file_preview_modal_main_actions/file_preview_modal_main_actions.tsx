@@ -143,11 +143,11 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
         </OverlayTrigger>
     );
     const copy = (
-            <CopyButton
-                beforeCopyText='Copy'
-                placement={tooltipPlacement}
-                content={props.content}
-            />
+        <CopyButton
+            beforeCopyText='Copy'
+            placement={tooltipPlacement}
+            content={props.content}
+        />
     );
     return (
         <div className='file-preview-modal-main-actions__actions'>
