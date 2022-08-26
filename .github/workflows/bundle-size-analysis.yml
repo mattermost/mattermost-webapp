@@ -27,7 +27,7 @@ jobs:
           repository: mattermost/mattermost-webapp
           ref: master
 
-      - name: Setting up Node v16.10.0
+      - name: Setting up Node.js
         uses: actions/setup-node@v3.4.1
         with:
           node-version-file: '.nvmrc'
@@ -57,7 +57,7 @@ jobs:
     - name: Checkout PR branch 
       uses: actions/checkout@v3.0.2
     
-    - name: Setting up Node v16.10.0
+    - name: Setting up Node.js
       uses: actions/setup-node@v3.4.1
       with:
         node-version-file: '.nvmrc'
@@ -87,7 +87,7 @@ jobs:
     needs: [build-pr, build-main]
     
     steps:
-      - name: Setting up Node v16.10.0
+      - name: Setting up Node.js
         uses: actions/setup-node@v3.4.1
         with:
           node-version-file: '.nvmrc'
