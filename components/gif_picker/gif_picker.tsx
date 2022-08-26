@@ -3,7 +3,7 @@
 
 import React, {useState} from 'react';
 
-import {GfycatAPIItem} from 'types/external/gfycat';
+import {GifsAppState, GfycatAPIItem} from '@mattermost/types/gifs';
 
 import App from 'components/gif_picker/components/App';
 import Categories from 'components/gif_picker/components/Categories';
@@ -11,7 +11,7 @@ import Search from 'components/gif_picker/components/Search';
 import Trending from 'components/gif_picker/components/Trending';
 import constants from 'components/gif_picker/utils/constants';
 
-export const appProps = {
+export const appProps: GifsAppState = {
     appName: constants.appName.mattermost,
     basePath: '/mattermost',
     itemTapType: constants.ItemTapAction.SHARE,
