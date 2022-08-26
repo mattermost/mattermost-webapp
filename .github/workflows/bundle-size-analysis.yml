@@ -44,6 +44,7 @@ jobs:
         with:
           name: main-bundle-stats
           path: ./dist/bundlestats.json
+          retention-days: 3
 
   # Build current PR and upload it's bundle stats file
   build-pr:
@@ -76,6 +77,7 @@ jobs:
       with:
         name: pr-bundle-stats
         path: ./dist/bundlestats.json
+        retention-days: 3
 
   # Compare bundle stats of main branch and current PR
   compare-bundle:
