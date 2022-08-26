@@ -5,9 +5,12 @@ on:
     branches:
       - master
     paths: 
-      - "**.jsx?"
-      - "**.tsx?"
+      - "**.js"
+      - "**.jsx"
+      - "**.ts"
+      - "**.tsx"
       - "**.json"
+  
     paths-ignore:
       - "e2e/**"
       - "**.snap"
@@ -35,7 +38,7 @@ jobs:
       - name: Setting up Node.js
         uses: actions/setup-node@v3.4.1
         with:
-          node-version-file: '.nvmrc'
+          node-version-file: ".nvmrc"
           cache: "npm"
           
       - name: Install dependencies
@@ -67,7 +70,7 @@ jobs:
     - name: Setting up Node.js
       uses: actions/setup-node@v3.4.1
       with:
-        node-version-file: '.nvmrc'
+        node-version-file: ".nvmrc"
         cache: "npm"
 
     - name: Install dependencies
