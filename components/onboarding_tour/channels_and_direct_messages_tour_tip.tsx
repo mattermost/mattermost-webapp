@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 import ChannelsImg from 'images/channels_and_direct_tour_tip.svg';
