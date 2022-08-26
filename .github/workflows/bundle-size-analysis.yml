@@ -12,15 +12,15 @@ on:
       - "**.yml"
       - "**.md"
       - "**.txt"
+      
+permissions: 
+  contents: read
 
 jobs:  
   # Build main branch and upload its's bundle stats file
   build-main:
-    name: "Building master"
+    name: "master"
     runs-on: ubuntu-latest
-  
-    permissions:
-      contents: read
 
     steps:
       - name: Checkout master branch 
@@ -49,11 +49,8 @@ jobs:
 
   # Build current PR and upload it's bundle stats file
   build-pr:
-    name: "Building pr"
+    name: "pr"
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
       
     needs: [build-main]
     
