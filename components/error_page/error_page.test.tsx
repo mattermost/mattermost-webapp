@@ -8,6 +8,7 @@ import {BrowserRouter} from 'react-router-dom';
 import {renderWithIntl} from 'tests/react_testing_utils';
 
 import {ErrorPageTypes} from 'utils/constants';
+
 import ErrorPage from './error_page';
 
 describe('ErrorPage', () => {
@@ -16,10 +17,10 @@ describe('ErrorPage', () => {
             <BrowserRouter>
                 <ErrorPage
                     location={{
-                        search: `?type=${ErrorPageTypes.CLOUD_ARCHIVED}`
+                        search: `?type=${ErrorPageTypes.CLOUD_ARCHIVED}`,
                     }}
                 />
-            </BrowserRouter>
+            </BrowserRouter>,
         );
 
         screen.getByText('Message Archived');
