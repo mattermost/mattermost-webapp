@@ -4,13 +4,14 @@
 import React, {ChangeEvent, Component, FormEvent, RefObject} from 'react';
 import {connect} from 'react-redux';
 
+import {GfycatAPITag} from '@mattermost/types/gifs';
+
 import {saveSearchScrollPosition, saveSearchBarText, searchTextUpdate} from 'mattermost-redux/actions/gifs';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 import {Theme} from 'mattermost-redux/types/themes';
 
 import {GlobalState} from 'types/store';
-import {GfycatAPITag} from '@mattermost/types/gifs';
 
 import {t} from 'utils/i18n';
 

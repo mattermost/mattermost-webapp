@@ -4,11 +4,11 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 
+import {GfycatAPIItem, GfycatAPITag} from '@mattermost/types/gifs';
+
 import {requestCategoriesList, requestCategoriesListIfNeeded, saveSearchBarText, saveSearchScrollPosition, searchTextUpdate} from 'mattermost-redux/actions/gifs';
 
 import {GlobalState} from 'types/store';
-
-import {GfycatAPIItem, GfycatAPITag} from '@mattermost/types/gifs';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 

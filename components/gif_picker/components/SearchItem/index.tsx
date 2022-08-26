@@ -4,8 +4,9 @@
 import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 
-import {GlobalState} from 'types/store';
 import {GfycatAPIItem} from '@mattermost/types/gifs';
+
+import {GlobalState} from 'types/store';
 
 import {getImageSrc} from 'utils/post_utils';
 
