@@ -3,52 +3,52 @@
     align-items: center;
 
     &__icon {
-        margin-right: 3px;
         display: flex;
         align-items: center;
+        margin-right: 3px;
     }
 
     &--uppercase {
-        text-transform: uppercase;
         letter-spacing: 0.02em;
+        text-transform: uppercase;
     }
 
     &--xs {
         height: 16px;
-        line-height: 12px;
         font-size: 10px;
+        line-height: 12px;
     }
 
     &--sm {
         height: 20px;
-        line-height: 16px;
         font-size: 12px;
+        line-height: 16px;
     }
 
     &--md {
         height: 24px;
-        line-height: 20px;
         font-size: 14px;
+        line-height: 20px;
     }
 
     &--lg {
         height: 28px;
-        line-height: 22px;
         font-size: 16px;
+        line-height: 22px;
     }
 }
 
 .Badge__box {
-    margin-left: 4px;
-    padding: 2px 5px;
-    border: none;
-    background: rgba(var(--semantic-color-general), 0.08);
-    color: var(--semantic-color-general);
-    border-radius: 4px;
-    font-family: inherit;
-    font-weight: 600;
     display: inline-flex;
     align-items: center;
+    padding: 2px 5px;
+    border: none;
+    margin-left: 4px;
+    background: rgba(var(--semantic-color-general), 0.08);
+    border-radius: 4px;
+    color: var(--semantic-color-general);
+    font-family: inherit;
+    font-weight: 600;
 
     &.BotBadge,
     &.GuestBadge {
