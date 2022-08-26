@@ -20,6 +20,7 @@ import {copyToClipboard} from 'utils/utils';
 import {isFileInfo, LinkInfo} from '../types';
 
 import './file_preview_modal_main_actions.scss';
+import CopyButton from 'components/copy_button';
 
 interface DownloadLinkProps {
     download?: string;
@@ -35,7 +36,9 @@ interface Props {
     fileInfo: FileInfo | LinkInfo;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
+    canCopyContent: boolean;
     handleModalClose: () => void;
+    content: string;
 }
 
 const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
@@ -139,8 +142,16 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
             </a>
         </OverlayTrigger>
     );
+    const copy = (
+            <CopyButton
+                beforeCopyText='Copy'
+                placement={tooltipPlacement}
+                content={props.content}
+            />
+    );
     return (
         <div className='file-preview-modal-main-actions__actions'>
+            {!props.showOnlyClose && props.canCopyContent && copy}
             {!props.showOnlyClose && props.enablePublicLink && props.showPublicLink && publicLink}
             {!props.showOnlyClose && props.canDownloadFiles && download}
             {props.showClose && closeButton}
