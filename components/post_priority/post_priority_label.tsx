@@ -3,6 +3,7 @@
 
 import React, {useMemo} from 'react';
 import {useIntl} from 'react-intl';
+import styled from 'styled-components';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -10,13 +11,15 @@ import {PostPriority} from '@mattermost/types/posts';
 
 import Badge, {BadgeSize} from 'components/widgets/badges/badge';
 
-import './post_priority_label.scss';
-
 type Props = {
     priority?: PostPriority;
     size?: BadgeSize;
     uppercase?: boolean;
 }
+
+const NoSpaceBadge = styled(Badge)`
+    margin-left: 0;
+`;
 
 export default function PriorityLabel({
     priority,
@@ -41,8 +44,7 @@ export default function PriorityLabel({
 
     if (priority === PostPriority.URGENT) {
         return (
-            <Badge
-                className='PostPriorityLabel'
+            <NoSpaceBadge
                 size={size}
                 uppercase={true}
                 variant='danger'
@@ -54,14 +56,13 @@ export default function PriorityLabel({
                 )}
             >
                 {formatMessage({id: 'post_priority.priority.urgent', defaultMessage: 'URGENT'})}
-            </Badge>
+            </NoSpaceBadge>
         );
     }
 
     if (priority === PostPriority.IMPORTANT) {
         return (
-            <Badge
-                className='PostPriorityLabel'
+            <NoSpaceBadge
                 size={size}
                 uppercase={true}
                 variant='info'
@@ -73,7 +74,7 @@ export default function PriorityLabel({
                 )}
             >
                 {formatMessage({id: 'post_priority.priority.important', defaultMessage: 'IMPORTANT'})}
-            </Badge>
+            </NoSpaceBadge>
         );
     }
 
