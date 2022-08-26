@@ -22,8 +22,8 @@ jobs:
     name: "Master"
     runs-on: ubuntu-latest
     
-    # Only run on Pull Requests within the same repository, and not from forks.
-    # Due to the fact forked prs do not have write permission
+    # Only run on prs within the same repository, and not from forks.
+    # as forked prs do not have write permission
     if: github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
