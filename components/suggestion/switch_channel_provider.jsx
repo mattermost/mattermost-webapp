@@ -657,8 +657,13 @@ export default class SwitchChannelProvider extends Provider {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
-        const unreadChannels = getSortedAllTeamsUnreadChannels(state).slice(0, 5);
-        let sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD);
+        const unreadChannels = getSortedAllTeamsUnreadChannels(state);
+        const myMembers = getMyChannelMemberships(state);
+        const unreadChannelsExclMuted = unreadChannels.filter((channel) => {
+            const member = myMembers[channel.id];
+            return !isChannelMuted(member);
+        }).slice(0, 5);
+        let sortedUnreadChannels = this.wrapChannels(unreadChannelsExclMuted, Constants.MENTION_UNREAD);
         if (wrappedRecentChannels.length === 0) {
             prefix = '';
             this.startNewRequest('');
@@ -765,7 +770,9 @@ export default class SwitchChannelProvider extends Provider {
             if (unread) {
                 wrappedChannel.unread = true;
             }
-            wrappedChannel.type = isChannelMuted(member) ? Constants.MENTION_RECENT_CHANNELS : channelType;
+
+            // wrappedChannel.type = isChannelMuted(member) ? Constants.MENTION_RECENT_CHANNELS : channelType;
+            wrappedChannel.type = channelType;
             channelList.push(wrappedChannel);
         }
         return channelList;
