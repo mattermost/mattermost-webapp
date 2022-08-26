@@ -11,9 +11,6 @@ on:
       - "**/*.test.tsx?"
       - "**.yml"
 
-env:
-  NODE: 16.10.0
-
 jobs:  
   # Build main branch and upload its's bundle stats file
   build-main:
@@ -33,7 +30,7 @@ jobs:
       - name: Setting up Node v16.10.0
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: "${{ env.NODE }}"
+          node-version-file: '.nvmrc'
           cache: "npm"
           
       - name: Install dependencies
