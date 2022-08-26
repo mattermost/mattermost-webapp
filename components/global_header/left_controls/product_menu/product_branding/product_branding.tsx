@@ -6,7 +6,7 @@ import styled from 'styled-components';
 import Icon from '@mattermost/compass-components/foundations/icon';
 import Heading from '@mattermost/compass-components/components/heading';
 
-import {useProducts, useCurrentProductId} from '../../../hooks';
+import {useProducts, useCurrentProductId} from 'utils/products';
 
 const ProductBrandingContainer = styled.div`
     display: flex;
@@ -19,7 +19,7 @@ const ProductBrandingContainer = styled.div`
 
 const ProductBranding = (): JSX.Element => {
     const products = useProducts();
-    const currentProductID = useCurrentProductId(products);
+    const currentProductID = useCurrentProductId();
     const currentProduct = products?.find((product) => product.id === currentProductID);
 
     return (

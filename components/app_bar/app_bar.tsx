@@ -1,16 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {useSelector} from 'react-redux';
 
+import {useCurrentProduct, useCurrentProductId} from 'utils/products';
+
 import {getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
-
 import {getAppBarPluginComponents, getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
-import {PluginComponent} from 'types/store/plugins';
+import {inScope} from '@mattermost/types/products';
 
-import AppBarPluginComponent from './app_bar_plugin_component';
-import AppBarBinding from './app_bar_binding';
+import AppBarPluginComponent, {isAppBarPluginComponent} from './app_bar_plugin_component';
+import AppBarBinding, {isAppBinding} from './app_bar_binding';
 
 import './app_bar.scss';
 
@@ -18,10 +19,15 @@ export default function AppBar() {
     const channelHeaderComponents = useSelector(getChannelHeaderPluginComponents);
     const appBarPluginComponents = useSelector(getAppBarPluginComponents);
     const appBarBindings = useSelector(getAppBarAppBindings);
+    const currentProduct = useCurrentProduct();
+    const currentProductId = useCurrentProductId();
 
     const enabled = useSelector(shouldShowAppBar);
 
-    if (!enabled) {
+    if (
+        !enabled ||
+        (currentProduct && !currentProduct.showAppBar)
+    ) {
         return null;
     }
 
@@ -29,16 +35,45 @@ export default function AppBar() {
 
     // The type guard in the filter (which removes all undefined elements) is needed for
     // Typescript to correctly type coreProducts.
-    const coreProducts = coreProductsIds.
-        map((id) => appBarPluginComponents.find((element) => element.pluginId === id)).
-        filter((element): element is PluginComponent => Boolean(element));
+    const coreProductComponents = coreProductsIds.
+        map((id) => appBarPluginComponents.find((element) => element.pluginId === id));
 
-    const appBarPluginComponentsWithoutCoreProducts = appBarPluginComponents.filter((element) => !coreProductsIds.includes(element.pluginId));
-    const pluginComponents = appBarPluginComponentsWithoutCoreProducts.concat(channelHeaderComponents);
+    const pluginComponents = appBarPluginComponents.filter((element) => !coreProductComponents.includes(element));
 
-    const isCoreProductsSectionNonEmpty = coreProducts.length > 0;
-    const isRegularIconsSectionNonEmpty = pluginComponents.length > 0 || appBarBindings.length > 0;
-    const isDividerVisible = isCoreProductsSectionNonEmpty && isRegularIconsSectionNonEmpty;
+    const items: ReactNode[] = [
+        ...coreProductComponents,
+        divider,
+        ...pluginComponents,
+        ...channelHeaderComponents,
+        ...appBarBindings,
+    ].map((x) => {
+        if (isAppBarPluginComponent(x)) {
+            if (!inScope(x.supportedProductIds ?? null, currentProductId, currentProduct?.pluginId)) {
+                return null;
+            }
+            return (
+                <AppBarPluginComponent
+                    key={x.id}
+                    component={x}
+                />
+            );
+        } else if (isAppBinding(x)) {
+            if (!inScope(x.supported_product_ids ?? null, currentProductId, currentProduct?.pluginId)) {
+                return null;
+            }
+            return (
+                <AppBarBinding
+                    key={`${x.app_id}_${x.label}`}
+                    binding={x}
+                />
+            );
+        }
+        return x;
+    });
+
+    if (!items.some((x) => Boolean(x) && x !== divider)) {
+        return null;
+    }
 
     return (
         <div className={'app-bar'}>
@@ -50,28 +85,20 @@ export default function AppBar() {
                     background-color: rgba(var(--center-channel-color-rgb), 0.04);
                 `}
             >
-                {coreProducts.map((product) => (
-                    <AppBarPluginComponent
-                        key={product.id}
-                        component={product}
-                    />
-                ))}
-                {isDividerVisible && (
-                    <hr className={'app-bar__divider'}/>
-                )}
-                {pluginComponents.map((component) => (
-                    <AppBarPluginComponent
-                        key={component.id}
-                        component={component}
-                    />
-                ))}
-                {appBarBindings.map((binding) => (
-                    <AppBarBinding
-                        key={`${binding.app_id}_${binding.label}`}
-                        binding={binding}
-                    />
-                ))}
+                {items}
             </div>
         </div>
     );
 }
+
+const divider = (
+    <hr
+        key='divider'
+        className={'app-bar__divider'}
+        css={`
+            :last-child {
+                display: none;
+            }
+        `}
+    />
+);

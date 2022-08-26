@@ -19,6 +19,10 @@ import {DoAppCallResult} from 'types/apps';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
+export const isAppBinding = (x: unknown): x is AppBinding => {
+    return Boolean((x as AppBinding)?.app_id && (x as AppBinding)?.supported_product_ids);
+};
+
 type BindingComponentProps = {
     binding: AppBinding;
 }

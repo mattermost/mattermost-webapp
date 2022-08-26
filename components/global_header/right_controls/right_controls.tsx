@@ -12,6 +12,8 @@ import {
 } from 'components/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
 
+import {ProductIdentifier, isChannels} from '@mattermost/types/products';
+
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
@@ -30,7 +32,7 @@ const RightControlsContainer = styled.div`
 `;
 
 export type Props = {
-    productId?: string | null;
+    productId?: ProductIdentifier;
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
@@ -41,7 +43,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
             id={'RightControlsContainer'}
         >
             <PlanUpgradeButton/>
-            {productId === null ? (
+            {isChannels(productId) ? (
                 <>
                     <AtMentionsButton/>
                     <SavedPostsButton/>

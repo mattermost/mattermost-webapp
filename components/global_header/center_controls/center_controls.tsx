@@ -6,6 +6,8 @@ import styled from 'styled-components';
 
 import Pluggable from 'plugins/pluggable';
 
+import {isChannels, ProductIdentifier} from '@mattermost/types/products';
+
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import UserGuideDropdown from './user_guide_dropdown';
 
@@ -22,13 +24,13 @@ const CenterControlsContainer = styled.div`
 `;
 
 export type Props = {
-    productId?: string | null;
+    productId?: ProductIdentifier;
 }
 
 const CenterControls = ({productId = null}: Props): JSX.Element => {
     return (
         <CenterControlsContainer>
-            {productId === null ? (
+            {isChannels(productId) ? (
                 <>
                     <GlobalSearchNav/>
                     <UserGuideDropdown/>

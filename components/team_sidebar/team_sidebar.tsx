@@ -31,7 +31,7 @@ import {ProductComponent} from '../../types/store/plugins';
 
 import Pluggable from '../../plugins/pluggable';
 
-import {getCurrentProduct} from '../../selectors/products';
+import {getCurrentProduct} from 'utils/products';
 
 import TeamButton from './components/team_button';
 

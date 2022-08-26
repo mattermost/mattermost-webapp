@@ -7,8 +7,6 @@ import classNames from 'classnames';
 
 import {Tooltip} from 'react-bootstrap';
 
-import {Link} from 'react-router-dom';
-
 import {getCurrentChannel, getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
 
 import {getActivePluginId} from 'selectors/rhs';
@@ -28,6 +26,10 @@ enum ImageLoadState {
     LOADED = 'loaded',
     ERROR = 'error',
 }
+
+export const isAppBarPluginComponent = (x: unknown): x is PluginComponent => {
+    return Boolean((x as PluginComponent)?.id && (x as PluginComponent)?.pluginId);
+};
 
 const AppBarPluginComponent = (props: PluginComponentProps) => {
     const {component} = props;

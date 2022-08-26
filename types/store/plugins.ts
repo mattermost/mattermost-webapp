@@ -15,6 +15,7 @@ import {TopBoardResponse} from '@mattermost/types/insights';
 import {WebSocketClient} from '@mattermost/client';
 
 import {GlobalState} from 'types/store';
+import {ProductScope} from '@mattermost/types/products';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
@@ -22,6 +23,7 @@ export type PluginsState = {
     plugins: IDMappedObjects<ClientPluginManifest>;
 
     components: {
+        [componentName: string]: PluginComponent[];
         Product: ProductComponent[];
         CallButton: PluginComponent[];
         PostDropdownMenu: PluginComponent[];
@@ -34,7 +36,6 @@ export type PluginsState = {
         AppBar: PluginComponent[];
         UserGuideDropdownItem: PluginComponent[];
         FilesWillUploadHook: PluginComponent[];
-        [componentName: string]: PluginComponent[];
     };
 
     postTypes: {
@@ -76,6 +77,9 @@ export type Menu = {
 export type PluginComponent = {
     id: string;
     pluginId: string;
+
+    /** @default null - which means 'channels'*/
+    supportedProductIds?: ProductScope;
     component?: React.ComponentType;
     subMenu?: Menu[];
     text?: string;
@@ -145,4 +149,5 @@ export type ProductComponent = {
     headerCentreComponent?: React.ComponentType;
     headerRightComponent?: React.ComponentType;
     showTeamSidebar: boolean;
+    showAppBar: boolean;
 };

@@ -20,7 +20,10 @@ import {
     useHandleOnBoardingTaskData,
 } from 'components/onboarding_tasks';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
+import {useCurrentProductId, useProducts} from 'utils/products';
+import {isChannels} from '@mattermost/types/products';
+
+import {useClickOutsideRef} from '../../hooks';
 
 import ProductBranding from './product_branding';
 import ProductMenuItem from './product_menu_item';
@@ -58,7 +61,7 @@ const ProductMenu = (): JSX.Element => {
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
-    const currentProductID = useCurrentProductId(products);
+    const currentProductID = useCurrentProductId();
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
@@ -71,7 +74,9 @@ const ProductMenu = (): JSX.Element => {
     };
 
     useClickOutsideRef(menuRef, () => {
-        dispatch(setProductMenuSwitcherOpen(false));
+        if (switcherOpen) {
+            dispatch(setProductMenuSwitcherOpen(false));
+        }
     });
 
     const productItems = products?.map((product) => (
@@ -106,12 +111,12 @@ const ProductMenu = (): JSX.Element => {
                         destination={'/'}
                         icon={'product-channels'}
                         text={'Channels'}
-                        active={currentProductID === null}
+                        active={isChannels(currentProductID)}
                         onClick={handleClick}
                     />
                     {productItems}
                     <ProductMenuList
-                        isMessaging={currentProductID === null}
+                        isMessaging={isChannels(currentProductID)}
                         onClick={handleClick}
                         handleVisitConsoleClick={handleVisitConsoleClick}
                     />

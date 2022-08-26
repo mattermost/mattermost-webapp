@@ -778,7 +778,17 @@ export default class PluginRegistry {
     // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
     // All parameters are required.
     // Returns a unique identifier.
-    registerProduct(baseURL, switcherIcon, switcherText, switcherLinkURL, mainComponent, headerCentreComponent = () => null, headerRightComponent = () => null, showTeamSidebar = false) {
+    registerProduct(
+        baseURL,
+        switcherIcon,
+        switcherText,
+        switcherLinkURL,
+        mainComponent,
+        headerCentreComponent = () => null,
+        headerRightComponent = () => null,
+        showTeamSidebar = false,
+        showAppBar = false,
+    ) {
         const id = generateId();
 
         store.dispatch({
@@ -795,6 +805,7 @@ export default class PluginRegistry {
                 headerCentreComponent,
                 headerRightComponent,
                 showTeamSidebar,
+                showAppBar,
             },
         });
 
@@ -852,14 +863,16 @@ export default class PluginRegistry {
         return dispatchPluginComponentAction('Global', this.id, component);
     }
 
-    // INTERNAL: Subject to change without notice.
-    // Add a component to the App Bar.
-    // Accepts the following:
-    // - iconUrl - A resolvable URL to use as the button's icon
-    // - action - A function called when the button is clicked, passed the channel and channel member as arguments
-    // - tooltip_text - A string or React element shown for tooltip appear on hover
-    // Returns a unique identifier.
-    registerAppBarComponent(iconUrl, action, tooltipText) {
+    /**
+     * Add an item to the App Bar
+     * @notice INTERNAL: Subject to change without notice
+     * @param {string} iconUrl resolvable URL to use as the button's icon
+     * @param {function} action called when the button is clicked, passed the channel and channel member as arguments
+     * @param {React.ReactNode} tooltipText string or React element shown for tooltip appear on hover
+     * @param {null | string | Array<null | string>} supportedProductIds
+     * @returns {string} unique identifier
+     */
+    registerAppBarComponent(iconUrl, action, tooltipText, supportedProductIds = null) {
         const id = generateId();
 
         const data = {
@@ -868,6 +881,7 @@ export default class PluginRegistry {
             iconUrl,
             action,
             tooltipText: resolveReactElement(tooltipText),
+            supportedProductIds,
         };
 
         store.dispatch({

@@ -1,19 +1,40 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ProductComponent} from '../types/store/plugins';
+import {useLocation, matchPath} from 'react-router';
 
-export const getCurrentProductId = (products: ProductComponent[], pathname: string): string | null => {
-    if (!products) {
-        return null;
-    }
+import {useSelector} from 'react-redux';
 
-    for (let i = 0; i < products.length; i++) {
-        const product = products[i];
-        if (pathname.startsWith(product.baseURL)) {
-            return product.id;
-        }
-    }
+import {ProductComponent} from 'types/store/plugins';
+import {selectProducts, selectCurrentProductId, selectCurrentProduct} from 'selectors/products';
+import {GlobalState} from 'types/store';
+import {ProductIdentifier} from '@mattermost/types/products';
 
-    return null;
+export const getCurrentProductId = (
+    products: ProductComponent[],
+    pathname: string,
+): ProductIdentifier => {
+    return products?.find(({baseURL}) => matchPath(pathname, {path: baseURL, exact: false, strict: false}))?.id ?? null;
+};
+
+export const getCurrentProduct = (
+    products: ProductComponent[],
+    pathname: string,
+): ProductComponent | null => {
+    const productID = getCurrentProductId(products, pathname);
+    return products.find((product) => product.id === productID) ?? null;
+};
+
+export const useProducts = (): ProductComponent[] | undefined => {
+    return useSelector(selectProducts);
+};
+
+export const useCurrentProductId = () => {
+    const {pathname} = useLocation();
+    return useSelector((state: GlobalState) => selectCurrentProductId(state, pathname));
+};
+
+export const useCurrentProduct = () => {
+    const {pathname} = useLocation();
+    return useSelector((state: GlobalState) => selectCurrentProduct(state, pathname));
 };
