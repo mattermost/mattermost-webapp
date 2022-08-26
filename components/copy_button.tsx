@@ -15,6 +15,7 @@ type Props = {
     content: string;
     beforeCopyText?: string;
     afterCopyText?: string;
+    placement?: string;
 };
 
 const CopyButton: React.FC<Props> = (props: Props) => {
@@ -44,7 +45,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
         <OverlayTrigger
             shouldUpdatePosition={true}
             delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='top'
+            placement={props.placement}
             overlay={tooltip}
         >
             <span
@@ -71,6 +72,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
 CopyButton.defaultProps = {
     beforeCopyText: 'Copy code block',
     afterCopyText: 'Copied',
+    placement: 'top'
 };
 
 export default CopyButton;
