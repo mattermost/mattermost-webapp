@@ -6,8 +6,6 @@ import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import './actions_menu.scss';
 
-//sdsd
-
 import {Tooltip} from 'react-bootstrap';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
