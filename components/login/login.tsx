@@ -8,9 +8,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 
+import {Team} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
 
-import {Team} from '@mattermost/types/teams';
 import {Client4} from 'mattermost-redux/client';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getUseCaseOnboarding, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';

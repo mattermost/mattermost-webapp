@@ -5,20 +5,16 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import AdminCloudEffects from './admin_cloud_effects';
 
 export default function CloudEffectsWrapper() {
     const isCloud = useSelector(isCurrentLicenseCloud);
-    const currentUser = useSelector(getCurrentUser);
 
-    if (!isCloud || !currentUser) {
-        return null;
-    }
+    const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
-    if (!isSystemAdmin(currentUser.roles)) {
+    if (!isCloud || !isAdmin) {
         return null;
     }
 
