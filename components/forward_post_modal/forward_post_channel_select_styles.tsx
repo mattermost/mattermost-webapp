@@ -89,7 +89,7 @@ const getBaseStyles = (bodyHeight: number) => {
             boxShadow: '0 8px 24px rgba(0, 0, 0, 0.12)',
 
             /* scrollbar styles */
-            overflowY: 'scroll', // for Firefox and browsers that doesn't support overflow-y:overlay property
+            overflowY: 'auto', // for Firefox and browsers that doesn't support overflow-y:overlay property
 
             scrollbarColor: 'var(--center-channel-bg)',
             scrollbarWidth: 'thin',

@@ -175,6 +175,8 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
 
         const channelToForward = isPrivateConversation ? makeSelectedChannelOption(channel) : selectedChannel;
 
+        console.log('###### channel to forward:', channelToForward);
+
         if (!channelToForward) {
             return;
         }

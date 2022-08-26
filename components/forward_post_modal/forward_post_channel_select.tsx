@@ -7,7 +7,7 @@ import {
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {useIntl} from 'react-intl';
 
@@ -33,6 +33,7 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+import channelProvider, {TChannelProvider} from '../suggestion/channel_provider';
 
 import {getBaseStyles} from './forward_post_channel_select_styles';
 
@@ -246,6 +247,14 @@ type Props<O> = {
 function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<ChannelOption>) {
     const {formatMessage} = useIntl();
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
+    const {current: providerNew} = useRef<TChannelProvider>(channelProvider());
+
+    useEffect(() => {
+        provider.forceDispatch = true;
+        providerNew.handleSearch('js').then((res) => {
+            console.log('###### result from new provider', res);
+        });
+    }, [provider, providerNew]);
 
     const baseStyles = getBaseStyles(currentBodyHeight);
 
@@ -274,6 +283,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
 
     const handleInputChange = (inputValue: string) => {
         return new Promise<ChannelOption[]>((resolve) => {
+            let callCount = inputValue ? 0 : 1;
             const options: ChannelOption[] = [];
 
             /** we optimistically assume this callback gets invoked twice when we have a value to be passed into the provider.
@@ -282,21 +292,32 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              *
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
-            let callCount = inputValue ? 1 : 0;
             const handleResults = (res: ProviderResults) => {
-                callCount++;
+                console.log('#### res: ', res);
+                console.log('#### call number: ', callCount);
+
                 res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
                     const {channel} = item;
 
                     options.push(makeSelectedChannelOption(channel));
                 });
+
+                if (callCount === 1) {
+                    console.log('##### options', options);
+                    const filteredOptions = options.reduce((unique: ChannelOption[], o) => {
+                        if (!unique.some((obj) => obj.value === o.value)) {
+                            unique.push(o);
+                        }
+                        return unique;
+                    }, []);
+                    console.log('##### options', filteredOptions);
+                    resolve(filteredOptions);
+                }
+
+                callCount++;
             };
 
             provider.handlePretextChanged(inputValue, handleResults);
-            if (callCount === 2) {
-                // only resolvbe when the count reaches 2
-                resolve(options);
-            }
         });
     };
 
