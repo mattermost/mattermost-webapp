@@ -39,11 +39,18 @@ const CopyButton: React.FC<Props> = (props: Props) => {
         return props.beforeCopyText ? t('copy.message') : t('copy.block.message');
     }
 
+    const getDefaultMessage = () => {
+        if (isCopied) {
+            props.afterCopyText
+        }
+        return props.beforeCopyText ?? 'Copy code block'
+    }
+
     const tooltip = (
         <Tooltip id='copyButton'>
             <FormattedMessage
                 id={getId()}
-                defaultMessage={isCopied ? props.afterCopyText : props.beforeCopyText}
+                defaultMessage={getDefaultMessage()}
             />
         </Tooltip>
     );
