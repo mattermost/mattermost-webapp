@@ -6,33 +6,41 @@ on:
       - master
     paths-ignore:
       - "e2e/**"
-      - "**.snap"
       - "**/*.test.jsx?"
       - "**/*.test.tsx?"
+      - "**.snap"
       - "**.yml"
+      - "**.md"
+      - "**.txt"
+      
+permissions: 
+  contents: read
 
 jobs:  
   # Build main branch and upload its's bundle stats file
   build-main:
-    name: "Building master"
+    name: "master"
     runs-on: ubuntu-latest
-  
-    permissions:
-      contents: read
+    
+    # Only run on prs within the same repository, and not from forks.
+    # as forked prs do not have write permission
+    if: github.event.pull_request.head.repo.full_name == github.repository
 
     steps:
       - name: Checkout master branch 
-        uses: actions/checkout@v3.0.0
+        uses: actions/checkout@v3.0.2
         with:
+          repository: mattermost/mattermost-webapp
           ref: master
 
-      - name: Setting up Node v16.10.0
+      - name: Setting up Node.js
         uses: actions/setup-node@v3.4.1
         with:
-          node-version: 16.10.0
+          node-version-file: ".nvmrc"
+          cache: "npm"
           
       - name: Install dependencies
-        uses: bahmutov/npm-install@v1.6.0
+        run: npm ci
       
       - name: Build app
         run: npm run build
@@ -45,27 +53,23 @@ jobs:
 
   # Build current PR and upload it's bundle stats file
   build-pr:
-    name: "Building pr"
+    name: "branch"
     runs-on: ubuntu-latest
-
-    permissions:
-      contents: read
+      
+    needs: [build-main]
     
     steps:
     - name: Checkout PR branch 
-      uses: actions/checkout@v3.0.0
-      with:
-        ref: ${{github.event.pull_request.head.ref}}
+      uses: actions/checkout@v3.0.2
     
-    - name: Setting up Node v16.10.0
+    - name: Setting up Node.js
       uses: actions/setup-node@v3.4.1
       with:
-        node-version: 16.10.0
+        node-version-file: ".nvmrc"
+        cache: "npm"
 
     - name: Install dependencies
-      uses: bahmutov/npm-install@v1.6.0
-      with:
-       install-command: npm install --force
+      run: npm ci 
       
     - name: Build app
       run: npm run build
@@ -78,21 +82,16 @@ jobs:
 
   # Compare bundle stats of main branch and current PR
   compare-bundle:
-    name: "Compare sizes"
+    name: "compare"
     runs-on: ubuntu-latest
+    
+    needs: [build-pr, build-main]
     
     permissions:
       contents: read
       pull-requests: write
     
-    needs: [build-pr, build-main]
-    
     steps:
-      - name: Setting up Node v16.10.0
-        uses: actions/setup-node@v3.4.1
-        with:
-          node-version: 16.10.0
-      
       - name: Downloading Main bundle stats
         uses: actions/download-artifact@v3.0.0
         with:
@@ -102,12 +101,7 @@ jobs:
         uses: actions/download-artifact@v3.0.0
         with:
           name: pr-bundle-stats
-      
-      - name: Checkout action repository
-        uses: actions/checkout@v3.0.0
-        with:
-          repository: github/webpack-bundlesize-compare-action
-    
+          
       - name: Bundlesize compare
         uses: github/webpack-bundlesize-compare-action@v1.4.0
         with:

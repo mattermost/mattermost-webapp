@@ -68,7 +68,7 @@ export const makeSelectedChannelOption = (channel: Channel) => ({
     details: channel,
 });
 
-const FormattedOption = (props: ChannelOption & {className: string}) => {
+const FormattedOption = (props: ChannelOption & {className: string; isSingleValue?: boolean}) => {
     const {details} = props;
 
     const {formatMessage} = useIntl();
@@ -170,9 +170,13 @@ const FormattedOption = (props: ChannelOption & {className: string}) => {
         <span className='option__team-name'>{team.display_name}</span>
     ) : null;
 
+    const componentType = props.isSingleValue ? 'singleValue' : 'option';
+
+    const componentId = `post-forward_channel-select_${componentType}_${details.id}`;
+
     return (
         <div
-            id={`post-forward_channel-select_${details.name}`}
+            id={componentId}
             className={props.className}
             data-testid={details.name}
             aria-label={name}
@@ -218,6 +222,7 @@ const SingleValue = (props: SingleValueProps<ChannelOption>) => {
         <components.SingleValue {...props}>
             <FormattedOption
                 {...data}
+                isSingleValue={true}
                 className='singleValue'
             />
         </components.SingleValue>
@@ -308,9 +313,10 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             defaultOptions={defaultOptions.current}
             components={{DropdownIndicator, Option, SingleValue}}
             styles={baseStyles}
-            legend='Forrward to'
+            legend='Forward to'
             placeholder='Select channel or people'
             className='forward-post__select'
+            data-testid='forward-post-select'
         />
     );
 }
