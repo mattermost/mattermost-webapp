@@ -11,6 +11,7 @@ on:
       - "**.snap"
       - "**.yml"
       - "**.md"
+      - "**.txt"
 
 jobs:  
   # Build main branch and upload its's bundle stats file
