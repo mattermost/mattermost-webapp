@@ -195,6 +195,8 @@ export default class AboutBuildModal extends React.PureComponent<Props, State> {
         if (!isNaN(Number(config.BuildNumber))) {
             mmversion = 'ci';
         }
+        
+        console.log('test');
 
         return (
             <Modal
