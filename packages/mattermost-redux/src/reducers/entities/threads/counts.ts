@@ -5,10 +5,15 @@ import {ChannelTypes, TeamTypes, ThreadTypes, UserTypes} from 'mattermost-redux/
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ThreadsState, UserThread} from '@mattermost/types/threads';
 import {Team, TeamUnread} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
 
 import Constants from 'utils/constants';
 
 import {ExtraData} from './types';
+
+function isDmGmChannel(channelType: Channel['type']) {
+    return channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL;
+}
 
 function handleAllTeamThreadsRead(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
     const counts = state[action.data.team_id] ?? {};
@@ -48,9 +53,8 @@ function isEqual(state: ThreadsState['counts'], action: GenericAction, unreads: 
     return true;
 }
 
-function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction): ThreadsState['counts'] {
+function handleReadChangedThread(state: ThreadsState['counts'], action: GenericAction, teamId: string): ThreadsState['counts'] {
     const {
-        teamId,
         prevUnreadMentions = 0,
         newUnreadMentions = 0,
         prevUnreadReplies = 0,
@@ -59,23 +63,24 @@ function handleReadChangedThread(state: ThreadsState['counts'], action: GenericA
     const counts = state[teamId] ? {
         ...state[teamId],
     } : {
-        total_unread_threads: 0,
+        total_unread_threads: prevUnreadReplies,
         total: 0,
-        total_unread_mentions: 0,
+        total_unread_mentions: prevUnreadMentions,
     };
+
     const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;
 
-    counts.total_unread_mentions += unreadMentionDiff;
+    counts.total_unread_mentions = Math.max(counts.total_unread_mentions + unreadMentionDiff, 0);
 
     if (newUnreadReplies > 0 && prevUnreadReplies === 0) {
         counts.total_unread_threads += 1;
     } else if (prevUnreadReplies > 0 && newUnreadReplies === 0) {
-        counts.total_unread_threads -= 1;
+        counts.total_unread_threads = Math.max(counts.total_unread_threads - 1, 0);
     }
 
     return {
         ...state,
-        [action.data.teamId]: counts,
+        [teamId]: counts,
     };
 }
 
@@ -142,8 +147,26 @@ export function countsIncludingDirectReducer(state: ThreadsState['counts'] = {},
     switch (action.type) {
     case ThreadTypes.ALL_TEAM_THREADS_READ:
         return handleAllTeamThreadsRead(state, action);
-    case ThreadTypes.READ_CHANGED_THREAD:
-        return handleReadChangedThread(state, action);
+    case ThreadTypes.READ_CHANGED_THREAD: {
+        const {teamId, channelType} = action.data;
+        if (isDmGmChannel(channelType)) {
+            const teamIds = new Set(Object.keys(state));
+
+            // if the case of dm/gm make sure we add counts for all teams
+            if (teamId !== '') {
+                teamIds.add(teamId);
+            }
+
+            let newState = {...state};
+            teamIds.forEach((id) => {
+                newState = handleReadChangedThread(newState, action, id);
+            });
+
+            return newState;
+        }
+
+        return handleReadChangedThread(state, action, teamId);
+    }
     case ThreadTypes.FOLLOW_CHANGED_THREAD: {
         const {team_id: teamId, following} = action.data;
         const counts = state[teamId];
@@ -191,7 +214,10 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
     case ThreadTypes.ALL_TEAM_THREADS_READ:
         return handleAllTeamThreadsRead(state, action);
     case ThreadTypes.READ_CHANGED_THREAD:
-        return handleReadChangedThread(state, action);
+        if (isDmGmChannel(action.data.channelType)) {
+            return state;
+        }
+        return handleReadChangedThread(state, action, action.data.teamId);
     case TeamTypes.LEAVE_TEAM:
         return handleLeaveTeam(state, action);
     case UserTypes.LOGOUT_SUCCESS:
@@ -215,8 +241,7 @@ export function countsReducer(state: ThreadsState['counts'] = {}, action: Generi
         };
     }
     case ThreadTypes.DECREMENT_THREAD_COUNTS: {
-        const {channelType} = action;
-        if (channelType === Constants.DM_CHANNEL || channelType === Constants.GM_CHANNEL) {
+        if (isDmGmChannel(action.channelType)) {
             return state;
         }
         return handleDecrementThreadCounts(state, action);
