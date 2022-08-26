@@ -90,7 +90,9 @@ jobs:
     
     
     steps:
-
+      - uses: actions/setup-node@v3.4.1
+        with:
+          node-version: 16
           
       - name: Bundlesize compare
         uses: github/webpack-bundlesize-compare-action@v1.4.0
