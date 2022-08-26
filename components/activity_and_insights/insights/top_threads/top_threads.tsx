@@ -3,6 +3,8 @@
 import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {CircleSkeletonLoader} from '@mattermost/components';
+
 import {getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -73,6 +75,7 @@ const TopThreads = (props: WidgetHocProps) => {
                         <CircleLoader
                             size={20}
                         />
+                        <CircleSkeletonLoader size={20}/>
                         <TitleLoader/>
                     </div>
                     <div className='loading-lines'>

@@ -5,6 +5,8 @@ import React from 'react';
 
 export * from './generic_modal/generic_modal';
 
+export {CircleSkeletonLoader, RectangleSkeletonLoader} from './skeleton_loader';
+
 export function componentLibraryTest() {
     return 'testing result';
 }
