@@ -8,7 +8,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
-import {getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
 import {Channel} from '@mattermost/types/channels';
 import {
@@ -749,6 +749,7 @@ export function getLimitedViews(state: GlobalState): GlobalState['entities']['po
 
 export function isPostPriorityEnabled(state: GlobalState) {
     return (
-        getFeatureFlagValue(state, 'PostPriority') === 'true'
+        getFeatureFlagValue(state, 'PostPriority') === 'true' &&
+        getConfig(state).PostPriority === 'true'
     );
 }
