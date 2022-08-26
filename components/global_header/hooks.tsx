@@ -3,7 +3,7 @@
 
 import {MutableRefObject, useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
-import {useLocation} from 'react-router';
+import {useLocation} from 'react-router-dom';
 
 import {getCurrentUser, isFirstAdmin, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {UserProfile} from '@mattermost/types/users';

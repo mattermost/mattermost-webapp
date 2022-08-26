@@ -18,7 +18,7 @@ import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import ResetEmailModal from 'components/admin_console/reset_email_modal';
 import SearchableUserList from 'components/searchable_user_list/searchable_user_list';
 import UserListRowWithError from 'components/user_list_row_with_error';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import SystemUsersDropdown from '../system_users_dropdown';
 

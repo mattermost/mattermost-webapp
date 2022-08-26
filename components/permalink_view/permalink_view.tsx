@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, useEffect, useCallback, memo} from 'react';
-import {match} from 'react-router';
+import {match} from 'react-router-dom';
 
 type Props = {
     channelId: string;

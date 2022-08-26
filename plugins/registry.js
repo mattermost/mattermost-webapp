@@ -897,7 +897,7 @@ export default class PluginRegistry {
 
     registerInsightsHandler(handler) {
         store.dispatch({
-            type: ActionTypes.RECEIVED_BOARDS_INSIGHTS,
+            type: ActionTypes.RECEIVED_PLUGIN_INSIGHT,
             data: {
                 pluginId: this.id,
                 handler,
