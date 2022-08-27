@@ -9,12 +9,16 @@ import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 
 import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Client4} from 'mattermost-redux/client';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getUseCaseOnboarding, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {RequestStatus} from 'mattermost-redux/constants';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {loadMe, loadMeREST} from 'mattermost-redux/actions/users';
@@ -24,6 +28,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
 import {login} from 'actions/views/login';
+import {setNeedsLoggedInLimitReachedCheck} from 'actions/views/admin';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
@@ -99,6 +104,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const experimentalPrimaryTeam = useSelector((state: GlobalState) => (ExperimentalPrimaryTeam ? getTeamByName(state, ExperimentalPrimaryTeam) : undefined));
     const experimentalPrimaryTeamMember = useSelector((state: GlobalState) => getMyTeamMember(state, experimentalPrimaryTeam?.id ?? ''));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
+    const isCloud = useSelector(isCurrentLicenseCloud);
     const graphQLEnabled = useSelector(isGraphQLEnabled);
 
     const loginIdInput = useRef<HTMLInputElement>(null);
@@ -515,7 +521,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
-        const {error: loginError} = await dispatch(login(loginId, password, token));
+        const {data: userProfile, error: loginError} = await dispatch(login(loginId, password, token));
 
         if (loginError && loginError.server_error_id && loginError.server_error_id.length !== 0) {
             if (loginError.server_error_id === 'api.user.login.not_verified.app_error') {
@@ -584,17 +590,21 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             const {data: team} = await dispatch(addUserToTeamFromInvite(inviteToken, inviteId));
 
             if (team) {
-                finishSignin(team);
+                finishSignin(userProfile, team);
             } else {
                 // there's not really a good way to deal with this, so just let the user log in like normal
-                finishSignin();
+                finishSignin(userProfile);
             }
         } else {
-            finishSignin();
+            finishSignin(userProfile);
         }
     };
 
-    const finishSignin = (team?: Team) => {
+    const finishSignin = (userProfile: UserProfile, team?: Team) => {
+        if (isCloud && isSystemAdmin(userProfile.roles)) {
+            dispatch(setNeedsLoggedInLimitReachedCheck(true));
+        }
+
         const query = new URLSearchParams(search);
         const redirectTo = query.get('redirect_to');
 
