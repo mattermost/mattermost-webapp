@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {MouseEvent} from 'react';
 import {useIntl} from 'react-intl';
 import Icon from '@mattermost/compass-components/foundations/icon';
 
@@ -12,7 +12,7 @@ import Tooltip from '../../tooltip';
 
 import {Props} from './index';
 
-const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: Props): JSX.Element | null => {
+const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, postOwner}: Props): JSX.Element | null => {
     const {formatMessage, formatDate, formatTime} = useIntl();
 
     if (!postId || editedAt === 0) {
@@ -59,8 +59,15 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: P
             className='hidden-xs'
         >
             {`${editedText} ${formattedTime}`}
+            <br/>
+            {postOwner ? 'Click to view history' : undefined}
         </Tooltip>
     );
+
+    const showEditedMessageHistory = (e: MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation();
+        console.log('edit button clicked');
+    };
 
     return !postId || editedAt === 0 ? null : (
         <OverlayTrigger
@@ -68,18 +75,24 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0}: P
             placement='top'
             overlay={tooltip}
         >
-            <span
-                id={`postEdited_${postId}`}
-                className='post-edited__indicator'
-                data-post-id={postId}
-                data-edited-at={editedAt}
+            <button
+                className={'style--none'}
+                tabIndex={-1}
+                onClick={postOwner ? showEditedMessageHistory : undefined}
             >
-                <Icon
-                    glyph={'pencil-outline'}
-                    size={10}
-                />
-                {editedText}
-            </span>
+                <span
+                    id={`postEdited_${postId}`}
+                    className='post-edited__indicator'
+                    data-post-id={postId}
+                    data-edited-at={editedAt}
+                >
+                    <Icon
+                        glyph={'pencil-outline'}
+                        size={10}
+                    />
+                    {editedText}
+                </span>
+            </button>
         </OverlayTrigger>
     );
 };
