@@ -219,6 +219,12 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         }
     }, [firstTimeOnboarding]);
 
+    useEffect(() => {
+        if (firstTimeOnboarding && showTaskList && isEnableOnboardingFlow) {
+            trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+        }
+    }, [firstTimeOnboarding, showTaskList, isEnableOnboardingFlow]);
+
     // Done to show task done animation in closed state as well
     useEffect(() => {
         const newCCount = tasksList.filter((task) => task.status).length;
@@ -252,7 +258,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
             value: 'false',
         }];
         dispatch(savePreferences(currentUserId, preferences));
-        trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+        trackEvent(OnboardingTaskCategory, OnboardingTaskList.DECLINED_ONBOARDING_TASK_LIST);
     }, [currentUserId]);
 
     const toggleTaskList = useCallback(() => {

@@ -151,6 +151,7 @@ export const Preferences = {
 
     FORWARD_POST_VIEWED: 'forward_post_viewed',
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
+    SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
 };
 
@@ -305,6 +306,7 @@ export const ActionTypes = keyMirror({
 
     RECEIVED_PLUGIN_INSIGHT: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
+    NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK: null,
 });
 
 export const PostRequestTypes = keyMirror({

@@ -45,6 +45,16 @@ function navigationBlock(state = initialState, action: GenericAction) {
     }
 }
 
+export function needsLoggedInLimitReachedCheck(state = false, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK:
+        return action.data;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     navigationBlock,
+    needsLoggedInLimitReachedCheck,
 });
