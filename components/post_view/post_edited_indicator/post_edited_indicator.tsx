@@ -52,6 +52,10 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         relativeOrDate: date,
         time,
     });
+    const openHistoryText = formatMessage({
+        id: 'post_message_view.openEditedPostHistory',
+        defaultMessage: 'Click to view history'
+    })
 
     const tooltip = (
         <Tooltip
@@ -60,7 +64,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         >
             {`${editedText} ${formattedTime}`}
             <br/>
-            {postOwner ? 'Click to view history' : undefined}
+            {postOwner ? <span className='open-history-text'>{openHistoryText}</span> : undefined}
         </Tooltip>
     );
 
