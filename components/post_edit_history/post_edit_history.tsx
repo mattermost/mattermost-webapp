@@ -5,10 +5,16 @@ import React, {memo} from 'react';
 
 import styled from 'styled-components';
 
+import {useIntl} from 'react-intl';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
-import {getSiteURL} from 'utils/url';
 import {Team} from '@mattermost/types/teams';
+
+import {getSiteURL} from 'utils/url';
+import {t} from 'utils/i18n';
+
+import SearchResultsHeader from 'components/search_results_header';
 
 const Divider = styled.div`
     width: 88%;
@@ -17,7 +23,8 @@ const Divider = styled.div`
 `;
 
 export interface Props {
-    // channel: Channel;
+    channelDisplayName: string;
+
     // currentUser: UserProfile;
     // currentTeam: Team;
     // isMobile: boolean;
@@ -28,7 +35,8 @@ export interface Props {
 }
 
 const PostEditHistory = ({
-    // channel,
+    channelDisplayName,
+
     // isMobile,
     // currentTeam,
     // currentUser,
@@ -36,12 +44,22 @@ const PostEditHistory = ({
 }: Props) => {
     // const currentUserId = currentUser.id;
     // const channelURL = getSiteURL() + '/' + currentTeam.name + '/channels/' + channel.name;
+    const {formatMessage} = useIntl();
+
+    const formattedTitle = formatMessage({
+        id: t('search_header.title6'),
+        defaultMessage: 'Edit History',
+    });
 
     return (
         <div
             id='rhsContainer'
             className='sidebar-right__body'
         >
+            <SearchResultsHeader>
+                {formattedTitle}
+                {<div className='sidebar--right__title__channel'>{channelDisplayName}</div>}
+            </SearchResultsHeader>
             <Divider/>
             <div>{'This is a post history'}</div>
         </div>
