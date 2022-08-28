@@ -447,17 +447,17 @@ export const CloudProducts = {
 };
 
 export const NonAdminPaidFeatures = {
-    GUEST_ACCOUNTS: 'Guest Accounts',
-    CUSTOM_USER_GROUPS: 'Custom User groups',
-    CREATE_MULTIPLE_TEAMS: 'Create Multiple Teams',
-    START_CALL: 'Start call',
-    PLAYBOOKS_RETRO: 'Playbooks Retrospective',
-    UNLIMITED_MESSAGES: 'Unlimited Messages',
-    UNLIMITED_FILE_STORAGE: 'Unlimited File Storage',
-    UNLIMITED_INTEGRATIONS: 'Unlimited Integrations',
-    UNLIMITED_BOARD_CARDS: 'Unlimited Board cards',
-    ALL_PROFESSIONAL_FEATURES: 'All Professional features',
-    ALL_ENTERPRISE_FEATURES: 'All Enterprise features',
+    GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
+    CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
+    CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
+    START_CALL: 'mattermost.feature.start_call',
+    PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
+    UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
+    UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
+    UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
+    UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
+    ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
+    ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
 };
 
 export const SelfHostedLicenseSKUNames = {
