@@ -93,7 +93,6 @@ function createMessageLimitNotification() {
 }
 
 function createTrialNotificationForProfessionalFeatures() {
-    // createMessageLimitNotification()
     cy.get('#product_switch_menu').click().then((() => {
         cy.get('#view_plans_cta').click();
         cy.get('#pricingModal').get('#professional').within(() => {
@@ -104,7 +103,6 @@ function createTrialNotificationForProfessionalFeatures() {
 }
 
 function createTrialNotificationForEnterpriseFeatures() {
-    // createMessageLimitNotification()
     cy.get('#product_switch_menu').click().then((() => {
         cy.get('#view_plans_cta').click();
         cy.get('#pricingModal').get('#enterprise').within(() => {
@@ -120,13 +118,16 @@ function triggerNotifications(url, trial = false) {
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             method: 'POST',
             url: '/api/v4/cloud/trigger-notify-admin-posts',
-            failOnStatusCode: false,
             body: {
                 trial_notification: trial,
             },
         });
     });
-    cy.visit(url);
+
+    if (url) {
+        cy.visit(url)
+    }
+
 }
 
 function assertNotification(featureName, minimumPlan, totalRequests, requestsCount, teamName, trial = false) {
@@ -201,6 +202,8 @@ function testTrialNotifications(subscription, limits) {
     const ALL_ENTERPRISE_FEATURES_REQUESTS = 3;
     const TOTAL = 8;
 
+    // # Calling trigger so that any pending notifications in DB should be sent out 
+    triggerNotifications('');
     // # Login as an admin and create test users that will click the different notification ctas
     cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
         myTeam = team;
@@ -263,7 +266,7 @@ function testUpgradeNotifications(subscription, limits) {
         myTeam = team;
         myChannel = channel;
         myUrl = url;
-
+        triggerNotifications();
         // # Create non admin users
         myMessageLimitUsers = createUsersProcess(myTeam, myChannel, UNLIMITED_MESSAGES_USERS);
         myUnlimitedTeamsUsers = createUsersProcess(myTeam, myChannel, CREATE_MULTIPLE_TEAMS_USERS);
@@ -322,6 +325,11 @@ describe('Notify Admin', () => {
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+               EnableAPITriggerNotifyAdmin: true,
+            },
+        });
     });
 
     it('should test upgrade notifications', () => {
