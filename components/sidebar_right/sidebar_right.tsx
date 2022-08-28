@@ -14,6 +14,7 @@ import RhsCard from 'components/rhs_card';
 import ChannelInfoRhs from 'components/channel_info_rhs';
 import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index';
+import PostEditHistory from 'components/post_edit_history/post_edit_history';
 
 import RhsPlugin from 'plugins/rhs_plugin';
 
@@ -239,15 +240,13 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                 <ChannelInfoRhs/>
             );
             break;
-        case isPostEditHistory:
-            content = (
-                <div>{'This is a post history'}</div>
-            );
-            break;
         case isChannelMembers:
             content = (
                 <ChannelMembersRhs/>
             );
+            break;
+        case isPostEditHistory:
+            content = <PostEditHistory/>;
             break;
         }
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';

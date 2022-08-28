@@ -52,12 +52,13 @@ function mapStateToProps(state: GlobalState) {
             RHSStates.PLUGIN,
             RHSStates.CHANNEL_INFO,
             RHSStates.CHANNEL_MEMBERS,
+            RHSStates.EDIT_HISTORY,
         ].includes(rhsState)),
         hideMobileSearchBarInRHS: isMobileView && isRhsOpen && rhsState === RHSStates.CHANNEL_INFO,
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
-        isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
+        isChannelFiles: rhsState === RHSStates.CHANNEL_FILES, //todo check if you need to pass isPostEditHistory
         isMobileView,
     };
 }

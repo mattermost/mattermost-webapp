@@ -35,7 +35,7 @@ type StateProps = {
 
 type DispatchProps = {
     actions: {
-        updateRhsState: (state: string) => void;
+        updateRhsState: (state: string) => void; // todo check if you need to send post id like channel info rhs state send channelid
     };
 }
 
