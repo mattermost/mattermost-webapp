@@ -3,6 +3,8 @@
 
 import {connect} from 'react-redux';
 
+import {bindActionCreators, Dispatch} from 'redux';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
@@ -15,6 +17,8 @@ import {isPostOwner} from 'utils/post_utils';
 import {areTimezonesEnabledAndSupported} from '../../../selectors/general';
 import {GlobalState} from '../../../types/store';
 import {Props as TimestampProps} from '../../timestamp/timestamp';
+
+import {updateRhsState} from 'actions/views/rhs';
 
 import PostEditedIndicator from './post_edited_indicator';
 
@@ -29,7 +33,13 @@ type StateProps = {
     timeZone?: string;
 }
 
-export type Props = OwnProps & StateProps;
+type DispatchProps = {
+    actions: {
+        updateRhsState: (state: string) => void;
+    };
+}
+
+export type Props = OwnProps & StateProps & DispatchProps;
 
 function makeMapStateToProps() {
     const getUserTimezone = makeGetUserTimezone();
@@ -50,4 +60,12 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect<StateProps, null, OwnProps, GlobalState>(makeMapStateToProps)(PostEditedIndicator);
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators({
+            updateRhsState,
+        }, dispatch),
+    };
+}
+
+export default connect<StateProps, DispatchProps, OwnProps, GlobalState>(makeMapStateToProps, mapDispatchToProps)(PostEditedIndicator);

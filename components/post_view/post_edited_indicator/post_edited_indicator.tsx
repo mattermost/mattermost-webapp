@@ -7,12 +7,14 @@ import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {getDateForTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {isSameDay, isWithinLastWeek, isYesterday} from 'utils/datetime';
+import {RHSStates} from 'utils/constants';
+
 import OverlayTrigger from '../../overlay_trigger';
 import Tooltip from '../../tooltip';
 
 import {Props} from './index';
 
-const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, postOwner}: Props): JSX.Element | null => {
+const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, postOwner, actions}: Props): JSX.Element | null => {
     const {formatMessage, formatDate, formatTime} = useIntl();
 
     if (!postId || editedAt === 0) {
@@ -54,8 +56,8 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
     });
     const viewHistoryText = formatMessage({
         id: 'post_message_view.viewPostEditHistory',
-        defaultMessage: 'Click to view history'
-    })
+        defaultMessage: 'Click to view history',
+    });
 
     const tooltip = (
         <Tooltip
@@ -68,8 +70,10 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         </Tooltip>
     );
 
-    const showEditedMessageHistory = (e: MouseEvent<HTMLButtonElement>) => {
+    const showPostEditHistory = (e: MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation();
+        e.preventDefault();
+        actions.updateRhsState(RHSStates.EDIT_HISTORY);
         console.log('edit button clicked');
     };
 
@@ -82,7 +86,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
             <button
                 className={'style--none'}
                 tabIndex={-1}
-                onClick={postOwner ? showEditedMessageHistory : undefined}
+                onClick={postOwner ? showPostEditHistory : undefined}
             >
                 <span
                     id={`postEdited_${postId}`}

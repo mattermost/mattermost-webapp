@@ -32,6 +32,7 @@ type Props = {
     isChannelInfo: boolean;
     isChannelMembers: boolean;
     isPluginView: boolean;
+    isPostEditHistory: boolean;
     previousRhsState: RhsState;
     rhsChannel: Channel;
     selectedPostId: string;
@@ -77,6 +78,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelFiles: this.props.isChannelFiles,
             isChannelInfo: this.props.isChannelInfo,
             isChannelMembers: this.props.isChannelMembers,
+            isPostEditHistory: this.props.isPostEditHistory,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
@@ -211,10 +213,11 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelInfo,
             isChannelMembers,
             isExpanded,
+            isPostEditHistory,
         } = this.props;
 
         let content = null;
-        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible || isPostEditHistory) && isExpanded;
 
         switch (true) {
         case postRightVisible:
@@ -234,6 +237,11 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         case isChannelInfo:
             content = (
                 <ChannelInfoRhs/>
+            );
+            break;
+        case isPostEditHistory:
+            content = (
+                <div>{'This is a post history'}</div>
             );
             break;
         case isChannelMembers:

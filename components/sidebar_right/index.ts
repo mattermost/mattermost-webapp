@@ -42,6 +42,7 @@ function mapStateToProps(state: GlobalState) {
         isChannelInfo: rhsState === RHSStates.CHANNEL_INFO,
         isChannelMembers: rhsState === RHSStates.CHANNEL_MEMBERS,
         isPluginView: rhsState === RHSStates.PLUGIN,
+        isPostEditHistory: rhsState === RHSStates.EDIT_HISTORY,
         rhsChannel: getSelectedChannel(state),
         selectedPostId,
         selectedPostCardId,
