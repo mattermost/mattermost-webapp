@@ -3,7 +3,7 @@
 
 import React, {useState} from 'react';
 
-import NotificationFromMembersModal from './notifcation_from_members_modal';
+import NotificationFromMembersModal from './notification_from_members_modal';
 
 type Props = {
     postId: string;

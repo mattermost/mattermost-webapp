@@ -4,6 +4,7 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
+import {useIntl} from 'react-intl';
 
 import styled from 'styled-components';
 
@@ -17,8 +18,10 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 
 import {browserHistory} from 'utils/browser_history';
+import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
 
 import MemberList from '../channel_members_rhs/member_list';
+import {ListItemType} from 'components/channel_members_rhs/channel_members_rhs';
 
 import './notification_from_members_modal.scss';
 
@@ -36,12 +39,6 @@ export interface ChannelMember {
     displayName: string;
 }
 
-export enum ListItemType {
-    Member = 'member',
-    FirstSeparator = 'first-separator',
-    Separator = 'separator',
-}
-
 export interface ListItem {
     type: ListItemType;
     data: ChannelMember | JSX.Element;
@@ -53,54 +50,36 @@ const MembersContainer = styled.div`
     height: inherit;
 `;
 
+const unknownUser: UserProfile = {id: 'unknown', username: 'unknown'} as UserProfile;
+
 function NotificationFromMembersModal(props: Props) {
     const dispatch = useDispatch();
+    const {formatMessage} = useIntl();
     const channel = useSelector(getCurrentChannel);
     const teamUrl = useSelector(getCurrentRelativeTeamUrl);
     const userProfiles = useSelector(getUsers);
     const userStatuses = useSelector(getUserStatuses);
     const displaySetting = useSelector(getTeammateNameDisplaySetting);
 
-    let featureNotificationMembers: ChannelMember[] = [];
-
-    props.userIds.forEach((userId) => {
-        const profile = userProfiles[userId];
+    const members: ListItem[] = props.userIds.map((userId: string) => {
+        const user = userProfiles[userId];
         const status = userStatuses[userId];
-        const displayName = displayUsername(profile, displaySetting);
-        const m = {
-            user: profile,
-            displayName,
-            status,
+        const displayName = displayUsername(user, displaySetting);
+        return {
+            type: ListItemType.Member,
+            data: {
+                user: user || unknownUser,
+                displayName,
+                status,
+            },
         };
-        featureNotificationMembers.push(m);
     });
-
-    featureNotificationMembers = featureNotificationMembers.map((member) => {
-        if (member.user === undefined) {
-            return {
-                user: {
-                    id: 'unknown',
-                    username: 'unknown',
-                } as UserProfile,
-                displayName: member.displayName,
-                status: member.status,
-            };
-        }
-
-        return member;
-    });
-
-    const listcp: ListItem[] = [];
-    for (let i = 0; i < featureNotificationMembers.length; i++) {
-        const member = featureNotificationMembers[i];
-        listcp.push({type: ListItemType.Member, data: member});
-    }
 
     const openDirectMessage = async (user: UserProfile) => {
         // we first prepare the DM channel...
         await dispatch(openDirectChannelToUserId(user.id));
 
-        // ... qnd then redirect to it
+        // ... and then redirect to it
         browserHistory.push(teamUrl + '/messages/@' + user.username);
     };
 
@@ -120,7 +99,7 @@ function NotificationFromMembersModal(props: Props) {
         >
             <Modal.Header className='NotificationFromMembersModal__header'>
                 <h1 id='invitation_modal_title'>
-                    {`Members that requested ${props.feature}`}
+                    {`Members that requested ${mapFeatureIdToTranslation(props.feature, formatMessage)}`}
                 </h1>
                 <button
                     id='closeIcon'
@@ -134,7 +113,7 @@ function NotificationFromMembersModal(props: Props) {
                 <MembersContainer>
                     <MemberList
                         channel={channel}
-                        members={listcp}
+                        members={members}
                         searchTerms={''}
                         editing={false}
                         actions={{openDirectMessage, loadMore}}

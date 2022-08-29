@@ -460,10 +460,6 @@ export const PaidFeatures = {
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
 };
 
-export const SelfHostedLicenseSKUNames = {
-    PROFESSIONAL: 'professional',
-    ENTERPRISE: 'enterprise',
-};
 export enum LicenseSkus {
     E10 = 'E10',
     E20 = 'E20',
