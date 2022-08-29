@@ -13,7 +13,7 @@ type Props = {
 }
 
 const BoardsButton = ({boardComponent}: Props) => {
-    if (boardComponent === undefined) {
+    if (!boardComponent) {
         return null;
     }
 
