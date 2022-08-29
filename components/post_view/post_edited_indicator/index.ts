@@ -18,7 +18,9 @@ import {areTimezonesEnabledAndSupported} from '../../../selectors/general';
 import {GlobalState} from '../../../types/store';
 import {Props as TimestampProps} from '../../timestamp/timestamp';
 
-import {updateRhsState} from 'actions/views/rhs';
+import {showPostEditHistory} from 'actions/views/rhs';
+
+import {Post} from '@mattermost/types/posts';
 
 import PostEditedIndicator from './post_edited_indicator';
 
@@ -31,11 +33,12 @@ type StateProps = {
     postOwner: boolean;
     isMilitaryTime: boolean;
     timeZone?: string;
+    post: Post;
 }
 
 type DispatchProps = {
     actions: {
-        updateRhsState: (state: string) => void; // todo check if you need to send post id like channel info rhs state send channelid
+        showPostEditHistory: (post: Post) => void;
     };
 }
 
@@ -56,14 +59,14 @@ function makeMapStateToProps() {
         const postOwner = isPostOwner(state, post);
 
         const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
-        return {isMilitaryTime, timeZone, postOwner};
+        return {isMilitaryTime, timeZone, postOwner, post};
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
-            updateRhsState,
+            showPostEditHistory,
         }, dispatch),
     };
 }

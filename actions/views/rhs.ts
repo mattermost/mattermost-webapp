@@ -421,6 +421,15 @@ export function showMentions() {
     };
 }
 
+export function showPostEditHistory(post: Post) {
+    return (dispatch: DispatchFunc) => {
+        dispatch(selectPost(post));
+        dispatch(updateRhsState(RHSStates.EDIT_HISTORY))
+
+        return {data: true};
+    };
+}
+
 export function showChannelInfo(channelId: string) {
     return (dispatch: DispatchFunc) => {
         dispatch({
@@ -581,6 +590,7 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
         if (previous.searchVisible) {
             return showSearchResults()(dispatch, getState);
         }
+        // todo sinan check if you need to add edit history
 
         return openRHSSearch()(dispatch);
     };
