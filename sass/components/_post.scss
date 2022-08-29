@@ -2252,11 +2252,24 @@
     }
     
     .edit-post__restore__icon {
-        color: rgb(var(--center-channel-text-rgb), 0.56);;
+        color: rgba(var(--center-channel-text-rgb), 0.56);;
 
         &:hover {
-                color: rgb(var(--center-channel-text-rgb), 0.56);
+                color: rgba(var(--center-channel-text-rgb), 0.56);
+                background-color: rgba(var(--denim-button-bg-rgb), 0.08)
             }
+    }
+}
+
+.edit-post__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+    .edit-post__header__username {
+        font-weight: 600;
+        text-overflow: ellipsis;
+        margin-left: 8px;
     }
 }
 
