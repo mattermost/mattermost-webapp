@@ -408,6 +408,7 @@ export const ModalIdentifiers = {
     FORWARD_POST_MODAL: 'forward_post_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
+    SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
 };
 
 export const UserStatuses = {

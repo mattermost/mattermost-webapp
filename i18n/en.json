@@ -4236,6 +4236,7 @@
   "postypes.custom_open_pricing_modal_post_renderer.availableOn": " - available on the {feature}",
   "postypes.custom_open_pricing_modal_post_renderer.learn_trial": "Learn more about trial",
   "postypes.custom_open_pricing_modal_post_renderer.members": "{members} members",
+  "postypes.custom_open_pricing_modal_post_renderer.membersThatRequested": "Members that requested ",
   "postypes.custom_open_pricing_modal_post_renderer.unknown": "@unknown",
   "postypes.custom_open_pricing_modal_post_renderer.upgrade_professional": "Upgrade to Professional",
   "postypes.custom_open_pricing_modal_post_renderer.userRequests": "{userRequests} requested access to this feature",

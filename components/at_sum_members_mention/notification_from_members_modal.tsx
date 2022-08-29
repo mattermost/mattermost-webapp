@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 
@@ -16,20 +15,22 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
+import {isModalOpen} from 'selectors/views/modals';
+import {closeModal} from 'actions/views/modals';
+
+import {GlobalState} from 'types/store';
 
 import {browserHistory} from 'utils/browser_history';
 import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
+import {ModalIdentifiers} from 'utils/constants';
 
 import MemberList from '../channel_members_rhs/member_list';
 import {ListItemType} from 'components/channel_members_rhs/channel_members_rhs';
-
-import './notification_from_members_modal.scss';
+import GenericModal from 'components/generic_modal';
 
 type Props = {
-    show: boolean;
     feature: string;
     userIds: string[];
-    onHide: () => void;
 }
 
 export interface ChannelMember {
@@ -47,7 +48,10 @@ export interface ListItem {
 const MembersContainer = styled.div`
     flex: 1 1 auto;
     padding: 0 4px 16px;
-    height: inherit;
+    min-height: 500px;
+    height: auto;
+    width: 100%;
+    overflow: auto;
 `;
 
 const unknownUser: UserProfile = {id: 'unknown', username: 'unknown'} as UserProfile;
@@ -60,6 +64,7 @@ function NotificationFromMembersModal(props: Props) {
     const userProfiles = useSelector(getUsers);
     const userStatuses = useSelector(getUserStatuses);
     const displaySetting = useSelector(getTeammateNameDisplaySetting);
+    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SUM_OF_MEMBERS_MODAL));
 
     const members: ListItem[] = props.userIds.map((userId: string) => {
         const user = userProfiles[userId];
@@ -83,46 +88,44 @@ function NotificationFromMembersModal(props: Props) {
         browserHistory.push(teamUrl + '/messages/@' + user.username);
     };
 
+    const handleOnClose = () => {
+        dispatch(closeModal(ModalIdentifiers.SUM_OF_MEMBERS_MODAL));
+    };
+
     const loadMore = () => {};
 
+    if (!show) {
+        return null;
+    }
+
+    const modalTitle = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.membersThatRequested', defaultMessage: 'Members that requested '});
+
+    const modalHeaderText = (<h1 id='invitation_modal_title'>
+        {`${modalTitle}${mapFeatureIdToTranslation(props.feature, formatMessage)}`}
+    </h1>);
+
     return (
-        <Modal
+        <GenericModal
             id='notificationFromMembersModal'
-            dialogClassName='a11y__modal'
             className='NotificationFromMembersModal'
             backdrop={true}
-            show={props.show}
-            onHide={props.onHide}
-            onExited={() => {}}
-            role='dialog'
+            show={show}
+            onExited={handleOnClose}
             aria-modal='true'
+            modalHeaderText={modalHeaderText}
         >
-            <Modal.Header className='NotificationFromMembersModal__header'>
-                <h1 id='invitation_modal_title'>
-                    {`Members that requested ${mapFeatureIdToTranslation(props.feature, formatMessage)}`}
-                </h1>
-                <button
-                    id='closeIcon'
-                    className='icon icon-close'
-                    aria-label='Close'
-                    title='Close'
-                    onClick={props.onHide}
+            <MembersContainer>
+                <MemberList
+                    channel={channel}
+                    members={members}
+                    searchTerms={''}
+                    editing={false}
+                    actions={{openDirectMessage, loadMore}}
+                    hasNextPage={false}
+                    isNextPageLoading={false}
                 />
-            </Modal.Header>
-            <Modal.Body>
-                <MembersContainer>
-                    <MemberList
-                        channel={channel}
-                        members={members}
-                        searchTerms={''}
-                        editing={false}
-                        actions={{openDirectMessage, loadMore}}
-                        hasNextPage={false}
-                        isNextPageLoading={false}
-                    />
-                </MembersContainer>
-            </Modal.Body>
-        </Modal>
+            </MembersContainer>
+        </GenericModal>
     );
 }
 
