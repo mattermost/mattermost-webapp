@@ -18,7 +18,7 @@ import {areTimezonesEnabledAndSupported} from '../../../selectors/general';
 import {GlobalState} from '../../../types/store';
 import {Props as TimestampProps} from '../../timestamp/timestamp';
 
-import {showPostEditHistory} from 'actions/views/rhs';
+import {selectPost, updateRhsState} from 'actions/views/rhs';
 
 import {Post} from '@mattermost/types/posts';
 
@@ -38,7 +38,8 @@ type StateProps = {
 
 type DispatchProps = {
     actions: {
-        showPostEditHistory: (post: Post) => void;
+        selectPost: (post: Post) => void;
+        updateRhsState: (rhsState: string) => void;
     };
 }
 
@@ -66,7 +67,8 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
-            showPostEditHistory,
+            selectPost,
+            updateRhsState,
         }, dispatch),
     };
 }
