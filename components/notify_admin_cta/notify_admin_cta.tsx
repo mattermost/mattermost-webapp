@@ -74,7 +74,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
-            await Client4.notifyAdminToUpgrade(reqData);
+            await Client4.notifyAdmin(reqData);
             trackEvent('pricing', 'click_notify_admin_cta', {
                 callerInfo,
             });

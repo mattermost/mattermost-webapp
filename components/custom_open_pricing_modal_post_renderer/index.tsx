@@ -13,8 +13,9 @@ import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import {openModal} from 'actions/views/modals';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
-import {ModalIdentifiers, NonAdminPaidFeatures} from 'utils/constants';
+import {ModalIdentifiers, PaidFeatures} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions';
+import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
 
 const MinimumPlansForFeature = {
     Professional: 'Professional plan',
@@ -22,7 +23,6 @@ const MinimumPlansForFeature = {
 };
 
 type FeatureRequest = {
-    id: string;
     user_id: string;
     required_feature: string;
     required_plan: string;
@@ -76,24 +76,13 @@ export default function OpenPricingModalPost(props: {post: Post}) {
     const wasTrialRequest = postProps?.trial;
 
     const customMessageBody = [];
-    const getUserIdsForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => {
-        const userIds: string[] = [];
-        requests.forEach((request: FeatureRequest) => {
-            userIds.push(request.user_id);
-        });
-
-        return userIds;
-    };
+    const getUserIdsForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => requests.map((request: FeatureRequest) => request.user_id);
 
     const getUserNamesForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => {
-        const userNames: string[] = [];
-        getUserIdsForUsersThatRequestedFeature(requests).forEach((userId: string) => {
-            const profile = userProfiles[userId];
-            if (profile === undefined) {
-                userNames.push(formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.unknown', defaultMessage: '@unknown'}));
-            } else {
-                userNames.push('@' + profile?.username);
-            }
+        const unknownName = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.unknown', defaultMessage: '@unknown'});
+        const userNames = requests.map((req: FeatureRequest) => {
+            const username = userProfiles[req.user_id]?.username;
+            return username ? '@' + username : unknownName;
         });
 
         return userNames;
@@ -130,11 +119,8 @@ export default function OpenPricingModalPost(props: {post: Post}) {
 
     const mapFeatureToPlan = (feature: string) => {
         switch (feature) {
-        case NonAdminPaidFeatures.GUEST_ACCOUNTS:
-        case NonAdminPaidFeatures.CREATE_MULTIPLE_TEAMS:
-            return MinimumPlansForFeature.Professional;
-        case NonAdminPaidFeatures.ALL_ENTERPRISE_FEATURES:
-        case NonAdminPaidFeatures.CUSTOM_USER_GROUPS:
+        case PaidFeatures.ALL_ENTERPRISE_FEATURES:
+        case PaidFeatures.CUSTOM_USER_GROUPS:
             allProfessional = false;
             return MinimumPlansForFeature.Enterprise;
         default:
@@ -142,42 +128,13 @@ export default function OpenPricingModalPost(props: {post: Post}) {
         }
     };
 
-    const mapFeatureIdToTranslation = (id: string): string => {
-        switch (id) {
-        case NonAdminPaidFeatures.GUEST_ACCOUNTS:
-            return formatMessage({id: 'webapp.mattermost.feature.guest_accounts', defaultMessage: 'Guest Accounts'});
-        case NonAdminPaidFeatures.CUSTOM_USER_GROUPS:
-            return formatMessage({id: 'webapp.mattermost.feature.custom_user_groups', defaultMessage: 'Custom User groups'});
-        case NonAdminPaidFeatures.CREATE_MULTIPLE_TEAMS:
-            return formatMessage({id: 'webapp.mattermost.feature.create_multiple_teams', defaultMessage: 'Create Multiple Teams'});
-        case NonAdminPaidFeatures.START_CALL:
-            return formatMessage({id: 'webapp.mattermost.feature.start_call', defaultMessage: 'Start call'});
-        case NonAdminPaidFeatures.PLAYBOOKS_RETRO:
-            return formatMessage({id: 'webapp.mattermost.feature.playbooks_retro', defaultMessage: 'Playbooks Retrospective'});
-        case NonAdminPaidFeatures.UNLIMITED_MESSAGES:
-            return formatMessage({id: 'webapp.mattermost.feature.unlimited_messages', defaultMessage: 'Unlimited Messages'});
-        case NonAdminPaidFeatures.UNLIMITED_FILE_STORAGE:
-            return formatMessage({id: 'webapp.mattermost.feature.unlimited_file_storage', defaultMessage: 'Unlimited File Storage'});
-        case NonAdminPaidFeatures.UNLIMITED_INTEGRATIONS:
-            return formatMessage({id: 'webapp.mattermost.feature.unlimited_integrations', defaultMessage: 'Unlimited Integrations'});
-        case NonAdminPaidFeatures.UNLIMITED_BOARD_CARDS:
-            return formatMessage({id: 'webapp.mattermost.feature.unlimited_board_cards', defaultMessage: 'Unlimited Board cards'});
-        case NonAdminPaidFeatures.ALL_PROFESSIONAL_FEATURES:
-            return formatMessage({id: 'webapp.mattermost.feature.all_professional', defaultMessage: 'All Professional features'});
-        case NonAdminPaidFeatures.ALL_ENTERPRISE_FEATURES:
-            return formatMessage({id: 'webapp.mattermost.feature.all_enterprise', defaultMessage: 'All Enterprise features'});
-        default:
-            return '';
-        }
-    };
-
     if (requestFeatures) {
         for (const featureId of Object.keys(requestFeatures)) {
             const title = (
-                <div id={`${featureId}-title`.replaceAll(' ', '-')}>
+                <div id={`${featureId}-title`.replaceAll('.', '_')}>
                     <span>
                         <b>
-                            {mapFeatureIdToTranslation(featureId)}
+                            {mapFeatureIdToTranslation(featureId, formatMessage)}
                         </b>
                     </span>
                     <span>
@@ -188,7 +145,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                     </span>
                 </div>);
             const subTitle = (
-                <ul id={`${featureId}-subtitle`.replaceAll(' ', '-')}>
+                <ul id={`${featureId}-subtitle`.replaceAll('.', '_')}>
                     <li>
                         <Markdown
                             postId={props.post.id}

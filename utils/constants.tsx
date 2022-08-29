@@ -408,6 +408,7 @@ export const ModalIdentifiers = {
     FORWARD_POST_MODAL: 'forward_post_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
+    SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
 };
 
 export const UserStatuses = {
@@ -446,7 +447,7 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
-export const NonAdminPaidFeatures = {
+export const PaidFeatures = {
     GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
     CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
     CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
@@ -460,10 +461,6 @@ export const NonAdminPaidFeatures = {
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
 };
 
-export const SelfHostedLicenseSKUNames = {
-    PROFESSIONAL: 'professional',
-    ENTERPRISE: 'enterprise',
-};
 export enum LicenseSkus {
     E10 = 'E10',
     E20 = 'E20',

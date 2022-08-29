@@ -1,9 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React from 'react';
+import {useDispatch} from 'react-redux';
 
-import NotificationFromMembersModal from './notifcation_from_members_modal';
+import {openModal} from 'actions/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
+
+import NotificationFromMembersModal from './notification_from_members_modal';
 
 type Props = {
     postId: string;
@@ -13,24 +17,24 @@ type Props = {
 }
 
 function AtSumOfMembersMention(props: Props) {
-    const [show, setShow] = useState(false);
-    const closeModal = () => {
-        setShow(false);
+    const dispatch = useDispatch();
+    const handleOpen = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+        e.preventDefault();
+        dispatch(openModal({
+            modalId: ModalIdentifiers.SUM_OF_MEMBERS_MODAL,
+            dialogType: NotificationFromMembersModal,
+            dialogProps: {
+                userIds: props.userIds,
+                feature: props.messageMetadata.requestedFeature,
+            },
+        }));
     };
 
     return (
         <>
-            <NotificationFromMembersModal
-                show={show}
-                onHide={closeModal}
-                userIds={props.userIds}
-                feature={props.messageMetadata.requestedFeature}
-            />
             <a
                 id={`${props.postId}_at_sum_of_members_mention`}
-                onClick={() => {
-                    setShow(true);
-                }}
+                onClick={handleOpen}
             >
                 {props.text}
             </a>

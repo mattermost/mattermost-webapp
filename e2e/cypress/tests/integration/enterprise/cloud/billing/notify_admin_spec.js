@@ -62,7 +62,7 @@ function createUsersProcess(team, channel, times) {
 
 function userGroupsNotification() {
     cy.get('#product_switch_menu').click().then((() => {
-        cy.get('#Custom-User-groups-restricted-indicator').click();
+        cy.get('#mattermost_feature_custom_user_groups-restricted-indicator').click();
     }));
 
     cy.get('#FeatureRestrictedModal').should('exist');
@@ -74,7 +74,7 @@ function userGroupsNotification() {
 
 function creatNewTeamNotification() {
     cy.get('.test-team-header').click().then(() => {
-        cy.get('#Create-Multiple-Teams-restricted-indicator').click();
+        cy.get('#mattermost_feature_create_multiple_teams-restricted-indicator').click();
     });
 
     cy.get('#FeatureRestrictedModal').should('exist');
@@ -117,7 +117,7 @@ function triggerNotifications(url, trial = false) {
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
             method: 'POST',
-            url: '/api/v4/cloud/trigger-notify-admin-posts',
+            url: '/api/v4/users/trigger-notify-admin-posts',
             body: {
                 trial_notification: trial,
             },
@@ -130,7 +130,24 @@ function triggerNotifications(url, trial = false) {
 
 }
 
-function assertNotification(featureName, minimumPlan, totalRequests, requestsCount, teamName, trial = false) {
+function mapFeatureIdToId(id) {
+    switch (id) {
+    case 'mattermost.feature.custom_user_groups':
+        return 'Custom User groups';
+    case 'mattermost.feature.create_multiple_teams':
+        return 'Create Multiple Teams';
+    case 'mattermost.feature.unlimited_messages':
+        return 'Unlimited Messages';
+    case 'mattermost.feature.all_professional':
+        return 'All Professional features';
+    case 'mattermost.feature.all_enterprise':
+        return 'All Enterprise features';
+    default:
+        return '';
+    }
+}
+
+function assertNotification(featureId, minimumPlan, totalRequests, requestsCount, teamName, trial = false) {
     // # Open system-bot and admin DM
     cy.visit(`/${teamName}/messages/@system-bot`);
 
@@ -144,20 +161,20 @@ function assertNotification(featureName, minimumPlan, totalRequests, requestsCou
             cy.get(`#${postId}_message`).contains(`${totalRequests} members of the workspace have requested a workspace upgrade for:`);
         }
 
-        cy.get(`#${featureName}-title`.replaceAll(' ', '-')).contains(featureName);
+        cy.get(`#${featureId}-title`.replaceAll('.', '_')).contains(mapFeatureIdToId(featureId));
 
         if (requestsCount >= 5) {
-            cy.get(`#${featureName}-subtitle`.replaceAll(' ', '-')).contains(`${requestsCount} members requested access to this feature`);
+            cy.get(`#${featureId}-subtitle`.replaceAll('.', '_')).contains(`${requestsCount} members requested access to this feature`);
             cy.get(`#${postId}_at_sum_of_members_mention`).click().then(() => {
                 cy.get('#notificationFromMembersModal');
-                cy.get('#invitation_modal_title').contains(`Members that requested ${featureName}`).then(() => {
-                    cy.get('#closeIcon').click();
+                cy.get('#invitation_modal_title').contains(`Members that requested ${mapFeatureIdToId(featureId)}`).then(() => {
+                    cy.get('.close').click();
                 });
             });
         }
 
         if (minimumPlan === 'Professional plan') {
-            cy.get(`#${featureName}-title`.replaceAll(' ', '-')).within(() => {
+            cy.get(`#${featureId}-title`.replaceAll('.', '_')).within(() => {
                 cy.get('#at_plan_mention').click();
             });
 
@@ -243,8 +260,8 @@ function testTrialNotifications(subscription, limits) {
     });
 
     cy.then(() => {
-        assertNotification('All Professional features', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name, true);
-        assertNotification('All Enterprise features', 'Enterprise plan', TOTAL, ALL_ENTERPRISE_FEATURES_REQUESTS, myTeam.name, true);
+        assertNotification('mattermost.feature.all_professional', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name, true);
+        assertNotification('mattermost.feature.all_enterprise', 'Enterprise plan', TOTAL, ALL_ENTERPRISE_FEATURES_REQUESTS, myTeam.name, true);
         assertTrialMessageButton();
     });
 }
@@ -314,9 +331,9 @@ function testUpgradeNotifications(subscription, limits) {
     });
 
     cy.then(() => {
-        assertNotification('Custom User groups', 'Enterprise plan', 10, CUSTOM_USER_GROUPS, myTeam.name);
-        assertNotification('Create Multiple Teams', 'Professional plan', 10, CREATE_MULTIPLE_TEAMS_USERS, myTeam.name);
-        assertNotification('Unlimited Messages', 'Professional plan', 10, UNLIMITED_MESSAGES_USERS, myTeam.name);
+        assertNotification('mattermost.feature.custom_user_groups', 'Enterprise plan', 10, CUSTOM_USER_GROUPS, myTeam.name);
+        assertNotification('mattermost.feature.create_multiple_teams', 'Professional plan', 10, CREATE_MULTIPLE_TEAMS_USERS, myTeam.name);
+        assertNotification('mattermost.feature.unlimited_messages', 'Professional plan', 10, UNLIMITED_MESSAGES_USERS, myTeam.name);
         assertUpgradeMessageButton();
     });
 }
