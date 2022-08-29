@@ -92,6 +92,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         oneClickReactionsOnPosts: '',
         emojiPickerEnabled: true,
         clickToReply: '',
+        autoplayGifAndEmojis: '',
     };
 
     let store: ReturnType<typeof configureStore>;

@@ -9,9 +9,10 @@ import {getEmojiMap} from 'selectors/emojis';
 
 import {GlobalState} from 'types/store';
 
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'utils/constants';
+
 import PostEmoji from './post_emoji';
-import { get } from 'mattermost-redux/selectors/entities/preferences';
-import { Preferences } from 'utils/constants';
 
 type Props = {
     name: string;
@@ -23,7 +24,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
     return {
         imageUrl: emoji ? getEmojiImageUrl(emoji) : '',
-        autoplayGifAndEmojis : get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+        autoplayGifAndEmojis: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
     };
 }
 

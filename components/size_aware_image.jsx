@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {DownloadOutlineIcon, LinkVariantIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
+import ReactFreezeframe from 'react-freezeframe';
+
 import {localizeMessage, copyToClipboard} from 'utils/utils';
 import {t} from 'utils/i18n';
 import LoadingImagePreview from 'components/loading_image_preview';
@@ -16,8 +18,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 
 const MIN_IMAGE_SIZE = 48;
 const MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS = 100;
-
-import ReactFreezeframe from 'react-freezeframe';
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
@@ -80,7 +80,7 @@ export default class SizeAwareImage extends React.PureComponent {
          */
         getFilePublicLink: PropTypes.func,
 
-         /**
+        /**
          * Enables autoplaying a gif if set to true in settings.
          */
         autoplayGifAndEmojis: PropTypes.string,
@@ -189,25 +189,7 @@ export default class SizeAwareImage extends React.PureComponent {
         }
 
         const image = (
-            this.props.autoplayGifAndEmojis === 'true' ? (
-                <img
-                    {...props}
-                    aria-label={ariaLabelImage}
-                    tabIndex='0'
-                    onClick={this.handleImageClick}
-                    onKeyDown={this.onEnterKeyDown}
-                    className={
-                        this.props.className +
-                        (this.props.handleSmallImageContainer &&
-                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
-                    src={src}
-                    onError={this.handleError}
-                    onLoad={this.handleLoad}
-            /> 
-            ) :
-            <ReactFreezeframe   options={{
-                trigger: 'click'
-              }}>
+            this.props.autoplayGifAndEmojis === 'true' && (src.includes('preview') || !src.includes('preview')) ? (
                 <img
                     {...props}
                     aria-label={ariaLabelImage}
@@ -222,8 +204,48 @@ export default class SizeAwareImage extends React.PureComponent {
                     onError={this.handleError}
                     onLoad={this.handleLoad}
                 />
-            </ReactFreezeframe>
-          
+            ) : this.props.autoplayGifAndEmojis !== 'true' && src.includes('preview') ? (
+                <img
+                    {...props}
+                    aria-label={ariaLabelImage}
+                    tabIndex='0'
+                    onClick={this.handleImageClick}
+                    onKeyDown={this.onEnterKeyDown}
+                    className={
+                        this.props.className +
+                        (this.props.handleSmallImageContainer &&
+                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                    src={src}
+                    onError={this.handleError}
+                    onLoad={this.handleLoad}
+                />
+            ) :
+                <><ReactFreezeframe
+                    options={{
+                        trigger: 'click',
+                    }}
+                  >
+                    <img
+                        {...props}
+                        aria-label={ariaLabelImage}
+                        tabIndex='0'
+                        onClick={this.handleImageClick}
+                        onKeyDown={this.onEnterKeyDown}
+                        className={
+                            this.props.className +
+                        (this.props.handleSmallImageContainer &&
+                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                        src={src}
+                        onError={this.handleError}
+                        onLoad={this.handleLoad}
+                    />
+                </ReactFreezeframe>
+                    {this.props.autoplayGifAndEmojis !== 'true' && <i
+                    className='icon-file-gif'
+                    style={{color: 'white', position: 'absolute', marginTop: '-60%', marginLeft: '25%', fontSize: '40px', zIndex: 1}}
+                                                               />}
+                </>
+
         );
 
         // copyLink, download are two buttons overlayed on image preview
