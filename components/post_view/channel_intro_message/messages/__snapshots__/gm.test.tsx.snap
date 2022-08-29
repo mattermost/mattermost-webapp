@@ -42,7 +42,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
@@ -112,7 +112,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
