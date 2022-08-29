@@ -1,12 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentsOverrides} from '@mui/material/styles/overrides';
-import {DefaultTheme} from '@mui/private-theming';
+import type { ComponentsOverrides } from '@mui/material/styles/overrides';
+import type { DefaultTheme } from '@mui/private-theming/defaultTheme';
 
 declare module '@mui/material/Button' {
     interface ButtonPropsVariantOverrides {
-
         // disable MUI variant names and instead ...
         text: false;
         contained: false;
@@ -21,7 +20,7 @@ declare module '@mui/material/Button' {
 
 const componentName = 'MuiButton';
 
-export const buttonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+const buttonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         display: 'flex',
         placeItems: 'center',
@@ -65,6 +64,8 @@ export const buttonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof comp
     },
 };
 
-export default {
+const buttonOverrides = {
     styleOverrides: buttonStyleOverrides,
 };
+
+export default buttonOverrides;

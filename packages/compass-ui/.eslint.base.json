@@ -404,7 +404,8 @@
             {
                 "whitelist": {
                     "args": true,
-                    "props": true
+                    "props": true,
+                    "Props": true
                 },
                 "checkShorthandProperties": true
             }
@@ -442,8 +443,6 @@
 
         "no-constructor-bind/no-constructor-bind": "error",
         "no-constructor-bind/no-constructor-state": "error",
-
-        "ext/lines-between-object-properties": ["error", "never"],
 
         "regexp/match-any": "error",
         "regexp/no-assertion-capturing-group": "error",
