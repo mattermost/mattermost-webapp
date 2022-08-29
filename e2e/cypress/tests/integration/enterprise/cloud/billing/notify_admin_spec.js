@@ -162,7 +162,7 @@ function assertNotification(featureId, minimumPlan, totalRequests, requestsCount
             cy.get(`#${postId}_at_sum_of_members_mention`).click().then(() => {
                 cy.get('#notificationFromMembersModal');
                 cy.get('#invitation_modal_title').contains(`Members that requested ${mapFeatureIdToId(featureId)}`).then(() => {
-                    cy.get('#closeIcon').click();
+                    cy.get('.close').click();
                 });
             });
         }
