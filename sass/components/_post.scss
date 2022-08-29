@@ -2238,26 +2238,34 @@
     }
 }
 
-.edit-post__date__container {
+.edit-post__container {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    padding: 2px;
 
-    .edit.post__date {
-        font-weight: 400;
-        font-size: 14px;
-        line-height: 20px;
-    }
+    .edit-post__date__container {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2px;
     
-    .edit-post__restore__icon {
-        color: rgba(var(--center-channel-text-rgb), 0.56);;
+            .edit.post__date {
+                flex: 0 0 100%;
+                font-weight: 400;
+                font-size: 14px;
+                line-height: 20px;
+            }
+    }
+
+    .edit-post__icon__button {
+        color: rgba(var(--center-channel-text-rgb), 0.56);
+        height: fit-content;
 
         &:hover {
-                color: rgba(var(--center-channel-text-rgb), 0.56);
-                background-color: rgba(var(--denim-button-bg-rgb), 0.08)
-            }
+            color: rgba(var(--center-channel-text-rgb), 0.56);
+            background-color: rgba(var(--denim-button-bg-rgb), 0.08)
+        }
     }
 }
 

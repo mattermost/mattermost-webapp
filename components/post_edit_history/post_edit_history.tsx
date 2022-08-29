@@ -14,12 +14,6 @@ import {Post} from '@mattermost/types/posts';
 
 import EditedPostItem from './edited_post_item';
 
-const Divider = styled.div`
-    width: 88%;
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.04);
-    margin: 0 auto;
-`;
-
 export interface Props {
     channelDisplayName: string;
 }
@@ -81,7 +75,6 @@ const PostEditHistory = ({
                 {formattedTitle}
                 {<div className='sidebar--right__title__channel'>{channelDisplayName}</div>}
             </SearchResultsHeader>
-            <Divider/>
             <EditedPostItem
                 post={oldMessages.mes1}
             />

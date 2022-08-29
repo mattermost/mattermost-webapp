@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, { useState } from 'react';
 
 import {useIntl} from 'react-intl';
 
@@ -27,6 +27,7 @@ type Props = {
 
 const EditedPostItem = ({post}: Props) => {
     const {formatMessage} = useIntl();
+    const [open, setOpen] = useState(false);
 
     const formattedHelpText = formatMessage({
         id: t('post_info.edit.restore'),
@@ -40,6 +41,8 @@ const EditedPostItem = ({post}: Props) => {
     const handleJumpClick = () => {
         console.log('revert clicked');
     };
+
+    const togglePost = () => setOpen(prevState => !prevState)
 
     const currentVersionIndicator = (
         // todo sinan fix width
@@ -105,16 +108,21 @@ const EditedPostItem = ({post}: Props) => {
                 icon={'refresh'} // todo sinan find the correct icon
                 onClick={handleJumpClick}
                 compact={true}
-                aria-label='Select to restore an old message.' // proper wording and translation needed
-                className='edit-post__restore__icon'
+                aria-label='Select to restore an old message.' // todo proper wording and translation needed
+                className='edit-post__icon__button'
             />
         </OverlayTrigger>
     );
     return (
-        <div
-            data-testid='search-item-container'
-            className='search-item__container'
-        >
+        <div className='edit-post__container'>
+            <IconButton
+                size={'sm'}
+                icon={open ? 'chevron-down' : 'chevron-right'}
+                onClick={togglePost}
+                compact={true}
+                aria-label='Toggle to see an old message.' // todo proper wording and translation needed
+                className='edit-post__icon__button'
+            />
             <PostAriaLabelDiv
                 className={'a11y__section post'}
                 id={'searchResult_' + post.id}
@@ -132,10 +140,7 @@ const EditedPostItem = ({post}: Props) => {
                 </div>
                 {currentVersionIndicator}
                 {postHeader}
-                <div
-                    role='application'
-                    className='post__content'
-                >
+                {open && <div className='post__content'>
                     <div>
                         <div className='search-item-snippet post__body'>
                             <AutoHeightSwitcher
@@ -148,7 +153,7 @@ const EditedPostItem = ({post}: Props) => {
                             {/* {fileAttachment} */}
                         </div>
                     </div>
-                </div>
+                </div>}
             </PostAriaLabelDiv>
         </div>
     );
