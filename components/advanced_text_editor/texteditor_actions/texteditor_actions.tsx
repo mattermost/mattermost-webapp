@@ -16,7 +16,7 @@ const TexteditorActions = styled.span<TexteditorActionsProps>`
     z-index: 2;
     display: flex;
     place-items: center;
-    gap: 4px;
+    gap: 2px;
 
     /* define the position based on the placement prop */
     ${({placement}) => (placement === 'top' ? css`

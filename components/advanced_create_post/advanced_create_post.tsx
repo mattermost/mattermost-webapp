@@ -53,7 +53,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
-import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
@@ -1278,7 +1278,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     (this.props.draft.fileInfos.length > 0 || this.props.draft.uploadsInProgress.length > 0) &&
                     <FileLimitStickyBanner/>
                 }
-                <AdvanceTextEditor
+                <AdvancedTextEditor
                     location={Locations.CENTER}
                     currentUserId={this.props.currentUserId}
                     postError={this.state.postError}

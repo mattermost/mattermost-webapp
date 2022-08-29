@@ -28,7 +28,10 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+import AutoHeightSwitcher from '../common/auto_height_switcher';
 import Tooltip from '../tooltip';
+
+import {Separator} from './formatting_bar/formatting_bar';
 
 import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
@@ -37,6 +40,7 @@ import SendButton from './send_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
 
 import './advanced_text_editor.scss';
+import ToggleFormattingBar from './toggle_formatting_bar/toggle_formatting_bar';
 
 type Props = {
 
@@ -353,19 +357,17 @@ const AdvanceTextEditor = ({
         break;
     }
 
-    const formattingBar = readOnlyChannel ? null : (
+    const formattingBar = (
         <FormattingBar
             applyMarkdown={applyMarkdown}
             getCurrentMessage={getCurrentValue}
             getCurrentSelection={getCurrentSelection}
-            isOpen={true}
             disableControls={shouldShowPreview}
-            extraControls={extraControls}
-            toggleAdvanceTextEditor={toggleAdvanceTextEditor}
-            showFormattingControls={!isFormattingBarHidden}
             location={location}
         />
     );
+
+    const showFormattingBar = !isFormattingBarHidden && !readOnlyChannel;
 
     return (
         <div
@@ -417,15 +419,28 @@ const AdvanceTextEditor = ({
                         rootId={postId}
                     />
                     {attachmentPreview}
-                    <TexteditorActions
-                        placement='top'
-                    >
-                        {showFormatJSX}
-                    </TexteditorActions>
-                    {formattingBar}
-                    <TexteditorActions
-                        placement='bottom'
-                    >
+                    {showFormattingBar && (
+                        <TexteditorActions placement='top'>
+                            {showFormatJSX}
+                        </TexteditorActions>
+                    )}
+                    <AutoHeightSwitcher
+                        showSlot={showFormattingBar ? 1 : 2}
+                        slot1={formattingBar}
+                        slot2={null}
+                    />
+                    <TexteditorActions placement='bottom'>
+                        {!readOnlyChannel && (
+                            <>
+                                <ToggleFormattingBar
+                                    onClick={toggleAdvanceTextEditor}
+                                    active={showFormattingBar}
+                                    disabled={false}
+                                />
+                                <Separator/>
+                            </>
+                        )}
+                        {extraControls}
                         {sendButton}
                     </TexteditorActions>
                 </div>
