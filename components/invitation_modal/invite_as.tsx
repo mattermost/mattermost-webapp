@@ -19,7 +19,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import RadioGroup from 'components/common/radio_group';
 import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_indicator';
 
-import {CloudProducts, LicenseSkus, ModalIdentifiers, NonAdminPaidFeatures} from 'utils/constants';
+import {CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures} from 'utils/constants';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
@@ -76,7 +76,7 @@ export default function InviteAs(props: Props) {
         const restrictedIndicator = (
             <RestrictedIndicator
                 blocked={!isCloudFreeTrial}
-                feature={NonAdminPaidFeatures.GUEST_ACCOUNTS}
+                feature={PaidFeatures.GUEST_ACCOUNTS}
                 minimumPlanRequiredForFeature={LicenseSkus.Professional}
                 titleAdminPreTrial={formatMessage({
                     id: 'invite_modal.restricted_invite_guest.pre_trial_title',

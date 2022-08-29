@@ -446,7 +446,7 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
-export const NonAdminPaidFeatures = {
+export const PaidFeatures = {
     GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
     CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
     CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
