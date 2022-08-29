@@ -4119,6 +4119,7 @@
   "onboardingTour.invitePeople.title": "Invite people to the team",
   "onboardingTour.sendMessage.Description": "Start collaborating with others by typing or selecting one of the messages below. You can also drag and drop attachments into the text field or upload them using the paperclip icon.",
   "onboardingTour.sendMessage.title": "Send messages",
+<<<<<<< HEAD
   "onboarding_wizard.channel.description": "Channels are where you can communicate with your team about a topic or project. What are you working on right now?",
   "onboarding_wizard.channel.empty": "Enter a channel name",
   "onboarding_wizard.channel.input": "Enter a channel name",
@@ -4139,6 +4140,12 @@
   "onboarding_wizard.launching_workspace.title": "Launching your workspace now",
   "onboarding_wizard.next": "Continue",
   "onboarding_wizard.plugins.description": "Mattermost is better when integrated with the tools your team uses for collaboration. Popular tools are below, select the ones your team uses and they'll be added to your workspace. Additional set up may be needed later.",
+=======
+  "onboarding_wizard.launching_workspace.description": "It’ll be ready in a moment",
+  "onboarding_wizard.launching_workspace.title": "Launching your workspace now",
+  "onboarding_wizard.next": "Continue",
+  "onboarding_wizard.plugins.description": "Choose the tools you work with, and they'll be added to your workspace. Additional set up may be needed later.",
+>>>>>>> 9e572020b (Update translation files)
   "onboarding_wizard.plugins.github": "GitHub",
   "onboarding_wizard.plugins.github.tooltip": "Subscribe to repositories, stay up to date with reviews and assignments",
   "onboarding_wizard.plugins.gitlab": "GitLab",
@@ -4155,6 +4162,7 @@
   "onboarding_wizard.previous": "Previous",
   "onboarding_wizard.skip": "Skip for now",
   "onboarding_wizard.submit_error.generic": "An error occurred. Please try again.",
+<<<<<<< HEAD
   "onboarding_wizard.url.description": "This is the URL that users will use to access Mattermost. <a>See Documentation</a> for more.",
   "onboarding_wizard.url.input_help": "Standard ports, such as 80 and 443 can be omitted. Non-standard ports are required.",
   "onboarding_wizard.url.input_invalid": "Test unsuccessful. Invalid URL.",
@@ -4168,6 +4176,8 @@
   "onboarding_wizard.use_case.description": "This will set up your workspace in a way that’s most relevant to you. Select all that apply.",
   "onboarding_wizard.use_case.playbooks": "Processes, workflows and automation",
   "onboarding_wizard.use_case.title": "How do you plan to use Mattermost?",
+=======
+>>>>>>> 9e572020b (Update translation files)
   "passwordRequirements": "Password Requirements:",
   "password_form.change": "Change my password",
   "password_form.enter": "Enter a new password for your {siteName} account.",
