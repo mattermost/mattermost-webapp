@@ -2241,13 +2241,22 @@
 .edit-post__date__container {
     display: flex;
     flex-direction: row;
-    align-items: baseline;
+    align-items: center;
+    justify-content: space-between;
     padding: 2px;
 
     .edit.post__date {
         font-weight: 400;
         font-size: 14px;
         line-height: 20px;
+    }
+    
+    .edit-post__restore__icon {
+        color: rgb(var(--center-channel-text-rgb), 0.56);;
+
+        &:hover {
+                color: rgb(var(--center-channel-text-rgb), 0.56);
+            }
     }
 }
 

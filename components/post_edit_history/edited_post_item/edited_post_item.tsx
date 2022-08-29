@@ -7,7 +7,8 @@ import {useIntl} from 'react-intl';
 
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import UserProfile from 'components/user_profile';
-import {AppEvents} from 'utils/constants';
+import OverlayTrigger from 'components/overlay_trigger';
+import Constants, {AppEvents} from 'utils/constants';
 import {t} from 'utils/i18n';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
@@ -15,6 +16,8 @@ import {Post} from '@mattermost/types/posts';
 import PostProfilePicture from 'components/post_profile_picture';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
+import IconButton from '@mattermost/compass-components/components/icon-button';
+import Tooltip from 'components/tooltip';
 
 type Props = {
     post: Post;
@@ -23,13 +26,14 @@ type Props = {
 const EditedPostItem = ({post}: Props) => {
 
     const {formatMessage} = useIntl();
-    const formattedMessage = formatMessage({
-        id: t('search_item.jump'),
-        defaultMessage: 'Jump',
-    });
+
+    const formattedHelpText = formatMessage({
+        id: t('post_info.edit_restore'),
+        defaultMessage: 'Restore',
+    });  
 
     const handleJumpClick = () => {
-        console.log('jump clicked');
+        console.log('revert clicked');
     };
 
     const profilePic = (
@@ -52,16 +56,31 @@ const EditedPostItem = ({post}: Props) => {
         </PostBodyAdditionalContent>
     );
 
+    const tooltip = (
+        <Tooltip
+            id='editPostRestoreTooltip'
+            className='hidden-xs'
+        >
+            {formattedHelpText}
+        </Tooltip>
+    );
+
     const rhsControls = (
-        <div className='col__controls post-menu'>
-            <a
-                href='#'
-                onClick={handleJumpClick}
-                className='search-item__jump'
+            <OverlayTrigger
+                trigger={['hover', 'focus']}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='bottom'
+                overlay={tooltip}
             >
-                {formattedMessage}
-            </a>
-        </div>
+                <IconButton
+                    size={'sm'}
+                    icon={'refresh'} // todo sinan find the correct icon
+                    onClick={handleJumpClick}
+                    compact={true}
+                    aria-label='Select to restore an old message.' // proper wording and translation needed
+                    className='edit-post__restore__icon'
+                />
+            </OverlayTrigger>
     );
     return (
         <div
