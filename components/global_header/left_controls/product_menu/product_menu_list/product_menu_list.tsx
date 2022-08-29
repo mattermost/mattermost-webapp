@@ -19,7 +19,7 @@ import {VisitSystemConsoleTour} from 'components/onboarding_tasks';
 import UserGroupsModal from 'components/user_groups_modal';
 
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {CloudProducts, ModalIdentifiers, NonAdminPaidFeatures} from 'utils/constants';
+import {LicenseSkus, ModalIdentifiers, NonAdminPaidFeatures} from 'utils/constants';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 
@@ -165,7 +165,7 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         <RestrictedIndicator
                             blocked={isStarterFree}
                             feature={NonAdminPaidFeatures.CUSTOM_USER_GROUPS}
-                            minimumPlanRequiredForFeature={CloudProducts.PROFESSIONAL}
+                            minimumPlanRequiredForFeature={LicenseSkus.Professional}
                             tooltipMessage={formatMessage({
                                 id: 'navbar_dropdown.userGroups.tooltip.cloudFreeTrial',
                                 defaultMessage: 'During your trial you are able to create user groups. These user groups will be archived after your trial.',

@@ -11,7 +11,7 @@ import {t} from 'utils/i18n';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
-import {NonAdminPaidFeatures, CloudProducts} from 'utils/constants';
+import {NonAdminPaidFeatures, LicenseSkus} from 'utils/constants';
 
 interface Words {
     title: React.ReactNode;
@@ -80,7 +80,7 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 callerInfo={callerInfo}
                 notifyRequestData={{
                     required_feature: featureToNotifyOn,
-                    required_plan: CloudProducts.PROFESSIONAL,
+                    required_plan: LicenseSkus.Professional,
                     trial_notification: false}}
             />);
     }

@@ -3829,9 +3829,9 @@ export default class Client4 {
         );
     }
 
-    notifyAdminToUpgrade = (req: NotifyAdminRequest) => {
+    notifyAdmin = (req: NotifyAdminRequest) => {
         return this.doFetchWithResponse<StatusOK>(
-            `${this.getCloudRoute()}/notify-admin`,
+            `${this.getUsersRoute()}/notify-admin`,
             {method: 'post', body: JSON.stringify(req)},
         );
     }

@@ -19,7 +19,7 @@ import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
-import {CloudProducts, NonAdminPaidFeatures} from 'utils/constants';
+import {LicenseSkus, NonAdminPaidFeatures} from 'utils/constants';
 
 import './index.scss';
 
@@ -60,7 +60,7 @@ export default function CenterMessageLock(props: Props) {
         }),
     }, {
         required_feature: NonAdminPaidFeatures.UNLIMITED_MESSAGES,
-        required_plan: CloudProducts.PROFESSIONAL,
+        required_plan: LicenseSkus.Professional,
         trial_notification: false,
     });
 
