@@ -2238,6 +2238,19 @@
     }
 }
 
+.edit-post__date__container {
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    padding: 2px;
+
+    .edit.post__date {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+
 .post-list__dynamic {
     overflow-x: hidden;
 
