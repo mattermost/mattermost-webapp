@@ -5,6 +5,8 @@ import React from 'react';
 
 import {useIntl} from 'react-intl';
 
+import IconButton from '@mattermost/compass-components/components/icon-button';
+
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import OverlayTrigger from 'components/overlay_trigger';
 import Constants, {AppEvents} from 'utils/constants';
@@ -14,10 +16,9 @@ import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height
 import {Post} from '@mattermost/types/posts';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
-import IconButton from '@mattermost/compass-components/components/icon-button';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
-import { imageURLForUser } from 'utils/utils';
+import {imageURLForUser} from 'utils/utils';
 import UserProfileComponent from 'components/user_profile';
 
 type Props = {
@@ -25,17 +26,27 @@ type Props = {
 }
 
 const EditedPostItem = ({post}: Props) => {
-
     const {formatMessage} = useIntl();
 
     const formattedHelpText = formatMessage({
-        id: t('post_info.edit_restore'),
+        id: t('post_info.edit.restore'),
         defaultMessage: 'Restore',
-    });  
+    });
+    const currentVersionText = formatMessage({
+        id: t('post_info.edit.current_version'),
+        defaultMessage: 'Current Version',
+    });
 
     const handleJumpClick = () => {
         console.log('revert clicked');
     };
+
+    const currentVersionIndicator = (
+        // todo sinan fix width
+        <div className='edit-post__current__indicator'>
+            {currentVersionText}
+        </div>
+    );
 
     const profileSrc = imageURLForUser(post.user_id);
 
@@ -52,7 +63,7 @@ const EditedPostItem = ({post}: Props) => {
             <span className='profile-icon'>
                 {avatar}
             </span>
-            <div className={'col col__name edit-post__header__username'}>
+            <div className={'edit-post__header__username'}>
                 <UserProfileComponent
                     userId={post.user_id}
                     hasMention={true}
@@ -60,7 +71,7 @@ const EditedPostItem = ({post}: Props) => {
                 />
             </div>
         </div>
-    )
+    );
 
     const message = (
         <PostBodyAdditionalContent
@@ -83,21 +94,21 @@ const EditedPostItem = ({post}: Props) => {
     );
 
     const rhsControls = (
-            <OverlayTrigger
-                trigger={['hover', 'focus']}
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='bottom'
-                overlay={tooltip}
-            >
-                <IconButton
-                    size={'sm'}
-                    icon={'refresh'} // todo sinan find the correct icon
-                    onClick={handleJumpClick}
-                    compact={true}
-                    aria-label='Select to restore an old message.' // proper wording and translation needed
-                    className='edit-post__restore__icon'
-                />
-            </OverlayTrigger>
+        <OverlayTrigger
+            trigger={['hover', 'focus']}
+            delayShow={Constants.OVERLAY_TIME_DELAY}
+            placement='bottom'
+            overlay={tooltip}
+        >
+            <IconButton
+                size={'sm'}
+                icon={'refresh'} // todo sinan find the correct icon
+                onClick={handleJumpClick}
+                compact={true}
+                aria-label='Select to restore an old message.' // proper wording and translation needed
+                className='edit-post__restore__icon'
+            />
+        </OverlayTrigger>
     );
     return (
         <div
@@ -114,11 +125,12 @@ const EditedPostItem = ({post}: Props) => {
                     aria-hidden='true'
                 >
                     <span className='edit-post__date'>
-                        {'Today, 10:37 AM'} 
+                        {'Today, 10:37 AM'}
                         {/* todo sinan replace with variable */}
                     </span>
                     {rhsControls}
                 </div>
+                {currentVersionIndicator}
                 {postHeader}
                 <div
                     role='application'
