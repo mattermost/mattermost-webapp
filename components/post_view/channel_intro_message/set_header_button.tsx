@@ -19,7 +19,7 @@ type Props = {
     channel: Channel;
 }
 
-const SetHeaderButton = ({channel}: Props): (React.ReactElement | null) => {
+const SetHeaderButton = ({channel}: Props) => {
     if (isArchivedChannel(channel)) {
         return null;
     }
