@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import * as Actions from 'actions/channel_actions';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 
 import mockStore from 'tests/test_store';
 
@@ -116,7 +116,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     createGroupChannel: (...args) => ({type: 'MOCK_CREATE_GROUP_CHANNEL', args}),
 }));
 
-jest.mock('actions/user_actions.jsx', () => ({
+jest.mock('actions/user_actions', () => ({
     loadNewDMIfNeeded: jest.fn(),
     loadNewGMIfNeeded: jest.fn(),
     loadProfilesForSidebar: jest.fn(),

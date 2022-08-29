@@ -53,11 +53,10 @@
 
         .user-groups-search {
             position: relative;
-            margin: 2px 24px 8px;
+            margin: 6px 24px 8px;
 
             .Input_container {
                 .Input_wrapper {
-                    padding-left: 40px;
                     margin: 6px 0;
                     line-height: 38px;
                 }
@@ -258,7 +257,7 @@
 
             .group-mention-input-wrapper,
             .group-name-input-wrapper {
-                padding: 2px 24px 12px;
+                padding: 6px 24px 12px;
 
                 .Input_container {
                     :focus {

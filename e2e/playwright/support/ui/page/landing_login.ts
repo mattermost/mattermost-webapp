@@ -3,7 +3,7 @@
 
 import {Locator, Page} from '@playwright/test';
 
-export class LandingLoginPage {
+export default class LandingLoginPage {
     readonly page: Page;
     readonly viewInAppButton: Locator;
     readonly viewInBrowserButton: Locator;

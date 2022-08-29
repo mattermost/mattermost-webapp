@@ -14,6 +14,7 @@ export type SearchState = {
     pinned: Record<string, string[]>;
     isSearchingTerm: boolean;
     isSearchGettingMore: boolean;
+    isLimitedResults: number;
     recent: {
         [x: string]: Search[];
     };

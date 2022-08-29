@@ -11,7 +11,7 @@ import {
     PluginSettings,
 } from '@mattermost/types/lib/config';
 
-import testConfig from '../../test.config';
+import testConfig from '@test.config';
 
 export function getOnPremServerConfig(): AdminConfig {
     return merge<AdminConfig>(defaultServerConfig, onPremServerConfig() as AdminConfig);

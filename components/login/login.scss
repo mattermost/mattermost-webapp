@@ -60,12 +60,17 @@
 
                 &.with-brand-image {
                     align-self: center;
+
+                    .login-body-message-subtitle,
+                    .login-body-custom-branding-markdown {
+                        text-align: center;
+                    }
                 }
 
                 .login-body-custom-branding-image {
                     max-height: 540px;
-                    flex: 1;
                     align-self: center;
+                    margin-bottom: 28px;
                     border-radius: 8px;
                 }
             }
@@ -173,7 +178,6 @@
 
         .login-body-custom-branding-markdown {
             flex: 1;
-            margin-top: 28px;
 
             ul + p,
             ol + p {
@@ -295,6 +299,7 @@
                         .login-body-message-subtitle {
                             display: block;
                             margin: 0 0 32px;
+                            text-align: left;
                         }
                     }
                 }

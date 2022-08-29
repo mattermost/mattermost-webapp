@@ -151,7 +151,7 @@ function verifyFocusInAddChannelMemberModal() {
     cy.get('#selectItems input').should('be.focused');
 
     // # Push a character key such as "A"
-    cy.focused().type('A');
+    cy.focused().typeWithForce('A');
 
     // * Check that input box has character A
     cy.get('#selectItems input').should('have.value', 'A');

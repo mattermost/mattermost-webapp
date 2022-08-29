@@ -18,7 +18,7 @@ type Props = {
     filterType: string;
     setFilterTypeTeam: () => void;
     setFilterTypeMy: () => void;
-    timeFrame: SelectOption;
+    timeFrame: string;
     setTimeFrame: (value: SelectOption) => void;
 }
 

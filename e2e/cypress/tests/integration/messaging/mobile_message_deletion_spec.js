@@ -49,7 +49,7 @@ describe('Delete Parent Message', () => {
 
                 // * Modal should now be visible and warning message should match the number of replies
                 cy.get('#deletePostModal').should('be.visible');
-                cy.get('#deletePostModal').contains(`${replyCount}`).should('be.visible');
+                cy.get('#deletePostModal').contains(replyCount).should('be.visible');
 
                 // # Delete the parent message
                 cy.get('#deletePostModalButton').click({force: true});

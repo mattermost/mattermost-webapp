@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest} from '@mattermost/types/cloud';
+import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -116,7 +116,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {TopChannelResponse, TopReactionResponse, TopThreadResponse} from '@mattermost/types/insights';
+import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -515,7 +515,7 @@ export default class Client4 {
 
     // User Routes
 
-    createUser = (user: UserProfile, token: string, inviteId: string, redirect: string) => {
+    createUser = (user: UserProfile, token: string, inviteId: string, redirect?: string) => {
         this.trackEvent('api', 'api_users_create');
 
         const queryParams: any = {};
@@ -779,7 +779,7 @@ export default class Client4 {
         return response;
     };
 
-    getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options = {}) => {
+    getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options: Record<string, any> = {}) => {
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({page, per_page: perPage, ...options})}`,
             {method: 'get'},
@@ -958,6 +958,9 @@ export default class Client4 {
         );
     };
 
+    /**
+     * @deprecated
+     */
     checkUserMfa = (loginId: string) => {
         return this.doFetch<{mfa_required: boolean}>(
             `${this.getUsersRoute()}/mfa`,
@@ -2190,6 +2193,32 @@ export default class Client4 {
         );
     }
 
+    getLeastActiveChannelsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<LeastActiveChannelsResponse>(
+            `${this.getTeamRoute(teamId)}/top/inactive_channels${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+    getMyTopDMs = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopDMsResponse>(
+            `${this.getUsersRoute()}/me/top/dms${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+
+    getMyLeastActiveChannels = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<LeastActiveChannelsResponse>(
+            `${this.getUsersRoute()}/me/top/inactive_channels${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
+    getNewTeamMembers = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<TopDMsResponse>(
+            `${this.getTeamRoute(teamId)}/top/team_members${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
+
     searchPostsWithParams = (teamId: string, params: any) => {
         this.trackEvent('api', 'api_posts_search', {team_id: teamId});
 
@@ -3414,12 +3443,12 @@ export default class Client4 {
         );
     }
 
-    installMarketplacePlugin = (id: string, version: string) => {
+    installMarketplacePlugin = (id: string) => {
         this.trackEvent('api', 'api_install_marketplace_plugin');
 
         return this.doFetch<MarketplacePlugin>(
             `${this.getPluginsMarketplaceRoute()}`,
-            {method: 'post', body: JSON.stringify({id, version})},
+            {method: 'post', body: JSON.stringify({id})},
         );
     }
 
@@ -3470,7 +3499,7 @@ export default class Client4 {
 
     getBoardsUsage = () => {
         return this.doFetch<BoardsUsageResponse>(
-            `/plugins/${suitePluginIds.focalboard}/api/v1/limits`,
+            `/plugins/${suitePluginIds.focalboard}/api/v2/limits`,
             {method: 'get'},
         );
     }
@@ -3834,16 +3863,23 @@ export default class Client4 {
     }
 
     requestCloudTrial = (subscriptionId: string, email = '') => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<Subscription>(
             `${this.getCloudRoute()}/request-trial`,
             {method: 'put', body: JSON.stringify({email, subscription_id: subscriptionId})},
         );
     }
 
     validateBusinessEmail = (email = '') => {
-        return this.doFetchWithResponse<CloudCustomer>(
+        return this.doFetchWithResponse<ValidBusinessEmail>(
             `${this.getCloudRoute()}/validate-business-email`,
             {method: 'post', body: JSON.stringify({email})},
+        );
+    }
+
+    validateWorkspaceBusinessEmail = () => {
+        return this.doFetchWithResponse<ValidBusinessEmail>(
+            `${this.getCloudRoute()}/validate-workspace-business-email`,
+            {method: 'post'},
         );
     }
 
@@ -4002,10 +4038,6 @@ export default class Client4 {
         } catch (err) {
             throw new ClientError(this.getUrl(), {
                 message: 'Received invalid response from the server.',
-                intl: {
-                    id: 'mobile.request.invalid_response',
-                    defaultMessage: 'Received invalid response from the server.',
-                },
                 url,
             });
         }
@@ -4080,11 +4112,6 @@ export function parseAndMergeNestedHeaders(originalHeaders: any) {
 
 export class ClientError extends Error implements ServerError {
     url?: string;
-    intl?: {
-        id: string;
-        defaultMessage: string;
-        values?: any;
-    };
     server_error_id?: string;
     status_code?: number;
 
@@ -4093,7 +4120,6 @@ export class ClientError extends Error implements ServerError {
 
         this.message = data.message;
         this.url = data.url;
-        this.intl = data.intl;
         this.server_error_id = data.server_error_id;
         this.status_code = data.status_code;
 

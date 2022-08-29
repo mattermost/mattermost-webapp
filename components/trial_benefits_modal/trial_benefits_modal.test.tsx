@@ -18,6 +18,8 @@ import mockStore from 'tests/test_store';
 
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 
+const mockLocation = {pathname: '', search: '', hash: ''};
+
 jest.mock('actions/telemetry_actions.jsx', () => {
     const original = jest.requireActual('actions/telemetry_actions.jsx');
     return {
@@ -31,6 +33,11 @@ jest.mock('components/admin_console/blockable_link', () => {
         return <div/>;
     };
 });
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom') as typeof import('react-router-dom'),
+    useLocation: () => mockLocation,
+}));
 
 describe('components/trial_benefits_modal/trial_benefits_modal', () => {
     // required state to mount using the provider
@@ -174,7 +181,7 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
 
         expect(trackEvent).toHaveBeenCalledWith(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
-            'benefits_modal_slide_shown_complianceExport',
+            'benefits_modal_slide_shown_ldap',
         );
     });
 
@@ -210,5 +217,45 @@ describe('components/trial_benefits_modal/trial_benefits_modal', () => {
 
         const ctaBtn = wrapper.find('#trialBenefitsModalStarted-trialStart button.btn-primary');
         expect(ctaBtn).toHaveLength(0);
+    });
+
+    test('should show the invite people call to action when trial started from the team', () => {
+        const cloudState = {...state, entities: {...state.entities, general: {...state.entities.general, license: {Cloud: 'true'}}}};
+        const cloudStore = mockStore(cloudState);
+        const wrapper = mountWithIntl(
+            <Provider store={cloudStore}>
+                <TrialBenefitsModal
+                    {...props}
+                    trialJustStarted={true}
+                />
+            </Provider>,
+        );
+
+        const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
+        expect(title).toBe('Your trial has started!');
+
+        const ctaBtn = wrapper.find('.buttons-section-wrapper a span');
+        expect(ctaBtn.text()).toBe('Invite people');
+    });
+
+    test('should show hide the invite people call to action when trial started from system console', () => {
+        const cloudState = {...state, entities: {...state.entities, general: {...state.entities.general, license: {Cloud: 'true'}}}};
+        const cloudStore = mockStore(cloudState);
+
+        mockLocation.pathname = '/admin_console';
+        const wrapper = mountWithIntl(
+            <Provider store={cloudStore}>
+                <TrialBenefitsModal
+                    {...props}
+                    trialJustStarted={true}
+                />
+            </Provider>,
+        );
+
+        const title = wrapper.find('#trialBenefitsModalStarted-trialStart div.title').text();
+        expect(title).toBe('Your trial has started!');
+
+        const ctaBtn = wrapper.find('.buttons-section-wrapper a span');
+        expect(ctaBtn.text()).toBe('Close');
     });
 });

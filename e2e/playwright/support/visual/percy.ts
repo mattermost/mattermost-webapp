@@ -4,7 +4,7 @@
 import {Page} from '@playwright/test';
 import percySnapshot from '@percy/playwright';
 
-import testConfig from '../../test.config';
+import testConfig from '@test.config';
 
 export default async function snapshotWithPercy(page: Page, isMobile: boolean, browserName: string, name: string) {
     if (!isMobile && browserName === 'chromium' && testConfig.percyEnabled) {

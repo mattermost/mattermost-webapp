@@ -5,10 +5,14 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {connect} from 'react-redux';
 
+import {GlobalState} from '@mattermost/types/store';
+
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getChannel, getChannelModerations} from 'mattermost-redux/selectors/entities/channels';
 import {getAllGroups, getGroupsAssociatedToChannel} from 'mattermost-redux/selectors/entities/groups';
 import {getScheme} from 'mattermost-redux/selectors/entities/schemes';
+import {getTeam} from 'mattermost-redux/selectors/entities/teams';
+
 import {getScheme as loadScheme} from 'mattermost-redux/actions/schemes';
 import {
     addChannelMember,
@@ -24,7 +28,6 @@ import {
     updateChannelPrivacy,
 } from 'mattermost-redux/actions/channels';
 import {getTeam as fetchTeam} from 'mattermost-redux/actions/teams';
-
 import {
     getGroupsAssociatedToChannel as fetchAssociatedGroups,
     linkGroupSyncable,
@@ -32,14 +35,11 @@ import {
     unlinkGroupSyncable,
 } from 'mattermost-redux/actions/groups';
 
-import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from '@mattermost/types/store';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {setNavigationBlocked} from 'actions/admin_actions';
+import {LicenseSkus} from 'utils/constants';
 
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {setNavigationBlocked} from 'actions/admin_actions';
 
 import ChannelDetails, {ChannelDetailsActions} from './channel_details';
 

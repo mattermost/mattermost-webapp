@@ -100,7 +100,9 @@ describe('Onboarding', () => {
     });
 
     function inviteNewUser(email) {
-        cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}', {force: true});
+        cy.findByRole('textbox', {name: 'Add or Invite People'}).
+            typeWithForce(email).wait(TIMEOUTS.HALF_SEC).
+            typeWithForce('{enter}');
         cy.get('#inviteMembersButton').click();
     }
 });

@@ -29,10 +29,7 @@ describe('Environment', () => {
         cy.visit('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
-        cy.findByTestId('ServiceSettings.WebserverModedropdown').select('gzip');
-
-        // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByTestId('ServiceSettings.WebserverModedropdown').should('have.value', 'gzip');
 
         // # Navigate to a channel
         cy.visit(townsquareLink);

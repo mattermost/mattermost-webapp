@@ -10,25 +10,6 @@ import {UsersRequestsStatuses, RequestStatusType} from '@mattermost/types/reques
 
 import {handleRequest, initialRequestState} from './helpers';
 
-function checkMfa(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
-    switch (action.type) {
-    case UserTypes.CHECK_MFA_REQUEST:
-        return {...state, status: RequestStatus.STARTED};
-
-    case UserTypes.CHECK_MFA_SUCCESS:
-        return {...state, status: RequestStatus.SUCCESS, error: null};
-
-    case UserTypes.CHECK_MFA_FAILURE:
-        return {...state, status: RequestStatus.FAILURE, error: action.error};
-
-    case UserTypes.LOGOUT_SUCCESS:
-        return {...state, status: RequestStatus.NOT_STARTED, error: null};
-
-    default:
-        return state;
-    }
-}
-
 function login(state: RequestStatusType = initialRequestState(), action: GenericAction): RequestStatusType {
     switch (action.type) {
     case UserTypes.LOGIN_REQUEST:
@@ -88,7 +69,6 @@ function updateMe(state: RequestStatusType = initialRequestState(), action: Gene
 }
 
 export default (combineReducers({
-    checkMfa,
     login,
     logout,
     autocompleteUsers,

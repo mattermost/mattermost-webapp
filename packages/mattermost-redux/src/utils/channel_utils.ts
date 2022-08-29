@@ -364,7 +364,7 @@ export function channelListToMap(channelList: Channel[]): IDMappedObjects<Channe
 // or not that channel would be shown as unread in the sidebar.
 export function calculateUnreadCount(
     messageCount: ChannelMessageCount | undefined,
-    member: ChannelMembership | undefined,
+    member: ChannelMembership | null | undefined,
     crtEnabled: boolean,
 ): {showUnread: boolean; mentions: number; messages: number} {
     if (!member || !messageCount) {

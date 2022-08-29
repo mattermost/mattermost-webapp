@@ -4,7 +4,7 @@
 import {Page} from '@playwright/test';
 import {Eyes, ClassicRunner, Target, CheckSettings} from '@applitools/eyes-playwright';
 
-import testConfig from '../../test.config';
+import testConfig from '@test.config';
 
 export default async function snapshotWithApplitools(page: Page, isMobile: boolean, browserName: string, name: string) {
     let eyes: Eyes;

@@ -10,7 +10,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {FileInfo} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
 import {Channel} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
@@ -83,11 +83,11 @@ type Props = {
     hideEmojiPicker: () => void;
     toggleAdvanceTextEditor: () => void;
     handleUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    handleUploadError: (err: string | ServerError, clientId: string, channelId: string) => void;
+    handleUploadError: (err: string | ServerError, clientId?: string, channelId?: string) => void;
     handleFileUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
     handleUploadStart: (clientIds: string[], channelId: string) => void;
     handleFileUploadChange: () => void;
-    getFileUploadTarget: () => TextboxClass | null;
+    getFileUploadTarget: () => HTMLInputElement | null;
     fileUploadRef: React.RefObject<FileUploadClass>;
     prefillMessage?: (message: string, shouldFocus?: boolean) => void;
     channelId: string;
@@ -339,7 +339,19 @@ const AdvanceTextEditor = ({
         };
     }, [textboxRef]);
 
-    const textboxId = location === Locations.CENTER ? 'post_textbox' : 'reply_textbox';
+    let textboxId = 'textbox';
+
+    switch (location) {
+    case Locations.CENTER:
+        textboxId = 'post_textbox';
+        break;
+    case Locations.RHS_COMMENT:
+        textboxId = 'reply_textbox';
+        break;
+    case Locations.MODAL:
+        textboxId = 'modal_textbox';
+        break;
+    }
 
     const formattingBar = readOnlyChannel ? null : (
         <FormattingBar
@@ -402,6 +414,7 @@ const AdvanceTextEditor = ({
                         badConnection={badConnection}
                         listenForMentionKeyClick={true}
                         useChannelMentions={useChannelMentions}
+                        rootId={postId}
                     />
                     {attachmentPreview}
                     <TexteditorActions

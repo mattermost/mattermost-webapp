@@ -37,7 +37,7 @@ const createTeamOverrideSchemeWithPermission = (name, team, permissionId, permis
     cy.findByTestId('add-teams').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
     // # Find and select testTeam
-    cy.get('#selectItems input').type(team.display_name).wait(TIMEOUTS.HALF_SEC);
+    cy.get('#selectItems input').typeWithForce(team.display_name).wait(TIMEOUTS.HALF_SEC);
     cy.get('#multiSelectList div.more-modal__row.clickable').eq(0).click().wait(TIMEOUTS.HALF_SEC);
 
     // # Save scheme
@@ -172,7 +172,7 @@ describe('Team Permissions', () => {
             cy.get('#channelAddMembers').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
             // # Search and select otherUser
-            cy.get('#selectItems').should('be.visible').type(otherUser.username).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#selectItems input').typeWithForce(otherUser.username).wait(TIMEOUTS.HALF_SEC);
             cy.get('#multiSelectList div').eq(0).click();
 
             // # Click `Save` button

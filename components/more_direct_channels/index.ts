@@ -27,8 +27,8 @@ import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
 
 import {openDirectChannelToUserId, openGroupChannelToUserIds} from 'actions/channel_actions';
-import {loadStatusesForProfilesList, loadProfilesMissingStatus} from 'actions/status_actions.jsx';
-import {loadProfilesForGroupChannels} from 'actions/user_actions.jsx';
+import {loadStatusesForProfilesList, loadProfilesMissingStatus} from 'actions/status_actions';
+import {loadProfilesForGroupChannels} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import {GlobalState} from 'types/store';

@@ -51,6 +51,7 @@ export type PluginSetting = {
     placeholder: string;
     default: any;
     options?: PluginSettingOption[];
+    hosting?: 'on-prem' | 'cloud';
 };
 
 export type PluginSettingOption = {
@@ -86,6 +87,7 @@ export type PluginStatusRedux = {
     version: string;
     active: boolean;
     state: number;
+    error?: string;
     instances: PluginInstance[];
 }
 

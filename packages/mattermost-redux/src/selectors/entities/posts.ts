@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {createSelector} from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
@@ -10,8 +8,6 @@ import {Posts, Preferences} from 'mattermost-redux/constants';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
-
-import {PostWithFormatData} from 'mattermost-redux/types/posts';
 
 import {Channel} from '@mattermost/types/channels';
 import {
@@ -42,6 +38,11 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 export function getAllPosts(state: GlobalState) {
     return state.entities.posts.posts;
+}
+
+export type UserActivityPost = Post & {
+    system_post_ids: string[];
+    user_activity_posts: Post[];
 }
 
 export function getPost(state: GlobalState, postId: Post['id']): Post {
@@ -88,6 +89,17 @@ export function getOpenGraphMetadataForUrl(state: GlobalState, postId: string, u
 export function getPostIdsInCurrentChannel(state: GlobalState): Array<Post['id']> | undefined | null {
     return getPostIdsInChannel(state, state.entities.channels.currentChannelId);
 }
+
+export type PostWithFormatData = Post & {
+    isFirstReply: boolean;
+    isLastReply: boolean;
+    previousPostIsComment: boolean;
+    commentedOnPost?: Post;
+    consecutivePostByUser: boolean;
+    replyCount: number;
+    isCommentMention: boolean;
+    highlight: boolean;
+};
 
 // getPostsInCurrentChannel returns the posts loaded at the bottom of the channel. It does not include older posts
 // such as those loaded by viewing a thread or a permalink.
@@ -561,6 +573,31 @@ export function getOldestPostsChunkInChannel(state: GlobalState, channelId: Chan
     return postsForChannel.find((block) => block.oldest);
 }
 
+// returns timestamp of the channel's oldest post. 0 otherwise
+export function getOldestPostTimeInChannel(state: GlobalState, channelId: Channel['id']): number {
+    const postsForChannel = state.entities.posts.postsInChannel[channelId];
+
+    if (!postsForChannel) {
+        return 0;
+    }
+
+    const allPosts = getAllPosts(state);
+    const oldestPostTime = postsForChannel.reduce((acc: number, postBlock) => {
+        if (postBlock.order.length > 0) {
+            const oldestPostIdInBlock = postBlock.order[postBlock.order.length - 1];
+            const blockOldestPostTime = allPosts[oldestPostIdInBlock]?.create_at;
+            if (typeof blockOldestPostTime === 'number' && blockOldestPostTime < acc) {
+                return blockOldestPostTime;
+            }
+        }
+        return acc;
+    }, Number.MAX_SAFE_INTEGER);
+    if (oldestPostTime === Number.MAX_SAFE_INTEGER) {
+        return 0;
+    }
+    return oldestPostTime;
+}
+
 // getPostIdsInChannel returns the IDs of posts loaded at the bottom of the given channel. It does not include older
 // posts such as those loaded by viewing a thread or a permalink.
 export function getPostIdsInChannel(state: GlobalState, channelId: Channel['id']): Array<Post['id']> | undefined | null {
@@ -703,4 +740,8 @@ export const makeIsPostCommentMention = (): ((state: GlobalState, postId: Post['
 
 export function getExpandedLink(state: GlobalState, link: string): string {
     return state.entities.posts.expandedURLs[link];
+}
+
+export function getLimitedViews(state: GlobalState): GlobalState['entities']['posts']['limitedViews'] {
+    return state.entities.posts.limitedViews;
 }

@@ -82,6 +82,7 @@ export const Preferences = {
     CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
     CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    EXPLORE_OTHER_TOOLS_TUTORIAL_STEP: 'explore_other_tools_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
@@ -131,6 +132,9 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED: 'one_click_reactions_enabled',
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
+    CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
+    CATEGORY_CLOUD_LIMITS: 'cloud_limits',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
     TOUCHED: 'touched',
@@ -144,6 +148,11 @@ export const Preferences = {
     RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
+
+    FORWARD_POST_VIEWED: 'forward_post_viewed',
+    HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
+    SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
+    USE_CASE: 'use_case',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -295,8 +304,9 @@ export const ActionTypes = keyMirror({
 
     FIRST_CHANNEL_NAME: null,
 
-    RECEIVED_BOARDS_INSIGHTS: null,
+    RECEIVED_PLUGIN_INSIGHT: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
+    NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -394,8 +404,11 @@ export const ModalIdentifiers = {
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
+    THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
     REQUEST_BUSINESS_EMAIL_MODAL: 'request_business_email_modal',
     FEATURE_RESTRICTED_MODAL: 'feature_restricted_modal',
+    FORWARD_POST_MODAL: 'forward_post_modal',
+    CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
 };
 
@@ -405,7 +418,7 @@ export const UserStatuses = {
     AWAY: 'away',
     ONLINE: 'online',
     DND: 'dnd',
-};
+} as const;
 
 export const EventTypes = Object.assign(
     {
@@ -434,6 +447,14 @@ export const CloudProducts = {
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
 };
+
+export enum LicenseSkus {
+    E10 = 'E10',
+    E20 = 'E20',
+    Starter = 'starter',
+    Professional = 'professional',
+    Enterprise = 'enterprise',
+}
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -556,6 +577,13 @@ export const CrtTutorialSteps = {
     UNREAD_POPOVER: 2,
     FINISHED: 999,
 };
+
+export const ExploreOtherToolsTourSteps = {
+    BOARDS_TOUR: 0,
+    PLAYBOOKS_TOUR: 1,
+    FINISHED: 999,
+};
+
 export const CrtTutorialTriggerSteps = {
     START: 0,
     STARTED: 1,
@@ -606,6 +634,7 @@ export const CloudBanners = {
     HIDE: 'hide',
     TRIAL: 'trial',
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
+    THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
 };
 
 export const AdvancedTextEditor = {
@@ -616,12 +645,14 @@ export const AdvancedTextEditor = {
 
 export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
+    SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
+    CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
@@ -640,30 +671,31 @@ export const TELEMETRY_LABELS = {
     UNPIN: 'unpin',
     REPLY: 'reply',
     UNREAD: 'unread',
+    FORWARD: 'forward',
 };
 
 export const PostTypes = {
-    JOIN_LEAVE: 'system_join_leave',
-    JOIN_CHANNEL: 'system_join_channel',
-    LEAVE_CHANNEL: 'system_leave_channel',
-    ADD_TO_CHANNEL: 'system_add_to_channel',
-    REMOVE_FROM_CHANNEL: 'system_remove_from_channel',
-    ADD_REMOVE: 'system_add_remove',
-    JOIN_TEAM: 'system_join_team',
-    LEAVE_TEAM: 'system_leave_team',
-    ADD_TO_TEAM: 'system_add_to_team',
-    REMOVE_FROM_TEAM: 'system_remove_from_team',
-    HEADER_CHANGE: 'system_header_change',
-    DISPLAYNAME_CHANGE: 'system_displayname_change',
-    CONVERT_CHANNEL: 'system_convert_channel',
-    PURPOSE_CHANGE: 'system_purpose_change',
-    CHANNEL_DELETED: 'system_channel_deleted',
-    CHANNEL_UNARCHIVED: 'system_channel_restored',
-    FAKE_PARENT_DELETED: 'system_fake_parent_deleted',
-    EPHEMERAL: 'system_ephemeral',
-    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel',
-    REMOVE_LINK_PREVIEW: 'remove_link_preview',
-    ME: 'me',
+    JOIN_LEAVE: 'system_join_leave' as const,
+    JOIN_CHANNEL: 'system_join_channel' as const,
+    LEAVE_CHANNEL: 'system_leave_channel' as const,
+    ADD_TO_CHANNEL: 'system_add_to_channel' as const,
+    REMOVE_FROM_CHANNEL: 'system_remove_from_channel' as const,
+    ADD_REMOVE: 'system_add_remove' as const,
+    JOIN_TEAM: 'system_join_team' as const,
+    LEAVE_TEAM: 'system_leave_team' as const,
+    ADD_TO_TEAM: 'system_add_to_team' as const,
+    REMOVE_FROM_TEAM: 'system_remove_from_team' as const,
+    HEADER_CHANGE: 'system_header_change' as const,
+    DISPLAYNAME_CHANGE: 'system_displayname_change' as const,
+    CONVERT_CHANNEL: 'system_convert_channel' as const,
+    PURPOSE_CHANGE: 'system_purpose_change' as const,
+    CHANNEL_DELETED: 'system_channel_deleted' as const,
+    CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
+    FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
+    EPHEMERAL: 'system_ephemeral' as const,
+    EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
+    REMOVE_LINK_PREVIEW: 'remove_link_preview' as const,
+    ME: 'me' as const,
 };
 
 export const StatTypes = keyMirror({
@@ -850,7 +882,7 @@ export const NotificationLevels = {
     ALL: 'all',
     MENTION: 'mention',
     NONE: 'none',
-};
+} as const;
 
 export const IgnoreChannelMentions = {
     ON: 'on',
@@ -926,6 +958,8 @@ export const CloudLinks = {
     PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
     DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
     DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+    CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
+    SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
 };
 
 export const DocLinks = {
@@ -937,11 +971,15 @@ export const DocLinks = {
     SITE_URL: 'https://docs.mattermost.com/configure/configuration-settings.html#site-url',
     SSL_CERTIFICATE: 'https://docs.mattermost.com/onboard/ssl-client-certificate.html',
     UPGRADE_SERVER: 'https://docs.mattermost.com/upgrade/upgrading-mattermost-server.html',
+    ONBOARD_LDAP: 'https://docs.mattermost.com/onboard/ad-ldap.html',
+    ONBOARD_SSO: 'https://docs.mattermost.com/onboard/sso-saml.html',
 };
 
 export const LicenseLinks = {
     CONTACT_SALES: 'https://mattermost.com/contact-sales/',
     SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
+    TRIAL_INFO_LINK: 'https://mattermost.com/trial',
+    EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
 };
 
 export const BillingSchemes = {
@@ -1145,11 +1183,12 @@ export const DefaultRolePermissions = {
 };
 
 export const Locations = {
-    CENTER: 'CENTER',
-    RHS_ROOT: 'RHS_ROOT',
-    RHS_COMMENT: 'RHS_COMMENT',
-    SEARCH: 'SEARCH',
-    NO_WHERE: 'NO_WHERE',
+    CENTER: 'CENTER' as const,
+    RHS_ROOT: 'RHS_ROOT' as const,
+    RHS_COMMENT: 'RHS_COMMENT' as const,
+    SEARCH: 'SEARCH' as const,
+    NO_WHERE: 'NO_WHERE' as const,
+    MODAL: 'MODAL' as const,
 };
 
 export const PostListRowListIds = {
@@ -1187,6 +1226,7 @@ export const Constants = {
     AdminTutorialSteps,
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
+    ExploreOtherToolsTourSteps,
     AutoTourStatus,
     CrtThreadPaneSteps,
     PostTypes,
@@ -1233,6 +1273,7 @@ export const Constants = {
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
     NOTIFY_ALL_MEMBERS: 5,
     ALL_MEMBERS_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all)(?!(\.|-|_)*[^\W_])/gi,
+    MENTIONS_REGEX: /(?:\B|\b_+)@([a-z0-9.\-_]+)/gi,
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
@@ -1627,9 +1668,9 @@ export const Constants = {
     HighlightedLanguages: {
         '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
-        applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},
-        bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh']},
-        clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic']},
+        applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt'], aliases: ['osascript']},
+        bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh', 'zsh']},
+        clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic'], aliases: ['clj']},
         coffeescript: {name: 'CoffeeScript', extensions: ['coffee', '_coffee', 'cake', 'cjsx', 'cson', 'iced'], aliases: ['coffee', 'coffee-script']},
         cpp: {name: 'C/C++', extensions: ['cpp', 'c', 'cc', 'h', 'c++', 'h++', 'hpp'], aliases: ['c++', 'c']},
         cs: {name: 'C#', extensions: ['cs', 'csharp'], aliases: ['c#', 'csharp']},
@@ -1638,35 +1679,35 @@ export const Constants = {
         dart: {name: 'Dart', extensions: ['dart']},
         delphi: {name: 'Delphi', extensions: ['delphi', 'dpr', 'dfm', 'pas', 'pascal', 'freepascal', 'lazarus', 'lpr', 'lfm']},
         diff: {name: 'Diff', extensions: ['diff', 'patch'], aliases: ['patch', 'udiff']},
-        django: {name: 'Django', extensions: ['django', 'jinja']},
+        django: {name: 'Django', extensions: ['django', 'jinja'], aliases: ['jinja']},
         dockerfile: {name: 'Dockerfile', extensions: ['dockerfile', 'docker'], aliases: ['docker']},
         elixir: {name: 'Elixir', extensions: ['ex', 'exs'], aliases: ['ex', 'exs']},
         erlang: {name: 'Erlang', extensions: ['erl'], aliases: ['erl']},
-        fortran: {name: 'Fortran', extensions: ['f90', 'f95']},
-        fsharp: {name: 'F#', extensions: ['fsharp', 'fs']},
+        fortran: {name: 'Fortran', extensions: ['f90', 'f95'], aliases: ['f90', 'f95']},
+        fsharp: {name: 'F#', extensions: ['fsharp', 'fs'], aliases: ['fs']},
         gcode: {name: 'G-Code', extensions: ['gcode', 'nc']},
         go: {name: 'Go', extensions: ['go'], aliases: ['golang']},
         groovy: {name: 'Groovy', extensions: ['groovy']},
         handlebars: {name: 'Handlebars', extensions: ['handlebars', 'hbs', 'html.hbs', 'html.handlebars'], aliases: ['hbs', 'mustache']},
         haskell: {name: 'Haskell', extensions: ['hs'], aliases: ['hs']},
-        haxe: {name: 'Haxe', extensions: ['hx']},
+        haxe: {name: 'Haxe', extensions: ['hx'], aliases: ['hx']},
         java: {name: 'Java', extensions: ['java', 'jsp']},
         javascript: {name: 'JavaScript', extensions: ['js', 'jsx'], aliases: ['js']},
         json: {name: 'JSON', extensions: ['json']},
         julia: {name: 'Julia', extensions: ['jl'], aliases: ['jl']},
-        kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts']},
+        kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts'], aliases: ['kt']},
         latex: {name: 'LaTeX', extensions: ['tex'], aliases: ['tex']},
         less: {name: 'Less', extensions: ['less']},
         lisp: {name: 'Lisp', extensions: ['lisp']},
         lua: {name: 'Lua', extensions: ['lua']},
-        makefile: {name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake']},
+        makefile: {name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake', 'mk']},
         markdown: {name: 'Markdown', extensions: ['md', 'mkdown', 'mkd'], aliases: ['md', 'mkd']},
         matlab: {name: 'Matlab', extensions: ['matlab', 'm'], aliases: ['m']},
         objectivec: {name: 'Objective C', extensions: ['mm', 'objc', 'obj-c'], aliases: ['objective_c', 'objc']},
-        ocaml: {name: 'OCaml', extensions: ['ml']},
+        ocaml: {name: 'OCaml', extensions: ['ml'], aliases: ['ml']},
         perl: {name: 'Perl', extensions: ['perl', 'pl'], aliases: ['pl']},
         pgsql: {name: 'PostgreSQL', extensions: ['pgsql', 'postgres', 'postgresql'], aliases: ['postgres', 'postgresql']},
-        php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5']},
+        php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5', 'php6']},
         powershell: {name: 'PowerShell', extensions: ['ps', 'ps1'], aliases: ['posh']},
         puppet: {name: 'Puppet', extensions: ['pp'], aliases: ['pp']},
         python: {name: 'Python', extensions: ['py', 'gyp'], aliases: ['py']},
@@ -1674,18 +1715,18 @@ export const Constants = {
         ruby: {name: 'Ruby', extensions: ['ruby', 'rb', 'gemspec', 'podspec', 'thor', 'irb'], aliases: ['rb']},
         rust: {name: 'Rust', extensions: ['rs'], aliases: ['rs']},
         scala: {name: 'Scala', extensions: ['scala']},
-        scheme: {name: 'Scheme', extensions: ['scm', 'sld']},
+        scheme: {name: 'Scheme', extensions: ['scm', 'sld'], aliases: ['scm']},
         scss: {name: 'SCSS', extensions: ['scss']},
         smalltalk: {name: 'Smalltalk', extensions: ['st'], aliases: ['st', 'squeak']},
         sql: {name: 'SQL', extensions: ['sql']},
         stylus: {name: 'Stylus', extensions: ['styl'], aliases: ['styl']},
         swift: {name: 'Swift', extensions: ['swift']},
-        text: {name: 'Text', extensions: ['txt', 'log']},
+        text: {name: 'Text', extensions: ['txt', 'log'], aliases: ['txt']},
         typescript: {name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx']},
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
-        vbscript: {name: 'VBScript', extensions: ['vbs']},
+        vbscript: {name: 'VBScript', extensions: ['vbs'], aliases: ['vbs']},
         verilog: {name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh']},
-        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl']},
+        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl'], aliases: ['vhd']},
         xml: {name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist']},
         yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']},
     },
@@ -1764,6 +1805,7 @@ export const Constants = {
     PERMISSIONS_DELETE_POST_ALL: 'all',
     PERMISSIONS_DELETE_POST_TEAM_ADMIN: 'team_admin',
     PERMISSIONS_DELETE_POST_SYSTEM_ADMIN: 'system_admin',
+    PERMISSIONS_SYSTEM_CUSTOM_GROUP_ADMIN: 'system_custom_group_admin',
     ALLOW_EDIT_POST_ALWAYS: 'always',
     ALLOW_EDIT_POST_NEVER: 'never',
     ALLOW_EDIT_POST_TIME_LIMIT: 'time_limit',
@@ -1828,6 +1870,7 @@ export const ConsolePages = {
     SAML: '/admin_console/authentication/saml',
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
     WEB_SERVER: '/admin_console/environment/web_server',
+    PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
 };
 
 export const WindowSizes = {
@@ -1998,6 +2041,60 @@ export const InsightsCardTitles = {
             defaultMessage: 'Most active boards I\'ve participated in',
         },
     },
+    LEAST_ACTIVE_CHANNELS: {
+        teamTitle: {
+            id: t('insights.leastActiveChannels.title'),
+            defaultMessage: 'Least active channels',
+        },
+        myTitle: {
+            id: t('insights.leastActiveChannels.myTitle'),
+            defaultMessage: 'My least active channels',
+        },
+        teamSubTitle: {
+            id: t('insights.leastActiveChannels.subTitle'),
+            defaultMessage: 'Channels with the least posts',
+        },
+        mySubTitle: {
+            id: t('insights.leastActiveChannels.mySubTitle'),
+            defaultMessage: 'My channels with the least posts',
+        },
+    },
+    TOP_PLAYBOOKS: {
+        teamTitle: {
+            id: t('insights.topPlaybooks.title'),
+            defaultMessage: 'Top playbooks',
+        },
+        myTitle: {
+            id: t('insights.topPlaybooks.myTitle'),
+            defaultMessage: 'My top playbooks',
+        },
+        teamSubTitle: {
+            id: t('insights.topPlaybooks.subTitle'),
+            defaultMessage: 'Playbooks with the most runs',
+        },
+        mySubTitle: {
+            id: t('insights.topPlaybooks.mySubTitle'),
+            defaultMessage: 'Playbooks I\'ve used with the most runs',
+        },
+    },
+    TOP_DMS: {
+        teamTitle: {},
+        myTitle: {
+            id: t('insights.topDMs.myTitle'),
+            defaultMessage: 'My most active direct messages',
+        },
+        teamSubTitle: {},
+        mySubTitle: {},
+    },
+    NEW_TEAM_MEMBERS: {
+        teamTitle: {
+            id: t('insights.newTeamMembers.title'),
+            defaultMessage: 'New team members',
+        },
+        myTitle: {},
+        teamSubTitle: {},
+        mySubTitle: {},
+    },
 };
 
 export enum ClaimErrors {
@@ -2021,6 +2118,11 @@ export enum ClaimErrors {
 export const LegacyFreeProductIds: Record<string, true> = {
     prod_HyiHEAVKW5bYG3: true,
     prod_Hm2oYaBiRSISL2: true,
+};
+
+export const DataSearchTypes = {
+    FILES_SEARCH_TYPE: 'files',
+    MESSAGES_SEARCH_TYPE: 'messages',
 };
 
 export default Constants;

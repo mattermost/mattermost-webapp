@@ -16,7 +16,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SaveButton from 'components/save_button';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 const SECTION_TOKENS = 'tokens';
@@ -438,9 +438,9 @@ export default class UserAccessTokenSection extends React.PureComponent<Props, S
                 <span>
                     <FormattedMessage
                         id='user.settings.tokens.description_mobile'
-                        defaultMessage='<linktokens>Personal access tokens</linktokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>. Create new tokens on your desktop.'
+                        defaultMessage='<linkTokens>Personal access tokens</linkTokens> function similarly to session tokens and can be used by integrations to <linkAPI>authenticate against the REST API</linkAPI>. Create new tokens on your desktop.'
                         values={{
-                            linktokens: (msg: React.ReactNode) => (
+                            linkTokens: (msg: React.ReactNode) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
                                     target='_blank'

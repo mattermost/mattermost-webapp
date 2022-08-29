@@ -115,7 +115,7 @@ describe('Message permalink', () => {
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
-            cy.findByText(`${testChannel.display_name}`).should('be.visible');
+            cy.findByText(testChannel.display_name).should('be.visible');
         });
 
         // # Post channel mention
