@@ -4092,7 +4092,6 @@
   "onboardingTour.invitePeople.title": "メンバーをチームに招待する",
   "onboardingTour.sendMessage.Description": "以下のメッセージの一つを入力または選択して、メンバーとのコラボレーションを開始します。添付ファイルをテキストフィールドにドラッグ&ドロップしたり、ペーパークリップのアイコンを使うことでファイルをアップロードすることもできます。",
   "onboardingTour.sendMessage.title": "メッセージの送信",
-  "onboarding_wizard.invite_members.title": "チームメンバーを招待する",
   "onboarding_wizard.launching_workspace.description": "すぐに用意できます",
   "onboarding_wizard.launching_workspace.title": "現在、ワークスペースを起動しています",
   "onboarding_wizard.next": "続ける",
