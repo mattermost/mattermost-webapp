@@ -7,9 +7,10 @@ import {makeGetUsersTypingByChannelAndPost} from 'mattermost-redux/selectors/ent
 
 import {GlobalState} from 'types/store';
 
+import {userStartedTyping, userStoppedTyping} from './actions';
 import MsgTyping from './msg_typing';
 
-type Props = {
+type OwnProps = {
     channelId: string;
     postId: string;
 };
@@ -17,7 +18,7 @@ type Props = {
 function makeMapStateToProps() {
     const getUsersTypingByChannelAndPost = makeGetUsersTypingByChannelAndPost();
 
-    return function mapStateToProps(state: GlobalState, ownProps: Props) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         const typingUsers = getUsersTypingByChannelAndPost(state, {channelId: ownProps.channelId, postId: ownProps.postId});
 
         return {
@@ -26,4 +27,9 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(MsgTyping);
+const mapDispatchToProps = {
+    userStartedTyping,
+    userStoppedTyping,
+};
+
+export default connect(makeMapStateToProps, mapDispatchToProps)(MsgTyping);

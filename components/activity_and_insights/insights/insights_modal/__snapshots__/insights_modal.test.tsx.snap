@@ -53,12 +53,7 @@ exports[`components/activity_and_insights/insights/insights_modal should match s
     </div>
     <Memo(TimeFrameDropdown)
       setTimeFrame={[Function]}
-      timeFrame={
-        Object {
-          "label": "Today",
-          "value": "today",
-        }
-      }
+      timeFrame="today"
     />
   </ModalHeader>
   <ModalBody
@@ -127,12 +122,7 @@ exports[`components/activity_and_insights/insights/insights_modal should match s
     </div>
     <Memo(TimeFrameDropdown)
       setTimeFrame={[Function]}
-      timeFrame={
-        Object {
-          "label": "Last 7 days",
-          "value": "7_day",
-        }
-      }
+      timeFrame="7_day"
     />
   </ModalHeader>
   <ModalBody

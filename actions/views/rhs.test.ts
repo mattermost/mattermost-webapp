@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {cloneDeep, set} from 'lodash';
 import {batchActions} from 'redux-batched-actions';
 import {MockStoreEnhanced} from 'redux-mock-store';
 
@@ -114,6 +115,13 @@ describe('rhs view actions', () => {
             rhs: {
                 rhsState: null,
                 filesSearchExtFilter: [] as string[],
+            },
+            posts: {
+                editingPost: {
+                    show: true,
+                    postId: '818f3dprzb8mtmyoobmzcgnb8y',
+                    isRHS: false,
+                },
             },
         },
     } as GlobalState;
@@ -446,30 +454,97 @@ describe('rhs view actions', () => {
     });
 
     describe('closeRightHandSide', () => {
-        test('it dispatches the right actions', () => {
+        test('it dispatches the right actions without editingPost', () => {
+            const state = cloneDeep(initialState);
+            set(state, 'views.posts.editingPost', {});
+
+            store = mockStore(state);
             store.dispatch(closeRightHandSide());
 
-            const compareStore = mockStore(initialState);
-            compareStore.dispatch(batchActions([
-                {
-                    type: ActionTypes.UPDATE_RHS_STATE,
-                    state: null,
+            const expectedActions = [{
+                type: 'BATCHING_REDUCER.BATCH',
+                meta: {
+                    batch: true,
                 },
-                {
-                    type: ActionTypes.SELECT_POST,
-                    postId: '',
-                    channelId: '',
-                    timestamp: 0,
-                },
-                {
-                    type: ActionTypes.TOGGLE_EDITING_POST,
-                    data: {
-                        show: false,
+                payload: [
+                    {
+                        type: 'UPDATE_RHS_STATE',
+                        state: null,
                     },
-                },
-            ]));
+                    {
+                        type: 'SELECT_POST',
+                        postId: '',
+                        channelId: '',
+                        timestamp: 0,
+                    },
+                ],
+            }];
 
-            expect(store.getActions()).toEqual(compareStore.getActions());
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+
+        test('it dispatches the right actions with editingPost in center channel', () => {
+            const state = cloneDeep(initialState);
+            set(state, 'views.posts.editingPost.isRHS', false);
+
+            store = mockStore(state);
+            store.dispatch(closeRightHandSide());
+
+            const expectedActions = [{
+                type: 'BATCHING_REDUCER.BATCH',
+                meta: {
+                    batch: true,
+                },
+                payload: [
+                    {
+                        type: 'UPDATE_RHS_STATE',
+                        state: null,
+                    },
+                    {
+                        type: 'SELECT_POST',
+                        postId: '',
+                        channelId: '',
+                        timestamp: 0,
+                    },
+                ],
+            }];
+
+            expect(store.getActions()).toEqual(expectedActions);
+        });
+
+        test('it dispatches the right actions with editingPost in RHS', () => {
+            const state = cloneDeep(initialState);
+            set(state, 'views.posts.editingPost.isRHS', true);
+
+            store = mockStore(state);
+            store.dispatch(closeRightHandSide());
+
+            const expectedActions = [{
+                type: 'BATCHING_REDUCER.BATCH',
+                meta: {
+                    batch: true,
+                },
+                payload: [
+                    {
+                        type: 'UPDATE_RHS_STATE',
+                        state: null,
+                    },
+                    {
+                        type: 'SELECT_POST',
+                        postId: '',
+                        channelId: '',
+                        timestamp: 0,
+                    },
+                    {
+                        type: 'TOGGLE_EDITING_POST',
+                        data: {
+                            show: false,
+                        },
+                    },
+                ],
+            }];
+
+            expect(store.getActions()).toEqual(expectedActions);
         });
     });
 
@@ -507,26 +582,12 @@ describe('rhs view actions', () => {
     });
 
     describe('Plugin actions', () => {
-        const stateWithPluginRhs = {
-            ...initialState,
-            views: {
-                rhs: {
-                    rhsState: RHSStates.PLUGIN,
-                    pluggableId,
-                    filesSearchExtFilter: [] as string[],
-                },
-            },
-        } as GlobalState;
+        const stateWithPluginRhs = cloneDeep(initialState);
+        set(stateWithPluginRhs, `views.rhs.${pluggableId}`, pluggableId);
+        set(stateWithPluginRhs, 'views.rhs.rhsState', RHSStates.PLUGIN);
 
-        const stateWithoutPluginRhs = {
-            ...initialState,
-            views: {
-                rhs: {
-                    rhsState: RHSStates.PIN,
-                    filesSearchExtFilter: [] as string[],
-                },
-            },
-        } as GlobalState;
+        const stateWithoutPluginRhs = cloneDeep(initialState);
+        set(stateWithoutPluginRhs, 'views.rhs.rhsState', RHSStates.PIN);
 
         describe('showRHSPlugin', () => {
             it('dispatches the right action', () => {

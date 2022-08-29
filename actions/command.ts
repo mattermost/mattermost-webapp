@@ -35,6 +35,7 @@ import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_short
 import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
+import MarketplaceModal from 'components/plugin_marketplace';
 
 import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 
@@ -108,6 +109,9 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         }
         case '/settings':
             dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}}));
+            return {data: true};
+        case '/marketplace':
+            dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
             return {data: true};
         case '/collapse':
         case '/expand':

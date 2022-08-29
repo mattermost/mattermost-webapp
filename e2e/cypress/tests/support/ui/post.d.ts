@@ -88,3 +88,6 @@ declare namespace Cypress {
         uiGetPostEmbedContainer(postId: string): Chainable;
     }
 }
+
+export function verifySavedPost(postId, message): void;
+export function verifyUnsavedPost(postId): void;

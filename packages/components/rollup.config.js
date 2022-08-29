@@ -40,5 +40,8 @@ export default [
             }),
         ],
         external: (pkg) => externals.some((external) => pkg.startsWith(external)),
+        watch: {
+            clearScreen: false,
+        },
     },
 ];

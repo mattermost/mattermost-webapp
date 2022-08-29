@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
@@ -17,7 +17,7 @@ type Props = {
     currentUserId: string;
     joinLeave?: string;
     onUpdateSection: (section?: string) => void;
-    renderOnOffLabel: (label: string) => string;
+    renderOnOffLabel: (label: string) => ReactNode;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };

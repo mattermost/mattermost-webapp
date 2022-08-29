@@ -21,6 +21,7 @@ const OnBoardingTutorialStep = Constants.TutorialSteps;
 const AdminOnBoardingTutorialStep = Constants.AdminTutorialSteps;
 const TutorialSteps = {
     [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
+    [Preferences.EXPLORE_OTHER_TOOLS_TUTORIAL_STEP]: Constants.ExploreOtherToolsTourSteps,
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
     [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
 };
