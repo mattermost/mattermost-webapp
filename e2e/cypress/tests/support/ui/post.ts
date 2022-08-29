@@ -1,57 +1,67 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('uiGetPostTextBox', (option = {exist: true}) => {
+import {ChainableT} from '../../types';
+
+function uiGetPostTextBox(option = {exist: true}): ChainableT<JQuery> {
     if (option.exist) {
         return cy.get('#post_textbox').should('be.visible');
     }
 
     return cy.get('#post_textbox').should('not.exist');
-});
+}
+Cypress.Commands.add('uiGetPostTextBox', uiGetPostTextBox);
 
-Cypress.Commands.add('uiGetReplyTextBox', (option = {exist: true}) => {
+function uiGetReplyTextBox(option = {exist: true}): ChainableT<JQuery> {
     if (option.exist) {
         return cy.get('#reply_textbox').should('be.visible');
     }
 
     return cy.get('#reply_textbox').should('not.exist');
-});
+}
+Cypress.Commands.add('uiGetReplyTextBox', uiGetReplyTextBox);
 
-Cypress.Commands.add('uiGetPostProfileImage', (postId) => {
+function uiGetPostProfileImage(postId: string): ChainableT<JQuery> {
     return getPost(postId).within(() => {
         return cy.get('.post__img').should('be.visible');
     });
-});
+}
+Cypress.Commands.add('uiGetPostProfileImage', uiGetPostProfileImage);
 
-Cypress.Commands.add('uiGetPostHeader', (postId) => {
+function uiGetPostHeader(postId: string): ChainableT<JQuery> {
     return getPost(postId).within(() => {
         return cy.get('.post__header').should('be.visible');
     });
-});
+}
+Cypress.Commands.add('uiGetPostHeader', uiGetPostHeader);
 
-Cypress.Commands.add('uiGetPostBody', (postId) => {
+function uiGetPostBody(postId: string): ChainableT<JQuery> {
     return getPost(postId).within(() => {
-        return cy.get('.post__body').scrollIntoView().should('be.visible');
+        return cy.get('.post__body').should('be.visible');
     });
-});
+}
+Cypress.Commands.add('uiGetPostBody', uiGetPostBody);
 
-Cypress.Commands.add('uiGetPostThreadFooter', (postId) => {
+function uiGetPostThreadFooter(postId: string): ChainableT<JQuery> {
     return getPost(postId).find('.ThreadFooter');
-});
+}
+Cypress.Commands.add('uiGetPostThreadFooter', uiGetPostThreadFooter);
 
-Cypress.Commands.add('uiGetPostEmbedContainer', (postId) => {
+function uiGetPostEmbedContainer(postId: string): ChainableT<JQuery> {
     return cy.uiGetPostBody(postId).
         find('.file-preview__button').
         should('be.visible');
-});
+}
+Cypress.Commands.add('uiGetPostEmbedContainer', uiGetPostEmbedContainer);
 
-function getPost(postId) {
+function getPost(postId: string): ChainableT<JQuery> {
     if (postId) {
         return cy.get(`#post_${postId}`).should('be.visible');
     }
 
     return cy.getLastPost();
 }
+Cypress.Commands.add('getPost', getPost);
 
 export function verifySavedPost(postId, message) {
     // * Check that the center save icon has been updated correctly
@@ -159,4 +169,84 @@ export function verifyUnsavedPost(postId) {
 
     // # Close the RHS
     cy.get('#searchResultsCloseButton').should('be.visible').click();
+}
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * Get post profile image of a given post ID or the last post if post ID is not given
+             *
+             * @param {string} - postId (optional)
+             *
+             * @example
+             *   cy.uiGetPostProfileImage();
+             */
+            uiGetPostProfileImage: typeof uiGetPostProfileImage;
+
+            /**
+             * Get post header of a given post ID or the last post if post ID is not given
+             *
+             * @param {string} - postId (optional)
+             *
+             * @example
+             *   cy.uiGetPostHeader();
+             */
+            uiGetPostHeader: typeof uiGetPostHeader;
+
+            /**
+             * Get post body of a given post ID or the last post if post ID is not given
+             *
+             * @param {string} - postId (optional)
+             *
+             * @example
+             *   cy.uiGetPostBody();
+             */
+            uiGetPostBody: typeof uiGetPostBody;
+
+            /**
+             * Get post thread footer of a given post ID or the last post if post ID is not given
+             *
+             * @param {string} - postId (optional)
+             *
+             * @example
+             *   cy.uiGetPostThreadFooter();
+             */
+            uiGetPostThreadFooter: typeof uiGetPostThreadFooter;
+
+            /**
+             * Get post embed container of a given post ID or the last post if post ID is not given
+             *
+             * @param {string} - postId (optional)
+             *
+             * @example
+             *   cy.uiGetPostEmbedContainer();
+             */
+            uiGetPostEmbedContainer: typeof uiGetPostEmbedContainer;
+
+            /**
+             * Get post textbox
+             *
+             * @param {bool} option.exist - Set to false to check whether element should not exist. Otherwise, true (default) to check visibility.
+             *
+             * @example
+             *   cy.uiGetPostTextBox();
+             */
+            uiGetPostTextBox: typeof uiGetPostTextBox;
+
+            /**
+             * Get reply textbox
+             *
+             * @param {bool} option.exist - Set to false to check whether element should not exist. Otherwise, true (default) to check visibility.
+             *
+             * @example
+             *   cy.uiGetReplyTextBox();
+             */
+            uiGetReplyTextBox: typeof uiGetReplyTextBox;
+
+            getPost: typeof getPost;
+        }
+    }
 }
