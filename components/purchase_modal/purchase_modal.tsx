@@ -66,6 +66,7 @@ type ButtonDetails = {
 
 type DelinquencyCardProps = CardProps & {
     onViewBreakdownClick: () => void;
+    planBriefing?: JSX.Element;
 };
 
 type CardProps = {
@@ -235,15 +236,16 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                 className='top'
                 style={{backgroundColor: props.topColor}}
             />
-            <div className='bottom'>
+            <div className='bottom delinquency'>
                 <div className='delinquency_summary_section'>
-                    <h4>
-                        <FormattedMessage
-                            id={'cloud_delinquency.cc_modal.card.totalOwed'}
-                            defaultMessage={'Total Owed'}
-                        />
-                    </h4>
                     <div className={'summary-section'}>
+                        <div className='summary-title'>
+                            <FormattedMessage
+                                id={'cloud_delinquency.cc_modal.card.totalOwed'}
+                                defaultMessage={'Total Owed'}
+                            />
+                            {':'}
+                        </div>
                         <div className='summary-total'>{props.price}</div>
                         <div
                             onClick={props.onViewBreakdownClick}
@@ -271,12 +273,12 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                     </button>
                 </div>
                 {props.planBriefing}
-                <div className='plan_billing_cycle'>
+                <div className='plan_billing_cycle delinquency'>
                     <FormattedMessage
                         defaultMessage={
-                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                            'Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users.'
                         }
-                        id={'admin.billing.subscription.freeTrialDisclaimer'}
+                        id={'cloud_delinquency.cc_modal.disclaimer'}
                     />
                     <a onClick={seeHowBillingWorks}>
                         <FormattedMessage
@@ -536,21 +538,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         topColor='#4A69AC'
                         plan={''}
                         price={this.getDelinquencyTotalString()}
-                        planBriefing={
-                            <div className='button-description'>
-                                <FormattedMessage
-                                    id={
-                                        'cloud_delinquency.cc_modal.card.buttonDescription'
-                                    }
-                                    defaultMessage={
-                                        'Upon reactivation you will be charged {amount}'
-                                    }
-                                    values={{
-                                        amount: this.getDelinquencyTotalString(),
-                                    }}
-                                />
-                            </div>
-                        }
                         buttonDetails={{
                             action: this.handleSubmitClick,
                             text: localizeMessage(

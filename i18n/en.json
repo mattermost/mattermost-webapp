@@ -2950,6 +2950,7 @@
   "cloud_delinquency.cc_modal.card.reactivate": "Re-activate",
   "cloud_delinquency.cc_modal.card.totalOwed": "Total Owed",
   "cloud_delinquency.cc_modal.card.viewBreakdown": "View Breakdown",
+  "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users.",
   "cloud_free.professional_feature.back": "Back",
   "cloud_free.professional_feature.professional": "Professional feature",
   "cloud_free.professional_feature.try_free": "Professional feature- try it out free",
