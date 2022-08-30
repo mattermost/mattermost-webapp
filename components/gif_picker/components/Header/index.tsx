@@ -5,7 +5,7 @@ import React, {PureComponent} from 'react';
 import {connect} from 'react-redux';
 
 import {saveSearchBarText, searchTextUpdate} from 'mattermost-redux/actions/gifs';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {changeOpacity, makeStyleFromTheme} from 'mattermost-redux/utils/theme_utils';
 
 import constants from 'components/gif_picker/utils/constants';
@@ -15,7 +15,6 @@ import GifReactionsIcon from 'components/widgets/icons/gif_reactions_icon';
 import './Header.scss';
 import {GlobalState} from 'types/store';
 import {appProps} from 'components/gif_picker/gif_picker';
-import {Theme} from 'mattermost-redux/types/themes';
 
 function mapStateToProps(state: GlobalState) {
     return {
