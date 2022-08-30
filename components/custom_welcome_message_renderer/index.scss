@@ -1,0 +1,8 @@
+@import 'utils/mixins';
+
+.WelcomePostRenderer {
+    button {
+        @include tertiary-button;
+        @include button-small;
+    }
+}
