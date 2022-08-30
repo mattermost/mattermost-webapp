@@ -1,20 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-function isObject(obj) {
-    return obj && typeof obj === 'object' && !Array.isArray(obj);
+function isObject(obj: any): boolean {
+    return Boolean(obj && typeof obj === 'object' && !Array.isArray(obj));
 }
 
 // Returns the result of merging two objects. If a field is specified in both a and b, the value from b takes precedence
 // unless both values are objects in which case mergeObjects will be called recursively.
-export default function mergeObjects(a, b, path = '.') {
+export default function mergeObjects(a: any, b: any, path = '.') {
     if (a === null || a === undefined) {
         return b;
     } else if (b === null || b === undefined) {
         return a;
     }
 
-    let result;
+    let result: any;
 
     if (isObject(a) && isObject(b)) {
         result = {};
