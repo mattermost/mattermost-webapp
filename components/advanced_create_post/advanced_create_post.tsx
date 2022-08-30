@@ -49,6 +49,7 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
+import PostPriorityTourTip from 'components/post_priority/post_priority_tour_tip';
 import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import {PostDraft} from 'types/store/draft';
@@ -254,6 +255,7 @@ type State = {
     showFormat: boolean;
     isFormattingBarHidden: boolean;
     showPostPriorityPicker: boolean;
+    showPostPriorityTourPoint: boolean;
 };
 
 class AdvancedCreatePost extends React.PureComponent<Props, State> {
@@ -307,6 +309,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
             showPostPriorityPicker: false,
+            showPostPriorityTourPoint: false,
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
@@ -1494,11 +1497,23 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.focusTextbox();
     };
 
+    handleFocus = () => {
+        this.setState({showPostPriorityTourPoint: true});
+    }
+
     handlePostPriorityHide = () => {
         this.setState({
             showPostPriorityPicker: false,
         });
         this.focusTextbox();
+    };
+
+    handlePostPriorityTourPointSuccess = () => {
+        setTimeout(() => {
+            this.setState({
+                showPostPriorityPicker: true,
+            });
+        }, 500);
     };
 
     togglePostPriorityPicker = () => {
@@ -1646,6 +1661,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
                     labels={priorityLabels}
+                    onFocus={this.handleFocus}
                     additionalControls={[
                         this.props.isPostPriorityEnabled && (
                             <React.Fragment key='PostPriorityPicker'>
@@ -1655,7 +1671,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     target={this.getPostPriorityPickerRef}
                                     onApply={this.handlePostPriorityApply}
                                     onHide={this.handlePostPriorityHide}
-                                    defaultHorizontalPosition='left'
                                 />
                                 <OverlayTrigger
                                     placement='top'
@@ -1673,15 +1688,23 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                 >
                                     <IconContainer
                                         ref={this.postPriorityPickerRef}
+                                        style={{position: 'relative'}}
+                                        id='post_priority_picker_icon'
                                         className={classNames({control: true, active: this.state.showPostPriorityPicker})}
                                         disabled={this.props.shouldShowPreview}
                                         type='button'
                                         onClick={this.togglePostPriorityPicker}
                                     >
-                                        <AlertCircleOutlineIcon
-                                            size={18}
-                                            color='currentColor'
-                                        />
+                                        <>
+                                            <AlertCircleOutlineIcon
+                                                size={18}
+                                                color='currentColor'
+                                            />
+                                            <PostPriorityTourTip
+                                                onSuccess={this.handlePostPriorityTourPointSuccess}
+                                                canShow={this.state.showPostPriorityTourPoint}
+                                            />
+                                        </>
                                     </IconContainer>
                                 </OverlayTrigger>
                             </React.Fragment>

@@ -5,10 +5,6 @@ import React, {ChangeEvent, ElementType, FocusEvent, KeyboardEvent, MouseEvent} 
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {Channel} from '@mattermost/types/channels';
-import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from '@mattermost/types/users';
-
 import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
@@ -22,6 +18,11 @@ import SuggestionBoxComponent from 'components/suggestion/suggestion_box/suggest
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 
 import * as Utils from 'utils/utils';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import {TextboxElement} from './index';
 
@@ -44,6 +45,7 @@ export type Props = {
     onMouseUp?: (e: React.MouseEvent<TextboxElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<TextboxElement>) => void;
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
+    onFocus?: (e: FocusEvent<TextboxElement>) => void;
     supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     onPaste?: (e: ClipboardEvent) => void;
@@ -219,6 +221,11 @@ export default class Textbox extends React.PureComponent<Props> {
 
     handleSelect = (e: React.SyntheticEvent<TextboxElement>) => this.props.onSelect?.(e);
 
+    // adding in the HTMLDivElement to support event handling in preview state
+    handleFocus = (e: FocusEvent<TextboxElement | HTMLDivElement>) => {
+        this.props.onFocus?.(e as FocusEvent<TextboxElement>);
+    }
+
     handleMouseUp = (e: MouseEvent<TextboxElement>) => this.props.onMouseUp?.(e);
 
     handleKeyUp = (e: KeyboardEvent<TextboxElement>) => this.props.onKeyUp?.(e);
@@ -281,6 +288,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onKeyPress={this.props.onKeyPress}
                     onKeyDown={this.handleKeyDown}
                     onBlur={this.handleBlur}
+                    onFocus={this.handleFocus}
                 >
                     <PostMarkdown
                         isRHS={this.props.isRHS}
@@ -313,6 +321,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     onBlur={this.handleBlur}
                     onHeightChange={this.props.onHeightChange}
                     onWidthChange={this.props.onWidthChange}
+                    onFocus={this.handleFocus}
                     onPaste={this.props.onPaste}
                     style={this.getStyle()}
                     inputComponent={this.props.inputComponent}

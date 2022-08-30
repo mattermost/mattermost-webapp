@@ -101,6 +101,7 @@ type Props = {
     isThreadView?: boolean;
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
+    onFocus?: (e: React.FocusEvent<TextboxElement>) => void;
 }
 
 const AdvanceTextEditor = ({
@@ -156,6 +157,7 @@ const AdvanceTextEditor = ({
     isThreadView,
     additionalControls,
     labels,
+    onFocus,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -480,6 +482,7 @@ const AdvanceTextEditor = ({
                             handlePostError={handlePostError}
                             value={messageValue}
                             onBlur={handleBlur}
+                            onFocus={onFocus}
                             emojiEnabled={enableEmojiPicker}
                             createMessage={createMessage}
                             channelId={channelId}

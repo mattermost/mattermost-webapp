@@ -149,6 +149,20 @@ export function setCustomStatusInitialisationState(initializationState: Record<s
     };
 }
 
+export function setPostPriorityInitialisationState(initializationState: Record<string, boolean>) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+        const preference: PreferenceType = {
+            user_id: currentUserId,
+            category: Preferences.CATEGORY_POST_PRIORITY,
+            name: Preferences.NAME_POST_PRIORITY_TUTORIAL_STATE,
+            value: JSON.stringify(initializationState),
+        };
+        await dispatch(savePreferences(currentUserId, [preference]));
+    };
+}
+
 export function savePreferences(userId: string, preferences: PreferenceType[]) {
     return async (dispatch: DispatchFunc) => {
         (async function savePreferencesWrapper() {

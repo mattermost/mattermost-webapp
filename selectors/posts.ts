@@ -4,7 +4,9 @@
 import {createSelector} from 'reselect';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'mattermost-redux/constants';
 
 import {getGlobalItem} from 'selectors/storage';
 import {arePreviewsCollapsed} from 'selectors/preferences';
@@ -46,3 +48,23 @@ export function isInlineImageVisible(state: GlobalState, postId: string, imageKe
 
     return getGlobalItem(state, StoragePrefixes.INLINE_IMAGE_VISIBLE + currentUserId + '_' + postId + '_' + imageKey, !imageCollapsed);
 }
+
+export const showPostPriorityTooltip = createSelector(
+    'showPostPriorityTooltip',
+    (state: GlobalState) => get(state, Preferences.CATEGORY_POST_PRIORITY, Preferences.NAME_POST_PRIORITY_TUTORIAL_STATE, false),
+    getCurrentUser,
+    (tutorialState, user) => {
+        if (tutorialState && JSON.parse(tutorialState)[Preferences.POST_PRIORITY_VIEWED]) {
+            return false;
+        }
+        const createAt = new Date(user.create_at).getTime();
+        const now = new Date().getTime();
+
+        // user created less than a week ago
+        if ((now - createAt) < 7 * 24 * 60 * 60 * 1000) {
+            return false;
+        }
+
+        return true;
+    },
+);

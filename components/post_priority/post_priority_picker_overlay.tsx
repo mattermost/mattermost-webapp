@@ -15,7 +15,6 @@ type Props = {
     target: () => React.RefObject<HTMLButtonElement> | React.ReactInstance | null;
     onApply: (props: PostPriorityMetadata) => void;
     onHide: () => void;
-    defaultHorizontalPosition: 'left'|'right';
 };
 
 function PostPriorityPickerOverlay({

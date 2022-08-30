@@ -76,6 +76,10 @@ const Preferences = {
 
     NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED: 'channel_with_board_tip_showed',
 
+    CATEGORY_POST_PRIORITY: 'post_priority',
+    NAME_POST_PRIORITY_TUTORIAL_STATE: 'post_priority_tutorial_state',
+    POST_PRIORITY_VIEWED: 'post_priority_viewed',
+
     CATEGORY_THEME: 'theme',
     THEMES: {
         denim: {
