@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {Constants} from 'utils/constants';
 import {GlobalState} from 'types/store';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 import {close as closeLhs} from 'actions/views/lhs';

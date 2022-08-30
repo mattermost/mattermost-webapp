@@ -100,7 +100,7 @@ type ChannelHeaderPlugProps = {
     appBindings?: AppBinding[];
     appsEnabled: boolean;
     channel: Channel;
-    channelMember: ChannelMembership;
+    channelMember?: ChannelMembership;
     theme: Theme;
     sidebarOpen: boolean;
     shouldShowAppBar: boolean;
@@ -148,7 +148,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         this.toggleDropdown(false);
     }
 
-    fireAction = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+    fireAction = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
         if (this.disableButtonsClosingRHS) {
             return;
         }
@@ -156,7 +156,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         action(this.props.channel, this.props.channelMember);
     }
 
-    fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+    fireActionAndClose = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
