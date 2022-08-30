@@ -40,6 +40,9 @@ export function trackEvent(category, event, props) {
     }
 
     Client4.trackEvent(category, event, props);
+    // eslint-disable-next-line no-console
+    console.log('trackEvent', {category, event, props});
+
     if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
         console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
@@ -47,6 +50,9 @@ export function trackEvent(category, event, props) {
 }
 
 export function pageVisited(category, name) {
+    // eslint-disable-next-line no-console
+    console.log('trackEvent', {category, name});
+
     Client4.pageVisited(category, name);
 }
 
