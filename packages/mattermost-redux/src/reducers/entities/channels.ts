@@ -1,10 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {combineReducers} from 'redux';
 import shallowEquals from 'shallow-equals';
+import {isEqual} from 'lodash';
 
 import {AdminTypes, ChannelTypes, UserTypes, SchemeTypes, GroupTypes, PostTypes} from 'mattermost-redux/action_types';
 
@@ -190,22 +189,22 @@ function channels(state: IDMappedObjects<Channel> = {}, action: GenericAction) {
     }
 
     case PostTypes.RECEIVED_NEW_POST: {
-        const {channel_id, create_at, root_id} = action.data; //eslint-disable-line @typescript-eslint/naming-convention
-        const isCrtReply = action.features?.crtEnabled && root_id !== '';
+        const {channel_id: channelId, create_at: createAt, root_id: rootId} = action.data;
+        const isCrtReply = action.features?.crtEnabled && rootId !== '';
 
-        const channel = state[channel_id];
+        const channel = state[channelId];
 
         if (!channel) {
             return state;
         }
 
-        const lastRootPostAt = isCrtReply ? channel.last_root_post_at : Math.max(create_at, channel.last_root_post_at);
+        const lastRootPostAt = isCrtReply ? channel.last_root_post_at : Math.max(createAt, channel.last_root_post_at);
 
         return {
             ...state,
-            [channel_id]: {
+            [channelId]: {
                 ...channel,
-                last_post_at: Math.max(create_at, channel.last_post_at),
+                last_post_at: Math.max(createAt, channel.last_post_at),
                 last_root_post_at: lastRootPostAt,
             },
         };
@@ -336,6 +335,10 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
         } = action.data;
         const member = state[channelId];
 
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         if (!member) {
             // Don't keep track of unread posts until we've loaded the actual channel member
             return state;
@@ -363,6 +366,10 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     case ChannelTypes.DECREMENT_UNREAD_MSG_COUNT: {
         const {channelId, amount, amountRoot} = action.data;
 
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         const member = state[channelId];
 
         if (!member) {
@@ -386,6 +393,11 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
             amountRoot,
             fetchedChannelMember,
         } = action.data;
+
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         const member = state[channelId];
 
         if (!member) {
@@ -409,6 +421,11 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     }
     case ChannelTypes.DECREMENT_UNREAD_MENTION_COUNT: {
         const {channelId, amount, amountRoot} = action.data;
+
+        if (amount === 0 && amountRoot === 0) {
+            return state;
+        }
+
         const member = state[channelId];
 
         if (!member) {
@@ -428,6 +445,10 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
     case ChannelTypes.RECEIVED_LAST_VIEWED_AT: {
         const {data} = action;
         let member = state[data.channel_id];
+
+        if (member.last_viewed_at === data.last_viewed_at) {
+            return state;
+        }
 
         member = {
             ...member,
@@ -480,25 +501,29 @@ export function myMembers(state: RelationOneToOne<Channel, ChannelMembership> = 
 }
 
 function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership>, received: ChannelMembership) {
-    const member = state[received.channel_id];
+    const existingChannelMember = state[received.channel_id];
+    let updatedChannelMember = {...received};
 
-    let nextMember = received;
-    if (member && nextMember.last_viewed_at < member.last_viewed_at) {
+    if (isEqual(existingChannelMember, updatedChannelMember)) {
+        return state;
+    }
+
+    if (existingChannelMember && updatedChannelMember.last_viewed_at < existingChannelMember.last_viewed_at) {
         // The last_viewed_at should almost never decrease upon receiving a member, so if it does, assume that the
         // unread state of the existing channel member is correct. See MM-44900 for more information.
-        nextMember = {
+        updatedChannelMember = {
             ...received,
-            last_viewed_at: Math.max(member.last_viewed_at, received.last_viewed_at),
-            msg_count: Math.max(member.msg_count, received.msg_count),
-            msg_count_root: Math.max(member.msg_count_root, received.msg_count_root),
-            mention_count: Math.min(member.mention_count, received.mention_count),
-            mention_count_root: Math.min(member.mention_count_root, received.mention_count_root),
+            last_viewed_at: Math.max(existingChannelMember.last_viewed_at, received.last_viewed_at),
+            msg_count: Math.max(existingChannelMember.msg_count, received.msg_count),
+            msg_count_root: Math.max(existingChannelMember.msg_count_root, received.msg_count_root),
+            mention_count: Math.min(existingChannelMember.mention_count, received.mention_count),
+            mention_count_root: Math.min(existingChannelMember.mention_count_root, received.mention_count_root),
         };
     }
 
     return {
         ...state,
-        [nextMember.channel_id]: nextMember,
+        [updatedChannelMember.channel_id]: updatedChannelMember,
     };
 }
 

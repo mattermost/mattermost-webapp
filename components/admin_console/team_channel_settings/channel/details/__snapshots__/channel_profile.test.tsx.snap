@@ -18,7 +18,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
       <div
         className="channel-name"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="**Name**"
           id="admin.channel_settings.channel_detail.channelName"
         />
@@ -28,7 +28,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
       <div
         className="channel-team"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="**Team**"
           id="admin.channel_settings.channel_detail.channelTeam"
         />
@@ -74,7 +74,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
       <div
         className="channel-name"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="**Name**"
           id="admin.channel_settings.channel_detail.channelName"
         />
@@ -84,7 +84,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
       <div
         className="channel-team"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="**Team**"
           id="admin.channel_settings.channel_detail.channelTeam"
         />
@@ -94,7 +94,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelProfile should match
       <div
         className="channel-organizations"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="**Organizations**"
           id="admin.channel_settings.channel_detail.channelOrganizations"
         />

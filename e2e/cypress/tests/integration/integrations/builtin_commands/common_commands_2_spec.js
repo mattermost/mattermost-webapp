@@ -147,12 +147,4 @@ describe('Integrations', () => {
         cy.uiGetPostTextBox().type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().invoke('text').should('be.empty');
     });
-
-    it('MM-T686 /logout', () => {
-        // # Type "/logout"
-        cy.uiGetPostTextBox().should('be.visible').clear().type('/logout {enter}').wait(TIMEOUTS.HALF_SEC);
-
-        // * Ensure that the user was redirected to the login page
-        cy.url().should('include', '/login');
-    });
 });

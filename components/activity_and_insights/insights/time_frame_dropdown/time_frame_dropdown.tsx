@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 
 import ReactSelect, {ValueType} from 'react-select';
 
@@ -19,7 +19,7 @@ type SelectOption = {
     label: string;
 }
 type Props = {
-    timeFrame: SelectOption;
+    timeFrame: string;
     setTimeFrame: (value: SelectOption) => void;
 }
 
@@ -64,6 +64,29 @@ const TimeFrameDropdown = (props: Props) => {
         );
     };
 
+    const getCurrentTimeFrame = useCallback((): SelectOption => {
+        const timeFrame = props.timeFrame;
+
+        if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
+            return {
+                value: TimeFrames.INSIGHTS_1_DAY,
+                label: localizeMessage('insights.timeFrame.today', 'Today'),
+            };
+        }
+
+        if (timeFrame === TimeFrames.INSIGHTS_28_DAYS) {
+            return {
+                value: TimeFrames.INSIGHTS_28_DAYS,
+                label: localizeMessage('insights.timeFrame.longRange', 'Last 28 days'),
+            };
+        }
+
+        return {
+            value: TimeFrames.INSIGHTS_7_DAYS,
+            label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
+        };
+    }, [props.timeFrame]);
+
     return (
         <ReactSelect
             className='react-select react-select-top'
@@ -87,7 +110,7 @@ const TimeFrameDropdown = (props: Props) => {
             ]}
             clearable={false}
             onChange={onTimeFrameChange}
-            value={props.timeFrame}
+            value={getCurrentTimeFrame()}
             aria-labelledby='changeInsightsTemporal'
             components={{
                 DropdownIndicator: CustomDropwdown,

@@ -26,6 +26,8 @@ import {getPenultimateViewedChannelName} from 'selectors/local_storage';
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
+import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins';
+
 import Desktop from './channel_header_dropdown';
 import Items from './channel_header_dropdown_items';
 import Mobile from './mobile_channel_header_dropdown';
@@ -65,7 +67,7 @@ const mapStateToProps = (state) => ({
     isReadonly: false,
     isArchived: isCurrentChannelArchived(state),
     penultimateViewedChannelName: getPenultimateViewedChannelName(state) || getRedirectChannelNameForTeam(state, getCurrentTeamId(state)),
-    pluginMenuItems: state.plugins.components.ChannelHeader || [],
+    pluginMenuItems: getChannelHeaderMenuPluginComponents(state),
     isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
 });
 

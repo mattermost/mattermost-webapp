@@ -1,22 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useEffect} from 'react';
 import {CSSTransition} from 'react-transition-group';
 import styled from 'styled-components';
-
 import {FormattedMessage, useIntl} from 'react-intl';
-
 import {useSelector, useDispatch} from 'react-redux';
 
-import completedImg from 'images/completed.svg';
-
 import {GlobalState} from '@mattermost/types/store';
+
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
-import {LicenseSkus} from 'mattermost-redux/types/general';
+
+import {LicenseSkus} from 'utils/constants';
 
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
+
+import completedImg from 'images/completed.svg';
 
 const CompletedWrapper = styled.div`
     display: flex;

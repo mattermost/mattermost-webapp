@@ -5,6 +5,7 @@ import {createSelector} from 'reselect';
 
 import {AppBinding} from '@mattermost/types/apps';
 import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 
 import {GlobalState} from 'types/store';
 import {FileDropdownPluginComponent, PluginComponent} from '../types/store/plugins';
@@ -38,6 +39,24 @@ export const getChannelHeaderPluginComponents = createSelector(
         // Remove channel header icons for plugins that have also registered an app bar component
         const appBarPluginIds = appBarComponents.map((appBarComponent) => appBarComponent.pluginId);
         return channelHeaderComponents.filter((channelHeaderComponent) => !appBarPluginIds.includes(channelHeaderComponent.pluginId));
+    },
+);
+
+const getChannelHeaderMenuPluginComponentsShouldRender = createSelector(
+    'getChannelHeaderMenuPluginComponentsShouldRender',
+    (state: GlobalState) => state,
+    (state: GlobalState) => state.plugins.components.ChannelHeader,
+    (state, channelHeaderMenuComponents = []) => {
+        return channelHeaderMenuComponents.map((component) => !component.shouldRender || component.shouldRender(state));
+    },
+);
+
+export const getChannelHeaderMenuPluginComponents = createShallowSelector(
+    'getChannelHeaderMenuPluginComponents',
+    getChannelHeaderMenuPluginComponentsShouldRender,
+    (state: GlobalState) => state.plugins.components.ChannelHeader,
+    (componentShouldRender = [], channelHeaderMenuComponents = []) => {
+        return channelHeaderMenuComponents.filter((component, idx) => componentShouldRender[idx]);
     },
 );
 

@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 const childProcess = require('child_process');
-
 const path = require('path');
 
 const url = require('url');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
@@ -14,19 +12,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
+const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
-const targetIsRun = NPM_TARGET === 'run';
+const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
-const targetIsDevServer = NPM_TARGET === 'dev-server';
+const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
-    path.join(__dirname, 'packages/components'),
 ];
 
 // react-hot-loader and development source maps require eval
@@ -132,11 +130,12 @@ if (DEV) {
 }
 
 var config = {
-    entry: ['./root.jsx', 'root.html'],
+    entry: ['./root.tsx', 'root.html'],
     output: {
         publicPath,
         filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].js',
+        clean: true,
     },
     module: {
         rules: [
@@ -236,8 +235,6 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
-            '@mattermost/client': 'packages/client/src',
-            '@mattermost/types': 'packages/types/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
@@ -302,6 +299,9 @@ var config = {
                 {from: 'images/admin-onboarding-background.jpg', to: 'images'},
                 {from: 'images/payment-method-illustration.png', to: 'images'},
                 {from: 'images/cloud-laptop.png', to: 'images'},
+                {from: 'images/cloud-laptop-error.png', to: 'images'},
+                {from: 'images/cloud-laptop-warning.png', to: 'images'},
+                {from: 'images/cloud-upgrade-person-hand-to-face.png', to: 'images'},
             ],
         }),
 
@@ -371,6 +371,11 @@ var config = {
                 sizes: '96x96',
             }],
         }),
+        new BundleAnalyzerPlugin({
+            analyzerMode: 'disabled',
+            generateStatsFile: true,
+            statsFilename: 'bundlestats.json',
+        }),
     ],
 };
 
@@ -408,7 +413,7 @@ config.plugins.push(new webpack.DefinePlugin({
 
 // Test mode configuration
 if (targetIsTest) {
-    config.entry = ['./root.jsx'];
+    config.entry = ['./root.tsx'];
     config.target = 'node';
     config.externals = [nodeExternals()];
 }
