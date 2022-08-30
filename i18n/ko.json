@@ -2870,7 +2870,6 @@
   "notify_all.title.confirm_groups": "Confirm sending notifications to groups",
   "numMembers": "{num, number} {num, plural, one {member} other {members}}",
   "onboardingTask.checklist.task_playbooks_tour": "첫 플레이북으로 작업 흐름 살펴보기",
-  "onboarding_wizard.use_case.playbooks": "절차, 작업 흐름과 자동화",
   "password_form.change": "패스워드 변경하기",
   "password_form.error": "최소 {chars}글자 이상 입력하세요.",
   "password_form.pwd": "패스워드",
