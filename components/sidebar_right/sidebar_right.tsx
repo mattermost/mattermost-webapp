@@ -265,7 +265,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             <>
                 {isOpen && (
                     <>
-                        <div className={'sidebar--right--width-holder'}/>
+                        <div className={'sidebar--right sidebar--right--width-holder'}/>
                         <div
                             className={containerClassName}
                             id='sidebar-right'
