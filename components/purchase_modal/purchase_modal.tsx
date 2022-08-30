@@ -64,9 +64,11 @@ type ButtonDetails = {
     customClass?: ButtonCustomiserClasses;
 }
 
-type DelinquencyCardProps = CardProps & {
+type DelinquencyCardProps = {
+    topColor: string;
+    price: string;
+    buttonDetails: ButtonDetails;
     onViewBreakdownClick: () => void;
-    planBriefing?: JSX.Element;
 };
 
 type CardProps = {
@@ -272,7 +274,6 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                         {props.buttonDetails.text}
                     </button>
                 </div>
-                {props.planBriefing}
                 <div className='plan_billing_cycle delinquency'>
                     <FormattedMessage
                         defaultMessage={
@@ -536,7 +537,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     )}
                     <DelinquencyCard
                         topColor='#4A69AC'
-                        plan={''}
                         price={this.getDelinquencyTotalString()}
                         buttonDetails={{
                             action: this.handleSubmitClick,
