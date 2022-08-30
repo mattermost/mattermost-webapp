@@ -83,17 +83,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </Connect(SidebarMenu)>
 `;
@@ -172,17 +177,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </React.Fragment>
 `;
@@ -261,17 +271,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </React.Fragment>
 `;
@@ -350,17 +365,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </React.Fragment>
 `;
@@ -608,17 +628,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </Connect(SidebarMenu)>
 `;
@@ -706,17 +731,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </Connect(SidebarMenu)>
 `;
@@ -804,17 +834,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </Connect(SidebarMenu)>
 `;
@@ -913,17 +948,22 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
+    <span
       id="leave-channel_id"
       onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
+    >
+      <span
+        className="MenuItem__divider"
+      />
+      <li
+        className="destructive-leave-channel"
+      >
+        <i
+          className="icon-close text-white"
+        />
+        Leave Channel
+      </li>
+    </span>
   </MenuGroup>
 </Connect(SidebarMenu)>
 `;
