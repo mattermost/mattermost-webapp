@@ -14,7 +14,7 @@ import {localizeMessage, compareChannels} from 'utils/utils';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 type ChannelWithTeamDataValue = ChannelWithTeamData & Value;
 

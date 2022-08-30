@@ -16,7 +16,7 @@ import BackstageHeader from 'components/backstage/components/backstage_header.js
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import SpinnerButton from 'components/spinner_button';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import FormError from 'components/form_error';
 
 import {browserHistory} from 'utils/browser_history';
