@@ -74,7 +74,7 @@ const config: PlaywrightTestConfig = {
     reporter: [
         ['html', {open: 'never'}],
         ['json', {outputFile: 'playwright-report/results.json'}],
-        ['junit', { outputFile: 'playwright-report/results.xml' }],
+        ['junit', {outputFile: 'playwright-report/results.xml'}],
         ['list'],
     ],
 };

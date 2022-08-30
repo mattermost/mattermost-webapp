@@ -1,9 +1,9 @@
 {
     "scripts": {
-        "test": "playwright test",
+        "test": "PW_SNAPSHOT_ENABLE=true playwright test",
         "lint": "eslint . --ext .js,.ts",
-        "applitools": "BRANCH=$(git branch | sed -n -e 's/^\\* \\(.*\\)/\\1/p') APPLITOOLS_API_KEY=$APPLITOOLS_API_KEY PW_APPLITOOLS_ENABLE=true npm run test -- --project=chrome",
-        "percy": "PERCY_TOKEN=$PERCY_TOKEN PW_PERCY_ENABLE=true percy exec -- npm run test -- --project=chrome",
+        "applitools": "APPLITOOLS_API_KEY=$APPLITOOLS_API_KEY PW_APPLITOOLS_ENABLE=true playwright test --project=chrome",
+        "percy": "PERCY_TOKEN=$PERCY_TOKEN PW_PERCY_ENABLE=true percy exec -- playwright test --project=chrome",
         "prettier": "prettier --write ."
     },
     "devDependencies": {
