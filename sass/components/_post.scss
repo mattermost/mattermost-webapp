@@ -2240,12 +2240,6 @@
     }
 }
 
-#post_textbox::after {
-    display: inline-block;
-    clip-path: polygon(100% 0, 100% 100%, 0 100%);
-    content: '';
-}
-
 @keyframes postHighlight {
     100% {
         background: initial;
