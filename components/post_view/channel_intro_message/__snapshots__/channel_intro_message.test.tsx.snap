@@ -21,7 +21,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -103,7 +103,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.readonly.default"
       values={
@@ -138,7 +138,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -230,7 +230,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -384,7 +384,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -527,7 +527,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your direct message history with {teammate}.\\\\nDirect messages and files shared here are not shown to people outside this area."
       id="intro_messages.DM"
       values={
@@ -618,7 +618,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your direct message history with {teammate}.\\\\nDirect messages and files shared here are not shown to people outside this area."
       id="intro_messages.DM"
       values={
@@ -734,7 +734,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
@@ -828,7 +828,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
