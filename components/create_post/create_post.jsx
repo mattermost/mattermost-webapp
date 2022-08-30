@@ -333,7 +333,7 @@ class CreatePost extends React.PureComponent {
     }
 
     componentDidMount() {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions, enableConfirmNotificationsToChannel} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
         actions.clearDraftUploads(StoragePrefixes.DRAFT, (key, value) => {
@@ -348,18 +348,18 @@ class CreatePost extends React.PureComponent {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
-        if (useGroupMentions) {
+        if (useGroupMentions && enableConfirmNotificationsToChannel) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useGroupMentions, currentChannel, isTimezoneEnabled, actions, enableConfirmNotificationsToChannel} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useGroupMentions) {
+            if (useGroupMentions && enableConfirmNotificationsToChannel) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }
