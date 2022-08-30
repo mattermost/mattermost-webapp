@@ -5,14 +5,14 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
 
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {applyTheme} from 'utils/utils';
-
-import {Theme} from 'mattermost-redux/types/themes';
 
 import {ModalData} from 'types/actions';
 

@@ -6,7 +6,7 @@ import React, {ChangeEvent, ClipboardEvent, createRef, MouseEvent, RefObject} fr
 import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {t} from 'utils/i18n';
 import Constants from 'utils/constants';
