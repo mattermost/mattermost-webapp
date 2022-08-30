@@ -354,30 +354,3 @@
     border-top: $border-gray;
     margin: 8px 0;
 }
-
-.destructive-leave-channel {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px 0;
-    color: var(--dnd-indicator);
-    gap: 9px;
-
-    &:hover {
-        background-color: var(--dnd-indicator);
-        color: #fff;
-    }
-
-    @media (max-width: 768px) {
-        justify-content: start;
-        padding-left: 14px;
-    }
-}
-
-.destructive-leave-channel:hover .text-white {
-    color: #fff !important;
-}
-
-.text-white {
-    color: var(--dnd-indicator) !important;
-}

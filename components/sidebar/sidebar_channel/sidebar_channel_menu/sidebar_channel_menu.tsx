@@ -209,32 +209,16 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
         let leaveChannel;
         if (channel.name !== Constants.DEFAULT_CHANNEL) {
-            if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
-                leaveChannel =
+            leaveChannel =
                     (<Menu.Group>
                         <Menu.ItemAction
                             id={`leave-${channel.id}`}
                             onClick={this.handleLeaveChannel}
                             icon={<i className='icon-close'/>}
                             text={leaveChannelText}
+                            isDangerous={(channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) === false}
                         />
                     </Menu.Group>);
-            } else {
-                leaveChannel = (
-                    <Menu.Group>
-                        <span
-                            onClick={this.handleLeaveChannel}
-                            id={`leave-${channel.id}`}
-                        >
-                            <span className='MenuItem__divider'/>
-                            <li className='destructive-leave-channel'>
-                                <i className='icon-close text-white'/>
-                                {leaveChannelText}
-                            </li>
-                        </span>
-                    </Menu.Group>
-                );
-            }
         }
 
         return (
