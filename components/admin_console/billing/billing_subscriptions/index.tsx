@@ -70,6 +70,7 @@ const BillingSubscriptions = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
     const [showGrandfatheredPlanBanner, setShowGrandfatheredPlanBanner] = useState(true);
+    const [errorLoadingBilling, setErrorLoadingBilling] = useState(false);
 
     const query = useQuery();
     const actionQueryParam = query.get('action');
@@ -95,27 +96,36 @@ const BillingSubscriptions = () => {
     }
 
     useEffect(() => {
-        getCloudSubscription()(dispatch, store.getState());
-        const includeLegacyProducts = true;
-        getCloudProducts(includeLegacyProducts)(dispatch, store.getState());
-        getCloudCustomer()(dispatch, store.getState());
-
-        if (!analytics) {
-            (async function getAllAnalytics() {
-                await dispatch(getStandardAnalytics());
-            }());
+        if (errorLoadingBilling) {
+            return
         }
+        try {
+            getCloudSubscription()(dispatch, store.getState);
+            const includeLegacyProducts = true;
+            getCloudProducts(includeLegacyProducts)(dispatch, store.getState);
+            getCloudCustomer()(dispatch, store.getState);
 
-        pageVisited('cloud_admin', 'pageview_billing_subscription');
+            if (!analytics) {
+                (async function getAllAnalytics() {
+                    await dispatch(getStandardAnalytics());
+                }());
+            }
 
-        if (actionQueryParam === 'show_purchase_modal') {
-            onUpgradeMattermostCloud('billing_subscriptions_external_direct_link');
+            pageVisited('cloud_admin', 'pageview_billing_subscription');
+
+            if (actionQueryParam === 'show_purchase_modal') {
+                onUpgradeMattermostCloud('billing_subscriptions_external_direct_link');
+            }
+
+            if (actionQueryParam === 'show_pricing_modal') {
+                openPricingModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
+            }
+        } catch (err) {
+            console.error('error loading billing', err)
+            // TODO redirect to error page here
+            setErrorLoadingBilling(true);
         }
-
-        if (actionQueryParam === 'show_pricing_modal') {
-            openPricingModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
-        }
-    }, []);
+    }, [errorLoadingBilling]);
 
     const shouldShowPaymentFailedBanner = () => {
         return subscription?.last_invoice?.status === 'failed';
@@ -144,6 +154,12 @@ const BillingSubscriptions = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
+                    {errorLoadingBilling &&
+                    <div>
+                        {'error loading billing'}
+                    </div>
+                    }
+                    {!errorLoadingBilling && <>
                     <LimitReachedBanner
                         product={product}
                     />
@@ -187,6 +203,7 @@ const BillingSubscriptions = () => {
                         isFreeTrial={isFreeTrial}
                         isLegacyFree={isLegacyFree}
                     />
+                    </>}
                 </div>
             </div>
         </div>

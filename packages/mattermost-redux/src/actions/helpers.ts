@@ -12,6 +12,12 @@ import {logError} from './errors';
 type ActionType = string;
 const HTTP_UNAUTHORIZED = 401;
 export function forceLogoutIfNecessary(err: ServerError, dispatch: DispatchFunc, getState: GetStateFunc) {
+    if (typeof getState !== 'function') {
+        console.log(err)
+        console.log(getState)
+        console.log(dispatch)
+        debugger;
+    }
     const {currentUserId} = getState().entities.users;
 
     if ('status_code' in err && err.status_code === HTTP_UNAUTHORIZED && err.url && err.url.indexOf('/login') === -1 && currentUserId) {
