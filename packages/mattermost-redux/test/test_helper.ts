@@ -8,7 +8,7 @@ import nock from 'nock';
 import {Bot} from '@mattermost/types/bots';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Role} from '@mattermost/types/roles';
-import {Post} from '@mattermost/types/posts';
+import {Post, PostMetadata} from '@mattermost/types/posts';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {Group} from '@mattermost/types/groups';
 import {UserProfile} from '@mattermost/types/users';
@@ -385,10 +385,9 @@ class TestHelper {
             metadata: {
                 embeds: [],
                 emojis: [],
-                files: [],
                 images: {},
                 reactions: [],
-            },
+            } as unknown as PostMetadata, // coercion because an existing test relies on this not having files
             create_at: 0,
             delete_at: 0,
             id: 'id',
