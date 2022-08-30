@@ -28,7 +28,7 @@ import {
 
 import {getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId, getUsers} from 'mattermost-redux/selectors/entities/users';
-import {isCollapsedThreadsEnabled, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {removeUserFromList} from 'mattermost-redux/utils/user_utils';
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
@@ -63,74 +63,6 @@ export function createUser(user: UserProfile, token: string, inviteId: string, r
         dispatch({type: UserTypes.RECEIVED_PROFILES, data: profiles});
 
         return {data: created};
-    };
-}
-
-export function login(loginId: string, password: string, mfaToken = '', ldapOnly = false): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
-
-        const state = getState();
-
-        try {
-            await Client4.login(loginId, password, mfaToken, ldapOnly);
-
-            let isSuccessfullyLoggedIn = false;
-            if (isGraphQLEnabled(state)) {
-                const dataFromLoad = await dispatch(loadMe());
-                isSuccessfullyLoggedIn = dataFromLoad && dataFromLoad.data;
-            } else {
-                const dataFromLoadMeREST = await dispatch(loadMeREST());
-                isSuccessfullyLoggedIn = dataFromLoadMeREST && dataFromLoadMeREST.data;
-            }
-
-            if (isSuccessfullyLoggedIn) {
-                dispatch({type: UserTypes.LOGIN_SUCCESS});
-            }
-        } catch (error) {
-            dispatch({
-                type: UserTypes.LOGIN_FAILURE,
-                error,
-            });
-            dispatch(logError(error));
-            return {error};
-        }
-
-        return {data: true};
-    };
-}
-
-export function loginById(id: string, password: string, mfaToken = ''): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({type: UserTypes.LOGIN_REQUEST, data: null});
-
-        const state = getState();
-
-        try {
-            await Client4.loginById(id, password, mfaToken);
-
-            let isSuccessfullyLoggedIn = false;
-            if (isGraphQLEnabled(state)) {
-                const dataFromLoadMe = await dispatch(loadMe());
-                isSuccessfullyLoggedIn = dataFromLoadMe && dataFromLoadMe.data;
-            } else {
-                const dataFromLoadMeREST = await dispatch(loadMeREST());
-                isSuccessfullyLoggedIn = dataFromLoadMeREST && dataFromLoadMeREST.data;
-            }
-
-            if (isSuccessfullyLoggedIn) {
-                dispatch({type: UserTypes.LOGIN_SUCCESS});
-            }
-        } catch (error) {
-            dispatch({
-                type: UserTypes.LOGIN_FAILURE,
-                error,
-            });
-            dispatch(logError(error));
-            return {error};
-        }
-
-        return {data: true};
     };
 }
 
@@ -1516,7 +1448,6 @@ export function checkForModifiedUsers() {
 
 export default {
     generateMfaSecret,
-    login,
     logout,
     getProfiles,
     getProfilesByIds,

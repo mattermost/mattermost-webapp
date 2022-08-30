@@ -116,7 +116,7 @@ import {
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
-import {TopChannelResponse, TopDMsResponse, TopReactionResponse, TopThreadResponse} from '@mattermost/types/insights';
+import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -779,7 +779,7 @@ export default class Client4 {
         return response;
     };
 
-    getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options = {}) => {
+    getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options: Record<string, any> = {}) => {
         return this.doFetch<UserProfile[]>(
             `${this.getUsersRoute()}${buildQueryString({page, per_page: perPage, ...options})}`,
             {method: 'get'},
@@ -2193,6 +2193,12 @@ export default class Client4 {
         );
     }
 
+    getLeastActiveChannelsForTeam = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<LeastActiveChannelsResponse>(
+            `${this.getTeamRoute(teamId)}/top/inactive_channels${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
+            {method: 'get'},
+        );
+    }
     getMyTopDMs = (teamId: string, page: number, perPage: number, timeRange: string) => {
         return this.doFetch<TopDMsResponse>(
             `${this.getUsersRoute()}/me/top/dms${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
@@ -2200,6 +2206,12 @@ export default class Client4 {
         );
     }
 
+    getMyLeastActiveChannels = (teamId: string, page: number, perPage: number, timeRange: string) => {
+        return this.doFetch<LeastActiveChannelsResponse>(
+            `${this.getUsersRoute()}/me/top/inactive_channels${buildQueryString({page, per_page: perPage, time_range: timeRange, team_id: teamId})}`,
+            {method: 'get'},
+        );
+    }
     getNewTeamMembers = (teamId: string, page: number, perPage: number, timeRange: string) => {
         return this.doFetch<TopDMsResponse>(
             `${this.getTeamRoute(teamId)}/top/team_members${buildQueryString({page, per_page: perPage, time_range: timeRange})}`,
@@ -4026,10 +4038,6 @@ export default class Client4 {
         } catch (err) {
             throw new ClientError(this.getUrl(), {
                 message: 'Received invalid response from the server.',
-                intl: {
-                    id: 'mobile.request.invalid_response',
-                    defaultMessage: 'Received invalid response from the server.',
-                },
                 url,
             });
         }
@@ -4104,11 +4112,6 @@ export function parseAndMergeNestedHeaders(originalHeaders: any) {
 
 export class ClientError extends Error implements ServerError {
     url?: string;
-    intl?: {
-        id: string;
-        defaultMessage: string;
-        values?: any;
-    };
     server_error_id?: string;
     status_code?: number;
 
@@ -4117,7 +4120,6 @@ export class ClientError extends Error implements ServerError {
 
         this.message = data.message;
         this.url = data.url;
-        this.intl = data.intl;
         this.server_error_id = data.server_error_id;
         this.status_code = data.status_code;
 

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {AnalyticsRow} from '@mattermost/types/admin';
 import {ClientLicense} from '@mattermost/types/config';
@@ -194,9 +194,32 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             }}
                         />
                     ) : (
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.feature_discovery.trial-request.accept-terms'
-                            defaultMessage='By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails.'
+                            defaultMessage='By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails.'
+                            values={{
+                                highlight: (msg: React.ReactNode) => (
+                                    <strong>{msg}</strong>
+                                ),
+                                linkEvaluation: (msg: React.ReactNode) => (
+                                    <a
+                                        href={LicenseLinks.SOFTWARE_EVALUATION_AGREEMENT}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                                linkPrivacy: (msg: React.ReactNode) => (
+                                    <a
+                                        href={AboutLinks.PRIVACY_POLICY}
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     )}
                 </p>}
