@@ -114,6 +114,11 @@ interface FormattingBarProps {
      * location of the advanced text editor in the UI (center channel / RHS)
      */
     location: string;
+
+    /**
+     * location of the advanced text editor in the UI (center channel / RHS)
+     */
+    additionalControls: React.ReactNode;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {
@@ -123,6 +128,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         getCurrentMessage,
         disableControls,
         location,
+        additionalControls,
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const formattingBarRef = useRef<HTMLDivElement>(null);
@@ -231,6 +237,13 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     </React.Fragment>
                 );
             })}
+
+            {additionalControls && (
+                <>
+                    <Separator/>
+                    {additionalControls}
+                </>
+            )}
 
             {hasHiddenControls && (
                 <>

@@ -31,8 +31,6 @@ import Constants, {Locations} from 'utils/constants';
 import AutoHeightSwitcher from '../common/auto_height_switcher';
 import Tooltip from '../tooltip';
 
-import {Separator} from './formatting_bar/formatting_bar';
-
 import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
 import ShowFormat from './show_formatting';
@@ -364,93 +362,92 @@ const AdvanceTextEditor = ({
             getCurrentSelection={getCurrentSelection}
             disableControls={shouldShowPreview}
             location={location}
+            additionalControls={extraControls}
         />
     );
 
     const showFormattingBar = !isFormattingBarHidden && !readOnlyChannel;
 
     return (
-        <div
-            className={classNames('AdvancedTextEditor', {
-                'AdvancedTextEditor__attachment-disabled': !canUploadFiles,
-                scroll: renderScrollbar,
-            })}
-            style={
-                renderScrollbar && scrollbarWidth ? ({
-                    '--detected-scrollbar-width': `${scrollbarWidth}px`,
-                } as CSSProperties) : undefined
-            }
-        >
+        <>
             <div
-                className={'AdvancedTextEditor__body'}
-                disabled={readOnlyChannel}
+                className={classNames('AdvancedTextEditor', {
+                    'AdvancedTextEditor__attachment-disabled': !canUploadFiles,
+                    scroll: renderScrollbar,
+                })}
+                style={
+                    renderScrollbar && scrollbarWidth ? ({
+                        '--detected-scrollbar-width': `${scrollbarWidth}px`,
+                    } as CSSProperties) : undefined
+                }
             >
                 <div
-                    role='application'
-                    id='advancedTextEditorCell'
-                    data-a11y-sort-order='2'
-                    aria-label={ariaLabelMessageInput}
-                    tabIndex={-1}
-                    className='AdvancedTextEditor__cell a11y__region'
+                    className={'AdvancedTextEditor__body'}
+                    disabled={readOnlyChannel}
                 >
-                    <Textbox
-                        onChange={handleChange}
-                        onKeyPress={postMsgKeyPress}
-                        onKeyDown={handleKeyDown}
-                        onSelect={handleSelect}
-                        onMouseUp={handleMouseUpKeyUp}
-                        onKeyUp={handleMouseUpKeyUp}
-                        onComposition={emitTypingEvent}
-                        onHeightChange={handleHeightChange}
-                        handlePostError={handlePostError}
-                        value={messageValue}
-                        onBlur={handleBlur}
-                        emojiEnabled={enableEmojiPicker}
-                        createMessage={createMessage}
-                        channelId={channelId}
-                        id={textboxId}
-                        ref={textboxRef!}
-                        disabled={readOnlyChannel}
-                        characterLimit={maxPostSize}
-                        preview={shouldShowPreview}
-                        badConnection={badConnection}
-                        listenForMentionKeyClick={true}
-                        useChannelMentions={useChannelMentions}
-                        rootId={postId}
-                    />
-                    {attachmentPreview}
-                    {showFormattingBar && (
-                        <TexteditorActions placement='top'>
-                            {showFormatJSX}
-                        </TexteditorActions>
-                    )}
-                    <AutoHeightSwitcher
-                        showSlot={showFormattingBar ? 1 : 2}
-                        slot1={formattingBar}
-                        slot2={null}
-                    />
-                    <TexteditorActions placement='bottom'>
+                    <div
+                        role='application'
+                        id='advancedTextEditorCell'
+                        data-a11y-sort-order='2'
+                        aria-label={ariaLabelMessageInput}
+                        tabIndex={-1}
+                        className='AdvancedTextEditor__cell a11y__region'
+                    >
+                        <Textbox
+                            onChange={handleChange}
+                            onKeyPress={postMsgKeyPress}
+                            onKeyDown={handleKeyDown}
+                            onSelect={handleSelect}
+                            onMouseUp={handleMouseUpKeyUp}
+                            onKeyUp={handleMouseUpKeyUp}
+                            onComposition={emitTypingEvent}
+                            onHeightChange={handleHeightChange}
+                            handlePostError={handlePostError}
+                            value={messageValue}
+                            onBlur={handleBlur}
+                            emojiEnabled={enableEmojiPicker}
+                            createMessage={createMessage}
+                            channelId={channelId}
+                            id={textboxId}
+                            ref={textboxRef!}
+                            disabled={readOnlyChannel}
+                            characterLimit={maxPostSize}
+                            preview={shouldShowPreview}
+                            badConnection={badConnection}
+                            listenForMentionKeyClick={true}
+                            useChannelMentions={useChannelMentions}
+                            rootId={postId}
+                        />
+                        {attachmentPreview}
+                        {!readOnlyChannel && showFormattingBar && (
+                            <TexteditorActions placement='top'>
+                                {showFormatJSX}
+                            </TexteditorActions>
+                        )}
+                        <AutoHeightSwitcher
+                            showSlot={showFormattingBar ? 1 : 2}
+                            slot1={formattingBar}
+                            slot2={null}
+                        />
                         {!readOnlyChannel && (
-                            <>
+                            <TexteditorActions placement='bottom'>
                                 <ToggleFormattingBar
                                     onClick={toggleAdvanceTextEditor}
                                     active={showFormattingBar}
                                     disabled={false}
                                 />
-                                <Separator/>
-                            </>
+                            </TexteditorActions>
                         )}
-                        {extraControls}
-                        {sendButton}
-                    </TexteditorActions>
+                    </div>
+                    {showSendTutorialTip && currentChannel && prefillMessage &&
+                        <SendMessageTour
+                            prefillMessage={prefillMessage}
+                            currentChannel={currentChannel}
+                            currentUserId={currentUserId}
+                            currentChannelTeammateUsername={currentChannelTeammateUsername}
+                        />}
                 </div>
-                {showSendTutorialTip && currentChannel && prefillMessage &&
-                    <SendMessageTour
-                        prefillMessage={prefillMessage}
-                        currentChannel={currentChannel}
-                        currentUserId={currentUserId}
-                        currentChannelTeammateUsername={currentChannelTeammateUsername}
-                    />}
+                {sendButton}
             </div>
             <div
                 id='postCreateFooter'
@@ -466,7 +463,7 @@ const AdvanceTextEditor = ({
                     postId={postId}
                 />
             </div>
-        </div>
+        </>
     );
 };
 

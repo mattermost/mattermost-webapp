@@ -17,6 +17,7 @@ const SendButtonContainer = styled.button`
     display: flex;
     height: 32px;
     padding: 0 16px;
+    margin: 9px 0;
     border: none;
     background: var(--button-bg);
     border-radius: 4px;

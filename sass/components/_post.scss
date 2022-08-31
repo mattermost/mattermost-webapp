@@ -395,6 +395,7 @@
         padding: 13px 0 12px 16px;
         cursor: auto;
         resize: none;
+        transition: height 150ms ease-in-out;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
