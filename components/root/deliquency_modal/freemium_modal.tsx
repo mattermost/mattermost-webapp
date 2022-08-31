@@ -22,9 +22,10 @@ type FreemiumModalProps = {
 type ReactivateFooterProps = {
     onReactivate: () => void;
     onClose: () => void;
+    productName: string;
 }
 
-const ReactivateFooter = ({onClose, onReactivate}: ReactivateFooterProps) => {
+const ReactivateFooter = ({onClose, onReactivate, productName}: ReactivateFooterProps) => {
     return (<Modal.Footer className={'DeliquencyFreemiumModal__footer '}>
         <button
             className={'DeliquencyFreemiumModal__footer--secondary'}
@@ -44,13 +45,16 @@ const ReactivateFooter = ({onClose, onReactivate}: ReactivateFooterProps) => {
         >
             <FormattedMessage
                 id='cloud_delinquency.modal.update_billing'
-                defaultMessage='Update Billing'
+                defaultMessage='Re-activate {productName}'
+                values={{
+                    productName,
+                }}
             />
         </button>
     </Modal.Footer>);
 };
 
-type NoReactivateFooterProps = Omit<ReactivateFooterProps, 'onReactivate'>;
+type NoReactivateFooterProps = Omit<ReactivateFooterProps, 'onReactivate' | 'productName'>;
 
 const NoReactivateFooter = ({onClose}: NoReactivateFooterProps) => {
     return (<Modal.Footer className={'DeliquencyFreemiumModal__footer '}>
@@ -76,7 +80,7 @@ export const FreemiumModal = ({onClose}: FreemiumModalProps) => {
 
     const handleReactivate = () => {
         onClose();
-        openPurchaseModal({trackingLocation: ''});
+        openPurchaseModal({trackingLocation: 'deliquency_modal_freemium_admin'});
     };
 
     return (
@@ -126,12 +130,13 @@ export const FreemiumModal = ({onClose}: FreemiumModalProps) => {
                     usage={usage}
                 />
             </Modal.Body>
-            {highestLimit &&
+            {!highestLimit &&
                 <ReactivateFooter
+                    productName='Professional'
                     onClose={onClose}
                     onReactivate={handleReactivate}
                 />}
-            {!highestLimit && <NoReactivateFooter onClose={onClose}/> }
+            {highestLimit && <NoReactivateFooter onClose={onClose}/> }
         </>
     );
 };

@@ -14,7 +14,6 @@ interface DeliquencyModalControllerProps {
     userIsAdmin: boolean;
     subscription?: Subscription;
     isCloud: boolean;
-    show: boolean;
     actions: {
         getCloudSubscription: () => void;
         closeModal: () => void;
@@ -119,20 +118,19 @@ const DeliquencyModalController = (props: DeliquencyModalControllerProps) => {
     }, [isCloud, openModal, setToDisplay, state, subscription, userIsAdmin]);
 
     useEffect(() => {
-        if (state === ModalSteps.TO_SHOW) {
+        if (state === ModalSteps.TO_SHOW && subscription != null) {
             openModal({
                 modalId: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
                 dialogType: DeliquencyModal,
                 dialogProps: {
-                    ...props,
-                    show: true,
+                    closeModal: actions.closeModal,
+                    subscription,
                     onExited: setModalClosed,
-                    onHide: setModalClosed,
                 },
             });
             setModalDisplayed();
         }
-    }, [openModal, props, setModalClosed, setModalDisplayed, state]);
+    }, [actions.closeModal, openModal, props, setModalClosed, setModalDisplayed, state, subscription]);
 
     return <></>;
 };

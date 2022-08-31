@@ -10,7 +10,6 @@ import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {ModalIdentifiers} from 'utils/constants';
-import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {closeModal, openModal} from 'actions/views/modals';
 
@@ -26,7 +25,6 @@ function mapStateToProps(state: GlobalState) {
         isCloud,
         subscription,
         userIsAdmin,
-        show: isModalOpen(state, ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE),
     };
 }
 
