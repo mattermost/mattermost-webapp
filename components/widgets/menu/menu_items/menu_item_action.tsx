@@ -8,8 +8,6 @@ import menuItem from './menu_item';
 
 type Props = {
     onClick: (e: React.MouseEvent) => void;
-    onMouseEnter?: (e: React.MouseEvent) => void;
-    onMouseLeave?: (e: React.MouseEvent) => void;
     ariaLabel?: string;
     text: React.ReactNode;
     extraText?: string;
@@ -20,8 +18,6 @@ type Props = {
 }
 export const MenuItemActionImpl = ({
     onClick,
-    onMouseEnter,
-    onMouseLeave,
     ariaLabel,
     text,
     extraText,
@@ -31,8 +27,6 @@ export const MenuItemActionImpl = ({
     isDangerous,
 }: Props) => (
     <button
-        onMouseEnter={onMouseEnter}
-        onMouseLeave={onMouseLeave}
         data-testid={id}
         id={id}
         aria-label={ariaLabel}
