@@ -69,6 +69,7 @@ import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
+import WelcomePostRenderer from 'components/custom_welcome_message_renderer';
 
 import {UserProfile} from '@mattermost/types/users';
 
@@ -78,7 +79,6 @@ import {applyLuxonDefaults} from './effects';
 
 import RootProvider from './root_provider';
 import RootRedirect from './root_redirect';
-import WelcomePostRenderer from 'components/custom_welcome_message_renderer';
 
 const CreateTeam = makeAsyncComponent('CreateTeam', LazyCreateTeam);
 const ErrorPage = makeAsyncComponent('ErrorPage', LazyErrorPage);
