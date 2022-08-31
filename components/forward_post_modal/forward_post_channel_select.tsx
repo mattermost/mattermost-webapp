@@ -33,7 +33,6 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
-import channelProvider, {TChannelProvider} from '../suggestion/channel_provider';
 
 import {getBaseStyles} from './forward_post_channel_select_styles';
 
@@ -63,7 +62,7 @@ type GroupedOption = {
     options: ChannelOption[];
 }
 
-export const makeSelectedChannelOption = (channel: Channel) => ({
+export const makeSelectedChannelOption = (channel: Channel): ChannelOption => ({
     label: channel.display_name || channel.name,
     value: channel.id,
     details: channel,
@@ -252,14 +251,10 @@ type Props<O> = {
 function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<ChannelOption>) {
     const {formatMessage} = useIntl();
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
-    const {current: providerNew} = useRef<TChannelProvider>(channelProvider());
 
     useEffect(() => {
         provider.forceDispatch = true;
-        providerNew.handleSearch('js').then((res) => {
-            console.log('###### result from new provider', res);
-        });
-    }, [provider, providerNew]);
+    }, [provider]);
 
     const baseStyles = getBaseStyles(currentBodyHeight);
 
@@ -298,9 +293,6 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
             const handleResults = (res: ProviderResults) => {
-                console.log('#### res: ', res);
-                console.log('#### call number: ', callCount);
-
                 res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
                     const {channel} = item;
 
@@ -308,14 +300,12 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
                 });
 
                 if (callCount === 1) {
-                    console.log('##### options', options);
                     const filteredOptions = options.reduce((unique: ChannelOption[], o) => {
                         if (!unique.some((obj) => obj.value === o.value)) {
                             unique.push(o);
                         }
                         return unique;
                     }, []);
-                    console.log('##### options', filteredOptions);
                     resolve(filteredOptions);
                 }
 
