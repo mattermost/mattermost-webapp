@@ -8,6 +8,22 @@ import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile} from '@mattermost/types/users';
+
+import {Client4} from 'mattermost-redux/client';
+import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
+import {createUser, loadMe, loadMeREST} from 'mattermost-redux/actions/users';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getUseCaseOnboarding, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {isEmail} from 'mattermost-redux/utils/helpers';
+
+import {GlobalState} from 'types/store';
+
+import {getGlobalItem} from 'selectors/storage';
+
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {removeGlobalItem, setGlobalItem} from 'actions/storage';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
@@ -33,19 +49,6 @@ import Input, {CustomMessageInputType, SIZE} from 'components/widgets/inputs/inp
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import SaveButton from 'components/save_button';
 
-import {getTeamInviteInfo} from 'mattermost-redux/actions/teams';
-import {createUser} from 'mattermost-redux/actions/users';
-import {Client4} from 'mattermost-redux/client';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ServerError} from '@mattermost/types/errors';
-import {UserProfile} from '@mattermost/types/users';
-import {isEmail} from 'mattermost-redux/utils/helpers';
-
-import {getGlobalItem} from 'selectors/storage';
-import {GlobalState} from 'types/store';
 import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
 import {isValidUsername, isValidPassword, getPasswordConfig} from 'utils/utils';
 
@@ -99,6 +102,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     const loggedIn = Boolean(useSelector(getCurrentUserId));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
     const usedBefore = useSelector((state: GlobalState) => (!inviteId && !loggedIn && token ? getGlobalItem(state, token, null) : undefined));
+    const graphQLEnabled = useSelector(isGraphQLEnabled);
 
     const emailInput = useRef<HTMLInputElement>(null);
     const nameInput = useRef<HTMLInputElement>(null);
@@ -405,7 +409,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
         const redirectTo = (new URLSearchParams(search)).get('redirect_to');
 
-        const {error} = await dispatch(loginById(data.id, user.password, ''));
+        const {error} = await dispatch(loginById(data.id, user.password));
 
         if (error) {
             if (error.server_error_id === 'api.user.login.not_verified.app_error') {
@@ -426,6 +430,12 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             }
 
             return;
+        }
+
+        if (graphQLEnabled) {
+            await dispatch(loadMe());
+        } else {
+            await dispatch(loadMeREST());
         }
 
         if (token) {
