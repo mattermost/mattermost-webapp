@@ -149,25 +149,30 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         />
                     </button>
                 );
-
-                if (minimumSKURequiredForFeature === LicenseSkus.Enterprise) {
-                    ctaPrimaryButton = (
-                        <button
-                            className='btn btn-primary'
-                            data-testid='featureDiscovery_primaryCallToAction'
-                            onClick={() => {
-                                trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                                window.open(contactSalesLink, '_blank');
-                            }}
-                        >
-                            <FormattedMessage
-                                id='admin.ldap_feature_discovery_cloud.call_to_action.primary_sales'
-                                defaultMessage='Contact sales'
-                            />
-                        </button>
-                    );
-                }
             }
+        }
+
+        if (minimumSKURequiredForFeature === LicenseSkus.Enterprise) {
+            ctaPrimaryButton = (
+                <button
+                    className='btn btn-primary'
+                    data-testid='featureDiscovery_primaryCallToAction'
+                    onClick={() => {
+                        if (isCloud) {
+                            trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
+                            window.open(contactSalesLink, '_blank');
+                        } else {
+                            trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
+                            window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                        }
+                    }}
+                >
+                    <FormattedMessage
+                        id='admin.ldap_feature_discovery_cloud.call_to_action.primary_sales'
+                        defaultMessage='Contact sales'
+                    />
+                </button>
+            );
         }
 
         return (
