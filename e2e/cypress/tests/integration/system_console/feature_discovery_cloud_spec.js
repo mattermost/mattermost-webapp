@@ -73,11 +73,11 @@ describe('Feature discovery cloud', () => {
             is_free_trial: 'false',
         };
         simulateSubscription(subscription);
-        withTrialBefore(false);
+        withTrialBefore('false');
         [...professionalPaidFeatures, ...enterprisePaidFeatures].forEach(({sidebarName, featureDiscoveryTitle}) => {
             cy.get('li').contains(sidebarName).click();
             cy.get("div[data-testid='featureDiscovery_title']").should('contain', featureDiscoveryTitle);
-            testForTrialButton()
+            testForTrialButton();
         });
     });
 
@@ -89,7 +89,7 @@ describe('Feature discovery cloud', () => {
             trial_end_at: 1,
         };
         simulateSubscription(subscription);
-        withTrialBefore(false);
+        withTrialBefore('false');
         professionalPaidFeatures.forEach(({sidebarName, featureDiscoveryTitle}) => {
             cy.get('li').contains(sidebarName).click();
             cy.get("div[data-testid='featureDiscovery_title']").should('contain', featureDiscoveryTitle);
@@ -105,7 +105,7 @@ describe('Feature discovery cloud', () => {
             trial_end_at: 1,
         };
         simulateSubscription(subscription);
-        withTrialBefore(false);
+        withTrialBefore('false');
         enterprisePaidFeatures.forEach(({sidebarName, featureDiscoveryTitle}) => {
             cy.get('li').contains(sidebarName).click();
             cy.get("div[data-testid='featureDiscovery_title']").should('contain', featureDiscoveryTitle);
