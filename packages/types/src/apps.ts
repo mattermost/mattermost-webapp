@@ -51,7 +51,8 @@ export type AppsState = {
 };
 
 export type AppBinding = {
-    app_id: string;
+    app_id?: string;
+    type?: string;
     location?: string;
     icon?: string;
 

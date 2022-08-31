@@ -931,6 +931,7 @@ export const RHSStates = {
     FLAG: 'flag',
     PIN: 'pin',
     PLUGIN: 'plugin',
+    APP_BINDING: 'app-binding',
     CHANNEL_FILES: 'channel-files',
     CHANNEL_INFO: 'channel-info',
     CHANNEL_MEMBERS: 'channel-members',

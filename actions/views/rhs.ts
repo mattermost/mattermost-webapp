@@ -35,6 +35,8 @@ import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {getEditingPost} from '../../selectors/posts';
 import {unsetEditingPost} from '../post_actions';
 import {getChannel} from 'mattermost-redux/actions/channels';
+import {AppBinding} from '@mattermost/types/apps';
+import store from 'stores/redux_store';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -209,6 +211,18 @@ export function showRHSPlugin(pluggableId: string) {
         pluggableId,
     };
 }
+
+export function showRHSAppBinding(binding: AppBinding) {
+    return {
+        type: ActionTypes.UPDATE_RHS_STATE,
+        state: RHSStates.APP_BINDING,
+        binding,
+    };
+}
+
+window.showRHSAppBinding = showRHSAppBinding;
+
+window.store = store;
 
 export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {

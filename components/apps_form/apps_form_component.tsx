@@ -29,6 +29,7 @@ import AppsFormHeader from './apps_form_header';
 export type AppsFormProps = {
     form: AppForm;
     isEmbedded?: boolean;
+    hideCancel?: boolean;
     onExited: () => void;
     actions: {
         submit: (submission: {
@@ -527,7 +528,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <div>
-                    <button
+                    {!this.props.hideCancel && <button
                         id='appsModalCancel'
                         type='button'
                         className='btn btn-link cancel-button'
@@ -537,7 +538,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                             id='interactive_dialog.cancel'
                             defaultMessage='Cancel'
                         />
-                    </button>
+                    </button>}
                     {submitButtons}
                 </div>
                 {this.state.formError && (

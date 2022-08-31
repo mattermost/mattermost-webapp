@@ -15,6 +15,7 @@ import {
     getSelectedPostId,
     getSelectedPostCardId,
     getPreviousRhsState,
+    getIsSearchVisible,
 } from 'selectors/rhs';
 import {RHSStates} from 'utils/constants';
 
@@ -35,13 +36,14 @@ function mapStateToProps(state: GlobalState) {
         channel,
         postRightVisible: Boolean(selectedPostId),
         postCardVisible: Boolean(selectedPostCardId),
-        searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
+        searchVisible: getIsSearchVisible(state),
         previousRhsState: getPreviousRhsState(state),
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
         isChannelInfo: rhsState === RHSStates.CHANNEL_INFO,
         isChannelMembers: rhsState === RHSStates.CHANNEL_MEMBERS,
         isPluginView: rhsState === RHSStates.PLUGIN,
+        isAppBindingView: rhsState === RHSStates.APP_BINDING,
         rhsChannel: getSelectedChannel(state),
         selectedPostId,
         selectedPostCardId,

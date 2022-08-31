@@ -25,7 +25,7 @@ import {
 import {autocompleteChannelsForSearch} from 'actions/channel_actions';
 import {autocompleteUsersInTeam} from 'actions/user_actions';
 
-import {getRhsState, getSearchTerms, getSearchType, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded} from 'selectors/rhs';
+import {getRhsState, getSearchTerms, getSearchType, getIsSearchingTerm, getIsRhsOpen, getIsRhsExpanded, getIsSearchVisible} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
@@ -48,11 +48,7 @@ function mapStateToProps(state: GlobalState) {
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         searchType: getSearchType(state),
-        searchVisible: rhsState !== null && (![
-            RHSStates.PLUGIN,
-            RHSStates.CHANNEL_INFO,
-            RHSStates.CHANNEL_MEMBERS,
-        ].includes(rhsState)),
+        searchVisible: getIsSearchVisible(state),
         hideMobileSearchBarInRHS: isMobileView && isRhsOpen && rhsState === RHSStates.CHANNEL_INFO,
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,

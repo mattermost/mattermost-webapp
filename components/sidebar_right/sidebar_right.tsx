@@ -19,6 +19,7 @@ import RhsPlugin from 'plugins/rhs_plugin';
 
 import {Channel} from '@mattermost/types/channels';
 import {RhsState} from 'types/store/rhs';
+import RhsAppBinding from 'components/rhs_app_binding/rhs_app_binding';
 
 type Props = {
     isExpanded: boolean;
@@ -32,6 +33,7 @@ type Props = {
     isChannelInfo: boolean;
     isChannelMembers: boolean;
     isPluginView: boolean;
+    isAppBindingView: boolean;
     previousRhsState: RhsState;
     rhsChannel: Channel;
     selectedPostId: string;
@@ -207,6 +209,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             previousRhsState,
             searchVisible,
             isPluginView,
+            isAppBindingView,
             isOpen,
             isChannelInfo,
             isChannelMembers,
@@ -214,7 +217,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         } = this.props;
 
         let content = null;
-        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || isAppBindingView || searchVisible) && isExpanded;
 
         switch (true) {
         case postRightVisible:
@@ -230,6 +233,9 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             break;
         case isPluginView:
             content = <RhsPlugin/>;
+            break;
+        case isAppBindingView:
+            content = <RhsAppBinding/>;
             break;
         case isChannelInfo:
             content = (

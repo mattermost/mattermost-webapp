@@ -9,11 +9,12 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Channel} from '@mattermost/types/channels';
 
 import {makeGetGlobalItem} from 'selectors/storage';
-import {PostTypes} from 'utils/constants';
+import {PostTypes, RHSStates} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 import {GlobalState} from 'types/store';
 import {RhsState, FakePost, SearchType} from 'types/store/rhs';
 import {PostDraft} from 'types/store/draft';
+import {AppBinding} from '@mattermost/types/apps';
 
 export function getSelectedPostId(state: GlobalState): Post['id'] {
     return state.views.rhs.selectedPostId;
@@ -55,6 +56,10 @@ export const getSelectedChannel = (() => {
 
 export function getPluggableId(state: GlobalState) {
     return state.views.rhs.pluggableId;
+}
+
+export function getRhsAppBinding(state: GlobalState): AppBinding | null {
+    return state.views.rhs.appBinding;
 }
 
 export function getActivePluginId(state: GlobalState) {
@@ -168,4 +173,14 @@ export function getIsRhsExpanded(state: GlobalState): boolean {
 
 export function getIsEditingMembers(state: GlobalState): boolean {
     return state.views.rhs.editChannelMembers === true;
+}
+
+export function getIsSearchVisible(state: GlobalState): boolean {
+    const rhsState = getRhsState(state);
+    return rhsState !== null && (![
+        RHSStates.PLUGIN,
+        RHSStates.APP_BINDING,
+        RHSStates.CHANNEL_INFO,
+        RHSStates.CHANNEL_MEMBERS,
+    ].includes(rhsState));
 }

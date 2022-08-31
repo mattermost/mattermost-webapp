@@ -15,6 +15,8 @@ import AppsForm from './apps_form_component';
 
 type Props = {
     intl: IntlShape;
+    isEmbedded?: boolean;
+    hideCancel?: boolean;
     form?: AppForm;
     context?: AppContext;
     onExited: () => void;
@@ -195,6 +197,8 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
 
         return (
             <AppsForm
+                isEmbedded={this.props.isEmbedded}
+                hideCancel={this.props.hideCancel}
                 form={form}
                 onExited={this.props.onExited}
                 actions={{

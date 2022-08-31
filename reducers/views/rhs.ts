@@ -230,6 +230,24 @@ function pluggableId(state = '', action: GenericAction) {
     }
 }
 
+function appBinding(state = null, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.state === RHSStates.APP_BINDING) {
+            return action.binding;
+        }
+        return null;
+    case ActionTypes.SELECT_POST:
+    case ActionTypes.SELECT_POST_CARD:
+        return null;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return null;
+    default:
+        return state;
+    }
+}
+
 function searchResultsTerms(state = '', action: GenericAction) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_SEARCH_RESULTS_TERMS:
@@ -380,6 +398,7 @@ export default combineReducers({
     searchType,
     searchResultsTerms,
     pluggableId,
+    appBinding,
     isSearchingFlaggedPost,
     isSearchingPinnedPost,
     isSidebarOpen,
