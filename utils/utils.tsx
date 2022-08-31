@@ -58,9 +58,6 @@ import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 import {getIsMobileView} from 'selectors/views/browser';
 
-import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
-import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
-
 import {FileInfo} from '@mattermost/types/files';
 import {Team} from '@mattermost/types/teams';
 import {Post} from '@mattermost/types/posts';
@@ -1726,25 +1723,6 @@ export function stringToNumber(s: string | undefined) {
     }
 
     return parseInt(s, 10);
-}
-
-export function renderPurchaseLicense() {
-    return (
-        <div className='purchase-card'>
-            <PurchaseLink
-                eventID='post_trial_purchase_license'
-                buttonTextElement={
-                    <FormattedMessage
-                        id='admin.license.trialCard.purchase_license'
-                        defaultMessage='Purchase a license'
-                    />
-                }
-            />
-            <ContactUsButton
-                eventID='post_trial_contact_sales'
-            />
-        </div>
-    );
 }
 
 export function deleteKeysFromObject(value: Record<string, any>, keys: string[]) {

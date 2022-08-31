@@ -13,15 +13,16 @@ import {EmbargoedEntityTrialError} from 'components/admin_console/license_settin
 import AlertBanner from 'components/alert_banner';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
+import PurchaseModal from 'components/purchase_modal';
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import * as Utils from 'utils/utils';
 
 import {trackEvent} from 'actions/telemetry_actions';
-
-import PurchaseModal from 'components/purchase_modal';
-import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalData} from 'types/actions';
 
@@ -95,6 +96,64 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
         });
     }
 
+    renderPostTrialCta = () => {
+        const {
+            minimumSKURequiredForFeature,
+            learnMoreURL,
+        } = this.props;
+        if (minimumSKURequiredForFeature === LicenseSkus.Enterprise) {
+            return (
+                <div className='purchase-card'>
+                    <button
+                        className='btn btn-primary'
+                        data-testid='featureDiscovery_primaryCallToAction'
+                        onClick={() => {
+                            trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
+                            window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                        }}
+                    >
+                        <FormattedMessage
+                            id='admin.ldap_feature_discovery_cloud.call_to_action.primary_sales'
+                            defaultMessage='Contact sales'
+                        />
+                    </button>
+                    <a
+                        className='btn btn-secondary'
+                        href={learnMoreURL}
+                        data-testid='featureDiscovery_secondaryCallToAction'
+                        target='_blank'
+                        rel='noopener noreferrer'
+                    >
+                        <FormattedMessage
+                            id='admin.ldap_feature_discovery.call_to_action.secondary'
+                            defaultMessage='Learn more'
+                        />
+                    </a>
+                </div>
+            );
+        }
+
+        return (
+            <div className='purchase-card'>
+                <>
+                    <PurchaseLink
+                        eventID='post_trial_purchase_license'
+                        buttonTextElement={
+                            <FormattedMessage
+                                id='admin.license.trialCard.purchase_license'
+                                defaultMessage='Purchase a license'
+                            />
+                        }
+                    />
+                    <ContactUsButton
+                        eventID='post_trial_contact_sales'
+                    />
+                </>
+
+            </div>
+        );
+    }
+
     renderStartTrial = (learnMoreURL: string, gettingTrialError: React.ReactNode) => {
         const {
             isCloud,
@@ -149,30 +208,30 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         />
                     </button>
                 );
-            }
-        }
 
-        if (minimumSKURequiredForFeature === LicenseSkus.Enterprise) {
-            ctaPrimaryButton = (
-                <button
-                    className='btn btn-primary'
-                    data-testid='featureDiscovery_primaryCallToAction'
-                    onClick={() => {
-                        if (isCloud) {
-                            trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                            window.open(contactSalesLink, '_blank');
-                        } else {
-                            trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
-                            window.open(LicenseLinks.CONTACT_SALES, '_blank');
-                        }
-                    }}
-                >
-                    <FormattedMessage
-                        id='admin.ldap_feature_discovery_cloud.call_to_action.primary_sales'
-                        defaultMessage='Contact sales'
-                    />
-                </button>
-            );
+                if (minimumSKURequiredForFeature === LicenseSkus.Enterprise) {
+                    ctaPrimaryButton = (
+                        <button
+                            className='btn btn-primary'
+                            data-testid='featureDiscovery_primaryCallToAction'
+                            onClick={() => {
+                                if (isCloud) {
+                                    trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
+                                    window.open(contactSalesLink, '_blank');
+                                } else {
+                                    trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
+                                    window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                                }
+                            }}
+                        >
+                            <FormattedMessage
+                                id='admin.ldap_feature_discovery_cloud.call_to_action.primary_sales'
+                                defaultMessage='Contact sales'
+                            />
+                        </button>
+                    );
+                }
+            }
         }
 
         return (
@@ -350,7 +409,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             defaultMessage={copyDefault}
                         />
                     </div>
-                    {this.props.prevTrialLicense?.IsLicensed === 'true' ? Utils.renderPurchaseLicense() : this.renderStartTrial(learnMoreURL, gettingTrialError)}
+                    {this.props.prevTrialLicense?.IsLicensed === 'true' ? this.renderPostTrialCta() : this.renderStartTrial(learnMoreURL, gettingTrialError)}
                 </div>
                 <div className='FeatureDiscovery_imageWrapper'>
                     {featureDiscoveryImage}
