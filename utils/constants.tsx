@@ -410,6 +410,7 @@ export const ModalIdentifiers = {
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
+    DELIQUENCY_MODAL_DOWNGRADE: 'deliquency_modal_downgrade',
 };
 
 export const UserStatuses = {

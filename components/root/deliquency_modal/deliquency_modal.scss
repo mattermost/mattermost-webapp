@@ -1,0 +1,138 @@
+@import 'sass/utils/_mixins';
+
+.DeliquencyModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+
+    &__header {
+        background: var(--center-channel-bg) !important;
+        border: none !important;
+        display: flex;
+        flex-direction: row-reverse !important;
+        align-items: center;
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+
+        &__close {
+            @include button-medium;
+            background: var(--center-channel-bg) !important;
+            border: none;
+            color:rgba(63, 67, 80, 1);
+            font-size: 24px;
+            padding: 0;
+        }
+    }
+
+    &__body {
+        display: block !important;
+        text-align: center;
+        color: rgba(63, 67, 80, 1);
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+
+        &__title {
+            font-weight: bold;
+            font-size: 22px !important;
+            margin-bottom: 8px;
+            line-height: 28px;
+        }
+
+        &__information {
+            font-size: 12px !important;
+            margin: 0;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+
+        &__freemium {
+            @include tertiary-button;
+            @include button-large;
+        }
+
+        &__update {
+            @include primary-button;
+            @include button-large;
+            margin-left: auto;
+        }
+    }
+}
+
+.DeliquencyFreemiumModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+
+    &__header {
+        background-color: var(--center-channel-bg) !important;
+        border: none !important;
+        display: flex;
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+        align-items: center;
+
+        &__title {
+            font-weight: bold;
+            font-size: 22px !important;
+            padding-bottom: 8px;
+            line-height: 28px;
+            color: rgba(63, 67, 80, 1);
+        }
+
+        &__close {
+            @include button-medium;
+            background: var(--center-channel-bg) !important;
+            border: none;
+            color:rgba(63, 67, 80, 1);
+            font-size: 24px;
+            margin-left: auto;
+            padding: 0 !important;
+        }
+    }
+
+    &__body {
+        display: block !important;
+        color: rgba(63, 67, 80, 1);
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+        padding-bottom: 24px !important;
+
+        &__information {
+            font-size: 12px !important;
+            margin: 0;
+            margin-bottom: 24px;
+        }
+
+        &__subheader {
+            color: rgba(63, 67, 80, 0.56);
+            text-transform: uppercase;
+            font-weight: bold;
+            font-size: 10px;
+            display: block;
+            margin-bottom: 16px;
+        }
+    }
+
+    &__footer {
+        display: flex;
+        padding-left: 32px !important;
+        padding-right: 32px !important;
+
+        &--secondary {
+            @include tertiary-button;
+            @include button-large;
+        }
+
+        &--primary {
+            @include primary-button;
+            @include button-large;
+            margin-left: auto;
+        }
+    }
+}
