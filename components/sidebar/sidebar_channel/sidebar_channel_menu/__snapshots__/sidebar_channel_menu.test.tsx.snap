@@ -85,13 +85,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />
@@ -175,13 +178,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />
@@ -265,13 +271,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />
@@ -355,13 +364,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />
@@ -431,13 +443,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="rgba(var(--center-channel-color-rgb), 0.72)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={false}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Close Conversation"
     />
@@ -615,13 +630,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />
@@ -714,13 +732,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />
@@ -813,13 +834,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />
@@ -923,13 +947,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          color="var(--error-text)"
+          size={16}
         />
       }
       id="leave-channel_id"
       isDangerous={true}
       onClick={[Function]}
+      onMouseEnter={[Function]}
+      onMouseLeave={[Function]}
       show={true}
       text="Leave Channel"
     />

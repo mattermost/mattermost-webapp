@@ -4,6 +4,8 @@
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
+import CloseIcon from '@mattermost/compass-icons/components/close';
+
 import {Channel} from '@mattermost/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -45,6 +47,7 @@ type Props = {
 
 type State = {
     openUp: boolean;
+    closeIconHovered: boolean;
 };
 
 export class SidebarChannelMenu extends React.PureComponent<Props, State> {
@@ -55,6 +58,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
 
         this.state = {
             openUp: false,
+            closeIconHovered: false,
         };
 
         this.isLeaving = false;
@@ -206,15 +210,30 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
             leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
         }
+        const color = () => {
+            if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
+                return 'rgba(var(--center-channel-color-rgb), 0.72)';
+            } else if (!(channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) && !this.state.closeIconHovered) {
+                return 'var(--error-text)';
+            }
+            return 'white';
+        };
 
         let leaveChannel;
         if (channel.name !== Constants.DEFAULT_CHANNEL) {
             leaveChannel = (
                 <Menu.Group>
                     <Menu.ItemAction
+                        onMouseEnter={() => this.setState({closeIconHovered: true})}
+                        onMouseLeave={() => this.setState({closeIconHovered: false})}
                         id={`leave-${channel.id}`}
                         onClick={this.handleLeaveChannel}
-                        icon={<i className='icon-close'/>}
+                        icon={
+                            <CloseIcon
+                                size={16}
+                                color={color()}
+                            />
+                        }
                         text={leaveChannelText}
                         isDangerous={!(channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)}
                     />
