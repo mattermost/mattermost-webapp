@@ -660,7 +660,6 @@ const defaultServerConfig: AdminConfig = {
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
-        AdvancedTextEditor: true,
         BoardsProduct: false,
     },
     ImportSettings: {
