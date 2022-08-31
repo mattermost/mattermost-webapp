@@ -8,8 +8,6 @@ import throttle from 'lodash/throttle';
 
 import classNames from 'classnames';
 
-import WelcomePostRenderer from 'components/custom_welcome_message_renderer';
-
 import {Theme, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
 import {ProductComponent, PluginComponent} from 'types/store/plugins';
