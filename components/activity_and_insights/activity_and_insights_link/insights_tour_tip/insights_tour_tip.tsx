@@ -23,7 +23,7 @@ import insightsPreview from 'images/Insights-Preview-Image.jpg';
 import {browserHistory} from 'utils/browser_history';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 const title = (

@@ -7,7 +7,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={
@@ -237,7 +237,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={
@@ -467,7 +467,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={
@@ -697,7 +697,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={
@@ -887,7 +887,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={
@@ -1117,7 +1117,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={
@@ -1159,7 +1159,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={
@@ -1389,7 +1389,7 @@ exports[`components/admin_console/group_settings/group_details/GroupUsers should
   <div
     className="group-users--header"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="AD/LDAP Connector is configured to sync and manage this group and its users. [Click here to view]({siteURL}/admin_console/authentication/ldap)"
       id="admin.group_settings.group_profile.group_users.ldapConnector"
       values={

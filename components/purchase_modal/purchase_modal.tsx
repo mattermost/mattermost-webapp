@@ -36,7 +36,7 @@ import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
 import {Team} from '@mattermost/types/teams';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {getNextBillingDate} from 'utils/utils';
 

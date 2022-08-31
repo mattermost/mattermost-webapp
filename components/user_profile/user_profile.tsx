@@ -6,11 +6,12 @@ import ColorHash from 'color-hash';
 import ColorContrastChecker from 'color-contrast-checker';
 
 import {UserProfile as UserProfileType} from '@mattermost/types/users';
-import {Theme} from 'mattermost-redux/types/themes';
+
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {imageURLForUser, isMobile} from 'utils/utils';
 import LocalStorageStore from 'stores/local_storage_store';
-import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
