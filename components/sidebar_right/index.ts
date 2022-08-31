@@ -33,7 +33,7 @@ function mapStateToProps(state: GlobalState) {
         isExpanded: getIsRhsExpanded(state),
         isOpen: getIsRhsOpen(state),
         channel,
-        postRightVisible: Boolean(selectedPostId),
+        postRightVisible: Boolean(selectedPostId) && rhsState !== RHSStates.EDIT_HISTORY,
         postCardVisible: Boolean(selectedPostCardId),
         searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
         previousRhsState: getPreviousRhsState(state),

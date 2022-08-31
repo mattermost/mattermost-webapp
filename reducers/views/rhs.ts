@@ -27,7 +27,7 @@ function selectedPostId(state = '', action: GenericAction) {
         }
         return state;
     case ActionTypes.UPDATE_RHS_STATE:
-        return '';
+        return action.postId ? action.postId : '';
     case ActionTypes.RHS_GO_BACK:
         return '';
     case UserTypes.LOGOUT_SUCCESS:

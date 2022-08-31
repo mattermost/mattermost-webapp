@@ -12,7 +12,6 @@ import OverlayTrigger from '../../overlay_trigger';
 import Tooltip from '../../tooltip';
 
 import {Props} from './index';
-import { RHSStates } from 'utils/constants';
 
 const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, postOwner, post, actions}: Props): JSX.Element | null => {
     const {formatMessage, formatDate, formatTime} = useIntl();
@@ -72,9 +71,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
 
     const showPostEditHistory = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
-        actions.selectPost(post);
-        actions.updateRhsState(RHSStates.EDIT_HISTORY)
-        // actions.showPostEditHistory(post);
+        actions.openShowEditHistory(post);
     };
 
     return !postId || editedAt === 0 ? null : (

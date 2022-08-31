@@ -94,6 +94,18 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
     };
 }
 
+export function openShowEditHistory(post: Post) {
+    return async (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            state: RHSStates.EDIT_HISTORY,
+            postId: post.root_id || post.id,
+        });
+
+        return {data: true};
+    };
+}
+
 export function goBack() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const prevState = getPreviousRhsState(getState() as GlobalState);
