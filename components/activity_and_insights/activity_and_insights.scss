@@ -94,6 +94,10 @@
             }
         }
 
+        .top-playbooks-card {
+            visibility: hidden;
+        }
+
         .top-playbooks-card,
         .top-boards-card {
             .Card__body {
