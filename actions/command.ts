@@ -38,6 +38,7 @@ import {t} from 'utils/i18n';
 import MarketplaceModal from 'components/plugin_marketplace';
 
 import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
+import {trackEvent} from './telemetry_actions';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -54,6 +55,18 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trimEnd();
         } else {
             msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
+        }
+
+        // Add track event for certain slash commands
+        const commandsWithTelemetry = [
+            {command: '/help', telemetry: 'slash-command-help'},
+            {command: '/marketplace', telemetry: 'slash-command-marketplace'},
+        ];
+        for (const command of commandsWithTelemetry) {
+            if (msg.startsWith(command.command)) {
+                trackEvent('slash-commands', command.telemetry);
+                break;
+            }
         }
 
         switch (cmd) {
