@@ -190,7 +190,7 @@ export default class SizeAwareImage extends React.PureComponent {
 
         let image;
 
-        if (this.props.autoplayGifAndEmojis === 'true' && (src.includes('preview') || !src.includes('preview'))) {
+        // if (this.props.autoplayGifAndEmojis === 'true' && (src.includes('preview') || !src.includes('preview'))) {
             image = (
                 <img
                     {...props}
@@ -207,54 +207,54 @@ export default class SizeAwareImage extends React.PureComponent {
                     onLoad={this.handleLoad}
                 />
             );
-        } else if (this.props.autoplayGifAndEmojis !== 'true' && src.includes('preview')) {
-            image = (
-                <img
-                    {...props}
-                    aria-label={ariaLabelImage}
-                    tabIndex='0'
-                    onClick={this.handleImageClick}
-                    onKeyDown={this.onEnterKeyDown}
-                    className={
-                        this.props.className +
-                        (this.props.handleSmallImageContainer &&
-                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
-                    src={src}
-                    onError={this.handleError}
-                    onLoad={this.handleLoad}
-                />
-            );
-        } else {
-            image = (
-                <>
-                    <ReactFreezeframe
-                        options={{
-                            trigger: 'click',
-                        }}
-                    >
-                        <img
-                            {...props}
-                            aria-label={ariaLabelImage}
-                            tabIndex='0'
-                            onClick={this.handleImageClick}
-                            onKeyDown={this.onEnterKeyDown}
-                            className={
-                                this.props.className +
-                        (this.props.handleSmallImageContainer &&
-                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
-                            src={src}
-                            onError={this.handleError}
-                            onLoad={this.handleLoad}
-                        />
-                    </ReactFreezeframe>
-                    {this.props.autoplayGifAndEmojis !== 'true' &&
-                    <i
-                        className='icon-file-gif'
-                        style={{color: 'white', position: 'absolute', marginTop: '-60%', marginLeft: '25%', fontSize: '40px', zIndex: 1}}
-                    />}
-                </>
-            );
-        }
+        // } else if (this.props.autoplayGifAndEmojis !== 'true' && src.includes('preview')) {
+        //     image = (
+        //         <img
+        //             {...props}
+        //             aria-label={ariaLabelImage}
+        //             tabIndex='0'
+        //             onClick={this.handleImageClick}
+        //             onKeyDown={this.onEnterKeyDown}
+        //             className={
+        //                 this.props.className +
+        //                 (this.props.handleSmallImageContainer &&
+        //                     this.state.isSmallImage ? ' small-image--inside-container' : '')}
+        //             src={src}
+        //             onError={this.handleError}
+        //             onLoad={this.handleLoad}
+        //         />
+        //     );
+        // } else {
+            // image = (
+            //     <>
+            //         <ReactFreezeframe
+            //             options={{
+            //                 trigger: 'click',
+            //             }}
+            //         >
+            //             <img
+            //                 {...props}
+            //                 aria-label={ariaLabelImage}
+            //                 tabIndex='0'
+            //                 onClick={this.handleImageClick}
+            //                 onKeyDown={this.onEnterKeyDown}
+            //                 className={
+            //                     this.props.className +
+            //             (this.props.handleSmallImageContainer &&
+            //                 this.state.isSmallImage ? ' small-image--inside-container' : '')}
+            //                 src={src}
+            //                 onError={this.handleError}
+            //                 onLoad={this.handleLoad}
+            //             />
+            //         </ReactFreezeframe>
+            //         {this.props.autoplayGifAndEmojis !== 'true' &&
+            //         <i
+            //             className='icon-file-gif'
+            //             style={{color: 'white', position: 'absolute', marginTop: '-60%', marginLeft: '25%', fontSize: '40px', zIndex: 1}}
+            //         />}
+            //     </>
+            // );
+        // }
 
         // const image = (
         //     this.props.autoplayGifAndEmojis === 'true' && (src.includes('preview') || !src.includes('preview')) ? (

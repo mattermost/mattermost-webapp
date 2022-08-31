@@ -5,7 +5,7 @@ import React from 'react';
 
 import classNames from 'classnames';
 
-import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
+import {getFilePreviewUrl, getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import {FileInfo} from '@mattermost/types/files';
 
 import SizeAwareImage from 'components/size_aware_image';
@@ -118,6 +118,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         const {has_preview_image: hasPreviewImage, id} = fileInfo;
         const fileURL = getFileUrl(id);
         const previewURL = hasPreviewImage ? getFilePreviewUrl(id) : fileURL;
+        const fileThumbnailUrl = getFilePreviewUrl(fileInfo.id)
 
         const previewHeight = fileInfo.height;
         const previewWidth = fileInfo.width;
@@ -231,7 +232,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                                 <SizeAwareImage
                                     onClick={this.handleImageClick}
                                     className={classNames(minPreviewClass, permalinkClass)}
-                                    src={previewURL}
+                                    src={fileThumbnailUrl}
                                     dimensions={this.state.dimensions}
                                     fileInfo={this.props.fileInfo}
                                     fileURL={fileURL}
