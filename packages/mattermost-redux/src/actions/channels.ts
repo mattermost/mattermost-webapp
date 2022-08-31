@@ -1439,10 +1439,7 @@ export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFu
         let state = getState();
         let postId = getMostRecentPostIdInChannel(state, channelId);
         if (!postId) {
-            console.log("Channel has no cached post, fetching...");
-            const posts = await dispatch(getPosts(channelId));
-            console.log("Posts fetched!")
-            console.log(posts);
+            await dispatch(getPosts(channelId));
             state = getState();
             postId = getMostRecentPostIdInChannel(state, channelId);
             if (postId) {
@@ -1450,7 +1447,6 @@ export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFu
                 dispatch(markPostAsUnread(lastPost, 'CENTER'));
             }
         } else {
-            console.log("Channel has cached posts, marking last one as unread.")
             const lastPost = getPost(state, postId);
             dispatch(markPostAsUnread(lastPost, 'CENTER')); 
         }
