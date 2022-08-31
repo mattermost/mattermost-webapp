@@ -14,7 +14,7 @@ import AlertBanner from 'components/alert_banner';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 
-import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 import * as Utils from 'utils/utils';
 
@@ -29,6 +29,7 @@ import './feature_discovery.scss';
 
 type Props = {
     featureName: string;
+    minimumSKURequiredForFeature: LicenseSkus;
 
     titleID: string;
     titleDefault: string;
@@ -53,6 +54,7 @@ type Props = {
     hadPrevCloudTrial: boolean;
     isSubscriptionLoaded: boolean;
     isPaidSubscription: boolean;
+    contactSalesLink: string;
 }
 
 type State = {
@@ -99,7 +101,10 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
             isCloudTrial,
             hadPrevCloudTrial,
             isPaidSubscription,
+            minimumSKURequiredForFeature,
+            contactSalesLink,
         } = this.props;
+
         const canRequestCloudFreeTrial = isCloud && !isCloudTrial && !hadPrevCloudTrial && !isPaidSubscription;
 
         // by default we assume is not cloud, so the cta button is Start Trial (which will request a trial license)
@@ -144,6 +149,24 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                         />
                     </button>
                 );
+
+                if (minimumSKURequiredForFeature === LicenseSkus.Enterprise) {
+                    ctaPrimaryButton = (
+                        <button
+                            className='btn btn-primary'
+                            data-testid='featureDiscovery_primaryCallToAction'
+                            onClick={() => {
+                                trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_enterprise_contact_sales_feature_discovery');
+                                window.open(contactSalesLink, '_blank');
+                            }}
+                        >
+                            <FormattedMessage
+                                id='admin.ldap_feature_discovery_cloud.call_to_action.primary_sales'
+                                defaultMessage='Contact sales'
+                            />
+                        </button>
+                    );
+                }
             }
         }
 

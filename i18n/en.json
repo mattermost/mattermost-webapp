@@ -1148,6 +1148,7 @@
   "admin.jobTable.statusSuccess": "Success",
   "admin.jobTable.statusWarning": "Warning",
   "admin.ldap_feature_discovery_cloud.call_to_action.primary": "Upgrade now",
+  "admin.ldap_feature_discovery_cloud.call_to_action.primary_sales": "Contact sales",
   "admin.ldap_feature_discovery.call_to_action.primary": "Start trial",
   "admin.ldap_feature_discovery.call_to_action.secondary": "Learn more",
   "admin.ldap_feature_discovery.copy": "When you connect Mattermost with your organization's Active Directory/LDAP, users can log in without having to create new usernames and passwords.",
