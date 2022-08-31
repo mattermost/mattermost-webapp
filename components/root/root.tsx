@@ -74,6 +74,8 @@ import {UserProfile} from '@mattermost/types/users';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
+import WelcomePostRenderer from 'components/welcome_post_renderer';
+
 import {applyLuxonDefaults} from './effects';
 
 import RootProvider from './root_provider';
