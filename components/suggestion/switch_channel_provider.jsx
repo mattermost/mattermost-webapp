@@ -418,11 +418,8 @@ export default class SwitchChannelProvider extends Provider {
             const users = Object.assign([], searchProfilesMatchingWithTerm(getState(), channelPrefix, false));
             const formattedData = this.formatList(channelPrefix, [ThreadsChannel, ...channels], users, true, true);
             if (formattedData) {
-                console.log('#### test 1');
                 resultsCallback(formattedData);
             }
-
-            console.log('#### test 2');
 
             // Fetch data from the server and dispatch
             this.fetchUsersAndChannels(channelPrefix, resultsCallback);
@@ -473,9 +470,6 @@ export default class SwitchChannelProvider extends Provider {
         const remoteChannelData = channelsFromServer.concat(getGroupChannels(state)) || [];
         const remoteUserData = Object.assign([], usersFromServer.users) || [];
         const remoteFormattedData = this.formatList(channelPrefix, remoteChannelData, remoteUserData, false);
-
-        console.log('#### localUserData', localUserData);
-        console.log('#### remoteUserData', remoteUserData);
 
         store.dispatch({
             type: UserTypes.RECEIVED_PROFILES_LIST,
@@ -545,8 +539,6 @@ export default class SwitchChannelProvider extends Provider {
         const allUnreadChannelIds = getAllTeamsUnreadChannelIds(state);
         const allUnreadChannelIdsSet = new Set(allUnreadChannelIds);
         const currentUserId = getCurrentUserId(state);
-
-        console.log('##### users from formatList', users);
 
         for (const id of Object.keys(allChannels)) {
             const channel = allChannels[id];
