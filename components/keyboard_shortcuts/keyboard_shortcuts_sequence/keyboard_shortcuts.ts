@@ -15,6 +15,81 @@ export function isMessageDescriptor(
     return Boolean((descriptor as MessageDescriptor).id);
 }
 
+const callsKBShortcuts = {
+    global: {
+        callsJoinCall: {
+            default: {
+                id: t('shortcuts.calls.join_call'),
+                defaultMessage: 'Join call in current channel:\tCtrl|Shift|S',
+            },
+            mac: {
+                id: t('shortcuts.calls.join_call.mac'),
+                defaultMessage: 'Join call in current channel:\t⌘|Shift|S',
+            },
+        },
+    },
+    widget: {
+        callsMuteToggle: {
+            default: {
+                id: t('shortcuts.calls.mute_toggle'),
+                defaultMessage: 'Mute or unmute:\tCtrl|Shift|Space',
+            },
+            mac: {
+                id: t('shortcuts.calls.mute_toggle.mac'),
+                defaultMessage: 'Mute or unmute:\t⌘|Shift|Space',
+            },
+        },
+        callsRaiseHandToggle: {
+            default: {
+                id: t('shortcuts.calls.raise_hand_toggle'),
+                defaultMessage: 'Raise or lower hand:\tCtrl|Shift|Y',
+            },
+            mac: {
+                id: t('shortcuts.calls.raise_hand_toggle.mac'),
+                defaultMessage: 'Raise or lower hand:\t⌘|Shift|Y',
+            },
+        },
+        callsShareScreenToggle: {
+            default: {
+                id: t('shortcuts.calls.share_screen_toggle'),
+                defaultMessage: 'Share or unshare the screen:\tCtrl|Shift|E',
+            },
+            mac: {
+                id: t('shortcuts.calls.share_screen_toggle.mac'),
+                defaultMessage: 'Share or unshare the screen:\t⌘|Shift|E',
+            },
+        },
+        callsParticipantsListToggle: {
+            default: {
+                id: t('shortcuts.calls.participants_list_toggle'),
+                defaultMessage: 'Show or hide participants list:\tAlt|P\tCtrl|Shift|P',
+            },
+            mac: {
+                id: t('shortcuts.calls.participants_list_toggle.mac'),
+                defaultMessage: 'Show or hide participants list:\tAlt|P',
+            },
+        },
+        callsLeaveCall: {
+            default: {
+                id: t('shortcuts.calls.leave_call'),
+                defaultMessage: 'Leave current call:\tCtrl|Shift|L',
+            },
+            mac: {
+                id: t('shortcuts.calls.leave_call.mac'),
+                defaultMessage: 'Leave current call:\t⌘|Shift|L',
+            },
+        },
+    },
+    popout: {
+        callsPushToTalk: {
+            default: {
+                id: t('shortcuts.calls.push_to_talk'),
+                defaultMessage: 'Hold to unmute (push to talk):\tSpace',
+            },
+        },
+    },
+};
+
 export const KEYBOARD_SHORTCUTS = {
     mainHeader: {
         default: {
@@ -428,4 +503,5 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'In channel:\t⌘|F',
         },
     },
+    calls: callsKBShortcuts,
 };

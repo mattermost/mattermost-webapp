@@ -43,6 +43,23 @@ describe('components/shortcuts/KeyboardShortcutsSequence', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot with alternative shortcut', () => {
+        const wrapper = mountWithIntl(
+            <KeyboardShortcutsSequence
+                shortcut={{
+                    id: 'test',
+                    defaultMessage: 'Keyboard Shortcuts\t⌘||P\tCtrl|P',
+                }}
+            />,
+        );
+
+        const tag = <span>{'Keyboard Shortcuts'}</span>;
+        expect(wrapper.contains(tag)).toEqual(true);
+        expect(wrapper).toMatchSnapshot();
+        expect(wrapper.find('.shortcut-key--tooltip')).toHaveLength(0);
+        expect(wrapper.find('.shortcut-key--shortcut-modal')).toHaveLength(5);
+    });
+
     test('should render sequence without description', () => {
         const wrapper = mountWithIntl(
             <KeyboardShortcutsSequence

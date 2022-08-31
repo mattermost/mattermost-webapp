@@ -98,6 +98,76 @@ exports[`components/shortcuts/KeyboardShortcutsSequence should match snapshot wh
 </Memo(KeyboardShortcutSequence)>
 `;
 
+exports[`components/shortcuts/KeyboardShortcutsSequence should match snapshot with alternative shortcut 1`] = `
+<Memo(KeyboardShortcutSequence)
+  shortcut={
+    Object {
+      "defaultMessage": "Keyboard Shortcuts	⌘||P	Ctrl|P",
+      "id": "test",
+    }
+  }
+>
+  <div
+    className="shortcut-line"
+  >
+    <span>
+      Keyboard Shortcuts
+    </span>
+    <ShortcutKey
+      key="⌘"
+      variant="shortcut"
+    >
+      <mark
+        className="shortcut-key shortcut-key--shortcut-modal"
+      >
+        ⌘
+      </mark>
+    </ShortcutKey>
+    <ShortcutKey
+      key=""
+      variant="shortcut"
+    >
+      <mark
+        className="shortcut-key shortcut-key--shortcut-modal"
+      />
+    </ShortcutKey>
+    <ShortcutKey
+      key="P"
+      variant="shortcut"
+    >
+      <mark
+        className="shortcut-key shortcut-key--shortcut-modal"
+      >
+        P
+      </mark>
+    </ShortcutKey>
+    <span>
+      	|	
+    </span>
+    <ShortcutKey
+      key="Ctrl"
+      variant="shortcut"
+    >
+      <mark
+        className="shortcut-key shortcut-key--shortcut-modal"
+      >
+        Ctrl
+      </mark>
+    </ShortcutKey>
+    <ShortcutKey
+      key="P"
+      variant="shortcut"
+    >
+      <mark
+        className="shortcut-key shortcut-key--shortcut-modal"
+      >
+        P
+      </mark>
+    </ShortcutKey>
+  </div>
+</Memo(KeyboardShortcutSequence)>
+`;
+
 exports[`components/shortcuts/KeyboardShortcutsSequence should render sequence hoisting description 1`] = `
 <Memo(KeyboardShortcutSequence)
   hoistDescription={true}

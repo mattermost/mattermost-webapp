@@ -619,6 +619,155 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
         </div>
       </div>
       <div
+        className="row"
+      >
+        <div
+          className="col-sm-4"
+        >
+          <div
+            className="section"
+          >
+            <div>
+              <h3
+                className="section-title"
+              >
+                <strong>
+                  Calls
+                </strong>
+              </h3>
+              <span>
+                <strong>
+                  Global
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  key="callsJoinCall"
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Join call in current channel:	Ctrl|Shift|S",
+                        "id": "shortcuts.calls.join_call",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Join call in current channel:	⌘|Shift|S",
+                        "id": "shortcuts.calls.join_call.mac",
+                      },
+                    }
+                  }
+                />
+              </div>
+              <span>
+                <strong>
+                  Call widget
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  key="callsMuteToggle"
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Mute or unmute:	Ctrl|Shift|Space",
+                        "id": "shortcuts.calls.mute_toggle",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Mute or unmute:	⌘|Shift|Space",
+                        "id": "shortcuts.calls.mute_toggle.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  key="callsRaiseHandToggle"
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Raise or lower hand:	Ctrl|Shift|Y",
+                        "id": "shortcuts.calls.raise_hand_toggle",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Raise or lower hand:	⌘|Shift|Y",
+                        "id": "shortcuts.calls.raise_hand_toggle.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  key="callsShareScreenToggle"
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Share or unshare the screen:	Ctrl|Shift|E",
+                        "id": "shortcuts.calls.share_screen_toggle",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Share or unshare the screen:	⌘|Shift|E",
+                        "id": "shortcuts.calls.share_screen_toggle.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  key="callsParticipantsListToggle"
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Show or hide participants list:	Alt|P	Ctrl|Shift|P",
+                        "id": "shortcuts.calls.participants_list_toggle",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Show or hide participants list:	Alt|P",
+                        "id": "shortcuts.calls.participants_list_toggle.mac",
+                      },
+                    }
+                  }
+                />
+                <Memo(KeyboardShortcutSequence)
+                  key="callsLeaveCall"
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Leave current call:	Ctrl|Shift|L",
+                        "id": "shortcuts.calls.leave_call",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Leave current call:	⌘|Shift|L",
+                        "id": "shortcuts.calls.leave_call.mac",
+                      },
+                    }
+                  }
+                />
+              </div>
+              <span>
+                <strong>
+                  Expanded view (pop-out window)
+                </strong>
+              </span>
+              <div
+                className="subsection"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  key="callsPushToTalk"
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Hold to unmute (push to talk):	Space",
+                        "id": "shortcuts.calls.push_to_talk",
+                      },
+                    }
+                  }
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
         className="info__label"
       >
         Begin a message with / for a list of all the commands at your disposal.
