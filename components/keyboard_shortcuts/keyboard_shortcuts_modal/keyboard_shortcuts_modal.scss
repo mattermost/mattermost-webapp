@@ -11,6 +11,7 @@
                 border: none;
                 background: transparent;
                 color: inherit;
+                height: 100px;
 
                 .close {
                     top: 35px;
@@ -35,7 +36,7 @@
         }
 
         .modal-body {
-            max-height: calc(100vh - 67px);
+            max-height: calc(100vh - 200px);
             padding: 0 40px 20px;
         }
 
