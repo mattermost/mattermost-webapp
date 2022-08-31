@@ -8,6 +8,8 @@ import throttle from 'lodash/throttle';
 
 import classNames from 'classnames';
 
+import WelcomePostRenderer from 'components/custom_welcome_message_renderer';
+
 import {Theme, getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 
 import {ProductComponent, PluginComponent} from 'types/store/plugins';
@@ -69,7 +71,6 @@ import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
-import WelcomePostRenderer from 'components/custom_welcome_message_renderer';
 
 import {UserProfile} from '@mattermost/types/users';
 
