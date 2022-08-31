@@ -66,7 +66,7 @@ const callsKBShortcuts = {
             },
             mac: {
                 id: t('shortcuts.calls.participants_list_toggle.mac'),
-                defaultMessage: 'Show or hide participants list:\tAlt|P',
+                defaultMessage: 'Show or hide participants list:\tAlt|P\t⌘|Shift|P',
             },
         },
         callsLeaveCall: {
