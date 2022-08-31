@@ -25,6 +25,9 @@ import {
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
+import {getPost} from 'mattermost-redux/selectors/entities/posts'
+
+import {getPosts} from 'mattermost-redux/actions/posts';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -1433,13 +1436,25 @@ export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: str
 
 export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-        const postId = getMostRecentPostIdInChannel(state, channelId);
-        const post = {id: postId};
-        if (post.id !== undefined && post.id !== null) {
-            dispatch(markPostAsUnread(post, 'CENTER'));
+        let state = getState();
+        let postId = getMostRecentPostIdInChannel(state, channelId);
+        if (!postId) {
+            console.log("Channel has no cached post, fetching...");
+            const posts = await dispatch(getPosts(channelId));
+            console.log("Posts fetched!")
+            console.log(posts);
+            state = getState();
+            postId = getMostRecentPostIdInChannel(state, channelId);
+            if (postId) {
+                const lastPost = getPost(state, postId);
+                dispatch(markPostAsUnread(lastPost, 'CENTER'));
+            }
+        } else {
+            console.log("Channel has cached posts, marking last one as unread.")
+            const lastPost = getPost(state, postId);
+            dispatch(markPostAsUnread(lastPost, 'CENTER')); 
         }
-
+        
         return {data: true};
     };
 }
