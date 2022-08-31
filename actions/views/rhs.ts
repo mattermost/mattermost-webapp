@@ -100,6 +100,8 @@ export function openShowEditHistory(post: Post) {
             type: ActionTypes.UPDATE_RHS_STATE,
             state: RHSStates.EDIT_HISTORY,
             postId: post.root_id || post.id,
+            channelId: post.channel_id,
+            timestamp: Date.now(),
         });
 
         return {data: true};
