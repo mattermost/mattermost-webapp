@@ -26,9 +26,9 @@ type ReactivateFooterProps = {
 }
 
 const ReactivateFooter = ({onClose, onReactivate, productName}: ReactivateFooterProps) => {
-    return (<Modal.Footer className={'DeliquencyFreemiumModal__footer '}>
+    return (<Modal.Footer className={'DeliquencyModal__footer '}>
         <button
-            className={'DeliquencyFreemiumModal__footer--secondary'}
+            className={'DeliquencyModal__footer--secondary'}
             id={'inviteMembersButton'}
             onClick={onClose}
         >
@@ -39,7 +39,7 @@ const ReactivateFooter = ({onClose, onReactivate, productName}: ReactivateFooter
         </button>
 
         <button
-            className={'DeliquencyFreemiumModal__footer--primary'}
+            className={'DeliquencyModal__footer--primary'}
             id={'inviteMembersButton'}
             onClick={onReactivate}
         >
@@ -57,9 +57,9 @@ const ReactivateFooter = ({onClose, onReactivate, productName}: ReactivateFooter
 type NoReactivateFooterProps = Omit<ReactivateFooterProps, 'onReactivate' | 'productName'>;
 
 const NoReactivateFooter = ({onClose}: NoReactivateFooterProps) => {
-    return (<Modal.Footer className={'DeliquencyFreemiumModal__footer '}>
+    return (<Modal.Footer className={'DeliquencyModal__footer '}>
         <button
-            className={'DeliquencyFreemiumModal__footer--primary'}
+            className={'DeliquencyModal__footer--primary'}
             id={'inviteMembersButton'}
             onClick={onClose}
         >
@@ -85,28 +85,28 @@ export const FreemiumModal = ({onClose}: FreemiumModalProps) => {
 
     return (
         <>
-            <Modal.Header className='DeliquencyFreemiumModal__header '>
+            <Modal.Header className='DeliquencyModal__header '>
                 <FormattedMessage
                     id='cloud_delinquency.modal.workspace_downgraded_freemium_title'
                     defaultMessage='You now have data limits on your plan'
                 >
-                    {(text) => <h3 className='DeliquencyFreemiumModal__header__title'>{text}</h3>}
+                    {(text) => <h3 className='DeliquencyModal__header__title'>{text}</h3>}
                 </FormattedMessage>
                 <button
                     id='closeIcon'
-                    className='icon icon-close DeliquencyFreemiumModal__header__close'
+                    className='icon icon-close DeliquencyModal__header__close'
                     aria-label='Close'
                     title='Close'
                     onClick={onClose}
                 />
             </Modal.Header>
-            <Modal.Body className='DeliquencyFreemiumModal__body'>
+            <Modal.Body className='DeliquencyModal__body__freemium'>
                 {highestLimit &&
                     <FormattedMessage
                         id='cloud_delinquency.modal.workspace_downgraded_surpassed'
                         defaultMessage='Cloud starter is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
                     >
-                        {(text) => <p className='DeliquencyFreemiumModal__body__information'>{text}</p>}
+                        {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
                     </FormattedMessage>
                 }
 
@@ -115,14 +115,14 @@ export const FreemiumModal = ({onClose}: FreemiumModalProps) => {
                         id='cloud_delinquency.modal.workspace_downgraded_freemium'
                         defaultMessage='Cloud starter is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
                     >
-                        {(text) => <p className='DeliquencyFreemiumModal__body__information'>{text}</p>}
+                        {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
                     </FormattedMessage>}
 
                 <FormattedMessage
                     id='cloud_delinquency.modal.workspace_downgraded_freemium_limits'
                     defaultMessage='Free plan limits'
                 >
-                    {(text) => <span className='DeliquencyFreemiumModal__body__subheader'>{text}</span>}
+                    {(text) => <span className='DeliquencyModal__body__subheader'>{text}</span>}
                 </FormattedMessage>
                 <WorkspaceLimitsPanel
                     showIcons={true}

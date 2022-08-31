@@ -45,20 +45,21 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
 
     return (
         <Modal
-            dialogClassName='a11y__modal more-modal more-modal--action DeliquencyModal'
+            className='DeliquencyModal'
+            dialogClassName='a11y__modal'
             show={show}
             onHide={closeModal}
             onExited={closeModal}
             role='dialog'
-            id='moreChannelsModal'
-            aria-labelledby='moreChannelsModalLabel'
+            id='DeliquencyModal'
+            aria-modal='true'
         >
             {!showFreemium &&
             <>
                 <Modal.Header className='DeliquencyModal__header '>
                     <button
                         id='closeIcon'
-                        className='icon icon-close DeliquencyModal__header__close'
+                        className='icon icon-close'
                         aria-label='Close'
                         title='Close'
                         onClick={closeModal}
@@ -87,7 +88,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                 </Modal.Body>
                 <Modal.Footer className={'DeliquencyModal__footer '}>
                     <button
-                        className={'DeliquencyModal__footer__freemium'}
+                        className={'DeliquencyModal__footer--secondary'}
                         id={'inviteMembersButton'}
                         onClick={handleShowFremium}
                     >
@@ -98,7 +99,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                     </button>
 
                     <button
-                        className={'DeliquencyModal__footer__update'}
+                        className={'DeliquencyModal__footer--primary'}
                         id={'inviteMembersButton'}
                         onClick={handleUpdateBilling}
                     >

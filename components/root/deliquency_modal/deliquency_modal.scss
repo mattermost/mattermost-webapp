@@ -1,110 +1,77 @@
 @import 'sass/utils/_mixins';
 
 .DeliquencyModal {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        margin: auto;
+        transform: translate(-50%, -50%) !important;
+    }
 
-    &__header {
-        background: var(--center-channel-bg) !important;
-        border: none !important;
+    .modal-header,
+    .modal-footer {
         display: flex;
-        flex-direction: row-reverse !important;
-        align-items: center;
-        padding-left: 32px !important;
-        padding-right: 32px !important;
+        padding-left: 32px;
+        padding-right: 32px;
+    }
 
-        &__close {
+    .DeliquencyModal__header {
+        border: none;
+        align-items: center;
+        
+        &.modal-header {
+            background: var(--center-channel-bg);
+        }
+
+        h3 {
+            font-weight: bold;
+            font-size: 22px;
+            line-height: 28px;
+            color: rgba(63, 67, 80, 1); 
+        }
+
+        .icon-close {
             @include button-medium;
-            background: var(--center-channel-bg) !important;
+            background: var(--center-channel-bg);
             border: none;
             color:rgba(63, 67, 80, 1);
             font-size: 24px;
             padding: 0;
+            margin-left: auto;
         }
     }
 
-    &__body {
-        display: block !important;
-        text-align: center;
+    .modal-body {
+        padding: 0 32px;
+        display: block;
         color: rgba(63, 67, 80, 1);
-        padding-left: 32px !important;
-        padding-right: 32px !important;
+        margin-bottom: 28px;
+        overflow: hidden;
+        max-height: none;
+    }
+
+    &__body {
+        text-align: center;
+
+        &__freemium {
+            text-align: left;
+        }
 
         &__title {
             font-weight: bold;
-            font-size: 22px !important;
+            font-size: 22px;
             margin-bottom: 8px;
             line-height: 28px;
         }
 
         &__information {
-            font-size: 12px !important;
+            font-size: 12px;
             margin: 0;
         }
-    }
 
-    &__footer {
-        display: flex;
-        padding-left: 32px !important;
-        padding-right: 32px !important;
-
-        &__freemium {
-            @include tertiary-button;
-            @include button-large;
-        }
-
-        &__update {
-            @include primary-button;
-            @include button-large;
-            margin-left: auto;
-        }
-    }
-}
-
-.DeliquencyFreemiumModal {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    height: 100%;
-
-    &__header {
-        background-color: var(--center-channel-bg) !important;
-        border: none !important;
-        display: flex;
-        padding-left: 32px !important;
-        padding-right: 32px !important;
-        align-items: center;
-
-        &__title {
-            font-weight: bold;
-            font-size: 22px !important;
-            padding-bottom: 8px;
-            line-height: 28px;
-            color: rgba(63, 67, 80, 1);
-        }
-
-        &__close {
-            @include button-medium;
-            background: var(--center-channel-bg) !important;
-            border: none;
-            color:rgba(63, 67, 80, 1);
-            font-size: 24px;
-            margin-left: auto;
-            padding: 0 !important;
-        }
-    }
-
-    &__body {
-        display: block !important;
-        color: rgba(63, 67, 80, 1);
-        padding-left: 32px !important;
-        padding-right: 32px !important;
-        padding-bottom: 24px !important;
-
-        &__information {
-            font-size: 12px !important;
+        &__limits-information {
+            font-size: 12px;
             margin: 0;
             margin-bottom: 24px;
         }
@@ -120,10 +87,6 @@
     }
 
     &__footer {
-        display: flex;
-        padding-left: 32px !important;
-        padding-right: 32px !important;
-
         &--secondary {
             @include tertiary-button;
             @include button-large;
