@@ -225,8 +225,8 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
             requireInteraction: false,
             silent,
             onClick: () => {
-                window.focus();
                 browserHistory.push(url);
+                window.focus();
             },
         }).catch((error) => {
             dispatch(logError(error));
