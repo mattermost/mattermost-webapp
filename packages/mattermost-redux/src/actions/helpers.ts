@@ -13,9 +13,9 @@ type ActionType = string;
 const HTTP_UNAUTHORIZED = 401;
 export function forceLogoutIfNecessary(err: ServerError, dispatch: DispatchFunc, getState: GetStateFunc) {
     if (typeof getState !== 'function') {
-        console.log(err)
-        console.log(getState)
-        console.log(dispatch)
+        console.log(err);
+        console.log(getState);
+        console.log(dispatch);
         debugger;
     }
     const {currentUserId} = getState().entities.users;

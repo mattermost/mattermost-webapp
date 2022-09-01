@@ -12,6 +12,7 @@ import {pageVisited} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import CloudTrialBanner from 'components/admin_console/billing/billing_subscriptions/cloud_trial_banner';
+import CloudFetchError from 'components/cloud_fetch_error';
 
 import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
@@ -20,6 +21,7 @@ import {
     getCloudSubscription as selectCloudSubscription,
     getCloudCustomer as selectCloudCustomer,
     checkSubscriptionIsLegacyFree,
+    getCloudErrors,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {
     TrialPeriodDays,
@@ -52,6 +54,7 @@ import {
 import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
+import {GlobalState} from '@mattermost/types/store';
 
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
@@ -59,6 +62,10 @@ const BillingSubscriptions = () => {
     const analytics = useSelector(getAdminAnalytics);
     const subscription = useSelector(selectCloudSubscription);
     const [cloudLimits] = useGetLimits();
+    const errorLoadingData = useSelector((state: GlobalState) => {
+        const errors = getCloudErrors(state);
+        return Boolean(errors.limits || errors.subscription || errors.customer || errors.products);
+    });
 
     const isCardExpired = isCustomerCardExpired(useSelector(selectCloudCustomer));
 
@@ -70,7 +77,6 @@ const BillingSubscriptions = () => {
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
     const [showGrandfatheredPlanBanner, setShowGrandfatheredPlanBanner] = useState(true);
-    const [errorLoadingBilling, setErrorLoadingBilling] = useState(false);
 
     const query = useQuery();
     const actionQueryParam = query.get('action');
@@ -96,42 +102,34 @@ const BillingSubscriptions = () => {
     }
 
     useEffect(() => {
-        if (errorLoadingBilling) {
-            return
+        getCloudSubscription()(dispatch, store.getState);
+        const includeLegacyProducts = true;
+        getCloudProducts(includeLegacyProducts)(dispatch, store.getState);
+        getCloudCustomer()(dispatch, store.getState);
+
+        if (!analytics) {
+            (async function getAllAnalytics() {
+                await dispatch(getStandardAnalytics());
+            }());
         }
-        try {
-            getCloudSubscription()(dispatch, store.getState);
-            const includeLegacyProducts = true;
-            getCloudProducts(includeLegacyProducts)(dispatch, store.getState);
-            getCloudCustomer()(dispatch, store.getState);
 
-            if (!analytics) {
-                (async function getAllAnalytics() {
-                    await dispatch(getStandardAnalytics());
-                }());
-            }
+        pageVisited('cloud_admin', 'pageview_billing_subscription');
 
-            pageVisited('cloud_admin', 'pageview_billing_subscription');
-
-            if (actionQueryParam === 'show_purchase_modal') {
-                onUpgradeMattermostCloud('billing_subscriptions_external_direct_link');
-            }
-
-            if (actionQueryParam === 'show_pricing_modal') {
-                openPricingModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
-            }
-        } catch (err) {
-            console.error('error loading billing', err)
-            // TODO redirect to error page here
-            setErrorLoadingBilling(true);
+        if (actionQueryParam === 'show_purchase_modal') {
+            onUpgradeMattermostCloud('billing_subscriptions_external_direct_link');
         }
-    }, [errorLoadingBilling]);
+
+        if (actionQueryParam === 'show_pricing_modal') {
+            openPricingModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
+        }
+    }, []);
 
     const shouldShowPaymentFailedBanner = () => {
         return subscription?.last_invoice?.status === 'failed';
     };
 
-    if (!subscription || !product) {
+    // handle not loaded yet here, failed to load handled below
+    if ((!subscription || !product) && !errorLoadingData) {
         return null;
     }
 
@@ -154,55 +152,51 @@ const BillingSubscriptions = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {errorLoadingBilling &&
-                    <div>
-                        {'error loading billing'}
-                    </div>
-                    }
-                    {!errorLoadingBilling && <>
-                    <LimitReachedBanner
-                        product={product}
-                    />
-                    {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
-                    {shouldShowGrandfatheredPlanBanner() && (
-                        <GrandfatheredPlanBanner
-                            setShowGrandfatheredPlanBanner={(value: boolean) =>
-                                setShowGrandfatheredPlanBanner(value)
-                            }
+                    {errorLoadingData && <CloudFetchError/>}
+                    {!errorLoadingData && <>
+                        <LimitReachedBanner
+                            product={product}
                         />
-                    )}
-                    {showCreditCardBanner &&
+                        {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
+                        {shouldShowGrandfatheredPlanBanner() && (
+                            <GrandfatheredPlanBanner
+                                setShowGrandfatheredPlanBanner={(value: boolean) =>
+                                    setShowGrandfatheredPlanBanner(value)
+                                }
+                            />
+                        )}
+                        {showCreditCardBanner &&
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
-                    {isFreeTrial && <CloudTrialBanner trialEndDate={trialEndDate}/>}
-                    <div className='BillingSubscriptions__topWrapper'>
-                        <PlanDetails
+                        {isFreeTrial && <CloudTrialBanner trialEndDate={trialEndDate}/>}
+                        <div className='BillingSubscriptions__topWrapper'>
+                            <PlanDetails
+                                isFreeTrial={isFreeTrial}
+                                subscriptionPlan={product?.sku}
+                            />
+                            <BillingSummary
+                                isLegacyFree={isLegacyFree}
+                                isFreeTrial={isFreeTrial}
+                                daysLeftOnTrial={daysLeftOnTrial}
+                                onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                            />
+                        </div>
+                        {hasSomeLimits(cloudLimits) && !isFreeTrial ? (
+                            <Limits/>
+                        ) : (
+                            <ContactSalesCard
+                                contactSalesLink={contactSalesLink}
+                                isFreeTrial={isFreeTrial}
+                                trialQuestionsLink={trialQuestionsLink}
+                                subscriptionPlan={product?.sku}
+                                onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                            />
+                        )}
+                        <CancelSubscription
+                            cancelAccountLink={cancelAccountLink}
                             isFreeTrial={isFreeTrial}
-                            subscriptionPlan={product?.sku}
-                        />
-                        <BillingSummary
                             isLegacyFree={isLegacyFree}
-                            isFreeTrial={isFreeTrial}
-                            daysLeftOnTrial={daysLeftOnTrial}
-                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
-                    </div>
-                    {hasSomeLimits(cloudLimits) && !isFreeTrial ? (
-                        <Limits/>
-                    ) : (
-                        <ContactSalesCard
-                            contactSalesLink={contactSalesLink}
-                            isFreeTrial={isFreeTrial}
-                            trialQuestionsLink={trialQuestionsLink}
-                            subscriptionPlan={product?.sku}
-                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
-                        />
-                    )}
-                    <CancelSubscription
-                        cancelAccountLink={cancelAccountLink}
-                        isFreeTrial={isFreeTrial}
-                        isLegacyFree={isLegacyFree}
-                    />
                     </>}
                 </div>
             </div>

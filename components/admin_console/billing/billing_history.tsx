@@ -8,7 +8,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {getInvoices} from 'mattermost-redux/actions/cloud';
 import {Client4} from 'mattermost-redux/client';
 import {Invoice} from '@mattermost/types/cloud';
-import {GlobalState} from '@mattermost/types/store';
+import CloudFetchError from 'components/cloud_fetch_error';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
@@ -22,6 +22,7 @@ import {CloudLinks} from 'utils/constants';
 import InvoiceUserCount from './invoice_user_count';
 
 import './billing_history.scss';
+import {getCloudErrors, getCloudInvoices} from 'mattermost-redux/selectors/entities/cloud';
 
 const PAGE_LENGTH = 4;
 
@@ -89,7 +90,8 @@ const getPaymentStatus = (status: string) => {
 
 const BillingHistory = () => {
     const dispatch = useDispatch();
-    const invoices = useSelector((state: GlobalState) => state.entities.cloud.invoices);
+    const invoices = useSelector(getCloudInvoices);
+    const {invoices: invoicesError} = useSelector(getCloudErrors);
 
     const [billingHistory, setBillingHistory] = useState<Invoice[] | undefined>(undefined);
     const [firstRecord, setFirstRecord] = useState(1);
@@ -231,7 +233,8 @@ const BillingHistory = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    <div className='BillingHistory__card'>
+                    {invoicesError && <CloudFetchError/>}
+                    {!invoicesError && <div className='BillingHistory__card'>
                         <div className='BillingHistory__cardHeader'>
                             <div className='BillingHistory__cardHeaderText'>
                                 <div className='BillingHistory__cardHeaderText-top'>
@@ -263,7 +266,7 @@ const BillingHistory = () => {
                                 </div>
                             )}
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>
