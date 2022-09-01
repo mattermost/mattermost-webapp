@@ -20,6 +20,7 @@ import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser} from 'utils/utils';
 import UserProfileComponent from 'components/user_profile';
+import classNames from 'classnames';
 
 type Props = {
     post: Post;
@@ -113,6 +114,8 @@ const EditedPostItem = ({post}: Props) => {
             />
         </OverlayTrigger>
     );
+
+    const postContentClass = classNames('post__content', {'edit-post__container__visible': open});
     return (
         <div className='edit-post__container'>
             <IconButton
@@ -140,7 +143,7 @@ const EditedPostItem = ({post}: Props) => {
                 </div>
                 {currentVersionIndicator}
                 {postHeader}
-                {open && <div className='post__content'>
+                <div className={postContentClass}>
                     <div>
                         <div className='search-item-snippet post__body'>
                             <AutoHeightSwitcher
@@ -153,7 +156,7 @@ const EditedPostItem = ({post}: Props) => {
                             {/* {fileAttachment} */}
                         </div>
                     </div>
-                </div>}
+                </div>
             </PostAriaLabelDiv>
         </div>
     );

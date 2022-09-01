@@ -2267,6 +2267,11 @@
             background-color: rgba(var(--denim-button-bg-rgb), 0.08)
         }
     }
+
+    .edit-post__container__visible {
+        visibility: hidden;
+        background-color: tomato;
+    }
 }
 
 .edit-post__header {
