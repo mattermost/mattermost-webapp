@@ -1,36 +1,32 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {Route, Switch} from 'react-router-dom';
+import React, {useEffect, useState} from 'react';
+import {Route, Switch, useHistory, useParams} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {Team, TeamMembership} from '@mattermost/types/teams';
-import {Group} from '@mattermost/types/groups';
-import {UserProfile, UserStatus} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
+
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions';
 import {reconnect} from 'actions/websocket_actions.jsx';
-import * as GlobalActions from 'actions/global_actions';
+import {emitCloseRightHandSide} from 'actions/global_actions';
 
 import Constants from 'utils/constants';
-import * as UserAgent from 'utils/user_agent';
-import * as Utils from 'utils/utils';
-import {isGuest} from 'mattermost-redux/utils/user_utils';
+import {isIosSafari} from 'utils/user_agent';
+import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 
 import {makeAsyncComponent} from 'components/async_load';
-const LazyBackstageController = React.lazy(() => import('components/backstage'));
 import ChannelController from 'components/channel_layout/channel_controller';
 import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
-import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
+import type {OwnProps, PropsFromRedux} from './index';
 
-let wakeUpInterval: number;
-let lastTime = Date.now();
+const BackstageController = makeAsyncComponent('BackstageController', React.lazy(() => import('components/backstage')));
+
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
 const UNREAD_CHECK_TIME_MILLISECONDS = 10000;
@@ -41,246 +37,54 @@ declare global {
     }
 }
 
-type Props = {
-    license: Record<string, any>;
-    currentUser?: UserProfile;
-    currentChannelId?: string;
-    currentTeamId?: string;
-    actions: {
-        fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
-        fetchAllMyTeamsChannelsAndChannelMembers: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
-        getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
-        viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
-        markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
-        getTeamByName: (teamName: string) => Promise<{data: Team}>;
-        addUserToTeam: (teamId: string, userId?: string) => Promise<{data: TeamMembership; error?: any}>;
-        selectTeam: (team: Team) => Promise<{data: boolean}>;
-        setPreviousTeamId: (teamId: string) => Promise<{data: boolean}>;
-        loadStatusesForChannelAndSidebar: () => Promise<{data: UserStatus[]}>;
-        getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
-        getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
-        getGroupsByUserIdPaginated: (userId: string, filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
-        getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
-    };
-    mfaRequired: boolean;
-    match: {
-        params: {
-            team: string;
-        };
-    };
-    previousTeamId?: string;
-    history: {
-        push(path: string): void;
-    };
-    teamsList: Team[];
-    collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
-    plugins?: any;
-    selectedThreadId: string | null;
-    shouldShowAppBar: boolean;
-    isCustomGroupsEnabled: boolean;
-}
+type Props = PropsFromRedux & OwnProps;
 
-type State = {
-    team: Team | null;
-    finishedFetchingChannels: boolean;
-    prevTeam: string;
-    teamsList: Team[];
-}
-
-export default class NeedsTeam extends React.PureComponent<Props, State> {
-    public blurTime: number;
-    constructor(props: Props) {
-        super(props);
-        this.blurTime = new Date().getTime();
-
-        if (this.props.mfaRequired) {
-            this.props.history.push('/mfa/setup');
-            return;
-        }
-
-        clearInterval(wakeUpInterval);
-
-        wakeUpInterval = window.setInterval(() => {
-            const currentTime = (new Date()).getTime();
-            if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
-                console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-                reconnect(false);
-            }
-            lastTime = currentTime;
-        }, WAKEUP_CHECK_INTERVAL);
-
-        const team = this.updateCurrentTeam(this.props);
-
-        this.state = {
-            team,
-            finishedFetchingChannels: false,
-            prevTeam: this.props.match.params.team,
-            teamsList: this.props.teamsList,
-        };
-
-        LocalStorageStore.setTeamIdJoinedOnLoad(null);
-
-        if (!team) {
-            this.joinTeam(this.props, true);
-        }
-    }
-
-    static getDerivedStateFromProps(nextProps: Props, state: State) {
-        if (state.prevTeam !== nextProps.match.params.team) {
-            const team = nextProps.teamsList ? nextProps.teamsList.find((teamObj: Team) =>
-                teamObj.name === nextProps.match.params.team) : null;
-            return {
-                prevTeam: nextProps.match.params.team,
-                team: (team || null),
-            };
-        }
-        return {prevTeam: nextProps.match.params.team};
-    }
-
-    public componentDidMount() {
-        startPeriodicStatusUpdates();
-        this.fetchAllTeams();
-
-        // Set up tracking for whether the window is active
-        window.isActive = true;
-
-        if (UserAgent.isIosSafari()) {
-            // Use iNoBounce to prevent scrolling past the boundaries of the page
-            iNoBounce.enable();
-        }
-
-        window.addEventListener('focus', this.handleFocus);
-        window.addEventListener('blur', this.handleBlur);
-        window.addEventListener('keydown', this.onShortcutKeyDown);
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (this.props.match.params.team !== prevProps.match.params.team) {
-            if (this.state.team) {
-                this.initTeam(this.state.team);
-            }
-            if (!this.state.team) {
-                this.joinTeam(this.props);
-            }
-        }
-    }
-
-    componentWillUnmount() {
-        window.isActive = false;
-        stopPeriodicStatusUpdates();
-        if (UserAgent.isIosSafari()) {
-            iNoBounce.disable();
-        }
-
-        clearInterval(wakeUpInterval);
-        window.removeEventListener('focus', this.handleFocus);
-        window.removeEventListener('blur', this.handleBlur);
-        window.removeEventListener('keydown', this.onShortcutKeyDown);
-    }
-
-    handleBlur = () => {
-        window.isActive = false;
-        this.blurTime = new Date().getTime();
-        if (this.props.currentUser) {
-            this.props.actions.viewChannel('');
-        }
-    }
-
-    handleFocus = () => {
-        if (this.props.selectedThreadId) {
-            window.isActive = true;
-        }
-        if (this.props.currentChannelId) {
-            this.props.actions.markChannelAsReadOnFocus(this.props.currentChannelId);
-            window.isActive = true;
-        }
-        if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
-            this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
-        }
-    }
-
-    joinTeam = async (props: Props, firstLoad = false) => {
-        // skip reserved teams
-        if (Constants.RESERVED_TEAM_NAMES.includes(props.match.params.team)) {
-            return;
-        }
-
-        const {data: team} = await this.props.actions.getTeamByName(props.match.params.team);
-        if (team && team.delete_at === 0) {
-            const {error} = await props.actions.addUserToTeam(team.id, props.currentUser && props.currentUser.id);
-            if (error) {
-                props.history.push('/error?type=team_not_found');
-            } else {
-                if (firstLoad) {
-                    LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
-                }
-                this.setState({team});
-                this.initTeam(team);
-            }
-        } else {
-            props.history.push('/error?type=team_not_found');
-        }
-    }
-
-    initTeam = (team: Team) => {
-        if (team.id !== this.props.previousTeamId) {
-            GlobalActions.emitCloseRightHandSide();
-        }
-
-        // If current team is set, then this is not first load
-        // The first load action pulls team unreads
-        this.props.actions.getMyTeamUnreads(this.props.collapsedThreads);
-        this.props.actions.selectTeam(team);
-        this.props.actions.setPreviousTeamId(team.id);
-
-        if (this.props.currentUser && isGuest(this.props.currentUser.roles)) {
-            this.setState({finishedFetchingChannels: false});
-        }
-        this.props.actions.fetchMyChannelsAndMembers(team.id).then(
-            () => {
-                this.setState({
-                    finishedFetchingChannels: true,
-                });
-            },
-        );
-        this.props.actions.loadStatusesForChannelAndSidebar();
-
-        if (this.props.license &&
-            this.props.license.IsLicensed === 'true' &&
-            (this.props.license.LDAPGroups === 'true' || this.props.isCustomGroupsEnabled)) {
-            if (this.props.currentUser) {
-                this.props.actions.getGroupsByUserIdPaginated(this.props.currentUser.id, false, 0, 60, true);
-            }
-
-            if (this.props.license.LDAPGroups === 'true') {
-                this.props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-            }
-
-            if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
-                this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
-            } else {
-                this.props.actions.getGroups(false, 0, 60);
-            }
-        }
-    }
-
-    fetchAllTeams = () => {
-        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
-    }
-
-    updateCurrentTeam = (props: Props) => {
-        // First check to make sure you're in the current team
-        // for the current url.
-        const team = props.teamsList ? props.teamsList.find((teamObj) => teamObj.name === props.match.params.team) : null;
-        if (team) {
-            this.initTeam(team);
-            return team;
-        }
+function getTeamFromTeamParam(teamsList: Props['teamsList'], teamParam: Props['match']['params']['team']) {
+    if (!teamParam) {
         return null;
     }
 
-    onShortcutKeyDown = (e: KeyboardEvent) => {
-        if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
+    const team = teamsList?.find((teamInList) => teamInList.name === teamParam) ?? null;
+    if (!team) {
+        return null;
+    }
+
+    return team;
+}
+
+export default function NeedsTeam(props: Props) {
+    const history = useHistory();
+    const {team: teamNameParam} = useParams<Props['match']['params']>();
+
+    const [team, setTeam] = useState<Team | null>(getTeamFromTeamParam(props.teamsList, teamNameParam));
+    const [isFetchingChannels, setIsFetchingChannels] = useState(true);
+
+    let blurTime = new Date().getTime();
+    let lastTime = Date.now();
+
+    function handleFocus() {
+        if (props.selectedThreadId) {
+            window.isActive = true;
+        }
+        if (props.currentChannelId) {
+            window.isActive = true;
+            props.actions.markChannelAsReadOnFocus(props.currentChannelId);
+        }
+        if (Date.now() - blurTime > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
+            props.actions.fetchMyChannelsAndMembers(props.currentTeamId);
+        }
+    }
+
+    function handleBlur() {
+        window.isActive = false;
+        blurTime = new Date().getTime();
+        if (props.currentUser) {
+            props.actions.viewChannel('');
+        }
+    }
+
+    function handleKeydown(e: KeyboardEvent) {
+        if (e.shiftKey && cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.L)) {
             const sidebar = document.getElementById('sidebar-right');
             if (sidebar) {
                 if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
@@ -298,40 +102,182 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
     }
 
-    render() {
-        if (this.state.team === null) {
-            return <div/>;
+    const wakeUpInterval = window.setInterval(() => {
+        const currentTime = (new Date()).getTime();
+        if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
+            console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
+            reconnect(false);
+        }
+        lastTime = currentTime;
+    }, WAKEUP_CHECK_INTERVAL);
+
+    useEffect(() => {
+        // Set up tracking for whether the window is active
+        window.isActive = true;
+
+        props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
+
+        const browserIsIosSafari = isIosSafari();
+
+        if (browserIsIosSafari) {
+            // Use iNoBounce to prevent scrolling past the boundaries of the page
+            iNoBounce.enable();
         }
 
-        return (
-            <>
-                <Switch>
-                    <Route
-                        path={'/:team/integrations'}
-                        component={BackstageController}
-                    />
-                    <Route
-                        path={'/:team/emoji'}
-                        component={BackstageController}
-                    />
-                    {this.props.plugins?.map((plugin: any) => (
-                        <Route
-                            key={plugin.id}
-                            path={'/:team/' + plugin.route}
-                            render={() => (
-                                <Pluggable
-                                    pluggableName={'NeedsTeamComponent'}
-                                    pluggableId={plugin.id}
-                                />
-                            )}
-                        />
-                    ))}
-                </Switch>
-                <ChannelController
-                    shouldShowAppBar={this.props.shouldShowAppBar}
-                    fetchingChannels={!this.state.finishedFetchingChannels}
-                />
-            </>
-        );
+        window.addEventListener('focus', handleFocus);
+        window.addEventListener('blur', handleBlur);
+        window.addEventListener('keydown', handleKeydown);
+
+        startPeriodicStatusUpdates();
+
+        LocalStorageStore.setTeamIdJoinedOnLoad(null);
+
+        return () => {
+            window.isActive = false;
+
+            if (browserIsIosSafari) {
+                iNoBounce.disable();
+            }
+
+            window.removeEventListener('focus', handleFocus);
+            window.removeEventListener('blur', handleBlur);
+            window.removeEventListener('keydown', handleKeydown);
+
+            clearInterval(wakeUpInterval);
+
+            stopPeriodicStatusUpdates();
+        };
+    }, []);
+
+    async function joinTeam(firstLoad = false): Promise<Team |null> {
+        // skip reserved teams
+        if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
+            return null;
+        }
+
+        try {
+            const {data: teamByName} = await props.actions.getTeamByName(teamNameParam);
+            if (teamByName && teamByName.delete_at === 0) {
+                const {error} = await props.actions.addUserToTeam(teamByName.id, props.currentUser && props.currentUser.id);
+                if (error) {
+                    return null;
+                }
+
+                // User added to the new team, now attempt to initialize the team
+                if (firstLoad) {
+                    LocalStorageStore.setTeamIdJoinedOnLoad(teamByName.id);
+                }
+                return teamByName;
+            }
+            return null;
+        } catch (error) {
+            return null;
+        }
     }
+
+    async function initTeam(team: Team) {
+        // If current team is set, then this is not first load
+        // The first load action pulls team unreads
+        props.actions.getMyTeamUnreads(props.collapsedThreads);
+        props.actions.selectTeam(team);
+        props.actions.setPreviousTeamId(team.id);
+
+        if (props.currentUser && isGuest(props.currentUser.roles)) {
+            setIsFetchingChannels(true);
+        }
+
+        await props.actions.fetchMyChannelsAndMembers(team.id);
+        setIsFetchingChannels(false);
+
+        props.actions.loadStatusesForChannelAndSidebar();
+
+        if (props.license &&
+            props.license.IsLicensed === 'true' &&
+            (props.license.LDAPGroups === 'true' || props.isCustomGroupsEnabled)) {
+            if (props.currentUser) {
+                props.actions.getGroupsByUserIdPaginated(props.currentUser.id, false, 0, 60, true);
+            }
+
+            if (props.license.LDAPGroups === 'true') {
+                props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+            }
+
+            if (team.group_constrained && props.license.LDAPGroups === 'true') {
+                props.actions.getAllGroupsAssociatedToTeam(team.id, true);
+            } else {
+                props.actions.getGroups(false, 0, 60);
+            }
+        }
+    }
+
+    async function joinTeamAndInit() {
+        try {
+            const joinedTeam = await joinTeam();
+
+            if (joinedTeam) {
+                initTeam(joinedTeam);
+                setTeam(joinedTeam);
+            } else {
+                throw new Error('Unable to join team');
+            }
+        } catch (error) {
+            history.push('/error?type=team_not_found');
+        }
+    }
+
+    // Effect to run when url for team changes
+    useEffect(() => {
+        const team = getTeamFromTeamParam(props.teamsList, teamNameParam);
+
+        if (team) {
+            // User belongs to team found in url
+            initTeam(team);
+            setTeam(team);
+
+            // Prevents the RHS from closing when clicking on a global permalink.
+            emitCloseRightHandSide();
+        } else {
+            // User is not a member of the team found in the url
+            // attempt to join the team
+            joinTeamAndInit();
+        }
+    }, [teamNameParam]);
+
+    if (props.mfaRequired) {
+        history.push('/mfa/setup');
+        return null;
+    }
+
+    if (team === null) {
+        return null;
+    }
+
+    return (
+        <Switch>
+            <Route
+                path={'/:team/integrations'}
+                component={BackstageController}
+            />
+            <Route
+                path={'/:team/emoji'}
+                component={BackstageController}
+            />
+            {props.plugins?.map((plugin: any) => (
+                <Route
+                    key={plugin.id}
+                    path={'/:team/' + plugin.route}
+                    render={() => (
+                        <Pluggable
+                            pluggableName={'NeedsTeamComponent'}
+                            pluggableId={plugin.id}
+                        />
+                    )}
+                />
+            ))}
+            <ChannelController
+                shouldShowAppBar={props.shouldShowAppBar}
+                isFetchingChannels={isFetchingChannels}
+            />
+        </Switch>
+    );
 }

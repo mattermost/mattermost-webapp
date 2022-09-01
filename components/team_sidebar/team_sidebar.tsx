@@ -144,7 +144,6 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        this.props.actions.getTeams(0, 200);
         document.addEventListener('keydown', this.handleKeyDown);
         document.addEventListener('keyup', this.handleKeyUp);
     }

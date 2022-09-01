@@ -8,7 +8,6 @@ import {withRouter} from 'react-router-dom';
 import {ClientConfig} from '@mattermost/types/config';
 import {Team} from '@mattermost/types/teams';
 
-import {getTeams} from 'mattermost-redux/actions/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {
     getCurrentTeamId,
@@ -56,7 +55,6 @@ function mapStateToProps(state: GlobalState) {
 }
 
 type Actions = {
-    getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean) => void;
     switchTeam: (url: string, team?: Team) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => void;
     updateTeamsOrderForUser: (teamIds: string[]) => (dispatch: Dispatch<GenericAction>, getState: GetStateFunc) => Promise<void>;
 }
@@ -64,7 +62,6 @@ type Actions = {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject, Actions>({
-            getTeams,
             switchTeam,
             updateTeamsOrderForUser,
         }, dispatch),
