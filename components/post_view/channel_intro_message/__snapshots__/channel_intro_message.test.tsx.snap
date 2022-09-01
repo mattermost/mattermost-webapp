@@ -40,7 +40,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       ariaLabel="Set a Header"
       className="intro-links color--link channelIntroButton"
       dialogProps={
@@ -76,7 +76,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         defaultMessage="Set a Header"
         id="intro_messages.setHeader"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </Connect(ChannelPermissionGate)>
   <br />
 </div>
@@ -167,7 +167,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       ariaLabel="Set a Header"
       className="intro-links color--link channelIntroButton"
       dialogProps={
@@ -203,7 +203,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         defaultMessage="Set a Header"
         id="intro_messages.setHeader"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </Connect(ChannelPermissionGate)>
   <br />
 </div>
@@ -256,7 +256,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
       teamId="team-id"
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         className="intro-links color--link"
         dialogProps={
           Object {
@@ -299,7 +299,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           defaultMessage="Add other groups to this team"
           id="intro_messages.addGroupsToTeam"
         />
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
   <button
@@ -321,7 +321,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       ariaLabel="Set a Header"
       className="intro-links color--link channelIntroButton"
       dialogProps={
@@ -357,7 +357,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         defaultMessage="Set a Header"
         id="intro_messages.setHeader"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </Connect(ChannelPermissionGate)>
   <br />
 </div>
@@ -449,7 +449,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
             }
             teamId="team-id"
           >
-            <Memo(Connect(injectIntl(ToggleModalButton)))
+            <Memo(Connect(ToggleModalButton))
               ariaLabel="Set a Header"
               className="intro-links color--link channelIntroButton"
               dialogProps={
@@ -485,7 +485,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                 defaultMessage="Set a Header"
                 id="intro_messages.setHeader"
               />
-            </Memo(Connect(injectIntl(ToggleModalButton)))>
+            </Memo(Connect(ToggleModalButton))>
           </Memo(Connect(ChannelPermissionGate))>
         }
         usersLimit={10}
@@ -547,7 +547,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       id="intro_messages.createBoard"
     />
   </button>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -583,7 +583,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -628,7 +628,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       }
     />
   </p>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -664,7 +664,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -754,7 +754,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       id="intro_messages.createBoard"
     />
   </button>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -790,7 +790,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -838,7 +838,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       }
     />
   </p>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -874,7 +874,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -948,7 +948,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -984,7 +984,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
@@ -1051,7 +1051,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -1087,7 +1087,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
@@ -1190,7 +1190,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -1226,7 +1226,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
@@ -1318,7 +1318,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -1354,7 +1354,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}

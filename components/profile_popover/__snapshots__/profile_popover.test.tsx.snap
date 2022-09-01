@@ -274,7 +274,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -339,7 +339,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
@@ -547,7 +547,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -613,7 +613,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
@@ -832,7 +832,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -897,7 +897,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
@@ -1073,7 +1073,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
@@ -1138,7 +1138,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
