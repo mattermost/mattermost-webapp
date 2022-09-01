@@ -16,19 +16,20 @@ import TestHelper from '../../../test/test_helper';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import {UserProfile} from '@mattermost/types/users';
 
+const p = (override: Partial<PostWithFormatData>) => Object.assign(TestHelper.getPostMock(override), override);
+
 describe('Selectors.Posts', () => {
     const user1 = TestHelper.fakeUserWithId();
-    user1.notify_props = {} as UserProfile['notify_props'];
     const profiles: Record<string, UserProfile> = {};
     profiles[user1.id] = user1;
 
     const posts = {
-        a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: user1.id} as unknown as Post,
-        b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: user1.id} as unknown as Post,
-        c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'} as unknown as Post,
-        d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: 'b'} as unknown as Post,
-        e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'} as unknown as Post,
-        f: {id: 'f', channel_id: '2', create_at: 6, highlight: false, user_id: 'b'} as unknown as Post,
+        a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: user1.id}),
+        b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: user1.id}),
+        c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+        d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: 'b'}),
+        e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+        f: p({id: 'f', channel_id: '2', create_at: 6, highlight: false, user_id: 'b'}),
     };
 
     const reaction1 = {user_id: user1.id, emoji_name: '+1'} as Reaction;
@@ -238,13 +239,13 @@ describe('Selectors.Posts', () => {
         profilesAny[userAny.id] = userAny;
 
         const postsAny = {
-            a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userAny.id} as unknown as Post,
-            b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'} as unknown as Post,
-            c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'} as unknown as Post,
-            d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userAny.id} as unknown as Post,
-            e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'} as unknown as Post,
-            f: {id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'} as unknown as Post,
-            g: {id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'} as unknown as Post,
+            a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userAny.id}),
+            b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'}),
+            c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+            d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userAny.id}),
+            e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+            f: p({id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'}),
+            g: p({id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'}),
         };
 
         const testStateAny = deepFreezeAndThrowOnMutation({
@@ -357,13 +358,13 @@ describe('Selectors.Posts', () => {
         profilesRoot[userRoot.id] = userRoot;
 
         const postsRoot = {
-            a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userRoot.id} as unknown as Post,
-            b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'} as unknown as Post,
-            c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'} as unknown as Post,
-            d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userRoot.id} as unknown as Post,
-            e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'} as unknown as Post,
-            f: {id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'} as unknown as Post,
-            g: {id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'} as unknown as Post,
+            a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userRoot.id}),
+            b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'}),
+            c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+            d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userRoot.id}),
+            e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+            f: p({id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'}),
+            g: p({id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'}),
         };
 
         const testStateRoot = deepFreezeAndThrowOnMutation({
@@ -470,13 +471,13 @@ describe('Selectors.Posts', () => {
         profilesNever[userNever.id] = userNever;
 
         const postsNever = {
-            a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userNever.id} as unknown as Post,
-            b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'} as unknown as Post,
-            c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'} as unknown as Post,
-            d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userNever.id} as unknown as Post,
-            e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'} as unknown as Post,
-            f: {id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'} as unknown as Post,
-            g: {id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'} as unknown as Post,
+            a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userNever.id}),
+            b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'}),
+            c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+            d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userNever.id}),
+            e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+            f: p({id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'}),
+            g: p({id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'}),
         };
 
         const testStateNever = deepFreezeAndThrowOnMutation({
@@ -872,7 +873,7 @@ describe('Selectors.Posts', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            1006: {id: '1006', create_at: 1006, root_id: '1003'} as Post,
+                            1006: p({id: '1006', create_at: 1006, root_id: '1003'}),
                         },
                         postsInThread: {
                             ...state.entities.posts.postsInThread,
@@ -896,7 +897,7 @@ describe('Selectors.Posts', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            1005: {id: '1005', create_at: 1005, update_at: 1006} as Post,
+                            1005: p({id: '1005', create_at: 1005, update_at: 1006}),
                         },
                         postsInThread: state.entities.posts.postsInThread,
                     },
@@ -927,7 +928,7 @@ describe('Selectors.Posts', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            1007: {id: '1007', create_at: 1007, root_id: '1001'} as Post,
+                            1007: p({id: '1007', create_at: 1007, root_id: '1001'}),
                         },
                         postsInThread: {
                             ...state.entities.posts.postsInThread,
@@ -1005,7 +1006,7 @@ describe('Selectors.Posts', () => {
                 },
             } as unknown as GlobalState;
 
-            expect((getPostIdsAroundPost as any)(state, 'a', '1234')).toEqual(['a']);
+            expect(getPostIdsAroundPost(state, 'a', '1234')).toEqual(['a']);
         });
 
         it('posts around', () => {
@@ -1021,9 +1022,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            expect((getPostIdsAroundPost as any)(state, 'c', '1234')).toEqual(['a', 'b', 'c', 'd', 'e']);
+            expect(getPostIdsAroundPost(state, 'c', '1234')).toEqual(['a', 'b', 'c', 'd', 'e']);
         });
 
         it('posts before limit', () => {
@@ -1041,7 +1042,7 @@ describe('Selectors.Posts', () => {
                 },
             } as unknown as GlobalState;
 
-            expect((getPostIdsAroundPost as any)(state, 'a', '1234', {postsBeforeCount: 2})).toEqual(['a', 'b', 'c']);
+            expect(getPostIdsAroundPost(state, 'a', '1234', {postsBeforeCount: 2})).toEqual(['a', 'b', 'c']);
         });
 
         it('posts after limit', () => {
@@ -1059,7 +1060,7 @@ describe('Selectors.Posts', () => {
                 },
             } as unknown as GlobalState;
 
-            expect((getPostIdsAroundPost as any)(state, 'e', '1234', {postsAfterCount: 3})).toEqual(['b', 'c', 'd', 'e']);
+            expect(getPostIdsAroundPost(state, 'e', '1234', {postsAfterCount: 3})).toEqual(['b', 'c', 'd', 'e']);
         });
 
         it('posts before/after limit', () => {
@@ -1096,8 +1097,8 @@ describe('Selectors.Posts', () => {
             } as unknown as GlobalState;
 
             // No limit, no changes
-            let previous = (getPostIdsAroundPost as any)(state, 'c', '1234');
-            let now = (getPostIdsAroundPost as any)(state, 'c', '1234');
+            let previous = getPostIdsAroundPost(state, 'c', '1234');
+            let now = getPostIdsAroundPost(state, 'c', '1234');
             expect(now).toEqual(['a', 'b', 'c', 'd', 'e']);
             expect(now).toBe(previous);
 
@@ -1119,7 +1120,7 @@ describe('Selectors.Posts', () => {
             };
 
             previous = now;
-            now = (getPostIdsAroundPost as any)(state, 'c', '1234');
+            now = getPostIdsAroundPost(state, 'c', '1234');
             expect(now).toEqual(['a', 'b', 'c', 'd', 'e']);
             expect(now).toBe(previous);
 
@@ -1141,23 +1142,23 @@ describe('Selectors.Posts', () => {
             };
 
             previous = now;
-            now = (getPostIdsAroundPost as any)(state, 'c', '1234');
+            now = getPostIdsAroundPost(state, 'c', '1234');
             expect(now).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
             expect(now).not.toBe(previous);
 
             previous = now;
-            now = (getPostIdsAroundPost as any)(state, 'c', '1234');
+            now = getPostIdsAroundPost(state, 'c', '1234');
             expect(now).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
             expect(now).toBe(previous);
 
             // Change of channel
             previous = now;
-            now = (getPostIdsAroundPost as any)(state, 'i', 'abcd');
+            now = getPostIdsAroundPost(state, 'i', 'abcd');
             expect(now).toEqual(['g', 'h', 'i', 'j', 'k', 'l']);
             expect(now).not.toBe(previous);
 
             previous = now;
-            now = (getPostIdsAroundPost as any)(state, 'i', 'abcd');
+            now = getPostIdsAroundPost(state, 'i', 'abcd');
             expect(now).toEqual(['g', 'h', 'i', 'j', 'k', 'l']);
             expect(now).toBe(previous);
 
@@ -1262,12 +1263,12 @@ describe('Selectors.Posts', () => {
                 },
             } as unknown as GlobalState;
 
-            const previous1 = (getPostIdsAroundPost1 as any)(state, 'c', '1234');
+            const previous1 = getPostIdsAroundPost1(state, 'c', '1234');
             const previous2 = getPostIdsAroundPost2(state, 'h', 'abcd', {postsBeforeCount: 1, postsAfterCount: 0});
 
             expect(previous1).not.toBe(previous2);
 
-            const now1 = (getPostIdsAroundPost1 as any)(state, 'c', '1234');
+            const now1 = getPostIdsAroundPost1(state, 'c', '1234');
             const now2 = getPostIdsAroundPost2(state, 'i', 'abcd', {postsBeforeCount: 1, postsAfterCount: 0});
 
             expect(now1).toBe(previous1);
@@ -1644,11 +1645,11 @@ describe('Selectors.Posts', () => {
             const getPostsForIds = Selectors.makeGetPostsForIds();
 
             const testPosts: Record<string, Post> = {
-                1000: {id: '1000'} as Post,
-                1001: {id: '1001'} as Post,
-                1002: {id: '1002'} as Post,
-                1003: {id: '1003'} as Post,
-                1004: {id: '1004'} as Post,
+                1000: p({id: '1000'}),
+                1001: p({id: '1001'}),
+                1002: p({id: '1002'}),
+                1003: p({id: '1003'}),
+                1004: p({id: '1004'}),
             };
             const state = {
                 entities: {
@@ -1671,11 +1672,11 @@ describe('Selectors.Posts', () => {
             const getPostsForIds = Selectors.makeGetPostsForIds();
 
             const testPosts: Record<string, Post> = {
-                1000: {id: '1000'} as Post,
-                1001: {id: '1001'} as Post,
-                1002: {id: '1002'} as Post,
-                1003: {id: '1003'} as Post,
-                1004: {id: '1004'} as Post,
+                1000: p({id: '1000'}),
+                1001: p({id: '1001'}),
+                1002: p({id: '1002'}),
+                1003: p({id: '1003'}),
+                1004: p({id: '1004'}),
             };
             let state = {
                 entities: {
@@ -1738,7 +1739,7 @@ describe('Selectors.Posts', () => {
             expect(now).toBe(previous);
 
             // New posts, changes to ones in ids
-            const newPost = {id: '1002', message: 'abcd'} as Post;
+            const newPost = p({id: '1002', message: 'abcd'});
             state = {
                 ...state,
                 entities: {
@@ -2197,7 +2198,6 @@ describe('getPostsInCurrentChannel', () => {
 
 describe('getCurrentUsersLatestPost', () => {
     const user1 = TestHelper.fakeUserWithId();
-    user1.notify_props = {} as UserProfile['notify_props'];
     const profiles: Record<string, UserProfile> = {};
     profiles[user1.id] = user1;
     it('no posts', () => {

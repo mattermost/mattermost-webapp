@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import nock from 'nock';
 
 import {Bot} from '@mattermost/types/bots';
@@ -17,7 +15,7 @@ import {FileInfo} from '@mattermost/types/files';
 
 import {Client4} from '@mattermost/client';
 
-import constants from 'mattermost-redux/constants/general';
+import General from 'mattermost-redux/constants/general';
 import {generateId} from 'mattermost-redux/utils/helpers';
 
 import {UserStatuses} from 'utils/constants';
@@ -25,7 +23,7 @@ import {UserStatuses} from 'utils/constants';
 export const DEFAULT_SERVER = 'http://localhost:8065';
 const PASSWORD = 'password1';
 
-const {DEFAULT_LOCALE} = constants;
+const {DEFAULT_LOCALE} = General;
 
 class TestHelper {
     basicClient4: Client4 | null;
@@ -58,11 +56,6 @@ class TestHelper {
             nock.activate();
         }
     }
-
-    assertStatusOkay = (data: {status: string} | any) => {
-        assert(data);
-        assert(data.status === 'OK');
-    };
 
     generateId = () => {
         return generateId();
@@ -331,6 +324,10 @@ class TestHelper {
         };
     };
 
+    getChannelMock = (override?: Partial<Channel>) => {
+        return Object.assign(this.fakeChannel(override?.team_id || ''), override)
+    }
+
     fakeChannelWithId = (teamId: string) => {
         return {
             ...this.fakeChannel(teamId),
@@ -398,6 +395,10 @@ class TestHelper {
             user_id: 'user_id',
         };
     };
+
+    getPostMock = (override?: Partial<Post>) => {
+        return Object.assign(this.fakePost(override?.channel_id || ''), override)
+    }
 
     fakePostWithId = (channelId: string): Post => {
         return {

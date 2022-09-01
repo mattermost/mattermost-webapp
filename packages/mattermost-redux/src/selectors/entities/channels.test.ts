@@ -83,11 +83,11 @@ describe('Selectors.Channels.getChannelsInCurrentTeam', () => {
             [userSv.id]: userSv,
         };
 
-        const channel1: Channel = {
+        const channel1 = {
             ...TestHelper.fakeChannelWithId(team1.id),
             display_name: 'z',
         };
-        const channel2: Channel = {
+        const channel2 = {
             ...TestHelper.fakeChannelWithId(team1.id),
             display_name: 'ä',
         };
@@ -155,25 +155,25 @@ describe('Selectors.Channels.getMyChannels', () => {
         [user3.id]: user3,
     };
 
-    const channel1: Channel = {
+    const channel1 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
     };
-    const channel2: Channel = {
+    const channel2 = {
         ...TestHelper.fakeChannelWithId(team2.id),
         display_name: 'Channel Name',
     };
-    const channel3: Channel = {
+    const channel3 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
     };
-    const channel4: Channel = {
+    const channel4 = {
         ...TestHelper.fakeChannelWithId(''),
         display_name: 'Channel Name',
         type: General.DM_CHANNEL as 'D',
         name: getDirectChannelName(user.id, user2.id),
     };
-    const channel5: Channel = {
+    const channel5 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: [user.username, user2.username, user3.username].join(', '),
         type: General.GM_CHANNEL,
@@ -278,33 +278,33 @@ describe('Selectors.Channels.getOtherChannels', () => {
         [user.id]: user,
     };
 
-    const channel1: Channel = {
+    const channel1 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
         type: General.OPEN_CHANNEL as 'O',
     };
-    const channel2: Channel = {
+    const channel2 = {
         ...TestHelper.fakeChannelWithId(team2.id),
         display_name: 'Channel Name',
         type: General.OPEN_CHANNEL as 'O',
     };
-    const channel3: Channel = {
+    const channel3 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
         type: General.PRIVATE_CHANNEL as 'P',
     };
-    const channel4: Channel = {
+    const channel4 = {
         ...TestHelper.fakeChannelWithId(''),
         display_name: 'Channel Name',
         type: General.DM_CHANNEL as 'D',
     };
-    const channel5: Channel = {
+    const channel5 = {
         ...TestHelper.fakeChannelWithId(''),
         display_name: 'Channel Name',
         type: General.OPEN_CHANNEL as 'O',
         delete_at: 444,
     };
-    const channel6: Channel = {
+    const channel6 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
         type: General.OPEN_CHANNEL as 'O',

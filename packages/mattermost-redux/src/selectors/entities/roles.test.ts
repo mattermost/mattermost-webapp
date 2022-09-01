@@ -32,13 +32,13 @@ describe('Selectors.Roles', () => {
     channel4.display_name = 'Channel 4';
 
     const channel5 = TestHelper.fakeChannelWithId(team1.id);
-    channel5.type = General.PRIVATE_CHANNEL as 'P';
+    channel5.type = General.PRIVATE_CHANNEL;
     channel5.display_name = 'Channel 5';
 
     const channel6 = TestHelper.fakeChannelWithId(team1.id);
     const channel7 = TestHelper.fakeChannelWithId('');
     channel7.display_name = '';
-    channel7.type = General.GM_CHANNEL as 'G';
+    channel7.type = General.GM_CHANNEL;
 
     const channel8 = TestHelper.fakeChannelWithId(team1.id);
     channel8.display_name = 'ABC';
@@ -46,7 +46,7 @@ describe('Selectors.Roles', () => {
     const channel9 = TestHelper.fakeChannelWithId(team1.id);
     const channel10 = TestHelper.fakeChannelWithId(team1.id);
     const channel11 = TestHelper.fakeChannelWithId(team1.id);
-    channel11.type = General.PRIVATE_CHANNEL as 'P';
+    channel11.type = General.PRIVATE_CHANNEL;
     const channel12 = TestHelper.fakeChannelWithId(team1.id);
 
     const channels: Record<string, Channel> = {};

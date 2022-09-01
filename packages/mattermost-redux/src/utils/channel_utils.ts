@@ -4,7 +4,7 @@
 import {General, Users} from '../constants';
 import {MarkUnread} from 'mattermost-redux/constants/channels';
 
-import {Channel, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} from '@mattermost/types/channels';
+import {Channel, ChannelType, ChannelMembership, ChannelNotifyProps, ChannelMessageCount} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
 import {UsersState, UserProfile, UserNotifyProps} from '@mattermost/types/users';
 import {GlobalState} from '@mattermost/types/store';
@@ -12,12 +12,12 @@ import {IDMappedObjects, RelationOneToManyUnique, RelationOneToOne} from '@matte
 
 import {displayUsername} from './user_utils';
 
-const channelTypeOrder = {
+const channelTypeOrder: Record<ChannelType, number> = {
     [General.OPEN_CHANNEL]: 0,
     [General.PRIVATE_CHANNEL]: 1,
     [General.DM_CHANNEL]: 2,
     [General.GM_CHANNEL]: 3,
-};
+} as Record<ChannelType, number>;
 
 export function completeDirectChannelInfo(usersState: UsersState, teammateNameDisplay: string, channel: Channel): Channel {
     if (isDirectChannel(channel)) {
