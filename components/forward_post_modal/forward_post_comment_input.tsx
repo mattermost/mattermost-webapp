@@ -14,6 +14,7 @@ import Constants from 'utils/constants';
 import {applyMarkdown, ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import * as Utils from 'utils/utils';
 import {GlobalState} from 'types/store';
+import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 
 const {KeyCodes} = Constants;
 
@@ -151,6 +152,8 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, comment, permaLinkL
             useChannelMentions={false}
             supportsCommands={false}
             suggestionListPosition='bottom'
+            suggestionList={RhsSuggestionList}
+            alignWithTextbox={true}
         />
     );
 };

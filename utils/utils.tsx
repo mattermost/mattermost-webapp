@@ -884,7 +884,7 @@ export function offsetTopLeft(el: HTMLElement) {
     return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
 }
 
-export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstract = 0) {
+export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstract = 0, alignWithTextBox = false) {
     if (!textArea || !(textArea instanceof HTMLElement)) {
         return {
             pixelsToMoveX: 0,
@@ -908,9 +908,11 @@ export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstrac
     const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
 
     // if the right-border edge of the suggestion box will overflow the x-axis viewport
-    if (xBoxRightCoordinate > viewportWidth) {
+    if (alignWithTextBox) {
+        pxToTheRight = 0;
+    } else if (xBoxRightCoordinate > viewportWidth) {
         // stick the suggestion list to the very right of the TextArea
-        pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
+        pxToTheRight = textAreaWidth - suggestionBoxWidth;
     }
 
     return {
