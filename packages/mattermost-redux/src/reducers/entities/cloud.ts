@@ -14,10 +14,17 @@ export function subscription(state: Subscription | null = null, action: GenericA
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {
         const responseSubscription: SubscriptionResponse = action.data;
-        const {is_paid_tier: isPaidTier, ...baseSubscription} = responseSubscription;
+        const {is_paid_tier: isPaidTier, last_invoice: lastInvoice, ...baseSubscription} = responseSubscription;
         const subscription: Subscription = {...baseSubscription};
         if (LegacyFreeProductIds[subscription.product_id] && isPaidTier === 'true') {
             subscription.is_legacy_cloud_paid_tier = true;
+        }
+
+        // We don't care about zero dollar invoices,
+        // because for these there is no financial transaction with the customer
+        // and showing it only causes confusion
+        if (lastInvoice && lastInvoice.total !== 0) {
+            subscription.last_invoice = lastInvoice;
         }
         return subscription;
     }
