@@ -239,9 +239,16 @@ export function formatText(
              * the Markdown.format function removes all duplicate line-breaks beforehand, so it is safe to just
              * replace occurrences which are not followed by opening <p> tags to prevent duplicate line-breaks
              *
-             * @link to regex101.com: https://regex101.com/r/iPZ02c/1
+             * The data-codeblock-code part is a fix for MM-45349 - do not replace newlines with `<br/>`
+             * in code blocks, as they become visible in the message
              */
-            output = output.replace(/[\r\n]+(?!(<p>))/g, '<br/>');
+            output = output.replace(/data-codeblock-code="[^"]+"|[\r\n]+(?!(<p>))/g, (match: string) => {
+                if (match.includes('data-codeblock-code')) {
+                    return match;
+                }
+
+                return '<br/>';
+            });
 
             /*
              * the replacer is not ideal, since it replaces every occurence with a new div

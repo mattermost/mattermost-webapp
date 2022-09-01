@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {RefObject, useEffect, useState} from 'react';
 
+import React, {RefObject, useEffect, useState} from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime} from 'react-intl';
 
 import {ClientLicense} from '@mattermost/types/config';
-import {LicenseSkus} from 'mattermost-redux/types/general';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes} from 'utils/constants';
+import {FileTypes, LicenseSkus} from 'utils/constants';
 
 import Badge from 'components/widgets/badges/badge';
 

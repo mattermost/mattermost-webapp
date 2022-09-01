@@ -21,6 +21,9 @@ import TopChannels from './top_channels/top_channels';
 import TopReactions from './top_reactions/top_reactions';
 import TopThreads from './top_threads/top_threads';
 import TopBoards from './top_boards/top_boards';
+import LeastActiveChannels from './least_active_channels/least_active_channels';
+import TopPlaybooks from './top_playbooks/top_playbooks';
+import TopDMsAndNewMembers from './top_dms_and_new_members/top_dms_and_new_members';
 
 import './../activity_and_insights.scss';
 
@@ -35,6 +38,7 @@ const Insights = () => {
     const [filterType, setFilterType] = useGlobalState(InsightsScopes.TEAM, 'insightsScope');
     const [timeFrame, setTimeFrame] = useGlobalState(TimeFrames.INSIGHTS_7_DAYS as string, 'insightsTimeFrame');
     const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
+    const playbooksEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.playbooks);
 
     const setFilterTypeTeam = useCallback(() => {
         trackEvent('insights', 'change_scope_to_team_insights');
@@ -80,30 +84,59 @@ const Insights = () => {
                     class={'top-channels-card'}
                     timeFrame={timeFrame as TimeFrame}
                 />
-                <TopThreads
-                    size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
-                    filterType={filterType}
-                    widgetType={InsightsWidgetTypes.TOP_THREADS}
-                    class={'top-threads-card'}
-                    timeFrame={timeFrame as TimeFrame}
-                />
-                {
-                    focalboardEnabled &&
-                    <TopBoards
-                        size={CardSizes.small}
+                <div className='card-row'>
+                    <TopThreads
+                        size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
                         filterType={filterType}
-                        widgetType={InsightsWidgetTypes.TOP_BOARDS}
-                        class={'top-boards-card'}
+                        widgetType={InsightsWidgetTypes.TOP_THREADS}
+                        class={'top-threads-card'}
                         timeFrame={timeFrame as TimeFrame}
                     />
-                }
-                <TopReactions
-                    size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
+                    {
+                        focalboardEnabled &&
+                        <TopBoards
+                            size={CardSizes.small}
+                            filterType={filterType}
+                            widgetType={InsightsWidgetTypes.TOP_BOARDS}
+                            class={'top-boards-card'}
+                            timeFrame={timeFrame as TimeFrame}
+                        />
+                    }
+                    <TopReactions
+                        size={focalboardEnabled ? CardSizes.small : CardSizes.medium}
+                        filterType={filterType}
+                        widgetType={InsightsWidgetTypes.TOP_REACTIONS}
+                        class={'top-reactions-card'}
+                        timeFrame={timeFrame as TimeFrame}
+                    />
+                </div>
+                <TopDMsAndNewMembers
+                    size={CardSizes.large}
                     filterType={filterType}
-                    widgetType={InsightsWidgetTypes.TOP_REACTIONS}
-                    class={'top-reactions-card'}
+                    widgetType={filterType === InsightsScopes.MY ? InsightsWidgetTypes.TOP_DMS : InsightsWidgetTypes.NEW_TEAM_MEMBERS}
+                    class={'top-dms-card'}
                     timeFrame={timeFrame as TimeFrame}
                 />
+                <div className='card-row'>
+                    <LeastActiveChannels
+                        size={CardSizes.medium}
+                        filterType={filterType}
+                        widgetType={InsightsWidgetTypes.LEAST_ACTIVE_CHANNELS}
+                        class={'least-active-channels-card'}
+                        timeFrame={timeFrame as TimeFrame}
+                    />
+                    {
+                        playbooksEnabled &&
+                        <TopPlaybooks
+                            size={CardSizes.medium}
+                            filterType={filterType}
+                            widgetType={InsightsWidgetTypes.TOP_PLAYBOOKS}
+                            class={'top-playbooks-card'}
+                            timeFrame={timeFrame as TimeFrame}
+                        />
+                    }
+                </div>
+
             </div>
         </>
     );
