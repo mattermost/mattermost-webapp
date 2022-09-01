@@ -313,7 +313,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
             await this.props.actions.getCloudProducts();
             // eslint-disable-next-line react/no-did-mount-set-state
@@ -324,7 +323,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         }
 
         if (this.props.isDelinquencyModal) {
+            pageVisited(
+                TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY,
+                'pageview_delinquency_cc_update',
+            );
             this.props.actions.getInvoices();
+        } else {
+            pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         }
 
         this.props.actions.getClientConfig();
@@ -727,6 +732,12 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
                                         currentTeam={this.props.currentTeam}
+                                        onSuccess={() => {
+                                            // Success only happens if all invoices have been paid.
+                                            if (this.props.isDelinquencyModal) {
+                                                trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'paid_arrears');
+                                            }
+                                        }}
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
