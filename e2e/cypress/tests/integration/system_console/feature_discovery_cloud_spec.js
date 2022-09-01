@@ -66,7 +66,7 @@ describe('Feature discovery cloud', () => {
         cy.get('.close-x').click();
     };
 
-    it('Ensure feature discovery shows option to start trial when no trial has ever been done before', () => {
+    it('MM-T5120 Cloud | Ensure feature discovery shows option to start trial when no trial has ever been done before', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
@@ -81,7 +81,7 @@ describe('Feature discovery cloud', () => {
         });
     });
 
-    it('Ensure feature discovery for professional features shows option to upgrade to professional', () => {
+    it('MM-T5121 Cloud | Ensure feature discovery for professional features shows option to upgrade to professional', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
@@ -97,7 +97,7 @@ describe('Feature discovery cloud', () => {
         });
     });
 
-    it('Ensure feature discovery for enterprise features shows option to contact sales', () => {
+    it('MM-T5122 Cloud | Ensure feature discovery for enterprise features shows option to contact sales', () => {
         const subscription = {
             id: 'sub_test1',
             product_id: 'prod_1',
