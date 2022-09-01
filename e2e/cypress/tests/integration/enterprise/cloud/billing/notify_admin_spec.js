@@ -327,6 +327,12 @@ describe('Notify Admin', () => {
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
+
+        cy.apiUpdateConfig({
+            ServiceSettings: {
+                EnableAPITriggerAdminNotifications: true,
+            },
+        });
     });
 
     it('should test upgrade notifications', () => {
