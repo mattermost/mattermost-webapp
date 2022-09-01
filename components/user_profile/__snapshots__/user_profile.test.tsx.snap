@@ -18,8 +18,11 @@ exports[`components/UserProfile should match snapshot 1`] = `
       />
     }
     placement="right"
-    rootClose={true}
-    trigger="click"
+    trigger={
+      Array [
+        "click",
+      ]
+    }
   >
     <button
       aria-label="nickname"
@@ -57,8 +60,11 @@ exports[`components/UserProfile should match snapshot, when displayUsername is e
       />
     }
     placement="right"
-    rootClose={true}
-    trigger="click"
+    trigger={
+      Array [
+        "click",
+      ]
+    }
   >
     <button
       aria-label="@username"
@@ -104,8 +110,11 @@ exports[`components/UserProfile should match snapshot, when user is shared 1`] =
       />
     }
     placement="right"
-    rootClose={true}
-    trigger="click"
+    trigger={
+      Array [
+        "click",
+      ]
+    }
   >
     <button
       aria-label="nickname"
@@ -147,8 +156,11 @@ exports[`components/UserProfile should match snapshot, with colorization 1`] = `
       />
     }
     placement="right"
-    rootClose={true}
-    trigger="click"
+    trigger={
+      Array [
+        "click",
+      ]
+    }
   >
     <button
       aria-label="nickname"
