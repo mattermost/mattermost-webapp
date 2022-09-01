@@ -151,6 +151,7 @@ export const Preferences = {
 
     FORWARD_POST_VIEWED: 'forward_post_viewed',
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
+    SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
 };
 
@@ -305,6 +306,7 @@ export const ActionTypes = keyMirror({
 
     RECEIVED_PLUGIN_INSIGHT: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
+    NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -2054,6 +2056,24 @@ export const InsightsCardTitles = {
         mySubTitle: {
             id: t('insights.topBoards.mySubTitle'),
             defaultMessage: 'Most active boards I\'ve participated in',
+        },
+    },
+    LEAST_ACTIVE_CHANNELS: {
+        teamTitle: {
+            id: t('insights.leastActiveChannels.title'),
+            defaultMessage: 'Least active channels',
+        },
+        myTitle: {
+            id: t('insights.leastActiveChannels.myTitle'),
+            defaultMessage: 'My least active channels',
+        },
+        teamSubTitle: {
+            id: t('insights.leastActiveChannels.subTitle'),
+            defaultMessage: 'Channels with the least posts',
+        },
+        mySubTitle: {
+            id: t('insights.leastActiveChannels.mySubTitle'),
+            defaultMessage: 'My channels with the least posts',
         },
     },
     TOP_PLAYBOOKS: {

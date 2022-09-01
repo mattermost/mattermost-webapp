@@ -3,5 +3,5 @@ package.json @mattermost/web-platform
 */package.json @mattermost/web-platform
 package-lock.json @mattermost/web-platform
 
-# QA Plarform should be assigned to review all PRs that includes end to end tests.
+# QA Plarform should be assigned to review all PRs that include end-to-end tests.
 /e2e/ @mattermost/qa-core-team

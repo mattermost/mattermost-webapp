@@ -28,6 +28,8 @@ import MemberList from '../channel_members_rhs/member_list';
 import {ListItemType} from 'components/channel_members_rhs/channel_members_rhs';
 import GenericModal from 'components/generic_modal';
 
+import './notification_from_members_modal.scss';
+
 type Props = {
     feature: string;
     userIds: string[];

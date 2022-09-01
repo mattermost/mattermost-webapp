@@ -2556,6 +2556,265 @@ describe('Selectors.Channels.getUnreadStatus', () => {
     });
 });
 
+describe('Selectors.Channels.getUnreadStatus', () => {
+    const team1 = {id: 'team1', delete_at: 0};
+    const team2 = {id: 'team2', delete_at: 0};
+
+    const channelA = {id: 'channelA', name: 'channelA', team_id: 'team1', delete_at: 0};
+    const channelB = {id: 'channelB', name: 'channelB', team_id: 'team1', delete_at: 0};
+    const channelC = {id: 'channelC', name: 'channelC', team_id: 'team2', delete_at: 0};
+
+    const dmChannel = {id: 'dmChannel', name: 'user1__user2', team_id: '', delete_at: 0, type: General.DM_CHANNEL};
+    const gmChannel = {id: 'gmChannel', name: 'gmChannel', team_id: 'team1', delete_at: 0, type: General.GM_CHANNEL};
+
+    test('should should unread and mentions correctly for channels across teams', () => {
+        const myMemberA = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
+        const myMemberB = {mention_count: 5, msg_count: 7, notify_props: {mark_unread: 'all'}};
+        const dmMember = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
+        const gmMember = {mention_count: 2, msg_count: 7, notify_props: {mark_unread: 'all'}};
+
+        const state = {
+            entities: {
+                threads: {
+                    counts: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {config: {}},
+                channels: {
+                    channels: {
+                        channelA,
+                        channelB,
+                        channelC,
+                        dmChannel,
+                        gmChannel,
+                    },
+                    messageCounts: {
+                        channelA: {total: 11},
+                        channelB: {total: 13},
+                        dmChannel: {total: 11},
+                        gmChannel: {total: 17},
+                    },
+                    myMembers: {
+                        channelA: myMemberA,
+                        channelB: myMemberB,
+                        dmChannel: dmMember,
+                        gmChannel: gmMember,
+                    },
+                },
+                teams: {
+                    currentTeamId: 'team1',
+                    myMembers: {},
+                    teams: {
+                        team1,
+                        team2,
+                    },
+                },
+                users: {
+                    currentUserId: 'user1',
+                    profiles: {},
+                },
+            },
+        };
+
+        const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
+
+        expect(teamUnreadStatus[0].has('team1')).toBe(true);
+        expect(teamUnreadStatus[0].has('team2')).toBe(false);
+
+        expect(teamUnreadStatus[1].get('team1')).toBe(7);
+    });
+
+    test('should not count team unreads for DMs and GMs', () => {
+        const myMemberA = {mention_count: 0, msg_count: 0, notify_props: {mark_unread: 'all'}};
+        const myMemberB = {mention_count: 0, msg_count: 0, notify_props: {mark_unread: 'all'}};
+        const dmMember = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
+        const gmMember = {mention_count: 2, msg_count: 7, notify_props: {mark_unread: 'all'}};
+
+        const state = {
+            entities: {
+                threads: {
+                    counts: {},
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {config: {}},
+                channels: {
+                    channels: {
+                        channelA,
+                        channelB,
+                        channelC,
+                        dmChannel,
+                        gmChannel,
+                    },
+                    messageCounts: {
+                        channelA: {total: 11},
+                        channelB: {total: 13},
+                        dmChannel: {total: 11},
+                        gmChannel: {total: 17},
+                    },
+                    myMembers: {
+                        channelA: myMemberA,
+                        channelB: myMemberB,
+                        dmChannel: dmMember,
+                        gmChannel: gmMember,
+                    },
+                },
+                teams: {
+                    currentTeamId: 'team1',
+                    myMembers: {},
+                    teams: {
+                        team1,
+                        team2,
+                    },
+                },
+                users: {
+                    currentUserId: 'user1',
+                    profiles: {},
+                },
+            },
+        };
+
+        const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
+
+        expect(teamUnreadStatus[0].has('team1')).toBe(true);
+        expect(teamUnreadStatus[0].has('team2')).toBe(false);
+
+        expect(teamUnreadStatus[1].size).toBe(0);
+    });
+
+    test('should include threads in team count', () => {
+        const myMemberA = {mention_count: 1, msg_count: 5, notify_props: {mark_unread: 'all'}};
+        const myMemberB = {mention_count: 0, msg_count: 0, notify_props: {mark_unread: 'all'}};
+        const dmMember = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
+        const gmMember = {mention_count: 2, msg_count: 7, notify_props: {mark_unread: 'all'}};
+
+        const state = {
+            entities: {
+                threads: {
+                    counts: {
+                        team2: {
+                            total: 20,
+                            total_unread_threads: 10,
+                            total_unread_mentions: 2,
+                        },
+                    },
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'always_on',
+                    },
+                },
+                channels: {
+                    channels: {
+                        channelA,
+                        channelB,
+                        channelC,
+                        dmChannel,
+                        gmChannel,
+                    },
+                    messageCounts: {
+                        channelA: {total: 11},
+                        channelB: {total: 13},
+                        dmChannel: {total: 11},
+                        gmChannel: {total: 17},
+                    },
+                    myMembers: {
+                        channelA: myMemberA,
+                        channelB: myMemberB,
+                        dmChannel: dmMember,
+                        gmChannel: gmMember,
+                    },
+                },
+                teams: {
+                    currentTeamId: 'team1',
+                    myMembers: {},
+                    teams: {
+                        team1,
+                        team2,
+                    },
+                },
+                users: {
+                    currentUserId: 'user1',
+                    profiles: {},
+                },
+            },
+        };
+
+        const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
+
+        expect(teamUnreadStatus[0].has('team1')).toBe(false);
+        expect(teamUnreadStatus[0].has('team2')).toBe(true);
+
+        expect(teamUnreadStatus[1].get('team2')).toBe(2);
+    });
+
+    test('should only have mention count of muted channel and not have its unread status', () => {
+        const myMemberA = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
+        const myMemberB = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
+        const myMemberC = {mention_count: 3, msg_count: 5, notify_props: {mark_unread: 'mention'}};
+
+        const state = {
+            entities: {
+                threads: {
+                    counts: {
+                    },
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+                general: {
+                    config: {
+                    },
+                },
+                channels: {
+                    channels: {
+                        channelA,
+                        channelB,
+                        channelC,
+                    },
+                    messageCounts: {
+                        channelA: {total: 50},
+                        channelB: {total: 60},
+                        channelC: {total: 70},
+                    },
+                    myMembers: {
+                        channelA: myMemberA,
+                        channelB: myMemberB,
+                        channelC: myMemberC,
+                    },
+                },
+                teams: {
+                    currentTeamId: 'team1',
+                    myMembers: {},
+                    teams: {
+                        team1,
+                        team2,
+                    },
+                },
+                users: {
+                    currentUserId: 'user1',
+                    profiles: {},
+                },
+            },
+        };
+
+        const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
+
+        expect(teamUnreadStatus[0].has('team1')).toBe(false);
+        expect(teamUnreadStatus[0].has('team2')).toBe(true);
+
+        expect(teamUnreadStatus[1].get('team1')).toBe(undefined);
+        expect(teamUnreadStatus[1].get('team2')).toBe(3);
+    });
+});
+
 describe('Selectors.Channels.getMyFirstChannelForTeams', () => {
     test('should return the first channel in each team', () => {
         const state = {

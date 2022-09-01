@@ -56,7 +56,7 @@ exports[`components/admin_console/system_users should match default snapshot 1`]
           }
           message={
             <div>
-              <injectIntl(FormattedMarkdownMessage)
+              <FormattedMarkdownMessage
                 defaultMessage="This action revokes all sessions in the system. All users will be logged out from all devices. Are you sure you want to revoke all sessions?"
                 id="admin.system_users.revoke_all_sessions_modal_message"
               />
