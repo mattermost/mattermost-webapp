@@ -4465,7 +4465,7 @@
   "shortcuts.calls.mute_toggle": "Mute or unmute:\tCtrl|Shift|Space",
   "shortcuts.calls.mute_toggle.mac": "Mute or unmute:\t⌘|Shift|Space",
   "shortcuts.calls.participants_list_toggle": "Show or hide participants list:\tAlt|P\tCtrl|Shift|P",
-  "shortcuts.calls.participants_list_toggle.mac": "Show or hide participants list:\tAlt|P\t⌘|Shift|P",
+  "shortcuts.calls.participants_list_toggle.mac": "Show or hide participants list:\t⌥|P\t⌘|Shift|P",
   "shortcuts.calls.push_to_talk": "Hold to unmute (push to talk):\tSpace",
   "shortcuts.calls.raise_hand_toggle": "Raise or lower hand:\tCtrl|Shift|Y",
   "shortcuts.calls.raise_hand_toggle.mac": "Raise or lower hand:\t⌘|Shift|Y",
