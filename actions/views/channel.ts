@@ -30,6 +30,7 @@ import {
     getAllDirectChannelsNameMapInCurrentTeam,
     isFavoriteChannel,
     isManuallyUnread,
+    getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
 import {
     getCurrentRelativeTeamUrl,
@@ -146,6 +147,7 @@ export function leaveChannel(channelId: string) {
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
         const channel = getChannel(state, channelId);
+        const currentChannelId = getCurrentChannelId(state);
 
         if (isFavoriteChannel(state, channelId)) {
             dispatch(unfavoriteChannel(channelId));
@@ -179,7 +181,8 @@ export function leaveChannel(channelId: string) {
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});
             browserHistory.push('/');
-        } else {
+        } else if (channelId === currentChannelId) {
+            // We only need to leave the channel if we are in the channel
             browserHistory.push(teamUrl);
         }
 
