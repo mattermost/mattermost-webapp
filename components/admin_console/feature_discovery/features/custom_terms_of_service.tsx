@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const CustomTermsOfServiceFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='custom_terms_of_service'
+            minimumSKURequiredForFeature={LicenseSkus.Enterprise}
             titleID='admin.custom_terms_of_service_feature_discovery.title'
             titleDefault='Create custom terms of service with Mattermost Enterprise'
             copyID='admin.custom_terms_of_service_feature_discovery.copy'

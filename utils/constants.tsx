@@ -650,6 +650,7 @@ export const TELEMETRY_CATEGORIES = {
     SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
     CLOUD_DELINQUENCY: 'cloud_delinquency',
+    SELF_HOSTED_ADMIN: 'self_hosted_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
