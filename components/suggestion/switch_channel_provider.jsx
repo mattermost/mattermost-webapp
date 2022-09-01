@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import React from 'react';
 import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
@@ -40,7 +38,7 @@ import {
 import {fetchAllMyTeamsChannelsAndChannelMembers, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {logError} from 'mattermost-redux/actions/errors';
-import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
+import {sortChannelsByTypeAndDisplayName, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
@@ -600,7 +598,7 @@ export default class SwitchChannelProvider extends Provider {
                     }
                 }
 
-                const unread = allUnreadChannelIdsSet.has(newChannel.id);
+                const unread = allUnreadChannelIdsSet.has(newChannel.id) && !isChannelMuted(members[channel.id]);
                 if (unread) {
                     wrappedChannel.unread = true;
                 }
@@ -627,7 +625,7 @@ export default class SwitchChannelProvider extends Provider {
                 continue;
             }
 
-            const unread = allUnreadChannelIdsSet.has(channel?.id);
+            const unread = allUnreadChannelIdsSet.has(channel?.id) && !isChannelMuted(members[channel.id]);
             if (unread) {
                 wrappedChannel.unread = true;
             }
@@ -659,8 +657,13 @@ export default class SwitchChannelProvider extends Provider {
         const state = getState();
         const recentChannels = getChannelsInAllTeams(state).concat(getDirectAndGroupChannels(state));
         const wrappedRecentChannels = this.wrapChannels(recentChannels, Constants.MENTION_RECENT_CHANNELS);
-        const unreadChannels = getSortedAllTeamsUnreadChannels(state).slice(0, 5);
-        let sortedUnreadChannels = this.wrapChannels(unreadChannels, Constants.MENTION_UNREAD);
+        const unreadChannels = getSortedAllTeamsUnreadChannels(state);
+        const myMembers = getMyChannelMemberships(state);
+        const unreadChannelsExclMuted = unreadChannels.filter((channel) => {
+            const member = myMembers[channel.id];
+            return !isChannelMuted(member);
+        }).slice(0, 5);
+        let sortedUnreadChannels = this.wrapChannels(unreadChannelsExclMuted, Constants.MENTION_UNREAD);
         if (wrappedRecentChannels.length === 0) {
             prefix = '';
             this.startNewRequest('');
@@ -763,10 +766,11 @@ export default class SwitchChannelProvider extends Provider {
                 );
                 wrappedChannel = {...wrappedChannel, ...userWrappedChannel};
             }
-            const unread = allUnreadChannelIdsSet.has(channel.id);
+            const unread = allUnreadChannelIdsSet.has(channel.id) && !isChannelMuted(member);
             if (unread) {
                 wrappedChannel.unread = true;
             }
+
             wrappedChannel.type = channelType;
             channelList.push(wrappedChannel);
         }
