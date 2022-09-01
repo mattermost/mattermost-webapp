@@ -80,6 +80,7 @@ export type PluginComponent = {
 
     /** @default null - which means 'channels'*/
     supportedProductIds?: ProductScope;
+    route?: string;
     component?: React.ComponentType;
     subMenu?: Menu[];
     text?: string;
@@ -150,4 +151,5 @@ export type ProductComponent = {
     headerRightComponent?: React.ComponentType;
     showTeamSidebar: boolean;
     showAppBar: boolean;
+    wrapped: boolean;
 };

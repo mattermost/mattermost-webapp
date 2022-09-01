@@ -788,6 +788,7 @@ export default class PluginRegistry {
         headerRightComponent = () => null,
         showTeamSidebar = false,
         showAppBar = false,
+        wrapped = true,
     ) {
         const id = generateId();
 
@@ -806,6 +807,7 @@ export default class PluginRegistry {
                 headerRightComponent,
                 showTeamSidebar,
                 showAppBar,
+                wrapped,
             },
         });
 

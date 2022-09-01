@@ -26,6 +26,7 @@ import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {PluginComponent} from 'types/store/plugins';
 
 const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
@@ -74,7 +75,7 @@ type Props = {
     };
     teamsList: Team[];
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
-    plugins?: any;
+    plugins?: PluginComponent[];
     selectedThreadId: string | null;
     isCustomGroupsEnabled: boolean;
 }
@@ -314,7 +315,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     path={'/:team/emoji'}
                     component={BackstageController}
                 />
-                {this.props.plugins?.map((plugin: any) => (
+                {this.props.plugins?.map((plugin) => (
                     <Route
                         key={plugin.id}
                         path={'/:team/' + plugin.route}
@@ -322,6 +323,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                             <Pluggable
                                 pluggableName={'NeedsTeamComponent'}
                                 pluggableId={plugin.id}
+                                css={{gridArea: 'center'}}
                             />
                         )}
                     />

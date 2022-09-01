@@ -610,18 +610,29 @@ export default class Root extends React.PureComponent<Props, State> {
                                 <Route
                                     key={product.id}
                                     path={product.baseURL}
-                                    render={(props) => (
-                                        <LoggedIn {...props}>
-                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
-                                                <Pluggable
-                                                    pluggableName={'Product'}
-                                                    subComponentName={'mainComponent'}
-                                                    pluggableId={product.id}
-                                                    webSocketClient={webSocketClient}
-                                                />
-                                            </div>
-                                        </LoggedIn>
-                                    )}
+                                    render={(props) => {
+                                        let pluggable = (
+                                            <Pluggable
+                                                pluggableName={'Product'}
+                                                subComponentName={'mainComponent'}
+                                                pluggableId={product.id}
+                                                webSocketClient={webSocketClient}
+                                                css={product.wrapped ? undefined : {gridArea: 'center'}}
+                                            />
+                                        );
+                                        if (product.wrapped) {
+                                            pluggable = (
+                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                    {pluggable}
+                                                </div>
+                                            );
+                                        }
+                                        return (
+                                            <LoggedIn {...props}>
+                                                {pluggable}
+                                            </LoggedIn>
+                                        );
+                                    }}
                                 />
                             ))}
                             {this.props.plugins?.map((plugin) => (
@@ -632,6 +643,7 @@ export default class Root extends React.PureComponent<Props, State> {
                                         <Pluggable
                                             pluggableName={'CustomRouteComponent'}
                                             pluggableId={plugin.id}
+                                            css={{gridArea: 'center'}}
                                         />
                                     )}
                                 />

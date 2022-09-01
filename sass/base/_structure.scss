@@ -10,10 +10,6 @@ body {
     width: 100%;
     background: $bg--gray;
 
-    &.announcement-bar--fixed {
-        padding-top: $announcement-bar-height;
-    }
-
     &.sticky {
         .container-fluid {
             overflow: auto;
@@ -106,6 +102,11 @@ body {
         width: 100%;
     }
 
+
+    .announcement-bar {
+        grid-area: announcement;
+    }
+
     #global-header {
         grid-area: header;
     }
@@ -172,6 +173,7 @@ body {
     //     }
     // }
 }
+
 
 #channel_view.channel-view {
     background: var(--center-channel-bg);
