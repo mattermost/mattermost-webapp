@@ -312,7 +312,7 @@ class CreateComment extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
+        const {useGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft, enableConfirmNotificationsToChannel} = this.props;
         clearCommentDraftUploads();
         onResetHistoryIndex();
         setShowPreview(false);
@@ -324,7 +324,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraft);
-        if (useGroupMentions) {
+        if (useGroupMentions && enableConfirmNotificationsToChannel) {
             getChannelMemberCountsByGroup(channelId);
         }
 
@@ -360,7 +360,7 @@ class CreateComment extends React.PureComponent<Props, State> {
         }
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
-            if (this.props.useGroupMentions) {
+            if (this.props.useGroupMentions && this.props.enableConfirmNotificationsToChannel) {
                 this.props.getChannelMemberCountsByGroup(this.props.channelId);
             }
             this.focusTextbox();
