@@ -364,7 +364,8 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         textboxRef.current?.focus();
     };
 
-    const toggleEmojiPicker = () => {
+    const toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         setShowEmojiPicker(!showEmojiPicker);
         if (showEmojiPicker) {
             textboxRef.current?.focus();

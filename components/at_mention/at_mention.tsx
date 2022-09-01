@@ -57,6 +57,7 @@ export default class AtMention extends React.PureComponent<Props, State> {
     }
 
     handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        e?.stopPropagation();
         const targetBounds = this.overlayRef.current?.getBoundingClientRect();
 
         if (targetBounds) {

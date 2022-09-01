@@ -63,7 +63,8 @@ export default class ColorInput extends React.PureComponent<Props, State> {
         }
     };
 
-    private togglePicker = () => {
+    private togglePicker = (e?: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
+        e?.stopPropagation();
         if (!this.state.isOpened && this.colorInput.current) {
             this.colorInput.current.focus();
         }

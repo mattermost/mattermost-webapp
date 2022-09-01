@@ -71,9 +71,8 @@ export default class ProfilePicture extends React.PureComponent<Props> {
             return (
                 <OverlayTrigger
                     ref={this.overlay}
-                    trigger='click'
+                    trigger={['click']}
                     placement={this.props.popoverPlacement}
-                    rootClose={true}
                     overlay={
                         <ProfilePopover
                             className='user-profile-popover'
