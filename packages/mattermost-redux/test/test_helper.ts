@@ -325,7 +325,7 @@ class TestHelper {
     };
 
     getChannelMock = (override?: Partial<Channel>) => {
-        return Object.assign(this.fakeChannel(override?.team_id || ''), override)
+        return Object.assign(this.fakeChannel(override?.team_id || ''), override);
     }
 
     fakeChannelWithId = (teamId: string) => {
@@ -397,7 +397,7 @@ class TestHelper {
     };
 
     getPostMock = (override?: Partial<Post>) => {
-        return Object.assign(this.fakePost(override?.channel_id || ''), override)
+        return Object.assign(this.fakePost(override?.channel_id || ''), override);
     }
 
     fakePostWithId = (channelId: string): Post => {
