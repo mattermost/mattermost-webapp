@@ -24,8 +24,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
-import {getPost} from 'mattermost-redux/selectors/entities/posts'
+import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {getPosts} from 'mattermost-redux/actions/posts';
 
@@ -1446,11 +1445,11 @@ export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFu
                 const lastPost = getPost(state, postId);
                 dispatch(markPostAsUnread(lastPost, 'CENTER'));
             }
-        } else {
-            const lastPost = getPost(state, postId);
-            dispatch(markPostAsUnread(lastPost, 'CENTER')); 
         }
-        
+        if (postId) {
+            const lastPost = getPost(state, postId);
+            dispatch(markPostAsUnread(lastPost, 'CENTER'));
+        }
         return {data: true};
     };
 }
