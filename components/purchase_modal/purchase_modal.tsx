@@ -324,7 +324,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
         if (this.props.isDelinquencyModal) {
             pageVisited(
-                TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY,
+                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
                 'pageview_delinquency_cc_update',
             );
             this.props.actions.getInvoices();
@@ -566,10 +566,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <>
                 <div
-                    className='plan_comparison'
-                    style={{
-                        marginBottom: `${showPlanLabel ? '51' : '0'}px`,
-                    }} //remove bottom space when not taken up by PlanLabel
+                    className={showPlanLabel ? 'plan_comparison show_label' : 'plan_comparison'}
                 >
                     {this.comparePlan}
                 </div>

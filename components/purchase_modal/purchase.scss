@@ -157,6 +157,10 @@
             }
 
             .plan_comparison {
+                &.show_label {
+                    margin-bottom: 51px;
+                }
+
                 text-align: center;
 
                 button,
@@ -259,7 +263,7 @@
                         text-align: center;
 
                         .summary-section {
-                            background-color: rgba(#1c58d9, 0.08);
+                            background-color: rgba(var(--denim-button-bg), 0.08);
                             border-radius: 4px;
                             font-family: 'Metropolis';
 
@@ -284,7 +288,7 @@
 
                                 padding-top: 12px;
                                 padding-bottom: 12px;
-                                color: #1c58d9;
+                                color: var(--denim-button-bg);
                                 font-family: 'Metropolis';
                                 font-size: 14px;
                                 font-style: normal;

@@ -73,17 +73,6 @@ const PaymentInfoDisplay: React.FC = () => {
             <div className='PaymentInfoDisplay__paymentInfo'>
                 <PaymentDetails/>
                 <div className='PaymentInfoDisplay__paymentInfo-edit'>
-                    {
-
-                        // TODO: remove payment info?
-                        /* <a
-                        href='#'
-                        onClick={() => null}
-                        className='PaymentInfoDisplay__paymentInfo-editButton'
-                    >
-                        <i className='icon icon-trash-can-outline'/>
-                    </a> */
-                    }
                     {subscription.delinquent_since ? (
                         <div
                             className='PaymentInfoDisplay__paymentInfo-editButton'
