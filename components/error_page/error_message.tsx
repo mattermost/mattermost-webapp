@@ -64,7 +64,7 @@ const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props)
         case ErrorPageTypes.CLOUD_ARCHIVED:
             errorMessage = (
                 <p>
-                    <CloudArchived />
+                    <CloudArchived/>
                 </p>
             );
             break;

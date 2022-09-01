@@ -9,7 +9,7 @@ import {getSubscriptionProductName} from 'mattermost-redux/selectors/entities/cl
 
 export default function CloudArchived() {
     const planName = useSelector(getSubscriptionProductName);
-    return(
+    return (
         <FormattedMessage
             id='cloud_archived.error.access'
             defaultMessage='Permalink belongs to a message that has been archived because of {planName} limits. Upgrade to access message again.'
@@ -17,5 +17,5 @@ export default function CloudArchived() {
                 planName,
             }}
         />
-    )
+    );
 }

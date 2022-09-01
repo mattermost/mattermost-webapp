@@ -40,7 +40,7 @@ export function getSubscriptionProduct(state: GlobalState): Product | undefined 
 }
 
 export function getSubscriptionProductName(state: GlobalState): string {
-    return getSubscriptionProduct(state)?.name || ''
+    return getSubscriptionProduct(state)?.name || '';
 }
 
 export function checkSubscriptionIsLegacyFree(state: GlobalState): boolean {
