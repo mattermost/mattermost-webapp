@@ -8,6 +8,7 @@ import {ErrorPageTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import ErrorLink from './error_link';
+import CloudArchived from './messages/cloud_archived';
 
 type Props = {
     type?: string | null;
@@ -63,10 +64,7 @@ const ErrorMessage: React.FC<Props> = ({type, message, service, isGuest}: Props)
         case ErrorPageTypes.CLOUD_ARCHIVED:
             errorMessage = (
                 <p>
-                    <FormattedMessage
-                        id='cloud_archived.error.access'
-                        defaultMessage='Permalink belongs to a message that has been archived because of cloud plan limits. Upgrade cloud plan to access message again.'
-                    />
+                    <CloudArchived />
                 </p>
             );
             break;
