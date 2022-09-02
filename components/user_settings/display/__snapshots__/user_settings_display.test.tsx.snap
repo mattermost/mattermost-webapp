@@ -137,6 +137,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -419,6 +434,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
           />
         }
         updateSection={[Function]}
@@ -783,6 +813,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1003,6 +1048,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
           />
         }
         updateSection={[Function]}
@@ -1305,6 +1365,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1515,6 +1590,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show user availability on posts"
             id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
           />
         }
         updateSection={[Function]}
@@ -1817,6 +1907,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2037,6 +2142,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
           />
         }
         updateSection={[Function]}
@@ -2357,6 +2477,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2587,6 +2722,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2807,6 +2957,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
           />
         }
         updateSection={[Function]}
@@ -3059,6 +3224,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3279,6 +3459,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Website Link Previews"
             id="user.settings.display.linkPreviewDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="gif"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Autoplay Gif's and Emojis"
+            id="user.settings.display.gif"
           />
         }
         updateSection={[Function]}
