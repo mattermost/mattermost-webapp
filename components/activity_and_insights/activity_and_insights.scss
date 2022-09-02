@@ -164,44 +164,6 @@
                     display: flex;
                     align-items: center;
                     padding: 12px 12px 12px 0;
-
-                    &:nth-of-type(2) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.85;
-                            }
-                        }
-                    }
-
-                    &:nth-of-type(3) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.9;
-                            }
-                        }
-                    }
-
-                    &:nth-of-type(4) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.5;
-                            }
-                        }
-                    }
-
-                    &:nth-of-type(5) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.7;
-                            }
-                        }
-                    }
-
-                    .skeleton-loader {
-                        &.title {
-                            margin-left: 8px;
-                        }
-                    }
                 }
 
                 .channel-row {
