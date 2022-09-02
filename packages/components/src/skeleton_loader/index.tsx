@@ -35,13 +35,17 @@ export const CircleSkeletonLoader = styled(BaseLoader)<CircleSkeletonLoaderProps
 `;
 
 interface RectangleSkeletonLoaderProps {
-    height: number;
-    width: number;
+    height: string;
+    width?: string;
     borderRadius?: number;
+    margin?: string;
+    flex?: string;
 }
 
 export const RectangleSkeletonLoader = styled(BaseLoader)<RectangleSkeletonLoaderProps>`
-    height: ${(props) => props.height}px;
-    width: ${(props) => props.width}px;
+    height: ${(props) => props.height};
+    width: ${(props) => props?.width ?? '100%'};
     border-radius: ${(props) => props?.borderRadius ?? 8}px;
+    margin: ${(props) => props?.margin ?? null};
+    flex: ${(props) => props?.flex ?? null};
 `;
