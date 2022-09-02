@@ -12,11 +12,13 @@ import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getAllUserMentionKeys} from 'mattermost-redux/selectors/entities/search';
 
-import {GlobalState} from '@mattermost/types/store';
-
+import {GlobalState} from 'types/store';
 import {getEmojiMap} from 'selectors/emojis';
+import {getRhsState} from 'selectors/rhs';
+
 import {getSiteURL} from 'utils/url';
 import {ChannelNamesMap, MentionKey} from 'utils/text_formatting';
+import {RHSStates} from 'utils/constants';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -48,6 +50,7 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state: GlobalState, ownProps: Props) {
         const config = getConfig(state);
+        const rhsState = getRhsState(state);
 
         let channelId;
         if (ownProps.postId) {
@@ -66,6 +69,7 @@ function makeMapStateToProps() {
             minimumHashtagLength: parseInt(config.MinimumHashtagLength || '', 10),
             emojiMap: getEmojiMap(state),
             channelId,
+            showEditedIcon: rhsState !== RHSStates.EDIT_HISTORY,
         };
     };
 }

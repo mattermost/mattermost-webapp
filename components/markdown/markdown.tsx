@@ -112,6 +112,11 @@ type Props = {
      */
     postType?: PostType;
     emojiMap: EmojiMap;
+
+    /**
+     * Whether or not to show edited indicator
+     */
+    showEditedIcon: boolean;
 }
 
 export default class Markdown extends React.PureComponent<Props> {
@@ -125,15 +130,17 @@ export default class Markdown extends React.PureComponent<Props> {
     }
 
     render() {
-        const {postId, editedAt, message, enableFormatting} = this.props;
+        const {postId, editedAt, message, enableFormatting, showEditedIcon} = this.props;
         if (message === '' || !enableFormatting) {
+            console.log('showEditedIcon: ', showEditedIcon)
             return (
                 <span>
                     {message}
+                    {showEditedIcon &&
                     <PostEditedIndicator
                         postId={postId}
                         editedAt={editedAt}
-                    />
+                    />}
                 </span>
             );
         }
@@ -164,6 +171,7 @@ export default class Markdown extends React.PureComponent<Props> {
             mentionHighlight: this.props.options.mentionHighlight,
             disableGroupHighlight: this.props.options.disableGroupHighlight,
             editedAt,
+            showEditedIcon,
         });
     }
 }
