@@ -494,7 +494,6 @@
                 &:nth-of-type(4) {
                     margin-bottom: 10px;
                 }
-
             }
 
             .channel-list {
@@ -665,25 +664,10 @@
                 align-items: left;
                 margin-top: auto;
 
-                .circle {
-                    margin-bottom: 16px;
-                }
-
                 .title-line {
                     width: 124px;
+                    margin-top: 16px;
                     margin-bottom: 8px;
-                }
-
-                .info-line {
-                    .title {
-                        width: 72px;
-                        height: 8px;
-
-                        &:nth-of-type(1) {
-                            width: 92px;
-                            margin-bottom: 12px;
-                        }
-                    }
                 }
             }
 
