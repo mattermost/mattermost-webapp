@@ -56,7 +56,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             replaceChildren: false,
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs['data-edited-post-id'] && node.attribs['data-edited-post-id'] === options.postId,
             processNode: () => {
-                return options.postId && options.editedAt && options.showEditedIcon > 0 ? (
+                return options.postId && options.editedAt > 0 ? (
                     <>
                         {' '}
                         <PostEditedIndicator
