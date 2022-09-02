@@ -39,7 +39,7 @@ const EditedPostItem = ({post}: Props) => {
         defaultMessage: 'Current Version',
     });
 
-    const handleJumpClick = () => {
+    const handleRestore = () => {
         console.log('revert clicked');
     };
 
@@ -97,7 +97,8 @@ const EditedPostItem = ({post}: Props) => {
         </Tooltip>
     );
 
-    const rhsControls = (
+    // todo sinan show only in the old versions
+    const restoreButton = (
         <OverlayTrigger
             trigger={['hover', 'focus']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -107,7 +108,7 @@ const EditedPostItem = ({post}: Props) => {
             <IconButton
                 size={'sm'}
                 icon={'refresh'} // todo sinan find the correct icon
-                onClick={handleJumpClick}
+                onClick={handleRestore}
                 compact={true}
                 aria-label='Select to restore an old message.' // todo proper wording and translation needed
                 className='edit-post__icon__button'
@@ -115,9 +116,10 @@ const EditedPostItem = ({post}: Props) => {
         </OverlayTrigger>
     );
 
-    const postContentClass = classNames('post__content', {'edit-post__container__visible': open});
+    const postContainerClass = classNames('edit-post__container', {'edit-post__container__background': open})
+    const postContentClass = classNames('post__content', {'edit-post__container__visible': !open});
     return (
-        <div className='edit-post__container'>
+        <div className={postContainerClass}>
             <IconButton
                 size={'sm'}
                 icon={open ? 'chevron-down' : 'chevron-right'}
@@ -139,7 +141,7 @@ const EditedPostItem = ({post}: Props) => {
                         {'Today, 10:37 AM'}
                         {/* todo sinan replace with variable */}
                     </span>
-                    {rhsControls}
+                    {restoreButton} 
                 </div>
                 {currentVersionIndicator}
                 {postHeader}

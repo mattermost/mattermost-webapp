@@ -2241,6 +2241,8 @@
 .edit-post__container {
     display: flex;
     flex-direction: row;
+    padding: 6px 16px 6px 12px;
+    gap: 16px;
 
     .edit-post__date__container {
             display: flex;
@@ -2270,8 +2272,11 @@
 
     .edit-post__container__visible {
         visibility: hidden;
-        background-color: tomato;
     }
+}
+
+.edit-post__container__background {
+    background-color: rgba(var(--denim-button-bg-rgb), 0.04);
 }
 
 .edit-post__header {
