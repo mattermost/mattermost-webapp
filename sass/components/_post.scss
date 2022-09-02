@@ -2260,13 +2260,21 @@
             }
     }
 
+    .post {
+        padding: 0;
+
+        &:not(.post--editing):not(.post--editing):hover {
+            background-color: initial;
+        }
+    }
+
     .edit-post__icon__button {
         color: rgba(var(--center-channel-text-rgb), 0.56);
         height: fit-content;
 
         &:hover {
             color: rgba(var(--center-channel-text-rgb), 0.56);
-            background-color: rgba(var(--denim-button-bg-rgb), 0.08)
+            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
         }
     }
 

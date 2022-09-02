@@ -1,26 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 
 import {useIntl} from 'react-intl';
+import classNames from 'classnames';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {Post} from '@mattermost/types/posts';
+
+import Constants from 'utils/constants';
+import {t} from 'utils/i18n';
+import {imageURLForUser} from 'utils/utils';
+
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import OverlayTrigger from 'components/overlay_trigger';
-import Constants, {AppEvents} from 'utils/constants';
-import {t} from 'utils/i18n';
-import EditPost from 'components/edit_post';
-import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
-import {Post} from '@mattermost/types/posts';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
-import {imageURLForUser} from 'utils/utils';
 import UserProfileComponent from 'components/user_profile';
-import classNames from 'classnames';
 
 type Props = {
     post: Post;
@@ -43,9 +43,10 @@ const EditedPostItem = ({post}: Props) => {
         console.log('revert clicked');
     };
 
-    const togglePost = () => setOpen(prevState => !prevState)
+    const togglePost = () => setOpen((prevState) => !prevState);
 
     const currentVersionIndicator = (
+
         // todo sinan fix width
         <div className='edit-post__current__indicator'>
             {currentVersionText}
@@ -116,7 +117,7 @@ const EditedPostItem = ({post}: Props) => {
         </OverlayTrigger>
     );
 
-    const postContainerClass = classNames('edit-post__container', {'edit-post__container__background': open})
+    const postContainerClass = classNames('edit-post__container', {'edit-post__container__background': open});
     const postContentClass = classNames('post__content', {'edit-post__container__visible': !open});
     return (
         <div className={postContainerClass}>
@@ -141,20 +142,14 @@ const EditedPostItem = ({post}: Props) => {
                         {'Today, 10:37 AM'}
                         {/* todo sinan replace with variable */}
                     </span>
-                    {restoreButton} 
+                    {restoreButton}
                 </div>
                 {currentVersionIndicator}
                 {postHeader}
                 <div className={postContentClass}>
                     <div>
                         <div className='search-item-snippet post__body'>
-                            <AutoHeightSwitcher
-                                showSlot={AutoHeightSlots.SLOT1}
-                                shouldScrollIntoView={false}
-                                slot1={message}
-                                slot2={<EditPost/>}
-                                onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
-                            />
+                            {message}
                             {/* {fileAttachment} */}
                         </div>
                     </div>
