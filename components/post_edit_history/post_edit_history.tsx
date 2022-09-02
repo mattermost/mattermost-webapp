@@ -40,7 +40,7 @@ const PostEditHistory = ({
             id: 'ixj6urk1ifdbucx9j63j7ojk6h',
             is_pinned: false,
             last_reply_at: 0,
-            message: 'original message test',
+            message: 'original message test lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ',
             metadata: {},
             original_id: '',
             participants: null,
@@ -75,6 +75,9 @@ const PostEditHistory = ({
                 {formattedTitle}
                 {<div className='sidebar--right__title__channel'>{channelDisplayName}</div>}
             </SearchResultsHeader>
+            <EditedPostItem
+                post={oldMessages.mes1}
+            />
             <EditedPostItem
                 post={oldMessages.mes1}
             />

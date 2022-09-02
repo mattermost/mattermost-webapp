@@ -46,8 +46,6 @@ const EditedPostItem = ({post}: Props) => {
     const togglePost = () => setOpen((prevState) => !prevState);
 
     const currentVersionIndicator = (
-
-        // todo sinan fix width
         <div className='edit-post__current__indicator'>
             {currentVersionText}
         </div>
@@ -118,7 +116,6 @@ const EditedPostItem = ({post}: Props) => {
     );
 
     const postContainerClass = classNames('edit-post__container', {'edit-post__container__background': open});
-    const postContentClass = classNames('post__content', {'edit-post__container__visible': !open});
     return (
         <div className={postContainerClass}>
             <IconButton
@@ -146,12 +143,9 @@ const EditedPostItem = ({post}: Props) => {
                 </div>
                 {currentVersionIndicator}
                 {postHeader}
-                <div className={postContentClass}>
-                    <div>
-                        <div className='search-item-snippet post__body'>
-                            {message}
-                            {/* {fileAttachment} */}
-                        </div>
+                <div className='post__content'>
+                    <div className='search-item-snippet post__body'>
+                        {open && message}
                     </div>
                 </div>
             </PostAriaLabelDiv>
