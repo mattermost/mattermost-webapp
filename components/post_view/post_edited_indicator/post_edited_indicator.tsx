@@ -71,6 +71,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
 
     const showPostEditHistory = (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+        actions.getPostEditHistory(post.id);
         actions.openShowEditHistory(post);
     };
 
