@@ -64,7 +64,10 @@ type ButtonDetails = {
     customClass?: ButtonCustomiserClasses;
 }
 
-type DelinquencyCardProps = CardProps & {
+type DelinquencyCardProps = {
+    topColor: string;
+    price: string;
+    buttonDetails: ButtonDetails;
     onViewBreakdownClick: () => void;
 };
 
@@ -235,15 +238,16 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                 className='top'
                 style={{backgroundColor: props.topColor}}
             />
-            <div className='bottom'>
+            <div className='bottom delinquency'>
                 <div className='delinquency_summary_section'>
-                    <h4>
-                        <FormattedMessage
-                            id={'cloud_delinquency.cc_modal.card.totalOwed'}
-                            defaultMessage={'Total Owed'}
-                        />
-                    </h4>
                     <div className={'summary-section'}>
+                        <div className='summary-title'>
+                            <FormattedMessage
+                                id={'cloud_delinquency.cc_modal.card.totalOwed'}
+                                defaultMessage={'Total Owed'}
+                            />
+                            {':'}
+                        </div>
                         <div className='summary-total'>{props.price}</div>
                         <div
                             onClick={props.onViewBreakdownClick}
@@ -270,13 +274,12 @@ function DelinquencyCard(props: DelinquencyCardProps) {
                         {props.buttonDetails.text}
                     </button>
                 </div>
-                {props.planBriefing}
-                <div className='plan_billing_cycle'>
+                <div className='plan_billing_cycle delinquency'>
                     <FormattedMessage
                         defaultMessage={
-                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                            'Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users.'
                         }
-                        id={'admin.billing.subscription.freeTrialDisclaimer'}
+                        id={'cloud_delinquency.cc_modal.disclaimer'}
                     />
                     <a onClick={seeHowBillingWorks}>
                         <FormattedMessage
@@ -310,7 +313,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     async componentDidMount() {
-        pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
             await this.props.actions.getCloudProducts();
             // eslint-disable-next-line react/no-did-mount-set-state
@@ -321,7 +323,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         }
 
         if (this.props.isDelinquencyModal) {
+            pageVisited(
+                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                'pageview_delinquency_cc_update',
+            );
             this.props.actions.getInvoices();
+        } else {
+            pageVisited(TELEMETRY_CATEGORIES.CLOUD_PURCHASING, 'pageview_purchase');
         }
 
         this.props.actions.getClientConfig();
@@ -534,23 +542,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     )}
                     <DelinquencyCard
                         topColor='#4A69AC'
-                        plan={''}
                         price={this.getDelinquencyTotalString()}
-                        planBriefing={
-                            <div className='button-description'>
-                                <FormattedMessage
-                                    id={
-                                        'cloud_delinquency.cc_modal.card.buttonDescription'
-                                    }
-                                    defaultMessage={
-                                        'Upon reactivation you will be charged {amount}'
-                                    }
-                                    values={{
-                                        amount: this.getDelinquencyTotalString(),
-                                    }}
-                                />
-                            </div>
-                        }
                         buttonDetails={{
                             action: this.handleSubmitClick,
                             text: localizeMessage(
@@ -574,10 +566,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         return (
             <>
                 <div
-                    className='plan_comparison'
-                    style={{
-                        marginBottom: `${showPlanLabel ? '51' : '0'}px`,
-                    }} //remove bottom space when not taken up by PlanLabel
+                    className={showPlanLabel ? 'plan_comparison show_label' : 'plan_comparison'}
                 >
                     {this.comparePlan}
                 </div>
@@ -740,6 +729,12 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         }}
                                         contactSupportLink={this.props.contactSalesLink}
                                         currentTeam={this.props.currentTeam}
+                                        onSuccess={() => {
+                                            // Success only happens if all invoices have been paid.
+                                            if (this.props.isDelinquencyModal) {
+                                                trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'paid_arrears');
+                                            }
+                                        }}
                                         selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&

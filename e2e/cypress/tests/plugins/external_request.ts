@@ -1,11 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-const axios = require('axios');
+import axios, {AxiosError, Method} from 'axios';
 
-const timeouts = require('../fixtures/timeouts');
+import * as timeouts from '../fixtures/timeouts';
 
-module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
+export interface ExternalRequestUser{
+    username: string;
+    password: string;
+}
+interface ExternalRequestArg {
+    baseUrl: string;
+    user: ExternalRequestUser;
+    method: Method;
+    path: string;
+    data: any;
+}
+type ExternalRequestResult = { status: number; statusText: string; data: any; isError?: boolean } | { data: { id: string; isTimeout: boolean }; status?: undefined; statusText?: undefined; isError?: undefined };
+export default async function externalRequest(arg: ExternalRequestArg): Promise<ExternalRequestResult> {
+    const {baseUrl, user, method = 'get', path, data = {}} = arg;
     const loginUrl = `${baseUrl}/api/v4/users/login`;
 
     // First we need to login with our external user to get cookies/tokens
@@ -20,7 +33,7 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
         });
 
         const setCookie = response.headers['set-cookie'];
-        setCookie.forEach((cookie) => {
+        (setCookie as any).forEach((cookie: string) => {
             const nameAndValue = cookie.split(';')[0];
             cookieString += nameAndValue + ';';
         });
@@ -50,9 +63,9 @@ module.exports = async ({baseUrl, user, method = 'get', path, data = {}}) => {
         // If we have a response for the error, pull out the relevant parts
         return getErrorResponse(error);
     }
-};
+}
 
-function getErrorResponse(error) {
+function getErrorResponse(error: AxiosError) {
     if (error.response) {
         return {
             status: error.response.status,

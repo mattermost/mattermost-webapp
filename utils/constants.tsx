@@ -151,6 +151,7 @@ export const Preferences = {
 
     FORWARD_POST_VIEWED: 'forward_post_viewed',
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
+    SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
     DELIQUENCY_MODAL_CONFIRMED: 'deliquency_modal_confirmed',
 };
@@ -306,6 +307,7 @@ export const ActionTypes = keyMirror({
 
     RECEIVED_PLUGIN_INSIGHT: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
+    NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -411,6 +413,7 @@ export const ModalIdentifiers = {
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
+    SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
     DELIQUENCY_MODAL_DOWNGRADE: 'deliquency_modal_downgrade',
 };
 
@@ -448,6 +451,20 @@ export const CloudProducts = {
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
+};
+
+export const PaidFeatures = {
+    GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
+    CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
+    CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
+    START_CALL: 'mattermost.feature.start_call',
+    PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
+    UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
+    UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
+    UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
+    UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
+    ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
+    ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
 };
 
 export enum LicenseSkus {
@@ -649,6 +666,8 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    CLOUD_DELINQUENCY: 'cloud_delinquency',
+    SELF_HOSTED_ADMIN: 'self_hosted_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
@@ -1270,7 +1289,9 @@ export const Constants = {
     MAX_ADD_MEMBERS_BATCH: 256,
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    PLAN_MENTIONS: /Professional plan|Enterprise plan|Enterprise trial/gi,
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    SUM_OF_MEMBERS_MENTION_REGEX: /\d+ members/gi,
     ALL_MENTION_REGEX: /(?:\B|\b_+)@(all)(?!(\.|-|_)*[^\W_])/gi,
     CHANNEL_MENTION_REGEX: /(?:\B|\b_+)@(channel)(?!(\.|-|_)*[^\W_])/gi,
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,

@@ -51,7 +51,7 @@ describe('Verify Accessibility Support in Channel Sidebar Navigation', () => {
     beforeEach(() => {
         // # Login as test user and visit the off-topic channel
         cy.apiLogin(testUser);
-        cy.apiSaveSidebarSettingPreference();
+        (cy as any).apiSaveSidebarSettingPreference();
         cy.visit(offTopicUrl);
         cy.get('#postListContent').should('be.visible');
     });

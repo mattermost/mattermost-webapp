@@ -212,7 +212,7 @@ export default function BillingHistoryTable({invoices}: BillingHistoryTableProps
                     })}
                 </tbody>
             </table>
-            {paging}
+            {numInvoices > PAGE_LENGTH && paging}
         </>
     );
 }
