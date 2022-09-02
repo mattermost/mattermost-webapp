@@ -305,12 +305,6 @@
                 margin-top: auto;
 
                 &:nth-of-type(1) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 140px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--button-bg);
                     }
@@ -323,36 +317,18 @@
                 }
 
                 &:nth-of-type(3) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 140px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--dnd-indicator);
                     }
                 }
 
                 &:nth-of-type(4) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 120px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--new-message-separator);
                     }
                 }
 
                 &:nth-of-type(5) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 140px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--away-indicator);
                     }
@@ -365,12 +341,6 @@
                     font-style: normal;
                     font-weight: 600;
                     line-height: 16px;
-                }
-
-                .skeleton-loader {
-                    &.bar-chart {
-                        margin-bottom: 6px;
-                    }
                 }
 
                 .bar-chart-data {
