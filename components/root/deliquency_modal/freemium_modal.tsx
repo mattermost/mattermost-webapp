@@ -17,15 +17,16 @@ import './deliquency_modal.scss';
 
 type FreemiumModalProps = {
     onClose: () => void;
+    planName: string;
 }
 
 type ReactivateFooterProps = {
     onReactivate: () => void;
     onClose: () => void;
-    productName: string;
+    planName: string;
 }
 
-const ReactivateFooter = ({onClose, onReactivate, productName}: ReactivateFooterProps) => {
+const ReactivateFooter = ({onClose, onReactivate, planName}: ReactivateFooterProps) => {
     return (<Modal.Footer className={'DeliquencyModal__footer '}>
         <button
             className={'DeliquencyModal__footer--secondary'}
@@ -45,16 +46,16 @@ const ReactivateFooter = ({onClose, onReactivate, productName}: ReactivateFooter
         >
             <FormattedMessage
                 id='cloud_delinquency.modal.update_billing'
-                defaultMessage='Re-activate {productName}'
+                defaultMessage='Re-activate {planName}'
                 values={{
-                    productName,
+                    planName,
                 }}
             />
         </button>
     </Modal.Footer>);
 };
 
-type NoReactivateFooterProps = Omit<ReactivateFooterProps, 'onReactivate' | 'productName'>;
+type NoReactivateFooterProps = Omit<ReactivateFooterProps, 'onReactivate' | 'planName'>;
 
 const NoReactivateFooter = ({onClose}: NoReactivateFooterProps) => {
     return (<Modal.Footer className={'DeliquencyModal__footer '}>
@@ -71,7 +72,7 @@ const NoReactivateFooter = ({onClose}: NoReactivateFooterProps) => {
     </Modal.Footer>);
 };
 
-export const FreemiumModal = ({onClose}: FreemiumModalProps) => {
+export const FreemiumModal = ({onClose, planName}: FreemiumModalProps) => {
     const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
     const [limits] = useGetLimits();
     const usage = useGetUsage();
@@ -132,7 +133,7 @@ export const FreemiumModal = ({onClose}: FreemiumModalProps) => {
             </Modal.Body>
             {!highestLimit &&
                 <ReactivateFooter
-                    productName='Professional'
+                    planName={planName}
                     onClose={onClose}
                     onReactivate={handleReactivate}
                 />}

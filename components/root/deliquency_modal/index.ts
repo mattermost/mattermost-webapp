@@ -5,17 +5,19 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {closeModal, openModal} from 'actions/views/modals';
 
 import DeliquencyModalController from './deliquency_modal_controller';
 
 function mapStateToProps(state: GlobalState) {
+    const getCategory = makeGetCategory();
     const license = getLicense(state);
     const isCloud = license.Cloud === 'true';
     const subscription = state.entities.cloud?.subscription;
@@ -25,6 +27,7 @@ function mapStateToProps(state: GlobalState) {
         isCloud,
         subscription,
         userIsAdmin,
+        deliquencyModalPreferencesConfirmed: getCategory(state, Preferences.DELIQUENCY_MODAL_CONFIRMED),
     };
 }
 

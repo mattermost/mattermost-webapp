@@ -1,34 +1,50 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
-import {Subscription} from '@mattermost/types/cloud';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
+import {trackEvent} from 'actions/telemetry_actions';
 import {isModalOpen} from 'selectors/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
 import './deliquency_modal.scss';
 import {FreemiumModal} from './freemium_modal';
 
 interface DeliquencyModalProps {
-    subscription: Subscription;
+    planName: string;
     onExited: () => void;
     closeModal: () => void;
+    isAdminConsole?: boolean;
 }
 
 const DeliquencyModal = (props: DeliquencyModalProps) => {
+    const dispatch = useDispatch();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE));
-    const {subscription, closeModal, onExited} = props;
+    const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
+    const {closeModal, onExited, planName, isAdminConsole} = props;
     const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
+    const theme = useSelector(getTheme);
     const [showFreemium, setShowFremium] = useState(false);
 
-    const handleShowFremium = () => {
+    const handleShowFremium = async () => {
+        // TODO CHANGE FOR THE CONSTANT AFTER REBASE
+        trackEvent('delinquency_modal', 'clicked_stay_on_freemium');
         setShowFremium(() => true);
+        dispatch(savePreferences(currentUser.id, [{
+            category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
+            name: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
+            user_id: currentUser.id,
+            value: 'stayOnFremium',
+        }]));
     };
 
     const handleClose = () => {
@@ -36,20 +52,28 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
         onExited();
     };
 
-    const handleUpdateBilling = () => {
+    const handleUpdateBilling = async () => {
         handleClose();
+        // TODO CHANGE FOR THE CONSTANT AFTER REBASE
+        trackEvent('delinquency_modal', 'clicked_update_billing');
         openPurchaseModal({
             trackingLocation: 'deliquency_modal_downgrade_admin',
         });
+        dispatch(savePreferences(currentUser.id, [{
+            category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
+            name: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
+            user_id: currentUser.id,
+            value: 'updateBilling',
+        }]));
     };
 
-    return (
+    const ModalJSX = (
         <Modal
             className='DeliquencyModal'
             dialogClassName='a11y__modal'
             show={show}
-            onHide={closeModal}
-            onExited={closeModal}
+            onHide={handleClose}
+            onExited={handleClose}
             role='dialog'
             id='DeliquencyModal'
             aria-modal='true'
@@ -62,7 +86,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                         className='icon icon-close'
                         aria-label='Close'
                         title='Close'
-                        onClick={closeModal}
+                        onClick={handleClose}
                     />
                 </Modal.Header>
                 <Modal.Body className='DeliquencyModal__body'>
@@ -78,9 +102,9 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                     </FormattedMessage>
                     <FormattedMessage
                         id='cloud_delinquency.modal.workspace_downgraded_description'
-                        defaultMessage='Due to payment issues on your {paidPlan}, your workspace has been downgraded to the free plan. To access {paid plan} features again, update your billing information now.'
+                        defaultMessage='Due to payment issues on your {paidPlan}, your workspace has been downgraded to the free plan. To access {paidPlan} features again, update your billing information now.'
                         values={{
-                            paidPlan: subscription.product_id, // Pasar de productId a Nombre del producto
+                            paidPlan: planName, // Pasar de productId a Nombre del producto
                         }}
                     >
                         {(text) => <p className='DeliquencyModal__body__information'>{text}</p>}
@@ -110,8 +134,20 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                     </button>
                 </Modal.Footer>
             </>}
-            {showFreemium && <FreemiumModal onClose={handleClose}/>}
+            {showFreemium &&
+            <FreemiumModal
+                planName={planName}
+                onClose={handleClose}
+            />}
         </Modal>);
+
+    if (isAdminConsole) {
+        return ModalJSX;
+    }
+
+    return (<CompassThemeProvider theme={theme}>
+        {ModalJSX}
+    </CompassThemeProvider>);
 };
 
 export default DeliquencyModal;

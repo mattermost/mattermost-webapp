@@ -152,6 +152,7 @@ export const Preferences = {
     FORWARD_POST_VIEWED: 'forward_post_viewed',
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
     USE_CASE: 'use_case',
+    DELIQUENCY_MODAL_CONFIRMED: 'deliquency_modal_confirmed',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -795,6 +796,7 @@ export const StoragePrefixes = {
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
     INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
+    DELIQUENCY: 'deliquency_',
 };
 
 export const LandingPreferenceTypes = {

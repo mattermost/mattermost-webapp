@@ -1,11 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useEffect, useReducer} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {Subscription} from '@mattermost/types/cloud';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {getCloudProducts} from 'mattermost-redux/actions/cloud';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 import {ModalData} from 'types/actions';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
+import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import BrowserStore from 'stores/browser_store';
 
 import './deliquency_modal.scss';
 import DeliquencyModal from './deliquency_modal';
@@ -19,6 +24,7 @@ interface DeliquencyModalControllerProps {
         closeModal: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
+    deliquencyModalPreferencesConfirmed: PreferenceType[];
 }
 
 const ModalSteps = {
@@ -79,17 +85,37 @@ const useDeliquencyModalControllerState = () => {
     };
 };
 
+const SESSION_MODAL_ITEM = `${StoragePrefixes.DELIQUENCY}hide_downgrade_modal`;
+
 const DeliquencyModalController = (props: DeliquencyModalControllerProps) => {
-    const {isCloud, userIsAdmin, subscription, actions} = props;
+    const product = useSelector(getSubscriptionProduct);
+    const dispatch = useDispatch();
+    const {isCloud, userIsAdmin, subscription, actions, deliquencyModalPreferencesConfirmed} = props;
     const {openModal} = actions;
     const {state, setToDisplay, setModalClosed, setModalDisplayed} = useDeliquencyModalControllerState();
 
     useEffect(() => {
+        if (deliquencyModalPreferencesConfirmed.length === 0 && product == null) {
+            dispatch(getCloudProducts());
+        }
+    }, []);
+
+    useEffect(() => {
+        if (deliquencyModalPreferencesConfirmed.length > 0) {
+            return;
+        }
+
         if (!isCloud) {
             return;
         }
 
         if (subscription == null) {
+            return;
+        }
+
+        const isClosed = Boolean(BrowserStore.getItem(SESSION_MODAL_ITEM, '')) === true;
+
+        if (isClosed) {
             return;
         }
 
@@ -115,22 +141,26 @@ const DeliquencyModalController = (props: DeliquencyModalControllerProps) => {
         }
 
         setToDisplay();
-    }, [isCloud, openModal, setToDisplay, state, subscription, userIsAdmin]);
+    }, [deliquencyModalPreferencesConfirmed.length, isCloud, openModal, setToDisplay, state, subscription, userIsAdmin]);
 
     useEffect(() => {
-        if (state === ModalSteps.TO_SHOW && subscription != null) {
+        if (state === ModalSteps.TO_SHOW && product != null) {
             openModal({
                 modalId: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
                 dialogType: DeliquencyModal,
                 dialogProps: {
                     closeModal: actions.closeModal,
-                    subscription,
                     onExited: setModalClosed,
+                    planName: product.name,
                 },
             });
             setModalDisplayed();
         }
-    }, [actions.closeModal, openModal, props, setModalClosed, setModalDisplayed, state, subscription]);
+
+        if (state === ModalSteps.CLOSE) {
+            BrowserStore.setItem(SESSION_MODAL_ITEM, 'true');
+        }
+    }, [actions.closeModal, openModal, product, props, setModalClosed, setModalDisplayed, state]);
 
     return <></>;
 };
