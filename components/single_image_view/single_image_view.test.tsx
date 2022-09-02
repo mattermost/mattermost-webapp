@@ -20,7 +20,7 @@ describe('components/SingleImageView', () => {
             getFilePublicLink: jest.fn(),
         },
         enablePublicLink: false,
-        autoplayGifAndEmojis: '',
+        autoplayGifAndEmojis: 'true',
     };
 
     test('should match snapshot', () => {
