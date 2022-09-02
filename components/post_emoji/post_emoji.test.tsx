@@ -10,6 +10,7 @@ describe('PostEmoji', () => {
     const baseProps = {
         imageUrl: '/api/v4/emoji/1234/image',
         name: 'emoji',
+        autoplayGifAndEmojis: 'true'
     };
 
     test('should render image when imageUrl is provided', () => {
@@ -23,7 +24,10 @@ describe('PostEmoji', () => {
     test('should render shortcode text within span when imageUrl is provided', () => {
         const wrapper = shallow(<PostEmoji {...baseProps}/>);
 
-        expect(wrapper.find('span').text()).toBe(`:${baseProps.name}:`);
+        if(baseProps.autoplayGifAndEmojis === 'true') {
+            expect(wrapper.find('span').text()).toBe(`:${baseProps.name}:`);
+        }
+
     });
 
     test('should render original text when imageUrl is empty', () => {
