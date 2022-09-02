@@ -397,22 +397,6 @@
                     display: flex;
                     align-items: center;
                     padding-bottom: 8px;
-
-                    .skeleton-loader {
-                        &.title {
-                            flex: 0.5;
-                            margin-left: 8px;
-                        }
-                    }
-                }
-
-                .loading-lines {
-                    .skeleton-loader {
-                        &.title {
-                            height: 8px;
-                            margin-bottom: 8px;
-                        }
-                    }
                 }
             }
 
@@ -457,15 +441,6 @@
                     flex: 1;
                     flex-direction: column;
                     margin-left: 10px;
-
-                    .title {
-                        flex: none;
-
-                        &:nth-of-type(2) {
-                            height: 8px;
-                            margin-top: 6px;
-                        }
-                    }
                 }
             }
 
