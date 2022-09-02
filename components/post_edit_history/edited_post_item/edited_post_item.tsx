@@ -94,6 +94,17 @@ const EditedPostItem = ({post, isCurrent}: Props) => {
         </PostBodyAdditionalContent>
     );
 
+    const messageContainer = (
+        <>
+            {postHeader}
+            <div className='post__content' >
+                <div className='search-item-snippet post__body'>
+                    {message}
+                </div>
+            </div >
+        </>
+    );
+
     const tooltip = (
         <Tooltip
             id='editPostRestoreTooltip'
@@ -103,7 +114,6 @@ const EditedPostItem = ({post, isCurrent}: Props) => {
         </Tooltip>
     );
 
-    // todo sinan show only in the old versions
     const restoreButton = isCurrent ? undefined : (
         <OverlayTrigger
             trigger={['hover', 'focus']}
@@ -149,12 +159,7 @@ const EditedPostItem = ({post, isCurrent}: Props) => {
                     {restoreButton}
                 </div>
                 {currentVersionIndicator}
-                {postHeader}
-                <div className='post__content'>
-                    <div className='search-item-snippet post__body'>
-                        {open && message}
-                    </div>
-                </div>
+                {open && messageContainer}
             </PostAriaLabelDiv>
         </div>
     );
