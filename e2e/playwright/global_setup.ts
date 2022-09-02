@@ -131,7 +131,7 @@ async function sysadminSetup(client: Client, user: UserProfile) {
             sameClusterName,
             sameClusterName
                 ? ''
-                : `Should have cluster name set and as expected. Got "${ClusterName}" but expected "${ClusterName}"`
+                : `Should have cluster name set and as expected. Got "${ClusterName}" but expected "${haClusterName}"`
         ).toBe(true);
 
         const clusterInfo = await client.getClusterStatus();
