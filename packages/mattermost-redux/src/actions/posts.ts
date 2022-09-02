@@ -1130,11 +1130,8 @@ export function getPostEditHistory(postId: string) {
             return {error};
         }
 
-        console.log('posts: ', posts)
-
-        // check if you need this
         dispatch({
-            type: PostTypes.RECEIVED_POSTS,
+            type: PostTypes.RECEIVED_POST_HISTORY,
             data: {posts},
         });
 

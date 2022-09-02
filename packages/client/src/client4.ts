@@ -2133,7 +2133,7 @@ export default class Client4 {
     getPostEditHistory = (postId: string) => {
         return this.doFetch<Post[]>(
             `${this.getEditHistoryRoute(postId)}`,
-            {method: 'get'}
+            {method: 'get'},
         );
     }
 
