@@ -13,11 +13,8 @@ function mapStateToProps(state: GlobalState) {
     const selectedPostId = getSelectedPostId(state) || '';
     const post = getPost(state, selectedPostId);
 
-    console.log('selectedPostId: ', selectedPostId)
-    console.log('selectedPost: ', post)
-
     return {
-        // post,
+        post,
     };
 }
 

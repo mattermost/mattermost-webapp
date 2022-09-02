@@ -21,8 +21,6 @@ export interface Props {
 const PostEditHistory = ({
     channelDisplayName,
 }: Props) => {
-    // const currentUserId = currentUser.id;
-    // const channelURL = getSiteURL() + '/' + currentTeam.name + '/channels/' + channel.name;
     const {formatMessage} = useIntl();
 
     const formattedTitle = formatMessage({

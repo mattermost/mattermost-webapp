@@ -30,6 +30,10 @@ const EditedPostItem = ({post}: Props) => {
     const {formatMessage} = useIntl();
     const [open, setOpen] = useState(false);
 
+    if (!post) {
+        return null;
+    }
+
     const formattedHelpText = formatMessage({
         id: t('post_info.edit.restore'),
         defaultMessage: 'Restore',
