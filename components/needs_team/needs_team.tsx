@@ -262,8 +262,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 this.props.actions.getGroups(false, 0, 60);
             }
         }
-
-        return team;
     }
 
     fetchAllTeams = () => {
@@ -306,36 +304,34 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         }
 
         return (
-            <Switch>
-                <Route
-                    path={'/:team/integrations'}
-                    component={BackstageController}
-                />
-                <Route
-                    path={'/:team/emoji'}
-                    component={BackstageController}
-                />
-                {this.props.plugins?.map((plugin: any) => (
+            <>
+                <Switch>
                     <Route
-                        key={plugin.id}
-                        path={'/:team/' + plugin.route}
-                        render={() => (
-                            <Pluggable
-                                pluggableName={'NeedsTeamComponent'}
-                                pluggableId={plugin.id}
-                            />
-                        )}
+                        path={'/:team/integrations'}
+                        component={BackstageController}
                     />
-                ))}
-                <Route
-                    render={() => (
-                        <ChannelController
-                            shouldShowAppBar={this.props.shouldShowAppBar}
-                            fetchingChannels={!this.state.finishedFetchingChannels}
+                    <Route
+                        path={'/:team/emoji'}
+                        component={BackstageController}
+                    />
+                    {this.props.plugins?.map((plugin: any) => (
+                        <Route
+                            key={plugin.id}
+                            path={'/:team/' + plugin.route}
+                            render={() => (
+                                <Pluggable
+                                    pluggableName={'NeedsTeamComponent'}
+                                    pluggableId={plugin.id}
+                                />
+                            )}
                         />
-                    )}
+                    ))}
+                </Switch>
+                <ChannelController
+                    shouldShowAppBar={this.props.shouldShowAppBar}
+                    fetchingChannels={!this.state.finishedFetchingChannels}
                 />
-            </Switch>
+            </>
         );
     }
 }
