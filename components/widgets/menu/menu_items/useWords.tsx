@@ -11,6 +11,7 @@ import {t} from 'utils/i18n';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
+import {PaidFeatures, LicenseSkus} from 'utils/constants';
 
 interface Words {
     title: React.ReactNode;
@@ -42,12 +43,31 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         callToAction,
         a: (chunks: React.ReactNode | React.ReactNodeArray) => (
             <a
+                id='view_plans_cta'
                 onClick={() => openPricingModal({trackingLocation: callerInfo})}
             >
                 {chunks}
             </a>),
 
     };
+
+    let featureToNotifyOn = '';
+    switch (highestLimit.id) {
+    case LimitTypes.messageHistory:
+        featureToNotifyOn = PaidFeatures.UNLIMITED_MESSAGES;
+        break;
+    case LimitTypes.fileStorage:
+        featureToNotifyOn = PaidFeatures.UNLIMITED_FILE_STORAGE;
+        break;
+    case LimitTypes.enabledIntegrations:
+        featureToNotifyOn = PaidFeatures.UNLIMITED_INTEGRATIONS;
+        break;
+    case LimitTypes.boardsCards:
+        featureToNotifyOn = PaidFeatures.UNLIMITED_BOARD_CARDS;
+        break;
+    default:
+        break;
+    }
 
     if (!isAdminUser && (usageRatio >= limitThresholds.danger || usageRatio >= limitThresholds.exceeded)) {
         values.callToAction = intl.formatMessage({
@@ -56,10 +76,13 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
         });
         values.a = (chunks: React.ReactNode | React.ReactNodeArray) => (
             <NotifyAdminCTA
-                callerInfo={callerInfo}
                 ctaText={chunks}
-            />
-        );
+                callerInfo={callerInfo}
+                notifyRequestData={{
+                    required_feature: featureToNotifyOn,
+                    required_plan: LicenseSkus.Professional,
+                    trial_notification: false}}
+            />);
     }
 
     switch (highestLimit.id) {
