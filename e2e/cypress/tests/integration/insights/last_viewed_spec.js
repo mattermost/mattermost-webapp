@@ -48,7 +48,7 @@ describe('Insights as last viewed channel', () => {
 
     it('MM-T4902_1 Should go to insights view when switching a team if that was the last view on that team', () => {
         // # Go to the Insights view on Team A
-        cy.uiGetSidebarInsightsButton().click();
+        cy.uiGetSidebarInsightsButton().click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Switch to Team B
         cy.get(`#${teamB.name}TeamButton`, {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
@@ -65,7 +65,7 @@ describe('Insights as last viewed channel', () => {
 
     it('MM-T4902_2 Should go to insights view when insights view is the penultimate view and leave the current channel', () => {
         // # Go to the Insights view on Team A
-        cy.uiGetSidebarInsightsButton().click();
+        cy.uiGetSidebarInsightsButton().click().wait(TIMEOUTS.FIVE_SEC);
 
         // # Switch to Test Channel
         cy.uiClickSidebarItem(testChannel.name);

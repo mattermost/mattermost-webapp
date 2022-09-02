@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @account_setting
 
 describe('Settings > Display > Message Display: Colorize username', () => {
@@ -53,7 +54,7 @@ describe('Settings > Display > Message Display: Colorize username', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
     });
 
-    it('MM-T4984_1 Message Display: colorize usernames option should not exist in Compact mode', () => {
+    it('MM-T4984_1 Message Display: colorize usernames option should not exist in Standard mode', () => {
         // # Select 'Standard' option
         cy.uiChangeMessageDisplaySetting();
 
@@ -112,7 +113,7 @@ describe('Settings > Display > Message Display: Colorize username', () => {
         });
     });
 
-    it('MM-T4984_3 Message Display: disabling colorize should revert to colors to normal color', () => {
+    it('MM-T4984_3 Message Display: disabling colorize should revert colors to normal color', () => {
         // # Select 'Compact' option
         cy.uiChangeMessageDisplaySetting('COMPACT');
 

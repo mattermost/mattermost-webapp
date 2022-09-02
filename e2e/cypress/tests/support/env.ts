@@ -1,6 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+export interface User {
+    username: string;
+    password: string;
+    email: string;
+}
+
 export function getAdminAccount() {
     return {
         username: Cypress.env('adminUsername'),
