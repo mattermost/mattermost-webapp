@@ -61,6 +61,7 @@ const EditedPostItem = ({post}: Props) => {
         />
     );
 
+    const overwriteName = post.props ? post.props.override_username : '';
     const postHeader = (
         <div className='edit-post__header'>
             <span className='profile-icon'>
@@ -71,6 +72,7 @@ const EditedPostItem = ({post}: Props) => {
                     userId={post.user_id}
                     hasMention={true}
                     disablePopover={true}
+                    overwriteName={overwriteName}
                 />
             </div>
         </div>
