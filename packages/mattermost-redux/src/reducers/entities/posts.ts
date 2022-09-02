@@ -1126,7 +1126,7 @@ function selectedPostId(state = '', action: GenericAction) {
 }
 
 function postEditHistory(state = [], action: GenericAction) {
-    return action.type === PostTypes.RECEIVED_POST_HISTORY ? action.data : state;
+    return action.type === PostTypes.RECEIVED_POST_HISTORY ? action.data.posts : state;
 }
 
 function currentFocusedPostId(state = '', action: GenericAction) {
