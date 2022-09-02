@@ -2250,7 +2250,6 @@
             flex-wrap: wrap;
             align-items: center;
             justify-content: space-between;
-            padding: 2px;
     
             .edit.post__date {
                 flex: 0 0 100%;
@@ -2276,10 +2275,6 @@
             color: rgba(var(--center-channel-text-rgb), 0.56);
             background-color: rgba(var(--denim-button-bg-rgb), 0.08);
         }
-    }
-
-    .edit-post__container__visible {
-        visibility: hidden;
     }
 }
 
