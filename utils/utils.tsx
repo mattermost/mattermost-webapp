@@ -907,10 +907,11 @@ export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstrac
     // the x coordinate in the viewport of the suggestion box border-right
     const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
 
-    // if the right-border edge of the suggestion box will overflow the x-axis viewport
     if (alignWithTextBox) {
+        // when the list should be aligned with the textbox just set this value to 0
         pxToTheRight = 0;
     } else if (xBoxRightCoordinate > viewportWidth) {
+        // if the right-border edge of the suggestion box will overflow the x-axis viewport
         // stick the suggestion list to the very right of the TextArea
         pxToTheRight = textAreaWidth - suggestionBoxWidth;
     }
