@@ -4,6 +4,11 @@
 import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {defineMessages, useIntl} from 'react-intl';
+import {useSelector} from 'react-redux';
+
+import {GlobalState} from 'types/store';
+
+import {suitePluginIds} from 'packages/client/src/client4';
 
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
@@ -87,6 +92,10 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
     const handleHide = useCallback(() => setShow(false), []);
 
     const isLinux = Utils.isLinux();
+
+    const isCallsEnabled = useSelector((state: GlobalState) => {
+        return Boolean(state.plugins.plugins[suitePluginIds.calls]);
+    });
 
     const renderShortcutSequences = (shortcuts: {[key: string]: KeyboardShortcutDescriptor}) => {
         return Object.entries(shortcuts).map(([key, shortcut]) => {
@@ -195,6 +204,7 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
                         </div>
 
                     </div>
+                    { isCallsEnabled &&
                     <div className='row'>
                         <div className='col-sm-4'>
                             <div className='section'>
@@ -219,6 +229,7 @@ const KeyboardShortcutsModal = ({onExited}: Props): JSX.Element => {
                             </div>
                         </div>
                     </div>
+                    }
                     <div className='info__label'>{formatMessage(modalMessages.info)}</div>
                 </Modal.Body>
             </div>
