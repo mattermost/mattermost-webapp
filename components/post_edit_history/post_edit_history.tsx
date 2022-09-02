@@ -3,8 +3,6 @@
 
 import React, {memo} from 'react';
 
-import styled from 'styled-components';
-
 import {useIntl} from 'react-intl';
 
 import {t} from 'utils/i18n';
@@ -12,14 +10,20 @@ import {t} from 'utils/i18n';
 import SearchResultsHeader from 'components/search_results_header';
 import {Post} from '@mattermost/types/posts';
 
+import LoadingScreen from 'components/loading_screen';
+
 import EditedPostItem from './edited_post_item';
 
 export interface Props {
     channelDisplayName: string;
+    originalPost: Post;
+    postEditHistory?: Post[];
 }
 
 const PostEditHistory = ({
     channelDisplayName,
+    originalPost,
+    postEditHistory,
 }: Props) => {
     const {formatMessage} = useIntl();
 
@@ -28,41 +32,32 @@ const PostEditHistory = ({
         defaultMessage: 'Edit History',
     });
 
-    const oldMessages = {
-        mes1: {
-            channel_id: 'dzk69t1zrjfkpgyceq9ihjzm8o',
-            create_at: 1661640548738,
-            delete_at: 0,
-            edit_at: 1661640552223,
-            hashtags: '',
-            id: 'ixj6urk1ifdbucx9j63j7ojk6h',
-            is_pinned: false,
-            last_reply_at: 0,
-            message: 'original message test lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum ',
-            metadata: {},
-            original_id: '',
-            participants: null,
-            pending_post_id: '',
-            props: {disable_group_highlight: true},
-            reply_count: 0,
-            root_id: '',
-            type: '',
-            update_at: 1661640552223,
-            user_id: '75f4ddithty1bft8sdy5cie14a',
-        } as unknown as Post,
-        mes2: {
-            message: 'message-2',
-            picture: 'pic-2',
-            user: 'user-2',
-            date: 'asd',
-        },
-        mes3: {
-            message: 'message-3',
-            picture: 'pic-3',
-            user: 'user-3',
-            date: 'asd',
-        },
-    };
+    if (!postEditHistory) {
+        return (
+            <span/>
+        );
+    }
+
+    if (postEditHistory.length === 0) {
+        return (
+            <LoadingScreen
+                style={{
+                    display: 'grid',
+                    placeContent: 'center',
+                    flex: '1',
+                }}
+            />
+        );
+    }
+
+    const postEditItems = postEditHistory.map((postEdit) => {
+        return (
+            <EditedPostItem
+                key={postEdit.id}
+                isCurrent={false}
+                post={postEdit}
+            />);
+    });
 
     return (
         <div
@@ -74,11 +69,10 @@ const PostEditHistory = ({
                 {<div className='sidebar--right__title__channel'>{channelDisplayName}</div>}
             </SearchResultsHeader>
             <EditedPostItem
-                post={oldMessages.mes1}
+                post={originalPost}
+                isCurrent={true}
             />
-            <EditedPostItem
-                post={oldMessages.mes1}
-            />
+            {postEditItems}
         </div>
     );
 };

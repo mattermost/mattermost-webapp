@@ -17,8 +17,6 @@ function mapStateToProps(state: GlobalState) {
     const post = getPost(state, selectedPostId);
     const postEditHistory = getPostEditHistory(state);
 
-    console.log('postEditHistory index: ', postEditHistory)
-
     return {
         channelDisplayName: getCurrentChannel(state).display_name,
         originalPost: post,

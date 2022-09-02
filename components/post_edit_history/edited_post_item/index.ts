@@ -3,18 +3,13 @@
 
 import {connect} from 'react-redux';
 
-import {getSelectedPostId} from 'selectors/rhs';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from 'types/store';
 
 import EditedPostItem from './edited_post_item';
 
 function mapStateToProps(state: GlobalState) {
-    const selectedPostId = getSelectedPostId(state) || '';
-    const post = getPost(state, selectedPostId);
-
     return {
-        post,
+        // todo sinan you should get restore button
     };
 }
 

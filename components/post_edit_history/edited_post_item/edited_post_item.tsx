@@ -21,17 +21,15 @@ import PostMessageContainer from 'components/post_view/post_message_view';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import UserProfileComponent from 'components/user_profile';
-import { useDispatch } from 'react-redux';
-import { getPostEditHistory } from 'mattermost-redux/actions/posts';
 
 type Props = {
     post: Post;
+    isCurrent: boolean;
 }
 
-const EditedPostItem = ({post}: Props) => {
+const EditedPostItem = ({post, isCurrent}: Props) => {
     const {formatMessage} = useIntl();
     const [open, setOpen] = useState(false);
-    const dispatch = useDispatch();
 
     if (!post) {
         return null;
@@ -48,16 +46,15 @@ const EditedPostItem = ({post}: Props) => {
 
     const handleRestore = () => {
         console.log('revert clicked');
-        dispatch(getPostEditHistory(post.id))
     };
 
     const togglePost = () => setOpen((prevState) => !prevState);
 
-    const currentVersionIndicator = (
+    const currentVersionIndicator = isCurrent ? (
         <div className='edit-post__current__indicator'>
             {currentVersionText}
         </div>
-    );
+    ) : undefined;
 
     const profileSrc = imageURLForUser(post.user_id);
 
@@ -107,7 +104,7 @@ const EditedPostItem = ({post}: Props) => {
     );
 
     // todo sinan show only in the old versions
-    const restoreButton = (
+    const restoreButton = isCurrent ? undefined : (
         <OverlayTrigger
             trigger={['hover', 'focus']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
