@@ -3,14 +3,26 @@
 
 import {connect} from 'react-redux';
 
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
+
+import {getSelectedPostId} from 'selectors/rhs';
+import {getPostEditHistory} from 'selectors/posts';
 
 import PostEditHistory from './post_edit_history';
 
 function mapStateToProps(state: GlobalState) {
+    const selectedPostId = getSelectedPostId(state) || '';
+    const post = getPost(state, selectedPostId);
+    const postEditHistory = getPostEditHistory(state);
+
+    console.log('postEditHistory index: ', postEditHistory)
+
     return {
         channelDisplayName: getCurrentChannel(state).display_name,
+        originalPost: post,
+        postEditHistory,
     };
 }
 
