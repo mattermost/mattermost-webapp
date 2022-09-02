@@ -410,6 +410,7 @@ export const ModalIdentifiers = {
     FORWARD_POST_MODAL: 'forward_post_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
+    SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
 };
 
 export const UserStatuses = {
@@ -446,6 +447,20 @@ export const CloudProducts = {
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
+};
+
+export const PaidFeatures = {
+    GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
+    CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
+    CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
+    START_CALL: 'mattermost.feature.start_call',
+    PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
+    UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
+    UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
+    UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
+    UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
+    ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
+    ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
 };
 
 export enum LicenseSkus {
@@ -1268,7 +1283,9 @@ export const Constants = {
     MAX_ADD_MEMBERS_BATCH: 256,
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    PLAN_MENTIONS: /Professional plan|Enterprise plan|Enterprise trial/gi,
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    SUM_OF_MEMBERS_MENTION_REGEX: /\d+ members/gi,
     ALL_MENTION_REGEX: /(?:\B|\b_+)@(all)(?!(\.|-|_)*[^\W_])/gi,
     CHANNEL_MENTION_REGEX: /(?:\B|\b_+)@(channel)(?!(\.|-|_)*[^\W_])/gi,
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
