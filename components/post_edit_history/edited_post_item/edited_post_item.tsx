@@ -21,6 +21,8 @@ import PostMessageContainer from 'components/post_view/post_message_view';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import UserProfileComponent from 'components/user_profile';
+import { useDispatch } from 'react-redux';
+import { getPostEditHistory } from 'mattermost-redux/actions/posts';
 
 type Props = {
     post: Post;
@@ -29,6 +31,7 @@ type Props = {
 const EditedPostItem = ({post}: Props) => {
     const {formatMessage} = useIntl();
     const [open, setOpen] = useState(false);
+    const dispatch = useDispatch();
 
     if (!post) {
         return null;
@@ -45,6 +48,7 @@ const EditedPostItem = ({post}: Props) => {
 
     const handleRestore = () => {
         console.log('revert clicked');
+        dispatch(getPostEditHistory(post.id))
     };
 
     const togglePost = () => setOpen((prevState) => !prevState);

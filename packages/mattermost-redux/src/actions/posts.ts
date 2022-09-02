@@ -1118,6 +1118,30 @@ export function getPostsByIds(ids: string[]) {
     };
 }
 
+export function getPostEditHistory(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let posts;
+
+        try {
+            posts = await Client4.getPostEditHistory(postId);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error));
+            return {error};
+        }
+
+        console.log('posts: ', posts)
+
+        // check if you need this
+        dispatch({
+            type: PostTypes.RECEIVED_POSTS,
+            data: {posts},
+        });
+
+        return {data: {posts}};
+    };
+}
+
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
     let usersByUsername: Record<string, UserProfile>; // Populate this lazily since it's relatively expensive
 
