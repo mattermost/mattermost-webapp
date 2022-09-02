@@ -3,6 +3,8 @@
 
 import {createSelector} from 'reselect';
 
+import {Post} from '@mattermost/types/posts';
+
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -19,6 +21,10 @@ export function getIsPostBeingEditedInRHS(state: GlobalState, postId: string) {
     const editingPost = getEditingPost(state);
 
     return editingPost.isRHS && editingPost.postId === postId && state.views.posts.editingPost.show;
+}
+
+export function getPostEditHistory(state: GlobalState): Post[] {
+    return state.entities.posts.postEditHistory;
 }
 
 export const getEditingPost = createSelector(

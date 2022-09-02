@@ -29,6 +29,7 @@ export default keyMirror({
 
     RECEIVED_POST: null,
     RECEIVED_NEW_POST: null,
+    RECEIVED_POST_HISTORY: null,
 
     RECEIVED_POSTS: null,
     RECEIVED_POSTS_AFTER: null,
