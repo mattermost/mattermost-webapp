@@ -30,12 +30,12 @@ const DATE_RANGES = [
 
 type Props = {
     post: Post;
-    isCurrent: boolean;
+    isCurrent?: boolean;
 }
 
-const EditedPostItem = ({post, isCurrent}: Props) => {
+const EditedPostItem = ({post, isCurrent = false}: Props) => {
     const {formatMessage} = useIntl();
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(isCurrent);
 
     if (!post) {
         return null;

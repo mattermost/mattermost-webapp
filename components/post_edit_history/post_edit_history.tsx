@@ -54,7 +54,6 @@ const PostEditHistory = ({
         return (
             <EditedPostItem
                 key={postEdit.id}
-                isCurrent={false}
                 post={postEdit}
             />);
     });
