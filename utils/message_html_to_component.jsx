@@ -26,6 +26,7 @@ import CodeBlock from 'components/code_block/code_block';
  * - imagesMetadata - the dimensions of the image as retrieved from post.metadata.images.
  * - hasPluginTooltips - If specified, the LinkTooltip component is placed inside links. Defaults to false.
  * - channelId = If specified, to be passed along to ProfilePopover via AtMention
+ * - originalId = If specified, it should be considered when rendering PostEditedIndicator
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
     if (!html) {
@@ -56,7 +57,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             replaceChildren: false,
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs['data-edited-post-id'] && node.attribs['data-edited-post-id'] === options.postId,
             processNode: () => {
-                return options.postId && options.editedAt > 0 ? (
+                return options.postId && options.editedAt > 0 && options.originalId ==='' ? (
                     <>
                         {' '}
                         <PostEditedIndicator

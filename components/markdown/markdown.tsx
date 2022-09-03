@@ -112,6 +112,11 @@ type Props = {
      */
     postType?: PostType;
     emojiMap: EmojiMap;
+
+    /**
+     * Original post id for the edited posts
+     */
+    originalId?: string;
 }
 
 export default class Markdown extends React.PureComponent<Props> {
@@ -126,6 +131,7 @@ export default class Markdown extends React.PureComponent<Props> {
 
     render() {
         const {postId, editedAt, message, enableFormatting} = this.props;
+        console.log('editedAt: ', editedAt)
         if (message === '' || !enableFormatting) {
             return (
                 <span>
@@ -164,6 +170,7 @@ export default class Markdown extends React.PureComponent<Props> {
             mentionHighlight: this.props.options.mentionHighlight,
             disableGroupHighlight: this.props.options.disableGroupHighlight,
             editedAt,
+            originalId: this.props.originalId,
         });
     }
 }
