@@ -105,4 +105,18 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         instance.enableToolTipIfNeeded();
         expect(instance.state.showTooltip).toBe(true);
     });
+
+    test('should not show ChannelMentionBadge when channel is muted', () => {
+        const props = {
+            ...baseProps,
+            unreadMentions: 2,
+            isMuted: true,
+        };
+
+        const wrapper = shallow(
+            <SidebarChannelLink {...props}/>,
+        );
+
+        expect(wrapper.find('ChannelMentionBadge').exists()).toBe(false);
+    });
 });
