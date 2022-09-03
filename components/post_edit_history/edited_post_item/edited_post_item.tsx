@@ -21,6 +21,12 @@ import PostMessageContainer from 'components/post_view/post_message_view';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import UserProfileComponent from 'components/user_profile';
+import Timestamp, {RelativeRanges} from 'components/timestamp';
+
+const DATE_RANGES = [
+    RelativeRanges.TODAY_TITLE_CASE,
+    RelativeRanges.YESTERDAY_TITLE_CASE,
+];
 
 type Props = {
     post: Post;
@@ -34,6 +40,8 @@ const EditedPostItem = ({post, isCurrent}: Props) => {
     if (!post) {
         return null;
     }
+
+    console.log('post: ', post)
 
     const formattedHelpText = formatMessage({
         id: t('post_info.edit.restore'),
@@ -133,6 +141,7 @@ const EditedPostItem = ({post, isCurrent}: Props) => {
     );
 
     const postContainerClass = classNames('edit-post__container', {'edit-post__container__background': open});
+    const timeStampValue = post.edit_at === 0 ? post.create_at : post.edit_at;
     return (
         <div className={postContainerClass}>
             <IconButton
@@ -153,8 +162,10 @@ const EditedPostItem = ({post, isCurrent}: Props) => {
                     aria-hidden='true'
                 >
                     <span className='edit-post__date'>
-                        {'Today, 10:37 AM'}
-                        {/* todo sinan replace with variable */}
+                        <Timestamp
+                            value={timeStampValue}
+                            ranges={DATE_RANGES}
+                        />
                     </span>
                     {restoreButton}
                 </div>
