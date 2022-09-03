@@ -241,9 +241,10 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                         channel={this.props.channel}
                     />
                 </div>
+                {!this.props.isMuted &&
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
-                />
+                />}
                 <SidebarChannelMenu
                     channel={channel}
                     isUnread={isUnread}
