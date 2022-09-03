@@ -158,6 +158,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                     ref={this.setOverlaynRef}
                     trigger={['click']}
                     placement={placement}
+                    rootClose={true}
                     overlay={
                         <ProfilePopover
                             className='user-profile-popover'
