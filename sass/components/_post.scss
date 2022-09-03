@@ -2251,8 +2251,8 @@
             align-items: center;
             justify-content: space-between;
     
-            .edit.post__date {
-                flex: 0 0 100%;
+            .edit-post__date {
+                flex-grow: 1;
                 font-weight: 400;
                 font-size: 14px;
                 line-height: 20px;
@@ -2261,6 +2261,7 @@
 
     .post {
         padding: 0;
+        width: 100%;
 
         &:not(.post--editing):not(.post--editing):hover {
             background-color: initial;

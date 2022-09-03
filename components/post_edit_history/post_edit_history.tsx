@@ -38,6 +38,7 @@ const PostEditHistory = ({
         );
     }
 
+    // todo sinan loading screen is not displayed on sidebar right but on the center channel
     if (postEditHistory.length === 0) {
         return (
             <LoadingScreen
