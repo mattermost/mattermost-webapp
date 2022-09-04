@@ -23,10 +23,17 @@ const BaseLoader = styled.div`
     background-color: rgba(var(--center-channel-color-rgb), 0.08);
 `;
 
-interface CircleSkeletonLoaderProps {
+export interface CircleSkeletonLoaderProps {
     size: number;
 }
 
+/**
+ * CircleSkeletonLoader is a component that renders a filled circle with a loading animation.
+ * It is used to indicate that the content is loading.
+ * @param props.size - The size of the circle
+ * @example
+ * <CircleSkeletonLoader size={20}/>
+ */
 export const CircleSkeletonLoader = styled(BaseLoader)<CircleSkeletonLoaderProps>`
     display: block;
     border-radius: 50%;
@@ -34,7 +41,7 @@ export const CircleSkeletonLoader = styled(BaseLoader)<CircleSkeletonLoaderProps
     width: ${(props) => props.size}px;
 `;
 
-interface RectangleSkeletonLoaderProps {
+export interface RectangleSkeletonLoaderProps {
     height: string;
     width?: string;
     borderRadius?: number;
@@ -42,6 +49,20 @@ interface RectangleSkeletonLoaderProps {
     flex?: string;
 }
 
+/**
+ * RectangleSkeletonLoader is a component that renders a filled rectangle with a loading animation.
+ * It is used to indicate that the content is loading.
+ * @param props.height - The height of the rectangle eg. '20px', '100%'
+ * @param props.width - The width of the rectangle eg. '20px', '100%'
+ * @param props.borderRadius - The border radius of the rectangle eg. 4
+ * @param props.margin - The margin of the rectangle eg. '0 10px', '10px 0 0 10px'
+ * @param props.flex - The flex short hand of flex grow, shrink, basis of the rectangle, under flex parent css eg. '1 1 auto'
+ * @default
+ * width: 100% , borderRadius: 8px
+ * @example
+ * <RectangleSkeletonLoader height='100px' />
+ * <RectangleSkeletonLoader height='100px' width='100px' borderRadius={4} margin='0 10px 0 0' flex='1' />
+ */
 export const RectangleSkeletonLoader = styled(BaseLoader)<RectangleSkeletonLoaderProps>`
     height: ${(props) => props.height};
     width: ${(props) => props?.width ?? '100%'};
