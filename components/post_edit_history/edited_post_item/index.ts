@@ -2,15 +2,31 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store';
+import {editPost} from 'actions/views/posts';
 
-import EditedPostItem from './edited_post_item';
+import {getSelectedPostId} from 'selectors/rhs';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import EditedPostItem, {Props} from './edited_post_item';
 
 function mapStateToProps(state: GlobalState) {
+    const selectedPostId = getSelectedPostId(state) || '';
+    const post = getPost(state, selectedPostId);
+
     return {
-        // todo sinan you should get restore button
+        originalPost: post,
     };
 }
 
-export default connect(mapStateToProps)(EditedPostItem);
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<any>, Props['actions']>({
+            editPost,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(EditedPostItem);

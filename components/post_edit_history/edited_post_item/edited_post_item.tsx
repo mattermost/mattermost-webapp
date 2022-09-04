@@ -28,12 +28,16 @@ const DATE_RANGES = [
     RelativeRanges.YESTERDAY_TITLE_CASE,
 ];
 
-type Props = {
+export type Props = {
     post: Post;
     isCurrent?: boolean;
+    originalPost: Post;
+    actions: {
+        editPost: (post: Post) => void;
+    };
 }
 
-const EditedPostItem = ({post, isCurrent = false}: Props) => {
+const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props) => {
     const {formatMessage} = useIntl();
     const [open, setOpen] = useState(isCurrent);
 
@@ -41,7 +45,7 @@ const EditedPostItem = ({post, isCurrent = false}: Props) => {
         return null;
     }
 
-    console.log('post: ', post)
+    console.log('post: ', post);
 
     const formattedHelpText = formatMessage({
         id: t('post_info.edit.restore'),
@@ -53,7 +57,20 @@ const EditedPostItem = ({post, isCurrent = false}: Props) => {
     });
 
     const handleRestore = () => {
-        console.log('revert clicked');
+        if (!originalPost || !post) {
+            return;
+        }
+
+        if (originalPost.message === post.message) {
+            return;
+        }
+
+        const updatedPost = {
+            message: post.message,
+            id: originalPost.id,
+            channel_id: originalPost.channel_id,
+        };
+        actions.editPost(updatedPost as Post);
     };
 
     const togglePost = () => setOpen((prevState) => !prevState);
