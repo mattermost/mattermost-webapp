@@ -34,6 +34,7 @@ export type Props = {
     originalPost: Post;
     actions: {
         editPost: (post: Post) => void;
+        closeRightHandSide: () => void;
     };
 }
 
@@ -44,8 +45,6 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     if (!post) {
         return null;
     }
-
-    console.log('post: ', post);
 
     const formattedHelpText = formatMessage({
         id: t('post_info.edit.restore'),
@@ -58,10 +57,12 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
 
     const handleRestore = () => {
         if (!originalPost || !post) {
+            actions.closeRightHandSide();
             return;
         }
 
         if (originalPost.message === post.message) {
+            actions.closeRightHandSide();
             return;
         }
 
@@ -71,6 +72,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             channel_id: originalPost.channel_id,
         };
         actions.editPost(updatedPost as Post);
+        actions.closeRightHandSide();
     };
 
     const togglePost = () => setOpen((prevState) => !prevState);

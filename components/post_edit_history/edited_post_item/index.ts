@@ -10,6 +10,8 @@ import {editPost} from 'actions/views/posts';
 import {getSelectedPostId} from 'selectors/rhs';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
+import {closeRightHandSide} from 'actions/views/rhs';
+
 import EditedPostItem, {Props} from './edited_post_item';
 
 function mapStateToProps(state: GlobalState) {
@@ -25,6 +27,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Props['actions']>({
             editPost,
+            closeRightHandSide,
         }, dispatch),
     };
 }
