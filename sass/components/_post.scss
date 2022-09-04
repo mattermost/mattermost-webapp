@@ -2187,10 +2187,10 @@
 }
 
 .view-history__text {
-    opacity: .56;
     font-size: 11px;
-    line-height: 16px;
     font-weight: 600;
+    line-height: 16px;
+    opacity: 0.56;
 }
 
 .post-message__text > ul,
@@ -2245,23 +2245,23 @@
     gap: 16px;
 
     .edit-post__date__container {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            align-items: center;
-            justify-content: space-between;
-    
-            .edit-post__date {
-                flex-grow: 1;
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 20px;
-            }
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+
+        .edit-post__date {
+            flex-grow: 1;
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+        }
     }
 
     .post {
-        padding: 0;
         width: 100%;
+        padding: 0;
 
         &:not(.post--editing):not(.post--editing):hover {
             background-color: initial;
@@ -2269,12 +2269,12 @@
     }
 
     .edit-post__icon__button {
-        color: rgba(var(--center-channel-text-rgb), 0.56);
         height: fit-content;
+        color: rgba(var(--center-channel-text-rgb), 0.56);
 
         &:hover {
-            color: rgba(var(--center-channel-text-rgb), 0.56);
             background-color: rgba(var(--denim-button-bg-rgb), 0.08);
+            color: rgba(var(--center-channel-text-rgb), 0.56);
         }
     }
 }
@@ -2289,9 +2289,9 @@
     align-items: center;
     
     .edit-post__header__username {
+        margin-left: 8px;
         font-weight: 600;
         text-overflow: ellipsis;
-        margin-left: 8px;
     }
 }
 
@@ -2299,12 +2299,12 @@
     display: flex;
     width: fit-content;
     padding: 1px 5px 2px;
-    color: var(--sidebar-text-active-color);
-    border-radius: 4px;
-    background-color: var(--denim-sidebar-active-border);
-    font-weight: 600;
-    font-size: 12px;
     margin-bottom: 4px;
+    background-color: var(--denim-sidebar-active-border);
+    border-radius: 4px;
+    color: var(--sidebar-text-active-color);
+    font-size: 12px;
+    font-weight: 600;
 }
 
 .post-list__dynamic {

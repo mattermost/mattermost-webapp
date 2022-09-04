@@ -2238,8 +2238,6 @@ export default class Client4 {
             route = `${this.getTeamRoute(teamId)}/posts/search`;
         }
 
-        console.log('reoute search: ', route)
-
         return this.doFetch<PostSearchResults>(
             route,
             {method: 'post', body: JSON.stringify(params)},

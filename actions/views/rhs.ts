@@ -595,7 +595,6 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
         if (previous.searchVisible) {
             return showSearchResults()(dispatch, getState);
         }
-        // todo sinan check if you need to add edit history
 
         return openRHSSearch()(dispatch);
     };
