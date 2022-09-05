@@ -10,12 +10,8 @@ import {Post} from '@mattermost/types/posts';
 type Props = {
     post: Post;
     actions: {
-        handleRestore: (post: Post) => Promise<{ data: boolean }>;
+        handleRestore: (post: Post) => void;
     };
-}
-
-type State = {
-    show: boolean;
 }
 
 const RestorePostModal = ({post, actions}: Props) => {
@@ -23,10 +19,8 @@ const RestorePostModal = ({post, actions}: Props) => {
     const [show, setShow] = useState(true);
 
     const handleRestore = async () => {
-        const result = await actions.handleRestore(post);
-        if (result.data) {
-            onHide();
-        }
+        await actions.handleRestore(post);
+        onHide();
     };
 
     const handleEntered = () => restorePostBtn?.current?.focus();
@@ -86,4 +80,6 @@ const RestorePostModal = ({post, actions}: Props) => {
             </Modal.Footer>
         </Modal>
     );
-}
+};
+
+export default RestorePostModal;

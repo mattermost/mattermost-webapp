@@ -35,7 +35,7 @@ export type Props = {
     isCurrent?: boolean;
     originalPost: Post;
     actions: {
-        editPost: (post: Post) => void;
+        editPost: (post: Post) => Promise<{data: Post}>;
         closeRightHandSide: () => void; // todo sinan closing rhs should also clear editHistory
         openModal: <P>(modalData: ModalData<P>) => void;
     };
@@ -58,7 +58,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         defaultMessage: 'Current Version',
     });
 
-    const handleRestore = () => {
+    const handleRestore = async () => {
         if (!originalPost || !post) {
             actions.closeRightHandSide();
             return;
@@ -74,7 +74,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             id: originalPost.id,
             channel_id: originalPost.channel_id,
         };
-        actions.editPost(updatedPost as Post);
+        const result = await actions.editPost(updatedPost as Post);
         actions.closeRightHandSide();
     };
 
