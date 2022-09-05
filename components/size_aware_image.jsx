@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {DownloadOutlineIcon, LinkVariantIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
+import GifPlayer from 'react-gif-player';
+
 import {localizeMessage, copyToClipboard} from 'utils/utils';
 import {t} from 'utils/i18n';
 import LoadingImagePreview from 'components/loading_image_preview';
@@ -94,8 +96,10 @@ export default class SizeAwareImage extends React.PureComponent {
                 dimensions.width, dimensions.height) : false,
             linkCopiedRecently: false,
             linkCopyInProgress: false,
+            isPlaying: false,
         };
 
+        this.pauseGif = React.createRef();
         this.heightTimeout = 0;
     }
 
@@ -186,22 +190,46 @@ export default class SizeAwareImage extends React.PureComponent {
             ariaLabelImage += ` ${fileInfo.name}`.toLowerCase();
         }
 
-        const image = (
-            <img
-                {...props}
-                aria-label={ariaLabelImage}
-                tabIndex='0'
-                onClick={this.handleImageClick}
-                onKeyDown={this.onEnterKeyDown}
-                className={
-                    this.props.className +
-                        (this.props.handleSmallImageContainer &&
-                            this.state.isSmallImage ? ' small-image--inside-container' : '')}
-                src={src}
-                onError={this.handleError}
-                onLoad={this.handleLoad}
-            />
-        );
+        let image;
+        if (this.props.autoplayGifAndEmojis === 'true') {
+            image = (
+                <img
+                    aria-label={ariaLabelImage}
+                    tabIndex='0'
+                    onClick={this.handleImageClick}
+                    onKeyDown={this.onEnterKeyDown}
+                    className={
+                        this.props.className +
+                    (this.props.handleSmallImageContainer &&
+                        this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                    src={src}
+                    onError={this.handleError}
+                    onLoad={this.handleLoad}
+                />
+            );
+        } else {
+            image = (
+                <div
+                    aria-label={ariaLabelImage}
+                    tabIndex='0'
+                    className={
+                        this.props.className +
+                    (this.props.handleSmallImageContainer &&
+                        this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                    onLoad={this.handleLoad}
+                    onClick={(!src.includes('/files') && !src.includes('/image?url')) ? this.handleImageClick : undefined}
+                >
+                    <GifPlayer
+                        gif={src}
+                        pauseRef={(pause) => {
+                            this.pauseGif = pause;
+                        }}
+                        onTogglePlay={(isPlaying) => this.setState({isPlaying})}
+                        autoplay={false}
+                    />
+                </div>
+            );
+        }
 
         // copyLink, download are two buttons overlayed on image preview
         // copyLinkTooltip, downloadTooltip are tooltips for the buttons respectively.

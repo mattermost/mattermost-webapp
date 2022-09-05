@@ -117,12 +117,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
 
         const {has_preview_image: hasPreviewImage, id} = fileInfo;
         const fileURL = getFileUrl(id);
-        let previewURL;
-        if (this.props.autoplayGifAndEmojis === 'true') {
-            previewURL = hasPreviewImage ? getFilePreviewUrl(id) : fileURL;
-        } else {
-            previewURL = getFilePreviewUrl(fileInfo.id);
-        }
+        const previewURL = hasPreviewImage ? getFilePreviewUrl(id) : fileURL;
         const previewHeight = fileInfo.height;
         const previewWidth = fileInfo.width;
 

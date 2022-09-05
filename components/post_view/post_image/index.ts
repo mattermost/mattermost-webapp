@@ -6,8 +6,17 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {openModal} from 'actions/views/modals';
 
+import {GlobalState} from 'types/store';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'utils/constants';
+
 import PostImage from './post_image';
 
+function mapStateToProps(state: GlobalState) {
+    return {
+        autoplayGifAndEmojis: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+    };
+}
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
@@ -16,6 +25,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 export default connector(PostImage);

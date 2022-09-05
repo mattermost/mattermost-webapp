@@ -20,6 +20,7 @@ interface Props {
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
+    autoplayGifAndEmojis?: string;
 }
 
 export default class PostImage extends React.PureComponent<Props> {
@@ -57,6 +58,7 @@ export default class PostImage extends React.PureComponent<Props> {
                                 dimensions={this.props.imageMetadata}
                                 showLoader={true}
                                 onClick={this.showModal}
+                                autoplayGifAndEmojis={this.props.autoplayGifAndEmojis}
                             />
                         </React.Fragment>
                     )}

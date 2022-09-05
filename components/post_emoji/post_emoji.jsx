@@ -39,7 +39,7 @@ export default class PostEmoji extends React.PureComponent {
             );
         }
         return (
-            <span
+            <div
                 className='emoticon'
                 alt={emojiText}
                 title={emojiText}
@@ -52,7 +52,7 @@ export default class PostEmoji extends React.PureComponent {
                     onTogglePlay={(isPlaying) => this.setState({isPlaying})}
                     autoplay={false}
                 />
-            </span>
+            </div>
         );
     }
 }

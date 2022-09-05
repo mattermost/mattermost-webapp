@@ -22,6 +22,7 @@ describe('components/SizeAwareImage', () => {
             name: 'photo-1533709752211-118fcaf03312',
         },
         enablePublicLink: true,
+        autoplayGifAndEmojis: 'true',
     };
 
     test('should render an svg when first mounted with dimensions and img display set to none', () => {
@@ -147,7 +148,9 @@ describe('components/SizeAwareImage', () => {
 
         wrapper.instance().setState({isSmallImage: true, imageWidth: 24});
 
-        expect(wrapper.find('img').prop('className')).toBe(`${props.className} small-image--inside-container`);
+        if (props.autoplayGifAndEmojis === 'true') {
+            expect(wrapper.find('img').prop('className')).toBe(`${props.className} small-image--inside-container`);
+        }
     });
 
     test('should load download and copy link buttons when an image is mounted', () => {
