@@ -46,11 +46,11 @@ type Props = {
     teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
-    handleCommentClick: React.EventHandler<any>;
+    handleCommentClick?: React.EventHandler<any>;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
     isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
@@ -121,7 +121,6 @@ type Props = {
     userId: string;
     threadId: UserThread['id'];
     isCollapsedThreadsEnabled: boolean;
-    isPostForwardingEnabled?: boolean;
     isFollowingThread?: boolean;
     isMentionedInRootPost?: boolean;
     threadReplyCount?: number;
@@ -331,7 +330,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     handleCommentClick = (e: ChangeEvent) => {
         trackDotMenuEvent(e, TELEMETRY_LABELS.REPLY);
-        this.props.handleCommentClick(e);
+        this.props.handleCommentClick?.(e);
     }
 
     tooltip = (
@@ -467,7 +466,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
         const fromWebhook = this.props.post.props?.from_webhook === 'true';
         const fromBot = this.props.post.props?.from_bot === 'true';
-        this.canPostBeForwarded = Boolean(this.props.isPostForwardingEnabled && !(fromWebhook || fromBot || isSystemMessage));
+        this.canPostBeForwarded = !(fromWebhook || fromBot || isSystemMessage);
 
         const forwardPostItemText = (
             <span className={'title-with-new-badge'}>

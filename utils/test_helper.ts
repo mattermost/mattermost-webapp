@@ -15,6 +15,8 @@ import {CustomEmoji} from '@mattermost/types/emojis';
 import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -305,6 +307,7 @@ export class TestHelper {
             width: 350,
             height: 200,
             clientId: 'client_id',
+            archived: false,
         };
         return Object.assign({}, defaultFileInfo, override);
     }
@@ -388,5 +391,17 @@ export class TestHelper {
             Cloud: 'true',
             ...override,
         };
+    }
+    public static getPreferencesMock(override: Array<{category: string; name: string; value: string}> = [], userId = ''): { [x: string]: PreferenceType } {
+        const preferences: { [x: string]: PreferenceType } = {};
+        override.forEach((p) => {
+            preferences[getPreferenceKey(p.category, p.name)] = {
+                category: p.category,
+                name: p.name,
+                value: p.value,
+                user_id: userId,
+            };
+        });
+        return preferences;
     }
 }

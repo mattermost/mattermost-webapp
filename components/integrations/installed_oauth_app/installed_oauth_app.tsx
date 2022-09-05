@@ -10,7 +10,7 @@ import {Team} from '@mattermost/types/teams';
 
 import * as Utils from 'utils/utils';
 import FormError from 'components/form_error';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import CopyText from 'components/copy_text';
 
 import DeleteIntegrationLink from '../delete_integration_link';
