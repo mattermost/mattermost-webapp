@@ -2279,6 +2279,42 @@
     }
 }
 
+.edit-post__restore__modal__header {
+    text-align: center;
+    padding: 48px 32px 12px 32px;
+
+    span {
+        font-size: 22px;
+        font-weight: 600;
+    }
+}
+
+.edit-post__restore__modal__content {
+    padding: 0 32px 28px 32px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.edit-post__restore__modal__footer {
+    padding-bottom: 48px;
+    text-align: center;
+    border-top: none;
+
+    button {
+        border-radius: 4px;
+        padding: 12px 20px;
+        font-size: 14px;
+        line-height: 14px;
+        font-weight: 600;
+        margin: 0 4px;
+    }
+    .cancel-button {
+        background-color: rgba(var(--denim-button-bg-rgb), 0.08);
+        color: var(--denim-button-bg-rgb);
+    }
+}
+
 .edit-post__container__background {
     background-color: rgba(var(--denim-button-bg-rgb), 0.04);
 }

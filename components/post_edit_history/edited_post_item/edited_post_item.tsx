@@ -10,7 +10,7 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {Post} from '@mattermost/types/posts';
 
-import Constants from 'utils/constants';
+import Constants, {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {imageURLForUser} from 'utils/utils';
 
@@ -22,6 +22,8 @@ import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import UserProfileComponent from 'components/user_profile';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
+import {ModalData} from 'types/actions';
+import RestorePostModal from '../restore_post_modal/restore_post_modal';
 
 const DATE_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
@@ -35,6 +37,7 @@ export type Props = {
     actions: {
         editPost: (post: Post) => void;
         closeRightHandSide: () => void; // todo sinan closing rhs should also clear editHistory
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 
@@ -73,8 +76,19 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             id: originalPost.id,
             channel_id: originalPost.channel_id,
         };
-        actions.editPost(updatedPost as Post);
-        actions.closeRightHandSide();
+        const restorePostModalData = {
+            modalId: ModalIdentifiers.RESTORE_POST_MODAL,
+            dialogType: RestorePostModal,
+            dialogProps: {
+                post,
+                isRHS: true,
+                ...actions,
+            },
+        };
+
+        actions.openModal(restorePostModalData);
+        // actions.editPost(updatedPost as Post);
+        // actions.closeRightHandSide();
     };
 
     const togglePost = () => setOpen((prevState) => !prevState);

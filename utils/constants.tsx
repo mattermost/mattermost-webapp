@@ -411,6 +411,7 @@ export const ModalIdentifiers = {
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    RESTORE_POST_MODAL: 'restore_post',
 };
 
 export const UserStatuses = {

@@ -4370,6 +4370,7 @@
   "request_business_email_modal.not_business_email": "This doesn't look like a business email",
   "request_business_email_modal.valid_business_email": "This is a valid email",
   "request_business_email.start_trial.modal.disclaimer": "By selecting <highlight>“Start trial”</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.",
+  "restore_post.title": "Restore this message?",
   "restricted_indicator.tooltip.mesage": "During your trial you are able to use this feature.",
   "restricted_indicator.tooltip.message.blocked": "This is a paid feature, available with a free {trialLength}-day trial",
   "restricted_indicator.tooltip.title": "Professional feature",

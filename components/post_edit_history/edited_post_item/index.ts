@@ -11,6 +11,7 @@ import {getSelectedPostId} from 'selectors/rhs';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {closeRightHandSide} from 'actions/views/rhs';
+import {openModal} from 'actions/views/modals';
 
 import EditedPostItem, {Props} from './edited_post_item';
 
@@ -28,6 +29,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Props['actions']>({
             editPost,
             closeRightHandSide,
+            openModal,
         }, dispatch),
     };
 }
