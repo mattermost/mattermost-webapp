@@ -4,6 +4,9 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
+import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+
 import {Client4} from 'mattermost-redux/client';
 import {General} from '../constants';
 import {ChannelTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
@@ -16,10 +19,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-
-import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
-
-import {UserProfile} from '@mattermost/types/users';
 
 import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
 
@@ -111,7 +110,7 @@ export function getMyTeamUnreads(collapsedThreads: boolean, skipCurrentTeam = fa
     };
 }
 
-export function getTeam(teamId: string): ActionFunc {
+export function getTeam(teamId: string): ActionFunc<Team> {
     return bindClientFunc({
         clientFunc: Client4.getTeam,
         onSuccess: TeamTypes.RECEIVED_TEAM,
@@ -121,7 +120,7 @@ export function getTeam(teamId: string): ActionFunc {
     });
 }
 
-export function getTeamByName(teamName: string): ActionFunc {
+export function getTeamByName(teamName: string): ActionFunc<Team> {
     return bindClientFunc({
         clientFunc: Client4.getTeamByName,
         onSuccess: TeamTypes.RECEIVED_TEAM,

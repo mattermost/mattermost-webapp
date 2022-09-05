@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {lazy, useEffect, useRef, useState} from 'react';
 import {Route, Switch, useHistory, useParams} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
@@ -19,13 +19,13 @@ import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 
 import {makeAsyncComponent} from 'components/async_load';
 import ChannelController from 'components/channel_layout/channel_controller';
-import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
 import type {OwnProps, PropsFromRedux} from './index';
 
-const BackstageController = makeAsyncComponent('BackstageController', React.lazy(() => import('components/backstage')));
+const BackstageController = makeAsyncComponent('BackstageController', lazy(() => import('components/backstage')));
+const Pluggable = makeAsyncComponent('Pluggable', lazy(() => import('plugins/pluggable')));
 
 const WAKEUP_CHECK_INTERVAL = 30000; // 30 seconds
 const WAKEUP_THRESHOLD = 60000; // 60 seconds
@@ -38,19 +38,6 @@ declare global {
 }
 
 type Props = PropsFromRedux & OwnProps;
-
-function getTeamFromTeamParam(teamsList: Props['teamsList'], teamParam: Props['match']['params']['team']) {
-    if (!teamParam) {
-        return null;
-    }
-
-    const team = teamsList?.find((teamInList) => teamInList.name === teamParam) ?? null;
-    if (!team) {
-        return null;
-    }
-
-    return team;
-}
 
 export default function TeamController(props: Props) {
     const history = useHistory();
@@ -68,12 +55,12 @@ export default function TeamController(props: Props) {
         }
         if (props.currentChannelId) {
             window.isActive = true;
-            props.actions.markChannelAsReadOnFocus(props.currentChannelId);
+            props.markChannelAsReadOnFocus(props.currentChannelId);
         }
 
         const currentTime = (new Date()).getTime();
         if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
-            props.actions.fetchMyChannelsAndMembers(props.currentTeamId);
+            props.fetchMyChannelsAndMembers(props.currentTeamId);
         }
     }
 
@@ -82,7 +69,7 @@ export default function TeamController(props: Props) {
         blurTime.current = new Date().getTime();
 
         if (props.currentUser) {
-            props.actions.viewChannel('');
+            props.viewChannel('');
         }
     }
 
@@ -108,7 +95,7 @@ export default function TeamController(props: Props) {
     // Effect runs on mount, have logic for fetching channels and wake up
     useEffect(() => {
         startPeriodicStatusUpdates();
-        props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
+        props.fetchAllMyTeamsChannelsAndChannelMembers();
 
         const wakeUpIntervalId = setInterval(() => {
             const currentTime = (new Date()).getTime();
@@ -162,15 +149,15 @@ export default function TeamController(props: Props) {
     }, []);
 
     async function joinTeam(firstLoad = false): Promise<Team |null> {
-        // skip reserved teams
+        // skip reserved team names
         if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
             return null;
         }
 
         try {
-            const {data: teamByName} = await props.actions.getTeamByName(teamNameParam);
+            const {data: teamByName} = await props.getTeamByName(teamNameParam);
             if (teamByName && teamByName.delete_at === 0) {
-                const {error} = await props.actions.addUserToTeam(teamByName.id, props.currentUser && props.currentUser.id);
+                const {error} = await props.addUserToTeam(teamByName.id, props.currentUser && props.currentUser.id);
                 if (error) {
                     return null;
                 }
@@ -190,34 +177,34 @@ export default function TeamController(props: Props) {
     async function initTeam(team: Team) {
         // If current team is set, then this is not first load
         // The first load action pulls team unreads
-        props.actions.getMyTeamUnreads(props.collapsedThreads);
-        props.actions.selectTeam(team);
-        props.actions.setPreviousTeamId(team.id);
+        props.getMyTeamUnreads(props.collapsedThreads);
+        props.selectTeam(team);
+        props.setPreviousTeamId(team.id);
 
         if (props.currentUser && isGuest(props.currentUser.roles)) {
             setIsFetchingChannels(true);
         }
 
-        await props.actions.fetchMyChannelsAndMembers(team.id);
+        await props.fetchMyChannelsAndMembers(team.id);
         setIsFetchingChannels(false);
 
-        props.actions.loadStatusesForChannelAndSidebar();
+        props.loadStatusesForChannelAndSidebar();
 
         if (props.license &&
             props.license.IsLicensed === 'true' &&
             (props.license.LDAPGroups === 'true' || props.isCustomGroupsEnabled)) {
             if (props.currentUser) {
-                props.actions.getGroupsByUserIdPaginated(props.currentUser.id, false, 0, 60, true);
+                props.getGroupsByUserIdPaginated(props.currentUser.id, false, 0, 60, true);
             }
 
             if (props.license.LDAPGroups === 'true') {
-                props.actions.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
+                props.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
             }
 
             if (team.group_constrained && props.license.LDAPGroups === 'true') {
-                props.actions.getAllGroupsAssociatedToTeam(team.id, true);
+                props.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
-                props.actions.getGroups(false, 0, 60);
+                props.getGroups(false, 0, 60);
             }
         }
     }
@@ -292,4 +279,17 @@ export default function TeamController(props: Props) {
             />
         </Switch>
     );
+}
+
+function getTeamFromTeamParam(teamsList: Props['teamsList'], teamParam: Props['match']['params']['team']) {
+    if (!teamParam) {
+        return null;
+    }
+
+    const team = teamsList?.find((teamInList) => teamInList.name === teamParam) ?? null;
+    if (!team) {
+        return null;
+    }
+
+    return team;
 }

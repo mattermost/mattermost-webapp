@@ -5,7 +5,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import * as channelActions from 'mattermost-redux/actions/channels';
 import * as userActions from 'mattermost-redux/actions/users';
 
-import * as Actions from 'actions/team_actions.jsx';
+import * as Actions from 'actions/team_actions';
 
 import configureStore from 'tests/test_store';
 
