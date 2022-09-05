@@ -59,8 +59,6 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     });
 
     const handleRestore = () => {
-        // todo sinan close confirmation modal like this
-        // https://github.com/mattermost/mattermost-webapp/blob/c04fe2c48fa66388407026a32d525a9751a15e2c/components/delete_post_modal/delete_post_modal.tsx
         if (!originalPost || !post) {
             actions.closeRightHandSide();
             return;
@@ -76,19 +74,24 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             id: originalPost.id,
             channel_id: originalPost.channel_id,
         };
+        actions.editPost(updatedPost as Post);
+        actions.closeRightHandSide();
+    };
+
+    const openRestorePostModal = () => {
         const restorePostModalData = {
             modalId: ModalIdentifiers.RESTORE_POST_MODAL,
             dialogType: RestorePostModal,
             dialogProps: {
                 post,
                 isRHS: true,
-                ...actions,
+                actions: {
+                    handleRestore,
+                },
             },
         };
 
         actions.openModal(restorePostModalData);
-        // actions.editPost(updatedPost as Post);
-        // actions.closeRightHandSide();
     };
 
     const togglePost = () => setOpen((prevState) => !prevState);
@@ -167,7 +170,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             <IconButton
                 size={'sm'}
                 icon={'refresh'} // todo sinan find the correct icon
-                onClick={handleRestore}
+                onClick={openRestorePostModal}
                 compact={true}
                 aria-label='Select to restore an old message.' // todo proper wording and translation needed
                 className='edit-post__icon__button'
