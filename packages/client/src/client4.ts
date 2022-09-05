@@ -1276,7 +1276,7 @@ export default class Client4 {
     };
 
     getTeamMembers = (teamId: string, page = 0, perPage = PER_PAGE_DEFAULT, options: GetTeamMembersOpts) => {
-        return this.doFetch<TeamMembership>(
+        return this.doFetch<TeamMembership[]>(
             `${this.getTeamMembersRoute(teamId)}${buildQueryString({page, per_page: perPage, ...options})}`,
             {method: 'get'},
         );
