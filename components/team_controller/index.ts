@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
-import {withRouter} from 'react-router-dom';
+import {connect, ConnectedProps} from 'react-redux';
+import {RouteComponentProps} from 'react-router-dom';
 
 import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
@@ -13,26 +12,28 @@ import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getMyTeams} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
-import {Action} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import {setPreviousTeamId} from 'actions/local_storage';
 import {getPreviousTeamId} from 'selectors/local_storage';
 import {shouldShowAppBar} from 'selectors/plugins';
+import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+
+import {setPreviousTeamId} from 'actions/local_storage';
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
-import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
+
 import {checkIfMFARequired} from 'utils/route';
 
-import NeedsTeam from './needs_team';
+import TeamController from './team_controller';
 
-type OwnProps = {
-    match: {
-        url: string;
-    };
+type Params = {
+    url: string;
+    team: string;
 }
+
+export type OwnProps = RouteComponentProps<Params>;
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const license = getLicense(state);
@@ -57,25 +58,25 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch) {
-    return {
-        actions: bindActionCreators<ActionCreatorsMapObject<Action>, any>({
-            fetchMyChannelsAndMembers,
-            fetchAllMyTeamsChannelsAndChannelMembers,
-            getMyTeamUnreads,
-            viewChannel,
-            markChannelAsReadOnFocus,
-            getTeamByName,
-            addUserToTeam,
-            setPreviousTeamId,
-            selectTeam,
-            loadStatusesForChannelAndSidebar,
-            getAllGroupsAssociatedToChannelsInTeam,
-            getAllGroupsAssociatedToTeam,
-            getGroupsByUserIdPaginated,
-            getGroups,
-        }, dispatch),
-    };
-}
+const mapDispatchToProps = {
+    fetchMyChannelsAndMembers,
+    fetchAllMyTeamsChannelsAndChannelMembers,
+    getMyTeamUnreads,
+    viewChannel,
+    markChannelAsReadOnFocus,
+    getTeamByName,
+    addUserToTeam,
+    setPreviousTeamId,
+    selectTeam,
+    loadStatusesForChannelAndSidebar,
+    getAllGroupsAssociatedToChannelsInTeam,
+    getAllGroupsAssociatedToTeam,
+    getGroupsByUserIdPaginated,
+    getGroups,
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NeedsTeam));
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(TeamController);

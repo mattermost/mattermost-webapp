@@ -8,7 +8,7 @@ import {TeamType} from '@mattermost/types/teams';
 
 import {TestHelper} from 'utils/test_helper';
 
-import NeedsTeam from 'components/needs_team/needs_team';
+import TeamController from 'components/team_controller/team_controller';
 
 jest.mock('actions/global_actions', () => ({
     emitCloseRightHandSide: jest.fn(),
@@ -32,7 +32,7 @@ jest.mock('utils/utils', () => ({
     makeIsEligibleForClick: jest.fn(),
 }));
 
-describe('components/needs_team', () => {
+describe('components/team_controller', () => {
     const history = {
         push: jest.fn(),
     };
@@ -126,8 +126,8 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, fetchMyChannelsAndMembers};
         const props = {...baseProps, actions: newActions, match: existingTeamMatch};
 
-        const wrapper = shallow<NeedsTeam>(
-            <NeedsTeam {...props}/>,
+        const wrapper = shallow<TeamController>(
+            <TeamController {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
         fetchMyChannelsAndMembers().then(() => {
@@ -141,8 +141,8 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow<NeedsTeam>(
-            <NeedsTeam {...props}/>,
+        const wrapper = shallow<TeamController>(
+            <TeamController {...props}/>,
         );
         expect(wrapper.state().team).toEqual(null);
         await wrapper.instance().joinTeam(props);
@@ -154,8 +154,8 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow<NeedsTeam>(
-            <NeedsTeam {...props}/>,
+        const wrapper = shallow<TeamController>(
+            <TeamController {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
@@ -169,8 +169,8 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, addUserToTeam, getTeamByName};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow<NeedsTeam>(
-            <NeedsTeam {...props}/>,
+        const wrapper = shallow<TeamController>(
+            <TeamController {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
@@ -188,8 +188,8 @@ describe('components/needs_team', () => {
         const newActions = {...baseProps.actions, getMyTeamUnreads, addUserToTeam, selectTeam, setPreviousTeamId};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow<NeedsTeam>(
-            <NeedsTeam {...props}/>,
+        const wrapper = shallow<TeamController>(
+            <TeamController {...props}/>,
         );
 
         expect(wrapper.state().team).toEqual(null);
@@ -242,8 +242,8 @@ describe('components/needs_team', () => {
             match: existingTeamMatch,
         };
 
-        shallow<NeedsTeam>(
-            <NeedsTeam {...props}/>,
+        shallow<TeamController>(
+            <TeamController {...props}/>,
         );
         expect(getGroupsByUserIdPaginated).toHaveBeenCalledTimes(1);
     });
@@ -268,8 +268,8 @@ describe('components/needs_team', () => {
             match: existingTeamMatch,
         };
 
-        shallow<NeedsTeam>(
-            <NeedsTeam {...props}/>,
+        shallow<TeamController>(
+            <TeamController {...props}/>,
         );
         expect(getGroupsByUserIdPaginated).toHaveBeenCalledTimes(0);
     });
