@@ -20,6 +20,7 @@ export interface Props {
     postEditHistory?: Post[];
 }
 
+// todo sinan: make this component scrollable similar to search results
 const PostEditHistory = ({
     channelDisplayName,
     originalPost,

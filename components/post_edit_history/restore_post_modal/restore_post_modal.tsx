@@ -1,22 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useRef, useState } from 'react';
+import React, {useRef} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import {useSelector} from 'react-redux';
+
 import {Post} from '@mattermost/types/posts';
+import {isModalOpen} from 'selectors/views/modals';
+import {GlobalState} from 'types/store';
+import {ModalIdentifiers} from 'utils/constants';
 
 type Props = {
     post: Post;
     actions: {
         handleRestore: (post: Post) => void;
+        closeModal: (modalId: string) => void;
     };
 }
 
 const RestorePostModal = ({post, actions}: Props) => {
     const restorePostBtn = useRef<HTMLButtonElement>(null);
-    const [show, setShow] = useState(true);
+    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.RESTORE_POST_MODAL));
 
     const handleRestore = async () => {
         await actions.handleRestore(post);
@@ -25,7 +31,7 @@ const RestorePostModal = ({post, actions}: Props) => {
 
     const handleEntered = () => restorePostBtn?.current?.focus();
 
-    const onHide = () => setShow(false);
+    const onHide = () => actions.closeModal(ModalIdentifiers.RESTORE_POST_MODAL);
 
     return (
         <Modal

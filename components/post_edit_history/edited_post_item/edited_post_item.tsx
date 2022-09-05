@@ -38,6 +38,7 @@ export type Props = {
         editPost: (post: Post) => Promise<{data: Post}>;
         closeRightHandSide: () => void; // todo sinan closing rhs should also clear editHistory
         openModal: <P>(modalData: ModalData<P>) => void;
+        closeModal: (modalId: string) => void;
     };
 }
 
@@ -84,12 +85,13 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             dialogType: RestorePostModal,
             dialogProps: {
                 post,
-                isRHS: true,
                 actions: {
                     handleRestore,
+                    closeModal: actions.closeModal,
                 },
             },
         };
+        console.log('openRestorePostModal clicked: ', openRestorePostModal);
 
         actions.openModal(restorePostModalData);
     };
