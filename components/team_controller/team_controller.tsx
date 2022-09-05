@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Route, Switch, useHistory, useParams} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
@@ -59,8 +59,8 @@ export default function TeamController(props: Props) {
     const [team, setTeam] = useState<Team | null>(getTeamFromTeamParam(props.teamsList, teamNameParam));
     const [isFetchingChannels, setIsFetchingChannels] = useState(true);
 
-    let blurTime = new Date().getTime();
-    let lastTime = Date.now();
+    const blurTime = useRef(new Date().getTime());
+    const lastTime = useRef(Date.now());
 
     function handleFocus() {
         if (props.selectedThreadId) {
@@ -70,14 +70,17 @@ export default function TeamController(props: Props) {
             window.isActive = true;
             props.actions.markChannelAsReadOnFocus(props.currentChannelId);
         }
-        if (Date.now() - blurTime > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
+
+        const currentTime = (new Date()).getTime();
+        if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
             props.actions.fetchMyChannelsAndMembers(props.currentTeamId);
         }
     }
 
     function handleBlur() {
         window.isActive = false;
-        blurTime = new Date().getTime();
+        blurTime.current = new Date().getTime();
+
         if (props.currentUser) {
             props.actions.viewChannel('');
         }
@@ -102,33 +105,50 @@ export default function TeamController(props: Props) {
         }
     }
 
-    const wakeUpInterval = window.setInterval(() => {
-        const currentTime = (new Date()).getTime();
-        if (currentTime > (lastTime + WAKEUP_THRESHOLD)) { // ignore small delays
-            console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
-            reconnect(false);
-        }
-        lastTime = currentTime;
-    }, WAKEUP_CHECK_INTERVAL);
-
+    // Effect runs on mount, have logic for fetching channels and wake up
     useEffect(() => {
-        // Set up tracking for whether the window is active
-        window.isActive = true;
-
+        startPeriodicStatusUpdates();
         props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
 
-        const browserIsIosSafari = isIosSafari();
+        const wakeUpIntervalId = setInterval(() => {
+            const currentTime = (new Date()).getTime();
+            if ((currentTime - lastTime.current) > WAKEUP_THRESHOLD) {
+                console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
+                reconnect(false);
+            }
+            lastTime.current = currentTime;
+        }, WAKEUP_CHECK_INTERVAL);
 
+        return () => {
+            stopPeriodicStatusUpdates();
+
+            window.clearInterval(wakeUpIntervalId);
+        };
+    }, []);
+
+    // Effect runs on mount, add event listeners on windows object
+    useEffect(() => {
+        window.addEventListener('focus', handleFocus);
+        window.addEventListener('blur', handleBlur);
+        window.addEventListener('keydown', handleKeydown);
+
+        return () => {
+            window.removeEventListener('focus', handleFocus);
+            window.removeEventListener('blur', handleBlur);
+            window.removeEventListener('keydown', handleKeydown);
+        };
+    }, []);
+
+    // Effect runs on mount, adds active state to window
+    useEffect(() => {
+        const browserIsIosSafari = isIosSafari();
         if (browserIsIosSafari) {
             // Use iNoBounce to prevent scrolling past the boundaries of the page
             iNoBounce.enable();
         }
 
-        window.addEventListener('focus', handleFocus);
-        window.addEventListener('blur', handleBlur);
-        window.addEventListener('keydown', handleKeydown);
-
-        startPeriodicStatusUpdates();
+        // Set up tracking for whether the window is active
+        window.isActive = true;
 
         LocalStorageStore.setTeamIdJoinedOnLoad(null);
 
@@ -138,14 +158,6 @@ export default function TeamController(props: Props) {
             if (browserIsIosSafari) {
                 iNoBounce.disable();
             }
-
-            window.removeEventListener('focus', handleFocus);
-            window.removeEventListener('blur', handleBlur);
-            window.removeEventListener('keydown', handleKeydown);
-
-            clearInterval(wakeUpInterval);
-
-            stopPeriodicStatusUpdates();
         };
     }, []);
 
