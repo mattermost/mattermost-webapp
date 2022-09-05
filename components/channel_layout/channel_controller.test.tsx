@@ -37,18 +37,20 @@ describe('components/channel_layout/ChannelController', () => {
     test('Should add .app-bar-enabled class when app bar is enabled', () => {
         const {container} = render(
             <ChannelController
-                isFetchingChannels={false}
+                fetchingChannels={false}
                 shouldShowAppBar={true}
-            />);
+            />,
+        );
         expect(container.getElementsByClassName('app-bar-enabled')).toHaveLength(1);
     });
 
     test('Should not add .app-bar-enabled class when app bar is disabled', () => {
         const {container} = render(
             <ChannelController
-                isFetchingChannels={false}
+                fetchingChannels={false}
                 shouldShowAppBar={false}
-            />);
+            />,
+        );
 
         expect(container.getElementsByClassName('app-bar-enabled')).toHaveLength(0);
     });
