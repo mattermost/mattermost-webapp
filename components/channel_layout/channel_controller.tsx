@@ -25,26 +25,16 @@ interface Props {
     isFetchingChannels: boolean;
 }
 
+const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
+
 export default function ChannelController({shouldShowAppBar, isFetchingChannels}: Props) {
     useEffect(() => {
-        document.body.classList.add('app__body', 'channel-view');
-
-        // IE Detection
-        if (isInternetExplorer() || isEdge()) {
-            document.body.classList.add('browser--ie');
-        }
-
+        const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
-
-        // OS Detection
-        if (platform === 'Win32' || platform === 'Win64') {
-            document.body.classList.add('os--windows');
-        } else if (platform === 'MacIntel' || platform === 'MacPPC') {
-            document.body.classList.add('os--mac');
-        }
+        document.body.classList.add(...getClassnamesForBody(platform, isMsBrowser));
 
         return () => {
-            document.body.classList.remove('app__body', 'channel-view');
+            document.body.classList.remove(...BODY_CLASS_FOR_CHANNEL);
         };
     }, []);
 
@@ -68,4 +58,22 @@ export default function ChannelController({shouldShowAppBar, isFetchingChannels}
             <AppBar/>
         </div>
     );
+}
+
+export function getClassnamesForBody(platform: Window['navigator']['platform'], isMsBrowser = false) {
+    const bodyClass = [...BODY_CLASS_FOR_CHANNEL];
+
+    // OS Detection
+    if (platform === 'Win32' || platform === 'Win64') {
+        bodyClass.push('os--windows');
+    } else if (platform === 'MacIntel' || platform === 'MacPPC') {
+        bodyClass.push('os--mac');
+    }
+
+    // IE Detection
+    if (isMsBrowser) {
+        bodyClass.push('browser--ie');
+    }
+
+    return bodyClass;
 }
