@@ -31,10 +31,10 @@ type OwnProps = {
 }
 
 type StateProps = {
-    postOwner: boolean;
+    postOwner?: boolean;
     isMilitaryTime: boolean;
     timeZone?: string;
-    post: Post;
+    post?: Post;
 }
 
 type DispatchProps = {
@@ -51,14 +51,14 @@ function makeMapStateToProps() {
 
     return (state: GlobalState, ownProps: OwnProps): StateProps => {
         const currentUserId = getCurrentUserId(state);
-        const post = getPost(state, ownProps.postId || '');
+        const post = ownProps.postId ? getPost(state, ownProps.postId) : undefined;
 
         let timeZone: TimestampProps['timeZone'];
 
         if (areTimezonesEnabledAndSupported(state)) {
             timeZone = getUserCurrentTimezone(getUserTimezone(state, currentUserId)) ?? undefined;
         }
-        const postOwner = isPostOwner(state, post);
+        const postOwner = post ? isPostOwner(state, post) : undefined;
 
         const isMilitaryTime = getBool(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.USE_MILITARY_TIME, false);
         return {isMilitaryTime, timeZone, postOwner, post};

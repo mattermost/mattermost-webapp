@@ -200,6 +200,9 @@ describe('AppsFormComponent', () => {
                     teams: {
                         teams: {},
                     },
+                    posts: {
+                        posts: {},
+                    },
                     users: {
                         profiles: {},
                     },
