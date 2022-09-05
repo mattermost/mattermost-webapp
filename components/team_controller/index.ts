@@ -32,7 +32,7 @@ import {markChannelAsReadOnFocus} from 'actions/views/channel';
 
 import {checkIfMFARequired} from 'utils/route';
 
-import NeedsTeam from './needs_team';
+import TeamController from './team_controller';
 
 type Params = {
     url: string;
@@ -106,4 +106,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 export type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connector(NeedsTeam);
+export default connector(TeamController);

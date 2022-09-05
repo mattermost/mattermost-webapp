@@ -52,7 +52,7 @@ function getTeamFromTeamParam(teamsList: Props['teamsList'], teamParam: Props['m
     return team;
 }
 
-export default function NeedsTeam(props: Props) {
+export default function TeamController(props: Props) {
     const history = useHistory();
     const {team: teamNameParam} = useParams<Props['match']['params']>();
 

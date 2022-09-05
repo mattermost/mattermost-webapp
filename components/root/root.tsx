@@ -31,7 +31,6 @@ import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
-import NeedsTeam from 'components/needs_team';
 import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
@@ -65,6 +64,7 @@ const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
+const LazyTeamController = React.lazy(() => import('components/team_controller'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -98,6 +98,7 @@ const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
 const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
+const TeamController = makeAsyncComponent('TeamController', LazyTeamController);
 
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
@@ -603,7 +604,7 @@ export default class Root extends React.PureComponent<Props, State> {
                             ))}
                             <LoggedInRoute
                                 path={'/:team'}
-                                component={NeedsTeam}
+                                component={TeamController}
                             />
                             <RootRedirect/>
                         </Switch>
