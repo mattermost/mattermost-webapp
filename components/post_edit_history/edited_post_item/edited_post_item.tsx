@@ -34,7 +34,7 @@ export type Props = {
     originalPost: Post;
     actions: {
         editPost: (post: Post) => void;
-        closeRightHandSide: () => void;
+        closeRightHandSide: () => void; // todo sinan closing rhs should also clear editHistory
     };
 }
 
@@ -56,6 +56,8 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     });
 
     const handleRestore = () => {
+        // todo sinan close confirmation modal like this
+        // https://github.com/mattermost/mattermost-webapp/blob/c04fe2c48fa66388407026a32d525a9751a15e2c/components/delete_post_modal/delete_post_modal.tsx
         if (!originalPost || !post) {
             actions.closeRightHandSide();
             return;
