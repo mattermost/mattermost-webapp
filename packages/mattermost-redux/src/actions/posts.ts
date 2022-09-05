@@ -1132,10 +1132,10 @@ export function getPostEditHistory(postId: string) {
 
         dispatch({
             type: PostTypes.RECEIVED_POST_HISTORY,
-            data: {posts},
+            data: {postEditHistory: posts},
         });
 
-        return {data: {posts}};
+        return {data: {postEditHistory: posts}};
     };
 }
 

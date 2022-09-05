@@ -5,10 +5,10 @@ import React, {memo} from 'react';
 
 import {useIntl} from 'react-intl';
 
-import {t} from 'utils/i18n';
-
-import SearchResultsHeader from 'components/search_results_header';
 import {Post} from '@mattermost/types/posts';
+
+import {t} from 'utils/i18n';
+import SearchResultsHeader from 'components/search_results_header';
 
 import LoadingScreen from 'components/loading_screen';
 
