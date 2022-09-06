@@ -4,11 +4,11 @@
     color: var(--center-channel-color);
 
     .WelcomePostRenderer__ActionsContainer {
-        margin-top: 1em;
         display: flex;
         flex-direction: row;
+        margin-top: 1em;
 
-        &>div {
+        & > div {
             margin-right: 1em;
         }
 
