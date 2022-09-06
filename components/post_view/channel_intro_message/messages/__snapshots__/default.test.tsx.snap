@@ -47,7 +47,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     }
   />
-  <br />
 </Fragment>
 `;
 
@@ -79,7 +78,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <br />
 </Fragment>
 `;
 
@@ -111,7 +109,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <br />
 </Fragment>
 `;
 
@@ -169,7 +166,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     }
   />
-  <br />
 </Fragment>
 `;
 
@@ -290,7 +286,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     }
   />
-  <br />
 </Fragment>
 `;
 
@@ -389,6 +384,5 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       />
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
-  <br />
 </Fragment>
 `;

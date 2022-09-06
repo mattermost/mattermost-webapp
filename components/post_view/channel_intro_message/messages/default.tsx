@@ -123,7 +123,6 @@ const DefaultIntroMessage = ({
             {teamInviteLink}
             {teamIsGroupConstrained && boardCreateButton}
             {teamIsGroupConstrained && setHeaderButton}
-            <br/>
         </>
     );
 };
