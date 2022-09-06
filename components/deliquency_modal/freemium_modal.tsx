@@ -32,7 +32,7 @@ const ReactivateFooter = ({onClose, onReactivate, planName}: ReactivateFooterPro
     return (<Modal.Footer className={'DeliquencyModal__footer '}>
         <button
             className={'DeliquencyModal__footer--secondary'}
-            id={'inviteMembersButton'}
+            id={'closeDeliquencyModal'}
             onClick={onClose}
         >
             <FormattedMessage
@@ -43,7 +43,7 @@ const ReactivateFooter = ({onClose, onReactivate, planName}: ReactivateFooterPro
 
         <button
             className={'DeliquencyModal__footer--primary'}
-            id={'inviteMembersButton'}
+            id={`reActivate${planName}`}
             onClick={onReactivate}
         >
             <FormattedMessage
@@ -63,7 +63,7 @@ const NoReactivateFooter = ({onClose}: NoReactivateFooterProps) => {
     return (<Modal.Footer className={'DeliquencyModal__footer '}>
         <button
             className={'DeliquencyModal__footer--primary'}
-            id={'inviteMembersButton'}
+            id={'closeDeliquencyModal'}
             onClick={onClose}
         >
             <FormattedMessage

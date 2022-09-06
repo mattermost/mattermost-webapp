@@ -65,7 +65,7 @@ const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
-const LazyDeliquencyModalController = React.lazy(() => import('./deliquency_modal'));
+const LazyDeliquencyModalController = React.lazy(() => import('components/deliquency_modal'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';

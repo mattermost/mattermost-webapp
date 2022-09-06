@@ -111,7 +111,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                 <Modal.Footer className={'DeliquencyModal__footer '}>
                     <button
                         className={'DeliquencyModal__footer--secondary'}
-                        id={'inviteMembersButton'}
+                        id={'stayOnFremium'}
                         onClick={handleShowFremium}
                     >
                         <FormattedMessage
@@ -122,7 +122,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
 
                     <button
                         className={'DeliquencyModal__footer--primary'}
-                        id={'inviteMembersButton'}
+                        id={'updateBillingFromDeliquencyModal'}
                         onClick={handleUpdateBilling}
                     >
                         <FormattedMessage
@@ -139,7 +139,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
             />}
         </Modal>);
 
-    if (isAdminConsole) {
+    if (!isAdminConsole) {
         return ModalJSX;
     }
 

@@ -17,7 +17,7 @@ import ModalController from 'components/modal_controller';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import DiscardChangesModal from 'components/discard_changes_modal';
 import BackstageNavbar from 'components/backstage/components/backstage_navbar';
-import DeliquencyModal from 'components/root/deliquency_modal';
+import DeliquencyModal from 'components/deliquency_modal';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
