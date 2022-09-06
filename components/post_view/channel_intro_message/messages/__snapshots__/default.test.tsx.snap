@@ -217,7 +217,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
       teamId="team-id"
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         className="intro-links color--link"
         dialogProps={
           Object {
@@ -261,7 +261,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           defaultMessage="Add other groups to this team"
           id="intro_messages.addGroupsToTeam"
         />
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
   <Memo(BoardsButton)
