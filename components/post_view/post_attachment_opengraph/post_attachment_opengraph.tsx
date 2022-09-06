@@ -25,6 +25,7 @@ import {makeUrlSafe} from 'utils/url';
 import {getNearestPoint} from './get_nearest_point';
 
 import './post_attachment_opengraph.scss';
+import GIFPlayer from './post_attachment_pause_gif';
 
 const DIMENSIONS_NEAREST_POINT_IMAGE = {
     height: 80,
@@ -49,6 +50,7 @@ export type Props = {
     };
     isInPermalink?: boolean;
     imageCollapsed?: boolean;
+    autoplayGifAndEmojis?: string;
 };
 
 type ImageMetadata = Partial<OpenGraphMetadataImage> & PostImage;
@@ -84,7 +86,7 @@ export const getIsLargeImage = (data: ImageMetadata|null) => {
     return width >= LARGE_IMAGE_WIDTH && (width / height) >= LARGE_IMAGE_RATIO;
 };
 
-const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermalink, previewEnabled, ...rest}: Props) => {
+const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermalink, previewEnabled, autoplayGifAndEmojis, ...rest}: Props) => {
     const {formatMessage} = useIntl();
     const {current: bestImageData} = useRef<ImageMetadata>(getBestImage(openGraphData, post.metadata.images));
     const isPreviewRemoved = post?.props?.[PostTypes.REMOVE_LINK_PREVIEW] === 'true';
@@ -167,6 +169,7 @@ const PostAttachmentOpenGraph = ({openGraphData, post, actions, link, isInPermal
                 isInPermalink={isInPermalink}
                 isEmbedVisible={rest.isEmbedVisible}
                 toggleEmbedVisibility={rest.toggleEmbedVisibility}
+                autoplayGifAndEmojis={autoplayGifAndEmojis}
             />
         </a>
     );
@@ -195,9 +198,10 @@ type ImageProps = {
     isInPermalink: Props['isInPermalink'];
     isEmbedVisible: Props['isEmbedVisible'];
     toggleEmbedVisibility: Props['toggleEmbedVisibility'];
+    autoplayGifAndEmojis?: string;
 }
 
-export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink, toggleEmbedVisibility, isEmbedVisible = true, title = ''}: ImageProps) => {
+export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink, toggleEmbedVisibility, isEmbedVisible = true, title = '', autoplayGifAndEmojis}: ImageProps) => {
     const {formatMessage} = useIntl();
 
     if (!imageMetadata || isInPermalink) {
@@ -238,25 +242,43 @@ export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink,
             )}
         </button>
     );
-
-    const image = (
-        <ExternalImage
-            src={src}
-            imageMetadata={imageMetadata}
-        >
-            {(source) => (
+    let image;
+    if(autoplayGifAndEmojis === 'true') {
+        image = (
+            <ExternalImage
+                src={src}
+                imageMetadata={imageMetadata}
+            >
+                {(source) => (
+                    <>
+                        {large && imageCollapseButton}
+                        <figure>
+                            <img
+                                src={source}
+                                alt={title}
+                            />
+                        </figure>
+                    </>
+                )}
+            </ExternalImage>
+        );
+    } else {
+        image = (
+            <ExternalImage
+                src={src}
+                imageMetadata={imageMetadata}
+            >{(source) => (
                 <>
                     {large && imageCollapseButton}
-                    <figure>
-                        <img
-                            src={source}
-                            alt={title}
-                        />
+                    <figure onClick={(e) => e.preventDefault()}>
+                        <GIFPlayer src={source}  />
                     </figure>
                 </>
             )}
-        </ExternalImage>
-    );
+            </ExternalImage>
+        )
+    }
+    
 
     return (
         <div className={classNames('PostAttachmentOpenGraph__image', {large, collapsed: !isEmbedVisible})}>
