@@ -43,14 +43,11 @@ export default function AppBar() {
     return (
         <div className={'app-bar'}>
             {coreProducts.map((product) => {
-                // if it is focalboard and it is the first time the user creates a channel with a board, show the tour tip
                 return (
-                    <>
-                        <AppBarPluginComponent
-                            key={product.id}
-                            component={product}
-                        />
-                    </>
+                    <AppBarPluginComponent
+                        key={product.id}
+                        component={product}
+                    />
                 );
             })}
             {isDividerVisible && (
