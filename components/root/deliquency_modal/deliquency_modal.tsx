@@ -35,7 +35,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
     const theme = useSelector(getTheme);
     const [showFreemium, setShowFremium] = useState(false);
 
-    const handleShowFremium = async () => {
+    const handleShowFremium = () => {
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_stay_on_freemium');
         setShowFremium(() => true);
         dispatch(savePreferences(currentUser.id, [{
@@ -51,7 +51,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
         onExited();
     };
 
-    const handleUpdateBilling = async () => {
+    const handleUpdateBilling = () => {
         handleClose();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_update_billing');
         openPurchaseModal({

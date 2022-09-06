@@ -12,6 +12,8 @@ import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import './deliquency_modal.scss';
 
@@ -81,6 +83,7 @@ export const FreemiumModal = ({onClose, planName}: FreemiumModalProps) => {
 
     const handleReactivate = () => {
         onClose();
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_re_activate_plan');
         openPurchaseModal({trackingLocation: 'deliquency_modal_freemium_admin'});
     };
 
@@ -131,13 +134,13 @@ export const FreemiumModal = ({onClose, planName}: FreemiumModalProps) => {
                     usage={usage}
                 />
             </Modal.Body>
-            {!highestLimit &&
+            {highestLimit &&
                 <ReactivateFooter
                     planName={planName}
                     onClose={onClose}
                     onReactivate={handleReactivate}
                 />}
-            {highestLimit && <NoReactivateFooter onClose={onClose}/> }
+            {!highestLimit && <NoReactivateFooter onClose={onClose}/> }
         </>
     );
 };
