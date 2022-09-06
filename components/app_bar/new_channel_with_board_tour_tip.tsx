@@ -13,7 +13,15 @@ import {showNewChannelWithBoardPulsatingDot} from 'selectors/plugins';
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 
-const NewChannelWithBoardTourTip = (): JSX.Element | null => {
+type Props = {
+    pulsatingDotPlacement?: string;
+    pulsatingDotTranslate?: {x: number; y: number};
+}
+
+const NewChannelWithBoardTourTip = ({
+    pulsatingDotPlacement = 'left',
+    pulsatingDotTranslate,
+}: Props): JSX.Element | null => {
     const dispatch = useDispatch();
     const showTip = useSelector(showNewChannelWithBoardPulsatingDot);
 
@@ -64,7 +72,7 @@ const NewChannelWithBoardTourTip = (): JSX.Element | null => {
             title={title}
             overlayPunchOut={overlayPunchOut}
             placement='right-start'
-            pulsatingDotPlacement='left'
+            pulsatingDotPlacement={pulsatingDotPlacement}
             step={1}
             singleTip={true}
             showOptOut={false}
@@ -75,6 +83,7 @@ const NewChannelWithBoardTourTip = (): JSX.Element | null => {
             offset={[-30, 5]}
             className={'new-channel-with-board-tip'}
             showBackdrop={false}
+            pulsatingDotTranslate={pulsatingDotTranslate}
         />
     );
 };
