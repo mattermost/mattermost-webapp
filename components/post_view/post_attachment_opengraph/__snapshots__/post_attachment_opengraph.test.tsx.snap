@@ -62,6 +62,7 @@ exports[`PostAttachmentOpenGraph should match snapshot 1`] = `
           "editPost": [Function],
         }
       }
+      autoplayGifAndEmojis="true"
       currentUserId="user-1"
       enableLinkPreviews={true}
       imageCollapsed={false}
@@ -292,11 +293,37 @@ exports[`PostAttachmentOpenGraphImage should match snapshot 1`] = `
                       </svg>
                     </MenuDownIcon>
                   </button>
-                  <figure>
-                    <img
-                      alt="test_image"
+                  <figure
+                    onClick={[Function]}
+                  >
+                    <GIFPlayer
                       src="/api/v4/image?url=http%3A%2F%2Flocalhost%3A8065%2Fapi%2Fv4%2Fimage%3Furl%3Dhttp%253A%252F%252Fmattermo%E2%80%A6t.com%252Fwp-content%252Fuploads%252F2021%252F09%252FHomepage%25402x.png"
-                    />
+                    >
+                      <GifPlayerContainer
+                        autoplay={false}
+                        gif="/api/v4/image?url=http%3A%2F%2Flocalhost%3A8065%2Fapi%2Fv4%2Fimage%3Furl%3Dhttp%253A%252F%252Fmattermo%E2%80%A6t.com%252Fwp-content%252Fuploads%252F2021%252F09%252FHomepage%25402x.png"
+                        onTogglePlay={[Function]}
+                        pauseRef={[Function]}
+                      >
+                        <GifPlayer
+                          gif="/api/v4/image?url=http%3A%2F%2Flocalhost%3A8065%2Fapi%2Fv4%2Fimage%3Furl%3Dhttp%253A%252F%252Fmattermo%E2%80%A6t.com%252Fwp-content%252Fuploads%252F2021%252F09%252FHomepage%25402x.png"
+                          playing={false}
+                          toggle={[Function]}
+                        >
+                          <div
+                            className="gif_player"
+                            onClick={[Function]}
+                          >
+                            <div
+                              className="play_button"
+                            />
+                            <img
+                              src="/api/v4/image?url=http%3A%2F%2Flocalhost%3A8065%2Fapi%2Fv4%2Fimage%3Furl%3Dhttp%253A%252F%252Fmattermo%E2%80%A6t.com%252Fwp-content%252Fuploads%252F2021%252F09%252FHomepage%25402x.png"
+                            />
+                          </div>
+                        </GifPlayer>
+                      </GifPlayerContainer>
+                    </GIFPlayer>
                   </figure>
                 </ExternalImage>
               </Connect(ExternalImage)>

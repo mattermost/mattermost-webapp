@@ -243,7 +243,7 @@ export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink,
         </button>
     );
     let image;
-    if(autoplayGifAndEmojis === 'true') {
+    if (autoplayGifAndEmojis === 'true') {
         image = (
             <ExternalImage
                 src={src}
@@ -267,18 +267,20 @@ export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink,
             <ExternalImage
                 src={src}
                 imageMetadata={imageMetadata}
-            >{(source) => (
-                <>
-                    {large && imageCollapseButton}
-                    <figure onClick={(e) => e.preventDefault()}>
-                        <GIFPlayer src={source}  />
-                    </figure>
-                </>
-            )}
+            >
+                {(source) => (
+                    <>
+                        {large && imageCollapseButton}
+                        <figure onClick={(e) => e.preventDefault()}>
+                            <GIFPlayer
+                                src={source}
+                            />
+                        </figure>
+                    </>
+                )}
             </ExternalImage>
-        )
+        );
     }
-    
 
     return (
         <div className={classNames('PostAttachmentOpenGraph__image', {large, collapsed: !isEmbedVisible})}>
