@@ -7,6 +7,25 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+function simulateFilesLimitReached(currentFileStorageUsageBytes, planLimit){
+
+    cy.intercept('GET', '**/api/v4/usage/storage', {
+        statusCode: 200,
+        body: {
+            bytes: currentFileStorageUsageBytes,
+        },
+    });
+
+    cy.intercept('GET', '**/api/v4/cloud/limits', {
+        statusCode: 200,
+        body: {
+            files: {
+                total_storage: planLimit,
+            },
+        },
+    });
+}
+
 // Move to utils
 function simulateSubscription(subscription, withLimits = {}) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
@@ -92,6 +111,14 @@ function createMessageLimitNotification() {
     cy.findAllByRole('button', {name: 'Already notified!'}).should('be.visible').click();
 }
 
+function createFilesNotificationForProfessionalFeatures() {
+    cy.get('#product_switch_menu').click().then((() => {
+        cy.findByText('Notify admin').should('be.visible').click();
+        cy.findByText('Notified!').should('be.visible').click();
+        cy.findByText('Already notified!').should('be.visible').click();
+    }));
+}
+
 function createTrialNotificationForProfessionalFeatures() {
     cy.get('#product_switch_menu').click().then((() => {
         cy.get('#view_plans_cta').click();
@@ -137,6 +164,8 @@ function mapFeatureIdToId(id) {
         return 'Create Multiple Teams';
     case 'mattermost.feature.unlimited_messages':
         return 'Unlimited Messages';
+    case 'mattermost.feature.unlimited_file_storage':
+        return 'Unlimited File Storage';
     case 'mattermost.feature.all_professional':
         return 'All Professional features';
     case 'mattermost.feature.all_enterprise':
@@ -265,6 +294,48 @@ function testTrialNotifications(subscription, limits) {
         assertTrialMessageButton();
     });
 }
+function testFilesNotifications(subscription, limits) {
+    let myTeam;
+    let myChannel;
+    let myUrl;
+    let myAllProfessionalUsers = [];
+    const ALL_PROFESSIONAL_FEATURES_REQUESTS = 5;
+    const TOTAL = 5;
+
+    // # Calling trigger so that any pending notifications in DB should be sent out
+    triggerNotifications('');
+
+    // # Login as an admin and create test users that will click the different notification ctas
+    cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
+        myTeam = team;
+        myChannel = channel;
+        myUrl = url;
+
+        // # Create non admin users
+        myAllProfessionalUsers = createUsersProcess(myTeam, myChannel, ALL_PROFESSIONAL_FEATURES_REQUESTS);
+    });
+
+    // # Click notify admin to trial on pricing modal
+    cy.then(() => {
+        myAllProfessionalUsers.forEach((user) => {
+            simulateSubscription(subscription, limits);
+            cy.apiLogin({...user, password: 'passwd'});
+            cy.visit(`/${myTeam.name}/channels/${myChannel.name}`);
+            cy.wait(['@subscription', '@products']);
+            createFilesNotificationForProfessionalFeatures();
+        });
+    });
+
+    cy.then(() => {
+        // # Manually trigger saved notifications
+        triggerNotifications(myUrl, true);
+    });
+
+    cy.then(() => {
+        assertNotification('mattermost.feature.unlimited_file_storage', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name);
+        assertUpgradeMessageButton();
+    });
+}
 
 function testUpgradeNotifications(subscription, limits) {
     let myTeam;
@@ -345,7 +416,7 @@ describe('Notify Admin', () => {
         cy.apiRequireLicenseForFeature('Cloud');
         cy.apiUpdateConfig({
             ServiceSettings: {
-                EnableAPITriggerNotifyAdmin: true,
+                EnableAPITriggerAdminNotifications: true,
             },
         });
     });
@@ -388,6 +459,35 @@ describe('Notify Admin', () => {
             },
         };
 
-        testTrialNotifications(subscription, limits);
+        testTrialNotifications(subscription, limits, );
+    });
+
+    it('should test files upgrade notifications', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+            trial_end_at: 0, // never trialed before
+        };
+
+
+        const currentFileStorageUsageBytes = 11000000000;
+        const planLimit = 10000000000; // 1.2GB
+
+        const limits = {
+            messages: {
+                history: 7000, // test server seeded with around 4k messages
+            },
+            teams: {
+                active: 0,
+                teamsLoaded: true,
+            },
+            files: {
+                total_storage: planLimit,
+            },
+        };
+
+        simulateFilesLimitReached(currentFileStorageUsageBytes, planLimit);
+        testFilesNotifications(subscription, limits );
     });
 });
