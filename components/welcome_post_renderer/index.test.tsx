@@ -9,6 +9,7 @@ import {Provider} from 'react-redux';
 import WelcomePostRenderer from 'components/welcome_post_renderer';
 import {GlobalState} from 'types/store';
 import {mockStore} from 'tests/test_store';
+import {Post} from '@mattermost/types/posts';
 
 describe('components/WelcomePostRenderer', () => {
     const initialStore = {
@@ -49,7 +50,7 @@ describe('components/WelcomePostRenderer', () => {
         const wrapper = mount(
             <Provider store={store.store}>
                 <WelcomePostRenderer
-                    post={{id: 'post_id', message: 'message', create_at: 0, update_at: 0, delete_at: 0, edit_at: 0, is_pinned: false, user_id: 'user_id', channel_id: 'channel_id', root_id: '', parent_id: '', original_id: '', type: '', props: {}, hashtags: '', pending_post_id: '', reply_count: 0, metadata: {}}}
+                    post={{} as Post}
                 />
             </Provider>,
             store.mountOptions,
@@ -81,7 +82,7 @@ describe('components/WelcomePostRenderer', () => {
         const wrapper = mount(
             <Provider store={store.store}>
                 <WelcomePostRenderer
-                    post={{id: 'post_id', message: 'message', create_at: 0, update_at: 0, delete_at: 0, edit_at: 0, is_pinned: false, user_id: 'user_id', channel_id: 'channel_id', root_id: '', parent_id: '', original_id: '', type: '', props: {}, hashtags: '', pending_post_id: '', reply_count: 0, metadata: {}}}
+                    post={{} as Post}
                 />
             </Provider>,
             store.mountOptions,
