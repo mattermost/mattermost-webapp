@@ -4265,7 +4265,6 @@
   "pricing_modal.planDisclaimer.starter": "Ebben a csomagban az adatok korátozva vannak.",
   "pricing_modal.planLabel.currentPlan": "JELENLEGI CSOMAG",
   "pricing_modal.planLabel.mostPopular": "LEGNÉPSZERŰBB",
-  "pricing_modal.price.free": "Ingyenes",
   "pricing_modal.rate.userPerMonth": "/felhasználó/hónap",
   "pricing_modal.reviewDeploymentOptions": "A telepítési lehetőségek áttekintése",
   "pricing_modal.start_trial.disclaimer": "A <span>Próbálja ki ingyenesen 30 napig</span> gombra kattintással elfogadom <a>a Mattermost Szoftver Felhasználási Megállapodást, az adatvédelmi irányelveket</a> és a termékről szóló e-mailek fogadását.",
