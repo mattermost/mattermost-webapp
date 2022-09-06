@@ -51,9 +51,11 @@ export function makeGetRootPosts() {
         (allPosts: IDMappedObjects<Post>, currentUserId: string, channel: Channel) => {
             // Count the number of new posts that haven't been deleted and are root posts
             return Object.values(allPosts).filter((post: Post) => {
-                return (post.root_id === '' &&
-                post.channel_id === channel.id &&
-                post.state !== Posts.POST_DELETED);
+                return (
+                    post.root_id === '' &&
+                    post.channel_id === channel.id &&
+                    post.state !== Posts.POST_DELETED
+                 );
             }).reduce((map, obj) => {
                 (map as any)[obj.id] = true;
                 return map;
