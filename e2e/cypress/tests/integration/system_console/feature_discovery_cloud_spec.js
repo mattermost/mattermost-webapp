@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @system_console @not_cloud
+// Group: @cloud_only
 
 const professionalPaidFeatures = [
     {sidebarName: 'Announcement Banner', featureDiscoveryTitle: 'custom announcement banners'},
@@ -25,6 +25,13 @@ const enterprisePaidFeatures = [
     {sidebarName: 'Custom Terms of Service', featureDiscoveryTitle: 'Create custom terms of service with Mattermost Enterprise'},
 ];
 
+function simulateSubscription(subscription) {
+    cy.intercept('GET', '**/api/v4/cloud/subscription', {
+        statusCode: 200,
+        body: subscription,
+    });
+}
+
 function withTrialBefore(trialed) {
     cy.intercept('GET', '**/api/v4/trial-license/prev', {
         statusCode: 200,
@@ -35,42 +42,74 @@ function withTrialBefore(trialed) {
     });
 }
 
-describe('Feature discovery self hosted', () => {
+describe('Feature discovery cloud', () => {
     beforeEach(() => {
-        cy.shouldRunOnTeamEdition();
-        cy.shouldNotRunOnCloudEdition();
+        // * Check if server has license for Cloud
+        cy.apiRequireLicenseForFeature('Cloud');
 
         // # Visit admin console
         cy.visit('/admin_console');
     });
 
-    it('MM-T5123 Self-Hosted | Ensure feature discovery shows option to start trial when no trial has ever been done before', () => {
+    const testForTrialButton = () => {
+        cy.get('#start_cloud_trial_btn').should('exist');
+        cy.get('#start_cloud_trial_btn').contains('Try free for 30 days');
+    };
+
+    const testForUpgradeToProfessionalOption = () => {
+        cy.get("button[data-testid='featureDiscovery_primaryCallToAction']").should('contain', 'Upgrade now');
+        cy.get("button[data-testid='featureDiscovery_primaryCallToAction']").click();
+
+        cy.get('.PurchaseModal').should('exist');
+
+        // *Close PurchaseModal
+        cy.get('.close-x').click();
+    };
+
+    it('MM-T5120 Cloud | Ensure feature discovery shows option to start trial when no trial has ever been done before', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+        };
+        simulateSubscription(subscription);
         withTrialBefore('false');
         [...professionalPaidFeatures, ...enterprisePaidFeatures].forEach(({sidebarName, featureDiscoveryTitle}) => {
             cy.get('li').contains(sidebarName).click();
             cy.get("div[data-testid='featureDiscovery_title']").should('contain', featureDiscoveryTitle);
-            cy.get('#start_trial_btn').should('exist');
-            cy.get('#start_trial_btn').contains('Start trial');
+            testForTrialButton();
         });
     });
 
-    it('MM-T5124 Self-Hosted | Ensure feature discovery for professional features shows option to purchase when a trial has been done before', () => {
-        withTrialBefore('true');
+    it('MM-T5121 Cloud | Ensure feature discovery for professional features shows option to upgrade to professional', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+            trial_end_at: 1,
+        };
+        simulateSubscription(subscription);
+        withTrialBefore('false');
         professionalPaidFeatures.forEach(({sidebarName, featureDiscoveryTitle}) => {
             cy.get('li').contains(sidebarName).click();
             cy.get("div[data-testid='featureDiscovery_title']").should('contain', featureDiscoveryTitle);
-            cy.get('#post_trial_purchase_license').should('contain', 'Purchase a license');
-            cy.get('#post_trial_purchase_license').should('be.enabled');
+            testForUpgradeToProfessionalOption();
         });
     });
 
-    it('MM-T5125 Self-Hosted | Ensure feature discovery for enterprise features shows option to contact sales when a trial has been done before', () => {
-        withTrialBefore('true');
+    it('MM-T5122 Cloud | Ensure feature discovery for enterprise features shows option to contact sales', () => {
+        const subscription = {
+            id: 'sub_test1',
+            product_id: 'prod_1',
+            is_free_trial: 'false',
+            trial_end_at: 1,
+        };
+        simulateSubscription(subscription);
+        withTrialBefore('false');
         enterprisePaidFeatures.forEach(({sidebarName, featureDiscoveryTitle}) => {
             cy.get('li').contains(sidebarName).click();
             cy.get("div[data-testid='featureDiscovery_title']").should('contain', featureDiscoveryTitle);
             cy.get("button[data-testid='featureDiscovery_primaryCallToAction']").should('contain', 'Contact sales');
-            cy.get("button[data-testid='featureDiscovery_primaryCallToAction']").should('be.enabled');
         });
     });
 });
