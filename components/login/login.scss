@@ -8,8 +8,15 @@
     flex-direction: column;
     margin: auto;
 
+    .login-body-action {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+    }
+
     .login-body-alternate-link {
         margin-bottom: 18px;
+        margin-left: 60px;
     }
 
     .login-body-content {
