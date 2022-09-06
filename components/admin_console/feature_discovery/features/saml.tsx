@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const SAMLFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='saml'
+            minimumSKURequiredForFeature={LicenseSkus.Professional}
             titleID='admin.saml_feature_discovery.title'
             titleDefault='Integrate SAML 2.0 with Mattermost Professional'
             copyID='admin.saml_feature_discovery.copy'

@@ -46,9 +46,16 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot 1`]
     <p
       className="trial-legal-terms"
     >
-      <FormattedMarkdownMessage
-        defaultMessage="By clicking **Start trial**, I agree to the [Mattermost Software Evaluation Agreement](!https://mattermost.com/software-evaluation-agreement/), [Privacy Policy](!https://mattermost.com/privacy-policy/), and receiving product emails."
+      <MemoizedFormattedMessage
+        defaultMessage="By clicking <highlight>Start trial</highlight>, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>Privacy Policy</linkPrivacy> and receiving product emails."
         id="admin.feature_discovery.trial-request.accept-terms"
+        values={
+          Object {
+            "highlight": [Function],
+            "linkEvaluation": [Function],
+            "linkPrivacy": [Function],
+          }
+        }
       />
     </p>
   </div>
