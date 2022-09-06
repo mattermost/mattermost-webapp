@@ -34,6 +34,8 @@ import ThreadMenu from '../thread_menu';
 import Attachment from './attachments';
 
 import './thread_item.scss';
+import {manuallyMarkThreadAsUnread} from '../../../../actions/views/threads';
+import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 
 export type OwnProps = {
     isSelected: boolean;
@@ -70,7 +72,7 @@ function ThreadItem({
     isFirstThreadInList,
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
-    const {select, goToInChannel} = useThreadRouting();
+    const {select, goToInChannel, currentTeamId} = useThreadRouting();
     const {formatMessage} = useIntl();
     const isMobileView = useSelector(getIsMobileView);
     const currentUserId = useSelector(getCurrentUserId);
@@ -102,7 +104,7 @@ function ThreadItem({
         return [post.user_id, ...ids];
     }, [thread?.participants]);
 
-    const selectHandler = useCallback(() => select(threadId), [threadId]);
+    let unreadTimestamp = post.edit_at || post.create_at;
 
     const imageProps = useMemo(() => ({
         onImageHeightChanged: () => {},
@@ -130,14 +132,35 @@ function ThreadItem({
         is_following: isFollowing,
     } = thread;
 
-    let unreadTimestamp = post.edit_at || post.create_at;
-
     // if we have the whole thread, get the posts in it, sorted from newest to oldest.
     // First post is latest reply. Use that timestamp
     if (postsInThread.length > 1) {
         const p = postsInThread[0];
         unreadTimestamp = p.edit_at || p.create_at;
     }
+
+    const selectHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
+        if (e.altKey) {
+            const hasUnreads = Boolean(newReplies);
+            const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
+
+            dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
+            if (hasUnreads) {
+                dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
+            } else {
+                dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
+            }
+        } else {
+            select(threadId);
+        }
+    }, [
+        currentUserId,
+        currentTeamId,
+        threadId,
+        newReplies,
+        updateThreadRead,
+        unreadTimestamp,
+    ]);
 
     return (
         <article
