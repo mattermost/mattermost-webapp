@@ -700,7 +700,7 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
                 continue;
             }
 
-            // if channel is muted, we skip its count 
+            // if channel is muted, we skip its count
             if (isChannelMuted(channelMembership)) {
                 continue;
             }
