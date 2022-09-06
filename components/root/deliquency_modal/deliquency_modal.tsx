@@ -13,7 +13,7 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
 import {trackEvent} from 'actions/telemetry_actions';
 import {isModalOpen} from 'selectors/views/modals';
-import {ModalIdentifiers, Preferences} from 'utils/constants';
+import {ModalIdentifiers, Preferences, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {GlobalState} from 'types/store';
 
 import './deliquency_modal.scss';
@@ -36,8 +36,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
     const [showFreemium, setShowFremium] = useState(false);
 
     const handleShowFremium = async () => {
-        // TODO CHANGE FOR THE CONSTANT AFTER REBASE
-        trackEvent('delinquency_modal', 'clicked_stay_on_freemium');
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_stay_on_freemium');
         setShowFremium(() => true);
         dispatch(savePreferences(currentUser.id, [{
             category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
@@ -54,8 +53,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
 
     const handleUpdateBilling = async () => {
         handleClose();
-        // TODO CHANGE FOR THE CONSTANT AFTER REBASE
-        trackEvent('delinquency_modal', 'clicked_update_billing');
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_update_billing');
         openPurchaseModal({
             trackingLocation: 'deliquency_modal_downgrade_admin',
         });
