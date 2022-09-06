@@ -90,11 +90,10 @@ export default function WelcomePostRenderer(props: {post: Post}) {
                 mentionKeys={[]}
             />
             {actions.length > 0 && (
-                <div style={{marginTop: '1em', display: 'flex', flexDirection: 'row'}}>
+                <div className='WelcomePostRenderer__ActionsContainer'>
                     {actions.map((action, idx) => (
                         <div
-                            key={idx}
-                            style={{marginRight: '16px'}}
+                            key={'action-' + idx}
                         >
                             {action}
                         </div>
