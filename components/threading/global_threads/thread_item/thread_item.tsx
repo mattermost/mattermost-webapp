@@ -13,6 +13,7 @@ import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as Utils from 'utils/utils';
@@ -26,6 +27,7 @@ import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
@@ -34,8 +36,6 @@ import ThreadMenu from '../thread_menu';
 import Attachment from './attachments';
 
 import './thread_item.scss';
-import {manuallyMarkThreadAsUnread} from '../../../../actions/views/threads';
-import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 
 export type OwnProps = {
     isSelected: boolean;
@@ -106,6 +106,29 @@ function ThreadItem({
 
     let unreadTimestamp = post.edit_at || post.create_at;
 
+    const selectHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
+        if (e.altKey) {
+            const hasUnreads = thread ? Boolean(thread.unread_replies) : false;
+            const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
+
+            dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
+            if (hasUnreads) {
+                dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
+            } else {
+                dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
+            }
+        } else {
+            select(threadId);
+        }
+    }, [
+        currentUserId,
+        currentTeamId,
+        threadId,
+        thread,
+        updateThreadRead,
+        unreadTimestamp,
+    ]);
+
     const imageProps = useMemo(() => ({
         onImageHeightChanged: () => {},
         onImageLoaded: () => {},
@@ -138,29 +161,6 @@ function ThreadItem({
         const p = postsInThread[0];
         unreadTimestamp = p.edit_at || p.create_at;
     }
-
-    const selectHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
-        if (e.altKey) {
-            const hasUnreads = Boolean(newReplies);
-            const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
-
-            dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
-            if (hasUnreads) {
-                dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
-            } else {
-                dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
-            }
-        } else {
-            select(threadId);
-        }
-    }, [
-        currentUserId,
-        currentTeamId,
-        threadId,
-        newReplies,
-        updateThreadRead,
-        unreadTimestamp,
-    ]);
 
     return (
         <article
