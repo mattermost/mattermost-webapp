@@ -460,6 +460,7 @@ export function getChannelTimezones(channelId: string): ActionFunc {
     };
 }
 
+// fetch channels and channel members of only a team
 export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({
@@ -520,6 +521,7 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
     };
 }
 
+// fetches all channels and all channel members
 export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();

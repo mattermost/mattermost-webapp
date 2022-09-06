@@ -9,7 +9,6 @@ import {Team} from '@mattermost/types/teams';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions';
 import {reconnect} from 'actions/websocket_actions.jsx';
 import {emitCloseRightHandSide} from 'actions/global_actions';
 
@@ -60,6 +59,7 @@ export default function TeamController(props: Props) {
 
         const currentTime = (new Date()).getTime();
         if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
+            // HERE
             props.fetchMyChannelsAndMembers(props.currentTeamId);
         }
     }
@@ -92,9 +92,7 @@ export default function TeamController(props: Props) {
         }
     }
 
-    // Effect runs on mount, have logic for fetching channels and wake up
     useEffect(() => {
-        startPeriodicStatusUpdates();
         props.fetchAllMyTeamsChannelsAndChannelMembers();
 
         const wakeUpIntervalId = setInterval(() => {
@@ -106,10 +104,13 @@ export default function TeamController(props: Props) {
             lastTime.current = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
 
-        return () => {
-            stopPeriodicStatusUpdates();
+        const loadStatusesIntervalId = setInterval(() => {
+            props.loadStatusesForChannelAndSidebar();
+        }, Constants.STATUS_INTERVAL);
 
-            window.clearInterval(wakeUpIntervalId);
+        return () => {
+            clearInterval(wakeUpIntervalId);
+            clearInterval(loadStatusesIntervalId);
         };
     }, []);
 
@@ -175,9 +176,6 @@ export default function TeamController(props: Props) {
     }
 
     async function initTeam(team: Team) {
-        // If current team is set, then this is not first load
-        // The first load action pulls team unreads
-        props.getMyTeamUnreads(props.collapsedThreads);
         props.selectTeam(team);
         props.setPreviousTeamId(team.id);
 

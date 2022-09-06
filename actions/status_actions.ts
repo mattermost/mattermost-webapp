@@ -12,8 +12,6 @@ import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/act
 import {GlobalState} from 'types/store';
 
 import {loadCustomEmojisForCustomStatusesByUserIds} from 'actions/emoji_actions';
-import store from 'stores/redux_store.jsx';
-import {Constants} from 'utils/constants';
 
 export function loadStatusesForChannelAndSidebar(): ActionFunc {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -113,21 +111,4 @@ export function loadProfilesMissingStatus(users: UserProfile[]) {
         dispatch(loadCustomEmojisForCustomStatusesByUserIds(missingStatusByIds));
         return {data: true};
     };
-}
-
-let intervalId: NodeJS.Timeout;
-
-export function startPeriodicStatusUpdates() {
-    clearInterval(intervalId);
-
-    intervalId = setInterval(
-        () => {
-            store.dispatch(loadStatusesForChannelAndSidebar());
-        },
-        Constants.STATUS_INTERVAL,
-    );
-}
-
-export function stopPeriodicStatusUpdates() {
-    clearInterval(intervalId);
 }
