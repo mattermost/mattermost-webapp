@@ -141,7 +141,7 @@ const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 // placed here because currently not supported
 // to import from outside the package from main bundle
-const suitePluginIds = {
+export const suitePluginIds = {
     playbooks: 'playbooks',
     focalboard: 'focalboard',
     apps: 'com.mattermost.apps',
@@ -3841,9 +3841,9 @@ export default class Client4 {
         );
     }
 
-    notifyAdminToUpgrade = (req: NotifyAdminRequest) => {
+    notifyAdmin = (req: NotifyAdminRequest) => {
         return this.doFetchWithResponse<StatusOK>(
-            `${this.getCloudRoute()}/notify-admin-to-upgrade`,
+            `${this.getUsersRoute()}/notify-admin`,
             {method: 'post', body: JSON.stringify(req)},
         );
     }
