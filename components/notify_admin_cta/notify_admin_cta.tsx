@@ -3,10 +3,9 @@
 import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {NotifyAdminRequest} from '@mattermost/types/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
 
 const Span = styled.span`
@@ -48,10 +47,10 @@ type HookProps = {
 
 type Props = HookProps & {
     callerInfo: string;
+    notifyRequestData: NotifyAdminRequest;
 }
 
-export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void] {
-    const currentTeam = useSelector(getCurrentTeamId);
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps, reqData: NotifyAdminRequest): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void] {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
@@ -75,10 +74,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
-            const req = {
-                current_team_id: currentTeam,
-            };
-            await Client4.notifyAdminToUpgrade(req);
+            await Client4.notifyAdmin(reqData);
             trackEvent('pricing', 'click_notify_admin_cta', {
                 callerInfo,
             });
@@ -96,7 +92,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
 }
 
 function NotifyAdminCTA(props: Props) {
-    const [status, notify] = useNotifyAdmin(props);
+    const [status, notify] = useNotifyAdmin(props, props.notifyRequestData);
     const {formatMessage} = useIntl();
     let title = formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '});
     if (props.preTrial) {
@@ -115,7 +111,7 @@ function NotifyAdminCTA(props: Props) {
                     </StyledA>
                 </span>
             ) : (
-                <Span>
+                <Span id='notify_cta_container'>
                     {title}
                     <StyledA
                         id='notify_admin_cta'

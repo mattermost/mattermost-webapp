@@ -30,6 +30,8 @@ type RestrictedIndicatorProps = {
     ctaExtraContent?: React.ReactNode;
     clickCallback?: () => void;
     customSecondaryButtonInModal?: {msg: string; action: () => void};
+    feature?: string;
+    minimumPlanRequiredForFeature?: string;
 }
 
 const RestrictedIndicator = ({
@@ -47,6 +49,8 @@ const RestrictedIndicator = ({
     ctaExtraContent,
     clickCallback,
     customSecondaryButtonInModal,
+    feature,
+    minimumPlanRequiredForFeature,
 }: RestrictedIndicatorProps) => {
     const {formatMessage} = useIntl();
 
@@ -95,6 +99,7 @@ const RestrictedIndicator = ({
             >
                 {useModal && blocked ? (
                     <ToggleModalButton
+                        id={`${feature}-restricted-indicator`.replaceAll('.', '_')}
                         className='RestrictedIndicator__button'
                         modalId={ModalIdentifiers.FEATURE_RESTRICTED_MODAL}
                         dialogType={FeatureRestrictedModal}
@@ -107,6 +112,8 @@ const RestrictedIndicator = ({
                             titleEndUser,
                             messageEndUser,
                             customSecondaryButton: customSecondaryButtonInModal,
+                            feature,
+                            minimumPlanRequiredForFeature,
                         }}
                     >
                         {icon}
