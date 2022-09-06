@@ -15,12 +15,12 @@ describe('components/shortcuts/KeyboardShortcutsSequence', () => {
             <KeyboardShortcutsSequence
                 shortcut={{
                     id: 'test',
-                    defaultMessage: 'Keyboard Shortcuts\t⌘|/',
+                    defaultMessage: 'Keyboard shortcuts\t⌘|/',
                 }}
             />,
         );
 
-        const tag = <span>{'Keyboard Shortcuts'}</span>;
+        const tag = <span>{'Keyboard shortcuts'}</span>;
         expect(wrapper.contains(tag)).toEqual(true);
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.shortcut-key--tooltip')).toHaveLength(0);
@@ -32,13 +32,13 @@ describe('components/shortcuts/KeyboardShortcutsSequence', () => {
             <KeyboardShortcutsSequence
                 shortcut={{
                     id: 'test',
-                    defaultMessage: 'Keyboard Shortcuts\t⌘|/',
+                    defaultMessage: 'Keyboard shortcuts\t⌘|/',
                 }}
                 hideDescription={true}
             />,
         );
 
-        const tag = <span>{'Keyboard Shortcuts'}</span>;
+        const tag = <span>{'Keyboard shortcuts'}</span>;
         expect(wrapper.contains(tag)).toEqual(false);
         expect(wrapper).toMatchSnapshot();
     });
@@ -48,12 +48,12 @@ describe('components/shortcuts/KeyboardShortcutsSequence', () => {
             <KeyboardShortcutsSequence
                 shortcut={{
                     id: 'test',
-                    defaultMessage: 'Keyboard Shortcuts\t⌘||P\tCtrl|P',
+                    defaultMessage: 'Keyboard shortcuts\t⌘||P\tCtrl|P',
                 }}
             />,
         );
 
-        const tag = <span>{'Keyboard Shortcuts'}</span>;
+        const tag = <span>{'Keyboard shortcuts'}</span>;
         expect(wrapper.contains(tag)).toEqual(true);
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.shortcut-key--tooltip')).toHaveLength(0);
@@ -65,13 +65,13 @@ describe('components/shortcuts/KeyboardShortcutsSequence', () => {
             <KeyboardShortcutsSequence
                 shortcut={{
                     id: 'test',
-                    defaultMessage: 'Keyboard Shortcuts\t⌘|/',
+                    defaultMessage: 'Keyboard shortcuts\t⌘|/',
                 }}
                 isInsideTooltip={true}
             />,
         );
 
-        const tag = <span>{'Keyboard Shortcuts'}</span>;
+        const tag = <span>{'Keyboard shortcuts'}</span>;
         expect(wrapper.contains(tag)).toEqual(true);
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.shortcut-key--tooltip')).toHaveLength(2);
@@ -82,14 +82,14 @@ describe('components/shortcuts/KeyboardShortcutsSequence', () => {
             <KeyboardShortcutsSequence
                 shortcut={{
                     id: 'test',
-                    defaultMessage: 'Keyboard Shortcuts\t⌘|/',
+                    defaultMessage: 'Keyboard shortcuts\t⌘|/',
                 }}
                 isInsideTooltip={true}
                 hoistDescription={true}
             />,
         );
 
-        const tag = <span>{'Keyboard Shortcuts'}</span>;
+        const tag = <span>{'Keyboard shortcuts'}</span>;
         expect(wrapper.contains(tag)).toEqual(false);
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('.shortcut-key--tooltip')).toHaveLength(2);
@@ -107,7 +107,7 @@ describe('components/shortcuts/KeyboardShortcutsSequence', () => {
             />,
         );
         expect(wrapper).toMatchSnapshot();
-        const tag = <span>{'Keyboard Shortcuts'}</span>;
+        const tag = <span>{'Keyboard shortcuts'}</span>;
         expect(wrapper.contains(tag)).toEqual(false);
         expect(wrapper.find('.shortcut-key--tooltip')).toHaveLength(3);
         expect(wrapper.find('.shortcut-key--shortcut-modal')).toHaveLength(0);

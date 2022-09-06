@@ -48,11 +48,11 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
             shortcut={
               Object {
                 "default": Object {
-                  "defaultMessage": "Keyboard Shortcuts	Ctrl|/",
+                  "defaultMessage": "Keyboard shortcuts	Ctrl|/",
                   "id": "shortcuts.header",
                 },
                 "mac": Object {
-                  "defaultMessage": "Keyboard Shortcuts	⌘|/",
+                  "defaultMessage": "Keyboard shortcuts	⌘|/",
                   "id": "shortcuts.header.mac",
                 },
               }
@@ -254,11 +254,11 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
                 shortcut={
                   Object {
                     "default": Object {
-                      "defaultMessage": "Open or close the right sidebar	Ctrl|.",
+                      "defaultMessage": "Open or close the right sidebar:	Ctrl|.",
                       "id": "shortcuts.nav.open_close_sidebar",
                     },
                     "mac": Object {
-                      "defaultMessage": "Open or close the right sidebar	⌘|.",
+                      "defaultMessage": "Open or close the right sidebar:	⌘|.",
                       "id": "shortcuts.nav.open_close_sidebar.mac",
                     },
                   }
@@ -621,7 +621,7 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal 1`] = `
       <div
         className="info__label"
       >
-        Begin a message with / for a list of all the commands at your disposal.
+        Begin a message with / for a list of all the available slash commands.
       </div>
     </ModalBody>
   </div>
@@ -676,11 +676,11 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal with Call
             shortcut={
               Object {
                 "default": Object {
-                  "defaultMessage": "Keyboard Shortcuts	Ctrl|/",
+                  "defaultMessage": "Keyboard shortcuts	Ctrl|/",
                   "id": "shortcuts.header",
                 },
                 "mac": Object {
-                  "defaultMessage": "Keyboard Shortcuts	⌘|/",
+                  "defaultMessage": "Keyboard shortcuts	⌘|/",
                   "id": "shortcuts.header.mac",
                 },
               }
@@ -882,11 +882,11 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal with Call
                 shortcut={
                   Object {
                     "default": Object {
-                      "defaultMessage": "Open or close the right sidebar	Ctrl|.",
+                      "defaultMessage": "Open or close the right sidebar:	Ctrl|.",
                       "id": "shortcuts.nav.open_close_sidebar",
                     },
                     "mac": Object {
-                      "defaultMessage": "Open or close the right sidebar	⌘|.",
+                      "defaultMessage": "Open or close the right sidebar:	⌘|.",
                       "id": "shortcuts.nav.open_close_sidebar.mac",
                     },
                   }
@@ -1398,7 +1398,7 @@ exports[`components/KeyboardShortcutsModal should match snapshot modal with Call
       <div
         className="info__label"
       >
-        Begin a message with / for a list of all the commands at your disposal.
+        Begin a message with / for a list of all the available slash commands.
       </div>
     </ModalBody>
   </div>

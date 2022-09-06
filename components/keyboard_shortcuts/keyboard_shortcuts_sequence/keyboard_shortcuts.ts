@@ -94,11 +94,11 @@ export const KEYBOARD_SHORTCUTS = {
     mainHeader: {
         default: {
             id: t('shortcuts.header'),
-            defaultMessage: 'Keyboard Shortcuts\tCtrl|/',
+            defaultMessage: 'Keyboard shortcuts\tCtrl|/',
         },
         mac: {
             id: t('shortcuts.header.mac'),
-            defaultMessage: 'Keyboard Shortcuts\t⌘|/',
+            defaultMessage: 'Keyboard shortcuts\t⌘|/',
         },
     },
     navPrev: {
@@ -234,11 +234,11 @@ export const KEYBOARD_SHORTCUTS = {
     navOpenCloseSidebar: {
         default: {
             id: t('shortcuts.nav.open_close_sidebar'),
-            defaultMessage: 'Open or close the right sidebar\tCtrl|.',
+            defaultMessage: 'Open or close the right sidebar:\tCtrl|.',
         },
         mac: {
             id: t('shortcuts.nav.open_close_sidebar.mac'),
-            defaultMessage: 'Open or close the right sidebar\t⌘|.',
+            defaultMessage: 'Open or close the right sidebar:\t⌘|.',
         },
     },
     navExpandSidebar: {

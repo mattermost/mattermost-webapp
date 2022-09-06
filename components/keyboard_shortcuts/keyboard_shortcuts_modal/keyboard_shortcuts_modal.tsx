@@ -52,7 +52,7 @@ const modalMessages = defineMessages({
     info: {
         id: t('shortcuts.info'),
         defaultMessage:
-            'Begin a message with / for a list of all the commands at your disposal.',
+            'Begin a message with / for a list of all the available slash commands.',
     },
     navHeader: {
         id: t('shortcuts.nav.header'),
