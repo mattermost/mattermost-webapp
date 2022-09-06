@@ -87,9 +87,9 @@ function creatNewTeamNotification() {
 function createMessageLimitNotification() {
     cy.get('#product_switch_menu').click();
     cy.get('#Custom-User-groups-restricted-indicator > i').click();
-    cy.findAllByRole('button', { name: 'Notify admin' }).should('be.visible').click()
-    cy.findAllByRole('button', { name: 'Notified!' }).should('be.visible').click()
-    cy.findAllByRole('button', { name: 'Already notified!' }).should('be.visible').click()
+    cy.findAllByRole('button', {name: 'Notify admin'}).should('be.visible').click();
+    cy.findAllByRole('button', {name: 'Notified!'}).should('be.visible').click();
+    cy.findAllByRole('button', {name: 'Already notified!'}).should('be.visible').click();
 }
 
 function createTrialNotificationForProfessionalFeatures() {
@@ -125,9 +125,8 @@ function triggerNotifications(url, trial = false) {
     });
 
     if (url) {
-        cy.visit(url)
+        cy.visit(url);
     }
-
 }
 
 function mapFeatureIdToId(id) {
@@ -219,8 +218,9 @@ function testTrialNotifications(subscription, limits) {
     const ALL_ENTERPRISE_FEATURES_REQUESTS = 3;
     const TOTAL = 8;
 
-    // # Calling trigger so that any pending notifications in DB should be sent out 
+    // # Calling trigger so that any pending notifications in DB should be sent out
     triggerNotifications('');
+
     // # Login as an admin and create test users that will click the different notification ctas
     cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
         myTeam = team;
@@ -284,6 +284,7 @@ function testUpgradeNotifications(subscription, limits) {
         myChannel = channel;
         myUrl = url;
         triggerNotifications();
+
         // # Create non admin users
         myMessageLimitUsers = createUsersProcess(myTeam, myChannel, UNLIMITED_MESSAGES_USERS);
         myUnlimitedTeamsUsers = createUsersProcess(myTeam, myChannel, CREATE_MULTIPLE_TEAMS_USERS);
@@ -344,7 +345,7 @@ describe('Notify Admin', () => {
         cy.apiRequireLicenseForFeature('Cloud');
         cy.apiUpdateConfig({
             ServiceSettings: {
-               EnableAPITriggerNotifyAdmin: true,
+                EnableAPITriggerNotifyAdmin: true,
             },
         });
     });
