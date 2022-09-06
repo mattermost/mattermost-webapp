@@ -4295,7 +4295,6 @@
   "pricing_modal.planDisclaimer.starter": "This plan has data restrictions.",
   "pricing_modal.planLabel.currentPlan": "CURRENT PLAN",
   "pricing_modal.planLabel.mostPopular": "MOST POPULAR",
-  "pricing_modal.price.free": "Free",
   "pricing_modal.rate.userPerMonth": "/user/month",
   "pricing_modal.reviewDeploymentOptions": "Review deployment options",
   "pricing_modal.start_trial.disclaimer": "By selecting <span>Try free for 30 days,</span> I agree to the <a>Mattermost Software Evaluation Agreement, Privacy Policy,</a> and receiving product emails.",
