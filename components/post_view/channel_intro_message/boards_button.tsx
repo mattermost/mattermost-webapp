@@ -3,16 +3,17 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import {PluginComponent} from 'types/store/plugins';
-import * as Utils from 'utils/utils';
 
 type Props = {
     boardComponent?: PluginComponent;
 }
 
 const BoardsButton = ({boardComponent}: Props) => {
+    const {formatMessage} = useIntl();
+
     if (!boardComponent) {
         return null;
     }
@@ -21,13 +22,10 @@ const BoardsButton = ({boardComponent}: Props) => {
         <button
             className={'intro-links color--link channelIntroButton style--none'}
             onClick={() => boardComponent.action?.()}
-            aria-label={Utils.localizeMessage('intro_messages.createBoard', 'Create a board')}
+            aria-label={formatMessage({id: 'intro_messages.createBoard', defaultMessage: 'Create a board'})}
         >
             {boardComponent.icon}
-            <FormattedMessage
-                id='intro_messages.createBoard'
-                defaultMessage='Create a board'
-            />
+            {formatMessage({id: 'intro_messages.createBoard', defaultMessage: 'Create a board'})}
         </button>
     );
 };

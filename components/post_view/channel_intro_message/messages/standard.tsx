@@ -35,25 +35,20 @@ const StandardIntroMessage = ({
     const uiName = channel.display_name;
     const totalUsers = stats.total_users_count;
 
+    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
+    const isOpen = channel.type === Constants.OPEN_CHANNEL;
+    const isPrivateOrOpen = isPrivate || isOpen;
+
     const memberMessage = useMemo(() => {
         if (isArchivedChannel(channel)) {
             return null;
         }
-        if (channel.type === Constants.PRIVATE_CHANNEL) {
-            return (
-                <FormattedMessage
-                    id='intro_messages.onlyInvited'
-                    defaultMessage=' Only invited members can see this private channel.'
-                />
-            );
-        }
-        return (
-            <FormattedMessage
-                id='intro_messages.anyMember'
-                defaultMessage=' Any member can join and read this channel.'
-            />
-        );
-    }, [channel]);
+        const memberMessageDescriptor = {
+            id: isPrivate ? 'intro_messages.onlyInvited' : 'intro_messages.anyMember',
+            defaultMessage: isPrivate ? ' Only invited members can see this private channel.' : ' Any member can join and read this channel.',
+        };
+        return <FormattedMessage {...memberMessageDescriptor}/>;
+    }, [channel, isPrivate]);
 
     const createMessage = useMemo(() => {
         const date = (
@@ -64,88 +59,36 @@ const StandardIntroMessage = ({
                 year='numeric'
             />
         );
+
         if (!creatorName) {
-            if (channel.type === Constants.PRIVATE_CHANNEL) {
-                return (
-                    <FormattedMessage
-                        id='intro_messages.noCreatorPrivate'
-                        defaultMessage='This is the start of the {name} private channel, created on {date}.'
-                        values={{name: uiName, date}}
-                    />
-                );
-            }
-            if (channel.type === Constants.OPEN_CHANNEL) {
-                return (
-                    <FormattedMessage
-                        id='intro_messages.noCreator'
-                        defaultMessage='This is the start of the {name} channel, created on {date}.'
-                        values={{name: uiName, date}}
-                    />
-                );
-            }
+            const createMessageDescriptor = {
+                id: isPrivate ? 'intro_messages.noCreatorPrivate' : 'intro_messages.noCreator',
+                defaultMessage: isPrivate ? 'This is the start of the {name} private channel, created on {date}.' : 'This is the start of the {name} channel, created on {date}.',
+                values: {purpose: channel.purpose},
+            };
+            return <FormattedMessage{...createMessageDescriptor}/>;
         }
 
-        if (channel.type === Constants.PRIVATE_CHANNEL) {
-            return (
-                <span>
-                    <FormattedMessage
-                        id='intro_messages.creatorPrivate'
-                        defaultMessage='This is the start of the {name} private channel, created by {creator} on {date}.'
-                        values={{
-                            name: uiName,
-                            creator: creatorName,
-                            date,
-                        }}
-                    />
-                </span>
-            );
-        }
-
-        if (channel.type === Constants.OPEN_CHANNEL) {
-            return (
-                <span>
-                    <FormattedMessage
-                        id='intro_messages.creator'
-                        defaultMessage='This is the start of the {name} channel, created by {creator} on {date}.'
-                        values={{
-                            name: uiName,
-                            creator: creatorName,
-                            date,
-                        }}
-                    />
-                </span>
-            );
-        }
-        return null;
-    }, [channel.create_at, channel.type, creatorName, locale, uiName]);
+        const messageDescriptor = {
+            id: isPrivate ? 'intro_messages.creatorPrivate' : 'intro_messages.creator',
+            defaultMessage: isPrivate ? 'This is the start of the {name} private channel, created by {creator} on {date}.' : 'This is the start of the {name} channel, created by {creator} on {date}.',
+            values: {
+                name: uiName,
+                creator: creatorName || undefined,
+                date,
+            },
+        };
+        return <FormattedMessage {...messageDescriptor}/>;
+    }, [channel.create_at, channel.purpose, creatorName, isPrivate, locale, uiName]);
 
     const purposeMessage = useMemo(() => {
-        if (!channel.purpose) {
-            return null;
-        }
-        if (channel.type === Constants.PRIVATE_CHANNEL) {
-            return (
-                <span>
-                    <FormattedMessage
-                        id='intro_messages.purposePrivate'
-                        defaultMessage=" This private channel's purpose is: {purpose}"
-                        values={{purpose: channel.purpose}}
-                    />
-                </span>
-            );
-        } else if (channel.type === Constants.OPEN_CHANNEL) {
-            return (
-                <span>
-                    <FormattedMessage
-                        id='intro_messages.purpose'
-                        defaultMessage=" This channel's purpose is: {purpose}"
-                        values={{purpose: channel.purpose}}
-                    />
-                </span>
-            );
-        }
-        return null;
-    }, [channel.purpose, channel.type]);
+        const purposeMessageDescriptor = {
+            id: isPrivate ? 'intro_messages.purposePrivate' : 'intro_messages.purpose',
+            defaultMessage: isPrivate ? " This private channel's purpose is: {purpose}" : " This channel's purpose is: {purpose}",
+            values: {purpose: channel.purpose},
+        };
+        return <FormattedMessage {...purposeMessageDescriptor}/>;
+    }, [channel.purpose, isPrivate]);
 
     const renderButtons = !isArchivedChannel(channel);
     const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
@@ -173,9 +116,9 @@ const StandardIntroMessage = ({
                 />
             </h2>
             <p className='channel-intro__content'>
-                {createMessage}
+                {isPrivateOrOpen && createMessage}
                 {memberMessage}
-                {purposeMessage}
+                {channel.purpose && isPrivateOrOpen && purposeMessage}
                 <br/>
             </p>
             {channelInviteButton}

@@ -18,39 +18,35 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
   <p
     className="channel-intro__content"
   >
-    <span>
-      <MemoizedFormattedMessage
-        defaultMessage="This is the start of the {name} channel, created by {creator} on {date}."
-        id="intro_messages.creator"
-        values={
-          Object {
-            "creator": "creatorName",
-            "date": <FormattedDate
-              day="2-digit"
-              month="long"
-              value={1508265709607}
-              year="numeric"
-            />,
-            "name": "test channel",
-          }
+    <MemoizedFormattedMessage
+      defaultMessage="This is the start of the {name} channel, created by {creator} on {date}."
+      id="intro_messages.creator"
+      values={
+        Object {
+          "creator": "creatorName",
+          "date": <FormattedDate
+            day="2-digit"
+            month="long"
+            value={1508265709607}
+            year="numeric"
+          />,
+          "name": "test channel",
         }
-      />
-    </span>
+      }
+    />
     <MemoizedFormattedMessage
       defaultMessage=" Any member can join and read this channel."
       id="intro_messages.anyMember"
     />
-    <span>
-      <MemoizedFormattedMessage
-        defaultMessage=" This channel's purpose is: {purpose}"
-        id="intro_messages.purpose"
-        values={
-          Object {
-            "purpose": "test",
-          }
+    <MemoizedFormattedMessage
+      defaultMessage=" This channel's purpose is: {purpose}"
+      id="intro_messages.purpose"
+      values={
+        Object {
+          "purpose": "test",
         }
-      />
-    </span>
+      }
+    />
     <br />
   </p>
   <Memo(AddMembersButton)
@@ -123,39 +119,35 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
   <p
     className="channel-intro__content"
   >
-    <span>
-      <MemoizedFormattedMessage
-        defaultMessage="This is the start of the {name} channel, created by {creator} on {date}."
-        id="intro_messages.creator"
-        values={
-          Object {
-            "creator": "creatorName",
-            "date": <FormattedDate
-              day="2-digit"
-              month="long"
-              value={1508265709607}
-              year="numeric"
-            />,
-            "name": "test channel",
-          }
+    <MemoizedFormattedMessage
+      defaultMessage="This is the start of the {name} channel, created by {creator} on {date}."
+      id="intro_messages.creator"
+      values={
+        Object {
+          "creator": "creatorName",
+          "date": <FormattedDate
+            day="2-digit"
+            month="long"
+            value={1508265709607}
+            year="numeric"
+          />,
+          "name": "test channel",
         }
-      />
-    </span>
+      }
+    />
     <MemoizedFormattedMessage
       defaultMessage=" Any member can join and read this channel."
       id="intro_messages.anyMember"
     />
-    <span>
-      <MemoizedFormattedMessage
-        defaultMessage=" This channel's purpose is: {purpose}"
-        id="intro_messages.purpose"
-        values={
-          Object {
-            "purpose": "test",
-          }
+    <MemoizedFormattedMessage
+      defaultMessage=" This channel's purpose is: {purpose}"
+      id="intro_messages.purpose"
+      values={
+        Object {
+          "purpose": "test",
         }
-      />
-    </span>
+      }
+    />
     <br />
   </p>
   <Memo(AddMembersButton)
