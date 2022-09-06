@@ -3885,6 +3885,8 @@
   "login.verified": " Email Verified",
   "manage_channel_groups_modal.search_placeholder": "Search groups",
   "manage_team_groups_modal.search_placeholder": "Search groups",
+  "marketplace_command.disabled": "The marketplace is disabled. Please contact your System Administrator for details.",
+  "marketplace_command.no_permission": "You do not have the appropriate permissions to access the marketplace.",
   "marketplace_list.count_total_page": "{startCount, number} - {endCount, number} {total, plural, one {plugin} other {plugins}} of {total, number} total",
   "marketplace_modal.install_plugins": "Install Plugins",
   "marketplace_modal.installing": "Installing...",
