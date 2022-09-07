@@ -1330,9 +1330,9 @@
     .post-preview__header {
         display: flex;
         width: 100%;
+        align-items: center;
         margin-bottom: 2px;
         white-space: nowrap;
-        align-items: center;
 
         .col__name {
             display: flex;
