@@ -14,7 +14,6 @@ import RhsCard from 'components/rhs_card';
 import ChannelInfoRhs from 'components/channel_info_rhs';
 import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index';
-import AppBar from 'components/app_bar/app_bar';
 
 import RhsPlugin from 'plugins/rhs_plugin';
 
@@ -261,31 +260,26 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             'move--left is-open': isOpen,
         });
 
-        return (
+        return isOpen && (
             <>
-                {isOpen && (
-                    <>
-                        <div className={'sidebar--right sidebar--right--width-holder'}/>
-                        <div
-                            className={containerClassName}
-                            id='sidebar-right'
-                            role='complementary'
-                            ref={this.sidebarRight}
+                <div className={'sidebar--right sidebar--right--width-holder'}/>
+                <div
+                    className={containerClassName}
+                    id='sidebar-right'
+                    role='complementary'
+                    ref={this.sidebarRight}
+                >
+                    <div className='sidebar-right-container'>
+                        <Search
+                            isSideBarRight={true}
+                            isSideBarRightOpen={true}
+                            getFocus={this.getSearchBarFocus}
+                            channelDisplayName={channelDisplayName}
                         >
-                            <div className='sidebar-right-container'>
-                                <Search
-                                    isSideBarRight={true}
-                                    isSideBarRightOpen={true}
-                                    getFocus={this.getSearchBarFocus}
-                                    channelDisplayName={channelDisplayName}
-                                >
-                                    {content}
-                                </Search>
-                            </div>
-                        </div>
-                    </>
-                )}
-                <AppBar/>
+                            {content}
+                        </Search>
+                    </div>
+                </div>
             </>
         );
     }

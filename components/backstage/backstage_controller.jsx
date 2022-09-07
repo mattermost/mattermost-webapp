@@ -204,15 +204,19 @@ export default class BackstageController extends React.PureComponent {
                             component={Bots}
                         />
                     </Switch>
-                    <GlobalStyleBackstage/>
+                    <BackstageGlobalStyle/>
                 </div>
             </>
         );
     }
 }
 
-const GlobalStyleBackstage = createGlobalStyle`
-    #root > :not(.backstage-navbar):not(.backstage-body) {
-        display: none;
+const BackstageGlobalStyle = createGlobalStyle`
+    #root {
+        > #global-header,
+        > .team-sidebar,
+        > .app-bar {
+            display: none;
+        }
     }
 `;

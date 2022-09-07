@@ -8,7 +8,7 @@ import {useSelector} from 'react-redux';
 import {ProductComponent} from 'types/store/plugins';
 import {selectProducts, selectCurrentProductId, selectCurrentProduct} from 'selectors/products';
 import {GlobalState} from 'types/store';
-import {ProductIdentifier} from '@mattermost/types/products';
+import {ProductIdentifier, ProductScope} from '@mattermost/types/products';
 
 export const getCurrentProductId = (
     products: ProductComponent[],
@@ -38,3 +38,16 @@ export const useCurrentProduct = () => {
     const {pathname} = useLocation();
     return useSelector((state: GlobalState) => selectCurrentProduct(state, pathname));
 };
+
+export const inScope = (scope: ProductScope, productId: ProductIdentifier, pluginId?: string) => {
+    if (scope === '*' || scope?.includes('*')) {
+        return true;
+    }
+    if (Array.isArray(scope)) {
+        return scope.includes(productId) || (pluginId !== undefined && scope.includes(pluginId));
+    }
+    return scope === productId || (pluginId !== undefined && scope === pluginId);
+};
+
+export const isChannels = (productId: ProductIdentifier) => productId === null;
+

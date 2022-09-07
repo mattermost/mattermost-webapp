@@ -4,11 +4,12 @@
 import React, {ReactNode} from 'react';
 import {useSelector} from 'react-redux';
 
-import {useCurrentProduct, useCurrentProductId} from 'utils/products';
+import {partition} from 'lodash';
+
+import {useCurrentProduct, useCurrentProductId, inScope} from 'utils/products';
 
 import {getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {getAppBarPluginComponents, getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
-import {inScope} from '@mattermost/types/products';
 
 import AppBarPluginComponent, {isAppBarPluginComponent} from './app_bar_plugin_component';
 import AppBarBinding, {isAppBinding} from './app_bar_binding';
@@ -21,7 +22,6 @@ export default function AppBar() {
     const appBarBindings = useSelector(getAppBarAppBindings);
     const currentProduct = useCurrentProduct();
     const currentProductId = useCurrentProductId();
-
     const enabled = useSelector(shouldShowAppBar);
 
     if (
@@ -31,14 +31,11 @@ export default function AppBar() {
         return null;
     }
 
-    const coreProductsIds = ['focalboard', 'playbooks'];
+    const coreProductsPluginIds = ['focalboard', 'playbooks'];
 
-    // The type guard in the filter (which removes all undefined elements) is needed for
-    // Typescript to correctly type coreProducts.
-    const coreProductComponents = coreProductsIds.
-        map((id) => appBarPluginComponents.find((element) => element.pluginId === id));
-
-    const pluginComponents = appBarPluginComponents.filter((element) => !coreProductComponents.includes(element));
+    const [coreProductComponents, pluginComponents] = partition(appBarPluginComponents, ({pluginId}) => {
+        return coreProductsPluginIds.includes(pluginId);
+    });
 
     const items: ReactNode[] = [
         ...coreProductComponents,
@@ -96,7 +93,7 @@ const divider = (
         key='divider'
         className={'app-bar__divider'}
         css={`
-            :last-child {
+            :last-child, :first-child {
                 display: none;
             }
         `}

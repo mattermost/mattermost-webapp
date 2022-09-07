@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FloatingPortal} from '@floating-ui/react-dom-interactions';
 
 type Modal = {
     open: boolean;
@@ -64,7 +65,7 @@ export default class ModalController extends React.PureComponent<Props> {
         }
 
         return (
-            <div>{modalOutput}</div>
+            <FloatingPortal id='root-portal'>{modalOutput}</FloatingPortal>
         );
     }
 }

@@ -33,7 +33,7 @@ export type PluginsState = {
         RightHandSidebarComponent: PluginComponent[];
         ChannelHeaderButton: PluginComponent[];
         MobileChannelHeaderButton: PluginComponent[];
-        AppBar: PluginComponent[];
+        AppBar: AppBarComponent[];
         UserGuideDropdownItem: PluginComponent[];
         FilesWillUploadHook: PluginComponent[];
     };
@@ -80,7 +80,6 @@ export type PluginComponent = {
 
     /** @default null - which means 'channels'*/
     supportedProductIds?: ProductScope;
-    route?: string;
     component?: React.ComponentType;
     subMenu?: Menu[];
     text?: string;
@@ -95,6 +94,10 @@ export type PluginComponent = {
     action?: (...args: any) => void; // TODO Add more concrete types?
     shouldRender?: (state: GlobalState) => boolean;
 };
+
+export type AppBarComponent = PluginComponent & {
+    rhsComponentId?: string;
+}
 
 export type FilesWillUploadHook = {
     hook: (files: File[], uploadFiles: (files: File[]) => void) => { message?: string; files?: File[] };

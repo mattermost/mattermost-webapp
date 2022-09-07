@@ -6,7 +6,9 @@ import styled from 'styled-components';
 
 import Pluggable from 'plugins/pluggable';
 
-import {isChannels, ProductIdentifier} from '@mattermost/types/products';
+import {ProductIdentifier} from '@mattermost/types/products';
+
+import {isChannels} from 'utils/products';
 
 import GlobalSearchNav from './global_search_nav/global_search_nav';
 import UserGuideDropdown from './user_guide_dropdown';

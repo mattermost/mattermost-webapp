@@ -762,22 +762,26 @@ export default class PluginRegistry {
         return id;
     }
 
-    // INTERNAL: Subject to change without notice.
-    // DANGER: Interferes with historic routes.
-    // Register a global header menu item
-    // Accepts the following:
-    // - baseURL - The route to be displayed at starting from the siteURL
-    // - switcherIcon - A react element to display as the icon in the product switcher
-    // - switcherText - A string or React element to display in the product switcher
-    // - switcherLinkURL - A string specifying the URL the switcher item should point to.
-    // - mainComponent - The component to be displayed below the global header when your route is active.
-    // - headerCentreComponent - A component to fill the generic area in the center of
-    //                           the global header when your route is active.
-    // - headerRightComponent - A component to fill the generic area in the right of
-    //                          the global header when your route is active.
-    // - showTeamSidebar - A flag to display or hide the team sidebar in products. Defaults to false (hidden).
-    // All parameters are required.
-    // Returns a unique identifier.
+    /**
+     * Register a Product, consisting of a global header menu item, mainComponent, and other pluggables.
+     * @experimental INTERNAL: Subject to change without notice.
+     * @remarks DANGER: Interferes with historic routes.
+     * @param {*} baseURL The route to be displayed at starting from the siteURL
+     * @param {*} switcherIcon A react element to display as the icon in the product switcher
+     * @param {*} switcherText A string or React element to display in the product switcher
+     * @param {*} switcherLinkURL A string specifying the URL the switcher item should point to.
+     * @param {*} mainComponent The component to be displayed below the global header when your route is active.
+     * @param {*} headerCentreComponent A component to fill the generic area in the center of
+     * the global header when your route is active.
+     * @param {*} headerRightComponent A component to fill the generic area in the right of
+     * the global header when your route is active.
+     * @param {boolean} showTeamSidebar A flag to display or hide the team sidebar in products. Defaults to false (hidden).
+     * All parameters are required.
+     * @param {boolean} showAppBar A flag to display or hide the App Sidebar in products.
+     * @param {boolean} wrapped A flag to wrap or flatten {@link mainComponent} for use in the root grid layout.
+     * If unwrapped, grid areas must manually be specified.
+     * @returns {string}
+     */
     registerProduct(
         baseURL,
         switcherIcon,
@@ -866,15 +870,17 @@ export default class PluginRegistry {
     }
 
     /**
-     * Add an item to the App Bar
-     * @notice INTERNAL: Subject to change without notice
-     * @param {string} iconUrl resolvable URL to use as the button's icon
-     * @param {function} action called when the button is clicked, passed the channel and channel member as arguments
-     * @param {React.ReactNode} tooltipText string or React element shown for tooltip appear on hover
-     * @param {null | string | Array<null | string>} supportedProductIds
+     * Add an item to the App Bar.
+     * @experimental INTERNAL: Subject to change without notice.
+     * @param {string} iconUrl resolvable URL to use as the button's icon.
+     * @param {function} action called when the button is clicked, passed the channel and channel member as arguments.
+     * @param {React.ReactNode} tooltipText string or React element shown for tooltip appear on hover.
+     * @param {null | string | Array<null | string>} supportedProductIds specifies one or multiple product identifier(s),
+     * identifiers can either be the "real" product uuid, or a product's more commonly accessible plugin id, or '*' to match everything.
+     * @param {null | string} rhsComponentId specifies a corresponding RHS component id. REQUIRED when registering multiple app bar components.
      * @returns {string} unique identifier
      */
-    registerAppBarComponent(iconUrl, action, tooltipText, supportedProductIds = null) {
+    registerAppBarComponent(iconUrl, action, tooltipText, supportedProductIds = null, rhsComponentId = null) {
         const id = generateId();
 
         const data = {
@@ -884,6 +890,7 @@ export default class PluginRegistry {
             action,
             tooltipText: resolveReactElement(tooltipText),
             supportedProductIds,
+            rhsComponentId,
         };
 
         store.dispatch({
@@ -894,6 +901,31 @@ export default class PluginRegistry {
 
         return id;
     }
+
+    // /**
+    //  * Add a component to the App Bar. Note: self-responsible for everything. For simple use, please use {@link PluginRegistry.registerAppBarComponent}
+    //  * @experimental INTERNAL: Subject to change without notice
+    //  * @returns {string} unique identifier
+    //  */
+    // registerAppBarComponentDescriptor({component, iconUrl, action, tooltipText, supportedProductIds = null, rhsComponentId = null}) {
+    //     const id = generateId();
+
+    //     const data = {
+    //         id,
+    //         pluginId: this.id,
+    //         supportedProductIds,
+    //         rhsComponentId,
+    //         ...component ? {component} : {iconUrl, action, tooltipText},
+    //     };
+
+    //     store.dispatch({
+    //         type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
+    //         name: 'AppBar',
+    //         data,
+    //     });
+
+    //     return id;
+    // }
 
     // INTERNAL: Subject to change without notice.
     // Register a handler to retrieve stats that will be displayed on the system console

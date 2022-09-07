@@ -12,7 +12,9 @@ import {
 } from 'components/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
 
-import {ProductIdentifier, isChannels} from '@mattermost/types/products';
+import {ProductIdentifier} from '@mattermost/types/products';
+
+import {isChannels} from 'utils/products';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';

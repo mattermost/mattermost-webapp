@@ -25,6 +25,7 @@ import * as GlobalActions from 'actions/global_actions';
 import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
 import SidebarRight from 'components/sidebar_right';
+import AppBar from 'components/app_bar/app_bar';
 import SidebarRightMenu from 'components/sidebar_right_menu';
 import AnnouncementBarController from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -144,7 +145,7 @@ type Props = {
     permalinkRedirectTeamName: string;
     isCloud: boolean;
     actions: Actions;
-    plugins: PluginComponent[];
+    plugins?: PluginComponent[];
     products: ProductComponent[];
     showLaunchingWorkspace: boolean;
     rhsIsExpanded: boolean;
@@ -656,6 +657,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         </Switch>
                         <Pluggable pluggableName='Global'/>
                         <SidebarRight/>
+                        <AppBar/>
                         <SidebarRightMenu/>
                     </CompassThemeProvider>
                 </Switch>
