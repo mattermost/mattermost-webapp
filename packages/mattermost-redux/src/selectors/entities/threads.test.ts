@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from '../../../test/test_helper';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import * as Selectors from './threads';
@@ -11,8 +9,8 @@ import * as Selectors from './threads';
 describe('Selectors.Threads.getThreadOrderInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();
-    const post1 = TestHelper.fakePostWithId();
-    const post2 = TestHelper.fakePostWithId();
+    const post1 = TestHelper.fakePostWithId('');
+    const post2 = TestHelper.fakePostWithId('');
 
     it('should return threads order in current team based on last reply time', () => {
         const user = TestHelper.fakeUserWithId();
@@ -72,15 +70,15 @@ describe('Selectors.Threads.getThreadOrderInCurrentTeam', () => {
             },
         });
 
-        assert.deepEqual(Selectors.getThreadOrderInCurrentTeam(testState), ['b', 'a']);
+        expect(Selectors.getThreadOrderInCurrentTeam(testState)).toEqual(['b', 'a']);
     });
 });
 
 describe('Selectors.Threads.getUnreadThreadOrderInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();
-    const post1 = TestHelper.fakePostWithId();
-    const post2 = TestHelper.fakePostWithId();
+    const post1 = TestHelper.fakePostWithId('');
+    const post2 = TestHelper.fakePostWithId('');
 
     it('should return unread threads order in current team based on last reply time', () => {
         const user = TestHelper.fakeUserWithId();
@@ -139,8 +137,8 @@ describe('Selectors.Threads.getUnreadThreadOrderInCurrentTeam', () => {
             },
         });
 
-        assert.deepEqual(Selectors.getThreadOrderInCurrentTeam(testState), []);
-        assert.deepEqual(Selectors.getUnreadThreadOrderInCurrentTeam(testState), ['b', 'a']);
+        expect(Selectors.getThreadOrderInCurrentTeam(testState)).toEqual([]);
+        expect(Selectors.getUnreadThreadOrderInCurrentTeam(testState)).toEqual(['b', 'a']);
     });
 });
 
@@ -177,16 +175,16 @@ describe('Selectors.Threads.getThreadsInCurrentTeam', () => {
             },
         });
 
-        assert.deepEqual(Selectors.getThreadsInCurrentTeam(testState), ['a', 'b']);
+        expect(Selectors.getThreadsInCurrentTeam(testState)).toEqual(['a', 'b']);
     });
 });
 
 describe('Selectors.Threads.getThreadsInChannel', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();
-    const channel1 = TestHelper.fakeChannelWithId();
-    const channel2 = TestHelper.fakeChannelWithId();
-    const channel3 = TestHelper.fakeChannelWithId();
+    const channel1 = TestHelper.fakeChannelWithId('');
+    const channel2 = TestHelper.fakeChannelWithId('');
+    const channel3 = TestHelper.fakeChannelWithId('');
 
     it('should return threads in channel', () => {
         const user = TestHelper.fakeUserWithId();
@@ -235,7 +233,7 @@ describe('Selectors.Threads.getThreadsInChannel', () => {
             },
         });
 
-        assert.deepEqual(Selectors.getThreadsInChannel(testState, channel1.id), ['a', 'b']);
+        expect(Selectors.getThreadsInChannel(testState, channel1.id)).toEqual(['a', 'b']);
     });
 });
 
@@ -273,6 +271,6 @@ describe('Selectors.Threads.getNewestThreadInTeam', () => {
             },
         });
 
-        assert.deepEqual(Selectors.getNewestThreadInTeam(testState, team1.id), threadB);
+        expect(Selectors.getNewestThreadInTeam(testState, team1.id)).toEqual(threadB);
     });
 });
