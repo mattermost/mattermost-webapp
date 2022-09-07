@@ -5,6 +5,7 @@ import {Bot} from '@mattermost/types/bots';
 import {Role} from '@mattermost/types/roles';
 import {UserProfile, UserAccessToken} from '@mattermost/types/users';
 import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Invoice} from '@mattermost/types/cloud';
 import {Group} from '@mattermost/types/groups';
 import {FileInfo} from '@mattermost/types/files';
 import {Post} from '@mattermost/types/posts';
@@ -403,5 +404,22 @@ export class TestHelper {
             };
         });
         return preferences;
+    }
+    public static getInvoiceMock(override?: Partial<Invoice>): Invoice {
+        return {
+            id: '',
+            number: '',
+            create_at: 0,
+            total: 0,
+            tax: 0,
+            status: '',
+            description: '',
+            period_start: 0,
+            period_end: 0,
+            subscription_id: '',
+            line_items: [],
+            current_product_name: '',
+            ...override,
+        };
     }
 }

@@ -4,6 +4,7 @@
 import {SubscriptionResponse} from '@mattermost/types/cloud';
 
 import {CloudTypes} from 'mattermost-redux/action_types';
+import {TestHelper} from 'utils/test_helper';
 
 import {limits, subscription} from './cloud';
 
@@ -30,7 +31,7 @@ describe('subscription reducer', () => {
         is_free_trial: 'false',
         is_paid_tier: 'false',
     };
-    const tests = [
+    const isLegacyCloudPaidTierTests = [
         {
             label: 'when not paid tier, has no is_legacy_cloud_paid_tier if not a legacy cloud plan',
             sub: baseSub,
@@ -53,11 +54,23 @@ describe('subscription reducer', () => {
         },
     ];
     const type = CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION;
-    tests.forEach((t: typeof tests[0]) => {
+    isLegacyCloudPaidTierTests.forEach((t: typeof isLegacyCloudPaidTierTests[0]) => {
         test(t.label, () => {
             const newSub = subscription(null, {type, data: t.sub});
             expect(newSub?.is_legacy_cloud_paid_tier).toBe(t.value);
         });
+    });
+
+    it('when zero last_invoice, the invoice is ignored', () => {
+        const sub = {...baseSub, last_invoice: TestHelper.getInvoiceMock({total: 0})};
+        const newSub = subscription(null, {type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION, data: sub});
+        expect(newSub!.last_invoice).toBe(undefined);
+    });
+
+    it('when non zero last_invoice, the invoice is saved in state', () => {
+        const sub = {...baseSub, last_invoice: TestHelper.getInvoiceMock({total: 0.01})};
+        const newSub = subscription(null, {type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION, data: sub});
+        expect(newSub!.last_invoice!.total).toBe(0.01);
     });
 });
 
