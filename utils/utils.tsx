@@ -1555,16 +1555,8 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
     }
 }
 
-export function isEmptyObject(object: any) {
-    if (!object) {
-        return true;
-    }
-
-    if (Object.keys(object).length === 0) {
-        return true;
-    }
-
-    return false;
+export function isEmptyObject(object: Record<string, unknown>) {
+    return !object || Object.keys(object).length === 0;
 }
 
 export function removePrefixFromLocalStorage(prefix: string) {

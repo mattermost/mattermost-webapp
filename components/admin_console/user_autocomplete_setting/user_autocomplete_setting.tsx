@@ -9,7 +9,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import Setting from 'components/admin_console/setting';
 import SuggestionBox from 'components/suggestion/suggestion_box';
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import SuggestionList from 'components/suggestion/suggestion_list';
 
 type Props = {
     id: string;

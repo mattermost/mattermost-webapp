@@ -8,11 +8,11 @@ import Constants from 'utils/constants';
 
 import Popover from 'components/widgets/popover';
 
-import SuggestionList from './suggestion_list.jsx';
+import {SuggestionListClass} from './suggestion_list.tsx';
 
-export default class SearchSuggestionList extends SuggestionList {
+export default class SearchSuggestionList extends SuggestionListClass {
     static propTypes = {
-        ...SuggestionList.propTypes,
+        ...SuggestionListClass.propTypes,
     };
 
     constructor(props) {

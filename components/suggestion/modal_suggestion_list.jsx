@@ -4,7 +4,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import SuggestionList from 'components/suggestion/suggestion_list';
 import {getClosestParent} from 'utils/utils';
 
 export default class ModalSuggestionList extends React.PureComponent {
