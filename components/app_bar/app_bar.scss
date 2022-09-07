@@ -145,6 +145,14 @@ $channel-view-padding: 63px;
     .tippy-arrow {
         border-color: var(--button-bg) !important;
         color: var(--button-bg) !important;
+
+        &:before {
+            border-width: 0 !important;
+            border-left-color: initial;
+            border-color: var(--button-bg) !important;
+            background-color: var(--button-bg) !important;
+            transform-origin: unset !important;
+        }
     }
 
     .tour-tip__header {

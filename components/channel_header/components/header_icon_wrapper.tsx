@@ -166,7 +166,7 @@ const HeaderIconWrapper = (props: Props) => {
                 {pluginId && pluginId === 'focalboard' &&
                     <NewChannelWithBoardTourTip
                         pulsatingDotPlacement={'start'}
-                        pulsatingDotTranslate={{x: 0, y: -12}}
+                        pulsatingDotTranslate={{x: 0, y: -22}}
                     />
                 }
             </div>
@@ -187,7 +187,7 @@ const HeaderIconWrapper = (props: Props) => {
             {pluginId && pluginId === 'focalboard' &&
                 <NewChannelWithBoardTourTip
                     pulsatingDotPlacement={'start'}
-                    pulsatingDotTranslate={{x: 0, y: -12}}
+                    pulsatingDotTranslate={{x: 0, y: -22}}
                 />
             }
         </>
