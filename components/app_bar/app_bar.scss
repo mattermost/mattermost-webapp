@@ -146,10 +146,10 @@ $channel-view-padding: 63px;
         border-color: var(--button-bg) !important;
         color: var(--button-bg) !important;
 
-        &:before {
+        &::before {
             border-width: 0 !important;
-            border-left-color: initial;
             border-color: var(--button-bg) !important;
+            border-left-color: initial;
             background-color: var(--button-bg) !important;
             transform-origin: unset !important;
         }
