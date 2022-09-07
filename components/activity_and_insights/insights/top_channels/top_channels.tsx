@@ -87,7 +87,7 @@ const TopChannels = (props: WidgetHocProps) => {
                 >
                     <CircleSkeletonLoader size={16}/>
                     <RectangleSkeletonLoader
-                        height='12px'
+                        height={12}
                         margin='0 0 0 8px'
                         flex={skeletonFlexes[i]}
                     />
@@ -124,7 +124,7 @@ const TopChannels = (props: WidgetHocProps) => {
                     {
                         loading &&
                         <RectangleSkeletonLoader
-                            height='200px'
+                            height={200}
                             borderRadius={4}
                         />
                     }

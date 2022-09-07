@@ -66,11 +66,11 @@ const TopPlaybooks = (props: WidgetHocProps) => {
                     key={i}
                 >
                     <RectangleSkeletonLoader
-                        height='12px'
+                        height={12}
                         margin='0 0 8px 0'
                     />
                     <RectangleSkeletonLoader
-                        height='8px'
+                        height={8}
                         margin='0 0 8px 0'
                         width='80%'
                     />

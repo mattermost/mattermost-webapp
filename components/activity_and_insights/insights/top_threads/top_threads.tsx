@@ -72,17 +72,17 @@ const TopThreads = (props: WidgetHocProps) => {
                     <div className='top-thread-loading-row'>
                         <CircleSkeletonLoader size={20}/>
                         <RectangleSkeletonLoader
-                            height='12px'
+                            height={12}
                             margin='0 0 0 8px'
                             flex='0.5'
                         />
                     </div>
                     <div>
                         <RectangleSkeletonLoader
-                            height='8px'
+                            height={8}
                             margin='0 0 8px 0'
                         />
-                        <RectangleSkeletonLoader height='8px'/>
+                        <RectangleSkeletonLoader height={8}/>
                     </div>
                 </div>,
             );

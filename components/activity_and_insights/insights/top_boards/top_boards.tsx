@@ -54,11 +54,11 @@ const TopBoards = (props: WidgetHocProps) => {
                     <CircleSkeletonLoader size={32}/>
                     <div className='loading-lines'>
                         <RectangleSkeletonLoader
-                            height='12px'
+                            height={12}
                             flex='none'
                         />
                         <RectangleSkeletonLoader
-                            height='8px'
+                            height={8}
                             flex='none'
                             margin='6px 0 0 0'
                         />

@@ -77,8 +77,8 @@ const TopReactions = (props: WidgetHocProps) => {
                     key={i}
                 >
                     <RectangleSkeletonLoader
-                        width='8px'
-                        height={`${barChartHeights[i]}px`}
+                        width={8}
+                        height={barChartHeights[i]}
                         borderRadius={6}
                         margin='0 0 6px 0'
                     />

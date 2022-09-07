@@ -65,19 +65,19 @@ const LeastActiveChannels = (props: WidgetHocProps & Props) => {
                     <CircleSkeletonLoader size={16}/>
                     <RectangleSkeletonLoader
                         width='30%'
-                        height='12px'
+                        height={12}
                         margin='0 0 0 6px'
                         flex='1'
                     />
                     <RectangleSkeletonLoader
                         width='30%'
-                        height='12px'
+                        height={12}
                         margin='0 0 0 30px'
                         flex='1'
                     />
                     <RectangleSkeletonLoader
                         width='20%'
-                        height='12px'
+                        height={12}
                         margin='0 0 0 50px'
                         flex='1'
                     />

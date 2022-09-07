@@ -87,19 +87,19 @@ const TopDMsAndNewMembers = (props: WidgetHocProps) => {
                     <CircleSkeletonLoader size={72}/>
                     <div className='title-line'>
                         <RectangleSkeletonLoader
-                            height='12px'
+                            height={12}
                             flex='1'
                         />
                     </div>
                     <div>
                         <RectangleSkeletonLoader
-                            height='8px'
-                            width='92px'
+                            height={8}
+                            width={92}
                             margin='0 0 12px 0'
                         />
                         <RectangleSkeletonLoader
-                            height='8px'
-                            width='72px'
+                            height={8}
+                            width={72}
                         />
                     </div>
                 </div>,
