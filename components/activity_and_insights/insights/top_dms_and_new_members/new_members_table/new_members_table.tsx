@@ -172,7 +172,7 @@ const NewMembersTable = (props: Props) => {
                     setOffset={props.setOffset}
                 />
             }
-            
+
         </>
 
     );
