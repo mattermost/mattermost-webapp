@@ -1,20 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
+import {Channel} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
 
 import {General, Permissions} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
-import mergeObjects from 'mattermost-redux/test/merge_objects';
-import TestHelper from 'mattermost-redux/test/test_helper';
+import mergeObjects from '../../../test/merge_objects';
+import TestHelper from '../../..//test/test_helper';
 
 import {sortChannelsByDisplayName, getDirectChannelName} from 'mattermost-redux/utils/channel_utils';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import * as Selectors from './channels';
 
-const sortUsernames = (a, b) => a.localeCompare(b, General.DEFAULT_LOCALE, {numeric: true});
+const sortUsernames = (a: string, b: string) => a.localeCompare(b, General.DEFAULT_LOCALE, {numeric: true});
 
 describe('Selectors.Channels.getChannelsInCurrentTeam', () => {
     const team1 = TestHelper.fakeTeamWithId();
@@ -61,8 +62,8 @@ describe('Selectors.Channels.getChannelsInCurrentTeam', () => {
             },
         });
 
-        const channelsInCurrentTeam = [channel1, channel3].sort(sortChannelsByDisplayName.bind(null, []));
-        assert.deepEqual(Selectors.getChannelsInCurrentTeam(testState), channelsInCurrentTeam);
+        const channelsInCurrentTeam = [channel1, channel3].sort(sortChannelsByDisplayName.bind(null, 'en'));
+        expect(Selectors.getChannelsInCurrentTeam(testState)).toEqual(channelsInCurrentTeam);
     });
 
     it('should order by user locale', () => {
@@ -135,8 +136,8 @@ describe('Selectors.Channels.getChannelsInCurrentTeam', () => {
         const channelsInCurrentTeamDe = [channel1, channel2].sort(sortChannelsByDisplayName.bind(null, userDe.locale));
         const channelsInCurrentTeamSv = [channel1, channel2].sort(sortChannelsByDisplayName.bind(null, userSv.locale));
 
-        assert.deepEqual(Selectors.getChannelsInCurrentTeam(testStateDe), channelsInCurrentTeamDe);
-        assert.deepEqual(Selectors.getChannelsInCurrentTeam(testStateSv), channelsInCurrentTeamSv);
+        expect(Selectors.getChannelsInCurrentTeam(testStateDe)).toEqual(channelsInCurrentTeamDe);
+        expect(Selectors.getChannelsInCurrentTeam(testStateSv)).toEqual(channelsInCurrentTeamSv);
     });
 });
 
@@ -169,7 +170,7 @@ describe('Selectors.Channels.getMyChannels', () => {
     const channel4 = {
         ...TestHelper.fakeChannelWithId(''),
         display_name: 'Channel Name',
-        type: General.DM_CHANNEL,
+        type: General.DM_CHANNEL as 'D',
         name: getDirectChannelName(user.id, user2.id),
     };
     const channel5 = {
@@ -177,7 +178,7 @@ describe('Selectors.Channels.getMyChannels', () => {
         display_name: [user.username, user2.username, user3.username].join(', '),
         type: General.GM_CHANNEL,
         name: '',
-    };
+    } as Channel;
 
     const channels = {
         [channel1.id]: channel1,
@@ -229,8 +230,8 @@ describe('Selectors.Channels.getMyChannels', () => {
     });
 
     it('get my channels in current team and DMs', () => {
-        const channelsInCurrentTeam = [channel1, channel3].sort(sortChannelsByDisplayName.bind(null, []));
-        assert.deepEqual(Selectors.getMyChannels(testState), [
+        const channelsInCurrentTeam = [channel1, channel3].sort(sortChannelsByDisplayName.bind(null, 'en'));
+        expect(Selectors.getMyChannels(testState)).toEqual([
             ...channelsInCurrentTeam,
             {...channel4, display_name: user2.username, status: 'offline', teammate_id: user2.id},
             {...channel5, display_name: [user2.username, user3.username].sort(sortUsernames).join(', ')},
@@ -263,7 +264,7 @@ describe('Selectors.Channels.getMembersInCurrentChannel', () => {
     });
 
     it('should return members in current channel', () => {
-        assert.deepEqual(Selectors.getMembersInCurrentChannel(testState), membersInChannel[channel1.id]);
+        expect(Selectors.getMembersInCurrentChannel(testState)).toEqual(membersInChannel[channel1.id]);
     });
 });
 
@@ -280,33 +281,33 @@ describe('Selectors.Channels.getOtherChannels', () => {
     const channel1 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
-        type: General.OPEN_CHANNEL,
+        type: General.OPEN_CHANNEL as 'O',
     };
     const channel2 = {
         ...TestHelper.fakeChannelWithId(team2.id),
         display_name: 'Channel Name',
-        type: General.OPEN_CHANNEL,
+        type: General.OPEN_CHANNEL as 'O',
     };
     const channel3 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
-        type: General.PRIVATE_CHANNEL,
+        type: General.PRIVATE_CHANNEL as 'P',
     };
     const channel4 = {
         ...TestHelper.fakeChannelWithId(''),
         display_name: 'Channel Name',
-        type: General.DM_CHANNEL,
+        type: General.DM_CHANNEL as 'D',
     };
     const channel5 = {
         ...TestHelper.fakeChannelWithId(''),
         display_name: 'Channel Name',
-        type: General.OPEN_CHANNEL,
+        type: General.OPEN_CHANNEL as 'O',
         delete_at: 444,
     };
     const channel6 = {
         ...TestHelper.fakeChannelWithId(team1.id),
         display_name: 'Channel Name',
-        type: General.OPEN_CHANNEL,
+        type: General.OPEN_CHANNEL as 'O',
     };
 
     const channels = {
@@ -347,11 +348,11 @@ describe('Selectors.Channels.getOtherChannels', () => {
     });
 
     it('get public channels not member of', () => {
-        assert.deepEqual(Selectors.getOtherChannels(testState), [channel1, channel5].sort(sortChannelsByDisplayName.bind(null, [])));
+        expect(Selectors.getOtherChannels(testState)).toEqual([channel1, channel5].sort(sortChannelsByDisplayName.bind(null, 'en')));
     });
 
     it('get public, unarchived channels not member of', () => {
-        assert.deepEqual(Selectors.getOtherChannels(testState, false), [channel1]);
+        expect(Selectors.getOtherChannels(testState, false)).toEqual([channel1]);
     });
 });
 
@@ -536,11 +537,11 @@ describe('Selectors.Channels.getChannelByName', () => {
         },
     });
     it('get first channel that matches by name', () => {
-        assert.deepEqual(Selectors.getChannelByName(testState, channel3.name), channel3);
+        expect(Selectors.getChannelByName(testState, channel3.name)).toEqual(channel3);
     });
 
-    it('return null if no channel matches by name', () => {
-        assert.deepEqual(Selectors.getChannelByName(testState, 'noChannel'), null);
+    it('return undefined if no channel matches by name', () => {
+        expect(Selectors.getChannelByName(testState, 'noChannel')).toEqual(undefined);
     });
 });
 
@@ -576,23 +577,23 @@ describe('Selectors.Channels.getChannelByTeamIdAndChannelName', () => {
     });
 
     it('get channel1 matching team id and name', () => {
-        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel1.name), channel1);
+        expect(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel1.name)).toEqual(channel1);
     });
 
     it('get channel2 matching team id and name', () => {
-        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team2.id, channel2.name), channel2);
+        expect(Selectors.getChannelByTeamIdAndChannelName(testState, team2.id, channel2.name)).toEqual(channel2);
     });
 
     it('get channel3 matching team id and name', () => {
-        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel3.name), channel3);
+        expect(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel3.name)).toEqual(channel3);
     });
 
-    it('return null if no channel matches team id and name', () => {
-        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel2.name), null);
+    it('return undefined if no channel matches team id and name', () => {
+        expect(Selectors.getChannelByTeamIdAndChannelName(testState, team1.id, channel2.name)).toEqual(undefined);
     });
 
-    it('return null on empty team id', () => {
-        assert.deepEqual(Selectors.getChannelByTeamIdAndChannelName(testState, '', channel1.name), null);
+    it('return undefined on empty team id', () => {
+        expect(Selectors.getChannelByTeamIdAndChannelName(testState, '', channel1.name)).toEqual(undefined);
     });
 });
 
@@ -646,7 +647,7 @@ describe('Selectors.Channels.getChannelsNameMapInCurrentTeam', () => {
             [channel1.name]: channel1,
             [channel4.name]: channel4,
         };
-        assert.deepEqual(Selectors.getChannelsNameMapInCurrentTeam(testState), channelMap);
+        expect(Selectors.getChannelsNameMapInCurrentTeam(testState)).toEqual(channelMap);
     });
 
     describe('memoization', () => {
@@ -758,10 +759,10 @@ describe('Selectors.Channels.getChannelsNameMapInTeam', () => {
             [channel1.name]: channel1,
             [channel4.name]: channel4,
         };
-        assert.deepEqual(Selectors.getChannelsNameMapInTeam(testState, team1.id), channelMap);
+        expect(Selectors.getChannelsNameMapInTeam(testState, team1.id)).toEqual(channelMap);
     });
     it('get empty map for non-existing team', () => {
-        assert.deepEqual(Selectors.getChannelsNameMapInTeam(testState, 'junk'), {});
+        expect(Selectors.getChannelsNameMapInTeam(testState, 'junk')).toEqual({});
     });
 });
 
@@ -804,7 +805,7 @@ describe('Selectors.Channels.getChannelNameToDisplayNameMap', () => {
                 currentTeamId: team1.id,
             },
         },
-    };
+    } as unknown as GlobalState;
 
     test('should return a map of channel names to display names for the current team', () => {
         let state = baseState;
@@ -1010,7 +1011,7 @@ describe('Selectors.Channels.getGroupChannels', () => {
     });
 
     it('get group channels', () => {
-        assert.deepEqual(Selectors.getGroupChannels(testState), [
+        expect(Selectors.getGroupChannels(testState)).toEqual([
             {...channel3, display_name: [user3.username].sort(sortUsernames).join(', ')},
             {...channel5, display_name: [user2.username, user3.username].sort(sortUsernames).join(', ')},
         ]);
@@ -1067,10 +1068,10 @@ describe('Selectors.Channels.getChannelIdsInCurrentTeam', () => {
         const fromOriginalState = Selectors.getChannelIdsInCurrentTeam(testState);
         const fromModifiedState = Selectors.getChannelIdsInCurrentTeam(modifiedState);
 
-        assert.ok(fromOriginalState === fromModifiedState);
+        expect(fromOriginalState).toBe(fromModifiedState);
 
         // it should't have a direct channel
-        assert.equal(fromModifiedState.includes(channel5.id), false, 'should not have direct channel on a team');
+        expect(fromModifiedState.includes(channel5.id)).toBe(false);
     });
 });
 
@@ -1124,10 +1125,10 @@ describe('Selectors.Channels.getChannelIdsForCurrentTeam', () => {
         const fromOriginalState = Selectors.getChannelIdsForCurrentTeam(testState);
         const fromModifiedState = Selectors.getChannelIdsForCurrentTeam(modifiedState);
 
-        assert.ok(fromOriginalState === fromModifiedState);
+        expect(fromOriginalState).toBe(fromModifiedState);
 
         // it should have a direct channel
-        assert.ok(fromModifiedState.includes(channel5.id));
+        expect(fromModifiedState.includes(channel5.id)).toBe(true);
     });
 });
 
@@ -1152,7 +1153,7 @@ describe('Selectors.Channels.isCurrentChannelMuted', () => {
     });
 
     it('isCurrentChannelMuted', () => {
-        assert.ok(Selectors.isCurrentChannelMuted(testState) === false);
+        expect(Selectors.isCurrentChannelMuted(testState)).toBe(false);
 
         const newState = {
             entities: {
@@ -1161,8 +1162,8 @@ describe('Selectors.Channels.isCurrentChannelMuted', () => {
                     currentChannelId: channel2.id,
                 },
             },
-        };
-        assert.ok(Selectors.isCurrentChannelMuted(newState) === true);
+        } as unknown as GlobalState;
+        expect(Selectors.isCurrentChannelMuted(newState)).toBe(true);
     });
 });
 
@@ -1196,7 +1197,7 @@ describe('Selectors.Channels.isCurrentChannelArchived', () => {
     });
 
     it('isCurrentChannelArchived', () => {
-        assert.ok(Selectors.isCurrentChannelArchived(testState) === false);
+        expect(Selectors.isCurrentChannelArchived(testState)).toBe(false);
 
         const newState = {
             entities: {
@@ -1206,9 +1207,9 @@ describe('Selectors.Channels.isCurrentChannelArchived', () => {
                     currentChannelId: channel2.id,
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.isCurrentChannelArchived(newState) === true);
+        expect(Selectors.isCurrentChannelArchived(newState)).toBe(true);
     });
 });
 
@@ -1242,7 +1243,7 @@ describe('Selectors.Channels.isCurrentChannelDefault', () => {
     });
 
     it('isCurrentChannelDefault', () => {
-        assert.ok(Selectors.isCurrentChannelDefault(testState) === false);
+        expect(Selectors.isCurrentChannelDefault(testState)).toBe(false);
 
         const newState = {
             entities: {
@@ -1252,9 +1253,9 @@ describe('Selectors.Channels.isCurrentChannelDefault', () => {
                     currentChannelId: channel2.id,
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.isCurrentChannelDefault(newState) === true);
+        expect(Selectors.isCurrentChannelDefault(newState)).toBe(true);
     });
 });
 
@@ -1436,7 +1437,7 @@ describe('Selectors.Channels.getRedirectChannelNameForTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.getRedirectChannelNameForTeam(modifiedState, team1.id), 'test-channel');
+        expect(Selectors.getRedirectChannelNameForTeam(modifiedState, team1.id)).toEqual('test-channel');
     });
 
     it('getRedirectChannelNameForTeam with advanced permissions and with JOIN_PUBLIC_CHANNELS permission', () => {
@@ -1455,7 +1456,7 @@ describe('Selectors.Channels.getRedirectChannelNameForTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.getRedirectChannelNameForTeam(modifiedState, team1.id), General.DEFAULT_CHANNEL);
+        expect(Selectors.getRedirectChannelNameForTeam(modifiedState, team1.id)).toEqual(General.DEFAULT_CHANNEL);
     });
 
     it('getRedirectChannelNameForTeam with advanced permissions but without JOIN_PUBLIC_CHANNELS permission but being member of town-square', () => {
@@ -1492,7 +1493,7 @@ describe('Selectors.Channels.getRedirectChannelNameForTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.getRedirectChannelNameForTeam(modifiedState, team1.id), General.DEFAULT_CHANNEL);
+        expect(Selectors.getRedirectChannelNameForTeam(modifiedState, team1.id)).toEqual(General.DEFAULT_CHANNEL);
     });
 
     it('getRedirectChannelNameForTeam with advanced permissions but without JOIN_PUBLIC_CHANNELS permission in not current team', () => {
@@ -1529,7 +1530,7 @@ describe('Selectors.Channels.getRedirectChannelNameForTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.getRedirectChannelNameForTeam(modifiedState, team2.id), 'test-channel');
+        expect(Selectors.getRedirectChannelNameForTeam(modifiedState, team2.id)).toEqual('test-channel');
     });
 
     it('getRedirectChannelNameForTeam with advanced permissions and with JOIN_PUBLIC_CHANNELS permission in not current team', () => {
@@ -1548,7 +1549,7 @@ describe('Selectors.Channels.getRedirectChannelNameForTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.getRedirectChannelNameForTeam(modifiedState, team2.id), General.DEFAULT_CHANNEL);
+        expect(Selectors.getRedirectChannelNameForTeam(modifiedState, team2.id)).toEqual(General.DEFAULT_CHANNEL);
     });
 
     it('getRedirectChannelNameForTeam with advanced permissions but without JOIN_PUBLIC_CHANNELS permission but being member of town-square in not current team', () => {
@@ -1585,7 +1586,7 @@ describe('Selectors.Channels.getRedirectChannelNameForTeam', () => {
                 },
             },
         };
-        assert.equal(Selectors.getRedirectChannelNameForTeam(modifiedState, team2.id), General.DEFAULT_CHANNEL);
+        expect(Selectors.getRedirectChannelNameForTeam(modifiedState, team2.id)).toEqual(General.DEFAULT_CHANNEL);
     });
 });
 
@@ -1659,7 +1660,7 @@ describe('Selectors.Channels.getDirectAndGroupChannels', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getDirectAndGroupChannels(state), []);
+        expect(Selectors.getDirectAndGroupChannels(state)).toEqual([]);
     });
 
     it('will return only direct and group message channels', () => {
@@ -1673,7 +1674,7 @@ describe('Selectors.Channels.getDirectAndGroupChannels', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getDirectAndGroupChannels(state), [
+        expect(Selectors.getDirectAndGroupChannels(state)).toEqual([
             {...channel1, display_name: [user2.username, user3.username].sort(sortUsernames).join(', ')},
             {...channel2, display_name: user2.username},
             {...channel3, display_name: user3.username},
@@ -1698,7 +1699,7 @@ describe('Selectors.Channels.getDirectAndGroupChannels', () => {
             },
         };
 
-        assert.deepEqual(Selectors.getDirectAndGroupChannels(state), [
+        expect(Selectors.getDirectAndGroupChannels(state)).toEqual([
             {...channel1, display_name: [user2.username, user3.username].sort(sortUsernames).join(', ')},
             {...channel2, display_name: user2.username},
             {...channel3, display_name: user3.username},
@@ -1796,9 +1797,9 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.canManageAnyChannelMembersInCurrentTeam(newState) === false);
+        expect(Selectors.canManageAnyChannelMembersInCurrentTeam(newState)).toEqual(false);
     });
 
     it('will return true if channel_user has permissions to manage public channel members', () => {
@@ -1835,9 +1836,9 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.canManageAnyChannelMembersInCurrentTeam(newState) === true);
+        expect(Selectors.canManageAnyChannelMembersInCurrentTeam(newState)).toEqual(true);
     });
 
     it('will return true if channel_user has permissions to manage private channel members', () => {
@@ -1874,9 +1875,9 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.canManageAnyChannelMembersInCurrentTeam(newState) === true);
+        expect(Selectors.canManageAnyChannelMembersInCurrentTeam(newState)).toEqual(true);
     });
 
     it('will return false if channel admins have permissions, but the user is not a channel admin of any channel', () => {
@@ -1913,9 +1914,9 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.canManageAnyChannelMembersInCurrentTeam(newState) === false);
+        expect(Selectors.canManageAnyChannelMembersInCurrentTeam(newState)).toEqual(false);
     });
 
     it('will return true if channel admins have permission, and the user is a channel admin of some channel', () => {
@@ -1953,9 +1954,9 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.canManageAnyChannelMembersInCurrentTeam(newState) === true);
+        expect(Selectors.canManageAnyChannelMembersInCurrentTeam(newState)).toEqual(true);
     });
 
     it('will return true if team admins have permission, and the user is a team admin', () => {
@@ -1980,9 +1981,9 @@ describe('Selectors.Channels.canManageAnyChannelMembersInCurrentTeam', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.ok(Selectors.canManageAnyChannelMembersInCurrentTeam(newState) === true);
+        expect(Selectors.canManageAnyChannelMembersInCurrentTeam(newState)).toEqual(true);
     });
 });
 
@@ -2309,7 +2310,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const unreadStatus = Selectors.getUnreadStatus(state);
         const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
@@ -2357,7 +2358,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const unreadStatus = Selectors.getUnreadStatus(state);
         const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
@@ -2403,7 +2404,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const unreadStatus = Selectors.getUnreadStatus(state);
         const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
@@ -2449,7 +2450,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const unreadStatus = Selectors.getUnreadStatus(state);
 
@@ -2491,7 +2492,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const unreadStatus = Selectors.getUnreadStatus(state);
         const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
@@ -2546,7 +2547,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const unreadStatus = Selectors.getUnreadStatus(state);
         const unreadMeta = Selectors.basicUnreadMeta(unreadStatus);
@@ -2616,7 +2617,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
 
@@ -2675,7 +2676,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
 
@@ -2745,7 +2746,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
 
@@ -2803,7 +2804,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
 
@@ -2848,7 +2849,7 @@ describe('Selectors.Channels.getMyFirstChannelForTeams', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         expect(Selectors.getMyFirstChannelForTeams(state)).toEqual({
             team1: state.entities.channels.channels.channelA,
@@ -2883,7 +2884,7 @@ describe('Selectors.Channels.getMyFirstChannelForTeams', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         expect(Selectors.getMyFirstChannelForTeams(state)).toEqual({
             team1: state.entities.channels.channels.channelB,
@@ -2919,7 +2920,7 @@ describe('Selectors.Channels.getMyFirstChannelForTeams', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         expect(Selectors.getMyFirstChannelForTeams(state)).toEqual({
             team1: state.entities.channels.channels.channelA,
@@ -2937,12 +2938,12 @@ test('Selectors.Channels.isManuallyUnread', () => {
                 },
             },
         },
-    };
+    } as unknown as GlobalState;
 
-    assert.equal(Selectors.isManuallyUnread(state, 'channel1'), true);
-    assert.equal(Selectors.isManuallyUnread(state, undefined), false);
-    assert.equal(Selectors.isManuallyUnread(state, 'channel2'), false);
-    assert.equal(Selectors.isManuallyUnread(state, 'channel3'), false);
+    expect(Selectors.isManuallyUnread(state, 'channel1')).toBe(true);
+    expect(Selectors.isManuallyUnread(state, undefined)).toBe(false);
+    expect(Selectors.isManuallyUnread(state, 'channel2')).toBe(false);
+    expect(Selectors.isManuallyUnread(state, 'channel3')).toBe(false);
 });
 
 test('Selectors.Channels.getChannelModerations', () => {
@@ -2961,11 +2962,10 @@ test('Selectors.Channels.getChannelModerations', () => {
                 },
             },
         },
-    };
+    } as unknown as GlobalState;
 
-    assert.equal(Selectors.getChannelModerations(state, 'channel1'), moderations);
-    assert.equal(Selectors.getChannelModerations(state, undefined), undefined);
-    assert.equal(Selectors.getChannelModerations(state, 'undefined'), undefined);
+    expect(Selectors.getChannelModerations(state, 'channel1')).toEqual(moderations);
+    expect(Selectors.getChannelModerations(state, 'undefined')).toEqual(undefined);
 });
 
 test('Selectors.Channels.getChannelMemberCountsByGroup', () => {
@@ -2990,11 +2990,10 @@ test('Selectors.Channels.getChannelMemberCountsByGroup', () => {
                 },
             },
         },
-    };
+    } as unknown as GlobalState;
 
-    assert.deepEqual(Selectors.getChannelMemberCountsByGroup(state, 'channel1'), memberCounts);
-    assert.deepEqual(Selectors.getChannelMemberCountsByGroup(state, undefined), {});
-    assert.deepEqual(Selectors.getChannelMemberCountsByGroup(state, 'undefined'), {});
+    expect(Selectors.getChannelMemberCountsByGroup(state, 'channel1')).toEqual(memberCounts);
+    expect(Selectors.getChannelMemberCountsByGroup(state, 'undefined')).toEqual({});
 });
 
 describe('isFavoriteChannel', () => {
@@ -3034,7 +3033,7 @@ describe('isFavoriteChannel', () => {
                     config: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         expect(Selectors.isFavoriteChannel(state, channel.id)).toBe(false);
 

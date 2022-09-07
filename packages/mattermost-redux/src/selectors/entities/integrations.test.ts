@@ -1,9 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from '../../../test/test_helper';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import {getAllCommands, getAutocompleteCommandsList, getOutgoingHooksInCurrentTeam} from './integrations';
@@ -43,17 +41,17 @@ describe('Selectors.Integrations', () => {
 
     it('should return outgoing hooks in current team', () => {
         const hooksInCurrentTeam1 = [hook1, hook2];
-        assert.deepEqual(getOutgoingHooksInCurrentTeam(testState), hooksInCurrentTeam1);
+        expect(getOutgoingHooksInCurrentTeam(testState)).toEqual(hooksInCurrentTeam1);
     });
 
     it('should get all commands', () => {
         const commandsInState = {...commands, ...systemCommands};
-        assert.deepEqual(getAllCommands(testState), commandsInState);
+        expect(getAllCommands(testState)).toEqual(commandsInState);
     });
 
     it('should get all autocomplete commands by teamId', () => {
         const autocompleteCommandsForTeam = [command3];
-        assert.deepEqual(getAutocompleteCommandsList(testState), autocompleteCommandsForTeam);
+        expect(getAutocompleteCommandsList(testState)).toEqual(autocompleteCommandsForTeam);
     });
 
     TestHelper.tearDown();

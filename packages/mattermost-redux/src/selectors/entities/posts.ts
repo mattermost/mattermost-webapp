@@ -148,9 +148,9 @@ export function makeGetPostsChunkAroundPost(): (state: GlobalState, postId: Post
     );
 }
 
-export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a: {
-    postsBeforeCount: number;
-    postsAfterCount: number;
+export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a?: {
+    postsBeforeCount?: number;
+    postsAfterCount?: number;
 }) => Array<Post['id']> | undefined | null {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     return createIdsSelector(
