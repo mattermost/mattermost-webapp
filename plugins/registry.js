@@ -904,4 +904,11 @@ export default class PluginRegistry {
             },
         });
     }
+
+    forceTeamSidebarToBeVisible(showSidebar) {
+        store.dispatch({
+            type: ActionTypes.FORCE_TEAM_SIDEBAR_TO_BE_VISIBLE,
+            showSidebar,
+        });
+    }
 }

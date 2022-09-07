@@ -21,6 +21,7 @@ import channelSelectorModal from './channel_selector_modal';
 import settings from './settings';
 import marketplace from './marketplace';
 import channelSidebar from './channel_sidebar';
+import teamSidebar from './team_sidebar';
 import productMenu from './product_menu';
 import textbox from './textbox';
 import statusDropdown from './status_dropdown';
@@ -53,4 +54,5 @@ export default combineReducers({
     onboardingTasks,
     threads,
     productMenu,
+    teamSidebar,
 });

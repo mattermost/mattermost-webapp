@@ -29,15 +29,19 @@ import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
 
 import {Preferences} from 'utils/constants';
 
+import {getForceTeamSidebarToBeVisible} from '../../selectors/views/team_sidebar';
+
 import TeamSidebar from './team_sidebar';
 
 function mapStateToProps(state: GlobalState) {
     const config: Partial<ClientConfig> = getConfig(state);
 
-    const experimentalPrimaryTeam: string | undefined = config.ExperimentalPrimaryTeam;
+    const experimentalPrimaryTeam: string | undefined =
+        config.ExperimentalPrimaryTeam;
     const joinableTeams: string[] = getJoinableTeamIds(state);
     const moreTeamsToJoin: boolean = joinableTeams && joinableTeams.length > 0;
     const products = state.plugins.components.Product || [];
+    const forceTeamSidebarToBeVisible = getForceTeamSidebarToBeVisible(state);
 
     const [unreadTeamsSet, mentionsInTeamMap] = getTeamsUnreadStatuses(state);
 
@@ -52,6 +56,7 @@ function mapStateToProps(state: GlobalState) {
         products,
         unreadTeamsSet,
         mentionsInTeamMap,
+        forceTeamSidebarToBeVisible,
     };
 }
 

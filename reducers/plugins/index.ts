@@ -418,11 +418,11 @@ export default combineReducers({
     // components wrapped in an object that contains an id and plugin id
     components,
 
-    // object where every key is a post type and the values are components wrapped in an
+    // object where every key is a post type and the values are components wrapped in
     // an object that contains a plugin id
     postTypes,
 
-    // object where every key is a post type and the values are components wrapped in an
+    // object where every key is a post type and the values are components wrapped in
     // an object that contains a plugin id
     postCardTypes,
 
