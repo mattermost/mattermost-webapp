@@ -87,7 +87,7 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -319,7 +319,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -562,7 +562,7 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -794,7 +794,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -1043,7 +1043,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               overwriteName="overridden_username"
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={true}
             />
@@ -1221,7 +1221,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               overwriteName="overridden_username"
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={true}
             />
@@ -1384,7 +1384,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -1621,7 +1621,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -1866,7 +1866,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -2111,7 +2111,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -2352,7 +2352,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -2597,7 +2597,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />
@@ -2833,7 +2833,7 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
+            <BotTag
               className=""
               show={false}
             />

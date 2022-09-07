@@ -4,12 +4,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+import GuestTag from 'components/widgets/tag/guest_tag';
+
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
 import SharedUserIndicator from 'components/shared_user_indicator';
 import Avatar from 'components/widgets/users/avatar';
 
@@ -204,7 +205,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {'@' + itemname}
                     </span>
-                    <BotBadge
+                    <BotTag
                         show={Boolean(item.is_bot)}
                         className='badge-autocomplete'
                     />
@@ -212,7 +213,7 @@ export default class AtMentionSuggestion extends Suggestion {
                     {description}
                     {youElement}
                     {sharedIcon}
-                    <GuestBadge
+                    <GuestTag
                         show={isGuest(item.roles)}
                         className='badge-autocomplete'
                     />

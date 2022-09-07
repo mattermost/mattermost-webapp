@@ -56,7 +56,7 @@ exports[`components/suggestion/search_channel_suggestion should match snapshot, 
       className="ml-2"
     />
   </div>
-  <BotBadge
+  <BotTag
     className="badge-popoverlist"
     show={false}
   />

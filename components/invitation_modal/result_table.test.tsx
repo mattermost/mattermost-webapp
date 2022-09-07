@@ -8,10 +8,10 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
 import EmailIcon from 'components/widgets/icons/mail_icon';
 import AlertIcon from 'components/widgets/icons/alert_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
 import ResultTable, {Props} from './result_table';
@@ -94,8 +94,8 @@ describe('ResultTable', () => {
         }];
         const wrapper = shallow(<ResultTable {...props}/>);
         expect(wrapper.find(Avatar).length).toBe(1);
-        expect(wrapper.find(BotBadge).length).toBe(0);
-        expect(wrapper.find(GuestBadge).length).toBe(0);
+        expect(wrapper.find(BotTag).length).toBe(0);
+        expect(wrapper.find(GuestTag).length).toBe(0);
     });
 
     test('bots render as bots', () => {
@@ -108,8 +108,8 @@ describe('ResultTable', () => {
         }];
         const wrapper = shallow(<ResultTable {...props}/>);
         expect(wrapper.find(Avatar).length).toBe(1);
-        expect(wrapper.find(BotBadge).length).toBe(1);
-        expect(wrapper.find(GuestBadge).length).toBe(0);
+        expect(wrapper.find(BotTag).length).toBe(1);
+        expect(wrapper.find(GuestTag).length).toBe(0);
     });
 
     test('guests render as guests', () => {
@@ -122,8 +122,8 @@ describe('ResultTable', () => {
         }];
         const wrapper = shallow(<ResultTable {...props}/>);
         expect(wrapper.find(Avatar).length).toBe(1);
-        expect(wrapper.find(BotBadge).length).toBe(0);
-        expect(wrapper.find(GuestBadge).length).toBe(1);
+        expect(wrapper.find(BotTag).length).toBe(0);
+        expect(wrapper.find(GuestTag).length).toBe(1);
     });
 
     test('renders success banner when invites were sent', () => {

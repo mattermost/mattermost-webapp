@@ -2,11 +2,12 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {getUserIdFromChannelName} from 'mattermost-redux/utils/channel_utils';
 import {imageURLForUser} from 'utils/utils';
 import Constants from 'utils/constants';
 import Avatar from 'components/widgets/users/avatar';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import Suggestion from '../suggestion';
 
 import {Channel} from '@mattermost/types/channels';
@@ -85,7 +86,7 @@ export default class SearchChannelSuggestion extends Suggestion {
         let tag = null;
         if (item.type === Constants.DM_CHANNEL) {
             tag = (
-                <BotBadge
+                <BotTag
                     show={Boolean(teammate && teammate.is_bot)}
                     className='badge-popoverlist'
                 />

@@ -5,6 +5,10 @@ import React, {PureComponent} from 'react';
 import ColorHash from 'color-hash';
 import ColorContrastChecker from 'color-contrast-checker';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {UserProfile as UserProfileType} from '@mattermost/types/users';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
@@ -15,8 +19,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
 import SharedUserIndicator from 'components/shared_user_indicator';
 
 export type UserProfileProps = {
@@ -184,11 +187,11 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                     </button>
                 </OverlayTrigger>
                 {sharedIcon}
-                <BotBadge
+                <BotTag
                     show={Boolean(user && user.is_bot)}
                     className='badge-popoverlist'
                 />
-                <GuestBadge
+                <GuestTag
                     show={Boolean(user && isGuest(user.roles))}
                     className='badge-popoverlist'
                 />

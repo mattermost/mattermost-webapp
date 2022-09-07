@@ -55,7 +55,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         @user2
       </span>
-      <BotBadge
+      <BotTag
         className="badge-autocomplete"
         show={false}
       >
@@ -86,7 +86,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         a b (c)
       </span>
-      <GuestBadge
+      <GuestTag
         className="badge-autocomplete"
         show={false}
       >
@@ -161,7 +161,7 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         @user
       </span>
-      <BotBadge
+      <BotTag
         className="badge-autocomplete"
         show={false}
       >
@@ -204,7 +204,7 @@ exports[`at mention suggestion Should not display nick name of the signed in use
           </span>
         </FormattedMessage>
       </span>
-      <GuestBadge
+      <GuestTag
         className="badge-autocomplete"
         show={false}
       >

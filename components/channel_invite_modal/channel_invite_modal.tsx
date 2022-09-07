@@ -5,6 +5,9 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 import {RelationOneToOne} from '@mattermost/types/utilities';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -16,8 +19,7 @@ import {getLongDisplayNameParts, localizeMessage} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import InvitationModal from 'components/invitation_modal';
 import ToggleModalButton from 'components/toggle_modal_button';
 
@@ -266,11 +268,11 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                                 className='light'
                             >{userMapping[option.id]}</span>
                         </span>
-                        <BotBadge
+                        <BotTag
                             show={Boolean(option.is_bot)}
                             className='badge-popoverlist'
                         />
-                        <GuestBadge
+                        <GuestTag
                             show={isGuest(option.roles)}
                             className='popoverlist'
                         />

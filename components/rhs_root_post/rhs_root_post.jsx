@@ -6,6 +6,8 @@ import React, {createRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
@@ -25,7 +27,6 @@ import PostTime from 'components/post_view/post_time';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
-import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 
 import UserProfile from 'components/user_profile';
@@ -436,7 +437,7 @@ export default class RhsRootPost extends React.PureComponent {
                 );
             }
 
-            botIndicator = <BotBadge/>;
+            botIndicator = <BotTag/>;
         } else {
             userProfile = (
                 <UserProfile

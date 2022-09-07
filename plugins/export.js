@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
 import {browserHistory} from 'utils/browser_history';
@@ -16,7 +18,6 @@ import PurchaseModal from 'components/purchase_modal';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
-import BotBadge from 'components/widgets/badges/bot_badge';
 
 import {openPricingModal} from '../components/global_header/right_controls/plan_upgrade_button';
 
@@ -63,7 +64,7 @@ window.Components = {
     ChannelMembersModal,
     Avatar,
     imageURLForUser,
-    BotBadge,
+    BotBadge: BotTag,
 };
 
 // This is a prototype of the Product API for use by internal plugins only while we transition to the proper architecture

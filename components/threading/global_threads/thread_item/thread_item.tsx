@@ -6,6 +6,8 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
+import Tag from 'components/widgets/tag/tag';
+
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
 import {UserThread} from '@mattermost/types/threads';
@@ -19,7 +21,6 @@ import * as Utils from 'utils/utils';
 import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {getIsMobileView} from 'selectors/views/browser';
-import Badge from 'components/widgets/badges/badge';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
@@ -165,14 +166,13 @@ function ThreadItem({
                 )}
                 <span>{postAuthor}</span>
                 {Boolean(channel) && (
-                    <Badge
+                    <Tag
                         className={classNames({
                             Badge__hidden: postAuthor === channel?.display_name,
                         })}
                         onClick={goToInChannelHandler}
-                    >
-                        {channel?.display_name}
-                    </Badge>
+                        text={channel.display_name}
+                    />
                 )}
                 <Timestamp
                     {...THREADING_TIME}

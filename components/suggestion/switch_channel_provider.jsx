@@ -6,6 +6,10 @@ import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import classNames from 'classnames';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {
@@ -40,8 +44,7 @@ import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/
 import {logError} from 'mattermost-redux/actions/errors';
 import {sortChannelsByTypeAndDisplayName, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import {getPostDraft} from 'selectors/rhs';
 import store from 'stores/redux_store.jsx';
@@ -162,11 +165,11 @@ class SwitchChannelSuggestion extends Suggestion {
         if (channel.type === Constants.DM_CHANNEL) {
             tag = (
                 <React.Fragment>
-                    <BotBadge
+                    <BotTag
                         show={Boolean(teammate && teammate.is_bot)}
                         className='badge-autocomplete'
                     />
-                    <GuestBadge
+                    <GuestTag
                         show={Boolean(teammate && isGuest(teammate.roles))}
                         className='badge-autocomplete'
                     />

@@ -3,7 +3,7 @@
 
 import React, {ReactNode} from 'react';
 
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
 
 type RadioGroupProps = {
     id: string;
@@ -59,9 +59,10 @@ const RadioButtonGroup = ({
                     }
                 </label>
                 {(badge && val === badge?.matchVal) &&
-                    <Badge className={`radio-badge ${badge.extraClass ?? ''}`}>
-                        {badge.badgeContent}
-                    </Badge>
+                    <Tag
+                        className={`radio-badge ${badge.extraClass ?? ''}`}
+                        text={badge.badgeContent}
+                    />
                 }
             </div>,
         );

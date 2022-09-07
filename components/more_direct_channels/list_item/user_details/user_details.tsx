@@ -4,6 +4,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
@@ -11,8 +15,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {UserProfile} from '@mattermost/types/users';
 
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import GuestBadge from 'components/widgets/badges/guest_badge';
+
 import ProfilePicture from 'components/profile_picture';
 
 import {displayEntireNameForUser} from 'utils/utils';
@@ -67,11 +70,11 @@ export default function UserDetails(props: Props): JSX.Element {
             <div className='more-modal__details'>
                 <div className='more-modal__name'>
                     {modalName}
-                    <BotBadge
+                    <BotTag
                         show={isBot}
                         className='badge-popoverlist'
                     />
-                    <GuestBadge
+                    <GuestTag
                         show={isGuest(option.roles)}
                         className='badge-popoverlist'
                     />

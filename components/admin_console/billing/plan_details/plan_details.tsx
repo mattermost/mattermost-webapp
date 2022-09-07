@@ -6,7 +6,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {CloudProducts} from 'utils/constants';
 
-import Badge from 'components/widgets/badges/badge';
+import Tag from 'components/widgets/tag/tag';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import './plan_details.scss';
@@ -29,7 +29,7 @@ export const PlanDetailsTopElements = ({
     let userCountDisplay;
     let productName;
     const openPricingModal = useOpenPricingModal();
-    const intl = useIntl();
+    const {formatMessage} = useIntl();
 
     if (isLegacyFree) {
         productName = (
@@ -86,16 +86,16 @@ export const PlanDetailsTopElements = ({
     }
 
     const trialBadge = (
-        <Badge
-            className='TrialBadge'
+        <Tag
             show={isFreeTrial}
-        >
-            <FormattedMessage
-                id='admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial'
-                defaultMessage='{daysLeftOnTrial} trial days left'
-                values={{daysLeftOnTrial}}
-            />
-        </Badge>
+            className='TrialBadge'
+            text={formatMessage({
+                id: 'admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial',
+                defaultMessage: '{daysLeftOnTrial} trial days left',
+            },
+            {daysLeftOnTrial},
+            )}
+        />
     );
 
     const viewPlansButton = (
@@ -103,7 +103,7 @@ export const PlanDetailsTopElements = ({
             onClick={() => openPricingModal({trackingLocation: 'billing_plan_details_view_plans'})}
             className='btn btn-secondary PlanDetails__viewPlansButton'
         >
-            {intl.formatMessage({
+            {formatMessage({
                 id: 'workspace_limits.menu_limit.view_plans',
                 defaultMessage: 'View plans',
             })}
@@ -116,7 +116,6 @@ export const PlanDetailsTopElements = ({
                 <div className='PlanDetails__productName'>
                     {productName} {trialBadge}
                 </div>
-
                 {viewPlansButton}
             </div>
             {userCountDisplay}

@@ -6,6 +6,9 @@ import {Overlay} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Permissions} from 'mattermost-redux/constants';
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
@@ -20,8 +23,7 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import {ChannelHeaderDropdown} from 'components/channel_header_dropdown';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import Popover from 'components/widgets/popover';
 import CallButton from 'plugins/call_button';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -352,7 +354,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestBadge show={isGuest(dmUser?.roles ?? '')}/>
+                    <GuestTag show={isGuest(dmUser?.roles ?? '')}/>
                 </React.Fragment>
             );
         }
@@ -388,7 +390,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     <React.Fragment key={user?.id}>
                         {index > 0 && ', '}
                         {displayName}
-                        <GuestBadge show={isGuest(user?.roles ?? '')}/>
+                        <GuestTag show={isGuest(user?.roles ?? '')}/>
                     </React.Fragment>
                 );
             });
@@ -782,7 +784,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                             {channelTitle}
                         </span>
                     </strong>
-                    <BotBadge className='badge-popoverlist'/>
+                    <BotTag className='badge-popoverlist'/>
                     {toggleFavorite}
                 </div>
             );

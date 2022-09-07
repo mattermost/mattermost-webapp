@@ -2063,7 +2063,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
                           }
                         }
                       />
-                      <GuestBadge
+                      <GuestTag
                         className=""
                         show={false}
                       />
@@ -2356,7 +2356,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
                           }
                         }
                       />
-                      <GuestBadge
+                      <GuestTag
                         className=""
                         show={false}
                       />

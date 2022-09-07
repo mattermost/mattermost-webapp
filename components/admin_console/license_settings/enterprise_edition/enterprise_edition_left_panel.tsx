@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React, {RefObject, useEffect, useState} from 'react';
-import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime} from 'react-intl';
+import {FormattedDate, FormattedMessage, FormattedNumber, FormattedTime, useIntl} from 'react-intl';
+
+import Tag from 'components/widgets/tag/tag';
 
 import {ClientLicense} from '@mattermost/types/config';
 
@@ -10,8 +12,6 @@ import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
 import {FileTypes, LicenseSkus} from 'utils/constants';
-
-import Badge from 'components/widgets/badges/badge';
 
 import './enterprise_edition.scss';
 
@@ -63,6 +63,7 @@ const EnterpriseEditionLeftPanel = ({
     fileInputRef,
     handleChange,
 }: EnterpriseEditionProps) => {
+    const {formatMessage} = useIntl();
     const [unsanitizedLicense, setUnsanitizedLicense] = useState(license);
     useEffect(() => {
         async function fetchUnSanitizedLicense() {
@@ -87,7 +88,15 @@ const EnterpriseEditionLeftPanel = ({
                 />
             </div>
             <div className='title'>
-                {`Mattermost ${skuName}`}{freeTrialBadge(isTrialLicense)}
+                {`Mattermost ${skuName}`}
+                <Tag
+                    show={isTrialLicense}
+                    text={formatMessage({
+                        id: 'admin.license.Trial',
+                        defaultMessage: 'Trial',
+                    })}
+                    className='free-trial-license'
+                />
             </div>
             <div className='subtitle'>
                 <FormattedMessage
@@ -264,21 +273,6 @@ const renderRemoveButton = (
                 </button>
             </div>
         </>
-    );
-};
-
-const freeTrialBadge = (isTrialLicense: boolean) => {
-    if (!isTrialLicense) {
-        return null;
-    }
-
-    return (
-        <Badge className='free-trial-license'>
-            <FormattedMessage
-                id='admin.license.Trial'
-                defaultMessage='Trial'
-            />
-        </Badge>
     );
 };
 

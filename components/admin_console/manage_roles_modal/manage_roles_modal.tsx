@@ -6,6 +6,8 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Client4} from 'mattermost-redux/client';
 import {General} from 'mattermost-redux/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -14,7 +16,6 @@ import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import {isSuccess} from 'types/actions';
 
@@ -297,7 +298,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>
                             {name}
-                            <BotBadge
+                            <BotTag
                                 show={Boolean(user.is_bot)}
                                 className='badge-admin'
                             />

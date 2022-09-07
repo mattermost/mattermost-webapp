@@ -6,6 +6,8 @@ import styled, {css} from 'styled-components';
 import classNames from 'classnames';
 import {FormattedMessage} from 'react-intl';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+
 import {UserProfile} from '@mattermost/types/users';
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
@@ -18,7 +20,6 @@ import Tooltip from 'components/tooltip';
 import Constants from 'utils/constants';
 
 import {isGuest} from 'mattermost-redux/utils/user_utils';
-import GuestBadge from 'components/widgets/badges/guest_badge';
 
 import {ChannelMember} from './channel_members_rhs';
 
@@ -119,7 +120,7 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
             <UserInfo>
                 <DisplayName>
                     {member.displayName}
-                    <GuestBadge show={isGuest(member.user.roles)}/>
+                    <GuestTag show={isGuest(member.user.roles)}/>
                 </DisplayName>
                 <Username>{'@'}{member.user.username}</Username>
             </UserInfo>

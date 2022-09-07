@@ -7,6 +7,10 @@ import {components, InputActionMeta, FormatOptionLabelMeta} from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/async';
 import classNames from 'classnames';
 
+import GuestTag from 'components/widgets/tag/guest_tag';
+
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {isEmail} from 'mattermost-redux/utils/helpers';
 import {UserProfile} from '@mattermost/types/users';
 
@@ -14,8 +18,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/widgets/icons/mail_icon';
 import MailPlusIcon from 'components/widgets/icons/mail_plus_icon';
 import CloseCircleSolidIcon from 'components/widgets/icons/close_circle_solid_icon';
-import GuestBadge from 'components/widgets/badges/guest_badge';
-import BotBadge from 'components/widgets/badges/bot_badge';
+
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
 import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils';
@@ -131,11 +134,11 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         let botBadge = null;
 
         if ((user as UserProfile).is_bot) {
-            botBadge = <BotBadge/>;
+            botBadge = <BotTag/>;
         }
 
         if (!isEmail((user as EmailInvite).value) && isGuest((user as UserProfile).roles)) {
-            guestBadge = <GuestBadge/>;
+            guestBadge = <GuestTag/>;
         }
 
         if (options.context === 'menu') {

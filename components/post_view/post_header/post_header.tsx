@@ -4,14 +4,15 @@
 import React, {EventHandler, MouseEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import Tag from 'components/widgets/tag/tag';
+import BotTag from 'components/widgets/tag/bot_tag';
+
 import {Post} from '@mattermost/types/posts';
 
 import Constants from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import PostInfo from 'components/post_view/post_info';
 import UserProfile from 'components/user_profile';
-import BotBadge from 'components/widgets/badges/bot_badge';
-import Badge from 'components/widgets/badges/badge';
 
 import PostHeaderCustomStatus from './post_header_custom_status';
 
@@ -129,7 +130,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             }
 
             if (!this.props.isBot) {
-                indicator = (<BotBadge/>);
+                indicator = (<BotTag/>);
             }
         } else if (fromAutoResponder) {
             userProfile = (
@@ -142,12 +143,14 @@ export default class PostHeader extends React.PureComponent<Props> {
             );
 
             indicator = (
-                <Badge>
-                    <FormattedMessage
-                        id='post_info.auto_responder'
-                        defaultMessage='AUTOMATIC REPLY'
-                    />
-                </Badge>
+                <Tag
+                    text={(
+                        <FormattedMessage
+                            id='post_info.auto_responder'
+                            defaultMessage='AUTOMATIC REPLY'
+                        />
+                    )}
+                />
             );
         } else if (isSystemMessage && this.props.isBot) {
             userProfile = (
@@ -184,6 +187,8 @@ export default class PostHeader extends React.PureComponent<Props> {
             />
         );
 
+        const size = 'sm';
+
         return (
             <div className='post__header'>
                 <div className='col col__name'>
@@ -191,6 +196,40 @@ export default class PostHeader extends React.PureComponent<Props> {
                     {colon}
                     {indicator}
                     {customStatus}
+                    <Tag
+                        size={size}
+                        text={'Tag testing'}
+                        capitalize={true}
+                        icon={'account-plus-outline'}
+                    />
+                    <Tag
+                        size={size}
+                        text={'Tag testing'}
+                        capitalize={true}
+                        icon={'account-plus-outline'}
+                        variant={'danger'}
+                    />
+                    <Tag
+                        size={size}
+                        text={'Tag testing'}
+                        capitalize={true}
+                        icon={'account-plus-outline'}
+                        variant={'success'}
+                    />
+                    <Tag
+                        size={size}
+                        text={'Tag testing'}
+                        capitalize={true}
+                        icon={'account-plus-outline'}
+                        variant={'info'}
+                    />
+                    <Tag
+                        size={size}
+                        text={'Tag testing'}
+                        capitalize={true}
+                        icon={'account-plus-outline'}
+                        variant={'warning'}
+                    />
                 </div>
                 <div className='col'>
                     <PostInfo
