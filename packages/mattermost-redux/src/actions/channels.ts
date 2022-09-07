@@ -1441,10 +1441,6 @@ export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFu
             await dispatch(getPosts(channelId));
             state = getState();
             postId = getMostRecentPostIdInChannel(state, channelId);
-            if (postId) {
-                const lastPost = getPost(state, postId);
-                dispatch(markPostAsUnread(lastPost, 'CENTER'));
-            }
         }
         if (postId) {
             const lastPost = getPost(state, postId);
