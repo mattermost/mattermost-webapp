@@ -9,7 +9,7 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import {trackEvent} from 'actions/telemetry_actions';
 import configureStore from 'store';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import useGetHighestThresholdCloudLimit, {LimitTypes} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import useGetMultiplesExceededCloudLimit, {LimitTypes} from 'components/common/hooks/useGetMultiplesExceededCloudLimit';
 
 import {FreemiumModal} from './freemium_modal';
 
@@ -27,7 +27,7 @@ jest.mock('react-redux', () => ({
     useDispatch: jest.fn().mockReturnValue(() => {}),
 }));
 
-jest.mock('components/common/hooks/useGetHighestThresholdCloudLimit');
+jest.mock('components/common/hooks/useGetMultiplesExceededCloudLimit');
 
 describe('components/deliquency_modal/deliquency_modal', () => {
     const initialStates = {
@@ -82,11 +82,7 @@ describe('components/deliquency_modal/deliquency_modal', () => {
 
     it('should track reactivate plan if admin click Re activate plan', () => {
         const planName = 'Testing';
-        (useGetHighestThresholdCloudLimit as jest.Mock).mockReturnValue({
-            id: LimitTypes.fileStorage,
-            limit: 10,
-            usage: 12,
-        });
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.fileStorage]);
         renderComponent({
             props: {
                 planName,
@@ -104,7 +100,7 @@ describe('components/deliquency_modal/deliquency_modal', () => {
 
     it('should not show reactivate plan if admin limits isn\'t surpassed', () => {
         const planName = 'Testing';
-        (useGetHighestThresholdCloudLimit as jest.Mock).mockReturnValue(false);
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([]);
         renderComponent({
             props: {
                 planName,
