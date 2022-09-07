@@ -62,6 +62,8 @@ describe('components/deliquency_modal/deliquency_modal', () => {
         const defaultProps: ComponentProps<typeof FreemiumModal> = {
             onClose: jest.fn(),
             planName: 'planName',
+            isAdminConsole: false,
+            onExited: jest.fn(),
         };
 
         return renderWithIntl(

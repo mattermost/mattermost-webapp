@@ -415,6 +415,7 @@ export const ModalIdentifiers = {
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
     DELIQUENCY_MODAL_DOWNGRADE: 'deliquency_modal_downgrade',
+    CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
 };
 
 export const UserStatuses = {

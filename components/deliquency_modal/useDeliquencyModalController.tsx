@@ -48,7 +48,7 @@ export const useDeliquencyModalController = (props: UseDeliquencyModalController
             return;
         }
 
-        if (deliquencyModalPreferencesConfirmed.length > 0) {
+        if (false) {
             return;
         }
 
