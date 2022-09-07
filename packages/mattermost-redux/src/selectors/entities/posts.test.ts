@@ -1,33 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
+import {PostWithFormatData} from 'mattermost-redux/selectors/entities/posts';
+import {Post} from '@mattermost/types/posts';
+import {Reaction} from '@mattermost/types/reactions';
+import {GlobalState} from '@mattermost/types/store';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/posts';
 import {makeGetProfilesForReactions} from 'mattermost-redux/selectors/entities/users';
 
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from '../../../test/test_helper';
 
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
+import {UserProfile} from '@mattermost/types/users';
+
+const p = (override: Partial<PostWithFormatData>) => Object.assign(TestHelper.getPostMock(override), override);
 
 describe('Selectors.Posts', () => {
     const user1 = TestHelper.fakeUserWithId();
-    user1.notify_props = {};
-    const profiles = {};
+    const profiles: Record<string, UserProfile> = {};
     profiles[user1.id] = user1;
 
     const posts = {
-        a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: user1.id},
-        b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: user1.id},
-        c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'},
-        d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: 'b'},
-        e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'},
-        f: {id: 'f', channel_id: '2', create_at: 6, highlight: false, user_id: 'b'},
+        a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: user1.id}),
+        b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: user1.id}),
+        c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+        d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: 'b'}),
+        e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+        f: p({id: 'f', channel_id: '2', create_at: 6, highlight: false, user_id: 'b'}),
     };
 
-    const reaction1 = {user_id: user1.id, emoji_name: '+1'};
+    const reaction1 = {user_id: user1.id, emoji_name: '+1'} as Reaction;
     const reactionA = {[reaction1.user_id + '-' + reaction1.emoji_name]: reaction1};
     const reactions = {
         a: reactionA,
@@ -64,13 +69,13 @@ describe('Selectors.Posts', () => {
     it('should return single post with no children', () => {
         const getPostsForThread = Selectors.makeGetPostsForThread();
 
-        assert.deepEqual(getPostsForThread(testState, 'f'), [posts.f]);
+        expect(getPostsForThread(testState, 'f')).toEqual([posts.f]);
     });
 
     it('should return post with children', () => {
         const getPostsForThread = Selectors.makeGetPostsForThread();
 
-        assert.deepEqual(getPostsForThread(testState, 'a'), [posts.e, posts.c, posts.a]);
+        expect(getPostsForThread(testState, 'a')).toEqual([posts.e, posts.c, posts.a]);
     });
 
     it('should return memoized result for identical rootId', () => {
@@ -78,7 +83,7 @@ describe('Selectors.Posts', () => {
 
         const result = getPostsForThread(testState, 'a');
 
-        assert.equal(result, getPostsForThread(testState, 'a'));
+        expect(result).toEqual(getPostsForThread(testState, 'a'));
     });
 
     it('should return memoized result for multiple selectors with different props', () => {
@@ -88,18 +93,18 @@ describe('Selectors.Posts', () => {
         const result1 = getPostsForThread1(testState, 'a');
         const result2 = getPostsForThread2(testState, 'b');
 
-        assert.equal(result1, getPostsForThread1(testState, 'a'));
-        assert.equal(result2, getPostsForThread2(testState, 'b'));
+        expect(result1).toEqual(getPostsForThread1(testState, 'a'));
+        expect(result2).toEqual(getPostsForThread2(testState, 'b'));
     });
 
     it('should return reactions for post', () => {
         const getReactionsForPost = Selectors.makeGetReactionsForPost();
-        assert.deepEqual(getReactionsForPost(testState, posts.a.id), reactionA);
+        expect(getReactionsForPost(testState, posts.a.id)).toEqual(reactionA);
     });
 
     it('should return profiles for reactions', () => {
         const getProfilesForReactions = makeGetProfilesForReactions();
-        assert.deepEqual(getProfilesForReactions(testState, [reaction1]), [user1]);
+        expect(getProfilesForReactions(testState, [reaction1])).toEqual([user1]);
     });
 
     it('get posts in channel', () => {
@@ -159,11 +164,11 @@ describe('Selectors.Posts', () => {
         };
 
         const getPostsInChannel = Selectors.makeGetPostsInChannel();
-        assert.deepEqual(getPostsInChannel(testState, '1', 30), [post5, post4, post3, post2, post1]);
+        expect(getPostsInChannel(testState, '1', 30)).toEqual([post5, post4, post3, post2, post1]);
     });
 
     it('get posts around post in channel', () => {
-        const post1 = {
+        const post1: PostWithFormatData = {
             ...posts.a,
             isFirstReply: false,
             isLastReply: false,
@@ -172,9 +177,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post2 = {
+        const post2: PostWithFormatData = {
             ...posts.b,
             isFirstReply: false,
             isLastReply: false,
@@ -183,9 +189,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: true,
             replyCount: 1,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post3 = {
+        const post3: PostWithFormatData = {
             ...posts.c,
             isFirstReply: true,
             isLastReply: true,
@@ -197,7 +204,7 @@ describe('Selectors.Posts', () => {
             highlight: true,
         };
 
-        const post4 = {
+        const post4: PostWithFormatData = {
             ...posts.d,
             isFirstReply: true,
             isLastReply: true,
@@ -206,9 +213,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: true,
             replyCount: 1,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post5 = {
+        const post5: PostWithFormatData = {
             ...posts.e,
             isFirstReply: true,
             isLastReply: true,
@@ -217,26 +225,27 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: true,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
         const getPostsAroundPost = Selectors.makeGetPostsAroundPost();
-        assert.deepEqual(getPostsAroundPost(testState, post3.id, '1'), [post5, post4, post3, post2, post1]);
+        expect(getPostsAroundPost(testState, post3.id, '1')).toEqual([post5, post4, post3, post2, post1]);
     });
 
     it('get posts in channel with notify comments as any', () => {
         const userAny = TestHelper.fakeUserWithId();
-        userAny.notify_props = {comments: 'any'};
-        const profilesAny = {};
+        userAny.notify_props = {comments: 'any'} as UserProfile['notify_props'];
+        const profilesAny: Record<string, UserProfile> = {};
         profilesAny[userAny.id] = userAny;
 
         const postsAny = {
-            a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userAny.id},
-            b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'},
-            c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'},
-            d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userAny.id},
-            e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'},
-            f: {id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'},
-            g: {id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'},
+            a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userAny.id}),
+            b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'}),
+            c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+            d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userAny.id}),
+            e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+            f: p({id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'}),
+            g: p({id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'}),
         };
 
         const testStateAny = deepFreezeAndThrowOnMutation({
@@ -266,7 +275,7 @@ describe('Selectors.Posts', () => {
             },
         });
 
-        const post1 = {
+        const post1: PostWithFormatData = {
             ...postsAny.a,
             isFirstReply: false,
             isLastReply: false,
@@ -275,9 +284,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post2 = {
+        const post2: PostWithFormatData = {
             ...postsAny.b,
             isFirstReply: false,
             isLastReply: false,
@@ -286,9 +296,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: true,
+            highlight: false,
         };
 
-        const post3 = {
+        const post3: PostWithFormatData = {
             ...postsAny.c,
             isFirstReply: true,
             isLastReply: true,
@@ -297,9 +308,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: true,
             replyCount: 2,
             isCommentMention: true,
+            highlight: false,
         };
 
-        const post4 = {
+        const post4: PostWithFormatData = {
             ...postsAny.d,
             isFirstReply: true,
             isLastReply: true,
@@ -308,9 +320,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post5 = {
+        const post5: PostWithFormatData = {
             ...postsAny.e,
             isFirstReply: true,
             isLastReply: true,
@@ -319,9 +332,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: true,
+            highlight: false,
         };
 
-        const post6 = {
+        const post6: PostWithFormatData = {
             ...postsAny.f,
             isFirstReply: true,
             isLastReply: true,
@@ -330,26 +344,27 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: true,
             replyCount: 2,
             isCommentMention: true,
+            highlight: false,
         };
 
         const getPostsInChannel = Selectors.makeGetPostsInChannel();
-        assert.deepEqual(getPostsInChannel(testStateAny, '1'), [post6, post5, post4, post3, post2, post1]);
+        expect(getPostsInChannel(testStateAny, '1', 30)).toEqual([post6, post5, post4, post3, post2, post1]);
     });
 
     it('get posts in channel with notify comments as root', () => {
         const userRoot = TestHelper.fakeUserWithId();
-        userRoot.notify_props = {comments: 'root'};
-        const profilesRoot = {};
+        userRoot.notify_props = {comments: 'root'} as UserProfile['notify_props'];
+        const profilesRoot: Record<string, UserProfile> = {};
         profilesRoot[userRoot.id] = userRoot;
 
         const postsRoot = {
-            a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userRoot.id},
-            b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'},
-            c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'},
-            d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userRoot.id},
-            e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'},
-            f: {id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'},
-            g: {id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'},
+            a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userRoot.id}),
+            b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'}),
+            c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+            d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userRoot.id}),
+            e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+            f: p({id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'}),
+            g: p({id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'}),
         };
 
         const testStateRoot = deepFreezeAndThrowOnMutation({
@@ -446,23 +461,23 @@ describe('Selectors.Posts', () => {
         };
 
         const getPostsInChannel = Selectors.makeGetPostsInChannel();
-        assert.deepEqual(getPostsInChannel(testStateRoot, '1'), [post6, post5, post4, post3, post2, post1]);
+        expect(getPostsInChannel(testStateRoot, '1', 30)).toEqual([post6, post5, post4, post3, post2, post1]);
     });
 
     it('get posts in channel with notify comments as never', () => {
         const userNever = TestHelper.fakeUserWithId();
-        userNever.notify_props = {comments: 'never'};
-        const profilesNever = {};
+        userNever.notify_props = {comments: 'never'} as UserProfile['notify_props'];
+        const profilesNever: Record<string, UserProfile> = {};
         profilesNever[userNever.id] = userNever;
 
         const postsNever = {
-            a: {id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userNever.id},
-            b: {id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'},
-            c: {id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'},
-            d: {id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userNever.id},
-            e: {id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'},
-            f: {id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'},
-            g: {id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'},
+            a: p({id: 'a', channel_id: '1', create_at: 1, highlight: false, user_id: userNever.id}),
+            b: p({id: 'b', channel_id: '1', create_at: 2, highlight: false, user_id: 'b'}),
+            c: p({id: 'c', root_id: 'a', channel_id: '1', create_at: 3, highlight: false, user_id: 'b'}),
+            d: p({id: 'd', root_id: 'b', channel_id: '1', create_at: 4, highlight: false, user_id: userNever.id}),
+            e: p({id: 'e', root_id: 'a', channel_id: '1', create_at: 5, highlight: false, user_id: 'b'}),
+            f: p({id: 'f', root_id: 'b', channel_id: '1', create_at: 6, highlight: false, user_id: 'b'}),
+            g: p({id: 'g', channel_id: '2', create_at: 7, highlight: false, user_id: 'b'}),
         };
 
         const testStateNever = deepFreezeAndThrowOnMutation({
@@ -492,7 +507,7 @@ describe('Selectors.Posts', () => {
             },
         });
 
-        const post1 = {
+        const post1: PostWithFormatData = {
             ...postsNever.a,
             isFirstReply: false,
             isLastReply: false,
@@ -501,9 +516,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post2 = {
+        const post2: PostWithFormatData = {
             ...postsNever.b,
             isFirstReply: false,
             isLastReply: false,
@@ -512,9 +528,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post3 = {
+        const post3: PostWithFormatData = {
             ...postsNever.c,
             isFirstReply: true,
             isLastReply: true,
@@ -523,9 +540,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: true,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post4 = {
+        const post4: PostWithFormatData = {
             ...postsNever.d,
             isFirstReply: true,
             isLastReply: true,
@@ -534,9 +552,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post5 = {
+        const post5: PostWithFormatData = {
             ...postsNever.e,
             isFirstReply: true,
             isLastReply: true,
@@ -545,9 +564,10 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: false,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
-        const post6 = {
+        const post6: PostWithFormatData = {
             ...postsNever.f,
             isFirstReply: true,
             isLastReply: true,
@@ -556,16 +576,17 @@ describe('Selectors.Posts', () => {
             consecutivePostByUser: true,
             replyCount: 2,
             isCommentMention: false,
+            highlight: false,
         };
 
         const getPostsInChannel = Selectors.makeGetPostsInChannel();
-        assert.deepEqual(getPostsInChannel(testStateNever, '1'), [post6, post5, post4, post3, post2, post1]);
+        expect(getPostsInChannel(testStateNever, '1', 30)).toEqual([post6, post5, post4, post3, post2, post1]);
     });
 
     it('gets posts around post in channel not adding ephemeral post to replyCount', () => {
         const userAny = TestHelper.fakeUserWithId();
-        userAny.notify_props = {comments: 'any'};
-        const profilesAny = {};
+        userAny.notify_props = {comments: 'any'} as UserProfile['notify_props'];
+        const profilesAny: Record<string, UserProfile> = {};
         profilesAny[userAny.id] = userAny;
 
         const postsAny = {
@@ -636,13 +657,13 @@ describe('Selectors.Posts', () => {
         };
 
         const getPostsAroundPost = Selectors.makeGetPostsAroundPost();
-        assert.deepEqual(getPostsAroundPost(testStateAny, post1.id, '1'), [post3, post2, post1]);
+        expect(getPostsAroundPost(testStateAny, post1.id, '1')).toEqual([post3, post2, post1]);
     });
 
     it('gets posts in channel not adding ephemeral post to replyCount', () => {
         const userAny = TestHelper.fakeUserWithId();
-        userAny.notify_props = {comments: 'any'};
-        const profilesAny = {};
+        userAny.notify_props = {comments: 'any'} as UserProfile['notify_props'];
+        const profilesAny: Record<string, UserProfile> = {};
         profilesAny[userAny.id] = userAny;
 
         const postsAny = {
@@ -712,7 +733,7 @@ describe('Selectors.Posts', () => {
         };
 
         const getPostsInChannel = Selectors.makeGetPostsInChannel();
-        assert.deepEqual(getPostsInChannel(testStateAny, '1'), [post3, post2, post1]);
+        expect(getPostsInChannel(testStateAny, '1', 30)).toEqual([post3, post2, post1]);
     });
 
     it('get current history item', () => {
@@ -758,14 +779,14 @@ describe('Selectors.Posts', () => {
             },
         });
 
-        const getHistoryMessagePost = Selectors.makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST);
-        const getHistoryMessageComment = Selectors.makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT);
-        assert.equal(getHistoryMessagePost(testState1), 'test2');
-        assert.equal(getHistoryMessageComment(testState1), 'test3');
-        assert.equal(getHistoryMessagePost(testState2), 'test1');
-        assert.equal(getHistoryMessageComment(testState2), 'test1');
-        assert.equal(getHistoryMessagePost(testState3), '');
-        assert.equal(getHistoryMessageComment(testState3), '');
+        const getHistoryMessagePost = Selectors.makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.POST as 'post');
+        const getHistoryMessageComment = Selectors.makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
+        expect(getHistoryMessagePost(testState1)).toEqual('test2');
+        expect(getHistoryMessageComment(testState1)).toEqual('test3');
+        expect(getHistoryMessagePost(testState2)).toEqual('test1');
+        expect(getHistoryMessageComment(testState2)).toEqual('test1');
+        expect(getHistoryMessagePost(testState3)).toEqual('');
+        expect(getHistoryMessageComment(testState3)).toEqual('');
     });
 
     describe('getPostIdsForThread', () => {
@@ -787,10 +808,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
             const expected = ['1005'];
 
-            assert.deepEqual(getPostIdsForThread(state, '1005'), expected);
+            expect(getPostIdsForThread(state, '1005')).toEqual(expected);
         });
 
         it('thread', () => {
@@ -811,10 +832,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
             const expected = ['1004', '1002', '1001'];
 
-            assert.deepEqual(getPostIdsForThread(state, '1001'), expected);
+            expect(getPostIdsForThread(state, '1001')).toEqual(expected);
         });
 
         it('memoization', () => {
@@ -835,13 +856,13 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             // One post, no changes
             let previous = getPostIdsForThread(state, '1005');
             let now = getPostIdsForThread(state, '1005');
-            assert.deepEqual(now, ['1005']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['1005']);
+            expect(now).toBe(previous);
 
             // One post, unrelated changes
             state = {
@@ -852,7 +873,7 @@ describe('Selectors.Posts', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            1006: {id: '1006', create_at: 1006, root_id: '1003'},
+                            1006: p({id: '1006', create_at: 1006, root_id: '1003'}),
                         },
                         postsInThread: {
                             ...state.entities.posts.postsInThread,
@@ -864,8 +885,8 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostIdsForThread(state, '1005');
-            assert.deepEqual(now, ['1005']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['1005']);
+            expect(now).toBe(previous);
 
             // One post, changes to post
             state = {
@@ -876,7 +897,7 @@ describe('Selectors.Posts', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            1005: {id: '1005', create_at: 1005, update_at: 1006},
+                            1005: p({id: '1005', create_at: 1005, update_at: 1006}),
                         },
                         postsInThread: state.entities.posts.postsInThread,
                     },
@@ -885,18 +906,18 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostIdsForThread(state, '1005');
-            assert.deepEqual(now, ['1005']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['1005']);
+            expect(now).toBe(previous);
 
             // Change of thread
             previous = now;
             now = getPostIdsForThread(state, '1001');
-            assert.deepEqual(now, ['1004', '1002', '1001']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['1004', '1002', '1001']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsForThread(state, '1001');
-            assert.equal(now, previous);
+            expect(now).toBe(previous);
 
             // New post in thread
             state = {
@@ -907,7 +928,7 @@ describe('Selectors.Posts', () => {
                         ...state.entities.posts,
                         posts: {
                             ...state.entities.posts.posts,
-                            1007: {id: '1007', create_at: 1007, root_id: '1001'},
+                            1007: p({id: '1007', create_at: 1007, root_id: '1001'}),
                         },
                         postsInThread: {
                             ...state.entities.posts.postsInThread,
@@ -919,13 +940,13 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostIdsForThread(state, '1001');
-            assert.deepEqual(now, ['1007', '1004', '1002', '1001']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['1007', '1004', '1002', '1001']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsForThread(state, '1001');
-            assert.deepEqual(now, ['1007', '1004', '1002', '1001']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['1007', '1004', '1002', '1001']);
+            expect(now).toBe(previous);
         });
 
         it('memoization with multiple selectors', () => {
@@ -947,25 +968,25 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             let now1 = getPostIdsForThread1(state, '1001');
             let now2 = getPostIdsForThread2(state, '1001');
-            assert.notEqual(now1, now2);
-            assert.deepEqual(now1, now2);
+            expect(now1).not.toBe(now2);
+            expect(now1).toEqual(now2);
 
             let previous1 = now1;
             now1 = getPostIdsForThread1(state, '1001');
-            assert.equal(now1, previous1);
+            expect(now1).toEqual(previous1);
 
             const previous2 = now2;
             now2 = getPostIdsForThread2(state, '1003');
-            assert.notEqual(now2, previous2);
-            assert.notDeepEqual(now1, now2);
+            expect(now2).not.toEqual(previous2);
+            expect(now1).not.toEqual(now2);
 
             previous1 = now1;
             now1 = getPostIdsForThread1(state, '1001');
-            assert.equal(now1, previous1);
+            expect(now1).toEqual(previous1);
         });
     });
 
@@ -983,9 +1004,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostIdsAroundPost(state, 'a', '1234'), ['a']);
+            expect(getPostIdsAroundPost(state, 'a', '1234')).toEqual(['a']);
         });
 
         it('posts around', () => {
@@ -1001,9 +1022,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostIdsAroundPost(state, 'c', '1234'), ['a', 'b', 'c', 'd', 'e']);
+            expect(getPostIdsAroundPost(state, 'c', '1234')).toEqual(['a', 'b', 'c', 'd', 'e']);
         });
 
         it('posts before limit', () => {
@@ -1019,9 +1040,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostIdsAroundPost(state, 'a', '1234', {postsBeforeCount: 2}), ['a', 'b', 'c']);
+            expect(getPostIdsAroundPost(state, 'a', '1234', {postsBeforeCount: 2})).toEqual(['a', 'b', 'c']);
         });
 
         it('posts after limit', () => {
@@ -1037,9 +1058,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostIdsAroundPost(state, 'e', '1234', {postsAfterCount: 3}), ['b', 'c', 'd', 'e']);
+            expect(getPostIdsAroundPost(state, 'e', '1234', {postsAfterCount: 3})).toEqual(['b', 'c', 'd', 'e']);
         });
 
         it('posts before/after limit', () => {
@@ -1055,9 +1076,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostIdsAroundPost(state, 'c', '1234', {postsBeforeCount: 2, postsAfterCount: 1}), ['b', 'c', 'd', 'e']);
+            expect(getPostIdsAroundPost(state, 'c', '1234', {postsBeforeCount: 2, postsAfterCount: 1})).toEqual(['b', 'c', 'd', 'e']);
         });
 
         it('memoization', () => {
@@ -1073,13 +1094,13 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             // No limit, no changes
             let previous = getPostIdsAroundPost(state, 'c', '1234');
             let now = getPostIdsAroundPost(state, 'c', '1234');
-            assert.deepEqual(now, ['a', 'b', 'c', 'd', 'e']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['a', 'b', 'c', 'd', 'e']);
+            expect(now).toBe(previous);
 
             // Changes to posts in another channel
             state = {
@@ -1100,8 +1121,8 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostIdsAroundPost(state, 'c', '1234');
-            assert.deepEqual(now, ['a', 'b', 'c', 'd', 'e']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['a', 'b', 'c', 'd', 'e']);
+            expect(now).toBe(previous);
 
             // Changes to posts in this channel
             state = {
@@ -1122,57 +1143,57 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostIdsAroundPost(state, 'c', '1234');
-            assert.deepEqual(now, ['a', 'b', 'c', 'd', 'e', 'f']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsAroundPost(state, 'c', '1234');
-            assert.deepEqual(now, ['a', 'b', 'c', 'd', 'e', 'f']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['a', 'b', 'c', 'd', 'e', 'f']);
+            expect(now).toBe(previous);
 
             // Change of channel
             previous = now;
             now = getPostIdsAroundPost(state, 'i', 'abcd');
-            assert.deepEqual(now, ['g', 'h', 'i', 'j', 'k', 'l']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['g', 'h', 'i', 'j', 'k', 'l']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsAroundPost(state, 'i', 'abcd');
-            assert.deepEqual(now, ['g', 'h', 'i', 'j', 'k', 'l']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['g', 'h', 'i', 'j', 'k', 'l']);
+            expect(now).toBe(previous);
 
             // With limits
             previous = now;
             now = getPostIdsAroundPost(state, 'i', 'abcd', {postsBeforeCount: 2, postsAfterCount: 1});
-            assert.deepEqual(now, ['h', 'i', 'j', 'k']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['h', 'i', 'j', 'k']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsAroundPost(state, 'i', 'abcd', {postsBeforeCount: 2, postsAfterCount: 1}); // Note that the options object is a new object each time
-            assert.deepEqual(now, ['h', 'i', 'j', 'k']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['h', 'i', 'j', 'k']);
+            expect(now).toBe(previous);
 
             // Change of limits
             previous = now;
             now = getPostIdsAroundPost(state, 'i', 'abcd', {postsBeforeCount: 1, postsAfterCount: 2});
-            assert.deepEqual(now, ['g', 'h', 'i', 'j']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['g', 'h', 'i', 'j']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsAroundPost(state, 'i', 'abcd', {postsBeforeCount: 1, postsAfterCount: 2});
-            assert.deepEqual(now, ['g', 'h', 'i', 'j']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['g', 'h', 'i', 'j']);
+            expect(now).toBe(previous);
 
             // Change of post
             previous = now;
             now = getPostIdsAroundPost(state, 'j', 'abcd', {postsBeforeCount: 1, postsAfterCount: 2});
-            assert.deepEqual(now, ['h', 'i', 'j', 'k']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['h', 'i', 'j', 'k']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsAroundPost(state, 'j', 'abcd', {postsBeforeCount: 1, postsAfterCount: 2});
-            assert.deepEqual(now, ['h', 'i', 'j', 'k']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['h', 'i', 'j', 'k']);
+            expect(now).toBe(previous);
 
             // Change of posts past limit
             state = {
@@ -1192,8 +1213,8 @@ describe('Selectors.Posts', () => {
             };
             previous = now;
             now = getPostIdsAroundPost(state, 'j', 'abcd', {postsBeforeCount: 1, postsAfterCount: 2});
-            assert.deepEqual(now, ['h', 'i', 'j', 'k']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['h', 'i', 'j', 'k']);
+            expect(now).toBe(previous);
 
             // Change of post order
             state = {
@@ -1214,13 +1235,13 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostIdsAroundPost(state, 'j', 'abcd', {postsBeforeCount: 1, postsAfterCount: 2});
-            assert.deepEqual(now, ['i', 'h', 'j', 'l']);
-            assert.notEqual(now, previous);
+            expect(now).toEqual(['i', 'h', 'j', 'l']);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostIdsAroundPost(state, 'j', 'abcd', {postsBeforeCount: 1, postsAfterCount: 2});
-            assert.deepEqual(now, ['i', 'h', 'j', 'l']);
-            assert.equal(now, previous);
+            expect(now).toEqual(['i', 'h', 'j', 'l']);
+            expect(now).toBe(previous);
         });
 
         it('memoization with multiple selectors', () => {
@@ -1240,19 +1261,19 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             const previous1 = getPostIdsAroundPost1(state, 'c', '1234');
             const previous2 = getPostIdsAroundPost2(state, 'h', 'abcd', {postsBeforeCount: 1, postsAfterCount: 0});
 
-            assert.notEqual(previous1, previous2);
+            expect(previous1).not.toBe(previous2);
 
             const now1 = getPostIdsAroundPost1(state, 'c', '1234');
             const now2 = getPostIdsAroundPost2(state, 'i', 'abcd', {postsBeforeCount: 1, postsAfterCount: 0});
 
-            assert.equal(now1, previous1);
-            assert.notEqual(now2, previous2);
-            assert.notEqual(now1, now2);
+            expect(now1).toBe(previous1);
+            expect(now2).not.toBe(previous2);
+            expect(now1).not.toBe(now2);
         });
     });
 
@@ -1270,9 +1291,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostsChunkAroundPost(state, 'a', '1234'), {order: ['a'], recent: true});
+            expect(getPostsChunkAroundPost(state, 'a', '1234')).toEqual({order: ['a'], recent: true});
         });
 
         it('posts around', () => {
@@ -1288,9 +1309,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostsChunkAroundPost(state, 'c', '1234'), {order: ['a', 'b', 'c', 'd', 'e'], recent: true});
+            expect(getPostsChunkAroundPost(state, 'c', '1234')).toEqual({order: ['a', 'b', 'c', 'd', 'e'], recent: true});
         });
 
         it('no matching posts', () => {
@@ -1306,9 +1327,9 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(getPostsChunkAroundPost(state, 'noChunk', '1234'), null);
+            expect(getPostsChunkAroundPost(state, 'noChunk', '1234')).toEqual(undefined);
         });
 
         it('memoization', () => {
@@ -1324,7 +1345,7 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             // No limit, no changes
             let previous = getPostsChunkAroundPost(state, 'c', '1234');
@@ -1347,8 +1368,8 @@ describe('Selectors.Posts', () => {
             };
 
             let now = getPostsChunkAroundPost(state, 'c', '1234');
-            assert.deepEqual(now, {order: ['a', 'b', 'c', 'd', 'e'], recent: true});
-            assert.equal(now, previous);
+            expect(now).toEqual({order: ['a', 'b', 'c', 'd', 'e'], recent: true});
+            expect(now).toBe(previous);
 
             // Changes to posts in this channel
             state = {
@@ -1369,30 +1390,30 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostsChunkAroundPost(state, 'c', '1234');
-            assert.deepEqual(now, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
-            assert.notEqual(now, previous);
+            expect(now).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostsChunkAroundPost(state, 'c', '1234');
-            assert.deepEqual(now, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
-            assert.equal(now, previous);
+            expect(now).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
+            expect(now).toBe(previous);
 
             // Change of channel
             previous = now;
             now = getPostsChunkAroundPost(state, 'i', 'abcd');
-            assert.deepEqual(now, {order: ['g', 'h', 'i', 'j', 'k', 'l'], recent: true});
-            assert.notEqual(now, previous);
+            expect(now).toEqual({order: ['g', 'h', 'i', 'j', 'k', 'l'], recent: true});
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostsChunkAroundPost(state, 'i', 'abcd');
-            assert.deepEqual(now, {order: ['g', 'h', 'i', 'j', 'k', 'l'], recent: true});
-            assert.equal(now, previous);
+            expect(now).toEqual({order: ['g', 'h', 'i', 'j', 'k', 'l'], recent: true});
+            expect(now).toBe(previous);
 
             // Change of post in the chunk
             previous = now;
             now = getPostsChunkAroundPost(state, 'j', 'abcd');
-            assert.deepEqual(now, {order: ['g', 'h', 'i', 'j', 'k', 'l'], recent: true});
-            assert.equal(now, previous);
+            expect(now).toEqual({order: ['g', 'h', 'i', 'j', 'k', 'l'], recent: true});
+            expect(now).toBe(previous);
 
             // Change of post order
             state = {
@@ -1413,13 +1434,13 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostsChunkAroundPost(state, 'j', 'abcd');
-            assert.deepEqual(now, {order: ['y', 'g', 'i', 'h', 'j', 'l', 'k', 'z'], recent: true});
-            assert.notEqual(now, previous);
+            expect(now).toEqual({order: ['y', 'g', 'i', 'h', 'j', 'l', 'k', 'z'], recent: true});
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostsChunkAroundPost(state, 'j', 'abcd');
-            assert.deepEqual(now, {order: ['y', 'g', 'i', 'h', 'j', 'l', 'k', 'z'], recent: true});
-            assert.equal(now, previous);
+            expect(now).toEqual({order: ['y', 'g', 'i', 'h', 'j', 'l', 'k', 'z'], recent: true});
+            expect(now).toBe(previous);
         });
     });
     describe('getRecentPostsChunkInChannel', () => {
@@ -1434,13 +1455,13 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const recentPostsChunkInChannel = Selectors.getRecentPostsChunkInChannel(state, 1234);
-            assert.deepEqual(recentPostsChunkInChannel, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
+            const recentPostsChunkInChannel = Selectors.getRecentPostsChunkInChannel(state, '1234');
+            expect(recentPostsChunkInChannel).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
         });
 
-        it('Should return null as recent chunk does not exists', () => {
+        it('Should return undefined as recent chunk does not exists', () => {
             const state = {
                 entities: {
                     posts: {
@@ -1451,10 +1472,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const recentPostsChunkInChannel = Selectors.getRecentPostsChunkInChannel(state, 1234);
-            assert.deepEqual(recentPostsChunkInChannel, null);
+            const recentPostsChunkInChannel = Selectors.getRecentPostsChunkInChannel(state, '1234');
+            expect(recentPostsChunkInChannel).toEqual(undefined);
         });
     });
 
@@ -1470,13 +1491,13 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const oldestPostsChunkInChannel = Selectors.getOldestPostsChunkInChannel(state, 1234);
-            assert.deepEqual(oldestPostsChunkInChannel, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true, oldest: true});
+            const oldestPostsChunkInChannel = Selectors.getOldestPostsChunkInChannel(state, '1234');
+            expect(oldestPostsChunkInChannel).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true, oldest: true});
         });
 
-        it('Should return null as recent chunk does not exists', () => {
+        it('Should return undefined as recent chunk does not exists', () => {
             const state = {
                 entities: {
                     posts: {
@@ -1487,10 +1508,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const oldestPostsChunkInChannel = Selectors.getOldestPostsChunkInChannel(state, 1234);
-            assert.deepEqual(oldestPostsChunkInChannel, null);
+            const oldestPostsChunkInChannel = Selectors.getOldestPostsChunkInChannel(state, '1234');
+            expect(oldestPostsChunkInChannel).toEqual(undefined);
         });
     });
 
@@ -1513,19 +1534,19 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const postsChunkInChannelAroundTime1 = Selectors.getPostsChunkInChannelAroundTime(state, 1234, 1011);
-            assert.deepEqual(postsChunkInChannelAroundTime1, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
+            const postsChunkInChannelAroundTime1 = Selectors.getPostsChunkInChannelAroundTime(state, '1234', 1011);
+            expect(postsChunkInChannelAroundTime1).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
 
-            const postsChunkInChannelAroundTime2 = Selectors.getPostsChunkInChannelAroundTime(state, 1234, 1002);
-            assert.deepEqual(postsChunkInChannelAroundTime2, {order: ['e', 'f', 'g', 'h', 'i', 'j'], recent: false});
+            const postsChunkInChannelAroundTime2 = Selectors.getPostsChunkInChannelAroundTime(state, '1234', 1002);
+            expect(postsChunkInChannelAroundTime2).toEqual({order: ['e', 'f', 'g', 'h', 'i', 'j'], recent: false});
 
-            const postsChunkInChannelAroundTime3 = Selectors.getPostsChunkInChannelAroundTime(state, 1234, 1010);
-            assert.deepEqual(postsChunkInChannelAroundTime3, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
+            const postsChunkInChannelAroundTime3 = Selectors.getPostsChunkInChannelAroundTime(state, '1234', 1010);
+            expect(postsChunkInChannelAroundTime3).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
 
-            const postsChunkInChannelAroundTime4 = Selectors.getPostsChunkInChannelAroundTime(state, 1234, 1020);
-            assert.deepEqual(postsChunkInChannelAroundTime4, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
+            const postsChunkInChannelAroundTime4 = Selectors.getPostsChunkInChannelAroundTime(state, '1234', 1020);
+            expect(postsChunkInChannelAroundTime4).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
         });
     });
 
@@ -1548,10 +1569,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, 1234, 1030);
-            assert.deepEqual(unreadPostsChunk, {order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
+            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, '1234', 1030);
+            expect(unreadPostsChunk).toEqual({order: ['a', 'b', 'c', 'd', 'e', 'f'], recent: true});
         });
 
         it('should return a not recent chunk based on the timestamp', () => {
@@ -1572,10 +1593,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, 1234, 1002);
-            assert.deepEqual(unreadPostsChunk, {order: ['e', 'f', 'g', 'h', 'i', 'j'], recent: false});
+            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, '1234', 1002);
+            expect(unreadPostsChunk).toEqual({order: ['e', 'f', 'g', 'h', 'i', 'j'], recent: false});
         });
 
         it('should return recent chunk if it is an empty array', () => {
@@ -1590,10 +1611,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, 1234, 1002);
-            assert.deepEqual(unreadPostsChunk, {order: [], recent: true});
+            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, '1234', 1002);
+            expect(unreadPostsChunk).toEqual({order: [], recent: true});
         });
 
         it('should return oldest chunk if timstamp greater than the oldest post', () => {
@@ -1612,10 +1633,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, 1234, 1000);
-            assert.deepEqual(unreadPostsChunk, {order: ['a', 'b', 'c'], recent: true, oldest: true});
+            const unreadPostsChunk = Selectors.getUnreadPostsChunk(state, '1234', 1000);
+            expect(unreadPostsChunk).toEqual({order: ['a', 'b', 'c'], recent: true, oldest: true});
         });
     });
 
@@ -1623,12 +1644,12 @@ describe('Selectors.Posts', () => {
         it('selector', () => {
             const getPostsForIds = Selectors.makeGetPostsForIds();
 
-            const testPosts = {
-                1000: {id: '1000'},
-                1001: {id: '1001'},
-                1002: {id: '1002'},
-                1003: {id: '1003'},
-                1004: {id: '1004'},
+            const testPosts: Record<string, Post> = {
+                1000: p({id: '1000'}),
+                1001: p({id: '1001'}),
+                1002: p({id: '1002'}),
+                1003: p({id: '1003'}),
+                1004: p({id: '1004'}),
             };
             const state = {
                 entities: {
@@ -1636,26 +1657,26 @@ describe('Selectors.Posts', () => {
                         posts: testPosts,
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             const postIds = ['1000', '1002', '1003'];
 
             const actual = getPostsForIds(state, postIds);
-            assert.equal(actual.length, 3);
-            assert.equal(actual[0], testPosts[postIds[0]]);
-            assert.equal(actual[1], testPosts[postIds[1]]);
-            assert.equal(actual[2], testPosts[postIds[2]]);
+            expect(actual.length).toEqual(3);
+            expect(actual[0]).toEqual(testPosts[postIds[0]]);
+            expect(actual[1]).toEqual(testPosts[postIds[1]]);
+            expect(actual[2]).toEqual(testPosts[postIds[2]]);
         });
 
         it('memoization', () => {
             const getPostsForIds = Selectors.makeGetPostsForIds();
 
-            const testPosts = {
-                1000: {id: '1000'},
-                1001: {id: '1001'},
-                1002: {id: '1002'},
-                1003: {id: '1003'},
-                1004: {id: '1004'},
+            const testPosts: Record<string, Post> = {
+                1000: p({id: '1000'}),
+                1001: p({id: '1001'}),
+                1002: p({id: '1002'}),
+                1003: p({id: '1003'}),
+                1004: p({id: '1004'}),
             };
             let state = {
                 entities: {
@@ -1665,25 +1686,25 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
             let postIds = ['1000', '1002', '1003'];
 
             let now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1000'], testPosts['1002'], testPosts['1003']]);
+            expect(now).toEqual([testPosts['1000'], testPosts['1002'], testPosts['1003']]);
 
             // No changes
             let previous = now;
             now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1000'], testPosts['1002'], testPosts['1003']]);
-            assert.equal(now, previous);
+            expect(now).toEqual([testPosts['1000'], testPosts['1002'], testPosts['1003']]);
+            expect(now).toBe(previous);
 
             // New, identical ids
             postIds = ['1000', '1002', '1003'];
 
             previous = now;
             now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1000'], testPosts['1002'], testPosts['1003']]);
-            assert.equal(now, previous);
+            expect(now).toEqual([testPosts['1000'], testPosts['1002'], testPosts['1003']]);
+            expect(now).toBe(previous);
 
             // New posts, no changes to ones in ids
             state = {
@@ -1701,24 +1722,24 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1000'], testPosts['1002'], testPosts['1003']]);
-            assert.equal(now, previous);
+            expect(now).toEqual([testPosts['1000'], testPosts['1002'], testPosts['1003']]);
+            expect(now).toBe(previous);
 
             // New ids
             postIds = ['1001', '1002', '1004'];
 
             previous = now;
             now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1001'], testPosts['1002'], testPosts['1004']]);
-            assert.notEqual(now, previous);
+            expect(now).toEqual([testPosts['1001'], testPosts['1002'], testPosts['1004']]);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1001'], testPosts['1002'], testPosts['1004']]);
-            assert.equal(now, previous);
+            expect(now).toEqual([testPosts['1001'], testPosts['1002'], testPosts['1004']]);
+            expect(now).toBe(previous);
 
             // New posts, changes to ones in ids
-            const newPost = {id: '1002', message: 'abcd'};
+            const newPost = p({id: '1002', message: 'abcd'});
             state = {
                 ...state,
                 entities: {
@@ -1735,13 +1756,13 @@ describe('Selectors.Posts', () => {
 
             previous = now;
             now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1001'], newPost, testPosts['1004']]);
-            assert.notEqual(now, previous);
+            expect(now).toEqual([testPosts['1001'], newPost, testPosts['1004']]);
+            expect(now).not.toBe(previous);
 
             previous = now;
             now = getPostsForIds(state, postIds);
-            assert.deepEqual(now, [testPosts['1001'], newPost, testPosts['1004']]);
-            assert.equal(now, previous);
+            expect(now).toEqual([testPosts['1001'], newPost, testPosts['1004']]);
+            expect(now).toBe(previous);
         });
     });
 
@@ -1769,10 +1790,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             const postId = Selectors.getMostRecentPostIdInChannel(state, 'channelId');
-            assert.equal(postId, '1000');
+            expect(postId).toBe('1000');
         });
 
         it('system messages hidden', () => {
@@ -1798,10 +1819,10 @@ describe('Selectors.Posts', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             const postId = Selectors.getMostRecentPostIdInChannel(state, 'channelId');
-            assert.equal(postId, '1002');
+            expect(postId).toEqual('1002');
         });
     });
 
@@ -1823,7 +1844,7 @@ describe('Selectors.Posts', () => {
                         profiles: {},
                     },
                 },
-            };
+            } as unknown as GlobalState;
             const actual = Selectors.getLatestReplyablePostId(state);
 
             expect(actual).toEqual('');
@@ -1857,7 +1878,7 @@ describe('Selectors.Posts', () => {
                         profiles: {},
                     },
                 },
-            };
+            } as unknown as GlobalState;
             const actual = Selectors.getLatestReplyablePostId(state);
 
             expect(actual).toEqual(postsAny.e.id);
@@ -1889,11 +1910,11 @@ describe('Selectors.Posts', () => {
         const isPostCommentMention = Selectors.makeIsPostCommentMention();
 
         it('Should return true as root post is by the current user', () => {
-            assert.equal(isPostCommentMention(modifiedState, 'e'), true);
+            expect(isPostCommentMention(modifiedState, 'e')).toEqual(true);
         });
 
         it('Should return false as post is not from currentUser', () => {
-            assert.equal(isPostCommentMention(modifiedState, 'b'), false);
+            expect(isPostCommentMention(modifiedState, 'b')).toEqual(false);
         });
 
         it('Should return true as post is from webhook but user created rootPost', () => {
@@ -1917,7 +1938,7 @@ describe('Selectors.Posts', () => {
                 },
             };
 
-            assert.equal(isPostCommentMention(modifiedWbhookPostState, 'e'), true);
+            expect(isPostCommentMention(modifiedWbhookPostState, 'e')).toEqual(true);
         });
 
         it('Should return true as user commented in the thread', () => {
@@ -1942,7 +1963,7 @@ describe('Selectors.Posts', () => {
                 },
             };
 
-            assert.equal(isPostCommentMention(modifiedThreadState, 'e'), true);
+            expect(isPostCommentMention(modifiedThreadState, 'e')).toEqual(true);
         });
 
         it('Should return false as user commented in the thread but notify_props is for root only', () => {
@@ -1981,7 +2002,7 @@ describe('Selectors.Posts', () => {
                 },
             };
 
-            assert.equal(isPostCommentMention(modifiedStateForRoot, 'e'), false);
+            expect(isPostCommentMention(modifiedStateForRoot, 'e')).toEqual(false);
         });
 
         it('Should return false as user created root post', () => {
@@ -2006,7 +2027,7 @@ describe('Selectors.Posts', () => {
                 },
             };
 
-            assert.equal(isPostCommentMention(modifiedStateForRoot, 'e'), true);
+            expect(isPostCommentMention(modifiedStateForRoot, 'e')).toEqual(true);
         });
     });
 });
@@ -2022,7 +2043,7 @@ describe('getPostIdsInCurrentChannel', () => {
                     postsInChannel: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const postIds = Selectors.getPostIdsInCurrentChannel(state);
 
@@ -2043,7 +2064,7 @@ describe('getPostIdsInCurrentChannel', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const postIds = Selectors.getPostIdsInCurrentChannel(state);
 
@@ -2064,7 +2085,7 @@ describe('getPostIdsInCurrentChannel', () => {
                     },
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const postIds = Selectors.getPostIdsInCurrentChannel(state);
 
@@ -2093,7 +2114,7 @@ describe('getPostsInCurrentChannel', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const postIds = Selectors.getPostsInCurrentChannel(state);
 
@@ -2130,7 +2151,7 @@ describe('getPostsInCurrentChannel', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const postIds = Selectors.getPostsInCurrentChannel(state);
 
@@ -2167,7 +2188,7 @@ describe('getPostsInCurrentChannel', () => {
                     profiles: {},
                 },
             },
-        };
+        } as unknown as GlobalState;
 
         const postIds = Selectors.getPostsInCurrentChannel(state);
 
@@ -2177,8 +2198,7 @@ describe('getPostsInCurrentChannel', () => {
 
 describe('getCurrentUsersLatestPost', () => {
     const user1 = TestHelper.fakeUserWithId();
-    user1.notify_props = {};
-    const profiles = {};
+    const profiles: Record<string, UserProfile> = {};
     profiles[user1.id] = user1;
     it('no posts', () => {
         const noPosts = {};
@@ -2199,8 +2219,8 @@ describe('getCurrentUsersLatestPost', () => {
                     currentChannelId: 'abcd',
                 },
             },
-        };
-        const actual = Selectors.getCurrentUsersLatestPost(state);
+        } as unknown as GlobalState;
+        const actual = Selectors.getCurrentUsersLatestPost(state, '');
 
         expect(actual).toEqual(null);
     });
@@ -2236,8 +2256,8 @@ describe('getCurrentUsersLatestPost', () => {
                     currentChannelId: 'abcd',
                 },
             },
-        };
-        const actual = Selectors.getCurrentUsersLatestPost(state);
+        } as unknown as GlobalState;
+        const actual = Selectors.getCurrentUsersLatestPost(state, '');
 
         expect(actual).toMatchObject(postsAny.f);
     });
@@ -2273,8 +2293,8 @@ describe('getCurrentUsersLatestPost', () => {
                     currentChannelId: 'abcd',
                 },
             },
-        };
-        const actual = Selectors.getCurrentUsersLatestPost(state);
+        } as unknown as GlobalState;
+        const actual = Selectors.getCurrentUsersLatestPost(state, '');
 
         expect(actual).toMatchObject(postsAny.f);
     });
@@ -2310,7 +2330,7 @@ describe('getCurrentUsersLatestPost', () => {
                     currentChannelId: 'abcd',
                 },
             },
-        };
+        } as unknown as GlobalState;
         const actual = Selectors.getCurrentUsersLatestPost(state, 'e');
 
         expect(actual).toMatchObject(postsAny.f);
@@ -2341,10 +2361,10 @@ describe('getCurrentUsersLatestPost', () => {
                     currentChannelId: 'abcd',
                 },
             },
-        };
+        } as unknown as GlobalState;
         const actual = Selectors.getCurrentUsersLatestPost(state, 'e');
 
-        assert.equal(actual, null);
+        expect(actual).toEqual(null);
     });
 
     it('determine the sending posts', () => {
@@ -2366,13 +2386,13 @@ describe('getCurrentUsersLatestPost', () => {
                     currentChannelId: 'abcd',
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.equal(Selectors.isPostIdSending(state, '1'), true);
-        assert.equal(Selectors.isPostIdSending(state, '2'), true);
-        assert.equal(Selectors.isPostIdSending(state, '3'), true);
-        assert.equal(Selectors.isPostIdSending(state, '4'), false);
-        assert.equal(Selectors.isPostIdSending(state), false);
+        expect(Selectors.isPostIdSending(state, '1')).toEqual(true);
+        expect(Selectors.isPostIdSending(state, '2')).toEqual(true);
+        expect(Selectors.isPostIdSending(state, '3')).toEqual(true);
+        expect(Selectors.isPostIdSending(state, '4')).toEqual(false);
+        expect(Selectors.isPostIdSending(state, '')).toEqual(false);
     });
 });
 
@@ -2387,9 +2407,9 @@ describe('getExpandedLink', () => {
                     },
                 },
             },
-        };
-        assert.equal(Selectors.getExpandedLink(state, 'a'), 'b');
-        assert.equal(Selectors.getExpandedLink(state, 'c'), 'd');
+        } as unknown as GlobalState;
+        expect(Selectors.getExpandedLink(state, 'a')).toEqual('b');
+        expect(Selectors.getExpandedLink(state, 'c')).toEqual('d');
     });
 
     it('should return undefined if it is not saved', () => {
@@ -2402,9 +2422,9 @@ describe('getExpandedLink', () => {
                     },
                 },
             },
-        };
-        assert.equal(Selectors.getExpandedLink(state, 'b'), undefined);
-        assert.equal(Selectors.getExpandedLink(state, ''), undefined);
+        } as unknown as GlobalState;
+        expect(Selectors.getExpandedLink(state, 'b')).toEqual(undefined);
+        expect(Selectors.getExpandedLink(state, '')).toEqual(undefined);
     });
 });
 
@@ -2438,9 +2458,9 @@ describe('makeGetProfilesForThread', () => {
                     currentUserId: 'user1',
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.deepEqual(getProfilesForThread(state, '1001'), [user3, user2]);
+        expect(getProfilesForThread(state, '1001')).toEqual([user3, user2]);
     });
 
     it('should return empty array if profiles data does not exist', () => {
@@ -2464,8 +2484,8 @@ describe('makeGetProfilesForThread', () => {
                     currentUserId: 'user2',
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.deepEqual(getProfilesForThread(state, '1001'), []);
+        expect(getProfilesForThread(state, '1001')).toEqual([]);
     });
 });
