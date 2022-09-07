@@ -88,7 +88,6 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -320,7 +319,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -563,7 +561,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -795,7 +792,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -1044,7 +1040,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               userId="user_id"
             />
             <BotTag
-              className=""
               show={true}
             />
           </div>
@@ -1222,7 +1217,6 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               userId="user_id"
             />
             <BotTag
-              className=""
               show={true}
             />
           </div>
@@ -1385,7 +1379,6 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -1622,7 +1615,6 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -1867,7 +1859,6 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -2112,7 +2103,6 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -2353,7 +2343,6 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -2598,7 +2587,6 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>
@@ -2834,7 +2822,6 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
               userId="user_id"
             />
             <BotTag
-              className=""
               show={false}
             />
           </div>

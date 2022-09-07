@@ -2064,7 +2064,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
                         }
                       />
                       <GuestTag
-                        className=""
                         show={false}
                       />
                     </span>
@@ -2357,7 +2356,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                         }
                       />
                       <GuestTag
-                        className=""
                         show={false}
                       />
                     </span>

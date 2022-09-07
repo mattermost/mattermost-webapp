@@ -187,8 +187,6 @@ export default class PostHeader extends React.PureComponent<Props> {
             />
         );
 
-        const size = 'sm';
-
         return (
             <div className='post__header'>
                 <div className='col col__name'>
@@ -196,40 +194,6 @@ export default class PostHeader extends React.PureComponent<Props> {
                     {colon}
                     {indicator}
                     {customStatus}
-                    <Tag
-                        size={size}
-                        text={'Tag testing'}
-                        capitalize={true}
-                        icon={'account-plus-outline'}
-                    />
-                    <Tag
-                        size={size}
-                        text={'Tag testing'}
-                        capitalize={true}
-                        icon={'account-plus-outline'}
-                        variant={'danger'}
-                    />
-                    <Tag
-                        size={size}
-                        text={'Tag testing'}
-                        capitalize={true}
-                        icon={'account-plus-outline'}
-                        variant={'success'}
-                    />
-                    <Tag
-                        size={size}
-                        text={'Tag testing'}
-                        capitalize={true}
-                        icon={'account-plus-outline'}
-                        variant={'info'}
-                    />
-                    <Tag
-                        size={size}
-                        text={'Tag testing'}
-                        capitalize={true}
-                        icon={'account-plus-outline'}
-                        variant={'warning'}
-                    />
                 </div>
                 <div className='col'>
                     <PostInfo
