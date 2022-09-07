@@ -14,7 +14,8 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+
+// const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
 const packageJson = require('./package.json');
 
@@ -372,11 +373,12 @@ var config = {
             }],
         }),
 
-        new BundleAnalyzerPlugin({
-            analyzerMode: 'disabled',
-            generateStatsFile: true,
-            statsFilename: 'bundlestats.json',
-        }),
+        // Disabling this plugin until we come up with better bundle analysis ci
+        // new BundleAnalyzerPlugin({
+        //     analyzerMode: 'disabled',
+        //     generateStatsFile: true,
+        //     statsFilename: 'bundlestats.json',
+        // }),
     ],
 };
 

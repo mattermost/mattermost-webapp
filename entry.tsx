@@ -39,7 +39,7 @@ window.basename = window.publicPath.substr(0, window.publicPath.length - '/stati
 // This is for anything that needs to be done for ALL react components.
 // This runs before we start to render anything.
 function preRenderSetup(callwhendone: () => void) {
-    window.onerror = (msg, url, line, column, stack) => {
+    window.onerror = (msg, url, line, column, error) => {
         if (msg === 'ResizeObserver loop limit exceeded') {
             return;
         }
@@ -50,14 +50,15 @@ function preRenderSetup(callwhendone: () => void) {
         }
 
         store.dispatch(
-            logError({
-                type: AnnouncementBarTypes.DEVELOPER,
-                message: 'A JavaScript error in the webapp client has occurred. (msg: ' + msg + ', row: ' + line + ', col: ' + column + ').',
-                stack: stack as any,
-                url,
-            } as any,
-            displayable,
-            true,
+            logError(
+                {
+                    type: AnnouncementBarTypes.DEVELOPER,
+                    message: 'A JavaScript error in the webapp client has occurred. (msg: ' + msg + ', row: ' + line + ', col: ' + column + ').',
+                    stack: error?.stack,
+                    url,
+                },
+                displayable,
+                true,
             ),
         );
     };
