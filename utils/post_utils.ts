@@ -59,7 +59,7 @@ export function isFromWebhook(post: Post): boolean {
     return post.props && post.props.from_webhook === 'true';
 }
 
-export function isFromBoot(post: Post): boolean {
+export function isFromBot(post: Post): boolean {
     return post.props && post.props.from_bot === 'true';
 }
 
