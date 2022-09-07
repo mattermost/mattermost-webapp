@@ -13,6 +13,8 @@ import {addReaction} from 'actions/post_actions';
 import {Emoji} from '@mattermost/types/emojis';
 
 import PostReaction from './post_recent_reactions';
+import { get } from 'mattermost-redux/selectors/entities/preferences';
+import { Preferences } from 'utils/constants';
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
@@ -30,6 +32,7 @@ function mapStateToProps(state: GlobalState) {
     return {
         defaultEmojis,
         locale,
+        autoplayGifAndEmojis: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
     };
 }
 

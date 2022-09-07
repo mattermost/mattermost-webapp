@@ -12,6 +12,7 @@ import Tooltip from 'components/tooltip';
 import * as Utils from 'utils/utils';
 
 import ReactionTooltip from './reaction_tooltip';
+import GIFPlayer from 'components/post_view/post_attachment_opengraph/post_attachment_pause_gif';
 import './reaction.scss';
 
 type State = {
@@ -71,6 +72,11 @@ type Props = {
      * Whether or not the current user has used this reaction
      */
     currentUserReacted: boolean;
+
+    /*
+    * autoplay emojis reactions or not
+    */
+    autoplayGifAndEmojis: string; 
 
     actions: {
 
@@ -195,6 +201,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
             emojiName,
             reactionCount,
             reactions,
+            autoplayGifAndEmojis
         } = this.props;
         const {displayNumber} = this.state;
         const reactedNumber = currentUserReacted ? reactionCount : reactionCount + 1;
@@ -210,54 +217,65 @@ export default class Reaction extends React.PureComponent<Props, State> {
             ariaLabelEmoji = `${Utils.localizeMessage('reaction.removeReact.ariaLabel', 'remove reaction')} ${emojiNameWithSpaces}`;
         }
 
-        return (
-            <OverlayTrigger
-                delayShow={500}
-                placement='top'
-                shouldUpdatePosition={true}
-                overlay={
-                    <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
-                        <ReactionTooltip
-                            canAddReactions={canAddReactions}
-                            canRemoveReactions={canRemoveReactions}
-                            currentUserReacted={currentUserReacted}
-                            emojiName={emojiName}
-                            reactions={reactions}
-                        />
-                    </Tooltip>
-                }
-                onEnter={this.loadMissingProfiles}
-            >
-                <button
-                    id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
-                    aria-label={ariaLabelEmoji}
-                    className={`Reaction ${this.state.reactedClass} ${readOnlyClass}`}
-                    onClick={this.handleClick}
-                    ref={this.reactionButtonRef}
+            return (
+                <OverlayTrigger
+                    delayShow={500}
+                    placement='top'
+                    shouldUpdatePosition={true}
+                    overlay={
+                        <Tooltip id={`${this.props.post.id}-${this.props.emojiName}-reaction`}>
+                            <ReactionTooltip
+                                canAddReactions={canAddReactions}
+                                canRemoveReactions={canRemoveReactions}
+                                currentUserReacted={currentUserReacted}
+                                emojiName={emojiName}
+                                reactions={reactions}
+                            />
+                        </Tooltip>
+                    }
+                    onEnter={this.loadMissingProfiles}
                 >
-                    <span className='d-flex align-items-center'>
-                        <span
+                    <button
+                        id={`postReaction-${this.props.post.id}-${this.props.emojiName}`}
+                        aria-label={ariaLabelEmoji}
+                        className={`Reaction ${this.state.reactedClass} ${readOnlyClass}`}
+                        onClick={this.handleClick}
+                        ref={this.reactionButtonRef}
+                    >
+                        <span className='d-flex align-items-center'>
+                            {autoplayGifAndEmojis === 'true' ? 
+                            (
+                            <span
                             className='Reaction__emoji emoticon'
                             style={{backgroundImage: 'url(' + this.props.emojiImageUrl + ')'}}
                         />
-                        <span
-                            ref={this.reactionCountRef}
-                            className='Reaction__count'
-                        >
-                            <span className='Reaction__number'>
-                                <span className='Reaction__number--display'>{display}</span>
-                                <span
-                                    className='Reaction__number--unreacted'
-                                    onAnimationEnd={this.handleAnimationEnded}
+                            ) : (
+                                <div 
+                                className='Reaction__emoji emoticon'
                                 >
-                                    {unreacted}
+                                    (<GIFPlayer
+                                    src={this.props.emojiImageUrl}
+                                />
+                                </div>
+                                )} 
+                            <span
+                                ref={this.reactionCountRef}
+                                className='Reaction__count'
+                            >
+                                <span className='Reaction__number'>
+                                    <span className='Reaction__number--display'>{display}</span>
+                                    <span
+                                        className='Reaction__number--unreacted'
+                                        onAnimationEnd={this.handleAnimationEnded}
+                                    >
+                                        {unreacted}
+                                    </span>
+                                    <span className='Reaction__number--reacted'>{reacted}</span>
                                 </span>
-                                <span className='Reaction__number--reacted'>{reacted}</span>
                             </span>
                         </span>
-                    </span>
-                </button>
-            </OverlayTrigger>
-        );
+                    </button>
+                </OverlayTrigger>
+            );       
     }
 }

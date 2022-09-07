@@ -7,13 +7,15 @@ import classNames from 'classnames';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 import {Emoji} from '@mattermost/types/emojis';
+import EmojiPlayer from 'components/post_view/post_attachment_opengraph/post_attachment_pause_gif'
 
 type Props = {
     emoji: Emoji;
     onItemClick: (emoji: Emoji) => void;
     order?: number;
+    autoplayGifAndEmojis?: string;
 }
-const EmojiItem = ({emoji, onItemClick, order}: Props) => {
+const EmojiItem = ({emoji, onItemClick, order, autoplayGifAndEmojis}: Props) => {
     const {formatMessage} = useIntl();
 
     const handleClick = (e: React.MouseEvent) => {
@@ -30,7 +32,9 @@ const EmojiItem = ({emoji, onItemClick, order}: Props) => {
             className={classNames(itemClassName, 'post-menu__emoticon')}
             onClick={handleClick}
         >
-            <button
+            {autoplayGifAndEmojis === 'true' ? 
+            (
+                <button
                 id={`recent_reaction_${order}`}
                 data-testid={itemClassName + '_emoji'}
                 className='emoticon--post-menu'
@@ -45,6 +49,19 @@ const EmojiItem = ({emoji, onItemClick, order}: Props) => {
                     },
                 )}
             />
+            ) : 
+            (
+                <div onClick={(event) => {
+                    event.preventDefault();
+                    if (event.target === event.currentTarget) {
+                        console.log('parent clicked');
+                        // 👇 your logic here
+                      }
+                }} className='emoticon--post-menu'>
+                    <EmojiPlayer src={getEmojiImageUrl(emoji)} />
+                </div>
+            )}
+            
         </div>
     );
 };

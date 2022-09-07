@@ -217,6 +217,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     (this.props.handleSmallImageContainer &&
                         this.state.isSmallImage ? ' small-image--inside-container' : '')}
                     onLoad={this.handleLoad}
+                    onClick={this.handleImageClick}
                 >
                     <GifPlayer
                         gif={src}

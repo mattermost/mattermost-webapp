@@ -34,6 +34,7 @@ export default class MarkdownImage extends React.PureComponent {
         onImageLoaded: PropTypes.func,
         onImageHeightChanged: PropTypes.func,
         postType: PropTypes.string,
+        autoplayGifAndEmojis: PropTypes.string,
 
         actions: PropTypes.shape({
             openModal: PropTypes.func,
@@ -192,6 +193,7 @@ export default class MarkdownImage extends React.PureComponent {
                             onClick={this.showModal}
                             onImageLoadFail={this.handleLoadFail}
                             onImageLoaded={this.handleImageLoaded}
+                            autoplayGifAndEmojis={this.props.autoplayGifAndEmojis}
                         />
                     );
 

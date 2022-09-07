@@ -11,7 +11,6 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import EmojiItem from './recent_reactions_emoji_item';
-
 type LocationTypes = 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT';
 
 type Props = {
@@ -24,6 +23,7 @@ type Props = {
     emojis: Emoji[];
     size: number;
     defaultEmojis: Emoji[];
+    autoplayGifAndEmojis: string;
     actions: {
         addReaction: (postId: string, emojiName: string) => void;
     };
@@ -75,6 +75,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         const {
             channelId,
             teamId,
+            autoplayGifAndEmojis
         } = this.props;
 
         let emojis = [...this.props.emojis].slice(0, this.props.size);
@@ -109,6 +110,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
                                 emoji={emoji}
                                 onItemClick={this.handleAddEmoji}
                                 order={n}
+                                autoplayGifAndEmojis={autoplayGifAndEmojis}
                             />
                         </React.Fragment>
                     </div>
