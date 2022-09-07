@@ -263,8 +263,7 @@ export default class SearchResultsItem extends React.PureComponent {
 
         let overrideUsername;
         let disableProfilePopover = false;
-        if (post.props &&
-            post.props.from_webhook &&
+        if (PostUtils.isFromWebhook(post) &&
             post.props.override_username &&
             this.props.enablePostUsernameOverride) {
             overrideUsername = post.props.override_username;
@@ -466,7 +465,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                         disablePopover={disableProfilePopover}
                                         isRHS={true}
                                     />
-                                    <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
+                                    <BotBadge show={Boolean(PostUtils.isFromWebhook(post) && !this.props.isBot)}/>
                                 </div>
                                 <div className='col'>
                                     {this.renderPostTime()}

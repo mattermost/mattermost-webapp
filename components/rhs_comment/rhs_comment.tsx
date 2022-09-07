@@ -417,7 +417,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                 />
             );
 
-            if (post.props && post.props.from_webhook) {
+            if (PostUtils.isFromWebhook(post)) {
                 const overwriteName = post.props.override_username && this.props.enablePostUsernameOverride ? post.props.override_username : undefined;
                 userProfile = (
                     <UserProfile
