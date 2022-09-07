@@ -17,17 +17,14 @@ export type ActionResult<Data = any, Error = any> = {
     error?: Error;
 };
 
-export type DispatchFunc = (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult>;
+export type DispatchFunc<Data = any, Error = any> = (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult<Data, Error>>;
 
 /**
  * Return type of a redux action.
  * @usage
- * ActionFunc<ReturnTypeOfData, ErrorTypeReturnedFromServer>
+ * ActionFunc<ReturnTypeOfData, ErrorType>
  */
 export type ActionFunc<Data = any, Error = any> = (
-    dispatch: DispatchFunc,
+    dispatch: DispatchFunc<Data, Error>,
     getState: GetStateFunc
-) => Promise<Data extends any[]
-    ? Array<ActionResult<Data, Error>>
-    : ActionResult<Data, Error>>
-| ActionResult<Data, Error>;
+) => Promise<ActionResult<Data, Error> | Array<ActionResult<Data, Error>>> | ActionResult<Data, Error>;
