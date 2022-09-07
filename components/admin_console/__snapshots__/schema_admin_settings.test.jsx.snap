@@ -354,7 +354,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 13,
-                  "text": "Български",
+                  "text": "Български (Beta)",
                   "value": "bg",
                 },
                 Object {
@@ -485,7 +485,7 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 13,
-                  "text": "Български",
+                  "text": "Български (Beta)",
                   "value": "bg",
                 },
                 Object {
