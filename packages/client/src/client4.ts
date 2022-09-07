@@ -3499,6 +3499,13 @@ export default class Client4 {
         );
     }
 
+    createBoard = (board: Board) => {
+        return this.doFetch<CreateBoardResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards`,
+            {method: 'POST', body: JSON.stringify({...board})},
+        );
+    }
+
     createBoardFromTemplate = (boardTemplateId: string, teamId: string) => {
         return this.doFetch<CreateBoardResponse>(
             `/plugins/${suitePluginIds.focalboard}/api/v2/boards/${boardTemplateId}/duplicate?asTemplate=false&toTeam=${teamId}`,

@@ -23,14 +23,14 @@ import {get as getPreference} from 'mattermost-redux/selectors/entities/preferen
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {switchToChannel} from 'actions/views/channel';
 import {closeModal} from 'actions/views/modals';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {ChannelType, Channel} from '@mattermost/types/channels';
-import {BoardPatch, BoardTemplate} from '@mattermost/types/boards';
+import {Board, BoardPatch, BoardTemplate} from '@mattermost/types/boards';
 import {ServerError} from '@mattermost/types/errors';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import Preferences from 'mattermost-redux/constants/preferences';
-import {attachBoardToChannel, createBoardFromTemplate, getBoardsTemplates, setNewChannelWithBoardPreference} from 'mattermost-redux/actions/boards';
+import {attachBoardToChannel, createBoardFromTemplate, createEmptyBoard, getBoardsTemplates, setNewChannelWithBoardPreference} from 'mattermost-redux/actions/boards';
 import {sendGenericPostMessage} from 'actions/global_actions';
 
 import {GlobalState} from 'types/store';
@@ -102,6 +102,7 @@ const NewChannelModal = () => {
     const [addBoard, setAddBoard] = useState(false);
     const [boardTemplates, setBoardTemplates] = useState<BoardTemplate[]>([]);
     const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
+    const EMPTY_BOARD = 'empty-board';
 
     const handleOnModalConfirm = async () => {
         if (!canCreate) {
@@ -148,7 +149,28 @@ const NewChannelModal = () => {
     };
 
     const addBoardToChannel = async (channelId: string) => {
-        const {data: newBoard} = await dispatch(createBoardFromTemplate(selectedBoardTemplate!.id));
+        let addBoardFn: ((board: Board) => ActionFunc) | ((templateId: string) => ActionFunc) = createBoardFromTemplate;
+        let addBoardParam: string | Board = selectedBoardTemplate!.id;
+        if (selectedBoardTemplate!.id === EMPTY_BOARD) {
+            addBoardFn = createEmptyBoard;
+            addBoardParam = {
+                id: '',
+                title: formatMessage({id: 'channel_modal.new_empty_board.title', defaultMessage: 'New empty board'}),
+                teamId: currentTeamId,
+                channelId,
+                createdBy: user.id,
+                type: 'P',
+                deleteAt: 0,
+                icon: '',
+                isTemplate: false,
+                minimumRole: '',
+                modifiedBy: '',
+                properties: {},
+                showDescription: false,
+                templateVersion: 0,
+            } as Board;
+        }
+        const {data: newBoard} = await dispatch(addBoardFn(addBoardParam as Board & string));
         if (newBoard) {
             const boardPatch: BoardPatch = {
                 channelId,
@@ -281,9 +303,17 @@ const NewChannelModal = () => {
     const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
 
     const addBoardToggle = async () => {
-        setAddBoard(!addBoard);
+        setAddBoard((prev) => !prev);
         const {data: boardTemplates} = await dispatch(getBoardsTemplates());
-        setBoardTemplates(boardTemplates);
+
+        // define a dummy template use to identify the empty board
+        const emptyBoard = [{
+            id: EMPTY_BOARD,
+            title: 'Empty board',
+            icon: '',
+            description: 'Create an empty board.',
+        } as BoardTemplate];
+        setBoardTemplates([...boardTemplates, ...emptyBoard]);
     };
 
     const newBoardInfoIcon = () => {
@@ -438,8 +468,8 @@ const NewChannelModal = () => {
                                                     id={boardTemplate.title.replace(' ', '_')}
                                                     onClick={() => setSelectedBoardTemplate(boardTemplate)}
                                                     icon={boardTemplate.icon || <i className='icon icon-product-boards'/>}
-                                                    text={boardTemplate.title}
-                                                    extraText={boardTemplate.description ? `${boardTemplate.description.substring(0, 70)} ...` : ''}
+                                                    text={boardTemplate.title || ''}
+                                                    extraText={boardTemplate.description ? `${boardTemplate.description.substring(0, 70)} ...` : ' '}
                                                     key={boardTemplate.id}
                                                 />
                                             );

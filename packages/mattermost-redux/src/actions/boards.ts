@@ -7,7 +7,7 @@ import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/act
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {BoardPatch, BoardTemplate} from '@mattermost/types/boards';
+import {Board, BoardPatch, BoardTemplate} from '@mattermost/types/boards';
 import {PreferenceType} from '@mattermost/types/preferences';
 
 import {Preferences} from '../constants';
@@ -49,6 +49,18 @@ export function getBoardsTemplates(): ActionFunc {
                 templates = [...templates, ...teamTemplates];
             }
             return {data: templates};
+        } catch (error) {
+            dispatch(logError(error));
+            return {error};
+        }
+    };
+}
+
+export function createEmptyBoard(board: Board): ActionFunc {
+    return async (dispatch: DispatchFunc) => {
+        try {
+            const newBoard = await Client4.createBoard(board);
+            return {data: newBoard};
         } catch (error) {
             dispatch(logError(error));
             return {error};

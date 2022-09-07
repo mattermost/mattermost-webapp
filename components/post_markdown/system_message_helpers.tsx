@@ -42,8 +42,8 @@ function renderJoinChannelMessage(post: Post): ReactNode {
 
     return (
         <FormattedMessage
-            id='api.channel.join_channel.post_and_forget1'
-            defaultMessage='{username} joined the channel joder.'
+            id='api.channel.join_channel.post_and_forget'
+            defaultMessage='{username} joined the channel.'
             values={{username}}
         />
     );
