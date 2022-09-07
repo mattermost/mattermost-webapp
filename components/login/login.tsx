@@ -515,22 +515,22 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-
+        submit({loginId, password});
     };
 
-    function srSpeak(text: string, priority: any) { 
-        var el = document.createElement("div"); 
-        var id = "speak-" + Date.now(); 
-        el.setAttribute("id", id); 
-        el.setAttribute("aria-live", priority || "polite"); 
-        el.classList.add("visually-hidden"); 
-        document.body.appendChild(el); 
-        window.setTimeout(function () { 
-            document.getElementById(id)!.innerHTML = text; 
-        }, 100); 
-        window.setTimeout(function () { 
-            document.body.removeChild(document.getElementById(id)!); 
-        }, 1000); 
+    function srSpeak(text: string, priority: any) {
+        const el = document.createElement('div');
+        const id = 'speak-' + Date.now();
+        el.setAttribute('id', id);
+        el.setAttribute('aria-live', priority || 'polite');
+        el.classList.add('visually-hidden');
+        document.body.appendChild(el);
+        window.setTimeout(() => {
+            document.getElementById(id)!.innerHTML = text;
+        }, 100);
+        window.setTimeout(() => {
+            document.body.removeChild(document.getElementById(id)!);
+        }, 1000);
     }
 
     const submit = async ({loginId, password, token}: SubmitOptions) => {
@@ -628,7 +628,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         // Record a successful login to local storage. If an unintentional logout occurs, e.g.
         // via session expiration, this bit won't get reset and we can notify the user as such.
         LocalStorageStore.setWasLoggedIn(true);
-        // srSpeak('Login Successfull', 'assertive')
+        srSpeak('Login Successfull', 'assertive');
         if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
             history.push(redirectTo);
         } else if (team) {
