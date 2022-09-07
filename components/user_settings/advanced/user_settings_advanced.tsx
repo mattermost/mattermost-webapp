@@ -9,14 +9,11 @@ import {FormattedMessage} from 'react-intl';
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
 import Constants, {Preferences} from 'utils/constants';
-import {t} from 'utils/i18n';
-import {isMac, localizeMessage} from 'utils/utils';
+import {localizeMessage} from 'utils/utils';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal';
-import BackIcon from 'components/widgets/icons/fa_back_icon';
-
 import {UserProfile} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
 
@@ -24,6 +21,10 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import JoinLeaveSection from './join_leave_section';
 import PerformanceDebuggingSection from './performance_debugging_section';
+import CtrlSendSection from './ctrl_send_section';
+import FormattingSection from './formatting_section';
+import './user_settings_advanced.scss';
+import UnreadScrollPositionSection from './unread_scroll_postion_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -157,7 +158,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         const {actions, currentUser} = this.props;
         const userId = currentUser.id;
 
-        // this should be refactored so we can actually be certain about what type everything is
+        // this should be refactored, so we can actually be certain about what type everything is
         (Array.isArray(settings) ? settings : [settings]).forEach((setting) => {
             preferences.push({
                 user_id: userId,
@@ -213,266 +214,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         this.props.updateSection(section);
     }
 
-    // This function changes ctrl to cmd when OS is mac
-    getCtrlSendText = () => {
-        const description = {
-            default: {
-                id: t('user.settings.advance.sendDesc'),
-                defaultMessage: 'When enabled, CTRL + ENTER will send the message and ENTER inserts a new line.',
-            },
-            mac: {
-                id: t('user.settings.advance.sendDesc.mac'),
-                defaultMessage: 'When enabled, ⌘ + ENTER will send the message and ENTER inserts a new line.',
-            },
-        };
-        const title = {
-            default: {
-                id: t('user.settings.advance.sendTitle'),
-                defaultMessage: 'Send Messages on CTRL+ENTER',
-            },
-            mac: {
-                id: t('user.settings.advance.sendTitle.mac'),
-                defaultMessage: 'Send Messages on ⌘+ENTER',
-            },
-        };
-        if (isMac()) {
-            return {
-                ctrlSendTitle: title.mac,
-                ctrlSendDesc: description.mac,
-            };
-        }
-        return {
-            ctrlSendTitle: title.default,
-            ctrlSendDesc: description.default,
-        };
-    }
-
-    renderOnOffLabel(enabled: string): JSX.Element {
-        if (enabled === 'false') {
-            return (
-                <FormattedMessage
-                    id='user.settings.advance.off'
-                    defaultMessage='Off'
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                id='user.settings.advance.on'
-                defaultMessage='On'
-            />
-        );
-    }
-
-    renderUnreadScrollPositionLabel(option?: string): JSX.Element {
-        if (option === Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT) {
-            return (
-                <FormattedMessage
-                    id='user.settings.advance.startFromLeftOff'
-                    defaultMessage='Start me where I left off'
-                />
-            );
-        }
-
-        return (
-            <FormattedMessage
-                id='user.settings.advance.startFromNewest'
-                defaultMessage='Start me at the newest message'
-            />
-        );
-    }
-
-    renderCtrlEnterLabel(): JSX.Element {
-        const ctrlEnter = this.state.settings.send_on_ctrl_enter;
-        const codeBlockCtrlEnter = this.state.settings.code_block_ctrl_enter;
-        if (ctrlEnter === 'false' && codeBlockCtrlEnter === 'false') {
-            return (
-                <FormattedMessage
-                    id='user.settings.advance.off'
-                    defaultMessage='Off'
-                />
-            );
-        } else if (ctrlEnter === 'true' && codeBlockCtrlEnter === 'true') {
-            return (
-                <FormattedMessage
-                    id='user.settings.advance.onForAllMessages'
-                    defaultMessage='On for all messages'
-                />
-            );
-        }
-        return (
-            <FormattedMessage
-                id='user.settings.advance.onForCode'
-                defaultMessage='On only for code blocks starting with ```'
-            />
-        );
-    }
-
-    renderFormattingSection = () => {
-        if (this.props.activeSection === 'formatting') {
-            return (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.advance.formattingTitle'
-                            defaultMessage='Enable Post Formatting'
-                        />
-                    }
-                    inputs={[
-                        <fieldset key='formattingSetting'>
-                            <legend className='form-legend hidden-label'>
-                                <FormattedMessage
-                                    id='user.settings.advance.formattingTitle'
-                                    defaultMessage='Enable Post Formatting'
-                                />
-                            </legend>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='postFormattingOn'
-                                        type='radio'
-                                        name='formatting'
-                                        checked={this.state.settings.formatting !== 'false'}
-                                        onChange={this.updateSetting.bind(this, 'formatting', 'true')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.advance.on'
-                                        defaultMessage='On'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='postFormattingOff'
-                                        type='radio'
-                                        name='formatting'
-                                        checked={this.state.settings.formatting === 'false'}
-                                        onChange={this.updateSetting.bind(this, 'formatting', 'false')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.advance.off'
-                                        defaultMessage='Off'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div className='mt-5'>
-                                <FormattedMessage
-                                    id='user.settings.advance.formattingDesc'
-                                    defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'
-                                />
-                            </div>
-                        </fieldset>,
-                    ]}
-                    setting={'formatting'}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        }
-
-        return (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.advance.formattingTitle'
-                        defaultMessage='Enable Post Formatting'
-                    />
-                }
-                describe={this.renderOnOffLabel(this.state.settings.formatting)}
-                section={'formatting'}
-                updateSection={this.handleUpdateSection}
-            />
-        );
-    }
-
-    renderUnreadScrollPositionSection = () => {
-        if (this.props.activeSection === Preferences.UNREAD_SCROLL_POSITION) {
-            return (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.advance.unreadScrollPositionTitle'
-                            defaultMessage='Scroll position when viewing an unread channel'
-                        />
-                    }
-                    inputs={[
-                        <fieldset key='unreadScrollPositionSetting'>
-                            <legend className='form-legend hidden-label'>
-                                <FormattedMessage
-                                    id='user.settings.advance.unreadScrollPositionTitle'
-                                    defaultMessage='Scroll position when viewing an unread channel'
-                                />
-                            </legend>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='unreadPositionStartFromLeftOff'
-                                        type='radio'
-                                        name='unreadScrollPosition'
-                                        checked={this.state.settings.unread_scroll_position === Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT}
-                                        onChange={this.updateSetting.bind(this, Preferences.UNREAD_SCROLL_POSITION, Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT)}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.advance.startFromLeftOff'
-                                        defaultMessage='Start me where I left off'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='unreadPositionStartFromNewest'
-                                        type='radio'
-                                        name='unreadScrollPosition'
-                                        checked={this.state.settings.unread_scroll_position === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST}
-                                        onChange={this.updateSetting.bind(this, Preferences.UNREAD_SCROLL_POSITION, Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST)}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.advance.startFromNewest'
-                                        defaultMessage='Start me at the newest message'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div className='mt-5'>
-                                <FormattedMessage
-                                    id='user.settings.advance.unreadScrollPositionDesc'
-                                    defaultMessage='Choose your scroll position when you view an unread channel. Channels will always be marked as read when viewed.'
-                                />
-                            </div>
-                        </fieldset>,
-                    ]}
-                    setting={Preferences.UNREAD_SCROLL_POSITION}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        }
-
-        return (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.advance.unreadScrollPositionTitle'
-                        defaultMessage='Scroll position when viewing an unread channel'
-                    />
-                }
-                describe={this.renderUnreadScrollPositionLabel(this.state.settings[Preferences.UNREAD_SCROLL_POSITION])}
-                section={Preferences.UNREAD_SCROLL_POSITION}
-                updateSection={this.handleUpdateSection}
-            />
-        );
-    }
-
     renderFeatureLabel(feature: string): ReactNode {
         switch (feature) {
         case 'MARKDOWN_PREVIEW':
@@ -489,114 +230,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
 
     render() {
         const serverError = this.state.serverError || null;
-        let ctrlSendSection;
-        const {ctrlSendTitle, ctrlSendDesc} = this.getCtrlSendText();
-
-        if (this.props.activeSection === 'advancedCtrlSend') {
-            const ctrlSendActive = [
-                this.state.settings.send_on_ctrl_enter === 'true',
-                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === 'true',
-                this.state.settings.send_on_ctrl_enter === 'false' && this.state.settings.code_block_ctrl_enter === 'false',
-            ];
-
-            const inputs = [
-                <fieldset key='ctrlSendSetting'>
-                    <legend className='form-legend hidden-label'>
-                        <FormattedMessage {...ctrlSendTitle}/>
-                    </legend>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='ctrlSendOn'
-                                type='radio'
-                                name='sendOnCtrlEnter'
-                                checked={ctrlSendActive[0]}
-                                onChange={() => {
-                                    this.updateSetting('send_on_ctrl_enter', 'true');
-                                    this.updateSetting('code_block_ctrl_enter', 'true');
-                                }}
-                            />
-                            <FormattedMessage
-                                id='user.settings.advance.onForAllMessages'
-                                defaultMessage='On for all messages'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='ctrlSendOnForCode'
-                                type='radio'
-                                name='sendOnCtrlEnter'
-                                checked={ctrlSendActive[1]}
-                                onChange={() => {
-                                    this.updateSetting('send_on_ctrl_enter', 'false');
-                                    this.updateSetting('code_block_ctrl_enter', 'true');
-                                }}
-                            />
-                            <FormattedMessage
-                                id='user.settings.advance.onForCode'
-                                defaultMessage='On only for code blocks starting with ```'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div className='radio'>
-                        <label>
-                            <input
-                                id='ctrlSendOff'
-                                type='radio'
-                                name='sendOnCtrlEnter'
-                                checked={ctrlSendActive[2]}
-                                onChange={() => {
-                                    this.updateSetting('send_on_ctrl_enter', 'false');
-                                    this.updateSetting('code_block_ctrl_enter', 'false');
-                                }}
-                            />
-                            <FormattedMessage
-                                id='user.settings.advance.off'
-                                defaultMessage='Off'
-                            />
-                        </label>
-                        <br/>
-                    </div>
-                    <div>
-                        <br/>
-                        <FormattedMessage {...ctrlSendDesc}/>
-                    </div>
-                </fieldset>,
-            ];
-            ctrlSendSection = (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage {...ctrlSendTitle}/>
-                    }
-                    inputs={inputs}
-                    submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
-                    saving={this.state.isSaving}
-                    server_error={serverError}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        } else {
-            ctrlSendSection = (
-                <SettingItemMin
-                    title={
-                        <FormattedMessage {...ctrlSendTitle}/>
-                    }
-                    describe={this.renderCtrlEnterLabel()}
-                    section={'advancedCtrlSend'}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        }
-
-        const formattingSection = this.renderFormattingSection();
-        let formattingSectionDivider = null;
-        if (formattingSection) {
-            formattingSectionDivider = <div className='divider-light'/>;
-        }
 
         let previewFeaturesSection;
         let previewFeaturesSectionDivider;
@@ -755,72 +388,54 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                 />
             );
         }
-
-        const unreadScrollPositionSection = this.renderUnreadScrollPositionSection();
-        let unreadScrollPositionSectionDivider = null;
-        if (unreadScrollPositionSection) {
-            unreadScrollPositionSectionDivider = <div className='divider-light'/>;
-        }
-
         return (
-            <div>
-                <div className='modal-header'>
-                    <button
-                        id='closeButton'
-                        type='button'
-                        className='close'
-                        data-dismiss='modal'
-                        aria-label='Close'
-                        onClick={this.props.closeModal}
-                    >
-                        <span aria-hidden='true'>{'×'}</span>
-                    </button>
-                    <h4
-                        className='modal-title'
-                        // eslint-disable-next-line react/no-string-refs
-                        ref='title'
-                    >
-                        <div className='modal-back'>
-                            <span onClick={this.props.collapseModal}>
-                                <BackIcon/>
-                            </span>
-                        </div>
-                        <FormattedMessage
-                            id='user.settings.advance.title'
-                            defaultMessage='Advanced Settings'
-                        />
-                    </h4>
-                </div>
-                <div className='user-settings'>
-                    <h3 className='tab-header'>
-                        <FormattedMessage
-                            id='user.settings.advance.title'
-                            defaultMessage='Advanced Settings'
-                        />
-                    </h3>
-                    <div className='divider-dark first'/>
-                    {ctrlSendSection}
-                    {formattingSectionDivider}
-                    {formattingSection}
-                    <div className='divider-light'/>
-                    <JoinLeaveSection
-                        activeSection={this.props.activeSection}
-                        onUpdateSection={this.handleUpdateSection}
-                        renderOnOffLabel={this.renderOnOffLabel}
-                    />
-                    {previewFeaturesSectionDivider}
-                    {previewFeaturesSection}
-                    {formattingSectionDivider}
-                    <PerformanceDebuggingSection
-                        activeSection={this.props.activeSection}
-                        onUpdateSection={this.handleUpdateSection}
-                    />
-                    {deactivateAccountSection}
-                    {unreadScrollPositionSectionDivider}
-                    {unreadScrollPositionSection}
-                    <div className='divider-dark'/>
-                    {makeConfirmationModal}
-                </div>
+            <div className='user-settings-advanced'>
+                {/*<div className='modal-header'>*/}
+                {/*    <button*/}
+                {/*        id='closeButton'*/}
+                {/*        type='button'*/}
+                {/*        className='close'*/}
+                {/*        data-dismiss='modal'*/}
+                {/*        aria-label='Close'*/}
+                {/*        onClick={this.props.closeModal}*/}
+                {/*    >*/}
+                {/*        <span aria-hidden='true'>{'×'}</span>*/}
+                {/*    </button>*/}
+                {/*    <h4*/}
+                {/*        className='modal-title'*/}
+                {/*        // eslint-disable-next-line react/no-string-refs*/}
+                {/*        ref='title'*/}
+                {/*    >*/}
+                {/*        <div className='modal-back'>*/}
+                {/*            <span onClick={this.props.collapseModal}>*/}
+                {/*                <BackIcon/>*/}
+                {/*            </span>*/}
+                {/*        </div>*/}
+                {/*        <FormattedMessage*/}
+                {/*            id='user.settings.advance.title'*/}
+                {/*            defaultMessage='Advanced Settings'*/}
+                {/*        />*/}
+                {/*    </h4>*/}
+                {/*</div>*/}
+                <CtrlSendSection updateSetting={this.updateSetting}/>
+                <div className='divider-light'/>
+                <FormattingSection
+                    formatting={this.state.settings.formatting}
+                    updateSetting={this.updateSetting}
+                />
+                <div className='divider-light'/>
+                <JoinLeaveSection
+                    onUpdateSection={this.handleUpdateSection}
+                />
+                {previewFeaturesSectionDivider}
+                {previewFeaturesSection}
+                <div className='divider-light'/>
+                <PerformanceDebuggingSection onUpdateSection={this.updateSetting}/>
+                <div className='divider-light'/>
+                {deactivateAccountSection}
+                <UnreadScrollPositionSection updateSetting={this.updateSetting}/>
+                <div className='divider-light'/>
+                {makeConfirmationModal}
             </div>
         );
     }

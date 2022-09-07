@@ -5,12 +5,20 @@ import React from 'react';
 
 import {UserProfile} from '@mattermost/types/users';
 
+import UserSettingsNotifications from '../new_user_settings/notifications/user_settings_notifications';
+
+import LanguageAndRegion from '../new_user_settings/language&region/language&region';
+
+import UserSettingsMessagesAndMedia from '../new_user_settings/messages&media/user_settings_messages&media';
+
+import UserSettingsSidebar from '../new_user_settings/user_settings_sidebar/user_settings_sidebar';
+
 import AdvancedTab from './advanced';
-import DisplayTab from './display';
 import GeneralTab from './general';
-import NotificationsTab from './notifications';
 import SecurityTab from './security';
-import SidebarTab from './sidebar';
+
+import UserSettingsThemes from './themes';
+import CtrlSendSection from './advanced/ctrl_send_section';
 
 export type Props = {
     user: UserProfile;
@@ -55,50 +63,69 @@ export default class UserSettings extends React.PureComponent<Props> {
         } else if (this.props.activeTab === 'notifications') {
             return (
                 <div>
-                    <NotificationsTab
-                        user={this.props.user}
-                        activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
-                        closeModal={this.props.closeModal}
-                        collapseModal={this.props.collapseModal}
-                    />
+                    <UserSettingsNotifications/>
+                    {/*<NotificationsTab*/}
+                    {/*    user={this.props.user}*/}
+                    {/*    activeSection={this.props.activeSection}*/}
+                    {/*    updateSection={this.props.updateSection}*/}
+                    {/*    closeModal={this.props.closeModal}*/}
+                    {/*    collapseModal={this.props.collapseModal}*/}
+                    {/*/>*/}
                 </div>
             );
-        } else if (this.props.activeTab === 'display') {
+        } else if (this.props.activeTab === 'language') {
             return (
                 <div>
-                    <DisplayTab
-                        user={this.props.user}
-                        activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
-                        closeModal={this.props.closeModal}
-                        collapseModal={this.props.collapseModal}
-                        setEnforceFocus={this.props.setEnforceFocus}
-                        setRequireConfirm={this.props.setRequireConfirm}
-                    />
+                    <LanguageAndRegion/>
+                </div>
+            );
+        } else if (this.props.activeTab === 'messages') {
+            return (
+                <div>
+                    <UserSettingsMessagesAndMedia/>
+                </div>
+            );
+        } else if (this.props.activeTab === 'messages') {
+            return (
+                <div>
+                    <UserSettingsMessagesAndMedia/>
+                </div>
+            );
+        } else if (this.props.activeTab === 'themes') {
+            return (
+                <div>
+                    {/*<DisplayTab*/}
+                    {/*    user={this.props.user}*/}
+                    {/*    activeSection={this.props.activeSection}*/}
+                    {/*    updateSection={this.props.updateSection}*/}
+                    {/*    closeModal={this.props.closeModal}*/}
+                    {/*    collapseModal={this.props.collapseModal}*/}
+                    {/*    setEnforceFocus={this.props.setEnforceFocus}*/}
+                    {/*    setRequireConfirm={this.props.setRequireConfirm}*/}
+                    {/*/>*/}
+                    <UserSettingsThemes/>
                 </div>
             );
         } else if (this.props.activeTab === 'sidebar') {
             return (
                 <div>
-                    <SidebarTab
-                        activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
-                        closeModal={this.props.closeModal}
-                        collapseModal={this.props.collapseModal}
-                    />
+                    {/*<SidebarTab*/}
+                    {/*    activeSection={this.props.activeSection}*/}
+                    {/*    updateSection={this.props.updateSection}*/}
+                    {/*    closeModal={this.props.closeModal}*/}
+                    {/*    collapseModal={this.props.collapseModal}*/}
+                    {/*/>*/}
+                    <UserSettingsSidebar/>
                 </div>
             );
         } else if (this.props.activeTab === 'advanced') {
             return (
-                <div>
-                    <AdvancedTab
-                        activeSection={this.props.activeSection}
-                        updateSection={this.props.updateSection}
-                        closeModal={this.props.closeModal}
-                        collapseModal={this.props.collapseModal}
-                    />
-                </div>
+                <AdvancedTab
+                    activeSection={this.props.activeSection}
+                    updateSection={this.props.updateSection}
+                    closeModal={this.props.closeModal}
+                    collapseModal={this.props.collapseModal}
+                />
             );
         }
 

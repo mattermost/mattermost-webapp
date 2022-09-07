@@ -1,0 +1,30 @@
+.sidebar__list__item {
+    padding: 9px 12px 9px 11px;
+    border-radius: 4px;
+    margin-bottom: 8px;
+    color: rgba(63, 67, 80, 0.56);
+
+    &--active {
+        color: #1c58d9;
+        padding: 9px 12px 9px 11px;
+        border-radius: 4px;
+        margin-bottom: 8px;
+        background-color: rgba(28, 88, 217, 0.08);
+    }
+
+    &:hover {
+        background-color: rgba(28, 88, 217, 0.08);
+        cursor: pointer;
+    }
+
+    &__svg {
+        font-size: 18px;
+        font-weight: 400;
+    }
+
+    &__title {
+        font-size: 14px;
+        font-weight: 600;
+        padding-left: 7px;
+    }
+}

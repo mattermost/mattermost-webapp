@@ -6,66 +6,33 @@ import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
 import ReactDOM from 'react-dom';
 import {
-    defineMessages,
     FormattedMessage,
     injectIntl,
     IntlShape,
 } from 'react-intl';
+
+import {
+    BellOutlineIcon,
+    CloseIcon, DockLeftIcon,
+    ForumOutlineIcon, GlobeIcon,
+    MagnifyIcon,
+    PaletteOutlineIcon, TuneIcon,
+} from '@mattermost/compass-icons/components';
+
+import TextInput from '@mattermost/compass-components/components/text-input/TextInput';
 
 import {UserProfile} from '@mattermost/types/users';
 import {StatusOK} from '@mattermost/types/client4';
 import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
-import {t} from 'utils/i18n';
 import ConfirmModal from 'components/confirm_modal';
+import {holders} from '../constants';
 
 const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'components/user_settings'));
-const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar'));
+const ModalSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../generic/modal_sidebar'));
 
-const holders = defineMessages({
-    profile: {
-        id: t('user.settings.modal.profile'),
-        defaultMessage: 'Profile',
-    },
-    security: {
-        id: t('user.settings.modal.security'),
-        defaultMessage: 'Security',
-    },
-    notifications: {
-        id: t('user.settings.modal.notifications'),
-        defaultMessage: 'Notifications',
-    },
-    display: {
-        id: t('user.settings.modal.display'),
-        defaultMessage: 'Display',
-    },
-    sidebar: {
-        id: t('user.settings.modal.sidebar'),
-        defaultMessage: 'Sidebar',
-    },
-    advanced: {
-        id: t('user.settings.modal.advanced'),
-        defaultMessage: 'Advanced',
-    },
-    checkEmail: {
-        id: 'user.settings.general.checkEmail',
-        defaultMessage: 'Check your email at {email} to verify the address. Cannot find the email?',
-    },
-    confirmTitle: {
-        id: t('user.settings.modal.confirmTitle'),
-        defaultMessage: 'Discard Changes?',
-    },
-    confirmMsg: {
-        id: t('user.settings.modal.confirmMsg'),
-        defaultMessage: 'You have unsaved changes, are you sure you want to discard them?',
-    },
-    confirmBtns: {
-        id: t('user.settings.modal.confirmBtns'),
-        defaultMessage: 'Yes, Discard',
-    },
-});
-
+import './user_settings_modal.scss';
 export type Props = {
     currentUser: UserProfile;
     onExited: () => void;
@@ -271,19 +238,84 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
         }
         const tabs = [];
         if (this.props.isContentProductSettings) {
-            tabs.push({name: 'notifications', uiName: formatMessage(holders.notifications), icon: 'icon fa fa-exclamation-circle', iconTitle: Utils.localizeMessage('user.settings.notifications.icon', 'Notification Settings Icon')});
-            tabs.push({name: 'display', uiName: formatMessage(holders.display), icon: 'icon fa fa-eye', iconTitle: Utils.localizeMessage('user.settings.display.icon', 'Display Settings Icon')});
-            tabs.push({name: 'sidebar', uiName: formatMessage(holders.sidebar), icon: 'icon fa fa-columns', iconTitle: Utils.localizeMessage('user.settings.sidebar.icon', 'Sidebar Settings Icon')});
-            tabs.push({name: 'advanced', uiName: formatMessage(holders.advanced), icon: 'icon fa fa-list-alt', iconTitle: Utils.localizeMessage('user.settings.advance.icon', 'Advanced Settings Icon')});
+            tabs.push({name: 'notifications',
+                uiName: formatMessage(holders.notifications),
+                icon: (
+                    <BellOutlineIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                ),
+            });
+            tabs.push({name: 'themes',
+                uiName: formatMessage(holders.themes),
+                icon: (
+                    <PaletteOutlineIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                ),
+            });
+            tabs.push({name: 'messages',
+                uiName: formatMessage(holders.messages),
+                icon: (
+                    <ForumOutlineIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                ),
+            });
+            tabs.push({name: 'language',
+                uiName: formatMessage(holders.language),
+                icon: (
+                    <GlobeIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                ),
+            });
+            tabs.push({name: 'sidebar',
+                uiName: formatMessage(holders.sidebar),
+                icon: (
+                    <DockLeftIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                ),
+            });
+            tabs.push({name: 'advanced',
+                uiName: formatMessage(holders.advanced),
+                icon: (
+                    <TuneIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                ),
+            });
         } else {
-            tabs.push({name: 'profile', uiName: formatMessage(holders.profile), icon: 'icon fa fa-gear', iconTitle: Utils.localizeMessage('user.settings.profile.icon', 'Profile Settings Icon')});
-            tabs.push({name: 'security', uiName: formatMessage(holders.security), icon: 'icon fa fa-lock', iconTitle: Utils.localizeMessage('user.settings.security.icon', 'Security Settings Icon')});
+            tabs.push({name: 'profile',
+                uiName: formatMessage(holders.profile),
+                icon: (
+                    <BellOutlineIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                ),
+            });
+            tabs.push({name: 'security',
+                uiName: formatMessage(holders.security),
+                icon: (
+                    <BellOutlineIcon
+                        size={18}
+                        color={'currentcolor'}
+                    />
+                )});
         }
 
         return (
             <Modal
                 id='accountSettingsModal'
-                dialogClassName='a11y__modal settings-modal'
+                dialogClassName='a11y__modal settings-modal user-settings-modal'
                 show={this.state.show}
                 onHide={this.handleHide}
                 onExited={this.handleHidden}
@@ -293,11 +325,12 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
             >
                 <Modal.Header
                     id='accountSettingsHeader'
-                    closeButton={true}
+                    closeButton={false}
+                    className='user-settings-modal__header'
                 >
-                    <Modal.Title
-                        componentClass='h1'
+                    <h1
                         id='accountSettingsModalLabel'
+                        className='user-settings-modal__heading'
                     >
                         {this.props.isContentProductSettings ? (
                             <FormattedMessage
@@ -310,14 +343,27 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                                 defaultMessage='Profile'
                             />
                         )}
-                    </Modal.Title>
+                    </h1>
+                    <div className='user-settings-modal__search-ctr'>
+                        <TextInput
+                            className='user-settings-modal__search'
+                            leadingIcon={'magnify'}
+                            placeholder={'Search preferences'}
+                        >
+                            {'Search Preferences'}
+                        </TextInput>
+                        <CloseIcon
+                            size={24}
+                            color={'currentcolor'}
+                        />
+                    </div>
                 </Modal.Header>
                 <Modal.Body ref={this.modalBodyRef}>
-                    <div className='settings-table'>
-                        <div className='settings-links'>
+                    <div className='user-settings-modal__body'>
+                        <div className='user-settings-modal__sidebar'>
                             <React.Suspense fallback={null}>
                                 <Provider store={store}>
-                                    <SettingsSidebar
+                                    <ModalSidebar
                                         tabs={tabs}
                                         activeTab={this.state.active_tab}
                                         updateTab={this.updateTab}
@@ -325,7 +371,7 @@ class UserSettingsModal extends React.PureComponent<Props, State> {
                                 </Provider>
                             </React.Suspense>
                         </div>
-                        <div className='settings-content minimize-settings'>
+                        <div className='user-settings-modal__content'>
                             <React.Suspense fallback={null}>
                                 <Provider store={store}>
                                     <UserSettings

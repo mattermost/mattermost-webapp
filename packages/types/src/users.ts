@@ -25,6 +25,8 @@ export type UserNotifyProps = {
     push_threads?: 'default' | 'all' | 'mention' | 'none';
     auto_responder_active?: 'true' | 'false';
     auto_responder_message?: string;
+    sendEmailNotifications: 30 | 900 | 3600;
+    mobileNotificationsSameAsDesktop: 'true' | 'false'
 };
 
 export type UserProfile = {

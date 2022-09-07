@@ -1,0 +1,79 @@
+//.mm-generic-modal{
+//  position: fixed;
+//  top: 0;
+//  left: 0;
+//  width: 100%;
+//  height: 100%;
+//  display: flex;
+//  align-items: center;
+//  justify-content: center;
+//}
+//
+//.modalEnter {
+//  & .modal-overlay {
+//    opacity: 0;
+//    transition: opacity 150ms ease;
+//  }
+//
+//  & .modal-content {
+//    opacity: 0;
+//    transform: translateY(50px);
+//    transition: opacity 200ms ease, transform 300ms ease;
+//  }
+//}
+//.modalEnterActive {
+//  & .modal-overlay {
+//    opacity: 1;
+//  }
+//
+//  & .modal-content {
+//    opacity: 1;
+//    transform: translateY(0);
+//  }
+//}
+//.modalExit {
+//  & .modal-overlay {
+//    opacity: 1;
+//    transition: opacity 150ms ease;
+//  }
+//
+//  & .modal-content {
+//    opacity: 1;
+//    transform: translateY(0);
+//    transition: opacity 200ms ease, transform 300ms ease;
+//  }
+//}
+//.modalExitActive {
+//  & .modal-overlay {
+//    opacity: 0;
+//  }
+//
+//  & .modal-content {
+//    opacity: 0;
+//    transform: translateY(50px);
+//  }
+//}
+//
+//.modal {
+//
+//}
+//
+//.modal-overlay {
+//  background-color: rgba(0, 0, 0, 0.3);
+//  height: 100%;
+//  left: 0;
+//  position: absolute;
+//  top: 0;
+//  width: 100%;
+//}
+//
+//.modal-content {
+//  align-items: center;
+//  background-color: #ffffff;
+//  border-radius: 4px;
+//  display: flex;
+//  height: 150px;
+//  justify-content: center;
+//  width: 300px;
+//  z-index: 100;
+//}

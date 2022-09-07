@@ -10,6 +10,8 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
 
+// import {UserSettingsModal} from 'components/new_user_settings/user_settings_modal/user_settings_modal';
+
 import {ModalData} from 'types/actions';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';

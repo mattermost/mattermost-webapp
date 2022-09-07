@@ -16,7 +16,7 @@ import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 
-import UserSettingsModal from 'components/user_settings/modal';
+import UserSettingsModal from 'components/legacy_user_settings/modal';
 
 import {executeCommand} from './command';
 
@@ -197,7 +197,7 @@ describe('executeCommand', () => {
                     type: ActionTypes.MODAL_OPEN,
                     dialogProps: {isContentProductSettings: true},
                     dialogType: UserSettingsModal,
-                    modalId: 'user_settings',
+                    modalId: 'legacy_user_settings',
                 },
             ]);
             expect(result).toEqual({data: true});
