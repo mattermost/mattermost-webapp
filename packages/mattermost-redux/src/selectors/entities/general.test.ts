@@ -1,15 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
+import {GlobalState} from '@mattermost/types/store';
 import {General} from 'mattermost-redux/constants';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/general';
 
 describe('Selectors.General', () => {
     it('canUploadFilesOnMobile', () => {
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -20,9 +19,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -34,9 +33,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), false);
+        } as unknown as GlobalState)).toEqual(false);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -48,9 +47,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -62,9 +61,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), false);
+        } as unknown as GlobalState)).toEqual(false);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -77,9 +76,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), false);
+        } as unknown as GlobalState)).toEqual(false);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -92,9 +91,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), false);
+        } as unknown as GlobalState)).toEqual(false);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -106,9 +105,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -121,9 +120,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), false);
+        } as unknown as GlobalState)).toEqual(false);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -136,9 +135,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -150,9 +149,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), false);
+        } as unknown as GlobalState)).toEqual(false);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -165,9 +164,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canUploadFilesOnMobile({
+        expect(Selectors.canUploadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -180,11 +179,11 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
     });
 
     it('canDownloadFilesOnMobile', () => {
-        assert.equal(Selectors.canDownloadFilesOnMobile({
+        expect(Selectors.canDownloadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -195,9 +194,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canDownloadFilesOnMobile({
+        expect(Selectors.canDownloadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -209,9 +208,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), false);
+        } as unknown as GlobalState)).toEqual(false);
 
-        assert.equal(Selectors.canDownloadFilesOnMobile({
+        expect(Selectors.canDownloadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -223,9 +222,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canDownloadFilesOnMobile({
+        expect(Selectors.canDownloadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -237,9 +236,9 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
 
-        assert.equal(Selectors.canDownloadFilesOnMobile({
+        expect(Selectors.canDownloadFilesOnMobile({
             entities: {
                 general: {
                     config: {
@@ -251,7 +250,7 @@ describe('Selectors.General', () => {
                     },
                 },
             },
-        }), true);
+        } as unknown as GlobalState)).toEqual(true);
     });
 
     describe('getAutolinkedUrlSchemes', () => {
@@ -263,10 +262,10 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(Selectors.getAutolinkedUrlSchemes(state), General.DEFAULT_AUTOLINKED_URL_SCHEMES);
-            assert.equal(Selectors.getAutolinkedUrlSchemes(state), Selectors.getAutolinkedUrlSchemes(state));
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual(General.DEFAULT_AUTOLINKED_URL_SCHEMES);
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual(Selectors.getAutolinkedUrlSchemes(state));
         });
 
         it('no custom url schemes', () => {
@@ -278,10 +277,10 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(Selectors.getAutolinkedUrlSchemes(state), General.DEFAULT_AUTOLINKED_URL_SCHEMES);
-            assert.equal(Selectors.getAutolinkedUrlSchemes(state), Selectors.getAutolinkedUrlSchemes(state));
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual(General.DEFAULT_AUTOLINKED_URL_SCHEMES);
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual(Selectors.getAutolinkedUrlSchemes(state));
         });
 
         it('one custom url scheme', () => {
@@ -293,10 +292,10 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(Selectors.getAutolinkedUrlSchemes(state), [...General.DEFAULT_AUTOLINKED_URL_SCHEMES, 'dns']);
-            assert.equal(Selectors.getAutolinkedUrlSchemes(state), Selectors.getAutolinkedUrlSchemes(state));
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual([...General.DEFAULT_AUTOLINKED_URL_SCHEMES, 'dns']);
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual(Selectors.getAutolinkedUrlSchemes(state));
         });
 
         it('multiple custom url schemes', () => {
@@ -308,10 +307,10 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.deepEqual(Selectors.getAutolinkedUrlSchemes(state), [...General.DEFAULT_AUTOLINKED_URL_SCHEMES, 'dns', 'steam', 'shttp']);
-            assert.equal(Selectors.getAutolinkedUrlSchemes(state), Selectors.getAutolinkedUrlSchemes(state));
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual([...General.DEFAULT_AUTOLINKED_URL_SCHEMES, 'dns', 'steam', 'shttp']);
+            expect(Selectors.getAutolinkedUrlSchemes(state)).toEqual(Selectors.getAutolinkedUrlSchemes(state));
         });
     });
 
@@ -324,7 +323,7 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             expect(Selectors.getManagedResourcePaths(state)).toEqual([]);
         });
@@ -338,7 +337,7 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             expect(Selectors.getManagedResourcePaths(state)).toEqual(['trusted', 'jitsi', 'test']);
         });
@@ -353,7 +352,7 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             expect(Selectors.getFeatureFlagValue(state, 'CoolFeature')).toBeUndefined();
         });
@@ -367,7 +366,7 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             expect(Selectors.getFeatureFlagValue(state, 'CoolFeature')).toEqual('true');
         });
@@ -382,7 +381,7 @@ describe('Selectors.General', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             expect(Selectors.getFirstAdminVisitMarketplaceStatus(state)).toEqual({});
         });
@@ -394,7 +393,7 @@ describe('Selectors.General', () => {
                         firstAdminVisitMarketplaceStatus: true,
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
             expect(Selectors.getFirstAdminVisitMarketplaceStatus(state)).toEqual(true);
             state.entities.general.firstAdminVisitMarketplaceStatus = false;

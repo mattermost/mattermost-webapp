@@ -1,10 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
+import {TeamMembership} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Group} from '@mattermost/types/groups';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from '../../../test/test_helper';
 import * as Selectors from 'mattermost-redux/selectors/entities/roles';
 import {General, Permissions} from 'mattermost-redux/constants';
 import {getMySystemPermissions, getMySystemRoles, getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
@@ -13,10 +15,10 @@ describe('Selectors.Roles', () => {
     const team1 = TestHelper.fakeTeamWithId();
     const team2 = TestHelper.fakeTeamWithId();
     const team3 = TestHelper.fakeTeamWithId();
-    const myTeamMembers = {};
-    myTeamMembers[team1.id] = {roles: 'test_team1_role1 test_team1_role2'};
-    myTeamMembers[team2.id] = {roles: 'test_team2_role1 test_team2_role2'};
-    myTeamMembers[team3.id] = {};
+    const myTeamMembers: Record<string, TeamMembership> = {};
+    myTeamMembers[team1.id] = {roles: 'test_team1_role1 test_team1_role2'} as TeamMembership;
+    myTeamMembers[team2.id] = {roles: 'test_team2_role1 test_team2_role2'} as TeamMembership;
+    myTeamMembers[team3.id] = {} as TeamMembership;
 
     const channel1 = TestHelper.fakeChannelWithId(team1.id);
     channel1.display_name = 'Channel Name';
@@ -47,7 +49,7 @@ describe('Selectors.Roles', () => {
     channel11.type = General.PRIVATE_CHANNEL;
     const channel12 = TestHelper.fakeChannelWithId(team1.id);
 
-    const channels = {};
+    const channels: Record<string, Channel> = {};
     channels[channel1.id] = channel1;
     channels[channel2.id] = channel2;
     channels[channel3.id] = channel3;
@@ -61,17 +63,17 @@ describe('Selectors.Roles', () => {
     channels[channel11.id] = channel11;
     channels[channel12.id] = channel12;
 
-    const channelsInTeam = {};
+    const channelsInTeam: Record<string, Array<Channel['id']>> = {};
     channelsInTeam[team1.id] = [channel1.id, channel2.id, channel5.id, channel6.id, channel8.id, channel10.id, channel11.id];
     channelsInTeam[team2.id] = [channel3.id];
     channelsInTeam[''] = [channel4.id, channel7.id, channel9.id];
 
     const user = TestHelper.fakeUserWithId();
-    const profiles = {};
+    const profiles: Record<string, UserProfile> = {};
     profiles[user.id] = user;
     profiles[user.id].roles = 'test_user_role test_user_role2';
 
-    const channelsRoles = {};
+    const channelsRoles: Record<string, Set<string>> = {};
     channelsRoles[channel1.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
     channelsRoles[channel2.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
     channelsRoles[channel3.id] = new Set(['test_channel_a_role1', 'test_channel_a_role2']);
@@ -101,7 +103,7 @@ describe('Selectors.Roles', () => {
     const group4 = TestHelper.fakeGroup('group4', 'custom');
     const group5 = TestHelper.fakeGroup('group5');
 
-    const groups = {};
+    const groups: Record<string, Group> = {};
     groups.group1 = group1;
     groups.group2 = group2;
     groups.group3 = group3;
@@ -134,11 +136,11 @@ describe('Selectors.Roles', () => {
     });
 
     it('should return my roles by scope on getMySystemRoles/getMyTeamRoles/getMyChannelRoles/getMyGroupRoles', () => {
-        const teamsRoles = {};
+        const teamsRoles: Record<string, Set<string>> = {};
         teamsRoles[team1.id] = new Set(['test_team1_role1', 'test_team1_role2']);
         teamsRoles[team2.id] = new Set(['test_team2_role1', 'test_team2_role2']);
 
-        const groupRoles = {};
+        const groupRoles: Record<string, Set<string>> = {};
         groupRoles[group1.id] = new Set(['custom_group_user']);
 
         const myRoles = {
@@ -146,10 +148,10 @@ describe('Selectors.Roles', () => {
             team: teamsRoles,
             channel: channelsRoles,
         };
-        assert.deepEqual(getMySystemRoles(testState), myRoles.system);
-        assert.deepEqual(Selectors.getMyTeamRoles(testState), myRoles.team);
-        assert.deepEqual(Selectors.getMyChannelRoles(testState), myRoles.channel);
-        assert.deepEqual(Selectors.getMyGroupRoles(testState), groupRoles);
+        expect(getMySystemRoles(testState)).toEqual(myRoles.system);
+        expect(Selectors.getMyTeamRoles(testState)).toEqual(myRoles.team);
+        expect(Selectors.getMyChannelRoles(testState)).toEqual(myRoles.channel);
+        expect(Selectors.getMyGroupRoles(testState)).toEqual(groupRoles);
     });
 
     it('should return current loaded roles on getRoles', () => {
@@ -165,69 +167,69 @@ describe('Selectors.Roles', () => {
             test_user_role2: {permissions: ['user_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP]},
             custom_group_user: {permissions: ['custom_group_user']},
         };
-        assert.deepEqual(getRoles(testState), loadedRoles);
+        expect(getRoles(testState)).toEqual(loadedRoles);
     });
 
     it('should return my system permission on getMySystemPermissions', () => {
-        assert.deepEqual(getMySystemPermissions(testState), new Set([
+        expect(getMySystemPermissions(testState)).toEqual(new Set([
             'user_role2', Permissions.EDIT_CUSTOM_GROUP, Permissions.CREATE_CUSTOM_GROUP, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS, Permissions.DELETE_CUSTOM_GROUP,
         ]));
     });
 
     it('should return if i have a system permission on haveISystemPermission', () => {
-        assert.equal(Selectors.haveISystemPermission(testState, {permission: 'user_role2'}), true);
-        assert.equal(Selectors.haveISystemPermission(testState, {permission: 'invalid_permission'}), false);
+        expect(Selectors.haveISystemPermission(testState, {permission: 'user_role2'})).toEqual(true);
+        expect(Selectors.haveISystemPermission(testState, {permission: 'invalid_permission'})).toEqual(false);
     });
 
     it('should return if i have a team permission on haveITeamPermission', () => {
-        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'user_role2'), true);
-        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'team1_role1'), true);
-        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'team2_role2'), false);
-        assert.equal(Selectors.haveITeamPermission(testState, team1.id, 'invalid_permission'), false);
+        expect(Selectors.haveITeamPermission(testState, team1.id, 'user_role2')).toEqual(true);
+        expect(Selectors.haveITeamPermission(testState, team1.id, 'team1_role1')).toEqual(true);
+        expect(Selectors.haveITeamPermission(testState, team1.id, 'team2_role2')).toEqual(false);
+        expect(Selectors.haveITeamPermission(testState, team1.id, 'invalid_permission')).toEqual(false);
     });
 
     it('should return if i have a team permission on haveICurrentTeamPermission', () => {
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'user_role2'), true);
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'team1_role1'), true);
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'team2_role2'), false);
-        assert.equal(Selectors.haveICurrentTeamPermission(testState, 'invalid_permission'), false);
+        expect(Selectors.haveICurrentTeamPermission(testState, 'user_role2')).toEqual(true);
+        expect(Selectors.haveICurrentTeamPermission(testState, 'team1_role1')).toEqual(true);
+        expect(Selectors.haveICurrentTeamPermission(testState, 'team2_role2')).toEqual(false);
+        expect(Selectors.haveICurrentTeamPermission(testState, 'invalid_permission')).toEqual(false);
     });
 
     it('should return if i have a channel permission on haveIChannelPermission', () => {
-        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'user_role2'), true);
-        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'team1_role1'), true);
-        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'team2_role2'), false);
-        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'channel_a_role1'), true);
-        assert.equal(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'channel_b_role1'), false);
+        expect(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'user_role2')).toEqual(true);
+        expect(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'team1_role1')).toEqual(true);
+        expect(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'team2_role2')).toEqual(false);
+        expect(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'channel_a_role1')).toEqual(true);
+        expect(Selectors.haveIChannelPermission(testState, team1.id, channel1.id, 'channel_b_role1')).toEqual(false);
     });
 
     it('should return if i have a channel permission on haveICurrentChannelPermission', () => {
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'user_role2'), true);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'team1_role1'), true);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'team2_role2'), false);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'channel_a_role1'), true);
-        assert.equal(Selectors.haveICurrentChannelPermission(testState, 'channel_b_role1'), false);
+        expect(Selectors.haveICurrentChannelPermission(testState, 'user_role2')).toEqual(true);
+        expect(Selectors.haveICurrentChannelPermission(testState, 'team1_role1')).toEqual(true);
+        expect(Selectors.haveICurrentChannelPermission(testState, 'team2_role2')).toEqual(false);
+        expect(Selectors.haveICurrentChannelPermission(testState, 'channel_a_role1')).toEqual(true);
+        expect(Selectors.haveICurrentChannelPermission(testState, 'channel_b_role1')).toEqual(false);
     });
 
     it('should return group memberships on getGroupMemberships', () => {
-        assert.deepEqual(Selectors.getGroupMemberships(testState), {[group1.id]: {user_id: user.id, roles: 'custom_group_user'}});
+        expect(Selectors.getGroupMemberships(testState)).toEqual({[group1.id]: {user_id: user.id, roles: 'custom_group_user'}});
     });
 
     it('should return if i have a group permission on haveIGroupPermission', () => {
-        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.EDIT_CUSTOM_GROUP), true);
-        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.CREATE_CUSTOM_GROUP), true);
-        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS), true);
-        assert.equal(Selectors.haveIGroupPermission(testState, group1.id, Permissions.DELETE_CUSTOM_GROUP), true);
+        expect(Selectors.haveIGroupPermission(testState, group1.id, Permissions.EDIT_CUSTOM_GROUP)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(testState, group1.id, Permissions.CREATE_CUSTOM_GROUP)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(testState, group1.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(testState, group1.id, Permissions.DELETE_CUSTOM_GROUP)).toEqual(true);
 
         // You don't have to be a member to perform these actions
-        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.EDIT_CUSTOM_GROUP), true);
-        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.CREATE_CUSTOM_GROUP), true);
-        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS), true);
-        assert.equal(Selectors.haveIGroupPermission(testState, group2.id, Permissions.DELETE_CUSTOM_GROUP), true);
+        expect(Selectors.haveIGroupPermission(testState, group2.id, Permissions.EDIT_CUSTOM_GROUP)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(testState, group2.id, Permissions.CREATE_CUSTOM_GROUP)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(testState, group2.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS)).toEqual(true);
+        expect(Selectors.haveIGroupPermission(testState, group2.id, Permissions.DELETE_CUSTOM_GROUP)).toEqual(true);
     });
 
     it('should return group set with permissions on getGroupListPermissions', () => {
-        assert.deepEqual(Selectors.getGroupListPermissions(testState), {
+        expect(Selectors.getGroupListPermissions(testState)).toEqual({
             [group1.id]: {can_delete: true, can_manage_members: true},
             [group2.id]: {can_delete: true, can_manage_members: true},
             [group3.id]: {can_delete: true, can_manage_members: true},
