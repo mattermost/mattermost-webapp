@@ -26,6 +26,10 @@ jest.mock('actions/telemetry_actions', () => ({
     trackEvent: jest.fn(),
 }));
 
+jest.mock('actions/views/modals', () => ({
+    openModal: jest.fn(),
+}));
+
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux'),
     useDispatch: jest.fn().mockReturnValue(() => {}),
@@ -82,10 +86,10 @@ describe('components/deliquency_modal/deliquency_modal', () => {
         jest.clearAllMocks();
     });
 
-    it('should save preferences and track stayOnFremium if admin click Stay on Freemium', () => {
+    it('should save preferences and track stayOnFremium if admin click Stay on Starter (Free Plan)', () => {
         renderComponent({});
 
-        fireEvent.click(screen.getByText('Stay on Freemium'));
+        fireEvent.click(screen.getByText('Stay on Starter (Free Plan)'));
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(initialStates.entities.users.profiles.current_user_id.id, [{

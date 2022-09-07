@@ -135,52 +135,6 @@ describe('useGetHighestThresholdCloudLimit', () => {
             },
             expected: [LimitTypes.messageHistory, LimitTypes.fileStorage],
         },
-        {
-            label: 'reports messages and boards limit surpasded',
-            limits: {
-                messages: {
-                    history: messageHistoryLimit,
-                },
-                boards: {
-                    cards: boardsLimit,
-                },
-            },
-            usage: {
-                ...zeroUsage,
-                messages: {
-                    ...zeroUsage.messages,
-                    history: exceededMessageUsage,
-                },
-                files: {
-                    ...zeroUsage.files,
-                    totalStorage: FileSizes.Gigabyte * 2 * 10,
-                },
-            },
-            expected: [LimitTypes.messageHistory, LimitTypes.fileStorage],
-        },
-        {
-            label: 'reports messages and integrations limit surpasded',
-            limits: {
-                messages: {
-                    history: messageHistoryLimit,
-                },
-                files: {
-                    total_storage: filesLimit,
-                },
-            },
-            usage: {
-                ...zeroUsage,
-                messages: {
-                    ...zeroUsage.messages,
-                    history: exceededMessageUsage,
-                },
-                files: {
-                    ...zeroUsage.files,
-                    totalStorage: FileSizes.Gigabyte * 2 * 10,
-                },
-            },
-            expected: [LimitTypes.messageHistory, LimitTypes.fileStorage],
-        },
     ];
 
     tests.forEach((t: typeof tests[0]) => {
