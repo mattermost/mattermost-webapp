@@ -34,9 +34,6 @@ const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
 
-// react-hot-loader and development source maps require eval
-const CSP_UNSAFE_EVAL_IF_DEV = DEV ? ' \'unsafe-eval\'' : '';
-
 var MYSTATS = {
 
     // Add asset Information
@@ -590,9 +587,14 @@ if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
     };
 }
 
-module.exports = async () => {
-    // Do this asynchronously so we can determine whether which remote modules are available
-    await initializeModuleFederation();
+if (NPM_TARGET === 'check') {
+    // ESLint can't handle setting an async config, so just skip the async part
+    module.exports = config;
+} else {
+    module.exports = async () => {
+        // Do this asynchronously so we can determine whether which remote modules are available
+        await initializeModuleFederation();
 
-    return config;
-};
+        return config;
+    };
+}
