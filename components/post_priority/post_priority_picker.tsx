@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, memo} from 'react';
+import React, {useCallback, useEffect, useRef, memo} from 'react';
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 import styled from 'styled-components';
@@ -30,15 +30,15 @@ const Beta = styled(Badge)`
 `;
 
 const UrgentIcon = styled(AlertOutlineIcon)`
-    fill: var(--dnd-indicator);
+    fill: rgb(var(--semantic-color-danger));
 `;
 
 const ImportantIcon = styled(AlertCircleOutlineIcon)`
-    fill: var(--sidebar-text-active-border);
+    fill: rgb(var(--semantic-color-info));
 `;
 
 const StandardIcon = styled(MessageTextOutlineIcon)`
-    fill: rgba(var(--center-channel-text-rgb), 0.56);
+    fill: var(--center-channel-color-56);
 `;
 
 const Header = styled.h4`
@@ -85,6 +85,11 @@ function PostPriorityPicker({
     style,
 }: Props) {
     const {formatMessage} = useIntl();
+    const ref = useRef<HTMLDivElement>(null);
+
+    useEffect(() => {
+        ref.current?.focus();
+    }, [ref.current]);
 
     const handleSelect = useCallback((type?: PostPriority) => () => {
         onApply({priority: type});
@@ -113,6 +118,8 @@ function PostPriorityPicker({
 
     return (
         <Picker
+            ref={ref}
+            tabIndex={-1}
             style={pickerStyle}
             className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom'})}
         >
