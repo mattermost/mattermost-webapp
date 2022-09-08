@@ -389,6 +389,7 @@ async function initializeModuleFederation() {
             sharedObject[packageName] = {
                 requiredVersion: version,
                 singleton: true,
+                strictVersion: true,
                 version,
             };
         }
