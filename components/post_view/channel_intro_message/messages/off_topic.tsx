@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
 import {PluginComponent} from 'types/store/plugins';
@@ -11,6 +11,7 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import AddMembersButton from '../add_members_button';
 import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
+import {t} from 'utils/i18n';
 
 type Props = {
     channel: Channel;
@@ -18,6 +19,17 @@ type Props = {
     usersLimit: number;
     boardComponent?: PluginComponent;
 }
+
+const messages = defineMessages({
+    beginning: {
+        id: t('intro_messages.beginning'),
+        defaultMessage: 'Beginning of {name}',
+    },
+    offTopic: {
+        id: t('intro_messages.offTopic'),
+        defaultMessage: 'This is the start of {display_name}, a channel for non-work-related conversations.',
+    },
+});
 
 const OffTopicIntroMessage = ({
     channel,
@@ -35,8 +47,7 @@ const OffTopicIntroMessage = ({
         <>
             <h2 className='channel-intro__title'>
                 <FormattedMessage
-                    id='intro_messages.beginning'
-                    defaultMessage='Beginning of {name}'
+                    {...messages.beginning}
                     values={{
                         name: channel.display_name,
                     }}
@@ -44,8 +55,7 @@ const OffTopicIntroMessage = ({
             </h2>
             <p className='channel-intro__content'>
                 <FormattedMessage
-                    id='intro_messages.offTopic'
-                    defaultMessage='This is the start of {display_name}, a channel for non-work-related conversations.'
+                    {...messages.offTopic}
                     values={{
                         display_name: channel.display_name,
                     }}

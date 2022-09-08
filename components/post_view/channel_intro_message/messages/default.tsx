@@ -42,6 +42,15 @@ const messages = defineMessages({
         id: t('intro_messages.default'),
         defaultMessage: '**Welcome to {display_name}!**\\n \\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team.',
     },
+    addGroupsToTeam: {
+        id: t('intro_messages.addGroupsToTeam'),
+        defaultMessage: 'Add other groups to this team',
+    },
+    beginning: {
+        id: t('intro_messages.beginning'),
+        defaultMessage: 'Beginning of {name}',
+    },
+
 });
 
 const DefaultIntroMessage = ({
@@ -83,8 +92,7 @@ const DefaultIntroMessage = ({
                                 title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
                             />
                             <FormattedMessage
-                                id='intro_messages.addGroupsToTeam'
-                                defaultMessage='Add other groups to this team'
+                                {...messages.addGroupsToTeam}
                             />
                         </ToggleModalButton>
                     ) : (
@@ -105,8 +113,7 @@ const DefaultIntroMessage = ({
         <>
             <h2 className='channel-intro__title'>
                 <FormattedMessage
-                    id='intro_messages.beginning'
-                    defaultMessage='Beginning of {name}'
+                    {...messages.beginning}
                     values={{
                         name: channel.display_name,
                     }}
