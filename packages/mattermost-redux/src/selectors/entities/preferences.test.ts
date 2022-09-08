@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
+import {GlobalState} from '@mattermost/types/store';
+import {PreferencesType} from '@mattermost/types/preferences';
 
 import {General, Preferences} from 'mattermost-redux/constants';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/preferences';
 
-import mergeObjects from 'mattermost-redux/test/merge_objects';
+import mergeObjects from '../../../test/merge_objects';
 
 import * as ThemeUtils from 'mattermost-redux/utils/theme_utils';
 
@@ -22,25 +23,25 @@ describe('Selectors.Preferences', () => {
 
     const name1 = 'testname1';
     const value1 = 'true';
-    const pref1 = {category: category1, name: name1, value: value1};
+    const pref1 = {category: category1, name: name1, value: value1, user_id: ''};
 
     const name2 = 'testname2';
     const value2 = '42';
-    const pref2 = {category: category2, name: name2, value: value2};
+    const pref2 = {category: category2, name: name2, value: value2, user_id: ''};
 
     const dm1 = 'teammate1';
-    const dmPref1 = {category: directCategory, name: dm1, value: 'true'};
+    const dmPref1 = {category: directCategory, name: dm1, value: 'true', user_id: ''};
     const dm2 = 'teammate2';
-    const dmPref2 = {category: directCategory, name: dm2, value: 'false'};
+    const dmPref2 = {category: directCategory, name: dm2, value: 'false', user_id: ''};
 
     const gp1 = 'group1';
-    const prefGp1 = {category: groupCategory, name: gp1, value: 'true'};
+    const prefGp1 = {category: groupCategory, name: gp1, value: 'true', user_id: ''};
     const gp2 = 'group2';
-    const prefGp2 = {category: groupCategory, name: gp2, value: 'false'};
+    const prefGp2 = {category: groupCategory, name: gp2, value: 'false', user_id: ''};
 
     const currentUserId = 'currentuserid';
 
-    const myPreferences = {};
+    const myPreferences: PreferencesType = {};
     myPreferences[`${category1}--${name1}`] = pref1;
     myPreferences[`${category2}--${name2}`] = pref2;
     myPreferences[`${directCategory}--${dm1}`] = dmPref1;
@@ -61,97 +62,97 @@ describe('Selectors.Preferences', () => {
 
     describe('get preference', () => {
         it('should return the requested value', () => {
-            assert.deepEqual(Selectors.get(testState, category1, name1), 'true');
+            expect(Selectors.get(testState, category1, name1)).toEqual('true');
         });
 
         describe('should fallback to the default', () => {
             it('if name unknown', () => {
-                assert.deepEqual(Selectors.get(testState, category1, 'unknown name'), '');
+                expect(Selectors.get(testState, category1, 'unknown name')).toEqual('');
             });
 
             it('if category unknown', () => {
-                assert.deepEqual(Selectors.get(testState, 'unknown category', name1), '');
+                expect(Selectors.get(testState, 'unknown category', name1)).toEqual('');
             });
         });
 
         describe('should fallback to the overridden default', () => {
             it('if name unknown', () => {
-                assert.deepEqual(Selectors.get(testState, category1, 'unknown name', 'fallback'), 'fallback');
+                expect(Selectors.get(testState, category1, 'unknown name', 'fallback')).toEqual('fallback');
             });
 
             it('if category unknown', () => {
-                assert.deepEqual(Selectors.get(testState, 'unknown category', name1, 'fallback'), 'fallback');
+                expect(Selectors.get(testState, 'unknown category', name1, 'fallback')).toEqual('fallback');
             });
         });
     });
 
     describe('get bool preference', () => {
         it('should return the requested value', () => {
-            assert.deepEqual(Selectors.getBool(testState, category1, name1), value1 === 'true');
+            expect(Selectors.getBool(testState, category1, name1)).toEqual(value1 === 'true');
         });
 
         describe('should fallback to the default', () => {
             it('if name unknown', () => {
-                assert.deepEqual(Selectors.getBool(testState, category1, 'unknown name'), false);
+                expect(Selectors.getBool(testState, category1, 'unknown name')).toEqual(false);
             });
 
             it('if category unknown', () => {
-                assert.deepEqual(Selectors.getBool(testState, 'unknown category', name1), false);
+                expect(Selectors.getBool(testState, 'unknown category', name1)).toEqual(false);
             });
         });
 
         describe('should fallback to the overridden default', () => {
             it('if name unknown', () => {
-                assert.deepEqual(Selectors.getBool(testState, category1, 'unknown name', true), true);
+                expect(Selectors.getBool(testState, category1, 'unknown name', true)).toEqual(true);
             });
 
             it('if category unknown', () => {
-                assert.deepEqual(Selectors.getBool(testState, 'unknown category', name1, true), true);
+                expect(Selectors.getBool(testState, 'unknown category', name1, true)).toEqual(true);
             });
         });
     });
 
     describe('get int preference', () => {
         it('should return the requested value', () => {
-            assert.deepEqual(Selectors.getInt(testState, category2, name2), value2);
+            expect(Selectors.getInt(testState, category2, name2)).toEqual(parseInt(value2, 10));
         });
 
         describe('should fallback to the default', () => {
             it('if name unknown', () => {
-                assert.deepEqual(Selectors.getInt(testState, category2, 'unknown name'), 0);
+                expect(Selectors.getInt(testState, category2, 'unknown name')).toEqual(0);
             });
 
             it('if category unknown', () => {
-                assert.deepEqual(Selectors.getInt(testState, 'unknown category', name2), 0);
+                expect(Selectors.getInt(testState, 'unknown category', name2)).toEqual(0);
             });
         });
 
         describe('should fallback to the overridden default', () => {
             it('if name unknown', () => {
-                assert.deepEqual(Selectors.getInt(testState, category2, 'unknown name', 100), 100);
+                expect(Selectors.getInt(testState, category2, 'unknown name', 100)).toEqual(100);
             });
 
             it('if category unknown', () => {
-                assert.deepEqual(Selectors.getInt(testState, 'unknown category', name2, 100), 100);
+                expect(Selectors.getInt(testState, 'unknown category', name2, 100)).toEqual(100);
             });
         });
     });
 
     it('get preferences by category', () => {
         const getCategory = Selectors.makeGetCategory();
-        assert.deepEqual(getCategory(testState, category1), [pref1]);
+        expect(getCategory(testState, category1)).toEqual([pref1]);
     });
 
     it('get direct channel show preferences', () => {
-        assert.deepEqual(Selectors.getDirectShowPreferences(testState), [dmPref1, dmPref2]);
+        expect(Selectors.getDirectShowPreferences(testState)).toEqual([dmPref1, dmPref2]);
     });
 
     it('get group channel show preferences', () => {
-        assert.deepEqual(Selectors.getGroupShowPreferences(testState), [prefGp1, prefGp2]);
+        expect(Selectors.getGroupShowPreferences(testState)).toEqual([prefGp1, prefGp2]);
     });
 
     it('get teammate name display setting', () => {
-        assert.equal(
+        expect(
             Selectors.getTeammateNameDisplaySetting({
                 entities: {
                     general: {
@@ -163,7 +164,7 @@ describe('Selectors.Preferences', () => {
                         myPreferences: {},
                     },
                 },
-            }),
+            } as unknown as GlobalState)).toEqual(
             General.TEAMMATE_NAME_DISPLAY.SHOW_NICKNAME_FULLNAME,
         );
     });
@@ -172,7 +173,7 @@ describe('Selectors.Preferences', () => {
         it('default theme', () => {
             const currentTeamId = '1234';
 
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -187,14 +188,14 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }), Preferences.THEMES.denim);
+            } as unknown as GlobalState)).toEqual(Preferences.THEMES.denim);
         });
 
         it('custom theme', () => {
             const currentTeamId = '1234';
             const theme = {sidebarBg: '#ff0000'};
 
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -212,7 +213,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).sidebarBg, theme.sidebarBg);
+            } as GlobalState).sidebarBg).toEqual(theme.sidebarBg);
         });
 
         it('team-specific theme', () => {
@@ -220,7 +221,7 @@ describe('Selectors.Preferences', () => {
             const otherTeamId = 'abcd';
             const theme = {sidebarBg: '#ff0000'};
 
-            assert.deepEqual(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -244,14 +245,14 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).sidebarBg, theme.sidebarBg);
+            } as GlobalState).sidebarBg).toEqual(theme.sidebarBg);
         });
 
         it('mentionBj backwards compatability theme', () => {
             const currentTeamId = '1234';
-            const theme = {mentionBj: '#ff0000'};
+            const theme: {mentionBj: string; mentionBg?: string} = {mentionBj: '#ff0000'};
 
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -269,10 +270,10 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).mentionBg, theme.mentionBj);
+            } as GlobalState).mentionBg).toEqual(theme.mentionBj);
 
             theme.mentionBg = '#ff0001';
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -290,14 +291,14 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).mentionBg, theme.mentionBg);
+            } as GlobalState).mentionBg).toEqual(theme.mentionBg);
         });
 
         it('updates sideBarTeamBarBg variable when its not present', () => {
             const currentTeamId = '1234';
             const theme = {sidebarHeaderBg: '#ff0000'};
 
-            assert.deepEqual(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -315,7 +316,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).sidebarTeamBarBg, ThemeUtils.blendColors(theme.sidebarHeaderBg, '#000000', 0.2, true));
+            } as GlobalState).sidebarTeamBarBg).toEqual(ThemeUtils.blendColors(theme.sidebarHeaderBg, '#000000', 0.2, true));
         });
 
         it('memoization', () => {
@@ -346,11 +347,11 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            };
+            } as GlobalState;
 
             const before = Selectors.getTheme(state);
 
-            assert.equal(before, Selectors.getTheme(state));
+            expect(before).toBe(Selectors.getTheme(state));
 
             state = {
                 ...state,
@@ -361,14 +362,14 @@ describe('Selectors.Preferences', () => {
                         myPreferences: {
                             ...state.entities.preferences.myPreferences,
                             somethingUnrelated: {
-                                category: 'somethingUnrelated', name: '', value: JSON.stringify({}),
+                                category: 'somethingUnrelated', name: '', value: JSON.stringify({}), user_id: '',
                             },
                         },
                     },
                 },
             };
 
-            assert.equal(before, Selectors.getTheme(state));
+            expect(before).toBe(Selectors.getTheme(state));
 
             state = {
                 ...state,
@@ -379,22 +380,22 @@ describe('Selectors.Preferences', () => {
                         myPreferences: {
                             ...state.entities.preferences.myPreferences,
                             [getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId)]: {
-                                category: Preferences.CATEGORY_THEME, name: currentTeamId, value: JSON.stringify({sidebarBg: '#0000ff'}),
+                                category: Preferences.CATEGORY_THEME, name: currentTeamId, value: JSON.stringify({sidebarBg: '#0000ff'}), user_id: '',
                             },
                         },
                     },
                 },
             };
 
-            assert.notEqual(before, Selectors.getTheme(state));
-            assert.notDeepEqual(before, Selectors.getTheme(state));
+            expect(before).not.toBe(Selectors.getTheme(state));
+            expect(before).not.toEqual(Selectors.getTheme(state));
         });
 
         it('custom theme with upper case colours', () => {
             const currentTeamId = '1234';
             const theme = {sidebarBg: '#FF0000'};
 
-            assert.deepEqual(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -412,14 +413,14 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).sidebarBg, theme.sidebarBg.toLowerCase());
+            } as GlobalState).sidebarBg).toEqual(theme.sidebarBg.toLowerCase());
         });
 
         it('custom theme with missing colours', () => {
             const currentTeamId = '1234';
             const theme = {sidebarBg: '#ff0000'};
 
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -437,7 +438,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).mentionHighlightLink, Preferences.THEMES.denim.mentionHighlightLink);
+            } as GlobalState).mentionHighlightLink).toEqual(Preferences.THEMES.denim.mentionHighlightLink);
         });
 
         it('system theme with missing colours', () => {
@@ -447,7 +448,7 @@ describe('Selectors.Preferences', () => {
                 sidebarBg: '#ff0000',
             };
 
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -465,7 +466,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).sidebarText, Preferences.THEMES.indigo.sidebarText);
+            } as GlobalState).sidebarText).toEqual(Preferences.THEMES.indigo.sidebarText);
         });
 
         it('non-default system theme', () => {
@@ -474,7 +475,7 @@ describe('Selectors.Preferences', () => {
                 type: Preferences.THEMES.onyx.type,
             };
 
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -492,11 +493,11 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.onyx.codeTheme);
+            } as GlobalState).codeTheme).toEqual(Preferences.THEMES.onyx.codeTheme);
         });
 
         it('should return the server-configured theme by default', () => {
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -512,10 +513,10 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.indigo.codeTheme);
+            } as unknown as GlobalState).codeTheme).toEqual(Preferences.THEMES.indigo.codeTheme);
 
             // Opposite case
-            assert.notEqual(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -531,11 +532,11 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.indigo.codeTheme);
+            } as unknown as GlobalState).codeTheme).not.toEqual(Preferences.THEMES.indigo.codeTheme);
         });
 
         it('returns the "default" theme if the server-configured value is not present', () => {
-            assert.equal(Selectors.getTheme({
+            expect(Selectors.getTheme({
                 entities: {
                     general: {
                         config: {
@@ -551,7 +552,7 @@ describe('Selectors.Preferences', () => {
                         },
                     },
                 },
-            }).codeTheme, Preferences.THEMES.denim.codeTheme);
+            } as unknown as GlobalState).codeTheme).toEqual(Preferences.THEMES.denim.codeTheme);
         });
     });
 
@@ -577,9 +578,9 @@ describe('Selectors.Preferences', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
 
-        function testStyleFunction(myTheme) {
+        function testStyleFunction(myTheme: Selectors.Theme) {
             return {
                 container: {
                     backgroundColor: myTheme.themeColor,
@@ -597,7 +598,7 @@ describe('Selectors.Preferences', () => {
 
         const getStyleFromTheme = Selectors.makeGetStyleFromTheme();
 
-        assert.deepEqual(getStyleFromTheme(state, testStyleFunction), expected);
+        expect(getStyleFromTheme(state, testStyleFunction)).toEqual(expected);
     });
 });
 
@@ -614,7 +615,7 @@ describe('shouldShowUnreadsCategory', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
 
         expect(Selectors.shouldShowUnreadsCategory(state)).toBe(true);
     });
@@ -635,7 +636,7 @@ describe('shouldShowUnreadsCategory', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
 
         expect(Selectors.shouldShowUnreadsCategory(state)).toBe(true);
 
@@ -665,7 +666,7 @@ describe('shouldShowUnreadsCategory', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
 
         expect(Selectors.shouldShowUnreadsCategory(state)).toBe(true);
 
@@ -693,7 +694,7 @@ describe('shouldShowUnreadsCategory', () => {
                     myPreferences: {},
                 },
             },
-        };
+        } as GlobalState;
 
         expect(Selectors.shouldShowUnreadsCategory(state)).toBe(true);
 
@@ -726,7 +727,7 @@ describe('shouldShowUnreadsCategory', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
 
         expect(Selectors.shouldShowUnreadsCategory(state)).toBe(true);
     });

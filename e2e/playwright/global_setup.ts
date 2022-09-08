@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {expect} from '@playwright/test';
 import {UserProfile} from '@mattermost/types/lib/users';
 
 import {
@@ -15,13 +16,7 @@ import {
 import {defaultTeam} from './support/utils';
 import testConfig from './test.config';
 
-const productsAsPlugin = [
-    'com.mattermost.apps',
-    'com.mattermost.calls',
-    'com.mattermost.nps',
-    'focalboard',
-    'playbooks',
-];
+const productsAsPlugin = ['com.mattermost.calls', 'focalboard', 'playbooks'];
 
 async function globalSetup() {
     let {adminClient, adminUser} = await getAdminClient();
@@ -123,6 +118,35 @@ async function sysadminSetup(client: Client, user: UserProfile) {
             }
         }
     });
+
+    // Ensure server deployment type is as expected
+    if (testConfig.haClusterEnabled) {
+        const {haClusterNodeCount, haClusterName} = testConfig;
+
+        const {Enable, ClusterName} = (await client.getConfig()).ClusterSettings;
+        expect(Enable, Enable ? '' : 'Should have cluster enabled').toBe(true);
+
+        const sameClusterName = ClusterName === haClusterName;
+        expect(
+            sameClusterName,
+            sameClusterName
+                ? ''
+                : `Should have cluster name set and as expected. Got "${ClusterName}" but expected "${haClusterName}"`
+        ).toBe(true);
+
+        const clusterInfo = await client.getClusterStatus();
+        const sameCount = clusterInfo?.length === haClusterNodeCount;
+        expect(
+            sameCount,
+            sameCount
+                ? ''
+                : `Should match number of nodes in a cluster as expected. Got "${clusterInfo?.length}" but expected "${haClusterNodeCount}"`
+        ).toBe(true);
+
+        clusterInfo.forEach((info) =>
+            console.log(`hostname: ${info.hostname}, version: ${info.version}, config_hash: ${info.config_hash}`)
+        );
+    }
 }
 
 export default globalSetup;

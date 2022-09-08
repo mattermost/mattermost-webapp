@@ -2,19 +2,23 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
 import {throttle} from 'lodash';
+
+import {GfycatAPIItem} from '@mattermost/types/gifs';
 
 import {searchIfNeededInitial, searchGfycat} from 'mattermost-redux/actions/gifs';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
+import {appProps} from 'components/gif_picker/gif_picker';
+
+import {GlobalState} from 'types/store';
 
 const GIF_SEARCH_THROTTLE_TIME_MS = 1000;
 
-function mapStateToProps(state) {
+function mapStateToProps(state: GlobalState) {
     return {
-        ...state.entities.gifs.search,
+        searchText: state.entities.gifs.search.searchText,
     };
 }
 
@@ -23,28 +27,30 @@ const mapDispatchToProps = ({
     searchIfNeededInitial,
 });
 
-export class Search extends PureComponent {
-    static propTypes = {
-        handleItemClick: PropTypes.func,
-        onCategories: PropTypes.func,
-        searchText: PropTypes.string,
-        searchIfNeededInitial: PropTypes.func,
-        searchGfycat: PropTypes.func,
-    }
+type Props = {
+    appProps: typeof appProps;
+    onCategories?: () => void;
+    handleItemClick: (gif: GfycatAPIItem) => void;
+    searchText: string;
+    searchIfNeededInitial: (searchText: string) => void;
+    searchGfycat: (params: {searchText: string; count?: number; startIndex?: number }) => void;
+}
 
+export class Search extends PureComponent<Props> {
     componentDidMount() {
         const {searchText} = this.props;
         this.props.searchIfNeededInitial(searchText.split('-').join(' '));
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const {searchText} = this.props;
         if (prevProps.searchText !== searchText) {
             this.throttledSearchGif(searchText);
         }
     }
 
-    throttledSearchGif = throttle((searchText) => this.props.searchIfNeededInitial(searchText.split('-').join(' ')),
+    throttledSearchGif = throttle(
+        (searchText) => this.props.searchIfNeededInitial(searchText.split('-').join(' ')),
         GIF_SEARCH_THROTTLE_TIME_MS,
     );
 

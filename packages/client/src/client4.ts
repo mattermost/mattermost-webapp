@@ -141,7 +141,7 @@ const GRAPHQL_ENDPOINT = '/api/v5/graphql';
 
 // placed here because currently not supported
 // to import from outside the package from main bundle
-const suitePluginIds = {
+export const suitePluginIds = {
     playbooks: 'playbooks',
     focalboard: 'focalboard',
     apps: 'com.mattermost.apps',
