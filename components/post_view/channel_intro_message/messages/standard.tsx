@@ -3,7 +3,7 @@
 
 import React, {useMemo} from 'react';
 
-import {FormattedDate, FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedDate, FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 
@@ -11,7 +11,7 @@ import {Channel} from '@mattermost/types/channels';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {PluginComponent} from 'types/store/plugins';
 import AddMembersButton from '../add_members_button';
-import {getMonthLong} from 'utils/i18n';
+import {getMonthLong, t} from 'utils/i18n';
 import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 
@@ -23,6 +23,17 @@ type Props = {
     usersLimit: number;
     boardComponent?: PluginComponent;
 }
+
+const messages = defineMessages({
+    onlyInvited: {
+        id: t('intro_messages.onlyInvited'),
+        defaultMessage: ' Only invited members can see this private channel.',
+    },
+    anyMember: {
+        id: t('intro_messages.anyMember'),
+        defaultMessage: ' Any member can join and read this channel.',
+    },
+});
 
 const StandardIntroMessage = ({
     channel,
@@ -43,10 +54,7 @@ const StandardIntroMessage = ({
         if (isArchivedChannel(channel)) {
             return null;
         }
-        const memberMessageDescriptor = {
-            id: isPrivate ? 'intro_messages.onlyInvited' : 'intro_messages.anyMember',
-            defaultMessage: isPrivate ? ' Only invited members can see this private channel.' : ' Any member can join and read this channel.',
-        };
+        const memberMessageDescriptor = isPrivate ? messages.onlyInvited : messages.anyMember;
         return <FormattedMessage {...memberMessageDescriptor}/>;
     }, [channel, isPrivate]);
 
