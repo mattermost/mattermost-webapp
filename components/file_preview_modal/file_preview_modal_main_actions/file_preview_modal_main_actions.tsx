@@ -145,7 +145,8 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     const getBeforeCopyText = () => {
         const fileType = getFileType(props.fileInfo.extension);
         return fileType === FileTypes.TEXT ? 'Copy text' : undefined;
-    }
+    };
+
     const copy = (
         <CopyButton
             beforeCopyText={getBeforeCopyText()}
