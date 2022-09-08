@@ -68,7 +68,6 @@ We recommend that you download additional environment details about your Matterm
         className="btn btn-primary DownloadSupportPacket"
         href="/api/v4/system/support_packet"
         rel="noopener noreferrer"
-        target="_blank"
       >
         <MemoizedFormattedMessage
           defaultMessage="Download Support Packet"
