@@ -6,6 +6,7 @@
         margin-bottom: 4px;
 
         .display-name {
+            overflow: hidden;
             margin-left: 8px;
             color: var(--center-channel-color);
             font-family: 'Open Sans';
@@ -13,10 +14,25 @@
             font-style: normal;
             font-weight: 600;
             line-height: 16px;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .Badge {
+            overflow: hidden;
+            flex: 2;
+
+            .Badge__box {
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
         }
 
         .reply-count {
+            flex: 1;
             margin-left: auto;
+            text-align: end;
 
             i.icon {
                 width: 12px;
@@ -50,6 +66,16 @@
         font-weight: 400;
         -webkit-line-clamp: 2;
         line-height: 16px;
+
+        .compliance-information {
+            font-style: italic;
+        }
+
+        .markdown__heading {
+            margin: inherit;
+            font-size: inherit;
+            line-height: inherit;
+        }
 
         .file_card {
             width: auto;

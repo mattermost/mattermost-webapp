@@ -9,12 +9,12 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
  */
 export function doReactToLastMessageShortcut(from) {
     if (from === 'CENTER') {
-        cy.get('#post_textbox').
+        cy.uiGetPostTextBox().
             focus().
             clear().
             cmdOrCtrlShortcut('{shift}\\');
     } else if (from === 'RHS') {
-        cy.get('#reply_textbox').
+        cy.uiGetReplyTextBox().
             focus().
             clear().
             cmdOrCtrlShortcut('{shift}\\');

@@ -55,8 +55,8 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
             />
             <div className='PlanDetails__teamAndChannelCount'>
                 <FormattedMessage
-                    id='admin.billing.subscription.planDetails.features.unlimitedTeamsAndChannels'
-                    defaultMessage='Unlimited teams, channels, and search history'
+                    id='admin.billing.subscription.planDetails.subheader'
+                    defaultMessage='Plan details'
                 />
             </div>
             <FeatureList

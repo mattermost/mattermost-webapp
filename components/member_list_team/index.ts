@@ -14,8 +14,8 @@ import {searchProfiles} from 'mattermost-redux/actions/users';
 import {ActionFunc, GenericAction, ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
 
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
-import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions';
+import {loadProfilesAndTeamMembers, loadTeamMembersForProfilesList} from 'actions/user_actions';
 import {setModalSearchTerm} from 'actions/views/search';
 
 import {GlobalState} from 'types/store';

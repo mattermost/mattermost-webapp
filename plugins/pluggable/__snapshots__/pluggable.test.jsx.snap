@@ -17,6 +17,29 @@ exports[`plugins/Pluggable should match snapshot with extended component 1`] = `
   <ProfilePopoverPlugin
     key="PopoverSection1undefined"
     theme={Object {}}
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "closeListeners": Set {},
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "errorListeners": Set {},
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "firstConnectListeners": Set {},
+        "messageListeners": Set {},
+        "missedEventCallback": null,
+        "missedMessageListeners": Set {},
+        "reconnectCallback": null,
+        "reconnectListeners": Set {},
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
+      }
+    }
   >
     <span
       id="pluginId"
@@ -44,6 +67,29 @@ exports[`plugins/Pluggable should match snapshot with extended component with pl
   <ProfilePopoverPlugin
     key="PopoverSection1undefined"
     theme={Object {}}
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "closeListeners": Set {},
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "errorListeners": Set {},
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "firstConnectListeners": Set {},
+        "messageListeners": Set {},
+        "missedEventCallback": null,
+        "missedMessageListeners": Set {},
+        "reconnectCallback": null,
+        "reconnectListeners": Set {},
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
+      }
+    }
   >
     <span
       id="pluginId"
@@ -95,6 +141,29 @@ exports[`plugins/Pluggable should match snapshot with null pluggableId 1`] = `
   <ProfilePopoverPlugin
     key="PopoverSection1undefined"
     theme={Object {}}
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "closeListeners": Set {},
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "errorListeners": Set {},
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "firstConnectListeners": Set {},
+        "messageListeners": Set {},
+        "missedEventCallback": null,
+        "missedMessageListeners": Set {},
+        "reconnectCallback": null,
+        "reconnectListeners": Set {},
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
+      }
+    }
   >
     <span
       id="pluginId"
@@ -124,6 +193,29 @@ exports[`plugins/Pluggable should match snapshot with valid pluggableId 1`] = `
   <ProfilePopoverPlugin
     key="PopoverSection1pluggableId"
     theme={Object {}}
+    webSocketClient={
+      WebSocketClient {
+        "closeCallback": null,
+        "closeListeners": Set {},
+        "conn": null,
+        "connectFailCount": 0,
+        "connectionId": "",
+        "connectionUrl": null,
+        "errorCallback": null,
+        "errorListeners": Set {},
+        "eventCallback": null,
+        "firstConnectCallback": null,
+        "firstConnectListeners": Set {},
+        "messageListeners": Set {},
+        "missedEventCallback": null,
+        "missedMessageListeners": Set {},
+        "reconnectCallback": null,
+        "reconnectListeners": Set {},
+        "responseCallbacks": Object {},
+        "responseSequence": 1,
+        "serverSequence": 0,
+      }
+    }
   >
     <span
       id="pluginId"

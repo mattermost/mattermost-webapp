@@ -54,7 +54,7 @@ describe('Keyboard Shortcuts', () => {
         cy.postMessage(messagePrefix + message2);
 
         // # Type user name mention and post it to the channel
-        cy.get('#post_textbox').clear().type(messagePrefix + message3).type('{enter}{enter}');
+        cy.uiGetPostTextBox().clear().type(messagePrefix + message3).type('{enter}{enter}');
 
         // # Type "words that trigger mentions"
         cy.postMessage('mention @here ');

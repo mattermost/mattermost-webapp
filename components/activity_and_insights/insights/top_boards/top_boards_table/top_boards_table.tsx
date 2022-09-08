@@ -50,7 +50,7 @@ const TopBoardsTable = (props: Props) => {
     const goToBoard = useCallback((board: TopBoard) => {
         props.closeModal();
         trackEvent('insights', 'open_board_from_top_boards_modal');
-        browserHistory.push(`/boards/workspace/${board.workspaceID}/${board.boardID}`);
+        browserHistory.push(`/boards/team/${currentTeamId}/${board.boardID}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
@@ -69,7 +69,7 @@ const TopBoardsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights..topBoards.board'
+                        id='insights.topBoardsTable.board'
                         defaultMessage='Board'
                     />
                 ),
@@ -89,7 +89,7 @@ const TopBoardsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights..topBoards.participants'
+                        id='insights.topBoardsTable.participants'
                         defaultMessage='Participants'
                     />
                 ),

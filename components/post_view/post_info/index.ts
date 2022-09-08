@@ -24,7 +24,7 @@ import {Post} from '@mattermost/types/posts';
 import {GlobalState} from 'types/store';
 
 import {closeRightHandSide} from 'actions/views/rhs';
-import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {Preferences} from 'utils/constants';
 import {shouldShowDotMenu, shouldShowActionsMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
@@ -55,7 +55,7 @@ function makeMapStateToProps() {
         const selectedCard = getSelectedPostCard(state);
         const config = getConfig(state);
         const channel = state.entities.channels.channels[ownProps.post.channel_id];
-        const channelIsArchived = channel ? channel.delete_at !== 0 : null;
+        const channelIsArchived = channel ? channel.delete_at !== 0 : undefined;
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);

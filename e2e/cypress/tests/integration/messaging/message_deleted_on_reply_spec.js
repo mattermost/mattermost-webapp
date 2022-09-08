@@ -38,7 +38,7 @@ describe('Messaging', () => {
         cy.clickPostCommentIcon();
 
         // # Write message on reply box
-        cy.get('#reply_textbox').type(draftMessage);
+        cy.uiGetReplyTextBox().type(draftMessage);
 
         // # Remove message from the other user
         cy.getLastPostId().then((postId) => {
@@ -55,7 +55,7 @@ describe('Messaging', () => {
             });
 
             // # Send message
-            cy.get('#reply_textbox').type('{enter}');
+            cy.uiGetReplyTextBox().type('{enter}');
 
             // * Post Deleted Modal should be visible
             cy.findAllByTestId('postDeletedModal').should('be.visible');
@@ -69,10 +69,10 @@ describe('Messaging', () => {
             });
 
             // * Textbox should still have the draft message
-            cy.get('#reply_textbox').should('contain', draftMessage);
+            cy.uiGetReplyTextBox().should('contain', draftMessage);
 
             // # Try to post the message one more time pressing enter
-            cy.get('#reply_textbox').type('{enter}');
+            cy.uiGetReplyTextBox().type('{enter}');
 
             // * The modal should have appeared again
             cy.findAllByTestId('postDeletedModal').should('be.visible');
@@ -86,7 +86,7 @@ describe('Messaging', () => {
             });
 
             // * Textbox should still have the draft message
-            cy.get('#reply_textbox').should('contain', draftMessage);
+            cy.uiGetReplyTextBox().should('contain', draftMessage);
 
             // # Change to the other user and go to test channel
             cy.apiAdminLogin();

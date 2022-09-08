@@ -87,6 +87,12 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         document.body.classList.add('announcement-bar--fixed');
     }
 
+    componentDidUpdate() {
+        if (this.props.announcementBarCount === 1) {
+            document.body.classList.add('announcement-bar--fixed');
+        }
+    }
+
     componentWillUnmount() {
         if (this.props.announcementBarCount === 1) {
             document.body.classList.remove('announcement-bar--fixed');
@@ -144,7 +150,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         let message = this.props.message;
         if (typeof message == 'string') {
             message = (
-                <FormattedMarkdownMessage id={this.props.message}/>
+                <FormattedMarkdownMessage id={this.props.message as string}/>
             );
         }
         const announcementTooltip = this.state.showTooltip ? (
@@ -187,7 +193,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
                                 >
                                     {(linkmessage) => (
                                         <ToggleModalButton
-                                            ariaLabel={linkmessage}
+                                            ariaLabel={linkmessage as unknown as string}
                                             className={'color--link--adminack'}
                                             dialogType={WarnMetricAckModal}
                                             onClick={() => trackEvent('admin', 'click_warn_metric_learn_more')}

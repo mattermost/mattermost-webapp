@@ -34,7 +34,7 @@ describe('Integrations', () => {
 
     beforeEach(() => {
         cy.get('#sidebarItem_off-topic').click();
-        cy.get('#post_textbox').should('be.visible');
+        cy.uiGetPostTextBox();
     });
 
     it('MM-T683 /join', () => {
@@ -134,7 +134,7 @@ describe('Integrations', () => {
 
     it('MM-T2834 Slash command help stays visible for system slash command', () => {
         // # Type the rename slash command in textbox
-        cy.get('#post_textbox').clear().type('/rename ');
+        cy.uiGetPostTextBox().clear().type('/rename ');
 
         // # Scan inside of suggestion list
         cy.get('#suggestionList').should('exist').and('be.visible').within(() => {
@@ -144,15 +144,7 @@ describe('Integrations', () => {
         });
 
         // # Append Hello to /rename and hit enter
-        cy.get('#post_textbox').type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
-        cy.get('#post_textbox').invoke('text').should('be.empty');
-    });
-
-    it('MM-T686 /logout', () => {
-        // # Type "/logout"
-        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('/logout {enter}').wait(TIMEOUTS.HALF_SEC);
-
-        // * Ensure that the user was redirected to the login page
-        cy.url().should('include', '/login');
+        cy.uiGetPostTextBox().type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().invoke('text').should('be.empty');
     });
 });

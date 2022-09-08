@@ -427,7 +427,7 @@ describe('Integrations page', () => {
         const first2LettersOfCommandTrigger = commandTrigger.slice(0, 2);
 
         // # Type first 2 letters of the command trigger word
-        cy.get('#post_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type(`/${first2LettersOfCommandTrigger}`);
+        cy.uiGetPostTextBox().should('be.visible').clear().type(`/${first2LettersOfCommandTrigger}`);
 
         // # Scan inside of suggestion list
         cy.get('#suggestionList').should('exist').and('be.visible').within(() => {
@@ -439,8 +439,8 @@ describe('Integrations page', () => {
         });
 
         // # Append Hello to custom slash command and hit enter
-        cy.get('#post_textbox').type('{enter}').wait(TIMEOUTS.HALF_SEC).type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
-        cy.get('#post_textbox').invoke('text').should('be.empty');
+        cy.uiGetPostTextBox().type('{enter}').wait(TIMEOUTS.HALF_SEC).type('Hello{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().invoke('text').should('be.empty');
     });
 });
 

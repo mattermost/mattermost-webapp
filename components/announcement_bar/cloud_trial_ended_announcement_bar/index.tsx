@@ -9,10 +9,13 @@ import {useSelector, useDispatch} from 'react-redux';
 import {t} from 'utils/i18n';
 
 import AnnouncementBar from '../default_announcement_bar';
-import {AnnouncementBarTypes, Preferences, CloudBanners} from 'utils/constants';
-import {anyUsageDeltaExceededLimit} from 'utils/limits';
+import {
+    AnnouncementBarTypes,
+    Preferences,
+    CloudBanners,
+    CloudProducts,
+} from 'utils/constants';
 import {GlobalState} from 'types/store';
-import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -22,9 +25,11 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUser,
 } from 'mattermost-redux/selectors/entities/users';
+import {
+    getSubscriptionProduct,
+} from 'mattermost-redux/selectors/entities/cloud';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
-    const usageDeltas = useGetUsageDeltas();
     const limits = useGetLimits();
     const subscription = useGetSubscription();
     const getCategory = makeGetCategory();
@@ -35,11 +40,12 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
+    const subscriptionProduct = useSelector((state: GlobalState) => getSubscriptionProduct(state));
 
     const openPricingModal = useOpenPricingModal();
 
     const shouldShowBanner = () => {
-        if (!subscription) {
+        if (!subscription || !subscriptionProduct) {
             return false;
         }
 
@@ -52,6 +58,11 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
             return false;
         }
         if (preferences.some((pref) => pref.name === CloudBanners.HIDE && pref.value === 'true')) {
+            return false;
+        }
+
+        // Don't show this banner for professional or enterprise installations
+        if (subscriptionProduct?.sku !== CloudProducts.STARTER) {
             return false;
         }
 
@@ -91,21 +102,17 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         );
     };
 
-    let message = {
-        id: t('freemium.banner.trial_ended.premium_features'),
+    const message = {
+        id: t('starter.banner.downgraded'),
         defaultMessage:
-            'Your trial has ended. Upgrade to regain access to paid features',
+            'Your workspace now has restrictions and some data has been archived',
     };
-
-    if (anyUsageDeltaExceededLimit(usageDeltas) || usageDeltas.teams.cloudArchived) {
-        message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
-    }
 
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.CRITICAL}
             showCloseButton={true}
-            onButtonClick={openPricingModal}
+            onButtonClick={() => openPricingModal({trackingLocation: 'cloud_trial_ended_announcement_bar'})}
             modalButtonText={t('more.details')}
             modalButtonDefaultText={'More details'}
             message={<FormattedMessage {...message}/>}

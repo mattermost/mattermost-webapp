@@ -722,6 +722,19 @@
         text-transform: uppercase;
     }
 
+    .sidebar-section-indicator {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+
+        i {
+            color: alpha-color($white, 0.5);
+            font-size: 14px;
+            line-height: 14px;
+        }
+    }
+
     .sidebar-subsection-title {
         padding: 6px 35px 6px 30px;
 
@@ -746,21 +759,33 @@
         &:hover {
             color: lighten($primary-color, 10);
             text-decoration: none;
+
+            i {
+                color: lighten($primary-color, 10);
+            }
         }
 
         &--active {
             background: alpha-color($white, 0.1);
             color: $white;
 
+            i {
+                color: $white;
+            }
+
             &:hover,
             &:focus {
                 background: alpha-color($white, 0.1);
                 color: $white;
+
+                i {
+                    color: $white;
+                }
             }
 
             &::after {
                 position: absolute;
-                top: 3px;
+                top: 2px;
                 right: -1px;
                 display: inline-block;
                 color: whitesmoke;

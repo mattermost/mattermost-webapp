@@ -52,7 +52,7 @@ describe('Scroll', () => {
         cy.postMessage('This is the last post');
         cy.getLastPostId().as('lastPostId');
 
-        // Getting height of all postes before applying 'Fixed width, centered' option and assigning alias
+        // Getting height of all posts before applying 'Fixed width, centered' option and assigning alias
         getUserNameTitle().eq(0).invoke('height').as('initialUserNameHeight');
         getFirstTextPost().invoke('height').as('initialFirstPostHeight');
         getMp3Post().invoke('height').as('initialMp3Height');
@@ -104,7 +104,7 @@ describe('Scroll', () => {
                 getInlineImgPost().should('have.css', 'height', (originalHeight + 2) + 'px');
             });
             cy.get('@initialAttachmentHeight').then((originalHeight) => {
-                getAttachmentPost().should('have.css', 'height', (originalHeight + 2) + 'px');
+                getAttachmentPost().should('have.css', 'height', originalHeight + 'px');
             });
         });
     });
@@ -145,7 +145,7 @@ describe('Scroll', () => {
     // Getting element using link preview Post Id, then finding its child file thumbnail post and assigning to const variable for later use
     const getAttachmentPost = () => {
         return cy.get('@linkPreviewId').then((postId) => {
-            cy.get(`#${postId}_message`).find('img[aria-label="file thumbnail"]');
+            cy.get(`#${postId}_message`).find('.PostAttachmentOpenGraph__image');
         });
     };
 

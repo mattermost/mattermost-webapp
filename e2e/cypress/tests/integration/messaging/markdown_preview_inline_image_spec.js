@@ -24,17 +24,17 @@ describe('Messaging', () => {
         const message = '![make it so](https://i.stack.imgur.com/MNeE7.jpg)';
 
         // # Get the height before starting to write
-        cy.get('#post_textbox').should('be.visible').clear().then(() => {
+        cy.uiGetPostTextBox().clear().then(() => {
             cy.get('#post-create').then((postArea) => {
                 cy.wrap(parseInt(postArea[0].clientHeight, 10)).as('initialHeight');
             });
         });
 
         // # Post first line to use
-        cy.get('#post_textbox').type(message).type('{shift}{enter}').type(message);
+        cy.uiGetPostTextBox().type(message).type('{shift}{enter}').type(message);
 
         // # Click on Preview button
-        cy.get('#previewLink').click({force: true});
+        cy.findByLabelText('preview').click();
 
         cy.get('#post-list').then((postList) => {
             cy.get('#create_post').within(() => {

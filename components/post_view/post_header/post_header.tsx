@@ -44,6 +44,11 @@ export type Props = {
      */
     compactDisplay?: boolean;
 
+    /*
+     * Set to colorize usernames according to their hash
+     */
+    colorizeUsernames?: boolean;
+
     /**
      * Set to indicate that this is previous post was not a reply to the same thread
      */
@@ -96,6 +101,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             <UserProfile
                 userId={post.user_id}
                 hasMention={true}
+                colorize={this.props.colorizeUsernames}
             />
         );
         let indicator;
@@ -109,6 +115,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                         hideStatus={true}
                         overwriteName={post.props.override_username}
                         overwriteIcon={this.props.overwriteIcon}
+                        colorize={this.props.colorizeUsernames}
                     />
                 );
             } else {
@@ -116,6 +123,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     <UserProfile
                         userId={post.user_id}
                         hideStatus={true}
+                        colorize={this.props.colorizeUsernames}
                     />
                 );
             }
@@ -129,6 +137,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     userId={post.user_id}
                     hideStatus={true}
                     hasMention={true}
+                    colorize={this.props.colorizeUsernames}
                 />
             );
 

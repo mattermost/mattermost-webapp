@@ -46,7 +46,7 @@ describe('Team Scheme Channel Mentions Permissions Test', () => {
         // # Assign the new team scheme to the test team using the add teams modal
         cy.findByTestId('add-teams').click();
 
-        cy.get('#selectItems').type(testTeam.display_name);
+        cy.get('#selectItems input').typeWithForce(testTeam.display_name);
 
         cy.get('.team-info-block').then((el) => {
             el.click();
@@ -154,11 +154,11 @@ const channelMentionsPermissionCheck = (enabled) => {
 const createPostPermissionCheck = (enabled) => {
     if (enabled) {
         // # Try post it to the channel
-        cy.get('#post_textbox').should('not.be.disabled');
+        cy.uiGetPostTextBox().should('not.be.disabled');
         cy.postMessage('test');
     } else {
         // # Ensure the input is disabled
-        cy.get('#post_textbox').should('be.disabled');
+        cy.uiGetPostTextBox().should('be.disabled');
     }
 
     // # Get last post message text

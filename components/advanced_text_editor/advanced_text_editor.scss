@@ -147,6 +147,7 @@
 
         &--has-error {
             padding: 6px 0 0;
+            color: var(--error-text);
         }
 
         .post-error {
@@ -156,7 +157,6 @@
             margin-bottom: 0;
             font-size: 0.85em;
             font-weight: normal;
-            opacity: 0.55;
         }
     }
 }

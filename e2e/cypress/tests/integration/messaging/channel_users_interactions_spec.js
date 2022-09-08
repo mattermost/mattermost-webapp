@@ -61,7 +61,7 @@ describe('Channel users interactions', () => {
             and('have.text', 'New Messages');
 
         // # Post a message on current channel
-        cy.get('#post_textbox').clear().type('message123{enter}');
+        cy.uiGetPostTextBox().clear().type('message123{enter}');
 
         // * Verify that last posted message is visible
         cy.getLastPostId().then((postId) => {

@@ -20,7 +20,7 @@ describe('Keyboard Shortcuts', () => {
         const message = 'Hello World!';
 
         // # Type CTRL/CMD+K to open 'Switch Channels'
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         // * Verify that the suggestion list is visible
         cy.get('#suggestionList').should('be.visible');
@@ -32,6 +32,6 @@ describe('Keyboard Shortcuts', () => {
         cy.get('body').type(message);
 
         // * Textbox should have text equal to message
-        cy.get('#post_textbox').should('have.text', message);
+        cy.uiGetPostTextBox().should('have.text', message);
     });
 });

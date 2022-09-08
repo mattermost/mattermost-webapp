@@ -140,10 +140,10 @@ describe('Group Mentions', () => {
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
             // # Visit the channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.uiGetPostTextBox();
 
             // # Type the Group Name to check if Autocomplete dropdown is not displayed
-            cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+            cy.uiGetPostTextBox().clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
             // * Verify if autocomplete dropdown is not displayed
             cy.get('#suggestionList').should('not.exist');
@@ -171,7 +171,7 @@ describe('Group Mentions', () => {
         // # Login as a regular user
         cy.apiLogin(regularUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.uiGetPostTextBox();
 
         // # Trigger DM with a user
         cy.uiAddDirectMessage().click();
@@ -179,7 +179,7 @@ describe('Group Mentions', () => {
         cy.uiGetButton('Go').click();
 
         // # Type the Group Name to check if Autocomplete dropdown is displayed
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+        cy.uiGetPostTextBox().clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
         // * Verify if autocomplete dropdown is displayed
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
@@ -212,7 +212,7 @@ describe('Group Mentions', () => {
         // # Login as a regular user
         cy.apiLogin(regularUser);
         cy.visit(`/${testTeam.name}/channels/town-square`);
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.uiGetPostTextBox();
 
         // # Trigger DM with couple of users
         cy.uiAddDirectMessage().click();
@@ -220,7 +220,7 @@ describe('Group Mentions', () => {
         cy.uiGetButton('Go').click();
 
         // # Type the Group Name to check if Autocomplete dropdown is displayed
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
+        cy.uiGetPostTextBox().clear().type(`@${groupName}`).wait(TIMEOUTS.TWO_SEC);
 
         // * Verify if autocomplete dropdown is displayed
         cy.get('#suggestionList').should('be.visible').children().within((el) => {
@@ -273,7 +273,7 @@ describe('Group Mentions', () => {
 
                     // # Visit the channel
                     cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-                    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+                    cy.uiGetPostTextBox();
 
                     cy.postMessage(`@${groupName2} `);
 

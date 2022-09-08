@@ -37,18 +37,18 @@ describe('Message Reply too long', () => {
         // # Enter too long text into RHS
         const maxReplyLength = 16383;
         const replyTooLong = replyValid.repeat((maxReplyLength / replyValid.length) + 1);
-        cy.get('#reply_textbox').invoke('val', replyTooLong).trigger('input');
+        cy.uiGetReplyTextBox().invoke('val', replyTooLong).trigger('input');
 
         // * Check warning doesn't overlap textbox
         cy.get('.post-error').should('be.visible');
-        cy.get('#reply_textbox').should('be.visible');
+        cy.uiGetReplyTextBox();
 
         // # Type "enter" into RHS
-        cy.get('#reply_textbox').type('{enter}');
+        cy.uiGetReplyTextBox().type('{enter}');
 
         // * Check warning
         cy.get('.post-error').should('be.visible').and('have.text', `Your message is too long. Character count: ${replyTooLong.length}/${maxReplyLength}`);
-        cy.get('#reply_textbox').should('be.visible');
+        cy.uiGetReplyTextBox();
 
         // * Check last reply is the last valid one
         cy.getLastPostId().then((replyId) => {

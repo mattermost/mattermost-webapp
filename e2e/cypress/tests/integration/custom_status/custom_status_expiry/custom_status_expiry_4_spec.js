@@ -108,7 +108,7 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         cy.get('.DayPickerInput-Overlay').find(`.DayPicker-Week div[aria-label="${dateToBeSelected.format('ddd MMM DD YYYY')}"]`).click();
 
         // * Check that the date input should have the correct value
-        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-M-D'));
+        cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-MM-DD'));
     });
 
     it('MM-T4066_7 should set custom status when click on Set Status', () => {

@@ -167,7 +167,7 @@ export default class PushSettings extends AdminSettings {
                         ),
                         linkHPNS: (msg) => (
                             <a
-                                href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html'
                                 referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
@@ -206,7 +206,7 @@ export default class PushSettings extends AdminSettings {
                         ),
                         linkHPNS: (msg) => (
                             <a
-                                href='https://docs.mattermost.com/deploy/mobile-hpns.html]'
+                                href='https://docs.mattermost.com/deploy/mobile-hpns.html'
                                 referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'

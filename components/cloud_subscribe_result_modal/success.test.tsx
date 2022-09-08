@@ -3,12 +3,10 @@
 //
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import * as redux from 'react-redux';
 
-import thunk from 'redux-thunk';
-
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import SuccessModal from './success';
 
@@ -41,7 +39,6 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
     };
 
     test('matches snapshot', () => {
-        const mockStore = configureStore([thunk]);
         const store = mockStore(state);
         const wrapper = mountWithIntl(
             <redux.Provider store={store}>

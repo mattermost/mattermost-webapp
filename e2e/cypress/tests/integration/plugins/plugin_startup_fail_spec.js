@@ -57,7 +57,7 @@ describe('If plugins fail to start, they can be disabled', () => {
 
             // # Click on Enable link
             cy.findByText('Enable').click();
-            cy.findByText('This plugin failed to start. Check your system logs for errors.').should('be.visible');
+            cy.findByText('This plugin failed to start. must have a GitLab oauth client id').should('be.visible');
 
             cy.findByText('Disable').click();
             cy.findByText('This plugin is not enabled.').should('be.visible');

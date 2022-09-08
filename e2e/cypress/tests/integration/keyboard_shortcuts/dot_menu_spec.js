@@ -38,7 +38,7 @@ describe('Keyboard Shortcuts', () => {
             cy.uiPostDropdownMenuShortcut(postId, 'Reply', 'R');
 
             // * Verify reply text box is focused
-            cy.get('#reply_textbox').should('be.focused');
+            cy.uiGetReplyTextBox().should('be.focused');
 
             // # Mark as unread
             cy.uiPostDropdownMenuShortcut(postId, 'Mark as Unread', 'U');
@@ -100,13 +100,13 @@ describe('Keyboard Shortcuts', () => {
             cy.viewport('iphone-6');
 
             // # Save Post
-            cy.uiPostDropdownMenuShortcut(postId, 'Save', 'S');
+            cy.uiPostDropdownMenuShortcut(postId, 'Save', 'S', 'RHS_ROOT');
 
             // * Verify post is Saved
             cy.get(`#post_${postId}`).find('.post-pre-header').should('be.visible').and('have.text', 'Saved');
 
             // # Unsave Post
-            cy.uiPostDropdownMenuShortcut(postId, 'Remove from Saved', 'S');
+            cy.uiPostDropdownMenuShortcut(postId, 'Remove from Saved', 'S', 'RHS_ROOT');
 
             // * Verify post is unsaved
             cy.get(`#post_${postId}`).and('not.have.text', 'Saved');

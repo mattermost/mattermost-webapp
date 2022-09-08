@@ -1,13 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import thunk from 'redux-thunk';
-import configureStore from 'redux-mock-store';
-
 import * as Actions from 'actions/emoji_actions';
 import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
-const mockStore = configureStore([thunk]);
+import mockStore from 'tests/test_store';
 
 const initialState = {
     entities: {

@@ -78,7 +78,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, actia
       <DropdownSetting
         disabled={true}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={
@@ -255,7 +255,7 @@ exports[`components/MessageExportSettings should match snapshot, disabled, globa
       <DropdownSetting
         disabled={true}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={
@@ -529,7 +529,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, actian
       <DropdownSetting
         disabled={false}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={
@@ -706,7 +706,7 @@ exports[`components/MessageExportSettings should match snapshot, enabled, global
       <DropdownSetting
         disabled={false}
         helpText={
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="Format of the compliance export. Corresponds to the system that you want to import the data into.\\\\n \\\\nFor Actiance XML, compliance export files are written to the \\\\\\"exports\\\\\\" subdirectory of the configured [Local Storage Directory]({siteURL}/admin_console/environment/file_storage). For Global Relay EML, they are emailed to the configured email address."
             id="admin.complianceExport.exportFormat.description"
             values={

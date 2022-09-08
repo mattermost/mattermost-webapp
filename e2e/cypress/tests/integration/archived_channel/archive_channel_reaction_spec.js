@@ -29,9 +29,6 @@ describe('Archived channels', () => {
     it('MM-T1718 Reaction icon should not be visible for archived channel posts', () => {
         const messageText = 'Test archive reaction';
 
-        // * Post text box should be visible
-        cy.get('#post_textbox').should('be.visible');
-
         // # Post a message in the channel
         cy.postMessage(messageText);
 

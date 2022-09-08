@@ -47,8 +47,8 @@ describe('Messaging', () => {
             cy.get('#sidebarItem_off-topic').click();
 
             // # Type either cmd+K / ctrl+K depending on OS and type in the first 7 of the second user's last name
-            cy.get('#post_textbox').cmdOrCtrlShortcut('K');
-            cy.focused().type(`${secondUser.last_name.slice(0, 7)}`);
+            cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
+            cy.focused().type(secondUser.last_name.slice(0, 7));
 
             // * The suggestion for the GM channel with the user that was searched for should show the username of the user and verify the suggestion for the GM channel with the user that was searched for should show the 'G' text
             cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username).findByText('G').should('exist');

@@ -55,19 +55,19 @@ describe('Group Message', () => {
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
 
         // # Search for the user otherA
-        cy.get('#selectItems input').should('be.enabled').type(`@${otherUser1.username}`, {force: true});
+        cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${otherUser1.username}`);
 
         // * Verify that the user is found and add to GM
         cy.get('#moreDmModal .more-modal__row').should('be.visible').and('contain', otherUser1.username).click({force: true});
 
         // # Search for the user otherB
-        cy.get('#selectItems input').should('be.enabled').type(`@${otherUser2.username}`, {force: true});
+        cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${otherUser2.username}`);
 
         // * Verify that the user is found and add to GM
         cy.get('#moreDmModal .more-modal__row').should('be.visible').and('contain', otherUser2.username).click({force: true});
 
         // # Search for the current user
-        cy.get('#selectItems input').should('be.enabled').type(`@${testUser.username}`, {force: true});
+        cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${testUser.username}`);
 
         // * Assert that it's not found
         cy.get('.no-channel-message').should('be.visible').and('contain', 'No results found matching');
@@ -76,7 +76,7 @@ describe('Group Message', () => {
         cy.findByText('Go').click();
 
         // # Post something to create a GM
-        cy.get('#post_textbox').type('Hi!').type('{enter}');
+        cy.uiGetPostTextBox().type('Hi!').type('{enter}');
 
         // # Click on '+' sign to open DM modal
         cy.uiAddDirectMessage().click();
@@ -85,7 +85,7 @@ describe('Group Message', () => {
         cy.get('#moreDmModal').should('be.visible').contains('Direct Messages');
 
         // # Search for the user otherB
-        cy.get('#selectItems input').should('be.enabled').type(`@${otherUser2.username}`, {force: true});
+        cy.get('#selectItems input').should('be.enabled').typeWithForce(`@${otherUser2.username}`);
 
         // * Verify that the user is found and is part of the GM together with the other user
         cy.get('#moreDmModal .more-modal__row').should('be.visible').and('contain', otherUser2.username).and('contain', otherUser1.username);
@@ -99,7 +99,7 @@ describe('Group Message', () => {
         cy.uiOpenChannelMenu('Add Members');
 
         // # Filter user by username
-        cy.get('#selectItems input').type(users[2].username, {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#selectItems input').typeWithForce(users[2].username).wait(TIMEOUTS.HALF_SEC);
 
         // # Click the first user on a filtered list
         cy.get('#multiSelectList .clickable').first().click();
@@ -120,7 +120,7 @@ describe('Group Message', () => {
         cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 4 more people');
 
         // # Remove last user on the list by typing backspace
-        cy.get('#selectItems input').type('{backspace}', {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#selectItems input').typeWithForce('{backspace}').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert that member info updates to reflect the new addition
         cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 5 more people');
@@ -248,7 +248,7 @@ describe('Group Message', () => {
             cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
             // # Open previously closed group message
-            cy.get('#selectItems input').type(`${participants[0].username}`).wait(TIMEOUTS.HALF_SEC);
+            cy.get('#selectItems input').typeWithForce(participants[0].username).wait(TIMEOUTS.HALF_SEC);
             cy.get('#multiSelectList .suggestion-list__item').last().click().wait(TIMEOUTS.HALF_SEC);
 
             // * Verify that participants are listed in the input field
@@ -269,7 +269,7 @@ const createGroupMessageWith = (users) => {
     cy.get('#multiSelectHelpMemberInfo').should('contain', 'You can add 7 more people');
 
     users.forEach((user, index) => {
-        cy.get('#selectItems input').type(user.username, {force: true}).type('{enter}').wait(TIMEOUTS.HALF_SEC);
+        cy.get('#selectItems input').typeWithForce(user.username).type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Assert that member info updates whilst adding new members
         cy.get('#multiSelectHelpMemberInfo').should('contain', `You can add ${defaultUserLimit - (index + 1)} more people`);

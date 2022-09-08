@@ -8,4 +8,6 @@ export {
     DEFAULT_LIMIT_BEFORE,
 } from './client4';
 
-export {TelemetryHandler} from './telemetry';
+export type {TelemetryHandler} from './telemetry';
+export type {WebSocketMessage} from './websocket';
+export {default as WebSocketClient} from './websocket';

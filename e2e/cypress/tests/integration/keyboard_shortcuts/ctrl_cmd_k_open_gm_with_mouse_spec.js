@@ -42,7 +42,7 @@ describe('Keyboard Shortcuts', () => {
         // # Create a GM channel
         cy.apiCreateGroupChannel([firstUser.id, secondUser.id, thirdUser.id]).then(() => {
             // # Press Cmd/Ctrl-K to open "Switch Channels" modal
-            cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+            cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
             // # Click on the GM link to go to channel
             cy.get('.status--group').click();
