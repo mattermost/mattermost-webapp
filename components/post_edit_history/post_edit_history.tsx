@@ -14,6 +14,7 @@ import LoadingScreen from 'components/loading_screen';
 
 import EditedPostItem from './edited_post_item';
 
+// todo sinan postEditHistory should be empty array when other message is selected
 export interface Props {
     channelDisplayName: string;
     originalPost: Post;

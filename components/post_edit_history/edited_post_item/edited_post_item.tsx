@@ -36,7 +36,7 @@ export type Props = {
     originalPost: Post;
     actions: {
         editPost: (post: Post) => Promise<{data: Post}>;
-        closeRightHandSide: () => void; // todo sinan closing rhs should also clear editHistory
+        closeRightHandSide: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
     };
