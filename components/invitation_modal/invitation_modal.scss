@@ -2,6 +2,7 @@
     .modal-dialog {
         @media screen and (min-width: 640px) {
             position: absolute;
+            width: 600px;
         }
 
         top: 50%;
