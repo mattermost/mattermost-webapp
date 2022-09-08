@@ -99,7 +99,6 @@ export type TopBoard = {
     activityCount: number;
     activeUsers: string;
     createdBy: string;
-    workspaceID: string;
 };
 
 export type TopBoardResponse = {
