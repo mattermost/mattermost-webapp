@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {TestHelper} from 'utils/test_helper';
 import {ModalIdentifiers} from 'utils/constants';
 
-import RestorePostModal from '../restore_post_modal/restore_post_modal';
+import RestorePostModal from '../restore_post_modal';
 
 import EditedPostItem from './edited_post_item';
 
@@ -29,7 +29,6 @@ describe('components/post_edit_history/edited_post_item', () => {
             closeModal: jest.fn(),
         },
     };
-    const handleRestore = jest.fn();
 
     test('should match snapshot', () => {
         const wrapper = shallow(

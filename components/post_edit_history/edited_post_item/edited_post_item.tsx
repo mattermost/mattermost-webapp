@@ -23,7 +23,7 @@ import Avatar from 'components/widgets/users/avatar';
 import UserProfileComponent from 'components/user_profile';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 import {ModalData} from 'types/actions';
-import RestorePostModal from '../restore_post_modal/restore_post_modal';
+import RestorePostModal from '../restore_post_modal';
 
 const DATE_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
