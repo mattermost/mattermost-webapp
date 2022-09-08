@@ -1125,7 +1125,7 @@ function selectedPostId(state = '', action: GenericAction) {
     }
 }
 
-function postEditHistory(state: Post[] = [], action: GenericAction) {
+export function postEditHistory(state: Post[] = [], action: GenericAction) {
     return action.type === PostTypes.RECEIVED_POST_HISTORY ? action.data.postEditHistory : state;
 }
 
