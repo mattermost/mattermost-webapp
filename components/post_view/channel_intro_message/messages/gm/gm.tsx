@@ -7,7 +7,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {Channel} from '@mattermost/types/channels';
 import ProfilePicture from 'components/profile_picture';
 import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
-import {PluginComponent} from 'types/store/plugins';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import * as Utils from 'utils/utils';
 import BoardsButton from '../../boards_button';
@@ -19,7 +18,6 @@ type Props = {
     channel: Channel;
     currentUserId: string;
     channelProfiles: UserProfileRedux[];
-    boardComponent?: PluginComponent;
 }
 
 const messages = defineMessages({
@@ -37,7 +35,6 @@ const GMIntroMessage = ({
     channel,
     currentUserId,
     channelProfiles,
-    boardComponent,
 }: Props) => {
     if (channelProfiles.length > 0) {
         const pictures = channelProfiles.
@@ -66,11 +63,9 @@ const GMIntroMessage = ({
                     />
                 </p>
                 {!isArchivedChannel(channel) &&
-                    <>
-                        <BoardsButton boardComponent={boardComponent}/>
-                        <SetHeaderButton channel={channel}/>
-                    </>
+                    <BoardsButton/>
                 }
+                <SetHeaderButton show={!isArchivedChannel(channel)}/>
             </>
         );
     }

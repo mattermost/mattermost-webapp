@@ -28,24 +28,9 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <Memo(BoardsButton) />
-  <Memo(SetHeaderButton)
-    channel={
-      Object {
-        "create_at": 1508265709607,
-        "creator_id": "creator_id",
-        "delete_at": 0,
-        "display_name": "test channel",
-        "header": "test",
-        "id": "channel_id",
-        "last_post_at": 1508265709635,
-        "name": "town-square",
-        "purpose": "test",
-        "team_id": "team-id",
-        "type": "O",
-        "update_at": 1508265709607,
-      }
-    }
+  <Connect(Component) />
+  <Connect(Component)
+    show={true}
   />
 </Fragment>
 `;
@@ -78,6 +63,9 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
+  <Connect(Component)
+    show={false}
+  />
 </Fragment>
 `;
 
@@ -109,6 +97,9 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
+  <Connect(Component)
+    show={false}
+  />
 </Fragment>
 `;
 
@@ -140,31 +131,9 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <Memo(BoardsButton)
-    boardComponent={
-      Object {
-        "id": "board",
-        "pluginId": "board",
-      }
-    }
-  />
-  <Memo(SetHeaderButton)
-    channel={
-      Object {
-        "create_at": 1508265709607,
-        "creator_id": "creator_id",
-        "delete_at": 0,
-        "display_name": "test channel",
-        "header": "test",
-        "id": "channel_id",
-        "last_post_at": 1508265709635,
-        "name": "town-square",
-        "purpose": "test",
-        "team_id": "team-id",
-        "type": "O",
-        "update_at": 1508265709607,
-      }
-    }
+  <Connect(Component) />
+  <Connect(Component)
+    show={true}
   />
 </Fragment>
 `;
@@ -260,31 +229,9 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       </Connect(ToggleModalButton)>
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
-  <Memo(BoardsButton)
-    boardComponent={
-      Object {
-        "id": "board",
-        "pluginId": "board",
-      }
-    }
-  />
-  <Memo(SetHeaderButton)
-    channel={
-      Object {
-        "create_at": 1508265709607,
-        "creator_id": "creator_id",
-        "delete_at": 0,
-        "display_name": "test channel",
-        "header": "test",
-        "id": "channel_id",
-        "last_post_at": 1508265709635,
-        "name": "town-square",
-        "purpose": "test",
-        "team_id": "team-id",
-        "type": "O",
-        "update_at": 1508265709607,
-      }
-    }
+  <Connect(Component) />
+  <Connect(Component)
+    show={true}
   />
 </Fragment>
 `;
@@ -350,39 +297,14 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
             "update_at": 1508265709607,
           }
         }
-        createBoard={
-          <Memo(BoardsButton)
-            boardComponent={
-              Object {
-                "id": "board",
-                "pluginId": "board",
-              }
-            }
-          />
-        }
-        setHeader={
-          <Memo(SetHeaderButton)
-            channel={
-              Object {
-                "create_at": 1508265709607,
-                "creator_id": "creator_id",
-                "delete_at": 0,
-                "display_name": "test channel",
-                "header": "test",
-                "id": "channel_id",
-                "last_post_at": 1508265709635,
-                "name": "town-square",
-                "purpose": "test",
-                "team_id": "team-id",
-                "type": "O",
-                "update_at": 1508265709607,
-              }
-            }
-          />
-        }
+        createBoard={<Memo(Connect(Component)) />}
+        showSetHeader={true}
         usersLimit={10}
       />
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
+  <Connect(Component)
+    show={false}
+  />
 </Fragment>
 `;

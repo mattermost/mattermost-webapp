@@ -30,6 +30,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, less than 
         "update_at": 1508265709607,
       }
     }
+    showSetHeader={false}
     totalUsers={10}
     usersLimit={100}
   >
@@ -89,6 +90,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, more than 
         "update_at": 1508265709607,
       }
     }
+    showSetHeader={false}
     totalUsers={100}
     usersLimit={10}
   >
@@ -153,11 +155,7 @@ exports[`components/post_view/AddMembersButton should match snapshot, setHeader 
         Create a board
       </button>
     }
-    setHeader={
-      <button>
-        Create a board
-      </button>
-    }
+    showSetHeader={true}
     totalUsers={100}
     usersLimit={10}
   >

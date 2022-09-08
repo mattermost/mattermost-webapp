@@ -13,7 +13,6 @@ import ToggleModalButton from 'components/toggle_modal_button';
 import LocalizedIcon from 'components/localized_icon';
 import {Channel} from '@mattermost/types/channels';
 import {isArchivedChannel} from 'utils/channel_utils';
-import {PluginComponent} from 'types/store/plugins';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AddMembersButton from '../../add_members_button';
 import BoardsButton from '../../boards_button';
@@ -23,10 +22,9 @@ type Props = {
     channel: Channel;
     stats: any;
     usersLimit: number;
-    boardComponent?: PluginComponent;
     enableUserCreation?: boolean;
     isReadOnly?: boolean;
-    teamIsGroupConstrained?: boolean;
+    teamIsGroupConstrained: boolean;
 }
 
 const messages = defineMessages({
@@ -53,7 +51,6 @@ const DefaultIntroMessage = ({
     channel,
     stats,
     usersLimit,
-    boardComponent,
     enableUserCreation,
     isReadOnly,
     teamIsGroupConstrained,
@@ -62,8 +59,7 @@ const DefaultIntroMessage = ({
     const totalUsers = stats.total_users_count;
 
     const renderButtons = !isReadOnly && !isArchivedChannel(channel);
-    const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
-    const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
+    const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
     if (!isReadOnly && enableUserCreation) {
         teamInviteLink = (
@@ -93,7 +89,7 @@ const DefaultIntroMessage = ({
                         </ToggleModalButton>
                     ) : (
                         <AddMembersButton
-                            setHeader={setHeaderButton}
+                            showSetHeader={renderButtons}
                             totalUsers={totalUsers}
                             usersLimit={usersLimit}
                             channel={channel}
@@ -125,7 +121,9 @@ const DefaultIntroMessage = ({
             </p>
             {teamInviteLink}
             {teamIsGroupConstrained && boardCreateButton}
-            {teamIsGroupConstrained && setHeaderButton}
+            <SetHeaderButton
+                show={teamIsGroupConstrained}
+            />
         </>
     );
 };

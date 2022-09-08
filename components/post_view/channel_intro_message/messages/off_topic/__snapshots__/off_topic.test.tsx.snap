@@ -45,36 +45,8 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
         "update_at": 1508265709607,
       }
     }
-    createBoard={
-      <Memo(BoardsButton)
-        boardComponent={
-          Object {
-            "id": "board",
-            "pluginId": "board",
-          }
-        }
-      />
-    }
-    setHeader={
-      <Memo(SetHeaderButton)
-        channel={
-          Object {
-            "create_at": 1508265709607,
-            "creator_id": "creator_id",
-            "delete_at": 0,
-            "display_name": "test channel",
-            "header": "test",
-            "id": "channel_id",
-            "last_post_at": 1508265709635,
-            "name": "off-topic",
-            "purpose": "test",
-            "team_id": "team-id",
-            "type": "O",
-            "update_at": 1508265709607,
-          }
-        }
-      />
-    }
+    createBoard={<Memo(Connect(Component)) />}
+    showSetHeader={true}
     usersLimit={10}
   />
 </Fragment>
@@ -125,27 +97,8 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
         "update_at": 1508265709607,
       }
     }
-    createBoard={<Memo(BoardsButton) />}
-    setHeader={
-      <Memo(SetHeaderButton)
-        channel={
-          Object {
-            "create_at": 1508265709607,
-            "creator_id": "creator_id",
-            "delete_at": 0,
-            "display_name": "test channel",
-            "header": "test",
-            "id": "channel_id",
-            "last_post_at": 1508265709635,
-            "name": "off-topic",
-            "purpose": "test",
-            "team_id": "team-id",
-            "type": "O",
-            "update_at": 1508265709607,
-          }
-        }
-      />
-    }
+    createBoard={<Memo(Connect(Component)) />}
+    showSetHeader={true}
     usersLimit={10}
   />
 </Fragment>

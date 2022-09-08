@@ -16,12 +16,13 @@ import {Permissions} from 'mattermost-redux/constants';
 
 type Props = {
     channel: Channel;
+    show: boolean;
 }
 
-const SetHeaderButton = ({channel}: Props) => {
+const SetHeaderButton = ({channel, show}: Props) => {
     const {formatMessage} = useIntl();
 
-    if (isArchivedChannel(channel)) {
+    if (isArchivedChannel(channel) || !show) {
         return null;
     }
 

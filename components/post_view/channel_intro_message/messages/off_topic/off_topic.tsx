@@ -5,18 +5,15 @@ import React from 'react';
 import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
-import {PluginComponent} from 'types/store/plugins';
 import {isArchivedChannel} from 'utils/channel_utils';
 import AddMembersButton from '../../add_members_button';
 import BoardsButton from '../../boards_button';
-import SetHeaderButton from '../../set_header_button';
 import {t} from 'utils/i18n';
 
 type Props = {
     channel: Channel;
     stats: any;
     usersLimit: number;
-    boardComponent?: PluginComponent;
 }
 
 const messages = defineMessages({
@@ -34,13 +31,11 @@ const OffTopicIntroMessage = ({
     channel,
     stats,
     usersLimit,
-    boardComponent,
 }: Props) => {
     const totalUsers = stats.total_users_count;
 
     const renderButtons = !isArchivedChannel(channel);
-    const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
-    const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
+    const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
     return (
         <>
@@ -61,7 +56,7 @@ const OffTopicIntroMessage = ({
                 />
             </p>
             <AddMembersButton
-                setHeader={setHeaderButton}
+                showSetHeader={renderButtons}
                 totalUsers={totalUsers}
                 usersLimit={usersLimit}
                 channel={channel}

@@ -7,7 +7,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {Channel} from '@mattermost/types/channels';
 import ProfilePicture from 'components/profile_picture';
 import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
-import {PluginComponent} from 'types/store/plugins';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import UserProfile from 'components/user_profile';
 import * as Utils from 'utils/utils';
@@ -18,7 +17,6 @@ import {t} from 'utils/i18n';
 
 type Props = {
     channel: Channel;
-    boardComponent?: PluginComponent;
     teammate?: UserProfileRedux;
     teammateName?: string;
 }
@@ -35,7 +33,6 @@ const messages = defineMessages({
 });
 
 const DMIntroMessage = ({
-    boardComponent,
     channel,
     teammate,
     teammateName,
@@ -44,8 +41,7 @@ const DMIntroMessage = ({
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
 
         const renderButtons = !isArchivedChannel(channel) && !teammate?.is_bot;
-        const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
-        const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
+        const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
         return (
             <>
@@ -74,7 +70,7 @@ const DMIntroMessage = ({
                     />
                 </p>
                 {boardCreateButton}
-                {setHeaderButton}
+                <SetHeaderButton show={renderButtons}/>
             </>
         );
     }

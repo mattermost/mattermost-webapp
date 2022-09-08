@@ -61,6 +61,7 @@ describe('components/post_view/AddMembersButton', () => {
             totalUsers: 10,
             usersLimit: 100,
             channel,
+            showSetHeader: false,
         };
         const wrapper = mount(
             <Provider store={store}>
@@ -76,6 +77,7 @@ describe('components/post_view/AddMembersButton', () => {
             totalUsers: 100,
             usersLimit: 10,
             channel,
+            showSetHeader: false,
         };
         const wrapper = mount(
             <Provider store={store}>
@@ -92,16 +94,11 @@ describe('components/post_view/AddMembersButton', () => {
                 {'Create a board'}
             </button>
         );
-        const setHeader = (
-            <button>
-                {'Create a board'}
-            </button>
-        );
         const props = {
             totalUsers: 100,
             usersLimit: 10,
             channel,
-            setHeader,
+            showSetHeader: true,
             createBoard,
         };
         const wrapper = mount(

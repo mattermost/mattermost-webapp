@@ -7,11 +7,9 @@ import {defineMessages, FormattedDate, FormattedMessage} from 'react-intl';
 import {Constants} from 'utils/constants';
 import {Channel} from '@mattermost/types/channels';
 import {isArchivedChannel} from 'utils/channel_utils';
-import {PluginComponent} from 'types/store/plugins';
 import AddMembersButton from '../../add_members_button';
 import {getMonthLong, t} from 'utils/i18n';
 import BoardsButton from '../../boards_button';
-import SetHeaderButton from '../../set_header_button';
 
 type Props = {
     channel: Channel;
@@ -19,7 +17,6 @@ type Props = {
     locale: string;
     stats: any;
     usersLimit: number;
-    boardComponent?: PluginComponent;
 }
 
 const messages = defineMessages({
@@ -67,7 +64,6 @@ const StandardIntroMessage = ({
     locale,
     stats,
     usersLimit,
-    boardComponent,
 }: Props) => {
     const uiName = channel.display_name;
     const totalUsers = stats.total_users_count;
@@ -124,15 +120,14 @@ const StandardIntroMessage = ({
     }, [channel.purpose, isPrivate]);
 
     const renderButtons = !isArchivedChannel(channel);
-    const setHeaderButton = renderButtons ? <SetHeaderButton channel={channel}/> : null;
-    const boardCreateButton = renderButtons ? <BoardsButton boardComponent={boardComponent}/> : null;
+    const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
     const channelInviteButton = (
         <AddMembersButton
             totalUsers={totalUsers}
             usersLimit={usersLimit}
             channel={channel}
-            setHeader={setHeaderButton}
+            showSetHeader={renderButtons}
             createBoard={boardCreateButton}
         />
     );

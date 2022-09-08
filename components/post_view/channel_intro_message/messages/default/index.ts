@@ -7,7 +7,6 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTotalUsersStats as getTotalUsersStatsSelector} from 'mattermost-redux/selectors/entities/users';
-import {getChannelIntroPluginComponents} from 'selectors/plugins';
 import {GlobalState} from 'types/store';
 
 import DefaultIntroMessage from './default';
@@ -18,8 +17,6 @@ function mapStateToProps(state: GlobalState) {
     const isReadOnly = false;
     const team = getCurrentTeam(state);
     const channel = getCurrentChannel(state) || {};
-    const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
-
     const stats = getTotalUsersStatsSelector(state) || {total_users_count: 0};
 
     return {
@@ -28,7 +25,6 @@ function mapStateToProps(state: GlobalState) {
         isReadOnly,
         teamIsGroupConstrained: Boolean(team.group_constrained),
         stats,
-        boardComponent,
     };
 }
 
