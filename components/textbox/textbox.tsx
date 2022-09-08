@@ -45,6 +45,7 @@ export type Props = {
     onPaste?: (e: ClipboardEvent) => void;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
+    alignWithTextbox?: boolean;
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -314,6 +315,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                     openWhenEmpty={this.props.openWhenEmpty}
+                    alignWithTextbox={this.props.alignWithTextbox}
                 />
                 {preview}
             </div>
