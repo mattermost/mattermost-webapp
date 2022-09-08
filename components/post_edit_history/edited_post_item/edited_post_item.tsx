@@ -76,7 +76,9 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             channel_id: originalPost.channel_id,
         };
         const result = await actions.editPost(updatedPost as Post);
-        actions.closeRightHandSide();
+        if (result.data) {
+            actions.closeRightHandSide();
+        }
     };
 
     const openRestorePostModal = () => {
@@ -91,7 +93,6 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
                 },
             },
         };
-        console.log('openRestorePostModal clicked: ', openRestorePostModal);
 
         actions.openModal(restorePostModalData);
     };

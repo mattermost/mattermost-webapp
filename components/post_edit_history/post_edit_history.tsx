@@ -39,16 +39,20 @@ const PostEditHistory = ({
         );
     }
 
-    // todo sinan loading screen is not displayed on sidebar right but on the center channel
     if (postEditHistory.length === 0) {
         return (
-            <LoadingScreen
-                style={{
-                    display: 'grid',
-                    placeContent: 'center',
-                    flex: '1',
-                }}
-            />
+            <div
+                id='rhsContainer'
+                className='sidebar-right__body'
+            >
+                <LoadingScreen
+                    style={{
+                        display: 'grid',
+                        placeContent: 'center',
+                        flex: '1',
+                    }}
+                />
+            </div>
         );
     }
 

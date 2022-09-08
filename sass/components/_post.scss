@@ -2280,8 +2280,8 @@
 }
 
 .edit-post__restore__modal__header {
-    text-align: center;
     padding: 48px 32px 12px 32px;
+    text-align: center;
 
     span {
         font-size: 22px;
@@ -2298,17 +2298,18 @@
 
 .edit-post__restore__modal__footer {
     padding-bottom: 48px;
-    text-align: center;
     border-top: none;
+    text-align: center;
 
     button {
-        border-radius: 4px;
         padding: 12px 20px;
-        font-size: 14px;
-        line-height: 14px;
-        font-weight: 600;
         margin: 0 4px;
+        border-radius: 4px;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 14px;
     }
+
     .cancel-button {
         background-color: rgba(var(--denim-button-bg-rgb), 0.08);
         color: var(--denim-button-bg-rgb);
@@ -2323,7 +2324,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    
+
     .edit-post__header__username {
         margin-left: 8px;
         font-weight: 600;
