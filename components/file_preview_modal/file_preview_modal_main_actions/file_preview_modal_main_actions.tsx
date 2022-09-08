@@ -149,6 +149,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
 
     const copy = (
         <CopyButton
+            className='file-preview-modal-main-actions__action-item'
             beforeCopyText={getBeforeCopyText()}
             placement={tooltipPlacement}
             content={props.content}

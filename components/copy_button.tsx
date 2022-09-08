@@ -4,6 +4,7 @@
 import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -16,6 +17,7 @@ type Props = {
     beforeCopyText?: string;
     afterCopyText?: string;
     placement?: string;
+    className?: string;
 };
 
 const CopyButton: React.FC<Props> = (props: Props) => {
@@ -55,6 +57,8 @@ const CopyButton: React.FC<Props> = (props: Props) => {
         </Tooltip>
     );
 
+    const spanClassName = classNames('post-code__clipboard', props.className);
+
     return (
         <OverlayTrigger
             shouldUpdatePosition={true}
@@ -63,7 +67,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
             overlay={tooltip}
         >
             <span
-                className='post-code__clipboard'
+                className={spanClassName}
                 onClick={copyText}
             >
                 {!isCopied &&
