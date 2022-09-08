@@ -12,10 +12,19 @@ export type Thunk = (b: DispatchFunc, a: GetStateFunc) => Promise<ActionResult> 
 
 export type Action = GenericAction | Thunk | BatchAction | ActionFunc;
 
-export type ActionResult = {
-    data?: any;
-    error?: any;
+export type ActionResult<Data = any, Error = any> = {
+    data?: Data;
+    error?: Error;
 };
 
-export type DispatchFunc = (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult>;
-export type ActionFunc = (dispatch: DispatchFunc, getState: GetStateFunc) => Promise<ActionResult|ActionResult[]> | ActionResult;
+export type DispatchFunc<Data = any, Error = any> = (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult<Data, Error>>;
+
+/**
+ * Return type of a redux action.
+ * @usage
+ * ActionFunc<ReturnTypeOfData, ErrorType>
+ */
+export type ActionFunc<Data = any, Error = any> = (
+    dispatch: DispatchFunc<Data, Error>,
+    getState: GetStateFunc
+) => Promise<ActionResult<Data, Error> | Array<ActionResult<Data, Error>>> | ActionResult<Data, Error>;
