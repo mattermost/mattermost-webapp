@@ -25,7 +25,7 @@ import {GlobalState} from 'types/store';
 import {getCurrentLocale} from 'selectors/i18n';
 import {getIsLhsOpen} from 'selectors/lhs';
 
-import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions.jsx';
+import {switchTeam, updateTeamsOrderForUser} from 'actions/team_actions';
 
 import {Preferences} from 'utils/constants';
 
