@@ -168,7 +168,7 @@ function ThreadItem({
                 {Boolean(channel) && (
                     <Tag
                         className={classNames({
-                            Badge__hidden: postAuthor === channel?.display_name,
+                            Tag__hidden: postAuthor === channel?.display_name,
                         })}
                         onClick={goToInChannelHandler}
                         text={channel.display_name}
