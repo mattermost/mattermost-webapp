@@ -22,23 +22,16 @@ interface Props {
 
 const PasswordResetForm = ({location, siteName, actions}: Props) => {
     const [error, setError] = useState<React.ReactNode>(null);
+    const [password, setPassword] = useState<string>("");
 
     const passwordInput = useRef<HTMLInputElement>(null);
 
+    const updatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword(e.target.value);
+    }
+
     const handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const password = passwordInput.current!.value;
-        if (!password || password.length < Constants.MIN_PASSWORD_LENGTH) {
-            setError(
-                <FormattedMessage
-                    id='password_form.error'
-                    defaultMessage='Your password must contain at least 10 characters made up of at 
-                    least one lowercase letter, at least one uppercase letter, at least one number, and at least one symbol (e.g. "~!@#$%^&*()").'
-                />,
-            );
-            return;
-        }
 
         const token = (new URLSearchParams(location.search)).get('token');
 
@@ -90,6 +83,7 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
                             placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
                             spellCheck='false'
                             autoFocus={true}
+                            onChange={updatePassword}
                         />
                     </div>
                     {errorElement}
@@ -97,6 +91,7 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
                         id='resetPasswordButton'
                         type='submit'
                         className='btn btn-primary'
+                        disabled={!password || password.length < Constants.MIN_PASSWORD_LENGTH}
                     >
                         <FormattedMessage
                             id='password_form.change'
