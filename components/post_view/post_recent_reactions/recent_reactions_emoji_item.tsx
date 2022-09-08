@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 import {Emoji} from '@mattermost/types/emojis';
-import EmojiPlayer from 'components/post_view/post_attachment_opengraph/post_attachment_pause_gif'
+import EmojiPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index';
 
 type Props = {
     emoji: Emoji;
