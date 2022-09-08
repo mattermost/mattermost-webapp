@@ -78,7 +78,6 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
 >
   <CopyButton
     afterCopyText="Copied"
-    beforeCopyText="Copy"
     content="test content"
     placement="bottom"
   />
