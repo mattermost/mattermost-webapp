@@ -33,6 +33,31 @@ const messages = defineMessages({
         id: t('intro_messages.anyMember'),
         defaultMessage: ' Any member can join and read this channel.',
     },
+    noCreatorPrivate: {
+        id: t('intro_messages.noCreatorPrivate'),
+        defaultMessage: 'This is the start of the {name} private channel, created on {date}.',
+    },
+    noCreator: {
+        id: t('intro_messages.noCreator'),
+        defaultMessage: 'This is the start of the {name} channel, created on {date}.',
+    },
+    creatorPrivate: {
+        id: t('intro_messages.creatorPrivate'),
+        defaultMessage: 'This is the start of the {name} private channel, created by {creator} on {date}.',
+    },
+    creator: {
+        id: t('intro_messages.creator'),
+        defaultMessage: 'This is the start of the {name} channel, created by {creator} on {date}.',
+    },
+    purposePrivate: {
+        id: t('intro_messages.purposePrivate'),
+        defaultMessage: " This private channel's purpose is: {purpose}",
+    },
+    purpose: {
+        id: t('intro_messages.purpose'),
+        defaultMessage: " This channel's purpose is: {purpose}",
+    },
+
 });
 
 const StandardIntroMessage = ({
@@ -54,8 +79,7 @@ const StandardIntroMessage = ({
         if (isArchivedChannel(channel)) {
             return null;
         }
-        const memberMessageDescriptor = isPrivate ? messages.onlyInvited : messages.anyMember;
-        return <FormattedMessage {...memberMessageDescriptor}/>;
+        return <FormattedMessage {...isPrivate ? messages.onlyInvited : messages.anyMember}/>;
     }, [channel, isPrivate]);
 
     const createMessage = useMemo(() => {
@@ -69,33 +93,33 @@ const StandardIntroMessage = ({
         );
 
         if (!creatorName) {
-            const createMessageDescriptor = {
-                id: isPrivate ? 'intro_messages.noCreatorPrivate' : 'intro_messages.noCreator',
-                defaultMessage: isPrivate ? 'This is the start of the {name} private channel, created on {date}.' : 'This is the start of the {name} channel, created on {date}.',
-                values: {purpose: channel.purpose},
-            };
-            return <FormattedMessage{...createMessageDescriptor}/>;
+            return (
+                <FormattedMessage
+                    {...isPrivate ? messages.noCreatorPrivate : messages.noCreator}
+                    values={{purpose: channel.purpose}}
+                />
+            );
         }
 
-        const messageDescriptor = {
-            id: isPrivate ? 'intro_messages.creatorPrivate' : 'intro_messages.creator',
-            defaultMessage: isPrivate ? 'This is the start of the {name} private channel, created by {creator} on {date}.' : 'This is the start of the {name} channel, created by {creator} on {date}.',
-            values: {
-                name: uiName,
-                creator: creatorName || undefined,
-                date,
-            },
-        };
-        return <FormattedMessage {...messageDescriptor}/>;
+        return (
+            <FormattedMessage
+                {...(isPrivate ? messages.creatorPrivate : messages.creator)}
+                values={{
+                    name: uiName,
+                    creator: creatorName || undefined,
+                    date,
+                }}
+            />
+        );
     }, [channel.create_at, channel.purpose, creatorName, isPrivate, locale, uiName]);
 
     const purposeMessage = useMemo(() => {
-        const purposeMessageDescriptor = {
-            id: isPrivate ? 'intro_messages.purposePrivate' : 'intro_messages.purpose',
-            defaultMessage: isPrivate ? " This private channel's purpose is: {purpose}" : " This channel's purpose is: {purpose}",
-            values: {purpose: channel.purpose},
-        };
-        return <FormattedMessage {...purposeMessageDescriptor}/>;
+        return (
+            <FormattedMessage
+                {...(isPrivate ? messages.purposePrivate : messages.purpose)}
+                values={{purpose: channel.purpose}}
+            />
+        );
     }, [channel.purpose, isPrivate]);
 
     const renderButtons = !isArchivedChannel(channel);

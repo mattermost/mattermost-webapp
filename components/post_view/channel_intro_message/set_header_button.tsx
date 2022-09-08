@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {FormattedMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import EditIcon from 'components/widgets/icons/fa_edit_icon';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
@@ -19,11 +19,12 @@ type Props = {
 }
 
 const SetHeaderButton = ({channel}: Props) => {
+    const {formatMessage} = useIntl();
+
     if (isArchivedChannel(channel)) {
         return null;
     }
 
-    const {localizeMessage} = useIntl();
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const permissions = isPrivate ? [Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES] : [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES];
 
@@ -35,16 +36,13 @@ const SetHeaderButton = ({channel}: Props) => {
         >
             <ToggleModalButton
                 modalId={ModalIdentifiers.EDIT_CHANNEL_HEADER}
-                ariaLabel={localizeMessage('intro_messages.setHeader', 'Set a Header')}
+                aria-label={formatMessage({id: 'intro_messages.setHeader', defaultMessage: 'Set a Header'})}
                 className={'intro-links color--link channelIntroButton'}
                 dialogType={EditChannelHeaderModal}
                 dialogProps={{channel}}
             >
                 <EditIcon/>
-                <FormattedMessage
-                    id='intro_messages.setHeader'
-                    defaultMessage='Set a Header'
-                />
+                {formatMessage({id: 'intro_messages.setHeader', defaultMessage: 'Set a Header'})}
             </ToggleModalButton>
         </ChannelPermissionGate>
     );
