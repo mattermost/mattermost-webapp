@@ -83,15 +83,7 @@ export default class SearchChannelSuggestion extends Suggestion {
 
         const {icon, name, description} = nameObject;
 
-        let tag = null;
-        if (item.type === Constants.DM_CHANNEL) {
-            tag = (
-                <BotTag
-                    show={Boolean(teammate && teammate.is_bot)}
-                    className='badge-popoverlist'
-                />
-            );
-        }
+        const tag = item.type === Constants.DM_CHANNEL && teammate && teammate.is_bot ? <BotTag className='badge-popoverlist'/> : null;
 
         return (
             <div

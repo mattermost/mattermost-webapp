@@ -196,10 +196,9 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                             user={user}
                         />
                     ),
-                    new: (
+                    new: includeUsers[user.id] ? (
                         <Tag
                             className='NewUserBadge'
-                            show={Boolean(includeUsers[user.id])}
                             text={(
                                 <FormattedMessage
                                     id='admin.user_grid.new'
@@ -207,7 +206,7 @@ export default class UserGrid extends React.PureComponent<Props, State> {
                                 />
                             )}
                         />
-                    ),
+                    ) : null,
                     role: (
                         <UserGridRoleDropdown
                             user={user}

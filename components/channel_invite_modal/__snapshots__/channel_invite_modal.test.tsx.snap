@@ -147,14 +147,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
           }
         />
       </span>
-      <BotTag
-        className="badge-popoverlist"
-        show={false}
-      />
-      <GuestTag
-        className="popoverlist"
-        show={false}
-      />
     </div>
   </div>
   <div

@@ -85,9 +85,8 @@ export const PlanDetailsTopElements = ({
         }
     }
 
-    const trialBadge = (
+    const trialBadge = isFreeTrial ? (
         <Tag
-            show={isFreeTrial}
             className='TrialBadge'
             text={formatMessage({
                 id: 'admin.billing.subscription.cloudTrialBadge.daysLeftOnTrial',
@@ -96,7 +95,7 @@ export const PlanDetailsTopElements = ({
             {daysLeftOnTrial},
             )}
         />
-    );
+    ) : null;
 
     const viewPlansButton = (
         <button

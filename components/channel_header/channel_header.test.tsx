@@ -283,7 +283,7 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>,
         );
         expect(wrapper.containsMatchingElement(
-            <GuestTag show={true}/>,
+            <GuestTag/>,
         )).toEqual(true);
     });
 

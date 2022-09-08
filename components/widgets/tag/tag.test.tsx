@@ -93,14 +93,4 @@ describe('components/widgets/tag/Tag', () => {
         expect(click).toBeCalled();
         expect(wrapper).toMatchSnapshot();
     });
-
-    test('should match the snapshot on hide', () => {
-        const wrapper = shallow(
-            <Tag
-                show={false}
-                text={'Test text'}
-            />,
-        );
-        expect(wrapper).toMatchInlineSnapshot('""');
-    });
 });

@@ -3,7 +3,6 @@
 exports[`components/widgets/tag/GuestTag should match the snapshot 1`] = `
 <Memo(Tag)
   className="GuestTag test"
-  show={true}
   text="GUEST"
 />
 `;

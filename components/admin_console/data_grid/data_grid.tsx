@@ -30,7 +30,7 @@ export type Column = {
 
 export type Row = {
     cells: {
-        [key: string]: JSX.Element | string;
+        [key: string]: JSX.Element | string | null;
     };
     onClick?: () => void;
 }

@@ -61,9 +61,21 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         <Memo(Tag)
           className="BotTag badge-autocomplete"
-          show={false}
           text="BOT"
-        />
+        >
+          <TagWrapper
+            as="div"
+            className="Tag BotTag badge-autocomplete"
+            size="xs"
+          >
+            <div
+              className="TagWrapper-kejyZk bigJYg Tag BotTag badge-autocomplete"
+              size="xs"
+            >
+              BOT
+            </div>
+          </TagWrapper>
+        </Memo(Tag)>
       </BotTag>
       <Component
         emojiSize={15}
@@ -88,9 +100,21 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         <Memo(Tag)
           className="GuestTag badge-autocomplete"
-          show={false}
           text="GUEST"
-        />
+        >
+          <TagWrapper
+            as="div"
+            className="Tag GuestTag badge-autocomplete"
+            size="xs"
+          >
+            <div
+              className="TagWrapper-kejyZk bigJYg Tag GuestTag badge-autocomplete"
+              size="xs"
+            >
+              GUEST
+            </div>
+          </TagWrapper>
+        </Memo(Tag)>
       </GuestTag>
     </span>
   </div>
@@ -159,9 +183,21 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         <Memo(Tag)
           className="BotTag badge-autocomplete"
-          show={false}
           text="BOT"
-        />
+        >
+          <TagWrapper
+            as="div"
+            className="Tag BotTag badge-autocomplete"
+            size="xs"
+          >
+            <div
+              className="TagWrapper-kejyZk bigJYg Tag BotTag badge-autocomplete"
+              size="xs"
+            >
+              BOT
+            </div>
+          </TagWrapper>
+        </Memo(Tag)>
       </BotTag>
       <Component
         emojiSize={15}
@@ -198,9 +234,21 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         <Memo(Tag)
           className="GuestTag badge-autocomplete"
-          show={false}
           text="GUEST"
-        />
+        >
+          <TagWrapper
+            as="div"
+            className="Tag GuestTag badge-autocomplete"
+            size="xs"
+          >
+            <div
+              className="TagWrapper-kejyZk bigJYg Tag GuestTag badge-autocomplete"
+              size="xs"
+            >
+              GUEST
+            </div>
+          </TagWrapper>
+        </Memo(Tag)>
       </GuestTag>
     </span>
   </div>

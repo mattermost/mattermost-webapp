@@ -52,14 +52,8 @@ const MultiSelectOption = React.forwardRef(({
             <div className='more-modal__details'>
                 <div className='more-modal__name'>
                     {displayEntireNameForUser(option)}
-                    <BotTag
-                        show={Boolean(option.is_bot)}
-                        className='badge-popoverlist'
-                    />
-                    <GuestTag
-                        show={isGuest(option.roles)}
-                        className='popoverlist'
-                    />
+                    {option.is_bot && <BotTag className='badge-popoverlist'/>}
+                    {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
                 </div>
             </div>
             <div className='more-modal__actions'>

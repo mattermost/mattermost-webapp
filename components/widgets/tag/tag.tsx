@@ -11,7 +11,6 @@ export type TagVariant = 'info' | 'success' | 'warning' | 'danger';
 
 type Props = {
     text: React.ReactNode;
-    show?: boolean;
     capitalize?: boolean;
     icon?: IconGlyphTypes;
     variant?: TagVariant;
@@ -76,13 +75,8 @@ const Tag = ({
     text,
     icon: iconName,
     size = 'xs',
-    show = true,
     ...rest
 }: Props) => {
-    if (!show || !text) {
-        return null;
-    }
-
     const Icon = iconName ? glyphMap[iconName] : null;
     const element = onClick ? 'button' : 'div';
     return (

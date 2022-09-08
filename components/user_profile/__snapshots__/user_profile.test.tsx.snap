@@ -28,14 +28,6 @@ exports[`components/UserProfile should match snapshot 1`] = `
       nickname
     </button>
   </OverlayTrigger>
-  <BotTag
-    className="badge-popoverlist"
-    show={false}
-  />
-  <GuestTag
-    className="badge-popoverlist"
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -67,14 +59,6 @@ exports[`components/UserProfile should match snapshot, when displayUsername is e
       @username
     </button>
   </OverlayTrigger>
-  <BotTag
-    className="badge-popoverlist"
-    show={false}
-  />
-  <GuestTag
-    className="badge-popoverlist"
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -118,14 +102,6 @@ exports[`components/UserProfile should match snapshot, when user is shared 1`] =
     className="shared-user-icon"
     withTooltip={true}
   />
-  <BotTag
-    className="badge-popoverlist"
-    show={false}
-  />
-  <GuestTag
-    className="badge-popoverlist"
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -162,13 +138,5 @@ exports[`components/UserProfile should match snapshot, with colorization 1`] = `
       nickname
     </button>
   </OverlayTrigger>
-  <BotTag
-    className="badge-popoverlist"
-    show={false}
-  />
-  <GuestTag
-    className="badge-popoverlist"
-    show={false}
-  />
 </Fragment>
 `;

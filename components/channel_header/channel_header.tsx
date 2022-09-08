@@ -354,7 +354,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
             channelTitle = (
                 <React.Fragment>
                     {channelTitle}
-                    <GuestTag show={isGuest(dmUser?.roles ?? '')}/>
+                    {isGuest(dmUser?.roles ?? '') && <GuestTag/>}
                 </React.Fragment>
             );
         }
@@ -390,7 +390,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     <React.Fragment key={user?.id}>
                         {index > 0 && ', '}
                         {displayName}
-                        <GuestTag show={isGuest(user?.roles ?? '')}/>
+                        {isGuest(user?.roles ?? '') && <GuestTag/>}
                     </React.Fragment>
                 );
             });

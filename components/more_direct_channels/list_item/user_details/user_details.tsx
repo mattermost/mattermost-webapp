@@ -70,14 +70,8 @@ export default function UserDetails(props: Props): JSX.Element {
             <div className='more-modal__details'>
                 <div className='more-modal__name'>
                     {modalName}
-                    <BotTag
-                        show={isBot}
-                        className='badge-popoverlist'
-                    />
-                    <GuestTag
-                        show={isGuest(option.roles)}
-                        className='badge-popoverlist'
-                    />
+                    {isBot && <BotTag className='badge-popoverlist'/>}
+                    {isGuest(option.roles) && <GuestTag className='badge-popoverlist'/>}
                     <CustomStatusEmoji
                         userID={option.id}
                         showTooltip={true}

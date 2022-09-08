@@ -117,18 +117,11 @@ const FormattedOption = (props: ChannelOption & {className: string; isSingleValu
 
     let tag = null;
     if (details.type === Constants.DM_CHANNEL) {
-        tag = (
-            <>
-                <BotTag
-                    show={Boolean(teammate?.is_bot)}
-                    className='badge-autocomplete'
-                />
-                <GuestTag
-                    show={Boolean(teammate && isGuest(teammate.roles))}
-                    className='badge-autocomplete'
-                />
-            </>
-        );
+        if (teammate?.is_bot) {
+            tag = <BotTag className='badge-autocomplete'/>;
+        } else if (isGuest(teammate?.roles ?? '')) {
+            tag = <GuestTag className='badge-autocomplete'/>;
+        }
 
         const emojiStyle = {
             marginBottom: 2,

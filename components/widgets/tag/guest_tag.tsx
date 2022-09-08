@@ -9,15 +9,13 @@ import Tag from './tag';
 
 type Props = {
     className?: string;
-    show?: boolean;
 };
 
-const GuestTag = ({show = true, className = ''}: Props) => {
+const GuestTag = ({className = ''}: Props) => {
     const {formatMessage} = useIntl();
     return (
         <Tag
             className={classNames('GuestTag', className)}
-            show={show}
             text={formatMessage({
                 id: 'post_info.guest',
                 defaultMessage: 'GUEST',

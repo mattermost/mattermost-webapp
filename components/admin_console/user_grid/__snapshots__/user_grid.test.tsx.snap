@@ -99,16 +99,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Tag)
-            className="NewUserBadge"
-            show={false}
-            text={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            }
-          />,
+          "new": null,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -255,16 +246,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Tag)
-            className="NewUserBadge"
-            show={false}
-            text={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            }
-          />,
+          "new": null,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -482,7 +464,6 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
           />,
           "new": <Memo(Tag)
             className="NewUserBadge"
-            show={true}
             text={
               <Memo(MemoizedFormattedMessage)
                 defaultMessage="New"
@@ -628,16 +609,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Tag)
-            className="NewUserBadge"
-            show={false}
-            text={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            }
-          />,
+          "new": null,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -784,16 +756,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Tag)
-            className="NewUserBadge"
-            show={false}
-            text={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            }
-          />,
+          "new": null,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={
@@ -1009,16 +972,7 @@ exports[`components/admin_console/user_grid/UserGrid should match snapshot with 
               }
             }
           />,
-          "new": <Memo(Tag)
-            className="NewUserBadge"
-            show={false}
-            text={
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            }
-          />,
+          "new": null,
           "remove": <UserGridRemove
             removeUser={[Function]}
             user={

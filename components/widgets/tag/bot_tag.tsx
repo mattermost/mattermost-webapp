@@ -9,15 +9,13 @@ import Tag from './tag';
 
 type Props = {
     className?: string;
-    show?: boolean;
 }
 
-const BotTag = ({show = true, className = ''}: Props) => {
+const BotTag = ({className = ''}: Props) => {
     const {formatMessage} = useIntl();
     return (
         <Tag
             className={classNames('BotTag', className)}
-            show={show}
             text={formatMessage({
                 id: 'post_info.bot',
                 defaultMessage: 'BOT',

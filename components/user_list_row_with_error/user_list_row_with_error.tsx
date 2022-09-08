@@ -143,10 +143,7 @@ export default class UserListRowWithError extends React.PureComponent<Props, Sta
                                 <Link to={'/admin_console/user_management/user/' + this.props.user.id}>
                                     {Utils.displayEntireNameForUser(this.props.user)}
                                 </Link>
-                                <BotTag
-                                    className='badge-admin'
-                                    show={Boolean(this.props.user.is_bot)}
-                                />
+                                {this.props.user.is_bot && <BotTag className='badge-admin'/>}
                             </div>
                             <div
                                 id={userCountEmail || undefined}

@@ -89,14 +89,15 @@ const EnterpriseEditionLeftPanel = ({
             </div>
             <div className='title'>
                 {`Mattermost ${skuName}`}
-                <Tag
-                    show={isTrialLicense}
-                    text={formatMessage({
-                        id: 'admin.license.Trial',
-                        defaultMessage: 'Trial',
-                    })}
-                    className='free-trial-license'
-                />
+                {isTrialLicense && (
+                    <Tag
+                        text={formatMessage({
+                            id: 'admin.license.Trial',
+                            defaultMessage: 'Trial',
+                        })}
+                        className='free-trial-license'
+                    />
+                )}
             </div>
             <div className='subtitle'>
                 <FormattedMessage

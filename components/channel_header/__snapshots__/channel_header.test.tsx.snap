@@ -2063,9 +2063,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
                           }
                         }
                       />
-                      <GuestTag
-                        show={false}
-                      />
                     </span>
                   </strong>
                   <span
@@ -2354,9 +2351,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
                             "displayname": "some-user",
                           }
                         }
-                      />
-                      <GuestTag
-                        show={false}
                       />
                     </span>
                   </strong>

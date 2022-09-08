@@ -180,10 +180,9 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                             user={user}
                         />
                     ),
-                    new: (
+                    new: usersToAdd[user.id] ? (
                         <Tag
                             className='NewUserBadge'
-                            show={Boolean(usersToAdd[user.id])}
                             text={(
                                 <FormattedMessage
                                     id='admin.user_grid.new'
@@ -191,7 +190,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                                 />
                             )}
                         />
-                    ),
+                    ) : null,
                     remove: (
                         <UserGridRemove
                             user={user}

@@ -120,7 +120,7 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
             <UserInfo>
                 <DisplayName>
                     {member.displayName}
-                    <GuestTag show={isGuest(member.user.roles)}/>
+                    {isGuest(member.user.roles) && <GuestTag/>}
                 </DisplayName>
                 <Username>{'@'}{member.user.username}</Username>
             </UserInfo>
