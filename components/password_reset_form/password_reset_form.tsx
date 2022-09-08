@@ -33,9 +33,10 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
             setError(
                 <FormattedMessage
                     id='password_form.error'
-                    defaultMessage='Please enter at least {chars} characters.'
+                    defaultMessage='Your password must contain between {min} and {max} characters.'
                     values={{
-                        chars: Constants.MIN_PASSWORD_LENGTH,
+                        min: Constants.MIN_PASSWORD_LENGTH,
+                        max: Constants.MAX_PASSWORD_LENGTH,
                     }}
                 />,
             );
