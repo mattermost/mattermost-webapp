@@ -203,7 +203,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
           text={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="Direct Message"
-              id="search_item.file_badge.direct_message"
+              id="search_item.file_tag.direct_message"
             />
           }
         />
@@ -370,7 +370,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
           text={
             <Memo(MemoizedFormattedMessage)
               defaultMessage="Group Message"
-              id="search_item.file_badge.group_message"
+              id="search_item.file_tag.group_message"
             />
           }
         />
