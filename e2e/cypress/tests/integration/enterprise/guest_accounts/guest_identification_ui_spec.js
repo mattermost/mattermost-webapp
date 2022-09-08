@@ -60,7 +60,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.get('#channelHeaderDropdownIcon').click();
         cy.get('#channelManageMembers').click().wait(TIMEOUTS.HALF_SEC);
         cy.uiGetRHS().findByTestId(`memberline-${guest.id}`).within(($el) => {
-            cy.wrap($el).get('.Badge__box').should('be.visible').should('have.text', 'GUEST');
+            cy.wrap($el).get('.Tag').should('be.visible').should('have.text', 'GUEST');
         });
     });
 
@@ -73,7 +73,7 @@ describe('Verify Guest User Identification in different screens', () => {
                 cy.wrap($elChild).invoke('text').then((username) => {
                     // * Verify Guest Badge in Channel Members List
                     if (username === guest.username) {
-                        cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
+                        cy.wrap($elChild).find('.Tag').should('be.visible').and('have.text', 'GUEST');
                     }
                 });
             });
@@ -98,7 +98,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // * Verify Guest Badge when guest user posts a message in Center Channel
         cy.get('@yesterdaysPost').then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
-                cy.wrap($el).find('.post__header .Badge').should('be.visible');
+                cy.wrap($el).find('.post__header .Tag').should('be.visible');
                 cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
@@ -117,7 +117,7 @@ describe('Verify Guest User Identification in different screens', () => {
 
             // * Verify Guest Badge in RHS
             cy.get(`#rhsPost_${postId}`).within(($el) => {
-                cy.wrap($el).find('.post__header .Badge').should('be.visible');
+                cy.wrap($el).find('.post__header .Tag').should('be.visible');
             });
 
             // # Close RHS
@@ -135,7 +135,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // * Verify if Guest badge is displayed for the guest user in the Switch Channel Dialog
         cy.get('#suggestionList').should('be.visible');
         cy.findByTestId(guest.username).within(($el) => {
-            cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
+            cy.wrap($el).find('.Tag').should('be.visible').and('have.text', 'GUEST');
         });
 
         // # Close Dialog
@@ -150,7 +150,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.focused().type(guest.username, {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
             // * Verify if Guest badge is displayed in the DM Search
-            cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
+            cy.wrap($el).find('.Tag').should('be.visible').and('have.text', 'GUEST');
         });
 
         // # Close the Direct Messages dialog
@@ -169,7 +169,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in DM header
-        cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');
+        cy.get('#channelHeaderTitle').should('be.visible').find('.Tag').should('be.visible').and('have.text', 'GUEST');
         cy.get('#channelHeaderDescription').within(($el) => {
             cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This channel has guests');
         });
@@ -190,7 +190,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
 
         // * Verify Guest Badge in GM header
-        cy.get('#channelHeaderTitle').should('be.visible').find('.Badge').should('be.visible').and('have.text', 'GUEST');
+        cy.get('#channelHeaderTitle').should('be.visible').find('.Tag').should('be.visible').and('have.text', 'GUEST');
         cy.get('#channelHeaderDescription').within(($el) => {
             cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This group message has guests');
         });
@@ -203,7 +203,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // * Verify Guest Badge is displayed at mention auto-complete
         cy.get('#suggestionList').should('be.visible');
         cy.findByTestId(`mentionSuggestion_${guest.username}`).within(($el) => {
-            cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
+            cy.wrap($el).find('.Tag').should('be.visible').and('have.text', 'GUEST');
         });
     });
 
@@ -214,7 +214,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // * Verify Guest Badge is not displayed at Search auto-complete
         cy.get('#search-autocomplete__popover').should('be.visible');
         cy.contains('.suggestion-list__item', guest.username).scrollIntoView().should('be.visible').within(($el) => {
-            cy.wrap($el).find('.Badge').should('not.exist');
+            cy.wrap($el).find('.Tag').should('not.exist');
         });
 
         // # Close and Clear the Search Autocomplete

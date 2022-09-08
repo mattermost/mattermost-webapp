@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .app__body {
     .suggestion--selected {
@@ -232,12 +232,12 @@
             margin-left: 8px;
         }
 
-        .badge-autocomplete,
+        .tag-autocomplete,
         .shared-channel-icon {
             margin: 0 0 0 8px;
         }
 
-        .Badge {
+        .Tag {
             margin: 0;
         }
     }

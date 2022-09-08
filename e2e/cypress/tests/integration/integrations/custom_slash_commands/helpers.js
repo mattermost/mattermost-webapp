@@ -48,6 +48,6 @@ export function runSlashCommand(linkToVisit, trigger) {
 
     // # Get last post message text
     cy.getLastPostId().then((postId) => {
-        cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
+        cy.get(`#post_${postId}`).get('.Tag').contains('BOT');
     });
 }

@@ -54,7 +54,7 @@ export function verifyInvitationError(user, team, errorText, verifyGuestBadge = 
             cy.get('.username-or-icon').should('contain', user);
             cy.get('.reason').should('have.text', errorText);
             if (verifyGuestBadge) {
-                cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
+                cy.get('.username-or-icon .Tag').should('be.visible').and('have.text', 'GUEST');
             }
         });
         cy.findByTestId('confirm-done').should('be.visible').and('not.be.disabled').click();
@@ -76,7 +76,7 @@ export function verifyInvitationSuccess(user, team, successText, verifyGuestBadg
             cy.get('.username-or-icon').should('contain', user);
             cy.get('.reason').should('have.text', successText);
             if (verifyGuestBadge) {
-                cy.get('.username-or-icon .Badge').should('be.visible').and('have.text', 'GUEST');
+                cy.get('.username-or-icon .Tag').should('be.visible').and('have.text', 'GUEST');
             }
         });
         cy.findByTestId('confirm-done').should('be.visible').and('not.be.disabled').click();

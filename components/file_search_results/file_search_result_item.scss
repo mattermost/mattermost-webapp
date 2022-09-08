@@ -21,7 +21,7 @@
         background-color: var(--center-channel-bg);
     }
 
-    .Badge {
+    .Tag {
         margin: 0 8px 0 0;
 
         .file-search-channel-name {
@@ -86,7 +86,7 @@
                 margin-right: 6px;
             }
 
-            > :not(.Badge) {
+            > :not(.Tag) {
                 opacity: 0.56;
             }
         }

@@ -479,7 +479,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     <Tag
                         variant='success'
                         text={formatMessage({
-                            id: 'badge.label.new',
+                            id: 'tag.label.new',
                             defaultMessage: 'NEW',
                         })}
                     />

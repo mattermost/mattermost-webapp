@@ -18,15 +18,11 @@
             white-space: nowrap;
         }
 
-        .Badge {
+        .Tag {
             overflow: hidden;
             flex: 2;
-
-            .Badge__box {
-                overflow: hidden;
-                text-overflow: ellipsis;
-                white-space: nowrap;
-            }
+            text-overflow: ellipsis;
+            white-space: nowrap;
         }
 
         .reply-count {

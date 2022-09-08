@@ -19,7 +19,7 @@ describe('components/notify_counts', () => {
         const {mountOptions} = mockStore();
         const wrapper = mount(<NotifyCounts/>, mountOptions);
 
-        expect(wrapper.find('.badge-notify').text()).toBe('22');
+        expect(wrapper.find('.tag-notify').text()).toBe('22');
     });
 
     test('should show unread messages', () => {
@@ -28,7 +28,7 @@ describe('components/notify_counts', () => {
         const {mountOptions} = mockStore();
         const wrapper = mount(<NotifyCounts/>, mountOptions);
 
-        expect(wrapper.find('.badge-notify').text()).toBe('•');
+        expect(wrapper.find('.tag-notify').text()).toBe('•');
     });
 
     test('should show not show unread indicator', () => {

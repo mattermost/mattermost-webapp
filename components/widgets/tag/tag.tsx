@@ -34,17 +34,13 @@ const TagWrapper = styled.div<TagWrapperProps>`
     border: none;
     border-radius: 2px;
     background: rgba(var(--semantic-color-general), 0.08);
+    color: rgb(var(--semantic-color-general));
 
     font-family: inherit;
     font-weight: 600;
     line-height: 16px;
     ${({size}) => (size === 'xs' ? css`font-size: 10px;` : css`font-size: 12px;`)}
     ${({capitalize}) => (capitalize ? css`text-transform: uppercase;` : css`text-transform: none;`)}
-
-    &.BotTag,
-    &.GuestTag {
-        padding: 2px 4px;
-    }
 
     &.info {
         background: rgb(var(--semantic-color-info));

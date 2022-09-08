@@ -78,7 +78,7 @@ describe('components/TeamSidebar/TeamButton', () => {
             </Router>,
         );
 
-        expect(wrapper.find('.badge.badge-max-number').exists()).toBe(true);
+        expect(wrapper.find('.badge.tag-max-number').exists()).toBe(true);
         expect(wrapper.find('.team-container.unread').exists()).toBe(true);
     });
 
@@ -97,7 +97,7 @@ describe('components/TeamSidebar/TeamButton', () => {
             </Router>,
         );
 
-        expect(wrapper.find('.badge.badge-max-number').exists()).toBe(false);
+        expect(wrapper.find('.badge.tag-max-number').exists()).toBe(false);
         expect(wrapper.find('.team-container.unread').exists()).toBe(false);
     });
 });

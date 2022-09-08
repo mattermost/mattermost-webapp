@@ -114,7 +114,7 @@ describe('Search', () => {
 
             // * Should return exactly one result from the group channel and matches the message
             cy.findAllByTestId('search-item-container').should('be.visible').and('have.length', 1).within(() => {
-                cy.get('.Badge').should('be.visible').and('have.text', 'Group Message');
+                cy.get('.Tag').should('be.visible').and('have.text', 'Group Message');
                 cy.get('.fileDataName').should('be.visible').and('have.text', 'word-file.doc');
             });
         });

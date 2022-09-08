@@ -10,8 +10,8 @@
     background: v(center-channel-bg);
     font-size: 14px;
 
-    .Badge {
-        display: inline-block;
+    .Tag {
+        display: inline-flex;
     }
 
     .channel-header__trigger {
@@ -228,7 +228,7 @@
         line-height: 16px;
         text-overflow: ellipsis;
 
-        .Badge {
+        .Tag {
             font-family: "Open Sans", sans-serif;
         }
     }

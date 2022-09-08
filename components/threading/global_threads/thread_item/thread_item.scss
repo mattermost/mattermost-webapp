@@ -101,19 +101,12 @@
         white-space: nowrap;
     }
 
-    .Badge {
+    .Tag {
+        overflow: hidden;
         min-width: 0;
         max-width: 30rem;
-        margin: 0 10px;
-
-        &__hidden {
-            visibility: hidden;
-        }
-    }
-
-    .Badge__box {
-        overflow: hidden;
         padding: 0 4px;
+        margin: 0 10px;
         background: rgba(var(--center-channel-color-rgb), 0.08);
         color: rgba(var(--center-channel-color-rgb), 1);
         font-size: 10px;
@@ -126,6 +119,10 @@
         &:focus {
             background: rgba(var(--center-channel-color-rgb), 0.16);
             cursor: pointer;
+        }
+
+        &__hidden {
+            visibility: hidden;
         }
     }
 

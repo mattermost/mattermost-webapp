@@ -2011,20 +2011,20 @@
     }
 }
 
-.Badge {
-    .badge-autocomplete {
-        display: inline;
+.Tag {
+    .tag-autocomplete {
+        display: inline-flex;
         padding: 0 5px;
         margin: 0 4px;
     }
 
-    .badge-popoverlist {
-        display: inline;
+    .tag-popoverlist {
+        display: inline-flex;
         margin: 0 4px;
     }
 
-    .badge-admin {
-        display: inline;
+    .tag-admin {
+        display: inline-flex;
         margin: 0 4px;
         background: rgba(61, 60, 64, 0.15);
     }

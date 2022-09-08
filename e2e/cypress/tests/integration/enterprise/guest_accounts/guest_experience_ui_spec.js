@@ -101,7 +101,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.postMessage('testing');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
-                cy.wrap($el).find('.post__header .Badge').should('be.visible');
+                cy.wrap($el).find('.post__header .Tag').should('be.visible');
                 cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
@@ -161,7 +161,7 @@ describe('Guest Account - Guest User Experience', () => {
         cy.postMessage('testing');
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).within(($el) => {
-                cy.wrap($el).find('.post__header .Badge').should('not.exist');
+                cy.wrap($el).find('.post__header .Tag').should('not.exist');
                 cy.wrap($el).find('.post__header .user-popover').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
             });
         });
