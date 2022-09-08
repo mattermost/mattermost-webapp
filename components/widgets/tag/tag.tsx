@@ -22,6 +22,9 @@ type Props = {
 type TagWrapperProps = Pick<Props, 'capitalize' | 'size'>;
 
 const TagWrapper = styled.div<TagWrapperProps>`
+    --tag-bg: var(--semantic-color-general);
+    --tag-color: var(--semantic-color-general);
+
     appearance: none;
 
     display: inline-flex;
@@ -32,9 +35,7 @@ const TagWrapper = styled.div<TagWrapperProps>`
     gap: 4px;
 
     border: none;
-    border-radius: 2px;
-    background: rgba(var(--semantic-color-general), 0.08);
-    color: rgb(var(--semantic-color-general));
+    border-radius: 4px;
 
     font-family: inherit;
     font-weight: 600;
@@ -43,25 +44,37 @@ const TagWrapper = styled.div<TagWrapperProps>`
     ${({capitalize}) => (capitalize ? css`text-transform: uppercase;` : css`text-transform: none;`)}
 
     &.info {
-        background: rgb(var(--semantic-color-info));
-        color: #fff;
+        --tag-bg: var(--semantic-color-info);
+        --tag-color: #fff;
     }
 
     &.success {
-        background: rgb(var(--semantic-color-success));
-        border-radius: 4px;
-        color: #fff;
+        --tag-bg: var(--semantic-color-success);
+        --tag-color: #fff;
     }
 
     &.warning {
-        background: rgb(var(--semantic-color-warning));
-        color: #fff;
+        --tag-bg: var(--semantic-color-warning);
+        --tag-color: #fff;
     }
 
     &.danger {
-        background: rgb(var(--semantic-color-danger));
-        color: #fff;
+        --tag-bg: var(--semantic-color-danger);
+        --tag-color: #fff;
     }
+
+    background: rgba(var(--tag-bg), 0.08);
+    color: rgb(var(--tag-color));
+
+    ${({onClick}) => typeof onClick === 'function' && (
+        css`
+            &:hover,
+            &:focus {
+                background: rgba(var(--tag-bg), 0.16);
+                cursor: pointer;
+            }
+        `
+    )}
 `;
 
 const Tag = ({
@@ -84,7 +97,7 @@ const Tag = ({
             className={classNames('Tag', {[`${variant}`]: variant}, className)}
         >
             {Icon && <Icon size={size === 'xs' ? 10 : 12}/>}
-            {text}
+            <span className={'Tag__text'}>{text}</span>
         </TagWrapper>
     );
 };

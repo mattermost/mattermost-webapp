@@ -165,11 +165,8 @@ function ThreadItem({
                     </div>
                 )}
                 <span>{postAuthor}</span>
-                {Boolean(channel) && (
+                {Boolean(channel) && postAuthor !== channel?.display_name && (
                     <Tag
-                        className={classNames({
-                            Tag__hidden: postAuthor === channel?.display_name,
-                        })}
                         onClick={goToInChannelHandler}
                         text={channel.display_name}
                     />

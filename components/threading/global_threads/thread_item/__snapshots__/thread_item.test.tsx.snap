@@ -12,7 +12,6 @@ exports[`components/threading/global_threads/thread_item should report total num
       Someone
     </span>
     <Memo(Tag)
-      className=""
       onClick={[Function]}
       text="Team name"
     />
@@ -130,7 +129,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Someone
     </span>
     <Memo(Tag)
-      className=""
       onClick={[Function]}
       text="Team name"
     />
@@ -246,7 +244,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       Someone
     </span>
     <Memo(Tag)
-      className=""
       onClick={[Function]}
       text="Team name"
     />

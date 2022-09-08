@@ -103,27 +103,14 @@
     }
 
     .Tag {
-        overflow: hidden;
         min-width: 0;
         max-width: 30rem;
-        padding: 0 4px;
         margin: 0 10px;
-        background: rgba(var(--center-channel-color-rgb), 0.08);
-        color: rgba(var(--center-channel-color-rgb), 1);
-        font-size: 10px;
-        font-weight: 600;
-        line-height: 16px;
-        text-overflow: ellipsis;
-        text-transform: uppercase;
 
-        &:hover,
-        &:focus {
-            background: rgba(var(--center-channel-color-rgb), 0.16);
-            cursor: pointer;
-        }
-
-        &__hidden {
-            visibility: hidden;
+        &__text {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            text-transform: uppercase;
         }
     }
 
@@ -139,6 +126,7 @@
         color: rgba(var(--center-channel-color-rgb), 0.64);
         font-size: 12px;
         font-weight: normal;
+        grid-column: 3/4;
         line-height: 20px;
     }
 
