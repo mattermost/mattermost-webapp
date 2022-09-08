@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ChannelType, Channel} from '@mattermost/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {Constants} from 'utils/constants';
 import {UserProfile} from '@mattermost/types/users';
@@ -24,30 +24,30 @@ export const channel = {
 export const archivedChannel = {
     ...channel,
     name: Constants.DEFAULT_CHANNEL,
-    type: Constants.OPEN_CHANNEL as ChannelType,
+    type: Constants.OPEN_CHANNEL,
     delete_at: 111111,
 };
 
 export const groupChannel = {
     ...channel,
-    type: Constants.GM_CHANNEL as ChannelType,
+    type: Constants.GM_CHANNEL,
 };
 
 export const directChannel = {
     ...channel,
-    type: Constants.DM_CHANNEL as ChannelType,
+    type: Constants.DM_CHANNEL,
 };
 
 export const defaultChannel = {
     ...channel,
     name: Constants.DEFAULT_CHANNEL,
-    type: Constants.OPEN_CHANNEL as ChannelType,
+    type: Constants.OPEN_CHANNEL,
 };
 
 export const offTopicChannel = {
     ...channel,
-    type: Constants.OPEN_CHANNEL as ChannelType,
     name: Constants.OFFTOPIC_CHANNEL,
+    type: Constants.OPEN_CHANNEL,
 };
 
 // type PluginComponent
