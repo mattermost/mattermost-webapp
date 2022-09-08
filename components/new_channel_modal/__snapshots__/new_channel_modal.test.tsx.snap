@@ -118,12 +118,12 @@ exports[`components/new_channel_modal should match snapshot 1`] = `
                 >
                   <Memo(MemoizedFormattedMessage)
                     defaultMessage="Manage your task with a board"
-                    id="channel_modal.create_board.tooltip"
+                    id="channel_modal.create_board.tooltip_title"
                   />
                 </div>
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Use any of our templates to manage your tasks or start from scratch with your own!"
-                  id="channel_modal.create_board.tooltip"
+                  id="channel_modal.create_board.tooltip_description"
                 />
               </React.Fragment>
             </Tooltip>

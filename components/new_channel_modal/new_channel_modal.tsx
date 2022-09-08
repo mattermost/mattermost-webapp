@@ -140,7 +140,7 @@ const NewChannelModal = () => {
             // If template selected, create a new board from this template
             if (addBoard && selectedBoardTemplate) {
                 try {
-                    await addBoardToChannel(newChannel.id);
+                    addBoardToChannel(newChannel.id);
                 } catch (e: any) {
                     console.log(e.message); // eslint-disable-line
                 }
@@ -187,7 +187,6 @@ const NewChannelModal = () => {
 
             if (patchedBoard.channelId === channelId) {
                 const boardUrl = `${getSiteURL()}/boards/team/${currentTeamId}/${newBoard.id}`;
-                debugger;
                 const newBoardMsg = formatMessage(
                     {
                         id: 'channel_modal.board.newBoardCreated2',
@@ -199,7 +198,7 @@ const NewChannelModal = () => {
                         boardUrl,
                     },
                 );
-                dispatch(sendGenericPostMessage(newBoardMsg, channelId, ''));
+                await dispatch(sendGenericPostMessage(newBoardMsg, channelId, ''));
 
                 // show the new channel with board tour tip
                 if (newChannelWithBoardPulsatingDotState === '') {
