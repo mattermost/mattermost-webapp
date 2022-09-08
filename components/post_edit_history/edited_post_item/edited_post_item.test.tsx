@@ -5,6 +5,9 @@ import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
+import {ModalIdentifiers} from 'utils/constants';
+
+import RestorePostModal from '../restore_post_modal/restore_post_modal';
 
 import EditedPostItem from './edited_post_item';
 
@@ -26,6 +29,7 @@ describe('components/post_edit_history/edited_post_item', () => {
             closeModal: jest.fn(),
         },
     };
+    const handleRestore = jest.fn();
 
     test('should match snapshot', () => {
         const wrapper = shallow(
@@ -49,7 +53,7 @@ describe('components/post_edit_history/edited_post_item', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
-    test('clicking on the restore button should call editPost and closeRightHandSide', () => {
+    test('clicking on the restore button should call openRestorePostModal', () => {
         const wrapper = shallow(
             <EditedPostItem
                 {...baseProps}
@@ -57,10 +61,15 @@ describe('components/post_edit_history/edited_post_item', () => {
         );
 
         // find the button with refresh icon and click it
+        // todo sinan update refresh with proper icon name
         wrapper.find('ForwardRef').filterWhere((button) => button.prop('icon') === 'refresh').simulate('click');
 
-        expect(baseProps.actions.closeRightHandSide).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.editPost).toHaveBeenCalledTimes(1);
+        expect(baseProps.actions.openModal).toHaveBeenCalledWith(
+            expect.objectContaining({
+                modalId: ModalIdentifiers.RESTORE_POST_MODAL,
+                dialogType: RestorePostModal,
+            }),
+        );
     });
 
     test('when isCurrent is true, should not render the restore button', () => {
@@ -89,23 +98,5 @@ describe('components/post_edit_history/edited_post_item', () => {
         );
 
         expect(wrapper.find('.edit-post__current__indicator')).toHaveLength(1);
-    });
-
-    test('when post message equals original post message, clicking restore button should just call closeRightHandSide', () => {
-        const props = {
-            ...baseProps,
-            post: {
-                ...baseProps.post,
-                message: baseProps.originalPost.message,
-            },
-        };
-        const wrapper = shallow(
-            <EditedPostItem
-                {...props}
-            />,
-        );
-        wrapper.find('ForwardRef').filterWhere((button) => button.prop('icon') === 'refresh').simulate('click');
-        expect(baseProps.actions.closeRightHandSide).toHaveBeenCalledTimes(1);
-        expect(baseProps.actions.editPost).toHaveBeenCalledTimes(0);
     });
 });
