@@ -516,8 +516,8 @@ function receiveChannelMember(state: RelationOneToOne<Channel, ChannelMembership
             last_viewed_at: Math.max(existingChannelMember.last_viewed_at, received.last_viewed_at),
             msg_count: Math.max(existingChannelMember.msg_count, received.msg_count),
             msg_count_root: Math.max(existingChannelMember.msg_count_root, received.msg_count_root),
-            mention_count: Math.min(existingChannelMember.mention_count, received.mention_count),
-            mention_count_root: Math.min(existingChannelMember.mention_count_root, received.mention_count_root),
+            mention_count: Math.max(existingChannelMember.mention_count, received.mention_count),
+            mention_count_root: Math.max(existingChannelMember.mention_count_root, received.mention_count_root),
         };
     }
 
