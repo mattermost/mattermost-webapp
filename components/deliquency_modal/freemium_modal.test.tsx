@@ -111,4 +111,74 @@ describe('components/deliquency_modal/deliquency_modal', () => {
 
         expect(trackEvent).toBeCalledTimes(0);
     });
+
+    it('should display message history text when only message limit is surpassed', () => {
+        const planName = 'Testing';
+
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.messageHistory]);
+        renderComponent({
+            props: {
+                planName,
+            },
+        });
+
+        expect(screen.queryByText(`Re-activate ${planName}`)).toBeInTheDocument();
+        expect(screen.getByText('Some of your workspace\'s message history are no longer accessible. Upgrade to a paid plan and get unlimited access to your message history.')).toBeInTheDocument();
+    });
+
+    it('should display boards text when only boards limit is surpassed', () => {
+        const planName = 'Testing';
+
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.boardsCards]);
+        renderComponent({
+            props: {
+                planName,
+            },
+        });
+
+        expect(screen.queryByText(`Re-activate ${planName}`)).toBeInTheDocument();
+        expect(screen.getByText('Some of your workspace\'s board cards are no longer accessible. Upgrade to a paid plan and get unlimited access to your board cards.')).toBeInTheDocument();
+    });
+
+    it('should display storage text when only storage is surpassed', () => {
+        const planName = 'Testing';
+
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.fileStorage]);
+        renderComponent({
+            props: {
+                planName,
+            },
+        });
+
+        expect(screen.queryByText(`Re-activate ${planName}`)).toBeInTheDocument();
+        expect(screen.getByText('Some of your workspace\'s files are no longer accessible. Upgrade to a paid plan and get unlimited access to your files.')).toBeInTheDocument();
+    });
+
+    it('should display integrations text when only integrations is surpassed', () => {
+        const planName = 'Testing';
+
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.enabledIntegrations]);
+        renderComponent({
+            props: {
+                planName,
+            },
+        });
+
+        expect(screen.queryByText(`Re-activate ${planName}`)).toBeInTheDocument();
+        expect(screen.getByText('You have reached the limit of enabled integrations in your workspace. Upgrade to a paid plan to remove restrictions.')).toBeInTheDocument();
+    });
+
+    it('should display update to paid plan text when only multiples limits is surpassed', () => {
+        const planName = 'Testing';
+
+        (useGetMultiplesExceededCloudLimit as jest.Mock).mockReturnValue([LimitTypes.messageHistory, LimitTypes.enabledIntegrations]);
+        renderComponent({
+            props: {
+                planName,
+            },
+        });
+
+        expect(screen.queryByText(`Re-activate ${planName}`)).toBeInTheDocument();
+        expect(screen.getByText('Your workspace has reached free plan limits. Upgrade to a paid plan.')).toBeInTheDocument();
+    });
 });
