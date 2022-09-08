@@ -4,8 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import TourTip from 'components/widgets/tour_tip/tour_tip';
-import {TourTipOverlayPunchOut} from 'components/widgets/tour_tip/tour_tip_backdrop';
+import {TourTip, TourTipOverlayPunchOut} from '@mattermost/components';
 
 import {getLastStep} from '../onboarding_tour/utils';
 

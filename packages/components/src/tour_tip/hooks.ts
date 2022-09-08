@@ -3,7 +3,7 @@
 import {useLayoutEffect, useMemo, useState} from 'react';
 import throttle from 'lodash/throttle';
 
-import useElementAvailable from 'components/common/hooks/useElementAvailable';
+import useElementAvailable from '../common/hooks/useElementAvailable';
 
 import {TourTipOverlayPunchOut} from './tour_tip_backdrop';
 

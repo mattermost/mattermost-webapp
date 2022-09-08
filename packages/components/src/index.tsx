@@ -4,6 +4,8 @@
 import React from 'react';
 
 export * from './generic_modal/generic_modal';
+export * from './tour_tip';
+export * from './pulsating_dot';
 
 export function componentLibraryTest() {
     return 'testing result';

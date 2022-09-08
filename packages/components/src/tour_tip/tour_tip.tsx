@@ -11,7 +11,7 @@ import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
-import PulsatingDot from 'components/widgets/pulsating_dot';
+import {PulsatingDot} from '../pulsating_dot';
 
 import {TourTipBackdrop, TourTipOverlayPunchOut} from './tour_tip_backdrop';
 import './tour_tip.scss';
@@ -53,7 +53,7 @@ type Props = {
     handlePunchOut?: (e: React.MouseEvent) => void;
 }
 
-const TourTip = ({
+export const TourTip = ({
     title,
     screen,
     imageURL,
@@ -229,5 +229,3 @@ const TourTip = ({
         </>
     );
 };
-
-export default TourTip;
