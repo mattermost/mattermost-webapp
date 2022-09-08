@@ -139,7 +139,11 @@ const NewChannelModal = () => {
 
             // If template selected, create a new board from this template
             if (addBoard && selectedBoardTemplate) {
-                addBoardToChannel(newChannel.id);
+                try {
+                    await addBoardToChannel(newChannel.id);
+                } catch (e: any) {
+                    console.log(e.message); // eslint-disable-line
+                }
             }
 
             dispatch(switchToChannel(newChannel));
@@ -183,7 +187,7 @@ const NewChannelModal = () => {
 
             if (patchedBoard.channelId === channelId) {
                 const boardUrl = `${getSiteURL()}/boards/team/${currentTeamId}/${newBoard.id}`;
-
+                debugger;
                 const newBoardMsg = formatMessage(
                     {
                         id: 'channel_modal.board.newBoardCreated2',
@@ -191,7 +195,7 @@ const NewChannelModal = () => {
                     },
                     {
                         user: user.username,
-                        board: newBoard.title,
+                        board: newBoard.title.trim(),
                         boardUrl,
                     },
                 );
@@ -201,7 +205,11 @@ const NewChannelModal = () => {
                 if (newChannelWithBoardPulsatingDotState === '') {
                     dispatch(setNewChannelWithBoardPreference({[Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED]: false}));
                 }
+            } else {
+                throw new Error('There was a problem patching the board');
             }
+        } else {
+            throw new Error('There was a problem creating the board.');
         }
     };
 
@@ -302,9 +310,12 @@ const NewChannelModal = () => {
 
     const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
 
-    const addBoardToggle = async () => {
+    const showNewBoardTemplateSelector = async () => {
         setAddBoard((prev) => !prev);
-        const {data: boardTemplates} = await dispatch(getBoardsTemplates());
+        if (boardTemplates.length > 0) {
+            return;
+        }
+        const {data: templates} = await dispatch(getBoardsTemplates());
 
         // define a dummy template use to identify the empty board
         const emptyBoard = [{
@@ -313,7 +324,7 @@ const NewChannelModal = () => {
             icon: '',
             description: 'Create an empty board.',
         } as BoardTemplate];
-        setBoardTemplates([...boardTemplates, ...emptyBoard]);
+        setBoardTemplates([...templates, ...emptyBoard]);
     };
 
     const newBoardInfoIcon = () => {
@@ -322,12 +333,12 @@ const NewChannelModal = () => {
                 <>
                     <div style={{fontWeight: 'bold'}}>
                         <FormattedMessage
-                            id={'channel_modal.create_board.tooltip'}
+                            id={'channel_modal.create_board.tooltip_title'}
                             defaultMessage={'Manage your task with a board'}
                         />
                     </div>
                     <FormattedMessage
-                        id={'channel_modal.create_board.tooltip'}
+                        id={'channel_modal.create_board.tooltip_description'}
                         defaultMessage={'Use any of our templates to manage your tasks or start from scratch with your own!'}
                     />
                 </>
@@ -431,7 +442,7 @@ const NewChannelModal = () => {
                         <label>
                             <input
                                 type='checkbox'
-                                onChange={addBoardToggle}
+                                onChange={showNewBoardTemplateSelector}
                                 checked={addBoard}
                             />
                             {formatMessage({id: 'channel_modal.create_board.title', defaultMessage: 'Create a board for this channel'})}
@@ -459,7 +470,7 @@ const NewChannelModal = () => {
                                     openUp={false}
                                     id='SelectBoardTemplate'
                                     className='SelectTemplateMenu'
-                                    ariaLabel={intl.formatMessage({id: 'channel_modal.create_board.select_template', defaultMessage: 'Select board template'})}
+                                    ariaLabel={formatMessage({id: 'channel_modal.create_board.select_template', defaultMessage: 'Select board template'})}
                                 >
                                     <Menu.Group>
                                         {boardTemplates?.map((boardTemplate: BoardTemplate) => {
@@ -469,7 +480,7 @@ const NewChannelModal = () => {
                                                     onClick={() => setSelectedBoardTemplate(boardTemplate)}
                                                     icon={boardTemplate.icon || <i className='icon icon-product-boards'/>}
                                                     text={boardTemplate.title || ''}
-                                                    extraText={boardTemplate.description ? `${boardTemplate.description.substring(0, 70)} ...` : ' '}
+                                                    extraText={boardTemplate.description ? `${boardTemplate.description.length < 70 ? boardTemplate.description : boardTemplate.description.substring(0, 70)} …` : ' '}
                                                     key={boardTemplate.id}
                                                 />
                                             );

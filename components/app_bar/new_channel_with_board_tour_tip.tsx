@@ -5,16 +5,19 @@ import React, {useCallback, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {Placement} from 'tippy.js';
+
 import {setNewChannelWithBoardPreference} from 'mattermost-redux/actions/boards';
 import {Preferences} from 'mattermost-redux/constants';
 
 import {showNewChannelWithBoardPulsatingDot} from 'selectors/plugins';
 
 import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+
+import './new_channel_with_board_tour_tip.scss';
 
 type Props = {
-    pulsatingDotPlacement?: string;
+    pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
     pulsatingDotTranslate?: {x: number; y: number};
 }
 
@@ -33,7 +36,7 @@ const NewChannelWithBoardTourTip = ({
     );
 
     const screen = (
-        <FormattedMarkdownMessage
+        <FormattedMessage
             id='newChannelWithBoard.tutorialTip.description'
             defaultMessage='The board you just created can be quickly accessed by clicking on the Boards icon in the App bar. You can view the boards that are linked to this channel in the right-hand sidebar and open one in full view.'
         />

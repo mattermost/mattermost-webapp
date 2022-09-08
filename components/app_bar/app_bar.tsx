@@ -42,14 +42,12 @@ export default function AppBar() {
 
     return (
         <div className={'app-bar'}>
-            {coreProducts.map((product) => {
-                return (
-                    <AppBarPluginComponent
-                        key={product.id}
-                        component={product}
-                    />
-                );
-            })}
+            {coreProducts.map((product) => (
+                <AppBarPluginComponent
+                    key={product.id}
+                    component={product}
+                />
+            ))}
             {isDividerVisible && (
                 <hr className={'app-bar__divider'}/>
             )}

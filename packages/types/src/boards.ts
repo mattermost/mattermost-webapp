@@ -16,7 +16,7 @@ const BoardTypePrivate = 'P';
 const boardTypes = [BoardTypeOpen, BoardTypePrivate];
 type BoardTypes = typeof boardTypes[number];
 
-type PropertyTypeEnum = 'text' | 'number' | 'select' | 'multiSelect' | 'date' | 'person' | 'file' | 'checkbox' | 'url' | 'email' | 'phone' | 'createdTime' | 'createdBy' | 'updatedTime' | 'updatedBy' | 'unknown'
+type PropertyTypeEnum = 'text' | 'number' | 'select' | 'multiSelect' | 'date' | 'person' | 'file' | 'checkbox' | 'url' | 'email' | 'phone' | 'createdTime' | 'createdBy' | 'updatedTime' | 'updatedBy' | 'unknown';
 
 interface IPropertyOption {
     id: string;
@@ -64,10 +64,8 @@ export declare type BoardPatch = {
     description?: string;
     icon?: string;
     showDescription?: boolean;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     updatedProperties?: Record<string, any>;
     deletedProperties?: string[];
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     updatedCardProperties?: IPropertyTemplate[];
     deletedCardProperties?: string[];
 }
