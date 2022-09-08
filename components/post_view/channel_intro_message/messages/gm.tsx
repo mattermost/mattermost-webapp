@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
 import ProfilePicture from 'components/profile_picture';
@@ -14,6 +14,7 @@ import * as Utils from 'utils/utils';
 import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 import {isArchivedChannel} from 'utils/channel_utils';
+import {t} from 'utils/i18n';
 
 type Props = {
     channel: Channel;
@@ -21,6 +22,17 @@ type Props = {
     profiles: UserProfileRedux[];
     boardComponent?: PluginComponent;
 }
+
+const messages = defineMessages({
+    GM: {
+        id: t('intro_messages.GM'),
+        defaultMessage: 'This is the start of your group message history with {names}.\\nMessages and files shared here are not shown to people outside this area.',
+    },
+    group_message: {
+        id: t('intro_messages.group_message'),
+        defaultMessage: 'This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area.',
+    },
+});
 
 const GMIntroMessage = ({
     channel,
@@ -48,8 +60,7 @@ const GMIntroMessage = ({
                 </div>
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
-                        id='intro_messages.GM'
-                        defaultMessage='This is the start of your group message history with {names}.\nMessages and files shared here are not shown to people outside this area.'
+                        {...messages.GM}
                         values={{
                             names: channel.display_name,
                         }}
@@ -68,8 +79,7 @@ const GMIntroMessage = ({
     return (
         <p className='channel-intro-text'>
             <FormattedMessage
-                id='intro_messages.group_message'
-                defaultMessage='This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area.'
+                {...messages.group_message}
             />
         </p>
     );

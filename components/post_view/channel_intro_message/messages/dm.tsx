@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
 import ProfilePicture from 'components/profile_picture';
@@ -15,6 +15,7 @@ import * as Utils from 'utils/utils';
 import BoardsButton from '../boards_button';
 import SetHeaderButton from '../set_header_button';
 import {isArchivedChannel} from 'utils/channel_utils';
+import {t} from 'utils/i18n';
 
 type Props = {
     channel: Channel;
@@ -22,6 +23,17 @@ type Props = {
     teammate?: UserProfileRedux;
     teammateName?: string;
 }
+
+const messages = defineMessages({
+    DM: {
+        id: t('intro_messages.DM'),
+        defaultMessage: 'This is the start of your direct message history with {teammate}.\\nDirect messages and files shared here are not shown to people outside this area.',
+    },
+    teammate: {
+        id: t('intro_messages.teammate'),
+        defaultMessage: 'This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area.',
+    },
+});
 
 const DMIntroMessage = ({
     boardComponent,
@@ -56,8 +68,7 @@ const DMIntroMessage = ({
                 </div>
                 <p className='channel-intro-text'>
                     <FormattedMarkdownMessage
-                        id='intro_messages.DM'
-                        defaultMessage='This is the start of your direct message history with {teammate}.\nDirect messages and files shared here are not shown to people outside this area.'
+                        {...messages.DM}
                         values={{
                             teammate: teammateName,
                         }}
@@ -71,10 +82,7 @@ const DMIntroMessage = ({
 
     return (
         <p className='channel-intro-text'>
-            <FormattedMessage
-                id='intro_messages.teammate'
-                defaultMessage='This is the start of your direct message history with this teammate. Direct messages and files shared here are not shown to people outside this area.'
-            />
+            <FormattedMessage {...messages.teammate}/>
         </p>
     );
 };
