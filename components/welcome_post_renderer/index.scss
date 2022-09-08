@@ -3,7 +3,7 @@
 .WelcomePostRenderer {
     color: var(--center-channel-color);
 
-    .WelcomePostRenderer__ActionsContainer {
+    &__ActionsContainer {
         display: flex;
         flex-direction: row;
         margin-top: 1em;
