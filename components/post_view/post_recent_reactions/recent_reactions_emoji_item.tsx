@@ -51,13 +51,7 @@ const EmojiItem = ({emoji, onItemClick, order, autoplayGifAndEmojis}: Props) => 
             />
             ) : 
             (
-                <div onClick={(event) => {
-                    event.preventDefault();
-                    if (event.target === event.currentTarget) {
-                        console.log('parent clicked');
-                        // 👇 your logic here
-                      }
-                }} className='emoticon--post-menu'>
+                <div onClick={handleClick} className='emoticon--post-menu'>
                     <EmojiPlayer src={getEmojiImageUrl(emoji)} />
                 </div>
             )}

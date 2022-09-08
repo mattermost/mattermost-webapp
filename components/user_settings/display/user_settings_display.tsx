@@ -695,14 +695,14 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 value: 'true',
                 radionButtonText: {
                     id: t('user.settings.display.on'),
-                    message: 'on',
+                    message: 'On',
                 },
             },
             secondOption: {
                 value: 'false',
                 radionButtonText: {
                     id: t('user.settings.display.off'),
-                    message: 'off',
+                    message: 'Off',
                 },
             },
             description: {
