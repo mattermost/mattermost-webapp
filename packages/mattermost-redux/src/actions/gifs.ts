@@ -183,7 +183,7 @@ export function searchGfycat({searchText, count = 30, startIndex = 0}: { searchT
 }
 
 export function searchCategory({tagName = '', gfyCount = 30, cursorPos = undefined}) {
-    let cursor = cursorPos;
+    let cursor: string | undefined = cursorPos;
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {GfycatAPIKey, GfycatAPISecret} = getState().entities.general.config;
         const {resultsByTerm} = getState().entities.gifs.search;

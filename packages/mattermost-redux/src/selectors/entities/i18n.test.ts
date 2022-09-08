@@ -1,9 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
-import TestHelper from 'mattermost-redux/test/test_helper';
+import {GlobalState} from '@mattermost/types/store';
+import TestHelper from '../../../test/test_helper';
 import * as Selectors from 'mattermost-redux/selectors/entities/i18n';
 
 describe('Selectors.I18n', () => {
@@ -16,9 +15,9 @@ describe('Selectors.I18n', () => {
                         profiles: {},
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.equal(Selectors.getCurrentUserLocale(state, 'default'), 'default');
+            expect(Selectors.getCurrentUserLocale(state, 'default')).toEqual('default');
         });
 
         it('current user not loaded', () => {
@@ -30,9 +29,9 @@ describe('Selectors.I18n', () => {
                         profiles: {},
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.equal(Selectors.getCurrentUserLocale(state, 'default'), 'default');
+            expect(Selectors.getCurrentUserLocale(state, 'default')).toEqual('default');
         });
 
         it('current user without locale set', () => {
@@ -46,9 +45,9 @@ describe('Selectors.I18n', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.equal(Selectors.getCurrentUserLocale(state, 'default'), 'default');
+            expect(Selectors.getCurrentUserLocale(state, 'default')).toEqual('default');
         });
 
         it('current user with locale set', () => {
@@ -62,9 +61,9 @@ describe('Selectors.I18n', () => {
                         },
                     },
                 },
-            };
+            } as unknown as GlobalState;
 
-            assert.equal(Selectors.getCurrentUserLocale(state, 'default'), 'fr');
+            expect(Selectors.getCurrentUserLocale(state, 'default')).toEqual('fr');
         });
     });
 });
