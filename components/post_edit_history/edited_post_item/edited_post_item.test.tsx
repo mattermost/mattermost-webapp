@@ -22,6 +22,8 @@ describe('components/post_edit_history/edited_post_item', () => {
         actions: {
             editPost: jest.fn(),
             closeRightHandSide: jest.fn(),
+            openModal: jest.fn(),
+            closeModal: jest.fn(),
         },
     };
 
