@@ -48,8 +48,8 @@ function mapStateToProps(state: GlobalState) {
             for (const roleName of channelRoles) {
                 if (roles[roleName]) {
                     channelRolesLoading = false;
+                    break;
                 }
-                break;
             }
         }
     }
