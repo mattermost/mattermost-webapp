@@ -280,23 +280,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
       teamId="team-id"
     >
-      <Memo(AddMembersButton)
-        channel={
-          Object {
-            "create_at": 1508265709607,
-            "creator_id": "creator_id",
-            "delete_at": 0,
-            "display_name": "test channel",
-            "header": "test",
-            "id": "channel_id",
-            "last_post_at": 1508265709635,
-            "name": "town-square",
-            "purpose": "test",
-            "team_id": "team-id",
-            "type": "O",
-            "update_at": 1508265709607,
-          }
-        }
+      <Connect(Component)
         createBoard={<Memo(Connect(Component)) />}
         showSetHeader={true}
         usersLimit={10}

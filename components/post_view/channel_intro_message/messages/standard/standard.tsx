@@ -15,7 +15,6 @@ type Props = {
     channel: Channel;
     creatorName: string;
     locale: string;
-    stats: any;
     usersLimit: number;
 }
 
@@ -62,12 +61,9 @@ const StandardIntroMessage = ({
     channel,
     creatorName,
     locale,
-    stats,
     usersLimit,
 }: Props) => {
     const uiName = channel.display_name;
-    const totalUsers = stats.total_users_count;
-
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const isOpen = channel.type === Constants.OPEN_CHANNEL;
     const isPrivateOrOpen = isPrivate || isOpen;
@@ -124,9 +120,7 @@ const StandardIntroMessage = ({
 
     const channelInviteButton = (
         <AddMembersButton
-            totalUsers={totalUsers}
             usersLimit={usersLimit}
-            channel={channel}
             showSetHeader={renderButtons}
             createBoard={boardCreateButton}
         />

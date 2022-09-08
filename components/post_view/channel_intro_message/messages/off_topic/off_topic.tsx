@@ -12,7 +12,6 @@ import {t} from 'utils/i18n';
 
 type Props = {
     channel: Channel;
-    stats: any;
     usersLimit: number;
 }
 
@@ -29,11 +28,8 @@ const messages = defineMessages({
 
 const OffTopicIntroMessage = ({
     channel,
-    stats,
     usersLimit,
 }: Props) => {
-    const totalUsers = stats.total_users_count;
-
     const renderButtons = !isArchivedChannel(channel);
     const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
@@ -57,9 +53,7 @@ const OffTopicIntroMessage = ({
             </p>
             <AddMembersButton
                 showSetHeader={renderButtons}
-                totalUsers={totalUsers}
                 usersLimit={usersLimit}
-                channel={channel}
                 createBoard={boardCreateButton}
             />
         </>

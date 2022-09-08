@@ -27,7 +27,7 @@ import './add_members_button.scss';
 
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
-import SetHeaderButton from './set_header_button';
+import SetHeaderButton from '../set_header_button';
 
 export interface AddMembersButtonProps {
     totalUsers?: number;

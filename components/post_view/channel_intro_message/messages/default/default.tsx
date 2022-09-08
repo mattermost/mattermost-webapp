@@ -20,7 +20,6 @@ import SetHeaderButton from '../../set_header_button';
 
 type Props = {
     channel: Channel;
-    stats: any;
     usersLimit: number;
     enableUserCreation?: boolean;
     isReadOnly?: boolean;
@@ -49,14 +48,12 @@ const messages = defineMessages({
 
 const DefaultIntroMessage = ({
     channel,
-    stats,
     usersLimit,
     enableUserCreation,
     isReadOnly,
     teamIsGroupConstrained,
 }: Props) => {
     let teamInviteLink = null;
-    const totalUsers = stats.total_users_count;
 
     const renderButtons = !isReadOnly && !isArchivedChannel(channel);
     const boardCreateButton = renderButtons ? <BoardsButton/> : null;
@@ -90,9 +87,7 @@ const DefaultIntroMessage = ({
                     ) : (
                         <AddMembersButton
                             showSetHeader={renderButtons}
-                            totalUsers={totalUsers}
                             usersLimit={usersLimit}
-                            channel={channel}
                             createBoard={boardCreateButton}
                         />
                     )}
