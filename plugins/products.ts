@@ -13,7 +13,7 @@ export abstract class ProductPlugin {
 }
 
 export function initializeProducts() {
-    /* eslint-disable no-console, import/no-unresolved */
+    /* eslint-disable no-console */
     return async (/*dispatch, getState*/) => {
         /**
          * products contains a map of product IDs to a function that will load all of their parts. Calling that
@@ -72,7 +72,7 @@ export function initializeProducts() {
         return {data: true};
     };
 
-    /* eslint-enable no-console, import/no-unresolved */
+    /* eslint-enable no-console */
 }
 
 function initializeProduct(id: string, Product: new () => ProductPlugin) {
