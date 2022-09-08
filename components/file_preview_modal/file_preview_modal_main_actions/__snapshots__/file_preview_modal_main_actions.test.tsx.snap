@@ -78,6 +78,7 @@ exports[`components/file_preview_modal/file_preview_modal_main_actions/FilePrevi
 >
   <CopyButton
     afterCopyText="Copied"
+    className="file-preview-modal-main-actions__action-item"
     content="test content"
     placement="bottom"
   />
