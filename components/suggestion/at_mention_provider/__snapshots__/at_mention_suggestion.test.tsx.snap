@@ -59,16 +59,12 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
         className="badge-autocomplete"
         show={false}
       >
-        <Memo(Badge)
-          className="BotBadge badge-autocomplete"
+        <Memo(Tag)
+          className="BotTag badge-autocomplete"
           show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="BOT"
-            id="post_info.bot"
-          />
-        </Memo(Badge)>
-      </BotBadge>
+          text="BOT"
+        />
+      </BotTag>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -90,16 +86,12 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
         className="badge-autocomplete"
         show={false}
       >
-        <Memo(Badge)
-          className="GuestBadge badge-autocomplete"
+        <Memo(Tag)
+          className="GuestTag badge-autocomplete"
           show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="GUEST"
-            id="post_info.guest"
-          />
-        </Memo(Badge)>
-      </GuestBadge>
+          text="GUEST"
+        />
+      </GuestTag>
     </span>
   </div>
 </AtMentionSuggestion>
@@ -165,16 +157,12 @@ exports[`at mention suggestion Should not display nick name of the signed in use
         className="badge-autocomplete"
         show={false}
       >
-        <Memo(Badge)
-          className="BotBadge badge-autocomplete"
+        <Memo(Tag)
+          className="BotTag badge-autocomplete"
           show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="BOT"
-            id="post_info.bot"
-          />
-        </Memo(Badge)>
-      </BotBadge>
+          text="BOT"
+        />
+      </BotTag>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -208,16 +196,12 @@ exports[`at mention suggestion Should not display nick name of the signed in use
         className="badge-autocomplete"
         show={false}
       >
-        <Memo(Badge)
-          className="GuestBadge badge-autocomplete"
+        <Memo(Tag)
+          className="GuestTag badge-autocomplete"
           show={false}
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="GUEST"
-            id="post_info.guest"
-          />
-        </Memo(Badge)>
-      </GuestBadge>
+          text="GUEST"
+        />
+      </GuestTag>
     </span>
   </div>
 </AtMentionSuggestion>

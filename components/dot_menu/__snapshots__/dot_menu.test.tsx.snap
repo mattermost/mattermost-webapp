@@ -892,14 +892,10 @@ exports[`components/dot_menu/DotMenu should match snapshot, show "New" badge on 
             defaultMessage="Forward"
             id="forward_post_button.label"
           />
-          <Memo(Badge)
+          <Memo(Tag)
+            text="NEW"
             variant="success"
-          >
-            <Memo(MemoizedFormattedMessage)
-              defaultMessage="NEW"
-              id="badge.label.new"
-            />
-          </Memo(Badge)>
+          />
         </span>
       }
     />

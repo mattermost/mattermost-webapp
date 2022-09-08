@@ -11,12 +11,11 @@ exports[`components/threading/global_threads/thread_item should report total num
     <span>
       Someone
     </span>
-    <Memo(Badge)
+    <Memo(Tag)
       className=""
       onClick={[Function]}
-    >
-      Team name
-    </Memo(Badge)>
+      text="Team name"
+    />
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
@@ -130,12 +129,11 @@ exports[`components/threading/global_threads/thread_item should report unread me
     <span>
       Someone
     </span>
-    <Memo(Badge)
+    <Memo(Tag)
       className=""
       onClick={[Function]}
-    >
-      Team name
-    </Memo(Badge)>
+      text="Team name"
+    />
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"
@@ -247,12 +245,11 @@ exports[`components/threading/global_threads/thread_item should report unread me
     <span>
       Someone
     </span>
-    <Memo(Badge)
+    <Memo(Tag)
       className=""
       onClick={[Function]}
-    >
-      Team name
-    </Memo(Badge)>
+      text="Team name"
+    />
     <Connect(injectIntl(Timestamp))
       className="alt-hidden"
       day="numeric"

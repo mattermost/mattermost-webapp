@@ -205,15 +205,16 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new": <Memo(Tag)
               className="NewUserBadge"
               show={false}
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            </Memo(Badge)>,
+              text={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="New"
+                  id="admin.user_grid.new"
+                />
+              }
+            />,
             "remove": <UserGridRemove
               isDisabled={false}
               removeUser={[Function]}
@@ -303,15 +304,16 @@ exports[`admin_console/system_role_users should match snapshot 1`] = `
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new": <Memo(Tag)
               className="NewUserBadge"
               show={false}
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            </Memo(Badge)>,
+              text={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="New"
+                  id="admin.user_grid.new"
+                />
+              }
+            />,
             "remove": <UserGridRemove
               isDisabled={false}
               removeUser={[Function]}
@@ -572,15 +574,16 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new": <Memo(Tag)
               className="NewUserBadge"
               show={false}
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            </Memo(Badge)>,
+              text={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="New"
+                  id="admin.user_grid.new"
+                />
+              }
+            />,
             "remove": <UserGridRemove
               isDisabled={true}
               removeUser={[Function]}
@@ -670,15 +673,16 @@ exports[`admin_console/system_role_users should match snapshot with readOnly tru
                 }
               }
             />,
-            "new": <Memo(Badge)
+            "new": <Memo(Tag)
               className="NewUserBadge"
               show={false}
-            >
-              <Memo(MemoizedFormattedMessage)
-                defaultMessage="New"
-                id="admin.user_grid.new"
-              />
-            </Memo(Badge)>,
+              text={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="New"
+                  id="admin.user_grid.new"
+                />
+              }
+            />,
             "remove": <UserGridRemove
               isDisabled={true}
               removeUser={[Function]}

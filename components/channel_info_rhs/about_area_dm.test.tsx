@@ -194,8 +194,8 @@ describe('channel_info_rhs/about_area_dm', () => {
                 />
             </Provider>,
         );
-        expect(container.querySelector('.Badge')).toBeInTheDocument();
-        expect(container.querySelector('.Badge')).toHaveTextContent('BOT');
+        expect(container.querySelector('.Tag')).toBeInTheDocument();
+        expect(container.querySelector('.Tag')).toHaveTextContent('BOT');
     });
 
     test('should display guest tag', async () => {
@@ -214,8 +214,8 @@ describe('channel_info_rhs/about_area_dm', () => {
                 />
             </Provider>,
         );
-        expect(container.querySelector('.Badge')).toBeInTheDocument();
-        expect(container.querySelector('.Badge')).toHaveTextContent('GUEST');
+        expect(container.querySelector('.Tag')).toBeInTheDocument();
+        expect(container.querySelector('.Tag')).toHaveTextContent('GUEST');
     });
 
     test('should display bot description', async () => {

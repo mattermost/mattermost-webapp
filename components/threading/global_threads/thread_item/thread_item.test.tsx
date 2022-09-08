@@ -150,7 +150,7 @@ describe('components/threading/global_threads/thread_item', () => {
 
     test('should show channel name', () => {
         const wrapper = shallow(<ThreadItem {...props}/>);
-        expect(wrapper.find(Tag).childAt(0).text()).toContain('Team name');
+        expect(wrapper.find(Tag).props().text).toContain('Team name');
     });
 
     test('should pass required props to ThreadMenu', () => {

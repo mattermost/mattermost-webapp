@@ -3,8 +3,14 @@
 
 import React from 'react';
 import {shallow} from 'enzyme';
+import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import Tag from './tag';
+
+const defaultProps = {
+    size: 'xs',
+    className: 'Tag test',
+};
 
 describe('components/widgets/tag/Tag', () => {
     test('should match the snapshot on show', () => {
@@ -14,6 +20,8 @@ describe('components/widgets/tag/Tag', () => {
                 text={'Test text'}
             />,
         );
+        expect(wrapper.props()).toEqual(expect.objectContaining(defaultProps));
+        expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -25,6 +33,9 @@ describe('components/widgets/tag/Tag', () => {
                 icon={'alert-circle-outline'}
             />,
         );
+        expect(wrapper.props()).toEqual(expect.objectContaining(defaultProps));
+        expect(wrapper.find(AlertCircleOutlineIcon).exists()).toEqual(true);
+        expect(wrapper.text()).toContain('Test text');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -36,6 +47,8 @@ describe('components/widgets/tag/Tag', () => {
                 capitalize={true}
             />,
         );
+        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, capitalize: true}));
+        expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -47,6 +60,8 @@ describe('components/widgets/tag/Tag', () => {
                 size={'sm'}
             />,
         );
+        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, size: 'sm'}));
+        expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -58,6 +73,8 @@ describe('components/widgets/tag/Tag', () => {
                 variant={'success'}
             />,
         );
+        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, className: 'Tag success test'}));
+        expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -65,11 +82,14 @@ describe('components/widgets/tag/Tag', () => {
         const click = jest.fn();
         const wrapper = shallow(
             <Tag
-                onClick={click}
+                className={'test'}
                 text={'Test text'}
+                onClick={click}
             />,
         );
-        wrapper.find('button').simulate('click');
+        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, onClick: click}));
+        expect(wrapper.text()).toEqual('Test text');
+        wrapper.simulate('click');
         expect(click).toBeCalled();
         expect(wrapper).toMatchSnapshot();
     });

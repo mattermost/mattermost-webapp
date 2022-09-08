@@ -1,0 +1,78 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/widgets/tag/Tag should match the snapshot on show 1`] = `
+<TagWrapper
+  as="div"
+  className="Tag test"
+  size="xs"
+>
+  Test text
+</TagWrapper>
+`;
+
+exports[`components/widgets/tag/Tag should match the snapshot with "success" variant 1`] = `
+<TagWrapper
+  as="div"
+  className="Tag success test"
+  size="xs"
+>
+  Test text
+</TagWrapper>
+`;
+
+exports[`components/widgets/tag/Tag should match the snapshot with capitalized option 1`] = `
+<TagWrapper
+  as="div"
+  capitalize={true}
+  className="Tag test"
+  size="xs"
+>
+  Test text
+</TagWrapper>
+`;
+
+exports[`components/widgets/tag/Tag should match the snapshot with icon 1`] = `
+<TagWrapper
+  as="div"
+  className="Tag test"
+  size="xs"
+>
+  <AlertCircleOutlineIcon
+    size={10}
+  />
+  Test text
+</TagWrapper>
+`;
+
+exports[`components/widgets/tag/Tag should match the snapshot with size "sm" 1`] = `
+<TagWrapper
+  as="div"
+  className="Tag test"
+  size="sm"
+>
+  Test text
+</TagWrapper>
+`;
+
+exports[`components/widgets/tag/Tag should transform into a button if onClick provided 1`] = `
+<TagWrapper
+  as="button"
+  className="Tag test"
+  onClick={
+    [MockFunction] {
+      "calls": Array [
+        Array [],
+      ],
+      "results": Array [
+        Object {
+          "type": "return",
+          "value": undefined,
+        },
+      ],
+    }
+  }
+  size="xs"
+>
+  Test text
+</TagWrapper>
+`;

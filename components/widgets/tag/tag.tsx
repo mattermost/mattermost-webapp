@@ -87,9 +87,10 @@ const Tag = ({
     const element = onClick ? 'button' : 'div';
     return (
         <TagWrapper
+            {...rest}
             as={element}
             size={size}
-            {...rest}
+            onClick={onClick}
             className={classNames('Tag', {[`${variant}`]: variant}, className)}
         >
             {Icon && <Icon size={size === 'xs' ? 10 : 12}/>}
