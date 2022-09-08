@@ -114,7 +114,6 @@ export default class PostMarkdown extends React.PureComponent<Props> {
                 imagesMetadata={this.props.post?.metadata?.images}
                 postId={this.props.post?.id}
                 editedAt={this.props.post?.edit_at}
-                originalId={this.props.post?.original_id}
             />
         );
     }
