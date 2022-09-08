@@ -49,7 +49,7 @@ const reducerModalStates = (state: ValueOf<typeof ModalStatus>, action: ValueOf<
     }
 };
 
-export const useDeliquencyModalControllerState = () => {
+export const useDelinquencyModal = () => {
     const [state, dispatch] = useReducer(reducerModalStates, ModalStatus.INITIAL);
 
     const setToDisplay = () => {

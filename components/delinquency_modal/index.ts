@@ -14,7 +14,7 @@ import {ModalIdentifiers, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {closeModal, openModal} from 'actions/views/modals';
 
-import DeliquencyModalController from './deliquency_modal_controller';
+import DeliquencyModalController from './delinquency_modal_controller';
 
 function mapStateToProps(state: GlobalState) {
     const getCategory = makeGetCategory();
@@ -27,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
         isCloud,
         subscription,
         userIsAdmin,
-        deliquencyModalPreferencesConfirmed: getCategory(state, Preferences.DELIQUENCY_MODAL_CONFIRMED),
+        delinquencyModalPreferencesConfirmed: getCategory(state, Preferences.DELINQUENCY_MODAL_CONFIRMED),
     };
 }
 
@@ -35,7 +35,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
             getCloudSubscription,
-            closeModal: () => closeModal(ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE),
+            closeModal: () => closeModal(ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE),
             openModal,
         }, dispatch),
     };

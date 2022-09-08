@@ -15,7 +15,7 @@ import useGetMultiplesExceededCloudLimit, {LimitTypes} from 'components/common/h
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import './deliquency_modal.scss';
+import './delinquency_modal.scss';
 
 type FreemiumModalProps = {
     onClose: () => void;
@@ -34,7 +34,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             id='cloud_delinquency.modal.workspace_downgraded_freemium'
             defaultMessage='Cloud starter is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
         >
-            {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
+            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
     [LimitTypes.messageHistory]: (
@@ -42,7 +42,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             id='cloud_delinquency.modal.workspace_downgraded_messages_surpassed'
             defaultMessage={'Some of your workspace\'s message history are no longer accessible. Upgrade to a paid plan and get unlimited access to your message history.'}
         >
-            {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
+            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
     [LimitTypes.enabledIntegrations]: (
@@ -50,7 +50,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             id='cloud_delinquency.modal.workspace_downgraded_integrations_surpassed'
             defaultMessage='You have reached the limit of enabled integrations in your workspace. Upgrade to a paid plan to remove restrictions.'
         >
-            {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
+            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
     [LimitTypes.fileStorage]: (
@@ -58,7 +58,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             id='cloud_delinquency.modal.workspace_downgraded_storage_surpassed'
             defaultMessage={'Some of your workspace\'s files are no longer accessible. Upgrade to a paid plan and get unlimited access to your files.'}
         >
-            {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
+            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
     [LimitTypes.boardsCards]: (
@@ -66,7 +66,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             id='cloud_delinquency.modal.workspace_downgraded_boards_surpassed'
             defaultMessage={'Some of your workspace\'s board cards are no longer accessible. Upgrade to a paid plan and get unlimited access to your board cards.'}
         >
-            {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
+            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
     multipleLimits: (
@@ -74,7 +74,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             id='cloud_delinquency.modal.workspace_downgraded_multiples_limits_surpassed'
             defaultMessage='Your workspace has reached free plan limits. Upgrade to a paid plan.'
         >
-            {(text) => <p className='DeliquencyModal__body__limits-information'>{text}</p>}
+            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
 };
@@ -106,7 +106,7 @@ export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: Fre
     const handleReactivate = () => {
         handleClose();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_re_activate_plan');
-        openPurchaseModal({trackingLocation: 'deliquency_modal_freemium_admin'});
+        openPurchaseModal({trackingLocation: 'delinquency_modal_freemium_admin'});
     };
 
     const title: Message = {
@@ -120,7 +120,7 @@ export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: Fre
             id='cloud_delinquency.modal.workspace_downgraded_freemium_limits'
             defaultMessage='Free plan limits'
         >
-            {(text) => <span className='DeliquencyModal__body__subheader'>{text}</span>}
+            {(text) => <span className='DelinquencyModal__body__subheader'>{text}</span>}
         </FormattedMessage>
     </>);
 
@@ -135,7 +135,7 @@ export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: Fre
 
         return (
             <CloudUsageModal
-                className='DeliquencyModal'
+                className='DelinquencyModal'
                 secondaryAction={secondaryAction}
                 title={title}
                 description={description}
@@ -164,7 +164,7 @@ export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: Fre
 
     return (
         <CloudUsageModal
-            className='DeliquencyModal'
+            className='DelinquencyModal'
             title={title}
             description={description}
             primaryAction={primaryAction}

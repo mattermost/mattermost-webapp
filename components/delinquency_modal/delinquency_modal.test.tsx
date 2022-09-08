@@ -11,7 +11,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import configureStore from 'store';
 import {ModalIdentifiers, Preferences, TELEMETRY_CATEGORIES} from 'utils/constants';
 
-import DeliquencyModal from './deliquency_modal';
+import DeliquencyModal from './delinquency_modal';
 
 type RenderComponentArgs = {
     props?: Partial<ComponentProps<typeof DeliquencyModal>>;
@@ -40,7 +40,7 @@ describe('components/deliquency_modal/deliquency_modal', () => {
         views: {
             modals: {
                 modalState: {
-                    [ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE]: {
+                    [ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE]: {
                         open: true,
                         dialogProps: {
                             planName: 'plan_name',
@@ -93,8 +93,8 @@ describe('components/deliquency_modal/deliquency_modal', () => {
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(initialStates.entities.users.profiles.current_user_id.id, [{
-            category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
-            name: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
+            category: Preferences.DELINQUENCY_MODAL_CONFIRMED,
+            name: ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE,
             user_id: initialStates.entities.users.profiles.current_user_id.id,
             value: 'stayOnFremium',
         }]);
@@ -110,8 +110,8 @@ describe('components/deliquency_modal/deliquency_modal', () => {
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(initialStates.entities.users.profiles.current_user_id.id, [{
-            category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
-            name: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
+            category: Preferences.DELINQUENCY_MODAL_CONFIRMED,
+            name: ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE,
             user_id: initialStates.entities.users.profiles.current_user_id.id,
             value: 'updateBilling',
         }]);
@@ -119,7 +119,7 @@ describe('components/deliquency_modal/deliquency_modal', () => {
         expect(trackEvent).toBeCalledTimes(2);
         expect(trackEvent).toHaveBeenNthCalledWith(1, TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_update_billing');
         expect(trackEvent).toHaveBeenNthCalledWith(2, TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_open_delinquency_modal', {
-            callerInfo: 'deliquency_modal_downgrade_admin',
+            callerInfo: 'delinquency_modal_downgrade_admin',
         });
     });
 });

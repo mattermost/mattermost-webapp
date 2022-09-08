@@ -17,19 +17,19 @@ import {ModalIdentifiers, Preferences, TELEMETRY_CATEGORIES} from 'utils/constan
 import {GlobalState} from 'types/store';
 import {openModal, closeModal as closeModalAction} from 'actions/views/modals';
 
-import './deliquency_modal.scss';
+import './delinquency_modal.scss';
 import {FreemiumModal} from './freemium_modal';
 
-interface DeliquencyModalProps {
+interface DelinquencyModalProps {
     planName: string;
     onExited: () => void;
     closeModal: () => void;
     isAdminConsole?: boolean;
 }
 
-const DeliquencyModal = (props: DeliquencyModalProps) => {
+const DelinquencyModal = (props: DelinquencyModalProps) => {
     const dispatch = useDispatch();
-    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE));
+    const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE));
     const currentUser = useSelector((state: GlobalState) => getCurrentUser(state));
     const {closeModal, onExited, planName, isAdminConsole} = props;
     const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
@@ -39,8 +39,8 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_stay_on_freemium');
         closeModal();
         dispatch(savePreferences(currentUser.id, [{
-            category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
-            name: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
+            category: Preferences.DELINQUENCY_MODAL_CONFIRMED,
+            name: ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE,
             user_id: currentUser.id,
             value: 'stayOnFremium',
         }]));
@@ -65,11 +65,11 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
         handleClose();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_update_billing');
         openPurchaseModal({
-            trackingLocation: 'deliquency_modal_downgrade_admin',
+            trackingLocation: 'delinquency_modal_downgrade_admin',
         });
         dispatch(savePreferences(currentUser.id, [{
-            category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
-            name: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
+            category: Preferences.DELINQUENCY_MODAL_CONFIRMED,
+            name: ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE,
             user_id: currentUser.id,
             value: 'updateBilling',
         }]));
@@ -77,16 +77,16 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
 
     const ModalJSX = (
         <Modal
-            className='DeliquencyModal'
+            className='DelinquencyModal'
             dialogClassName='a11y__modal'
             show={show}
             onHide={handleClose}
             onExited={handleClose}
             role='dialog'
-            id='DeliquencyModal'
+            id='DelinquencyModal'
             aria-modal='true'
         >
-            <Modal.Header className='DeliquencyModal__header '>
+            <Modal.Header className='DelinquencyModal__header '>
                 <button
                     id='closeIcon'
                     className='icon icon-close'
@@ -95,7 +95,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                     onClick={handleClose}
                 />
             </Modal.Header>
-            <Modal.Body className='DeliquencyModal__body'>
+            <Modal.Body className='DelinquencyModal__body'>
                 <UpgradeSvg
                     width={217}
                     height={164}
@@ -104,7 +104,7 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                     id='cloud_delinquency.modal.workspace_downgraded'
                     defaultMessage='Your workspace has been downgraded'
                 >
-                    {(text) => <h3 className='DeliquencyModal__body__title'>{text}</h3>}
+                    {(text) => <h3 className='DelinquencyModal__body__title'>{text}</h3>}
                 </FormattedMessage>
                 <FormattedMessage
                     id='cloud_delinquency.modal.workspace_downgraded_description'
@@ -113,12 +113,12 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                         paidPlan: planName,
                     }}
                 >
-                    {(text) => <p className='DeliquencyModal__body__information'>{text}</p>}
+                    {(text) => <p className='DelinquencyModal__body__information'>{text}</p>}
                 </FormattedMessage>
             </Modal.Body>
-            <Modal.Footer className={'DeliquencyModal__footer '}>
+            <Modal.Footer className={'DelinquencyModal__footer '}>
                 <button
-                    className={'DeliquencyModal__footer--secondary'}
+                    className={'DelinquencyModal__footer--secondary'}
                     id={'stayOnFremium'}
                     onClick={handleShowFremium}
                 >
@@ -129,8 +129,8 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
                 </button>
 
                 <button
-                    className={'DeliquencyModal__footer--primary'}
-                    id={'updateBillingFromDeliquencyModal'}
+                    className={'DelinquencyModal__footer--primary'}
+                    id={'updanteBillingFromDeliquencyModal'}
                     onClick={handleUpdateBilling}
                 >
                     <FormattedMessage
@@ -150,4 +150,4 @@ const DeliquencyModal = (props: DeliquencyModalProps) => {
     </CompassThemeProvider>);
 };
 
-export default DeliquencyModal;
+export default DelinquencyModal;

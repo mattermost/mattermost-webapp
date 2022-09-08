@@ -12,13 +12,13 @@ import {TestHelper} from 'utils/test_helper';
 import ModalController from 'components/modal_controller';
 import {renderWithIntl} from 'tests/react_testing_utils';
 
-import DeliquencyModalController from './index';
+import DelinquencyModalController from './index';
 
 jest.mock('selectors/storage');
 
 (StorageSelectors.makeGetItem as jest.Mock).mockReturnValue(() => false);
 
-describe('components/deliquency_modal/deliquency_modal_controller', () => {
+describe('components/delinquency_modal/delinquency_modal_controller', () => {
     const initialState = {
         views: {
             modals: {
@@ -81,7 +81,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -93,8 +93,8 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
         state.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
             [
                 {
-                    category: Preferences.DELIQUENCY_MODAL_CONFIRMED,
-                    name: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
+                    category: Preferences.DELINQUENCY_MODAL_CONFIRMED,
+                    name: ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE,
                     value: 'updateBilling',
                 },
             ],
@@ -108,7 +108,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -124,7 +124,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -140,7 +140,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -156,7 +156,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -172,7 +172,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -194,7 +194,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -210,7 +210,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -233,7 +233,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -249,7 +249,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 
@@ -265,7 +265,7 @@ describe('components/deliquency_modal/deliquency_modal_controller', () => {
             <reactRedux.Provider store={store}>
                 <div id='root-portal'/>
                 <ModalController/>
-                <DeliquencyModalController/>
+                <DelinquencyModalController/>
             </reactRedux.Provider>,
         );
 

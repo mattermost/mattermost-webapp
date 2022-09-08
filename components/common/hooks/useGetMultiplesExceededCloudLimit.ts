@@ -33,9 +33,6 @@ export const LimitTypes = {
     boardsCards: 'boardsCards',
 } as const;
 
-// Hook used to tell if some limit status should be surfaced to the user
-// for further attention, for example for prompting the user to upgrade
-// from a free cloud instance to a paid cloud instance.
 export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, limits: Limits): Array<typeof LimitTypes[keyof typeof LimitTypes]> {
     return useMemo(() => {
         if (Object.keys(limits).length === 0) {
@@ -53,12 +50,7 @@ export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, lim
         const maybeEnabledIntegrationsLimit = limits.integrations?.enabled;
         const enabledIntegrationsUsage = usage.integrations.enabled;
 
-        // Order matters for this array. The designs specify:
-        // > Show the plan limit that is the highest.
-        // > Otherwise if there is a tie,
-        // > default to showing Message History first,
-        // > File storage second,
-        // > and App limit third.
+        // Order matters for this array
         const highestLimit = refineToDefined(
             {
                 id: LimitTypes.messageHistory,

@@ -29,12 +29,12 @@ jest.mock('react-redux', () => ({
 
 jest.mock('components/common/hooks/useGetMultiplesExceededCloudLimit');
 
-describe('components/deliquency_modal/deliquency_modal', () => {
+describe('components/delinquency_modal/freemium_modal', () => {
     const initialStates = {
         views: {
             modals: {
                 modalState: {
-                    [ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE]: {
+                    [ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE]: {
                         open: true,
                         dialogProps: {
                             planName: 'plan_name',
@@ -94,7 +94,7 @@ describe('components/deliquency_modal/deliquency_modal', () => {
         expect(trackEvent).toBeCalledTimes(2);
         expect(trackEvent).toHaveBeenNthCalledWith(1, TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_re_activate_plan');
         expect(trackEvent).toHaveBeenNthCalledWith(2, TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_open_delinquency_modal', {
-            callerInfo: 'deliquency_modal_freemium_admin',
+            callerInfo: 'delinquency_modal_freemium_admin',
         });
     });
 

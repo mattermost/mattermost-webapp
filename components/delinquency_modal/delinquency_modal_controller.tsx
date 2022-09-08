@@ -8,9 +8,9 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 import {ModalData} from 'types/actions';
 
-import {useDeliquencyModalController} from './useDeliquencyModalController';
+import {useDelinquencyModalController} from './useDelinquencyModalController';
 
-interface DeliquencyModalControllerProps {
+interface DelinquencyModalControllerProps {
     userIsAdmin: boolean;
     subscription?: Subscription;
     isCloud: boolean;
@@ -19,13 +19,13 @@ interface DeliquencyModalControllerProps {
         closeModal: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
-    deliquencyModalPreferencesConfirmed: PreferenceType[];
+    delinquencyModalPreferencesConfirmed: PreferenceType[];
 }
 
-const DeliquencyModalController = (props: DeliquencyModalControllerProps) => {
-    useDeliquencyModalController(props);
+const DelinquencyModalController = (props: DelinquencyModalControllerProps) => {
+    useDelinquencyModalController(props);
 
     return <></>;
 };
 
-export default withGetCloudSubscription(DeliquencyModalController);
+export default withGetCloudSubscription(DelinquencyModalController);

@@ -11,12 +11,12 @@ import BrowserStore from 'stores/browser_store';
 import {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {ModalData} from 'types/actions';
 
-import DeliquencyModal from './deliquency_modal';
-import {ModalStatus, useDeliquencyModalControllerState} from './useDeliquencyModal';
+import DelinquencyModal from './delinquency_modal';
+import {ModalStatus, useDelinquencyModal} from './useDelinquencyModal';
 
-const SESSION_MODAL_ITEM = `${StoragePrefixes.DELIQUENCY}hide_downgrade_modal`;
+const SESSION_MODAL_ITEM = `${StoragePrefixes.DELINQUENCY}hide_downgrade_modal`;
 
-type UseDeliquencyModalController = {
+type UseDelinquencyModalController = {
     userIsAdmin: boolean;
     subscription?: Subscription;
     isCloud: boolean;
@@ -25,19 +25,19 @@ type UseDeliquencyModalController = {
         closeModal: () => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
-    deliquencyModalPreferencesConfirmed: PreferenceType[];
+    delinquencyModalPreferencesConfirmed: PreferenceType[];
 }
 
-export const useDeliquencyModalController = (props: UseDeliquencyModalController) => {
+export const useDelinquencyModalController = (props: UseDelinquencyModalController) => {
     const product = useSelector(getSubscriptionProduct);
     const dispatch = useDispatch();
-    const {isCloud, userIsAdmin, subscription, actions, deliquencyModalPreferencesConfirmed} = props;
+    const {isCloud, userIsAdmin, subscription, actions, delinquencyModalPreferencesConfirmed} = props;
     const {openModal} = actions;
-    const {modalState, setToDisplay, setModalClosed, setModalDisplayed, setModalClosing} = useDeliquencyModalControllerState();
+    const {modalState, setToDisplay, setModalClosed, setModalDisplayed, setModalClosing} = useDelinquencyModal();
     const [requestedProducts, setRequestedProducts] = useState(false);
 
     useEffect(() => {
-        if (deliquencyModalPreferencesConfirmed.length === 0 && product == null && !requestedProducts) {
+        if (delinquencyModalPreferencesConfirmed.length === 0 && product == null && !requestedProducts) {
             dispatch(getCloudProducts());
             setRequestedProducts(true);
         }
@@ -48,7 +48,7 @@ export const useDeliquencyModalController = (props: UseDeliquencyModalController
             return;
         }
 
-        if (deliquencyModalPreferencesConfirmed.length > 0) {
+        if (delinquencyModalPreferencesConfirmed.length > 0) {
             return;
         }
 
@@ -84,13 +84,13 @@ export const useDeliquencyModalController = (props: UseDeliquencyModalController
         }
 
         setToDisplay();
-    }, [deliquencyModalPreferencesConfirmed.length, isCloud, openModal, setToDisplay, modalState, subscription, userIsAdmin]);
+    }, [delinquencyModalPreferencesConfirmed.length, isCloud, openModal, setToDisplay, modalState, subscription, userIsAdmin]);
 
     useEffect(() => {
         if (modalState === ModalStatus.TO_SHOW && product != null) {
             openModal({
-                modalId: ModalIdentifiers.DELIQUENCY_MODAL_DOWNGRADE,
-                dialogType: DeliquencyModal,
+                modalId: ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE,
+                dialogType: DelinquencyModal,
                 dialogProps: {
                     closeModal: actions.closeModal,
                     onExited: setModalClosing,
