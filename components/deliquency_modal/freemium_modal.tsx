@@ -153,7 +153,7 @@ export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: Fre
 
     const primaryAction = {
         message: {
-            id: t('cloud_delinquency.modal.update_billing'),
+            id: t('cloud_delinquency.modal.re_activate_plan'),
             defaultMessage: 'Re-activate {planName}',
             values: {
                 planName,
