@@ -22,17 +22,13 @@ interface Props {
 
 const PasswordResetForm = ({location, siteName, actions}: Props) => {
     const [error, setError] = useState<React.ReactNode>(null);
-    const [password, setPassword] = useState<string>('');
 
     const passwordInput = useRef<HTMLInputElement>(null);
-
-    const updatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(e.target.value);
-    };
 
     const handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
 
+        const password = passwordInput.current!.value;
         const token = (new URLSearchParams(location.search)).get('token');
 
         if (typeof token !== 'string') {
@@ -83,7 +79,6 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
                             placeholder={{id: t('password_form.pwd'), defaultMessage: 'Password'}}
                             spellCheck='false'
                             autoFocus={true}
-                            onChange={updatePassword}
                         />
                     </div>
                     {errorElement}
@@ -91,7 +86,6 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
                         id='resetPasswordButton'
                         type='submit'
                         className='btn btn-primary'
-                        disabled={!password || password.length < Constants.MIN_PASSWORD_LENGTH}
                     >
                         <FormattedMessage
                             id='password_form.change'
