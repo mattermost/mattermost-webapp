@@ -500,6 +500,8 @@ describe('Actions.Posts', () => {
             postsInThread,
         } = state.entities.posts;
 
+        console.log('posts', state.entities.posts.postsInThread);
+
         if (getRequest.status === RequestStatus.FAILURE) {
             throw new Error(JSON.stringify(getRequest.error));
         }
@@ -512,6 +514,27 @@ describe('Actions.Posts', () => {
 
         const found = postsInChannel[channelId].find((block) => block.order.indexOf(comment.id) !== -1);
         assert.ok(!found, 'should not have found comment in postsInChannel');
+    });
+
+    it('getPostEditHistory', async () => {
+        const postId = TestHelper.generateId();
+        const data = [{
+            create_at: 1502715365009,
+            edit_at: 1502715372443,
+            user_id: TestHelper.basicUser.id,
+        }];
+
+        nock(Client4.getBaseRoute()).
+            get(`/posts/${postId}/edit_history`).
+            reply(200, data);
+
+        await Actions.getPostEditHistory(postId)(store.dispatch, store.getState);
+
+        const state = store.getState();
+        const editHistory = state.entities.posts.postEditHistory;
+
+        assert.ok(editHistory[0]);
+        assert.deepEqual(editHistory, data);
     });
 
     it('getPosts', async () => {

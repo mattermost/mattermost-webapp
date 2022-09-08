@@ -58,7 +58,7 @@ function mapStateToProps(state: GlobalState) {
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
-        isChannelFiles: rhsState === RHSStates.CHANNEL_FILES, //todo check if you need to pass isPostEditHistory
+        isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
         isMobileView,
     };
 }
