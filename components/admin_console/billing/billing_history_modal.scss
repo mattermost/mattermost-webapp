@@ -6,16 +6,26 @@
     -webkit-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
 
-    .modal-header {
-        border: none;
-        background: #fff !important;
-        background-color: #fff !important;
+    .modal-content {
+        padding: 24px 32px;
 
-        .modal-title {
-            color: #3f4350;
+        .modal-header {
+            padding: 0;
+            border: none;
+            background: #fff !important;
+            background-color: #fff !important;
+
+            .modal-title {
+                color: #3f4350;
+                font-weight: semibold;
+                font-size: 22px;
+            }
+
         }
 
         .modal-body {
+            padding: 0;
+
             .BillingHistory__table {
                 border-radius: 8px;
             }
