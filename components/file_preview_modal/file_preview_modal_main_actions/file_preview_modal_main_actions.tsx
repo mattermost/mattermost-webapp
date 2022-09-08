@@ -14,8 +14,8 @@ import Tooltip from 'components/tooltip';
 
 import {GlobalState} from 'types/store';
 
-import Constants from 'utils/constants';
-import {copyToClipboard} from 'utils/utils';
+import Constants, {FileTypes} from 'utils/constants';
+import {copyToClipboard, getFileType} from 'utils/utils';
 
 import {isFileInfo, LinkInfo} from '../types';
 
@@ -142,9 +142,13 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
             </a>
         </OverlayTrigger>
     );
+    const getBeforeCopyText = () => {
+        const fileType = getFileType(props.fileInfo.extension);
+        return fileType === FileTypes.TEXT ? 'Copy text' : undefined;
+    }
     const copy = (
         <CopyButton
-            beforeCopyText='Copy'
+            beforeCopyText={getBeforeCopyText()}
             placement={tooltipPlacement}
             content={props.content}
         />
