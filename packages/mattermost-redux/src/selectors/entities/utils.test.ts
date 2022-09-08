@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import assert from 'assert';
 
-import TestHelper from 'mattermost-redux/test/test_helper.js';
+import TestHelper from '../../../test/test_helper';
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 
 import {UserStatuses} from 'utils/constants';
@@ -80,6 +79,6 @@ describe('utils.makeAddLastViewAtToProfiles', () => {
         });
 
         const addLastViewAtToProfiles = makeAddLastViewAtToProfiles();
-        assert.deepEqual(addLastViewAtToProfiles(testState, [user1, user2, user3, user4]), [{...user1, last_viewed_at: 1}, {...user2, last_viewed_at: 2}, {...user3, last_viewed_at: 3}, {...user4, last_viewed_at: 0}]);
+        expect(addLastViewAtToProfiles(testState, [user1, user2, user3, user4])).toEqual([{...user1, last_viewed_at: 1}, {...user2, last_viewed_at: 2}, {...user3, last_viewed_at: 3}, {...user4, last_viewed_at: 0}]);
     });
 });

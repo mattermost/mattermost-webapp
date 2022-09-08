@@ -9,6 +9,7 @@ import {
     ServiceSettings,
     TeamSettings,
     PluginSettings,
+    ClusterSettings,
 } from '@mattermost/types/lib/config';
 
 import testConfig from '@test.config';
@@ -18,16 +19,21 @@ export function getOnPremServerConfig(): AdminConfig {
 }
 
 type TestAdminConfig = {
+    ClusterSettings: Partial<ClusterSettings>;
     ExperimentalSettings: Partial<ExperimentalSettings>;
     PasswordSettings: Partial<PasswordSettings>;
+    PluginSettings: Partial<PluginSettings>;
     ServiceSettings: Partial<ServiceSettings>;
     TeamSettings: Partial<TeamSettings>;
-    PluginSettings: Partial<PluginSettings>;
 };
 
 // On-prem setting that is different from the default
 const onPremServerConfig = (): Partial<TestAdminConfig> => {
     return {
+        ClusterSettings: {
+            Enable: testConfig.haClusterEnabled,
+            ClusterName: testConfig.haClusterName,
+        },
         ExperimentalSettings: {
             EnableAppBar: true,
         },
@@ -38,13 +44,6 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
             Uppercase: false,
             Symbol: false,
         },
-        ServiceSettings: {
-            SiteURL: testConfig.baseURL,
-            EnableOnboardingFlow: false,
-        },
-        TeamSettings: {
-            EnableOpenServer: true,
-        },
         PluginSettings: {
             EnableUploads: true,
             Plugins: {
@@ -53,11 +52,18 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
                 },
             },
         },
+        ServiceSettings: {
+            SiteURL: testConfig.baseURL,
+            EnableOnboardingFlow: false,
+        },
+        TeamSettings: {
+            EnableOpenServer: true,
+        },
     };
 };
 
 // Should be based only from the generated default config from mattermost-server via "make config-reset"
-// Based on v7.1 server
+// Based on v7.3 server
 const defaultServerConfig: AdminConfig = {
     ServiceSettings: {
         SiteURL: '',
@@ -272,6 +278,7 @@ const defaultServerConfig: AdminConfig = {
         AmazonS3SignV2: false,
         AmazonS3SSE: false,
         AmazonS3Trace: false,
+        AmazonS3RequestTimeoutMilliseconds: 30000,
     },
     EmailSettings: {
         EnableSignUpWithEmail: true,
@@ -660,8 +667,10 @@ const defaultServerConfig: AdminConfig = {
         GraphQL: false,
         InsightsEnabled: true,
         CommandPalette: false,
+        PostForwarding: true,
         AdvancedTextEditor: true,
         BoardsProduct: false,
+        PlanUpgradeButtonText: 'upgrade',
     },
     ImportSettings: {
         Directory: './import',

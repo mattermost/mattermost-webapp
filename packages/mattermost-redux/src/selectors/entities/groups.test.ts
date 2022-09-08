@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
+import {UserProfile} from '@mattermost/types/users';
 
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
 import * as Selectors from 'mattermost-redux/selectors/entities/groups';
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from '../../../test/test_helper';
 
 describe('Selectors.Groups', () => {
     const teamID = 'c6ubwm63apgftbjs71enbjjpsh';
@@ -95,7 +95,7 @@ describe('Selectors.Groups', () => {
     const user2 = TestHelper.fakeUserWithId();
     const user3 = TestHelper.fakeUserWithId();
 
-    const profiles = {};
+    const profiles: Record<string, UserProfile> = {};
     profiles[user1.id] = user1;
     profiles[user2.id] = user2;
     profiles[user3.id] = user3;
@@ -149,10 +149,10 @@ describe('Selectors.Groups', () => {
 
     it('getAssociatedGroupsByName', () => {
         const groupsByName = Selectors.getAssociatedGroupsByName(testState, teamID, channelID);
-        assert.equal(groupsByName[group1.name], group1);
-        assert.equal(groupsByName[group4.name], group4);
-        assert.equal(groupsByName[group5.name], group5);
-        assert.equal(Object.keys(groupsByName).length, 3);
+        expect(groupsByName[group1.name]).toEqual(group1);
+        expect(groupsByName[group4.name]).toEqual(group4);
+        expect(groupsByName[group5.name]).toEqual(group5);
+        expect(Object.keys(groupsByName).length).toEqual(3);
     });
 
     it('getGroupsAssociatedToTeam', () => {
@@ -160,7 +160,7 @@ describe('Selectors.Groups', () => {
             group1,
             group2,
         ];
-        assert.deepEqual(Selectors.getGroupsAssociatedToTeam(testState, teamID), expected);
+        expect(Selectors.getGroupsAssociatedToTeam(testState, teamID)).toEqual(expected);
     });
 
     it('getGroupsNotAssociatedToTeam', () => {
@@ -168,7 +168,7 @@ describe('Selectors.Groups', () => {
             group3,
             group4,
         ];
-        assert.deepEqual(Selectors.getGroupsNotAssociatedToTeam(testState, teamID), expected);
+        expect(Selectors.getGroupsNotAssociatedToTeam(testState, teamID)).toEqual(expected);
     });
 
     it('getGroupsAssociatedToChannel', () => {
@@ -176,7 +176,7 @@ describe('Selectors.Groups', () => {
             group3,
             group4,
         ];
-        assert.deepEqual(Selectors.getGroupsAssociatedToChannel(testState, channelID), expected);
+        expect(Selectors.getGroupsAssociatedToChannel(testState, channelID)).toEqual(expected);
     });
 
     it('getGroupsNotAssociatedToChannel', () => {
@@ -184,28 +184,28 @@ describe('Selectors.Groups', () => {
             group1,
             group2,
         ];
-        assert.deepEqual(Selectors.getGroupsNotAssociatedToChannel(testState, channelID, teamID), expected);
+        expect(Selectors.getGroupsNotAssociatedToChannel(testState, channelID, teamID)).toEqual(expected);
 
         let cloneState = JSON.parse(JSON.stringify(testState));
         cloneState.entities.teams.teams[teamID].group_constrained = true;
         cloneState.entities.teams.groupsAssociatedToTeam[teamID].ids = [expectedAssociatedGroupID1];
         cloneState = deepFreezeAndThrowOnMutation(cloneState);
 
-        assert.deepEqual(Selectors.getGroupsNotAssociatedToChannel(cloneState, channelID, teamID), [group1]);
+        expect(Selectors.getGroupsNotAssociatedToChannel(cloneState, channelID, teamID)).toEqual([group1]);
     });
 
     it('getGroupsAssociatedToTeamForReference', () => {
         const expected = [
             group1,
         ];
-        assert.deepEqual(Selectors.getGroupsAssociatedToTeamForReference(testState, teamID), expected);
+        expect(Selectors.getGroupsAssociatedToTeamForReference(testState, teamID)).toEqual(expected);
     });
 
     it('getGroupsAssociatedToChannelForReference', () => {
         const expected = [
             group4,
         ];
-        assert.deepEqual(Selectors.getGroupsAssociatedToChannelForReference(testState, channelID), expected);
+        expect(Selectors.getGroupsAssociatedToChannelForReference(testState, channelID)).toEqual(expected);
     });
 
     it('getAllAssociatedGroupsForReference', () => {
@@ -214,7 +214,7 @@ describe('Selectors.Groups', () => {
             group4,
             group5,
         ];
-        assert.deepEqual(Selectors.getAllAssociatedGroupsForReference(testState), expected);
+        expect(Selectors.getAllAssociatedGroupsForReference(testState)).toEqual(expected);
     });
 
     it('getMyGroupMentionKeys', () => {
@@ -226,7 +226,7 @@ describe('Selectors.Groups', () => {
                 key: `@${group4.name}`,
             },
         ];
-        assert.deepEqual(Selectors.getMyGroupMentionKeys(testState), expected);
+        expect(Selectors.getMyGroupMentionKeys(testState)).toEqual(expected);
     });
 
     it('getMyGroupMentionKeysForChannel', () => {
@@ -238,6 +238,6 @@ describe('Selectors.Groups', () => {
                 key: `@${group4.name}`,
             },
         ];
-        assert.deepEqual(Selectors.getMyGroupMentionKeysForChannel(testState, teamID, channelID), expected);
+        expect(Selectors.getMyGroupMentionKeysForChannel(testState, teamID, channelID)).toEqual(expected);
     });
 });

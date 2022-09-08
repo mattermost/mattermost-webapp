@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
-
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from '../../../test/test_helper';
 import * as Selectors from 'mattermost-redux/selectors/entities/search';
+import {GlobalState} from '@mattermost/types/store';
 
 describe('Selectors.Search', () => {
     const team1 = TestHelper.fakeTeamWithId();
@@ -24,7 +23,7 @@ describe('Selectors.Search', () => {
     });
 
     it('should return current search for current team', () => {
-        assert.deepEqual(Selectors.getCurrentSearchForCurrentTeam(testState), team1CurrentSearch);
+        expect(Selectors.getCurrentSearchForCurrentTeam(testState)).toEqual(team1CurrentSearch);
     });
 
     it('groups', () => {
@@ -68,8 +67,8 @@ describe('Selectors.Search', () => {
                     ],
                 },
             },
-        };
+        } as unknown as GlobalState;
 
-        assert.deepEqual(Selectors.getAllUserMentionKeys(state), [{key: 'First', caseSensitive: true}, {key: '@user'}, {key: '@Do-you-love-me?'}, {key: '@I-AM-THE-BEST!'}]);
+        expect(Selectors.getAllUserMentionKeys(state)).toEqual([{key: 'First', caseSensitive: true}, {key: '@user'}, {key: '@Do-you-love-me?'}, {key: '@I-AM-THE-BEST!'}]);
     });
 });
