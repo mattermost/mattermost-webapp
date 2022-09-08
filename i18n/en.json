@@ -4144,7 +4144,7 @@
   "onboardingTour.sendMessage.title": "Send messages",
   "password_form.change": "Change my password",
   "password_form.enter": "Enter a new password for your {siteName} account.",
-  "password_form.error": "Your password must contain between {min} and {max} characters.",
+  "password_form.error": "Your password must contain at least 10 characters made up of at least one lowercase letter, at least one uppercase letter, at least one number, and at least one symbol (e.g. '~!@#$%^&*()').",
   "password_form.pwd": "Password",
   "password_form.title": "Password Reset",
   "password_send.checkInbox": "Please check your inbox.",
