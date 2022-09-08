@@ -2953,7 +2953,7 @@
   "cloud_delinquency.cc_modal.disclaimer": "Upon reactivation you will be charged the total owed.  Your bill is calculated at the end of the billing cycle based on the number of enabled users.",
   "cloud_delinquency.modal.stay_on_freemium": "Stay on Starter (Free Plan)",
   "cloud_delinquency.modal.stay_on_freemium_close": "Close",
-  "cloud_delinquency.modal.update_billing": "Re-activate {planName}",
+  "cloud_delinquency.modal.update_billing": "Update billing",
   "cloud_delinquency.modal.workspace_downgraded": "Your workspace has been downgraded",
   "cloud_delinquency.modal.workspace_downgraded_boards_surpassed": "Some of your workspace's board cards are no longer accessible. Upgrade to a paid plan and get unlimited access to your board cards.",
   "cloud_delinquency.modal.workspace_downgraded_description": "Due to payment issues on your {paidPlan}, your workspace has been downgraded to the free plan. To access {paidPlan} features again, update your billing information now.",
