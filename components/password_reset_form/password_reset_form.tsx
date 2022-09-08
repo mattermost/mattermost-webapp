@@ -22,13 +22,13 @@ interface Props {
 
 const PasswordResetForm = ({location, siteName, actions}: Props) => {
     const [error, setError] = useState<React.ReactNode>(null);
-    const [password, setPassword] = useState<string>("");
+    const [password, setPassword] = useState<string>('');
 
     const passwordInput = useRef<HTMLInputElement>(null);
 
     const updatePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
         setPassword(e.target.value);
-    }
+    };
 
     const handlePasswordReset = async (e: React.FormEvent) => {
         e.preventDefault();
