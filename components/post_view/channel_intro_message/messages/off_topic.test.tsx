@@ -8,18 +8,18 @@ import {boardComponent, offTopicChannel} from './test_utils';
 
 import OffTopicIntroMessage from './off_topic';
 
-describe('components/post_view/ChannelIntroMessages', () => {
-    const component = (otherProps: any) => {
-        return (
-            <OffTopicIntroMessage
-                stats={{}}
-                usersLimit={10}
-                channel={offTopicChannel}
-                {...otherProps}
-            />
-        );
-    };
+const component = (otherProps: any) => {
+    return (
+        <OffTopicIntroMessage
+            stats={{}}
+            usersLimit={10}
+            channel={offTopicChannel}
+            {...otherProps}
+        />
+    );
+};
 
+describe('components/post_view/ChannelIntroMessages', () => {
     describe('test OFF_TOPIC Channel', () => {
         test('should match snapshot, without boards', () => {
             expect(shallow(component({ }))).toMatchSnapshot();

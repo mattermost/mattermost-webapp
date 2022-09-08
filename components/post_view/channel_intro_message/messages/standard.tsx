@@ -25,7 +25,6 @@ type Props = {
 }
 
 const messages = defineMessages({
-
     beginning: {
         id: t('intro_messages.beginning'),
         defaultMessage: 'Beginning of {name}',
@@ -62,7 +61,6 @@ const messages = defineMessages({
         id: t('intro_messages.purpose'),
         defaultMessage: " This channel's purpose is: {purpose}",
     },
-
 });
 
 const StandardIntroMessage = ({

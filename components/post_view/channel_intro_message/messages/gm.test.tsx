@@ -8,18 +8,18 @@ import {boardComponent, groupChannel, users} from './test_utils';
 
 import GMIntroMessage from './gm';
 
-describe('components/post_view/ChannelIntroMessages', () => {
-    const component = (otherProps: any) => {
-        return (
-            <GMIntroMessage
-                currentUserId={'test-user-id'}
-                profiles={[]}
-                channel={groupChannel}
-                {...otherProps}
-            />
-        );
-    };
+const component = (otherProps: any) => {
+    return (
+        <GMIntroMessage
+            currentUserId={'test-user-id'}
+            profiles={[]}
+            channel={groupChannel}
+            {...otherProps}
+        />
+    );
+};
 
+describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Group Channel', () => {
         test('should match snapshot, no profiles', () => {
             expect(shallow(component({ }))).toMatchSnapshot();

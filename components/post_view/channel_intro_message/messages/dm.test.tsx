@@ -10,17 +10,17 @@ import {boardComponent, directChannel, user1} from './test_utils';
 
 import DMIntroMessage from './dm';
 
+const component = (otherProps: any) => {
+    return (
+        <DMIntroMessage
+            channel={directChannel}
+            {...otherProps}
+        />
+    );
+};
+
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test DIRECT Channel', () => {
-        const component = (otherProps: any) => {
-            return (
-                <DMIntroMessage
-                    channel={directChannel}
-                    {...otherProps}
-                />
-            );
-        };
-
         test('should match snapshot, without teammate', () => {
             expect(shallow(component({}))).toMatchSnapshot();
         });

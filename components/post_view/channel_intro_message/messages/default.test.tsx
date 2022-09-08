@@ -8,21 +8,21 @@ import {archivedChannel, boardComponent, defaultChannel} from './test_utils';
 
 import DefaultIntroMessage from './default';
 
+const component = (otherProps: any) => {
+    return (
+        <DefaultIntroMessage
+            enableUserCreation={false}
+            teamIsGroupConstrained={false}
+            stats={{}}
+            usersLimit={10}
+            channel={defaultChannel}
+            {...otherProps}
+        />
+    );
+};
+
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test DEFAULT Channel', () => {
-        const component = (otherProps: any) => {
-            return (
-                <DefaultIntroMessage
-                    enableUserCreation={false}
-                    teamIsGroupConstrained={false}
-                    stats={{}}
-                    usersLimit={10}
-                    channel={defaultChannel}
-                    {...otherProps}
-                />
-            );
-        };
-
         test('should match snapshot, readonly', () => {
             expect(shallow(component({
                 isReadOnly: true,

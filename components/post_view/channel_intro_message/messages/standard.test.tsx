@@ -7,21 +7,21 @@ import {shallow} from 'enzyme';
 import StandardIntroMessage from './standard';
 import {boardComponent, channel} from './test_utils';
 
+const component = (otherProps: any) => {
+    return (
+        <StandardIntroMessage
+            channel={channel}
+            locale={'en'}
+            creatorName={'creatorName'}
+            stats={{}}
+            usersLimit={10}
+            {...otherProps}
+        />
+    );
+};
+
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Open Channel', () => {
-        const component = (otherProps: any) => {
-            return (
-                <StandardIntroMessage
-                    channel={channel}
-                    locale={'en'}
-                    creatorName={'creatorName'}
-                    stats={{}}
-                    usersLimit={10}
-                    {...otherProps}
-                />
-            );
-        };
-
         test('should match snapshot, without boards', () => {
             expect(shallow(component({ }))).toMatchSnapshot();
         });
