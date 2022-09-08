@@ -2,15 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
 import {PluginComponent} from 'types/store/plugins';
 import {isArchivedChannel} from 'utils/channel_utils';
-import AddMembersButton from '../add_members_button';
-import BoardsButton from '../boards_button';
-import SetHeaderButton from '../set_header_button';
+import AddMembersButton from '../../add_members_button';
+import BoardsButton from '../../boards_button';
+import SetHeaderButton from '../../set_header_button';
 import {t} from 'utils/i18n';
 
 type Props = {

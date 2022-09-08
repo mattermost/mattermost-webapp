@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
@@ -11,15 +10,15 @@ import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
 import {PluginComponent} from 'types/store/plugins';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import * as Utils from 'utils/utils';
-import BoardsButton from '../boards_button';
-import SetHeaderButton from '../set_header_button';
+import BoardsButton from '../../boards_button';
+import SetHeaderButton from '../../set_header_button';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {t} from 'utils/i18n';
 
 type Props = {
     channel: Channel;
     currentUserId: string;
-    profiles: UserProfileRedux[];
+    channelProfiles: UserProfileRedux[];
     boardComponent?: PluginComponent;
 }
 
@@ -37,11 +36,11 @@ const messages = defineMessages({
 const GMIntroMessage = ({
     channel,
     currentUserId,
-    profiles,
+    channelProfiles,
     boardComponent,
 }: Props) => {
-    if (profiles.length > 0) {
-        const pictures = profiles.
+    if (channelProfiles.length > 0) {
+        const pictures = channelProfiles.
             filter((profile) => profile.id !== currentUserId).
             map((profile) => (
                 <ProfilePicture

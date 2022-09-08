@@ -5,8 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {UserProfile} from '@mattermost/types/users';
-
-import {boardComponent, directChannel, user1} from './test_utils';
+import {boardComponent, directChannel, user1} from '../test_utils';
 
 import DMIntroMessage from './dm';
 

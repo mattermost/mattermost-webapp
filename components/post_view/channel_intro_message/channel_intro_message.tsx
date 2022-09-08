@@ -2,16 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import classNames from 'classnames';
 
-import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
-
 import {Channel} from '@mattermost/types/channels';
-
 import {Constants} from 'utils/constants';
-
-import {PluginComponent} from 'types/store/plugins';
 
 import DMIntroMessage from './messages/dm';
 import StandardIntroMessage from './messages/standard';
@@ -20,23 +14,13 @@ import DefaultIntroMessage from './messages/default';
 import OffTopicIntroMessage from './messages/off_topic';
 
 type Props = {
-    currentUserId: string;
     channel: Channel;
     fullWidth: boolean;
-    locale: string;
-    channelProfiles: UserProfileRedux[];
-    enableUserCreation?: boolean;
-    isReadOnly?: boolean;
-    teamIsGroupConstrained?: boolean;
-    creatorName: string;
-    teammate?: UserProfileRedux;
-    teammateName?: string;
     stats: any;
     usersLimit: number;
     actions: {
         getTotalUsersStats: () => any;
     };
-    boardComponent?: PluginComponent;
 }
 
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
@@ -47,97 +31,50 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
     }
 
     getIntroMessage = () => {
-        const {
-            currentUserId,
-            channel,
-            creatorName,
-            locale,
-            enableUserCreation,
-            isReadOnly,
-            channelProfiles,
-            teamIsGroupConstrained,
-            teammate,
-            teammateName,
-            stats,
-            usersLimit,
-            boardComponent,
-        } = this.props;
+        const {channel, usersLimit} = this.props;
 
-        if (channel.type === Constants.DM_CHANNEL) {
+        switch (channel.type) {
+        case Constants.DM_CHANNEL:
             return (
-                <DMIntroMessage
-                    channel={channel}
-                    teammate={teammate}
-                    teammateName={teammateName}
-                    boardComponent={boardComponent}
-                />
+                <DMIntroMessage/>
             );
-        }
-
-        if (channel.type === Constants.GM_CHANNEL) {
+        case Constants.GM_CHANNEL:
             return (
-                <GMIntroMessage
-                    channel={channel}
-                    profiles={channelProfiles}
-                    currentUserId={currentUserId}
-                    boardComponent={boardComponent}
-                />
+                <GMIntroMessage/>
             );
-        }
-
-        if (channel.name === Constants.DEFAULT_CHANNEL) {
+        case Constants.DEFAULT_CHANNEL:
             return (
                 <DefaultIntroMessage
-                    channel={channel}
-                    stats={stats}
                     usersLimit={usersLimit}
-                    enableUserCreation={enableUserCreation}
-                    isReadOnly={isReadOnly}
-                    teamIsGroupConstrained={teamIsGroupConstrained}
-                    boardComponent={boardComponent}
                 />
             );
-        }
-
-        if (channel.name === Constants.OFFTOPIC_CHANNEL) {
+        case Constants.OFFTOPIC_CHANNEL:
             return (
                 <OffTopicIntroMessage
-                    channel={channel}
-                    stats={stats}
                     usersLimit={usersLimit}
-                    boardComponent={boardComponent}
                 />
             );
-        }
-
-        if (channel.type === Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL) {
+        case Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL:
             return (
                 <StandardIntroMessage
-                    channel={channel}
-                    stats={stats}
                     usersLimit={usersLimit}
-                    locale={locale}
-                    creatorName={creatorName}
-                    boardComponent={boardComponent}
                 />
             );
+        default:
+            return null;
         }
-        return null;
     }
 
     render() {
-        const introMessage = this.getIntroMessage();
-        const channelIntroId = 'channelIntro';
-
         return (
             <div
-                id={channelIntroId}
+                id={'channelIntro'}
                 className={classNames(
                     'channel-intro ',
                     {'channel-intro--centered': !this.props.fullWidth},
                 )}
             >
-                {introMessage}
+                {this.getIntroMessage()}
             </div>
         );
     }

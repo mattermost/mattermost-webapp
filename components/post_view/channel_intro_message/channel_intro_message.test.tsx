@@ -15,14 +15,8 @@ import {channel, defaultChannel, directChannel, groupChannel, offTopicChannel} f
 describe('components/post_view/ChannelIntroMessages', () => {
     const baseProps = {
         channel,
-        channelProfiles: [],
-        creatorName: 'creatorName',
-        currentUserId: 'test-user-id',
-        enableUserCreation: false,
         fullWidth: true,
-        locale: 'en',
         stats: {},
-        teamIsGroupConstrained: false,
         usersLimit: 10,
         actions: {
             getTotalUsersStats: jest.fn().mockResolvedValue([]),
@@ -68,7 +62,6 @@ describe('components/post_view/ChannelIntroMessages', () => {
                 <ChannelIntroMessage
                     {...baseProps}
                     channel={defaultChannel}
-                    isReadOnly={true}
                 />,
             );
             expect(wrapper.find(DefaultIntroMessage));

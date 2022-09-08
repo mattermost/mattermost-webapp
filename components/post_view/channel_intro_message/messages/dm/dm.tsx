@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {defineMessages, FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
@@ -12,8 +11,8 @@ import {PluginComponent} from 'types/store/plugins';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import UserProfile from 'components/user_profile';
 import * as Utils from 'utils/utils';
-import BoardsButton from '../boards_button';
-import SetHeaderButton from '../set_header_button';
+import BoardsButton from '../../boards_button';
+import SetHeaderButton from '../../set_header_button';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {t} from 'utils/i18n';
 

@@ -4,24 +4,23 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import StandardIntroMessage from './standard';
-import {boardComponent, channel} from './test_utils';
+import {boardComponent, offTopicChannel} from '../test_utils';
+
+import OffTopicIntroMessage from './off_topic';
 
 const component = (otherProps: any) => {
     return (
-        <StandardIntroMessage
-            channel={channel}
-            locale={'en'}
-            creatorName={'creatorName'}
+        <OffTopicIntroMessage
             stats={{}}
             usersLimit={10}
+            channel={offTopicChannel}
             {...otherProps}
         />
     );
 };
 
 describe('components/post_view/ChannelIntroMessages', () => {
-    describe('test Open Channel', () => {
+    describe('test OFF_TOPIC Channel', () => {
         test('should match snapshot, without boards', () => {
             expect(shallow(component({ }))).toMatchSnapshot();
         });

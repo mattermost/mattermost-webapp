@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {boardComponent, groupChannel, users} from './test_utils';
+import {boardComponent, groupChannel, users} from '../test_utils';
 
 import GMIntroMessage from './gm';
 
@@ -12,7 +12,7 @@ const component = (otherProps: any) => {
     return (
         <GMIntroMessage
             currentUserId={'test-user-id'}
-            profiles={[]}
+            channelProfiles={[]}
             channel={groupChannel}
             {...otherProps}
         />
@@ -27,13 +27,13 @@ describe('components/post_view/ChannelIntroMessages', () => {
 
         test('should match snapshot, with profiles, without boards', () => {
             expect(shallow(component({
-                profiles: users,
+                channelProfiles: users,
             }))).toMatchSnapshot();
         });
 
         test('should match snapshot, with profiles, with boards', () => {
             expect(shallow(component({
-                profiles: users,
+                channelProfiles: users,
                 boardComponent,
             }))).toMatchSnapshot();
         });

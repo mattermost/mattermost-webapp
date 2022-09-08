@@ -2,18 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React, {useMemo} from 'react';
-
 import {defineMessages, FormattedDate, FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
-
 import {Channel} from '@mattermost/types/channels';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {PluginComponent} from 'types/store/plugins';
-import AddMembersButton from '../add_members_button';
+import AddMembersButton from '../../add_members_button';
 import {getMonthLong, t} from 'utils/i18n';
-import BoardsButton from '../boards_button';
-import SetHeaderButton from '../set_header_button';
+import BoardsButton from '../../boards_button';
+import SetHeaderButton from '../../set_header_button';
 
 type Props = {
     channel: Channel;
