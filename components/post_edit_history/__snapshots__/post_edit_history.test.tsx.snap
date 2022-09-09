@@ -30,7 +30,7 @@ exports[`components/post_edit_history should match snapshot 1`] = `
         channel_display_name
       </div>
     </Connect(SearchResultsHeader)>
-    <Connect(EditedPostItem)
+    <Connect(Component)
       isCurrent={true}
       post={
         Object {
@@ -60,7 +60,7 @@ exports[`components/post_edit_history should match snapshot 1`] = `
         }
       }
     />
-    <Connect(EditedPostItem)
+    <Connect(Component)
       key="post_id_1"
       post={
         Object {
@@ -90,7 +90,7 @@ exports[`components/post_edit_history should match snapshot 1`] = `
         }
       }
     />
-    <Connect(EditedPostItem)
+    <Connect(Component)
       key="post_id_2"
       post={
         Object {

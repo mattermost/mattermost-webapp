@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
 import {TestHelper} from 'utils/test_helper';
@@ -9,7 +9,7 @@ import {TestHelper} from 'utils/test_helper';
 import PostEditHistory from './post_edit_history';
 
 describe('components/post_edit_history', () => {
-    const baseProps = {
+    const baseProps: ComponentProps<typeof PostEditHistory> = {
         channelDisplayName: 'channel_display_name',
         originalPost: TestHelper.getPostMock({
             id: 'post_id',
@@ -24,7 +24,9 @@ describe('components/post_edit_history', () => {
                 id: 'post_id_2',
                 message: 'post message version 2',
             }),
-        ]};
+        ],
+        dispatch: jest.fn(),
+    };
 
     test('should match snapshot', () => {
         const wrapper = shallow(
