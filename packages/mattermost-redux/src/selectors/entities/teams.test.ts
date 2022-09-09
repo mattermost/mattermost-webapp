@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import assert from 'assert';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import deepFreezeAndThrowOnMutation from 'mattermost-redux/utils/deep_freeze';
-import TestHelper from 'mattermost-redux/test/test_helper';
+import TestHelper from '../../../test/test_helper';
 import * as Selectors from 'mattermost-redux/selectors/entities/teams';
 import {General} from 'mattermost-redux/constants';
+import {GlobalState} from '@mattermost/types/store';
 
 describe('Selectors.Teams', () => {
     TestHelper.initMockEntities();
@@ -16,7 +18,7 @@ describe('Selectors.Teams', () => {
     const team4 = TestHelper.fakeTeamWithId();
     const team5 = TestHelper.fakeTeamWithId();
 
-    const teams = {};
+    const teams: Record<string, Team> = {};
     teams[team1.id] = team1;
     teams[team2.id] = team2;
     teams[team3.id] = team3;
@@ -35,20 +37,20 @@ describe('Selectors.Teams', () => {
     const user = TestHelper.fakeUserWithId();
     const user2 = TestHelper.fakeUserWithId();
     const user3 = TestHelper.fakeUserWithId();
-    const profiles = {};
+    const profiles: Record<string, UserProfile> = {};
     profiles[user.id] = user;
     profiles[user2.id] = user2;
     profiles[user3.id] = user3;
 
-    const myMembers = {};
-    myMembers[team1.id] = {team_id: team1.id, user_id: user.id, roles: General.TEAM_USER_ROLE, mention_count: 1};
-    myMembers[team2.id] = {team_id: team2.id, user_id: user.id, roles: General.TEAM_USER_ROLE, mention_count: 3};
-    myMembers[team5.id] = {team_id: team5.id, user_id: user.id, roles: General.TEAM_USER_ROLE, mention_count: 0};
+    const myMembers: Record<string, TeamMembership> = {};
+    myMembers[team1.id] = {team_id: team1.id, user_id: user.id, roles: General.TEAM_USER_ROLE, mention_count: 1} as TeamMembership;
+    myMembers[team2.id] = {team_id: team2.id, user_id: user.id, roles: General.TEAM_USER_ROLE, mention_count: 3} as TeamMembership;
+    myMembers[team5.id] = {team_id: team5.id, user_id: user.id, roles: General.TEAM_USER_ROLE, mention_count: 0} as TeamMembership;
 
-    const membersInTeam = {};
-    membersInTeam[team1.id] = {};
-    membersInTeam[team1.id][user2.id] = {team_id: team1.id, user_id: user2.id, roles: General.TEAM_USER_ROLE};
-    membersInTeam[team1.id][user3.id] = {team_id: team1.id, user_id: user3.id, roles: General.TEAM_USER_ROLE};
+    const membersInTeam: Record<string, Record<string, TeamMembership>> = {};
+    membersInTeam[team1.id] = {} as Record<string, TeamMembership>;
+    membersInTeam[team1.id][user2.id] = {team_id: team1.id, user_id: user2.id, roles: General.TEAM_USER_ROLE} as TeamMembership;
+    membersInTeam[team1.id][user3.id] = {team_id: team1.id, user_id: user3.id, roles: General.TEAM_USER_ROLE} as TeamMembership;
 
     const testState = deepFreezeAndThrowOnMutation({
         entities: {
@@ -75,47 +77,47 @@ describe('Selectors.Teams', () => {
     });
 
     it('getTeamsList', () => {
-        assert.deepEqual(Selectors.getTeamsList(testState), [team1, team2, team3, team4, team5]);
+        expect(Selectors.getTeamsList(testState)).toEqual([team1, team2, team3, team4, team5]);
     });
 
     it('getMyTeams', () => {
-        assert.deepEqual(Selectors.getMyTeams(testState), [team1, team2]);
+        expect(Selectors.getMyTeams(testState)).toEqual([team1, team2]);
     });
 
     it('getMembersInCurrentTeam', () => {
-        assert.deepEqual(Selectors.getMembersInCurrentTeam(testState), membersInTeam[team1.id]);
+        expect(Selectors.getMembersInCurrentTeam(testState)).toEqual(membersInTeam[team1.id]);
     });
 
     it('getTeamMember', () => {
-        assert.deepEqual(Selectors.getTeamMember(testState, team1.id, user2.id), membersInTeam[team1.id][user2.id]);
+        expect(Selectors.getTeamMember(testState, team1.id, user2.id)).toEqual(membersInTeam[team1.id][user2.id]);
     });
 
     it('getJoinableTeams', () => {
         const openTeams = [team3, team4];
         const joinableTeams = Selectors.getJoinableTeams(testState);
-        assert.strictEqual(joinableTeams[0], openTeams[0]);
-        assert.strictEqual(joinableTeams[1], openTeams[1]);
+        expect(joinableTeams[0]).toBe(openTeams[0]);
+        expect(joinableTeams[1]).toBe(openTeams[1]);
     });
 
     it('getSortedJoinableTeams', () => {
         const openTeams = [team4, team3];
-        const joinableTeams = Selectors.getSortedJoinableTeams(testState);
-        assert.strictEqual(joinableTeams[0], openTeams[0]);
-        assert.strictEqual(joinableTeams[1], openTeams[1]);
+        const joinableTeams = Selectors.getSortedJoinableTeams(testState, 'en');
+        expect(joinableTeams[0]).toBe(openTeams[0]);
+        expect(joinableTeams[1]).toBe(openTeams[1]);
     });
 
     it('getListableTeams', () => {
         const openTeams = [team3, team4];
         const listableTeams = Selectors.getListableTeams(testState);
-        assert.strictEqual(listableTeams[0], openTeams[0]);
-        assert.strictEqual(listableTeams[1], openTeams[1]);
+        expect(listableTeams[0]).toBe(openTeams[0]);
+        expect(listableTeams[1]).toBe(openTeams[1]);
     });
 
     it('getListedJoinableTeams', () => {
         const openTeams = [team4, team3];
-        const joinableTeams = Selectors.getSortedListableTeams(testState);
-        assert.strictEqual(joinableTeams[0], openTeams[0]);
-        assert.strictEqual(joinableTeams[1], openTeams[1]);
+        const joinableTeams = Selectors.getSortedListableTeams(testState, 'en');
+        expect(joinableTeams[0]).toBe(openTeams[0]);
+        expect(joinableTeams[1]).toBe(openTeams[1]);
     });
 
     it('getJoinableTeamsUsingPermissions', () => {
@@ -140,10 +142,10 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
+        } as GlobalState;
         let joinableTeams = Selectors.getJoinableTeams(modifiedState);
-        assert.strictEqual(joinableTeams[0], privateTeams[0]);
-        assert.strictEqual(joinableTeams[1], privateTeams[1]);
+        expect(joinableTeams[0]).toBe(privateTeams[0]);
+        expect(joinableTeams[1]).toBe(privateTeams[1]);
 
         modifiedState = {
             entities: {
@@ -163,10 +165,10 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
+        } as GlobalState;
         joinableTeams = Selectors.getJoinableTeams(modifiedState);
-        assert.strictEqual(joinableTeams[0], openTeams[0]);
-        assert.strictEqual(joinableTeams[1], openTeams[1]);
+        expect(joinableTeams[0]).toBe(openTeams[0]);
+        expect(joinableTeams[1]).toBe(openTeams[1]);
 
         modifiedState = {
             entities: {
@@ -186,12 +188,12 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
+        } as GlobalState;
         joinableTeams = Selectors.getJoinableTeams(modifiedState);
-        assert.strictEqual(joinableTeams[0], privateTeams[0]);
-        assert.strictEqual(joinableTeams[1], privateTeams[1]);
-        assert.strictEqual(joinableTeams[2], openTeams[0]);
-        assert.strictEqual(joinableTeams[3], openTeams[1]);
+        expect(joinableTeams[0]).toBe(privateTeams[0]);
+        expect(joinableTeams[1]).toBe(privateTeams[1]);
+        expect(joinableTeams[2]).toBe(openTeams[0]);
+        expect(joinableTeams[3]).toBe(openTeams[1]);
     });
 
     it('getSortedJoinableTeamsUsingPermissions', () => {
@@ -216,12 +218,12 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
-        const joinableTeams = Selectors.getSortedJoinableTeams(modifiedState);
-        assert.strictEqual(joinableTeams[0], openTeams[0]);
-        assert.strictEqual(joinableTeams[1], privateTeams[0]);
-        assert.strictEqual(joinableTeams[2], privateTeams[1]);
-        assert.strictEqual(joinableTeams[3], openTeams[1]);
+        } as GlobalState;
+        const joinableTeams = Selectors.getSortedJoinableTeams(modifiedState, 'en');
+        expect(joinableTeams[0]).toBe(openTeams[0]);
+        expect(joinableTeams[1]).toBe(privateTeams[0]);
+        expect(joinableTeams[2]).toBe(privateTeams[1]);
+        expect(joinableTeams[3]).toBe(openTeams[1]);
     });
 
     it('getListableTeamsUsingPermissions', () => {
@@ -246,10 +248,10 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
+        } as GlobalState;
         let listableTeams = Selectors.getListableTeams(modifiedState);
-        assert.strictEqual(listableTeams[0], privateTeams[0]);
-        assert.strictEqual(listableTeams[1], privateTeams[1]);
+        expect(listableTeams[0]).toBe(privateTeams[0]);
+        expect(listableTeams[1]).toBe(privateTeams[1]);
 
         modifiedState = {
             entities: {
@@ -269,10 +271,10 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
+        } as GlobalState;
         listableTeams = Selectors.getListableTeams(modifiedState);
-        assert.strictEqual(listableTeams[0], openTeams[0]);
-        assert.strictEqual(listableTeams[1], openTeams[1]);
+        expect(listableTeams[0]).toBe(openTeams[0]);
+        expect(listableTeams[1]).toBe(openTeams[1]);
 
         modifiedState = {
             entities: {
@@ -292,12 +294,12 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
+        } as GlobalState;
         listableTeams = Selectors.getListableTeams(modifiedState);
-        assert.strictEqual(listableTeams[0], privateTeams[0]);
-        assert.strictEqual(listableTeams[1], privateTeams[1]);
-        assert.strictEqual(listableTeams[2], openTeams[0]);
-        assert.strictEqual(listableTeams[3], openTeams[1]);
+        expect(listableTeams[0]).toBe(privateTeams[0]);
+        expect(listableTeams[1]).toBe(privateTeams[1]);
+        expect(listableTeams[2]).toBe(openTeams[0]);
+        expect(listableTeams[3]).toBe(openTeams[1]);
     });
 
     it('getSortedListableTeamsUsingPermissions', () => {
@@ -322,20 +324,20 @@ describe('Selectors.Teams', () => {
                     serverVersion: '5.10.0',
                 },
             },
-        };
-        const listableTeams = Selectors.getSortedListableTeams(modifiedState);
-        assert.strictEqual(listableTeams[0], openTeams[0]);
-        assert.strictEqual(listableTeams[1], privateTeams[0]);
-        assert.strictEqual(listableTeams[2], privateTeams[1]);
-        assert.strictEqual(listableTeams[3], openTeams[1]);
+        } as GlobalState;
+        const listableTeams = Selectors.getSortedListableTeams(modifiedState, 'en');
+        expect(listableTeams[0]).toBe(openTeams[0]);
+        expect(listableTeams[1]).toBe(privateTeams[0]);
+        expect(listableTeams[2]).toBe(privateTeams[1]);
+        expect(listableTeams[3]).toBe(openTeams[1]);
     });
 
     it('isCurrentUserCurrentTeamAdmin', () => {
-        assert.deepEqual(Selectors.isCurrentUserCurrentTeamAdmin(testState), false);
+        expect(Selectors.isCurrentUserCurrentTeamAdmin(testState)).toEqual(false);
     });
 
     it('getMyTeamMember', () => {
-        assert.deepEqual(Selectors.getMyTeamMember(testState, team1.id), myMembers[team1.id]);
+        expect(Selectors.getMyTeamMember(testState, team1.id)).toEqual(myMembers[team1.id]);
     });
 
     it('getTeam', () => {
@@ -358,7 +360,7 @@ describe('Selectors.Teams', () => {
 
         const fromOriginalState = Selectors.getTeam(testState, team1.id);
         const fromModifiedState = Selectors.getTeam(modifiedState, team1.id);
-        assert.ok(fromOriginalState === fromModifiedState);
+        expect(fromOriginalState).toEqual(fromModifiedState);
     });
 
     it('getJoinableTeamIds', () => {
@@ -381,7 +383,7 @@ describe('Selectors.Teams', () => {
 
         const fromOriginalState = Selectors.getJoinableTeamIds(testState);
         const fromModifiedState = Selectors.getJoinableTeamIds(modifiedState);
-        assert.ok(fromOriginalState === fromModifiedState);
+        expect(fromOriginalState).toEqual(fromModifiedState);
     });
 
     it('getMySortedTeamIds', () => {
@@ -419,15 +421,15 @@ describe('Selectors.Teams', () => {
             },
         };
 
-        const fromOriginalState = Selectors.getMySortedTeamIds(testState);
-        const fromModifiedState = Selectors.getMySortedTeamIds(modifiedState);
-        const fromUpdateState = Selectors.getMySortedTeamIds(updateState);
+        const fromOriginalState = Selectors.getMySortedTeamIds(testState, 'en');
+        const fromModifiedState = Selectors.getMySortedTeamIds(modifiedState, 'en');
+        const fromUpdateState = Selectors.getMySortedTeamIds(updateState, 'en');
 
-        assert.ok(fromOriginalState === fromModifiedState);
-        assert.ok(fromModifiedState[0] === team2.id);
+        expect(fromOriginalState).toEqual(fromModifiedState);
+        expect(fromModifiedState[0]).toEqual(team2.id);
 
-        assert.ok(fromModifiedState !== fromUpdateState);
-        assert.ok(fromUpdateState[0] === team1.id);
+        expect(fromModifiedState).not.toEqual(fromUpdateState);
+        expect(fromUpdateState[0]).toEqual(team1.id);
     });
 
     it('getMyTeamsCount', () => {
@@ -466,16 +468,16 @@ describe('Selectors.Teams', () => {
         const fromModifiedState = Selectors.getMyTeamsCount(modifiedState);
         const fromUpdateState = Selectors.getMyTeamsCount(updateState);
 
-        assert.ok(fromOriginalState === fromModifiedState);
-        assert.ok(fromModifiedState === 2);
+        expect(fromOriginalState).toEqual(fromModifiedState);
+        expect(fromModifiedState).toEqual(2);
 
-        assert.ok(fromModifiedState !== fromUpdateState);
-        assert.ok(fromUpdateState === 3);
+        expect(fromModifiedState).not.toEqual(fromUpdateState);
+        expect(fromUpdateState).toEqual(3);
     });
 
     it('getChannelDrawerBadgeCount', () => {
         const mentions = Selectors.getChannelDrawerBadgeCount(testState);
-        assert.ok(mentions === 3);
+        expect(mentions).toEqual(3);
     });
 
     it('getTeamMentions', () => {
@@ -484,19 +486,19 @@ describe('Selectors.Teams', () => {
         const factory3 = Selectors.makeGetBadgeCountForTeamId();
 
         const mentions1 = factory1(testState, team1.id);
-        assert.ok(mentions1 === 1);
+        expect(mentions1).toEqual(1);
 
         const mentions2 = factory2(testState, team2.id);
-        assert.ok(mentions2 === 3);
+        expect(mentions2).toEqual(3);
 
         // Not a member of the team
         const mentions3 = factory3(testState, team3.id);
-        assert.ok(mentions3 === 0);
+        expect(mentions3).toEqual(0);
     });
 
     it('getCurrentRelativeTeamUrl', () => {
-        assert.deepEqual(Selectors.getCurrentRelativeTeamUrl(testState), '/' + team1.name);
-        assert.deepEqual(Selectors.getCurrentRelativeTeamUrl({entities: {teams: {teams: {}}}}), '/');
+        expect(Selectors.getCurrentRelativeTeamUrl(testState)).toEqual('/' + team1.name);
+        expect(Selectors.getCurrentRelativeTeamUrl({entities: {teams: {teams: {}}}} as GlobalState)).toEqual('/');
     });
 
     it('getCurrentTeamUrl', () => {
@@ -514,7 +516,7 @@ describe('Selectors.Teams', () => {
             },
         };
         withSiteURLState.entities.general = general;
-        assert.deepEqual(Selectors.getCurrentTeamUrl(withSiteURLState), siteURL + '/' + team1.name);
+        expect(Selectors.getCurrentTeamUrl(withSiteURLState)).toEqual(siteURL + '/' + team1.name);
 
         const credentialURL = 'http://localhost:8065';
         const withCredentialURLState = {
@@ -527,7 +529,7 @@ describe('Selectors.Teams', () => {
                 },
             },
         };
-        assert.deepEqual(Selectors.getCurrentTeamUrl(withCredentialURLState), credentialURL + '/' + team1.name);
+        expect(Selectors.getCurrentTeamUrl(withCredentialURLState)).toEqual(credentialURL + '/' + team1.name);
     });
 
     it('getCurrentTeamUrl with falsy currentTeam', () => {
@@ -550,7 +552,7 @@ describe('Selectors.Teams', () => {
                 },
             };
             withSiteURLState.entities.general = general;
-            assert.deepEqual(Selectors.getCurrentTeamUrl(withSiteURLState), siteURL);
+            expect(Selectors.getCurrentTeamUrl(withSiteURLState)).toEqual(siteURL);
 
             const credentialURL = 'http://localhost:8065';
             const withCredentialURLState = {
@@ -563,7 +565,7 @@ describe('Selectors.Teams', () => {
                     },
                 },
             };
-            assert.deepEqual(Selectors.getCurrentTeamUrl(withCredentialURLState), credentialURL);
+            expect(Selectors.getCurrentTeamUrl(withCredentialURLState)).toEqual(credentialURL);
         });
     });
 });
