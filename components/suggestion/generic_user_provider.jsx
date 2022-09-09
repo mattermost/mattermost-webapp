@@ -57,8 +57,8 @@ class UserSuggestion extends Suggestion {
                         {description}
                     </span>
                 </div>
-                <BotTag show={Boolean(item.is_bot)}/>
-                <GuestTag show={isGuest(item.roles)}/>
+                {item.is_bot && <BotTag/>}
+                {isGuest(item.roles) && <GuestTag/>}
             </div>
         );
     }

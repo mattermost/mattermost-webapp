@@ -163,18 +163,11 @@ class SwitchChannelSuggestion extends Suggestion {
         let tag = null;
         let customStatus = null;
         if (channel.type === Constants.DM_CHANNEL) {
-            tag = (
-                <React.Fragment>
-                    <BotTag
-                        show={Boolean(teammate && teammate.is_bot)}
-                        className='badge-autocomplete'
-                    />
-                    <GuestTag
-                        show={Boolean(teammate && isGuest(teammate.roles))}
-                        className='badge-autocomplete'
-                    />
-                </React.Fragment>
-            );
+            if (teammate && teammate.is_bot) {
+                tag = <BotTag className='badge-autocomplete'/>;
+            } else if (isGuest(teammate ? teammate.roles : '')) {
+                tag = <GuestTag className='badge-autocomplete'/>;
+            }
 
             customStatus = (
                 <CustomStatusEmoji

@@ -61,10 +61,7 @@ class SearchUserSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {'@'}{username}
                     </span>
-                    <BotTag
-                        show={Boolean(item.is_bot)}
-                        className='badge-autocomplete'
-                    />
+                    {item.is_bot && <BotTag className='badge-autocomplete'/>}
                     <span className='ml-2'>
                         {description}
                     </span>

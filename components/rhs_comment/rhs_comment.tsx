@@ -432,7 +432,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                     />
                 );
 
-                botIndicator = (<BotTag className='col col__name'/>);
+                botIndicator = <BotTag className='col col__name'/>;
             } else if (fromAutoResponder) {
                 userProfile = (
                     <span className='auto-responder'>

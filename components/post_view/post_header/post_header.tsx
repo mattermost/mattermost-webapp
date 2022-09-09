@@ -130,7 +130,7 @@ export default class PostHeader extends React.PureComponent<Props> {
             }
 
             if (!this.props.isBot) {
-                indicator = (<BotTag/>);
+                indicator = <BotTag/>;
             }
         } else if (fromAutoResponder) {
             userProfile = (

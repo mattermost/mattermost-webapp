@@ -23,6 +23,7 @@ type TagWrapperProps = Pick<Props, 'capitalize' | 'size'>;
 
 const TagWrapper = styled.div<TagWrapperProps>`
     --tag-bg: var(--semantic-color-general);
+    --tag-bg-opacity: 0.08;
     --tag-color: var(--semantic-color-general);
 
     appearance: none;
@@ -30,6 +31,7 @@ const TagWrapper = styled.div<TagWrapperProps>`
     display: inline-flex;
     align-items: center;
     align-content: center;
+    align-self: center;
     margin: 0 0 0 4px;
     ${({size}) => (size === 'xs' ? css`padding: 1px 4px;` : css`padding: 2px 5px;`)}
     gap: 4px;
@@ -43,27 +45,34 @@ const TagWrapper = styled.div<TagWrapperProps>`
     ${({size}) => (size === 'xs' ? css`font-size: 10px;` : css`font-size: 12px;`)}
     ${({capitalize}) => (capitalize ? css`text-transform: uppercase;` : css`text-transform: none;`)}
 
+    &.info,
+    &.success,
+    &.warning,
+    &.danger {
+        --tag-bg-opacity: 1;
+    }
+
     &.info {
         --tag-bg: var(--semantic-color-info);
-        --tag-color: #fff;
+        --tag-color: 255 255 255;
     }
 
     &.success {
         --tag-bg: var(--semantic-color-success);
-        --tag-color: #fff;
+        --tag-color: 255 255 255;
     }
 
     &.warning {
         --tag-bg: var(--semantic-color-warning);
-        --tag-color: #fff;
+        --tag-color: 255 255 255;
     }
 
     &.danger {
         --tag-bg: var(--semantic-color-danger);
-        --tag-color: #fff;
+        --tag-color: 255 255 255;
     }
 
-    background: rgba(var(--tag-bg), 0.08);
+    background: rgba(var(--tag-bg), var(--tag-bg-opacity));
     color: rgb(var(--tag-color));
 
     ${({onClick}) => typeof onClick === 'function' && (

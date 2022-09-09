@@ -467,7 +467,7 @@ export default class SearchResultsItem extends React.PureComponent {
                                         disablePopover={disableProfilePopover}
                                         isRHS={true}
                                     />
-                                    <BotTag show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
+                                    {post.props && post.props.from_webhook && !this.props.isBot && <BotTag/>}
                                 </div>
                                 <div className='col'>
                                     {this.renderPostTime()}
