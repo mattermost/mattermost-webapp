@@ -180,6 +180,7 @@ type Props = {
     useCustomGroupMentions: boolean;
     emojiMap: EmojiMap;
     isFormattingBarHidden: boolean;
+    isCRTEnabled: boolean;
 }
 
 type State = {
@@ -1098,6 +1099,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     getFileUploadTarget={this.getFileUploadTarget}
                     fileUploadRef={this.fileUploadRef}
                     isThreadView={this.props.isThreadView}
+                    isCRTEnabled={this.props.isCRTEnabled}
                 />
             </form>
         );

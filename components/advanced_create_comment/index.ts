@@ -16,7 +16,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, isCollapsedThreadsEnabled, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getAllChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
 import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
 import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/actions/posts';
@@ -66,6 +66,8 @@ function makeMapStateToProps() {
         const channelMembersCount = getAllChannelStats(state)[ownProps.channelId] ? getAllChannelStats(state)[ownProps.channelId].member_count : 1;
         const messageInHistory = getMessageInHistoryItem(state);
 
+        const isCRTEnabled = isCollapsedThreadsEnabled(state);
+
         const channel = state.entities.channels.channels[ownProps.channelId] || {};
 
         const config = getConfig(state);
@@ -112,6 +114,7 @@ function makeMapStateToProps() {
             useCustomGroupMentions,
             emojiMap: getEmojiMap(state),
             canUploadFiles: canUploadFiles(config),
+            isCRTEnabled,
         };
     };
 }

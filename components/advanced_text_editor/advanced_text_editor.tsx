@@ -12,7 +12,8 @@ import {ServerError} from '@mattermost/types/errors';
 import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
 
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
+import BroadcastThreadReply from 'components/crt_broadcast_thread_reply';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
@@ -96,6 +97,7 @@ type Props = {
     isThreadView?: boolean;
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
+    isCRTEnabled?: boolean;
 }
 
 const AdvanceTextEditor = ({
@@ -151,6 +153,7 @@ const AdvanceTextEditor = ({
     isThreadView,
     additionalControls,
     labels,
+    isCRTEnabled,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -469,6 +472,10 @@ const AdvanceTextEditor = ({
             >
                 {postError && <label className={classNames('post-error', {errorClass})}>{postError}</label>}
                 {serverErrorJsx}
+                {location === Locations.RHS_COMMENT && isCRTEnabled &&
+                    <BroadcastThreadReply
+                        channelId={channelId}
+                    />}
                 <MsgTyping
                     channelId={channelId}
                     postId={postId}
