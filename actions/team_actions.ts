@@ -1,19 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Team} from '@mattermost/types/teams';
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile} from '@mattermost/types/users';
+
 import {TeamTypes} from 'mattermost-redux/action_types';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import * as TeamActions from 'mattermost-redux/actions/teams';
-import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 import {getUser} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {selectTeam} from 'mattermost-redux/actions/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
 import {browserHistory} from 'utils/browser_history';
 import {Preferences} from 'utils/constants';
-import {selectTeam} from 'mattermost-redux/actions/teams';
 
-export function removeUserFromTeamAndGetStats(teamId, userId) {
+export function removeUserFromTeamAndGetStats(teamId: Team['id'], userId: UserProfile['id']): ActionFunc {
     return async (dispatch, getState) => {
         const response = await dispatch(TeamActions.removeUserFromTeam(teamId, userId));
         dispatch(getUser(userId));
@@ -23,7 +28,7 @@ export function removeUserFromTeamAndGetStats(teamId, userId) {
     };
 }
 
-export function addUserToTeamFromInvite(token, inviteId) {
+export function addUserToTeamFromInvite(token: string, inviteId: string): ActionFunc {
     return async (dispatch) => {
         const {data: member, error} = await dispatch(TeamActions.addUserToTeamFromInvite(token, inviteId));
         if (member) {
@@ -45,7 +50,7 @@ export function addUserToTeamFromInvite(token, inviteId) {
     };
 }
 
-export function addUserToTeam(teamId, userId) {
+export function addUserToTeam(teamId: Team['id'], userId: UserProfile['id']): ActionFunc<Team, ServerError> {
     return async (dispatch) => {
         const {data: member, error} = await dispatch(TeamActions.addUserToTeam(teamId, userId));
         if (member) {
@@ -67,7 +72,7 @@ export function addUserToTeam(teamId, userId) {
     };
 }
 
-export function addUsersToTeam(teamId, userIds) {
+export function addUsersToTeam(teamId: Team['id'], userIds: Array<UserProfile['id']>): ActionFunc {
     return async (dispatch, getState) => {
         const {data, error} = await dispatch(TeamActions.addUsersToTeamGracefully(teamId, userIds));
 
@@ -81,8 +86,8 @@ export function addUsersToTeam(teamId, userIds) {
     };
 }
 
-export function switchTeam(url, team) {
-    return (dispatch) => {
+export function switchTeam(url: string, team?: Team) {
+    return (dispatch: DispatchFunc) => {
         // In Channels, the team argument is undefined, and team switching is done by pushing a URL onto history.
         // In other products, a team is passed instead of a URL because the current team isn't tied to the page URL.
         //
@@ -96,8 +101,8 @@ export function switchTeam(url, team) {
     };
 }
 
-export function updateTeamsOrderForUser(teamIds) {
-    return async (dispatch, getState) => {
+export function updateTeamsOrderForUser(teamIds: Array<Team['id']>) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
         const teamOrderPreferences = [{
