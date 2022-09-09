@@ -22,24 +22,19 @@ import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import UserProfileComponent from 'components/user_profile';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
-import {ModalData} from 'types/actions';
+
 import RestorePostModal from '../restore_post_modal';
+
+import {PropsFromRedux} from '.';
 
 const DATE_RANGES = [
     RelativeRanges.TODAY_TITLE_CASE,
     RelativeRanges.YESTERDAY_TITLE_CASE,
 ];
 
-export type Props = {
+export type Props = PropsFromRedux & {
     post: Post;
     isCurrent?: boolean;
-    originalPost: Post;
-    actions: {
-        editPost: (post: Post) => Promise<{data: Post}>;
-        closeRightHandSide: () => void;
-        openModal: <P>(modalData: ModalData<P>) => void;
-        closeModal: (modalId: string) => void;
-    };
 }
 
 const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props) => {

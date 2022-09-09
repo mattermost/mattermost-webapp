@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -24,4 +24,8 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-export default connect(mapStateToProps)(PostEditHistory);
+const connector = connect(mapStateToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(PostEditHistory);

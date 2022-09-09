@@ -5,8 +5,6 @@ import React, {memo, useEffect, useRef} from 'react';
 import {useIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {Post} from '@mattermost/types/posts';
-
 import {t} from 'utils/i18n';
 import SearchResultsHeader from 'components/search_results_header';
 
@@ -14,12 +12,9 @@ import LoadingScreen from 'components/loading_screen';
 
 import EditedPostItem from './edited_post_item';
 
+import {PropsFromRedux} from '.';
+
 // todo sinan postEditHistory should be empty array when other message is selected
-export interface Props {
-    channelDisplayName: string;
-    originalPost: Post;
-    postEditHistory?: Post[];
-}
 
 const renderView = (props: Record<string, unknown>): JSX.Element => (
     <div
@@ -46,7 +41,7 @@ const PostEditHistory = ({
     channelDisplayName,
     originalPost,
     postEditHistory,
-}: Props) => {
+}: PropsFromRedux) => {
     const scrollbars = useRef<Scrollbars | null>(null);
     const {formatMessage} = useIntl();
 
@@ -82,11 +77,11 @@ const PostEditHistory = ({
         );
     }
 
-    const postEditItems = postEditHistory.map((postEdit) => {
+    const postEditItems = postEditHistory.map((postEdited) => {
         return (
             <EditedPostItem
-                key={postEdit.id}
-                post={postEdit}
+                key={postEdited.id}
+                post={postEdited}
             />);
     });
 
