@@ -30,7 +30,13 @@ import {ServerError} from '@mattermost/types/errors';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import Preferences from 'mattermost-redux/constants/preferences';
-import {attachBoardToChannel, createBoardFromTemplate, createEmptyBoard, getBoardsTemplates, setNewChannelWithBoardPreference} from 'mattermost-redux/actions/boards';
+import {
+    attachBoardToChannel,
+    createBoardFromTemplate,
+    createEmptyBoard,
+    getBoardsTemplates,
+    setNewChannelWithBoardPreference,
+} from 'mattermost-redux/actions/boards';
 import {sendGenericPostMessage} from 'actions/global_actions';
 
 import {GlobalState} from 'types/store';
@@ -479,7 +485,7 @@ const NewChannelModal = () => {
                                                     onClick={() => setSelectedBoardTemplate(boardTemplate)}
                                                     icon={boardTemplate.icon || <i className='icon icon-product-boards'/>}
                                                     text={boardTemplate.title || ''}
-                                                    extraText={boardTemplate.description ? `${boardTemplate.description.length < 70 ? boardTemplate.description : boardTemplate.description.substring(0, 70)} …` : ' '}
+                                                    extraText={boardTemplate.description ? `${boardTemplate.description.length < 70 ? boardTemplate.description : boardTemplate.description.substring(0, 70) + '…'}` : ' '}
                                                     key={boardTemplate.id}
                                                 />
                                             );
