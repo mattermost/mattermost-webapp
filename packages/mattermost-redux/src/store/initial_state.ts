@@ -145,9 +145,25 @@ const state: GlobalState = {
             pending: new Set(),
         },
         gifs: {
+            app: {
+                appClassName: '',
+                appId: '',
+                appName: '',
+                basePath: '',
+                enableHistory: false,
+                header: {
+                    tabs: [],
+                    displayText: false,
+                },
+                itemTapType: 0,
+                shareEvent: '',
+            },
             categories: {
                 tagsList: [],
                 tagsDict: {},
+                cursor: '',
+                hasMore: false,
+                isFetching: false,
             },
             cache: {
                 gifs: {},

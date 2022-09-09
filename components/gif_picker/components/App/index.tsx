@@ -1,36 +1,35 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
+import React, {PureComponent, ReactNode} from 'react';
 import {connect} from 'react-redux';
 
 import {saveAppProps} from 'mattermost-redux/actions/gifs';
 
 import Header from 'components/gif_picker/components/Header';
+import {appProps} from 'components/gif_picker/gif_picker';
 
 const mapDispatchToProps = ({
     saveAppProps,
 });
 
-export class App extends PureComponent {
-    static propTypes = {
-        appProps: PropTypes.object,
-        action: PropTypes.string,
-        onCategories: PropTypes.func,
-        onSearch: PropTypes.func,
-        onTrending: PropTypes.func,
-        children: PropTypes.object,
-        saveAppProps: PropTypes.func,
-        authenticateSdk: PropTypes.func,
-        defaultSearchText: PropTypes.string,
-        handleSearchTextChange: PropTypes.func.isRequired,
-    }
+type Props = {
+    appProps: typeof appProps;
+    action: string;
+    onCategories: () => void;
+    onSearch?: () => void;
+    onTrending: () => void;
+    children?: ReactNode;
+    saveAppProps?: (appProps: Props['appProps']) => void;
+    defaultSearchText?: string;
+    handleSearchTextChange: (text: string) => void;
+}
 
-    constructor(props) {
+export class App extends PureComponent<Props> {
+    constructor(props: Props) {
         super(props);
         const {appProps} = this.props;
-        this.props.saveAppProps(appProps);
+        this.props.saveAppProps?.(appProps);
     }
 
     render() {
