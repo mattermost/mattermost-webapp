@@ -45,7 +45,7 @@ describe('components/WelcomePostRenderer', () => {
 
     } as unknown as GlobalState;
 
-    test('should should display a help and settings button for users', () => {
+    test('should display a help and settings button for users', () => {
         const store = mockStore({...initialStore});
         const wrapper = mount(
             <Provider store={store.store}>
@@ -68,7 +68,7 @@ describe('components/WelcomePostRenderer', () => {
         expect(found).toBe(2);
     });
 
-    test('should should display a help and marketplace button for admin', () => {
+    test('should display a help and marketplace button for admin', () => {
         const store = mockStore({
             ...initialStore,
             entities: {

@@ -2,15 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+
 import {useIntl} from 'react-intl';
 
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Post} from '@mattermost/types/posts';
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
-import PostMarkdown from 'components/post_markdown';
 import {submitCommand} from 'actions/views/create_comment';
+import PostMarkdown from 'components/post_markdown';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+
 import {PostDraft} from 'types/store/draft';
 import {localizeMessage} from 'utils/utils';
 
@@ -54,7 +56,7 @@ export default function WelcomePostRenderer(props: {post: Post}) {
 
     if (isAdmin) {
         message = [
-            '### ' + localizeMessage('welcome_post_renderer.admin_message.title', 'Welcome to Mattermost! 🚀'),
+            '### ' + localizeMessage('welcome_post_renderer.admin_message.title', 'Welcome to Mattermost! :rocket:'),
             '',
             localizeMessage('welcome_post_renderer.admin_message.first_paragraph', 'Mattermost is an open source platform for secure communication, collaboration, and orchestration of work across tools and teams.'),
             localizeMessage('welcome_post_renderer.admin_message.second_paragraph', 'Here is a list of commands to use to try and get familiar with the platform.'),
@@ -64,10 +66,9 @@ export default function WelcomePostRenderer(props: {post: Post}) {
             id: 'welcome_post_renderer.button_label.slash_marketplace',
             defaultMessage: '/marketplace',
         }), '/marketplace'));
-        actions.push(helpButton);
     } else {
         message = [
-            '### ' + localizeMessage('welcome_post_renderer.user_message.title', 'Welcome to Mattermost! 🚀'),
+            '### ' + localizeMessage('welcome_post_renderer.user_message.title', 'Welcome to Mattermost! :rocket:'),
             '',
             localizeMessage('welcome_post_renderer.user_message.first_paragraph', 'Mattermost is an open source platform for secure communication, collaboration, and orchestration of work across tools and teams.'),
             localizeMessage('welcome_post_renderer.user_message.second_paragraph', 'Here is a list of commands to use to try and get familiar with the platform.'),
@@ -77,8 +78,8 @@ export default function WelcomePostRenderer(props: {post: Post}) {
             id: 'welcome_post_renderer.button_label.slash_settings',
             defaultMessage: '/settings',
         }), '/settings'));
-        actions.push(helpButton);
     }
+    actions.push(helpButton);
 
     return (
         <div className='WelcomePostRenderer'>
