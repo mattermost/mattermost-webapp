@@ -1,0 +1,53 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/ChannelIntroMessages test Set Header Button should match snapshot 1`] = `
+<Connect(ChannelPermissionGate)
+  channelId="channel_id"
+  permissions={
+    Array [
+      "manage_public_channel_properties",
+    ]
+  }
+  teamId="team-id"
+>
+  <Connect(ToggleModalButton)
+    aria-label="Set a Header"
+    className="intro-links color--link channelIntroButton"
+    dialogProps={
+      Object {
+        "channel": Object {
+          "create_at": 1508265709607,
+          "creator_id": "creator_id",
+          "delete_at": 0,
+          "display_name": "test channel",
+          "header": "test",
+          "id": "channel_id",
+          "last_post_at": 1508265709635,
+          "name": "town-square",
+          "purpose": "test",
+          "team_id": "team-id",
+          "type": "O",
+          "update_at": 1508265709607,
+        },
+      }
+    }
+    dialogType={
+      Object {
+        "$$typeof": Symbol(react.memo),
+        "WrappedComponent": [Function],
+        "compare": null,
+        "displayName": "Connect(EditChannelHeaderModal)",
+        "type": [Function],
+      }
+    }
+    modalId="edit_channel_header"
+  >
+    <EditIcon />
+    Set a Header
+  </Connect(ToggleModalButton)>
+</Connect(ChannelPermissionGate)>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test Set Header Button should match snapshot, has board, archived channel 1`] = `""`;
+
+exports[`components/post_view/ChannelIntroMessages test Set Header Button should match snapshot, show false 1`] = `""`;

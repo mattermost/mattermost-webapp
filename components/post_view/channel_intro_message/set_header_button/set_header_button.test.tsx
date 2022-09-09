@@ -4,27 +4,33 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {archivedChannel, offTopicChannel} from '../test_utils';
+import {archivedChannel, defaultChannel} from '../messages/test_utils';
 
-import OffTopicIntroMessage from './off_topic';
+import SetHeaderButton from './set_header_button';
 
 const component = (otherProps: any) => {
     return (
-        <OffTopicIntroMessage
-            channel={offTopicChannel}
-            usersLimit={10}
+        <SetHeaderButton
+            channel={defaultChannel}
+            show={true}
             {...otherProps}
         />
     );
 };
 
 describe('components/post_view/ChannelIntroMessages', () => {
-    describe('test OFF_TOPIC Channel', () => {
-        test('should match snapshot, show board button', () => {
+    describe('test Set Header Button', () => {
+        test('should match snapshot', () => {
             expect(shallow(component({}))).toMatchSnapshot();
         });
 
-        test('should match snapshot, do not show board button', () => {
+        test('should match snapshot, show false', () => {
+            expect(shallow(component({
+                show: false,
+            }))).toMatchSnapshot();
+        });
+
+        test('should match snapshot, has board, archived channel', () => {
             expect(shallow(component({
                 channel: archivedChannel,
             }))).toMatchSnapshot();

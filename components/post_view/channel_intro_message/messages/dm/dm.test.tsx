@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {UserProfile} from '@mattermost/types/users';
-import {boardComponent, directChannel, user1} from '../test_utils';
+import {bot1, directChannel, user1} from '../test_utils';
 
 import DMIntroMessage from './dm';
 
@@ -24,17 +24,17 @@ describe('components/post_view/ChannelIntroMessages', () => {
             expect(shallow(component({}))).toMatchSnapshot();
         });
 
-        test('should match snapshot, with teammate, without boards', () => {
+        test('should match snapshot, with teammate', () => {
             expect(shallow(component({
                 teammate: user1 as UserProfile,
                 teammateName: 'my teammate',
             }))).toMatchSnapshot();
         });
 
-        test('should match snapshot, with teammate, with boards', () => {
+        test('should match snapshot, with bot teammate', () => {
             expect(shallow(component({
-                teammate: user1 as UserProfile,
-                boardComponent,
+                teammate: bot1 as UserProfile,
+                teammateName: 'my teammate',
             }))).toMatchSnapshot();
         });
     });

@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should match snapshot, with teammate, with boards 1`] = `
+exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should match snapshot, with bot teammate 1`] = `
 <Fragment>
   <div
     className="post-profile-img__container channel-intro-img"
@@ -11,8 +11,8 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       isRHS={false}
       popoverPlacement="right"
       size="xl"
-      src="/api/v4/users/user1/image?_=0"
-      userId="user1"
+      src="/api/v4/users/bot1/image?_=0"
+      userId="bot1"
       wrapperClass=""
     />
   </div>
@@ -22,7 +22,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
     <Connect(UserProfile)
       disablePopover={false}
       hasMention={true}
-      userId="user1"
+      userId="bot1"
     />
   </div>
   <p
@@ -33,21 +33,21 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       id="intro_messages.DM"
       values={
         Object {
-          "teammate": undefined,
+          "teammate": "my teammate",
         }
       }
     />
   </p>
   <Connect(Component)
-    show={true}
+    show={false}
   />
   <Connect(Component)
-    show={true}
+    show={false}
   />
 </Fragment>
 `;
 
-exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should match snapshot, with teammate, without boards 1`] = `
+exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should match snapshot, with teammate 1`] = `
 <Fragment>
   <div
     className="post-profile-img__container channel-intro-img"

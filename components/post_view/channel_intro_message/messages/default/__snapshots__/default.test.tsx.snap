@@ -1,43 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, no boards 1`] = `
-<Fragment>
-  <h2
-    className="channel-intro__title"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Beginning of {name}"
-      id="intro_messages.beginning"
-      values={
-        Object {
-          "name": "test channel",
-        }
-      }
-    />
-  </h2>
-  <p
-    className="channel-intro__content"
-  >
-    <FormattedMarkdownMessage
-      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
-      id="intro_messages.default"
-      values={
-        Object {
-          "display_name": "test channel",
-        }
-      }
-    />
-  </p>
-  <Connect(Component)
-    show={true}
-  />
-  <Connect(Component)
-    show={true}
-  />
-</Fragment>
-`;
-
-exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, no boards, archived channel 1`] = `
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, archived channel 1`] = `
 <Fragment>
   <h2
     className="channel-intro__title"
@@ -74,81 +37,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
 </Fragment>
 `;
 
-exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, readonly 1`] = `
-<Fragment>
-  <h2
-    className="channel-intro__title"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Beginning of {name}"
-      id="intro_messages.beginning"
-      values={
-        Object {
-          "name": "test channel",
-        }
-      }
-    />
-  </h2>
-  <p
-    className="channel-intro__content"
-  >
-    <FormattedMarkdownMessage
-      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team."
-      id="intro_messages.readonly.default"
-      values={
-        Object {
-          "display_name": "test channel",
-        }
-      }
-    />
-  </p>
-  <Connect(Component)
-    show={false}
-  />
-  <Connect(Component)
-    show={false}
-  />
-</Fragment>
-`;
-
-exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards 1`] = `
-<Fragment>
-  <h2
-    className="channel-intro__title"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Beginning of {name}"
-      id="intro_messages.beginning"
-      values={
-        Object {
-          "name": "test channel",
-        }
-      }
-    />
-  </h2>
-  <p
-    className="channel-intro__content"
-  >
-    <FormattedMarkdownMessage
-      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
-      id="intro_messages.default"
-      values={
-        Object {
-          "display_name": "test channel",
-        }
-      }
-    />
-  </p>
-  <Connect(Component)
-    show={true}
-  />
-  <Connect(Component)
-    show={true}
-  />
-</Fragment>
-`;
-
-exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards, enable, group constrained 1`] = `
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, enable, group constrained 1`] = `
 <Fragment>
   <h2
     className="channel-intro__title"
@@ -248,7 +137,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
 </Fragment>
 `;
 
-exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, with boards. enableUserCreation 1`] = `
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, enableUserCreation 1`] = `
 <Fragment>
   <h2
     className="channel-intro__title"
@@ -299,6 +188,80 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       />
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
+  <Connect(Component)
+    show={false}
+  />
+  <Connect(Component)
+    show={false}
+  />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, group constrained 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <FormattedMarkdownMessage
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
+  <Connect(Component)
+    show={true}
+  />
+  <Connect(Component)
+    show={true}
+  />
+</Fragment>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should match snapshot, readonly 1`] = `
+<Fragment>
+  <h2
+    className="channel-intro__title"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Beginning of {name}"
+      id="intro_messages.beginning"
+      values={
+        Object {
+          "name": "test channel",
+        }
+      }
+    />
+  </h2>
+  <p
+    className="channel-intro__content"
+  >
+    <FormattedMarkdownMessage
+      defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team."
+      id="intro_messages.readonly.default"
+      values={
+        Object {
+          "display_name": "test channel",
+        }
+      }
+    />
+  </p>
   <Connect(Component)
     show={false}
   />

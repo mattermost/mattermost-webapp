@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {boardComponent, groupChannel, users} from '../test_utils';
+import {archivedChannel, groupChannel, users} from '../test_utils';
 
 import GMIntroMessage from './gm';
 
@@ -22,19 +22,19 @@ const component = (otherProps: any) => {
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Group Channel', () => {
         test('should match snapshot, no profiles', () => {
-            expect(shallow(component({ }))).toMatchSnapshot();
+            expect(shallow(component({}))).toMatchSnapshot();
         });
 
-        test('should match snapshot, with profiles, without boards', () => {
+        test('should match snapshot, with profiles, show boards', () => {
             expect(shallow(component({
                 channelProfiles: users,
             }))).toMatchSnapshot();
         });
 
-        test('should match snapshot, with profiles, with boards', () => {
+        test('should match snapshot, archived channel, no boards', () => {
             expect(shallow(component({
                 channelProfiles: users,
-                boardComponent,
+                channel: archivedChannel,
             }))).toMatchSnapshot();
         });
     });

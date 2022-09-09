@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/post_view/ChannelIntroMessages test Boards Button should match snapshot 1`] = `
+<button
+  aria-label="Create a board"
+  className="intro-links color--link channelIntroButton style--none"
+  onClick={[Function]}
+>
+  Create a board
+</button>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test Boards Button should match snapshot, has board, no show 1`] = `""`;
+
+exports[`components/post_view/ChannelIntroMessages test Boards Button should match snapshot, no boards 1`] = `""`;

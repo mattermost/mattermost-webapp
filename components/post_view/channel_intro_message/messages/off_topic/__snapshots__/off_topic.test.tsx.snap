@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should match snapshot, with boards 1`] = `
+exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should match snapshot, do not show board button 1`] = `
 <Fragment>
   <h2
     className="channel-intro__title"
@@ -29,14 +29,14 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
     />
   </p>
   <Connect(Component)
-    showBoardsButton={true}
-    showSetHeader={true}
+    showBoardsButton={false}
+    showSetHeader={false}
     usersLimit={10}
   />
 </Fragment>
 `;
 
-exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should match snapshot, without boards 1`] = `
+exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should match snapshot, show board button 1`] = `
 <Fragment>
   <h2
     className="channel-intro__title"

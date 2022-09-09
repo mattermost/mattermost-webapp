@@ -1,17 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, no profiles 1`] = `
-<p
-  className="channel-intro-text"
->
-  <MemoizedFormattedMessage
-    defaultMessage="This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area."
-    id="intro_messages.group_message"
-  />
-</p>
-`;
-
-exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, with profiles, with boards 1`] = `
+exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, archived channel, no boards 1`] = `
 <Fragment>
   <div
     className="post-profile-img__container channel-intro-img"
@@ -53,15 +42,26 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
     />
   </p>
   <Connect(Component)
-    show={true}
+    show={false}
   />
   <Connect(Component)
-    show={true}
+    show={false}
   />
 </Fragment>
 `;
 
-exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, with profiles, without boards 1`] = `
+exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, no profiles 1`] = `
+<p
+  className="channel-intro-text"
+>
+  <MemoizedFormattedMessage
+    defaultMessage="This is the start of your group message history with these teammates. Messages and files shared here are not shown to people outside this area."
+    id="intro_messages.group_message"
+  />
+</p>
+`;
+
+exports[`components/post_view/ChannelIntroMessages test Group Channel should match snapshot, with profiles, show boards 1`] = `
 <Fragment>
   <div
     className="post-profile-img__container channel-intro-img"

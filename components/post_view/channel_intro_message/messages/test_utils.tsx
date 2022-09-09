@@ -57,6 +57,7 @@ export const boardComponent = {
 };
 
 export const user1 = {id: 'user1', roles: 'system_user'};
+export const bot1 = {id: 'bot1', is_bot: true, roles: 'system_user'};
 
 export const users = [
     {id: 'user1', roles: 'system_user'},

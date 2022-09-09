@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {boardComponent, channel} from '../test_utils';
+import {channel} from '../test_utils';
 
 import StandardIntroMessage from './standard';
 
@@ -14,7 +14,6 @@ const component = (otherProps: any) => {
             channel={channel}
             locale={'en'}
             creatorName={'creatorName'}
-            stats={{}}
             usersLimit={10}
             {...otherProps}
         />
@@ -23,14 +22,8 @@ const component = (otherProps: any) => {
 
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Open Channel', () => {
-        test('should match snapshot, without boards', () => {
+        test('should match snapshot', () => {
             expect(shallow(component({ }))).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards', () => {
-            expect(shallow(component({
-                boardComponent,
-            }))).toMatchSnapshot();
         });
     });
 });

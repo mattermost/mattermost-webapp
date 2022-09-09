@@ -9,9 +9,8 @@ import {GlobalState} from 'types/store';
 import BoardsButton from './boards_button';
 
 function mapStateToProps(state: GlobalState) {
-    const boardComponent = getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard');
     return {
-        boardComponent,
+        boardComponent: getChannelIntroPluginComponents(state).find((c) => c.pluginId === 'focalboard'),
     };
 }
 

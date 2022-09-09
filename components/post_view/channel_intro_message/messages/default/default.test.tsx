@@ -4,18 +4,17 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {archivedChannel, boardComponent, defaultChannel} from '../test_utils';
+import {archivedChannel, defaultChannel} from '../test_utils';
 
 import DefaultIntroMessage from './default';
 
 const component = (otherProps: any) => {
     return (
         <DefaultIntroMessage
+            channel={defaultChannel}
             enableUserCreation={false}
             teamIsGroupConstrained={false}
-            stats={{}}
             usersLimit={10}
-            channel={defaultChannel}
             {...otherProps}
         />
     );
@@ -29,34 +28,25 @@ describe('components/post_view/ChannelIntroMessages', () => {
             }))).toMatchSnapshot();
         });
 
-        test('should match snapshot, no boards', () => {
+        test('should match snapshot, group constrained', () => {
             expect(shallow(component({
                 teamIsGroupConstrained: true,
             }))).toMatchSnapshot();
         });
 
-        test('should match snapshot, with boards', () => {
-            expect(shallow(component({
-                teamIsGroupConstrained: true,
-                boardComponent,
-            }))).toMatchSnapshot();
-        });
-
-        test('should match snapshot, with boards. enableUserCreation', () => {
+        test('should match snapshot, enableUserCreation', () => {
             expect(shallow(component({
                 enableUserCreation: true,
-                boardComponent,
             }))).toMatchSnapshot();
         });
 
-        test('should match snapshot, with boards, enable, group constrained', () => {
+        test('should match snapshot, enable, group constrained', () => {
             expect(shallow(component({
                 enableUserCreation: true,
                 teamIsGroupConstrained: true,
-                boardComponent,
             }))).toMatchSnapshot();
         });
-        test('should match snapshot, no boards, archived channel', () => {
+        test('should match snapshot, archived channel', () => {
             expect(shallow(component({
                 channel: archivedChannel,
             }))).toMatchSnapshot();
