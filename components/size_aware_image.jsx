@@ -9,6 +9,7 @@ import {FormattedMessage} from 'react-intl';
 import {DownloadOutlineIcon, LinkVariantIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
 import GifPlayer from 'react-gif-player';
+import GIFPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index'
 
 import {localizeMessage, copyToClipboard} from 'utils/utils';
 import {t} from 'utils/i18n';
@@ -219,14 +220,15 @@ export default class SizeAwareImage extends React.PureComponent {
                     onLoad={this.handleLoad}
                     onClick={this.handleImageClick}
                 >
-                    <GifPlayer
+                    <GIFPlayer stopPropagation={true} gif={src} />
+                    {/* <GifPlayer
                         gif={src}
                         pauseRef={(pause) => {
                             this.pauseGif = pause;
                         }}
                         onTogglePlay={(isPlaying) => this.setState({isPlaying})}
                         autoplay={false}
-                    />
+                    /> */}
                 </div>
             );
         }

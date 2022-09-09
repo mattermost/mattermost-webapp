@@ -4,10 +4,10 @@ import classNames from 'classnames';
 
 import './GifPlayer.scss';
 
-const GifPlayer = ({ gif, still, playing, toggle, ...rest }) => (
+const GifPlayer = ({ gif, still, playing, toggle,stopPropagation, ...rest }) => (
   <div
     className={classNames('gif_player', { 'playing': playing })}
-    onClick={toggle}
+    onClick={stopPropagation ? undefined : toggle}
   >
     <div className="play_button" />
     <img {...rest} src={playing ? (gif || still) : (still || gif)} />
@@ -18,7 +18,8 @@ GifPlayer.propTypes = {
   gif: PropTypes.string,
   still: PropTypes.string,
   playing: PropTypes.bool,
-  toggle: PropTypes.func
+  toggle: PropTypes.func,
+  stopPropagation: PropTypes.bool,
 };
 
 export default GifPlayer;

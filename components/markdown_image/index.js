@@ -8,6 +8,15 @@ import {openModal} from 'actions/views/modals';
 
 import MarkdownImage from './markdown_image';
 
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'utils/constants';
+
+function mapStateToProps(state, ownProps) {
+    return {
+        autoplayGifAndEmojis: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+    };
+}
+
 function mapDispatchToProps(dispatch) {
     return {
         actions: bindActionCreators({
@@ -16,6 +25,6 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-const connector = connect(null, mapDispatchToProps);
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 export default connector(MarkdownImage);

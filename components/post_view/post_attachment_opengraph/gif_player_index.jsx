@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 // import lifecyclesPoylfill from 'react-lifecycles-compat';
+import { polyfill } from 'react-lifecycles-compat'
 
 import GifPlayer from './gif_player';
 
@@ -102,7 +103,7 @@ class GifPlayerContainer extends React.Component {
 
   render () {
     // extract these props but pass down the rest
-    const { autoplay, pauseRef, onTogglePlay, ...rest } = this.props;
+    const { autoplay, pauseRef, onTogglePlay, stopPropagation, ...rest } = this.props;
     const { actualGif, actualStill, playing } = this.state;
     return (
       <GifPlayer
@@ -111,19 +112,21 @@ class GifPlayerContainer extends React.Component {
         still={actualStill}
         playing={playing}
         toggle={() => this.toggle()}
+        stopPropagation={this.props.stopPropagation}
       />
     );
   }
 }
 
-// lifecyclesPoylfill(GifPlayerContainer);
+polyfill(GifPlayerContainer);
 
 GifPlayerContainer.propTypes = {
   gif: PropTypes.string,
   still: PropTypes.string,
   autoplay: PropTypes.bool,
   pauseRef: PropTypes.func,
-  onTogglePlay: PropTypes.func
+  onTogglePlay: PropTypes.func,
+  stopPropagation: PropTypes.bool,
 };
 
 export default GifPlayerContainer;

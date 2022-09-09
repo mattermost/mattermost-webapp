@@ -2,24 +2,21 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import GifPlayer from 'react-gif-player';
-export default class PostEmoji extends React.PureComponent {
-    static propTypes = {
+import EmojiPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index'
 
-        name: PropTypes.string,
-        imageUrl: PropTypes.string,
-        autoplayGifAndEmojis: PropTypes.string,
+interface PostEmojiProps {
+    name: string;
+    imageUrl: string;
+    autoplayGifAndEmojis: string;
+}
+declare module 'react' {
+    interface HTMLAttributes<T> extends AriaAttributes, DOMAttributes<T> {
+        alt?: string;
     }
-    constructor(props) {
-        super(props);
-        this.pauseGif = React.createRef();
-        this.state = {
-            isPlaying: false,
-        };
-    }
+}
 
-    render() {
+export default class PostEmoji extends React.PureComponent<PostEmojiProps> {
+    public render() {
         const emojiText = ':' + this.props.name + ':';
 
         if (!this.props.imageUrl) {
@@ -44,13 +41,8 @@ export default class PostEmoji extends React.PureComponent {
                 alt={emojiText}
                 title={emojiText}
             >
-                <GifPlayer
+                <EmojiPlayer
                     gif={this.props.imageUrl}
-                    pauseRef={(pause) => {
-                        this.pauseGif = pause;
-                    }}
-                    onTogglePlay={(isPlaying) => this.setState({isPlaying})}
-                    autoplay={false}
                 />
             </div>
         );
