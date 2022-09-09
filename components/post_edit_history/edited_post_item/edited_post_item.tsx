@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useState} from 'react';
+import React, {memo, useCallback, useState} from 'react';
 
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
@@ -46,6 +46,26 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     const {formatMessage} = useIntl();
     const [open, setOpen] = useState(isCurrent);
 
+    const openRestorePostModal = useCallback(() => {
+        const restorePostModalData = {
+            modalId: ModalIdentifiers.RESTORE_POST_MODAL,
+            dialogType: RestorePostModal,
+            dialogProps: {
+                post,
+                actions: {
+                    handleRestore,
+                    closeModal: actions.closeModal,
+                },
+            },
+        };
+
+        actions.openModal(restorePostModalData);
+    }, [actions, post]);
+
+    const togglePost = useCallback(() => {
+        setOpen((prevState) => !prevState);
+    }, []);
+
     if (!post) {
         return null;
     }
@@ -81,24 +101,6 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         }
     };
 
-    const openRestorePostModal = () => {
-        const restorePostModalData = {
-            modalId: ModalIdentifiers.RESTORE_POST_MODAL,
-            dialogType: RestorePostModal,
-            dialogProps: {
-                post,
-                actions: {
-                    handleRestore,
-                    closeModal: actions.closeModal,
-                },
-            },
-        };
-
-        actions.openModal(restorePostModalData);
-    };
-
-    const togglePost = () => setOpen((prevState) => !prevState);
-
     const currentVersionIndicator = isCurrent ? (
         <div className='edit-post__current__indicator'>
             {currentVersionText}
@@ -133,9 +135,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     );
 
     const message = (
-        <PostBodyAdditionalContent
-            post={post}
-        >
+        <PostBodyAdditionalContent post={post}>
             <PostMessageContainer
                 post={post}
                 isRHS={true}
@@ -217,4 +217,4 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     );
 };
 
-export default EditedPostItem;
+export default memo(EditedPostItem);
