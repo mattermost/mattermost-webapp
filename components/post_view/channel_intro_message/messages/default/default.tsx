@@ -113,12 +113,8 @@ const DefaultIntroMessage = ({
                 />
             </p>
             {teamInviteLink}
-            <BoardsButton
-                show={teamIsGroupConstrained}
-            />
-            <SetHeaderButton
-                show={teamIsGroupConstrained}
-            />
+            <BoardsButton show={teamIsGroupConstrained}/>
+            <SetHeaderButton show={teamIsGroupConstrained}/>
         </>
     );
 };
