@@ -62,6 +62,7 @@ describe('components/post_view/AddMembersButton', () => {
             usersLimit: 100,
             channel,
             showSetHeader: false,
+            showBoardsButton: false,
         };
         const wrapper = mount(
             <Provider store={store}>
@@ -78,6 +79,7 @@ describe('components/post_view/AddMembersButton', () => {
             usersLimit: 10,
             channel,
             showSetHeader: false,
+            showBoardsButton: false,
         };
         const wrapper = mount(
             <Provider store={store}>
@@ -89,17 +91,12 @@ describe('components/post_view/AddMembersButton', () => {
     });
 
     test('should match snapshot, setHeader and createBoard', () => {
-        const createBoard = (
-            <button>
-                {'Create a board'}
-            </button>
-        );
         const props = {
             totalUsers: 100,
             usersLimit: 10,
             channel,
             showSetHeader: true,
-            createBoard,
+            showBoardsButton: true,
         };
         const wrapper = mount(
             <Provider store={store}>

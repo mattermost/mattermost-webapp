@@ -41,7 +41,7 @@ const DMIntroMessage = ({
         const src = teammate ? Utils.imageURLForUser(teammate.id, teammate.last_picture_update) : '';
 
         const renderButtons = !isArchivedChannel(channel) && !teammate?.is_bot;
-        const boardCreateButton = renderButtons ? <BoardsButton/> : null;
+        const boardCreateButton = <BoardsButton show={renderButtons}/>;
 
         return (
             <>

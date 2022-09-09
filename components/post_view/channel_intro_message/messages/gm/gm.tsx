@@ -62,9 +62,7 @@ const GMIntroMessage = ({
                         }}
                     />
                 </p>
-                {!isArchivedChannel(channel) &&
-                    <BoardsButton/>
-                }
+                <BoardsButton show={!isArchivedChannel(channel)}/>
                 <SetHeaderButton show={!isArchivedChannel(channel)}/>
             </>
         );

@@ -7,7 +7,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {Channel} from '@mattermost/types/channels';
 import {isArchivedChannel} from 'utils/channel_utils';
 import AddMembersButton from '../../add_members_button';
-import BoardsButton from '../../boards_button';
 import {t} from 'utils/i18n';
 
 type Props = {
@@ -31,7 +30,6 @@ const OffTopicIntroMessage = ({
     usersLimit,
 }: Props) => {
     const renderButtons = !isArchivedChannel(channel);
-    const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
     return (
         <>
@@ -53,8 +51,8 @@ const OffTopicIntroMessage = ({
             </p>
             <AddMembersButton
                 showSetHeader={renderButtons}
+                showBoardsButton={renderButtons}
                 usersLimit={usersLimit}
-                createBoard={boardCreateButton}
             />
         </>
     );

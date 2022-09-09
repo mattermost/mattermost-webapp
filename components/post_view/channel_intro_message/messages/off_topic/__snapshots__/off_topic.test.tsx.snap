@@ -29,7 +29,7 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
     />
   </p>
   <Connect(Component)
-    createBoard={<Memo(Connect(Component)) />}
+    showBoardsButton={true}
     showSetHeader={true}
     usersLimit={10}
   />
@@ -65,7 +65,7 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
     />
   </p>
   <Connect(Component)
-    createBoard={<Memo(Connect(Component)) />}
+    showBoardsButton={true}
     showSetHeader={true}
     usersLimit={10}
   />

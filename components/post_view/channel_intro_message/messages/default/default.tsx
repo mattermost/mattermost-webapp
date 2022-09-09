@@ -54,9 +54,7 @@ const DefaultIntroMessage = ({
     teamIsGroupConstrained,
 }: Props) => {
     let teamInviteLink = null;
-
     const renderButtons = !isReadOnly && !isArchivedChannel(channel);
-    const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
     if (!isReadOnly && enableUserCreation) {
         teamInviteLink = (
@@ -87,8 +85,8 @@ const DefaultIntroMessage = ({
                     ) : (
                         <AddMembersButton
                             showSetHeader={renderButtons}
+                            showBoardsButton={renderButtons}
                             usersLimit={usersLimit}
-                            createBoard={boardCreateButton}
                         />
                     )}
                 </TeamPermissionGate>
@@ -115,7 +113,9 @@ const DefaultIntroMessage = ({
                 />
             </p>
             {teamInviteLink}
-            {teamIsGroupConstrained && boardCreateButton}
+            <BoardsButton
+                show={teamIsGroupConstrained}
+            />
             <SetHeaderButton
                 show={teamIsGroupConstrained}
             />

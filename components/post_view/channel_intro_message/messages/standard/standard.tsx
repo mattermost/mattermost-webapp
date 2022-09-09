@@ -9,7 +9,6 @@ import {Channel} from '@mattermost/types/channels';
 import {isArchivedChannel} from 'utils/channel_utils';
 import AddMembersButton from '../../add_members_button';
 import {getMonthLong, t} from 'utils/i18n';
-import BoardsButton from '../../boards_button';
 
 type Props = {
     channel: Channel;
@@ -116,13 +115,12 @@ const StandardIntroMessage = ({
     }, [channel.purpose, isPrivate]);
 
     const renderButtons = !isArchivedChannel(channel);
-    const boardCreateButton = renderButtons ? <BoardsButton/> : null;
 
     const channelInviteButton = (
         <AddMembersButton
             usersLimit={usersLimit}
             showSetHeader={renderButtons}
-            createBoard={boardCreateButton}
+            showBoardsButton={renderButtons}
         />
     );
 
