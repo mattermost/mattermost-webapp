@@ -112,6 +112,16 @@ type Props = {
      */
     postType?: PostType;
     emojiMap: EmojiMap;
+
+    /**
+     * Some components processed by messageHtmlToComponent e.g. AtSumOfMembersMention require to have a list of userIds
+     */
+    userIds?: string[];
+
+    /**
+     * Some additional data to pass down to rendered component to aid in rendering decisions
+     */
+    messageMetadata?: Record<string, string>;
 }
 
 export default class Markdown extends React.PureComponent<Props> {
@@ -159,11 +169,15 @@ export default class Markdown extends React.PureComponent<Props> {
             imagesMetadata: this.props.imagesMetadata,
             hasPluginTooltips: this.props.hasPluginTooltips,
             postId: this.props.postId,
+            userIds: this.props.userIds,
+            messageMetadata: this.props.messageMetadata,
             channelId: this.props.channelId,
             postType: this.props.postType,
             mentionHighlight: this.props.options.mentionHighlight,
             disableGroupHighlight: this.props.options.disableGroupHighlight,
             editedAt,
+            atSumOfMembersMentions: this.props.options.atSumOfMembersMentions,
+            atPlanMentions: this.props.options.atPlanMentions,
         });
     }
 }
