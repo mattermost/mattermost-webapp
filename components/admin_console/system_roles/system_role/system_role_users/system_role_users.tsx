@@ -175,14 +175,11 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
             return {
                 cells: {
                     id: user.id,
-                    name: (
-                        <UserGridName
-                            user={user}
-                        />
-                    ),
+                    name: <UserGridName user={user}/>,
                     new: usersToAdd[user.id] ? (
                         <Tag
-                            className='NewUserBadge'
+                            variant={'info'}
+                            capitalize={true}
                             text={(
                                 <FormattedMessage
                                     id='admin.user_grid.new'

@@ -32,9 +32,10 @@ const TagWrapper = styled.div<TagWrapperProps>`
     align-items: center;
     align-content: center;
     align-self: center;
-    margin: 0 0 0 4px;
-    ${({size}) => (size === 'xs' ? css`padding: 1px 4px;` : css`padding: 2px 5px;`)}
     gap: 4px;
+    max-width: 100%;
+    margin: 0;
+    ${({size}) => (size === 'xs' ? css`padding: 1px 4px;` : css`padding: 2px 5px;`)}
 
     border: none;
     border-radius: 4px;
@@ -45,31 +46,28 @@ const TagWrapper = styled.div<TagWrapperProps>`
     ${({size}) => (size === 'xs' ? css`font-size: 10px;` : css`font-size: 12px;`)}
     ${({capitalize}) => (capitalize ? css`text-transform: uppercase;` : css`text-transform: none;`)}
 
-    &.info,
-    &.success,
-    &.warning,
-    &.danger {
+    &.Tag__info,
+    &.Tag__success,
+    &.Tag__warning,
+    &.Tag__danger {
         --tag-bg-opacity: 1;
+        --tag-color: 255, 255, 255;
     }
 
-    &.info {
+    &.Tag__info {
         --tag-bg: var(--semantic-color-info);
-        --tag-color: 255 255 255;
     }
 
-    &.success {
+    &.Tag__success {
         --tag-bg: var(--semantic-color-success);
-        --tag-color: 255 255 255;
     }
 
-    &.warning {
+    &.Tag__warning {
         --tag-bg: var(--semantic-color-warning);
-        --tag-color: 255 255 255;
     }
 
-    &.danger {
+    &.Tag__danger {
         --tag-bg: var(--semantic-color-danger);
-        --tag-color: 255 255 255;
     }
 
     background: rgba(var(--tag-bg), var(--tag-bg-opacity));
@@ -84,6 +82,13 @@ const TagWrapper = styled.div<TagWrapperProps>`
             }
         `
     )}
+
+    .Tag__text {
+        max-width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 `;
 
 const Tag = ({
@@ -103,7 +108,7 @@ const Tag = ({
             as={element}
             size={size}
             onClick={onClick}
-            className={classNames('Tag', {[`${variant}`]: variant}, className)}
+            className={classNames('Tag', {[`Tag__${variant}`]: variant}, className)}
         >
             {Icon && <Icon size={size === 'xs' ? 10 : 12}/>}
             <span className={'Tag__text'}>{text}</span>
