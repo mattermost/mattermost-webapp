@@ -12,7 +12,6 @@ import {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {ModalData} from 'types/actions';
 
 import DelinquencyModal from './delinquency_modal';
-import {ModalStatus, useDelinquencyModal} from './useDelinquencyModal';
 
 const SESSION_MODAL_ITEM = `${StoragePrefixes.DELINQUENCY}hide_downgrade_modal`;
 
@@ -29,12 +28,17 @@ type UseDelinquencyModalController = {
 }
 
 export const useDelinquencyModalController = (props: UseDelinquencyModalController) => {
+    const {isCloud, userIsAdmin, subscription, actions, delinquencyModalPreferencesConfirmed} = props;
     const product = useSelector(getSubscriptionProduct);
     const dispatch = useDispatch();
-    const {isCloud, userIsAdmin, subscription, actions, delinquencyModalPreferencesConfirmed} = props;
+    const [showModal, setShowModal] = useState(false);
     const {openModal} = actions;
-    const {modalState, setToDisplay, setModalClosed, setModalDisplayed, setModalClosing} = useDelinquencyModal();
     const [requestedProducts, setRequestedProducts] = useState(false);
+
+    const handleOnExit = () => {
+        setShowModal(() => false);
+        BrowserStore.setItem(SESSION_MODAL_ITEM, 'true');
+    };
 
     useEffect(() => {
         if (delinquencyModalPreferencesConfirmed.length === 0 && product == null && !requestedProducts) {
@@ -44,7 +48,7 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
     }, []);
 
     useEffect(() => {
-        if (modalState !== ModalStatus.INITIAL) {
+        if (showModal) {
             return;
         }
 
@@ -83,26 +87,20 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
             return;
         }
 
-        setToDisplay();
-    }, [delinquencyModalPreferencesConfirmed.length, isCloud, openModal, setToDisplay, modalState, subscription, userIsAdmin]);
+        setShowModal(() => true);
+    }, [delinquencyModalPreferencesConfirmed.length, isCloud, openModal, showModal, subscription, userIsAdmin]);
 
     useEffect(() => {
-        if (modalState === ModalStatus.TO_SHOW && product != null) {
+        if (showModal && product != null) {
             openModal({
                 modalId: ModalIdentifiers.DELINQUENCY_MODAL_DOWNGRADE,
                 dialogType: DelinquencyModal,
                 dialogProps: {
                     closeModal: actions.closeModal,
-                    onExited: setModalClosing,
+                    onExited: handleOnExit,
                     planName: product.name,
                 },
             });
-            setModalDisplayed();
         }
-
-        if (modalState === ModalStatus.CLOSING) {
-            setModalClosed();
-            BrowserStore.setItem(SESSION_MODAL_ITEM, 'true');
-        }
-    }, [actions.closeModal, openModal, product, setModalClosed, setModalDisplayed, modalState, setModalClosing]);
+    }, [actions.closeModal, openModal, product, showModal]);
 };
