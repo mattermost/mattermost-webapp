@@ -5,7 +5,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
@@ -227,7 +227,15 @@ function Content(props: ContentProps) {
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA callerInfo='professional_plan_pricing_modal_card'/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
+                            <NotifyAdminCTA
+                                preTrial={isPreTrial}
+                                notifyRequestData={{
+                                    required_feature: PaidFeatures.ALL_PROFESSIONAL_FEATURES,
+                                    required_plan: LicenseSkus.Professional,
+                                    trial_notification: isPreTrial}}
+                                callerInfo='professional_plan_pricing_modal_card'
+                            />) : undefined}
                         buttonDetails={{
                             action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
@@ -275,10 +283,13 @@ function Content(props: ContentProps) {
                                 />) : undefined}
                         planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
                             <NotifyAdminCTA
-                                callerInfo='enterprise_plan_pricing_modal_card'
                                 preTrial={isPreTrial}
-                            />
-                        ) : undefined}
+                                callerInfo='enterprise_plan_pricing_modal_card'
+                                notifyRequestData={{
+                                    required_feature: PaidFeatures.ALL_ENTERPRISE_FEATURES,
+                                    required_plan: LicenseSkus.Enterprise,
+                                    trial_notification: isPreTrial}}
+                            />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('cloud_pricing', 'click_enterprise_contact_sales');

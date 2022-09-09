@@ -150,6 +150,7 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, comment, permaLinkL
             useChannelMentions={false}
             supportsCommands={false}
             suggestionListPosition='bottom'
+            alignWithTextbox={true}
         />
     );
 };

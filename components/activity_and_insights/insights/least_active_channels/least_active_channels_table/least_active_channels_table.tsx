@@ -89,7 +89,7 @@ const LeastActiveChannelsTable = (props: Props) => {
                     />
                 ),
                 field: 'channel',
-                width: 0.53,
+                width: 0.48,
             },
             {
                 name: (
@@ -111,7 +111,7 @@ const LeastActiveChannelsTable = (props: Props) => {
                 ),
                 className: 'participants',
                 field: 'participants',
-                width: 0.1,
+                width: 0.15,
             },
             {
                 name: (''),

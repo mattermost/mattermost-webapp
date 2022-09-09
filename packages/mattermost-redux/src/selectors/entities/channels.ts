@@ -706,12 +706,14 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
             }
 
             // If other user is deleted in a DM channel, we skip its count
-            if (channel.type === General.DM_CHANNEL) {
-                const otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
-                if (users[otherUserId]?.delete_at !== 0) {
-                    continue;
-                }
-            }
+            // TODO: This is a check overlap with the above condition, so it can never execute.
+            // Evaluate if it some logic should be changed or if this branch should be removed.
+            // if (channel.type === General.DM_CHANNEL) {
+            //     const otherUserId = getUserIdFromChannelName(currentUserId, channel.name);
+            //     if (users[otherUserId]?.delete_at !== 0) {
+            //         continue;
+            //     }
+            // }
 
             // If channel is deleted, we skip its count
             if (channel.delete_at !== 0) {
