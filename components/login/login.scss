@@ -41,7 +41,6 @@
             width: 540px;
             flex-flow: column;
             align-self: flex-start;
-            margin-top: 40px;
 
             .login-body-message-title {
                 padding-right: 60px;
@@ -84,6 +83,10 @@
                     margin-bottom: 28px;
                     border-radius: 8px;
                 }
+            }
+
+            &.with-alternate-link {
+                margin-top: 40px;
             }
         }
 

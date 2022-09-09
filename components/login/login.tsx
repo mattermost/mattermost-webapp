@@ -716,7 +716,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
         return (
             <>
-                <div className={classNames('login-body-message', {'custom-branding': enableCustomBrand, 'with-brand-image': enableCustomBrand && !brandImageError})}>
+                <div className={classNames('login-body-message', {'custom-branding': enableCustomBrand, 'with-brand-image': enableCustomBrand && !brandImageError}, {'with-alternate-link': showSignup})}>
                     {enableCustomBrand && !brandImageError ? (
                         <img
                             className={classNames('login-body-custom-branding-image')}
