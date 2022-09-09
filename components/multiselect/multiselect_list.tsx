@@ -6,7 +6,8 @@ import React from 'react';
 
 import {getOptionValue} from 'react-select/src/builtins';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {FormattedMessage} from 'react-intl';
+
 import Constants from 'utils/constants';
 import {cmdOrCtrlPressed} from 'utils/utils';
 
@@ -185,9 +186,10 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                     <div
                         key='no-users-found'
                         className='no-channel-message'
+                        tabIndex={0}
                     >
                         <p className='primary-message'>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='multiselect.list.notFound'
                                 defaultMessage='No results found matching **{searchQuery}**'
                                 values={{
