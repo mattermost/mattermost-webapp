@@ -12,11 +12,14 @@
         display: flex;
         flex-direction: column;
         align-items: flex-end;
+
+        @media (max-width: 700px) {
+            width: 100%;
+        }
     }
 
     .login-body-alternate-link {
         margin-bottom: 18px;
-        margin-left: 60px;
     }
 
     .login-body-content {
@@ -38,6 +41,7 @@
             width: 540px;
             flex-flow: column;
             align-self: flex-start;
+            margin-top: 40px;
 
             .login-body-message-title {
                 padding-right: 60px;
