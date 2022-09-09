@@ -154,8 +154,8 @@ exports[`components/post_view/AddMembersButton should match snapshot, setHeader 
     }
     showBoardsButton={true}
     showSetHeader={true}
-    totalUsers={100}
-    usersLimit={10}
+    totalUsers={10}
+    usersLimit={100}
   >
     <Connect(TeamPermissionGate)
       permissions={

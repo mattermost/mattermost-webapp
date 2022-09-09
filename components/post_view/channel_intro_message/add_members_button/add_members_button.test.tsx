@@ -56,17 +56,20 @@ describe('components/post_view/AddMembersButton', () => {
     const store = mockStore(initialState);
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team-id');
 
+    const baseProps = {
+        totalUsers: 10,
+        usersLimit: 100,
+        channel,
+        showSetHeader: false,
+        showBoardsButton: false,
+    };
+
     test('should match snapshot, less than limit', () => {
-        const props = {
-            totalUsers: 10,
-            usersLimit: 100,
-            channel,
-            showSetHeader: false,
-            showBoardsButton: false,
-        };
         const wrapper = mount(
             <Provider store={store}>
-                <AddMembersButton {...props}/>
+                <AddMembersButton
+                    {...baseProps}
+                />
             </Provider>,
         );
 
@@ -74,16 +77,13 @@ describe('components/post_view/AddMembersButton', () => {
     });
 
     test('should match snapshot, more than limit', () => {
-        const props = {
-            totalUsers: 100,
-            usersLimit: 10,
-            channel,
-            showSetHeader: false,
-            showBoardsButton: false,
-        };
         const wrapper = mount(
             <Provider store={store}>
-                <AddMembersButton {...props}/>
+                <AddMembersButton
+                    {...baseProps}
+                    totalUsers={100}
+                    usersLimit={10}
+                />
             </Provider>,
         );
 
@@ -91,16 +91,13 @@ describe('components/post_view/AddMembersButton', () => {
     });
 
     test('should match snapshot, setHeader and createBoard', () => {
-        const props = {
-            totalUsers: 100,
-            usersLimit: 10,
-            channel,
-            showSetHeader: true,
-            showBoardsButton: true,
-        };
         const wrapper = mount(
             <Provider store={store}>
-                <AddMembersButton {...props}/>
+                <AddMembersButton
+                    {...baseProps}
+                    showSetHeader={true}
+                    showBoardsButton={true}
+                />
             </Provider>,
         );
 
