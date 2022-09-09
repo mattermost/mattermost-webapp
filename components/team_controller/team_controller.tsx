@@ -6,10 +6,11 @@ import {Route, Switch, useHistory, useParams} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
 import {Team} from '@mattermost/types/teams';
+import {ServerError} from '@mattermost/types/errors';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions';
 import {reconnect} from 'actions/websocket_actions.jsx';
 import {emitCloseRightHandSide} from 'actions/global_actions';
 
@@ -92,9 +93,7 @@ export default function TeamController(props: Props) {
         }
     }
 
-    // Effect runs on mount, have logic for fetching channels and wake up
     useEffect(() => {
-        startPeriodicStatusUpdates();
         props.fetchAllMyTeamsChannelsAndChannelMembers();
 
         const wakeUpIntervalId = setInterval(() => {
@@ -106,10 +105,13 @@ export default function TeamController(props: Props) {
             lastTime.current = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
 
-        return () => {
-            stopPeriodicStatusUpdates();
+        const loadStatusesIntervalId = setInterval(() => {
+            props.loadStatusesForChannelAndSidebar();
+        }, Constants.STATUS_INTERVAL);
 
-            window.clearInterval(wakeUpIntervalId);
+        return () => {
+            clearInterval(wakeUpIntervalId);
+            clearInterval(loadStatusesIntervalId);
         };
     }, []);
 
@@ -155,9 +157,9 @@ export default function TeamController(props: Props) {
         }
 
         try {
-            const {data: teamByName} = await props.getTeamByName(teamNameParam);
+            const {data: teamByName} = await props.getTeamByName(teamNameParam) as ActionResult<Team, ServerError>; // Fix in MM-46907
             if (teamByName && teamByName.delete_at === 0) {
-                const {error} = await props.addUserToTeam(teamByName.id, props.currentUser && props.currentUser.id);
+                const {error} = await props.addUserToTeam(teamByName.id, props.currentUser && props.currentUser.id) as ActionResult<Team, ServerError>; // Fix in MM-46907
                 if (error) {
                     return null;
                 }
@@ -175,9 +177,6 @@ export default function TeamController(props: Props) {
     }
 
     async function initTeam(team: Team) {
-        // If current team is set, then this is not first load
-        // The first load action pulls team unreads
-        props.getMyTeamUnreads(props.collapsedThreads);
         props.selectTeam(team);
         props.setPreviousTeamId(team.id);
 
@@ -275,7 +274,7 @@ export default function TeamController(props: Props) {
             ))}
             <ChannelController
                 shouldShowAppBar={props.shouldShowAppBar}
-                fetchingChannels={isFetchingChannels}
+                isFetchingChannels={isFetchingChannels}
             />
         </Switch>
     );

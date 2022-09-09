@@ -4,38 +4,33 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {render} from '@testing-library/react';
+
+import {MemoryRouter, RouteComponentProps} from 'react-router-dom';
+
 import {TeamType} from '@mattermost/types/teams';
 
 import {TestHelper} from 'utils/test_helper';
 
 import TeamController from 'components/team_controller/team_controller';
 
-jest.mock('actions/global_actions', () => ({
-    emitCloseRightHandSide: jest.fn(),
+jest.mock('components/channel_layout/channel_controller', () => () => <div/>);
+jest.mock('components/backstage', () => () => <div/>);
+jest.mock('plugins/pluggable', () => () => <div/>);
+
+const mockParams = {team: ''};
+const mockHistoryPush = jest.fn();
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom') as typeof import('react-router-dom'),
+    useHistory: () => ({
+        push: mockHistoryPush,
+    }),
+    useParams: () => (mockParams),
 }));
 
-jest.mock('actions/post_actions', () => ({
-    stopPeriodicStatusUpdates: jest.fn(),
-    startPeriodicStatusUpdates: jest.fn(),
-    loadStatusesForChannelAndSidebar: jest.fn(),
-}));
-
-jest.mock('actions/post_actions', () => ({
-    startPeriodicSync: jest.fn(),
-    stopPeriodicSync: jest.fn(),
-    reconnect: jest.fn(),
-}));
-
-jest.mock('utils/utils', () => ({
-    localizeMessage: jest.fn(),
-    isGuest: jest.fn(),
-    makeIsEligibleForClick: jest.fn(),
-}));
+jest.useFakeTimers();
 
 describe('components/team_controller', () => {
-    const history = {
-        push: jest.fn(),
-    };
     const teamType: TeamType = 'I';
     const teamsList = [TestHelper.getTeamMock({
         id: 'kemjcpu9bi877yegqjs18ndp4r',
@@ -55,12 +50,6 @@ describe('components/team_controller', () => {
         group_constrained: false,
     })];
 
-    const match = {
-        params: {
-            team: 'new',
-        },
-    };
-
     const teamData = TestHelper.getTeamMock({
         id: 'kemjcpu9bi877yegqjs18ndp4d',
         invite_id: 'kemjcpu9bi877yegqjs18ndp4a',
@@ -79,7 +68,26 @@ describe('components/team_controller', () => {
         group_constrained: false,
     });
 
-    const actions = {
+    const baseProps = {
+        license: {},
+        currentUser: TestHelper.getUserMock({
+            id: 'test',
+        }),
+        currentTeamId: teamData.id,
+        currentChannelId: TestHelper.getChannelMock().id,
+        mfaRequired: false,
+        teamsList,
+        history: {} as RouteComponentProps['history'],
+        location: {pathname: '/sss'} as RouteComponentProps['location'],
+        match: {params: {team: 'test'}} as Props['match'],
+        previousTeamId: '',
+        selectedThreadId: null,
+        collapsedThreads: true,
+        shouldShowAppBar: true,
+        adminSetupRequired: false,
+        isUserFirstAdmin: false,
+        isCustomGroupsEnabled: false,
+        plugins: [],
         fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
         fetchAllMyTeamsChannelsAndChannelMembers: jest.fn().mockResolvedValue({data: true}),
         fetchThreadMentionCountsByChannel: jest.fn().mockResolvedValue({data: true}),
@@ -96,44 +104,13 @@ describe('components/team_controller', () => {
         getGroups: jest.fn().mockResolvedValue({data: true}),
         getGroupsByUserIdPaginated: jest.fn().mockResolvedValue({data: true}),
     };
-    const baseProps = {
-        license: {},
-        actions,
-        currentUser: TestHelper.getUserMock({
-            id: 'test',
-        }),
-        mfaRequired: false,
-        match,
-        teamsList,
-        history,
-        previousTeamId: '',
-        selectedThreadId: null,
-        collapsedThreads: true,
-        shouldShowAppBar: true,
-        adminSetupRequired: false,
-        isUserFirstAdmin: false,
-        isCustomGroupsEnabled: false,
-    };
-    it('should match snapshots for init with existing team', () => {
-        const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
 
-        const existingTeamMatch = {
-            params: {
-                team: 'test',
-            },
-        };
-
-        const newActions = {...baseProps.actions, fetchMyChannelsAndMembers};
-        const props = {...baseProps, actions: newActions, match: existingTeamMatch};
-
-        const wrapper = shallow<TeamController>(
-            <TeamController {...props}/>,
+    test.only('should match snapshot', async () => {
+        render(
+            <MemoryRouter>
+                <TeamController {...baseProps}/>
+            </MemoryRouter>,
         );
-        expect(wrapper).toMatchSnapshot();
-        fetchMyChannelsAndMembers().then(() => {
-            expect(wrapper.state().finishedFetchingChannels).toEqual(true);
-            expect(wrapper).toMatchSnapshot();
-        });
     });
 
     it('check for addUserToTeam call if team does not exist', async () => {
@@ -169,7 +146,7 @@ describe('components/team_controller', () => {
         const newActions = {...baseProps.actions, addUserToTeam, getTeamByName};
         const props = {...baseProps, actions: newActions};
 
-        const wrapper = shallow<TeamController>(
+        const wrapper = shallow<typeof TeamController>(
             <TeamController {...props}/>,
         );
 
