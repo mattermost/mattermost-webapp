@@ -36,7 +36,7 @@
             }
         }
 
-        .heading>span {
+        .heading > span {
             overflow: hidden;
             line-height: 20px;
             text-overflow: ellipsis;
@@ -317,13 +317,13 @@
             opacity: 0.5;
         }
 
-        >div {
+        > div {
             display: flex;
             min-width: 0;
             flex: 0 1 auto;
         }
 
-        >a {
+        > a {
             display: inline-block;
             width: calc(100% - 65px);
             text-decoration: none;
@@ -510,9 +510,9 @@
 
     .intro-links {
         display: flex;
-        align-items: center;
         padding: 8px 16px;
         margin-bottom: 10px;
+        align-items: center;
 
         .fa,
         i {
@@ -565,7 +565,7 @@
     .divider {
         border-top: 1px solid transparent;
 
-        &+.divider {
+        & + .divider {
             display: none;
         }
     }
@@ -771,7 +771,7 @@
                 height: 16px;
             }
 
-            &-emoji>span:first-child {
+            &-emoji > span:first-child {
                 width: 16px;
                 min-width: 16px;
                 height: 16px;
@@ -832,7 +832,7 @@
             right: -400px;
         }
 
-        >a {
+        > a {
             color: inherit;
             opacity: 0.6;
             text-decoration: none;
