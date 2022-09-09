@@ -87,9 +87,6 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
               isRHS={true}
               userId="user_id"
             />
-            <BotTag
-              show={false}
-            />
           </div>
           <div
             className="col"
@@ -317,9 +314,6 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               disablePopover={false}
               isRHS={true}
               userId="user_id"
-            />
-            <BotTag
-              show={false}
             />
           </div>
           <div
@@ -560,9 +554,6 @@ exports[`components/SearchResultsItem should match snapshot for archived channel
               isRHS={true}
               userId="user_id"
             />
-            <BotTag
-              show={false}
-            />
           </div>
           <div
             className="col"
@@ -790,9 +781,6 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               disablePopover={false}
               isRHS={true}
               userId="user_id"
-            />
-            <BotTag
-              show={false}
             />
           </div>
           <div
@@ -1039,9 +1027,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               overwriteName="overridden_username"
               userId="user_id"
             />
-            <BotTag
-              show={true}
-            />
+            <BotTag />
           </div>
           <div
             className="col"
@@ -1216,9 +1202,7 @@ exports[`components/SearchResultsItem should match snapshot for deleted message 
               overwriteName="overridden_username"
               userId="user_id"
             />
-            <BotTag
-              show={true}
-            />
+            <BotTag />
           </div>
           <div
             className="col"
@@ -1377,9 +1361,6 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               disablePopover={false}
               isRHS={true}
               userId="user_id"
-            />
-            <BotTag
-              show={false}
             />
           </div>
           <div
@@ -1613,9 +1594,6 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               disablePopover={false}
               isRHS={true}
               userId="user_id"
-            />
-            <BotTag
-              show={false}
             />
           </div>
           <div
@@ -1858,9 +1836,6 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               isRHS={true}
               userId="user_id"
             />
-            <BotTag
-              show={false}
-            />
           </div>
           <div
             className="col"
@@ -2102,9 +2077,6 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               isRHS={true}
               userId="user_id"
             />
-            <BotTag
-              show={false}
-            />
           </div>
           <div
             className="col"
@@ -2341,9 +2313,6 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               disablePopover={false}
               isRHS={true}
               userId="user_id"
-            />
-            <BotTag
-              show={false}
             />
           </div>
           <div
@@ -2586,9 +2555,6 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               isRHS={true}
               userId="user_id"
             />
-            <BotTag
-              show={false}
-            />
           </div>
           <div
             className="col"
@@ -2820,9 +2786,6 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
               disablePopover={false}
               isRHS={true}
               userId="user_id"
-            />
-            <BotTag
-              show={false}
             />
           </div>
           <div

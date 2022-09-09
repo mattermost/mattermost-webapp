@@ -55,32 +55,6 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         @user2
       </span>
-      <BotTag
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Tag)
-          className="BotTag badge-autocomplete"
-          text="BOT"
-        >
-          <TagWrapper
-            as="div"
-            className="Tag BotTag badge-autocomplete"
-            size="xs"
-          >
-            <div
-              className="TagWrapper-kejyZk dOUjJf Tag BotTag badge-autocomplete"
-              size="xs"
-            >
-              <span
-                className="Tag__text"
-              >
-                BOT
-              </span>
-            </div>
-          </TagWrapper>
-        </Memo(Tag)>
-      </BotTag>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -98,32 +72,6 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         a b (c)
       </span>
-      <GuestTag
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Tag)
-          className="GuestTag badge-autocomplete"
-          text="GUEST"
-        >
-          <TagWrapper
-            as="div"
-            className="Tag GuestTag badge-autocomplete"
-            size="xs"
-          >
-            <div
-              className="TagWrapper-kejyZk dOUjJf Tag GuestTag badge-autocomplete"
-              size="xs"
-            >
-              <span
-                className="Tag__text"
-              >
-                GUEST
-              </span>
-            </div>
-          </TagWrapper>
-        </Memo(Tag)>
-      </GuestTag>
     </span>
   </div>
 </AtMentionSuggestion>
@@ -185,32 +133,6 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         @user
       </span>
-      <BotTag
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Tag)
-          className="BotTag badge-autocomplete"
-          text="BOT"
-        >
-          <TagWrapper
-            as="div"
-            className="Tag BotTag badge-autocomplete"
-            size="xs"
-          >
-            <div
-              className="TagWrapper-kejyZk dOUjJf Tag BotTag badge-autocomplete"
-              size="xs"
-            >
-              <span
-                className="Tag__text"
-              >
-                BOT
-              </span>
-            </div>
-          </TagWrapper>
-        </Memo(Tag)>
-      </BotTag>
       <Component
         emojiSize={15}
         emojiStyle={
@@ -240,32 +162,6 @@ exports[`at mention suggestion Should not display nick name of the signed in use
           </span>
         </FormattedMessage>
       </span>
-      <GuestTag
-        className="badge-autocomplete"
-        show={false}
-      >
-        <Memo(Tag)
-          className="GuestTag badge-autocomplete"
-          text="GUEST"
-        >
-          <TagWrapper
-            as="div"
-            className="Tag GuestTag badge-autocomplete"
-            size="xs"
-          >
-            <div
-              className="TagWrapper-kejyZk dOUjJf Tag GuestTag badge-autocomplete"
-              size="xs"
-            >
-              <span
-                className="Tag__text"
-              >
-                GUEST
-              </span>
-            </div>
-          </TagWrapper>
-        </Memo(Tag)>
-      </GuestTag>
     </span>
   </div>
 </AtMentionSuggestion>

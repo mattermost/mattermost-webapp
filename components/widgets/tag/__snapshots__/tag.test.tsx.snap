@@ -17,7 +17,7 @@ exports[`components/widgets/tag/Tag should match the snapshot on show 1`] = `
 exports[`components/widgets/tag/Tag should match the snapshot with "success" variant 1`] = `
 <TagWrapper
   as="div"
-  className="Tag success test"
+  className="Tag Tag__success test"
   size="xs"
 >
   <span

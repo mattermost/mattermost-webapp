@@ -73,7 +73,7 @@ describe('components/widgets/tag/Tag', () => {
                 variant={'success'}
             />,
         );
-        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, className: 'Tag success test'}));
+        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, className: 'Tag Tag__success test'}));
         expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
