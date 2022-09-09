@@ -42,7 +42,7 @@ describe('components/post_view/Reaction', () => {
         reactions,
         emojiImageUrl: 'emoji_image_url',
         actions,
-        autoplayGifAndEmojis: 'true'
+        autoplayGifAndEmojis: 'true',
     };
 
     test('should match snapshot', () => {
