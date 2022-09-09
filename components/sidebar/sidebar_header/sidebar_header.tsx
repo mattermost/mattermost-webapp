@@ -121,6 +121,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 id={'sidebar-header-container'}
             >
                 <OverlayTrigger
+
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={currentTeam.description?.length ? (
@@ -131,9 +132,15 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         onToggle={handleMenuToggle}
                         className='SidebarHeaderMenuWrapper test-team-header'
                     >
-                        <SidebarHeading>
-                            <span className='title'>{currentTeam.display_name}</span>
-                            <i className='icon icon-chevron-down'/>
+                        <SidebarHeading >
+                            <div
+                                className='title'
+                                tabIndex={0}
+                            >{currentTeam.display_name}</div>
+                            <i
+                                tabIndex={1}
+                                className='icon icon-chevron-down'
+                            />
                         </SidebarHeading>
                         <MainMenu
                             id='sidebarDropdownMenu'
