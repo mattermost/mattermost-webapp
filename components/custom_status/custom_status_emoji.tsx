@@ -1,20 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useMemo} from 'react';
+
+import React, {useMemo, memo} from 'react';
 import {useSelector} from 'react-redux';
 
+import {CustomStatusDuration} from '@mattermost/types/users';
+
+import {GlobalState} from 'types/store';
+import {getCurrentUserTimezone} from 'selectors/general';
+import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
+
+import Constants from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import RenderEmoji from 'components/emoji/render_emoji';
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
-import {getCurrentUserTimezone} from 'selectors/general';
-import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
-import {GlobalState} from 'types/store';
-import Constants from 'utils/constants';
 
 import ExpiryTime from './expiry_time';
 
-interface ComponentProps {
+interface Props {
     emojiSize?: number;
     showTooltip?: boolean;
     tooltipDirection?: 'top' | 'right' | 'bottom' | 'left';
@@ -24,15 +27,24 @@ interface ComponentProps {
     onClick?: () => void;
 }
 
-const CustomStatusEmoji = (props: ComponentProps) => {
+function CustomStatusEmoji({
+    emojiSize = 16,
+    showTooltip = false,
+    tooltipDirection = 'top',
+    spanStyle = {},
+    emojiStyle = {
+        marginLeft: 4,
+    },
+    userID = '',
+    onClick,
+}: Props) {
     const getCustomStatus = useMemo(makeGetCustomStatus, []);
-    const {emojiSize, emojiStyle, spanStyle, showTooltip, tooltipDirection, userID, onClick} = props;
-
-    const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const customStatus = useSelector((state: GlobalState) => getCustomStatus(state, userID));
-    const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, customStatus));
+
     const timezone = useSelector(getCurrentUserTimezone);
 
+    const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, customStatus));
+    const customStatusEnabled = useSelector(isCustomStatusEnabled);
     const isCustomStatusSet = Boolean(customStatusEnabled && customStatus?.emoji && !customStatusExpired);
     if (!isCustomStatusSet) {
         return null;
@@ -91,17 +103,10 @@ const CustomStatusEmoji = (props: ComponentProps) => {
             </span>
         </OverlayTrigger>
     );
-};
+}
 
-CustomStatusEmoji.defaultProps = {
-    userID: '',
-    emojiSize: 16,
-    tooltipDirection: 'top',
-    showTooltip: false,
-    spanStyle: {},
-    emojiStyle: {
-        marginLeft: 4,
-    },
-};
+function arePropsEqual(prevProps: Props, nextProps: Props) {
+    return prevProps.userID === nextProps.userID;
+}
 
-export default CustomStatusEmoji;
+export default memo(CustomStatusEmoji, arePropsEqual);

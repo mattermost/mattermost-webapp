@@ -31,6 +31,8 @@ function shortcutReactToLastPostEmittedFrom(state = '', action: GenericAction) {
         }
         return state;
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
     default:
         return state;
     }

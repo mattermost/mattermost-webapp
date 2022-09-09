@@ -27,11 +27,11 @@ export default function useCopyText(options: CopyOptions): CopyResponse {
         successCopyTimeout = options.successCopyTimeout;
     }
 
-    if (options.trackCallback) {
-        options.trackCallback();
-    }
-
     const onClick = useCallback(() => {
+        if (options.trackCallback) {
+            options.trackCallback();
+        }
+
         if (timerRef.current) {
             clearTimeout(timerRef.current);
             timerRef.current = null;

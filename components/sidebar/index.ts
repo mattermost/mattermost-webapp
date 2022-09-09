@@ -8,24 +8,26 @@ import {fetchMyCategories} from 'mattermost-redux/actions/channel_categories';
 import {Preferences} from 'mattermost-redux/constants';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getBool} from 'mattermost-redux/selectors/entities/preferences';
-import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {haveICurrentChannelPermission, haveISystemPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
-
 import {createCategory, clearChannelSelection} from 'actions/views/channel_sidebar';
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
-import {openModal} from 'actions/views/modals';
+import {closeModal, openModal} from 'actions/views/modals';
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 import {getIsLhsOpen} from 'selectors/lhs';
 import {getIsMobileView} from 'selectors/views/browser';
+import {isModalOpen} from 'selectors/views/modals';
+import {ModalIdentifiers} from 'utils/constants';
 
 import Sidebar from './sidebar';
 
 function mapStateToProps(state: GlobalState) {
     const currentTeam = getCurrentTeam(state);
     const unreadFilterEnabled = isUnreadFilterEnabled(state);
+    const userGroupsEnabled = isCustomGroupsEnabled(state);
 
     let canCreatePublicChannel = false;
     let canCreatePrivateChannel = false;
@@ -36,6 +38,9 @@ function mapStateToProps(state: GlobalState) {
         canCreatePrivateChannel = haveICurrentChannelPermission(state, Permissions.CREATE_PRIVATE_CHANNEL);
         canJoinPublicChannel = haveICurrentChannelPermission(state, Permissions.JOIN_PUBLIC_CHANNELS);
     }
+
+    const canCreateCustomGroups = haveISystemPermission(state, {permission: Permissions.CREATE_CUSTOM_GROUP}) && isCustomGroupsEnabled(state);
+
     return {
         teamId: currentTeam ? currentTeam.id : '',
         canCreatePrivateChannel,
@@ -51,6 +56,9 @@ function mapStateToProps(state: GlobalState) {
         isCloud: getLicense(state).Cloud === 'true',
         unreadFilterEnabled,
         isMobileView: getIsMobileView(state),
+        isKeyBoardShortcutModalOpen: isModalOpen(state, ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL),
+        userGroupsEnabled,
+        canCreateCustomGroups,
     };
 }
 
@@ -59,6 +67,7 @@ type Actions = {
     createCategory: (teamId: string, categoryName: string) => {data: string};
     openModal: <P>(modalData: ModalData<P>) => void;
     clearChannelSelection: () => void;
+    closeModal: (modalId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -68,6 +77,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             createCategory,
             fetchMyCategories,
             openModal,
+            closeModal,
         }, dispatch),
     };
 }

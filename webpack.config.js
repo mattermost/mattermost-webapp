@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 const childProcess = require('child_process');
-
 const path = require('path');
 
 const url = require('url');
-
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
@@ -15,12 +13,14 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
 
+// const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+
 const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
 
-const targetIsRun = NPM_TARGET === 'run';
+const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
-const targetIsDevServer = NPM_TARGET === 'dev-server';
+const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
@@ -131,11 +131,12 @@ if (DEV) {
 }
 
 var config = {
-    entry: ['./root.jsx', 'root.html'],
+    entry: ['./root.tsx', 'root.html'],
     output: {
         publicPath,
         filename: '[name].[contenthash].js',
         chunkFilename: '[name].[contenthash].js',
+        clean: true,
     },
     module: {
         rules: [
@@ -238,12 +239,12 @@ var config = {
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
-            superagent: 'node_modules/superagent/lib/client',
         },
         extensions: ['.ts', '.tsx', '.js', '.jsx'],
         fallback: {
             crypto: require.resolve('crypto-browserify'),
             stream: require.resolve('stream-browserify'),
+            buffer: require.resolve('buffer/'),
         },
     },
     performance: {
@@ -296,6 +297,12 @@ var config = {
                 {from: 'images/c_avatar.png', to: 'images'},
                 {from: 'images/c_download.png', to: 'images'},
                 {from: 'images/c_socket.png', to: 'images'},
+                {from: 'images/admin-onboarding-background.jpg', to: 'images'},
+                {from: 'images/payment-method-illustration.png', to: 'images'},
+                {from: 'images/cloud-laptop.png', to: 'images'},
+                {from: 'images/cloud-laptop-error.png', to: 'images'},
+                {from: 'images/cloud-laptop-warning.png', to: 'images'},
+                {from: 'images/cloud-upgrade-person-hand-to-face.png', to: 'images'},
             ],
         }),
 
@@ -365,6 +372,13 @@ var config = {
                 sizes: '96x96',
             }],
         }),
+
+        // Disabling this plugin until we come up with better bundle analysis ci
+        // new BundleAnalyzerPlugin({
+        //     analyzerMode: 'disabled',
+        //     generateStatsFile: true,
+        //     statsFilename: 'bundlestats.json',
+        // }),
     ],
 };
 
@@ -402,7 +416,7 @@ config.plugins.push(new webpack.DefinePlugin({
 
 // Test mode configuration
 if (targetIsTest) {
-    config.entry = ['./root.jsx'];
+    config.entry = ['./root.tsx'];
     config.target = 'node';
     config.externals = [nodeExternals()];
 }
@@ -412,8 +426,7 @@ if (targetIsDevServer) {
         ...config,
         devtool: 'eval-cheap-module-source-map',
         devServer: {
-            hot: true,
-            liveReload: false,
+            liveReload: true,
             proxy: [{
                 context: () => true,
                 bypass(req) {

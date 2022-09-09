@@ -10,7 +10,7 @@ import {
     PostEmbed,
     PostImage,
     PostMetadata,
-} from 'mattermost-redux/types/posts';
+} from '@mattermost/types/posts';
 
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
 
@@ -41,6 +41,7 @@ describe('PostBodyAdditionalContent', () => {
             metadata: {} as PostMetadata,
         } as Post,
         isEmbedVisible: true,
+        handleFileDropdownOpened: jest.fn(),
         actions: {
             toggleEmbedVisibility: jest.fn(),
         },
@@ -388,6 +389,8 @@ describe('PostBodyAdditionalContent', () => {
                             post_id: 'post_id123',
                             channel_display_name: 'channel1',
                             team_name: 'core',
+                            channel_type: 'O',
+                            channel_id: 'channel_id',
                         },
                     }],
                     images: {},

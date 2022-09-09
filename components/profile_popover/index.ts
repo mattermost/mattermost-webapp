@@ -30,7 +30,7 @@ import {Action} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import ProfilePopover from './profile_popover';
 

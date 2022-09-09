@@ -4,44 +4,58 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
-import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {Action, GenericAction} from 'mattermost-redux/types/actions';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCloudLicense} from 'utils/license_utils';
-
-import {openModal} from 'actions/views/modals';
-import {requestTrialLicense} from 'actions/admin_actions';
+import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
+import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
+import {isCloudLicense} from 'utils/license_utils';
+import {LicenseSkus} from 'utils/constants';
+
+import {openModal} from 'actions/views/modals';
+
+import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
+
 import FeatureDiscovery from './feature_discovery';
 
 function mapStateToProps(state: GlobalState) {
+    const subscription = state.entities.cloud.subscription;
+    const license = getLicense(state);
+    const isCloud = isCloudLicense(license);
+    const hasPriorTrial = checkHadPriorTrial(state);
+    const isCloudTrial = subscription?.is_free_trial === 'true';
+    const contactSalesLink = getCloudContactUsLink(state)(InquiryType.Sales);
     return {
         stats: state.entities.admin.analytics,
         prevTrialLicense: state.entities.admin.prevTrialLicense,
-        isCloud: isCloudLicense(getLicense(state)),
+        isCloud,
+        isCloudTrial,
+        isSubscriptionLoaded: subscription !== undefined,
+        hadPrevCloudTrial: hasPriorTrial,
+        isPaidSubscription: isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isCloudTrial,
+        contactSalesLink,
     };
 }
 
 type Actions = {
-    requestTrialLicense: () => Promise<{error?: string; data?: null}>;
-    getLicenseConfig: () => void;
     getPrevTrialLicense: () => void;
+    getCloudSubscription: () => void;
     openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
-            requestTrialLicense,
-            getLicenseConfig,
             getPrevTrialLicense,
+            getCloudSubscription,
             openModal,
         }, dispatch),
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(FeatureDiscovery);
+export default withGetCloudSubscription(connect(mapStateToProps, mapDispatchToProps)(FeatureDiscovery));

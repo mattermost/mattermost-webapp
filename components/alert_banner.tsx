@@ -6,36 +6,56 @@ import classNames from 'classnames';
 
 import './alert_banner.scss';
 
-type Props = {
-    mode: 'danger' | 'warning' | 'info';
+export type ModeType = 'danger' | 'warning' | 'info' | 'success';
+
+export type AlertBannerProps = {
+    mode: ModeType;
     title?: React.ReactNode;
-    message: React.ReactNode;
+    message?: React.ReactNode;
+    children?: React.ReactNode;
     className?: string;
+    hideIcon?: boolean;
+    actionButtonLeft?: React.ReactNode;
+    actionButtonRight?: React.ReactNode;
     onDismiss?: () => void;
     variant?: 'sys' | 'app';
 }
 
-const AlertBanner: React.FC<Props> = (props: Props) => {
-    const {mode, title, message, className, onDismiss} = props;
-
-    const variant = props.variant || 'sys';
-
-    return (
-        <div className={classNames('AlertBanner', mode, className, `AlertBanner--${variant}`)}>
+const AlertBanner = ({
+    mode,
+    title,
+    message,
+    className,
+    variant = 'sys',
+    onDismiss,
+    actionButtonLeft,
+    actionButtonRight,
+    hideIcon,
+    children,
+}: AlertBannerProps) => (
+    <div
+        className={classNames(
+            'AlertBanner',
+            mode,
+            className,
+            `AlertBanner--${variant}`,
+        )}
+    >
+        {!hideIcon && (
             <div className='AlertBanner__icon'>
-                {mode === 'info' &&
-                    <i className='icon-alert-circle-outline'/>
-                }
-                {mode !== 'info' &&
-                    <i className='icon-alert-outline'/>
-                }
+                <i
+                    className={classNames({
+                        'icon-alert-outline':
+                            mode === 'danger' || mode === 'warning',
+                        'icon-check': mode === 'success',
+                        'icon-alert-circle-outline': mode === 'info',
+                    })}
+                />
             </div>
-            <div className='AlertBanner__body'>
-                {title &&
-                    <div className='AlertBanner__title'>
-                        {title}
-                    </div>
-                }
+        )}
+        <div className='AlertBanner__body'>
+            {title && <div className='AlertBanner__title'>{title}</div>}
+            {message && (
                 <div
                     className={classNames({
                         AlertBanner__message: Boolean(title),
@@ -43,17 +63,24 @@ const AlertBanner: React.FC<Props> = (props: Props) => {
                 >
                     {message}
                 </div>
-            </div>
-            {onDismiss &&
-                <button
-                    className='AlertBanner__closeButton'
-                    onClick={onDismiss}
-                >
-                    <i className='icon-close'/>
-                </button>
-            }
+            )}
+            {children}
+            {(actionButtonLeft || actionButtonRight) && (
+                <div className='AlertBanner__actionButtons'>
+                    {actionButtonLeft}
+                    {actionButtonRight}
+                </div>
+            )}
         </div>
-    );
-};
+        {onDismiss && (
+            <button
+                className='AlertBanner__closeButton'
+                onClick={onDismiss}
+            >
+                <i className='icon-close'/>
+            </button>
+        )}
+    </div>
+);
 
 export default AlertBanner;

@@ -3,10 +3,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {JobTypes, exportFormats} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {getSiteURL} from 'utils/url';
 
 import AdminSettings from './admin_settings';
@@ -257,9 +257,21 @@ export default class MessageExportSettings extends AdminSettings {
                         />
                     }
                     helpText={
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.service.complianceExportDesc'
-                            defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See [the documentation](!https://about.mattermost.com/default-compliance-export-documentation) to learn more.'
+                            defaultMessage='When true, Mattermost will export all messages that were posted in the last 24 hours. The export task is scheduled to run once per day. See <link>the documentation</link> to learn more.'
+                            values={{
+                                link: (msg) => (
+                                    <a
+                                        href='https://docs.mattermost.com/comply/compliance-export.html'
+                                        referrer='noreferrer'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     }
                     value={this.state.enableComplianceExport}

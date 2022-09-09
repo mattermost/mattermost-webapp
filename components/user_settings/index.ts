@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import UserSettings from './user_settings';
 

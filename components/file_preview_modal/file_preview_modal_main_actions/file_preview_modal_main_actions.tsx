@@ -7,7 +7,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getFilePublicLink} from 'mattermost-redux/actions/files';
 import {getFilePublicLink as selectFilePublicLink} from 'mattermost-redux/selectors/entities/files';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -29,6 +29,7 @@ interface Props {
     usedInside?: 'Header' | 'Footer';
     showOnlyClose?: boolean;
     showClose?: boolean;
+    showPublicLink?: boolean;
     filename: string;
     fileURL: string;
     fileInfo: FileInfo | LinkInfo;
@@ -44,10 +45,10 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     const [publicLinkCopied, setPublicLinkCopied] = useState(false);
 
     useEffect(() => {
-        if (isFileInfo(props.fileInfo)) {
+        if (isFileInfo(props.fileInfo) && props.enablePublicLink) {
             dispatch(getFilePublicLink(props.fileInfo.id));
         }
-    }, [props.fileInfo]);
+    }, [props.fileInfo, props.enablePublicLink]);
     const copyPublicLink = () => {
         copyToClipboard(selectedFilePublicLink ?? '');
         setPublicLinkCopied(true);
@@ -140,7 +141,7 @@ const FilePreviewModalMainActions: React.FC<Props> = (props: Props) => {
     );
     return (
         <div className='file-preview-modal-main-actions__actions'>
-            {!props.showOnlyClose && props.enablePublicLink && publicLink}
+            {!props.showOnlyClose && props.enablePublicLink && props.showPublicLink && publicLink}
             {!props.showOnlyClose && props.canDownloadFiles && download}
             {props.showClose && closeButton}
         </div>
@@ -151,6 +152,7 @@ FilePreviewModalMainActions.defaultProps = {
     showOnlyClose: false,
     usedInside: 'Header',
     showClose: true,
+    showPublicLink: true,
 };
 
 export default memo(FilePreviewModalMainActions);

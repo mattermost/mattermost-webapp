@@ -6,8 +6,11 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {doPostActionWithCookie} from 'mattermost-redux/actions/posts';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
+
+import {openModal} from 'actions/views/modals';
+import {ModalData} from 'types/actions';
 
 import MessageAttachment from './message_attachment';
 
@@ -19,12 +22,13 @@ function mapStateToProps(state: GlobalState) {
 
 type Actions = {
     doPostActionWithCookie: (postId: string, actionId: string, actionCookie: string, selectedOption?: string | undefined) => Promise<ActionResult>;
+    openModal: <P>(modalData: ModalData<P>) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            doPostActionWithCookie,
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc | GenericAction>, Actions>({
+            doPostActionWithCookie, openModal,
         }, dispatch),
     };
 }

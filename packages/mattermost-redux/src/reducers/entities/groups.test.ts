@@ -48,7 +48,7 @@ describe('reducers/entities/groups', () => {
                 syncables: {},
                 groups: {},
                 stats: {},
-                myGroups: {},
+                myGroups: [],
             };
             const action = {
                 type: GroupTypes.RECEIVED_GROUP_TEAMS,
@@ -101,7 +101,7 @@ describe('reducers/entities/groups', () => {
                 syncables: {},
                 groups: {},
                 stats: {},
-                myGroups: {},
+                myGroups: [],
             };
             const action = {
                 type: GroupTypes.RECEIVED_GROUP_CHANNELS,
@@ -134,7 +134,7 @@ describe('reducers/entities/groups', () => {
                 syncables: {},
                 groups: {},
                 stats: {},
-                myGroups: {},
+                myGroups: [],
             };
             const action = {
                 type: GroupTypes.LINKED_GROUP_TEAM,
@@ -169,7 +169,7 @@ describe('reducers/entities/groups', () => {
                 syncables: {},
                 groups: {},
                 stats: {},
-                myGroups: {},
+                myGroups: [],
             };
             const action = {
                 type: GroupTypes.LINKED_GROUP_CHANNEL,
@@ -245,7 +245,7 @@ describe('reducers/entities/groups', () => {
                 },
                 groups: {},
                 stats: {},
-                myGroups: {},
+                myGroups: [],
             };
             const action = {
                 type: GroupTypes.UNLINKED_GROUP_TEAM,
@@ -323,7 +323,7 @@ describe('reducers/entities/groups', () => {
                 },
                 groups: {},
                 stats: {},
-                myGroups: {},
+                myGroups: [],
             };
             const action = {
                 type: GroupTypes.UNLINKED_GROUP_CHANNEL,

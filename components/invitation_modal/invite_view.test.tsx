@@ -3,11 +3,13 @@
 
 import React from 'react';
 
+import {Provider} from 'react-redux';
+
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {InviteToTeamTreatments} from 'mattermost-redux/constants/config';
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import InviteAs, {InviteType} from './invite_as';
 import InviteView, {Props} from './invite_view';
@@ -25,7 +27,6 @@ const defaultProps: Props = deepFreeze({
     currentChannel: {
         display_name: 'some_channel',
     },
-    inviteToTeamTreatment: InviteToTeamTreatments.NONE,
     setCustomMessage: jest.fn(),
     toggleCustomMessage: jest.fn(),
     channelsLoader: jest.fn(),
@@ -34,7 +35,6 @@ const defaultProps: Props = deepFreeze({
     usersLoader: jest.fn(),
     onChangeUsersEmails: jest.fn(),
     isCloud: false,
-    cloudUserLimit: '10',
     emailInvitationsEnabled: true,
     onUsersInputChange: jest.fn(),
     headerClass: '',
@@ -59,12 +59,41 @@ const defaultProps: Props = deepFreeze({
 let props = defaultProps;
 
 describe('InviteView', () => {
+    const state = {
+        entities: {
+            general: {
+                license: {
+                    IsLicensed: 'true',
+                    Cloud: 'true',
+                },
+            },
+            cloud: {
+                subscription: {
+                    is_free_trial: 'false',
+                    trial_end_at: 0,
+                },
+            },
+            users: {
+                currentUserId: 'uid',
+                profiles: {
+                    uid: {},
+                },
+            },
+        },
+    };
+
+    const store = mockStore(state);
+
     beforeEach(() => {
         props = defaultProps;
     });
 
     it('shows InviteAs component when user can choose to invite guests or users', () => {
-        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
+        const wrapper = mountWithThemedIntl(
+            <Provider store={store}>
+                <InviteView {...props}/>
+            </Provider>,
+        );
         expect(wrapper.find(InviteAs).length).toBe(1);
     });
 
@@ -74,7 +103,11 @@ describe('InviteView', () => {
             canAddUsers: false,
         };
 
-        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
+        const wrapper = mountWithThemedIntl(
+            <Provider store={store}>
+                <InviteView {...props}/>
+            </Provider>,
+        );
         expect(wrapper.find(InviteAs).length).toBe(0);
     });
 
@@ -84,7 +117,11 @@ describe('InviteView', () => {
             canInviteGuests: false,
         };
 
-        const wrapper = mountWithThemedIntl(<InviteView {...props}/>);
+        const wrapper = mountWithThemedIntl(
+            <Provider store={store}>
+                <InviteView {...props}/>
+            </Provider>,
+        );
         expect(wrapper.find(InviteAs).length).toBe(0);
     });
 });

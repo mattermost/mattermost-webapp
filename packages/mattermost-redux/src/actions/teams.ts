@@ -1,29 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile} from '@mattermost/types/users';
+import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
+
 import {Client4} from 'mattermost-redux/client';
-import {General} from '../constants';
+
+import {General} from 'mattermost-redux/constants';
 import {ChannelTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
+import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {isCompatibleWithJoinViewTeamPermissions} from 'mattermost-redux/selectors/entities/general';
-
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult, batchActions, Action} from 'mattermost-redux/types/actions';
-
-import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from 'mattermost-redux/types/teams';
-
-import {UserProfile} from 'mattermost-redux/types/users';
-
-import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
-
-import {selectChannel} from './channels';
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
-import {getProfilesByIds, getStatusesByIds} from './users';
-import {loadRolesIfNeeded} from './roles';
+import {getProfilesByIds, getStatusesByIds} from 'mattermost-redux/actions/users';
+import {logError} from 'mattermost-redux/actions/errors';
+import {selectChannel} from 'mattermost-redux/actions/channels';
+import {bindClientFunc, forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 async function getProfilesAndStatusesForMembers(userIds: string[], dispatch: DispatchFunc, getState: GetStateFunc) {
     const {
@@ -55,15 +57,11 @@ async function getProfilesAndStatusesForMembers(userIds: string[], dispatch: Dis
     await Promise.all(requests);
 }
 
-export function selectTeam(team: Team | string): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const teamId = (typeof team === 'string') ? team : team.id;
-        dispatch({
-            type: TeamTypes.SELECT_TEAM,
-            data: teamId,
-        });
-
-        return {data: true};
+export function selectTeam(team: Team | string) {
+    const teamId = (typeof team === 'string') ? team : team.id;
+    return {
+        type: TeamTypes.SELECT_TEAM,
+        data: teamId,
     };
 }
 
@@ -111,7 +109,7 @@ export function getMyTeamUnreads(collapsedThreads: boolean, skipCurrentTeam = fa
     };
 }
 
-export function getTeam(teamId: string): ActionFunc {
+export function getTeam(teamId: string): ActionFunc<Team, ServerError> {
     return bindClientFunc({
         clientFunc: Client4.getTeam,
         onSuccess: TeamTypes.RECEIVED_TEAM,
@@ -121,7 +119,7 @@ export function getTeam(teamId: string): ActionFunc {
     });
 }
 
-export function getTeamByName(teamName: string): ActionFunc {
+export function getTeamByName(teamName: string): ActionFunc<Team, ServerError> {
     return bindClientFunc({
         clientFunc: Client4.getTeamByName,
         onSuccess: TeamTypes.RECEIVED_TEAM,
@@ -146,7 +144,7 @@ export function getTeams(page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, i
             return {error};
         }
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             {
                 type: TeamTypes.RECEIVED_TEAMS_LIST,
                 data: includeTotalCount ? data.teams : data,
@@ -179,10 +177,8 @@ export function searchTeams(term: string, opts: TeamSearchOpts = {}): ActionFunc
             response = await Client4.searchTeams(term, opts);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: TeamTypes.GET_TEAMS_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: TeamTypes.GET_TEAMS_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 
@@ -262,7 +258,7 @@ export function deleteTeam(teamId: string): ActionFunc {
         const {
             currentTeamId,
         } = entities.teams;
-        const actions: Action[] = [];
+        const actions: AnyAction[] = [];
         if (teamId === currentTeamId) {
             EventEmitter.emit('leave_team');
             actions.push({type: ChannelTypes.SELECT_CHANNEL, data: ''});
@@ -296,6 +292,18 @@ export function unarchiveTeam(teamId: string): ActionFunc {
             type: TeamTypes.RECEIVED_TEAM_UNARCHIVED,
             data: team,
         });
+
+        return {data: true};
+    };
+}
+
+export function archiveAllTeamsExcept(teamId: string) {
+    return async () => {
+        try {
+            await Client4.archiveAllTeamsExcept(teamId);
+        } catch (error) {
+            return {error};
+        }
 
         return {data: true};
     };
@@ -356,7 +364,7 @@ export function getMyTeamMembers(): ActionFunc {
     };
 }
 
-export function getTeamMembers(teamId: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, options: GetTeamMembersOpts): ActionFunc {
+export function getTeamMembers(teamId: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, options: GetTeamMembersOpts): ActionFunc<TeamMembership[], ServerError> {
     return bindClientFunc({
         clientFunc: Client4.getTeamMembers,
         onRequest: TeamTypes.GET_TEAM_MEMBERS_REQUEST,
@@ -565,7 +573,7 @@ export function removeUserFromTeam(teamId: string, userId: string): ActionFunc {
             user_id: userId,
         };
 
-        const actions: Action[] = [
+        const actions: AnyAction[] = [
             {
                 type: UserTypes.RECEIVED_PROFILE_NOT_IN_TEAM,
                 data: {id: teamId, user_id: userId},
@@ -669,6 +677,23 @@ export function sendEmailGuestInvitesToChannelsGracefully(teamId: string, channe
     });
 }
 
+export function sendEmailInvitesToTeamAndChannelsGracefully(
+    teamId: string,
+    channelIds: string[],
+    emails: string[],
+    message: string,
+): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.sendEmailInvitesToTeamAndChannelsGracefully,
+        params: [
+            teamId,
+            channelIds,
+            emails,
+            message,
+        ],
+    });
+}
+
 export function getTeamInviteInfo(inviteId: string): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getTeamInviteInfo,
@@ -710,10 +735,8 @@ export function joinTeam(inviteId: string, teamId: string): ActionFunc {
             }
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(batchActions([
-                {type: TeamTypes.JOIN_TEAM_FAILURE, error},
-                logError(error),
-            ]));
+            dispatch({type: TeamTypes.JOIN_TEAM_FAILURE, error});
+            dispatch(logError(error));
             return {error};
         }
 

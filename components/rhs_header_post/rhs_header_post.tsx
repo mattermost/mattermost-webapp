@@ -4,33 +4,41 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import FollowButton from 'components/threading/common/follow_button';
+import KeyboardShortcutSequence, {
+    KEYBOARD_SHORTCUTS,
+} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import {browserHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
+import CRTThreadsPaneTutorialTip
+    from 'components/crt_tour/crt_threads_pane_tutorial_tip/crt_threads_pane_tutorial_tip';
+import {RhsState} from 'types/store/rhs';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
     isMobileView: boolean;
     rootPostId: string;
-    previousRhsState?: string;
+    previousRhsState?: RhsState;
     relativeTeamUrl: string;
     channel: Channel;
     isCollapsedThreadsEnabled: boolean;
     isFollowingThread?: boolean;
     currentTeamId: string;
+    showThreadsTutorialTip: boolean;
     currentUserId: string;
     setRhsExpanded: (b: boolean) => void;
     showMentions: () => void;
     showSearchResults: () => void;
     showFlaggedPosts: () => void;
     showPinnedPosts: () => void;
+    goBack: () => void;
     closeRightHandSide: (e?: React.MouseEvent) => void;
     toggleRhsExpanded: (e: React.MouseEvent) => void;
     setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
@@ -42,16 +50,10 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
         switch (this.props.previousRhsState) {
         case RHSStates.SEARCH:
-            this.props.showSearchResults();
-            break;
         case RHSStates.MENTION:
-            this.props.showMentions();
-            break;
         case RHSStates.FLAG:
-            this.props.showFlaggedPosts();
-            break;
         case RHSStates.PIN:
-            this.props.showPinnedPosts();
+            this.props.goBack();
             break;
         default:
             break;
@@ -125,7 +127,12 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
             <Tooltip id='expandSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.expandSidebarTooltip'
-                    defaultMessage='Expand Sidebar'
+                    defaultMessage='Expand the right sidebar'
+                />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
                 />
             </Tooltip>
         );
@@ -134,7 +141,12 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
             <Tooltip id='shrinkSidebarTooltip'>
                 <FormattedMessage
                     id='rhs_header.collapseSidebarTooltip'
-                    defaultMessage='Collapse Sidebar'
+                    defaultMessage='Collapse the right sidebar'
+                />
+                <KeyboardShortcutSequence
+                    shortcut={KEYBOARD_SHORTCUTS.navExpandSidebar}
+                    hideDescription={true}
+                    isInsideTooltip={true}
                 />
             </Tooltip>
         );
@@ -190,7 +202,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
                     <OverlayTrigger
                         delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
+                        placement='bottom'
                         overlay={this.props.isExpanded ? shrinkSidebarTooltip : expandSidebarTooltip}
                     >
                         <button
@@ -229,6 +241,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
                         </button>
                     </OverlayTrigger>
                 </div>
+                {this.props.showThreadsTutorialTip && <CRTThreadsPaneTutorialTip/>}
             </div>
         );
     }

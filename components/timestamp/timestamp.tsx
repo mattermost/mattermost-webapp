@@ -10,7 +10,6 @@ import {
     FormattedMessage,
 } from 'react-intl';
 import {isValidElementType} from 'react-is';
-import {Unit} from '@formatjs/intl-relativetimeformat';
 import moment, {Moment} from 'moment-timezone';
 import {capitalize as caps, isArray} from 'lodash';
 
@@ -36,7 +35,7 @@ function is12HourTime(hourCycle: DateTimeOptions['hourCycle'], hour12?: DateTime
 }
 
 export type RelativeOptions = FormatRelativeTimeOptions & {
-    unit: Unit;
+    unit: Intl.RelativeTimeFormatUnit;
     relNearest?: number;
     truncateEndpoints?: boolean;
     updateIntervalInSeconds?: number;
@@ -56,13 +55,13 @@ function isSimpleRelative(format: unknown): format is SimpleRelativeOptions {
     return (format as SimpleRelativeOptions)?.message != null;
 }
 
-const defaultRefreshIntervals = new Map<Unit, number /* seconds */>([
+const defaultRefreshIntervals = new Map<Intl.RelativeTimeFormatUnit, number /* seconds */>([
     ['hour', 60 * 5],
     ['minute', 15],
     ['second', 1],
 ]);
 
-type UnitDescriptor = [Unit, number?, boolean?];
+type UnitDescriptor = [Intl.RelativeTimeFormatUnit, number?, boolean?];
 
 function isUnitDescriptor(unit: unknown): unit is UnitDescriptor {
     return isArray(unit) && typeof unit[0] === 'string';
@@ -110,7 +109,7 @@ export type Props = FormatOptions & {
     value?: ConstructorParameters<typeof Date>[0];
 
     useRelative?: Resolvable<ResolvedFormats['relative'], {value: Date}, FormatOptions>;
-    units?: Array<RangeDescriptor | UnitDescriptor | Unit | keyof typeof STANDARD_UNITS>;
+    units?: Array<RangeDescriptor | UnitDescriptor | Intl.RelativeTimeFormatUnit | keyof typeof STANDARD_UNITS>;
     ranges?: Props['units'];
     useDate?: Resolvable<Exclude<ResolvedFormats['date'], 'timeZone'> | false, {value: Date}, FormatOptions>;
     useTime?: Resolvable<Exclude<ResolvedFormats['time'], 'timeZone' | 'hourCycle' | 'hour12'> | false, {value: Date}, FormatOptions>;

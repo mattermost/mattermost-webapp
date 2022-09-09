@@ -4,10 +4,10 @@ import {combineReducers} from 'redux';
 
 import {PostTypes, PreferenceTypes, SearchTypes, UserTypes} from 'mattermost-redux/action_types';
 import {Preferences} from 'mattermost-redux/constants';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
-import {Search} from 'mattermost-redux/types/search';
+import {Post} from '@mattermost/types/posts';
+import {Search} from '@mattermost/types/search';
 
 function results(state: string[] = [], action: GenericAction) {
     switch (action.type) {
@@ -71,7 +71,7 @@ function matches(state: Record<string, string[]> = {}, action: GenericAction) {
     }
     case SearchTypes.REMOVE_SEARCH_POSTS:
     case UserTypes.LOGOUT_SUCCESS:
-        return [];
+        return {};
 
     default:
         return state;
@@ -205,7 +205,7 @@ function pinned(state: Record<string, string[]> = {}, action: GenericAction) {
         return state;
     }
     case UserTypes.LOGOUT_SUCCESS:
-        return [];
+        return {};
 
     default:
         return state;
@@ -302,6 +302,26 @@ function isSearchGettingMore(state = false, action: GenericAction) {
     }
 }
 
+function isLimitedResults(state = -1, action: GenericAction): number {
+    switch (action.type) {
+    case SearchTypes.SEARCH_POSTS_REQUEST: {
+        if (!action.isGettingMore) {
+            return -1;
+        }
+        return state;
+    }
+    case SearchTypes.RECEIVED_SEARCH_POSTS: {
+        if (action.data?.first_inaccessible_post_time) {
+            return action.data.first_inaccessible_post_time || 0;
+        }
+        return state;
+    }
+    default: {
+        return state;
+    }
+    }
+}
+
 export default combineReducers({
 
     // An ordered array with posts ids of flagged posts
@@ -331,4 +351,8 @@ export default combineReducers({
 
     // Boolean true if we are getting more search results
     isSearchGettingMore,
+
+    // Boolean true if the search returns results inaccessible because
+    // they are beyond a cloud workspace's message limits.
+    isLimitedResults,
 });

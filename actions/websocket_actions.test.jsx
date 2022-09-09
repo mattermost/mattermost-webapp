@@ -6,13 +6,8 @@ import {
     getThreadsForPosts,
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
-import {ChannelTypes, UserTypes} from 'mattermost-redux/action_types';
-import {
-    getMissingProfilesByIds,
-    getStatusesByIds,
-    getUser,
-} from 'mattermost-redux/actions/users';
-import {General, WebsocketEvents} from 'mattermost-redux/constants';
+import {ChannelTypes, UserTypes, CloudTypes} from 'mattermost-redux/action_types';
+import {getUser} from 'mattermost-redux/actions/users';
 
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -25,6 +20,8 @@ import configureStore from 'tests/test_store';
 import {browserHistory} from 'utils/browser_history';
 import Constants, {SocketEvents, UserStatuses, ActionTypes} from 'utils/constants';
 
+import mergeObjects from 'packages/mattermost-redux/test/merge_objects';
+
 import {
     handleChannelUpdatedEvent,
     handleEvent,
@@ -35,9 +32,11 @@ import {
     handlePostEditEvent,
     handlePostUnreadEvent,
     handleUserRemovedEvent,
-    handleUserTypingEvent,
     handleLeaveTeamEvent,
     reconnect,
+    handleAppsPluginEnabled,
+    handleAppsPluginDisabled,
+    handleCloudSubscriptionChanged,
 } from './websocket_actions';
 
 jest.mock('mattermost-redux/actions/posts', () => ({
@@ -71,9 +70,14 @@ jest.mock('actions/views/channel', () => ({
     syncPostsInChannel: jest.fn(),
 }));
 
+jest.mock('plugins', () => ({
+    ...jest.requireActual('plugins'),
+    loadPluginsIfNecessary: jest.fn(() => Promise.resolve()),
+}));
+
 jest.mock('utils/browser_history');
 
-const mockState = {
+let mockState = {
     entities: {
         users: {
             currentUserId: 'currentUserId',
@@ -99,7 +103,9 @@ const mockState = {
             },
         },
         general: {
-            config: {},
+            config: {
+                PluginsEnabled: 'true',
+            },
         },
         channels: {
             currentChannelId: 'otherChannel',
@@ -284,9 +290,38 @@ describe('handleUserRemovedEvent', () => {
             },
         };
 
-        mockState.entities.roles.roles = {system_guest: {permissions: []}};
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: [],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         handleUserRemovedEvent(msg);
-        mockState.entities.roles.roles = {system_guest: {permissions: ['view_members']}};
+
+        mockState = mergeObjects(
+            mockState,
+            {
+                entities: {
+                    roles: {
+                        roles: {
+                            system_guest: {
+                                permissions: ['view_members'],
+                            },
+                        },
+                    },
+                },
+            },
+        );
+
         expect(store.dispatch).toHaveBeenCalledWith(expectedAction);
     });
 
@@ -544,137 +579,6 @@ describe('reconnect', () => {
     });
 });
 
-describe('handleUserTypingEvent', () => {
-    const initialState = {
-        entities: {
-            general: {
-                config: {},
-            },
-            users: {
-                currentUserId: 'user',
-                statuses: {},
-                users: {},
-            },
-        },
-    };
-
-    test('should dispatch a TYPING event', () => {
-        const testStore = configureStore(initialState);
-
-        const channelId = 'channel';
-        const rootId = 'root';
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: channelId,
-            },
-            data: {
-                parent_id: rootId,
-                user_id: userId,
-            },
-        };
-
-        testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(testStore.getActions().find((action) => action.type === WebsocketEvents.TYPING)).toMatchObject({
-            type: WebsocketEvents.TYPING,
-            data: {
-                id: channelId + rootId,
-                userId,
-            },
-        });
-    });
-
-    test('should possibly load missing users and not get again the state', () => {
-        const testStore = configureStore(initialState);
-
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: 'channel',
-            },
-            data: {
-                parent_id: '',
-                user_id: userId,
-            },
-        };
-
-        testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
-        expect(getStatusesByIds).not.toHaveBeenCalled();
-    });
-
-    test('should load statuses for users that are not online but are in the store', async () => {
-        const testStore = configureStore({
-            ...initialState,
-            entities: {
-                ...initialState.entities,
-                users: {
-                    ...initialState.entities.users,
-                    profiles: {
-                        ...initialState.entities.users.profiles,
-                        otheruser: {
-                            id: 'otheruser',
-                            roles: 'system_user',
-                        },
-                    },
-                    statuses: {
-                        ...initialState.entities.users.statuses,
-                        otheruser: General.AWAY,
-                    },
-                },
-            },
-        });
-
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: 'channel',
-            },
-            data: {
-                parent_id: '',
-                user_id: userId,
-            },
-        };
-
-        await testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(getStatusesByIds).toHaveBeenCalled();
-    });
-
-    test('should not load statuses for users that are online', () => {
-        const testStore = configureStore({
-            ...initialState,
-            entities: {
-                ...initialState.entities,
-                users: {
-                    ...initialState.entities.users,
-                    statuses: {
-                        ...initialState.entities.users.statuses,
-                        otheruser: General.ONLINE,
-                    },
-                },
-            },
-        });
-
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: 'channel',
-            },
-            data: {
-                parent_id: '',
-                user_id: userId,
-            },
-        };
-
-        testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(getStatusesByIds).not.toHaveBeenCalled();
-    });
-});
-
 describe('handleChannelUpdatedEvent', () => {
     const initialState = {
         entities: {
@@ -723,6 +627,140 @@ describe('handleChannelUpdatedEvent', () => {
         testStore.dispatch(handleChannelUpdatedEvent(msg));
 
         expect(browserHistory.replace).not.toHaveBeenCalled();
+    });
+});
+
+describe('handleCloudSubscriptionChanged', () => {
+    const baseSubscription = {
+        id: 'basesub',
+        customer_id: '',
+        product_id: '',
+        add_ons: [],
+        start_at: 0,
+        end_at: 0,
+        create_at: 0,
+        seats: 0,
+        trial_end_at: 0,
+        is_free_trial: '',
+    };
+
+    test('when not cloud, does nothing', () => {
+        const initialState = {
+            entities: {
+                cloud: {
+                    limits: {
+                        messages: {
+                            history: 10000,
+                        },
+                        integrations: {
+                            enabled: 10,
+                        },
+                    },
+                },
+                general: {
+                    license: {
+                        Cloud: 'false',
+                    },
+                },
+            },
+        };
+        const newLimits = {
+            messages: {
+                history: 10001,
+            },
+        };
+
+        const newSubscription = {
+            ...baseSubscription,
+            id: 'newsub',
+        };
+        const msg = {
+            event: SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED,
+            data: {
+                limits: newLimits,
+                subscription: newSubscription,
+            },
+        };
+
+        const testStore = configureStore(initialState);
+        testStore.dispatch(handleCloudSubscriptionChanged(msg));
+
+        expect(testStore.getActions()).toEqual([]);
+    });
+
+    test('when on cloud, entirely replaces cloud limits in store', () => {
+        const initialState = {
+            entities: {
+                cloud: {
+                    limits: {
+                        messages: {
+                            history: 10000,
+                        },
+                        integrations: {
+                            enabled: 10,
+                        },
+                    },
+                },
+                general: {
+                    license: {
+                        Cloud: 'true',
+                    },
+                },
+            },
+        };
+        const newLimits = {
+            messages: {
+                history: 10001,
+            },
+        };
+        const msg = {
+            event: SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED,
+            data: {
+                limits: newLimits,
+            },
+        };
+
+        const testStore = configureStore(initialState);
+        testStore.dispatch(handleCloudSubscriptionChanged(msg));
+
+        expect(testStore.getActions()).toContainEqual({
+            type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+            data: newLimits,
+        });
+    });
+
+    test('when on cloud, entirely replaces cloud limits in store', () => {
+        const initialState = {
+            entities: {
+                cloud: {
+                    subscription: {...baseSubscription},
+                },
+                general: {
+                    license: {
+                        Cloud: 'true',
+                    },
+                },
+            },
+        };
+        const newSubscription = {
+            ...baseSubscription,
+            id: 'newsub',
+        };
+
+        const msg = {
+            event: SocketEvents.CLOUD_PRODUCT_LIMITS_CHANGED,
+            data: {
+                subscription: newSubscription,
+            },
+        };
+
+        const testStore = configureStore(initialState);
+        testStore.dispatch(handleCloudSubscriptionChanged(msg));
+
+        expect(testStore.getActions()).toContainEqual({
+            type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+            data: newSubscription,
+        });
     });
 });
 
@@ -965,6 +1003,20 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             expect(console.error).toHaveBeenCalledTimes(0);
         });
+    });
+});
+
+describe('handleAppsPluginEnabled', () => {
+    test('plugin enabled action is dispatched', async () => {
+        const enableAction = handleAppsPluginEnabled();
+        expect(enableAction).toEqual({type: 'APPS_PLUGIN_ENABLED'});
+    });
+});
+
+describe('handleAppsPluginDisabled', () => {
+    test('plugin disabled action is dispatched', async () => {
+        const disableAction = handleAppsPluginDisabled();
+        expect(disableAction).toEqual({type: 'APPS_PLUGIN_DISABLED'});
     });
 });
 

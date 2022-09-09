@@ -3,11 +3,15 @@
 
 import {shallow} from 'enzyme';
 import React from 'react';
+import {Provider} from 'react-redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
+
+import configureStore from 'store';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
-import UserSettingsDisplay from 'components/user_settings/display/user_settings_display';
+
+import UserSettingsDisplay from './user_settings_display';
 
 describe('components/user_settings/display/UserSettingsDisplay', () => {
     const user = {
@@ -80,6 +84,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         teammateNameDisplay: '',
         channelDisplayMode: '',
         messageDisplay: '',
+        colorizeUsernames: '',
         collapseDisplay: '',
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',
@@ -88,6 +93,11 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         emojiPickerEnabled: true,
         clickToReply: '',
     };
+
+    let store: ReturnType<typeof configureStore>;
+    beforeEach(() => {
+        store = configureStore();
+    });
 
     test('should match snapshot, no active section', () => {
         const wrapper = shallow(<UserSettingsDisplay {...requiredProps}/>);
@@ -187,8 +197,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         const props = {...requiredProps, updateSection};
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...props}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...props}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         await (wrapper.instance() as UserSettingsDisplay).handleSubmit();
         expect(updateSection).toHaveBeenCalledWith('');
@@ -196,10 +208,13 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should have called updateSection', () => {
         const updateSection = jest.fn();
+
         const props = {...requiredProps, updateSection};
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...props}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...props}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).updateSection('');
         expect(updateSection).toHaveBeenCalledWith('');
@@ -212,8 +227,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const closeModal = jest.fn();
         const props = {...requiredProps, closeModal};
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...props}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...props}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         wrapper.find('#closeButton').simulate('click');
         expect(closeModal).toHaveBeenCalled();
@@ -223,8 +240,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         const collapseModal = jest.fn();
         const props = {...requiredProps, collapseModal};
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...props}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...props}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         wrapper.find('.fa-angle-left').simulate('click');
         expect(collapseModal).toHaveBeenCalled();
@@ -232,8 +251,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update militaryTime state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleClockRadio('false');
         expect(wrapper.state('militaryTime')).toBe('false');
@@ -244,8 +265,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update teammateNameDisplay state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleTeammateNameDisplayRadio('username');
         expect(wrapper.state('teammateNameDisplay')).toBe('username');
@@ -259,8 +282,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update channelDisplayMode state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleChannelDisplayModeRadio('full');
         expect(wrapper.state('channelDisplayMode')).toBe('full');
@@ -271,8 +296,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update messageDisplay state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handlemessageDisplayRadio('clean');
         expect(wrapper.state('messageDisplay')).toBe('clean');
@@ -283,8 +310,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update collapseDisplay state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleCollapseRadio('false');
         expect(wrapper.state('collapseDisplay')).toBe('false');
@@ -295,8 +324,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update linkPreviewDisplay state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleLinkPreviewRadio('false');
         expect(wrapper.state('linkPreviewDisplay')).toBe('false');
@@ -307,8 +338,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update display state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleOnChange({display: 'linkPreviewDisplay'});
         expect(wrapper.state('display')).toBe('linkPreviewDisplay');
@@ -319,8 +352,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update collapsed reply threads state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('off');
         expect(wrapper.state('collapsedReplyThreads')).toBe('off');

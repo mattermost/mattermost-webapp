@@ -14,7 +14,7 @@ describe('Reducers.RHS', () => {
         selectedPostCardId: '',
         selectedChannelId: '',
         highlightedPostId: '',
-        previousRhsState: null,
+        previousRhsStates: [],
         rhsState: null,
         searchTerms: '',
         searchType: '',
@@ -25,6 +25,7 @@ describe('Reducers.RHS', () => {
         isMenuOpen: false,
         isSidebarOpen: false,
         isSidebarExpanded: false,
+        editChannelMembers: false,
     };
 
     test('Initial state', () => {
@@ -51,6 +52,48 @@ describe('Reducers.RHS', () => {
             selectedChannelId: '123',
             rhsState: RHSStates.PIN,
             isSidebarOpen: true,
+        });
+    });
+
+    test('edit channel members', () => {
+        const nextStateTrue = rhsReducer(
+            {},
+            {
+                type: ActionTypes.SET_EDIT_CHANNEL_MEMBERS,
+                active: true,
+            },
+        );
+        expect(nextStateTrue).toEqual({
+            ...initialState,
+            editChannelMembers: true,
+        });
+
+        const nextStateFalse = rhsReducer(
+            {},
+            {
+                type: ActionTypes.SET_EDIT_CHANNEL_MEMBERS,
+                active: false,
+            },
+        );
+        expect(nextStateFalse).toEqual({
+            ...initialState,
+            editChannelMembers: false,
+        });
+
+        // When turning off RHS, set the value to false
+        const nextStateTrueThenCloseRHS = rhsReducer(
+            {
+                editChannelMembers: true,
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: null,
+            },
+        );
+
+        expect(nextStateTrueThenCloseRHS).toEqual({
+            ...initialState,
+            editChannelMembers: false,
         });
     });
 
@@ -270,13 +313,13 @@ describe('Reducers.RHS', () => {
             selectedPostId: '123',
             selectedPostFocussedAt: 4567,
             selectedChannelId: '321',
-            previousRhsState: RHSStates.SEARCH,
+            previousRhsStates: [RHSStates.SEARCH],
             isSidebarOpen: true,
         });
 
         const nextState3 = rhsReducer(
             {
-                previousRhsState: RHSStates.SEARCH,
+                previousRhsStates: [RHSStates.SEARCH],
             },
             {
                 type: ActionTypes.SELECT_POST,
@@ -292,7 +335,7 @@ describe('Reducers.RHS', () => {
             selectedPostId: '123',
             selectedPostFocussedAt: 0,
             selectedChannelId: '321',
-            previousRhsState: RHSStates.FLAG,
+            previousRhsStates: [RHSStates.SEARCH, RHSStates.FLAG],
             isSidebarOpen: true,
         });
     });
@@ -329,13 +372,13 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostCardId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.SEARCH,
+            previousRhsStates: [RHSStates.SEARCH],
             isSidebarOpen: true,
         });
 
         const nextState3 = rhsReducer(
             {
-                previousRhsState: RHSStates.SEARCH,
+                previousRhsStates: [RHSStates.SEARCH],
             },
             {
                 type: ActionTypes.SELECT_POST_CARD,
@@ -349,7 +392,7 @@ describe('Reducers.RHS', () => {
             ...initialState,
             selectedPostCardId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.FLAG,
+            previousRhsStates: [RHSStates.SEARCH, RHSStates.FLAG],
             isSidebarOpen: true,
         });
     });
@@ -372,7 +415,7 @@ describe('Reducers.RHS', () => {
             rhsState: null,
             selectedPostId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.PIN,
+            previousRhsStates: [RHSStates.PIN],
             isSidebarOpen: true,
         });
     });
@@ -395,7 +438,7 @@ describe('Reducers.RHS', () => {
             rhsState: null,
             selectedPostCardId: '123',
             selectedChannelId: '321',
-            previousRhsState: RHSStates.PIN,
+            previousRhsStates: [RHSStates.PIN],
             isSidebarOpen: true,
         });
     });
@@ -561,7 +604,7 @@ describe('Reducers.RHS', () => {
             selectedPostCardId: 'post_card_id',
             selectedChannelId: 'channel_id',
             highlightedPostId: 'highlighted_post_id',
-            previousRhsState: 'search',
+            previousRhsStates: ['search'],
             rhsState: 'flag',
             searchTerms: 'user_id',
             searchType: '',
@@ -572,6 +615,7 @@ describe('Reducers.RHS', () => {
             isMenuOpen: true,
             isSidebarOpen: true,
             isSidebarExpanded: true,
+            editChannelMembers: false,
         };
 
         const nextState = rhsReducer(state, {type: ActionTypes.SUPPRESS_RHS});

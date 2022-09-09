@@ -3,7 +3,7 @@
 .post-menu {
     position: absolute;
     z-index: 6;
-    top: -8px;
+    top: -12px;
     right: 0;
     display: flex;
     justify-content: flex-end;
@@ -59,6 +59,10 @@
     -moz-user-select: none;    /* Firefox all */
     -ms-user-select: none;     /* IE 10+ */
     user-select: none;
+}
+
+.post-menu__emoticon {
+    cursor: pointer;
 }
 
 @media (min-width: 768px) {

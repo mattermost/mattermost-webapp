@@ -2,11 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
+import ColorHash from 'color-hash';
+import ColorContrastChecker from 'color-contrast-checker';
 
-import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileType} from '@mattermost/types/users';
 
-import {imageURLForUser, isMobile} from 'utils/utils.jsx';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
+
+import {imageURLForUser, isMobile} from 'utils/utils';
+import LocalStorageStore from 'stores/local_storage_store';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
@@ -24,11 +29,13 @@ export type UserProfileProps = {
     user?: UserProfileType;
     disablePopover?: boolean;
     displayUsername?: boolean;
+    colorize?: boolean;
     hasMention?: boolean;
     hideStatus?: boolean;
     isRHS?: boolean;
     overwriteImage?: React.ReactNode;
     channelId?: string;
+    theme?: Theme;
 }
 
 export default class UserProfile extends PureComponent<UserProfileProps> {
@@ -42,6 +49,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
         isRHS: false,
         overwriteImage: '',
         overwriteName: '',
+        colorize: false,
     }
 
     hideProfilePopover = (): void => {
@@ -52,6 +60,29 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
 
     setOverlaynRef = (ref: BaseOverlayTrigger): void => {
         this.overlay = ref;
+    }
+
+    generateColor = (username: string, background: string): string => {
+        const cacheKey = `${username}-${background}`;
+        const cachedColor = LocalStorageStore.getItem(cacheKey);
+        if (cachedColor !== null) {
+            return cachedColor;
+        }
+
+        let userColor = background;
+        let userAndSalt = username;
+        const checker = new ColorContrastChecker();
+        const colorHash = new ColorHash();
+
+        let tries = 3;
+        while (!checker.isLevelCustom(userColor, background, 4.5) && tries > 0) {
+            userColor = colorHash.hex(userAndSalt);
+            userAndSalt += 'salt';
+            tries--;
+        }
+
+        LocalStorageStore.setItem(cacheKey, userColor);
+        return userColor;
     }
 
     render(): React.ReactNode {
@@ -69,6 +100,8 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
             user,
             userId,
             channelId,
+            colorize,
+            theme,
         } = this.props;
 
         let name: React.ReactNode;
@@ -80,8 +113,23 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
 
         const ariaName: string = typeof name === 'string' ? name.toLowerCase() : '';
 
+        let userColor = '#000000';
+        if (user && theme) {
+            userColor = this.generateColor(user.username, theme.centerChannelBg);
+        }
+
+        let userStyle;
+        if (colorize) {
+            userStyle = {color: userColor};
+        }
+
         if (disablePopover) {
-            return <div className='user-popover'>{name}</div>;
+            return (
+                <div
+                    className='user-popover'
+                    style={userStyle}
+                >{name}</div>
+            );
         }
 
         let placement = 'right';
@@ -130,6 +178,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                     <button
                         aria-label={ariaName}
                         className='user-popover style--none'
+                        style={userStyle}
                     >
                         {name}
                     </button>

@@ -8,6 +8,7 @@ import '@testing-library/jest-dom';
 
 import './redux-persist_mock';
 import './react-intl_mock';
+import './react-tippy_mock';
 
 global.performance = {};
 require('isomorphic-fetch');

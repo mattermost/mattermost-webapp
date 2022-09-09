@@ -34,7 +34,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-documentation/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -73,7 +73,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-server-setup/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -216,7 +216,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
         }
         helpText={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages."
+            defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. A successful test will also re-initialize the client if you have started Elasticsearch after starting Mattermost. But this will not restart the workers. To do that, please toggle \\"Enable Elasticsearch Indexing\\"."
             id="admin.elasticsearch.testHelpText"
           />
         }
@@ -249,7 +249,7 @@ exports[`components/ElasticSearchSettings should match snapshot, disabled 1`] = 
           <div
             className="job-table-setting"
           >
-            <Connect(injectIntl(JobTable))
+            <Connect(JobTable)
               createJobButtonText={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Index Now"
@@ -447,7 +447,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-documentation/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -486,7 +486,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
             values={
               Object {
                 "documentationLink": <a
-                  href="https://about.mattermost.com/default-elasticsearch-server-setup/"
+                  href="https://docs.mattermost.com/scale/elasticsearch.html"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
@@ -629,7 +629,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
         }
         helpText={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. See log file for more detailed error messages."
+            defaultMessage="Tests if the Mattermost server can connect to the Elasticsearch server specified. Testing the connection only saves the configuration if the test is successful. A successful test will also re-initialize the client if you have started Elasticsearch after starting Mattermost. But this will not restart the workers. To do that, please toggle \\"Enable Elasticsearch Indexing\\"."
             id="admin.elasticsearch.testHelpText"
           />
         }
@@ -662,7 +662,7 @@ exports[`components/ElasticSearchSettings should match snapshot, enabled 1`] = `
           <div
             className="job-table-setting"
           >
-            <Connect(injectIntl(JobTable))
+            <Connect(JobTable)
               createJobButtonText={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="Index Now"

@@ -7,4 +7,11 @@ export enum NoResultsVariant {
     PinnedPosts = 'PinnedPosts',
     ChannelFiles = 'ChannelFiles',
     ChannelFilesFiltered = 'ChannelFilesFiltered',
+    UserGroups = 'UserGroups',
+    UserGroupMembers = 'UserGroupMembers',
+}
+
+export enum NoResultsLayout {
+    Vertical,
+    Horizontal,
 }

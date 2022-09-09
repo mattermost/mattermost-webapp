@@ -7,7 +7,6 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-import * as Utils from 'utils/utils';
 import {ModalIdentifiers} from 'utils/constants';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -20,7 +19,11 @@ import type {PropsFromRedux} from './index';
 
 const askTheCommunityUrl = 'https://mattermost.com/pl/default-ask-mattermost-community/';
 
-type Props = WrappedComponentProps & PropsFromRedux
+type Props = WrappedComponentProps & PropsFromRedux & {
+    location: {
+        pathname: string;
+    };
+}
 
 type State = {
     buttonActive: boolean;
@@ -53,7 +56,21 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
     }
 
     renderDropdownItems = (): React.ReactNode => {
-        const {intl, showGettingStarted} = this.props;
+        const {
+            intl,
+            pluginMenuItems,
+        } = this.props;
+
+        const pluginItems = pluginMenuItems?.map((item) => {
+            return (
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={item.action}
+                    text={item.text}
+                />
+            );
+        });
 
         return (
             <Menu.Group>
@@ -70,23 +87,19 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
                     url={this.props.helpLink}
                     text={intl.formatMessage({id: 'userGuideHelp.helpResources', defaultMessage: 'Help resources'})}
                 />
-                <Menu.ItemAction
-                    id='gettingStarted'
-                    show={showGettingStarted}
-                    onClick={() => this.props.actions.unhideNextSteps()}
-                    text={intl.formatMessage({id: 'navbar_dropdown.gettingStarted', defaultMessage: 'Getting Started'})}
-                    icon={Utils.isMobile() && <i className='icon icon-play'/>}
-                />
-                <Menu.ItemExternalLink
-                    id='reportAProblemLink'
-                    url={this.props.reportAProblemLink}
-                    text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
-                />
+                {this.props.reportAProblemLink && (
+                    <Menu.ItemExternalLink
+                        id='reportAProblemLink'
+                        url={this.props.reportAProblemLink}
+                        text={intl.formatMessage({id: 'userGuideHelp.reportAProblem', defaultMessage: 'Report a problem'})}
+                    />
+                )}
                 <Menu.ItemAction
                     id='keyboardShortcuts'
                     onClick={this.openKeyboardShortcutsModal}
                     text={intl.formatMessage({id: 'userGuideHelp.keyboardShortcuts', defaultMessage: 'Keyboard shortcuts'})}
                 />
+                {pluginItems}
             </Menu.Group>
         );
     }

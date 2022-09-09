@@ -7,9 +7,9 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {getIncomingHook, updateIncomingHook} from 'mattermost-redux/actions/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {IncomingWebhook} from '@mattermost/types/integrations';
 
 import EditIncomingWebhook from './edit_incoming_webhook';
 

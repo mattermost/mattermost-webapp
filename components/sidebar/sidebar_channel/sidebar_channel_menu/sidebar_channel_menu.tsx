@@ -4,7 +4,7 @@
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -216,6 +216,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         onClick={this.handleLeaveChannel}
                         icon={<i className='icon-close'/>}
                         text={leaveChannelText}
+                        isDangerous={!(channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)}
                     />
                 </Menu.Group>
             );

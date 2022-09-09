@@ -11,6 +11,7 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {completeStripeAddPaymentMethod} from 'actions/cloud';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -32,6 +33,7 @@ const PaymentInfoEdit: React.FC = () => {
     const dispatch = useDispatch();
     const isDevMode = useSelector((state: GlobalState) => getConfig(state).EnableDeveloper === 'true');
     const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+    const theme = useSelector(getTheme);
 
     const [showCreditCardWarning, setShowCreditCardWarning] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -108,7 +110,7 @@ const PaymentInfoEdit: React.FC = () => {
                                         defaultMessage='Your credit card will be charged based on the number of users you have at the end of the monthly billing cycle. '
                                     />
                                     <a
-                                        target='_new'
+                                        target='_blank'
                                         rel='noopener noreferrer'
                                         href={CloudLinks.BILLING_DOCS}
                                     >
@@ -131,6 +133,7 @@ const PaymentInfoEdit: React.FC = () => {
                                 className='PaymentInfoEdit__paymentForm'
                                 onInputChange={onPaymentInput}
                                 initialBillingDetails={billingDetails}
+                                theme={theme}
                             />
                         </Elements>
                     </div>

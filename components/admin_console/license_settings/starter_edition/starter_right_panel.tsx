@@ -16,24 +16,6 @@ const StarterRightPanel: React.FC = () => {
         'And more...',
     ];
 
-    const purchaseLicenseBtns = (
-        <div className='purchase-card'>
-            <PurchaseLink
-                eventID='post_trial_purchase_license'
-                buttonTextElement={
-                    <FormattedMessage
-                        id='admin.license.trialCard.purchase'
-                        defaultMessage='Purchase'
-                    />
-                }
-            />
-            <ContactUsButton
-                eventID='post_trial_contact_sales'
-                customClass='light-blue-btn'
-            />
-        </div>
-    );
-
     return (
         <div className='StarterEditionRightPannel'>
             <div className='svg-image'>
@@ -61,7 +43,18 @@ const StarterRightPanel: React.FC = () => {
                 })}
             </div>
             <div className='purchase_buttons'>
-                {purchaseLicenseBtns}
+                <PurchaseLink
+                    eventID='post_trial_purchase_license'
+                    buttonTextElement={
+                        <FormattedMessage
+                            id='admin.license.trialCard.purchase'
+                            defaultMessage='Purchase'
+                        />
+                    }
+                />
+                <ContactUsButton
+                    eventID='post_trial_contact_sales'
+                />
             </div>
         </div>
     );

@@ -25,9 +25,6 @@ type Props = {
 
 export default class IntlProvider extends React.PureComponent<Props> {
     componentDidMount() {
-        // Initialize browser's i18n data
-        I18n.doAddLocaleData();
-
         // Pass localization function back to mattermost-redux
         setLocalizeFunction(localizeMessage);
 

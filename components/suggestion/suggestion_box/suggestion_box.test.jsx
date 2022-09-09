@@ -8,7 +8,7 @@ import CommandProvider from 'components/suggestion/command_provider/command_prov
 import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 jest.mock('mattermost-redux/client', () => {
     const actual = jest.requireActual('mattermost-redux/client');
@@ -160,12 +160,13 @@ describe('components/SuggestionBox', () => {
             currentChannelId: 'channelid1',
             currentTeamId: 'teamid1',
             currentUserId: 'userid1',
-            profilesInChannel: [userid1, userid2, userid3],
             autocompleteGroups: [groupid1, groupid2],
             autocompleteUsersInChannel: jest.fn().mockResolvedValue(false),
             searchAssociatedGroupsForReference: jest.fn().mockResolvedValue(false),
         };
         const provider = new AtMentionProvider(baseParams);
+        jest.spyOn(provider, 'getProfilesWithLastViewAtInChannel').mockImplementation(() => [userid1, userid2, userid3]);
+
         const props = {
             ...baseProps,
             providers: [provider],

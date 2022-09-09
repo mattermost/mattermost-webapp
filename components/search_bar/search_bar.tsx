@@ -6,7 +6,7 @@ import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SuggestionDate from 'components/suggestion/suggestion_date.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box';
@@ -34,7 +34,6 @@ type Props = {
     isFocused: boolean;
     suggestionProviders: Provider[];
     isSearchingTerm: boolean;
-    isFocus: boolean;
     isSideBarRight?: boolean;
     searchType: string;
     clearSearchType?: () => void;
@@ -71,27 +70,27 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
     }, [searchTerms]);
 
     const handleKeyDown = (e: ChangeEvent<HTMLInputElement>): void => {
-        if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.ESCAPE)) {
             searchRef.current?.blur();
             e.stopPropagation();
             e.preventDefault();
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.DOWN)) {
             e.preventDefault();
             props.updateHighlightedSearchHint(1, true);
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.UP)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.UP)) {
             e.preventDefault();
             props.updateHighlightedSearchHint(-1, true);
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.ENTER)) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.ENTER)) {
             props.handleEnterKey(e);
         }
 
-        if (Utils.isKeyPressed(e, KeyCodes.BACKSPACE) && !searchTerms) {
+        if (Utils.isKeyPressed(e as any, KeyCodes.BACKSPACE) && !searchTerms) {
             if (props.clearSearchType) {
                 props.clearSearchType();
             }
@@ -122,21 +121,23 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     <i className='icon icon-magnify icon-16'/>
                 </div>
 
-                {props.searchType !== '' &&
+                {props.searchType !== '' && (
                     <div
                         className='searchTypeBadge'
                         onMouseDown={props.handleFocus}
                     >
-                        {props.searchType === 'messages' &&
+                        {props.searchType === 'messages' && (
                             <FormattedMessage
                                 id='search_bar.search_types.messages'
                                 defaultMessage='MESSAGES'
-                            />}
-                        {props.searchType === 'files' &&
+                            />
+                        )}
+                        {props.searchType === 'files' && (
                             <FormattedMessage
                                 id='search_bar.search_types.files'
                                 defaultMessage='FILES'
-                            />}
+                            />
+                        )}
                         <i
                             className='icon icon-close icon-12'
                             onMouseDown={() => {
@@ -144,7 +145,8 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                             }}
                             onClick={() => props.clearSearchType && props.clearSearchType()}
                         />
-                    </div>}
+                    </div>
+                )}
                 <SuggestionBox
                     ref={getSearch}
                     id={props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}
@@ -164,9 +166,8 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     dateComponent={SuggestionDate}
                     providers={suggestionProviders}
                     type='search'
-                    autoFocus={props.isFocus && searchTerms === ''}
                     delayInputUpdate={true}
-                    renderDividers={true}
+                    renderDividers={['all']}
                     clearable={true}
                     onClear={props.handleClear}
                 />

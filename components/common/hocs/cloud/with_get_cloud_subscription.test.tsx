@@ -33,25 +33,6 @@ describe('/components/common/hocs/with_get_cloud_subcription', () => {
         expect(getCloudSubscriptionSpy).toHaveBeenCalledTimes(1);
     });
 
-    test('should call the getSubscriptionStats when cloud license is being used and no subscriptionStats were fetched', () => {
-        const EnhancedComponent = withGetCloudSubscription(TestComponent);
-        const actions = {
-            getSubscriptionStats: () => {},
-        };
-
-        const getSubscriptionStatsSpy = jest.spyOn(actions, 'getSubscriptionStats');
-
-        mount(
-            <EnhancedComponent
-                isCloud={true}
-                actions={actions}
-                subscriptionStats={null}
-            />,
-        );
-
-        expect(getSubscriptionStatsSpy).toHaveBeenCalledTimes(1);
-    });
-
     test('should NOT call the getCloudSubscription when NOT cloud licenced', () => {
         const EnhancedComponent = withGetCloudSubscription(TestComponent);
         const actions = {
@@ -70,25 +51,6 @@ describe('/components/common/hocs/with_get_cloud_subcription', () => {
         );
 
         expect(getCloudSubscriptionSpy).toHaveBeenCalledTimes(0);
-    });
-
-    test('should NOT call the getSubscriptionStats when NOT cloud licenced', () => {
-        const EnhancedComponent = withGetCloudSubscription(TestComponent);
-        const actions = {
-            getSubscriptionStats: () => {},
-        };
-
-        const getSubscriptionStatsSpy = jest.spyOn(actions, 'getSubscriptionStats');
-
-        mount(
-            <EnhancedComponent
-                isCloud={false}
-                actions={actions}
-                subscriptionStats={null}
-            />,
-        );
-
-        expect(getSubscriptionStatsSpy).toHaveBeenCalledTimes(0);
     });
 
     test('should NOT call the getCloudSubscription when user is NOT admin', () => {

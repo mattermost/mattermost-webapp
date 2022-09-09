@@ -2,15 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {updateMe} from './users';
 export function autoUpdateTimezone(deviceTimezone: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const currentUer = getCurrentUser(getState());
-        const currentTimezone = getUserTimezone(getState(), currentUer.id);
+        const currentUser = getCurrentUser(getState());
+        const currentTimezone = makeGetUserTimezone()(getState(), currentUser.id);
         const newTimezoneExists = currentTimezone.automaticTimezone !== deviceTimezone;
 
         if (currentTimezone.useAutomaticTimezone && newTimezoneExists) {
@@ -21,7 +21,7 @@ export function autoUpdateTimezone(deviceTimezone: string) {
             };
 
             const updatedUser = {
-                ...currentUer,
+                ...currentUser,
                 timezone,
             };
 

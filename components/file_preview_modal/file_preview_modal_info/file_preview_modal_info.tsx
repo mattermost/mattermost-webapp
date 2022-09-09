@@ -5,13 +5,13 @@ import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {getChannel as selectChannel} from 'mattermost-redux/selectors/entities/channels';
+import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {
     getUser as selectUser,
     makeGetDisplayName,
 } from 'mattermost-redux/selectors/entities/users';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
 import Avatar from 'components/widgets/users/avatar/avatar';
 
@@ -31,7 +31,10 @@ const displayNameGetter = makeGetDisplayName();
 
 const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
     const user = useSelector((state: GlobalState) => selectUser(state, props.post?.user_id ?? '')) as UserProfile | undefined;
-    const channel = useSelector((state: GlobalState) => selectChannel(state, props.post?.channel_id ?? ''));
+    const channel = useSelector((state: GlobalState) => {
+        const getChannel = makeGetChannel();
+        return getChannel(state, {id: props.post?.channel_id ?? ''});
+    });
     const name = useSelector((state: GlobalState) => displayNameGetter(state, props.post?.user_id ?? '', true));
 
     let info;
@@ -40,7 +43,7 @@ const FilePreviewModalInfo: React.FC<Props> = (props: Props) => {
             id='file_preview_modal_info.shared_in'
             defaultMessage='Shared in ~{name}'
             values={{
-                name: channel.name,
+                name: channel.display_name || channel.name,
             }}
         />
     ) : null;

@@ -8,7 +8,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {makeAsyncComponent} from 'components/async_load';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {getIsMobileView} from 'selectors/views/browser';
 

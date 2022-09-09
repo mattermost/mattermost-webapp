@@ -10,12 +10,12 @@ import {
     getMyGroupMentionKeys,
 } from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
-import {Post} from 'mattermost-redux/types/posts';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 
-import {canManageMembers} from 'utils/channel_utils.jsx';
+import {canManageMembers} from 'utils/channel_utils';
 
 import {MentionKey} from 'utils/text_formatting';
 

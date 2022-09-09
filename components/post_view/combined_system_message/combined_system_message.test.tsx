@@ -5,7 +5,7 @@ import React from 'react';
 
 import {General, Posts} from 'mattermost-redux/constants';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 

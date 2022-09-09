@@ -4,13 +4,22 @@
 import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
 
-import {UserThread} from 'mattermost-redux/types/threads';
-import {Post} from 'mattermost-redux/types/posts';
-import {Channel} from 'mattermost-redux/types/channels';
+import {UserThread} from '@mattermost/types/threads';
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import * as Utils from 'utils/utils';
 import ThreadMenu from '../thread_menu';
 import Badge from 'components/widgets/badges/badge';
+
+import {WindowSizes} from 'utils/constants';
+
+import {TestHelper} from 'utils/test_helper';
+import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
+jest.mock('mattermost-redux/actions/threads');
+
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+jest.mock('actions/views/threads');
 
 import ThreadItem from './thread_item';
 
@@ -30,9 +39,11 @@ const mockDispatch = jest.fn();
 let mockThread: UserThread;
 let mockPost: Post;
 let mockChannel: Channel;
+let mockState: any;
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
     useDispatch: () => mockDispatch,
 }));
 
@@ -74,14 +85,31 @@ describe('components/threading/global_threads/thread_item', () => {
             create_at: 1610486901110,
             edit_at: 1611786714912,
         } as Post;
+        const user = TestHelper.getUserMock();
 
         mockChannel = {
             id: 'pnzsh7kwt7rmzgj8yb479sc9yw',
             name: 'test-team',
             display_name: 'Team name',
         } as Channel;
+        mockState = {
+            entities: {
+                users: {
+                    currentUserId: user.id,
+                },
+                preferences: {
+                    myPreferences: {},
+                },
+            },
+            views: {
+                browser: {
+                    windowSize: WindowSizes.DESKTOP_VIEW,
+                },
+            },
+        };
 
         props = {
+            isFirstThreadInList: false,
             channel: mockChannel,
             currentRelativeTeamUrl: '/tname',
             displayName: 'Someone',
@@ -149,5 +177,14 @@ describe('components/threading/global_threads/thread_item', () => {
         wrapper.find('.preview').simulate('click', {});
 
         expect(spy).toHaveBeenCalledWith({}, '/tname');
+    });
+
+    test('should allow marking as unread on alt + click', () => {
+        const wrapper = shallow(<ThreadItem {...props}/>);
+        wrapper.simulate('click', {altKey: true});
+        expect(updateThreadRead).not.toHaveBeenCalled();
+        expect(markLastPostInThreadAsUnread).toHaveBeenCalledWith('user_id', 'tid', '1y8hpek81byspd4enyk9mp1ncw');
+        expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1611786714912);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
     });
 });

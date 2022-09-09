@@ -13,7 +13,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {Permissions} from 'mattermost-redux/constants';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import {Preferences} from 'utils/constants';
 

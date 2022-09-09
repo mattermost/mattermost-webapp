@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
@@ -21,6 +22,10 @@ function announcementBarState(state = {announcementBarCount: 0}, action: Generic
             announcementBarCount: Math.max(state.announcementBarCount - 1, 0),
         };
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return {
+            announcementBarCount: 0,
+        };
     default:
         return state;
     }

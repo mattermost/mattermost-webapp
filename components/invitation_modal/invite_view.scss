@@ -1,3 +1,11 @@
+@import 'sass/utils/_mixins';
+// MM-40611 workaround to not show outline on Microsoft browsers
+// had to be this specific, i.e. `button.InviteView__copyLink:focus`
+// does not work
+button.InviteView__copyLink.tertiary-button:focus {
+    outline: none;
+}
+
 .InviteView {
     &__sectionTitle {
         padding-top: 16px;
@@ -10,11 +18,18 @@
     }
 
     &__copyLink {
+        @include secondary-button;
+        @include button-medium;
+
         display: flex;
         align-items: center;
 
         &:active {
             box-shadow: none;
+        }
+
+        &:focus {
+            outline: none;
         }
 
         &.btn.btn-cancel {

@@ -14,9 +14,11 @@
         flex-direction: row;
         flex-grow: 1;
         flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
         padding: 77px 107px;
         color: var(--center-channel-color);
-        font-family: 'Open Sans';
+        font-family: "Open Sans";
         font-size: 16px;
         font-weight: 600;
 
@@ -123,159 +125,10 @@
 
         .RHS {
             position: sticky;
+            display: flex;
             width: 25%;
-
-            .price-container {
-                width: 270px;
-                box-sizing: border-box;
-                padding: 24px;
-                border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-                margin-bottom: 24px;
-                background-color: var(--center-channel-bg);
-                border-radius: 4px;
-                box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-                font-weight: normal;
-
-                .select-plan {
-                    box-sizing: border-box;
-                    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
-                    margin-bottom: 16px;
-
-                    .title {
-                        display: flex;
-                        justify-content: space-between;
-                        font-size: 14px;
-                        font-weight: 600;
-                        line-height: 20px;
-
-                        a {
-                            font-size: 11px;
-                            font-weight: normal;
-                            line-height: 16px;
-                        }
-                    }
-
-                    .plans-list {
-                        margin-top: 16px;
-
-                        label {
-                            color: rgba(var(--center-channel-color-rgb), 0.72);
-                            font-family: Open Sans;
-                            font-size: 12px;
-                            font-style: normal;
-                            font-weight: normal;
-                            line-height: 16px;
-                        }
-
-                        @media screen and (-webkit-min-device-pixel-ratio: 0) {
-                            input[type='radio'] {
-                                visibility: hidden;
-                            }
-                        }
-
-                        @-moz-document url-prefix() {
-                            input[type='radio'] {
-                                visibility: visible !important;
-                            }
-                        }
-
-                        input[type='radio']::after {
-                            position: relative;
-                            top: -2px;
-                            left: -1px;
-                            display: inline-block;
-                            width: 15px;
-                            height: 15px;
-                            border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.24);
-                            background-color: #fff;
-                            border-radius: 15px;
-                            content: '';
-                            visibility: visible !important;
-                        }
-
-                        input[type='radio']:checked::before {
-                            position: relative;
-                            top: -4px;
-                            left: 2px;
-                            display: inline-block;
-                            width: 9px;
-                            height: 9px;
-                            background-color: var(--button-bg);
-                            border-radius: 9px;
-                            content: "";
-                            visibility: visible !important;
-                        }
-
-                        input[type='radio']:checked::after {
-                            position: relative;
-                            top: -20px;
-                            left: -1px;
-                            width: 15px;
-                            height: 15px;
-                            border: 1px solid var(--button-bg);
-                            background-color: transparent;
-                            border-radius: 15px;
-                            visibility: visible !important;
-                        }
-
-                        .selected {
-                            color: var(--center-channel-color);
-                        }
-
-                        .radio {
-                            position: relative;
-                            display: flex;
-                            justify-content: space-between;
-                            margin-top: 10px !important;
-                            margin-bottom: 10px;
-
-                            .side-legend {
-                                margin-top: -5px;
-                                margin-left: 5px;
-                                color: rgba(var(--center-channel-color-rgb), 0.64);
-
-                                &::before {
-                                    content: "(";
-                                }
-
-                                &::after {
-                                    content: ")";
-                                }
-                            }
-                        }
-                    }
-                }
-
-                .contact-sales-text {
-                    margin-top: 24px;
-                    margin-bottom: 24px;
-                    color: rgba(var(--center-channel-color-rgb), 0.72);
-                    font-size: 14px;
-                }
-
-                .footer-text {
-                    margin-bottom: 24px;
-                    font-size: 14px;
-                }
-
-                button {
-                    width: 100%;
-                }
-            }
-
-            .Badge {
-                margin: 0 !important;
-
-                .unlimited-users-badge {
-                    background-color: var(--sidebar-text-active-border);
-                    border-radius: 4px;
-                    color: var(--button-color);
-                    font-size: 10px;
-                    font-weight: 600;
-                    line-height: 16px;
-                    text-transform: uppercase;
-                }
-            }
+            flex-direction: column;
+            align-items: center;
 
             .price-text {
                 display: flex;
@@ -296,24 +149,150 @@
                 }
             }
 
-            .payment-note {
-                margin-top: 5px;
-                margin-bottom: 10px;
-                color: rgba(var(--sys-center-channel-color-rgb), 0.72);
-                font-size: 14px;
-                font-weight: 400;
-                line-height: 20px;
-
-                a {
-                    color: var(--button-bg);
-                }
-            }
-
             .monthly-text {
                 align-self: center;
                 margin-left: 5px;
                 font-size: 14px;
                 font-weight: normal;
+            }
+
+            .plan_comparison {
+                text-align: center;
+
+                button,
+                a {
+                    width: 100%;
+                    height: 40px;
+                    padding: 10px 24px;
+                    border: none;
+                    background: none;
+                    color: var(--denim-button-bg);
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 20px;
+                }
+            }
+
+            .PlanCard {
+                position: relative;
+                width: 280px;
+                height: 428px;
+
+                .planLabel {
+                    position: absolute;
+                    top: -44px;
+                    left: 52px;
+                    display: flex;
+                    width: 184px;
+                    align-items: center;
+                    justify-content: center;
+                    padding: 14px;
+                    border-radius: 13px 13px 0 0;
+                    font-family: 'Open Sans';
+                    font-size: 12px;
+                    font-style: normal;
+                    font-weight: 600;
+                    gap: 5px;
+                    line-height: 16px;
+                }
+
+                .top {
+                    height: 18px;
+                    border-radius: 4px 4px 0 0;
+                }
+
+                .bottom {
+                    height: 363px;
+                    padding-right: 24px;
+                    padding-left: 24px;
+                    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                    background-color: var(--center-channel-bg);
+                    border-radius: 0 0 4px 4px;
+
+                    .plan_action_btn {
+                        width: 100%;
+                        height: 40px;
+                        padding: 10px 24px;
+                        border: none;
+                        background: none;
+                        border-radius: 4px;
+                        color: var(--denim-button-bg);
+                        font-size: 14px;
+                        font-weight: 700;
+                        line-height: 14px;
+
+                        &.grayed {
+                            background: rgba(var(--center-channel-color-rgb), 0.08);
+                            color: rgba(var(--center-channel-color-rgb), 0.32);
+                        }
+
+                        &.active {
+                            border: 1px solid var(--denim-button-bg);
+                        }
+
+                        &.special {
+                            background: var(--denim-button-bg);
+                            color: var(--button-color);
+                        }
+                    }
+
+                    .plan_price_rate_section {
+                        width: 100%;
+                        height: 150px;
+                        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                        font-weight: 400;
+                        letter-spacing: -0.02em;
+                        text-align: center;
+
+                        h4 {
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-family: 'Metropolis';
+                            font-size: 20px;
+                            font-style: normal;
+                            line-height: 30px;
+                        }
+
+                        h1 {
+                            color: var(--center-channel-color);
+                            font-family: 'Metropolis';
+                            font-size: 52px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 60px;
+                        }
+
+                        .enterprise_price {
+                            font-size: 32px;
+                        }
+
+                        p {
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-family: 'Metropolis';
+                            font-size: 18px;
+                            font-style: normal;
+                            line-height: 20px;
+                        }
+                    }
+
+                    .plan_payment_commencement {
+                        margin-top: 16px;
+                        margin-bottom: 24px;
+                        color: var(--center-channel-color-rgb);
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 20px;
+                    }
+
+                    .plan_billing_cycle {
+                        margin-top: 24px;
+                        color: rgba(var(--center-channel-color-rgb), 0.72);
+                        font-size: 12px;
+                        font-style: normal;
+                        font-weight: 400;
+                        line-height: 16px;
+                    }
+                }
             }
         }
 

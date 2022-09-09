@@ -13,14 +13,16 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
       Object {
         "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
-        "setShowNextStepsView": [MockFunction],
       }
     }
     channelId="channelId"
     channelIsArchived={true}
     channelRolesLoading={true}
     deactivatedChannel={false}
+    enableOnboardingFlow={true}
+    isAdvancedTextEditorEnabled={false}
     isCloud={false}
+    isFirstAdmin={false}
     isOnboardingHidden={true}
     match={
       Object {
@@ -28,9 +30,8 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
         "url": "/team/channel/channelId",
       }
     }
-    showNextSteps={false}
-    showNextStepsEphemeral={false}
     showTutorial={false}
+    teamUrl="/team"
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -44,7 +45,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
       className="channel-archived__message"
       id="channelArchivedMessage"
     >
-      <injectIntl(FormattedMarkdownMessage)
+      <FormattedMarkdownMessage
         defaultMessage="You are viewing an **archived channel**. New messages cannot be posted."
         id="archivedChannelMessage"
       />
@@ -75,14 +76,16 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
       Object {
         "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
-        "setShowNextStepsView": [MockFunction],
       }
     }
     channelId="channelId"
     channelIsArchived={false}
     channelRolesLoading={true}
     deactivatedChannel={false}
+    enableOnboardingFlow={true}
+    isAdvancedTextEditorEnabled={false}
     isCloud={false}
+    isFirstAdmin={false}
     isOnboardingHidden={true}
     match={
       Object {
@@ -90,9 +93,8 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
         "url": "/team/channel/channelId",
       }
     }
-    showNextSteps={false}
-    showNextStepsEphemeral={false}
     showTutorial={false}
+    teamUrl="/team"
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper
@@ -114,14 +116,16 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
       Object {
         "getProfiles": [MockFunction],
         "goToLastViewedChannel": [MockFunction],
-        "setShowNextStepsView": [MockFunction],
       }
     }
     channelId="channelId"
     channelIsArchived={false}
     channelRolesLoading={false}
     deactivatedChannel={false}
+    enableOnboardingFlow={true}
+    isAdvancedTextEditorEnabled={false}
     isCloud={false}
+    isFirstAdmin={false}
     isOnboardingHidden={true}
     match={
       Object {
@@ -129,9 +133,8 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
         "url": "/team/channel/channelId",
       }
     }
-    showNextSteps={false}
-    showNextStepsEphemeral={false}
     showTutorial={false}
+    teamUrl="/team"
     viewArchivedChannels={false}
   />
   <DeferredRenderWrapper

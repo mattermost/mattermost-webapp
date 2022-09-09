@@ -817,7 +817,12 @@ export default class A11yController {
     }
 
     handleFocus = (event) => {
-        if (this.lastInputEventIsKeyboard && this.windowIsFocused) {
+        // since the post-list (in which the EditPost component lives) has the attribute `data-a11y-child-focus` hitting
+        // the UP-Key causes the a11y controller to go through the posts. This is unwanted behavior in a textarea, so we
+        // decided to leave this fix in for now. If we find the need for a more sustainable fix we can certainly do
+        // that, as well, but for now this is sufficient.
+        // @see: https://github.com/mattermost/mattermost-webapp/pull/8882#discussion_r790905592
+        if (this.lastInputEventIsKeyboard && this.windowIsFocused && event.target.id !== 'edit_textbox') {
             this.nextElement(event.target, event.path || true);
         }
 

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -22,14 +22,16 @@ interface Props extends PropsFromRedux {
 }
 
 export default class SidebarBaseChannel extends React.PureComponent<Props> {
-    handleLeavePublicChannel = () => {
+    handleLeavePublicChannel = (callback: () => void) => {
         this.props.actions.leaveChannel(this.props.channel.id);
         trackEvent('ui', 'ui_public_channel_x_button_clicked');
+        callback();
     }
 
-    handleLeavePrivateChannel = () => {
+    handleLeavePrivateChannel = (callback: () => void) => {
         this.props.actions.openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeavePrivateChannelModal, dialogProps: {channel: this.props.channel}});
         trackEvent('ui', 'ui_private_channel_x_button_clicked');
+        callback();
     }
 
     getCloseHandler = () => {

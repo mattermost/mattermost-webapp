@@ -7,11 +7,11 @@ import {FormattedMessage} from 'react-intl';
 import {Preferences} from 'mattermost-redux/constants';
 
 import ConfirmModal from 'components/confirm_modal';
-import {toTitleCase} from 'utils/utils.jsx';
+import {toTitleCase} from 'utils/utils';
 import {UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
-import {UserStatus} from 'mattermost-redux/types/users';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {UserStatus} from '@mattermost/types/users';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 t('modal.manual_status.auto_responder.message_');
 t('modal.manual_status.auto_responder.message_away');
@@ -71,7 +71,7 @@ type Props = {
         /*
          * Function to get and then reset the user's status if needed
          */
-        autoResetStatus: () => Promise<UserStatus>;
+        autoResetStatus: () => Promise<{data: UserStatus}>;
 
         /*
          * Function to set the status for a user
@@ -104,7 +104,8 @@ export default class ResetStatusModal extends React.PureComponent<Props, State> 
 
     public componentDidMount(): void {
         this.props.actions.autoResetStatus().then(
-            (status: UserStatus) => {
+            (result: {data: UserStatus}) => {
+                const status = result.data;
                 const statusIsManual = status.manual;
                 const autoResetPrefNotSet = this.props.autoResetPref === '';
 

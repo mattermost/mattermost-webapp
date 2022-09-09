@@ -2,10 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Dispatch} from 'redux';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 import {Locations} from 'utils/constants';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -19,14 +18,14 @@ type Props = {
     channelId?: string;
     postId: string;
     teamId: string;
-    getDotMenuRef: () => HTMLDivElement;
-    location: LocationTypes;
+    getDotMenuRef: () => HTMLDivElement | null;
+    location?: LocationTypes;
     locale: string;
     emojis: Emoji[];
     size: number;
     defaultEmojis: Emoji[];
     actions: {
-        addReaction: (postId: string, emojiName: string) => (dispatch: Dispatch) => void;
+        addReaction: (postId: string, emojiName: string) => void;
     };
 }
 
@@ -119,4 +118,3 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         );
     }
 }
-

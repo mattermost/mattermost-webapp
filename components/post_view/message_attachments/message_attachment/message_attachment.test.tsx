@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
-import {PostImage} from 'mattermost-redux/types/posts';
-import {PostAction} from 'mattermost-redux/types/integration_actions';
+import {MessageAttachment as MessageAttachmentType} from '@mattermost/types/message_attachments';
+import {PostImage} from '@mattermost/types/posts';
+import {PostAction} from '@mattermost/types/integration_actions';
 
 import {Constants} from 'utils/constants';
 
@@ -33,7 +33,10 @@ describe('components/post_view/MessageAttachment', () => {
         postId: 'post_id',
         attachment,
         currentRelativeTeamUrl: 'dummy_team',
-        actions: {doPostActionWithCookie: jest.fn()},
+        actions: {
+            doPostActionWithCookie: jest.fn(),
+            openModal: jest.fn(),
+        },
         imagesMetadata: {
             image_url: {
                 height: 200,
@@ -85,12 +88,13 @@ describe('components/post_view/MessageAttachment', () => {
     test('should call actions.doPostActionWithCookie on handleAction', () => {
         const promise = Promise.resolve({data: 123});
         const doPostActionWithCookie = jest.fn(() => promise);
+        const openModal = jest.fn();
         const actionId = 'action_id_1';
         const newAttachment = {
             ...attachment,
             actions: [{id: actionId, name: 'action_name_1', cookie: 'cookie-contents'}] as PostAction[],
         };
-        const props = {...baseProps, actions: {doPostActionWithCookie}, attachment: newAttachment};
+        const props = {...baseProps, actions: {doPostActionWithCookie, openModal}, attachment: newAttachment};
         const wrapper = shallow<MessageAttachment>(<MessageAttachment {...props}/>);
         expect(wrapper).toMatchSnapshot();
         wrapper.instance().handleAction({
@@ -102,6 +106,16 @@ describe('components/post_view/MessageAttachment', () => {
 
         expect(doPostActionWithCookie).toHaveBeenCalledTimes(1);
         expect(doPostActionWithCookie).toBeCalledWith(props.postId, 'attr_some_value', 'attr_some_value');
+    });
+
+    test('should call openModal when showModal is called', () => {
+        const props = {...baseProps, src: 'https://example.com/image.png'};
+        const wrapper = shallow<MessageAttachment>(
+            <MessageAttachment {...props}/>,
+        );
+
+        wrapper.instance().showModal({preventDefault: () => {}}, 'https://example.com/image.png');
+        expect(props.actions.openModal).toHaveBeenCalledTimes(1);
     });
 
     test('should match value on getFieldsTable', () => {

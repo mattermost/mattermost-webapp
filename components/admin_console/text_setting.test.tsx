@@ -23,19 +23,18 @@ describe('components/admin_console/TextSetting', () => {
             />,
         );
         expect(wrapper).toMatchInlineSnapshot(`
-        <TextSetting
-          disabled={false}
-          footer={null}
-          id="string.id"
-          inputClassName="col-sm-8"
-          label="some label"
-          labelClassName="col-sm-4"
-          maxLength={-1}
-          onChange={[MockFunction]}
-          resizable={true}
-          type="input"
-          value="some value"
-        />
+            <TextSetting
+              disabled={false}
+              id="string.id"
+              inputClassName="col-sm-8"
+              label="some label"
+              labelClassName="col-sm-4"
+              maxLength={-1}
+              onChange={[MockFunction]}
+              resizable={true}
+              type="input"
+              value="some value"
+            />
         `);
     });
 });

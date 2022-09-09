@@ -32,7 +32,7 @@ export default function NoPermissionsView(props: Props) {
                     <div className='NoPermissionsView__title'>
                         <FormattedMessage
                             id='invite_modal.no_permissions.title'
-                            defaultMessage='Oops!'
+                            defaultMessage='Unable to continue'
                         />
                     </div>
                     <div className='NoPermissionsView__description'>

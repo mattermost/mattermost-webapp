@@ -4,13 +4,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
-import {Command} from 'mattermost-redux/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {RelationOneToOne} from '@mattermost/types/utilities';
+import {Command} from '@mattermost/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import BackstageList from 'components/backstage/components/backstage_list.jsx';
 import InstalledCommand, {matchesFilter} from '../installed_command.jsx';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -116,7 +116,7 @@ export default class InstalledCommands extends React.PureComponent<Props> {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='http://docs.mattermost.com/developer/slash-commands.html'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
                                 >
                                     <FormattedMessage
                                         id='installed_commands.help.buildYourOwn'
@@ -128,7 +128,7 @@ export default class InstalledCommands extends React.PureComponent<Props> {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace'
                                 >
                                     <FormattedMessage
                                         id='installed_commands.help.appDirectory'

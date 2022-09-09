@@ -10,8 +10,8 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import BlockableLink from 'components/admin_console/blockable_link';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import UpgradeSvg from 'components/common/svg_images_components/upgrade.svg';
-import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history.svg';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
+import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -36,7 +36,7 @@ export const noBillingHistory = (
             />
         </div>
         <a
-            target='_new'
+            target='_blank'
             rel='noopener noreferrer'
             href={CloudLinks.BILLING_DOCS}
             className='BillingSummary__noBillingHistory-link'
@@ -50,7 +50,7 @@ export const noBillingHistory = (
     </div>
 );
 
-export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => void) => (
+export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: (callerInfo: string) => void) => (
     <div className='UpgradeMattermostCloud'>
         <div className='UpgradeMattermostCloud__image'>
             <UpgradeSvg
@@ -65,25 +65,25 @@ export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => v
             />
         </div>
         <div className='UpgradeMattermostCloud__description'>
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='admin.billing.subscription.upgradeMattermostCloud.description'
-                defaultMessage='The free tier is available until **January 31, 2022.** Add your payment information to continue after January 31st.'
+                defaultMessage='The free tier is limited to 10 users. Get access to more users, teams and other great features.'
             />
         </div>
         <button
             type='button'
-            onClick={onUpgradeMattermostCloud}
+            onClick={() => onUpgradeMattermostCloud('billing_summary_legacy_free_tier_upgrade_button')}
             className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
                 id='admin.billing.subscription.upgradeMattermostCloud.upgradeButton'
-                defaultMessage='Subscribe Now'
+                defaultMessage='Upgrade Now'
             />
         </button>
     </div>
 );
 
-export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial: number) => (
+export const freeTrial = (onUpgradeMattermostCloud: (callerInfo: string) => void, daysLeftOnTrial: number) => (
     <div className='UpgradeMattermostCloud'>
         <div className='UpgradeMattermostCloud__image'>
             <UpgradeSvg
@@ -129,12 +129,12 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
         </div>
         <button
             type='button'
-            onClick={onUpgradeMattermostCloud}
+            onClick={() => onUpgradeMattermostCloud('billing_summary_free_trial_upgrade_button')}
             className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
                 id='admin.billing.subscription.cloudTrial.subscribeButton'
-                defaultMessage='Subscribe Now'
+                defaultMessage='Upgrade Now'
             />
         </button>
     </div>
@@ -329,7 +329,7 @@ export const lastInvoiceInfo = (invoice: any, product: any, fullCharges: any, pa
             </div>
             <div className='BillingSummary__lastInvoice-download'>
                 <a
-                    target='_new'
+                    target='_self'
                     rel='noopener noreferrer'
                     href={Client4.getInvoicePdfUrl(invoice.id)}
                     className='BillingSummary__lastInvoice-downloadButton'

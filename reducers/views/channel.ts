@@ -33,6 +33,9 @@ function postVisibility(state: {[channelId: string]: number} = {}, action: Gener
         }
         return state;
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -59,6 +62,8 @@ function lastChannelViewTime(state: {[channelId: string]: number} = {}, action: 
         return {...state, [data.channelId]: data.lastViewedAt};
     }
 
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -71,6 +76,9 @@ function loadingPosts(state: {[channelId: string]: boolean} = {}, action: Generi
         nextState[action.channelId] = action.data;
         return nextState;
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
     default:
         return state;
     }
@@ -82,6 +90,9 @@ function focusedPostId(state = '', action: GenericAction) {
         return action.data;
     case ChannelTypes.SELECT_CHANNEL:
         return '';
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return '';
     default:
         return state;
     }
@@ -91,6 +102,7 @@ function mobileView(state = false, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.UPDATE_MOBILE_VIEW:
         return action.data;
+
     default:
         return state;
     }
@@ -99,6 +111,11 @@ function mobileView(state = false, action: GenericAction) {
 // lastUnreadChannel tracks if the current channel was unread and if it had mentions when the user switched to it.
 function lastUnreadChannel(state: ({channelId: string; hadMentions: boolean}) | null = null, action: GenericAction) {
     switch (action.type) {
+    case ChannelTypes.LEAVE_CHANNEL:
+        if (action.data.id === state?.channelId) {
+            return null;
+        }
+        return state;
     case ActionTypes.SET_LAST_UNREAD_CHANNEL: {
         const {
             channelId,
@@ -143,6 +160,8 @@ function toastStatus(state = false, action: GenericAction) {
         return false;
     case ActionTypes.UPDATE_TOAST_STATUS:
         return action.data;
+    case UserTypes.LOGOUT_SUCCESS:
+        return false;
     default:
         return state;
     }

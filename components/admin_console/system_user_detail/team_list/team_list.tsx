@@ -5,9 +5,9 @@ import React from 'react';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
-import {filterAndSortTeamsByDisplayName} from 'utils/team_utils.jsx';
+import {filterAndSortTeamsByDisplayName} from 'utils/team_utils';
 import {t} from 'utils/i18n';
 
 import AbstractList from './abstract_list';

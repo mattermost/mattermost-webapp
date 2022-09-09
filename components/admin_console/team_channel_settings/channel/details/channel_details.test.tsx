@@ -4,10 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Group} from 'mattermost-redux/types/groups';
-import {Channel} from 'mattermost-redux/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
-import {Scheme} from 'mattermost-redux/types/schemes';
+import {Group} from '@mattermost/types/groups';
+import {Channel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {Scheme} from '@mattermost/types/schemes';
 
 import ChannelDetails from './channel_details';
 
@@ -18,7 +18,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             name: 'name',
             display_name: 'DN',
             description: 'descript',
-            type: 'A',
+            source: 'A',
             remote_id: 'id',
             create_at: 0,
             update_at: 0,
@@ -142,7 +142,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             name: 'name',
             display_name: 'DN',
             description: 'descript',
-            type: 'A',
+            source: 'A',
             remote_id: 'id',
             create_at: 0,
             update_at: 0,
@@ -267,7 +267,7 @@ describe('admin_console/team_channel_settings/channel/ChannelDetails', () => {
             name: 'name',
             display_name: 'DN',
             description: 'descript',
-            type: 'A',
+            source: 'A',
             remote_id: 'id',
             create_at: 0,
             update_at: 0,

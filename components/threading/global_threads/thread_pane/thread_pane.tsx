@@ -5,7 +5,7 @@ import React, {memo, useCallback, ReactNode} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -20,7 +20,6 @@ import FollowButton from '../../common/follow_button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import Header from 'components/widgets/header';
 import {useThreadRouting} from '../../hooks';
-
 import './thread_pane.scss';
 
 const getChannel = makeGetChannel();
@@ -59,9 +58,9 @@ const ThreadPane = ({
     let unreadTimestamp = post.edit_at || post.create_at;
 
     // if we have the whole thread, get the posts in it, sorted from newest to oldest.
-    // Last post - root post, second to last post - oldest reply. Use that timestamp
+    // First post is latest reply. Use that timestamp
     if (postsInThread.length > 1) {
-        const p = postsInThread[postsInThread.length - 2];
+        const p = postsInThread[0];
         unreadTimestamp = p.edit_at || p.create_at;
     }
     const goToInChannelHandler = useCallback(() => {
@@ -73,7 +72,10 @@ const ThreadPane = ({
     }, [currentUserId, currentTeamId, threadId, isFollowing, setThreadFollow]);
 
     return (
-        <div className='ThreadPane'>
+        <div
+            id={'thread-pane-container'}
+            className='ThreadPane'
+        >
             <Header
                 className='ThreadPane___header'
                 heading={(

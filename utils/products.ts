@@ -3,8 +3,6 @@
 
 import {ProductComponent} from '../types/store/plugins';
 
-import {getBasePath} from './url';
-
 export const getCurrentProductId = (products: ProductComponent[], pathname: string): string | null => {
     if (!products) {
         return null;
@@ -12,7 +10,7 @@ export const getCurrentProductId = (products: ProductComponent[], pathname: stri
 
     for (let i = 0; i < products.length; i++) {
         const product = products[i];
-        if (pathname.startsWith(getBasePath() + product.baseURL)) {
+        if (pathname.startsWith(product.baseURL)) {
             return product.id;
         }
     }

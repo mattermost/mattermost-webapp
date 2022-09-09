@@ -3,7 +3,7 @@
 import {combineReducers} from 'redux';
 
 import {AppsTypes} from 'mattermost-redux/action_types';
-import {AppBinding, AppCommandFormMap, AppsState} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCommandFormMap, AppsState} from '@mattermost/types/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {validateBindings} from 'mattermost-redux/utils/apps';
 
@@ -13,9 +13,23 @@ import {validateBindings} from 'mattermost-redux/utils/apps';
 
 export function mainBindings(state: AppBinding[] = [], action: GenericAction): AppBinding[] {
     switch (action.type) {
+    case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
+        if (!state.length) {
+            return state;
+        }
+
+        return [];
+    }
     case AppsTypes.RECEIVED_APP_BINDINGS: {
         const bindings = action.data;
         return validateBindings(bindings);
+    }
+    case AppsTypes.APPS_PLUGIN_DISABLED: {
+        if (!state.length) {
+            return state;
+        }
+
+        return [];
     }
     default:
         return state;
@@ -77,7 +91,28 @@ const rhs = combineReducers({
     forms: rhsForms,
 });
 
+export function pluginEnabled(state = true, action: GenericAction): boolean {
+    switch (action.type) {
+    case AppsTypes.APPS_PLUGIN_ENABLED: {
+        return true;
+    }
+    case AppsTypes.APPS_PLUGIN_DISABLED: {
+        return false;
+    }
+    case AppsTypes.RECEIVED_APP_BINDINGS: {
+        return true;
+    }
+    case AppsTypes.FAILED_TO_FETCH_APP_BINDINGS: {
+        return false;
+    }
+
+    default:
+        return state;
+    }
+}
+
 export default (combineReducers({
     main,
     rhs,
+    pluginEnabled,
 }) as (b: AppsState, a: GenericAction) => AppsState);

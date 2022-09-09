@@ -1,0 +1,10 @@
+{
+    "compilerOptions": {
+        "baseUrl": ".",
+        "paths": {
+            "@mattermost/types/*": ["node_modules/@mattermost/types/*"],
+            "@support/*": ["support/*"],
+            "@test.config": ["test.config.ts"]
+        }
+    }
+}

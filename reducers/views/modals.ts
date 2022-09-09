@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ViewsState} from 'types/store/views';
@@ -25,6 +26,18 @@ export function modalState(state: ViewsState['modals']['modalState'] = {}, actio
         Reflect.deleteProperty(newState, action.modalId);
         return newState;
     }
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
+export function showLaunchingWorkspace(state = false, action: GenericAction) {
+    switch (action.type) {
+    case GeneralTypes.SHOW_LAUNCHING_WORKSPACE:
+        return action.open;
     default:
         return state;
     }
@@ -32,4 +45,5 @@ export function modalState(state: ViewsState['modals']['modalState'] = {}, actio
 
 export default combineReducers({
     modalState,
+    showLaunchingWorkspace,
 });

@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
 import {removePost, getPostThread} from 'mattermost-redux/actions/posts';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {getSelectedChannel, getSelectedPost} from 'selectors/rhs';
 import {selectPostCard} from 'actions/views/rhs';

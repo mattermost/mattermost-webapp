@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 
 import {removePost} from 'mattermost-redux/actions/posts';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import RhsComment from 'components/rhs_comment';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';

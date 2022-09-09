@@ -6,7 +6,7 @@ import {Button, ButtonGroup} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {TermsOfService as ReduxTermsOfService} from 'mattermost-redux/types/terms_of_service';
+import {TermsOfService as ReduxTermsOfService} from '@mattermost/types/terms_of_service';
 
 import * as GlobalActions from 'actions/global_actions';
 import AnnouncementBar from 'components/announcement_bar';
@@ -18,7 +18,7 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 import {browserHistory} from 'utils/browser_history';
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
-import {Constants} from 'utils/constants.jsx';
+import {Constants} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
 
 export interface UpdateMyTermsOfServiceStatusResponse {
@@ -38,6 +38,7 @@ export interface TermsOfServiceProps {
         ) => {data: UpdateMyTermsOfServiceStatusResponse};
     };
     emojiMap: EmojiMap;
+    useCaseOnboarding: boolean;
 }
 
 interface TermsOfServiceState {
@@ -110,6 +111,12 @@ export default class TermsOfService extends React.PureComponent<TermsOfServicePr
                 const redirectTo = query.get('redirect_to');
                 if (redirectTo && redirectTo.match(/^\/([^/]|$)/)) {
                     browserHistory.push(redirectTo);
+                } else if (this.props.useCaseOnboarding) {
+                    // need info about whether admin or not,
+                    // and whether admin has already completed
+                    // first time onboarding. Instead of fetching and orchestrating that here,
+                    // let the default root component handle it.
+                    browserHistory.push('/');
                 } else {
                     GlobalActions.redirectUserToDefaultTeam();
                 }

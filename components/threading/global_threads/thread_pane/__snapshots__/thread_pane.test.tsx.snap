@@ -3,6 +3,7 @@
 exports[`components/threading/global_threads/thread_pane should match snapshot 1`] = `
 <div
   className="ThreadPane"
+  id="thread-pane-container"
 >
   <Header
     className="ThreadPane___header"

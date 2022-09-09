@@ -1,6 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {splitMessageBasedOnCaretPosition} from 'utils/post_utils';
+import {splitMessageBasedOnCaretPosition, splitMessageBasedOnTextSelection} from 'utils/post_utils';
+
+type FormatCodeOptions = {
+    message: string;
+    clipboardData: DataTransfer;
+    selectionStart: number | null;
+    selectionEnd: number | null;
+};
 
 export function parseTable(html: string): HTMLTableElement | null {
     return new DOMParser().parseFromString(html, 'text/html').querySelector('table');
@@ -74,8 +81,11 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     return newMessage.join('\n');
 }
 
-export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer): {formattedMessage: string; formattedCodeBlock: string} {
-    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
+export function formatGithubCodePaste({message, clipboardData, selectionStart, selectionEnd}: FormatCodeOptions): {formattedMessage: string; formattedCodeBlock: string} {
+    const textSelected = selectionStart !== selectionEnd;
+    const {firstPiece, lastPiece} = textSelected ?
+        splitMessageBasedOnTextSelection(selectionStart ?? message.length, selectionEnd ?? message.length, message) :
+        splitMessageBasedOnCaretPosition(selectionStart ?? message.length, message);
 
     // Add new lines if content exists before or after the cursor.
     const requireStartLF = firstPiece === '' ? '' : '\n';

@@ -1,3 +1,6 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+
 .StarterEditionRightPannel {
     .svg-image {
         text-align: center;
@@ -34,19 +37,38 @@
         }
     }
 
-    button {
-        width: 100%;
-        margin: 5px auto;
-        border-radius: 4px;
-    }
-
     .purchase_buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         margin-top: 20px;
 
         button {
-            max-height: 48px !important;
-            padding: 7px 12px !important;
-            margin: 0 5px !important;
+            width: 120px;
+            padding: 14px 12px !important;
+            border-radius: 4px;
+
+            span {
+                font-size: 16px !important;
+            }
+
+            &.contact-us {
+                width: 130px;
+                margin-left: 15px;
+            }
+        }
+
+        @media screen and (max-width: 1130px) {
+            flex-direction: column;
+
+            button {
+                width: 100% !important;
+
+                &.contact-us {
+                    margin-top: 10px;
+                    margin-left: 0 !important;
+                }
+            }
         }
     }
 
@@ -56,6 +78,19 @@
 }
 
 .StarterLeftPanel {
+    position: relative;
+
+    .PlanDetails__viewPlansButton {
+        position: absolute;
+        right: 10px;
+        display: block;
+        margin-left: auto;
+
+        &.btn {
+            @include tertiary-button;
+        }
+    }
+
     .pre-title {
         margin-bottom: 10px;
         color: rgba(63, 67, 80, 0.56) !important;
@@ -103,11 +138,8 @@
             }
 
             button {
+                height: 48px;
                 border-radius: 4px;
-
-                &.btn-upload {
-                    margin-left: 10px;
-                }
             }
 
             .help-text {

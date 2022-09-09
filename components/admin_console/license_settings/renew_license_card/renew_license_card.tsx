@@ -1,12 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
-
+import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
-
 import moment from 'moment';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
+import {Client4} from 'mattermost-redux/client';
 
 import RenewalLink from 'components/announcement_bar/renewal_link/';
 
@@ -25,6 +24,15 @@ export interface RenewLicenseCardProps {
 }
 
 const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers, isLicenseExpired, isDisabled}: RenewLicenseCardProps) => {
+    const [showContactSalesBtn, setShowContactSalesBtn] = useState(true);
+    useEffect(() => {
+        Client4.getRenewalLink().catch(() => {
+            // if we have an error with getting the renewal link, do not show contact sales button because
+            // it is already shown by the RenewalLink component
+            setShowContactSalesBtn(false);
+        });
+    }, []);
+
     let bannerType: 'info' | 'warning' | 'danger' = 'info';
     const today = moment(Date.now());
     const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
@@ -105,7 +113,7 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
                     telemetryInfo={renewLinkTelemetry}
                     customBtnText={customBtnText}
                 />
-                {contactSalesBtn}
+                {showContactSalesBtn && contactSalesBtn}
             </div>
         </div>
     );

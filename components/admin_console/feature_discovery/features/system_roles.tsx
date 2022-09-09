@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const SystemRolesFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='system_roles'
+            minimumSKURequiredForFeature={LicenseSkus.Enterprise}
             titleID='admin.system_roles_feature_discovery.title'
             titleDefault='Provide controlled access to the System Console with Mattermost Enterprise'
             copyID='admin.system_roles_feature_discovery.copy'

@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
@@ -15,9 +16,11 @@ function websocketConnectionErrorCount(state = 0, action: GenericAction) {
     case ActionTypes.RESET_WS_ERROR_COUNT: {
         return 0;
     }
-    default: {
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return 0;
+    default:
         return state;
-    }
     }
 }
 

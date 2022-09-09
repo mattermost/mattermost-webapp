@@ -10,7 +10,7 @@ import {ReactComponentLike} from 'prop-types';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import AutosizeTextarea from 'components/autosize_textarea';
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 export type Props = {
 
@@ -63,6 +63,11 @@ export type Props = {
     onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
 
     /**
+     * Callback to handle the key up of the input
+     */
+    onKeyUp?: (event: React.KeyboardEvent) => void;
+
+    /**
      * When true, and an onClear callback is defined, show an X on the input field even if
      * the input is empty.
      */
@@ -76,7 +81,7 @@ export type Props = {
     autoFocus?: boolean;
     type?: string;
     id?: string;
-    onInput?: () => void;
+    onInput?: (e?: React.FormEvent<HTMLInputElement>) => void;
 }
 
 // A component that can be used to make controlled inputs that function properly in certain

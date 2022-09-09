@@ -5,7 +5,7 @@ import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import DeleteCategoryModal from 'components/delete_category_modal';

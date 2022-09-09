@@ -16,6 +16,17 @@ import {WindowSizes} from 'utils/constants';
 import RhsHeaderPost from './index';
 
 describe('rhs_header_post', () => {
+    let container: HTMLDivElement;
+
+    beforeEach(() => {
+        container = document.createElement('div');
+        container.id = 'root-portal';
+        document.body.appendChild(container);
+    });
+
+    afterEach(() => {
+        document.body.removeChild<HTMLDivElement>(container);
+    });
     const initialState = {
         entities: {
             users: {
@@ -79,6 +90,9 @@ describe('rhs_header_post', () => {
             },
             browser: {
                 windowSize: WindowSizes.DESKTOP_VIEW,
+            },
+            channelSidebar: {
+                firstChannelName: 'town-square',
             },
         },
     };

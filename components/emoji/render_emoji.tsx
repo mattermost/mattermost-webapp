@@ -16,11 +16,12 @@ interface ComponentProps {
 }
 
 const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
+    const emojiMap = useSelector((state: GlobalState) => getEmojiMap(state));
+
     if (!emojiName) {
         return null;
     }
 
-    const emojiMap = useSelector((state: GlobalState) => getEmojiMap(state));
     const emojiFromMap = emojiMap.get(emojiName);
     if (!emojiFromMap) {
         return null;
@@ -35,7 +36,7 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
             data-emoticon={emojiName}
             style={{
                 backgroundImage: `url(${emojiImageUrl})`,
-                backgroundSize: size,
+                backgroundSize: 'contain',
                 height: size,
                 width: size,
                 maxHeight: size,

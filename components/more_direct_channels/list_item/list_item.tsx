@@ -7,8 +7,6 @@ import React, {useCallback} from 'react';
 import Timestamp from 'components/timestamp';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
 
-import {isMobile} from 'utils/utils';
-
 import {
     GroupChannel,
     isGroupChannel,
@@ -32,6 +30,7 @@ const TIME_SPEC: React.ComponentProps<typeof Timestamp> = {
 
 type Props = {
     option: OptionValue;
+    isMobileView: boolean;
     isSelected: boolean;
     add: (value: OptionValue) => void;
     select: (value: OptionValue) => void;
@@ -40,6 +39,7 @@ type Props = {
 const ListItem = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>) => {
     const {
         option,
+        isMobileView,
         isSelected,
         add,
         select,
@@ -66,7 +66,7 @@ const ListItem = React.forwardRef((props: Props, ref?: React.Ref<HTMLDivElement>
         >
             {details}
 
-            {!isMobile() && Boolean(lastPostAt) &&
+            {isMobileView && Boolean(lastPostAt) &&
                 <div className='more-modal__lastPostAt'>
                     <Timestamp
                         {...TIME_SPEC}

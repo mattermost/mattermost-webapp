@@ -3,6 +3,7 @@
 
 import {combineReducers} from 'redux';
 
+import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
@@ -36,6 +37,18 @@ function navigationBlock(state = initialState, action: GenericAction) {
             onNavigationConfirmed: null,
             showNavigationPrompt: false,
         };
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return initialState;
+    default:
+        return state;
+    }
+}
+
+export function needsLoggedInLimitReachedCheck(state = false, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK:
+        return action.data;
     default:
         return state;
     }
@@ -43,4 +56,5 @@ function navigationBlock(state = initialState, action: GenericAction) {
 
 export default combineReducers({
     navigationBlock,
+    needsLoggedInLimitReachedCheck,
 });
