@@ -12,6 +12,7 @@ import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {ModalIdentifiers} from 'utils/constants';
 
+
 type Props = {
     post: Post;
     actions: {

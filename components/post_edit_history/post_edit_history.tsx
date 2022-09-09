@@ -15,7 +15,7 @@ import EditedPostItem from './edited_post_item';
 import {PropsFromRedux} from '.';
 
 // todo sinan postEditHistory should be empty array when other message is selected
-
+// todo sinan check why after restoring it is focusing somewhere else. It is either this component or edited_post_item
 const renderView = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
