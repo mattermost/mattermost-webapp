@@ -25,9 +25,10 @@ import {addReaction} from 'actions/post_actions';
 
 import * as Emoji from 'utils/emoji.jsx';
 
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'utils/constants';
+
 import Reaction from './reaction';
-import { get } from 'mattermost-redux/selectors/entities/preferences';
-import { Preferences } from 'utils/constants';
 
 type Props = {
     emojiName: string;

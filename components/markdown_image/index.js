@@ -6,12 +6,12 @@ import {bindActionCreators} from 'redux';
 
 import {openModal} from 'actions/views/modals';
 
-import MarkdownImage from './markdown_image';
-
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'utils/constants';
 
-function mapStateToProps(state, ownProps) {
+import MarkdownImage from './markdown_image';
+
+function mapStateToProps(state) {
     return {
         autoplayGifAndEmojis: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
     };

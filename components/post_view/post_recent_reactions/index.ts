@@ -12,9 +12,10 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {addReaction} from 'actions/post_actions';
 import {Emoji} from '@mattermost/types/emojis';
 
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'utils/constants';
+
 import PostReaction from './post_recent_reactions';
-import { get } from 'mattermost-redux/selectors/entities/preferences';
-import { Preferences } from 'utils/constants';
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {

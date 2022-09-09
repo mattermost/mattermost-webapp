@@ -7,6 +7,9 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {GlobalState} from 'types/store';
+import GIFPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index';
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'utils/constants';
 
 interface ComponentProps {
     emojiName: string;
@@ -17,6 +20,8 @@ interface ComponentProps {
 
 const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => {
     const emojiMap = useSelector((state: GlobalState) => getEmojiMap(state));
+    const shouldPlay = useSelector((state: GlobalState) => get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.AUTOPLAY_GIF_AND_EMOJI, Preferences.LINK_PREVIEW_DISPLAY_DEFAULT),
+    );
 
     if (!emojiName) {
         return null;
@@ -28,14 +33,35 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
     }
     const emojiImageUrl = getEmojiImageUrl(emojiFromMap);
 
+    if (shouldPlay === 'true') {
+        return (
+            <span
+                onClick={onClick}
+                className='emoticon'
+                title={`:${emojiName}:`}
+                data-emoticon={emojiName}
+                style={{
+                    backgroundImage: `url(${emojiImageUrl})`,
+                    backgroundSize: 'contain',
+                    height: size,
+                    width: size,
+                    maxHeight: size,
+                    maxWidth: size,
+                    minHeight: size,
+                    minWidth: size,
+                    overflow: 'hidden',
+                    ...emojiStyle,
+                }}
+            />
+        );
+    }
     return (
-        <span
+        <div
             onClick={onClick}
             className='emoticon'
             title={`:${emojiName}:`}
             data-emoticon={emojiName}
             style={{
-                backgroundImage: `url(${emojiImageUrl})`,
                 backgroundSize: 'contain',
                 height: size,
                 width: size,
@@ -44,10 +70,13 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
                 minHeight: size,
                 minWidth: size,
                 overflow: 'hidden',
-                ...emojiStyle,
-            }}
-        />
-    );
+                ...emojiStyle}}
+        >
+            <GIFPlayer
+                stopPropagation={true}
+                gif={emojiImageUrl}
+            />
+        </div>);
 };
 
 RenderEmoji.defaultProps = {

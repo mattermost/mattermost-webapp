@@ -32,30 +32,36 @@ const EmojiItem = ({emoji, onItemClick, order, autoplayGifAndEmojis}: Props) => 
             className={classNames(itemClassName, 'post-menu__emoticon')}
             onClick={handleClick}
         >
-            {autoplayGifAndEmojis === 'true' ? 
-            (
-                <button
-                id={`recent_reaction_${order}`}
-                data-testid={itemClassName + '_emoji'}
-                className='emoticon--post-menu'
-                style={{backgroundImage: `url(${getEmojiImageUrl(emoji)})`, backgroundColor: 'transparent'}}
-                aria-label={formatMessage(
-                    {
-                        id: 'emoji_picker_item.emoji_aria_label',
-                        defaultMessage: '{emojiName} emoji',
-                    },
-                    {
-                        emojiName: (emojiName).replace(/_/g, ' '),
-                    },
+            {autoplayGifAndEmojis === 'true' ?
+                (
+                    <button
+                        id={`recent_reaction_${order}`}
+                        data-testid={itemClassName + '_emoji'}
+                        className='emoticon--post-menu'
+                        style={{backgroundImage: `url(${getEmojiImageUrl(emoji)})`, backgroundColor: 'transparent'}}
+                        aria-label={formatMessage(
+                            {
+                                id: 'emoji_picker_item.emoji_aria_label',
+                                defaultMessage: '{emojiName} emoji',
+                            },
+                            {
+                                emojiName: (emojiName).replace(/_/g, ' '),
+                            },
+                        )}
+                    />
+                ) :
+                (
+                    <div
+                        onClick={handleClick}
+                        className='emoticon--post-menu'
+                    >
+                        <EmojiPlayer
+                            gif={getEmojiImageUrl(emoji)}
+                            stopPropagation={true}
+                        />
+                    </div>
                 )}
-            />
-            ) : 
-            (
-                <div onClick={handleClick} className='emoticon--post-menu'>
-                    <EmojiPlayer src={getEmojiImageUrl(emoji)} />
-                </div>
-            )}
-            
+
         </div>
     );
 };

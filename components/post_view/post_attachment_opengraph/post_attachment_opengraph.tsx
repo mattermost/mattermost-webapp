@@ -25,7 +25,7 @@ import {makeUrlSafe} from 'utils/url';
 import {getNearestPoint} from './get_nearest_point';
 
 import './post_attachment_opengraph.scss';
-import GIFPlayer from './post_attachment_pause_gif';
+import GIFPlayer from './gif_player_index';
 
 const DIMENSIONS_NEAREST_POINT_IMAGE = {
     height: 80,
@@ -273,7 +273,7 @@ export const PostAttachmentOpenGraphImage = memo(({imageMetadata, isInPermalink,
                         {large && imageCollapseButton}
                         <figure onClick={(e) => e.preventDefault()}>
                             <GIFPlayer
-                                src={source}
+                                gif={source}
                             />
                         </figure>
                     </>

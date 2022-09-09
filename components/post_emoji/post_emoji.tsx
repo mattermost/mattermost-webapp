@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import EmojiPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index'
+
+import EmojiPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index';
 
 interface PostEmojiProps {
     name: string;
@@ -43,6 +44,7 @@ export default class PostEmoji extends React.PureComponent<PostEmojiProps> {
             >
                 <EmojiPlayer
                     gif={this.props.imageUrl}
+                    playButton={false}
                 />
             </div>
         );

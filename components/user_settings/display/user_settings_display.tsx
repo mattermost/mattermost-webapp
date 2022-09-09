@@ -694,14 +694,14 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             firstOption: {
                 value: 'true',
                 radionButtonText: {
-                    id: t('user.settings.display.on'),
+                    id: t('user.settings.autoplayGifs.on'),
                     message: 'On',
                 },
             },
             secondOption: {
                 value: 'false',
                 radionButtonText: {
-                    id: t('user.settings.display.off'),
+                    id: t('user.settings.autoplayGifs.off'),
                     message: 'Off',
                 },
             },

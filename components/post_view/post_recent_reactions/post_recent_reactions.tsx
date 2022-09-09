@@ -75,7 +75,7 @@ export default class PostRecentReactions extends React.PureComponent<Props, Stat
         const {
             channelId,
             teamId,
-            autoplayGifAndEmojis
+            autoplayGifAndEmojis,
         } = this.props;
 
         let emojis = [...this.props.emojis].slice(0, this.props.size);
