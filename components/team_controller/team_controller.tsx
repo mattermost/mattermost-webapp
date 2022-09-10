@@ -105,13 +105,8 @@ export default function TeamController(props: Props) {
             lastTime.current = currentTime;
         }, WAKEUP_CHECK_INTERVAL);
 
-        const loadStatusesIntervalId = setInterval(() => {
-            props.loadStatusesForChannelAndSidebar();
-        }, Constants.STATUS_INTERVAL);
-
         return () => {
             clearInterval(wakeUpIntervalId);
-            clearInterval(loadStatusesIntervalId);
         };
     }, []);
 
@@ -187,7 +182,7 @@ export default function TeamController(props: Props) {
         await props.fetchMyChannelsAndMembers(team.id);
         setIsFetchingChannels(false);
 
-        props.loadStatusesForChannelAndSidebar();
+        // props.loadStatusesForChannelAndSidebar();
 
         if (props.license &&
             props.license.IsLicensed === 'true' &&

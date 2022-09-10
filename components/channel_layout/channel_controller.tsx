@@ -2,7 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
+import {useDispatch} from 'react-redux';
 import classNames from 'classnames';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 
 import AnnouncementBarController from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -18,6 +23,8 @@ import ProductNoticesModal from 'components/product_notices_modal';
 
 import Pluggable from 'plugins/pluggable';
 
+import {Constants} from 'utils/constants';
+
 import {isInternetExplorer, isEdge} from 'utils/user_agent';
 
 interface Props {
@@ -28,6 +35,8 @@ interface Props {
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
 export default function ChannelController({shouldShowAppBar, isFetchingChannels}: Props) {
+    const dispatch = useDispatch<DispatchFunc>();
+
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
@@ -35,6 +44,16 @@ export default function ChannelController({shouldShowAppBar, isFetchingChannels}
 
         return () => {
             document.body.classList.remove(...BODY_CLASS_FOR_CHANNEL);
+        };
+    }, []);
+
+    useEffect(() => {
+        const loadStatusesIntervalId = setInterval(() => {
+            dispatch(loadStatusesForChannelAndSidebar());
+        }, Constants.STATUS_INTERVAL);
+
+        return () => {
+            clearInterval(loadStatusesIntervalId);
         };
     }, []);
 

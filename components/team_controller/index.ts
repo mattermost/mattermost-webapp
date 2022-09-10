@@ -20,7 +20,6 @@ import {shouldShowAppBar} from 'selectors/plugins';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
 import {setPreviousTeamId} from 'actions/local_storage';
-import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
 
@@ -68,7 +67,6 @@ const mapDispatchToProps = {
     addUserToTeam,
     setPreviousTeamId,
     selectTeam,
-    loadStatusesForChannelAndSidebar,
     getAllGroupsAssociatedToChannelsInTeam,
     getAllGroupsAssociatedToTeam,
     getGroupsByUserIdPaginated,
