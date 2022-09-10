@@ -21,7 +21,6 @@ type Props = {
 }
 
 // todo sinan convert it to use floating UI
-// todo sinan write test
 function InfoToast(props: Props): JSX.Element {
     const {actions, content} = props;
 
