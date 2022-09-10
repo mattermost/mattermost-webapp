@@ -7,7 +7,6 @@ import {CSSTransition} from 'react-transition-group';
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {ModalIdentifiers} from 'utils/constants';
-import './info_toast.scss';
 
 type Props = {
     content: {

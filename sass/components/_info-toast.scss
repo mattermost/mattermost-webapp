@@ -1,4 +1,5 @@
-// todo sinan move it to under sass folder
+@charset 'UTF-8';
+
 .info-toast {
     position: fixed;
     z-index: 99;
@@ -10,7 +11,7 @@
     align-items: center;
     justify-content: space-between;
     padding: 4px;
-    background: var(--center-channel-color-rgb);
+    background: var(--center-channel-text);
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
     color: var(--sidebar-text);

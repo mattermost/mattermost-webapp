@@ -8,7 +8,7 @@ import classNames from 'classnames';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
-import {RefreshIcon} from '@mattermost/compass-icons/components';
+import {CheckIcon} from '@mattermost/compass-icons/components';
 
 import {Post} from '@mattermost/types/posts';
 
@@ -61,13 +61,21 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         actions.openModal(restorePostModalData);
     }, [actions, post]);
 
+    const togglePost = useCallback(() => {
+        setOpen((prevState) => !prevState);
+    }, []);
+
+    if (!post) {
+        return null;
+    }
+
     const showInfoTooltip = () => {
         const infoToastModalData = {
             modalId: ModalIdentifiers.INFO_TOOLTIP,
             dialogType: InfoToast,
             dialogProps: {
                 content: {
-                    icon: <RefreshIcon size={18}/>,
+                    icon: <CheckIcon size={18}/>,
                     message: 'Restored Message',
                     undo: handleUndo,
                 },
@@ -79,14 +87,6 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
 
         actions.openModal(infoToastModalData);
     };
-
-    const togglePost = useCallback(() => {
-        setOpen((prevState) => !prevState);
-    }, []);
-
-    if (!post) {
-        return null;
-    }
 
     const formattedHelpText = formatMessage({
         id: t('post_info.edit.restore'),
