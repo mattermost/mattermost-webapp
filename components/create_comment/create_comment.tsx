@@ -38,7 +38,7 @@ import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import TextboxLinks from 'components/textbox/textbox_links';
 import MessageSubmitError from 'components/message_submit_error';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
@@ -314,7 +314,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useLDAPGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
+        const {useLDAPGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft, enableConfirmNotificationsToChannel} = this.props;
         clearCommentDraftUploads();
         onResetHistoryIndex();
         setShowPreview(false);
@@ -326,7 +326,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraft);
-        if (useLDAPGroupMentions) {
+        if (useLDAPGroupMentions && enableConfirmNotificationsToChannel) {
             getChannelMemberCountsByGroup(channelId);
         }
 
@@ -362,7 +362,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
         }
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
-            if (this.props.useLDAPGroupMentions) {
+            if (this.props.useLDAPGroupMentions && this.props.enableConfirmNotificationsToChannel) {
                 this.props.getChannelMemberCountsByGroup(this.props.channelId);
             }
             this.focusTextbox();
@@ -960,7 +960,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
         this.setState({uploadsProgressPercent});
     }
 
-    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string, _: string, rootId: string) => {
+    handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], _: string, rootId: string) => {
         const draft = this.draftsForPost[rootId]!;
         const uploadsInProgress = [...draft.uploadsInProgress];
         const newFileInfos = sortFileInfos([...draft.fileInfos, ...fileInfos], this.props.locale);

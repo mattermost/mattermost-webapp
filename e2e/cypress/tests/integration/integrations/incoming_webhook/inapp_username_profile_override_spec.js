@@ -151,7 +151,7 @@ function verifyLastPost(owner, username, iconUrl) {
     verifyProfilePopover(owner, username, iconUrl);
 
     // # Press escape key to close profile popover
-    cy.get('body').type('{esc}', {force: true});
+    cy.get('body').typeWithForce('{esc}');
 
     // # Click on profile icon and verify profile popover
     cy.get('@profileIconForPopover').click();

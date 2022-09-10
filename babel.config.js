@@ -38,6 +38,7 @@ const config = {
             },
         ],
     ],
+    sourceType: 'unambiguous',
 };
 
 // Jest needs module transformation

@@ -51,13 +51,4 @@ describe('FileUtils', () => {
             assert.deepEqual(FileUtils.sortFileInfos(testCase.inputFileInfos), testCase.outputFileInfos);
         });
     });
-
-    it('lookupMimeType', () => {
-        const jpgFilePaths = ['file://aaa.jpg', 'file://bbb.JPG'];
-        const mimeType = 'image/jpeg';
-
-        jpgFilePaths.forEach((filePath) => {
-            assert.equal(FileUtils.lookupMimeType(filePath), mimeType);
-        });
-    });
 });

@@ -72,7 +72,7 @@ describe('autocomplete', () => {
 
         // # Post user mention
         cy.uiPostMessageQuickly(`@${testUser.username} `);
-        cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(testUser.username);
 
         // # Check that the user name has been posted
         cy.getLastPostId().then((postId) => {
@@ -94,7 +94,7 @@ describe('autocomplete', () => {
 
         // # Post user mention
         cy.uiGetPostTextBox().type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(testUser.username);
 
         // # Check that the user name has been posted
         cy.getLastPostId().then((postId) => {
@@ -116,7 +116,7 @@ describe('autocomplete', () => {
 
         // # Post user mention
         cy.uiGetPostTextBox().type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(testUser.username);
 
         // # Check that the user name has been posted
         cy.getLastPostId().then((postId) => {
@@ -146,7 +146,7 @@ describe('autocomplete', () => {
         cy.get('#suggestionList').should('be.visible');
 
         // # Type user name
-        cy.uiGetPostTextBox().type(`${notInChannelUser.username}`);
+        cy.uiGetPostTextBox().type(notInChannelUser.username);
 
         // # Post user mention
         cy.uiGetPostTextBox().type('{enter}{enter}');
@@ -184,7 +184,7 @@ describe('autocomplete', () => {
                 cy.get('#suggestionList').should('be.visible');
 
                 // # Type user name
-                cy.uiGetPostTextBox().type(`${tempUser.username}`);
+                cy.uiGetPostTextBox().type(tempUser.username);
 
                 // # Post user name mention
                 cy.uiGetPostTextBox().type('{enter}{enter}');
@@ -245,11 +245,11 @@ describe('autocomplete', () => {
             cy.get('#suggestionList').should('be.visible');
 
             // # Type user name
-            cy.uiGetPostTextBox().type(`${notInChannelUser.username}`);
+            cy.uiGetPostTextBox().type(notInChannelUser.username);
 
             // # Post user name mention
             cy.uiGetPostTextBox().type('{enter}{enter}');
-            cy.uiWaitUntilMessagePostedIncludes(`${notInChannelUser.username}`);
+            cy.uiWaitUntilMessagePostedIncludes(notInChannelUser.username);
 
             // # Check that the user name has been posted
             cy.getLastPostId().then((postId) => {
@@ -275,9 +275,9 @@ describe('autocomplete', () => {
             cy.get('#suggestionList').should('be.visible');
 
             // # Type user name
-            cy.uiGetPostTextBox().type(`${notInChannelUser.username}`);
+            cy.uiGetPostTextBox().type(notInChannelUser.username);
             cy.uiGetPostTextBox().type('{enter}{enter}');
-            cy.uiWaitUntilMessagePostedIncludes(`${notInChannelUser.username}`);
+            cy.uiWaitUntilMessagePostedIncludes(notInChannelUser.username);
 
             cy.getLastPostId().then((postId) => {
                 // * Verify that the correct system message is displayed or not
@@ -297,7 +297,7 @@ describe('autocomplete', () => {
 
         // # Type input suffixed with '.'
         cy.uiGetPostTextBox().clear().type(`@${sysadmin.username}.`).type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${sysadmin.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(sysadmin.username);
 
         cy.getLastPostId().then((postId) => {
             // # Check that the user name has been posted
@@ -309,7 +309,7 @@ describe('autocomplete', () => {
 
         // # Type input suffixed with '_'
         cy.uiGetPostTextBox().clear().type(`@${sysadmin.username}_`).type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${sysadmin.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(sysadmin.username);
 
         cy.getLastPostId().then((postId) => {
             // # Check that the user name has been posted
@@ -336,7 +336,7 @@ describe('autocomplete', () => {
         });
 
         cy.uiGetPostTextBox().type('{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${otherUser.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(otherUser.username);
 
         // # Check that the @ mention of username has been posted
         cy.getLastPostId().then((postId) => {

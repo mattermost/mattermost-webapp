@@ -11,9 +11,9 @@ Cypress.Commands.add('uiInviteMemberToCurrentTeam', (username) => {
         then((link) => link && link.click());
 
     // # Enter bot username and submit
-    cy.get('.users-emails-input__control input').type(username, {force: true}).as('input');
+    cy.get('.users-emails-input__control input').typeWithForce(username).as('input');
     cy.get('.users-emails-input__option ').contains(`@${username}`);
-    cy.get('@input').type('{enter}', {force: true});
+    cy.get('@input').typeWithForce('{enter}');
     cy.get('#inviteMembersButton').click();
 
     // * Verify user invited to team

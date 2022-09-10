@@ -27,7 +27,7 @@ export type Props = {
     isEmbedVisible?: boolean;
     options?: Partial<TextFormattingOptions>;
     appsEnabled: boolean;
-    handleFileDropdownOpened: (open: boolean) => void;
+    handleFileDropdownOpened?: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };

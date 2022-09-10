@@ -6,8 +6,11 @@ import classNames from 'classnames';
 
 import './badge.scss';
 
+export type BadgeVariant = 'info' | 'success' | 'warning' | 'danger';
+
 type Props = {
     show?: boolean;
+    variant?: BadgeVariant;
     children: ReactNode;
 };
 
@@ -16,6 +19,7 @@ type Attrs = HTMLAttributes<HTMLElement>
 const Badge = ({
     show = true,
     children,
+    variant,
     ...attrs
 }: Props & Attrs) => {
     if (!show) {
@@ -26,7 +30,7 @@ const Badge = ({
         <div className='Badge'>
             <ButtonOrDiv
                 {...attrs}
-                className={classNames('Badge__box', attrs.className)}
+                className={classNames('Badge__box', attrs.className, {[`${variant}`]: variant})}
             >
                 {children}
             </ButtonOrDiv>

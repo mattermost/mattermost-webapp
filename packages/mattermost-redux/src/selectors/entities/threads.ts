@@ -75,25 +75,31 @@ export function getThread(state: GlobalState, threadId?: UserThread['id']) {
     return threads[threadId];
 }
 
-export function getThreadOrSynthetic(state: GlobalState, rootPost: Post): UserThread | UserThreadSynthetic {
-    const thread = getThreads(state)[rootPost.id];
+export function makeGetThreadOrSynthetic(): (state: GlobalState, rootPost: Post) => UserThread | UserThreadSynthetic {
+    return createSelector(
+        'getThreadOrSynthetic',
+        (_: GlobalState, rootPost: Post) => rootPost,
+        getThreads,
+        (rootPost, threads) => {
+            const thread = threads[rootPost.id];
+            if (thread?.id) {
+                return thread;
+            }
 
-    if (thread?.id) {
-        return thread;
-    }
-
-    return {
-        id: rootPost.id,
-        type: UserThreadType.Synthetic,
-        reply_count: rootPost.reply_count,
-        participants: rootPost.participants,
-        last_reply_at: rootPost.last_reply_at ?? 0,
-        is_following: thread?.is_following ?? rootPost.is_following ?? null,
-        post: {
-            user_id: rootPost.user_id,
-            channel_id: rootPost.channel_id,
+            return {
+                id: rootPost.id,
+                type: UserThreadType.Synthetic,
+                reply_count: rootPost.reply_count,
+                participants: rootPost.participants,
+                last_reply_at: rootPost.last_reply_at ?? 0,
+                is_following: thread?.is_following ?? rootPost.is_following ?? null,
+                post: {
+                    user_id: rootPost.user_id,
+                    channel_id: rootPost.channel_id,
+                },
+            };
         },
-    };
+    );
 }
 
 export const getThreadOrderInCurrentTeam: (state: GlobalState, selectedThreadIdInTeam?: UserThread['id']) => Array<UserThread['id']> = createSelector(

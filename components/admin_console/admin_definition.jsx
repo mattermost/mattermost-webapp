@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable max-lines */
 
 import React from 'react';
@@ -8,9 +9,8 @@ import {FormattedMessage} from 'react-intl';
 import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
-import {LicenseSkus} from 'mattermost-redux/types/general';
 
-import {Constants, LegacyFreeProductIds, CloudProducts} from 'utils/constants';
+import {Constants, LegacyFreeProductIds, CloudProducts, LicenseSkus} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
 import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';
@@ -2043,9 +2043,7 @@ const AdminDefinition = {
                         label: t('admin.team.brandDescriptionTitle'),
                         label_default: 'Site Description: ',
                         help_text: t('admin.team.brandDescriptionHelp'),
-                        help_text_default: 'Description of service shown in login screens and UI. When not specified, "All team communication in one place, searchable and accessible anywhere" is displayed.',
-                        placeholder: t('web.root.signup_info'),
-                        placeholder_default: 'All team communication in one place, searchable and accessible anywhere',
+                        help_text_default: 'Displays as a title above the login form. When not specified, the phrase "Log in" is displayed.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                     },
                     {
@@ -2314,7 +2312,10 @@ const AdminDefinition = {
                         label: t('admin.lockTeammateNameDisplay'),
                         label_default: 'Lock Teammate Name Display for all users: ',
                         help_text: t('admin.lockTeammateNameDisplayHelpText'),
-                        help_text_default: 'When true, disables users\' ability to change settings under Account Menu > Account Settings > Display > Teammate Name Display.',
+                        help_text_default: 'When true, disables users\' ability to change settings under <strong>Account Menu > Account Settings > Display > Teammate Name Display</strong>.',
+                        help_text_values: {
+                            strong: (msg) => <strong>{msg}</strong>,
+                        },
                         isHidden: it.not(it.licensedForFeature('LockTeammateNameDisplay')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
@@ -3688,7 +3689,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.firstnameAttrEx'),
                                 placeholder_default: 'E.g.: "givenName"',
                                 help_text: t('admin.ldap.firstnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the first name of users in Mattermost. When set, users cannot edit their first name, since it is synchronized with the LDAP server. When left blank, users can set their first name in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3705,7 +3709,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.lastnameAttrEx'),
                                 placeholder_default: 'E.g.: "sn"',
                                 help_text: t('admin.ldap.lastnameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the last name of users in Mattermost. When set, users cannot edit their last name, since it is synchronized with the LDAP server. When left blank, users can set their last name in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3722,7 +3729,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.nicknameAttrEx'),
                                 placeholder_default: 'E.g.: "nickname"',
                                 help_text: t('admin.ldap.nicknameAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the nickname of users in Mattermost. When set, users cannot edit their nickname, since it is synchronized with the LDAP server. When left blank, users can set their nickname in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -3739,7 +3749,10 @@ const AdminDefinition = {
                                 placeholder: t('admin.ldap.positionAttrEx'),
                                 placeholder_default: 'E.g.: "title"',
                                 help_text: t('admin.ldap.positionAttrDesc'),
-                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in **Account Menu > Account Settings > Profile**.',
+                                help_text_default: '(Optional) The attribute in the AD/LDAP server used to populate the position field in Mattermost. When set, users cannot edit their position, since it is synchronized with the LDAP server. When left blank, users can set their position in <strong>Account Menu > Account Settings > Profile</strong>.',
+                                help_text_values: {
+                                    strong: (msg) => <strong>{msg}</strong>,
+                                },
                                 isDisabled: it.any(
                                     it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.LDAP)),
                                     it.all(
@@ -6776,83 +6789,6 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.not(it.licensedForFeature('SAML')),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_BOOL,
-                        key: 'ServiceSettings.ThreadAutoFollow',
-                        label: t('admin.experimental.threadAutoFollow.title'),
-                        label_default: 'Automatically Follow Threads',
-                        help_text: t('admin.experimental.threadAutoFollow.desc'),
-                        help_text_default: 'This setting must be enabled to support <link>Collapsed Reply Threads</link> and may impact your database server performance. If you cannot easily scale up and tune your database, or if you are running the Mattermost application server and database server on the same machine, we recommended disabling `ThreadAutoFollow` until Collapsed Reply Threads is promoted to general availability. Learn more about these <link>performance considerations here</link>.\n \n \nWhen enabled, threads a user starts, participates in, or is mentioned in are automatically followed. Entries are added to the `ThreadMembership` table to track followed threads for each user and the read or unread state of each followed thread. Enabling this configuration setting doesn’t retroactively follow threads for actions taken prior to the setting being enabled',
-                        help_text_values: {
-                            link: (msg) => (
-                                <a
-                                    href='https://support.mattermost.com/hc/en-us/articles/4413183568276'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                        },
-                        help_text_markdown: false,
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.licensedForFeature('Cloud'),
-                    },
-                    {
-                        type: Constants.SettingsTypes.TYPE_DROPDOWN,
-                        key: 'ServiceSettings.CollapsedThreads',
-                        label: t('admin.experimental.collapsedThreads.title'),
-                        label_default: 'Collapsed Reply Threads',
-                        help_text: t('admin.experimental.collapsedThreads.desc'),
-                        help_text_default: 'When enabled (default off), users must enable collapsed reply threads in Settings. When disabled, users cannot access Collapsed Reply Threads. Please review our <linkKnownIssues>documentation for known issues</linkKnownIssues> and help provide feedback in our <linkCommunityChannel>Community Channel</linkCommunityChannel>.',
-                        help_text_values: {
-                            linkKnownIssues: (msg) => (
-                                <a
-                                    href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                            linkCommunityChannel: (msg) => (
-                                <a
-                                    href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
-                                    referrer='noreferrer'
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {msg}
-                                </a>
-                            ),
-                        },
-                        options: [
-                            {
-                                value: 'disabled',
-                                display_name: t('admin.experimental.collapsedThreads.off'),
-                                display_name_default: 'Disabled',
-                            },
-                            {
-                                value: 'default_off',
-                                display_name: t('admin.experimental.collapsedThreads.default_off'),
-                                display_name_default: 'Enabled (Default Off)',
-                            },
-                            {
-                                value: 'default_on',
-                                display_name: t('admin.experimental.collapsedThreads.default_on'),
-                                display_name_default: 'Enabled (Default On)',
-                            },
-                            {
-                                value: 'always_on',
-                                display_name: t('admin.experimental.collapsedThreads.always_on'),
-                                display_name_default: 'Always On',
-                            },
-                        ],
-                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
-                        isHidden: it.configIsFalse('FeatureFlags', 'CollapsedThreads'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

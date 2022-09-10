@@ -12,7 +12,9 @@ import {Post, PostEmbed} from '@mattermost/types/posts';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 import {TopBoardResponse} from '@mattermost/types/insights';
 
-import WebSocketClient from 'client/websocket_client';
+import {WebSocketClient} from '@mattermost/client';
+
+import {GlobalState} from 'types/store';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
@@ -31,6 +33,7 @@ export type PluginsState = {
         MobileChannelHeaderButton: PluginComponent[];
         AppBar: PluginComponent[];
         UserGuideDropdownItem: PluginComponent[];
+        FilesWillUploadHook: PluginComponent[];
         [componentName: string]: PluginComponent[];
     };
 
@@ -85,7 +88,12 @@ export type PluginComponent = {
     mobileIcon?: React.ReactElement;
     filter?: (id: string) => boolean;
     action?: (...args: any) => void; // TODO Add more concrete types?
+    shouldRender?: (state: GlobalState) => boolean;
 };
+
+export type FilesWillUploadHook = {
+    hook: (files: File[], uploadFiles: (files: File[]) => void) => { message?: string; files?: File[] };
+}
 
 export type FilePreviewComponent = {
     id: string;
@@ -106,7 +114,7 @@ export type PostPluginComponent = {
     id: string;
     pluginId: string;
     type: string;
-    component: React.Component;
+    component: React.ElementType;
 };
 
 export type AdminConsolePluginComponent = {

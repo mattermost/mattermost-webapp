@@ -23,7 +23,7 @@ type BillingSummaryProps = {
     isLegacyFree: boolean;
     isFreeTrial: boolean;
     daysLeftOnTrial: number;
-    onUpgradeMattermostCloud: () => void;
+    onUpgradeMattermostCloud: (callerInfo: string) => void;
 }
 
 const BillingSummary = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}: BillingSummaryProps) => {

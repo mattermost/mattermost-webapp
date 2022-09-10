@@ -27,13 +27,13 @@ describe('Keyboard Shortcuts', () => {
         cy.findByRole('button', {name: 'Find Channels'}).click();
 
         // # Type in the quick switch input box
-        cy.get('#quickSwitchInput').type(searchTerm, {force: true});
+        cy.get('#quickSwitchInput').typeWithForce(searchTerm);
 
         // * Verify that the no search result test is displayed
         cy.get('.no-results__title').should('be.visible').and('have.text', 'No results for "' + searchTerm + '"');
 
         // # Press escape key
-        cy.get('#quickSwitchInput').type('{esc}');
+        cy.get('#quickSwitchInput').typeWithForce('{esc}');
 
         // * Verify that the modal is closed
         cy.get('.modal-content').should('not.exist');

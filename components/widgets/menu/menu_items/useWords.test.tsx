@@ -22,7 +22,7 @@ interface Props {
 const emptyText = 'EMPTY TEXT';
 
 function TestEl(props: Props) {
-    const words = useWords(props.highestLimit, props.isAdminUser);
+    const words = useWords(props.highestLimit, props.isAdminUser, '');
     if (!words) {
         return <span>{emptyText}</span>;
     }
@@ -188,7 +188,15 @@ describe('useWords', () => {
         },
     ];
 
-    const store = mockStore({});
+    const store = mockStore({
+        entities: {
+            general: {
+                license: {
+                    Cloud: 'true',
+                },
+            },
+        },
+    });
     tests.forEach((t: Test) => {
         test(t.label, () => {
             renderWithIntl(

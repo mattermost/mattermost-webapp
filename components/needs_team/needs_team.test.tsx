@@ -14,13 +14,13 @@ jest.mock('actions/global_actions', () => ({
     emitCloseRightHandSide: jest.fn(),
 }));
 
-jest.mock('actions/post_actions.jsx', () => ({
+jest.mock('actions/post_actions', () => ({
     stopPeriodicStatusUpdates: jest.fn(),
     startPeriodicStatusUpdates: jest.fn(),
     loadStatusesForChannelAndSidebar: jest.fn(),
 }));
 
-jest.mock('actions/post_actions.jsx', () => ({
+jest.mock('actions/post_actions', () => ({
     startPeriodicSync: jest.fn(),
     stopPeriodicSync: jest.fn(),
     reconnect: jest.fn(),

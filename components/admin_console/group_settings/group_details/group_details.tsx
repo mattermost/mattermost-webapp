@@ -86,7 +86,7 @@ export type State = {
     groupMentionName?: string;
     saving: boolean;
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
     hasAllowReferenceChanged: boolean;
     hasGroupMentionNameChanged: boolean;
     teamsToAdd: GroupTeam[];
@@ -117,7 +117,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             groupMentionName: props.group.name,
             saving: false,
             saveNeeded: false,
-            serverError: null,
+            serverError: undefined,
             hasAllowReferenceChanged: false,
             hasGroupMentionNameChanged: false,
             teamsToAdd: [],
@@ -259,7 +259,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         const newState: Partial<State> = {
             saveNeeded: true,
             itemsToRemove,
-            serverError: null,
+            serverError: undefined,
         };
         const syncableType = this.syncableTypeFromEntryType(type);
 
@@ -441,7 +441,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             hasAllowReferenceChanged,
             hasGroupMentionNameChanged,
         } = this.state;
-        let serverError = null;
+        let serverError;
 
         const GroupNameIsTakenError = (
             <FormattedMessage

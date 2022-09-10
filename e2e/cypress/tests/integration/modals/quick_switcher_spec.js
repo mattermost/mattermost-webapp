@@ -73,7 +73,7 @@ describe('Quick switcher', () => {
         cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
 
         // # Close quick switcher
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T3447_2 Should add latest interacted user on top of results instead of alphabetical order', () => {
@@ -90,7 +90,7 @@ describe('Quick switcher', () => {
         cy.get('.suggestion--selected').should('exist').and('contain.text', thirdUser.username);
 
         // # Close quick switcher
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.postMessage('Testing quick switcher');
 
         // # Go to the DM channel of second user
@@ -101,7 +101,7 @@ describe('Quick switcher', () => {
 
         // * Should have recently interacted DM on top
         cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T3447_3 Should match interacted users even with a partial match', () => {
@@ -113,7 +113,7 @@ describe('Quick switcher', () => {
         // * Should match second user as it has a partial match with the search term
         cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
 
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         // # Search with the term z3
@@ -121,7 +121,7 @@ describe('Quick switcher', () => {
 
         // * Should match third user as it has a partial match with the search term
         cy.get('.suggestion--selected').should('exist').and('contain.text', thirdUser.username);
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
     });
 
     it('MM-T3447_4 Should not match GM if it is removed from LHS', () => {
@@ -135,7 +135,7 @@ describe('Quick switcher', () => {
 
             // * Should have recently interacted GM on top, Matching as Gaz because we have G prefixed for GM's
             cy.get('.suggestion--selected').should('exist').and('contain.text', gmBadge + userPrefix);
-            cy.get('body').type('{esc}', {force: true});
+            cy.get('body').typeWithForce('{esc}');
 
             // # Open channel menu and click Close Group Message
             cy.uiOpenChannelMenu('Close Group Message');

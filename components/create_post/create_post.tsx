@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable max-lines */
 
 import React, {CSSProperties, SyntheticEvent} from 'react';
@@ -42,7 +43,7 @@ import TextboxLinks from 'components/textbox/textbox_links';
 
 import MessageSubmitError from 'components/message_submit_error';
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Post, PostMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
@@ -363,7 +364,7 @@ class CreatePost extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions, enableConfirmNotificationsToChannel} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
         actions.clearDraftUploads();
@@ -373,18 +374,18 @@ class CreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
-        if (useLDAPGroupMentions) {
+        if (useLDAPGroupMentions && enableConfirmNotificationsToChannel) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions, enableConfirmNotificationsToChannel} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useLDAPGroupMentions) {
+            if (useLDAPGroupMentions && enableConfirmNotificationsToChannel) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }
@@ -964,7 +965,7 @@ class CreatePost extends React.PureComponent<Props, State> {
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
     }
 
-    handleUploadError = (err: string | ServerError, clientId: string, channelId: string) => {
+    handleUploadError = (err: string | ServerError, clientId = '', channelId = '') => {
         const draft = {...this.draftsForChannel[channelId]!};
 
         let serverError = err;

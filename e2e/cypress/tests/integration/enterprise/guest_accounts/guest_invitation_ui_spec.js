@@ -73,7 +73,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
 
             // # Type the email of the new user
-            cy.get('input').type(email, {force: true});
+            cy.get('input').typeWithForce(email);
         });
         cy.get('.users-emails-input__menu').
             children().should('have.length', 1).
@@ -84,7 +84,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
             cy.get('.channels-input__placeholder').should('have.text', 'e.g. Town Square');
 
             // # Type the channel name
-            cy.get('input').type('town sq', {force: true});
+            cy.get('input').typeWithForce('town sq');
         });
 
         cy.get('.channels-input__menu').
@@ -170,7 +170,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
         // # Search and add a member
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
-            cy.get('input').type(newUser.username, {force: true});
+            cy.get('input').typeWithForce(newUser.username);
         });
         cy.get('.users-emails-input__menu').
             children().should('have.length', 1).eq(0).should('contain', newUser.username).click();
@@ -212,7 +212,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         const email = `temp-${getRandomId()}@mattermost.com`;
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
             cy.get('.users-emails-input__multi-value').should('not.exist');
-            cy.get('input').type(email, {force: true});
+            cy.get('input').typeWithForce(email);
         });
         cy.get('.users-emails-input__menu').children().should('have.length', 1).eq(0).should('contain', email).click();
 
