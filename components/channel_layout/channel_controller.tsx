@@ -22,12 +22,12 @@ import {isInternetExplorer, isEdge} from 'utils/user_agent';
 
 interface Props {
     shouldShowAppBar: boolean;
-    fetchingChannels: boolean;
+    isFetchingChannels: boolean;
 }
 
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
-export default function ChannelController({shouldShowAppBar, fetchingChannels}: Props) {
+export default function ChannelController({shouldShowAppBar, isFetchingChannels}: Props) {
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
@@ -51,7 +51,7 @@ export default function ChannelController({shouldShowAppBar, fetchingChannels}: 
                 <SidebarRight/>
                 <SidebarRightMenu/>
                 <Sidebar/>
-                {fetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
+                {isFetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
                 <Pluggable pluggableName='Root'/>
                 <ResetStatusModal/>
             </div>

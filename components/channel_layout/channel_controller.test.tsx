@@ -37,7 +37,7 @@ describe('components/channel_layout/ChannelController', () => {
     test('Should add .app-bar-enabled class when app bar is enabled', () => {
         const {container} = render(
             <ChannelController
-                fetchingChannels={false}
+                isFetchingChannels={false}
                 shouldShowAppBar={true}
             />,
         );
@@ -47,7 +47,7 @@ describe('components/channel_layout/ChannelController', () => {
     test('Should not add .app-bar-enabled class when app bar is disabled', () => {
         const {container} = render(
             <ChannelController
-                fetchingChannels={false}
+                isFetchingChannels={false}
                 shouldShowAppBar={false}
             />,
         );
