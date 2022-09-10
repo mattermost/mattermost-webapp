@@ -262,7 +262,7 @@
       "jest-junit"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!react-native|react-router|@mattermost/compass-components|@mattermost/compass-icons)"
+      "node_modules/(?!react-native|react-router|p-queue|p-timeout|@mattermost/compass-components|@mattermost/compass-icons)"
     ],
     "setupFiles": [
       "jest-canvas-mock"
