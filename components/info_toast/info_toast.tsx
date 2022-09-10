@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React, {useEffect, useCallback} from 'react';
-
-import './info_toast.scss';
+import classNames from 'classnames';
 import {CSSTransition} from 'react-transition-group';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {ModalIdentifiers} from 'utils/constants';
+import './info_toast.scss';
 
 type Props = {
     content: {
@@ -27,34 +27,23 @@ function InfoToast(props: Props): JSX.Element {
     const {actions, content} = props;
 
     const closeToast = useCallback(() => {
-        actions.closeModal(ModalIdentifiers.RESTORE_POST_MODAL);
+        actions.closeModal(ModalIdentifiers.INFO_TOOLTIP);
     }, [close]);
 
     const undoTodo = useCallback(() => {
         content.undo?.();
-        actions.closeModal(ModalIdentifiers.RESTORE_POST_MODAL);
+        actions.closeModal(ModalIdentifiers.INFO_TOOLTIP);
     }, [content.undo, actions.closeModal]);
 
-    const classNames: Record<string, boolean> = {
-        'info-toast': true,
-    };
-    classNames[`${props.className}`] = Boolean(props.className);
+    const toastContainerClassname = classNames('info-toast', props.className);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            // actions.closeModal(ModalIdentifiers.RESTORE_POST_MODAL);
+            actions.closeModal(ModalIdentifiers.INFO_TOOLTIP);
         }, 5000);
 
         return () => clearTimeout(timer);
     }, []);
-
-    function generateClassName(conditions: Record<string, boolean>) {
-        return Object.entries(conditions).map(
-            ([className, condition]) => (condition ? className : ''),
-        ).filter(Boolean).join(' ');
-    }
-
-    console.log('props.content.icon: ', props.content.icon)
 
     return (
         <CSSTransition
@@ -65,9 +54,8 @@ function InfoToast(props: Props): JSX.Element {
             timeout={300}
             appear={true}
         >
-            <div className={generateClassName(classNames)}>
+            <div className={toastContainerClassname}>
                 <div>
-                    {/* todo sinan icon is not displayed */}
                     {props.content.icon}
                     <span>{props.content.message}</span>
                     {props.content.undo &&
