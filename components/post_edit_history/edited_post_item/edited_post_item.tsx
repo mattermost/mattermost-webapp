@@ -58,16 +58,18 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             },
         };
 
+        actions.openModal(restorePostModalData);
+    }, [actions, post]);
+
+    const showInfoTooltip = () => {
         const infoToastModalData = {
-            modalId: ModalIdentifiers.RESTORE_POST_MODAL,
+            modalId: ModalIdentifiers.INFO_TOOLTIP,
             dialogType: InfoToast,
             dialogProps: {
                 content: {
-                    icon: RefreshIcon,
+                    icon: <RefreshIcon size={18}/>,
                     message: 'Restored Message',
-                    undo: () => {
-                        console.log('undo is clidked');
-                    },
+                    undo: handleUndo,
                 },
                 actions: {
                     closeModal: actions.closeModal,
@@ -76,7 +78,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         };
 
         actions.openModal(infoToastModalData);
-    }, [actions, post]);
+    };
 
     const togglePost = useCallback(() => {
         setOpen((prevState) => !prevState);
@@ -114,7 +116,17 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         const result = await actions.editPost(updatedPost as Post);
         if (result.data) {
             actions.closeRightHandSide();
+            showInfoTooltip();
         }
+    };
+
+    const handleUndo = async () => {
+        if (!originalPost) {
+            actions.closeRightHandSide();
+            return;
+        }
+
+        await actions.editPost(originalPost);
     };
 
     const currentVersionIndicator = isCurrent ? (
