@@ -184,6 +184,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
             <div key='changeLanguage'>
                 <br/>
                 <label
+                    aria-label='drop down selector to change the interface language'
                     className='control-label'
                     id='changeInterfaceLanguageLabel'
                 >
