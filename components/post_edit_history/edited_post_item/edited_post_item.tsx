@@ -8,6 +8,8 @@ import classNames from 'classnames';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {RefreshIcon} from '@mattermost/compass-icons/components';
+
 import {Post} from '@mattermost/types/posts';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -24,6 +26,8 @@ import UserProfileComponent from 'components/user_profile';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
 import RestorePostModal from '../restore_post_modal';
+
+import InfoToast from 'components/info_toast/info_toast';
 
 import {PropsFromRedux} from '.';
 
@@ -54,7 +58,24 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             },
         };
 
-        actions.openModal(restorePostModalData);
+        const infoToastModalData = {
+            modalId: ModalIdentifiers.RESTORE_POST_MODAL,
+            dialogType: InfoToast,
+            dialogProps: {
+                content: {
+                    icon: RefreshIcon,
+                    message: 'Restored Message',
+                    undo: () => {
+                        console.log('undo is clidked');
+                    },
+                },
+                actions: {
+                    closeModal: actions.closeModal,
+                },
+            },
+        };
+
+        actions.openModal(infoToastModalData);
     }, [actions, post]);
 
     const togglePost = useCallback(() => {
