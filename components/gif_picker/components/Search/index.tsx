@@ -29,7 +29,7 @@ const mapDispatchToProps = ({
 
 type Props = {
     appProps: typeof appProps;
-    onCategories?: () => void;
+    onCategories: () => void;
     handleItemClick: (gif: GfycatAPIItem) => void;
     searchText: string;
     searchIfNeededInitial: (searchText: string) => void;

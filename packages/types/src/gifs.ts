@@ -43,12 +43,13 @@ type GifsSearchState = {
     searchText: string;
 }
 
-type GifsResult = GfycatAPIPaginatedResponse & {
+export type GifsResult = GfycatAPIPaginatedResponse & {
     count: number;
     currentPage: number;
     didInvalidate: boolean;
     found: number;
     isFetching: boolean;
+    isEmpty: boolean;
     items: string[];
     moreRemaining: boolean;
     pages: Record<number, string[]>;
