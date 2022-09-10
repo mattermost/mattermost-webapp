@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {lazy, useEffect, useRef, useState} from 'react';
+import React, {lazy, memo, useEffect, useRef, useState} from 'react';
 import {Route, Switch, useHistory, useParams} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
@@ -9,7 +9,6 @@ import {Team} from '@mattermost/types/teams';
 import {ServerError} from '@mattermost/types/errors';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {reconnect} from 'actions/websocket_actions.jsx';
 import {emitCloseRightHandSide} from 'actions/global_actions';
@@ -40,12 +39,11 @@ declare global {
 
 type Props = PropsFromRedux & OwnProps;
 
-export default function TeamController(props: Props) {
+function TeamController(props: Props) {
     const history = useHistory();
     const {team: teamNameParam} = useParams<Props['match']['params']>();
 
-    const [team, setTeam] = useState<Team | null>(getTeamFromTeamParam(props.teamsList, teamNameParam));
-    const [isFetchingChannels, setIsFetchingChannels] = useState(true);
+    const [team, setTeam] = useState<Team | null>(getTeamFromTeamList(props.teamsList, teamNameParam));
 
     const blurTime = useRef(new Date().getTime());
     const lastTime = useRef(Date.now());
@@ -145,70 +143,25 @@ export default function TeamController(props: Props) {
         };
     }, []);
 
-    async function joinTeam(firstLoad = false): Promise<Team |null> {
-        // skip reserved team names
-        if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
-            return null;
-        }
-
+    async function initTeamOrRedirect(team: Team) {
         try {
-            const {data: teamByName} = await props.getTeamByName(teamNameParam) as ActionResult<Team, ServerError>; // Fix in MM-46907
-            if (teamByName && teamByName.delete_at === 0) {
-                const {error} = await props.addUserToTeam(teamByName.id, props.currentUser && props.currentUser.id) as ActionResult<Team, ServerError>; // Fix in MM-46907
-                if (error) {
-                    return null;
-                }
-
-                // User added to the new team, now attempt to initialize the team
-                if (firstLoad) {
-                    LocalStorageStore.setTeamIdJoinedOnLoad(teamByName.id);
-                }
-                return teamByName;
-            }
-            return null;
+            await props.initializeTeam(team);
+            setTeam(team);
         } catch (error) {
-            return null;
+            history.push('/error?type=team_not_found');
         }
     }
 
-    async function initTeam(team: Team) {
-        props.selectTeam(team);
-        props.setPreviousTeamId(team.id);
-
-        if (props.currentUser && isGuest(props.currentUser.roles)) {
-            setIsFetchingChannels(true);
-        }
-
-        await props.fetchMyChannelsAndMembers(team.id);
-        setIsFetchingChannels(false);
-
-        // props.loadStatusesForChannelAndSidebar();
-
-        if (props.license &&
-            props.license.IsLicensed === 'true' &&
-            (props.license.LDAPGroups === 'true' || props.isCustomGroupsEnabled)) {
-            if (props.currentUser) {
-                props.getGroupsByUserIdPaginated(props.currentUser.id, false, 0, 60, true);
-            }
-
-            if (props.license.LDAPGroups === 'true') {
-                props.getAllGroupsAssociatedToChannelsInTeam(team.id, true);
-            }
-
-            if (team.group_constrained && props.license.LDAPGroups === 'true') {
-                props.getAllGroupsAssociatedToTeam(team.id, true);
-            } else {
-                props.getGroups(false, 0, 60);
-            }
-        }
-    }
-
-    async function joinTeamAndInit() {
+    async function joinTeamOrRedirect(teamNameParam: Props['match']['params']['team']) {
         try {
-            const joinedTeam = await joinTeam();
+            // skip reserved team names
+            if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
+                throw new Error('Team name is reserved');
+            }
+
+            const {data: joinedTeam} = await props.joinTeam(teamNameParam) as ActionResult<Team, ServerError>; // Fix in MM-46907;
 
             if (joinedTeam) {
-                initTeam(joinedTeam);
                 setTeam(joinedTeam);
             } else {
                 throw new Error('Unable to join team');
@@ -220,19 +173,16 @@ export default function TeamController(props: Props) {
 
     // Effect to run when url for team changes
     useEffect(() => {
-        const team = getTeamFromTeamParam(props.teamsList, teamNameParam);
-
-        if (team) {
+        const teamFromParam = getTeamFromTeamList(props.teamsList, teamNameParam);
+        if (teamFromParam) {
             // User belongs to team found in url
-            initTeam(team);
-            setTeam(team);
+            initTeamOrRedirect(teamFromParam);
 
             // Prevents the RHS from closing when clicking on a global permalink.
             emitCloseRightHandSide();
-        } else {
-            // User is not a member of the team found in the url
-            // attempt to join the team
-            joinTeamAndInit();
+        } else if (teamNameParam && !team) {
+            // Team in params is not part of user's team. And team is not set in state, then try to join the team
+            joinTeamOrRedirect(teamNameParam);
         }
     }, [teamNameParam]);
 
@@ -269,21 +219,23 @@ export default function TeamController(props: Props) {
             ))}
             <ChannelController
                 shouldShowAppBar={props.shouldShowAppBar}
-                isFetchingChannels={isFetchingChannels}
+                isFetchingChannels={false}
             />
         </Switch>
     );
 }
 
-function getTeamFromTeamParam(teamsList: Props['teamsList'], teamParam: Props['match']['params']['team']) {
-    if (!teamParam) {
+function getTeamFromTeamList(teamsList: Props['teamsList'], teamName: string) {
+    if (!teamName) {
         return null;
     }
 
-    const team = teamsList?.find((teamInList) => teamInList.name === teamParam) ?? null;
+    const team = teamsList?.find((teamInList) => teamInList.name === teamName) ?? null;
     if (!team) {
         return null;
     }
 
     return team;
 }
+
+export default memo(TeamController);
