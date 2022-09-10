@@ -8,6 +8,8 @@ import classNames from 'classnames';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {CheckIcon} from '@mattermost/compass-icons/components';
+
 import {Post} from '@mattermost/types/posts';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
@@ -24,6 +26,8 @@ import UserProfileComponent from 'components/user_profile';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
 
 import RestorePostModal from '../restore_post_modal';
+
+import InfoToast from 'components/info_toast/info_toast';
 
 import {PropsFromRedux} from '.';
 
@@ -65,6 +69,25 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         return null;
     }
 
+    const showInfoTooltip = () => {
+        const infoToastModalData = {
+            modalId: ModalIdentifiers.INFO_TOOLTIP,
+            dialogType: InfoToast,
+            dialogProps: {
+                content: {
+                    icon: <CheckIcon size={18}/>,
+                    message: 'Restored Message',
+                    undo: handleUndo,
+                },
+                actions: {
+                    closeModal: actions.closeModal,
+                },
+            },
+        };
+
+        actions.openModal(infoToastModalData);
+    };
+
     const formattedHelpText = formatMessage({
         id: t('post_info.edit.restore'),
         defaultMessage: 'Restore',
@@ -93,7 +116,17 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         const result = await actions.editPost(updatedPost as Post);
         if (result.data) {
             actions.closeRightHandSide();
+            showInfoTooltip();
         }
+    };
+
+    const handleUndo = async () => {
+        if (!originalPost) {
+            actions.closeRightHandSide();
+            return;
+        }
+
+        await actions.editPost(originalPost);
     };
 
     const currentVersionIndicator = isCurrent ? (

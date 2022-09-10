@@ -412,6 +412,7 @@ export const ModalIdentifiers = {
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
     RESTORE_POST_MODAL: 'restore_post',
+    INFO_TOOLTIP: 'info_tooltip',
 };
 
 export const UserStatuses = {
