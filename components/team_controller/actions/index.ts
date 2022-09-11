@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {AnyAction} from 'redux';
+import {batchActions} from 'redux-batched-actions';
+
 import {Team} from '@mattermost/types/teams';
 import {ServerError} from '@mattermost/types/errors';
 
@@ -25,16 +28,20 @@ import LocalStorageStore from 'stores/local_storage_store';
 
 export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
     return async (dispatch, getState) => {
+        dispatch(batchActions([
+            selectTeam(team.id),
+            {
+                type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_REQUEST,
+                data: null,
+            },
+        ]));
+
         const state = getState();
-
-        dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_REQUEST, data: null});
-
         const currentUser = getCurrentUser(state);
         LocalStorageStore.setPreviousTeamId(currentUser.id, team.id);
 
-        dispatch(selectTeam(team.id));
-
         if (isGuest(currentUser.roles)) {
+            // TODO: This is a poor way of handling guest account.
             dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error: null});
         }
 
@@ -48,28 +55,29 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             return {error: error as ServerError};
         }
 
-        dispatch(loadStatusesForChannelAndSidebar());
+        const statusesAndGroupActions = [loadStatusesForChannelAndSidebar()];
 
         const license = getLicense(state);
         const customGroupEnabled = isCustomGroupsEnabled(state);
-
         if (license &&
             license.IsLicensed === 'true' &&
             (license.LDAPGroups === 'true' || customGroupEnabled)) {
             if (currentUser) {
-                dispatch(getGroupsByUserIdPaginated(currentUser.id, false, 0, 60, true));
+                statusesAndGroupActions.push(getGroupsByUserIdPaginated(currentUser.id, false, 0, 60, true));
             }
 
             if (license.LDAPGroups === 'true') {
-                dispatch(getAllGroupsAssociatedToChannelsInTeam(team.id, true));
+                statusesAndGroupActions.push(getAllGroupsAssociatedToChannelsInTeam(team.id, true));
             }
 
             if (team.group_constrained && license.LDAPGroups === 'true') {
-                dispatch(getAllGroupsAssociatedToTeam(team.id, true));
+                statusesAndGroupActions.push(getAllGroupsAssociatedToTeam(team.id, true));
             } else {
-                dispatch(getGroups(false, 0, 60));
+                statusesAndGroupActions.push(getGroups(false, 0, 60));
             }
         }
+
+        dispatch(batchActions(statusesAndGroupActions as any as AnyAction[]));
 
         return {data: team};
     };
@@ -78,7 +86,6 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
 export function joinTeam(teamname: string, joinedOnFirstLoad: boolean): ActionFunc<Team, ServerError> {
     return async (dispatch, getState) => {
         const state = getState();
-
         const currentUser = getCurrentUser(state);
 
         try {
