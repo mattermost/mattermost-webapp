@@ -5,7 +5,7 @@ import * as TeamActions from 'mattermost-redux/actions/teams';
 import * as channelActions from 'mattermost-redux/actions/channels';
 import * as userActions from 'mattermost-redux/actions/users';
 
-import * as Actions from 'actions/team_actions.jsx';
+import * as Actions from 'actions/team_actions';
 
 import configureStore from 'tests/test_store';
 
@@ -74,20 +74,19 @@ jest.mock('utils/browser_history', () => ({
 describe('Actions.Team', () => {
     const currentChannelId = 'currentChannelId';
 
-    let testStore;
-    beforeEach(async () => {
-        testStore = configureStore({
-            entities: {
-                channels: {
-                    currentChannelId,
-                    manuallyUnread: {},
-                },
+    const initialState = {
+        entities: {
+            channels: {
+                currentChannelId,
+                manuallyUnread: {},
             },
-        });
-    });
+        },
+    };
 
     describe('switchTeam', () => {
         test('should switch to a team by its URL if no team is provided', () => {
+            const testStore = configureStore(initialState);
+
             testStore.dispatch(Actions.switchTeam('/test'));
 
             expect(browserHistory.push).toHaveBeenCalledWith('/test');
@@ -95,6 +94,8 @@ describe('Actions.Team', () => {
         });
 
         test('should select a team without changing URL if a team is provided', () => {
+            const testStore = configureStore(initialState);
+
             const team = TestHelper.getTeamMock();
 
             testStore.dispatch(Actions.switchTeam('/test', team));
@@ -105,11 +106,15 @@ describe('Actions.Team', () => {
     });
 
     test('addUsersToTeam', () => {
+        const testStore = configureStore(initialState);
+
         testStore.dispatch(Actions.addUsersToTeam('teamId', ['123', '1234']));
         expect(TeamActions.addUsersToTeamGracefully).toHaveBeenCalledWith('teamId', ['123', '1234']);
     });
 
     test('removeUserFromTeamAndGetStats', async () => {
+        const testStore = configureStore(initialState);
+
         await testStore.dispatch(Actions.removeUserFromTeamAndGetStats('teamId', '123'));
         expect(userActions.getUser).toHaveBeenCalledWith('123');
         expect(TeamActions.getTeamStats).toHaveBeenCalledWith('teamId');
@@ -117,6 +122,8 @@ describe('Actions.Team', () => {
     });
 
     test('addUserToTeam', async () => {
+        const testStore = configureStore(initialState);
+
         await testStore.dispatch(Actions.addUserToTeam('teamId', 'userId'));
         expect(TeamActions.addUserToTeam).toHaveBeenCalledWith('teamId', 'userId');
         expect(TeamActions.getTeam).toHaveBeenCalledWith('teamId');

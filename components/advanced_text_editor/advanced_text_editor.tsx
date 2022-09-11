@@ -28,6 +28,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
 import TexteditorActions from './texteditor_actions';
@@ -399,6 +400,7 @@ const AdvanceTextEditor = ({
                     {labels}
                     <Textbox
                         hasLabels={Boolean(labels)}
+                        suggestionList={RhsSuggestionList}
                         onChange={handleChange}
                         onKeyPress={postMsgKeyPress}
                         onKeyDown={handleKeyDown}

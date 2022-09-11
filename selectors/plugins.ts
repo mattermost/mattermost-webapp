@@ -47,7 +47,13 @@ const getChannelHeaderMenuPluginComponentsShouldRender = createSelector(
     (state: GlobalState) => state,
     (state: GlobalState) => state.plugins.components.ChannelHeader,
     (state, channelHeaderMenuComponents = []) => {
-        return channelHeaderMenuComponents.map((component) => !component.shouldRender || component.shouldRender(state));
+        return channelHeaderMenuComponents.map((component) => {
+            if (typeof component.shouldRender === 'function') {
+                return component.shouldRender(state);
+            }
+
+            return true;
+        });
     },
 );
 
