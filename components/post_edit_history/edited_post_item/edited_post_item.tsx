@@ -131,19 +131,15 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
 
     const profileSrc = imageURLForUser(post.user_id);
 
-    const avatar = (
-        <Avatar
-            size={'sm'}
-            url={profileSrc}
-            className={'avatar-post-preview'}
-        />
-    );
-
     const overwriteName = post.props ? post.props.override_username : '';
     const postHeader = (
         <div className='edit-post__header'>
             <span className='profile-icon'>
-                {avatar}
+                <Avatar
+                    size={'sm'}
+                    url={profileSrc}
+                    className={'avatar-post-preview'}
+                />
             </span>
             <div className={'edit-post__header__username'}>
                 <UserProfileComponent
@@ -206,6 +202,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
 
     const postContainerClass = classNames('edit-post__container', {'edit-post__container__background': open});
     const timeStampValue = post.edit_at === 0 ? post.create_at : post.edit_at;
+
     return (
         <div className={postContainerClass}>
             <IconButton

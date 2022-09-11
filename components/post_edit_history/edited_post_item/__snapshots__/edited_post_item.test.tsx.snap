@@ -281,6 +281,7 @@ exports[`components/post_edit_history/edited_post_item should match snapshot whe
                 "user_id": "user_id",
               }
             }
+            showPostEditedIndicator={false}
           />
         </Connect(PostBodyAdditionalContent)>
       </div>
