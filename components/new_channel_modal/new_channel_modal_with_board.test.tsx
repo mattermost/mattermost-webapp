@@ -16,8 +16,11 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import NewChannelModal from './new_channel_modal';
 
+const mockCreateBoardFromTemplate = jest.fn();
+
 jest.mock('mattermost-redux/actions/boards', () => ({
     ...jest.requireActual('mattermost-redux/actions/boards'),
+    createBoardFromTemplate: () => mockCreateBoardFromTemplate,
     getBoardsTemplates: () => {
         return jest.fn().mockResolvedValue(Promise.resolve({
             data: [{id: '1', title: 'template 1'}, {id: '2', title: 'template 2'}],
@@ -109,6 +112,8 @@ describe('components/new_channel_modal', () => {
         } as unknown as GlobalState;
     });
 
+    const store = mockStore(mockState);
+
     const actImmediate = (wrapper: ReactWrapper) =>
         act(
             () =>
@@ -164,5 +169,57 @@ describe('components/new_channel_modal', () => {
 
         // contains 3 items because of the create empty board menu item
         expect(menuItems).toHaveLength(3);
+    });
+
+    test.only('when a board template is selected must call the create board from template function', async () => {
+        const name = 'New channel with board';
+        const mockChangeEvent = {
+            preventDefault: jest.fn(),
+            target: {
+                value: name,
+            },
+        } as unknown as React.ChangeEvent<HTMLInputElement>;
+
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <NewChannelModal/>
+            </Provider>,
+        );
+
+        const genericModal = wrapper.find('GenericModal');
+        const displayName = genericModal.find('.new-channel-modal-name-input');
+        const confirmButton = genericModal.find('button[type=\'submit\']');
+
+        displayName.simulate('change', mockChangeEvent);
+
+        // Display name should be updated
+        expect((displayName.instance() as unknown as HTMLInputElement).value).toEqual(name);
+
+        // Confirm button should be enabled
+        expect((confirmButton.instance() as unknown as HTMLButtonElement).disabled).toEqual(false);
+
+        const showTemplatesCheck = wrapper.find('.add-board-to-channel input');
+
+        showTemplatesCheck.simulate('change');
+
+        await actImmediate(wrapper);
+
+        const templatesSelector = wrapper.find('#input_select-board-template');
+
+        templatesSelector.simulate('click');
+
+        await actImmediate(wrapper);
+
+        const firstTemplate = wrapper.find('li.MenuItem').at(0).find('button');
+
+        expect(firstTemplate).toHaveLength(1);
+
+        firstTemplate.simulate('click');
+
+        await actImmediate(wrapper);
+
+        confirmButton.simulate('click');
+
+        expect(mockCreateBoardFromTemplate).toHaveBeenCalled();
     });
 });

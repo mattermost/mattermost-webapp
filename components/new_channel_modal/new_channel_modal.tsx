@@ -461,7 +461,7 @@ const NewChannelModal = () => {
                                 className='select-board-template'
                             >
                                 <Input
-                                    type='email'
+                                    type='text'
                                     autoComplete='off'
                                     value={selectedBoardTemplate?.title ? `${selectedBoardTemplate.icon} ${selectedBoardTemplate.title}` : ''}
                                     name='select-board-template'
