@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useRef} from 'react';
+import React, {memo, useRef} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
@@ -24,13 +24,8 @@ const RestorePostModal = ({post, actions}: Props) => {
     const restorePostBtn = useRef<HTMLButtonElement>(null);
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.RESTORE_POST_MODAL));
 
-    const handleEntered = useCallback(() => {
-        restorePostBtn?.current?.focus();
-    }, []);
-
-    const onHide = useCallback(() => {
-        actions.closeModal(ModalIdentifiers.RESTORE_POST_MODAL);
-    }, [actions]);
+    const onHide = () => actions.closeModal(ModalIdentifiers.RESTORE_POST_MODAL);
+    const handleEntered = () => restorePostBtn?.current?.focus();
 
     const handleRestore = async () => {
         await actions.handleRestore(post);

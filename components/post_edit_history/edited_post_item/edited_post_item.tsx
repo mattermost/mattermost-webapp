@@ -7,7 +7,6 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
-
 import {CheckIcon} from '@mattermost/compass-icons/components';
 
 import {Post} from '@mattermost/types/posts';
@@ -24,10 +23,9 @@ import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import UserProfileComponent from 'components/user_profile';
 import Timestamp, {RelativeRanges} from 'components/timestamp';
+import InfoToast from 'components/info_toast/info_toast';
 
 import RestorePostModal from '../restore_post_modal';
-
-import InfoToast from 'components/info_toast/info_toast';
 
 import {PropsFromRedux} from '.';
 
@@ -69,6 +67,15 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         return null;
     }
 
+    const formattedHelpText = formatMessage({
+        id: t('post_info.edit.restore'),
+        defaultMessage: 'Restore',
+    });
+    const currentVersionText = formatMessage({
+        id: t('post_info.edit.current_version'),
+        defaultMessage: 'Current Version',
+    });
+
     const showInfoTooltip = () => {
         const infoToastModalData = {
             modalId: ModalIdentifiers.INFO_TOOLTIP,
@@ -88,22 +95,8 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         actions.openModal(infoToastModalData);
     };
 
-    const formattedHelpText = formatMessage({
-        id: t('post_info.edit.restore'),
-        defaultMessage: 'Restore',
-    });
-    const currentVersionText = formatMessage({
-        id: t('post_info.edit.current_version'),
-        defaultMessage: 'Current Version',
-    });
-
     const handleRestore = async () => {
-        if (!originalPost || !post) {
-            actions.closeRightHandSide();
-            return;
-        }
-
-        if (originalPost.message === post.message) {
+        if (!originalPost || !post || originalPost.message === post.message) {
             actions.closeRightHandSide();
             return;
         }
@@ -113,6 +106,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             id: originalPost.id,
             channel_id: originalPost.channel_id,
         };
+
         const result = await actions.editPost(updatedPost as Post);
         if (result.data) {
             actions.closeRightHandSide();
