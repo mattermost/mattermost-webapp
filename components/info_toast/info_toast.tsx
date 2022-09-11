@@ -20,7 +20,6 @@ type Props = {
     className?: string;
 }
 
-// todo sinan convert it to use floating UI
 function InfoToast(props: Props): JSX.Element {
     const {actions, content} = props;
 

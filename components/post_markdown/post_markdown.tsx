@@ -49,6 +49,11 @@ type Props = {
     hasPluginTooltips?: boolean;
     isUserCanManageMembers?: boolean;
     mentionKeys: MentionKey[];
+
+    /**
+     * Whether or not to render the post edited indicator
+     */
+    showPostEditedIndicator?: boolean;
 }
 
 export default class PostMarkdown extends React.PureComponent<Props> {
@@ -114,6 +119,7 @@ export default class PostMarkdown extends React.PureComponent<Props> {
                 imagesMetadata={this.props.post?.metadata?.images}
                 postId={this.props.post?.id}
                 editedAt={this.props.post?.edit_at}
+                showPostEditedIndicator={this.props.showPostEditedIndicator}
             />
         );
     }

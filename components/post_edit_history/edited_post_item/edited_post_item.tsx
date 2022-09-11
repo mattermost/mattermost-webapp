@@ -161,6 +161,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
             <PostMessageContainer
                 post={post}
                 isRHS={true}
+                showPostEditedIndicator={false}
             />
         </PostBodyAdditionalContent>
     );
@@ -194,7 +195,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
         >
             <IconButton
                 size={'sm'}
-                icon={'refresh'} // todo sinan find the correct icon
+                icon={'refresh'} // todo update with correct icon. Restore icon is recently added to compass
                 onClick={openRestorePostModal}
                 compact={true}
                 aria-label='Select to restore an old message.' // todo proper wording and translation needed

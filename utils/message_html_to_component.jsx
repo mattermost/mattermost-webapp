@@ -28,6 +28,7 @@ import AtPlanMention from 'components/at_plan_mention';
  * - imagesMetadata - the dimensions of the image as retrieved from post.metadata.images.
  * - hasPluginTooltips - If specified, the LinkTooltip component is placed inside links. Defaults to false.
  * - channelId = If specified, to be passed along to ProfilePopover via AtMention
+ * - showPostEditedIndicator - If specified, the PostEditedIndicator component is placed after the post message. Defaults to true.
  */
 export function messageHtmlToComponent(html, isRHS, options = {}) {
     if (!html) {
@@ -58,8 +59,7 @@ export function messageHtmlToComponent(html, isRHS, options = {}) {
             replaceChildren: false,
             shouldProcessNode: (node) => node.type === 'tag' && node.name === 'span' && node.attribs['data-edited-post-id'] && node.attribs['data-edited-post-id'] === options.postId,
             processNode: () => {
-                //todo sinan figure out how to not display the edited indicator
-                return options.postId && options.editedAt > 0 ? (
+                return options.postId && options.editedAt > 0 && options.showPostEditedIndicator ? (
                     <>
                         {' '}
                         <PostEditedIndicator

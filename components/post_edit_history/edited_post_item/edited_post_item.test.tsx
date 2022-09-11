@@ -60,7 +60,7 @@ describe('components/post_edit_history/edited_post_item', () => {
         );
 
         // find the button with refresh icon and click it
-        // todo sinan update refresh with proper icon name
+        // todo update refresh with proper icon name
         wrapper.find('ForwardRef').filterWhere((button) => button.prop('icon') === 'refresh').simulate('click');
 
         expect(baseProps.actions.openModal).toHaveBeenCalledWith(
