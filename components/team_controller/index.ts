@@ -12,7 +12,6 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 
 import {GlobalState} from 'types/store';
 
-import {shouldShowAppBar} from 'selectors/plugins';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
@@ -24,7 +23,7 @@ import TeamController from './team_controller';
 
 type Params = {
     url: string;
-    team: string;
+    team?: string;
 }
 
 export type OwnProps = RouteComponentProps<Params>;
@@ -42,7 +41,6 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         teamsList: getMyTeams(state),
         plugins,
         selectedThreadId: getSelectedThreadIdInCurrentTeam(state),
-        shouldShowAppBar: shouldShowAppBar(state),
         mfaRequired: checkIfMFARequired(currentUser, license, config, ownProps.match.url),
     };
 }

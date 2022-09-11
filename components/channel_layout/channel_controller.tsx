@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {RequestStatus} from 'mattermost-redux/constants';
 
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 
@@ -23,19 +24,22 @@ import ProductNoticesModal from 'components/product_notices_modal';
 
 import Pluggable from 'plugins/pluggable';
 
+import {shouldShowAppBar} from 'selectors/plugins';
+
+import {GlobalState} from 'types/store';
+
 import {Constants} from 'utils/constants';
-
 import {isInternetExplorer, isEdge} from 'utils/user_agent';
-
-interface Props {
-    shouldShowAppBar: boolean;
-    isFetchingChannels: boolean;
-}
 
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
-export default function ChannelController({shouldShowAppBar, isFetchingChannels}: Props) {
+export default function ChannelController() {
     const dispatch = useDispatch<DispatchFunc>();
+
+    const shouldRenderCenterChannel = useSelector((state: GlobalState) =>
+        state.requests.channels.getChannelsMembersCategories.status === RequestStatus.SUCCESS);
+
+    const isAppBarEnabled = useSelector(shouldShowAppBar);
 
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
@@ -66,11 +70,11 @@ export default function ChannelController({shouldShowAppBar, isFetchingChannels}
             <SystemNotice/>
             <FaviconTitleHandler/>
             <ProductNoticesModal/>
-            <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': shouldShowAppBar})}>
+            <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': isAppBarEnabled})}>
                 <SidebarRight/>
                 <SidebarRightMenu/>
                 <Sidebar/>
-                {isFetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
+                {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen/>}
                 <Pluggable pluggableName='Root'/>
                 <ResetStatusModal/>
             </div>

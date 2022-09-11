@@ -5,8 +5,8 @@ import {Team} from '@mattermost/types/teams';
 import {ServerError} from '@mattermost/types/errors';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ChannelTypes} from 'mattermost-redux/action_types';
 import {getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
-
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
@@ -24,9 +24,10 @@ import {addUserToTeam} from 'actions/team_actions';
 import LocalStorageStore from 'stores/local_storage_store';
 
 export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
-    console.log('initializeTeam');
     return async (dispatch, getState) => {
         const state = getState();
+
+        dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_REQUEST, data: null});
 
         const currentUser = getCurrentUser(state);
         LocalStorageStore.setPreviousTeamId(currentUser.id, team.id);
@@ -34,16 +35,14 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
         dispatch(selectTeam(team.id));
 
         if (isGuest(currentUser.roles)) {
-            // Handle this
-            // add loading to true. poor way in handling guest account
+            dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error: null});
         }
 
         try {
             await dispatch(fetchMyChannelsAndMembers(team.id));
-
-            // add loading false here
+            dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS, data: null});
         } catch (error) {
-            // add loading false here
+            dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error});
             forceLogoutIfNecessary(error as ServerError, dispatch, getState);
             dispatch(logError(error as ServerError));
             return {error: error as ServerError};
@@ -76,8 +75,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
     };
 }
 
-export function joinTeam(teamname: string): ActionFunc<Team, ServerError> {
-    console.log('joinTeam');
+export function joinTeam(teamname: string, joinedOnFirstLoad: boolean): ActionFunc<Team, ServerError> {
     return async (dispatch, getState) => {
         const state = getState();
 
@@ -91,12 +89,10 @@ export function joinTeam(teamname: string): ActionFunc<Team, ServerError> {
                 if (currentUser && team && team.delete_at === 0) {
                     const addUserToTeamResult = await dispatch(addUserToTeam(team.id, currentUser.id));
                     if (isSuccess(addUserToTeamResult)) {
-                        // if (firstLoad) {
-                        //     LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
-                        // }
-
-                        await dispatch(initializeTeam(team));
-                        return {data: team};
+                        if (joinedOnFirstLoad) {
+                            LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
+                        }
+                        return dispatch(initializeTeam(team));
                     }
                     throw addUserToTeamResult.error;
                 }

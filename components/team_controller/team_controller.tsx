@@ -152,15 +152,14 @@ function TeamController(props: Props) {
         }
     }
 
-    async function joinTeamOrRedirect(teamNameParam: Props['match']['params']['team']) {
+    async function joinTeamOrRedirect(teamNameParam: string, joinedOnFirstLoad: boolean) {
         try {
             // skip reserved team names
             if (Constants.RESERVED_TEAM_NAMES.includes(teamNameParam)) {
                 throw new Error('Team name is reserved');
             }
 
-            const {data: joinedTeam} = await props.joinTeam(teamNameParam) as ActionResult<Team, ServerError>; // Fix in MM-46907;
-
+            const {data: joinedTeam} = await props.joinTeam(teamNameParam, joinedOnFirstLoad) as ActionResult<Team, ServerError>; // Fix in MM-46907;
             if (joinedTeam) {
                 setTeam(joinedTeam);
             } else {
@@ -171,20 +170,31 @@ function TeamController(props: Props) {
         }
     }
 
+    const teamsListDependency = props.teamsList.map((team) => team.id).sort().join('+');
+
     // Effect to run when url for team changes
     useEffect(() => {
-        const teamFromParam = getTeamFromTeamList(props.teamsList, teamNameParam);
-        if (teamFromParam) {
-            // User belongs to team found in url
-            initTeamOrRedirect(teamFromParam);
+        // Prevents the RHS from closing when clicking on a global permalink.
+        emitCloseRightHandSide();
 
-            // Prevents the RHS from closing when clicking on a global permalink.
-            emitCloseRightHandSide();
-        } else if (teamNameParam && !team) {
-            // Team in params is not part of user's team. And team is not set in state, then try to join the team
-            joinTeamOrRedirect(teamNameParam);
+        const teamFromURLParam = getTeamFromTeamList(props.teamsList, teamNameParam);
+        if (teamFromURLParam) {
+            // Team switch
+            initTeamOrRedirect(teamFromURLParam);
+            return;
         }
-    }, [teamNameParam]);
+
+        if (teamNameParam && !team) {
+            // Team join on first load
+            joinTeamOrRedirect(teamNameParam, true);
+            return;
+        }
+
+        if (teamNameParam && team && team.name !== teamNameParam) {
+            // Team join by going through a link
+            joinTeamOrRedirect(teamNameParam, false);
+        }
+    }, [teamNameParam, teamsListDependency]);
 
     if (props.mfaRequired) {
         history.push('/mfa/setup');
@@ -205,10 +215,10 @@ function TeamController(props: Props) {
                 path={'/:team/emoji'}
                 component={BackstageController}
             />
-            {props.plugins?.map((plugin: any) => (
+            {props.plugins?.map((plugin) => (
                 <Route
                     key={plugin.id}
-                    path={'/:team/' + plugin.route}
+                    path={'/:team/' + (plugin as any).route}
                     render={() => (
                         <Pluggable
                             pluggableName={'NeedsTeamComponent'}
@@ -217,15 +227,12 @@ function TeamController(props: Props) {
                     )}
                 />
             ))}
-            <ChannelController
-                shouldShowAppBar={props.shouldShowAppBar}
-                isFetchingChannels={false}
-            />
+            <ChannelController/>
         </Switch>
     );
 }
 
-function getTeamFromTeamList(teamsList: Props['teamsList'], teamName: string) {
+function getTeamFromTeamList(teamsList: Props['teamsList'], teamName?: string) {
     if (!teamName) {
         return null;
     }
