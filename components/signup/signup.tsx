@@ -560,7 +560,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
             );
         }
 
-        if (noOpenServer || serverError || usedBefore) {
+        if (!isWaiting && (noOpenServer || serverError || usedBefore)) {
             const titleColumn = noOpenServer ? (
                 formatMessage({id: 'signup_user_completed.no_open_server.title', defaultMessage: 'This server doesn’t allow open signups'})
             ) : (
