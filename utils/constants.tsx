@@ -466,6 +466,7 @@ export const PaidFeatures = {
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
+    UPGRADE_DOWNGRADE_WORKSPACE: 'mattermost.feature.upgrade_downgrade_workspace',
 };
 
 export enum LicenseSkus {
@@ -475,6 +476,12 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
 }
+
+export const MappingCloudSelfHotsSkus = {
+    [CloudProducts.PROFESSIONAL]: LicenseSkus.Professional,
+    [CloudProducts.ENTERPRISE]: LicenseSkus.Enterprise,
+    '': '',
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
