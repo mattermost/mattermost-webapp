@@ -326,7 +326,7 @@ export default class AbstractCommand extends React.PureComponent {
 
         return (
             <div className='backstage-content row'>
-                >
+                <BackstageHeader>
                     <Link to={'/' + this.props.team.name + '/integrations/commands'}>
                         <FormattedMessage
                             id='installed_command.header'
@@ -625,7 +625,7 @@ export default class AbstractCommand extends React.PureComponent {
                         </div>
                     </form>
                 </div>
-            </div >
+            </div>
         );
     }
 }
