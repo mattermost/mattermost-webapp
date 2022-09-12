@@ -159,7 +159,14 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                 </ul>);
 
             if (isDowngradeNotification(featureId)) {
-                title = (<></>);
+                title = (
+                    <div id={`${featureId}-title`.replaceAll('.', '_')}>
+                        <span>
+                            <b>
+                                {mapFeatureIdToTranslation(featureId, formatMessage)}
+                            </b>
+                        </span>
+                    </div>);
                 subTitle = (
                     <ul id={`${featureId}-subtitle`.replaceAll('.', '_')}>
                         <li>
