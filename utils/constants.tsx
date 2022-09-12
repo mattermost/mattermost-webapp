@@ -154,6 +154,7 @@ export const Preferences = {
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
+    NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE: 'admin_upgrade_downgrade_instance',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them

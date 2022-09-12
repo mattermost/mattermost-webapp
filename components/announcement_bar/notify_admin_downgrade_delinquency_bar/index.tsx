@@ -1,27 +1,36 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {FormattedMessage} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {t} from 'utils/i18n';
 import {
-    AnnouncementBarTypes, MappingCloudSelfHotsSkus, PaidFeatures, TELEMETRY_CATEGORIES,
+    AnnouncementBarTypes, MappingCloudSelfHotsSkus, PaidFeatures, Preferences, TELEMETRY_CATEGORIES,
 } from 'utils/constants';
 
 import {GlobalState} from 'types/store';
-import AnnouncementBar from '../default_announcement_bar';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
-import {useGetNotifyAdmin} from 'components/common/hooks/useGetNotifyAdmin';
+import {NotifyStatus, useGetNotifyAdmin} from 'components/common/hooks/useGetNotifyAdmin';
+import {savePreferences} from 'mattermost-redux/actions/preferences';
 
-//TODO Only display once using preferences
+import AnnouncementBar from '../default_announcement_bar';
+
+export const BannerPreferenceName = 'notify_upgrade_workspace_banner';
+
 const NotifyAdminDowngradeDelinquencyBar = () => {
+    const dispatch = useDispatch();
+    const getCategory = makeGetCategory();
+    const preferences = useSelector((state: GlobalState) =>
+        getCategory(state, Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE),
+    );
     const subscription = useGetSubscription();
     const product = useSelector(getSubscriptionProduct);
     const currentUser = useSelector((state: GlobalState) =>
@@ -30,18 +39,21 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
 
     const {btnText, notifyAdmin, notifyStatus} = useGetNotifyAdmin({
         ctaText: {
-            id: 'cloud_delinquency.banner.end_user_notify_admin_button',
+            id: t('cloud_delinquency.banner.end_user_notify_admin_button'),
             defaultMessage: 'Notify admin',
         },
     });
 
-    const buttonText = btnText(notifyStatus);
-
-    const notifyAdminRequestData = {
-        required_feature: PaidFeatures.UPGRADE_DOWNGRADE_WORKSPACE,
-        required_plan: MappingCloudSelfHotsSkus[product?.sku || ''],
-        trial_notification: false,
-    };
+    useEffect(() => {
+        if (notifyStatus === NotifyStatus.Success) {
+            dispatch(savePreferences(currentUser.id, [{
+                category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+                name: BannerPreferenceName,
+                user_id: currentUser.id,
+                value: 'adminNotified',
+            }]));
+        }
+    }, [currentUser, dispatch, notifyStatus]);
 
     const shouldShowBanner = () => {
         if (!subscription) {
@@ -53,6 +65,14 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
         }
 
         if (!subscription.delinquent_since) {
+            return false;
+        }
+
+        if (!preferences) {
+            return false;
+        }
+
+        if (preferences.some((pref) => pref.name === BannerPreferenceName)) {
             return false;
         }
 
@@ -71,36 +91,53 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
         return null;
     }
 
+    const buttonText = btnText(notifyStatus);
+
+    const notifyAdminRequestData = {
+        required_feature: PaidFeatures.UPGRADE_DOWNGRADE_WORKSPACE,
+        required_plan: MappingCloudSelfHotsSkus[product?.sku || ''],
+        trial_notification: false,
+    };
+
     const message = {
         id: t('cloud_delinquency.banner.end_user_notify_admin_title'),
         defaultMessage:
-            'Your workspace has been downgraded.',
+            'Your workspace has been downgraded. Notify your admin to fix billing issues',
     };
 
-    const handleClick = async () => {
-        trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'click_notify_admin_upgrade');
+    const handleClick = () => {
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'click_notify_admin_upgrade_workspace_banner');
 
-        await notifyAdmin({
+        notifyAdmin({
             requestData: notifyAdminRequestData,
             trackingArgs: {
                 category: TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY,
                 event: 'notify_admin_downgrade_delinquency_bar',
-                props: undefined,
             },
         });
+    };
+
+    const handleClose = () => {
+        dispatch(savePreferences(currentUser.id, [{
+            category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+            name: BannerPreferenceName,
+            user_id: currentUser.id,
+            value: 'dismissBanner',
+        }]));
     };
 
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.CRITICAL}
-            showCloseButton={false}
+            showCloseButton={true}
             onButtonClick={handleClick}
-            modalButtonText={buttonText.id}
+            modalButtonText={t(buttonText.id)}
             modalButtonDefaultText={buttonText.defaultMessage}
             message={<FormattedMessage {...message}/>}
             showLinkAsButton={true}
             isTallBanner={true}
             icon={<i className='icon icon-alert-outline'/>}
+            handleClose={handleClose}
         />
     );
 };

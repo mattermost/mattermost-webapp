@@ -38,7 +38,7 @@ type NotifyAdmingArgs = {
     trackingArgs: {
         category: any;
         event: any;
-        props: any;
+        props?: any;
     };
 }
 
