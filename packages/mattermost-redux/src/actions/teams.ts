@@ -4,30 +4,28 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile} from '@mattermost/types/users';
+import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
+
 import {Client4} from 'mattermost-redux/client';
-import {General} from '../constants';
+
+import {General} from 'mattermost-redux/constants';
 import {ChannelTypes, TeamTypes, UserTypes} from 'mattermost-redux/action_types';
+import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
+
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {isCompatibleWithJoinViewTeamPermissions} from 'mattermost-redux/selectors/entities/general';
-
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {GetStateFunc, DispatchFunc, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-
-import {Team, TeamMembership, TeamMemberWithError, GetTeamMembersOpts, TeamsWithCount, TeamSearchOpts} from '@mattermost/types/teams';
-
-import {UserProfile} from '@mattermost/types/users';
-
-import {isCollapsedThreadsEnabled} from '../selectors/entities/preferences';
-
-import {selectChannel} from './channels';
-import {logError} from './errors';
-import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
-import {getProfilesByIds, getStatusesByIds} from './users';
-import {loadRolesIfNeeded} from './roles';
+import {getProfilesByIds, getStatusesByIds} from 'mattermost-redux/actions/users';
+import {logError} from 'mattermost-redux/actions/errors';
+import {selectChannel} from 'mattermost-redux/actions/channels';
+import {bindClientFunc, forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
 async function getProfilesAndStatusesForMembers(userIds: string[], dispatch: DispatchFunc, getState: GetStateFunc) {
     const {
@@ -111,7 +109,7 @@ export function getMyTeamUnreads(collapsedThreads: boolean, skipCurrentTeam = fa
     };
 }
 
-export function getTeam(teamId: string): ActionFunc {
+export function getTeam(teamId: string): ActionFunc<Team, ServerError> {
     return bindClientFunc({
         clientFunc: Client4.getTeam,
         onSuccess: TeamTypes.RECEIVED_TEAM,
@@ -121,7 +119,7 @@ export function getTeam(teamId: string): ActionFunc {
     });
 }
 
-export function getTeamByName(teamName: string): ActionFunc {
+export function getTeamByName(teamName: string): ActionFunc<Team, ServerError> {
     return bindClientFunc({
         clientFunc: Client4.getTeamByName,
         onSuccess: TeamTypes.RECEIVED_TEAM,
@@ -366,7 +364,7 @@ export function getMyTeamMembers(): ActionFunc {
     };
 }
 
-export function getTeamMembers(teamId: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, options: GetTeamMembersOpts): ActionFunc {
+export function getTeamMembers(teamId: string, page = 0, perPage: number = General.TEAMS_CHUNK_SIZE, options: GetTeamMembersOpts): ActionFunc<TeamMembership[], ServerError> {
     return bindClientFunc({
         clientFunc: Client4.getTeamMembers,
         onRequest: TeamTypes.GET_TEAM_MEMBERS_REQUEST,
