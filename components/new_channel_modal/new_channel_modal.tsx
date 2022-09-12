@@ -135,7 +135,6 @@ const NewChannelModal = () => {
 
         try {
             const {data: newChannel, error} = await dispatch(createChannel(channel, ''));
-
             if (error) {
                 onCreateChannelError(error);
                 return;
@@ -151,7 +150,6 @@ const NewChannelModal = () => {
                     console.log(e.message); // eslint-disable-line
                 }
             }
-
             dispatch(switchToChannel(newChannel));
         } catch (e) {
             onCreateChannelError({message: formatMessage({id: 'channel_modal.error.generic', defaultMessage: 'Something went wrong. Please try again.'})});
@@ -189,6 +187,7 @@ const NewChannelModal = () => {
                 updatedCardProperties: [],
                 updatedProperties: {},
             };
+
             const {data: patchedBoard} = await dispatch(attachBoardToChannel(newBoard.id, boardPatch));
 
             if (patchedBoard.channelId === channelId) {
@@ -204,6 +203,7 @@ const NewChannelModal = () => {
                         boardUrl,
                     },
                 );
+
                 await dispatch(sendGenericPostMessage(newBoardMsg, channelId, ''));
 
                 // show the new channel with board tour tip

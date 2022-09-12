@@ -9,6 +9,8 @@ import {Provider} from 'react-redux';
 import {GlobalState} from 'types/store';
 import Permissions from 'mattermost-redux/constants/permissions';
 
+import * as ChannelViewsActions from 'actions/views/channel';
+
 jest.mock('mattermost-redux/actions/channels');
 import mockStore from 'tests/test_store';
 
@@ -16,14 +18,56 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import NewChannelModal from './new_channel_modal';
 
-const mockCreateBoardFromTemplate = jest.fn();
+const createBoardFromTemplateMock = () => {
+    return jest.fn().mockResolvedValue(Promise.resolve({
+        data: {
+            id: 'new-created-board',
+            channelId: 'new-channel-id',
+            title: 'the new created board',
+        },
+    }));
+};
 
 jest.mock('mattermost-redux/actions/boards', () => ({
     ...jest.requireActual('mattermost-redux/actions/boards'),
-    createBoardFromTemplate: () => mockCreateBoardFromTemplate,
+    createBoardFromTemplate: createBoardFromTemplateMock,
+    attachBoardToChannel: () => {
+        return jest.fn().mockResolvedValue(Promise.resolve({
+            data: {
+                id: 'new-created-board',
+                channelId: 'new-channel-id',
+                title: 'the new created board',
+            },
+        }));
+    },
     getBoardsTemplates: () => {
         return jest.fn().mockResolvedValue(Promise.resolve({
             data: [{id: '1', title: 'template 1'}, {id: '2', title: 'template 2'}],
+        }));
+    },
+    setNewChannelWithBoardPreference: () => {
+        return jest.fn().mockResolvedValue(Promise.resolve({
+            data: true,
+        }));
+    },
+}));
+
+jest.mock('mattermost-redux/actions/channels', () => ({
+    ...jest.requireActual('mattermost-redux/actions/channels'),
+    createChannel: () => {
+        return jest.fn().mockResolvedValue(Promise.resolve({
+            data: {
+                id: 'new-channel-id'
+            },
+        }));
+    },
+}));
+
+jest.mock('actions/global_actions', () => ({
+    ...jest.requireActual('actions/global_actions'),
+    sendGenericPostMessage: () => {
+        return jest.fn().mockResolvedValue(Promise.resolve({
+            data: true,
         }));
     },
 }));
@@ -171,7 +215,10 @@ describe('components/new_channel_modal', () => {
         expect(menuItems).toHaveLength(3);
     });
 
-    test.only('when a board template is selected must call the create board from template function', async () => {
+    test('when a board template is selected must call the switch to channel butoon', async () => {
+        const switchToChannelFn = jest.fn();
+        jest.spyOn(ChannelViewsActions, 'switchToChannel').mockImplementation(switchToChannelFn);
+
         const name = 'New channel with board';
         const mockChangeEvent = {
             preventDefault: jest.fn(),
@@ -218,8 +265,10 @@ describe('components/new_channel_modal', () => {
 
         await actImmediate(wrapper);
 
-        confirmButton.simulate('click');
-
-        expect(mockCreateBoardFromTemplate).toHaveBeenCalled();
+        // Submit
+        await act(async () => {
+            confirmButton.simulate('click');
+        });
+        expect(switchToChannelFn).toHaveBeenCalled();
     });
 });
