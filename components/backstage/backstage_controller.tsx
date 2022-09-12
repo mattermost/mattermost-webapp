@@ -29,7 +29,7 @@ import ConfirmIntegration from 'components/integrations/confirm_integration';
 
 import Pluggable from 'plugins/pluggable';
 
-import BackstageSidebar from './components/backstage_sidebar.jsx';
+import BackstageSidebar from './components/backstage_sidebar';
 import BackstageNavbar from './components/backstage_navbar';
 
 type ExtraProps = Pick<Props, 'user' | 'team'> & {scrollToTop: () => void}
