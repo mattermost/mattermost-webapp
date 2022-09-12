@@ -37,12 +37,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
         getCurrentUser(state),
     );
 
-    const {btnText, notifyAdmin, notifyStatus} = useGetNotifyAdmin({
-        ctaText: {
-            id: t('cloud_delinquency.banner.end_user_notify_admin_button'),
-            defaultMessage: 'Notify admin',
-        },
-    });
+    const {notifyAdmin, notifyStatus} = useGetNotifyAdmin({});
 
     useEffect(() => {
         if (notifyStatus === NotifyStatus.Success) {
@@ -91,19 +86,17 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
         return null;
     }
 
-    const buttonText = btnText(notifyStatus);
-
     const notifyAdminRequestData = {
         required_feature: PaidFeatures.UPGRADE_DOWNGRADE_WORKSPACE,
         required_plan: MappingCloudSelfHotsSkus[product?.sku || ''],
         trial_notification: false,
     };
 
-    const message = {
-        id: t('cloud_delinquency.banner.end_user_notify_admin_title'),
-        defaultMessage:
-            'Your workspace has been downgraded. Notify your admin to fix billing issues',
-    };
+    const message = (
+        <FormattedMessage
+            id={t('cloud_delinquency.banner.end_user_notify_admin_title')}
+            defaultMessage={'Your workspace has been downgraded. Notify your admin to fix billing issues'}
+        />);
 
     const handleClick = () => {
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'click_notify_admin_upgrade_workspace_banner');
@@ -131,9 +124,9 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
             type={AnnouncementBarTypes.CRITICAL}
             showCloseButton={true}
             onButtonClick={handleClick}
-            modalButtonText={t(buttonText.id)}
-            modalButtonDefaultText={buttonText.defaultMessage}
-            message={<FormattedMessage {...message}/>}
+            modalButtonText={t('cloud_delinquency.banner.end_user_notify_admin_button')}
+            modalButtonDefaultText={'Notify admin'}
+            message={message}
             showLinkAsButton={true}
             isTallBanner={true}
             icon={<i className='icon icon-alert-outline'/>}
