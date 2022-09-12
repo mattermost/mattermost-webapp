@@ -7,6 +7,11 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -85,6 +90,11 @@ exports[`components/advanced_create_post should match snapshot for center textbo
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -163,6 +173,11 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -241,6 +256,11 @@ exports[`components/advanced_create_post should match snapshot when file upload 
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -319,6 +339,11 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -397,6 +422,11 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -475,6 +505,11 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -553,6 +588,11 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={false}
@@ -631,6 +671,11 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
   onSubmit={[Function]}
 >
   <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
     applyMarkdown={[Function]}
     badConnection={false}
     canPost={true}
@@ -677,6 +722,229 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isFormattingBarHidden={false}
+    location="CENTER"
+    maxPostSize={4000}
+    message=""
+    postId=""
+    postMsgKeyPress={[Function]}
+    prefillMessage={[Function]}
+    removePreview={[Function]}
+    serverError={null}
+    setShowPreview={[Function]}
+    shouldShowPreview={false}
+    showEmojiPicker={false}
+    showSendTutorialTip={false}
+    textboxRef={
+      Object {
+        "current": null,
+      }
+    }
+    toggleAdvanceTextEditor={[Function]}
+    toggleEmojiPicker={[Function]}
+    uploadsProgressPercent={Object {}}
+    useChannelMentions={true}
+  />
+</form>
+`;
+
+exports[`components/advanced_create_post should match snapshot, post priority enabled 1`] = `
+<form
+  className=""
+  id="create_post"
+  onSubmit={[Function]}
+>
+  <AdvanceTextEditor
+    additionalControls={
+      Array [
+        <React.Fragment>
+          <Memo(PostPriorityPickerOverlay)
+            defaultHorizontalPosition="left"
+            onApply={[Function]}
+            onHide={[Function]}
+            show={false}
+            target={[Function]}
+          />
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            delayShow={400}
+            overlay={
+              <Tooltip
+                id="post-priority-picker-tooltip"
+              >
+                <Memo(KeyboardShortcutSequence)
+                  hoistDescription={true}
+                  isInsideTooltip={true}
+                  shortcut={
+                    Object {
+                      "default": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                      "mac": Object {
+                        "defaultMessage": "Message priority",
+                        "id": "shortcuts.msgs.formatting_bar.post_priority",
+                      },
+                    }
+                  }
+                />
+              </Tooltip>
+            }
+            placement="top"
+            trigger={
+              Array [
+                "hover",
+                "focus",
+              ]
+            }
+          >
+            <IconContainer
+              className="control"
+              disabled={false}
+              onClick={[Function]}
+              type="button"
+            >
+              <AlertCircleOutlineIcon
+                color="currentColor"
+                size={18}
+              />
+            </IconContainer>
+          </OverlayTrigger>
+        </React.Fragment>,
+      ]
+    }
+    applyMarkdown={[Function]}
+    badConnection={false}
+    canPost={true}
+    canUploadFiles={true}
+    channelId="owsyt8n43jfxjpzh9np93mx1wa"
+    currentChannel={
+      Object {
+        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "type": "O",
+      }
+    }
+    currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    draft={
+      Object {
+        "fileInfos": Array [],
+        "message": "",
+        "uploadsInProgress": Array [],
+      }
+    }
+    emitTypingEvent={[Function]}
+    enableEmojiPicker={true}
+    enableGifPicker={true}
+    errorClass={null}
+    fileUploadRef={
+      Object {
+        "current": null,
+      }
+    }
+    getFileUploadTarget={[Function]}
+    handleBlur={[Function]}
+    handleChange={[Function]}
+    handleEmojiClick={[Function]}
+    handleEmojiClose={[Function]}
+    handleFileUploadChange={[Function]}
+    handleFileUploadComplete={[Function]}
+    handleGifClick={[Function]}
+    handleKeyDown={[Function]}
+    handleMouseUpKeyUp={[Function]}
+    handlePostError={[Function]}
+    handleSelect={[Function]}
+    handleSubmit={[Function]}
+    handleUploadError={[Function]}
+    handleUploadProgress={[Function]}
+    handleUploadStart={[Function]}
+    hideEmojiPicker={[Function]}
+    isFormattingBarHidden={false}
+    location="CENTER"
+    maxPostSize={4000}
+    message=""
+    postId=""
+    postMsgKeyPress={[Function]}
+    prefillMessage={[Function]}
+    removePreview={[Function]}
+    serverError={null}
+    setShowPreview={[Function]}
+    shouldShowPreview={false}
+    showEmojiPicker={false}
+    showSendTutorialTip={false}
+    textboxRef={
+      Object {
+        "current": null,
+      }
+    }
+    toggleAdvanceTextEditor={[Function]}
+    toggleEmojiPicker={[Function]}
+    uploadsProgressPercent={Object {}}
+    useChannelMentions={true}
+  />
+</form>
+`;
+
+exports[`components/advanced_create_post should match snapshot, post priority enabled, with priority important 1`] = `
+<form
+  className=""
+  id="create_post"
+  onSubmit={[Function]}
+>
+  <AdvanceTextEditor
+    additionalControls={
+      Array [
+        null,
+      ]
+    }
+    applyMarkdown={[Function]}
+    badConnection={false}
+    canPost={true}
+    canUploadFiles={true}
+    channelId="owsyt8n43jfxjpzh9np93mx1wa"
+    currentChannel={
+      Object {
+        "id": "owsyt8n43jfxjpzh9np93mx1wa",
+        "type": "O",
+      }
+    }
+    currentUserId="zaktnt8bpbgu8mb6ez9k64r7sa"
+    draft={
+      Object {
+        "fileInfos": Array [],
+        "message": "",
+        "props": Object {
+          "priority": "important",
+        },
+        "uploadsInProgress": Array [],
+      }
+    }
+    emitTypingEvent={[Function]}
+    enableEmojiPicker={true}
+    enableGifPicker={true}
+    errorClass={null}
+    fileUploadRef={
+      Object {
+        "current": null,
+      }
+    }
+    getFileUploadTarget={[Function]}
+    handleBlur={[Function]}
+    handleChange={[Function]}
+    handleEmojiClick={[Function]}
+    handleEmojiClose={[Function]}
+    handleFileUploadChange={[Function]}
+    handleFileUploadComplete={[Function]}
+    handleGifClick={[Function]}
+    handleKeyDown={[Function]}
+    handleMouseUpKeyUp={[Function]}
+    handlePostError={[Function]}
+    handleSelect={[Function]}
+    handleSubmit={[Function]}
+    handleUploadError={[Function]}
+    handleUploadProgress={[Function]}
+    handleUploadStart={[Function]}
+    hideEmojiPicker={[Function]}
+    isFormattingBarHidden={false}
+    labels={false}
     location="CENTER"
     maxPostSize={4000}
     message=""
