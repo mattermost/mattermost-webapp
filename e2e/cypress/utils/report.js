@@ -116,6 +116,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
         FULL_REPORT,
         TEST_CYCLE_LINK_PREFIX,
         MM_ENV,
+        SERVER_TYPE,
     } = process.env;
     const {statsFieldValue, stats} = summary;
     const {
@@ -167,6 +168,15 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
             };
         }
 
+        let serverTypeField;
+        if (SERVER_TYPE) {
+            serverTypeField = {
+                short: false,
+                title: 'Test Server',
+                value: SERVER_TYPE,
+            };
+        }
+
         return {
             username: 'Cypress UI Test',
             icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
@@ -182,6 +192,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
                         title: 'Environment',
                         value: runnerEnvValue,
                     },
+                    serverTypeField,
                     serverEnvField,
                     reportField,
                     testCycleField,
@@ -218,7 +229,7 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
             author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
             author_link: 'https://www.mattermost.com/',
             title,
-            text: `${quickSummary} | ${statsDuration} ${testCycleLink}\n${runnerEnvValue}${MM_ENV ? '\nTest server override: ' + MM_ENV : ''}`,
+            text: `${quickSummary} | ${statsDuration} ${testCycleLink}\n${runnerEnvValue}${SERVER_TYPE ? '\nTest server: ' + SERVER_TYPE : ''}${MM_ENV ? '\nTest server override: ' + MM_ENV : ''}`,
         }],
     };
 }
