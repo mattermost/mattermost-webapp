@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import classNames from 'classnames';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {Route, NavLink} from 'react-router-dom';
+import classNames from 'classnames';
 
 type Props = {
     name: string;
-    title: string;
+    title: ReactNode;
     icon: string;
     parentLink?: string;
-    children: JSX.Element[];
+    children?: ReactNode[];
 }
 
 const BackstageCategory = ({name, title, icon, parentLink = '', children = []}: Props) => {
@@ -29,7 +29,7 @@ const BackstageCategory = ({name, title, icon, parentLink = '', children = []}: 
                 </span>
             </NavLink>
             {
-                children.length > 0 &&
+                children && children.length > 0 &&
                     <Route
                         path={link}
                         render={() => (
@@ -40,7 +40,7 @@ const BackstageCategory = ({name, title, icon, parentLink = '', children = []}: 
                                             return child;
                                         }
 
-                                        return React.cloneElement(child, {
+                                        return React.cloneElement(child as JSX.Element, {
                                             parentLink: link,
                                         });
                                     })
