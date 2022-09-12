@@ -8,6 +8,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
 import {Channel} from '@mattermost/types/channels';
 import {
@@ -147,9 +148,9 @@ export function makeGetPostsChunkAroundPost(): (state: GlobalState, postId: Post
     );
 }
 
-export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a: {
-    postsBeforeCount: number;
-    postsAfterCount: number;
+export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a?: {
+    postsBeforeCount?: number;
+    postsAfterCount?: number;
 }) => Array<Post['id']> | undefined | null {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     return createIdsSelector(
@@ -744,4 +745,11 @@ export function getExpandedLink(state: GlobalState, link: string): string {
 
 export function getLimitedViews(state: GlobalState): GlobalState['entities']['posts']['limitedViews'] {
     return state.entities.posts.limitedViews;
+}
+
+export function isPostPriorityEnabled(state: GlobalState) {
+    return (
+        getFeatureFlagValue(state, 'PostPriority') === 'true' &&
+        getConfig(state).PostPriority === 'true'
+    );
 }
