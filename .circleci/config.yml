@@ -25,6 +25,12 @@ aliases:
         - ~/mattermost/mattermost-webapp/packages/types/lib
 
 jobs:
+  info:
+    executor:
+      name: default
+    working_directory: ~/mattermost/mattermost-webapp
+    steps:
+      - echo $CIRCLE_BRANCH
   install:
     executor:
       name: default
