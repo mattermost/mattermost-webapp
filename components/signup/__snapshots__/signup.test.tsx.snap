@@ -8,7 +8,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
     className="signup-body-content"
   >
     <div
-      className="signup-body-message"
+      className="signup-body-message with-alternate-link"
     >
       <h1
         className="signup-body-message-title"
@@ -156,7 +156,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
     className="signup-body-content"
   >
     <div
-      className="signup-body-message"
+      className="signup-body-message with-alternate-link"
     >
       <h1
         className="signup-body-message-title"

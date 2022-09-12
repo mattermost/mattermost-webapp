@@ -605,7 +605,16 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
         return (
             <>
-                <div className={classNames('signup-body-message', {'custom-branding': enableCustomBrand, 'with-brand-image': enableCustomBrand && !brandImageError})}>
+                <div
+                    className={classNames(
+                        'signup-body-message',
+                        {
+                            'custom-branding': enableCustomBrand,
+                            'with-brand-image': enableCustomBrand && !brandImageError,
+                            'with-alternate-link': !isMobileView,
+                        },
+                    )}
+                >
                     {enableCustomBrand && !brandImageError ? (
                         <img
                             className={classNames('signup-body-custom-branding-image')}

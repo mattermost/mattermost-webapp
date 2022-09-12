@@ -67,7 +67,6 @@
             width: 540px;
             flex-flow: column;
             align-self: flex-start;
-            margin-top: 40px;
 
             .signup-body-message-title {
                 padding-right: 60px;
@@ -104,12 +103,20 @@
                     }
                 }
 
+                .signup-body-message-subtitle {
+                    padding-right: 0;
+                }
+
                 .signup-body-custom-branding-image {
                     max-height: 540px;
                     align-self: center;
                     margin-bottom: 28px;
                     border-radius: 8px;
                 }
+            }
+
+            &.with-alternate-link {
+                margin-top: 40px;
             }
         }
 
