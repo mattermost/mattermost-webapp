@@ -8,7 +8,7 @@ import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
 
 type Props = {
-    children: ReactNode;
+    children?: ReactNode;
 }
 
 const BackstageHeader = ({children}: Props) => {
