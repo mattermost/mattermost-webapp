@@ -3,81 +3,70 @@
 exports[`components/widgets/tag/Tag should match the snapshot on show 1`] = `
 <TagWrapper
   as="div"
-  className="Tag test"
-  size="xs"
+  className="Tag Tag--xs test"
+  uppercase={false}
 >
-  <span
-    className="Tag__text"
-  >
+  <TagText>
     Test text
-  </span>
+  </TagText>
 </TagWrapper>
 `;
 
 exports[`components/widgets/tag/Tag should match the snapshot with "success" variant 1`] = `
 <TagWrapper
   as="div"
-  className="Tag Tag__success test"
-  size="xs"
+  className="Tag Tag--success Tag--xs test"
+  uppercase={false}
 >
-  <span
-    className="Tag__text"
-  >
+  <TagText>
     Test text
-  </span>
-</TagWrapper>
-`;
-
-exports[`components/widgets/tag/Tag should match the snapshot with capitalized option 1`] = `
-<TagWrapper
-  as="div"
-  capitalize={true}
-  className="Tag test"
-  size="xs"
->
-  <span
-    className="Tag__text"
-  >
-    Test text
-  </span>
+  </TagText>
 </TagWrapper>
 `;
 
 exports[`components/widgets/tag/Tag should match the snapshot with icon 1`] = `
 <TagWrapper
   as="div"
-  className="Tag test"
-  size="xs"
+  className="Tag Tag--xs test"
+  uppercase={false}
 >
   <AlertCircleOutlineIcon
     size={10}
   />
-  <span
-    className="Tag__text"
-  >
+  <TagText>
     Test text
-  </span>
+  </TagText>
 </TagWrapper>
 `;
 
 exports[`components/widgets/tag/Tag should match the snapshot with size "sm" 1`] = `
 <TagWrapper
   as="div"
-  className="Tag test"
-  size="sm"
+  className="Tag Tag--sm test"
+  uppercase={false}
 >
-  <span
-    className="Tag__text"
-  >
+  <TagText>
     Test text
-  </span>
+  </TagText>
+</TagWrapper>
+`;
+
+exports[`components/widgets/tag/Tag should match the snapshot with uppercase prop 1`] = `
+<TagWrapper
+  as="div"
+  className="Tag Tag--xs test"
+  uppercase={true}
+>
+  <TagText>
+    Test text
+  </TagText>
 </TagWrapper>
 `;
 
 exports[`components/widgets/tag/Tag should transform into a button if onClick provided 1`] = `
 <TagWrapper
   as="button"
-  className="Tag test"
+  className="Tag Tag--xs test"
   onClick={
     [MockFunction] {
       "calls": Array [
@@ -91,12 +80,10 @@ exports[`components/widgets/tag/Tag should transform into a button if onClick pr
       ],
     }
   }
-  size="xs"
+  uppercase={false}
 >
-  <span
-    className="Tag__text"
-  >
+  <TagText>
     Test text
-  </span>
+  </TagText>
 </TagWrapper>
 `;

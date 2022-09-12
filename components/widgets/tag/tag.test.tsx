@@ -7,10 +7,7 @@ import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import Tag from './tag';
 
-const defaultProps = {
-    size: 'xs',
-    className: 'Tag test',
-};
+const classNameProp = 'Tag Tag--xs test';
 
 describe('components/widgets/tag/Tag', () => {
     test('should match the snapshot on show', () => {
@@ -20,7 +17,7 @@ describe('components/widgets/tag/Tag', () => {
                 text={'Test text'}
             />,
         );
-        expect(wrapper.props()).toEqual(expect.objectContaining(defaultProps));
+        expect(wrapper.props()).toEqual(expect.objectContaining({className: classNameProp}));
         expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
@@ -33,21 +30,21 @@ describe('components/widgets/tag/Tag', () => {
                 icon={'alert-circle-outline'}
             />,
         );
-        expect(wrapper.props()).toEqual(expect.objectContaining(defaultProps));
+        expect(wrapper.props()).toEqual(expect.objectContaining({className: classNameProp}));
         expect(wrapper.find(AlertCircleOutlineIcon).exists()).toEqual(true);
         expect(wrapper.text()).toContain('Test text');
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match the snapshot with capitalized option', () => {
+    test('should match the snapshot with uppercase prop', () => {
         const wrapper = shallow(
             <Tag
                 className={'test'}
                 text={'Test text'}
-                capitalize={true}
+                uppercase={true}
             />,
         );
-        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, capitalize: true}));
+        expect(wrapper.props()).toEqual(expect.objectContaining({className: classNameProp, uppercase: true}));
         expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
@@ -60,7 +57,7 @@ describe('components/widgets/tag/Tag', () => {
                 size={'sm'}
             />,
         );
-        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, size: 'sm'}));
+        expect(wrapper.props()).toEqual(expect.objectContaining({className: 'Tag Tag--sm test'}));
         expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
@@ -73,7 +70,7 @@ describe('components/widgets/tag/Tag', () => {
                 variant={'success'}
             />,
         );
-        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, className: 'Tag Tag__success test'}));
+        expect(wrapper.props()).toEqual(expect.objectContaining({className: 'Tag Tag--success Tag--xs test'}));
         expect(wrapper.text()).toEqual('Test text');
         expect(wrapper).toMatchSnapshot();
     });
@@ -87,7 +84,7 @@ describe('components/widgets/tag/Tag', () => {
                 onClick={click}
             />,
         );
-        expect(wrapper.props()).toEqual(expect.objectContaining({...defaultProps, onClick: click}));
+        expect(wrapper.props()).toEqual(expect.objectContaining({className: classNameProp, onClick: click}));
         expect(wrapper.text()).toEqual('Test text');
         wrapper.simulate('click');
         expect(click).toBeCalled();

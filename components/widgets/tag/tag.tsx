@@ -21,7 +21,7 @@ type Props = {
     className?: string;
 };
 
-type TagWrapperProps = Required<Pick<Props, 'uppercase' | 'size'>>;
+type TagWrapperProps = Required<Pick<Props, 'uppercase'>>;
 
 const TagWrapper = styled.div<TagWrapperProps>`
     --tag-bg: var(--semantic-color-general);
@@ -159,7 +159,6 @@ const Tag = ({
         <TagWrapper
             {...rest}
             as={element}
-            size={size}
             uppercase={uppercase}
             onClick={onClick}
             className={classNames('Tag', {[`Tag--${variant}`]: variant, [`Tag--${size}`]: size}, className)}

@@ -96,7 +96,7 @@ const EnterpriseEditionLeftPanel = ({
                             defaultMessage: 'Trial',
                         })}
                         variant={'success'}
-                        capitalize={true}
+                        uppercase={true}
                         size={'sm'}
                     />
                 )}

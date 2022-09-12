@@ -179,7 +179,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                     new: usersToAdd[user.id] ? (
                         <Tag
                             variant={'info'}
-                            capitalize={true}
+                            uppercase={true}
                             text={(
                                 <FormattedMessage
                                     id='admin.user_grid.new'

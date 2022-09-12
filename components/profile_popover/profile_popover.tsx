@@ -31,6 +31,9 @@ import {ServerError} from '@mattermost/types/errors';
 import {ModalData} from 'types/actions';
 
 import './profile_popover.scss';
+import BotTag from '../widgets/tag/bot_tag';
+import GuestTag from '../widgets/tag/guest_tag';
+import Tag from '../widgets/tag/tag';
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'>{
 
@@ -635,49 +638,44 @@ ProfilePopoverState
         );
         let roleTitle;
         if (this.props.user.is_bot) {
-            roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage('bots.is_bot', 'BOT')}
-                </span>
-            );
+            roleTitle = <BotTag size={'sm'}/>;
         } else if (isGuest(this.props.user.roles)) {
-            roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage('post_info.guest', 'GUEST')}
-                </span>
-            );
+            roleTitle = <GuestTag size={'sm'}/>;
         } else if (isSystemAdmin(this.props.user.roles)) {
             roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.system_admin.name',
                         'System Admin',
                     )}
-                </span>
+                />
             );
         } else if (this.props.isTeamAdmin) {
             roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.team_admin.name',
                         'Team Admin',
                     )}
-                </span>
+                />
             );
         } else if (this.props.isChannelAdmin) {
             roleTitle = (
-                <span className='user-popover__role'>
-                    {Utils.localizeMessage(
+                <Tag
+                    size={'sm'}
+                    text={Utils.localizeMessage(
                         'admin.permissions.roles.channel_admin.name',
                         'Channel Admin',
                     )}
-                </span>
+                />
             );
         }
         let title: React.ReactNode = `@${this.props.user.username}`;
         if (this.props.overwriteName) {
             title = this.props.overwriteName;
-            roleTitle = '';
+            roleTitle = null;
         } else if (this.props.hasMention) {
             title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
         }

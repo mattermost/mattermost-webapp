@@ -5,17 +5,19 @@ import React from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
-import Tag from './tag';
+import Tag, {TagSize} from './tag';
 
 type Props = {
     className?: string;
+    size?: TagSize;
 }
 
-const BetaTag = ({className = ''}: Props) => {
+const BetaTag = ({className = '', size = 'xs'}: Props) => {
     const {formatMessage} = useIntl();
     return (
         <Tag
             uppercase={true}
+            size={size}
             variant='info'
             className={classNames('BetaTag', className)}
             text={formatMessage({

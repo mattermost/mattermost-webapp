@@ -5,19 +5,21 @@ import React from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
-import Tag from './tag';
+import Tag, {TagSize} from './tag';
 
 type Props = {
     className?: string;
+    size?: TagSize;
 };
 
-const GuestTag = ({className = ''}: Props) => {
+const GuestTag = ({className = '', size = 'xs'}: Props) => {
     const {formatMessage} = useIntl();
     return (
         <Tag
             className={classNames('GuestTag', className)}
+            size={size}
             text={formatMessage({
-                id: 'post_info.guest',
+                id: 'tag.default.guest',
                 defaultMessage: 'GUEST',
             })}
         />

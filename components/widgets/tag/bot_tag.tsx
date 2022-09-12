@@ -5,17 +5,19 @@ import React from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
-import Tag from './tag';
+import Tag, {TagSize} from './tag';
 
 type Props = {
     className?: string;
+    size?: TagSize;
 }
 
-const BotTag = ({className = ''}: Props) => {
+const BotTag = ({className = '', size = 'xs'}: Props) => {
     const {formatMessage} = useIntl();
     return (
         <Tag
             uppercase={true}
+            size={size}
             className={classNames('BotTag', className)}
             text={formatMessage({
                 id: 'tag.default.bot',

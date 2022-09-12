@@ -1364,10 +1364,6 @@ exports[`components/SearchResultsItem should match snapshot for post with priori
               isRHS={true}
               userId="user_id"
             />
-            <BotBadge
-              className=""
-              show={false}
-            />
           </div>
           <div
             className="col d-flex align-items-center"
