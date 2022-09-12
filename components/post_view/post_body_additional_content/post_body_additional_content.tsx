@@ -172,7 +172,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
             );
         }
 
-        if (!showEmbeddedBindings && embed) {
+        if (embed) {
             const toggleable = this.isEmbedToggleable(embed);
             const prependToggle = (/^\s*https?:\/\/.*$/).test(this.props.post.message);
 
@@ -180,21 +180,7 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 <div>
                     {(toggleable && prependToggle) && this.renderToggle(true)}
                     {this.props.children}
-                    {(toggleable && !prependToggle) && this.renderToggle(false)}
-                    {this.renderEmbed(embed)}
-                </div>
-            );
-        }
-
-        if (showEmbeddedBindings && embed) {
-            const toggleable = this.isEmbedToggleable(embed);
-            const prependToggle = (/^\s*https?:\/\/.*$/).test(this.props.post.message);
-
-            return (
-                <div>
-                    {(toggleable && prependToggle) && this.renderToggle(true)}
-                    {this.props.children}
-                    {this.renderAppBindings()}
+                    {showEmbeddedBindings && this.renderAppBindings()}
                     {(toggleable && !prependToggle) && this.renderToggle(false)}
                     {this.renderEmbed(embed)}
                 </div>
