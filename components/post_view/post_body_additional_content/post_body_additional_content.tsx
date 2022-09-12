@@ -149,25 +149,30 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
         );
     }
 
+    renderAppBindings = () => {
+        return (
+            <EmbeddedBindings
+                embeds={this.props.post.props.app_bindings}
+                post={this.props.post}
+            />
+        )
+    }
+
+
     render() {
         const embed = this.getEmbed();
 
-        if (this.props.appsEnabled) {
-            if (hasValidEmbeddedBinding(this.props.post.props)) {
-                // TODO Put some log / message if the form is not valid?
-                return (
-                    <React.Fragment>
-                        {this.props.children}
-                        <EmbeddedBindings
-                            embeds={this.props.post.props.app_bindings}
-                            post={this.props.post}
-                        />
-                    </React.Fragment>
-                );
-            }
+        const showEmbeddedBindings = this.props.appsEnabled && hasValidEmbeddedBinding(this.props.post.props);
+        if (showEmbeddedBindings && !embed) {
+            return (
+                <>
+                    {this.props.children}
+                    {this.renderAppBindings()}
+                </>
+            );
         }
 
-        if (embed) {
+        if (!showEmbeddedBindings && embed) {
             const toggleable = this.isEmbedToggleable(embed);
             const prependToggle = (/^\s*https?:\/\/.*$/).test(this.props.post.message);
 
@@ -175,6 +180,21 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 <div>
                     {(toggleable && prependToggle) && this.renderToggle(true)}
                     {this.props.children}
+                    {(toggleable && !prependToggle) && this.renderToggle(false)}
+                    {this.renderEmbed(embed)}
+                </div>
+            );
+        }
+
+        if (showEmbeddedBindings && embed) {
+            const toggleable = this.isEmbedToggleable(embed);
+            const prependToggle = (/^\s*https?:\/\/.*$/).test(this.props.post.message);
+
+            return (
+                <div>
+                    {(toggleable && prependToggle) && this.renderToggle(true)}
+                    {this.props.children}
+                    {this.renderAppBindings()}
                     {(toggleable && !prependToggle) && this.renderToggle(false)}
                     {this.renderEmbed(embed)}
                 </div>
