@@ -1126,6 +1126,10 @@
 
     .post__header--info {
         padding: 0;
+
+        .col {
+            gap: 4px;
+        }
     }
 
     &.post--root {

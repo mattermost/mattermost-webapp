@@ -7,7 +7,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
+import {AlertCircleOutlineIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -1383,10 +1383,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     labels={(
                         this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
                             <div className='AdvancedTextEditor__priority'>
-                                <PriorityLabel
-                                    size='xs'
-                                    priority={this.props.draft.props.priority}
-                                />
+                                <PriorityLabel priority={this.props.draft.props.priority}/>
                                 <OverlayTrigger
                                     placement='top'
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -1406,7 +1403,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                         className='close'
                                         onClick={this.handleRemovePriority}
                                     >
-                                        <span aria-hidden='true'>{'×'}</span>
+                                        <CloseIcon size={16}/>
                                         <span className='sr-only'>
                                             <FormattedMessage
                                                 id={'post_priority.remove'}

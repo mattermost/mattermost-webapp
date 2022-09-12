@@ -10,7 +10,7 @@ import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon} from '
 
 import {PostPriority} from '@mattermost/types/posts';
 
-import Badge from 'components/widgets/badges/badge';
+import BetaTag from '../widgets/tag/beta_tag';
 
 import Menu, {MenuItem} from './post_priority_picker_item';
 
@@ -24,10 +24,6 @@ type Props = {
     leftOffset?: number;
     style?: React.CSSProperties;
 }
-
-const Beta = styled(Badge)`
-    margin-left: 8px;
-`;
 
 const UrgentIcon = styled(AlertOutlineIcon)`
     fill: rgb(var(--semantic-color-danger));
@@ -46,7 +42,8 @@ const Header = styled.h4`
     align-items: center;
     padding: 14px 20px;
     margin-right: 4px;
-    font-family: Open Sans;
+    gap: 8px;
+    font-family: 'Open Sans', sans-serif;
     font-size: 14px;
     font-weight: 600;
     letter-spacing: 0;
@@ -64,7 +61,7 @@ const Picker = styled.div`
     display: flex;
     width: 220px;
     flex-direction: column;
-    border: 1px solid $light-gray;
+    border: 1px solid rgba(0, 0, 0, 0.15);
     margin-right: 3px;
     background: var(--center-channel-bg);
     border-radius: 4px;
@@ -91,7 +88,7 @@ function PostPriorityPicker({
         ref.current?.focus();
     }, [ref.current]);
 
-    const handleSelect = useCallback((type?: PostPriority) => () => {
+    const makeSelectionHandler = useCallback((type?: PostPriority) => () => {
         onApply({priority: type});
         onClose();
     }, [onApply, onClose]);
@@ -123,25 +120,19 @@ function PostPriorityPicker({
             style={pickerStyle}
             className={classNames({PostPriorityPicker: true, bottom: placement === 'bottom'})}
         >
-            <Header className='modal-title mr-2'>
+            <Header className='modal-title'>
                 {formatMessage({
                     id: 'post_priority.picker.header',
                     defaultMessage: 'Message priority',
                 })}
-                <Beta
-                    uppercase={true}
-                    variant='info'
-                    size='xs'
-                >
-                    {'BETA'}
-                </Beta>
+                <BetaTag/>
             </Header>
             <Body role='application'>
                 <Menu className='Menu'>
                     <MenuItem
                         id='menu-item-priority-standard'
-                        onClick={handleSelect()}
-                        isSelected={priority === undefined}
+                        onClick={makeSelectionHandler()}
+                        isSelected={!priority}
                         icon={<StandardIcon size={18}/>}
                         text={formatMessage({
                             id: 'post_priority.priority.standard',
@@ -150,7 +141,7 @@ function PostPriorityPicker({
                     />
                     <MenuItem
                         id='menu-item-priority-important'
-                        onClick={handleSelect(PostPriority.IMPORTANT)}
+                        onClick={makeSelectionHandler(PostPriority.IMPORTANT)}
                         isSelected={priority === PostPriority.IMPORTANT}
                         icon={<ImportantIcon size={18}/>}
                         text={formatMessage({
@@ -160,7 +151,7 @@ function PostPriorityPicker({
                     />
                     <MenuItem
                         id='menu-item-priority-urgent'
-                        onClick={handleSelect(PostPriority.URGENT)}
+                        onClick={makeSelectionHandler(PostPriority.URGENT)}
                         isSelected={priority === PostPriority.URGENT}
                         icon={<UrgentIcon size={18}/>}
                         text={formatMessage({
