@@ -8,15 +8,13 @@ import {archivedChannel, defaultChannel} from '../messages/test_utils';
 
 import SetHeaderButton from './set_header_button';
 
-const component = (otherProps: any) => {
-    return (
-        <SetHeaderButton
-            channel={defaultChannel}
-            show={true}
-            {...otherProps}
-        />
-    );
-};
+const component = (otherProps: any) => (
+    <SetHeaderButton
+        channel={defaultChannel}
+        show={true}
+        {...otherProps}
+    />
+);
 
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Set Header Button', () => {

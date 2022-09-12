@@ -8,16 +8,14 @@ import {archivedChannel, groupChannel, users} from '../test_utils';
 
 import GMIntroMessage from './gm';
 
-const component = (otherProps: any) => {
-    return (
-        <GMIntroMessage
-            currentUserId={'test-user-id'}
-            channelProfiles={[]}
-            channel={groupChannel}
-            {...otherProps}
-        />
-    );
-};
+const component = (otherProps: any) => (
+    <GMIntroMessage
+        currentUserId={'test-user-id'}
+        channelProfiles={[]}
+        channel={groupChannel}
+        {...otherProps}
+    />
+);
 
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Group Channel', () => {

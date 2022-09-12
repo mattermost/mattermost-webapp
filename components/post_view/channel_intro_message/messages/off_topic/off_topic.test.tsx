@@ -8,15 +8,13 @@ import {archivedChannel, offTopicChannel} from '../test_utils';
 
 import OffTopicIntroMessage from './off_topic';
 
-const component = (otherProps: any) => {
-    return (
-        <OffTopicIntroMessage
-            channel={offTopicChannel}
-            usersLimit={10}
-            {...otherProps}
-        />
-    );
-};
+const component = (otherProps: any) => (
+    <OffTopicIntroMessage
+        channel={offTopicChannel}
+        usersLimit={10}
+        {...otherProps}
+    />
+);
 
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test OFF_TOPIC Channel', () => {

@@ -6,17 +6,15 @@ import {shallow} from 'enzyme';
 
 import BoardsButton from './boards_button';
 
-const component = (otherProps: any) => {
-    return (
-        <BoardsButton
-            boardComponent={
-                <button>{'create a board'}</button>
-            }
-            show={true}
-            {...otherProps}
-        />
-    );
-};
+const component = (otherProps: any) => (
+    <BoardsButton
+        boardComponent={
+            <button>{'create a board'}</button>
+        }
+        show={true}
+        {...otherProps}
+    />
+);
 
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Boards Button', () => {

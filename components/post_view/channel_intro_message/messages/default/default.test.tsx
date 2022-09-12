@@ -8,17 +8,15 @@ import {archivedChannel, defaultChannel} from '../test_utils';
 
 import DefaultIntroMessage from './default';
 
-const component = (otherProps: any) => {
-    return (
-        <DefaultIntroMessage
-            channel={defaultChannel}
-            enableUserCreation={false}
-            teamIsGroupConstrained={false}
-            usersLimit={10}
-            {...otherProps}
-        />
-    );
-};
+const component = (otherProps: any) => (
+    <DefaultIntroMessage
+        channel={defaultChannel}
+        enableUserCreation={false}
+        teamIsGroupConstrained={false}
+        usersLimit={10}
+        {...otherProps}
+    />
+);
 
 describe('components/post_view/ChannelIntroMessages', () => {
     describe('test DEFAULT Channel', () => {
