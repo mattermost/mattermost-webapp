@@ -13,7 +13,7 @@ type Props = {
     children?: ReactNode[];
 }
 
-const BackstageCategory = ({name, title, icon, parentLink = '', children = []}: Props) => {
+const BackstageCategory = ({name, title, icon, parentLink, children = []}: Props) => {
     const link = parentLink + '/' + name;
 
     return (
