@@ -75,9 +75,9 @@ function handleReadChangedThread(state: ThreadsState['counts'], action: GenericA
     const unreadMentionDiff = newUnreadMentions - prevUnreadMentions;
 
     counts.total_unread_mentions = Math.max(counts.total_unread_mentions + unreadMentionDiff, 0);
-    counts.total_unread_urgent_mentions = isUrgent ?
-        Math.max(counts.total_unread_urgent_mentions + unreadMentionDiff, 0) :
-        0;
+    if (isUrgent) {
+        counts.total_unread_urgent_mentions = Math.max(counts.total_unread_urgent_mentions + unreadMentionDiff, 0);
+    }
 
     if (newUnreadReplies > 0 && prevUnreadReplies === 0) {
         counts.total_unread_threads += 1;

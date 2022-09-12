@@ -168,6 +168,7 @@ export class TestHelper {
             last_update_at: 0,
             scheme_user: true,
             scheme_admin: false,
+            urgent_mention_count: 0,
         };
         return Object.assign({}, defaultMembership, override);
     }

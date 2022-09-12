@@ -32,12 +32,12 @@
     &__author {
         @include clearfix;
 
+        overflow: hidden;
+        min-width: 0;
         text-align: left;
         text-overflow: ellipsis;
         -moz-user-select: all; /* Firefox all */
         white-space: nowrap;
-        min-width: 0;
-        overflow: hidden;
     }
 
     &.is-selected {

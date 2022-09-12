@@ -15,7 +15,7 @@ import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 import {getMissingFilesByPosts} from 'mattermost-redux/actions/files';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getThreadsInChannel, getThread as getThreadSelector, getThreadItemsInChannel} from 'mattermost-redux/selectors/entities/threads';
+import {getThread as getThreadSelector, getThreadItemsInChannel} from 'mattermost-redux/selectors/entities/threads';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';
