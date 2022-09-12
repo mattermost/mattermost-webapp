@@ -11,7 +11,7 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Emoji} from '@mattermost/types/emojis';
 import {removePost, ExtendedPost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetCommentCountForPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -84,6 +84,7 @@ function makeMapStateToProps() {
             showActionsMenuPulsatingDot,
             oneClickReactionsEnabled,
             recentEmojis: emojis,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }
