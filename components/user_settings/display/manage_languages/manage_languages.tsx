@@ -10,7 +10,7 @@ import {UserProfile} from '@mattermost/types/users';
 
 import * as I18n from 'i18n/i18n.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
-import {isKeyPressed} from 'utils/utils';
+import {isKeyPressed, localizeMessage} from 'utils/utils';
 import Constants from 'utils/constants';
 
 type Actions = {
@@ -184,7 +184,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
             <div key='changeLanguage'>
                 <br/>
                 <label
-                    aria-label='drop down selector to change the interface language'
+                    aria-label={localizeMessage('user.settings.languages.dropdown', 'drop down selector to change the interface language')}
                     className='control-label'
                     id='changeInterfaceLanguageLabel'
                 >
