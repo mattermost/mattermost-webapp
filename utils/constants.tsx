@@ -410,6 +410,8 @@ export const ModalIdentifiers = {
     FORWARD_POST_MODAL: 'forward_post_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
+    CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
+    BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
 };
 
@@ -662,6 +664,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    CLOUD_DELINQUENCY: 'cloud_delinquency',
     SELF_HOSTED_ADMIN: 'self_hosted_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
@@ -976,6 +979,7 @@ export const CloudLinks = {
     DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
     CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
     SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
+    DELINQUENCY_DOCS: 'https://docs.mattermost.com/about/cloud-subscriptions.html#failed-or-late-payments',
 };
 
 export const DocLinks = {
