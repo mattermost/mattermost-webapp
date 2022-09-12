@@ -75,7 +75,7 @@ export function loadChannelsForCurrentUser() {
         const state = getState();
         const unreads = getUnreadChannelIds(state);
 
-        await dispatch(ChannelActions.fetchMyChannelsAndMembers(getCurrentTeamId(state)));
+        await dispatch(ChannelActions.fetchMyChannelsAndMembersREST(getCurrentTeamId(state)));
         for (const id of unreads) {
             const channel = getChannel(state, id);
             if (channel && channel.type === Constants.DM_CHANNEL) {

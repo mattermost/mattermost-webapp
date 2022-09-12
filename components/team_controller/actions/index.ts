@@ -11,7 +11,7 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ChannelTypes} from 'mattermost-redux/action_types';
 import {getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
-import {fetchMyChannelsAndMembers} from 'mattermost-redux/actions/channels';
+import {fetchMyChannelsAndMembersREST} from 'mattermost-redux/actions/channels';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
 import {logError} from 'mattermost-redux/actions/errors';
 import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -46,7 +46,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
         }
 
         try {
-            await dispatch(fetchMyChannelsAndMembers(team.id));
+            await dispatch(fetchMyChannelsAndMembersREST(team.id));
             dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS, data: null});
         } catch (error) {
             dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error});

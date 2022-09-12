@@ -40,9 +40,9 @@ describe('components/team_controller/actions', () => {
 
     describe('initializeTeam', () => {
         test('should fire off success of getChannelsMembersCategories when fetch call passes', async () => {
-            const fetchMyChannelsAndMembersFn: () => () => Promise<any> = () => () => Promise.resolve();
+            const fetchMyChannelsAndMembersRESTFn: () => () => Promise<any> = () => () => Promise.resolve();
 
-            jest.spyOn(channelsActions, 'fetchMyChannelsAndMembers').mockImplementation(fetchMyChannelsAndMembersFn);
+            jest.spyOn(channelsActions, 'fetchMyChannelsAndMembersREST').mockImplementation(fetchMyChannelsAndMembersRESTFn);
 
             const testStore = await mockStore(initialState);
             await testStore.dispatch(initializeTeam(testTeam));
@@ -51,8 +51,8 @@ describe('components/team_controller/actions', () => {
         });
 
         test('should fire off failure of getChannelsMembersCategories when fetch call passes', async () => {
-            const fetchMyChannelsAndMembersFn = () => () => Promise.reject(Error('test error'));
-            jest.spyOn(channelsActions, 'fetchMyChannelsAndMembers').mockImplementation(fetchMyChannelsAndMembersFn);
+            const fetchMyChannelsAndMembersRESTFn = () => () => Promise.reject(Error('test error'));
+            jest.spyOn(channelsActions, 'fetchMyChannelsAndMembersREST').mockImplementation(fetchMyChannelsAndMembersRESTFn);
 
             const testStore = mockStore(initialState);
             await testStore.dispatch(initializeTeam(testTeam));
