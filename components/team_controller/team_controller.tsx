@@ -172,7 +172,7 @@ function TeamController(props: Props) {
 
     const teamsListDependency = props.teamsList.map((team) => team.id).sort().join('+');
 
-    // Effect to run when url for team changes
+    // Effect to run when url for team or teamsList changes
     useEffect(() => {
         // Prevents the RHS from closing when clicking on a global permalink.
         emitCloseRightHandSide();
