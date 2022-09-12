@@ -57,7 +57,7 @@ jest.mock('mattermost-redux/actions/channels', () => ({
     createChannel: () => {
         return jest.fn().mockResolvedValue(Promise.resolve({
             data: {
-                id: 'new-channel-id'
+                id: 'new-channel-id',
             },
         }));
     },
