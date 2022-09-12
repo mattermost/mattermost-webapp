@@ -784,7 +784,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                             {channelTitle}
                         </span>
                     </strong>
-                    <BotTag className='badge-popoverlist'/>
+                    <BotTag/>
                     {toggleFavorite}
                 </div>
             );

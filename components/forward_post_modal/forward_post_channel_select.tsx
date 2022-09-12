@@ -118,9 +118,9 @@ const FormattedOption = (props: ChannelOption & {className: string; isSingleValu
     let tag = null;
     if (details.type === Constants.DM_CHANNEL) {
         if (teammate?.is_bot) {
-            tag = <BotTag className='badge-autocomplete'/>;
+            tag = <BotTag/>;
         } else if (isGuest(teammate?.roles ?? '')) {
-            tag = <GuestTag className='badge-autocomplete'/>;
+            tag = <GuestTag/>;
         }
 
         const emojiStyle = {

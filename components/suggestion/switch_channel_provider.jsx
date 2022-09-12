@@ -164,9 +164,9 @@ class SwitchChannelSuggestion extends Suggestion {
         let customStatus = null;
         if (channel.type === Constants.DM_CHANNEL) {
             if (teammate && teammate.is_bot) {
-                tag = <BotTag className='badge-autocomplete'/>;
+                tag = <BotTag/>;
             } else if (isGuest(teammate ? teammate.roles : '')) {
-                tag = <GuestTag className='badge-autocomplete'/>;
+                tag = <GuestTag/>;
             }
 
             customStatus = (

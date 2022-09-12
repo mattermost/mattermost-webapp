@@ -96,22 +96,11 @@
         font-family: 'Open Sans', sans-serif;
         font-size: 14px;
         font-weight: 600;
+        gap: 10px;
         grid-template-columns: min-content 1fr min-content;
         justify-items: start;
         line-height: 20px;
         white-space: nowrap;
-    }
-
-    .Tag {
-        min-width: 0;
-        max-width: 30rem;
-        margin: 0 10px;
-
-        &__text {
-            overflow: hidden;
-            text-overflow: ellipsis;
-            text-transform: uppercase;
-        }
     }
 
     div.preview {

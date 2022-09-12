@@ -10,10 +10,6 @@
     background: v(center-channel-bg);
     font-size: 14px;
 
-    .Tag {
-        display: inline-flex;
-    }
-
     .channel-header__trigger {
         display: flex;
         min-width: 0;
@@ -227,10 +223,6 @@
         font-weight: 600;
         line-height: 16px;
         text-overflow: ellipsis;
-
-        .Tag {
-            font-family: "Open Sans", sans-serif;
-        }
     }
 
     .caret {
@@ -521,6 +513,7 @@
 
     .channel-intro-profile {
         margin: 0 0 4px;
+        gap: 8px;
 
         .user-popover {
             overflow: hidden;

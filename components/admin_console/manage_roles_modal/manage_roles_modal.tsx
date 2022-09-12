@@ -298,7 +298,7 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                     <div className='manage-teams__info'>
                         <div className='manage-teams__name'>
                             {name}
-                            {user.is_bot && <BotTag className='badge-admin'/>}
+                            {user.is_bot && <BotTag/>}
                         </div>
                         <div className='manage-teams__email'>
                             {email}

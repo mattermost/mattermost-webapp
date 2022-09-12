@@ -36,11 +36,12 @@ const TagWrapper = styled.div<TagWrapperProps>`
     max-width: 100%;
     margin: 0;
     ${({size}) => (size === 'xs' ? css`padding: 1px 4px;` : css`padding: 2px 5px;`)}
+    overflow: hidden;
 
     border: none;
     border-radius: 4px;
 
-    font-family: inherit;
+    font-family: 'Open Sans', sans-serif;
     font-weight: 600;
     line-height: 16px;
     ${({size}) => (size === 'xs' ? css`font-size: 10px;` : css`font-size: 12px;`)}
@@ -77,7 +78,7 @@ const TagWrapper = styled.div<TagWrapperProps>`
         css`
             &:hover,
             &:focus {
-                background: rgba(var(--tag-bg), 0.16);
+                background: rgba(var(--tag-bg), 0.08);
                 cursor: pointer;
             }
         `

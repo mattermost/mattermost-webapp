@@ -1335,6 +1335,7 @@
             flex: 0 auto;
             margin-right: 8px;
             font-weight: 600;
+            gap: 8px;
             text-overflow: ellipsis;
 
             &.permalink--username {
@@ -2008,25 +2009,6 @@
 
     .Menu .MenuItem {
         background: var(--center-channel-bg);
-    }
-}
-
-.Tag {
-    .tag-autocomplete {
-        display: inline-flex;
-        padding: 0 5px;
-        margin: 0 4px;
-    }
-
-    .tag-popoverlist {
-        display: inline-flex;
-        margin: 0 4px;
-    }
-
-    .tag-admin {
-        display: inline-flex;
-        margin: 0 4px;
-        background: rgba(61, 60, 64, 0.15);
     }
 }
 

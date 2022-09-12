@@ -187,8 +187,8 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
                     </button>
                 </OverlayTrigger>
                 {sharedIcon}
-                {(user && user.is_bot) && <BotTag className='badge-popoverlist'/>}
-                {(user && isGuest(user.roles)) && <GuestTag className='badge-popoverlist'/>}
+                {(user && user.is_bot) && <BotTag/>}
+                {(user && isGuest(user.roles)) && <GuestTag/>}
             </React.Fragment>
         );
     }

@@ -268,7 +268,7 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                                 className='light'
                             >{userMapping[option.id]}</span>
                         </span>
-                        {option.is_bot && <BotTag className='badge-popoverlist'/>}
+                        {option.is_bot && <BotTag/>}
                         {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
                     </div>
                 </div>

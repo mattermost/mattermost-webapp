@@ -95,7 +95,9 @@ const EnterpriseEditionLeftPanel = ({
                             id: 'admin.license.Trial',
                             defaultMessage: 'Trial',
                         })}
-                        className='free-trial-license'
+                        variant={'success'}
+                        capitalize={true}
+                        size={'sm'}
                     />
                 )}
             </div>

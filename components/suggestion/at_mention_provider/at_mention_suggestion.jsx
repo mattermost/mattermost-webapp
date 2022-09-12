@@ -205,12 +205,12 @@ export default class AtMentionSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {'@' + itemname}
                     </span>
-                    {item.is_bot && <BotTag className='badge-autocomplete'/>}
+                    {item.is_bot && <BotTag/>}
                     {customStatus}
                     {description}
                     {youElement}
                     {sharedIcon}
-                    {isGuest(item.roles) && <GuestTag className='badge-autocomplete'/>}
+                    {isGuest(item.roles) && <GuestTag/>}
                 </span>
             </div>
         );
