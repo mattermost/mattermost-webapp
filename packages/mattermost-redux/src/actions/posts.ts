@@ -452,6 +452,7 @@ function getUnreadPostData(unreadChan: ChannelUnread, state: GlobalState) {
         mentionCount: unreadChan.mention_count,
         msgCountRoot: unreadChan.msg_count_root,
         mentionCountRoot: unreadChan.mention_count_root,
+        urgentMentionCount: unreadChan.urgent_mention_count,
         lastViewedAt: unreadChan.last_viewed_at,
         deltaMsgs: delta,
         deltaMsgsRoot: deltaRoot,

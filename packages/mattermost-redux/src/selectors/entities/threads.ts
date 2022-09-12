@@ -182,3 +182,17 @@ export const getThreadsInChannel: (
         return Object.keys(allThreads).filter((id) => allThreads[id].post.channel_id === channelID);
     },
 );
+
+export const getThreadItemsInChannel: (
+    state: GlobalState,
+    channelID: string,
+) => UserThread[] = createSelector(
+    'getThreadItemsInChannel',
+    getThreads,
+    (state: GlobalState, channelID: string) => channelID,
+    (allThreads: IDMappedObjects<UserThread>, channelID: string) => {
+        return Object.keys(allThreads).
+            map((id) => allThreads[id]).
+            filter((item) => item.post.channel_id === channelID);
+    },
+);

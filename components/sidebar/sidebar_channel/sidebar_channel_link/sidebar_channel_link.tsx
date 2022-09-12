@@ -62,6 +62,8 @@ type Props = {
 
     showChannelsTutorialStep: boolean;
 
+    hasUrgent: boolean;
+
     actions: {
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
@@ -170,6 +172,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             unreadMentions,
             firstChannelName,
             showChannelsTutorialStep,
+            hasUrgent,
         } = this.props;
 
         let channelsTutorialTip: JSX.Element | null = null;
@@ -243,6 +246,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 </div>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
+                    hasUrgent={hasUrgent}
                 />
                 <SidebarChannelMenu
                     channel={channel}

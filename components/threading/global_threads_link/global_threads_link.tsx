@@ -110,7 +110,10 @@ const GlobalThreadsLink = () => {
                         </span>
                     </div>
                     {counts?.total_unread_mentions > 0 && (
-                        <ChannelMentionBadge unreadMentions={counts.total_unread_mentions}/>
+                        <ChannelMentionBadge
+                            unreadMentions={counts.total_unread_mentions}
+                            hasUrgent={counts?.total_unread_urgent_mentions > 0}
+                        />
                     )}
                     {showTutorialTrigger && <PulsatingDot/>}
                 </Link>
