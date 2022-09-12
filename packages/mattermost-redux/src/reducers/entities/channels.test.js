@@ -1208,6 +1208,7 @@ describe('myMembers', () => {
                     mentionCount: 2,
                     msgCountRoot: 4,
                     mentionCountRoot: 1,
+                    urgentMentionCount: 0,
                 },
             });
 

@@ -257,6 +257,7 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -544,6 +545,7 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -831,6 +833,7 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1118,6 +1121,7 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1374,6 +1378,7 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1693,6 +1698,7 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -1980,6 +1986,7 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -2272,6 +2279,7 @@ exports[`components/ChannelHeader should render properly when custom status is e
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -2581,6 +2589,7 @@ exports[`components/ChannelHeader should render properly when custom status is s
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -2869,6 +2878,7 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -3156,6 +3166,7 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -3462,6 +3473,7 @@ exports[`components/ChannelHeader should render properly when populated with cha
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -3762,6 +3774,7 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -4058,6 +4071,7 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
