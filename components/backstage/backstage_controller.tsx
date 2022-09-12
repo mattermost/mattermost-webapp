@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef} from 'react';
+import React, {ComponentType, useRef} from 'react';
 import {match, Route, Switch} from 'react-router-dom';
 
 import {UserProfile} from '@mattermost/types/users.js';
@@ -35,7 +35,7 @@ import BackstageNavbar from './components/backstage_navbar';
 type ExtraProps = Pick<Props, 'user' | 'team'> & {scrollToTop: () => void}
 
 type BackstageRouteProps = {
-    component: any;
+    component: ComponentType<any>;
     extraProps: ExtraProps;
     path: string;
     exact?: boolean;
@@ -58,12 +58,12 @@ type Props = {
     /**
      * Current user.
      */
-    user?: UserProfile;
+    user: UserProfile;
 
     /**
      * Current team.
      */
-    team?: Team;
+    team: Team;
 
     /**
      * Object from react-router
