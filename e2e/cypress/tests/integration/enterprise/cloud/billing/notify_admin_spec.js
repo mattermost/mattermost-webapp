@@ -7,12 +7,12 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-function simulateFilesLimitReached(currentFileStorageUsageBytes, planLimit){
+function simulateFilesLimitReached(fileStorageUsageBytes){
 
     cy.intercept('GET', '**/api/v4/usage/storage', {
         statusCode: 200,
         body: {
-            bytes: currentFileStorageUsageBytes,
+            bytes: fileStorageUsageBytes + 1, // increase workspace usage
         },
     });
 
@@ -20,7 +20,7 @@ function simulateFilesLimitReached(currentFileStorageUsageBytes, planLimit){
         statusCode: 200,
         body: {
             files: {
-                total_storage: planLimit,
+                total_storage: fileStorageUsageBytes,
             },
         },
     });
@@ -104,11 +104,9 @@ function creatNewTeamNotification() {
 }
 
 function createMessageLimitNotification() {
-    cy.get('#product_switch_menu').click();
-    cy.get('#Custom-User-groups-restricted-indicator > i').click();
-    cy.findAllByRole('button', {name: 'Notify admin'}).should('be.visible').click();
-    cy.findAllByRole('button', {name: 'Notified!'}).should('be.visible').click();
-    cy.findAllByRole('button', {name: 'Already notified!'}).should('be.visible').click();
+    cy.get('#product_switch_menu').click().then((() => {
+        cy.get('#notify_admin_cta').click();
+    }));
 }
 
 function createFilesNotificationForProfessionalFeatures() {
@@ -247,9 +245,6 @@ function testTrialNotifications(subscription, limits) {
     const ALL_ENTERPRISE_FEATURES_REQUESTS = 3;
     const TOTAL = 8;
 
-    // # Calling trigger so that any pending notifications in DB should be sent out
-    triggerNotifications('');
-
     // # Login as an admin and create test users that will click the different notification ctas
     cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
         myTeam = team;
@@ -302,9 +297,6 @@ function testFilesNotifications(subscription, limits) {
     const ALL_PROFESSIONAL_FEATURES_REQUESTS = 5;
     const TOTAL = 5;
 
-    // # Calling trigger so that any pending notifications in DB should be sent out
-    triggerNotifications('');
-
     // # Login as an admin and create test users that will click the different notification ctas
     cy.apiInitSetup().then(({team, channel, offTopicUrl: url}) => {
         myTeam = team;
@@ -354,7 +346,6 @@ function testUpgradeNotifications(subscription, limits) {
         myTeam = team;
         myChannel = channel;
         myUrl = url;
-        triggerNotifications();
 
         // # Create non admin users
         myMessageLimitUsers = createUsersProcess(myTeam, myChannel, UNLIMITED_MESSAGES_USERS);
@@ -459,7 +450,7 @@ describe('Notify Admin', () => {
             },
         };
 
-        testTrialNotifications(subscription, limits, );
+        testTrialNotifications(subscription, limits);
     });
 
     it('should test files upgrade notifications', () => {
@@ -471,8 +462,7 @@ describe('Notify Admin', () => {
         };
 
 
-        const currentFileStorageUsageBytes = 11000000000;
-        const planLimit = 10000000000; // 1.2GB
+        const fileStorageUsageBytes = 11000000000;
 
         const limits = {
             messages: {
@@ -483,11 +473,11 @@ describe('Notify Admin', () => {
                 teamsLoaded: true,
             },
             files: {
-                total_storage: planLimit,
+                total_storage: fileStorageUsageBytes,
             },
         };
 
-        simulateFilesLimitReached(currentFileStorageUsageBytes, planLimit);
-        testFilesNotifications(subscription, limits );
+        simulateFilesLimitReached(fileStorageUsageBytes);
+        testFilesNotifications(subscription, limits);
     });
 });
