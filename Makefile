@@ -43,7 +43,7 @@ node_modules: package.json package-lock.json
 
 	node skip_integrity_check.js
 
-ifneq ($(CI),false)
+ifeq ($(CI),false)
 	npm install
 else
 	npm ci
