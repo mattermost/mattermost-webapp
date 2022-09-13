@@ -6,37 +6,31 @@ import {CSSTransition} from 'react-transition-group';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
-import {ModalIdentifiers} from 'utils/constants';
-
 type Props = {
     content: {
         icon?: JSX.Element;
         message: string;
         undo?: () => void;
     };
-    actions: {
-        closeModal: (modalId: string) => void;
-    };
     className?: string;
+    onExited: () => void;
 }
 
-function InfoToast(props: Props): JSX.Element {
-    const {actions, content} = props;
-
+function InfoToast({content, onExited, className}: Props): JSX.Element {
     const closeToast = useCallback(() => {
-        actions.closeModal(ModalIdentifiers.INFO_TOOLTIP);
-    }, [close]);
+        onExited();
+    }, [onExited]);
 
     const undoTodo = useCallback(() => {
         content.undo?.();
-        actions.closeModal(ModalIdentifiers.INFO_TOOLTIP);
-    }, [content.undo, actions.closeModal]);
+        onExited();
+    }, [content.undo, onExited]);
 
-    const toastContainerClassname = classNames('info-toast', props.className);
+    const toastContainerClassname = classNames('info-toast', className);
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            actions.closeModal(ModalIdentifiers.INFO_TOOLTIP);
+            onExited();
         }, 5000);
 
         return () => clearTimeout(timer);
@@ -44,7 +38,7 @@ function InfoToast(props: Props): JSX.Element {
 
     return (
         <CSSTransition
-            in={Boolean(props.content)}
+            in={Boolean(content)}
             classNames='slide'
             mountOnEnter={true}
             unmountOnExit={true}
@@ -53,9 +47,9 @@ function InfoToast(props: Props): JSX.Element {
         >
             <div className={toastContainerClassname}>
                 <div>
-                    {props.content.icon}
-                    <span>{props.content.message}</span>
-                    {props.content.undo &&
+                    {content.icon}
+                    <span>{content.message}</span>
+                    {content.undo &&
                         <button
                             onClick={undoTodo}
                             className='info-toast__undo'

@@ -16,15 +16,15 @@ type Props = {
     post: Post;
     actions: {
         handleRestore: (post: Post) => void;
-        closeModal: (modalId: string) => void;
     };
+    onExited: () => void;
 }
 
-const RestorePostModal = ({post, actions}: Props) => {
+const RestorePostModal = ({post, actions, onExited}: Props) => {
     const restorePostBtn = useRef<HTMLButtonElement>(null);
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.RESTORE_POST_MODAL));
 
-    const onHide = () => actions.closeModal(ModalIdentifiers.RESTORE_POST_MODAL);
+    const onHide = () => onExited();
     const handleEntered = () => restorePostBtn?.current?.focus();
 
     const handleRestore = async () => {

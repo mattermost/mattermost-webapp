@@ -15,10 +15,8 @@ describe('components/InfoToast', () => {
             message: 'test',
             undo: jest.fn(),
         },
-        actions: {
-            closeModal: jest.fn(),
-        },
         className: 'className',
+        onExited: jest.fn(),
     };
 
     test('should match snapshot', () => {
@@ -39,7 +37,7 @@ describe('components/InfoToast', () => {
         );
 
         wrapper.find('button').simulate('click');
-        expect(baseProps.actions.closeModal).toHaveBeenCalled();
+        expect(baseProps.onExited).toHaveBeenCalled();
     });
 
     test('should close the toast on close button click', () => {
@@ -50,6 +48,6 @@ describe('components/InfoToast', () => {
         );
 
         wrapper.find('.info-toast__icon_button').simulate('click');
-        expect(baseProps.actions.closeModal).toHaveBeenCalled();
+        expect(baseProps.onExited).toHaveBeenCalled();
     });
 });

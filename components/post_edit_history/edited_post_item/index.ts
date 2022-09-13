@@ -14,7 +14,7 @@ import {getSelectedPostId} from 'selectors/rhs';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {closeRightHandSide} from 'actions/views/rhs';
-import {closeModal, openModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 
 import EditedPostItem from './edited_post_item';
 
@@ -31,7 +31,6 @@ type Actions = {
     editPost: (post: Post) => Promise<{data: Post}>;
     closeRightHandSide: () => void;
     openModal: <P>(modalData: ModalData<P>) => void;
-    closeModal: (modalId: string) => void;
 };
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -40,7 +39,6 @@ function mapDispatchToProps(dispatch: Dispatch) {
             editPost,
             closeRightHandSide,
             openModal,
-            closeModal,
         }, dispatch),
     };
 }

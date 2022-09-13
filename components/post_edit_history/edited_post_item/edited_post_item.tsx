@@ -51,7 +51,6 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
                 post,
                 actions: {
                     handleRestore,
-                    closeModal: actions.closeModal,
                 },
             },
         };
@@ -85,9 +84,6 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
                     icon: <CheckIcon size={18}/>,
                     message: 'Restored Message',
                     undo: handleUndo,
-                },
-                actions: {
-                    closeModal: actions.closeModal,
                 },
             },
         };
