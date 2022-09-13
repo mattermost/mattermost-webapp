@@ -6,11 +6,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {useHistory} from 'react-router-dom';
-
 import {t} from 'utils/i18n';
 import {
-    AnnouncementBarTypes,
+    AnnouncementBarTypes, TELEMETRY_CATEGORIES,
 } from 'utils/constants';
 
 import {GlobalState} from 'types/store';
@@ -18,10 +16,12 @@ import AnnouncementBar from '../default_announcement_bar';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+import {trackEvent} from 'actions/telemetry_actions';
 
 const CloudDelinquencyAnnouncementBar = () => {
     const subscription = useGetSubscription();
-    const history = useHistory();
+    const openPurchaseModal = useOpenCloudPurchaseModal({});
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
@@ -73,8 +73,13 @@ const CloudDelinquencyAnnouncementBar = () => {
             type={getBannerType()}
             showCloseButton={false}
             onButtonClick={() => {
-                history.push('/admin_console/billing/payment_info');
-            }}
+                trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'click_update_billing');
+                openPurchaseModal({
+                    trackingLocation:
+                        'cloud_delinquency_announcement_bar',
+                });
+            }
+            }
             modalButtonText={t('cloud_delinquency.banner.buttonText')}
             modalButtonDefaultText={'Update billing now'}
             message={<FormattedMessage {...message}/>}
