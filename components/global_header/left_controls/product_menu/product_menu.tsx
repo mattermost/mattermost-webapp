@@ -27,8 +27,7 @@ import {
     useHandleOnBoardingTaskData,
 } from 'components/onboarding_tasks';
 
-import {useCurrentProductId, useProducts} from 'utils/products';
-import {isChannels} from '@mattermost/types/products';
+import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
 
 import {useClickOutsideRef} from '../../hooks';
 import {GlobalState} from 'types/store';
