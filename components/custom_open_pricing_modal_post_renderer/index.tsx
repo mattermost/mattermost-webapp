@@ -74,7 +74,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
     const postProps = props.post.props as Partial<CustomPostProps>;
     const requestFeatures = postProps?.requested_features;
     const wasTrialRequest = postProps?.trial;
-    const isDowngradeNotification = (featureId: string) => featureId === PaidFeatures.UPGRADE_DOWNGRADE_WORKSPACE;
+    const isDowngradeNotification = (featureId: string) => featureId === PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE;
 
     const customMessageBody = [];
     const getUserIdsForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => requests.map((request: FeatureRequest) => request.user_id);

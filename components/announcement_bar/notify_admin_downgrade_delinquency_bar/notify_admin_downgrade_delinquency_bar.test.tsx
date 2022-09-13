@@ -123,7 +123,7 @@ describe('components/announcement_bar/notify_admin_downgrade_delinquency_bar', (
         state.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
             [
                 {
-                    category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+                    category: Preferences.NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE,
                     name: BannerPreferenceName,
                     value: 'adminNotified',
                 },
@@ -140,7 +140,7 @@ describe('components/announcement_bar/notify_admin_downgrade_delinquency_bar', (
         state.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
             [
                 {
-                    category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+                    category: Preferences.NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE,
                     name: BannerPreferenceName,
                     value: 'dismissBanner',
                 },
@@ -188,7 +188,7 @@ describe('components/announcement_bar/notify_admin_downgrade_delinquency_bar', (
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(initialState.entities.users.profiles.current_user_id.id, [{
-            category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+            category: Preferences.NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE,
             name: BannerPreferenceName,
             user_id: initialState.entities.users.profiles.current_user_id.id,
             value: 'dismissBanner',
@@ -206,7 +206,7 @@ describe('components/announcement_bar/notify_admin_downgrade_delinquency_bar', (
         await waitFor(() => {
             expect(savePreferences).toBeCalledTimes(1);
             expect(savePreferences).toBeCalledWith(initialState.entities.users.profiles.current_user_id.id, [{
-                category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+                category: Preferences.NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE,
                 name: BannerPreferenceName,
                 user_id: initialState.entities.users.profiles.current_user_id.id,
                 value: 'adminNotified',

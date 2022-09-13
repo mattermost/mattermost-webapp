@@ -28,7 +28,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     const dispatch = useDispatch();
     const getCategory = makeGetCategory();
     const preferences = useSelector((state: GlobalState) =>
-        getCategory(state, Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE),
+        getCategory(state, Preferences.NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE),
     );
     const product = useSelector(getSubscriptionProduct);
     const currentUser = useSelector((state: GlobalState) =>
@@ -43,7 +43,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     useEffect(() => {
         if (notifyStatus === NotifyStatus.Success) {
             dispatch(savePreferences(currentUser.id, [{
-                category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+                category: Preferences.NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE,
                 name: BannerPreferenceName,
                 user_id: currentUser.id,
                 value: 'adminNotified',
@@ -72,7 +72,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     }
 
     const notifyAdminRequestData = {
-        required_feature: PaidFeatures.UPGRADE_DOWNGRADE_WORKSPACE,
+        required_feature: PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE,
         required_plan: CloudProductToSku[product?.sku] || '',
         trial_notification: false,
     };
@@ -97,7 +97,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
 
     const handleClose = () => {
         dispatch(savePreferences(currentUser.id, [{
-            category: Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE,
+            category: Preferences.NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE,
             name: BannerPreferenceName,
             user_id: currentUser.id,
             value: 'dismissBanner',
