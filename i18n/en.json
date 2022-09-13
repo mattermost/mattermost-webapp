@@ -3565,6 +3565,7 @@
   "insights.leastActiveChannels.copyLink": "Copy link",
   "insights.leastActiveChannels.lastActivity": "Last activity: {time}",
   "insights.leastActiveChannels.lastActivityCell": "Last activity",
+  "insights.leastActiveChannels.lastActivityNone": "No activity",
   "insights.leastActiveChannels.leaveChannel": "Leave channel",
   "insights.leastActiveChannels.members": "Members",
   "insights.leastActiveChannels.menuAriaLabel": "Manage channel menu",
