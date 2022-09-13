@@ -224,7 +224,7 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professsional card Upgrade button opens purchase modal
-        cy.get('#pricingModal').get('#professional').get('#professional_action'); //.click();
+        cy.get('#pricingModal').get('#professional').get('#professional_action').click();
         cy.get('.modal-body').should('exist');
 
         // * Close PurchaseModal
