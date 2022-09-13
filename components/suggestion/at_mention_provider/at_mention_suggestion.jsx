@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import classNames from 'classnames';
+
 import BotTag from 'components/widgets/tag/bot_tag';
 import GuestTag from 'components/widgets/tag/guest_tag';
 
@@ -20,8 +22,7 @@ import StatusIcon from 'components/status_icon';
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
-        const isSelection = this.props.isSelection;
-        const item = this.props.item;
+        const {isSelection, item} = this.props;
 
         let itemname;
         let description;
@@ -30,12 +31,10 @@ export default class AtMentionSuggestion extends Suggestion {
         if (item.username === 'all') {
             itemname = 'all';
             description = (
-                <span className='ml-2'>
-                    <FormattedMessage
-                        id='suggestion.mention.all'
-                        defaultMessage='Notifies everyone in this channel'
-                    />
-                </span>
+                <FormattedMessage
+                    id='suggestion.mention.all'
+                    defaultMessage='Notifies everyone in this channel'
+                />
             );
             icon = (
                 <FormattedMessage
@@ -55,12 +54,10 @@ export default class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'channel') {
             itemname = 'channel';
             description = (
-                <span className='ml-2'>
-                    <FormattedMessage
-                        id='suggestion.mention.channel'
-                        defaultMessage='Notifies everyone in this channel'
-                    />
-                </span>
+                <FormattedMessage
+                    id='suggestion.mention.channel'
+                    defaultMessage='Notifies everyone in this channel'
+                />
             );
             icon = (
                 <FormattedMessage
@@ -80,12 +77,10 @@ export default class AtMentionSuggestion extends Suggestion {
         } else if (item.username === 'here') {
             itemname = 'here';
             description = (
-                <span className='ml-2'>
-                    <FormattedMessage
-                        id='suggestion.mention.here'
-                        defaultMessage='Notifies everyone online in this channel'
-                    />
-                </span>
+                <FormattedMessage
+                    id='suggestion.mention.here'
+                    defaultMessage='Notifies everyone online in this channel'
+                />
             );
             icon = (
                 <FormattedMessage
@@ -125,20 +120,10 @@ export default class AtMentionSuggestion extends Suggestion {
 
             if (item.isCurrentUser) {
                 if (item.first_name || item.last_name) {
-                    description = (
-                        <span className='ml-2'>
-                            {Utils.getFullName(item)}
-                        </span>
-                    );
+                    description = Utils.getFullName(item);
                 }
             } else if (item.first_name || item.last_name || item.nickname) {
-                description = (
-                    <span className='ml-2'>
-                        {`${Utils.getFullName(item)} ${
-                            item.nickname ? `(${item.nickname})` : ''
-                        }`.trim()}
-                    </span>
-                );
+                description = `${Utils.getFullName(item)} ${item.nickname ? `(${item.nickname})` : ''}`.trim();
             }
 
             icon = (
@@ -166,35 +151,23 @@ export default class AtMentionSuggestion extends Suggestion {
             );
         }
 
-        let youElement = null;
-        if (item.isCurrentUser) {
-            youElement =
-            (<span className='ml-1'>
-                <FormattedMessage
-                    id='suggestion.user.isCurrent'
-                    defaultMessage='(you)'
-                />
-            </span>);
-        }
+        const youElement = item.isCurrentUser ? (
+            <FormattedMessage
+                id='suggestion.user.isCurrent'
+                defaultMessage='(you)'
+            />
+        ) : null;
 
-        let className = 'suggestion-list__item';
-        if (isSelection) {
-            className += ' suggestion--selected';
-        }
-
-        let sharedIcon;
-        if (item.remote_id) {
-            sharedIcon = (
-                <SharedUserIndicator
-                    className='shared-user-icon'
-                    withTooltip={true}
-                />
-            );
-        }
+        const sharedIcon = item.remote_id ? (
+            <SharedUserIndicator
+                className='shared-user-icon'
+                withTooltip={true}
+            />
+        ) : null;
 
         return (
             <div
-                className={className}
+                className={classNames('suggestion-list__item', {'suggestion--selected': isSelection})}
                 data-testid={`mentionSuggestion_${itemname}`}
                 onClick={this.handleClick}
                 onMouseMove={this.handleMouseMove}

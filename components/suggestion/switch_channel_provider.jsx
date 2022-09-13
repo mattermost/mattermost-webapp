@@ -235,7 +235,7 @@ class SwitchChannelSuggestion extends Suggestion {
                 <div className='suggestion-list__ellipsis suggestion-list__flex'>
                     <span className='suggestion-list__main'>
                         <span className={item.unread ? 'suggestion-list__unread' : ''}>{name}</span>
-                        {showSlug && <span className='ml-2 suggestion-list__desc'>{description}</span>}
+                        {showSlug && <span className='suggestion-list__desc'>{description}</span>}
                     </span>
                     {customStatus}
                     {sharedIcon}

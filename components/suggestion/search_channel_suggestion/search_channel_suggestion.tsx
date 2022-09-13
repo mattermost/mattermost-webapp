@@ -93,13 +93,11 @@ export default class SearchChannelSuggestion extends Suggestion {
                 {...Suggestion.baseProps}
             >
                 {icon}
-                <div className={'suggestion-list__ellipsis'}>
+                <div className='suggestion-list__ellipsis'>
                     <span className='suggestion-list__main'>
                         {name}
                     </span>
-                    <span className='ml-2'>
-                        {description}
-                    </span>
+                    {description}
                 </div>
                 {tag}
             </div>

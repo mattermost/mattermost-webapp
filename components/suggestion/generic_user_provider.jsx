@@ -52,10 +52,7 @@ class UserSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {'@' + username}
                     </span>
-                    <span>
-                        {' '}
-                        {description}
-                    </span>
+                    {description}
                 </div>
                 {item.is_bot && <BotTag/>}
                 {isGuest(item.roles) && <GuestTag/>}

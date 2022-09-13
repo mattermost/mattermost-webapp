@@ -195,9 +195,11 @@
     white-space: nowrap;
 
     .suggestion-list__ellipsis {
+        display: flex;
         overflow: hidden;
         max-width: 89%;
         color: rgba(var(--center-channel-color-rgb), 0.56);
+        gap: 8px;
         text-overflow: ellipsis;
         white-space: nowrap;
 

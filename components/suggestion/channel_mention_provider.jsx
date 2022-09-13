@@ -55,9 +55,7 @@ export class ChannelMentionSuggestion extends Suggestion {
                     <span className='suggestion-list__main'>
                         {channelName}
                     </span>
-                    <span className='ml-2'>
-                        {description}
-                    </span>
+                    {description}
                 </div>
             </div>
         );

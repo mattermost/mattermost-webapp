@@ -57,12 +57,14 @@ const UserInfo = styled.div`
 
 const UsernameContainer = styled.div`
     display: flex;
+    gap: 8px
 `;
 
 const UserPosition = styled.div`
     line-height: 20px;
+
     p {
-        margin-bottom: 0px;
+        margin-bottom: 0;
     }
 `;
 

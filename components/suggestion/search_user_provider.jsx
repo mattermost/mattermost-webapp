@@ -62,9 +62,7 @@ class SearchUserSuggestion extends Suggestion {
                         {'@'}{username}
                     </span>
                     {item.is_bot && <BotTag/>}
-                    <span className='ml-2'>
-                        {description}
-                    </span>
+                    {description}
                 </div>
                 {sharedIcon}
             </div>

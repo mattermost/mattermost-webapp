@@ -49,9 +49,8 @@
         z-index: 1;
         height: 24px;
         padding: 4px;
-        margin-left: 4px;
         border-radius: 4px;
-        color: v(center-channel-color);
+        color: var(--center-channel-color);
         float: left;
 
         &:hover {
@@ -277,6 +276,7 @@
     display: flex;
     min-width: 0;
     align-items: center;
+    gap: 4px;
 }
 
 .channel-header__bot {

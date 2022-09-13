@@ -58,7 +58,7 @@ const RadioButtonGroup = ({
                         </span>
                     }
                 </label>
-                {(badge && val === badge?.matchVal) &&
+                {(badge) &&
                     <Tag
                         className={`radio-badge ${badge.extraClass ?? ''}`}
                         text={badge.badgeContent}
