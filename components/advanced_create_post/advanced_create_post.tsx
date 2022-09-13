@@ -4,6 +4,10 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
+
+import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -31,16 +35,21 @@ import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import Tooltip from 'components/tooltip';
+import OverlayTrigger from 'components/overlay_trigger';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
+import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
-import {Post, PostMetadata} from '@mattermost/types/posts';
+import {Post, PostMetadata, PostPriority} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -54,6 +63,7 @@ import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
@@ -155,6 +165,8 @@ type Props = {
 
     isFormattingBarHidden: boolean;
 
+    isPostPriorityEnabled: boolean;
+
     actions: {
 
         //Set show preview for textbox
@@ -234,6 +246,7 @@ type State = {
     postError?: React.ReactNode;
     showFormat: boolean;
     isFormattingBarHidden: boolean;
+    showPostPriorityPicker: boolean;
 };
 
 class AdvancedCreatePost extends React.PureComponent<Props, State> {
@@ -250,6 +263,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
+    private postPriorityPickerRef: React.RefObject<HTMLButtonElement>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {
@@ -281,11 +295,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             serverError: null,
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
+            showPostPriorityPicker: false,
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
+        this.postPriorityPickerRef = React.createRef<HTMLButtonElement>();
     }
 
     componentDidMount() {
@@ -432,6 +448,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const post = {} as Post;
         post.file_ids = [];
         post.message = message;
+        post.props = this.props.draft.props || {};
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -681,7 +698,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.user_id = userId;
         post.create_at = time;
         post.metadata = {} as PostMetadata;
-        post.props = {};
+        post.props = {
+            ...originalPost.props,
+        };
+
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
@@ -1260,6 +1280,38 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }]);
     }
 
+    handleRemovePriority = () => {
+        this.handlePostPriorityApply({priority: undefined});
+    }
+
+    handlePostPriorityApply = ({priority}: {priority?: PostPriority}) => {
+        const updatedDraft = {
+            ...this.props.draft,
+            props: {
+                ...this.props.draft.props,
+                priority,
+            },
+        };
+
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, updatedDraft);
+        this.focusTextbox();
+    };
+
+    handlePostPriorityHide = () => {
+        this.setState({
+            showPostPriorityPicker: false,
+        });
+        this.focusTextbox();
+    };
+
+    togglePostPriorityPicker = () => {
+        this.setState((prev) => ({
+            showPostPriorityPicker: !prev.showPostPriorityPicker,
+        }));
+    };
+
+    getPostPriorityPickerRef = () => this.postPriorityPickerRef.current;
+
     render() {
         let centerClass = '';
         if (!this.props.fullWidthTextBox) {
@@ -1328,6 +1380,86 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
+                    labels={(
+                        this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
+                            <div className='AdvancedTextEditor__priority'>
+                                <PriorityLabel
+                                    size='xs'
+                                    priority={this.props.draft.props.priority}
+                                />
+                                <OverlayTrigger
+                                    placement='top'
+                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                    overlay={(
+                                        <Tooltip id='post-priority-picker-tooltip'>
+                                            <FormattedMessage
+                                                id={'post_priority.remove'}
+                                                defaultMessage={'Remove {priority} label'}
+                                                values={{priority: this.props.draft.props.priority}}
+                                            />
+                                        </Tooltip>
+                                    )}
+                                >
+                                    <button
+                                        type='button'
+                                        className='close'
+                                        onClick={this.handleRemovePriority}
+                                    >
+                                        <span aria-hidden='true'>{'×'}</span>
+                                        <span className='sr-only'>
+                                            <FormattedMessage
+                                                id={'post_priority.remove'}
+                                                defaultMessage={'Remove {priority} label'}
+                                                values={{priority: this.props.draft.props.priority}}
+                                            />
+                                        </span>
+                                    </button>
+                                </OverlayTrigger>
+                            </div>
+                        )
+                    )}
+                    additionalControls={[
+                        this.props.isPostPriorityEnabled ? (
+                            <React.Fragment key='PostPriorityPicker'>
+                                <PostPriorityPickerOverlay
+                                    priority={this.props.draft?.props?.priority}
+                                    show={this.state.showPostPriorityPicker}
+                                    target={this.getPostPriorityPickerRef}
+                                    onApply={this.handlePostPriorityApply}
+                                    onHide={this.handlePostPriorityHide}
+                                    defaultHorizontalPosition='left'
+                                />
+                                <OverlayTrigger
+                                    placement='top'
+                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                    overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
+                                        <Tooltip id='post-priority-picker-tooltip'>
+                                            <KeyboardShortcutSequence
+                                                shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
+                                                hoistDescription={true}
+                                                isInsideTooltip={true}
+                                            />
+                                        </Tooltip>
+                                    )}
+                                >
+                                    <IconContainer
+                                        ref={this.postPriorityPickerRef}
+                                        className={classNames({control: true, active: this.state.showPostPriorityPicker})}
+                                        disabled={this.props.shouldShowPreview}
+                                        type='button'
+                                        onClick={this.togglePostPriorityPicker}
+                                    >
+                                        <AlertCircleOutlineIcon
+                                            size={18}
+                                            color='currentColor'
+                                        />
+                                    </IconContainer>
+                                </OverlayTrigger>
+                            </React.Fragment>
+                        ) : null,
+                    ]}
                 />
             </form>
         );
