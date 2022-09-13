@@ -98,6 +98,8 @@ type Props = {
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
     isCRTEnabled?: boolean;
+    isBroadcastThreadReply: boolean;
+    handleBroadcastThreadReply: () => void;
 }
 
 const AdvanceTextEditor = ({
@@ -154,6 +156,8 @@ const AdvanceTextEditor = ({
     additionalControls,
     labels,
     isCRTEnabled,
+    isBroadcastThreadReply,
+    handleBroadcastThreadReply,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -475,6 +479,8 @@ const AdvanceTextEditor = ({
                 {location === Locations.RHS_COMMENT && isCRTEnabled &&
                     <BroadcastThreadReply
                         channelId={channelId}
+                        isBroadcastThreadReply={isBroadcastThreadReply}
+                        handleBroadcastThreadReply={handleBroadcastThreadReply}
                     />}
                 <MsgTyping
                     channelId={channelId}

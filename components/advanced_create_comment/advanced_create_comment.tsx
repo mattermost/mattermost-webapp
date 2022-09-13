@@ -198,6 +198,7 @@ type State = {
     serverError: (ServerError & {submittedMessage?: string}) | null;
     showFormat: boolean;
     isFormattingBarHidden: boolean;
+    isBroadcastThreadReply: boolean;
 };
 
 class AdvancedCreateComment extends React.PureComponent<Props, State> {
@@ -243,6 +244,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             serverError: null,
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
+            isBroadcastThreadReply: false,
         };
 
         this.textboxRef = React.createRef();
@@ -1043,6 +1045,12 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.lastBlurAt = Date.now();
     }
 
+    handleBroadcastThreadReply = () => {
+        this.setState((state) => {
+            return {isBroadcastThreadReply: !state.isBroadcastThreadReply};
+        });
+    }
+
     render() {
         const draft = this.state.draft!;
         return (
@@ -1100,6 +1108,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     isThreadView={this.props.isThreadView}
                     isCRTEnabled={this.props.isCRTEnabled}
+                    isBroadcastThreadReply={this.state.isBroadcastThreadReply}
+                    handleBroadcastThreadReply={this.handleBroadcastThreadReply}
                 />
             </form>
         );
