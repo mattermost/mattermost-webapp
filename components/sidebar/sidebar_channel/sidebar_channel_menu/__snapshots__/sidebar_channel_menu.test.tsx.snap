@@ -90,6 +90,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -179,6 +180,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -268,6 +270,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -357,6 +360,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -432,6 +436,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={false}
       onClick={[Function]}
       show={true}
       text="Close Conversation"
@@ -615,6 +620,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -713,6 +719,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -811,6 +818,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -920,6 +928,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
