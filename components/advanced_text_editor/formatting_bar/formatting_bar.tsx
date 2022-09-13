@@ -115,10 +115,11 @@ interface FormattingBarProps {
      */
     location: string;
 
-    /**
-     * location of the advanced text editor in the UI (center channel / RHS)
+    /*
+     * controls that enhance the message,
+     * e.g: message priority picker
      */
-    additionalControls: React.ReactNode;
+    additionalControls?: React.ReactNodeArray;
 }
 
 const FormattingBar = (props: FormattingBarProps): JSX.Element => {

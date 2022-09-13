@@ -69,6 +69,10 @@
         }
     }
 
+    .textarea--has-labels {
+        margin-top: -3px;
+    }
+
     .textbox-preview-link {
         margin-right: 8px;
     }
@@ -1328,6 +1332,7 @@
     .post-preview__header {
         display: flex;
         width: 100%;
+        align-items: center;
         margin-bottom: 2px;
         white-space: nowrap;
 
@@ -1407,10 +1412,6 @@
                 width: 32px;
                 height: 32px;
             }
-        }
-
-        path {
-            fill: currentColor;
         }
 
         .profile-icon {
@@ -1956,6 +1957,7 @@
     .post-preview {
         .post__img {
             width: 24px;
+            height: 24px;
             padding: 0;
             text-align: left;
 

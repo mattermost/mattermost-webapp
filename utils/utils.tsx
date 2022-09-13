@@ -58,9 +58,6 @@ import store from 'stores/redux_store.jsx';
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
 import {getIsMobileView} from 'selectors/views/browser';
 
-import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
-import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
-
 import {FileInfo} from '@mattermost/types/files';
 import {Team} from '@mattermost/types/teams';
 import {Post} from '@mattermost/types/posts';
@@ -884,7 +881,7 @@ export function offsetTopLeft(el: HTMLElement) {
     return {top: rect.top + scrollTop, left: rect.left + scrollLeft};
 }
 
-export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstract = 0) {
+export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstract = 0, alignWithTextBox = false) {
     if (!textArea || !(textArea instanceof HTMLElement)) {
         return {
             pixelsToMoveX: 0,
@@ -907,10 +904,13 @@ export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstrac
     // the x coordinate in the viewport of the suggestion box border-right
     const xBoxRightCoordinate = caretXCoordinateInTxtArea + txtAreaOffsetLft + suggestionBoxWidth;
 
-    // if the right-border edge of the suggestion box will overflow the x-axis viewport
-    if (xBoxRightCoordinate > viewportWidth) {
+    if (alignWithTextBox) {
+        // when the list should be aligned with the textbox just set this value to 0
+        pxToTheRight = 0;
+    } else if (xBoxRightCoordinate > viewportWidth) {
+        // if the right-border edge of the suggestion box will overflow the x-axis viewport
         // stick the suggestion list to the very right of the TextArea
-        pxToTheRight = textArea.offsetWidth - suggestionBoxWidth;
+        pxToTheRight = textAreaWidth - suggestionBoxWidth;
     }
 
     return {
@@ -1726,25 +1726,6 @@ export function stringToNumber(s: string | undefined) {
     }
 
     return parseInt(s, 10);
-}
-
-export function renderPurchaseLicense() {
-    return (
-        <div className='purchase-card'>
-            <PurchaseLink
-                eventID='post_trial_purchase_license'
-                buttonTextElement={
-                    <FormattedMessage
-                        id='admin.license.trialCard.purchase_license'
-                        defaultMessage='Purchase a license'
-                    />
-                }
-            />
-            <ContactUsButton
-                eventID='post_trial_contact_sales'
-            />
-        </div>
-    );
 }
 
 export function deleteKeysFromObject(value: Record<string, any>, keys: string[]) {

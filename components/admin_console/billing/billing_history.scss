@@ -8,6 +8,14 @@
     color: var(--sys-center-channel-color);
 }
 
+.CloudBillingHistoryModal {
+    .CloudBillingHistoryModal__title {
+        font-family: 'Metropolis';
+        font-size: 22px;
+        font-weight: semibold;
+    }
+}
+
 .BillingHistory__cardHeader {
     display: flex;
     align-items: center;
@@ -79,8 +87,8 @@
 .BillingHistory__table-row {
     border-bottom: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
 
-    &:nth-child(odd) {
-        background: rgba(var(--sys-center-channel-color-rgb), 0.04);
+    &:hover {
+        cursor: pointer;
     }
 }
 
@@ -92,12 +100,12 @@
 }
 
 .BillingHistory__table-headerTotal {
-    text-align: right;
+    text-align: left;
 }
 
 .BillingHistory__table-total {
     font-weight: 600;
-    text-align: right;
+    text-align: left;
 }
 
 .BillingHistory__spinner {

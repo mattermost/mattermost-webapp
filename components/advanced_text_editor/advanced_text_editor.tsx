@@ -29,6 +29,7 @@ import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
 import AutoHeightSwitcher from '../common/auto_height_switcher';
+import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
 import TexteditorActions from './texteditor_actions';
@@ -96,6 +97,8 @@ type Props = {
     postId: string;
     textboxRef: React.RefObject<TextboxClass>;
     isThreadView?: boolean;
+    additionalControls?: React.ReactNodeArray;
+    labels?: React.ReactNode;
 }
 
 const AdvanceTextEditor = ({
@@ -150,6 +153,8 @@ const AdvanceTextEditor = ({
     prefillMessage,
     textboxRef,
     isThreadView,
+    additionalControls,
+    labels,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -361,6 +366,10 @@ const AdvanceTextEditor = ({
             getCurrentMessage={getCurrentValue}
             getCurrentSelection={getCurrentSelection}
             disableControls={shouldShowPreview}
+            additionalControls={additionalControls}
+            extraControls={extraControls}
+            toggleAdvanceTextEditor={toggleAdvanceTextEditor}
+            showFormattingControls={!isFormattingBarHidden}
             location={location}
             additionalControls={extraControls}
         />
@@ -393,7 +402,10 @@ const AdvanceTextEditor = ({
                         tabIndex={-1}
                         className='AdvancedTextEditor__cell a11y__region'
                     >
-                        <Textbox
+                        {labels}
+                    <Textbox
+                        hasLabels={Boolean(labels)}
+                        suggestionList={RhsSuggestionList}
                             onChange={handleChange}
                             onKeyPress={postMsgKeyPress}
                             onKeyDown={handleKeyDown}
