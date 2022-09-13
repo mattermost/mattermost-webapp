@@ -2282,39 +2282,27 @@
 }
 
 .edit-post__restore__modal__header {
-    padding: 48px 32px 12px 32px;
     text-align: center;
 
     span {
         font-size: 22px;
-        font-weight: 600;
     }
 }
 
 .edit-post__restore__modal__content {
-    padding: 0 32px 28px 32px;
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 20px;
+    color: var(--center-channel-text);
 }
 
-.edit-post__restore__modal__footer {
-    padding-bottom: 48px;
-    border-top: none;
+.modal-footer {
     text-align: center;
 
-    button {
-        padding: 12px 20px;
+    .GenericModal__button {
         margin: 0 4px;
-        border-radius: 4px;
-        font-size: 14px;
-        font-weight: 600;
-        line-height: 14px;
-    }
 
-    .cancel-button {
-        background-color: rgba(var(--denim-button-bg-rgb), 0.08);
-        color: var(--denim-button-bg-rgb);
+        &.cancel-button {
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+            border-radius: 4px;
+        }
     }
 }
 
