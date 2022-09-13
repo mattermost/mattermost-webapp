@@ -67,11 +67,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
       >
         <div />
       </Component>
-      <span
-        className="ml-2"
-      >
-        a b (c)
-      </span>
+      a b (c)
     </span>
   </div>
 </AtMentionSuggestion>
@@ -145,23 +141,15 @@ exports[`at mention suggestion Should not display nick name of the signed in use
       >
         <div />
       </Component>
-      <span
-        className="ml-2"
+      a b
+      <FormattedMessage
+        defaultMessage="(you)"
+        id="suggestion.user.isCurrent"
       >
-        a b
-      </span>
-      <span
-        className="ml-1"
-      >
-        <FormattedMessage
-          defaultMessage="(you)"
-          id="suggestion.user.isCurrent"
-        >
-          <span>
-            (you)
-          </span>
-        </FormattedMessage>
-      </span>
+        <span>
+          (you)
+        </span>
+      </FormattedMessage>
     </span>
   </div>
 </AtMentionSuggestion>
