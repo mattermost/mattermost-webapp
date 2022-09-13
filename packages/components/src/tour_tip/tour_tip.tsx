@@ -7,7 +7,7 @@ import Tippy from '@tippyjs/react';
 import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
-import {PunchOutCoordsHeightAndWidth} from '@mattermost/types/lib/punchout';
+import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';

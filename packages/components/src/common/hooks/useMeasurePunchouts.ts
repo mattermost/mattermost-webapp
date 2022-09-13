@@ -3,9 +3,17 @@
 import {useLayoutEffect, useMemo, useState} from 'react';
 import throttle from 'lodash/throttle';
 
-import {PunchOutCoordsHeightAndWidth} from '@mattermost/types/lib/punchout';
-
 import {useElementAvailable} from './useElementAvailable';
+
+export type Coords = {
+    x?: string;
+    y?: string;
+}
+
+export type PunchOutCoordsHeightAndWidth = Coords & {
+    width: string;
+    height: string;
+}
 
 type PunchOutOffset = {
     x: number;

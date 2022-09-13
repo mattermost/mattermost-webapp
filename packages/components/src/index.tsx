@@ -9,7 +9,7 @@ export * from './tour_tip';
 export * from './pulsating_dot';
 
 // hooks
-export {useMeasurePunchouts} from './common/hooks/useMeasurePunchouts';
+export * from './common/hooks/useMeasurePunchouts';
 export {useElementAvailable} from './common/hooks/useElementAvailable';
 
 export function componentLibraryTest() {
