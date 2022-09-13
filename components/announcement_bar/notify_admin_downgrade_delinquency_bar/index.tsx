@@ -8,13 +8,11 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {t} from 'utils/i18n';
 import {
-    AnnouncementBarTypes, MappingCloudSelfHotsSkus, PaidFeatures, Preferences, TELEMETRY_CATEGORIES,
+    AnnouncementBarTypes, CloudProductToSku, PaidFeatures, Preferences, TELEMETRY_CATEGORIES,
 } from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
-import useGetSubscription from 'components/common/hooks/useGetSubscription';
-import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
@@ -22,6 +20,7 @@ import {NotifyStatus, useGetNotifyAdmin} from 'components/common/hooks/useGetNot
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import AnnouncementBar from '../default_announcement_bar';
+import {useDelinquencySubscription} from 'components/common/hooks/useDelinquencySubscription';
 
 export const BannerPreferenceName = 'notify_upgrade_workspace_banner';
 
@@ -31,11 +30,13 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     const preferences = useSelector((state: GlobalState) =>
         getCategory(state, Preferences.NOTIFY_ADMIN_UPGRADE_DOWNGRADE_WORKSPACE),
     );
-    const subscription = useGetSubscription();
     const product = useSelector(getSubscriptionProduct);
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
+    const {isDelinquencySubscriptionHigherThan90Days} = useDelinquencySubscription({
+        checkAdmin: false,
+    });
 
     const {notifyAdmin, notifyStatus} = useGetNotifyAdmin({});
 
@@ -51,18 +52,6 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     }, [currentUser, dispatch, notifyStatus]);
 
     const shouldShowBanner = () => {
-        if (!subscription) {
-            return false;
-        }
-
-        if (isSystemAdmin(currentUser.roles)) {
-            return false;
-        }
-
-        if (!subscription.delinquent_since) {
-            return false;
-        }
-
         if (!preferences) {
             return false;
         }
@@ -71,15 +60,11 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
             return false;
         }
 
-        const delinquencyDate = new Date(subscription.delinquent_since * 1000);
+        if (!isDelinquencySubscriptionHigherThan90Days()) {
+            return false;
+        }
 
-        const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-        const today = new Date();
-        const diffDays = Math.round(
-            Math.abs((today.valueOf() - delinquencyDate.valueOf()) / oneDay),
-        );
-
-        return diffDays > 90;
+        return true;
     };
 
     if (!shouldShowBanner() || product == null) {
@@ -88,7 +73,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
 
     const notifyAdminRequestData = {
         required_feature: PaidFeatures.UPGRADE_DOWNGRADE_WORKSPACE,
-        required_plan: MappingCloudSelfHotsSkus[product?.sku || ''],
+        required_plan: CloudProductToSku[product?.sku] || '',
         trial_notification: false,
     };
 

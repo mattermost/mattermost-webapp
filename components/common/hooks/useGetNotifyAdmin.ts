@@ -16,7 +16,7 @@ export const NotifyStatus = {
 
 export type NotifyStatusValues = ValueOf<typeof NotifyStatus>;
 
-export const DafaultBtnText = {
+export const DefaultBtnText = {
     NotifyAdmin: 'Notify your admin',
     Notifying: 'Notifying...',
     Notified: 'Notified!',
@@ -33,7 +33,7 @@ type UseNotifyAdminArgs = {
     };
 }
 
-type NotifyAdmingArgs = {
+type NotifyAdminArgs = {
     requestData: NotifyAdminRequest;
     trackingArgs: {
         category: any;
@@ -48,19 +48,19 @@ export const useGetNotifyAdmin = (args: UseNotifyAdminArgs) => {
     const btnText = (status: ValueOf<typeof NotifyStatus>): {id: string; defaultMessage: string} => {
         switch (status) {
         case NotifyStatus.Started:
-            return {id: 'notify_admin_to_upgrade_cta.notify-admin.notifying', defaultMessage: DafaultBtnText.Notifying};
+            return {id: 'notify_admin_to_upgrade_cta.notify-admin.notifying', defaultMessage: DefaultBtnText.Notifying};
         case NotifyStatus.Success:
-            return {id: 'notify_admin_to_upgrade_cta.notify-admin.notified', defaultMessage: DafaultBtnText.Notified};
+            return {id: 'notify_admin_to_upgrade_cta.notify-admin.notified', defaultMessage: DefaultBtnText.Notified};
         case NotifyStatus.AlreadyComplete:
-            return {id: 'notify_admin_to_upgrade_cta.notify-admin.already_notified', defaultMessage: DafaultBtnText.AlreadyNotified};
+            return {id: 'notify_admin_to_upgrade_cta.notify-admin.already_notified', defaultMessage: DefaultBtnText.AlreadyNotified};
         case NotifyStatus.Failed:
-            return {id: 'notify_admin_to_upgrade_cta.notify-admin.failed', defaultMessage: DafaultBtnText.Failed};
+            return {id: 'notify_admin_to_upgrade_cta.notify-admin.failed', defaultMessage: DefaultBtnText.Failed};
         default:
-            return args.ctaText || {id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DafaultBtnText.NotifyAdmin};
+            return args.ctaText || {id: 'notify_admin_to_upgrade_cta.notify-admin.notify', defaultMessage: DefaultBtnText.NotifyAdmin};
         }
     };
 
-    const notifyAdmin = async ({requestData, trackingArgs}: NotifyAdmingArgs) => {
+    const notifyAdmin = async ({requestData, trackingArgs}: NotifyAdminArgs) => {
         try {
             setStatus(NotifyStatus.Started);
             await Client4.notifyAdmin(requestData);

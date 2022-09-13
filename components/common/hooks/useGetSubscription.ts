@@ -12,6 +12,12 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {Subscription} from '@mattermost/types/cloud';
 import {getCloudSubscription} from 'mattermost-redux/selectors/entities/cloud';
 
+export function assertIsSubscription(value: any, message?: string): asserts value is Subscription {
+    if (value == null) {
+        throw new Error(message || '');
+    }
+}
+
 export default function useGetSubscription(): Subscription | undefined {
     const cloudSubscription = useSelector(getCloudSubscription);
     const license = useSelector(getLicense);

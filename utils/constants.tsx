@@ -478,10 +478,9 @@ export enum LicenseSkus {
     Enterprise = 'enterprise',
 }
 
-export const MappingCloudSelfHotsSkus = {
+export const CloudProductToSku = {
     [CloudProducts.PROFESSIONAL]: LicenseSkus.Professional,
     [CloudProducts.ENTERPRISE]: LicenseSkus.Enterprise,
-    '': '',
 };
 
 export const A11yClassNames = {
