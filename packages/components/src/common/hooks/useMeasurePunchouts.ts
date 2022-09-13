@@ -3,9 +3,9 @@
 import {useLayoutEffect, useMemo, useState} from 'react';
 import throttle from 'lodash/throttle';
 
-import useElementAvailable from '../common/hooks/useElementAvailable';
+import {PunchOutCoordsHeightAndWidth} from '@mattermost/types/lib/punchout';
 
-import {TourTipOverlayPunchOut} from './tour_tip_backdrop';
+import {useElementAvailable} from './useElementAvailable';
 
 type PunchOutOffset = {
     x: number;
@@ -14,7 +14,7 @@ type PunchOutOffset = {
     height: number;
 }
 
-export const useMeasurePunchouts = (elementIds: string[], additionalDeps: any[], offset?: PunchOutOffset): TourTipOverlayPunchOut | null => {
+export const useMeasurePunchouts = (elementIds: string[], additionalDeps: any[], offset?: PunchOutOffset): PunchOutCoordsHeightAndWidth | null => {
     const elementsAvailable = useElementAvailable(elementIds);
     const [size, setSize] = useState({x: window.innerWidth, y: window.innerHeight});
     const updateSize = throttle(() => {

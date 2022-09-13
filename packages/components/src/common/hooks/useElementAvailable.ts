@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {useEffect, useRef, useState, useMemo} from 'react';
 
-export default function useElementAvailable(
+export function useElementAvailable(
     elementIds: string[],
     intervalMS = 250,
 ): boolean {
