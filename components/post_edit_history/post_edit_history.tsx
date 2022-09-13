@@ -5,7 +5,6 @@ import React, {memo, useEffect, useRef} from 'react';
 import {useIntl} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {t} from 'utils/i18n';
 import SearchResultsHeader from 'components/search_results_header';
 
 import LoadingScreen from 'components/loading_screen';
@@ -48,7 +47,7 @@ const PostEditHistory = ({
     }, [originalPost, postEditHistory]);
 
     const formattedTitle = formatMessage({
-        id: t('search_header.title6'),
+        id: 'search_header.title_edit.history',
         defaultMessage: 'Edit History',
     });
 

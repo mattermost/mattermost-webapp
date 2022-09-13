@@ -414,7 +414,7 @@ export const ModalIdentifiers = {
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
     RESTORE_POST_MODAL: 'restore_post',
-    INFO_TOOLTIP: 'info_tooltip',
+    INFO_TOAST: 'info_toast',
 };
 
 export const UserStatuses = {

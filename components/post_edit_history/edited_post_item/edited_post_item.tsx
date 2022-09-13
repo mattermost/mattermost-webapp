@@ -12,7 +12,6 @@ import {CheckIcon} from '@mattermost/compass-icons/components';
 import {Post} from '@mattermost/types/posts';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import {t} from 'utils/i18n';
 import {imageURLForUser} from 'utils/utils';
 
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
@@ -67,17 +66,17 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     }
 
     const formattedHelpText = formatMessage({
-        id: t('post_info.edit.restore'),
+        id: 'post_info.edit.restore',
         defaultMessage: 'Restore',
     });
     const currentVersionText = formatMessage({
-        id: t('post_info.edit.current_version'),
+        id: 'post_info.edit.current_version',
         defaultMessage: 'Current Version',
     });
 
     const showInfoTooltip = () => {
         const infoToastModalData = {
-            modalId: ModalIdentifiers.INFO_TOOLTIP,
+            modalId: ModalIdentifiers.INFO_TOAST,
             dialogType: InfoToast,
             dialogProps: {
                 content: {
