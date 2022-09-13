@@ -230,7 +230,7 @@ function DelinquencyCard(props: DelinquencyCardProps) {
             TELEMETRY_CATEGORIES.CLOUD_ADMIN,
             'click_see_how_billing_works',
         );
-        window.open(CloudLinks.BILLING_DOCS, '_blank');
+        window.open(CloudLinks.DELINQUENCY_DOCS, '_blank');
     };
     return (
         <div className='PlanCard'>
