@@ -84,30 +84,40 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         }
     };
 
+    const editedIndicatorContent = (
+        <span
+            id={`postEdited_${postId}`}
+            className='post-edited__indicator'
+            data-post-id={postId}
+            data-edited-at={editedAt}
+        >
+            <Icon
+                glyph={'pencil-outline'}
+                size={10}
+            />
+            {editedText}
+        </span>
+    );
+
+    const editedIndicator = postOwner ? (
+        <button
+            className={'style--none'}
+            tabIndex={-1}
+            onClick={showPostEditHistory}
+        >
+            {editedIndicatorContent}
+        </button>
+    ) : (
+        editedIndicatorContent
+    );
+
     return !postId || editedAt === 0 ? null : (
         <OverlayTrigger
             delayShow={250}
             placement='top'
             overlay={tooltip}
         >
-            <button
-                className={'style--none'}
-                tabIndex={-1}
-                onClick={postOwner ? showPostEditHistory : undefined}
-            >
-                <span
-                    id={`postEdited_${postId}`}
-                    className='post-edited__indicator'
-                    data-post-id={postId}
-                    data-edited-at={editedAt}
-                >
-                    <Icon
-                        glyph={'pencil-outline'}
-                        size={10}
-                    />
-                    {editedText}
-                </span>
-            </button>
+            {editedIndicator}
         </OverlayTrigger>
     );
 };

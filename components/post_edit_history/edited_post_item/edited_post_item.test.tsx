@@ -18,9 +18,9 @@ describe('components/post_edit_history/edited_post_item', () => {
             message: 'post message',
         }),
         isCurrent: false,
-        originalPost: TestHelper.getPostMock({
-            id: 'original_post_id',
-            message: 'original post message',
+        postCurrentVersion: TestHelper.getPostMock({
+            id: 'post_current_version_id',
+            message: 'post current version message',
         }),
         actions: {
             editPost: jest.fn(),
