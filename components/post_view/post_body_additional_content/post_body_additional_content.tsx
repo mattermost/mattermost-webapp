@@ -155,9 +155,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
                 embeds={this.props.post.props.app_bindings}
                 post={this.props.post}
             />
-        )
+        );
     }
-
 
     render() {
         const embed = this.getEmbed();
