@@ -17,7 +17,6 @@ exports[`components/threading/global_threads/thread_item should report total num
       className="d-flex align-items-center"
     >
       <Memo(Badge)
-        className=""
         onClick={[Function]}
       >
         Team name
@@ -142,7 +141,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       className="d-flex align-items-center"
     >
       <Memo(Badge)
-        className=""
         onClick={[Function]}
       >
         Team name
@@ -265,7 +263,6 @@ exports[`components/threading/global_threads/thread_item should report unread me
       className="d-flex align-items-center"
     >
       <Memo(Badge)
-        className=""
         onClick={[Function]}
       >
         Team name

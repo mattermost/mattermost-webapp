@@ -10,6 +10,7 @@ import {PostPriority} from '@mattermost/types/posts';
 
 type Props = {
     priority?: PostPriority;
+    className?: string;
 }
 
 const Badge = styled.span`
@@ -29,13 +30,16 @@ const Badge = styled.span`
     }}
 `;
 
-export default function PriorityLabel({priority}: Props) {
+export default function PriorityLabel({priority, className}: Props) {
     if (priority !== PostPriority.URGENT && priority !== PostPriority.IMPORTANT) {
         return null;
     }
 
     return (
-        <Badge priority={priority}>
+        <Badge
+            className={className}
+            priority={priority}
+        >
             {priority === PostPriority.URGENT ? (
                 <AlertOutlineIcon
                     color={'currentColor'}

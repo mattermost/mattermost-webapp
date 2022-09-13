@@ -191,18 +191,18 @@ function ThreadItem({
                 )}
                 <div className='ThreadItem__author'>{postAuthor}</div>
                 <div className='d-flex align-items-center'>
-                    {Boolean(channel) && (
-                        <Badge
-                            className={classNames({
-                                Badge__hidden: postAuthor === channel?.display_name,
-                            })}
-                            onClick={goToInChannelHandler}
-                        >
+                    {Boolean(channel) && postAuthor !== channel?.display_name && (
+                        <Badge onClick={goToInChannelHandler}>
                             {channel?.display_name}
                         </Badge>
                     )}
                     {isPostPriorityEnabled && (
-                        post?.props?.priority && <PriorityBadge priority={post.props.priority}/>
+                        post?.props?.priority && (
+                            <PriorityBadge
+                                className={postAuthor === channel?.display_name ? 'ml-2' : ''}
+                                priority={post.props.priority}
+                            />
+                        )
                     )}
                 </div>
                 <Timestamp
