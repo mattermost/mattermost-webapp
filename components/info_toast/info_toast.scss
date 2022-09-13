@@ -44,7 +44,7 @@
     padding: 6px 10px;
     border: none;
     margin-left: 8px;
-    background: var(--denim-button-bg);
+    background: var(--button-bg);
     border-radius: 4px;
     color: var(--sidebar-text);
     font-size: 11px;
@@ -53,12 +53,12 @@
 }
 
 // Animations
-.slide-appear {
+.toast-appear {
     opacity: 0;
     transform: translateY(150px);
 }
 
-.slide-appear-active {
+.toast-appear-active {
     opacity: 1;
     transform: translateY(0);
     transition: all 500ms ease;

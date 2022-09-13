@@ -5,6 +5,7 @@ import classNames from 'classnames';
 import {CSSTransition} from 'react-transition-group';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
+import './info_toast.scss';
 
 type Props = {
     content: {
@@ -30,7 +31,7 @@ function InfoToast({content, onExited, className}: Props): JSX.Element {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            onExited();
+            // onExited();
         }, 5000);
 
         return () => clearTimeout(timer);
@@ -39,7 +40,7 @@ function InfoToast({content, onExited, className}: Props): JSX.Element {
     return (
         <CSSTransition
             in={Boolean(content)}
-            classNames='slide'
+            classNames='toast'
             mountOnEnter={true}
             unmountOnExit={true}
             timeout={300}

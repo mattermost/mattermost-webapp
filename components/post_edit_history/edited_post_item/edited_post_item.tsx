@@ -119,7 +119,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     };
 
     const currentVersionIndicator = isCurrent ? (
-        <div className='edit-post__current__indicator'>
+        <div className='edit-post-history__current__indicator'>
             {currentVersionText}
         </div>
     ) : undefined;
@@ -128,7 +128,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
 
     const overwriteName = post.props ? post.props.override_username : '';
     const postHeader = (
-        <div className='edit-post__header'>
+        <div className='edit-post-history__header'>
             <span className='profile-icon'>
                 <Avatar
                     size={'sm'}
@@ -136,7 +136,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
                     className={'avatar-post-preview'}
                 />
             </span>
-            <div className={'edit-post__header__username'}>
+            <div className={'edit-post-history__header__username'}>
                 <UserProfileComponent
                     userId={post.user_id}
                     hasMention={true}
@@ -190,12 +190,12 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
                 onClick={openRestorePostModal}
                 compact={true}
                 aria-label='Select to restore an old message.' // todo proper wording and translation needed
-                className='edit-post__icon__button'
+                className='edit-post-history__icon__button'
             />
         </OverlayTrigger>
     );
 
-    const postContainerClass = classNames('edit-post__container', {'edit-post__container__background': open});
+    const postContainerClass = classNames('edit-post-history__container', {'edit-post-history__container__background': open});
     const timeStampValue = post.edit_at === 0 ? post.create_at : post.edit_at;
 
     return (
@@ -206,7 +206,7 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
                 onClick={togglePost}
                 compact={true}
                 aria-label='Toggle to see an old message.' // todo proper wording and translation needed
-                className='edit-post__icon__button'
+                className='edit-post-history__icon__button'
             />
             <PostAriaLabelDiv
                 className={'a11y__section post'}
@@ -214,10 +214,10 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
                 post={post}
             >
                 <div
-                    className='edit-post__date__container'
+                    className='edit-post-history__date__container'
                     aria-hidden='true'
                 >
-                    <span className='edit-post__date'>
+                    <span className='edit-post-history__date'>
                         <Timestamp
                             value={timeStampValue}
                             ranges={DATE_RANGES}

@@ -95,6 +95,6 @@ describe('components/post_edit_history/edited_post_item', () => {
             />,
         );
 
-        expect(wrapper.find('.edit-post__current__indicator')).toHaveLength(1);
+        expect(wrapper.find('.edit-post-history__current__indicator')).toHaveLength(1);
     });
 });

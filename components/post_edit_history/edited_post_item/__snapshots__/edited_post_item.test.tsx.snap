@@ -2,11 +2,11 @@
 
 exports[`components/post_edit_history/edited_post_item should match snapshot 1`] = `
 <div
-  className="edit-post__container"
+  className="edit-post-history__container"
 >
   <ForwardRef
     aria-label="Toggle to see an old message."
-    className="edit-post__icon__button"
+    className="edit-post-history__icon__button"
     compact={true}
     icon="chevron-right"
     onClick={[Function]}
@@ -45,10 +45,10 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
   >
     <div
       aria-hidden="true"
-      className="edit-post__date__container"
+      className="edit-post-history__date__container"
     >
       <span
-        className="edit-post__date"
+        className="edit-post-history__date"
       >
         <Connect(injectIntl(Timestamp))
           ranges={
@@ -99,7 +99,7 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
       >
         <ForwardRef
           aria-label="Select to restore an old message."
-          className="edit-post__icon__button"
+          className="edit-post-history__icon__button"
           compact={true}
           icon="refresh"
           onClick={[Function]}
@@ -113,11 +113,11 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
 
 exports[`components/post_edit_history/edited_post_item should match snapshot when isCurrent is true 1`] = `
 <div
-  className="edit-post__container edit-post__container__background"
+  className="edit-post-history__container edit-post-history__container__background"
 >
   <ForwardRef
     aria-label="Toggle to see an old message."
-    className="edit-post__icon__button"
+    className="edit-post-history__icon__button"
     compact={true}
     icon="chevron-down"
     onClick={[Function]}
@@ -156,10 +156,10 @@ exports[`components/post_edit_history/edited_post_item should match snapshot whe
   >
     <div
       aria-hidden="true"
-      className="edit-post__date__container"
+      className="edit-post-history__date__container"
     >
       <span
-        className="edit-post__date"
+        className="edit-post-history__date"
       >
         <Connect(injectIntl(Timestamp))
           ranges={
@@ -191,12 +191,12 @@ exports[`components/post_edit_history/edited_post_item should match snapshot whe
       </span>
     </div>
     <div
-      className="edit-post__current__indicator"
+      className="edit-post-history__current__indicator"
     >
       Current Version
     </div>
     <div
-      className="edit-post__header"
+      className="edit-post-history__header"
     >
       <span
         className="profile-icon"
@@ -208,7 +208,7 @@ exports[`components/post_edit_history/edited_post_item should match snapshot whe
         />
       </span>
       <div
-        className="edit-post__header__username"
+        className="edit-post-history__header__username"
       >
         <Connect(UserProfile)
           disablePopover={true}

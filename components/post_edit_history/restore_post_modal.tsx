@@ -24,7 +24,7 @@ const RestorePostModal = ({post, actions, onExited}: Props) => {
     };
 
     const modalHeaderText = (
-        <div className='edit-post__restore__modal__header'>
+        <div className='edit-post-history__restore__modal__header'>
             <FormattedMessage
                 id='restore_post.title'
                 defaultMessage='Restore this message?'
@@ -43,7 +43,7 @@ const RestorePostModal = ({post, actions, onExited}: Props) => {
             cancelButtonClassName='cancel-button'
             handleConfirm={handleRestore}
         >
-            <div className='edit-post__restore__modal__content'>
+            <div className='edit-post-history__restore__modal__content'>
                 {post.message}
             </div>
         </GenericModal>
