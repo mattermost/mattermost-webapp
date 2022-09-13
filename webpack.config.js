@@ -9,6 +9,7 @@ const path = require('path');
 
 const url = require('url');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExternalTemplateRemotesPlugin = require('external-remotes-plugin');
 const webpack = require('webpack');
 const {ModuleFederationPlugin} = require('webpack').container;
 const nodeExternals = require('webpack-node-externals');
@@ -417,10 +418,75 @@ async function initializeModuleFederation() {
         });
     }
 
+    /* eslint-disable no-unreachable */
+
     async function getRemoteModules() {
+        // return {
+        //     remotes: {
+        //         focalboard: `promise new Promise((resolve) => {
+        //             console.log('HARRISONHARRISONHARRISON', window.setInRoot, window.setInEntry, window.setInProducts);
+        //             resolve({
+        //                 get: () => {},
+        //                 init: () => {},
+        //             });
+        //         })`,
+        //     },
+        //     aliases: {},
+        // };
+
+        return {
+            remotes: {
+                focalboard: 'focalboard@[window.basename]/static/products/boards/remote_entry.js',
+            },
+            aliases: {},
+        };
+
         const products = [
             {name: 'focalboard', baseUrl: 'http://localhost:9006'},
         ];
+
+        if (!DEV) {
+            // TODO generate this somehow
+            // TODO control the boards build with an environment variable or something
+            // return [
+            //     {
+            //         focalboard: `promise new Promise((resolve) => {
+            //             console.log('aaa');
+            //             if (aaa) {
+
+            //             }
+            //         })`
+            //     }
+            // ]
+        }
+
+        // remotes: {
+        //     app1: `promise new Promise(resolve => {
+        //   const urlParams = new URLSearchParams(window.location.search)
+        //   const version = urlParams.get('app1VersionParam')
+        //   // This part depends on how you plan on hosting and versioning your federated modules
+        //   const remoteUrlWithVersion = 'http://localhost:3001/' + version + '/remoteEntry.js'
+        //   const script = document.createElement('script')
+        //   script.src = remoteUrlWithVersion
+        //   script.onload = () => {
+        //     // the injected script has loaded and is available on window
+        //     // we can now resolve this Promise
+        //     const proxy = {
+        //       get: (request) => window.app1.get(request),
+        //       init: (arg) => {
+        //         try {
+        //           return window.app1.init(arg)
+        //         } catch(e) {
+        //           console.log('remote container already initialized')
+        //         }
+        //       }
+        //     }
+        //     resolve(proxy)
+        //   }
+        //   // inject this script with the src set to the versioned remoteEntry.js
+        //   document.head.appendChild(script);
+        // })
+        // `,
 
         const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
 
@@ -476,6 +542,7 @@ async function initializeModuleFederation() {
             ]),
         ],
     }));
+    config.plugins.push(new ExternalTemplateRemotesPlugin());
 
     config.resolve.alias = {
         ...config.resolve.alias,

@@ -264,8 +264,10 @@ export default class Root extends React.PureComponent<Props, State> {
             this.props.history.push('/signup_user_complete');
         }
 
+        window.initializeProducts = this.props.actions.initializeProducts;
+
         Promise.all([
-            this.props.actions.initializeProducts(),
+            // this.props.actions.initializeProducts(),
             initializePlugins(),
         ]).then(() => {
             if (this.mounted) {
