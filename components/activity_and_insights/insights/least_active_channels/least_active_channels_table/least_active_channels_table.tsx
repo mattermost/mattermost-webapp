@@ -151,18 +151,25 @@ const LeastActiveChannelsTable = (props: Props) => {
                         ),
                         lastActivity: (
                             <span className='timestamp'>
-                                <Timestamp
-                                    value={channel.last_activity_at}
-                                    units={[
-                                        'now',
-                                        'minute',
-                                        'hour',
-                                        'day',
-                                        'week',
-                                        'month',
-                                    ]}
-                                    useTime={false}
-                                />
+                                {
+                                    channel.last_activity_at === 0 ?
+                                        <FormattedMessage
+                                            id='insights.leastActiveChannels.lastActivityNone'
+                                            defaultMessage='No activity'
+                                        /> :
+                                        <Timestamp
+                                            value={channel.last_activity_at}
+                                            units={[
+                                                'now',
+                                                'minute',
+                                                'hour',
+                                                'day',
+                                                'week',
+                                                'month',
+                                            ]}
+                                            useTime={false}
+                                        />
+                                }
                             </span>
                         ),
                         participants: (
