@@ -2275,7 +2275,7 @@
         color: rgba(var(--center-channel-text-rgb), 0.56);
 
         &:hover {
-            background-color: rgba(var(--denim-button-bg-rgb), 0.08);
+            background-color: rgba(var(--button-bg-rgb), 0.08);
             color: rgba(var(--center-channel-text-rgb), 0.56);
         }
     }
@@ -2307,7 +2307,7 @@
 }
 
 .edit-post-history__container__background {
-    background-color: rgba(var(--denim-button-bg-rgb), 0.04);
+    background-color: rgba(var(--button-bg-rgb), 0.04);
 }
 
 .edit-post-history__header {
@@ -2327,7 +2327,7 @@
     width: fit-content;
     padding: 1px 5px 2px;
     margin-bottom: 4px;
-    background-color: var(--denim-sidebar-active-border);
+    background-color: var(--sidebar-text-active-border);
     border-radius: 4px;
     color: var(--sidebar-text-active-color);
     font-size: 12px;
