@@ -220,7 +220,7 @@ export function transformToRecievedChannelsReducerPayload(
         create_at: channel?.create_at ?? 0,
         update_at: channel?.update_at ?? 0,
         delete_at: channel?.delete_at ?? 0,
-        team_id: channel?.team.id ?? '',
+        team_id: channel?.team?.id ?? '',
         type: channel?.type ?? '' as ChannelType,
         display_name: channel?.display_name ?? '',
         name: channel?.name ?? '',

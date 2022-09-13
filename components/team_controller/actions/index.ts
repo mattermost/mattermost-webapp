@@ -102,7 +102,7 @@ export function joinTeam(teamname: string, joinedOnFirstLoad: boolean): ActionFu
                         if (joinedOnFirstLoad) {
                             LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
                         }
-                        return dispatch(initializeTeam(team));
+                        return await dispatch(initializeTeam(team));
                     }
                     throw addUserToTeamResult.error;
                 }

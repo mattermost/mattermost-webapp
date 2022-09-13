@@ -48,7 +48,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
         const channels = transformToRecievedChannelsReducerPayload(channelsAndMembers.channels);
         const channelMembers = transformToRecievedChannelMembersReducerPayload(channelsAndMembers.channelMembers, currentUserId);
 
-        dispatch(batchActions([
+        await dispatch(batchActions([
             {
                 type: ChannelTypes.RECEIVED_ALL_CHANNELS,
                 data: channels,
