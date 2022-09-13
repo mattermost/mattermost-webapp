@@ -318,10 +318,6 @@ export default class Client4 {
         return `${this.getPostsRoute()}/${postId}`;
     }
 
-    getEditHistoryRoute(postId: string) {
-        return `${this.getPostRoute(postId)}/edit_history`;
-    }
-
     getReactionsRoute() {
         return `${this.getBaseRoute()}/reactions`;
     }
@@ -2132,7 +2128,7 @@ export default class Client4 {
 
     getPostEditHistory = (postId: string) => {
         return this.doFetch<Post[]>(
-            `${this.getEditHistoryRoute(postId)}`,
+            `${this.getPostRoute(postId)}/edit_history`,
             {method: 'get'},
         );
     }
