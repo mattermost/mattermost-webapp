@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {Team} from '@mattermost/types/teams';
@@ -14,7 +13,7 @@ import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {fetchMyChannelsAndMembersREST} from 'mattermost-redux/actions/channels';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
 import {logError} from 'mattermost-redux/actions/errors';
-import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCustomGroupsEnabled, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
@@ -45,6 +44,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error: null});
         }
 
+        const graphQLEnabled = isGraphQLEnabled(state);
         try {
             await dispatch(fetchMyChannelsAndMembersREST(team.id));
             dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS, data: null});
@@ -55,7 +55,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             return {error: error as ServerError};
         }
 
-        const statusesAndGroupActions = [loadStatusesForChannelAndSidebar()];
+        dispatch(loadStatusesForChannelAndSidebar());
 
         const license = getLicense(state);
         const customGroupEnabled = isCustomGroupsEnabled(state);
@@ -63,21 +63,19 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             license.IsLicensed === 'true' &&
             (license.LDAPGroups === 'true' || customGroupEnabled)) {
             if (currentUser) {
-                statusesAndGroupActions.push(getGroupsByUserIdPaginated(currentUser.id, false, 0, 60, true));
+                dispatch(getGroupsByUserIdPaginated(currentUser.id, false, 0, 60, true));
             }
 
             if (license.LDAPGroups === 'true') {
-                statusesAndGroupActions.push(getAllGroupsAssociatedToChannelsInTeam(team.id, true));
+                dispatch(getAllGroupsAssociatedToChannelsInTeam(team.id, true));
             }
 
             if (team.group_constrained && license.LDAPGroups === 'true') {
-                statusesAndGroupActions.push(getAllGroupsAssociatedToTeam(team.id, true));
+                dispatch(getAllGroupsAssociatedToTeam(team.id, true));
             } else {
-                statusesAndGroupActions.push(getGroups(false, 0, 60));
+                dispatch(getGroups(false, 0, 60));
             }
         }
-
-        dispatch(batchActions(statusesAndGroupActions as any as AnyAction[]));
 
         return {data: team};
     };
