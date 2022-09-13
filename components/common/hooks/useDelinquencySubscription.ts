@@ -35,16 +35,15 @@ export const useDelinquencySubscription = ({checkAdmin}: UseDelinquencySubscript
     };
 
     const isDelinquencySubscriptionHigherThan90Days = (): boolean => {
-        /**
-         * This is a TS "limitation" as this function is checking our subscrition is not undefined.
-         * TS can't deduce after this point that Subscription is not undefined this is the reason of the
-         * assert function, inside the try catch, to help TS.
-         */
         if (!isDelinquencySubscription()) {
             return false;
         }
 
         try {
+            /**
+             * This is a TS "limitation", we know reading the code that subscription isn't undefined but
+             * TS can't infer it so we are helping TS to infer it correctly using asserts functions.
+             */
             assertIsSubscription(subscription, "Subscription is null when it shouldn't");
 
             const delinquencyDate = new Date((subscription.delinquent_since || 0) * 1000);
