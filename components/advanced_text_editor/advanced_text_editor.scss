@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .AdvancedTextEditor {
     &__ctr {
         form {
@@ -41,7 +43,7 @@
         &:focus-visible,
         &:focus-within,
         &:focus-visible:hover,
-        &:focus-within:hover, {
+        &:focus-within:hover {
             border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
             outline: none;
             outline-offset: 0;
@@ -54,6 +56,29 @@
         &[disabled] {
             &:hover {
                 border: none;
+            }
+        }
+    }
+
+    &__priority {
+        display: flex;
+        align-items: center;
+        padding: 14px 16px 0;
+
+        button.close {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: -1px;
+            margin-left: 6px;
+            color: rgb(var(--center-channel-color));
+            font-size: 17px;
+            visibility: hidden;
+        }
+
+        &:hover {
+            button.close {
+                visibility: visible;
             }
         }
     }

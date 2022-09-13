@@ -32,6 +32,7 @@ import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
     makeGetMessageInHistoryItem,
+    isPostPriorityEnabled,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {
@@ -130,6 +131,7 @@ function makeMapStateToProps() {
             channelMemberCountsByGroup,
             isLDAPEnabled,
             useCustomGroupMentions,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

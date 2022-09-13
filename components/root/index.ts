@@ -19,6 +19,8 @@ import {getShowLaunchingWorkspace} from 'selectors/onboarding';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
 
+import {initializeProducts} from 'plugins/products';
+
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {GlobalState} from 'types/store/index';
@@ -58,6 +60,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getProfiles,
             migrateRecentEmojis,
             registerCustomPostRenderer,
+            initializeProducts,
         }, dispatch),
     };
 }

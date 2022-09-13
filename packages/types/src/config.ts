@@ -186,6 +186,7 @@ export type ClientConfig = {
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
     EnableComplianceExport: string;
+    PostPriority: string;
 };
 
 export type License = {
@@ -336,6 +337,7 @@ export type ServiceSettings = {
     LocalModeSocketLocation: string;
     CollapsedThreads: CollapsedThreads;
     ThreadAutoFollow: boolean;
+    PostPriority: boolean;
 };
 
 export type TeamSettings = {
