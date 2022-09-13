@@ -6,17 +6,17 @@ import {FormattedMessage} from 'react-intl';
 
 import {Placement} from 'tippy.js';
 
-import {TourTip, TourTipOverlayPunchOut} from '@mattermost/components';
+import {TourTip} from '@mattermost/components';
+import {PunchOutCoordsHeightAndWidth} from '@mattermost/types/punchout';
 
 import useBoardingTourTipManager from './onboarding_tour_manager';
-
 import {getLastStep} from './utils';
 
 type Props = {
     screen: JSX.Element;
     title: JSX.Element;
     imageURL?: string;
-    overlayPunchOut: TourTipOverlayPunchOut | null;
+    overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
     singleTip?: boolean;
     placement?: Placement;
     pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;

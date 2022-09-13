@@ -7,13 +7,15 @@ import Tippy from '@tippyjs/react';
 import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
+import {PunchOutCoordsHeightAndWidth} from '@mattermost/types/lib/punchout';
+
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
 import {PulsatingDot} from '../pulsating_dot';
 
-import {TourTipBackdrop, TourTipOverlayPunchOut} from './tour_tip_backdrop';
+import {TourTipBackdrop} from './tour_tip_backdrop';
 import './tour_tip.scss';
 
 export type TourTipEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped' | 'open' | 'punchOut'
@@ -39,7 +41,7 @@ type Props = {
     className?: string;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
-    overlayPunchOut: TourTipOverlayPunchOut | null;
+    overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
 
     // if we want to interact with element visible via punchOut
     interactivePunchOut?: boolean;
