@@ -9,6 +9,13 @@ import {t} from 'utils/i18n';
 import {Post} from '@mattermost/types/posts';
 import GenericModal from 'components/generic_modal';
 
+const modalMessages = defineMessages({
+    title: {
+        id: t('restore_post.title'),
+        defaultMessage: 'Restore this message?',
+    },
+});
+
 type Props = {
     post: Post;
     actions: {
@@ -25,13 +32,6 @@ const RestorePostModal = ({post, actions, onExited}: Props) => {
         await actions.handleRestore(post);
         onHide();
     };
-
-    const modalMessages = defineMessages({
-        title: {
-            id: t('restore_post.title'),
-            defaultMessage: 'Restore this message?',
-        },
-    });
 
     const modalHeaderText = (
         <div className='edit-post-history__restore__modal__header'>

@@ -34,6 +34,17 @@ const DATE_RANGES = [
     RelativeRanges.YESTERDAY_TITLE_CASE,
 ];
 
+const itemMessages = defineMessages({
+    helpText: {
+        id: t('post_info.edit.restore'),
+        defaultMessage: 'Restore',
+    },
+    currentVersionText: {
+        id: t('post_info.edit.current_version'),
+        defaultMessage: 'Current Version',
+    },
+});
+
 export type Props = PropsFromRedux & {
     post: Post;
     isCurrent?: boolean;
@@ -65,17 +76,6 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
     if (!post) {
         return null;
     }
-
-    const itemMessages = defineMessages({
-        helpText: {
-            id: t('post_info.edit.restore'),
-            defaultMessage: 'Restore',
-        },
-        currentVersionText: {
-            id: t('post_info.edit.current_version'),
-            defaultMessage: 'Current Version',
-        },
-    });
 
     const showInfoTooltip = () => {
         const infoToastModalData = {

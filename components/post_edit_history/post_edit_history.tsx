@@ -46,7 +46,7 @@ const PostEditHistory = ({
         scrollbars.current?.scrollToTop();
     }, [originalPost, postEditHistory]);
 
-    const formattedTitle = formatMessage({
+    const title = formatMessage({
         id: 'search_header.title_edit.history',
         defaultMessage: 'Edit History',
     });
@@ -97,7 +97,7 @@ const PostEditHistory = ({
                 renderView={renderView}
             >
                 <SearchResultsHeader>
-                    {formattedTitle}
+                    {title}
                     {<div className='sidebar--right__title__channel'>{channelDisplayName}</div>}
                 </SearchResultsHeader>
                 <EditedPostItem
