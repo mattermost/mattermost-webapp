@@ -1128,7 +1128,7 @@ function selectedPostId(state = '', action: GenericAction) {
 export function postEditHistory(state: Post[] = [], action: GenericAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_POST_HISTORY:
-        return action.data.postEditHistory;
+        return action.data;
     case UserTypes.LOGOUT_SUCCESS:
         return [];
     default:

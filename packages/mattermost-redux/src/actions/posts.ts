@@ -1119,24 +1119,11 @@ export function getPostsByIds(ids: string[]) {
 }
 
 export function getPostEditHistory(postId: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        let posts;
-
-        try {
-            posts = await Client4.getPostEditHistory(postId);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch({
-            type: PostTypes.RECEIVED_POST_HISTORY,
-            data: {postEditHistory: posts},
-        });
-
-        return {data: {postEditHistory: posts}};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.getPostEditHistory,
+        onSuccess: PostTypes.RECEIVED_POST_HISTORY,
+        params: [postId],
+    });
 }
 
 export function getNeededAtMentionedUsernames(state: GlobalState, posts: Post[]): Set<string> {
