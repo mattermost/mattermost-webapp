@@ -89,8 +89,8 @@ const BackstageController = (props: Props) => {
         }
     };
 
-    if (props.team == null || props.user == null) {
-        return <div/>;
+    if (!props.team || !props.user) {
+        return null;
     }
     const extraProps = {
         team: props.team,
