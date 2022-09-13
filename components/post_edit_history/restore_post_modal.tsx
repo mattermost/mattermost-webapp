@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {memo} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {defineMessages, useIntl} from 'react-intl';
 
 import {Post} from '@mattermost/types/posts';
 import GenericModal from 'components/generic_modal';
@@ -16,6 +16,7 @@ type Props = {
 }
 
 const RestorePostModal = ({post, actions, onExited}: Props) => {
+    const {formatMessage} = useIntl();
     const onHide = () => onExited();
 
     const handleRestore = async () => {
@@ -23,12 +24,16 @@ const RestorePostModal = ({post, actions, onExited}: Props) => {
         onHide();
     };
 
+    const modalMessages = defineMessages({
+        title: {
+            id: 'restore_post.title',
+            defaultMessage: 'Restore this message?',
+        },
+    });
+
     const modalHeaderText = (
         <div className='edit-post-history__restore__modal__header'>
-            <FormattedMessage
-                id='restore_post.title'
-                defaultMessage='Restore this message?'
-            />
+            {formatMessage(modalMessages.title)}
         </div>
     );
 

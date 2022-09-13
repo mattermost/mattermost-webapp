@@ -3,7 +3,7 @@
 
 import React, {memo, useCallback, useState} from 'react';
 
-import {useIntl} from 'react-intl';
+import {defineMessages, useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
@@ -65,13 +65,15 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
         return null;
     }
 
-    const formattedHelpText = formatMessage({
-        id: 'post_info.edit.restore',
-        defaultMessage: 'Restore',
-    });
-    const currentVersionText = formatMessage({
-        id: 'post_info.edit.current_version',
-        defaultMessage: 'Current Version',
+    const itemMessages = defineMessages({
+        helpText: {
+            id: 'post_info.edit.restore',
+            defaultMessage: 'Restore',
+        },
+        currentVersionText: {
+            id: 'post_info.edit.current_version',
+            defaultMessage: 'Current Version',
+        },
     });
 
     const showInfoTooltip = () => {
@@ -120,7 +122,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
 
     const currentVersionIndicator = isCurrent ? (
         <div className='edit-post-history__current__indicator'>
-            {currentVersionText}
+            {formatMessage(itemMessages.currentVersionText)}
         </div>
     ) : undefined;
 
@@ -173,7 +175,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
             id='editPostRestoreTooltip'
             className='hidden-xs'
         >
-            {formattedHelpText}
+            {formatMessage(itemMessages.helpText)}
         </Tooltip>
     );
 
