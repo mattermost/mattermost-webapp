@@ -20,10 +20,9 @@ import EditedPostItem from './edited_post_item';
 
 function mapStateToProps(state: GlobalState) {
     const selectedPostId = getSelectedPostId(state) || '';
-    const post = getPost(state, selectedPostId);
 
     return {
-        originalPost: post,
+        postCurrentVersion: getPost(state, selectedPostId),
     };
 }
 

@@ -38,7 +38,7 @@ export type Props = PropsFromRedux & {
     isCurrent?: boolean;
 }
 
-const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props) => {
+const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: Props) => {
     const {formatMessage} = useIntl();
     const [open, setOpen] = useState(isCurrent);
 
@@ -91,15 +91,15 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     };
 
     const handleRestore = async () => {
-        if (!originalPost || !post || originalPost.message === post.message) {
+        if (!postCurrentVersion || !post || postCurrentVersion.message === post.message) {
             actions.closeRightHandSide();
             return;
         }
 
         const updatedPost = {
             message: post.message,
-            id: originalPost.id,
-            channel_id: originalPost.channel_id,
+            id: postCurrentVersion.id,
+            channel_id: postCurrentVersion.channel_id,
         };
 
         const result = await actions.editPost(updatedPost as Post);
@@ -110,12 +110,12 @@ const EditedPostItem = ({post, isCurrent = false, originalPost, actions}: Props)
     };
 
     const handleUndo = async () => {
-        if (!originalPost) {
+        if (!postCurrentVersion) {
             actions.closeRightHandSide();
             return;
         }
 
-        await actions.editPost(originalPost);
+        await actions.editPost(postCurrentVersion);
     };
 
     const currentVersionIndicator = isCurrent ? (

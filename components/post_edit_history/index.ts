@@ -14,13 +14,11 @@ import PostEditHistory from './post_edit_history';
 
 function mapStateToProps(state: GlobalState) {
     const selectedPostId = getSelectedPostId(state) || '';
-    const post = getPost(state, selectedPostId);
-    const postEditHistory = getPostEditHistory(state);
 
     return {
         channelDisplayName: getCurrentChannel(state).display_name,
-        originalPost: post,
-        postEditHistory,
+        originalPost: getPost(state, selectedPostId),
+        postEditHistory: getPostEditHistory(state),
     };
 }
 
