@@ -7,7 +7,9 @@ import classNames from 'classnames';
 import {trackEvent} from 'actions/telemetry_actions';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {localizeMessage} from 'utils/utils';
+import * as Utils from 'utils/utils';
+import Constants from 'utils/constants';
+
 
 type Props = {
     hasMultipleTeams: boolean;
@@ -22,9 +24,29 @@ type State = {
 };
 
 export default class ChannelFilter extends React.PureComponent<Props, State> {
-    toggleUnreadFilter = (e?: React.MouseEvent) => {
-        e?.preventDefault();
 
+
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
+    }
+
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleUnreadFilterKeyPress);
+    }
+
+    handleUnreadFilterClick = (e?: React.MouseEvent) => {
+        e?.preventDefault();
+        this.toggleUnreadFilter();
+    }
+
+    handleUnreadFilterKeyPress = (e: KeyboardEvent) => {
+        if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.U)) {
+            e.preventDefault();
+            this.toggleUnreadFilter();
+        }
+    }
+
+    toggleUnreadFilter = () => {
         const {unreadFilterEnabled} = this.props;
 
         if (unreadFilterEnabled) {
@@ -39,10 +61,10 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
     render() {
         const {unreadFilterEnabled, hasMultipleTeams} = this.props;
 
-        let tooltipMessage = localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
+        let tooltipMessage = Utils.localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
 
         if (unreadFilterEnabled) {
-            tooltipMessage = localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
+            tooltipMessage = Utils.localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
         }
 
         const tooltip = (
