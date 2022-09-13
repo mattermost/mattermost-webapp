@@ -500,8 +500,6 @@ describe('Actions.Posts', () => {
             postsInThread,
         } = state.entities.posts;
 
-        console.log('posts', state.entities.posts.postsInThread);
-
         if (getRequest.status === RequestStatus.FAILURE) {
             throw new Error(JSON.stringify(getRequest.error));
         }

@@ -54,7 +54,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         time,
     });
     const viewHistoryText = formatMessage({
-        id: 'post_message_view.viewPostEditHistory',
+        id: 'post_message_view.view_post_edit_history',
         defaultMessage: 'Click to view history',
     });
 

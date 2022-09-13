@@ -44,7 +44,7 @@ function selectedPostFocussedAt(state = 0, action: GenericAction) {
     case ActionTypes.SELECT_POST:
         return action.timestamp || 0;
     case ActionTypes.UPDATE_RHS_STATE:
-        return action.timestamp ? action.timestamp : state;
+        return action.timestamp || state;
     case UserTypes.LOGOUT_SUCCESS:
         return 0;
     default:
