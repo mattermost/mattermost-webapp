@@ -329,12 +329,16 @@ h6.markdown__heading {
 }
 
 .post__body {
-    hr {
-        height: 1px;
-        padding: 0;
-        border: 0 none;
-        margin: 15px 0 16px;
-        background-color: rgba(var(--center-channel-text), 0.2) !important;
+    .post-message__text-container {
+        .post-message__text {
+            hr {
+                height: 1px;
+                padding: 0;
+                border: 0 none;
+                margin: 15px 0 16px;
+                background-color: rgba(var(--center-channel-text-rgb), 0.24);
+            }
+        }
     }
 
     .codespan__pre-wrap {
