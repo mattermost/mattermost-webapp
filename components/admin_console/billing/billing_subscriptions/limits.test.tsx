@@ -6,14 +6,13 @@ import React from 'react';
 import {screen} from '@testing-library/react';
 
 import * as redux from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import {Provider} from 'react-redux';
 
 import {GlobalState} from '@mattermost/types/store';
 import {UserProfile, UsersState} from '@mattermost/types/users';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
+import mockStore from 'tests/test_store';
 
 import * as cloudActions from 'actions/cloud';
 
@@ -47,7 +46,6 @@ interface SetupOptions {
     isEnterprise?: boolean;
 }
 function setupStore(setupOptions: SetupOptions) {
-    const mockStore = configureStore([thunk]);
     const state = {
         entities: {
             cloud: {

@@ -59,7 +59,7 @@ describe('Notifications', () => {
 
         // # Login as otherUser and visit the team
         cy.apiLogin(otherUser);
-        cy.visit(`${testTeam.name}`);
+        cy.visit(`/${testTeam.name}`);
 
         // # Click on the @ button
         cy.uiGetRecentMentionButton().click();

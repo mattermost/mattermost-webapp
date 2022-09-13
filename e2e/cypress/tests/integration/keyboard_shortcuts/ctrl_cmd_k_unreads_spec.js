@@ -85,7 +85,7 @@ describe('Keyboard Shortcuts', () => {
         cy.visit(`/${team2.name}/channels/off-topic`);
 
         // # Type CTRL/CMD+K
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         // # Verify that the mentions in the channels of this team are displayed, channel will come based on recency of post
         cy.wait(TIMEOUTS.HALF_SEC);
@@ -135,7 +135,7 @@ describe('Keyboard Shortcuts', () => {
                     channelId: teamAndChannels[0].channels[2].id,
                 }).then(() => {
                     // # Press keyboard shortcut for channel switcher
-                    cy.get('#post_textbox').cmdOrCtrlShortcut('k');
+                    cy.uiGetPostTextBox().cmdOrCtrlShortcut('k');
 
                     // * Verify channel switcher shows up
                     cy.get('.a11y__modal.channel-switcher').should('exist').and('be.visible').as('channelSwitcherDialog');

@@ -53,19 +53,19 @@ describe('Settings > Sidebar > General', () => {
         cy.visit(offTopicUrl);
 
         // # Type in user's first name substring
-        cy.get('#post_textbox').clear().type(`@${newFirstName.substring(0, 11)}`);
+        cy.uiGetPostTextBox().clear().type(`@${newFirstName.substring(0, 11)}`);
 
         // * Verify that the testUser is selected from mention autocomplete
         cy.uiVerifyAtMentionInSuggestionList({...testUser, first_name: newFirstName}, true);
 
         // # Press tab on text input
-        cy.get('#post_textbox').tab();
+        cy.uiGetPostTextBox().tab();
 
         // * Verify that after enter user's username match
-        cy.get('#post_textbox').should('have.value', `@${username} `);
+        cy.uiGetPostTextBox().should('have.value', `@${username} `);
 
         // # Click enter in post textbox
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * Verify that message has been post in chat
         cy.get(`[data-mention="${username}"]`).

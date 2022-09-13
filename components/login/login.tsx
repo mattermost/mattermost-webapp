@@ -1,28 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import {Link, useLocation, useHistory} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
 import classNames from 'classnames';
+import throttle from 'lodash/throttle';
+
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+
+import {Client4} from 'mattermost-redux/client';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getUseCaseOnboarding, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+
+import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {RequestStatus} from 'mattermost-redux/constants';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {loadMe, loadMeREST} from 'mattermost-redux/actions/users';
+
+import LocalStorageStore from 'stores/local_storage_store';
 
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {addUserToTeamFromInvite} from 'actions/team_actions';
-import LocalStorageStore from 'stores/local_storage_store';
-import {login} from 'mattermost-redux/actions/users';
-import {Client4} from 'mattermost-redux/client';
-import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
-import {getTeamByName, getMyTeamMember} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {RequestStatus} from 'mattermost-redux/constants';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {Team} from '@mattermost/types/teams';
+import {login} from 'actions/views/login';
+import {setNeedsLoggedInLimitReachedCheck} from 'actions/views/admin';
 
 import AlertBanner, {ModeType, AlertBannerProps} from 'components/alert_banner';
 import ExternalLoginButton, {ExternalLoginButtonType} from 'components/external_login_button/external_login_button';
+import AlternateLinkLayout from 'components/header_footer_route/content_layouts/alternate_link';
 import ColumnLayout from 'components/header_footer_route/content_layouts/column';
 import {CustomizeHeaderType} from 'components/header_footer_route/header_footer_route';
 import LoadingScreen from 'components/loading_screen';
@@ -36,7 +46,10 @@ import LoginOpenIDIcon from 'components/widgets/icons/login_openid_icon';
 import Input, {SIZE} from 'components/widgets/inputs/input/input';
 import PasswordInput from 'components/widgets/inputs/password_input/password_input';
 import WomanWithChatsSVG from 'components/common/svg_images_components/woman_with_chats_svg';
+import {SubmitOptions} from 'components/claim/components/email_to_ldap';
+
 import {GlobalState} from 'types/store';
+
 import Constants from 'utils/constants';
 import {showNotification} from 'utils/notifications';
 import {t} from 'utils/i18n';
@@ -45,6 +58,8 @@ import {setCSRFFromCookie} from 'utils/utils';
 import LoginMfa from './login_mfa';
 
 import './login.scss';
+
+const MOBILE_SCREEN_WIDTH = 1200;
 
 type LoginProps = {
     onCustomizeHeader?: CustomizeHeaderType;
@@ -89,6 +104,8 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const experimentalPrimaryTeam = useSelector((state: GlobalState) => (ExperimentalPrimaryTeam ? getTeamByName(state, ExperimentalPrimaryTeam) : undefined));
     const experimentalPrimaryTeamMember = useSelector((state: GlobalState) => getMyTeamMember(state, experimentalPrimaryTeam?.id ?? ''));
     const useCaseOnboarding = useSelector(getUseCaseOnboarding);
+    const isCloud = useSelector(isCurrentLicenseCloud);
+    const graphQLEnabled = useSelector(isGraphQLEnabled);
 
     const loginIdInput = useRef<HTMLInputElement>(null);
     const passwordInput = useRef<HTMLInputElement>(null);
@@ -102,6 +119,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
     const [brandImageError, setBrandImageError] = useState(false);
     const [alertBanner, setAlertBanner] = useState<AlertBannerProps | null>(null);
     const [hasError, setHasError] = useState(false);
+    const [isMobileView, setIsMobileView] = useState(false);
 
     const enableCustomBrand = EnableCustomBrand === 'true';
     const enableLdap = EnableLdap === 'true';
@@ -304,32 +322,43 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
         return setAlertBanner(mode ? {mode: mode as ModeType, title, onDismiss} : null);
     }, [extraParam, sessionExpired, siteName, onDismissSessionExpired]);
 
-    const onWindowFocus = () => {
+    const getAlternateLink = useCallback(() => (
+        showSignup ? (
+            <AlternateLinkLayout
+                className='login-body-alternate-link'
+                alternateMessage={formatMessage({
+                    id: 'login.noAccount',
+                    defaultMessage: 'Don\'t have an account?',
+                })}
+                alternateLinkPath='/signup_user_complete'
+                alternateLinkLabel={formatMessage({
+                    id: 'login.create',
+                    defaultMessage: 'Create an account',
+                })}
+            />
+        ) : undefined
+    ), [showSignup]);
+
+    const onWindowResize = throttle(() => {
+        setIsMobileView(window.innerWidth < MOBILE_SCREEN_WIDTH);
+    }, 100);
+
+    const onWindowFocus = useCallback(() => {
         if (extraParam === Constants.SIGNIN_VERIFIED && emailParam) {
             passwordInput.current?.focus();
         } else {
             loginIdInput.current?.focus();
         }
-    };
+    }, [emailParam, extraParam]);
 
     useEffect(() => {
         if (onCustomizeHeader) {
             onCustomizeHeader({
                 onBackButtonClick: showMfa ? handleHeaderBackButtonOnClick : undefined,
-                ...showSignup ? {
-                    alternateMessage: formatMessage({
-                        id: 'login.noAccount',
-                        defaultMessage: 'Don\'t have an account?',
-                    }),
-                    alternateLinkPath: '/signup_user_complete',
-                    alternateLinkLabel: formatMessage({
-                        id: 'login.create',
-                        defaultMessage: 'Create an account',
-                    }),
-                } : {},
+                alternateLink: isMobileView ? getAlternateLink() : undefined,
             });
         }
-    }, [onCustomizeHeader, search, showMfa, showSignup]);
+    }, [onCustomizeHeader, search, showMfa, isMobileView, getAlternateLink]);
 
     useEffect(() => {
         if (currentUser) {
@@ -337,8 +366,10 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
+        onWindowResize();
         onWindowFocus();
 
+        window.addEventListener('resize', onWindowResize);
         window.addEventListener('focus', onWindowFocus);
 
         // Determine if the user was unexpectedly logged out.
@@ -371,6 +402,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 closeSessionExpiredNotification.current();
                 closeSessionExpiredNotification.current = undefined;
             }
+
+            window.removeEventListener('resize', onWindowResize);
+            window.removeEventListener('focus', onWindowFocus);
         };
     }, []);
 
@@ -481,20 +515,19 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             return;
         }
 
-        submit(loginId, password);
+        submit({loginId, password});
     };
 
-    const submit = async (loginId: string, password: string, token?: string) => {
+    const submit = async ({loginId, password, token}: SubmitOptions) => {
         setIsWaiting(true);
 
-        const {error} = await dispatch(login(loginId, password, token));
+        const {data: userProfile, error: loginError} = await dispatch(login(loginId, password, token));
 
-        // Ignore MFA required error (actions/views/login.js : ignoreMfaRequiredError)
-        if (error && error.server_error_id !== 'api.context.mfa_required.app_error') {
-            if (error.server_error_id === 'api.user.login.not_verified.app_error') {
+        if (loginError && loginError.server_error_id && loginError.server_error_id.length !== 0) {
+            if (loginError.server_error_id === 'api.user.login.not_verified.app_error') {
                 history.push('/should_verify_email?&email=' + encodeURIComponent(loginId));
-            } else if (error.server_error_id === 'store.sql_user.get_for_login.app_error' ||
-                error.server_error_id === 'ent.ldap.do_login.user_not_registered.app_error') {
+            } else if (loginError.server_error_id === 'store.sql_user.get_for_login.app_error' ||
+                loginError.server_error_id === 'ent.ldap.do_login.user_not_registered.app_error') {
                 setShowMfa(false);
                 setIsWaiting(false);
                 setAlertBanner({
@@ -505,8 +538,8 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                     }),
                 });
                 setHasError(true);
-            } else if (error.server_error_id === 'api.user.check_user_password.invalid.app_error' ||
-                error.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
+            } else if (loginError.server_error_id === 'api.user.check_user_password.invalid.app_error' ||
+                loginError.server_error_id === 'ent.ldap.do_login.invalid_password.app_error') {
                 setShowMfa(false);
                 setIsWaiting(false);
                 setAlertBanner({
@@ -517,9 +550,9 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                     }),
                 });
                 setHasError(true);
-            } else if (!showMfa && error.server_error_id === 'mfa.validate_token.authenticate.app_error') {
+            } else if (!showMfa && loginError.server_error_id === 'mfa.validate_token.authenticate.app_error') {
                 setShowMfa(true);
-            } else if (error.server_error_id === 'api.user.login.invalid_credentials_email_username') {
+            } else if (loginError.server_error_id === 'api.user.login.invalid_credentials_email_username') {
                 setShowMfa(false);
                 setIsWaiting(false);
                 setAlertBanner({
@@ -535,12 +568,17 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                 setIsWaiting(false);
                 setAlertBanner({
                     mode: 'danger',
-                    title: error.message,
+                    title: loginError.message,
                 });
                 setHasError(true);
             }
-
             return;
+        }
+
+        if (graphQLEnabled) {
+            await dispatch(loadMe());
+        } else {
+            await dispatch(loadMeREST());
         }
 
         // check for query params brought over from signup_user_complete
@@ -552,17 +590,21 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
             const {data: team} = await dispatch(addUserToTeamFromInvite(inviteToken, inviteId));
 
             if (team) {
-                finishSignin(team);
+                finishSignin(userProfile, team);
             } else {
                 // there's not really a good way to deal with this, so just let the user log in like normal
-                finishSignin();
+                finishSignin(userProfile);
             }
         } else {
-            finishSignin();
+            finishSignin(userProfile);
         }
     };
 
-    const finishSignin = (team?: Team) => {
+    const finishSignin = (userProfile: UserProfile, team?: Team) => {
+        if (isCloud && isSystemAdmin(userProfile.roles)) {
+            dispatch(setNeedsLoggedInLimitReachedCheck(true));
+        }
+
         const query = new URLSearchParams(search);
         const redirectTo = query.get('redirect_to');
 
@@ -778,6 +820,7 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
     return (
         <div className='login-body'>
+            {!isMobileView && getAlternateLink()}
             <div className='login-body-content'>
                 {getContent()}
             </div>

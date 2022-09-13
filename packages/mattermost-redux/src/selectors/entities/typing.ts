@@ -3,7 +3,7 @@
 
 import {createSelector} from 'reselect';
 
-import {getCurrentChannelId, getUsers} from 'mattermost-redux/selectors/entities/common';
+import {getUsers} from 'mattermost-redux/selectors/entities/common';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from '@mattermost/types/store';
@@ -40,13 +40,3 @@ export function makeGetUsersTypingByChannelAndPost(): (state: GlobalState, props
         getUsersTypingImpl,
     );
 }
-
-export const getUsersTyping: (state: GlobalState) => string[] = createSelector(
-    'getUsersTyping',
-    getUsers,
-    getTeammateNameDisplaySetting,
-    getCurrentChannelId,
-    (state) => state.entities.posts.selectedPostId,
-    (state) => state.entities.typing,
-    getUsersTypingImpl,
-);

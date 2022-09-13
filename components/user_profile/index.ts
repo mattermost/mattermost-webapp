@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getUser, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from '@mattermost/types/store';
 
@@ -18,10 +19,12 @@ function makeMapStateToProps() {
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const user = getUser(state, ownProps.userId);
+        const theme = getTheme(state);
 
         return {
             displayName: getDisplayName(state, ownProps.userId, true),
             user,
+            theme,
             isShared: Boolean(user && user.remote_id),
         };
     };

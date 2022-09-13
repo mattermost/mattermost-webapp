@@ -3,8 +3,6 @@
 
 import {combineReducers} from 'redux';
 
-import {Timezone} from 'timezones.json';
-
 import {GeneralTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {ClientLicense, ClientConfig} from '@mattermost/types/config';
@@ -24,47 +22,12 @@ function config(state: Partial<ClientConfig> = {}, action: GenericAction) {
     }
 }
 
-function appState(state = false, action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.RECEIVED_APP_STATE:
-        return action.data;
-
-    default:
-        return state;
-    }
-}
-
-function credentials(state: any = {}, action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.RECEIVED_APP_CREDENTIALS:
-        return Object.assign({}, state, action.data);
-
-    case UserTypes.LOGIN: // Used by the mobile app
-        return {
-            url: action.data.url,
-        };
-    case UserTypes.LOGOUT_SUCCESS:
-        return {};
-    default:
-        return state;
-    }
-}
-
 function dataRetentionPolicy(state: any = {}, action: GenericAction) {
     switch (action.type) {
     case GeneralTypes.RECEIVED_DATA_RETENTION_POLICY:
         return action.data;
     case UserTypes.LOGOUT_SUCCESS:
         return {};
-    default:
-        return state;
-    }
-}
-
-function deviceToken(state = '', action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.RECEIVED_APP_DEVICE_TOKEN:
-        return action.data;
     default:
         return state;
     }
@@ -79,17 +42,6 @@ function license(state: ClientLicense = {}, action: GenericAction) {
     case GeneralTypes.CLIENT_LICENSE_RESET:
     case UserTypes.LOGOUT_SUCCESS:
         return {};
-    default:
-        return state;
-    }
-}
-
-function timezones(state: Timezone[] = [], action: GenericAction) {
-    switch (action.type) {
-    case GeneralTypes.SUPPORTED_TIMEZONES_RECEIVED:
-        return action.data;
-    case UserTypes.LOGOUT_SUCCESS:
-        return [];
     default:
         return state;
     }
@@ -148,14 +100,10 @@ function firstAdminCompleteSetup(state = false, action: GenericAction) {
 }
 
 export default combineReducers({
-    appState,
-    credentials,
     config,
     dataRetentionPolicy,
-    deviceToken,
     license,
     serverVersion,
-    timezones,
     warnMetricsStatus,
     firstAdminVisitMarketplaceStatus,
     firstAdminCompleteSetup,

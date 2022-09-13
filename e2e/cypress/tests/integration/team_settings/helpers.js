@@ -36,7 +36,10 @@ export const inviteUserByEmail = (email) => {
     // # Wait half a second to ensure that the modal has been fully loaded
     cy.wait(TIMEOUTS.HALF_SEC);
 
-    cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}', {force: true});
+    cy.findByRole('textbox', {name: 'Add or Invite People'}).
+        typeWithForce(email).
+        wait(TIMEOUTS.HALF_SEC).
+        typeWithForce('{enter}');
     cy.get('#inviteMembersButton').click();
 
     // # Wait for a while to ensure that email notification is sent

@@ -21,13 +21,13 @@ describe('No Matches for Autocomplete', () => {
     it('MM-T270 No matches for user autocomplete', () => {
         // # Type non-existent user name
         const nonExistentUser = 'nonExistentUser';
-        cy.get('#post_textbox').clear().type(`@${nonExistentUser}`);
+        cy.uiGetPostTextBox().clear().type(`@${nonExistentUser}`);
 
         // * Verify suggestion list does not exist
         cy.get('#suggestionList').should('not.exist');
 
         // # Hit enter to post non-existent user name
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * Verify that the last message posted contains the user name and is not linked
         cy.getLastPost().within(() => {
@@ -39,13 +39,13 @@ describe('No Matches for Autocomplete', () => {
     it('MM-T269 No matches for channel autocomplete', () => {
         // # Type non-existent channel name
         const nonExistentChannel = 'nonExistentChannel';
-        cy.get('#post_textbox').clear().clear().type(`~${nonExistentChannel}`);
+        cy.uiGetPostTextBox().clear().clear().type(`~${nonExistentChannel}`);
 
         // * Verify suggestion list does not exist
         cy.get('#suggestionList').should('not.exist');
 
         // # Hit enter to post non-existent channel name
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * Verify that the last message posted contains the channel name and is not linked
         cy.getLastPost().should('include.text', `~${nonExistentChannel}`).within(() => {

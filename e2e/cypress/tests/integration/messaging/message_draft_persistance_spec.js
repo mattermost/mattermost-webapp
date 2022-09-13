@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @messaging
 
 import localForage from 'localforage';
@@ -38,14 +39,14 @@ describe('Message Draft Persistance', () => {
         cy.visit(offTopicUrl);
 
         // # Type some text into the post textbox
-        cy.get('#post_textbox').type(testText);
+        cy.uiGetPostTextBox().type(testText);
 
         // # Reload the page
         // eslint-disable-next-line cypress/no-unnecessary-waiting
         cy.wait(500).reload();
 
         // * Ensure the draft is back in the post textbox
-        cy.get('#post_textbox').should('have.text', testText);
+        cy.uiGetPostTextBox().should('have.text', testText);
     });
 
     it('MM-T4640 Persisting a draft in another channel', () => {
@@ -55,13 +56,13 @@ describe('Message Draft Persistance', () => {
         cy.visit(offTopicUrl);
 
         // # Type some text into the post textbox
-        cy.get('#post_textbox').type(testText);
+        cy.uiGetPostTextBox().type(testText);
 
         // # Switch to another channel
         cy.get(`#sidebarItem_${testChannel.name}`).click();
 
         // * Ensure the post textbox was cleared
-        cy.get('#post_textbox').should('be.empty');
+        cy.uiGetPostTextBox().should('be.empty');
 
         // * Ensure Off-Topic has the draft icon
         verifyDraftIcon('off-topic', true);
@@ -71,7 +72,7 @@ describe('Message Draft Persistance', () => {
         cy.wait(500).reload();
 
         // * Ensure the post textbox is still empty
-        cy.get('#post_textbox').should('be.empty');
+        cy.uiGetPostTextBox().should('be.empty');
 
         // * Ensure Off-Topic still has the draft icon
         cy.get('#sidebarItem_off-topic').
@@ -83,7 +84,7 @@ describe('Message Draft Persistance', () => {
         cy.get('#sidebarItem_off-topic').click();
 
         // * Ensure the draft is back in the post textbox
-        cy.get('#post_textbox').should('have.text', testText);
+        cy.uiGetPostTextBox().should('have.text', testText);
     });
 
     it('MM-T4641 Migration of drafts from redux-persist@4.0.0', () => {
@@ -115,6 +116,6 @@ describe('Message Draft Persistance', () => {
         cy.get(`#sidebarItem_${testChannel.name}`).click();
 
         // * Ensure the draft is in the post textbox
-        cy.get('#post_textbox').should('have.text', testText);
+        cy.uiGetPostTextBox().should('have.text', testText);
     });
 });

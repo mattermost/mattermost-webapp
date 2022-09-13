@@ -43,7 +43,10 @@ const InsightsCard = (props: Props) => {
                 </div>
                 <button
                     className='icon'
-                    onClick={props.onClick}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        props.onClick();
+                    }}
                 >
                     <i className='icon icon-chevron-right'/>
                 </button>

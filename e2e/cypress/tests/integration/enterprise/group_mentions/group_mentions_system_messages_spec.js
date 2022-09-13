@@ -106,7 +106,7 @@ describe('Group Mentions', () => {
         cy.apiCreateChannel(testTeam.id, 'group-mention', 'Group Mentions').then(({channel}) => {
             // # Visit the channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.uiGetPostTextBox();
 
             // # Submit a post containing the group mention
             cy.postMessage(`@${groupName} `);
@@ -142,7 +142,7 @@ describe('Group Mentions', () => {
 
                     // # Visit the channel
                     cy.visit(`/${team.name}/channels/${channel.name}`);
-                    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+                    cy.uiGetPostTextBox();
 
                     // # Submit a post containing the group mention
                     cy.postMessage(`@${groupName} `);
@@ -189,7 +189,7 @@ describe('Group Mentions', () => {
 
                 // # Visit the channel
                 cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-                cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+                cy.uiGetPostTextBox();
 
                 // # Submit a post containing the group mention
                 cy.postMessage(`@${groupName} `);
@@ -228,7 +228,7 @@ describe('Group Mentions', () => {
 
             // # Visit the channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
-            cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+            cy.uiGetPostTextBox();
 
             // # Submit a post containing the group mention
             cy.postMessage(`@${groupName} `);

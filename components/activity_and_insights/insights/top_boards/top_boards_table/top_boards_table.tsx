@@ -6,6 +6,8 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {GlobalState} from 'types/store';
 
 import {TimeFrame, TopBoard} from '@mattermost/types/insights';
@@ -47,7 +49,8 @@ const TopBoardsTable = (props: Props) => {
 
     const goToBoard = useCallback((board: TopBoard) => {
         props.closeModal();
-        browserHistory.push(`/boards/workspace/${board.workspaceID}/${board.boardID}`);
+        trackEvent('insights', 'open_board_from_top_boards_modal');
+        browserHistory.push(`/boards/team/${currentTeamId}/${board.boardID}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
@@ -66,7 +69,7 @@ const TopBoardsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights..topBoards.board'
+                        id='insights.topBoardsTable.board'
                         defaultMessage='Board'
                     />
                 ),
@@ -86,7 +89,7 @@ const TopBoardsTable = (props: Props) => {
             {
                 name: (
                     <FormattedMessage
-                        id='insights..topBoards.participants'
+                        id='insights.topBoardsTable.participants'
                         defaultMessage='Participants'
                     />
                 ),

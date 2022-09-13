@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 import {Permissions} from 'mattermost-redux/constants';
 
-import {getConfig, getCurrentUrl, isCompatibleWithJoinViewTeamPermissions} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, isCompatibleWithJoinViewTeamPermissions} from 'mattermost-redux/selectors/entities/general';
 import {haveISystemPermission} from 'mattermost-redux/selectors/entities/roles_helpers';
 
 import {GlobalState} from '@mattermost/types/store';
@@ -79,6 +79,14 @@ export const getTeamsList: (state: GlobalState) => Team[] = createSelector(
     },
 );
 
+export const getActiveTeamsList: (state: GlobalState) => Team[] = createSelector(
+    'getActiveTeamsList',
+    getTeamsList,
+    (teams) => {
+        return teams.filter((team) => team.delete_at === 0);
+    },
+);
+
 export const getCurrentTeam: (state: GlobalState) => Team = createSelector(
     'getCurrentTeam',
     getTeams,
@@ -116,16 +124,14 @@ export const isCurrentUserCurrentTeamAdmin: (state: GlobalState) => boolean = cr
 
 export const getCurrentTeamUrl: (state: GlobalState) => string = createSelector(
     'getCurrentTeamUrl',
-    getCurrentUrl,
     getCurrentTeam,
-    (state) => getConfig(state).SiteURL,
-    (currentURL, currentTeam, siteURL) => {
-        const rootURL = `${currentURL || siteURL}`;
+    (state) => getConfig(state).SiteURL as string,
+    (currentTeam, siteURL) => {
         if (!currentTeam) {
-            return rootURL;
+            return siteURL;
         }
 
-        return `${rootURL}/${currentTeam.name}`;
+        return `${siteURL}/${currentTeam.name}`;
     },
 );
 

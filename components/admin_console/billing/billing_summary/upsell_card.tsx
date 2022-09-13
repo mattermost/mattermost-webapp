@@ -8,6 +8,8 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
+import StartTrialCaution from 'components/pricing_modal/start_trial_caution';
+
 import {Message, t} from 'utils/i18n';
 import {openExternalPricingLink, FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
 
@@ -76,19 +78,24 @@ export default function UpsellCard(props: Props) {
     );
     if (props.upsellIsTrial) {
         callToAction = (
-            <CloudStartTrialButton
-                message={
-                    intl.formatMessage(
-                        {
-                            id: props.cta.id,
-                            defaultMessage: props.cta.defaultMessage,
-                        },
-                        props.cta.values,
-                    )
-                }
-                telemetryId={'start_cloud_trial_billing_subscription'}
-                extraClass={ctaClassname}
-            />
+            <>
+                <CloudStartTrialButton
+                    message={
+                        intl.formatMessage(
+                            {
+                                id: props.cta.id,
+                                defaultMessage: props.cta.defaultMessage,
+                            },
+                            props.cta.values,
+                        )
+                    }
+                    telemetryId={'start_cloud_trial_billing_subscription'}
+                    extraClass={ctaClassname}
+                />
+                <p className='disclaimer'>
+                    <StartTrialCaution/>
+                </p>
+            </>
         );
     }
     return (
@@ -156,7 +163,7 @@ export const UpgradeToProfessionalCard = () => {
                 id: t('admin.billing.subscriptions.billing_summary.upgrade_professional.cta'),
                 defaultMessage: 'Upgrade',
             }}
-            ctaAction={openPurchaseModal}
+            ctaAction={() => openPurchaseModal({trackingLocation: 'billing_summary_upsell_professional_card'})}
             ctaPrimary={true}
             andMore={true}
             advantages={professionalAdvantages}

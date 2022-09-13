@@ -60,6 +60,6 @@ describe('Messaging', () => {
     });
 
     const getTextBox = () => {
-        return cy.get('#reply_textbox');
+        return cy.uiGetReplyTextBox();
     };
 });

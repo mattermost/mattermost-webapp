@@ -117,7 +117,7 @@ function testImage(properties) {
 
     // # Wait until file upload is complete then submit
     waitUntilUploadComplete();
-    cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+    cy.uiGetPostTextBox().clear().type('{enter}');
     cy.wait(TIMEOUTS.FIVE_SEC);
 
     // # Open file preview

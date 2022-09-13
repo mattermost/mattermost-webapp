@@ -31,10 +31,6 @@ export const isCloudLicense: (state: GlobalState) => boolean = createSelector(
     (license: ClientLicense) => license?.Cloud === 'true',
 );
 
-export function getCurrentUrl(state: GlobalState): string {
-    return state.entities.general.credentials.url;
-}
-
 export function warnMetricsStatus(state: GlobalState): any {
     return state.entities.general.warnMetricsStatus;
 }
@@ -109,3 +105,11 @@ export function getFirstAdminSetupComplete(state: GlobalState): boolean {
 export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
     return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
 }
+
+export const isMarketplaceEnabled: (state: GlobalState) => boolean = createSelector(
+    'isMarketplaceEnabled',
+    getConfig,
+    (config) => {
+        return config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
+    },
+);

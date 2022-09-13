@@ -52,7 +52,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
         postMessages(testChannel, otherUser, count);
 
         // # Search for a term
-        cy.get('#searchBox').type('hello').type('{enter}', {force: true});
+        cy.get('#searchBox').typeWithForce('hello').typeWithForce('{enter}');
 
         // # Change the focus to search results
         cy.get('#searchContainer').within(() => {
@@ -103,7 +103,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
 
         // # Change the focus to the last post
         cy.get('#rhsContainer').within(() => {
-            cy.get('#fileUploadButton').focus().tab({shift: true}).tab({shift: true});
+            cy.get('#toggleFormattingBarButton').focus().tab({shift: true}).tab({shift: true}).tab({shift: true});
         });
         cy.get('body').type('{uparrow}{downarrow}');
 
@@ -137,7 +137,7 @@ describe('Verify Accessibility keyboard usability across different regions in th
             cy.clickPostCommentIcon(postId);
 
             // * Verify Screen reader should not switch to virtual cursor mode. This is handled by adding a role=application attribute
-            const regions = ['#sidebar-left', '#rhsContainer .post-right__content', '.search__form', '#centerChannelFooter'];
+            const regions = ['#sidebar-left', '#rhsContainer .post-right__content', '.search__form', '#advancedTextEditorCell'];
             regions.forEach((region) => {
                 cy.get(region).should('have.attr', 'role', 'application');
             });

@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getRandomId} from '../utils';
-import {Channel, ChannelType} from '../../../../packages/mattermost-redux/src/types/channels';
+import {getRandomId} from '@support/utils';
+import {Channel, ChannelType} from '@mattermost/types/lib/channels';
 
 export function createRandomChannel(
     teamId,

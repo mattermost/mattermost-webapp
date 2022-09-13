@@ -33,7 +33,7 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
 import {Preferences} from 'utils/constants';
 
-import RhsComment from './rhs_comment.jsx';
+import RhsComment from './rhs_comment';
 
 interface OwnProps {
     post: Post;
@@ -83,6 +83,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isConsecutivePost: isConsecutivePost(state, ownProps),
         isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+        colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
         shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
         showActionsMenuPulsatingDot,
         shortcutReactToLastPostEmittedFrom,

@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ProductNotices, ProductNotice} from '@mattermost/types/product_notices';
-import {WebsocketStatus} from 'mattermost-redux/types/websocket';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -17,19 +16,11 @@ import AdminEyeIcon from 'components/widgets/icons/admin_eye_icon';
 
 import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 
+import type {PropsFromRedux} from './index';
+
 import './product_notices_modal.scss';
 
-type Props = {
-    version: string;
-    currentTeamId: string;
-    socketStatus: WebsocketStatus;
-    actions: {
-        getInProductNotices: (teamId: string, client: string, clientVersion: string) => Promise<{
-            data: ProductNotices;
-        }>;
-        updateNoticesAsViewed: (noticeIds: string[]) => Promise<Record<string, unknown>>;
-    };
-}
+type Props = PropsFromRedux;
 
 type State = {
     presentNoticeIndex: number;

@@ -11,7 +11,7 @@ import {UserProfile} from '@mattermost/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
 
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions';
 
 import {GlobalState} from 'types/store';
 

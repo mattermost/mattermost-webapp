@@ -18,6 +18,8 @@ import EmbeddedBindings from '../embedded_bindings/embedded_bindings';
 import {TextFormattingOptions} from 'utils/text_formatting';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 
+import webSocketClient from 'client/web_websocket_client.jsx';
+
 export type Props = {
     post: Post;
     pluginPostWillRenderEmbedComponents?: PostWillRenderEmbedPluginComponent[];
@@ -25,7 +27,7 @@ export type Props = {
     isEmbedVisible?: boolean;
     options?: Partial<TextFormattingOptions>;
     appsEnabled: boolean;
-    handleFileDropdownOpened: (open: boolean) => void;
+    handleFileDropdownOpened?: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
     };
@@ -57,7 +59,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
         for (const c of postWillRenderEmbedComponents) {
             if (c.match(embed)) {
                 const Component = c.component;
-                return this.props.isEmbedVisible && <Component embed={embed}/>;
+                return this.props.isEmbedVisible && (
+                    <Component
+                        embed={embed}
+                        webSocketClient={webSocketClient}
+                    />
+                );
             }
         }
         switch (embed.type) {

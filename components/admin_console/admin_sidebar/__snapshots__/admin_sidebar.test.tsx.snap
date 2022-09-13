@@ -153,6 +153,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="user_management.groups_feature_discovery"
               key="user_management.groups_feature_discovery"
               name="user_management/groups"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -165,6 +177,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="user_management.system_roles_feature_discovery"
               key="user_management.system_roles_feature_discovery"
               name="user_management/system_roles"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -197,6 +221,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="site.announcement_banner_feature_discovery"
               key="site.announcement_banner_feature_discovery"
               name="site_config/announcement_banner"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -229,6 +265,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="authentication.ldap_feature_discovery"
               key="authentication.ldap_feature_discovery"
               name="authentication/ldap"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -241,6 +289,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="authentication.saml_feature_discovery"
               key="authentication.saml_feature_discovery"
               name="authentication/saml"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -253,6 +313,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="authentication.openid_feature_discovery"
               key="authentication.openid_feature_discovery"
               name="authentication/openid"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -265,6 +337,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="authentication.guest_access_feature_discovery"
               key="authentication.guest_access_feature_discovery"
               name="authentication/guest_access"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -334,6 +418,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="compliance.data_retention_feature_discovery"
               key="compliance.data_retention_feature_discovery"
               name="compliance/data_retention"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -346,6 +442,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="compliance.compliance_export_feature_discovery"
               key="compliance.compliance_export_feature_discovery"
               name="compliance/export"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -358,6 +466,18 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               definitionKey="compliance.custom_terms_of_service_feature_discovery"
               key="compliance.custom_terms_of_service_feature_discovery"
               name="compliance/custom_terms_of_service"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4519,6 +4639,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="user_management.groups_feature_discovery"
               key="user_management.groups_feature_discovery"
               name="user_management/groups"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4567,6 +4699,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="user_management.system_roles_feature_discovery"
               key="user_management.system_roles_feature_discovery"
               name="user_management/system_roles"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4799,6 +4943,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="site.announcement_banner_feature_discovery"
               key="site.announcement_banner_feature_discovery"
               name="site_config/announcement_banner"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4939,6 +5095,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="authentication.ldap_feature_discovery"
               key="authentication.ldap_feature_discovery"
               name="authentication/ldap"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4951,6 +5119,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="authentication.saml_feature_discovery"
               key="authentication.saml_feature_discovery"
               name="authentication/saml"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4975,6 +5155,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="authentication.openid_feature_discovery"
               key="authentication.openid_feature_discovery"
               name="authentication/openid"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -4987,6 +5179,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="authentication.guest_access_feature_discovery"
               key="authentication.guest_access_feature_discovery"
               name="authentication/guest_access"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5124,6 +5328,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="compliance.data_retention_feature_discovery"
               key="compliance.data_retention_feature_discovery"
               name="compliance/data_retention"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5136,6 +5352,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="compliance.compliance_export_feature_discovery"
               key="compliance.compliance_export_feature_discovery"
               name="compliance/export"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5148,6 +5376,18 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="compliance.custom_terms_of_service_feature_discovery"
               key="compliance.custom_terms_of_service_feature_discovery"
               name="compliance/custom_terms_of_service"
+              restrictedIndicator={
+                <RestrictedIndicator
+                  blocked={true}
+                  tooltipMessageBlocked={
+                    Object {
+                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
+                    }
+                  }
+                  useModal={false}
+                />
+              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)

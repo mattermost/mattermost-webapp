@@ -15,14 +15,14 @@ import Client4, {
     parseAndMergeNestedHeaders,
     HEADER_X_VERSION_ID,
     HEADER_X_CLUSTER_ID,
-} from '../../../../packages/mattermost-redux/src/client/client4';
-import {UserProfile} from '../../../../packages/mattermost-redux/src/types/users';
-import {Options, StatusOK, ClientResponse} from '../../../../packages/mattermost-redux/src/types/client4';
-import {CustomEmoji} from '../../../../packages/mattermost-redux/src/types/emojis';
-import {PluginManifest} from '../../../../packages/mattermost-redux/src/types/plugins';
-import {License} from '../../../../packages/mattermost-redux/src/types/config';
+} from '@mattermost/client/lib/client4';
+import {UserProfile} from '@mattermost/types/lib/users';
+import {Options, StatusOK, ClientResponse} from '@mattermost/types/lib/client4';
+import {CustomEmoji} from '@mattermost/types/lib/emojis';
+import {PluginManifest} from '@mattermost/types/lib/plugins';
+import {License} from '@mattermost/types/lib/config';
 
-import {buildQueryString} from '../../../../packages/mattermost-redux/src/utils/helpers_client';
+import {buildQueryString} from '@mattermost/client/lib/helpers';
 
 type ItemsFromCookie = {
     token?: string;

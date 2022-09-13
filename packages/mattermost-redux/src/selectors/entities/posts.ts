@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {createSelector} from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
@@ -10,8 +8,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
-
-import {PostWithFormatData} from 'mattermost-redux/types/posts';
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
 import {Channel} from '@mattermost/types/channels';
 import {
@@ -42,6 +39,11 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 export function getAllPosts(state: GlobalState) {
     return state.entities.posts.posts;
+}
+
+export type UserActivityPost = Post & {
+    system_post_ids: string[];
+    user_activity_posts: Post[];
 }
 
 export function getPost(state: GlobalState, postId: Post['id']): Post {
@@ -89,6 +91,17 @@ export function getPostIdsInCurrentChannel(state: GlobalState): Array<Post['id']
     return getPostIdsInChannel(state, state.entities.channels.currentChannelId);
 }
 
+export type PostWithFormatData = Post & {
+    isFirstReply: boolean;
+    isLastReply: boolean;
+    previousPostIsComment: boolean;
+    commentedOnPost?: Post;
+    consecutivePostByUser: boolean;
+    replyCount: number;
+    isCommentMention: boolean;
+    highlight: boolean;
+};
+
 // getPostsInCurrentChannel returns the posts loaded at the bottom of the channel. It does not include older posts
 // such as those loaded by viewing a thread or a permalink.
 export const getPostsInCurrentChannel: (state: GlobalState) => PostWithFormatData[] | undefined | null = (() => {
@@ -135,9 +148,9 @@ export function makeGetPostsChunkAroundPost(): (state: GlobalState, postId: Post
     );
 }
 
-export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a: {
-    postsBeforeCount: number;
-    postsAfterCount: number;
+export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a?: {
+    postsBeforeCount?: number;
+    postsAfterCount?: number;
 }) => Array<Post['id']> | undefined | null {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     return createIdsSelector(
@@ -374,9 +387,7 @@ export function makeGetProfilesForThread(): (state: GlobalState, rootId: string)
             const profileIds = posts.map((post) => post.user_id);
             const uniqueIds = [...new Set(profileIds)];
             return uniqueIds.reduce((acc: UserProfile[], id: string) => {
-                const profile: UserProfile = userStatuses ?
-                    {...allUsers[id], status: userStatuses[id]} :
-                    {...allUsers[id]};
+                const profile: UserProfile = userStatuses ? {...allUsers[id], status: userStatuses[id]} : {...allUsers[id]};
 
                 if (profile && Object.keys(profile).length > 0 && currentUserId !== id) {
                     return [
@@ -469,28 +480,6 @@ export function makeGetPostsForIds(): (state: GlobalState, postIds: Array<Post['
     );
 }
 
-export const getLastPostPerChannel: (state: GlobalState) => RelationOneToOne<Channel, Post> = createSelector(
-    'getLastPostPerChannel',
-    getAllPosts,
-    (state: GlobalState) => state.entities.posts.postsInChannel,
-    (allPosts, postsInChannel) => {
-        const ret: Record<string, Post> = {};
-
-        for (const [channelId, postsForChannel] of Object.entries(postsInChannel)) {
-            const recentBlock = postsForChannel.find((block) => block.recent);
-            if (!recentBlock) {
-                continue;
-            }
-
-            const postId = recentBlock.order[0];
-            if (allPosts.hasOwnProperty(postId)) {
-                ret[channelId] = allPosts[postId];
-            }
-        }
-
-        return ret;
-    },
-);
 export const getMostRecentPostIdInChannel: (state: GlobalState, channelId: Channel['id']) => Post['id'] | undefined | null = createSelector(
     'getMostRecentPostIdInChannel',
     getAllPosts,
@@ -585,6 +574,31 @@ export function getOldestPostsChunkInChannel(state: GlobalState, channelId: Chan
     return postsForChannel.find((block) => block.oldest);
 }
 
+// returns timestamp of the channel's oldest post. 0 otherwise
+export function getOldestPostTimeInChannel(state: GlobalState, channelId: Channel['id']): number {
+    const postsForChannel = state.entities.posts.postsInChannel[channelId];
+
+    if (!postsForChannel) {
+        return 0;
+    }
+
+    const allPosts = getAllPosts(state);
+    const oldestPostTime = postsForChannel.reduce((acc: number, postBlock) => {
+        if (postBlock.order.length > 0) {
+            const oldestPostIdInBlock = postBlock.order[postBlock.order.length - 1];
+            const blockOldestPostTime = allPosts[oldestPostIdInBlock]?.create_at;
+            if (typeof blockOldestPostTime === 'number' && blockOldestPostTime < acc) {
+                return blockOldestPostTime;
+            }
+        }
+        return acc;
+    }, Number.MAX_SAFE_INTEGER);
+    if (oldestPostTime === Number.MAX_SAFE_INTEGER) {
+        return 0;
+    }
+    return oldestPostTime;
+}
+
 // getPostIdsInChannel returns the IDs of posts loaded at the bottom of the given channel. It does not include older
 // posts such as those loaded by viewing a thread or a permalink.
 export function getPostIdsInChannel(state: GlobalState, channelId: Channel['id']): Array<Post['id']> | undefined | null {
@@ -668,6 +682,20 @@ export function getUnreadPostsChunk(state: GlobalState, channelId: Channel['id']
     return getPostsChunkInChannelAroundTime(state, channelId, timeStamp);
 }
 
+export const isPostsChunkIncludingUnreadsPosts = (state: GlobalState, chunk: PostOrderBlock, timeStamp: number): boolean => {
+    const postsEntity = state.entities.posts;
+    const posts = postsEntity.posts;
+
+    if (!chunk || !chunk.order.length) {
+        return false;
+    }
+
+    const {order} = chunk;
+    const oldestPostInBlock = posts[order[order.length - 1]];
+
+    return oldestPostInBlock.create_at <= timeStamp;
+};
+
 export const isPostIdSending = (state: GlobalState, postId: Post['id']): boolean => {
     return state.entities.posts.pendingPostIds.some((sendingPostId) => sendingPostId === postId);
 };
@@ -713,4 +741,15 @@ export const makeIsPostCommentMention = (): ((state: GlobalState, postId: Post['
 
 export function getExpandedLink(state: GlobalState, link: string): string {
     return state.entities.posts.expandedURLs[link];
+}
+
+export function getLimitedViews(state: GlobalState): GlobalState['entities']['posts']['limitedViews'] {
+    return state.entities.posts.limitedViews;
+}
+
+export function isPostPriorityEnabled(state: GlobalState) {
+    return (
+        getFeatureFlagValue(state, 'PostPriority') === 'true' &&
+        getConfig(state).PostPriority === 'true'
+    );
 }

@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 /* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-lines */
 import React from 'react';
 
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
@@ -211,9 +210,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30) || 30;
         const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
-            this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
+            this.setState({gettingTrialError: error});
         }
-        this.setState({gettingTrial: false});
+        this.setState({gettingTrial: false, gettingTrialResponseCode: data?.status});
         await this.props.actions.getLicenseConfig();
     }
 

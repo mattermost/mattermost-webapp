@@ -5,6 +5,8 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {Link} from 'react-router-dom';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
 import {TimeFrame, TopChannel} from '@mattermost/types/insights';
 
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
@@ -61,6 +63,7 @@ const TopChannelsTable = (props: Props) => {
     }, [getMyTeamChannels]);
 
     const closeModal = useCallback(() => {
+        trackEvent('insights', 'open_channel_from_top_channels_modal');
         props.closeModal();
     }, [props.closeModal]);
 

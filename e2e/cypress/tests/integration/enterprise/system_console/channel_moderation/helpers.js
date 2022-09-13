@@ -184,7 +184,7 @@ export const goToPermissionsAndCreateTeamOverrideScheme = (schemeName, team) => 
     cy.findByTestId('team-override-schemes-link').click();
     cy.get('#scheme-name').type(schemeName);
     cy.findByTestId('add-teams').click();
-    cy.get('#selectItems').click().type(team.display_name);
+    cy.get('#selectItems input').typeWithForce(team.display_name);
     cy.get('#multiSelectList').should('be.visible').children().first().click({force: true});
     cy.get('#saveItems').should('be.visible').click();
     saveConfigForScheme(false);

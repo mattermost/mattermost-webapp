@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {ChannelTypes, UserTypes, PostTypes, AdminTypes} from 'mattermost-redux/action_types';
+import TestHelper from 'mattermost-redux/test/test_helper';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 
 import {General, Permissions} from 'mattermost-redux/constants';
@@ -1038,6 +1039,206 @@ describe('channels', () => {
                 id: 'channel4',
                 team_id: 'team',
             });
+        });
+    });
+});
+
+describe('myMembers', () => {
+    const userId = 'userId';
+    const channelId = 'channelId';
+
+    describe('RECEIVED_MY_CHANNEL_MEMBER', () => {
+        test('should save a newly received channel member', () => {
+            const state = deepFreeze({});
+
+            const channelMember = TestHelper.fakeChannelMember(userId, channelId);
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
+                data: channelMember,
+            });
+
+            expect(nextState).toEqual({
+                [channelId]: channelMember,
+            });
+        });
+
+        test('should update an existing channel member', () => {
+            const state = deepFreeze({
+                [channelId]: {
+                    ...TestHelper.fakeChannelMember(userId, channelId),
+                    msg_count: 10,
+                },
+            });
+
+            const channelMember = {
+                ...TestHelper.fakeChannelMember(userId, channelId),
+                msg_count: 15,
+            };
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
+                data: channelMember,
+            });
+
+            expect(nextState).toEqual({
+                [channelId]: channelMember,
+            });
+        });
+
+        test('should not overwrite a more up to date last_viewed_at', () => {
+            const state = deepFreeze({
+                [channelId]: {
+                    ...TestHelper.fakeChannelMember(userId, channelId),
+                    last_viewed_at: 20000,
+                    msg_count: 10,
+                },
+            });
+
+            const channelMember = {
+                ...TestHelper.fakeChannelMember(userId, channelId),
+                last_viewed_at: 10000,
+                msg_count: 15,
+            };
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBER,
+                data: channelMember,
+            });
+
+            expect(nextState).toEqual({
+                [channelId]: {
+                    ...channelMember,
+                    last_viewed_at: 20000,
+                    msg_count: 15,
+                },
+            });
+        });
+    });
+
+    describe('RECEIVED_MY_CHANNEL_MEMBERS', () => {
+        test('should save a newly received channel member', () => {
+            const state = deepFreeze({});
+
+            const channelMember = TestHelper.fakeChannelMember(userId, channelId);
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
+                data: [channelMember],
+            });
+
+            expect(nextState).toEqual({
+                [channelId]: channelMember,
+            });
+        });
+
+        test('should update an existing channel member', () => {
+            const state = deepFreeze({
+                [channelId]: {
+                    ...TestHelper.fakeChannelMember(userId, channelId),
+                    msg_count: 10,
+                },
+            });
+
+            const channelMember = {
+                ...TestHelper.fakeChannelMember(userId, channelId),
+                msg_count: 15,
+            };
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
+                data: [channelMember],
+            });
+
+            expect(nextState).toEqual({
+                [channelId]: channelMember,
+            });
+        });
+
+        test('should not overwrite a more up to date last_viewed_at', () => {
+            const state = deepFreeze({
+                [channelId]: {
+                    ...TestHelper.fakeChannelMember(userId, channelId),
+                    last_viewed_at: 20000,
+                    msg_count: 10,
+                },
+            });
+
+            const channelMember = {
+                ...TestHelper.fakeChannelMember(userId, channelId),
+                last_viewed_at: 10000,
+                msg_count: 15,
+            };
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
+                data: [channelMember],
+            });
+
+            expect(nextState).toEqual({
+                [channelId]: {
+                    ...channelMember,
+                    last_viewed_at: 20000,
+                    msg_count: 15,
+                },
+            });
+        });
+    });
+
+    describe('POST_UNREAD_SUCCESS', () => {
+        test('should update the channel member', () => {
+            const originalChannelMember = {
+                ...TestHelper.fakeChannelMember(userId, channelId),
+                last_viewed_at: 10000,
+                msg_count: 10,
+                mention_count: 3,
+                msg_count_root: 6,
+                mention_count_root: 2,
+            };
+            const state = deepFreeze({
+                [channelId]: originalChannelMember,
+            });
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.POST_UNREAD_SUCCESS,
+                data: {
+                    channelId,
+                    lastViewedAt: 5000,
+                    msgCount: 5,
+                    mentionCount: 2,
+                    msgCountRoot: 4,
+                    mentionCountRoot: 1,
+                },
+            });
+
+            expect(nextState).toEqual({
+                [channelId]: {
+                    ...originalChannelMember,
+                    last_viewed_at: 5000,
+                    msg_count: 5,
+                    mention_count: 2,
+                    msg_count_root: 4,
+                    mention_count_root: 1,
+                },
+            });
+        });
+
+        test('shouldn\'t make any changes if the channel member hasn\t been loaded yet', () => {
+            const state = deepFreeze({});
+
+            const nextState = Reducers.myMembers(state, {
+                type: ChannelTypes.POST_UNREAD_SUCCESS,
+                data: {
+                    channelId,
+                    lastViewedAt: 5000,
+                    msgCount: 5,
+                    mentionCount: 2,
+                    msgCountRoot: 4,
+                    mentionCountRoot: 1,
+                },
+            });
+
+            expect(nextState).toBe(state);
         });
     });
 });
