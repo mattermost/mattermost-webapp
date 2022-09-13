@@ -51,7 +51,7 @@
     "marked": "github:mattermost/marked#2ef7f28cc7718e3f551c4ce9ea75fdd7580c2008",
     "memoize-one": "5.2.1",
     "moment-timezone": "0.5.34",
-    "p-queue": "6.6.1",
+    "p-queue": "7.1.0",
     "pdfjs-dist": "2.15.349",
     "popper.js": "1.16.1",
     "process": "0.11.10",
@@ -175,9 +175,9 @@
     "identity-obj-proxy": "3.0.0",
     "image-webpack-loader": "8.0.1",
     "isomorphic-fetch": "3.0.0",
-    "jest": "27.0.6",
+    "jest": "27.1.0",
     "jest-canvas-mock": "2.4.0",
-    "jest-cli": "27.0.6",
+    "jest-cli": "27.1.0",
     "jest-junit": "12.2.0",
     "jest-watch-typeahead": "0.6.4",
     "mini-css-extract-plugin": "2.0.0",
@@ -262,7 +262,7 @@
       "jest-junit"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!react-native|react-router|@mattermost/compass-components|@mattermost/compass-icons)"
+      "node_modules/(?!react-native|react-router|p-queue|p-timeout|@mattermost/compass-components|@mattermost/compass-icons)"
     ],
     "setupFiles": [
       "jest-canvas-mock"
