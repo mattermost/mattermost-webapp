@@ -182,10 +182,9 @@ export default class Markdown extends React.PureComponent<Props> {
             postType: this.props.postType,
             mentionHighlight: this.props.options.mentionHighlight,
             disableGroupHighlight: this.props.options.disableGroupHighlight,
-            editedAt,
+            editedAt: this.props.showPostEditedIndicator ? editedAt : 0,
             atSumOfMembersMentions: this.props.options.atSumOfMembersMentions,
             atPlanMentions: this.props.options.atPlanMentions,
-            showPostEditedIndicator: this.props.showPostEditedIndicator,
         });
     }
 }
