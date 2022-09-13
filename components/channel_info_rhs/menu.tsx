@@ -68,7 +68,7 @@ const menuItem = ({icon, text, className, opensSubpanel, badge, onClick}: MenuIt
     );
 };
 
-const MenuItem = styled(menuItem)`
+export const MenuItem = styled(menuItem)`
     display: flex;
     flex-direction: row;
     align-items: center;

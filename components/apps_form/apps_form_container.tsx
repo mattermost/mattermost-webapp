@@ -38,6 +38,14 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
         this.state = {form: props.form};
     }
 
+    static getDerivedStateFromProps(props: Props, state: State) {
+        if (props.form !== state.form) {
+            return {form: props.form};
+        }
+
+        return state;
+    }
+
     submitForm = async (submission: {values: AppFormValues}): Promise<DoAppCallResult<FormResponseData>> => {
         const makeErrorMsg = (msg: string) => {
             return this.props.intl.formatMessage(
@@ -82,6 +90,7 @@ class AppsFormContainer extends React.PureComponent<Props, State> {
             this.setState({form: callResp.form});
             break;
         case AppCallResponseTypes.NAVIGATE:
+            break;
         default:
             return {error: makeCallErrorResponse(makeErrorMsg(this.props.intl.formatMessage(
                 {

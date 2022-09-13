@@ -4,6 +4,7 @@
 import {Post, PostType} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
+import {AppBinding} from '@mattermost/types/apps';
 
 import {RHSStates} from 'utils/constants';
 
@@ -30,6 +31,7 @@ export type RhsViewState = {
     searchTerms: string;
     searchType: SearchType;
     pluggableId: string;
+    appBinding: AppBinding | null;
     searchResultsTerms: string;
     isSearchingFlaggedPost: boolean;
     isSearchingPinnedPost: boolean;

@@ -132,7 +132,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
     fireAppAction = async (binding: AppBinding) => {
         const {channel, intl} = this.props;
         const context = createCallContext(
-            binding.app_id,
+            binding.app_id!,
             binding.location,
             channel.id,
             channel.team_id,

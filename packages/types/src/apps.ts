@@ -72,10 +72,6 @@ export type AppBinding = {
     description?: string;
 
     role_id?: string;
-    depends_on_team?: boolean;
-    depends_on_channel?: boolean;
-    depends_on_user?: boolean;
-    depends_on_post?: boolean;
 
     // A Binding is either an action (makes a call), a Form, or is a
     // "container" for other locations - i.e. menu sub-items or subcommands.

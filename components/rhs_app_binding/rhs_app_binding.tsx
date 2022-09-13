@@ -2,83 +2,36 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
-import SearchResultsHeader from 'components/search_results_header';
 import {AppBinding, AppContext, AppForm} from '@mattermost/types/apps';
+
+import {handleBindingClick} from 'actions/apps';
 import {getRhsAppBinding} from 'selectors/rhs';
-import {useSelector} from 'react-redux';
-import AppsForm from 'components/apps_form';
 import {createCallContext} from 'utils/apps';
+
+import AppsForm from 'components/apps_form';
+import SearchResultsHeader from 'components/search_results_header';
 import Markdown from 'components/markdown';
-
-const binding: AppBinding = {
-    type: 'view',
-    app_id: 'github',
-    label: 'GitHub',
-    description: 'The Description',
-    bindings: [
-        {
-            type: 'menu',
-            label: 'Menu Title',
-            bindings: [
-                {
-                    type: 'menu_item',
-                    label: 'Your Pull Requests',
-                    description: '1',
-                    icon: 'fa-code-fork'
-                }
-            ],
-        },
-        {
-            type: 'button',
-            label: 'Start a meeting 2',
-        },
-        {
-            type: 'form',
-            label: 'Some Form',
-            form: {
-                fields: [
-                    {
-                        name: 'submit',
-                        type: 'static_select',
-                        options: [
-                            {
-                                label: 'Start a Meeting',
-                                value: 'start_meeting',
-                            },
-                        ],
-                    },
-                ],
-                submit_buttons: 'submit',
-                submit: {
-                    path: 'start_meeting/submit',
-                },
-            },
-        },
-        {
-            type: 'divider',
-            label: 'Some Divider',
-        },
-        {
-            type: 'markdown',
-            label: 'Some Markdown',
-            description: '### Markdown is great! :tada:',
-        },
-    ],
-};
-
-window.testRHSBinding = binding;
+import {MenuItem} from 'components/channel_info_rhs/menu';
 
 export default function RhsAppBinding() {
     const binding = useSelector(getRhsAppBinding);
+    return <RhsAppBindingInner binding={binding} />;
+}
+
+export function RhsAppBindingInner(props: {binding: AppBinding}) {
+    const {binding} = props;
+
     const context = createCallContext(
-        'github',
+        binding.app_id,
     );
 
     let view = <h3>{'Loading'}</h3>;
     if (binding) {
         view = (
             <AppBindingView
+                app_id={binding.app_id}
                 binding={binding}
                 context={context}
             />
@@ -94,7 +47,7 @@ export default function RhsAppBinding() {
                 {binding?.label || ''}
             </SearchResultsHeader>
             <div style={{
-                padding: '20px',
+                overflowY: 'scroll',
             }}>
                 {view}
             </div>
@@ -105,17 +58,18 @@ export default function RhsAppBinding() {
 type ViewProps = {
     binding: AppBinding;
     context: AppContext;
+    app_id: string;
 };
 
 export function AppBindingView(props: ViewProps) {
-    const context = createCallContext(
-        'github',
-    );
+    const {context} = props;
 
-    const subviews = props.binding.bindings?.map((b) => {
+    const subviews = props.binding.bindings?.map((b, i) => {
         const subviewProps = {
             binding: b,
             context,
+            app_id: props.app_id,
+            key: i,
         };
 
         switch (b.type) {
@@ -125,13 +79,19 @@ export function AppBindingView(props: ViewProps) {
                 return <AppBindingMenu {...subviewProps} />;
             case 'form':
                 return <AppBindingForm {...subviewProps} />;
+            case 'button':
+                return <AppBindingButton {...subviewProps} />;
             case 'divider':
                 return (
-                    <Markdown message='-----' />
+                    <div style={styles.containerSpacing}>
+                        <Markdown message='-----' />
+                    </div>
                 );
             case 'markdown':
                 return (
-                    <Markdown message={b.description} />
+                    <div style={styles.containerSpacing}>
+                        <Markdown message={b.label} />
+                    </div>
                 );
         }
 
@@ -145,22 +105,58 @@ export function AppBindingView(props: ViewProps) {
     );
 }
 
+export function AppBindingButton(props: FormProps) {
+    const form: AppForm = {
+        fields: [
+            {
+                name: 'submit',
+                type: 'static_select',
+                options: [
+                    {
+                        label: props.binding.label,
+                        value: props.binding.label,
+                    },
+                ],
+            },
+        ],
+        submit_buttons: 'submit',
+        submit: props.binding.submit,
+    };
+
+    return (
+        <div style={styles.containerSpacing}>
+            <AppsForm
+                hideCancel={true}
+                isEmbedded={true}
+                onExited={() => {
+                    alert('exited');
+                }}
+                context={props.context}
+                form={form}
+            />
+        </div>
+    )
+}
+
 type FormProps = {
     binding: AppBinding;
     context: AppContext;
+    app_id: string;
 }
 
 export function AppBindingForm(props: FormProps) {
     return (
-        <AppsForm
-            hideCancel={true}
-            isEmbedded={true}
-            onExited={() => {
-                alert('exited');
-            }}
-            context={props.context}
-            form={props.binding.form}
-        />
+        <div style={styles.containerSpacing}>
+            <AppsForm
+                hideCancel={true}
+                isEmbedded={true}
+                onExited={() => {
+                    alert('exited');
+                }}
+                context={props.context}
+                form={props.binding.form}
+            />
+        </div>
     )
 }
 
@@ -168,11 +164,12 @@ export function AppBindingForm(props: FormProps) {
 type MenuProps = {
     binding: AppBinding;
     context: AppContext;
+    app_id: string;
 };
 
 export function AppBindingMenu(props: MenuProps) {
-    const menuItems = props.binding.bindings?.map((menuItem) => {
-        return <AppBindingMenuItem binding={menuItem} />
+    const menuItems = props.binding.bindings?.map((menuItem, i) => {
+        return <AppBindingMenuItem key={i} binding={menuItem} app_id={props.app_id} context={props.context} />
     });
 
     return (
@@ -188,15 +185,33 @@ export function AppBindingMenu(props: MenuProps) {
 type MenuItemProps = {
     binding: AppBinding;
     context: AppContext;
+    app_id: string;
 };
 
 export function AppBindingMenuItem(props: MenuProps) {
+    const dispatch = useDispatch();
+
+    const binding = {...props.binding, app_id: props.app_id};
+    const context = {...props.context, app_id: props.app_id};
+
     return (
-        <div>
-            <span
-                className={'fa ' + props.binding.icon}
-            />
-            {props.binding.label}
-        </div>
-    )
+        <MenuItem
+            icon={(
+                <i
+                    className={binding.icon ? ('icon icon-' + binding.icon) : ''}
+                />
+            )}
+            text={props.binding.label}
+            onClick={() => dispatch(handleBindingClick(binding, context, null))}
+            opensSubpanel={true}
+            badge={props.binding.hint}
+        />
+    );
+}
+
+const styles = {
+    containerSpacing: {
+        paddingLeft: '20px',
+        paddingRight: '20px',
+    }
 }

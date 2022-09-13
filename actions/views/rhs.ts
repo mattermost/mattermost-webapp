@@ -220,10 +220,6 @@ export function showRHSAppBinding(binding: AppBinding) {
     };
 }
 
-window.showRHSAppBinding = showRHSAppBinding;
-
-window.store = store;
-
 export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;

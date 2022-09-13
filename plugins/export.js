@@ -6,6 +6,7 @@ import {formatText} from 'utils/text_formatting';
 import {browserHistory} from 'utils/browser_history';
 
 import {openModal} from 'actions/views/modals';
+import {showRHSAppBinding} from 'actions/views/rhs';
 import {ModalIdentifiers} from 'utils/constants';
 import {useWebSocket, useWebSocketClient, WebSocketContext} from 'utils/use_websocket';
 import {imageURLForUser} from 'utils/utils';
@@ -41,6 +42,7 @@ window.StyledComponents = require('styled-components');
 window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.useNotifyAdmin = useNotifyAdmin;
+window.showRHSAppBinding = showRHSAppBinding;
 window.WebappUtils = {
     browserHistory,
     modals: {openModal, ModalIdentifiers},
