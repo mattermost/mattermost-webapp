@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useCallback, useRef, useState} from 'react';
+import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
@@ -31,6 +31,8 @@ import Constants, {Locations} from 'utils/constants';
 import AutoHeightSwitcher from '../common/auto_height_switcher';
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
+
+import {FormattingBarSpacer, Separator} from './formatting_bar/formatting_bar';
 
 import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
@@ -163,9 +165,14 @@ const AdvanceTextEditor = ({
         'message input complimentary region',
     );
     const emojiPickerRef = useRef<HTMLButtonElement>(null);
+    const editorActionsRef = useRef<HTMLDivElement>(null);
+    const editorBodyRef = useRef<HTMLDivElement>(null);
 
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
+    const [showFormattingSpacer, setShowFormattingSpacer] = useState(false);
+
+    const input = textboxRef.current?.getInputBox();
 
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
@@ -303,13 +310,6 @@ const AdvanceTextEditor = ({
         />
     );
 
-    const extraControls = (
-        <>
-            {fileUploadJSX}
-            {emojiPicker}
-        </>
-    );
-
     let createMessage;
     if (currentChannel && !readOnlyChannel) {
         createMessage = formatMessage(
@@ -360,22 +360,57 @@ const AdvanceTextEditor = ({
         break;
     }
 
+    const showFormattingBar = !isFormattingBarHidden && !readOnlyChannel;
+
+    const handleWidthChange = useCallback((width: number) => {
+        if (!editorBodyRef.current || !editorActionsRef.current || !input) {
+            return;
+        }
+
+        const maxWidth = editorBodyRef.current.offsetWidth - editorActionsRef.current.offsetWidth;
+
+        if (!message) {
+            // if we do not have a message we can just render the default state
+            input.style.maxWidth = `${maxWidth}px`;
+            return;
+        }
+
+        const inputPaddingLeft = parseInt(window.getComputedStyle(input, null).paddingLeft || '0', 10);
+        const inputPaddingRight = parseInt(window.getComputedStyle(input, null).paddingRight || '0', 10);
+        const inputPaddingX = inputPaddingLeft + inputPaddingRight;
+        const currentWidth = width + inputPaddingX;
+
+        if (currentWidth >= maxWidth) {
+            input.style.maxWidth = '100%';
+            setShowFormattingSpacer(true);
+        } else {
+            input.style.maxWidth = `${maxWidth}px`;
+            setShowFormattingSpacer(false);
+        }
+    }, [message, input]);
+
+    useEffect(() => {
+        if (!message) {
+            handleWidthChange(0);
+        }
+    }, [handleWidthChange, message]);
+
     const formattingBar = (
-        <FormattingBar
-            applyMarkdown={applyMarkdown}
-            getCurrentMessage={getCurrentValue}
-            getCurrentSelection={getCurrentSelection}
-            disableControls={shouldShowPreview}
-            additionalControls={additionalControls}
-            extraControls={extraControls}
-            toggleAdvanceTextEditor={toggleAdvanceTextEditor}
-            showFormattingControls={!isFormattingBarHidden}
-            location={location}
-            additionalControls={extraControls}
+        <AutoHeightSwitcher
+            showSlot={showFormattingBar ? 1 : 2}
+            slot1={(
+                <FormattingBar
+                    applyMarkdown={applyMarkdown}
+                    getCurrentMessage={getCurrentValue}
+                    getCurrentSelection={getCurrentSelection}
+                    disableControls={shouldShowPreview}
+                    additionalControls={additionalControls}
+                    location={location}
+                />
+            )}
+            slot2={null}
         />
     );
-
-    const showFormattingBar = !isFormattingBarHidden && !readOnlyChannel;
 
     return (
         <>
@@ -395,6 +430,7 @@ const AdvanceTextEditor = ({
                     disabled={readOnlyChannel}
                 >
                     <div
+                        ref={editorBodyRef}
                         role='application'
                         id='advancedTextEditorCell'
                         data-a11y-sort-order='2'
@@ -403,9 +439,9 @@ const AdvanceTextEditor = ({
                         className='AdvancedTextEditor__cell a11y__region'
                     >
                         {labels}
-                    <Textbox
-                        hasLabels={Boolean(labels)}
-                        suggestionList={RhsSuggestionList}
+                        <Textbox
+                            hasLabels={Boolean(labels)}
+                            suggestionList={RhsSuggestionList}
                             onChange={handleChange}
                             onKeyPress={postMsgKeyPress}
                             onKeyDown={handleKeyDown}
@@ -429,6 +465,7 @@ const AdvanceTextEditor = ({
                             listenForMentionKeyClick={true}
                             useChannelMentions={useChannelMentions}
                             rootId={postId}
+                            onWidthChange={handleWidthChange}
                         />
                         {attachmentPreview}
                         {!readOnlyChannel && showFormattingBar && (
@@ -436,30 +473,37 @@ const AdvanceTextEditor = ({
                                 {showFormatJSX}
                             </TexteditorActions>
                         )}
-                        <AutoHeightSwitcher
-                            showSlot={showFormattingBar ? 1 : 2}
-                            slot1={formattingBar}
-                            slot2={null}
-                        />
+                        {showFormattingSpacer ? (
+                            <FormattingBarSpacer>
+                                {formattingBar}
+                            </FormattingBarSpacer>
+                        ) : formattingBar}
                         {!readOnlyChannel && (
-                            <TexteditorActions placement='bottom'>
+                            <TexteditorActions
+                                ref={editorActionsRef}
+                                placement='bottom'
+                            >
                                 <ToggleFormattingBar
                                     onClick={toggleAdvanceTextEditor}
                                     active={showFormattingBar}
                                     disabled={false}
                                 />
+                                <Separator/>
+                                {fileUploadJSX}
+                                {emojiPicker}
+                                {sendButton}
                             </TexteditorActions>
                         )}
                     </div>
-                    {showSendTutorialTip && currentChannel && prefillMessage &&
+                    {showSendTutorialTip && currentChannel && prefillMessage && (
                         <SendMessageTour
                             prefillMessage={prefillMessage}
                             currentChannel={currentChannel}
                             currentUserId={currentUserId}
                             currentChannelTeammateUsername={currentChannelTeammateUsername}
-                        />}
+                        />
+                    )}
                 </div>
-                {sendButton}
             </div>
             <div
                 id='postCreateFooter'

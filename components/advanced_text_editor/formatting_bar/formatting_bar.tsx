@@ -23,6 +23,13 @@ export const Separator = styled.div`
     background: rgba(var(--center-channel-color-rgb), 0.32);
 `;
 
+export const FormattingBarSpacer = styled.div`
+    display: flex;
+    height: 48px;
+    transition: height 0.25s ease;
+    align-items: end;
+`;
+
 const FormattingBarContainer = styled.div`
     display: flex;
     height: 48px;

@@ -60,6 +60,7 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration =
         transitionProperty: 'height',
         transitionDuration: `${duration}ms`,
         transitionTimingFunction: 'ease',
+        width: '100%',
     };
 
     /**

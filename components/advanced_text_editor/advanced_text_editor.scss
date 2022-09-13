@@ -25,18 +25,17 @@
     }
 
     .custom-textarea {
+        // fix for a miscalculation due to the heavily overwritten custom-textarea class
+        height: 0;
         box-shadow: none;
 
         &:focus {
             box-shadow: none;
         }
 
-        &.custom-textarea--emoji-picker {
-            padding-right: 50px;
-        }
-
+        &.custom-textarea--emoji-picker,
         &.textbox-preview-area {
-            padding-right: 50px;
+            padding-right: 16px;
         }
     }
 
