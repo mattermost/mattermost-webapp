@@ -58,14 +58,21 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         defaultMessage: 'Click to view history',
     });
 
+    const postOwnerTooltipInfo = (
+        <>
+            <br/>
+            <span className='view-history__text'>{viewHistoryText}</span>
+        </>
+
+    );
+
     const tooltip = (
         <Tooltip
             id={`edited-post-tooltip_${postId}`}
             className='hidden-xs'
         >
             {`${editedText} ${formattedTime}`}
-            <br/>
-            {postOwner ? <span className='view-history__text'>{viewHistoryText}</span> : undefined}
+            {postOwner ? postOwnerTooltipInfo : undefined}
         </Tooltip>
     );
 
