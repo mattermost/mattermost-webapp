@@ -217,7 +217,9 @@ export default class RhsRootPost extends React.PureComponent {
     };
 
     toggleEmojiPicker = (e) => {
-        e?.stopPropagation();
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+        }
 
         const showEmojiPicker = !this.state.showEmojiPicker;
         this.setState({showEmojiPicker});

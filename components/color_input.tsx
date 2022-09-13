@@ -50,7 +50,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
 
         if (isOpened !== prevIsOpened) {
             if (isOpened) {
-                document.addEventListener('click', this.checkClick);
+                document.addEventListener('click', this.checkClick, { capture: true });
             } else {
                 document.removeEventListener('click', this.checkClick);
             }
@@ -63,8 +63,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
         }
     };
 
-    private togglePicker = (e?: React.MouseEvent<HTMLSpanElement, MouseEvent>) => {
-        e?.stopPropagation();
+    private togglePicker = () => {
         if (!this.state.isOpened && this.colorInput.current) {
             this.colorInput.current.focus();
         }
