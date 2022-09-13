@@ -9,6 +9,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
+import KeyboardShortcutSequence, { KEYBOARD_SHORTCUTS } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 
 type Props = {
@@ -73,6 +74,11 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
                 className='hidden-xs'
             >
                 {tooltipMessage}
+                <KeyboardShortcutSequence
+                        shortcut={KEYBOARD_SHORTCUTS.navToggleUnreads}
+                        hideDescription={true}
+                        isInsideTooltip={true}
+                    />
             </Tooltip>
         );
 
