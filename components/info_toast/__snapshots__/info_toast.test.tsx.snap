@@ -3,7 +3,7 @@
 exports[`components/InfoToast should match snapshot 1`] = `
 <CSSTransition
   appear={true}
-  classNames="slide"
+  classNames="toast"
   in={true}
   mountOnEnter={true}
   timeout={300}
