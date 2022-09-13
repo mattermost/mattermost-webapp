@@ -59,8 +59,11 @@ function TeamController(props: Props) {
 
         const currentTime = (new Date()).getTime();
         if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
-            props.fetchChannelsAndMembers(props.currentTeamId);
-            // props.fetchMyChannelsAndMembersREST(props.currentTeamId);
+            if (props.graphQLEnabled) {
+                props.fetchChannelsAndMembers(props.currentTeamId);
+            } else {
+                props.fetchMyChannelsAndMembersREST(props.currentTeamId);
+            }
         }
     }
 
@@ -93,8 +96,11 @@ function TeamController(props: Props) {
     }
 
     useEffect(() => {
-        props.fetchChannelsAndMembers();
-        // props.fetchAllMyTeamsChannelsAndChannelMembersREST();
+        if (props.graphQLEnabled) {
+            props.fetchChannelsAndMembers();
+        } else {
+            props.fetchAllMyTeamsChannelsAndChannelMembersREST();
+        }
 
         const wakeUpIntervalId = setInterval(() => {
             const currentTime = (new Date()).getTime();
