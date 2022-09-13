@@ -13,6 +13,7 @@ import {Post} from '@mattermost/types/posts';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {imageURLForUser} from 'utils/utils';
+import {t} from 'utils/i18n';
 
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -67,11 +68,11 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
 
     const itemMessages = defineMessages({
         helpText: {
-            id: 'post_info.edit.restore',
+            id: t('post_info.edit.restore'),
             defaultMessage: 'Restore',
         },
         currentVersionText: {
-            id: 'post_info.edit.current_version',
+            id: t('post_info.edit.current_version'),
             defaultMessage: 'Current Version',
         },
     });

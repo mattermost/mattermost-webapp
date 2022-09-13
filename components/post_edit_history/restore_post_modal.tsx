@@ -4,6 +4,8 @@
 import React, {memo} from 'react';
 import {defineMessages, useIntl} from 'react-intl';
 
+import {t} from 'utils/i18n';
+
 import {Post} from '@mattermost/types/posts';
 import GenericModal from 'components/generic_modal';
 
@@ -26,7 +28,7 @@ const RestorePostModal = ({post, actions, onExited}: Props) => {
 
     const modalMessages = defineMessages({
         title: {
-            id: 'restore_post.title',
+            id: t('restore_post.title'),
             defaultMessage: 'Restore this message?',
         },
     });
