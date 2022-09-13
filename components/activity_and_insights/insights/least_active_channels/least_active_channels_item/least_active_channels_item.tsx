@@ -70,15 +70,7 @@ const LeastActiveChannelsItem = ({channel, actionCallback}: Props) => {
         timeMessage = (
             <FormattedMessage
                 id='insights.leastActiveChannels.lastActivityNone'
-                defaultMessage='{time}'
-                values={{
-                    time:
-                    (
-                        <span>
-                            {'No activity'}
-                        </span>
-                    ),
-                }}
+                defaultMessage='No activity'
             />
         );
     }
