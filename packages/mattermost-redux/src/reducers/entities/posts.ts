@@ -1126,7 +1126,14 @@ function selectedPostId(state = '', action: GenericAction) {
 }
 
 export function postEditHistory(state: Post[] = [], action: GenericAction) {
-    return action.type === PostTypes.RECEIVED_POST_HISTORY ? action.data.postEditHistory : state;
+    switch (action.type) {
+    case PostTypes.RECEIVED_POST_HISTORY:
+        return action.data.postEditHistory;
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
+    default:
+        return state;
+    }
 }
 
 function currentFocusedPostId(state = '', action: GenericAction) {
