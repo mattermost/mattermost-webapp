@@ -4,9 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {TourTip} from '@mattermost/components';
 import {PunchOutCoordsHeightAndWidth} from '@mattermost/types/punchout';
 
+import {TourTip} from '@mattermost/components';
 import {getLastStep} from '../onboarding_tour/utils';
 
 import useBoardingTourTipManager from './explore_tools_tour_manager';
