@@ -17,7 +17,7 @@ import {MenuItem} from 'components/channel_info_rhs/menu';
 
 export default function RhsAppBinding() {
     const binding = useSelector(getRhsAppBinding);
-    return <RhsAppBindingInner binding={binding} />;
+    return <RhsAppBindingInner binding={binding}/>;
 }
 
 export function RhsAppBindingInner(props: {binding: AppBinding}) {
@@ -46,9 +46,11 @@ export function RhsAppBindingInner(props: {binding: AppBinding}) {
             <SearchResultsHeader>
                 {binding?.label || ''}
             </SearchResultsHeader>
-            <div style={{
-                overflowY: 'scroll',
-            }}>
+            <div
+                style={{
+                    overflowY: 'scroll',
+                }}
+            >
                 {view}
             </div>
         </div>
@@ -73,29 +75,29 @@ export function AppBindingView(props: ViewProps) {
         };
 
         switch (b.type) {
-            case 'view':
-                return <AppBindingView {...subviewProps} />;
-            case 'menu':
-                return <AppBindingMenu {...subviewProps} />;
-            case 'form':
-                return <AppBindingForm {...subviewProps} />;
-            case 'button':
-                return <AppBindingButton {...subviewProps} />;
-            case 'divider':
-                return (
-                    <div style={styles.containerSpacing}>
-                        <Markdown message='-----' />
-                    </div>
-                );
-            case 'markdown':
-                return (
-                    <div style={styles.containerSpacing}>
-                        <Markdown message={b.label} />
-                    </div>
-                );
+        case 'view':
+            return <AppBindingView {...subviewProps}/>;
+        case 'menu':
+            return <AppBindingMenu {...subviewProps}/>;
+        case 'form':
+            return <AppBindingForm {...subviewProps}/>;
+        case 'button':
+            return <AppBindingButton {...subviewProps}/>;
+        case 'divider':
+            return (
+                <div style={styles.containerSpacing}>
+                    <Markdown message='-----'/>
+                </div>
+            );
+        case 'markdown':
+            return (
+                <div style={styles.containerSpacing}>
+                    <Markdown message={b.label}/>
+                </div>
+            );
         }
 
-        return <p>{'Unsupported binding type: ' + b.type}</p>;
+        return <p key={i}>{'Unsupported binding type: ' + b.type}</p>;
     });
 
     return (
@@ -135,7 +137,7 @@ export function AppBindingButton(props: FormProps) {
                 form={form}
             />
         </div>
-    )
+    );
 }
 
 type FormProps = {
@@ -157,9 +159,8 @@ export function AppBindingForm(props: FormProps) {
                 form={props.binding.form}
             />
         </div>
-    )
+    );
 }
-
 
 type MenuProps = {
     binding: AppBinding;
@@ -169,7 +170,14 @@ type MenuProps = {
 
 export function AppBindingMenu(props: MenuProps) {
     const menuItems = props.binding.bindings?.map((menuItem, i) => {
-        return <AppBindingMenuItem key={i} binding={menuItem} app_id={props.app_id} context={props.context} />
+        return (
+            <AppBindingMenuItem
+                key={i}
+                binding={menuItem}
+                app_id={props.app_id}
+                context={props.context}
+            />
+        );
     });
 
     return (
@@ -188,7 +196,7 @@ type MenuItemProps = {
     app_id: string;
 };
 
-export function AppBindingMenuItem(props: MenuProps) {
+export function AppBindingMenuItem(props: MenuItemProps) {
     const dispatch = useDispatch();
 
     const binding = {...props.binding, app_id: props.app_id};
@@ -213,5 +221,5 @@ const styles = {
     containerSpacing: {
         paddingLeft: '20px',
         paddingRight: '20px',
-    }
-}
+    },
+};

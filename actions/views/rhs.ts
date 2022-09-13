@@ -5,6 +5,8 @@ import debounce from 'lodash/debounce';
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
+import {AppBinding} from '@mattermost/types/apps';
+
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {
     clearSearch,
@@ -35,8 +37,6 @@ import {getPostsByIds} from 'mattermost-redux/actions/posts';
 import {getEditingPost} from '../../selectors/posts';
 import {unsetEditingPost} from '../post_actions';
 import {getChannel} from 'mattermost-redux/actions/channels';
-import {AppBinding} from '@mattermost/types/apps';
-import store from 'stores/redux_store';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {

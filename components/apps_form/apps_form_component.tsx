@@ -528,17 +528,19 @@ export class AppsForm extends React.PureComponent<Props, State> {
         return (
             <React.Fragment>
                 <div>
-                    {!this.props.hideCancel && <button
-                        id='appsModalCancel'
-                        type='button'
-                        className='btn btn-link cancel-button'
-                        onClick={this.onHide}
-                    >
-                        <FormattedMessage
-                            id='interactive_dialog.cancel'
-                            defaultMessage='Cancel'
-                        />
-                    </button>}
+                    {!this.props.hideCancel && (
+                        <button
+                            id='appsModalCancel'
+                            type='button'
+                            className='btn btn-link cancel-button'
+                            onClick={this.onHide}
+                        >
+                            <FormattedMessage
+                                id='interactive_dialog.cancel'
+                                defaultMessage='Cancel'
+                            />
+                        </button>
+                    )}
                     {submitButtons}
                 </div>
                 {this.state.formError && (
