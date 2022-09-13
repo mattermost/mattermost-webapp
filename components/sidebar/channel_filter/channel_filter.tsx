@@ -9,8 +9,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
-import KeyboardShortcutSequence, { KEYBOARD_SHORTCUTS } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
-
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 type Props = {
     hasMultipleTeams: boolean;
@@ -25,8 +24,6 @@ type State = {
 };
 
 export default class ChannelFilter extends React.PureComponent<Props, State> {
-
-
     componentDidMount() {
         document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
     }
@@ -75,10 +72,10 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
             >
                 {tooltipMessage}
                 <KeyboardShortcutSequence
-                        shortcut={KEYBOARD_SHORTCUTS.navToggleUnreads}
-                        hideDescription={true}
-                        isInsideTooltip={true}
-                    />
+                    shortcut={KEYBOARD_SHORTCUTS.navToggleUnreads}
+                    hideDescription={true}
+                    isInsideTooltip={true}
+                />
             </Tooltip>
         );
 
