@@ -56,7 +56,7 @@ function makeChannelsAndMembersQueryString(
 ) {
     return `
     query ${operationName} {
-        channels(userId: "me", teamId: ${teamId}, first: ${CHANNELS_MAX_PER_PAGE}) {
+        channels(userId: "me", teamId: "${teamId}", first: ${CHANNELS_MAX_PER_PAGE}) {
           id
           create_at: createAt
           update_at: updateAt
@@ -81,7 +81,7 @@ function makeChannelsAndMembersQueryString(
           policy_id: policyId
           cursor
         }
-        channelMembers(userId: "me", teamId: ${teamId}, first: ${CHANNEL_MEMBERS_MAX_PER_PAGE}) {
+        channelMembers(userId: "me", teamId: "${teamId}", first: ${CHANNEL_MEMBERS_MAX_PER_PAGE}) {
           cursor
           channel {
             id
@@ -125,7 +125,7 @@ function makeChannelsNextQueryString(
     teamId: Team['id'] = '',
 ) {
     return `query ${operationName} {
-    channels(userId: "me", teamId: ${teamId}, first: ${CHANNELS_MAX_PER_PAGE}, after: ${cursor}) {
+    channels(userId: "me", teamId: "${teamId}", first: ${CHANNELS_MAX_PER_PAGE}, after: "${cursor}") {
         id
         create_at: createAt
         update_at: updateAt
@@ -174,7 +174,7 @@ function makeChannelMembersNextQueryString(
     teamId: Team['id'] = '',
 ) {
     return `query ${operationName} {
-    channelMembers(userId: "me", teamId: ${teamId}, first: ${CHANNEL_MEMBERS_MAX_PER_PAGE}, after: ${cursor}) {
+    channelMembers(userId: "me", teamId: "${teamId}", first: ${CHANNEL_MEMBERS_MAX_PER_PAGE}, after: "${cursor}") {
         cursor
         channel {
           id
