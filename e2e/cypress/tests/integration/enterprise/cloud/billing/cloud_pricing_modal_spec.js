@@ -7,6 +7,9 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @cloud_only @cloud_trial
+// Skip:  @headless @electron // run on Chrome (headed) only
+
 function simulateSubscription(subscription, withLimits = true) {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
