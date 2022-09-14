@@ -35,11 +35,11 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
       }
     />
     <MemoizedFormattedMessage
-      defaultMessage=" Any member can join and read this channel."
+      defaultMessage="Any member can join and read this channel."
       id="intro_messages.anyMember"
     />
     <MemoizedFormattedMessage
-      defaultMessage=" This channel's purpose is: {purpose}"
+      defaultMessage="This channel's purpose is: {purpose}"
       id="intro_messages.purpose"
       values={
         Object {
