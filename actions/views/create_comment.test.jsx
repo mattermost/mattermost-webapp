@@ -305,7 +305,7 @@ describe('rhs view actions', () => {
         });
 
         test('it calls submitPost on error.sendMessage', async () => {
-            jest.mock('actions/channel_actions.jsx', () => ({
+            jest.mock('actions/channel_actions', () => ({
                 executeCommand: jest.fn((message, _args, resolve, reject) => reject({sendMessage: 'test'})),
             }));
 
