@@ -2,20 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow} from 'enzyme';
 
-import ChannelFilter from 'components/sidebar/channel_filter/channel_filter';
+import ChannelFilterIntl, {ChannelFilter as ChannelFilterClass} from 'components/sidebar/channel_filter/channel_filter';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('components/sidebar/channel_filter', () => {
-    const intl = {
-        formatMessage: (message: {id: string; defaultMessage: string}) => {
-            return message.defaultMessage;
-        },
-    } as any;
-
     const baseProps = {
-        intl,
         unreadFilterEnabled: false,
         hasMultipleTeams: false,
         actions: {
@@ -24,8 +16,8 @@ describe('components/sidebar/channel_filter', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
-            <ChannelFilter {...baseProps}/>,
+        const wrapper = shallowWithIntl(
+            <ChannelFilterIntl {...baseProps}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -38,7 +30,7 @@ describe('components/sidebar/channel_filter', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelFilter {...props}/>,
+            <ChannelFilterIntl {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -46,10 +38,11 @@ describe('components/sidebar/channel_filter', () => {
 
     test('should enable the unread filter on toggle when it is disabled', () => {
         const wrapper = shallowWithIntl(
-            <ChannelFilter {...baseProps}/>,
+            <ChannelFilterIntl {...baseProps}/>,
         );
+        const instance = wrapper.instance() as ChannelFilterClass;
+        instance.toggleUnreadFilter();
 
-        wrapper.instance().toggleUnreadFilter();
         expect(baseProps.actions.setUnreadFilterEnabled).toHaveBeenCalledWith(true);
     });
 
@@ -60,10 +53,11 @@ describe('components/sidebar/channel_filter', () => {
         };
 
         const wrapper = shallowWithIntl(
-            <ChannelFilter {...props}/>,
+            <ChannelFilterIntl {...props}/>,
         );
+        const instance = wrapper.instance() as ChannelFilterClass;
+        instance.toggleUnreadFilter();
 
-        wrapper.instance().toggleUnreadFilter();
         expect(baseProps.actions.setUnreadFilterEnabled).toHaveBeenCalledWith(false);
     });
 });

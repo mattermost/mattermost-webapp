@@ -26,7 +26,7 @@ type State = {
 
 };
 
-class ChannelFilter extends React.PureComponent<Props, State> {
+export class ChannelFilter extends React.PureComponent<Props, State> {
     componentDidMount() {
         document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
     }
@@ -37,12 +37,14 @@ class ChannelFilter extends React.PureComponent<Props, State> {
 
     handleUnreadFilterClick = (e?: React.MouseEvent) => {
         e?.preventDefault();
+        e?.stopPropagation();
         this.toggleUnreadFilter();
     }
 
     handleUnreadFilterKeyPress = (e: KeyboardEvent) => {
         if (Utils.cmdOrCtrlPressed(e) && e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
+            e.stopPropagation();
             this.toggleUnreadFilter();
         }
     }
