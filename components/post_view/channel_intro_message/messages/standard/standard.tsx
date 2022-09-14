@@ -98,7 +98,7 @@ const StandardIntroMessage = ({
                 {...(isPrivate ? messages.creatorPrivate : messages.creator)}
                 values={{
                     name: uiName,
-                    creator: creatorName || undefined,
+                    creator: creatorName,
                     date,
                 }}
             />
