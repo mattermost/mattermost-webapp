@@ -69,64 +69,56 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     permissions={
       Array [
         "invite_user",
+        "add_user_to_team",
       ]
     }
     teamId="team-id"
   >
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "add_user_to_team",
-        ]
+    <Connect(ToggleModalButton)
+      className="intro-links color--link"
+      dialogProps={
+        Object {
+          "channel": Object {
+            "create_at": 1508265709607,
+            "creator_id": "creator_id",
+            "delete_at": 0,
+            "display_name": "test channel",
+            "header": "test",
+            "id": "channel_id",
+            "last_post_at": 1508265709635,
+            "name": "town-square",
+            "purpose": "test",
+            "team_id": "team-id",
+            "type": "O",
+            "update_at": 1508265709607,
+          },
+        }
       }
-      teamId="team-id"
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(AddGroupsToTeamModal)",
+          "type": [Function],
+        }
+      }
+      modalId="add_groups_to_team"
     >
-      <Connect(ToggleModalButton)
-        className="intro-links color--link"
-        dialogProps={
+      <LocalizedIcon
+        className="fa fa-user-plus"
+        title={
           Object {
-            "channel": Object {
-              "create_at": 1508265709607,
-              "creator_id": "creator_id",
-              "delete_at": 0,
-              "display_name": "test channel",
-              "header": "test",
-              "id": "channel_id",
-              "last_post_at": 1508265709635,
-              "name": "town-square",
-              "purpose": "test",
-              "team_id": "team-id",
-              "type": "O",
-              "update_at": 1508265709607,
-            },
+            "defaultMessage": "Add Icon",
+            "id": "generic_icons.add",
           }
         }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
-            "type": [Function],
-          }
-        }
-        modalId="add_groups_to_team"
-      >
-        <LocalizedIcon
-          className="fa fa-user-plus"
-          title={
-            Object {
-              "defaultMessage": "Add Icon",
-              "id": "generic_icons.add",
-            }
-          }
-        />
-        <MemoizedFormattedMessage
-          defaultMessage="Add other groups to this team"
-          id="intro_messages.addGroupsToTeam"
-        />
-      </Connect(ToggleModalButton)>
-    </Connect(TeamPermissionGate)>
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Add other groups to this team"
+        id="intro_messages.addGroupsToTeam"
+      />
+    </Connect(ToggleModalButton)>
   </Connect(TeamPermissionGate)>
   <Connect(Component)
     show={true}
@@ -169,24 +161,16 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     permissions={
       Array [
         "invite_user",
+        "add_user_to_team",
       ]
     }
     teamId="team-id"
   >
-    <Connect(TeamPermissionGate)
-      permissions={
-        Array [
-          "add_user_to_team",
-        ]
-      }
-      teamId="team-id"
-    >
-      <Connect(Component)
-        showBoardsButton={true}
-        showSetHeader={true}
-        usersLimit={10}
-      />
-    </Connect(TeamPermissionGate)>
+    <Connect(Component)
+      showBoardsButton={true}
+      showSetHeader={true}
+      usersLimit={10}
+    />
   </Connect(TeamPermissionGate)>
   <Connect(Component)
     show={false}

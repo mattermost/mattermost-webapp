@@ -60,36 +60,31 @@ const DefaultIntroMessage = ({
         teamInviteLink = (
             <TeamPermissionGate
                 teamId={channel.team_id}
-                permissions={[Permissions.INVITE_USER]}
+                permissions={[Permissions.INVITE_USER, Permissions.ADD_USER_TO_TEAM]}
             >
-                <TeamPermissionGate
-                    teamId={channel.team_id}
-                    permissions={[Permissions.ADD_USER_TO_TEAM]}
-                >
-                    {teamIsGroupConstrained ? (
-                        <ToggleModalButton
-                            className='intro-links color--link'
-                            modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
-                            dialogType={AddGroupsToTeamModal}
-                            dialogProps={{channel}}
-                        >
-                            {/* MM-46602: convert to compass icon after localization is added */}
-                            <LocalizedIcon
-                                className='fa fa-user-plus'
-                                title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
-                            />
-                            <FormattedMessage
-                                {...messages.addGroupsToTeam}
-                            />
-                        </ToggleModalButton>
-                    ) : (
-                        <AddMembersButton
-                            showSetHeader={renderButtons}
-                            showBoardsButton={renderButtons}
-                            usersLimit={usersLimit}
+                {teamIsGroupConstrained ? (
+                    <ToggleModalButton
+                        className='intro-links color--link'
+                        modalId={ModalIdentifiers.ADD_GROUPS_TO_TEAM}
+                        dialogType={AddGroupsToTeamModal}
+                        dialogProps={{channel}}
+                    >
+                        {/* MM-46602: convert to compass icon after localization is added */}
+                        <LocalizedIcon
+                            className='fa fa-user-plus'
+                            title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
                         />
-                    )}
-                </TeamPermissionGate>
+                        <FormattedMessage
+                            {...messages.addGroupsToTeam}
+                        />
+                    </ToggleModalButton>
+                ) : (
+                    <AddMembersButton
+                        showSetHeader={renderButtons}
+                        showBoardsButton={renderButtons}
+                        usersLimit={usersLimit}
+                    />
+                )}
             </TeamPermissionGate>
         );
     }
