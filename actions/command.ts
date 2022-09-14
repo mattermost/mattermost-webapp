@@ -37,6 +37,10 @@ import {GlobalState} from 'types/store';
 import {t} from 'utils/i18n';
 import MarketplaceModal from 'components/plugin_marketplace';
 
+import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
+import {isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general';
+
 import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
@@ -111,6 +115,16 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}}));
             return {data: true};
         case '/marketplace':
+            // check if user has permissions to access the read plugins
+            if (!haveICurrentTeamPermission(state, Permissions.SYSCONSOLE_READ_PLUGINS)) {
+                return {error: {message: localizeMessage('marketplace_command.no_permission', 'You do not have the appropriate permissions to access the marketplace.')}};
+            }
+
+            // check config to see if marketplace is enabled
+            if (!isMarketplaceEnabled(state)) {
+                return {error: {message: localizeMessage('marketplace_command.disabled', 'The marketplace is disabled. Please contact your System Administrator for details.')}};
+            }
+
             dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
             return {data: true};
         case '/collapse':
