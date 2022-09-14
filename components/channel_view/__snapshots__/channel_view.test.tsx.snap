@@ -8,7 +8,7 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
   <div
     aria-live="assertive"
     className="sr-only"
-    id="speak-1663132164059"
+    id="speak-1663154888525"
   >
     <MemoizedFormattedMessage
       defaultMessage="Login Successfull"
@@ -81,7 +81,7 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
   <div
     aria-live="assertive"
     className="sr-only"
-    id="speak-1663132164053"
+    id="speak-1663154888521"
   >
     <MemoizedFormattedMessage
       defaultMessage="Login Successfull"
@@ -131,7 +131,7 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
   <div
     aria-live="assertive"
     className="sr-only"
-    id="speak-1663132164023"
+    id="speak-1663154888514"
   >
     <MemoizedFormattedMessage
       defaultMessage="Login Successfull"
