@@ -336,7 +336,7 @@ export function updateChannelPrivacy(channelId: string, privacy: string): Action
     };
 }
 
-export function updateChannelNotifyProps(userId: string, channelId: string, props: ChannelNotifyProps): ActionFunc {
+export function updateChannelNotifyProps(userId: string, channelId: string, props: Partial<ChannelNotifyProps>): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const notifyProps = {
             user_id: userId,
