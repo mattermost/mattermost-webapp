@@ -12,46 +12,43 @@
 
 import billing from '../../../../fixtures/client_billing.json';
 
-function simulateSubscription(subscription, withLimits = true) {
+function simulateSubscription() {
     cy.intercept('GET', '**/api/v4/cloud/subscription', {
         statusCode: 200,
-        body: subscription,
+        body: {
+            id: 'sub_test1',
+            is_free_trial: 'true',
+            customer_id: '5zqhakmibpgyix9juiwwkpfnmr',
+            product_id: 'prod_Jh6tBLcgWWOOog',
+            seats: 25,
+            status: 'active',
+        },
     });
 
     cy.intercept('GET', '**/api/v4/cloud/products**', {
         statusCode: 200,
-        body: [
+        body:
+        [
             {
-                id: 'prod_1',
+                id: 'prod_LSBESgGXq9KlLj',
                 sku: 'cloud-starter',
                 price_per_seat: 0,
                 name: 'Cloud Starter',
             },
             {
-                id: 'prod_2',
+                id: 'prod_K0AxuWCDoDD9Qq',
                 sku: 'cloud-professional',
                 price_per_seat: 10,
                 name: 'Cloud Professional',
             },
             {
-                id: 'prod_3',
+                id: 'prod_Jh6tBLcgWWOOog',
                 sku: 'cloud-enterprise',
                 price_per_seat: 30,
                 name: 'Cloud Enterprise',
             },
         ],
     });
-
-    if (withLimits) {
-        cy.intercept('GET', '**/api/v4/cloud/limits', {
-            statusCode: 200,
-            body: {
-                messages: {
-                    history: 10000,
-                },
-            },
-        });
-    }
 }
 
 describe('System Console - Subscriptions section', () => {
@@ -61,12 +58,7 @@ describe('System Console - Subscriptions section', () => {
     });
 
     beforeEach(() => {
-        const subscription = {
-            id: 'sub_test1',
-            product_id: 'prod_1',
-            is_free_trial: 'true',
-        };
-        simulateSubscription(subscription);
+        simulateSubscription();
 
         // # Visit Subscription page
         cy.visit('/admin_console/billing/subscription');
@@ -108,8 +100,8 @@ describe('System Console - Subscriptions section', () => {
         // # Click on close button of Upgrade window
         cy.get('#closeIcon').parent().should('exist').click();
 
-        // * Check for "You're currently on a free trial" label
-        // cy.contains('span', "You're currently on a free trial").should('be.visible');
+        // * Check for "Your trial has started!" label
+        cy.contains('span', 'Your trial has started!').should('be.visible');
     });
 
     it('MM-T4124 Purchase modal UI check', () => {

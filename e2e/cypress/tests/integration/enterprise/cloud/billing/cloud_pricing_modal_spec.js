@@ -227,8 +227,9 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('#starter').get('#starter_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professsional card Upgrade button opens purchase modal
-        cy.get('#pricingModal').get('#professional').get('#professional_action').click();
-        cy.get('.modal-body').should('exist');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#professional').find('#professional_action').should('be.enabled').should('have.text', 'Upgrade').click();
+        cy.get('.PurchaseModal').should('exist');
 
         // * Close PurchaseModal
         cy.get('#closeIcon').click();
@@ -240,7 +241,9 @@ describe('Pricing modal', () => {
         cy.get('#contact_sales_quote').contains('Contact Sales');
 
         // * Check that enterprise card action button shows Try free for 30 days
-        cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').contains('Try free for 30 days');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise').should('be.visible');
+        cy.get('#start_cloud_trial_btn').contains('Try free for 30 days');
     });
 
     it('should open pricing modal when Upgrade button clicked while in enterprise trial sku', () => {
