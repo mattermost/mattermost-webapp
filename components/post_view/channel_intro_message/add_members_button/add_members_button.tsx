@@ -54,61 +54,58 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
             {inviteUsers && !isPrivate ? (
-                <LessThanMaxFreeUsers
-                    showBoardsButton={showBoardsButton}
-                    showSetHeader={showSetHeader}
-                />
+                <>
+                    {showBoardsButton && <BoardsButton/>}
+                    {showSetHeader && <SetHeaderButton/>}
+                    <LessThanMaxFreeUsers/>
+                </>
             ) : (
-                <MoreThanMaxFreeUsers
-                    channel={channel}
-                    showBoardsButton={showBoardsButton}
-                    showSetHeader={showSetHeader}
-                />
+                <div className='MoreThanMaxFreeUsersWrapper'>
+                    <MoreThanMaxFreeUsers channel={channel}/>
+                    {showBoardsButton && <BoardsButton/>}
+                    {showSetHeader && <SetHeaderButton/>}
+                </div>
             )}
         </TeamPermissionGate>
     );
 };
 
-const LessThanMaxFreeUsers = ({showSetHeader, showBoardsButton}: {showSetHeader: boolean; showBoardsButton: boolean}) => {
+const LessThanMaxFreeUsers = () => {
     const {formatMessage} = useIntl();
 
     return (
-        <>
-            {showBoardsButton && <BoardsButton/>}
-            {showSetHeader && <SetHeaderButton/>}
-            <div className='LessThanMaxFreeUsers'>
-                <EmptyStateThemeableSvg
-                    width={128}
-                    height={113}
+        <div className='LessThanMaxFreeUsers'>
+            <EmptyStateThemeableSvg
+                width={128}
+                height={113}
+            />
+            <div className='titleAndButton'>
+                <FormattedMessage
+                    id='intro_messages.inviteOthersToWorkspace.title'
+                    defaultMessage='Let’s add some people to the workspace!'
                 />
-                <div className='titleAndButton'>
-                    <FormattedMessage
-                        id='intro_messages.inviteOthersToWorkspace.title'
-                        defaultMessage='Let’s add some people to the workspace!'
+                <ToggleModalButton
+                    ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
+                    id='introTextInvite'
+                    className='intro-links color--link cursor--pointer'
+                    modalId={ModalIdentifiers.INVITATION}
+                    dialogType={InvitationModal}
+                >
+                    <i
+                        className='icon-email-plus-outline'
+                        title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
                     />
-                    <ToggleModalButton
-                        ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
-                        id='introTextInvite'
-                        className='intro-links color--link cursor--pointer'
-                        modalId={ModalIdentifiers.INVITATION}
-                        dialogType={InvitationModal}
-                    >
-                        <i
-                            className='icon-email-plus-outline'
-                            title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
-                        />
-                        <FormattedMessage
-                            id='intro_messages.inviteOthersToWorkspace.button'
-                            defaultMessage='Invite others to the workspace'
-                        />
-                    </ToggleModalButton>
-                </div>
+                    <FormattedMessage
+                        id='intro_messages.inviteOthersToWorkspace.button'
+                        defaultMessage='Invite others to the workspace'
+                    />
+                </ToggleModalButton>
             </div>
-        </>
+        </div>
     );
 };
 
-const MoreThanMaxFreeUsers = ({channel, showSetHeader, showBoardsButton}: {channel: Channel; showSetHeader: boolean; showBoardsButton: boolean}) => {
+const MoreThanMaxFreeUsers = ({channel}: {channel: Channel}) => {
     const {formatMessage} = useIntl();
 
     const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
@@ -119,43 +116,39 @@ const MoreThanMaxFreeUsers = ({channel, showSetHeader, showBoardsButton}: {chann
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
 
     return (
-        <div className='MoreThanMaxFreeUsersWrapper'>
-            <div className='MoreThanMaxFreeUsers'>
-                <ChannelPermissionGate
-                    channelId={channel.id}
-                    teamId={channel.team_id}
-                    permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+        <div className='MoreThanMaxFreeUsers'>
+            <ChannelPermissionGate
+                channelId={channel.id}
+                teamId={channel.team_id}
+                permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
+            >
+                <ToggleModalButton
+                    className='intro-links color--link'
+                    modalId={modalId}
+                    dialogType={modal}
+                    dialogProps={{channel}}
                 >
-                    <ToggleModalButton
-                        className='intro-links color--link'
-                        modalId={modalId}
-                        dialogType={modal}
-                        dialogProps={{channel}}
-                    >
-                        <i
-                            className='icon-account-plus-outline'
-                            title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
-                        />
-                        {isPrivate && channel.group_constrained &&
-                            <FormattedMessage
-                                id='intro_messages.inviteGropusToChannel.button'
-                                defaultMessage='Add groups to this private channel'
-                            />}
-                        {isPrivate && !channel.group_constrained &&
-                            <FormattedMessage
-                                id='intro_messages.inviteMembersToPrivateChannel.button'
-                                defaultMessage='Add members to this private channel'
-                            />}
-                        {!isPrivate &&
-                            <FormattedMessage
-                                id='intro_messages.inviteMembersToChannel.button'
-                                defaultMessage='Add members to this channel'
-                            />}
-                    </ToggleModalButton>
-                </ChannelPermissionGate>
-            </div>
-            {showBoardsButton && <BoardsButton/>}
-            {showSetHeader && <SetHeaderButton/>}
+                    <i
+                        className='icon-account-plus-outline'
+                        title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
+                    />
+                    {isPrivate && channel.group_constrained &&
+                    <FormattedMessage
+                        id='intro_messages.inviteGropusToChannel.button'
+                        defaultMessage='Add groups to this private channel'
+                    />}
+                    {isPrivate && !channel.group_constrained &&
+                    <FormattedMessage
+                        id='intro_messages.inviteMembersToPrivateChannel.button'
+                        defaultMessage='Add members to this private channel'
+                    />}
+                    {!isPrivate &&
+                    <FormattedMessage
+                        id='intro_messages.inviteMembersToChannel.button'
+                        defaultMessage='Add members to this channel'
+                    />}
+                </ToggleModalButton>
+            </ChannelPermissionGate>
         </div>
     );
 };
