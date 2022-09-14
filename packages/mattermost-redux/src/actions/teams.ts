@@ -57,7 +57,7 @@ async function getProfilesAndStatusesForMembers(userIds: string[], dispatch: Dis
     await Promise.all(requests);
 }
 
-export function selectTeam(team: Team | string) {
+export function selectTeam(team: Team | Team['id']) {
     const teamId = (typeof team === 'string') ? team : team.id;
     return {
         type: TeamTypes.SELECT_TEAM,
