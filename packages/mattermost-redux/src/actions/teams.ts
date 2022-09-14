@@ -472,15 +472,15 @@ export function addUserToTeamFromInvite(token: string, inviteId: string): Action
     });
 }
 
-export function addUserToTeam(teamId: string, userId: string): ActionFunc {
+export function addUserToTeam(teamId: string, userId: string): ActionFunc<TeamMembership, ServerError> {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let member;
         try {
             member = await Client4.addToTeam(teamId, userId);
         } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
+            forceLogoutIfNecessary(error as ServerError, dispatch, getState);
+            dispatch(logError(error as ServerError));
+            return {error: error as ServerError};
         }
 
         dispatch(batchActions([
