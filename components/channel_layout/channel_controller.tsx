@@ -6,6 +6,7 @@ import React, {useEffect} from 'react';
 import Pluggable from 'plugins/pluggable';
 
 import ResetStatusModal from 'components/reset_status_modal';
+import Sidebar from 'components/sidebar';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
@@ -31,19 +32,22 @@ export default function ChannelController({fetchingChannels}: Props) {
     }, []);
 
     return (
-        <div
-            id='channel_view'
-            className='channel-view'
-        >
+        <>
+            <Sidebar/>
+            <div
+                id='channel_view'
+                className='channel-view'
+            >
 
-            <FaviconTitleHandler/>
-            <ProductNoticesModal/>
-            <div className='container-fluid channel-view-inner'>
-                {fetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
-                <Pluggable pluggableName='Root'/>
-                <ResetStatusModal/>
+                <FaviconTitleHandler/>
+                <ProductNoticesModal/>
+                <div className='container-fluid channel-view-inner'>
+                    {fetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
+                    <Pluggable pluggableName='Root'/>
+                    <ResetStatusModal/>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 
