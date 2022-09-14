@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembers, viewChannel} from 'mattermost-redux/actions/channels';
+import {fetchAllMyTeamsChannelsAndChannelMembers, fetchMyChannelsAndMembersREST, viewChannel} from 'mattermost-redux/actions/channels';
 import {getMyTeamUnreads, getTeamByName, selectTeam} from 'mattermost-redux/actions/teams';
 import {getGroups, getAllGroupsAssociatedToChannelsInTeam, getAllGroupsAssociatedToTeam, getGroupsByUserIdPaginated} from 'mattermost-redux/actions/groups';
 import {isCollapsedThreadsEnabled, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -60,7 +60,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, any>({
-            fetchMyChannelsAndMembers,
+            fetchMyChannelsAndMembersREST,
             fetchAllMyTeamsChannelsAndChannelMembers,
             getMyTeamUnreads,
             viewChannel,
