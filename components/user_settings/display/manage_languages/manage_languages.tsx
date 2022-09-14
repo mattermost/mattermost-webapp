@@ -38,7 +38,7 @@ type State = {
     selectedOption: SelectedOption;
 };
 
-class ManageLanguage extends React.PureComponent<Props, State> {
+export class ManageLanguage extends React.PureComponent<Props, State> {
     reactSelectContainer: React.RefObject<HTMLDivElement>;
     constructor(props: Props) {
         super(props);
