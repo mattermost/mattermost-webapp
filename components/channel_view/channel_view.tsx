@@ -198,7 +198,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 className='app__content'
             >
                 <div
-                    id={'speak-' + Date.now()}
+                    id={'speak-'}
                     aria-live='assertive'
                     className='sr-only'
                 >
