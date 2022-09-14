@@ -41,13 +41,17 @@ export const directChannel = {
 export const defaultChannel = {
     ...channel,
     name: Constants.DEFAULT_CHANNEL,
-    type: Constants.OPEN_CHANNEL,
+    type: Constants.DEFAULT_CHANNEL,
+} as Channel;
+
+export const privateChannel = {
+    ...channel,
+    type: Constants.PRIVATE_CHANNEL,
 } as Channel;
 
 export const offTopicChannel = {
     ...channel,
-    type: Constants.OPEN_CHANNEL,
-    name: Constants.OFFTOPIC_CHANNEL,
+    type: Constants.OFFTOPIC_CHANNEL,
 } as Channel;
 
 // type PluginComponent

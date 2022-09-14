@@ -23,6 +23,14 @@ type Props = {
     };
 }
 
+export const TestIds = {
+    dm: 'dm-intro',
+    gm: 'gm-intro',
+    offTopic: 'off-topic-intro',
+    default: 'default-intro',
+    standard: 'standard-intro',
+};
+
 export default class ChannelIntroMessage extends React.PureComponent<Props> {
     componentDidMount() {
         if (!this.props.stats?.total_users_count) {
@@ -36,30 +44,34 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         switch (channel.type) {
         case Constants.DM_CHANNEL:
             return (
-                <DMIntroMessage/>
-            );
+                <DMIntroMessage
+                    data-testid={TestIds.dm}
+                />);
         case Constants.GM_CHANNEL:
             return (
-                <GMIntroMessage/>
+                <GMIntroMessage
+                    data-testid={TestIds.gm}
+                />
             );
         case Constants.DEFAULT_CHANNEL:
             return (
                 <DefaultIntroMessage
                     usersLimit={usersLimit}
-                />
-            );
+                    data-testid={TestIds.default}
+                />);
         case Constants.OFFTOPIC_CHANNEL:
             return (
                 <OffTopicIntroMessage
                     usersLimit={usersLimit}
-                />
-            );
-        case Constants.OPEN_CHANNEL || channel.type === Constants.PRIVATE_CHANNEL:
+                    data-testid={TestIds.offTopic}
+                />);
+        case Constants.OPEN_CHANNEL:
+        case Constants.PRIVATE_CHANNEL:
             return (
                 <StandardIntroMessage
                     usersLimit={usersLimit}
-                />
-            );
+                    data-testid={TestIds.standard}
+                />);
         default:
             return null;
         }

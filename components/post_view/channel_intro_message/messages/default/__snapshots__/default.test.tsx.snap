@@ -89,7 +89,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
             "name": "town-square",
             "purpose": "test",
             "team_id": "team-id",
-            "type": "O",
+            "type": "town-square",
             "update_at": 1508265709607,
           },
         }

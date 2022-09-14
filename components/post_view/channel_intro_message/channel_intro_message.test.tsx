@@ -4,13 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelIntroMessage from './channel_intro_message';
-import DMIntroMessage from './messages/dm';
-import StandardIntroMessage from './messages/standard';
-import GMIntroMessage from './messages/gm';
-import DefaultIntroMessage from './messages/default';
-import OffTopicIntroMessage from './messages/off_topic';
-import {channel, defaultChannel, directChannel, groupChannel, offTopicChannel} from './messages/test_utils';
+import ChannelIntroMessage, {TestIds} from './channel_intro_message';
+import {channel, defaultChannel, directChannel, groupChannel, offTopicChannel, privateChannel} from './messages/test_utils';
 
 describe('components/post_view/ChannelIntroMessages', () => {
     const baseProps = {
@@ -27,8 +22,20 @@ describe('components/post_view/ChannelIntroMessages', () => {
         test('should find StandardIntroMessage', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage{...baseProps}/>,
-            );
-            expect(wrapper.find(StandardIntroMessage));
+            ).children();
+            expect(wrapper.prop('data-testid')).toBe(TestIds.standard);
+        });
+    });
+
+    describe('test Private Channel', () => {
+        test('should find StandardIntroMessage', () => {
+            const wrapper = shallow(
+                <ChannelIntroMessage
+                    {...baseProps}
+                    channel={privateChannel}
+                />,
+            ).children();
+            expect(wrapper.prop('data-testid')).toBe(TestIds.standard);
         });
     });
 
@@ -39,8 +46,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...baseProps}
                     channel={groupChannel}
                 />,
-            );
-            expect(wrapper.find(GMIntroMessage));
+            ).children();
+            expect(wrapper.prop('data-testid')).toBe(TestIds.gm);
         });
     });
 
@@ -51,8 +58,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...baseProps}
                     channel={directChannel}
                 />,
-            );
-            expect(wrapper.find(DMIntroMessage));
+            ).children();
+            expect(wrapper.prop('data-testid')).toBe(TestIds.dm);
         });
     });
 
@@ -63,8 +70,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...baseProps}
                     channel={defaultChannel}
                 />,
-            );
-            expect(wrapper.find(DefaultIntroMessage));
+            ).children();
+            expect(wrapper.prop('data-testid')).toBe(TestIds.default);
         });
     });
 
@@ -75,8 +82,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     {...baseProps}
                     channel={offTopicChannel}
                 />,
-            );
-            expect(wrapper.find(OffTopicIntroMessage));
+            ).children();
+            expect(wrapper.prop('data-testid')).toBe(TestIds.offTopic);
         });
     });
 });
