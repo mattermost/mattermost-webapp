@@ -24,11 +24,10 @@ describe('components/post_view/message_attachments/ActionMenu', () => {
             id: 'id',
             cookie: 'cookie',
         },
-        actions: {
-            autocompleteChannels: jest.fn(),
-            autocompleteUsers: jest.fn(),
-            selectAttachmentMenuAction: jest.fn(),
-        },
+        selected: undefined,
+        autocompleteChannels: jest.fn(),
+        autocompleteUsers: jest.fn(),
+        selectAttachmentMenuAction: jest.fn(),
     };
 
     test('should start with nothing selected', () => {
