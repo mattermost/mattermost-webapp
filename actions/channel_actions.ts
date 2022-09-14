@@ -4,7 +4,7 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {UserProfile} from '@mattermost/types/users';
-import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 
 import {PreferenceTypes} from 'mattermost-redux/action_types';
@@ -171,11 +171,11 @@ export function addUsersToChannel(channelId: Channel['id'], userIds: Array<UserP
 export function unmuteChannel(userId: UserProfile['id'], channelId: Channel['id']) {
     return ChannelActions.updateChannelNotifyProps(userId, channelId, {
         mark_unread: NotificationLevels.ALL,
-    } as ChannelNotifyProps);
+    });
 }
 
 export function muteChannel(userId: UserProfile['id'], channelId: Channel['id']) {
     return ChannelActions.updateChannelNotifyProps(userId, channelId, {
         mark_unread: NotificationLevels.MENTION,
-    } as ChannelNotifyProps);
+    });
 }
