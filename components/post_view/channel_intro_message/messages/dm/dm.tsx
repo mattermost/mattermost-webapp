@@ -68,7 +68,7 @@ const DMIntroMessage = ({
                     />
                 </p>
                 {renderButtons && <BoardsButton/>}
-                <SetHeaderButton show={renderButtons}/>
+                {renderButtons && <SetHeaderButton/>}
             </>
         );
     }

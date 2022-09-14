@@ -38,9 +38,6 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       }
     />
   </p>
-  <Connect(Component)
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -83,9 +80,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
     />
   </p>
   <Connect(Component) />
-  <Connect(Component)
-    show={true}
-  />
+  <Connect(Component) />
 </Fragment>
 `;
 

@@ -41,9 +41,6 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       }
     />
   </p>
-  <Connect(Component)
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -100,8 +97,6 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
     />
   </p>
   <Connect(Component) />
-  <Connect(Component)
-    show={true}
-  />
+  <Connect(Component) />
 </Fragment>
 `;

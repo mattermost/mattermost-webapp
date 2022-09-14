@@ -49,5 +49,3 @@ exports[`components/post_view/ChannelIntroMessages test Set Header Button should
 `;
 
 exports[`components/post_view/ChannelIntroMessages test Set Header Button should match snapshot, has board, archived channel 1`] = `""`;
-
-exports[`components/post_view/ChannelIntroMessages test Set Header Button should match snapshot, show false 1`] = `""`;

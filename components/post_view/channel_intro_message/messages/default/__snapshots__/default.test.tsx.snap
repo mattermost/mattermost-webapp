@@ -28,9 +28,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <Connect(Component)
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -118,9 +115,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     </Connect(ToggleModalButton)>
   </Connect(TeamPermissionGate)>
   <Connect(Component) />
-  <Connect(Component)
-    show={true}
-  />
+  <Connect(Component) />
 </Fragment>
 `;
 
@@ -167,9 +162,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       usersLimit={10}
     />
   </Connect(TeamPermissionGate)>
-  <Connect(Component)
-    show={false}
-  />
 </Fragment>
 `;
 
@@ -202,9 +194,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     />
   </p>
   <Connect(Component) />
-  <Connect(Component)
-    show={true}
-  />
+  <Connect(Component) />
 </Fragment>
 `;
 
@@ -236,8 +226,5 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
     />
   </p>
-  <Connect(Component)
-    show={false}
-  />
 </Fragment>
 `;

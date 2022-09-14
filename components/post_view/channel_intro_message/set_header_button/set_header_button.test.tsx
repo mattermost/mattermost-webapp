@@ -11,7 +11,6 @@ import SetHeaderButton from './set_header_button';
 const component = (otherProps: any) => (
     <SetHeaderButton
         channel={defaultChannel}
-        show={true}
         {...otherProps}
     />
 );
@@ -20,12 +19,6 @@ describe('components/post_view/ChannelIntroMessages', () => {
     describe('test Set Header Button', () => {
         test('should match snapshot', () => {
             expect(shallow(component({}))).toMatchSnapshot();
-        });
-
-        test('should match snapshot, show false', () => {
-            expect(shallow(component({
-                show: false,
-            }))).toMatchSnapshot();
         });
 
         test('should match snapshot, has board, archived channel', () => {
