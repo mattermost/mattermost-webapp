@@ -11,8 +11,8 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 
-import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
-import {getLongDisplayNameParts, localizeMessage} from 'utils/utils';
+import {displayUsername, filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
+import {localizeMessage} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -34,6 +34,7 @@ export type Props = {
     userStatuses: RelationOneToOne<UserProfile, string>;
     onExited: () => void;
     channel: Channel;
+    teammateNameDisplaySetting: string;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
     skipCommit?: boolean;
@@ -256,24 +257,23 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     size='md'
                     username={option.username}
                 />
-
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         <span>
-                            {getLongDisplayNameParts(option).displayName}
+                            {displayUsername(option, this.props.teammateNameDisplaySetting)}
+                            <BotBadge
+                                show={Boolean(option.is_bot)}
+                            />
+                            <GuestBadge show={isGuest(option.roles)}/>
+                            <span
+                                className='ml-2 light'
+                                style={{fontSize: '12px'}}
+                            >{'@'}{option.username}</span>
                             <span
                                 style={{position: 'absolute', right: 20}}
                                 className='light'
                             >{userMapping[option.id]}</span>
                         </span>
-                        <BotBadge
-                            show={Boolean(option.is_bot)}
-                            className='badge-popoverlist'
-                        />
-                        <GuestBadge
-                            show={isGuest(option.roles)}
-                            className='popoverlist'
-                        />
                     </div>
                 </div>
                 <div className='more-modal__actions'>
