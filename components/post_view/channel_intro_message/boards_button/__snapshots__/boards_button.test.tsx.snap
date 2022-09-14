@@ -10,6 +10,4 @@ exports[`components/post_view/ChannelIntroMessages test Boards Button should mat
 </button>
 `;
 
-exports[`components/post_view/ChannelIntroMessages test Boards Button should match snapshot, has board, no show 1`] = `""`;
-
 exports[`components/post_view/ChannelIntroMessages test Boards Button should match snapshot, no boards 1`] = `""`;

@@ -25,11 +25,5 @@ describe('components/post_view/ChannelIntroMessages', () => {
                 boardComponent: null,
             }))).toMatchSnapshot();
         });
-
-        test('should match snapshot, has board, no show', () => {
-            expect(shallow(component({
-                show: false,
-            }))).toMatchSnapshot();
-        });
     });
 });

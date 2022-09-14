@@ -7,14 +7,13 @@ import {useIntl} from 'react-intl';
 import {PluginComponent} from 'types/store/plugins';
 
 type Props = {
-    show: boolean;
     boardComponent?: PluginComponent;
 }
 
-const BoardsButton = ({boardComponent, show}: Props) => {
+const BoardsButton = ({boardComponent}: Props) => {
     const {formatMessage} = useIntl();
 
-    if (!boardComponent || !show) {
+    if (!boardComponent) {
         return null;
     }
 

@@ -74,7 +74,7 @@ const LessThanMaxFreeUsers = ({showSetHeader, showBoardsButton}: {showSetHeader:
 
     return (
         <>
-            <BoardsButton show={showBoardsButton}/>
+            {showBoardsButton && <BoardsButton/>}
             <SetHeaderButton show={showSetHeader}/>
             <div className='LessThanMaxFreeUsers'>
                 <EmptyStateThemeableSvg
@@ -154,7 +154,7 @@ const MoreThanMaxFreeUsers = ({channel, showSetHeader, showBoardsButton}: {chann
                     </ToggleModalButton>
                 </ChannelPermissionGate>
             </div>
-            <BoardsButton show={showBoardsButton}/>
+            {showBoardsButton && <BoardsButton/>}
             <SetHeaderButton show={showSetHeader}/>
         </div>
     );
