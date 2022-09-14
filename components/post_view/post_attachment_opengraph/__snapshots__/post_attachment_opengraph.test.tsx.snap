@@ -235,6 +235,7 @@ exports[`PostAttachmentOpenGraphImage should match snapshot 1`] = `
                 "transitionDuration": "250ms",
                 "transitionProperty": "height",
                 "transitionTimingFunction": "ease",
+                "width": "100%",
               }
             }
           >
