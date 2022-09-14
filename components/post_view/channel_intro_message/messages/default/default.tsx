@@ -74,9 +74,7 @@ const DefaultIntroMessage = ({
                             className='fa fa-user-plus'
                             title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
                         />
-                        <FormattedMessage
-                            {...messages.addGroupsToTeam}
-                        />
+                        <FormattedMessage {...messages.addGroupsToTeam}/>
                     </ToggleModalButton>
                 ) : (
                     <AddMembersButton
