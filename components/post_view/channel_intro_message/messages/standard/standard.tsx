@@ -24,11 +24,11 @@ const messages = defineMessages({
     },
     onlyInvited: {
         id: t('intro_messages.onlyInvited'),
-        defaultMessage: ' Only invited members can see this private channel.',
+        defaultMessage: 'Only invited members can see this private channel.',
     },
     anyMember: {
         id: t('intro_messages.anyMember'),
-        defaultMessage: ' Any member can join and read this channel.',
+        defaultMessage: 'Any member can join and read this channel.',
     },
     noCreatorPrivate: {
         id: t('intro_messages.noCreatorPrivate'),
@@ -48,11 +48,11 @@ const messages = defineMessages({
     },
     purposePrivate: {
         id: t('intro_messages.purposePrivate'),
-        defaultMessage: " This private channel's purpose is: {purpose}",
+        defaultMessage: 'This private channel\'s purpose is: {purpose}',
     },
     purpose: {
         id: t('intro_messages.purpose'),
-        defaultMessage: " This channel's purpose is: {purpose}",
+        defaultMessage: 'This channel\'s purpose is: {purpose}',
     },
 });
 
