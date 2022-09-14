@@ -687,7 +687,7 @@ describe('components/advanced_create_post', () => {
     });
 
     it('onSubmit test for "/unknown" message ', async () => {
-        jest.mock('actions/channel_actions.jsx', () => ({
+        jest.mock('actions/channel_actions', () => ({
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
         }));
 

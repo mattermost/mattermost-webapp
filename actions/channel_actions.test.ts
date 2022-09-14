@@ -98,7 +98,7 @@ const initialState = {
 const realDateNow = Date.now;
 
 jest.mock('mattermost-redux/actions/channels', () => ({
-    fetchMyChannelsAndMembersREST: (...args) => ({type: 'MOCK_FETCH_CHANNELS_AND_MEMBERS', args}),
+    fetchMyChannelsAndMembersREST: (...args: any) => ({type: 'MOCK_FETCH_CHANNELS_AND_MEMBERS', args}),
     searchChannels: () => {
         return {
             type: 'MOCK_SEARCH_CHANNELS',
@@ -111,9 +111,9 @@ jest.mock('mattermost-redux/actions/channels', () => ({
             }],
         };
     },
-    addChannelMember: (...args) => ({type: 'MOCK_ADD_CHANNEL_MEMBER', args}),
-    createDirectChannel: (...args) => ({type: 'MOCK_CREATE_DIRECT_CHANNEL', args}),
-    createGroupChannel: (...args) => ({type: 'MOCK_CREATE_GROUP_CHANNEL', args}),
+    addChannelMember: (...args: any) => ({type: 'MOCK_ADD_CHANNEL_MEMBER', args}),
+    createDirectChannel: (...args: any) => ({type: 'MOCK_CREATE_DIRECT_CHANNEL', args}),
+    createGroupChannel: (...args: any) => ({type: 'MOCK_CREATE_GROUP_CHANNEL', args}),
 }));
 
 jest.mock('actions/user_actions', () => ({
@@ -150,7 +150,7 @@ describe('Actions.Channel', () => {
             }],
         }];
 
-        await testStore.dispatch(Actions.searchMoreChannels());
+        await testStore.dispatch(Actions.searchMoreChannels('', false));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 

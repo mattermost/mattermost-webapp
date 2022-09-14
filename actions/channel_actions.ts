@@ -3,9 +3,14 @@
 
 import {batchActions} from 'redux-batched-actions';
 
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+
 import {PreferenceTypes} from 'mattermost-redux/action_types';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getChannelByName, getUnreadChannelIds, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -13,11 +18,12 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions';
+
 import {browserHistory} from 'utils/browser_history';
 import {Constants, Preferences, NotificationLevels} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
 
-export function openDirectChannelToUserId(userId) {
+export function openDirectChannelToUserId(userId: UserProfile['id']): ActionFunc {
     return async (dispatch, getState) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);
@@ -58,7 +64,7 @@ export function openDirectChannelToUserId(userId) {
     };
 }
 
-export function openGroupChannelToUserIds(userIds) {
+export function openGroupChannelToUserIds(userIds: Array<UserProfile['id']>): ActionFunc {
     return async (dispatch, getState) => {
         const result = await dispatch(ChannelActions.createGroupChannel(userIds));
 
@@ -70,7 +76,7 @@ export function openGroupChannelToUserIds(userIds) {
     };
 }
 
-export function loadChannelsForCurrentUser() {
+export function loadChannelsForCurrentUser(): ActionFunc {
     return async (dispatch, getState) => {
         const state = getState();
         const unreads = getUnreadChannelIds(state);
@@ -90,7 +96,7 @@ export function loadChannelsForCurrentUser() {
     };
 }
 
-export function searchMoreChannels(term, showArchivedChannels) {
+export function searchMoreChannels(term: string, showArchivedChannels: boolean): ActionFunc<Channel[], ServerError> {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
@@ -104,7 +110,7 @@ export function searchMoreChannels(term, showArchivedChannels) {
             const myMembers = getMyChannelMemberships(state);
 
             // When searching public channels, only get channels user is not a member of
-            const channels = showArchivedChannels ? data : data.filter((c) => !myMembers[c.id]);
+            const channels = showArchivedChannels ? data : (data as Channel[]).filter((c) => !myMembers[c.id]);
             return {data: channels};
         }
 
@@ -112,7 +118,7 @@ export function searchMoreChannels(term, showArchivedChannels) {
     };
 }
 
-export function autocompleteChannels(term, success, error) {
+export function autocompleteChannels(term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void): ActionFunc {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
@@ -131,7 +137,7 @@ export function autocompleteChannels(term, success, error) {
     };
 }
 
-export function autocompleteChannelsForSearch(term, success, error) {
+export function autocompleteChannelsForSearch(term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void): ActionFunc {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
@@ -150,7 +156,7 @@ export function autocompleteChannelsForSearch(term, success, error) {
     };
 }
 
-export function addUsersToChannel(channelId, userIds) {
+export function addUsersToChannel(channelId: Channel['id'], userIds: Array<UserProfile['id']>): ActionFunc {
     return async (dispatch) => {
         try {
             const requests = userIds.map((uId) => dispatch(ChannelActions.addChannelMember(channelId, uId)));
@@ -162,13 +168,13 @@ export function addUsersToChannel(channelId, userIds) {
     };
 }
 
-export function unmuteChannel(userId, channelId) {
+export function unmuteChannel(userId: UserProfile['id'], channelId: Channel['id']) {
     return ChannelActions.updateChannelNotifyProps(userId, channelId, {
         mark_unread: NotificationLevels.ALL,
     });
 }
 
-export function muteChannel(userId, channelId) {
+export function muteChannel(userId: UserProfile['id'], channelId: Channel['id']) {
     return ChannelActions.updateChannelNotifyProps(userId, channelId, {
         mark_unread: NotificationLevels.MENTION,
     });
