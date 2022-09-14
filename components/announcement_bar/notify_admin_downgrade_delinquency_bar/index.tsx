@@ -18,6 +18,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {NotifyStatus, useGetNotifyAdmin} from 'components/common/hooks/useGetNotifyAdmin';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import AnnouncementBar from '../default_announcement_bar';
 import {useDelinquencySubscription} from 'components/common/hooks/useDelinquencySubscription';
@@ -34,9 +35,7 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     const currentUser = useSelector((state: GlobalState) =>
         getCurrentUser(state),
     );
-    const {isDelinquencySubscriptionHigherThan90Days} = useDelinquencySubscription({
-        checkAdmin: false,
-    });
+    const {isDelinquencySubscriptionHigherThan90Days} = useDelinquencySubscription();
 
     const {notifyAdmin, notifyStatus} = useGetNotifyAdmin({});
 
@@ -52,6 +51,10 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     }, [currentUser, dispatch, notifyStatus]);
 
     const shouldShowBanner = () => {
+        if (isSystemAdmin(currentUser.roles)) {
+            return false;
+        }
+
         if (!preferences) {
             return false;
         }

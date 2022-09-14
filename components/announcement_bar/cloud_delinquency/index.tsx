@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useSelector} from 'react-redux';
 
 import {FormattedMessage} from 'react-intl';
 
@@ -15,13 +16,17 @@ import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import {trackEvent} from 'actions/telemetry_actions';
 import {useDelinquencySubscription} from 'components/common/hooks/useDelinquencySubscription';
+import {GlobalState} from 'types/store';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 const CloudDelinquencyAnnouncementBar = () => {
     const subscription = useGetSubscription();
     const openPurchaseModal = useOpenCloudPurchaseModal({});
-    const {isDelinquencySubscription} = useDelinquencySubscription({
-        checkAdmin: true,
-    });
+    const {isDelinquencySubscription} = useDelinquencySubscription();
+    const currentUser = useSelector((state: GlobalState) =>
+        getCurrentUser(state),
+    );
 
     const getBannerType = () => {
         const delinquencyDate = new Date(
@@ -39,7 +44,7 @@ const CloudDelinquencyAnnouncementBar = () => {
         return AnnouncementBarTypes.ADVISOR;
     };
 
-    if (!isDelinquencySubscription()) {
+    if (!isDelinquencySubscription() || !isSystemAdmin(currentUser.roles)) {
         return null;
     }
 
