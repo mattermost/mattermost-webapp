@@ -738,7 +738,7 @@ export default class SwitchChannelProvider extends Provider {
         const insightsEnabled = insightsAreEnabled(state);
 
         // adding last viewed at equal to Date.now() to push it to the top of the list
-        let insightsItem = {
+        const insightsItem = {
             channel: InsightsChannel,
             name: InsightsChannel.name,
             unread_mentions: 0,
