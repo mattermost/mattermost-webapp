@@ -5,9 +5,17 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import ChannelFilter from 'components/sidebar/channel_filter/channel_filter';
+import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 describe('components/sidebar/channel_filter', () => {
+    const intl = {
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    } as any;
+
     const baseProps = {
+        intl,
         unreadFilterEnabled: false,
         hasMultipleTeams: false,
         actions: {
@@ -29,7 +37,7 @@ describe('components/sidebar/channel_filter', () => {
             unreadFilterEnabled: true,
         };
 
-        const wrapper = shallow(
+        const wrapper = shallowWithIntl(
             <ChannelFilter {...props}/>,
         );
 
@@ -37,7 +45,7 @@ describe('components/sidebar/channel_filter', () => {
     });
 
     test('should enable the unread filter on toggle when it is disabled', () => {
-        const wrapper = shallow<ChannelFilter>(
+        const wrapper = shallowWithIntl(
             <ChannelFilter {...baseProps}/>,
         );
 
@@ -51,7 +59,7 @@ describe('components/sidebar/channel_filter', () => {
             unreadFilterEnabled: true,
         };
 
-        const wrapper = shallow<ChannelFilter>(
+        const wrapper = shallowWithIntl(
             <ChannelFilter {...props}/>,
         );
 

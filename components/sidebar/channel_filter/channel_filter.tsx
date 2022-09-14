@@ -4,6 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import {injectIntl, IntlShape} from 'react-intl';
+
 import {trackEvent} from 'actions/telemetry_actions';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -12,6 +14,7 @@ import Constants from 'utils/constants';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 type Props = {
+    intl: IntlShape;
     hasMultipleTeams: boolean;
     unreadFilterEnabled: boolean;
     actions: {
@@ -23,7 +26,7 @@ type State = {
 
 };
 
-export default class ChannelFilter extends React.PureComponent<Props, State> {
+class ChannelFilter extends React.PureComponent<Props, State> {
     componentDidMount() {
         document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
     }
@@ -57,12 +60,12 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {unreadFilterEnabled, hasMultipleTeams} = this.props;
+        const {intl, unreadFilterEnabled, hasMultipleTeams} = this.props;
 
-        let tooltipMessage = Utils.localizeMessage('sidebar_left.channel_filter.filterByUnread', 'Filter by unread');
+        let tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.filterByUnread', defaultMessage: 'Filter by unread'});
 
         if (unreadFilterEnabled) {
-            tooltipMessage = Utils.localizeMessage('sidebar_left.channel_filter.showAllChannels', 'Show all channels');
+            tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.showAllChannels', defaultMessage: 'Show all channels'});
         }
 
         const tooltip = (
@@ -101,3 +104,5 @@ export default class ChannelFilter extends React.PureComponent<Props, State> {
         );
     }
 }
+
+export default injectIntl(ChannelFilter);
