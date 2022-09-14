@@ -5,6 +5,16 @@ exports[`components/channel_view Should match snapshot if channel is archived wi
   className="app__content"
   id="app-content"
 >
+  <div
+    aria-live="assertive"
+    className="sr-only"
+    id="speak-1663132164059"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Login Successfull"
+      id="channelView.login.successfull"
+    />
+  </div>
   <FileUploadOverlay
     overlayType="center"
   />
@@ -68,6 +78,16 @@ exports[`components/channel_view Should match snapshot if channel roles loading 
   className="app__content"
   id="app-content"
 >
+  <div
+    aria-live="assertive"
+    className="sr-only"
+    id="speak-1663132164053"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Login Successfull"
+      id="channelView.login.successfull"
+    />
+  </div>
   <FileUploadOverlay
     overlayType="center"
   />
@@ -108,6 +128,16 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
   className="app__content"
   id="app-content"
 >
+  <div
+    aria-live="assertive"
+    className="sr-only"
+    id="speak-1663132164023"
+  >
+    <MemoizedFormattedMessage
+      defaultMessage="Login Successfull"
+      id="channelView.login.successfull"
+    />
+  </div>
   <FileUploadOverlay
     overlayType="center"
   />

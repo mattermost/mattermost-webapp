@@ -111,7 +111,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         const {channelIsArchived} = this.props;
-
         let createPost;
         if (this.props.deactivatedChannel) {
             createPost = (
@@ -198,6 +197,18 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 id='app-content'
                 className='app__content'
             >
+                <div
+                    id={'speak-' + Date.now()}
+                    aria-live='assertive'
+                    className='sr-only'
+                >
+                    {
+                        <FormattedMessage
+                            id='channelView.login.successfull'
+                            defaultMessage='Login Successfull'
+                        />
+                    }
+                </div>
                 <FileUploadOverlay overlayType='center'/>
                 <ChannelHeader
                     {...this.props}
