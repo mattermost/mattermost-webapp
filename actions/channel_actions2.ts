@@ -18,8 +18,8 @@ import {
     getTeamsChannelsAndMembersQueryString,
     ChannelsAndChannelMembersQueryResponseType,
     getAllChannelsAndMembersQueryString,
-    transformToRecievedChannelsReducerPayload,
-    transformToRecievedChannelMembersReducerPayload,
+    transformToReceivedChannelsReducerPayload,
+    transformToReceivedChannelMembersReducerPayload,
 } from 'actions/channel_queries';
 
 export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{channels: ServerChannel[]; channelMembers: ChannelMembership[]}> {
@@ -45,8 +45,8 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
         const state = getState();
         const currentUserId = getCurrentUserId(state);
 
-        const channels = transformToRecievedChannelsReducerPayload(channelsAndMembers.channels);
-        const channelMembers = transformToRecievedChannelMembersReducerPayload(channelsAndMembers.channelMembers, currentUserId);
+        const channels = transformToReceivedChannelsReducerPayload(channelsAndMembers.channels);
+        const channelMembers = transformToReceivedChannelMembersReducerPayload(channelsAndMembers.channelMembers, currentUserId);
 
         await dispatch(batchActions([
             {

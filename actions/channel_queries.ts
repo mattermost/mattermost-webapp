@@ -212,7 +212,7 @@ export function getTeamsChannelMembersNextQueryString(teamId: Team['id'], cursor
     });
 }
 
-export function transformToRecievedChannelsReducerPayload(
+export function transformToReceivedChannelsReducerPayload(
     channels: Partial<ChannelsQueryResponseType['data']['channels']>,
 ): ServerChannel[] {
     return channels.map((channel) => ({
@@ -239,7 +239,7 @@ export function transformToRecievedChannelsReducerPayload(
     }));
 }
 
-export function transformToRecievedChannelMembersReducerPayload(
+export function transformToReceivedChannelMembersReducerPayload(
     channelMembers: Partial<
     ChannelMembersQueryResponseType['data']['channelMembers']
     >,
