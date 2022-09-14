@@ -81,7 +81,7 @@ describe('components/needs_team', () => {
 
     const actions = {
         fetchMyChannelsAndMembersREST: jest.fn().mockResolvedValue({data: true}),
-        fetchAllMyTeamsChannelsAndChannelMembers: jest.fn().mockResolvedValue({data: true}),
+        fetchAllMyTeamsChannelsAndChannelMembersREST: jest.fn().mockResolvedValue({data: true}),
         fetchThreadMentionCountsByChannel: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
