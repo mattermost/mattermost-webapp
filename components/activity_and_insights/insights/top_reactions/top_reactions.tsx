@@ -9,6 +9,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from '@mattermost/types/store';
 import {TopReaction} from '@mattermost/types/insights';
 
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {InsightsScopes} from 'utils/constants';
 
 import BarChartLoader from '../skeleton_loader/bar_chart_loader/bar_chart_loader';
@@ -31,11 +32,9 @@ const TopReactions = (props: WidgetHocProps) => {
     const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
 
     useEffect(() => {
-        if (props.filterType === InsightsScopes.TEAM) {
-            setTopReactions(teamTopReactions);
-        } else {
-            setTopReactions(myTopReactions);
-        }
+        const reactions = props.filterType === InsightsScopes.TEAM ? teamTopReactions : myTopReactions;
+        setTopReactions(reactions);
+        dispatch(loadCustomEmojisIfNeeded(reactions.map((reaction) => reaction.emoji_name)));
     }, [props.filterType, teamTopReactions, myTopReactions]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
