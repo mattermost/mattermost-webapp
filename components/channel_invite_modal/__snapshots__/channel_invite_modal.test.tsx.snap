@@ -145,16 +145,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
           show={false}
         />
         <span
-          className="ml-2 light"
-          style={
-            Object {
-              "fontSize": "12px",
-            }
-          }
-        >
-          @
-        </span>
-        <span
           className="light"
           style={
             Object {
