@@ -243,6 +243,8 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             userMapping[ProfilesInGroup[i]] = 'Already in channel';
         }
 
+        const displayName = displayUsername(option, this.props.teammateNameDisplaySetting);
+
         return (
             <div
                 key={option.id}
@@ -260,15 +262,18 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         <span>
-                            {displayUsername(option, this.props.teammateNameDisplaySetting)}
+                            {displayName}
                             <BotBadge
                                 show={Boolean(option.is_bot)}
                             />
                             <GuestBadge show={isGuest(option.roles)}/>
-                            <span
-                                className='ml-2 light'
-                                style={{fontSize: '12px'}}
-                            >{'@'}{option.username}</span>
+                            {displayName === option.username ?
+                                null :
+                                <span
+                                    className='ml-2 light'
+                                    style={{fontSize: '12px'}}
+                                >{'@'}{option.username}</span>
+                            }
                             <span
                                 style={{position: 'absolute', right: 20}}
                                 className='light'
