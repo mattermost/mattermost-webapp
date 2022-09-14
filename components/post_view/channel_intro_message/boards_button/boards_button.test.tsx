@@ -8,9 +8,7 @@ import BoardsButton from './boards_button';
 
 const component = (otherProps: any) => (
     <BoardsButton
-        boardComponent={
-            <button>{'create a board'}</button>
-        }
+        boardComponent={<button>{'create a board'}</button>}
         show={true}
         {...otherProps}
     />
