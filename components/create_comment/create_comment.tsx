@@ -55,8 +55,6 @@ import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 
 const KeyCodes = Constants.KeyCodes;
 
-const CreateCommentDraftTimeoutMilliseconds = 500;
-
 export type Props = {
 
     /**
@@ -800,7 +798,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
         }
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        }, CreateCommentDraftTimeoutMilliseconds);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {
