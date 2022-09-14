@@ -253,7 +253,6 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             })}
             isConfirmDisabled={!canForwardPost}
             handleConfirm={handleSubmit}
-            handleEnterKeyPress={handleSubmit}
             handleCancel={onHide}
             onExited={onHide}
         >
