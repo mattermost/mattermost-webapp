@@ -4,13 +4,17 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {UserProfile} from '@mattermost/types/users';
-import {Channel} from '@mattermost/types/channels';
+import {ChannelMembership, ServerChannel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
 import {ServerError} from '@mattermost/types/errors';
 
-import {PreferenceTypes} from 'mattermost-redux/action_types';
+import {Client4} from 'mattermost-redux/client';
+import {ChannelTypes, PreferenceTypes} from 'mattermost-redux/action_types';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {logError} from 'mattermost-redux/actions/errors';
+import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getChannelByName, getUnreadChannelIds, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -18,6 +22,13 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions';
+import {
+    getTeamsChannelsAndMembersQueryString,
+    ChannelsAndChannelMembersQueryResponseType,
+    getAllChannelsAndMembersQueryString,
+    transformToReceivedChannelsReducerPayload,
+    transformToReceivedChannelMembersReducerPayload,
+} from 'actions/channel_queries';
 
 import {browserHistory} from 'utils/browser_history';
 import {Constants, Preferences, NotificationLevels} from 'utils/constants';
@@ -178,4 +189,62 @@ export function muteChannel(userId: UserProfile['id'], channelId: Channel['id'])
     return ChannelActions.updateChannelNotifyProps(userId, channelId, {
         mark_unread: NotificationLevels.MENTION,
     });
+}
+
+export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{channels: ServerChannel[]; channelMembers: ChannelMembership[]}> {
+    return async (dispatch, getState) => {
+        let channelsAndMembers: ChannelsAndChannelMembersQueryResponseType['data'] | null = null;
+        try {
+            if (teamId) {
+                const {data} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getTeamsChannelsAndMembersQueryString(teamId));
+                channelsAndMembers = data;
+            } else {
+                const {data} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getAllChannelsAndMembersQueryString());
+                channelsAndMembers = data;
+            }
+        } catch (error) {
+            dispatch(logError(error as ServerError));
+            return {error: error as ServerError};
+        }
+
+        if (!channelsAndMembers) {
+            return {data: {channels: [], channelMembers: []}};
+        }
+
+        const state = getState();
+        const currentUserId = getCurrentUserId(state);
+
+        const channels = transformToReceivedChannelsReducerPayload(channelsAndMembers.channels);
+        const channelMembers = transformToReceivedChannelMembersReducerPayload(channelsAndMembers.channelMembers, currentUserId);
+
+        await dispatch(batchActions([
+            {
+                type: ChannelTypes.RECEIVED_ALL_CHANNELS,
+                data: channels,
+            },
+            {
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
+                data: channelMembers,
+                currentUserId,
+            },
+        ]));
+
+        // Add any pending roles for the current team's channels
+        const roles = new Set<string>();
+        if (teamId) {
+            channelsAndMembers.channelMembers.forEach((channelMember) => {
+                if (channelMember.roles && channelMember.roles.length > 0) {
+                    channelMember.roles.forEach((role) => {
+                        roles.add(role.name);
+                    });
+                }
+            });
+
+            if (roles.size > 0) {
+                dispatch(loadRolesIfNeeded(roles));
+            }
+        }
+
+        return {data: {channels, channelMembers}};
+    };
 }
