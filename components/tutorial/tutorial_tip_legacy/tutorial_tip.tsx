@@ -112,13 +112,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private show = (e?: React.MouseEvent): void => {
+        e?.stopPropagation();
         this.setState({show: true, hasShown: true});
-        if (this.props.preventDefault && e) {
-            e.preventDefault();
-        }
-        if (this.props.stopPropagation && e) {
-            e.stopPropagation();
-        }
     }
 
     private hide = (): void => {

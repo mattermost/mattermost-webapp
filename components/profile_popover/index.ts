@@ -16,7 +16,7 @@ import {
     getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
 
-import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 

@@ -156,7 +156,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
             <React.Fragment>
                 <OverlayTrigger
                     ref={this.setOverlaynRef}
-                    trigger='click'
+                    trigger={['click']}
                     placement={placement}
                     rootClose={true}
                     overlay={
