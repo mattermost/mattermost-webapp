@@ -70,9 +70,7 @@ const GMIntroMessage = ({
 
     return (
         <p className='channel-intro-text'>
-            <FormattedMessage
-                {...messages.group_message}
-            />
+            <FormattedMessage {...messages.group_message}/>
         </p>
     );
 };
