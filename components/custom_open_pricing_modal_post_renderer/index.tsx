@@ -44,7 +44,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                     style={style}
                 >
                     <button
-                        onClick={openPricingModal}
+                        onClick={() => openPricingModal({trackingLocation: 'notify_admin_message_view_upgrade_options'})}
                         style={btnStyle}
                     >
                         {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}

@@ -2,27 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 
-import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils.jsx';
+import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
-
 import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
-import AnnouncementBar from '../default_announcement_bar';
-import TextDismissableBar from '../text_dismissable_bar';
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
 import warningIcon from 'images/icons/warning-icon.svg';
 
+import AnnouncementBar from '../default_announcement_bar';
+import TextDismissableBar from '../text_dismissable_bar';
 import RenewalLink from '../renewal_link/';
-import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
 type Props = {
     config?: Partial<ClientConfig>;

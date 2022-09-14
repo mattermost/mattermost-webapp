@@ -12,6 +12,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "client_id",
           "create_at": 1,
           "delete_at": 1,
@@ -169,6 +170,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "client_id",
           "create_at": 1,
           "delete_at": 1,
@@ -334,6 +336,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "client_id",
           "create_at": 1,
           "delete_at": 1,
@@ -499,6 +502,7 @@ exports[`components/file_search_result/FileSearchResultItem should match snapsho
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "client_id",
           "create_at": 1,
           "delete_at": 1,

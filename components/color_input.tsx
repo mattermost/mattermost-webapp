@@ -71,6 +71,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
     };
 
     public handleColorChange = (newColorData: ColorResult) => {
+        this.setState({focused: false});
         this.props.onChange(newColorData.hex);
     };
 

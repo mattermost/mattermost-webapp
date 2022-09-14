@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, SelfHostedLicenseSKUNames, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, LicenseLinks, ModalIdentifiers, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
@@ -45,8 +45,8 @@ function SelfHostedContent(props: ContentProps) {
     const isSelfHostedEnterpriseTrial = license.IsTrial === 'true';
 
     const isStarter = license.IsLicensed === 'false';
-    const isProfessional = license.SkuShortName === SelfHostedLicenseSKUNames.PROFESSIONAL;
-    const isEnterprise = license.SkuShortName === SelfHostedLicenseSKUNames.ENTERPRISE;
+    const isProfessional = license.SkuShortName === LicenseSkus.Professional;
+    const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
     const closePricingModal = () => {

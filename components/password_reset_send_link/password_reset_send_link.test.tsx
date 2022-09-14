@@ -3,7 +3,7 @@
 
 import {shallow} from 'enzyme';
 import React from 'react';
-import {MemoryRouter} from 'react-router';
+import {MemoryRouter} from 'react-router-dom';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 

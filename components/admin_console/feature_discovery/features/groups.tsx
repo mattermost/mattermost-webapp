@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const GroupsFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='groups'
+            minimumSKURequiredForFeature={LicenseSkus.Enterprise}
             titleID='admin.groups_feature_discovery.title'
             titleDefault='Synchronize your Active Directory/LDAP groups with Mattermost Enterprise'
             copyID='admin.groups_feature_discovery.copy'
