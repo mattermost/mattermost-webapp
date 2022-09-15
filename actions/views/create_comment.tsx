@@ -5,10 +5,8 @@ import {Post} from '@mattermost/types/posts';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {
-    makeGetMessageInHistoryItem,
-    makeGetCurrentUsersLatestReply,
-} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetCurrentUsersLatestReply} from 'mattermost-redux/selectors/entities/threads';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
     removeReaction,

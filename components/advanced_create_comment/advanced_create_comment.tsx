@@ -321,7 +321,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             this.showPostDeletedModal();
         }
 
-        if ((prevProps.pendingPostIds.length > this.props.pendingPostIds.length) && this.state.isBroadcastThreadReply) {
+        if ((prevProps.pendingPostIds.length > this.props.pendingPostIds.length) &&
+            this.state.isBroadcastThreadReply && !this.state.postError && !this.state.serverError) {
             this.submitBroadcastThreadReply();
         }
     }

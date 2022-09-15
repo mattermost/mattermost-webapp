@@ -8,7 +8,7 @@ import {logError} from 'mattermost-redux/actions/errors';
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {makeGetCurrentUsersLatestReply} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetCurrentUsersLatestReply} from 'mattermost-redux/selectors/entities/threads';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
@@ -36,9 +36,11 @@ export function editPost(post) {
 
 // TODO: NEED TO REFORMAT FOR THREAD BROADCAST PERMALINK
 export function broadcastThreadReply(rootId, channelId) {
+    const getCurrentUsersLatestReply = makeGetCurrentUsersLatestReply();
+
     return async (dispatch, getState) => {
         const state = getState();
-        const post = makeGetCurrentUsersLatestReply()(state, rootId);
+        const post = getCurrentUsersLatestReply(state, rootId);
 
         const channel = getChannel(state, channelId);
         const currentUserId = getCurrentUserId(state);
