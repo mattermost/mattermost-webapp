@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {useSelector, useDispatch} from 'react-redux';
 
@@ -13,6 +13,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getSubscriptionProduct, checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
 import {closeModal, openModal} from 'actions/views/modals';
 
@@ -43,39 +44,51 @@ export default function InviteAs(props: Props) {
     const {formatMessage} = useIntl();
     const license = useSelector(getLicense);
     const dispatch = useDispatch<DispatchFunc>();
+
+    useEffect(() => {
+        dispatch(getPrevTrialLicense());
+    }, []);
+
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const subscriptionProduct = useSelector(getSubscriptionProduct);
-
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
-    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
+
+    const isCloudStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
+    const isSelfHostedStarter = license.IsLicensed === 'false';
+    const isStarter = isCloudStarter || isSelfHostedStarter;
 
     let extraGuestLegend = true;
     let guestDisabledClass = '';
     let badges = null;
     let guestDisabled = null;
 
-    const isCloud = license?.Cloud === 'true';
     const isCloudFreeTrial = subscription?.is_free_trial === 'true';
-    const hasPriorTrial = useSelector(checkHadPriorTrial);
+    const isSelfHostedTrial = license.IsTrial === 'true';
+    const isFreeTrial = isCloudFreeTrial || isSelfHostedTrial;
 
-    const isPaidSubscription = isCloud && !isStarter && !isCloudFreeTrial;
+    const hasCloudPriorTrial = useSelector(checkHadPriorTrial);
+    const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
+    const hasSelfHostedPriorTrial = prevTrialLicense.IsLicensed === 'true';
+    const hasPriorTrial = hasCloudPriorTrial || hasSelfHostedPriorTrial;
+
+    const isPaidSubscription = !isStarter && !isFreeTrial;
 
     // show the badge logic (the restricted indicator takes care of the look when it is trial or not)
-    if (isSystemAdmin && isCloud && !isPaidSubscription) {
+    if (isSystemAdmin && !isPaidSubscription) {
         const closeInviteModal = () => {
             dispatch(closeModal(ModalIdentifiers.INVITATION));
         };
 
         let ctaExtraContentMsg = '';
-        if (isCloudFreeTrial) {
-            ctaExtraContentMsg = formatMessage({id: 'cloud_free.professional_feature.professional', defaultMessage: 'Professional feature'});
+        if (isFreeTrial) {
+            ctaExtraContentMsg = formatMessage({id: 'free.professional_feature.professional', defaultMessage: 'Professional feature'});
         } else {
-            ctaExtraContentMsg = hasPriorTrial ? formatMessage({id: 'cloud_free.professional_feature.upgrade', defaultMessage: 'Upgrade'}) : formatMessage({id: 'cloud_free.professional_feature.try_free', defaultMessage: 'Professional feature- try it out free'});
+            ctaExtraContentMsg = hasPriorTrial ? formatMessage({id: 'free.professional_feature.upgrade', defaultMessage: 'Upgrade'}) : formatMessage({id: 'free.professional_feature.try_free', defaultMessage: 'Professional feature- try it out free'});
         }
 
         const restrictedIndicator = (
             <RestrictedIndicator
-                blocked={!isCloudFreeTrial}
+                blocked={!isFreeTrial}
                 feature={PaidFeatures.GUEST_ACCOUNTS}
                 minimumPlanRequiredForFeature={LicenseSkus.Professional}
                 titleAdminPreTrial={formatMessage({
@@ -102,11 +115,11 @@ export default function InviteAs(props: Props) {
                     </span>
                 )}
                 clickCallback={closeInviteModal}
-                tooltipMessage={hasPriorTrial ? formatMessage({id: 'cloud_free.professional_feature.upgrade', defaultMessage: 'Upgrade'}) : undefined}
+                tooltipMessage={hasPriorTrial ? formatMessage({id: 'free.professional_feature.upgrade', defaultMessage: 'Upgrade'}) : undefined}
 
                 // the secondary back button first closes the restridted feature modal and then opens back the invitation modal
                 customSecondaryButtonInModal={hasPriorTrial ? undefined : {
-                    msg: formatMessage({id: 'cloud_free.professional_feature.back', defaultMessage: 'Back'}),
+                    msg: formatMessage({id: 'free.professional_feature.back', defaultMessage: 'Back'}),
                     action: () => {
                         dispatch(closeModal(ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
                         dispatch(openModal({
@@ -117,7 +130,7 @@ export default function InviteAs(props: Props) {
                 }}
             />
         );
-        guestDisabledClass = isCloudFreeTrial ? '' : 'disabled-legend';
+        guestDisabledClass = isFreeTrial ? '' : 'disabled-legend';
         badges = {
             matchVal: InviteType.GUEST as string,
             badgeContent: restrictedIndicator,
@@ -126,8 +139,8 @@ export default function InviteAs(props: Props) {
         extraGuestLegend = false;
     }
 
-    // disable the radio button logic (is disabled when is cloud starter - pre and post trial)
-    if (isCloud && isStarter) {
+    // disable the radio button logic (is disabled when is starter - pre and post trial)
+    if (isStarter) {
         guestDisabled = (id: string) => {
             return (id === InviteType.GUEST);
         };
