@@ -170,7 +170,7 @@ const AdvanceTextEditor = ({
 
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
-    const [showFormattingSpacer, setShowFormattingSpacer] = useState(false);
+    const [showFormattingSpacer, setShowFormattingSpacer] = useState(shouldShowPreview);
 
     const input = textboxRef.current?.getInputBox();
 
@@ -493,7 +493,7 @@ const AdvanceTextEditor = ({
                                 {showFormatJSX}
                             </TexteditorActions>
                         )}
-                        {showFormattingSpacer ? (
+                        {showFormattingSpacer || shouldShowPreview ? (
                             <FormattingBarSpacer>
                                 {formattingBar}
                             </FormattingBarSpacer>
