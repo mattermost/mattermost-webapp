@@ -180,7 +180,11 @@ type Props = {
     useCustomGroupMentions: boolean;
     emojiMap: EmojiMap;
     isFormattingBarHidden: boolean;
+
+    // Broadcast thread reply to main channel
     isCRTEnabled: boolean;
+    broadcastThreadReply: (postId: string, channelId: string) => Promise<ActionResult>;
+    pendingPostIds: string[];
 }
 
 type State = {
@@ -315,6 +319,10 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
             this.showPostDeletedModal();
+        }
+
+        if ((prevProps.pendingPostIds.length > this.props.pendingPostIds.length) && this.state.isBroadcastThreadReply) {
+            this.submitBroadcastThreadReply();
         }
     }
 
@@ -496,6 +504,17 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
     handlePostError = (postError: React.ReactNode) => {
         this.setState({postError});
+    }
+
+    submitBroadcastThreadReply = async () => {
+        await this.props.broadcastThreadReply(
+            this.props.rootId,
+            this.props.channelId,
+        );
+
+        // TODO: Add error handler for when broadcast thread reply fails
+
+        this.setState({isBroadcastThreadReply: false});
     }
 
     handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {

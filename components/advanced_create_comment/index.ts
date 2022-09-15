@@ -38,6 +38,7 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
+import {broadcastThreadReply} from 'actions/views/posts';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
@@ -69,6 +70,8 @@ function makeMapStateToProps() {
         const isCRTEnabled = isCollapsedThreadsEnabled(state);
 
         const channel = state.entities.channels.channels[ownProps.channelId] || {};
+
+        const pendingPostIds = state.entities.posts.pendingPostIds;
 
         const config = getConfig(state);
         const license = getLicense(state);
@@ -115,6 +118,7 @@ function makeMapStateToProps() {
             emojiMap: getEmojiMap(state),
             canUploadFiles: canUploadFiles(config),
             isCRTEnabled,
+            pendingPostIds,
         };
     };
 }
@@ -139,6 +143,7 @@ type Actions = {
     getChannelMemberCountsByGroup: (channelID: string) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
+    broadcastThreadReply: (postId: string, channelId: string) => Promise<ActionResult>;
 };
 
 function makeMapDispatchToProps() {
@@ -201,6 +206,7 @@ function makeMapDispatchToProps() {
                 getChannelMemberCountsByGroup,
                 openModal,
                 savePreferences,
+                broadcastThreadReply,
             },
             dispatch,
         );

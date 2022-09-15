@@ -98,8 +98,8 @@ type Props = {
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
     isCRTEnabled?: boolean;
-    isBroadcastThreadReply: boolean;
-    handleBroadcastThreadReply: () => void;
+    isBroadcastThreadReply?: boolean;
+    handleBroadcastThreadReply?: () => void;
 }
 
 const AdvanceTextEditor = ({
@@ -477,6 +477,7 @@ const AdvanceTextEditor = ({
                 {postError && <label className={classNames('post-error', {errorClass})}>{postError}</label>}
                 {serverErrorJsx}
                 {location === Locations.RHS_COMMENT && isCRTEnabled &&
+                handleBroadcastThreadReply && isBroadcastThreadReply !== undefined &&
                     <BroadcastThreadReply
                         channelId={channelId}
                         isBroadcastThreadReply={isBroadcastThreadReply}

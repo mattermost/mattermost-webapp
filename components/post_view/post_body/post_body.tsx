@@ -138,6 +138,8 @@ export default class PostBody extends React.PureComponent<Props, State> {
             );
         }
 
+        // Show RepliedTo when post is a broadcasted reply to a thread (and CRT IS ENABLED)
+
         let failedOptions;
         if (this.props.post.failed) {
             postClass += ' post--fail';
