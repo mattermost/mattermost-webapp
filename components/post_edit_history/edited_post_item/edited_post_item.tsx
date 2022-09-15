@@ -69,9 +69,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
         actions.openModal(restorePostModalData);
     }, [actions, post]);
 
-    const togglePost = useCallback(() => {
-        setOpen((prevState) => !prevState);
-    }, []);
+    const togglePost = useCallback(() => setOpen((prevState) => !prevState), []);
 
     if (!post) {
         return null;
@@ -125,7 +123,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
         <div className='edit-post-history__current__indicator'>
             {formatMessage(itemMessages.currentVersionText)}
         </div>
-    ) : undefined;
+    ) : null;
 
     const profileSrc = imageURLForUser(post.user_id);
 
@@ -167,7 +165,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
                 <div className='search-item-snippet post__body'>
                     {message}
                 </div>
-            </div >
+            </div>
         </>
     );
 
@@ -180,7 +178,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
         </Tooltip>
     );
 
-    const restoreButton = isCurrent ? undefined : (
+    const restoreButton = isCurrent ? null : (
         <OverlayTrigger
             trigger={['hover', 'focus']}
             delayShow={Constants.OVERLAY_TIME_DELAY}

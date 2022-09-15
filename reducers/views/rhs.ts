@@ -27,7 +27,7 @@ function selectedPostId(state = '', action: GenericAction) {
         }
         return state;
     case ActionTypes.UPDATE_RHS_STATE:
-        return action.postId ? action.postId : '';
+        return action.postId ?? '';
     case ActionTypes.RHS_GO_BACK:
         return '';
     case UserTypes.LOGOUT_SUCCESS:
@@ -44,7 +44,7 @@ function selectedPostFocussedAt(state = 0, action: GenericAction) {
     case ActionTypes.SELECT_POST:
         return action.timestamp || 0;
     case ActionTypes.UPDATE_RHS_STATE:
-        return action.timestamp || state;
+        return action.timestamp ?? state;
     case UserTypes.LOGOUT_SUCCESS:
         return 0;
     default:

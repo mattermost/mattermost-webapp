@@ -30,12 +30,7 @@ describe('components/post_edit_history/edited_post_item', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
-            <EditedPostItem
-                {...baseProps}
-            />,
-        );
-
+        const wrapper = shallow(<EditedPostItem {...baseProps}/>);
         expect(wrapper).toMatchSnapshot();
     });
     test('should match snapshot when isCurrent is true', () => {
@@ -43,25 +38,15 @@ describe('components/post_edit_history/edited_post_item', () => {
             ...baseProps,
             isCurrent: true,
         };
-        const wrapper = shallow(
-            <EditedPostItem
-                {...props}
-            />,
-        );
-
+        const wrapper = shallow(<EditedPostItem {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
     test('clicking on the restore button should call openRestorePostModal', () => {
-        const wrapper = shallow(
-            <EditedPostItem
-                {...baseProps}
-            />,
-        );
+        const wrapper = shallow(<EditedPostItem {...baseProps}/>);
 
         // find the button with refresh icon and click it
         // todo update refresh with proper icon name
         wrapper.find('ForwardRef').filterWhere((button) => button.prop('icon') === 'refresh').simulate('click');
-
         expect(baseProps.actions.openModal).toHaveBeenCalledWith(
             expect.objectContaining({
                 modalId: ModalIdentifiers.RESTORE_POST_MODAL,
@@ -75,12 +60,7 @@ describe('components/post_edit_history/edited_post_item', () => {
             ...baseProps,
             isCurrent: true,
         };
-        const wrapper = shallow(
-            <EditedPostItem
-                {...props}
-            />,
-        );
-
+        const wrapper = shallow(<EditedPostItem {...props}/>);
         expect(wrapper.find('ForwardRef').filterWhere((button) => button.prop('icon') === 'refresh')).toHaveLength(0);
     });
 
@@ -89,12 +69,7 @@ describe('components/post_edit_history/edited_post_item', () => {
             ...baseProps,
             isCurrent: true,
         };
-        const wrapper = shallow(
-            <EditedPostItem
-                {...props}
-            />,
-        );
-
+        const wrapper = shallow(<EditedPostItem {...props}/>);
         expect(wrapper.find('.edit-post-history__current__indicator')).toHaveLength(1);
     });
 });

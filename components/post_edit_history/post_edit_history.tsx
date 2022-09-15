@@ -52,9 +52,7 @@ const PostEditHistory = ({
     });
 
     if (!postEditHistory) {
-        return (
-            <span/>
-        );
+        return null;
     }
 
     if (postEditHistory.length === 0) {
@@ -74,13 +72,12 @@ const PostEditHistory = ({
         );
     }
 
-    const postEditItems = postEditHistory.map((postEdited) => {
-        return (
-            <EditedPostItem
-                key={postEdited.id}
-                post={postEdited}
-            />);
-    });
+    const postEditItems = postEditHistory.map((postEdited) => (
+        <EditedPostItem
+            key={postEdited.id}
+            post={postEdited}
+        />
+    ));
 
     return (
         <div
@@ -98,7 +95,7 @@ const PostEditHistory = ({
             >
                 <SearchResultsHeader>
                     {title}
-                    {<div className='sidebar--right__title__channel'>{channelDisplayName}</div>}
+                    <div className='sidebar--right__title__channel'>{channelDisplayName}</div>
                 </SearchResultsHeader>
                 <EditedPostItem
                     post={originalPost}

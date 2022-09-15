@@ -125,7 +125,7 @@ type Props = {
 
     /**
      * Whether or not to render the post edited indicator
-     * default true
+     * @default true
      */
     showPostEditedIndicator?: boolean;
 }

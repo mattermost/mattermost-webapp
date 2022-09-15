@@ -72,7 +72,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
             className='hidden-xs'
         >
             {`${editedText} ${formattedTime}`}
-            {postOwner ? postOwnerTooltipInfo : undefined}
+            {postOwner ? postOwnerTooltipInfo : null}
         </Tooltip>
     );
 
@@ -107,9 +107,7 @@ const PostEditedIndicator = ({postId, isMilitaryTime, timeZone, editedAt = 0, po
         >
             {editedIndicatorContent}
         </button>
-    ) : (
-        editedIndicatorContent
-    );
+    ) : editedIndicatorContent;
 
     return !postId || editedAt === 0 ? null : (
         <OverlayTrigger

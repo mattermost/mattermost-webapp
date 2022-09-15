@@ -3,10 +3,10 @@
 import React, {useEffect, useCallback} from 'react';
 import classNames from 'classnames';
 import {CSSTransition} from 'react-transition-group';
+import {useIntl} from 'react-intl';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 import './info_toast.scss';
-import { useIntl } from 'react-intl';
 
 type Props = {
     content: {

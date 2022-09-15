@@ -546,7 +546,7 @@
         &:active,
         &--active,
         &--active:hover {
-            background: rgba(var(--button-bg), 0.08);
+            background: rgba(var(--button-bg-rgb), 0.08);
             color: v(button-bg);
             fill: v(button-bg);
         }
@@ -2272,11 +2272,11 @@
 
     .edit-post-history__icon__button {
         height: fit-content;
-        color: rgba(var(--center-channel-text), 0.56);
+        color: rgba(var(--center-channel-text-rgb), 0.56);
 
         &:hover {
             background-color: rgba(var(--button-bg-rgb), 0.08);
-            color: rgba(var(--center-channel-text), 0.56);
+            color: rgba(var(--center-channel-text-rgb), 0.56);
         }
     }
 }
