@@ -702,4 +702,3 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */
