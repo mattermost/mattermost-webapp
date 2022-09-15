@@ -71,6 +71,9 @@ describe('components/AdvancedCreateComment', () => {
         useLDAPGroupMentions: true,
         useCustomGroupMentions: true,
         openModal: jest.fn(),
+        submitBroadcastThreadReply: jest.fn(() => Promise.resolve()),
+        isCRTEnabled: false,
+        pendingPostIds: [],
     };
 
     const emptyDraft = {
