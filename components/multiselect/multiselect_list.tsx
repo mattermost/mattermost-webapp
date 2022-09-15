@@ -191,9 +191,10 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                         <p className='primary-message'>
                             <FormattedMessage
                                 id='multiselect.list.notFound'
-                                defaultMessage='No results found matching **{searchQuery}**'
+                                defaultMessage='No results found matching <b>{searchQuery}</b>'
                                 values={{
                                     searchQuery: this.props.query,
+                                    b: (value: string) => <b>{value}</b>,
                                 }}
                             />
                         </p>
