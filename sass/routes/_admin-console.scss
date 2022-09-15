@@ -10,14 +10,24 @@
     color: #333;
     -webkit-overflow-scrolling: touch;
 
+    > div {
+        width: 100%;
+        height: 100%;
+    }
+
     .wrapper--fixed {
         display: flex;
         flex-direction: column;
+        height: 100%;
 
         // Fix for Safari on iOS MM-24361
         @supports (-webkit-touch-callout: none) {
             height: -webkit-fill-available;
         }
+    }
+
+    .form-horizontal {
+        height: 100%;
     }
 
     .admin-console__wrapper {
