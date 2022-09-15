@@ -28,6 +28,11 @@ const StyledCheckIcon = styled(CheckIcon)`
 `;
 
 const Menu = styled.ul`
+    display: block;
+    position: relative;
+    box-shadow: none;
+    border-radius: 0;
+    border: 0;
     padding: 8px 0;
     margin: 0;
     color: var(--center-channel-text-rgb);

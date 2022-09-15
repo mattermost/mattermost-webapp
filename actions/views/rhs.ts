@@ -32,8 +32,7 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds, getPost as fetchPost} from 'mattermost-redux/actions/posts';
-import {getEditingPost} from '../../selectors/posts';
-import {unsetEditingPost} from '../post_actions';
+
 import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
@@ -433,10 +432,7 @@ export function showChannelInfo(channelId: string) {
 }
 
 export function closeRightHandSide() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
-        const editingPost = getEditingPost(state);
-
+    return (dispatch: DispatchFunc) => {
         const actionsBatch: AnyAction[] = [
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
@@ -449,10 +445,6 @@ export function closeRightHandSide() {
                 timestamp: 0,
             },
         ];
-
-        if (editingPost?.isRHS) {
-            actionsBatch.push(unsetEditingPost());
-        }
 
         dispatch(batchActions(actionsBatch));
         return {data: true};
