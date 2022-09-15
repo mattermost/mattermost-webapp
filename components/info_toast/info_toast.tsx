@@ -33,7 +33,7 @@ function InfoToast({content, onExited, className}: Props): JSX.Element {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            onExited();
+            // onExited();
         }, 5000);
 
         return () => clearTimeout(timer);
@@ -49,21 +49,19 @@ function InfoToast({content, onExited, className}: Props): JSX.Element {
             appear={true}
         >
             <div className={toastContainerClassname}>
-                <div>
-                    {content.icon}
-                    <span>{content.message}</span>
-                    {content.undo && (
-                        <button
-                            onClick={undoTodo}
-                            className='info-toast__undo'
-                        >
-                            {formatMessage({
-                                id: 'post_info.edit.undo',
-                                defaultMessage: 'Undo',
-                            })}
-                        </button>
-                    )}
-                </div>
+                {content.icon}
+                <span>{content.message}</span>
+                {content.undo && (
+                    <button
+                        onClick={undoTodo}
+                        className='info-toast__undo'
+                    >
+                        {formatMessage({
+                            id: 'post_info.edit.undo',
+                            defaultMessage: 'Undo',
+                        })}
+                    </button>
+                )}
                 <IconButton
                     className='info-toast__icon_button'
                     onClick={closeToast}

@@ -5,18 +5,17 @@
     z-index: 99;
     right: 16px;
     bottom: 16px;
-    display: flex;
+    display: grid;
     width: fit-content;
     min-height: 40px;
     align-items: center;
-    justify-content: space-between;
     padding: 4px;
     background: var(--center-channel-text);
     border-radius: 4px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
     color: var(--sidebar-text);
     font-weight: 600;
-    gap: 16px;
+    grid-template-columns: min-content auto min-content auto;
     line-height: 20px;
 
     .info-toast__icon_button {
@@ -43,6 +42,7 @@
     align-items: center;
     padding: 6px 10px;
     border: none;
+    margin-right: 16px;
     margin-left: 8px;
     background: var(--button-bg);
     border-radius: 4px;
