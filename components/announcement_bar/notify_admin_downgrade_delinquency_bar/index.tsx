@@ -51,6 +51,10 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
     }, [currentUser, dispatch, notifyStatus]);
 
     const shouldShowBanner = () => {
+        if (!isDelinquencySubscriptionHigherThan90Days()) {
+            return false;
+        }
+
         if (isSystemAdmin(currentUser.roles)) {
             return false;
         }
@@ -60,10 +64,6 @@ const NotifyAdminDowngradeDelinquencyBar = () => {
         }
 
         if (preferences.some((pref) => pref.name === BannerPreferenceName)) {
-            return false;
-        }
-
-        if (!isDelinquencySubscriptionHigherThan90Days()) {
             return false;
         }
 
