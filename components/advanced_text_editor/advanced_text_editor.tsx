@@ -372,6 +372,7 @@ const AdvanceTextEditor = ({
         if (!message) {
             // if we do not have a message we can just render the default state
             input.style.maxWidth = `${maxWidth}px`;
+            setShowFormattingSpacer(false);
             return;
         }
 
@@ -394,6 +395,22 @@ const AdvanceTextEditor = ({
             handleWidthChange(0);
         }
     }, [handleWidthChange, message]);
+
+    useEffect(() => {
+        if (!input) {
+            return;
+        }
+
+        let padding = 16;
+        if (showFormattingBar) {
+            padding += 32;
+        }
+        if (renderScrollbar) {
+            padding += 8;
+        }
+
+        input.style.paddingRight = `${padding}px`;
+    }, [showFormattingBar, renderScrollbar, input]);
 
     const formattingBar = (
         <AutoHeightSwitcher
@@ -468,8 +485,11 @@ const AdvanceTextEditor = ({
                             onWidthChange={handleWidthChange}
                         />
                         {attachmentPreview}
-                        {!readOnlyChannel && showFormattingBar && (
-                            <TexteditorActions placement='top'>
+                        {!readOnlyChannel && (showFormattingBar || shouldShowPreview) && (
+                            <TexteditorActions
+                                placement='top'
+                                isScrollbarRendered={renderScrollbar}
+                            >
                                 {showFormatJSX}
                             </TexteditorActions>
                         )}
