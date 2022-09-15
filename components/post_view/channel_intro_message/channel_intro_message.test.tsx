@@ -23,7 +23,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
             const wrapper = shallow(
                 <ChannelIntroMessage{...baseProps}/>,
             ).children();
-            expect(wrapper.prop('data-testid')).toBe(TestIds.standard);
+            expect(wrapper.at(0).children().prop('id')).toBe('intro_messages.beginning');
+            expect(wrapper.at(1).prop('data-testid')).toBe(TestIds.standard);
         });
     });
 
@@ -35,7 +36,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     channel={privateChannel}
                 />,
             ).children();
-            expect(wrapper.prop('data-testid')).toBe(TestIds.standard);
+            expect(wrapper.at(0).children().prop('id')).toBe('intro_messages.beginning');
+            expect(wrapper.at(1).prop('data-testid')).toBe(TestIds.standard);
         });
     });
 
@@ -71,7 +73,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     channel={defaultChannel}
                 />,
             ).children();
-            expect(wrapper.prop('data-testid')).toBe(TestIds.default);
+            expect(wrapper.at(0).children().prop('id')).toBe('intro_messages.beginning');
+            expect(wrapper.at(1).prop('data-testid')).toBe(TestIds.default);
         });
     });
 
@@ -83,7 +86,8 @@ describe('components/post_view/ChannelIntroMessages', () => {
                     channel={offTopicChannel}
                 />,
             ).children();
-            expect(wrapper.prop('data-testid')).toBe(TestIds.offTopic);
+            expect(wrapper.at(0).children().prop('id')).toBe('intro_messages.beginning');
+            expect(wrapper.at(1).prop('data-testid')).toBe(TestIds.offTopic);
         });
     });
 });

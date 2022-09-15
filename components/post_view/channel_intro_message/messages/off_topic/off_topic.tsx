@@ -15,10 +15,6 @@ type Props = {
 }
 
 const messages = defineMessages({
-    beginning: {
-        id: t('intro_messages.beginning'),
-        defaultMessage: 'Beginning of {name}',
-    },
     offTopic: {
         id: t('intro_messages.offTopic'),
         defaultMessage: 'This is the start of {display_name}, a channel for non-work-related conversations.',
@@ -33,14 +29,6 @@ const OffTopicIntroMessage = ({
 
     return (
         <>
-            <h2 className='channel-intro__title'>
-                <FormattedMessage
-                    {...messages.beginning}
-                    values={{
-                        name: channel.display_name,
-                    }}
-                />
-            </h2>
             <p className='channel-intro__content'>
                 <FormattedMessage
                     {...messages.offTopic}

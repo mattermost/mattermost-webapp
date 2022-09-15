@@ -7,7 +7,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {Channel} from '@mattermost/types/channels';
 import ProfilePicture from 'components/profile_picture';
 import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import * as Utils from 'utils/utils';
 import BoardsButton from '../../boards_button';
 import SetHeaderButton from '../../set_header_button';
@@ -23,7 +22,7 @@ type Props = {
 const messages = defineMessages({
     GM: {
         id: t('intro_messages.GM'),
-        defaultMessage: 'This is the start of your group message history with {names}.\\nMessages and files shared here are not shown to people outside this area.',
+        defaultMessage: 'This is the start of your group message history with {names}.{br}Messages and files shared here are not shown to people outside this area.',
     },
     group_message: {
         id: t('intro_messages.group_message'),
@@ -55,10 +54,11 @@ const GMIntroMessage = ({
                     {pictures}
                 </div>
                 <p className='channel-intro-text'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         {...messages.GM}
                         values={{
                             names: channel.display_name,
+                            br: <br/>,
                         }}
                     />
                 </p>

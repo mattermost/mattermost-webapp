@@ -2,19 +2,6 @@
 
 exports[`components/post_view/ChannelIntroMessages test Open Channel should match snapshot 1`] = `
 <Fragment>
-  <h2
-    className="channel-intro__title"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Beginning of {name}"
-      id="intro_messages.beginning"
-      values={
-        Object {
-          "name": "test channel",
-        }
-      }
-    />
-  </h2>
   <p
     className="channel-intro__content"
   >

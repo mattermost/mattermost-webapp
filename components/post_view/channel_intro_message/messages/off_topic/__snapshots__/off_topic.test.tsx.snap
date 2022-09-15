@@ -2,19 +2,6 @@
 
 exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should match snapshot, do not show board button 1`] = `
 <Fragment>
-  <h2
-    className="channel-intro__title"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Beginning of {name}"
-      id="intro_messages.beginning"
-      values={
-        Object {
-          "name": "test channel",
-        }
-      }
-    />
-  </h2>
   <p
     className="channel-intro__content"
   >
@@ -38,19 +25,6 @@ exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should
 
 exports[`components/post_view/ChannelIntroMessages test OFF_TOPIC Channel should match snapshot, show board button 1`] = `
 <Fragment>
-  <h2
-    className="channel-intro__title"
-  >
-    <MemoizedFormattedMessage
-      defaultMessage="Beginning of {name}"
-      id="intro_messages.beginning"
-      values={
-        Object {
-          "name": "test channel",
-        }
-      }
-    />
-  </h2>
   <p
     className="channel-intro__content"
   >

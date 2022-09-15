@@ -18,10 +18,6 @@ type Props = {
 }
 
 const messages = defineMessages({
-    beginning: {
-        id: t('intro_messages.beginning'),
-        defaultMessage: 'Beginning of {name}',
-    },
     onlyInvited: {
         id: t('intro_messages.onlyInvited'),
         defaultMessage: 'Only invited members can see this private channel.',
@@ -126,14 +122,6 @@ const StandardIntroMessage = ({
 
     return (
         <>
-            <h2 className='channel-intro__title'>
-                <FormattedMessage
-                    {...messages.beginning}
-                    values={{
-                        name: uiName,
-                    }}
-                />
-            </h2>
             <p className='channel-intro__content'>
                 {isPrivateOrOpen && createMessage}
                 {memberMessage}

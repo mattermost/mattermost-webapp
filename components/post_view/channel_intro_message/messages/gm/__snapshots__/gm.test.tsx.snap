@@ -31,11 +31,12 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <FormattedMarkdownMessage
-      defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
+    <MemoizedFormattedMessage
+      defaultMessage="This is the start of your group message history with {names}.{br}Messages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
         Object {
+          "br": <br />,
           "names": "test channel",
         }
       }
@@ -86,11 +87,12 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <FormattedMarkdownMessage
-      defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
+    <MemoizedFormattedMessage
+      defaultMessage="This is the start of your group message history with {names}.{br}Messages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
         Object {
+          "br": <br />,
           "names": "test channel",
         }
       }

@@ -7,7 +7,6 @@ import {defineMessages, FormattedMessage} from 'react-intl';
 import {Channel} from '@mattermost/types/channels';
 import ProfilePicture from 'components/profile_picture';
 import {UserProfile as UserProfileRedux} from '@mattermost/types/users';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import UserProfile from 'components/user_profile';
 import * as Utils from 'utils/utils';
 import BoardsButton from '../../boards_button';
@@ -24,7 +23,7 @@ type Props = {
 const messages = defineMessages({
     DM: {
         id: t('intro_messages.DM'),
-        defaultMessage: 'This is the start of your direct message history with {teammate}.\\nDirect messages and files shared here are not shown to people outside this area.',
+        defaultMessage: 'This is the start of your direct message history with {teammate}.{br}Direct messages and files shared here are not shown to people outside this area.',
     },
     teammate: {
         id: t('intro_messages.teammate'),
@@ -60,10 +59,11 @@ const DMIntroMessage = ({
                     />
                 </div>
                 <p className='channel-intro-text'>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         {...messages.DM}
                         values={{
                             teammate: teammateName,
+                            br: <br/>,
                         }}
                     />
                 </p>

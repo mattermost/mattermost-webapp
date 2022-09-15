@@ -28,11 +28,12 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
   <p
     className="channel-intro-text"
   >
-    <FormattedMarkdownMessage
-      defaultMessage="This is the start of your direct message history with {teammate}.\\\\nDirect messages and files shared here are not shown to people outside this area."
+    <MemoizedFormattedMessage
+      defaultMessage="This is the start of your direct message history with {teammate}.{br}Direct messages and files shared here are not shown to people outside this area."
       id="intro_messages.DM"
       values={
         Object {
+          "br": <br />,
           "teammate": "my teammate",
         }
       }
@@ -69,11 +70,12 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
   <p
     className="channel-intro-text"
   >
-    <FormattedMarkdownMessage
-      defaultMessage="This is the start of your direct message history with {teammate}.\\\\nDirect messages and files shared here are not shown to people outside this area."
+    <MemoizedFormattedMessage
+      defaultMessage="This is the start of your direct message history with {teammate}.{br}Direct messages and files shared here are not shown to people outside this area."
       id="intro_messages.DM"
       values={
         Object {
+          "br": <br />,
           "teammate": "my teammate",
         }
       }

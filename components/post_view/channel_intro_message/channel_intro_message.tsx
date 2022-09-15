@@ -4,8 +4,11 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import {FormattedMessage} from 'react-intl';
+
 import {Channel} from '@mattermost/types/channels';
 import {Constants} from 'utils/constants';
+import {t} from 'utils/i18n';
 
 import DMIntroMessage from './messages/dm';
 import StandardIntroMessage from './messages/standard';
@@ -38,40 +41,61 @@ export default class ChannelIntroMessage extends React.PureComponent<Props> {
         }
     }
 
+    beginningOfMessage = (displayName: string) => (
+        <h2 className='channel-intro__title'>
+            <FormattedMessage
+                id={t('intro_messages.beginning')}
+                defaultMessage={'Beginning of {name}'}
+                values={{
+                    name: displayName,
+                }}
+            />
+        </h2>
+    );
+
     getIntroMessage = () => {
         const {channel, usersLimit} = this.props;
 
-        switch (channel.type) {
-        case Constants.DM_CHANNEL:
+        switch (true) {
+        case channel.type === Constants.DM_CHANNEL:
             return (
                 <DMIntroMessage
                     data-testid={TestIds.dm}
                 />);
-        case Constants.GM_CHANNEL:
+        case channel.type === Constants.GM_CHANNEL:
             return (
                 <GMIntroMessage
                     data-testid={TestIds.gm}
                 />
             );
-        case Constants.DEFAULT_CHANNEL:
+        case channel.name === Constants.DEFAULT_CHANNEL:
             return (
-                <DefaultIntroMessage
-                    usersLimit={usersLimit}
-                    data-testid={TestIds.default}
-                />);
-        case Constants.OFFTOPIC_CHANNEL:
+                <>
+                    {this.beginningOfMessage(channel.display_name)}
+                    <DefaultIntroMessage
+                        usersLimit={usersLimit}
+                        data-testid={TestIds.default}
+                    />
+                </>);
+        case channel.name === Constants.OFFTOPIC_CHANNEL:
             return (
-                <OffTopicIntroMessage
-                    usersLimit={usersLimit}
-                    data-testid={TestIds.offTopic}
-                />);
-        case Constants.OPEN_CHANNEL:
-        case Constants.PRIVATE_CHANNEL:
+                <>
+                    {this.beginningOfMessage(channel.display_name)}
+                    <OffTopicIntroMessage
+                        usersLimit={usersLimit}
+                        data-testid={TestIds.offTopic}
+                    />
+                </>);
+        case channel.type === Constants.OPEN_CHANNEL:
+        case channel.type === Constants.PRIVATE_CHANNEL:
             return (
-                <StandardIntroMessage
-                    usersLimit={usersLimit}
-                    data-testid={TestIds.standard}
-                />);
+                <>
+                    {this.beginningOfMessage(channel.display_name)}
+                    <StandardIntroMessage
+                        usersLimit={usersLimit}
+                        data-testid={TestIds.standard}
+                    />
+                </>);
         default:
             return null;
         }

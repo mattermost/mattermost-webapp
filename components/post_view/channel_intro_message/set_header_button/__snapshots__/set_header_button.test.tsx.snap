@@ -26,7 +26,7 @@ exports[`components/post_view/ChannelIntroMessages test Set Header Button should
           "name": "town-square",
           "purpose": "test",
           "team_id": "team-id",
-          "type": "town-square",
+          "type": "O",
           "update_at": 1508265709607,
         },
       }

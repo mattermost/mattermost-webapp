@@ -2,33 +2,32 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
+import {defineMessages, FormattedMessage, useIntl} from 'react-intl';
+
 import {useSelector} from 'react-redux';
 
-import {FormattedMessage, useIntl} from 'react-intl';
-
-import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
-
-import {Channel} from '@mattermost/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
+import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
 import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
-import {isArchivedChannel} from 'utils/channel_utils';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 
+import {t} from 'utils/i18n';
+import {isArchivedChannel} from 'utils/channel_utils';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import './add_members_button.scss';
 
-import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-
 import SetHeaderButton from '../set_header_button';
 import BoardsButton from '../boards_button';
+import {Channel} from '@mattermost/types/channels';
 
 export interface AddMembersButtonProps {
     totalUsers?: number;
@@ -37,6 +36,29 @@ export interface AddMembersButtonProps {
     showSetHeader: boolean;
     showBoardsButton: boolean;
 }
+
+const messages = defineMessages({
+    inviteGroupsToChannelButton: {
+        id: t('intro_messages.inviteGroupsToChannel.button'),
+        defaultMessage: 'Add groups to this private channel',
+    },
+    inviteMembersToPrivateChannelButton: {
+        id: t('intro_messages.inviteMembersToPrivateChannel.button'),
+        defaultMessage: 'Add members to this private channel',
+    },
+    inviteMembersToChannelButton: {
+        id: t('intro_messages.inviteMembersToChannel.button'),
+        defaultMessage: 'Add members to this channel',
+    },
+    inviteOthersToWorkspaceButton: {
+        id: t('intro_messages.inviteOthersToWorkspace.button'),
+        defaultMessage: 'Invite others to the workspace',
+    },
+    inviteOthersToWorkspaceTitle: {
+        id: t('intro_messages.inviteOthersToWorkspace.title'),
+        defaultMessage: 'Let’s add some people to the workspace!',
+    },
+});
 
 const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, showSetHeader, showBoardsButton}: AddMembersButtonProps) => {
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -80,10 +102,7 @@ const LessThanMaxFreeUsers = () => {
                 height={113}
             />
             <div className='titleAndButton'>
-                <FormattedMessage
-                    id='intro_messages.inviteOthersToWorkspace.title'
-                    defaultMessage='Let’s add some people to the workspace!'
-                />
+                <FormattedMessage {...messages.inviteOthersToWorkspaceTitle}/>
                 <ToggleModalButton
                     ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                     id='introTextInvite'
@@ -95,10 +114,7 @@ const LessThanMaxFreeUsers = () => {
                         className='icon-email-plus-outline'
                         title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
                     />
-                    <FormattedMessage
-                        id='intro_messages.inviteOthersToWorkspace.button'
-                        defaultMessage='Invite others to the workspace'
-                    />
+                    <FormattedMessage {...messages.inviteOthersToWorkspaceButton}/>
                 </ToggleModalButton>
             </div>
         </div>
@@ -133,20 +149,15 @@ const MoreThanMaxFreeUsers = ({channel}: {channel: Channel}) => {
                         title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
                     />
                     {isPrivate && channel.group_constrained &&
-                    <FormattedMessage
-                        id='intro_messages.inviteGropusToChannel.button'
-                        defaultMessage='Add groups to this private channel'
-                    />}
+                        <FormattedMessage {...messages.inviteGroupsToChannelButton}/>
+                    }
                     {isPrivate && !channel.group_constrained &&
                     <FormattedMessage
-                        id='intro_messages.inviteMembersToPrivateChannel.button'
-                        defaultMessage='Add members to this private channel'
+                        {...messages.inviteMembersToPrivateChannelButton}
                     />}
                     {!isPrivate &&
-                    <FormattedMessage
-                        id='intro_messages.inviteMembersToChannel.button'
-                        defaultMessage='Add members to this channel'
-                    />}
+                        <FormattedMessage {...messages.inviteMembersToChannelButton}/>
+                    }
                 </ToggleModalButton>
             </ChannelPermissionGate>
         </div>
