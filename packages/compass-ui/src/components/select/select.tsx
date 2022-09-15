@@ -2,10 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import MUISelect, {SelectProps, SelectProps as MUISelectProps} from '@mui/material/Select';
+import MUISelect, {SelectProps as MUISelectProps} from '@mui/material/Select';
+import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 
-function Select <T>(props: MUISelectProps<T>) {
-    const MenuProps: SelectProps['MenuProps'] = {
+type SelectProps<T> = Omit<MUISelectProps<T>, 'IconComponent' | 'MenuProps' | 'variant'>
+
+function Select<T>(props: SelectProps<T>) {
+    const MenuProps: MUISelectProps<T>['MenuProps'] = {
         anchorOrigin: {
             horizontal: 'left',
             vertical: 'bottom',
@@ -19,7 +22,9 @@ function Select <T>(props: MUISelectProps<T>) {
     return (
         <MUISelect
             {...props}
+            variant='standard'
             MenuProps={MenuProps}
+            IconComponent={ChevronDownIcon}
         />
     );
 }

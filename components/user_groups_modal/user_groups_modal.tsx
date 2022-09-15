@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {createRef, RefObject} from 'react';
-import ChevronDownIcon from '@mattermost/compass-icons/components/chevron-down';
 import MagnifyIcon from '@mattermost/compass-icons/components/magnify';
 import CheckIcon from '@mattermost/compass-icons/components/check';
 import Button from '@mui/material/Button';
@@ -268,13 +267,14 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         )}
                     />
                     <Select
-                        variant='standard'
-                        multiple={false}
                         value={this.state.selectedFilter}
                         defaultValue={this.filterOptions[0]}
-                        renderValue={(selected: FilterOptions) => (selected === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups'))}
-                        onChange={(event: SelectChangeEvent<FilterOptions>) => this.setState({selectedFilter: event.target.value as FilterOptions})}
-                        IconComponent={ChevronDownIcon}
+                        renderValue={(selected: FilterOptions) => {
+                            return selected === 'all' ? Utils.localizeMessage('user_groups_modal.showAllGroups', 'Show: All Groups') : Utils.localizeMessage('user_groups_modal.showMyGroups', 'Show: My Groups');
+                        }}
+                        onChange={(event: SelectChangeEvent<FilterOptions>) => {
+                            this.setState({selectedFilter: event.target.value as FilterOptions});
+                        }}
                         aria-label={Utils.localizeMessage('user_groups_modal.filterAriaLabel', 'Groups Filter Menu')}
                     >
                         {this.filterOptions.map((option: FilterOptions) => {
