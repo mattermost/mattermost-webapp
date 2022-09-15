@@ -83,6 +83,11 @@ export type Post = {
     exists?: boolean;
 };
 
+export enum PostPriority {
+    URGENT = 'urgent',
+    IMPORTANT = 'important',
+}
+
 export type PostList = {
     order: Array<Post['id']>;
     posts: Record<string, Post>;

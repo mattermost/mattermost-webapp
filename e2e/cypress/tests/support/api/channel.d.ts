@@ -42,7 +42,7 @@ declare namespace Cypress {
             type?: string,
             purpose?: string,
             header?: string
-        ): Chainable<Channel>;
+        ): Chainable<{channel: Channel}>;
 
         /**
          * Create a new direct message channel between two users.

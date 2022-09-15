@@ -45,6 +45,7 @@
                 padding: 0;
                 background: var(--center-channel-bg);
 
+                &.TopPlaybooksTable,
                 &.TopBoardsTable,
                 &.TopThreadsTable {
                     .DataGrid_row {
@@ -58,6 +59,16 @@
                     .DataGrid_header {
                         .DataGrid_cell {
                             &:nth-of-type(3),
+                            &:nth-of-type(4) {
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
+
+                &.LeastActiveChannelsTable {
+                    .DataGrid_header {
+                        .DataGrid_cell {
                             &:nth-of-type(4) {
                                 text-align: right;
                             }
@@ -283,10 +294,29 @@
                                 margin-left: auto;
                             }
 
+                            &.last-activity {
+                                justify-content: flex-end;
+                                margin-right: 8px;
+
+                                .timestamp {
+                                    overflow: hidden;
+                                    color: rgba(var(--center-channel-color-rgb), 0.72);
+                                    text-overflow: ellipsis;
+
+                                    time {
+                                        white-space: nowrap;
+                                    }
+                                }
+                            }
+
                             .role {
                                 overflow: hidden;
                                 text-overflow: ellipsis;
                                 white-space: nowrap;
+                            }
+
+                            &.actions {
+                                overflow: visible;
                             }
 
                             .user-info {
@@ -310,6 +340,12 @@
                                     text-overflow: ellipsis;
                                     white-space: nowrap;
                                 }
+                            }
+
+                            time {
+                                overflow: hidden;
+                                text-overflow: ellipsis;
+                                white-space: nowrap;
                             }
                         }
                     }

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {Posts} from 'mattermost-redux/constants';
 import {isMeMessage as checkIsMeMessage} from 'mattermost-redux/utils/post_utils';
-import {UserActivityPost} from 'mattermost-redux/types/posts';
+import {UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {makeIsEligibleForClick} from 'utils/utils';
 import * as PostUtils from 'utils/post_utils';
@@ -443,7 +443,7 @@ export default class Post extends React.PureComponent<Props, State> {
                 colorizeUsernames={this.props.compactDisplay && this.props.colorizeUsernames}
                 isFirstReply={this.props.isFirstReply}
                 showTimeWithoutHover={!hideProfilePicture}
-                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !this.props.isBeingEdited}
+                hover={(this.state.hover || this.state.a11yActive || this.state.fileDropdownOpened) && !isBeingEdited}
                 isLastPost={this.props.isLastPost}
             />
         );
@@ -514,6 +514,7 @@ export default class Post extends React.PureComponent<Props, State> {
                                 showSlot={showSlot}
                                 slot1={slot1}
                                 slot2={slot2}
+                                shouldScrollIntoView={isBeingEdited}
                                 onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
                             {threadFooter}

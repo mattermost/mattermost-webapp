@@ -9,7 +9,7 @@ import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {AppBinding} from '@mattermost/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
@@ -102,7 +102,7 @@ type ChannelHeaderPlugProps = {
     appBindings?: AppBinding[];
     appsEnabled: boolean;
     channel: Channel;
-    channelMember: ChannelMembership;
+    channelMember?: ChannelMembership;
     theme: Theme;
     sidebarOpen: boolean;
     shouldShowAppBar: boolean;
@@ -150,7 +150,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         this.toggleDropdown(false);
     }
 
-    fireAction = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+    fireAction = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
         if (this.disableButtonsClosingRHS) {
             return;
         }
@@ -158,7 +158,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         action(this.props.channel, this.props.channelMember);
     }
 
-    fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+    fireActionAndClose = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }

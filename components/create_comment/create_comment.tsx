@@ -55,8 +55,6 @@ import RhsSuggestionList from 'components/suggestion/rhs_suggestion_list';
 
 const KeyCodes = Constants.KeyCodes;
 
-const CreateCommentDraftTimeoutMilliseconds = 500;
-
 export type Props = {
 
     /**
@@ -314,7 +312,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useLDAPGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
+        const {useLDAPGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft, enableConfirmNotificationsToChannel} = this.props;
         clearCommentDraftUploads();
         onResetHistoryIndex();
         setShowPreview(false);
@@ -326,7 +324,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraft);
-        if (useLDAPGroupMentions) {
+        if (useLDAPGroupMentions && enableConfirmNotificationsToChannel) {
             getChannelMemberCountsByGroup(channelId);
         }
 
@@ -362,7 +360,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
         }
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
-            if (this.props.useLDAPGroupMentions) {
+            if (this.props.useLDAPGroupMentions && this.props.enableConfirmNotificationsToChannel) {
                 this.props.getChannelMemberCountsByGroup(this.props.channelId);
             }
             this.focusTextbox();
@@ -476,7 +474,9 @@ export class CreateComment extends React.PureComponent<Props, State> {
         });
     }
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
+
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 
@@ -798,7 +798,7 @@ export class CreateComment extends React.PureComponent<Props, State> {
         }
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        }, CreateCommentDraftTimeoutMilliseconds);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {
