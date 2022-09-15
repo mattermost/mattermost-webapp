@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 import {connect} from 'react-redux';
+
+import {GfycatAPIItem} from '@mattermost/types/gifs';
 
 import {
     searchCategory,
@@ -12,6 +13,7 @@ import {
 } from 'mattermost-redux/actions/gifs';
 
 import SearchGrid from 'components/gif_picker/components/SearchGrid';
+import {appProps} from 'components/gif_picker/gif_picker';
 
 const mapDispatchToProps = ({
     searchCategory,
@@ -19,15 +21,16 @@ const mapDispatchToProps = ({
     saveSearchScrollPosition,
 });
 
-export class Trending extends PureComponent {
-    static propTypes = {
-        handleItemClick: PropTypes.func,
-        onCategories: PropTypes.func,
-        searchCategory: PropTypes.func,
-        searchIfNeededInitial: PropTypes.func,
-        saveSearchScrollPosition: PropTypes.func,
-    }
+type Props = {
+    appProps: typeof appProps;
+    searchIfNeededInitial: (searchText: string) => void;
+    onCategories: () => void;
+    saveSearchScrollPosition: (scrollPosition: number) => void;
+    handleItemClick: (gif: GfycatAPIItem) => void;
+    searchCategory: (params: {tagName?: string}) => void;
+}
 
+export class Trending extends PureComponent<Props> {
     componentDidMount() {
         this.props.searchIfNeededInitial('trending');
     }
@@ -36,9 +39,7 @@ export class Trending extends PureComponent {
         this.props.saveSearchScrollPosition(0);
     }
 
-    loadMore = () => {
-        this.props.searchCategory({tagName: 'trending'});
-    }
+    loadMore = () => this.props.searchCategory({tagName: 'trending'});
 
     render() {
         const {handleItemClick, onCategories} = this.props;
