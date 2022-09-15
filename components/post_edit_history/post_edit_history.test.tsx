@@ -29,11 +29,7 @@ describe('components/post_edit_history', () => {
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
-            <PostEditHistory
-                {...baseProps}
-            />,
-        );
+        const wrapper = shallow(<PostEditHistory {...baseProps}/>);
 
         expect(wrapper).toMatchSnapshot();
     });

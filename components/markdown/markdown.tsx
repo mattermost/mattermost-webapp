@@ -122,12 +122,6 @@ type Props = {
      * Some additional data to pass down to rendered component to aid in rendering decisions
      */
     messageMetadata?: Record<string, string>;
-
-    /**
-     * Whether or not to render the post edited indicator
-     * @default true
-     */
-    showPostEditedIndicator?: boolean;
 }
 
 export default class Markdown extends React.PureComponent<Props> {
@@ -138,7 +132,6 @@ export default class Markdown extends React.PureComponent<Props> {
         imagesMetadata: {},
         postId: '', // Needed to avoid proptypes console errors for cases like channel header, which doesn't have a proper value
         editedAt: 0,
-        showPostEditedIndicator: true,
     }
 
     render() {
@@ -182,7 +175,7 @@ export default class Markdown extends React.PureComponent<Props> {
             postType: this.props.postType,
             mentionHighlight: this.props.options.mentionHighlight,
             disableGroupHighlight: this.props.options.disableGroupHighlight,
-            editedAt: this.props.showPostEditedIndicator ? editedAt : 0,
+            editedAt,
             atSumOfMembersMentions: this.props.options.atSumOfMembersMentions,
             atPlanMentions: this.props.options.atPlanMentions,
         });
