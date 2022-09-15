@@ -2,11 +2,10 @@
 // See LICENSE.txt for license information.
 
 import {Preferences} from 'mattermost-redux/constants';
-
 import mergeObjects from 'mattermost-redux/test/merge_objects';
-
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
+import Constants from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
 import * as Selectors from './channel_sidebar';
@@ -479,7 +478,12 @@ describe('getDisplayedChannels', () => {
                 currentTeamId: 'team1',
             },
             users: {
-                profiles: {},
+                currentUserId: 'user1',
+                profiles: {
+                    user1: {
+                        create_at: Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER - 1,
+                    },
+                },
             },
         },
         storage: {
@@ -565,6 +569,7 @@ describe('getDisplayedChannels', () => {
                     users: {
                         ...baseState.entities.users,
                         profiles: {
+                            ...baseState.entities.users.profiles,
                             someUser: {id: 'someUser'},
                         },
                     },
@@ -643,7 +648,12 @@ describe('makeGetFilteredChannelIdsForCategory', () => {
                 currentTeamId: 'team1',
             },
             users: {
-                profiles: {},
+                currentUserId: 'user1',
+                profiles: {
+                    user1: {
+                        create_at: Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER - 1,
+                    },
+                },
             },
         },
         views: {
