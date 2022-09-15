@@ -2,9 +2,14 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {bindActionCreators, Dispatch, compose} from 'redux';
+
+import {withRouter, RouteComponentProps} from 'react-router-dom';
+
+import {ComponentType, memo} from 'react';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {setRhsExpanded, showChannelInfo, showPinnedPosts, showChannelFiles, openRHSSearch, closeRightHandSide, openAtPrevious, updateSearchTerms} from 'actions/views/rhs';
 import {
@@ -20,11 +25,15 @@ import {RHSStates} from 'utils/constants';
 
 import {GlobalState} from 'types/store';
 
+import {selectCurrentProductId} from 'selectors/products';
+
 import SidebarRight from './sidebar_right';
 
-function mapStateToProps(state: GlobalState) {
+function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
     const rhsState = getRhsState(state);
     const channel = getCurrentChannel(state);
+    const teamId = getCurrentTeamId(state);
+    const productId = selectCurrentProductId(state, props.location.pathname);
 
     const selectedPostId = getSelectedPostId(state);
     const selectedPostCardId = getSelectedPostCardId(state);
@@ -45,6 +54,8 @@ function mapStateToProps(state: GlobalState) {
         rhsChannel: getSelectedChannel(state),
         selectedPostId,
         selectedPostCardId,
+        teamId,
+        productId,
     };
 }
 
@@ -63,4 +74,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SidebarRight);
+export default compose<ComponentType>(
+    withRouter,
+    connect(mapStateToProps, mapDispatchToProps),
+    memo,
+)(SidebarRight);
