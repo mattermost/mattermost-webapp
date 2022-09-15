@@ -156,7 +156,7 @@
     "css-loader": "5.2.6",
     "dotenv-webpack": "7.0.3",
     "enzyme": "3.11.0",
-    "enzyme-adapter-react-17-updated": "1.0.2",
+    "enzyme-adapter-react-16": "1.15.6",
     "enzyme-to-json": "3.6.2",
     "eslint": "7.29.0",
     "eslint-import-resolver-webpack": "0.13.1",
