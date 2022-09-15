@@ -81,6 +81,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
               "type": [Function],
             },
             "values": Object {
@@ -228,6 +229,7 @@ exports[`components/admin_console/data_retention_settings/channel_list should ma
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamFilterDropdown)",
               "type": [Function],
             },
             "values": Object {
