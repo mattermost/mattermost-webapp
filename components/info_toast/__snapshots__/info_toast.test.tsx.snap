@@ -12,18 +12,16 @@ exports[`components/InfoToast should match snapshot 1`] = `
   <div
     className="info-toast className"
   >
-    <div>
-      <CheckIcon />
-      <span>
-        test
-      </span>
-      <button
-        className="info-toast__undo"
-        onClick={[Function]}
-      >
-        Undo
-      </button>
-    </div>
+    <CheckIcon />
+    <span>
+      test
+    </span>
+    <button
+      className="info-toast__undo"
+      onClick={[Function]}
+    >
+      Undo
+    </button>
     <ForwardRef
       className="info-toast__icon_button"
       icon="close"
