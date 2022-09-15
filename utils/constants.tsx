@@ -805,6 +805,7 @@ export const StorageTypes = keyMirror({
 export const StoragePrefixes = {
     EMBED_VISIBLE: 'isVisible_',
     COMMENT_DRAFT: 'comment_draft_',
+    EDIT_DRAFT: 'edit_draft_',
     DRAFT: 'draft_',
     LOGOUT: '__logout__',
     LOGIN: '__login__',
@@ -1817,6 +1818,7 @@ export const Constants = {
     MTPNS: 'https://push-test.mattermost.com',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
+    SAVE_DRAFT_TIMEOUT: 500,
     PERMISSIONS_ALL: 'all',
     PERMISSIONS_CHANNEL_ADMIN: 'channel_admin',
     PERMISSIONS_TEAM_ADMIN: 'team_admin',

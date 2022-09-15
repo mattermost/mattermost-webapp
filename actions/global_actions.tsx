@@ -4,7 +4,7 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {
-    fetchMyChannelsAndMembers,
+    fetchMyChannelsAndMembersREST,
     getChannelByNameAndTeamName,
     getChannelStats,
     selectChannel,
@@ -288,7 +288,7 @@ export async function getTeamRedirectChannelIfIsAccesible(user: UserProfile, tea
     let teamChannels = getChannelsNameMapInTeam(state, team.id);
     if (!teamChannels || Object.keys(teamChannels).length === 0) {
         // This should be executed in pretty limited scenarios (empty teams)
-        await dispatch(fetchMyChannelsAndMembers(team.id)); // eslint-disable-line no-await-in-loop
+        await dispatch(fetchMyChannelsAndMembersREST(team.id)); // eslint-disable-line no-await-in-loop
         state = getState();
         teamChannels = getChannelsNameMapInTeam(state, team.id);
     }

@@ -28,7 +28,7 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
-jest.mock('actions/channel_actions.jsx', () => ({
+jest.mock('actions/channel_actions', () => ({
     loadChannelsForCurrentUser: jest.fn(() => {
         return {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'};
     }),

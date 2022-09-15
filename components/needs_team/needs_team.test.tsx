@@ -80,8 +80,8 @@ describe('components/needs_team', () => {
     });
 
     const actions = {
-        fetchMyChannelsAndMembers: jest.fn().mockResolvedValue({data: true}),
-        fetchAllMyTeamsChannelsAndChannelMembers: jest.fn().mockResolvedValue({data: true}),
+        fetchMyChannelsAndMembersREST: jest.fn().mockResolvedValue({data: true}),
+        fetchAllMyTeamsChannelsAndChannelMembersREST: jest.fn().mockResolvedValue({data: true}),
         fetchThreadMentionCountsByChannel: jest.fn().mockResolvedValue({data: true}),
         getMyTeamUnreads: jest.fn(),
         viewChannel: jest.fn(),
@@ -115,7 +115,7 @@ describe('components/needs_team', () => {
         isCustomGroupsEnabled: false,
     };
     it('should match snapshots for init with existing team', () => {
-        const fetchMyChannelsAndMembers = jest.fn().mockResolvedValue({data: true});
+        const fetchMyChannelsAndMembersREST = jest.fn().mockResolvedValue({data: true});
 
         const existingTeamMatch = {
             params: {
@@ -123,14 +123,14 @@ describe('components/needs_team', () => {
             },
         };
 
-        const newActions = {...baseProps.actions, fetchMyChannelsAndMembers};
+        const newActions = {...baseProps.actions, fetchMyChannelsAndMembersREST};
         const props = {...baseProps, actions: newActions, match: existingTeamMatch};
 
         const wrapper = shallow<NeedsTeam>(
             <NeedsTeam {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
-        fetchMyChannelsAndMembers().then(() => {
+        fetchMyChannelsAndMembersREST().then(() => {
             expect(wrapper.state().finishedFetchingChannels).toEqual(true);
             expect(wrapper).toMatchSnapshot();
         });
