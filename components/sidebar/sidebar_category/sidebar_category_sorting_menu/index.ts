@@ -19,7 +19,7 @@ import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
 function mapStateToProps() {
     return (state: GlobalState) => {
-        const currentUser = getCurrentUser(state)
+        const currentUser = getCurrentUser(state);
         const defaultValue = currentUser.create_at > Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER ? 40 : 20;
         const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, defaultValue);
 
