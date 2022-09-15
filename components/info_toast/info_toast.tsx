@@ -33,7 +33,7 @@ function InfoToast({content, onExited, className}: Props): JSX.Element {
 
     useEffect(() => {
         const timer = setTimeout(() => {
-            // onExited();
+            onExited();
         }, 5000);
 
         return () => clearTimeout(timer);
