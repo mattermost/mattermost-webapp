@@ -35,7 +35,7 @@ import {
     getStatusForUserId,
     getUserByUsername,
 } from 'mattermost-redux/selectors/entities/users';
-import {fetchAllMyTeamsChannelsAndChannelMembers, searchAllChannels} from 'mattermost-redux/actions/channels';
+import {fetchAllMyTeamsChannelsAndChannelMembersREST, searchAllChannels} from 'mattermost-redux/actions/channels';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {logError} from 'mattermost-redux/actions/errors';
 import {sortChannelsByTypeAndDisplayName, isChannelMuted} from 'mattermost-redux/utils/channel_utils';
@@ -783,7 +783,7 @@ export default class SwitchChannelProvider extends Provider {
         if (!teamId) {
             return;
         }
-        const channelsAsync = fetchAllMyTeamsChannelsAndChannelMembers()(store.dispatch, store.getState);
+        const channelsAsync = fetchAllMyTeamsChannelsAndChannelMembersREST()(store.dispatch, store.getState);
         let channels;
 
         try {

@@ -68,8 +68,6 @@ import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_i
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
 
-const CreatePostDraftTimeoutMilliseconds = 500;
-
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
     if (String.prototype.trimRight as any) {
@@ -417,7 +415,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.setState({postError});
     }
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 
@@ -833,7 +832,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        }, CreatePostDraftTimeoutMilliseconds);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
 
