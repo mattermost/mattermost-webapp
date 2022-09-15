@@ -275,7 +275,7 @@
 
         &-enter-active {
             transform: translateX(0%);
-            transition: transform 300ms ease-out;
+            transition: transform 200ms ease-in-out;
         }
 
         &-exit {
@@ -286,7 +286,7 @@
 
         &-exit-active {
             transform: translateX(90%);
-            transition: transform 300ms ease-out;
+            transition: transform 200ms ease-in-out;
         }
     }
 
