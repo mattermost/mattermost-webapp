@@ -6,6 +6,7 @@ import {CSSTransition} from 'react-transition-group';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 import './info_toast.scss';
+import { useIntl } from 'react-intl';
 
 type Props = {
     content: {
@@ -18,6 +19,7 @@ type Props = {
 }
 
 function InfoToast({content, onExited, className}: Props): JSX.Element {
+    const {formatMessage} = useIntl();
     const closeToast = useCallback(() => {
         onExited();
     }, [onExited]);
@@ -50,13 +52,17 @@ function InfoToast({content, onExited, className}: Props): JSX.Element {
                 <div>
                     {content.icon}
                     <span>{content.message}</span>
-                    {content.undo &&
+                    {content.undo && (
                         <button
                             onClick={undoTodo}
                             className='info-toast__undo'
                         >
-                            {'Undo'}
-                        </button>}
+                            {formatMessage({
+                                id: 'post_info.edit.undo',
+                                defaultMessage: 'Undo',
+                            })}
+                        </button>
+                    )}
                 </div>
                 <IconButton
                     className='info-toast__icon_button'
