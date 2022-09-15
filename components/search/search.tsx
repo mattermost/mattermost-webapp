@@ -33,23 +33,24 @@ import type {Props, SearchFilterType} from './types';
 
 const findPrevFilter = (
     searchTerms: string,
-    position: number
+    position: number,
 ): string | undefined => {
-    if (searchTerms.length <= position) {
-        position = searchTerms.length - 1;
+    let pos = position;
+    if (searchTerms.length <= pos) {
+        pos = searchTerms.length - 1;
     }
 
     let start = 0;
     let end = 0;
 
-    for (let p = position; p >= 0; p--) {
-        if (searchTerms[p] === ":") {
+    for (let p = pos; p >= 0; p--) {
+        if (searchTerms[p] === ':') {
             end = p;
         }
     }
 
     for (let p = end; p >= 0; p--) {
-        if (searchTerms[p] === " ") {
+        if (searchTerms[p] === ' ') {
             start = p;
             break;
         }
@@ -61,7 +62,6 @@ const findPrevFilter = (
 
     return undefined;
 };
-
 
 interface SearchHintOption {
     searchTerm: string;
@@ -89,7 +89,7 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
     const filterIsNotIN = findPrevFilter(searchTerms, cursorPosition)?.toLowerCase() !== 'in';
     const cursorAtEnd = cursorPosition === searchTerms.length;
 
-    const shouldShowHintOptions = (blankBeforeCursor && filterIsNotIN || cursorAtEnd) && !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
+    const shouldShowHintOptions = ((blankBeforeCursor && filterIsNotIN) || cursorAtEnd) && !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase()));
 
     if (shouldShowHintOptions) {
         try {
