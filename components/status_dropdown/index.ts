@@ -10,7 +10,7 @@ import {setStatus, unsetCustomStatus} from 'mattermost-redux/actions/users';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
 
-import {get, getBool, getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getBool, getInt, isPeopleEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {openModal} from 'actions/views/modals';
@@ -54,6 +54,7 @@ function makeMapStateToProps() {
             showCustomStatusPulsatingDot: showStatusDropdownPulsatingDot(state),
             showCompleteYourProfileTour,
             timezone: getCurrentUserTimezone(state),
+            isPeopleEnabled: isPeopleEnabled(state),
         };
     };
 }

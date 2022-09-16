@@ -9,8 +9,8 @@ import {Route, Switch, useRouteMatch} from 'react-router-dom';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {applyTheme} from 'utils/utils';
 
-import ProfilePage from './profile_page';
-import Groups from './groups';
+import Profile from './profile/profile';
+import Directory from './directory/directory';
 
 function useInitTheme() {
     const currentTheme = useSelector(getTheme);
@@ -38,10 +38,10 @@ export default function People() {
         <PeopleRoot>
             <Switch>
                 <Route path={`${path}/:username`}>
-                    <ProfilePage/>
+                    <Profile/>
                 </Route>
                 <Route>
-                    <Groups/>
+                    <Directory/>
                 </Route>
             </Switch>
         </PeopleRoot>

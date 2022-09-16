@@ -10,11 +10,7 @@ import Text from '@mattermost/compass-components/components/text';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {TUserStatus} from '@mattermost/compass-components/shared';
 
-import {Link} from 'react-router-dom';
-
-import {PreferenceType} from '@mattermost/types/preferences';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
 
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -39,9 +35,12 @@ import {Constants, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
 import {localizeMessage} from 'utils/utils';
+import {browserHistory} from 'utils/browser_history';
+
+import {PreferenceType} from '@mattermost/types/preferences';
+import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
 
 import './status_dropdown.scss';
-import {browserHistory} from 'utils/browser_history';
 
 type Props = {
     status?: string;
@@ -64,6 +63,7 @@ type Props = {
     showCompleteYourProfileTour: boolean;
     showCustomStatusPulsatingDot: boolean;
     timezone?: string;
+    isPeopleEnabled: boolean;
 }
 
 type State = {
@@ -95,12 +95,16 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         };
     }
 
-    openProfileModal = (): void => {
-        this.props.actions.openModal({
-            modalId: ModalIdentifiers.USER_SETTINGS,
-            dialogType: UserSettingsModal,
-            dialogProps: {isContentProductSettings: false},
-        });
+    openProfile = (): void => {
+        if (this.props.isPeopleEnabled) {
+            browserHistory.push(`/people/${this.props.currentUser.username}`);
+        } else {
+            this.props.actions.openModal({
+                modalId: ModalIdentifiers.USER_SETTINGS,
+                dialogType: UserSettingsModal,
+                dialogProps: {isContentProductSettings: false},
+            });
+        }
     }
 
     setStatus = (status: string, dndEndTime?: number): void => {
@@ -433,7 +437,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     listId={'status-drop-down-menu-list'}
                 >
                     {currentUser && (
-                        <Menu.Header onClick={this.openProfileModal}>
+                        <Menu.Header onClick={this.openProfile}>
                             {this.renderProfilePicture('lg')}
                             <div className={'username-wrapper'}>
                                 <Text
@@ -518,27 +522,54 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                         />
                     </Menu.Group>
                     <Menu.Group>
-                        <Menu.ItemAction
-                            id='accountSettings'
-                            ariaLabel='Profile'
-                            onClick={() => browserHistory.push(`/people/${currentUser.username}`)}
-                            text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
-                            icon={(
-                                <Icon
-                                    size={16}
-                                    glyph={'account-outline'}
-                                />
-                            )}
-                        >
-                            {this.props.showCompleteYourProfileTour && (
-                                <div
-                                    onClick={this.handleCompleteYourProfileTask}
-                                    className={'account-settings-complete'}
-                                >
-                                    <CompleteYourProfileTour/>
-                                </div>
-                            )}
-                        </Menu.ItemAction>
+                        {this.props.isPeopleEnabled ? (
+                            <Menu.ItemAction
+                                id='accountSettings'
+                                ariaLabel='Profile'
+                                onClick={() => browserHistory.push(`/people/${currentUser.username}`)}
+                                text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
+                                icon={(
+                                    <Icon
+                                        size={16}
+                                        glyph={'account-outline'}
+                                    />
+                                )}
+                            >
+                                {this.props.showCompleteYourProfileTour && (
+                                    <div
+                                        onClick={this.handleCompleteYourProfileTask}
+                                        className={'account-settings-complete'}
+                                    >
+                                        <CompleteYourProfileTour/>
+                                    </div>
+                                )}
+                            </Menu.ItemAction>
+                        ) : (
+                            <Menu.ItemToggleModalRedux
+                                id='accountSettings'
+                                ariaLabel='Profile'
+                                modalId={ModalIdentifiers.USER_SETTINGS}
+                                dialogType={UserSettingsModal}
+                                dialogProps={{isContentProductSettings: false}}
+                                text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
+                                icon={(
+                                    <Icon
+                                        size={16}
+                                        glyph={'account-outline'}
+                                    />
+                                )}
+                            >
+                                {this.props.showCompleteYourProfileTour && (
+                                    <div
+                                        onClick={this.handleCompleteYourProfileTask}
+                                        className={'account-settings-complete'}
+                                    >
+                                        <CompleteYourProfileTour/>
+                                    </div>
+                                )}
+                            </Menu.ItemToggleModalRedux>
+                        )}
+
                     </Menu.Group>
                     <Menu.Group>
                         <Menu.ItemAction

@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-const Groups = () => {
+const Profile = () => {
     return <></>;
 };
 
-export default Groups;
+export default Profile;

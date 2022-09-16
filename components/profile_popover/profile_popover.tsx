@@ -26,9 +26,11 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
+
+import {ModalData} from 'types/actions';
+
 import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
 import {ServerError} from '@mattermost/types/errors';
-import {ModalData} from 'types/actions';
 
 import './profile_popover.scss';
 
@@ -74,6 +76,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     isRHS?: boolean;
     isBusy?: boolean;
     isMobileView: boolean;
+    isPeopleEnabled: boolean;
 
     /**
      * Returns state of modals in redux for determing which need to be closed
@@ -402,11 +405,15 @@ ProfilePopoverState
                         placement='top'
                         overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
                     >
-                        <a
-                            href={`/people/@${this.props.user.username}`}
-                            onClick={this.goToProfile}
-                            className='user-profile-popover__heading'
-                        >{fullname}</a>
+                        {this.props.isPeopleEnabled ? (
+                            <a
+                                href={`/people/@${this.props.user.username}`}
+                                onClick={this.goToProfile}
+                                className='user-profile-popover__heading'
+                            >{fullname}</a>
+                        ) : (
+                            <span className='user-profile-popover__heading'>{fullname}</span>
+                        )}
                     </OverlayTrigger>
                     {sharedIcon}
                 </div>,

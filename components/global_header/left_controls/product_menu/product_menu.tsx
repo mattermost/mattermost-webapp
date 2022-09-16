@@ -9,7 +9,7 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+import {getInt, isPeopleEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -104,6 +104,8 @@ const ProductMenu = (): JSX.Element => {
         dispatch(setProductMenuSwitcherOpen(false));
     });
 
+    const peopleEnabled = useSelector(isPeopleEnabled);
+
     const productItems = products?.map((product) => {
         let tourTip;
 
@@ -156,14 +158,16 @@ const ProductMenu = (): JSX.Element => {
                         onClick={handleClick}
                     />
                     {productItems}
-                    <ProductMenuItem
-                        key={'product-people'}
-                        destination={'/people'}
-                        icon={'account-outline'}
-                        text={'People'}
-                        active={currentProductID === 'product-people'}
-                        onClick={handleClick}
-                    />
+                    {peopleEnabled && (
+                        <ProductMenuItem
+                            key={'product-people'}
+                            destination={'/people'}
+                            icon={'account-outline'}
+                            text={'People'}
+                            active={currentProductID === 'product-people'}
+                            onClick={handleClick}
+                        />
+                    )}
                     <ProductMenuList
                         isMessaging={currentProductID === null}
                         onClick={handleClick}

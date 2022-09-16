@@ -30,6 +30,8 @@ import {Action} from 'mattermost-redux/types/actions';
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
+import {isPeopleEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import {ServerError} from '@mattermost/types/errors';
 
 import ProfilePopover from './profile_popover';
@@ -78,6 +80,7 @@ function makeMapStateToProps() {
             channelId,
             currentUserTimezone: getCurrentUserTimezone(state),
             isMobileView: getIsMobileView(state),
+            isPeopleEnabled: isPeopleEnabled(state),
         };
     };
 }

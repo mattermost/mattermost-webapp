@@ -6,7 +6,6 @@ import {useIntl} from 'react-intl';
 
 import Icon from '@mattermost/compass-components/foundations/icon';
 
-import {UserProfile} from '@mattermost/types/users';
 import {Permissions} from 'mattermost-redux/constants';
 
 import AboutBuildModal from 'components/about_build_modal';
@@ -24,6 +23,8 @@ import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 
 import {ModalData} from 'types/actions';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import './product_menu_list.scss';
 
@@ -145,18 +146,6 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                         />
                     }
                 />
-                {/* <Menu.ItemLink
-                    id='people'
-                    show={enableCustomUserGroups || isCloud}
-                    to={'/' + teamName + '/people'}
-                    text={formatMessage({id: 'navbar_dropdown.people', defaultMessage: 'People'})}
-                    icon={
-                        <Icon
-                            size={16}
-                            glyph={'account-outline'}
-                        />
-                    }
-                /> */}
                 <Menu.ItemToggleModalRedux
                     id='userGroups'
                     modalId={ModalIdentifiers.USER_GROUPS}
