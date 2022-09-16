@@ -191,7 +191,7 @@ function ThreadItem({
                 )}
                 <div className='ThreadItem__author'>{postAuthor}</div>
                 <div className='d-flex align-items-center'>
-                    {Boolean(channel) && postAuthor !== channel?.display_name && (
+                    {channel && postAuthor !== channel?.display_name && (
                         <Badge onClick={goToInChannelHandler}>
                             {channel?.display_name}
                         </Badge>

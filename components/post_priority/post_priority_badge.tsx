@@ -42,12 +42,10 @@ export default function PriorityLabel({priority, className}: Props) {
         >
             {priority === PostPriority.URGENT ? (
                 <AlertOutlineIcon
-                    color={'currentColor'}
                     size={14}
                 />
             ) : (
                 <AlertCircleOutlineIcon
-                    color={'currentColor'}
                     size={14}
                 />
             )}
