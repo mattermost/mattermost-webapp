@@ -46,6 +46,14 @@ exports[`components/global/product_switcher should have an active button state w
         onClick={[Function]}
         text="Playbooks"
       />
+      <ProductMenuItem
+        active={false}
+        destination="/people"
+        icon="account-outline"
+        key="product-people"
+        onClick={[Function]}
+        text="People"
+      />
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
@@ -138,6 +146,14 @@ exports[`components/global/product_switcher should match snapshot with product s
         onClick={[Function]}
         text="Playbooks"
       />
+      <ProductMenuItem
+        active={false}
+        destination="/people"
+        icon="account-outline"
+        key="product-people"
+        onClick={[Function]}
+        text="People"
+      />
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
@@ -194,6 +210,14 @@ exports[`components/global/product_switcher should render once when there are no
         onClick={[Function]}
         text="Playbooks"
       />
+      <ProductMenuItem
+        active={false}
+        destination="/people"
+        icon="account-outline"
+        key="product-people"
+        onClick={[Function]}
+        text="People"
+      />
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
@@ -249,6 +273,14 @@ exports[`components/global/product_switcher should render the correct amount of 
         key="Playbooks"
         onClick={[Function]}
         text="Playbooks"
+      />
+      <ProductMenuItem
+        active={false}
+        destination="/people"
+        icon="account-outline"
+        key="product-people"
+        onClick={[Function]}
+        text="People"
       />
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}

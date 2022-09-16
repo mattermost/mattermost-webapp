@@ -100,7 +100,7 @@ describe('components/global/product_switcher', () => {
         const spyProducts = jest.spyOn(hooks, 'useProducts');
         spyProducts.mockReturnValue(products);
 
-        expect(wrapper.find(ProductMenuItem)).toHaveLength(3);
+        expect(wrapper.find(ProductMenuItem)).toHaveLength(4);
         expect(wrapper).toMatchSnapshot();
     });
 
