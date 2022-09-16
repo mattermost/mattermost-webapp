@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import {CustomStatusDuration} from '@mattermost/types/users';
-
 import ProfilePopover from 'components/profile_popover/profile_popover';
 
 import Pluggable from 'plugins/pluggable';
@@ -12,6 +10,8 @@ import Pluggable from 'plugins/pluggable';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {TestHelper} from 'utils/test_helper';
+
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 describe('components/ProfilePopover', () => {
     const baseProps = {
@@ -39,6 +39,7 @@ describe('components/ProfilePopover', () => {
             closeModal: jest.fn(),
             loadBot: jest.fn(),
         },
+        isPeopleEnabled: false,
     };
 
     test('should match snapshot', () => {

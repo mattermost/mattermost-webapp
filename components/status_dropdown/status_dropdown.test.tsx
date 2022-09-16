@@ -4,9 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {CustomStatusDuration, UserProfile} from '@mattermost/types/users';
-
 import {fakeDate} from 'tests/helpers/date';
+
+import {CustomStatusDuration, UserProfile} from '@mattermost/types/users';
 
 import StatusDropdown from './status_dropdown';
 
@@ -49,6 +49,7 @@ describe('components/StatusDropdown', () => {
         isStatusDropdownOpen: false,
         showCustomStatusPulsatingDot: false,
         showCompleteYourProfileTour: false,
+        isPeopleEnabled: false,
     };
 
     test('should match snapshot in default state', () => {
