@@ -101,6 +101,15 @@
         }
 
         .top-playbooks-card,
+        .least-active-channels-card {
+            &.medium {
+                @media screen and (max-width: 1279px) and (min-width: 769px) {
+                    width: calc(100% - 16px);
+                }
+            }
+        }
+
+        .top-playbooks-card,
         .top-dms-card {
             .Card__body {
                 padding: 0 12px 12px;
