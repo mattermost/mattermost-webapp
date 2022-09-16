@@ -18,6 +18,8 @@ import Search from 'components/search/index';
 import RhsPlugin from 'plugins/rhs_plugin';
 
 import {Channel} from '@mattermost/types/channels';
+import {ProductIdentifier} from '@mattermost/types/products';
+
 import {RhsState} from 'types/store/rhs';
 
 type Props = {
@@ -25,7 +27,7 @@ type Props = {
     isOpen: boolean;
     channel: Channel;
     teamId: string;
-    productId: string;
+    productId: ProductIdentifier;
     postRightVisible: boolean;
     postCardVisible: boolean;
     searchVisible: boolean;
