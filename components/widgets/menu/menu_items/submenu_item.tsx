@@ -134,6 +134,14 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
     }
 
+    setBackGroundColor(e: React.FocusEvent<HTMLSpanElement>) {
+        e.currentTarget.style.background = 'rgba(var(--center-channel-color-rgb), 0.08)';
+    }
+
+    unsetBackGroundColor(e: React.FocusEvent<HTMLSpanElement>) {
+        e.currentTarget.style.background = 'unset';
+    }
+
     public render() {
         const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
         const isMobile = Utils.isMobile();
@@ -175,10 +183,18 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
                         const hasDivider = s.id === 'ChannelMenu-moveToDivider';
+                        let aria;
+                        if (s.tabIndex === 0) {
+                            aria = ariaLabel;
+                        } else if (s.tabIndex !== 0) {
+                            aria = s.text === selectedValueText ? `${s.text + Utils.localizeMessage('sidebar.menu.item.selected', 'selected')}` : `${s.text + Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected')}`;
+                        }
                         return (
                             <span
                                 className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
+                                onFocus={this.setBackGroundColor}
+                                onBlur={this.unsetBackGroundColor}
                             >
                                 <SubMenuItem
                                     id={s.id}
@@ -189,7 +205,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                     subMenu={s.subMenu}
                                     action={s.action}
                                     filter={s.filter}
-                                    ariaLabel={ariaLabel}
+                                    ariaLabel={aria}
                                     root={false}
                                     direction={s.direction}
                                     isHeader={s.isHeader}

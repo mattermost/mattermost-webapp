@@ -121,8 +121,11 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
         <span
           className="SubMenuItemContainer"
           key="A"
+          onBlur={[Function]}
+          onFocus={[Function]}
         >
           <SubMenuItem
+            ariaLabel="Test Anot selected"
             direction="left"
             id="A"
             renderSelected={true}
@@ -138,6 +141,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
               role="menuitem"
             >
               <div
+                aria-label="Test Anot selected"
                 className=""
                 id="A"
                 onClick={[Function]}
@@ -176,8 +180,11 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
         <span
           className="SubMenuItemContainer"
           key="B"
+          onBlur={[Function]}
+          onFocus={[Function]}
         >
           <SubMenuItem
+            ariaLabel="Test Bnot selected"
             direction="left"
             id="B"
             renderSelected={true}
@@ -193,6 +200,7 @@ exports[`components/widgets/menu/menu_items/submenu_item present subMenu should 
               role="menuitem"
             >
               <div
+                aria-label="Test Bnot selected"
                 className=""
                 id="B"
                 onClick={[Function]}
