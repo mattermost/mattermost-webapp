@@ -17,7 +17,7 @@ import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
 
 import {markChannelAsReadOnFocus} from 'actions/views/channel';
 import {initializeTeam, joinTeam} from 'components/team_controller/actions';
-import {fetchChannelsAndMembers} from 'actions/channel_actions2';
+import {fetchChannelsAndMembers} from 'actions/channel_actions';
 
 import {checkIfMFARequired} from 'utils/route';
 

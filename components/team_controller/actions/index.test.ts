@@ -5,6 +5,7 @@ import {ChannelTypes} from 'mattermost-redux/action_types';
 import * as channelsActions from 'mattermost-redux/actions/channels';
 import * as teamsActions from 'mattermost-redux/actions/teams';
 import * as teamActions from 'actions/team_actions';
+import * as statusActions from 'actions/status_actions';
 
 import mockStore from 'tests/test_store';
 import {TestHelper} from 'utils/test_helper';
@@ -40,9 +41,9 @@ describe('components/team_controller/actions', () => {
 
     describe('initializeTeam', () => {
         test('should fire off success of getChannelsMembersCategories when fetch call passes', async () => {
-            const fetchMyChannelsAndMembersRESTFn: () => () => Promise<any> = () => () => Promise.resolve();
-
-            jest.spyOn(channelsActions, 'fetchMyChannelsAndMembersREST').mockImplementation(fetchMyChannelsAndMembersRESTFn);
+            const mockActionFn: () => () => Promise<any> = () => () => Promise.resolve();
+            jest.spyOn(channelsActions, 'fetchMyChannelsAndMembersREST').mockImplementation(mockActionFn);
+            jest.spyOn(statusActions, 'loadStatusesForChannelAndSidebar').mockImplementation(mockActionFn);
 
             const testStore = await mockStore(initialState);
             await testStore.dispatch(initializeTeam(testTeam));

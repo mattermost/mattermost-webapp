@@ -261,3 +261,17 @@ export function transformToReceivedChannelMembersReducerPayload(
         scheme_user: channelMember?.scheme_user ?? false,
     }));
 }
+
+export function transformToReceivedRolesReducerPayload(
+    userRoles: CurrentUserInfoQueryResponseType['data']['user']['roles'],
+    teamMembers: CurrentUserInfoQueryResponseType['data']['teamMembers']): Role[] {
+    let roles: Role[] = [...userRoles];
+
+    teamMembers.forEach((teamMember) => {
+        if (teamMember.roles) {
+            roles = [...roles, ...teamMember.roles];
+        }
+    });
+
+    return roles;
+}

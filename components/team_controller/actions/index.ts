@@ -22,7 +22,7 @@ import {isSuccess} from 'types/actions';
 
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 import {addUserToTeam} from 'actions/team_actions';
-import {fetchChannelsAndMembers} from 'actions/channel_actions2';
+import {fetchChannelsAndMembers} from 'actions/channel_actions';
 
 import LocalStorageStore from 'stores/local_storage_store';
 
@@ -52,7 +52,8 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             } else {
                 await dispatch(fetchMyChannelsAndMembersREST(team.id));
             }
-            dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS, data: null});
+
+            await dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_SUCCESS, data: null});
         } catch (error) {
             dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error});
             forceLogoutIfNecessary(error as ServerError, dispatch, getState);
@@ -102,7 +103,10 @@ export function joinTeam(teamname: string, joinedOnFirstLoad: boolean): ActionFu
                         if (joinedOnFirstLoad) {
                             LocalStorageStore.setTeamIdJoinedOnLoad(team.id);
                         }
-                        return await dispatch(initializeTeam(team));
+
+                        await dispatch(initializeTeam(team));
+
+                        return {data: team};
                     }
                     throw addUserToTeamResult.error;
                 }

@@ -191,11 +191,15 @@ export function muteChannel(userId: UserProfile['id'], channelId: Channel['id'])
     });
 }
 
+/**
+ * Fetches channels and channel members with graphql and then dispatches the result to redux store.
+ * @param teamId If team id is provided, only channels and channel members in that team will be fetched. Otherwise, all channels and all channel members will be fetched.
+ */
 export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{channels: ServerChannel[]; channelMembers: ChannelMembership[]}> {
     return async (dispatch, getState) => {
         let channelsAndMembers: ChannelsAndChannelMembersQueryResponseType['data'] | null = null;
         try {
-            if (teamId) {
+            if (teamId.length > 0) {
                 const {data} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getTeamsChannelsAndMembersQueryString(teamId));
                 channelsAndMembers = data;
             } else {
@@ -217,33 +221,45 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
         const channels = transformToReceivedChannelsReducerPayload(channelsAndMembers.channels);
         const channelMembers = transformToReceivedChannelMembersReducerPayload(channelsAndMembers.channelMembers, currentUserId);
 
-        await dispatch(batchActions([
-            {
-                type: ChannelTypes.RECEIVED_ALL_CHANNELS,
+        const actions = [];
+        if (teamId.length > 0) {
+            actions.push({
+                type: ChannelTypes.RECEIVED_CHANNELS,
+                teamId,
                 data: channels,
-            },
-            {
+            });
+            actions.push({
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
                 data: channelMembers,
-                currentUserId,
-            },
-        ]));
-
-        // Add any pending roles for the current team's channels
-        const roles = new Set<string>();
-        if (teamId) {
-            channelsAndMembers.channelMembers.forEach((channelMember) => {
-                if (channelMember.roles && channelMember.roles.length > 0) {
-                    channelMember.roles.forEach((role) => {
-                        roles.add(role.name);
-                    });
-                }
             });
-
-            if (roles.size > 0) {
-                dispatch(loadRolesIfNeeded(roles));
-            }
+        } else {
+            actions.push({
+                type: ChannelTypes.RECEIVED_ALL_CHANNELS,
+                data: channels,
+            });
+            actions.push({
+                type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
+                data: channelMembers,
+            });
         }
+
+        await dispatch(batchActions(actions));
+
+        const roles = new Set<string>();
+        // if (teamId.length > 0) {
+        //     // Add any pending roles for the current team's channels
+        //     channelsAndMembers.channelMembers.forEach((channelMember) => {
+        //         if (channelMember.roles && channelMember.roles.length > 0) {
+        //             channelMember.roles.forEach((role) => {
+        //                 roles.add(role.name);
+        //             });
+        //         }
+        //     });
+
+        //     if (roles.size > 0) {
+        //         dispatch(loadRolesIfNeeded(roles));
+        //     }
+        // }
 
         return {data: {channels, channelMembers}};
     };
