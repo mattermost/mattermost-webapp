@@ -9,12 +9,12 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {PreferenceType} from '@mattermost/types/preferences';
-import {GlobalState} from '@mattermost/types/store';
-
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+
+import {GlobalState} from '@mattermost/types/store';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {CollapsedThreads} from '@mattermost/types/config';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
@@ -246,6 +246,10 @@ export function isGroupChannelManuallyVisible(state: GlobalState, channelId: str
 
 export function isCustomGroupsEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'CustomGroups') === 'true' && getConfig(state).EnableCustomGroups === 'true';
+}
+
+export function isPeopleEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'PeopleProduct') === 'true';
 }
 
 export function getUseCaseOnboarding(state: GlobalState): boolean {
