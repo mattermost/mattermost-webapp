@@ -23,7 +23,6 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
-import {PreferenceType} from '@mattermost/types/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
 import {connectionErrorCount} from 'selectors/views/system';
@@ -48,6 +47,8 @@ import {openModal} from 'actions/views/modals';
 import {getEmojiMap} from 'selectors/emojis';
 import {canUploadFiles} from 'utils/file_utils';
 
+import {PreferenceType} from '@mattermost/types/preferences';
+
 import AdvancedCreateComment from './advanced_create_comment';
 
 type OwnProps = {
@@ -70,8 +71,6 @@ function makeMapStateToProps() {
         const isCRTEnabled = isCollapsedThreadsEnabled(state);
 
         const channel = state.entities.channels.channels[ownProps.channelId] || {};
-
-        const pendingPostIds = state.entities.posts.pendingPostIds;
 
         const config = getConfig(state);
         const license = getLicense(state);
@@ -118,7 +117,6 @@ function makeMapStateToProps() {
             emojiMap: getEmojiMap(state),
             canUploadFiles: canUploadFiles(config),
             isCRTEnabled,
-            pendingPostIds,
         };
     };
 }

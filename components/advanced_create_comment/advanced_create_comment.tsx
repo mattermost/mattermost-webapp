@@ -5,14 +5,9 @@
 
 import React from 'react';
 
-import {ModalData} from 'types/actions.js';
-
-import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
-
 import * as GlobalActions from 'actions/global_actions';
 
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
-import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
@@ -29,22 +24,24 @@ import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatG
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
+
+import {ModalData} from 'types/actions.js';
 import {PostDraft} from 'types/store/draft';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {Emoji} from '@mattermost/types/emojis';
-import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {ServerError} from '@mattermost/types/errors';
 import {FileInfo} from '@mattermost/types/files';
-import EmojiMap from 'utils/emoji_map';
-import {
-    applyMarkdown,
-    ApplyMarkdownOptions,
-} from 'utils/markdown/apply_markdown';
+
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {TextboxClass, TextboxElement} from '../textbox';
-
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 
 const KeyCodes = Constants.KeyCodes;
@@ -184,7 +181,6 @@ type Props = {
     // Broadcast thread reply to main channel
     isCRTEnabled: boolean;
     broadcastThreadReply: (postId: string, channelId: string) => Promise<ActionResult>;
-    pendingPostIds: string[];
 }
 
 type State = {
@@ -319,11 +315,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
             this.showPostDeletedModal();
-        }
-
-        if ((prevProps.pendingPostIds.length > this.props.pendingPostIds.length) &&
-            this.state.isBroadcastThreadReply && !this.state.postError && !this.state.serverError) {
-            this.submitBroadcastThreadReply();
         }
     }
 
@@ -507,17 +498,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.setState({postError});
     }
 
-    submitBroadcastThreadReply = async () => {
-        await this.props.broadcastThreadReply(
-            this.props.rootId,
-            this.props.channelId,
-        );
-
-        // TODO: Add error handler for when broadcast thread reply fails
-
-        this.setState({isBroadcastThreadReply: false});
-    }
-
     handleSubmit = async (e: React.FormEvent | React.MouseEvent) => {
         e.preventDefault();
         this.setShowPreview(false);
@@ -606,6 +586,36 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             this.setState({draft: updatedDraft});
         }
 
+        if (this.state.isBroadcastThreadReply) {
+            const tDraft = this.state.draft!;
+
+            const updatedDraft = {
+                ...tDraft,
+                props: {
+                    ...tDraft.props,
+                    broadcasted_thread_reply: true,
+                },
+            };
+
+            this.props.onUpdateCommentDraft(updatedDraft);
+
+            // TODO: This is a temporary change for development, will need to redo this entire function as
+            // state is not being updated properly.
+            this.setState({draft: updatedDraft}, async () => {
+                if (memberNotifyCount > 0) {
+                    this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
+                    return;
+                }
+
+                console.log('updatedBroadcastThreadReply');
+                console.log(this.state.draft!.props.broadcasted_thread_reply);
+
+                await this.doSubmit(e);
+            });
+
+            return;
+        }
+
         if (memberNotifyCount > 0) {
             this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
             return;
@@ -621,6 +631,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         const draft = this.state.draft!;
         const enableAddButton = this.shouldEnableAddButton();
+
+        console.log('doSubmit');
+        console.log(draft.props?.broadcasted_thread_reply);
 
         if (!enableAddButton) {
             return;
@@ -656,6 +669,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const options = {ignoreSlash};
 
         try {
+            console.log('Submitting Draft...');
+            console.log(`draft.props.broadcasted_thread_reply: ${draft.props?.broadcasted_thread_reply}`);
+
             await this.props.onSubmit(draft, options);
 
             this.setState({
@@ -677,6 +693,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
         this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
         this.draftsForPost[this.props.rootId] = null;
+        this.setState({isBroadcastThreadReply: false});
     }
 
     commentMsgKeyPress = (e: React.KeyboardEvent<TextboxElement>) => {

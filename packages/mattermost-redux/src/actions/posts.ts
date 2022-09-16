@@ -229,6 +229,10 @@ export function createPost(post: Post, files: any[] = []) {
             try {
                 const created = await Client4.createPost({...newPost, create_at: 0});
 
+                console.log('BATCH_CREATE_POST');
+                console.log(`newPost.props.broadcasted_thread_reply: ${newPost.props.broadcasted_thread_reply}`);
+                console.log(`created.props.broadcasted_thread_reply: ${created.props.broadcasted_thread_reply}`);
+
                 actions = [
                     receivedPost(created, crtEnabled),
                     {

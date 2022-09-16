@@ -153,6 +153,7 @@ export function nextPostsReplies(state: {[x in Post['id']]: number} = {}, action
 }
 
 export function handlePosts(state: RelationOneToOne<Post, Post> = {}, action: GenericAction) {
+    console.log('handlePosts');
     switch (action.type) {
     case PostTypes.RECEIVED_POST:
     case PostTypes.RECEIVED_NEW_POST: {
@@ -433,6 +434,10 @@ export function postsInChannel(state: Record<string, PostOrderBlock[]> = {}, act
     case PostTypes.RECEIVED_NEW_POST: {
         const post = action.data as Post;
 
+        console.log('RECEIVED_NEW_POST');
+        console.log(`post.message: ${post.message}`);
+        console.log(`post.props['broadcasted_thread_reply']: ${post.props.broadcasted_thread_reply}`);
+
         if (action.features?.crtEnabled && post.root_id && post.type !== PostConstant.EPHEMERAL) {
             return state;
         }
@@ -502,6 +507,10 @@ export function postsInChannel(state: Record<string, PostOrderBlock[]> = {}, act
 
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
+
+        console.log('RECEIVED_POST');
+        console.log(`post.message: ${post.message}`);
+        console.log(`post.props['broadcasted_thread_reply']: ${post.props.broadcasted_thread_reply}`);
 
         if (action.features?.crtEnabled && post.root_id) {
             return state;
