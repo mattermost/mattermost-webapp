@@ -295,3 +295,14 @@ Cypress.Commands.add('apiSaveSkipStepsPreference', (userId, value) => {
 
     return cy.apiSaveUserPreference([preference], userId);
 });
+
+Cypress.Commands.add('apiSaveUnreadScrollPositionPreference', (userId, value) => {
+    const preference = {
+        user_id: userId,
+        category: 'advanced_settings',
+        name: 'unread_scroll_position',
+        value,
+    };
+
+    return cy.apiSaveUserPreference([preference], userId);
+});

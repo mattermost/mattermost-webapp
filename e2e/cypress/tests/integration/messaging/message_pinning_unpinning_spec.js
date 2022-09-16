@@ -34,7 +34,7 @@ describe('Messaging', () => {
 
     it('MM-T142 Pinning or un-pinning older message does not cause it to display at bottom of channel Pinned posts display in RHS with newest at top', () => {
         // * Ensure that the channel view is loaded
-        cy.get('#post_textbox').should('be.visible');
+        cy.uiGetPostTextBox();
 
         // # Post messages
         const olderPost = 7;

@@ -1,108 +1,152 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import styled from 'styled-components';
-import {CSSTransition} from 'react-transition-group';
+import React, {useEffect, useRef, useState} from 'react';
+import AutoSizer from 'react-virtualized-auto-sizer';
+import {VariableSizeList, ListChildComponentProps} from 'react-window';
+import InfiniteLoader from 'react-window-infinite-loader';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
 import Member from './member';
-import {ChannelMember} from './channel_members_rhs';
-
-const Title = styled.div`
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 28px;
-    letter-spacing: 0.02em;
-    text-transform: uppercase;
-    padding: 0px 12px;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
-`;
-
-const Members = styled.div`
-    &.editing-transition-enter {
-        .member-role-chooser {
-            opacity: 0;
-            display: block;
-        }
-    }
-
-    &.editing-transition-enter-active {
-        .member-role-chooser {
-            opacity: 1;
-            transition: opacity 250ms;
-        }
-    }
-
-    &.editing-transition-enter-done {
-        .member-role-chooser {
-            opacity: 1;
-        }
-    }
-
-    &.editing-transition-exit {
-        .member-role-chooser {
-            opacity: 1;
-            display: block;
-        }
-    }
-
-    &.editing-transition-exit-active {
-        .member-role-chooser {
-            opacity: 0;
-            transition: opacity 250ms;
-            display: block;
-        }
-    }
-`;
+import {ChannelMember, ListItem, ListItemType} from './channel_members_rhs';
 
 export interface Props {
-    className?: string;
     channel: Channel;
-    members: ChannelMember[];
+    members: ListItem[];
     editing: boolean;
-    title?: JSX.Element;
+    hasNextPage: boolean;
+    isNextPageLoading: boolean;
+    searchTerms: string;
 
     actions: {
         openDirectMessage: (user: UserProfile) => void;
+        loadMore: () => void;
     };
 }
 
-const MemberList = ({className, channel, members, editing, title, actions}: Props) => {
-    return (
-        <div className={className} >
-            {members.length > 0 && (
-                <>
-                    {Boolean(title) && (<Title>{title}</Title>)}
+const MemberList = ({
+    hasNextPage,
+    isNextPageLoading,
+    channel,
+    members,
+    searchTerms,
+    editing,
+    actions,
+}: Props) => {
+    const infiniteLoaderRef = useRef<InfiniteLoader | null>(null);
+    const variableSizeListRef = useRef<VariableSizeList | null>(null);
+    const [hasMounted, setHasMounted] = useState(false);
 
-                    <CSSTransition
-                        in={editing}
-                        appear={true}
-                        timeout={250}
-                        classNames='editing-transition'
+    useEffect(() => {
+        if (hasMounted) {
+            if (infiniteLoaderRef.current) {
+                infiniteLoaderRef.current.resetloadMoreItemsCache();
+            }
+            if (variableSizeListRef.current) {
+                variableSizeListRef.current.resetAfterIndex(0);
+            }
+        }
+        setHasMounted(true);
+    }, [searchTerms, members.length, hasMounted]);
+
+    const itemCount = hasNextPage ? members.length + 1 : members.length;
+
+    const loadMoreItems = isNextPageLoading ? () => {} : actions.loadMore;
+
+    const isItemLoaded = (index: number) => {
+        return !hasNextPage || index < members.length;
+    };
+
+    const getItemSize = (index: number) => {
+        if (!(index in members)) {
+            return 0;
+        }
+
+        switch (members[index].type) {
+        case ListItemType.FirstSeparator:
+            return 28;
+        case ListItemType.Separator:
+            return 16 + 28;
+        }
+
+        return 48;
+    };
+
+    const Item = ({index, style}: ListChildComponentProps) => {
+        if (isItemLoaded(index)) {
+            switch (members[index].type) {
+            case ListItemType.Member:
+                // eslint-disable-next-line no-case-declarations
+                const member = members[index].data as ChannelMember;
+                return (
+                    <div
+                        style={style}
+                        key={member.user.id}
                     >
-                        <Members>
-                            {members.map((member, index, {length: totalUsers}) => (
-                                <Member
-                                    key={member.user.id}
-                                    channel={channel}
-                                    index={index}
-                                    totalUsers={totalUsers}
-                                    member={member}
-                                    editing={editing}
-                                    actions={{openDirectMessage: actions.openDirectMessage}}
-                                />
-                            ))}
-                        </Members>
-                    </CSSTransition>
-                </>
+                        <Member
+                            channel={channel}
+                            index={index}
+                            totalUsers={members.length}
+                            member={member}
+                            editing={editing}
+                            actions={{openDirectMessage: actions.openDirectMessage}}
+                        />
+                    </div>
+                );
+            case ListItemType.Separator:
+            case ListItemType.FirstSeparator:
+                return (
+                    <div
+                        key={index}
+                        style={style}
+                    >
+                        {members[index].data}
+                    </div>
+                );
+            default:
+                return null;
+            }
+        }
+
+        return null;
+    };
+
+    if (members.length === 0) {
+        return null;
+    }
+
+    return (
+        <AutoSizer>
+            {({height, width}) => (
+                <InfiniteLoader
+                    ref={infiniteLoaderRef}
+                    isItemLoaded={isItemLoaded}
+                    itemCount={itemCount}
+                    loadMoreItems={loadMoreItems}
+                >
+                    {({onItemsRendered, ref}) => (
+
+                        <VariableSizeList
+                            itemCount={itemCount}
+                            onItemsRendered={onItemsRendered}
+                            ref={(list) => {
+                                ref(list);
+                                variableSizeListRef.current = list;
+                            }}
+
+                            itemSize={getItemSize}
+                            height={height}
+                            width={width}
+                        >
+                            {Item}
+                        </VariableSizeList>
+                    )}
+                </InfiniteLoader>
             )}
-        </div>
+        </AutoSizer>
     );
 };
 
-export default styled(MemberList)`
-    padding: 0 4px 16px;
-`;
+export default MemberList;

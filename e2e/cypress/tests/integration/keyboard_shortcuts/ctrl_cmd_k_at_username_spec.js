@@ -30,7 +30,7 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1246 CTRL/CMD+K - @ at beginning of username', () => {
         // # Type CTRL/CMD+K
-        cy.get('#post_textbox').cmdOrCtrlShortcut('k');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('k');
 
         // # Enter @ followed by the first 2 characters of username of the other user
         cy.get('#quickSwitchInput').type('@' + otherUser.username.slice(0, 3));

@@ -4,14 +4,13 @@
 import React, {memo, forwardRef, useMemo} from 'react';
 import {useSelector} from 'react-redux';
 
-import {getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {UserProfile} from '@mattermost/types/users';
 import {Post} from '@mattermost/types/posts';
 
-import GenericCreateComment from 'components/create_comment';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
 import {Posts} from 'mattermost-redux/constants';
@@ -38,7 +37,6 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
 }: Props, ref) => {
     const getChannel = useMemo(makeGetChannel, []);
     const rootPost = useSelector((state: GlobalState) => getPost(state, threadId));
-    const isAdvancedTextEditorEnabled = useSelector(getIsAdvancedTextEditorEnabled);
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: rootPost.channel_id}));
     const rootDeleted = (rootPost as Post).state === Posts.POST_DELETED;
     const isFakeDeletedPost = rootPost.type === Constants.PostTypes.FAKE_PARENT_DELETED;
@@ -68,30 +66,15 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             <div className='channel-archived-warning__container'>
                 <BasicSeparator/>
                 <div className='channel-archived-warning__content'>
-                    <i className='icon icon-archive-outline'/>
+                    <ArchiveOutlineIcon
+                        size={20}
+                        color={'rgba(var(--center-channel-color-rgb), 0.56)'}
+                    />
                     <FormattedMarkdownMessage
                         id='threadFromArchivedChannelMessage'
                         defaultMessage='You are viewing a thread from an **archived channel**. New messages cannot be posted.'
                     />
                 </div>
-            </div>
-        );
-    }
-    if (isAdvancedTextEditorEnabled) {
-        return (
-            <div
-                className='post-create__container'
-                ref={ref}
-            >
-                <AdvancedCreateComment
-                    focusOnMount={focusOnMount}
-                    channelId={channel.id}
-                    latestPostId={latestPostId}
-                    onHeightChange={onHeightChange}
-                    rootDeleted={rootDeleted}
-                    rootId={threadId}
-                    isThreadView={isThreadView}
-                />
             </div>
         );
     }
@@ -101,7 +84,7 @@ const CreateComment = forwardRef<HTMLDivElement, Props>(({
             className='post-create__container'
             ref={ref}
         >
-            <GenericCreateComment
+            <AdvancedCreateComment
                 focusOnMount={focusOnMount}
                 channelId={channel.id}
                 latestPostId={latestPostId}

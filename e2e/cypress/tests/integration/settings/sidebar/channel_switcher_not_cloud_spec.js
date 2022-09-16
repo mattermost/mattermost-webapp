@@ -30,7 +30,7 @@ describe('Settings > Sidebar > Channel Switcher', () => {
 
     it('Cmd/Ctrl+Shift+L closes Channel Switch modal and sets focus to post textbox', () => {
         // # Type CTRL/CMD+K
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
         cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');
@@ -42,7 +42,7 @@ describe('Settings > Sidebar > Channel Switcher', () => {
         cy.get('#suggestionList').should('not.exist');
 
         // * focus should be on the input box
-        cy.get('#post_textbox').should('be.focused');
+        cy.uiGetPostTextBox().should('be.focused');
     });
 
     it('Cmd/Ctrl+Shift+M closes Channel Switch modal and sets focus to mentions', () => {
@@ -50,7 +50,7 @@ describe('Settings > Sidebar > Channel Switcher', () => {
         cy.apiPatchMe({notify_props: {first_name: 'false', mention_keys: testUser.username}});
 
         // # Type CTRL/CMD+K
-        cy.get('#post_textbox').cmdOrCtrlShortcut('K');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         // * Channel switcher hint should be visible
         cy.get('#quickSwitchHint').should('be.visible').should('contain', 'Type to find a channel. Use UP/DOWN to browse, ENTER to select, ESC to dismiss.');

@@ -23,7 +23,7 @@ describe('Delete Parent Message', () => {
 
     it('MM-T110 Delete a parent message that has a reply: Reply RHS', () => {
         // # Close Hamburger menu, post a message, and add replies
-        cy.get('#post_textbox').click({force: true});
+        cy.uiGetPostTextBox().click({force: true});
         cy.postMessage('Parent Message');
 
         cy.getLastPostId().then((postId) => {
@@ -49,7 +49,7 @@ describe('Delete Parent Message', () => {
 
                 // * Modal should now be visible and warning message should match the number of replies
                 cy.get('#deletePostModal').should('be.visible');
-                cy.get('#deletePostModal').contains(`${replyCount}`).should('be.visible');
+                cy.get('#deletePostModal').contains(replyCount).should('be.visible');
 
                 // # Delete the parent message
                 cy.get('#deletePostModalButton').click({force: true});

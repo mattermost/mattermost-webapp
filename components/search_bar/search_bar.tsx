@@ -121,21 +121,23 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                     <i className='icon icon-magnify icon-16'/>
                 </div>
 
-                {props.searchType !== '' &&
+                {props.searchType !== '' && (
                     <div
                         className='searchTypeBadge'
                         onMouseDown={props.handleFocus}
                     >
-                        {props.searchType === 'messages' &&
+                        {props.searchType === 'messages' && (
                             <FormattedMessage
                                 id='search_bar.search_types.messages'
                                 defaultMessage='MESSAGES'
-                            />}
-                        {props.searchType === 'files' &&
+                            />
+                        )}
+                        {props.searchType === 'files' && (
                             <FormattedMessage
                                 id='search_bar.search_types.files'
                                 defaultMessage='FILES'
-                            />}
+                            />
+                        )}
                         <i
                             className='icon icon-close icon-12'
                             onMouseDown={() => {
@@ -143,7 +145,8 @@ const SearchBar: React.FunctionComponent<Props> = (props: Props): JSX.Element =>
                             }}
                             onClick={() => props.clearSearchType && props.clearSearchType()}
                         />
-                    </div>}
+                    </div>
+                )}
                 <SuggestionBox
                     ref={getSearch}
                     id={props.isSideBarRight ? 'sbrSearchBox' : 'searchBox'}

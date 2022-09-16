@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 @mixin file-icon($path) {
     background-image: url($path);
@@ -193,6 +193,23 @@
     i {
         display: flex;
         font-size: 18px;
+    }
+}
+
+@mixin button-focus {
+    &:focus {
+        border-width: 0;
+        box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
+    }
+
+    &:focus:not(:focus-visible) {
+        border-width: 0;
+        box-shadow: none;
+    }
+
+    &:focus-visible {
+        border-width: 0;
+        box-shadow: inset 0 0 0 2px var(--sidebar-text-active-border);
     }
 }
 

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable max-lines */
 
 import {batchActions} from 'redux-batched-actions';
@@ -19,7 +20,7 @@ import {
     AppsTypes,
     CloudTypes,
 } from 'mattermost-redux/action_types';
-import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
+import {General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
@@ -32,7 +33,7 @@ import {
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
-import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
@@ -62,15 +63,13 @@ import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
     checkForModifiedUsers,
-    getMissingProfilesByIds,
-    getStatusesByIds,
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig, getLicense, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {
     getChannel,
     getChannelMembersInChannels,
@@ -96,12 +95,12 @@ import {syncPostsInChannel} from 'actions/views/channel';
 import {updateThreadLastOpened} from 'actions/views/threads';
 
 import {browserHistory} from 'utils/browser_history';
-import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
+import {loadChannelsForCurrentUser} from 'actions/channel_actions';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
-import {handleNewPost} from 'actions/post_actions.jsx';
-import * as StatusActions from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {handleNewPost} from 'actions/post_actions';
+import * as StatusActions from 'actions/status_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -160,11 +159,12 @@ export function initialize() {
 
     connUrl += Client4.getUrlVersion() + '/websocket';
 
-    WebSocketClient.setEventCallback(handleEvent);
-    WebSocketClient.setFirstConnectCallback(handleFirstConnect);
-    WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(restart);
-    WebSocketClient.setCloseCallback(handleClose);
+    WebSocketClient.addMessageListener(handleEvent);
+    WebSocketClient.addFirstConnectListener(handleFirstConnect);
+    WebSocketClient.addReconnectListener(() => reconnect(false));
+    WebSocketClient.addMissedMessageListener(restart);
+    WebSocketClient.addCloseListener(handleClose);
+
     WebSocketClient.initialize(connUrl);
 }
 
@@ -425,10 +425,6 @@ export function handleEvent(msg) {
 
     case SocketEvents.PREFERENCES_DELETED:
         handlePreferencesDeletedEvent(msg);
-        break;
-
-    case SocketEvents.TYPING:
-        dispatch(handleUserTypingEvent(msg));
         break;
 
     case SocketEvents.STATUS_CHANGED:
@@ -916,22 +912,15 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
-        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
-            return;
-        }
-
-        // If a deletion just happened and it's attempting to redirect back to the teams list, let it.
-        if (browserHistory.location?.pathname === '/admin_console/user_management/teams') {
-            return;
-        }
-
-        if (newTeamId) {
-            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            const globalState = getState();
-            const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
-            browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
-        } else {
-            browserHistory.push('/');
+        if (currentTeamId === deletedTeam.id) {
+            if (newTeamId) {
+                dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+                const globalState = getState();
+                const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
+                browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
+            } else {
+                browserHistory.push('/');
+            }
         }
     }
 }
@@ -969,7 +958,7 @@ function handleUserAddedEvent(msg) {
                 type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
                 data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
             });
-            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && config.EnableConfirmNotificationsToChannel === 'true') {
                 doDispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
             }
         }
@@ -1056,7 +1045,7 @@ export function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && config.EnableConfirmNotificationsToChannel === 'true') {
             dispatch(getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled));
         }
     }
@@ -1225,53 +1214,6 @@ function handlePreferencesDeletedEvent(msg) {
 
 function addedNewDmUser(preference) {
     return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
-}
-
-export function handleUserTypingEvent(msg) {
-    return async (doDispatch, doGetState) => {
-        const state = doGetState();
-        const config = getConfig(state);
-        const currentUserId = getCurrentUserId(state);
-        const userId = msg.data.user_id;
-
-        if (
-            isPerformanceDebuggingEnabled(state) &&
-            getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
-        ) {
-            return;
-        }
-
-        const data = {
-            id: msg.broadcast.channel_id + msg.data.parent_id,
-            userId,
-            now: Date.now(),
-        };
-
-        doDispatch({
-            type: WebsocketEvents.TYPING,
-            data,
-        });
-
-        setTimeout(() => {
-            doDispatch({
-                type: WebsocketEvents.STOP_TYPING,
-                data,
-            });
-        }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
-
-        if (userId !== currentUserId) {
-            const result = await doDispatch(getMissingProfilesByIds([userId]));
-            if (result.data && result.data.length > 0) {
-                // Already loaded the user status
-                return;
-            }
-        }
-
-        const status = getStatusForUserId(state, userId);
-        if (status !== General.ONLINE) {
-            doDispatch(getStatusesByIds([userId]));
-        }
-    };
 }
 
 function handleStatusChangedEvent(msg) {
@@ -1637,18 +1579,19 @@ function handleThreadReadChanged(msg) {
                 doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
             }
 
-            handleReadChanged(
-                doDispatch,
-                msg.data.thread_id,
-                msg.broadcast.team_id,
-                msg.data.channel_id,
-                {
-                    lastViewedAt: msg.data.timestamp,
-                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
-                    newUnreadMentions: msg.data.unread_mentions,
-                    prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
-                    newUnreadReplies: msg.data.unread_replies,
-                },
+            doDispatch(
+                handleReadChanged(
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                ),
             );
         } else if (msg.broadcast.channel_id) {
             handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);

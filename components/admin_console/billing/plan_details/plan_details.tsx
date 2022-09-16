@@ -100,7 +100,7 @@ export const PlanDetailsTopElements = ({
 
     const viewPlansButton = (
         <button
-            onClick={openPricingModal}
+            onClick={() => openPricingModal({trackingLocation: 'billing_plan_details_view_plans'})}
             className='btn btn-secondary PlanDetails__viewPlansButton'
         >
             {intl.formatMessage({

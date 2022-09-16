@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import React, {HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
@@ -226,12 +224,11 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                                     onCardClick={this.handleCardClick}
                                     onCardClickPost={this.handleCardClickPost}
                                     postIds={this.props.postIds}
-                                    removePost={this.props.actions.removePost}
                                     selected={this.props.selected}
                                     useRelativeTimestamp={this.props.useRelativeTimestamp || false}
                                     highlightedPostId={this.props.highlightedPostId}
                                     selectedPostFocusedAt={this.props.selectedPostFocusedAt}
-                                    isThreadView={this.props.isCollapsedThreadsEnabled && this.props.isThreadView}
+                                    isThreadView={Boolean(this.props.isCollapsedThreadsEnabled && this.props.isThreadView)}
                                 />
                             )}
                         </>

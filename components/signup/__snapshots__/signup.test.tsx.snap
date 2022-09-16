@@ -4,6 +4,12 @@ exports[`components/signup/Signup should match snapshot for all signup options e
 <div
   className="signup-body"
 >
+  <AlternateLink
+    alternateLinkLabel="Log in"
+    alternateLinkPath="/login"
+    alternateMessage="Already have an account?"
+    className="signup-body-alternate-link"
+  />
   <div
     className="signup-body-content"
   >
@@ -120,7 +126,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
         <p
           className="signup-body-card-agreement"
         >
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Use]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
             id="create_team.agreement"
             values={
@@ -142,6 +148,12 @@ exports[`components/signup/Signup should match snapshot for all signup options e
 <div
   className="signup-body"
 >
+  <AlternateLink
+    alternateLinkLabel="Log in"
+    alternateLinkPath="/login"
+    alternateMessage="Already have an account?"
+    className="signup-body-alternate-link"
+  />
   <div
     className="signup-body-content"
   >
@@ -269,6 +281,19 @@ exports[`components/signup/Signup should match snapshot for all signup options e
             url="/oauth/office365/signup"
           />
           <ExternalLoginButton
+            icon={<LoginOpenIdIcon />}
+            id="openid"
+            key="openid"
+            label="Open ID"
+            style={
+              Object {
+                "borderColor": "",
+                "color": "",
+              }
+            }
+            url="/oauth/openid/signup"
+          />
+          <ExternalLoginButton
             icon={<LockIcon />}
             id="ldap"
             key="ldap"
@@ -286,7 +311,7 @@ exports[`components/signup/Signup should match snapshot for all signup options e
         <p
           className="signup-body-card-agreement"
         >
-          <injectIntl(FormattedMarkdownMessage)
+          <FormattedMarkdownMessage
             defaultMessage="By proceeding to create your account and use {siteName}, you agree to our [Terms of Use]({TermsOfServiceLink}) and [Privacy Policy]({PrivacyPolicyLink}). If you do not agree, you cannot use {siteName}."
             id="create_team.agreement"
             values={

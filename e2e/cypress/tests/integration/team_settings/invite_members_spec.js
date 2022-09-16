@@ -159,7 +159,7 @@ function verifyInvitationError(team, user) {
 function verifyInviteMembersModal(team) {
     // * Verify the header has changed in the modal
     cy.findByTestId('invitationModal').within(($el) => {
-        cy.wrap($el).find('h1').should('have.text', `Invite members to ${team.display_name}`);
+        cy.wrap($el).find('h1').should('have.text', `Invite people to ${team.display_name}`);
     });
 
     // * Verify Share Link Header and helper text

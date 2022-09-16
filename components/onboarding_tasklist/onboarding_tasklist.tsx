@@ -14,6 +14,7 @@ import {getShowTaskListBool} from 'selectors/onboarding';
 import {getBool, getMyPreferences as getMyPreferencesSelector} from 'mattermost-redux/selectors/entities/preferences';
 import {getMyPreferences, savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {trackEvent} from 'actions/telemetry_actions';
 import checklistImg from 'images/onboarding-checklist.svg';
 import {
@@ -37,7 +38,7 @@ const TaskItems = styled.div`
     border-radius: 4px;
     border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     background-color: var(--center-channel-bg);
-    max-width: 352px;
+    width: 352px;
     padding: 24px 0;
     transform: scale(0);
     opacity: 0;
@@ -151,9 +152,9 @@ const PlayButton = styled.button`
 `;
 
 const Skeleton = styled.div`
-    width: 304px;
-    height: 137px;
-    margin: 8px auto;
+    height: auto;
+    margin: 0 auto;
+    padding: 0 20px;
     position: relative;
 `;
 
@@ -178,6 +179,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
     const itemsLeft = tasksList.length - completedCount;
     const isCurrentUserSystemAdmin = useIsCurrentUserSystemAdmin();
     const isFirstAdmin = useFirstAdminUser();
+    const isEnableOnboardingFlow = useSelector((state: GlobalState) => getConfig(state).EnableOnboardingFlow === 'true');
     const [showTaskList, firstTimeOnboarding] = useSelector(getShowTaskListBool);
 
     const startTask = (taskName: string) => {
@@ -217,6 +219,12 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         }
     }, [firstTimeOnboarding]);
 
+    useEffect(() => {
+        if (firstTimeOnboarding && showTaskList && isEnableOnboardingFlow) {
+            trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+        }
+    }, [firstTimeOnboarding, showTaskList, isEnableOnboardingFlow]);
+
     // Done to show task done animation in closed state as well
     useEffect(() => {
         const newCCount = tasksList.filter((task) => task.status).length;
@@ -250,7 +258,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
             value: 'false',
         }];
         dispatch(savePreferences(currentUserId, preferences));
-        trackEvent(OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+        trackEvent(OnboardingTaskCategory, OnboardingTaskList.DECLINED_ONBOARDING_TASK_LIST);
     }, [currentUserId]);
 
     const toggleTaskList = useCallback(() => {
@@ -272,7 +280,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
         }));
     }, []);
 
-    if (Object.keys(myPreferences).length === 0 || !showTaskList) {
+    if (Object.keys(myPreferences).length === 0 || !showTaskList || !isEnableOnboardingFlow) {
         return null;
     }
 

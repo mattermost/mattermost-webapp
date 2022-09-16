@@ -49,7 +49,7 @@ describe('Edit Message with Attachment', () => {
         });
 
         // # Open the edit dialog
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // # Add some more text and save
         cy.get('#edit_textbox').type(' with some edit');

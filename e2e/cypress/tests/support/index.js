@@ -132,6 +132,19 @@ before(() => {
             break;
         }
 
+        if (Cypress.env('serverClusterEnabled')) {
+            cy.log('Checking cluster information...');
+
+            // * Ensure cluster is set up properly when enabled
+            cy.shouldHaveClusterEnabled();
+            cy.apiGetClusterStatus().then(({clusterInfo}) => {
+                const sameCount = clusterInfo?.length === Cypress.env('serverClusterHostCount');
+                expect(sameCount, sameCount ? '' : `Should match number of hosts in a cluster as expected. Got "${clusterInfo?.length}" but expected "${Cypress.env('serverClusterHostCount')}"`).to.equal(true);
+
+                clusterInfo.forEach((info) => cy.log(`hostname: ${info.hostname}, version: ${info.version}, config_hash: ${info.config_hash}`));
+            });
+        }
+
         // Log license status and server details before test
         printLicenseStatus();
         printServerDetails();
@@ -230,4 +243,5 @@ function resetUserPreference(userId) {
     cy.apiSaveActionsMenuPreference(userId);
     cy.apiSaveSkipStepsPreference(userId, 'true');
     cy.apiSaveStartTrialModal(userId, 'true');
+    cy.apiSaveUnreadScrollPositionPreference(userId, 'start_from_left_off');
 }

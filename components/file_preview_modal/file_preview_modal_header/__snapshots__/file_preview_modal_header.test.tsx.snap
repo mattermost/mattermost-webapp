@@ -20,6 +20,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
     enablePublicLink={false}
     fileInfo={
       Object {
+        "archived": false,
         "clientId": "client_id",
         "create_at": 1,
         "delete_at": 1,
@@ -59,6 +60,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
     enablePublicLink={false}
     fileInfo={
       Object {
+        "archived": false,
         "clientId": "client_id",
         "create_at": 1,
         "delete_at": 1,

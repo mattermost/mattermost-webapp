@@ -15,6 +15,7 @@ exports[`components/activity_and_insights/insights/insights_title should match s
   defaultMenuIsOpen={false}
   defaultValue={null}
   id="insightsTemporal"
+  isSearchable={false}
   menuPortalTarget={<body />}
   onChange={[Function]}
   options={

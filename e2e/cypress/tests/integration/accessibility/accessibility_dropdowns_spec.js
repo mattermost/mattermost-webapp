@@ -81,7 +81,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         });
 
         // * Verify if menu is closed when we press Escape
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.uiGetChannelMenu({exist: false});
     });
 
@@ -128,7 +128,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         });
 
         // * Verify if menu is closed when we press Escape
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.uiGetLHSTeamMenu().should('not.exist');
     });
 
@@ -184,7 +184,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         });
 
         // * Verify if menu is closed when we press Escape
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.uiGetStatusMenuContainer({exist: false});
     });
 });

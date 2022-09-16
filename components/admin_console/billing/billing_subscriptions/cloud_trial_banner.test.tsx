@@ -5,9 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Provider} from 'react-redux';
 
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
+import mockStore from 'tests/test_store';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
@@ -51,7 +49,6 @@ describe('components/admin_console/billing_subscription/CloudTrialBanner', () =>
         },
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot when no trial end date is passed', () => {

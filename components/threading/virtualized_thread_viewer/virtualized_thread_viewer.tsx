@@ -148,7 +148,9 @@ class ThreadViewerVirtualized extends PureComponent<Props, State> {
         }
     }
 
-    canLoadMorePosts() {}
+    canLoadMorePosts() {
+        return Promise.resolve();
+    }
 
     handleWindowResize = () => {
         const isMobile = Utils.isMobile();

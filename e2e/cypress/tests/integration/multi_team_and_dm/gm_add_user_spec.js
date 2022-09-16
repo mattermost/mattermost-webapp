@@ -57,8 +57,9 @@ describe('Multi-user group messages', () => {
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
         // # Start typing part of a username that matches previously created users
-        cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-            type(searchTerm).wait(TIMEOUTS.ONE_SEC);
+        cy.findByRole('textbox', {name: 'Search for people'}).
+            typeWithForce(searchTerm).
+            wait(TIMEOUTS.ONE_SEC);
 
         // * Expect user list to only contain usernames matching the query term and to be sorted alphabetically
         expectUserListSortedAlphabetically(searchTerm);
@@ -120,10 +121,10 @@ describe('Multi-user group messages', () => {
         });
 
         // # Type a search term and select an autocomplete option.
-        cy.get('#selectItems input').click().type('beatrice');
+        cy.get('#selectItems input').typeWithForce('beatrice');
         cy.get('.loading-screen').should('not.exist');
         cy.contains('#multiSelectList .clickable', 'beatrice').should('be.visible'); // .click(); runs into detached dom element
-        cy.get('#selectItems input').type('{enter}');
+        cy.get('#selectItems input').typeWithForce('{enter}');
 
         // # Click Go
         cy.get('button#saveItems').click({force: true});

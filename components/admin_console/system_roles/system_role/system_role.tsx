@@ -45,7 +45,7 @@ type State = {
     updatedRolePermissions: string[];
     saving: boolean;
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
     saveKey: number;
 }
 
@@ -58,7 +58,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
             usersToRemove: {},
             saving: false,
             saveNeeded: false,
-            serverError: null,
+            serverError: undefined,
             permissionsToUpdate: {},
             saveKey: 0,
             updatedRolePermissions: [],
@@ -120,7 +120,7 @@ export default class SystemRole extends React.PureComponent<Props, State> {
         this.setState({saving: true, saveNeeded: false});
         const {usersToRemove, usersToAdd, updatedRolePermissions, permissionsToUpdate} = this.state;
         const {role, actions: {editRole, updateUserRoles, setNavigationBlocked}} = this.props;
-        let serverError = null;
+        let serverError;
 
         // Do not update permissions if sysadmin or if roles have not been updated (to prevent overrwiting roles with no permissions)
         if (role.name !== Constants.PERMISSIONS_SYSTEM_ADMIN && Object.keys(permissionsToUpdate).length > 0) {

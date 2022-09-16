@@ -146,7 +146,6 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
-    serverError={null}
   />
 </div>
 `;
@@ -296,7 +295,6 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
-    serverError={null}
   />
 </div>
 `;
@@ -435,7 +433,6 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
-    serverError={null}
   />
 </div>
 `;
@@ -574,7 +571,6 @@ exports[`components/admin_console/group_settings/group_details/GroupDetails shou
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
-    serverError={null}
   />
 </div>
 `;

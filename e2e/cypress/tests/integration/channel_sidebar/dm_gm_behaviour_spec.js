@@ -34,7 +34,7 @@ describe('DM category', () => {
 
             // # Search for the new user's username
             cy.get('#selectItems input').
-                type(user.username, {force: true}).
+                typeWithForce(user.username).
                 wait(TIMEOUTS.HALF_SEC);
 
             // # Select the user you searched for
@@ -116,7 +116,7 @@ describe('DM category', () => {
 
                 // # Search for the new user's username
                 cy.get('#selectItems input').
-                    type(user.username, {force: true}).
+                    typeWithForce(user.username).
                     wait(TIMEOUTS.HALF_SEC);
 
                 // # Select the user you searched for
@@ -124,7 +124,7 @@ describe('DM category', () => {
 
                 // # Search for the 2nd user's username
                 cy.get('#selectItems input').
-                    type(user2.username, {force: true}).
+                    typeWithForce(user2.username).
                     wait(TIMEOUTS.HALF_SEC);
 
                 // # Select the user you searched for
@@ -218,7 +218,7 @@ describe('DM category', () => {
 
                     // # Search for the new user's username
                     cy.get('#selectItems input').
-                        type(user.username, {force: true}).
+                        typeWithForce(user.username).
                         wait(TIMEOUTS.HALF_SEC);
 
                     // # Select the user you searched for
@@ -226,7 +226,7 @@ describe('DM category', () => {
 
                     // # Search for the 2nd user's username
                     cy.get('#selectItems input').
-                        type(user2.username, {force: true}).
+                        typeWithForce(user2.username).
                         wait(TIMEOUTS.HALF_SEC);
 
                     // # Select the user you searched for

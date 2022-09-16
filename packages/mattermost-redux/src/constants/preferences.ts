@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
+import {Theme, ThemeKey} from 'mattermost-redux/selectors/entities/preferences';
 
 const Preferences = {
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
@@ -60,6 +60,10 @@ const Preferences = {
     NAME_DISABLE_CLIENT_PLUGINS: 'disable_client_plugins',
     NAME_DISABLE_TELEMETRY: 'disable_telemetry',
     NAME_DISABLE_TYPING_MESSAGES: 'disable_typing_messages',
+
+    UNREAD_SCROLL_POSITION: 'unread_scroll_position',
+    UNREAD_SCROLL_POSITION_START_FROM_LEFT: 'start_from_left_off',
+    UNREAD_SCROLL_POSITION_START_FROM_NEWEST: 'start_from_newest',
 
     CATEGORY_INSIGHTS: 'insights',
     NAME_INSIGHTS_TUTORIAL_STATE: 'insights_tutorial_state',

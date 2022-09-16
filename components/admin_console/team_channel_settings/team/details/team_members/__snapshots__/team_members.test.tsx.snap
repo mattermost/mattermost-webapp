@@ -3,7 +3,7 @@
 exports[`admin_console/team_channel_settings/team/TeamMembers should match snapshot 1`] = `
 <AdminPanel
   button={
-    <Memo(Connect(injectIntl(ToggleModalButton)))
+    <Memo(Connect(ToggleModalButton))
       className="btn btn-primary"
       dialogProps={
         Object {
@@ -36,7 +36,6 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AddUsersToTeamModal)",
           "type": [Function],
         }
       }
@@ -47,7 +46,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
-    </Memo(Connect(injectIntl(ToggleModalButton)))>
+    </Memo(Connect(ToggleModalButton))>
   }
   className=""
   id="teamMembers"
@@ -165,16 +164,11 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
     users={
       Array [
         Object {
-          "allow_marketing": false,
-          "auth_data": "",
           "auth_service": "",
           "bot_description": "",
-          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
-          "email_verified": true,
-          "failed_attempts": 0,
           "first_name": "",
           "id": "user-1",
           "is_bot": false,
@@ -184,7 +178,6 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -208,16 +201,11 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "username": "some-user",
         },
         Object {
-          "allow_marketing": false,
-          "auth_data": "",
           "auth_service": "",
           "bot_description": "",
-          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
-          "email_verified": true,
-          "failed_attempts": 0,
           "first_name": "",
           "id": "user-2",
           "is_bot": false,
@@ -227,7 +215,6 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -251,16 +238,11 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "username": "some-user",
         },
         Object {
-          "allow_marketing": false,
-          "auth_data": "",
           "auth_service": "",
           "bot_description": "",
-          "bot_last_icon_update": 0,
           "create_at": 0,
           "delete_at": 0,
           "email": "",
-          "email_verified": true,
-          "failed_attempts": 0,
           "first_name": "",
           "id": "user-3",
           "is_bot": false,
@@ -270,7 +252,6 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "last_picture_update": 0,
           "locale": "",
           "mfa_active": false,
-          "mfa_secret": "",
           "nickname": "",
           "notify_props": Object {
             "channel": "false",
@@ -302,7 +283,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
 exports[`admin_console/team_channel_settings/team/TeamMembers should match snapshot loading no users 1`] = `
 <AdminPanel
   button={
-    <Memo(Connect(injectIntl(ToggleModalButton)))
+    <Memo(Connect(ToggleModalButton))
       className="btn btn-primary"
       dialogProps={
         Object {
@@ -335,7 +316,6 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AddUsersToTeamModal)",
           "type": [Function],
         }
       }
@@ -346,7 +326,7 @@ exports[`admin_console/team_channel_settings/team/TeamMembers should match snaps
         defaultMessage="Add Members"
         id="admin.team_settings.team_details.add_members"
       />
-    </Memo(Connect(injectIntl(ToggleModalButton)))>
+    </Memo(Connect(ToggleModalButton))>
   }
   className=""
   id="teamMembers"

@@ -62,9 +62,9 @@ describe('Signup Email page', () => {
         cy.get('.header-logo-link').should('be.visible');
         cy.get('.signup-body-card-title').should('contain', config.TeamSettings.CustomDescriptionText);
         cy.get('.signup-body-message-title').should('contain', 'Let’s get started');
-        cy.get('.header-alternate-message').should('contain', 'Already have an account?');
-        cy.get('.header-alternate-link').should('contain', 'Log in');
-        cy.get('.header-alternate-link').should('have.attr', 'href', '/login');
+        cy.get('.alternate-link__message').should('contain', 'Already have an account?');
+        cy.get('.alternate-link__link').should('contain', 'Log in');
+        cy.get('.alternate-link__link').should('have.attr', 'href', '/login');
 
         cy.get('#input_email').should('be.visible');
         cy.focused().should('have.attr', 'id', 'input_email');

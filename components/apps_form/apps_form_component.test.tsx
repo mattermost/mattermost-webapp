@@ -4,11 +4,11 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {shallow} from 'enzyme';
-import configureStore from 'redux-mock-store';
 
 import {Modal} from 'react-bootstrap';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
@@ -163,8 +163,6 @@ describe('AppsFormComponent', () => {
     });
 
     describe('default select element', () => {
-        const mockStore = configureStore();
-
         test('should be enabled by default', () => {
             const selectField = {
                 type: 'static_select',

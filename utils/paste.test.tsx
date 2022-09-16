@@ -68,7 +68,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, '', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 0, selectionEnd: 0, message: '', clipboardData});
         expect(message).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
@@ -77,7 +77,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(4, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 4, selectionEnd: 4, message: 'test', clipboardData});
         expect(message).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
@@ -86,7 +86,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\ntest";
         const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 0, selectionEnd: 0, message: 'test', clipboardData});
         expect(message).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
@@ -95,8 +95,18 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "te\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\nst";
         const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(2, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 2, selectionEnd: 2, message: 'test', clipboardData});
         expect(message).toBe(formattedMessage);
+        expect(codeBlock).toBe(formattedCodeBlock);
+    });
+
+    test('Selected message in the middle is replaced with code', () => {
+        const originalMessage = 'test replace message';
+        const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const updatedMessage = "test \n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n message";
+
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 5, selectionEnd: 12, message: originalMessage, clipboardData});
+        expect(updatedMessage).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
 });
