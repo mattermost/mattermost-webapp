@@ -83,6 +83,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
           Array [
             SwitchChannelProvider {
               "disableDispatches": false,
+              "forceDispatch": false,
               "latestComplete": true,
               "latestPrefix": "",
               "requestStarted": false,
