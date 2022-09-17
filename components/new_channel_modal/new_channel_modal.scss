@@ -104,11 +104,32 @@
                     position: absolute;
                     width: 100%;
                     max-width: none;
-                    max-height: 250px;
+                    max-height: 192px;
                     overflow-y: auto;
                 }
             }
+
+            .icon-chevron-down {
+                position: absolute;
+                right: 10px;
+                z-index: 3;
+                top: 12px;
+                opacity: 0.7;
+            }
         }
+    }
+}
+
+#new-channel-with-board-tooltip {
+    text-align: left !important;
+    .title {
+        font-weight: 800;
+    }
+    .description {
+        font-weight: 500;
+        display: block;
+        width: 100%;
+        text-align: left !important;
     }
 }
 

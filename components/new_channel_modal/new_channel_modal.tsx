@@ -334,18 +334,22 @@ const NewChannelModal = () => {
 
     const newBoardInfoIcon = () => {
         const tooltip = (
-            <Tooltip id='new-board-tooltip'>
+            <Tooltip
+                id='new-channel-with-board-tooltip'
+            >
                 <>
-                    <div style={{fontWeight: 'bold'}}>
+                    <div className='title'>
                         <FormattedMessage
                             id={'channel_modal.create_board.tooltip_title'}
                             defaultMessage={'Manage your task with a board'}
                         />
                     </div>
-                    <FormattedMessage
-                        id={'channel_modal.create_board.tooltip_description'}
-                        defaultMessage={'Use any of our templates to manage your tasks or start from scratch with your own!'}
-                    />
+                    <div className='description'>
+                        <FormattedMessage
+                            id={'channel_modal.create_board.tooltip_description'}
+                            defaultMessage={'Use any of our templates to manage your tasks or start from scratch with your own!'}
+                        />
+                    </div>
                 </>
             </Tooltip>
         );
@@ -460,16 +464,19 @@ const NewChannelModal = () => {
                                 id='selectBoardTemplate'
                                 className='select-board-template'
                             >
-                                <Input
-                                    type='text'
-                                    autoComplete='off'
-                                    value={selectedBoardTemplate?.title ? `${selectedBoardTemplate.icon} ${selectedBoardTemplate.title}` : ''}
-                                    name='select-board-template'
-                                    containerClassName='select-board-template-container'
-                                    inputClassName='select-board-template-input'
-                                    label={formatMessage({id: 'channel_modal.create_board.select_template', defaultMessage: 'Select a template'})}
-                                    placeholder={formatMessage({id: 'channel_modal.create_board.select_template_placeholder', defaultMessage: 'Select a template'})}
-                                />
+                                <>
+                                    <Input
+                                        type='text'
+                                        autoComplete='off'
+                                        value={selectedBoardTemplate?.title ? `${selectedBoardTemplate.icon} ${selectedBoardTemplate.title}` : ''}
+                                        name='select-board-template'
+                                        containerClassName='select-board-template-container'
+                                        inputClassName='select-board-template-input'
+                                        label={formatMessage({id: 'channel_modal.create_board.select_template', defaultMessage: 'Select a template'})}
+                                        placeholder={formatMessage({id: 'channel_modal.create_board.select_template_placeholder', defaultMessage: 'Select a template'})}
+                                    />
+                                    <i className='icon icon-chevron-down'/>
+                                </>
                                 <Menu
                                     openLeft={true}
                                     openUp={false}
