@@ -14,6 +14,8 @@ import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
 import InvitationModal from 'components/invitation_modal';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 
@@ -138,17 +140,19 @@ export class MainMenu extends React.PureComponent<Props> {
         }
 
         const pluginItems = this.props.pluginMenuItems?.map((item) => (
-            <Menu.ItemAction
-                id={item.id + '_pluginmenuitem'}
-                key={item.id + '_pluginmenuitem'}
-                onClick={() => {
-                    if (item.action) {
-                        item.action();
-                    }
-                }}
-                text={item.text}
-                icon={this.props.mobile && item.mobileIcon}
-            />
+            <PluggableErrorBoundary>
+                <Menu.ItemAction
+                    id={item.id + '_pluginmenuitem'}
+                    key={item.id + '_pluginmenuitem'}
+                    onClick={() => {
+                        if (item.action) {
+                            item.action();
+                        }
+                    }}
+                    text={item.text}
+                    icon={this.props.mobile && item.mobileIcon}
+                />
+            </PluggableErrorBoundary>
         ));
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;

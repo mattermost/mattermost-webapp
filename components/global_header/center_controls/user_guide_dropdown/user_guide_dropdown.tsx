@@ -9,6 +9,8 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import {ModalIdentifiers} from 'utils/constants';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -63,12 +65,14 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
 
         const pluginItems = pluginMenuItems?.map((item) => {
             return (
-                <Menu.ItemAction
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={item.action}
-                    text={item.text}
-                />
+                <PluggableErrorBoundary>
+                    <Menu.ItemAction
+                        id={item.id + '_pluginmenuitem'}
+                        key={item.id + '_pluginmenuitem'}
+                        onClick={item.action}
+                        text={item.text}
+                    />
+                </PluggableErrorBoundary>
             );
         });
 

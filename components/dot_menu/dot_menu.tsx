@@ -60,13 +60,6 @@ type Props = {
     isMobileView: boolean;
     showForwardPostNewLabel: boolean;
 
-    /**
-     * Components for overriding provided by plugins
-     */
-    components: {
-        [componentName: string]: PluginComponent[];
-    };
-
     actions: {
 
         /**

@@ -17,6 +17,8 @@ import Menu from 'components/widgets/menu/menu';
 import GetPublicModal from 'components/get_public_link_modal';
 import useTooltip from 'components/common/hooks/useTooltip';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import {Constants, FileTypes, ModalIdentifiers} from 'utils/constants';
 import {trimFilename} from 'utils/file_utils';
 
@@ -200,12 +202,14 @@ export default function FileAttachment(props: Props) {
 
         const pluginItems = pluginMenuItems?.filter((item) => item?.match(fileInfo)).map((item) => {
             return (
-                <Menu.ItemAction
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={() => item?.action(fileInfo)}
-                    text={item.text}
-                />
+                <PluggableErrorBoundary>
+                    <Menu.ItemAction
+                        id={item.id + '_pluginmenuitem'}
+                        key={item.id + '_pluginmenuitem'}
+                        onClick={() => item?.action(fileInfo)}
+                        text={item.text}
+                    />
+                </PluggableErrorBoundary>
             );
         });
 

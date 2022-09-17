@@ -8,6 +8,8 @@ import {Post, PostEmbed} from '@mattermost/types/posts';
 import {getEmbedFromMetadata} from 'mattermost-redux/utils/post_utils';
 import {AppBinding} from '@mattermost/types/apps';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import MessageAttachmentList from 'components/post_view/message_attachments/message_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 import PostImage from 'components/post_view/post_image';
@@ -46,8 +48,12 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     isEmbedToggleable = (embed: PostEmbed) => {
         const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
         for (const c of postWillRenderEmbedComponents) {
-            if (c.match(embed)) {
-                return Boolean(c.toggleable);
+            try {
+                if (c.match(embed)) {
+                    return Boolean(c.toggleable);
+                }
+            } catch (e) {
+
             }
         }
 
@@ -57,16 +63,23 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     renderEmbed = (embed: PostEmbed) => {
         const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
         for (const c of postWillRenderEmbedComponents) {
-            if (c.match(embed)) {
-                const Component = c.component;
-                return this.props.isEmbedVisible && (
-                    <Component
-                        embed={embed}
-                        webSocketClient={webSocketClient}
-                    />
-                );
+            try {
+                if (c.match(embed)) {
+                    const Component = c.component;
+                    return this.props.isEmbedVisible && (
+                        <PluggableErrorBoundary>
+                            <Component
+                                embed={embed}
+                                webSocketClient={webSocketClient}
+                            />
+                        </PluggableErrorBoundary>
+                    );
+                }
+            } catch (e) {
+
             }
         }
+
         switch (embed.type) {
         case 'image':
             if (!this.props.isEmbedVisible) {

@@ -18,6 +18,8 @@ import CodePreview from 'components/code_preview';
 import ArchivedPreview from 'components/archived_preview';
 import FileInfoPreview from 'components/file_info_preview';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import {FilePreviewComponent} from 'types/store/plugins';
 
 import ImagePreview from './image_preview';
@@ -367,10 +369,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             for (const preview of this.props.pluginFilePreviewComponents) {
                 if (preview.override(fileInfo, this.props.post)) {
                     content = (
-                        <preview.component
-                            fileInfo={fileInfo}
-                            post={this.props.post}
-                        />
+                        <PluggableErrorBoundary>
+                            <preview.component
+                                fileInfo={fileInfo}
+                                post={this.props.post}
+                            />
+                        </PluggableErrorBoundary>
                     );
                     break;
                 }

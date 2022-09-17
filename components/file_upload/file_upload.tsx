@@ -31,6 +31,8 @@ import {
 import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -628,12 +630,14 @@ export class FileUpload extends PureComponent<Props, State> {
                             this.setState({menuOpen: false});
                         }}
                     >
-                        <a href='#'>
-                            <span className='mr-2'>
-                                {item.icon}
-                            </span>
-                            {item.text}
-                        </a>
+                        <PluggableErrorBoundary>
+                            <a href='#'>
+                                <span className='mr-2'>
+                                        {item.icon}
+                                </span>
+                                {item.text}
+                            </a>
+                        </PluggableErrorBoundary>
                     </li>
                 );
             });
