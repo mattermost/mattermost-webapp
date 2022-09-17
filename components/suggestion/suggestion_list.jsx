@@ -50,6 +50,10 @@ export default class SuggestionList extends React.PureComponent {
         this.suggestionReadOut = React.createRef();
         this.currentLabel = '';
         this.currentItem = {};
+        this.state = {
+            focused: 'hello there',
+            component: null,
+        };
     }
 
     componentDidMount() {
@@ -256,7 +260,7 @@ export default class SuggestionList extends React.PureComponent {
             if (isSelection) {
                 this.currentItem = item;
             }
-
+            this.setState({focused: this.props.selection.substring(1), component: this.props.components[i]?.toString().split(' ')[1]});
             items.push(
                 <Component
                     key={term}
@@ -272,12 +276,16 @@ export default class SuggestionList extends React.PureComponent {
         }
         const mainClass = 'suggestion-list suggestion-list--' + this.props.position;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.position;
-
         return (
             <div
                 ref={this.wrapperRef}
                 className={mainClass}
             >
+                {this.state.component === 'EmoticonSuggestion' && <div
+                    className='sr-only'
+                    aria-label={'emojy ' + ' ' + this.state.focused}
+                    aria-live='polite'
+                >{'emojy ' + ' ' + this.state.focused}</div>}
                 <div
                     id='suggestionList'
                     role='list'
