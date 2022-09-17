@@ -72,11 +72,3 @@ export default class PluggableErrorBoundary extends React.PureComponent<Props, S
         return this.props.children;
     }
 }
-
-export function wrapComponentWithErrorBoundary(PluggableComponent: React.ElementType) {
-    return (props: {}) => (
-        <PluggableErrorBoundary>
-            <PluggableComponent {...props}/>
-        </PluggableErrorBoundary>
-    );
-}
