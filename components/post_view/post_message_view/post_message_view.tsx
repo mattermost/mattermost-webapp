@@ -11,6 +11,8 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import * as Utils from 'utils/utils';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import PostMarkdown from 'components/post_markdown';
 import Pluggable from 'plugins/pluggable';
 import ShowMore from 'components/post_view/show_more';
@@ -118,12 +120,14 @@ export default class PostMessageView extends React.PureComponent<Props, State> {
         if (pluginPostTypes && pluginPostTypes.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostTypes[postType].component;
             return (
-                <PluginComponent
-                    post={post}
-                    compactDisplay={compactDisplay}
-                    isRHS={isRHS}
-                    theme={theme}
-                />
+                <PluggableErrorBoundary>
+                    <PluginComponent
+                        post={post}
+                        compactDisplay={compactDisplay}
+                        isRHS={isRHS}
+                        theme={theme}
+                    />
+                </PluggableErrorBoundary>
             );
         }
 
