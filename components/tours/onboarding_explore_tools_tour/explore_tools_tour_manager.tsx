@@ -20,6 +20,8 @@ import {
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
 
+import {ActionType, isKeyPressed, KeyCodes} from 'components/tours';
+
 import {
     AutoTourStatus,
     OtherToolsTour,
@@ -28,10 +30,7 @@ import {
     SKIPPED,
     TTNameMapToATStatusKey,
     TutorialTourName,
-} from '../onboarding_tour/constant';
-import {isKeyPressed, KeyCodes} from '../onboarding_tour/utils';
-
-export type ActionType = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
+} from '../constant';
 
 export interface OnBoardingTourTipManager {
     show: boolean;

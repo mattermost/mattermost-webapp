@@ -5,7 +5,7 @@ import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from '@mattermost/types/store';
+
 import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
@@ -19,6 +19,10 @@ import {
 } from 'components/onboarding_tasks';
 import {switchToChannels} from 'actions/views/onboarding_tasks';
 
+import {ActionType, ChannelsTourTipManager, getLastStep, isKeyPressed, KeyCodes} from 'components/tours';
+
+import {GlobalState} from '@mattermost/types/store';
+
 import {
     AutoTourStatus,
     ChannelsTour,
@@ -27,22 +31,7 @@ import {
     SKIPPED,
     TTNameMapToATStatusKey,
     TutorialTourName,
-} from './constant';
-import {getLastStep, isKeyPressed, KeyCodes} from './utils';
-
-export type ActionType = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
-
-export interface OnBoardingTourTipManager {
-    show: boolean;
-    currentStep: number;
-    tourSteps: Record<string, number>;
-    handleOpen: (e: React.MouseEvent) => void;
-    handleSkip: (e: React.MouseEvent) => void;
-    handleDismiss: (e: React.MouseEvent) => void;
-    handlePrevious: (e: React.MouseEvent) => void;
-    handleNext: (e: React.MouseEvent) => void;
-    handleJump: (e: React.MouseEvent, jumpStep: number) => void;
-}
+} from '../constant';
 
 const useHandleNavigationAndExtraActions = () => {
     const dispatch = useDispatch();
@@ -122,7 +111,7 @@ const useHandleNavigationAndExtraActions = () => {
     }, [nextStepActions, lastStepActions]);
 };
 
-const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
+const useOnBoardingTourTipManager = (): ChannelsTourTipManager => {
     const [show, setShow] = useState(false);
     const tourSteps = OnboardingTourSteps;
 

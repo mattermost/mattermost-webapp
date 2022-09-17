@@ -55,7 +55,7 @@ export const CrtTutorialTriggerSteps = {
 
 export const TTNameMapToATStatusKey = {
     [TutorialTourName.ONBOARDING_TUTORIAL_STEP]: TutorialTourName.ONBOARDING_TUTORIAL_STEP + AutoStatusSuffix,
-    [TutorialTourName.CRT_TUTORIAL_STEP]: TutorialTourName.CRT_TUTORIAL_STEP + AutoStatusSuffix,
+    [TutorialTourName.CRT_TUTORIAL_STEP]: 'crt_tutorial_auto_tour_status',
     [TutorialTourName.CRT_THREAD_PANE_STEP]: [TutorialTourName.CRT_THREAD_PANE_STEP] + AutoStatusSuffix,
     [TutorialTourName.EXPLORE_OTHER_TOOLS]: [TutorialTourName.EXPLORE_OTHER_TOOLS] + AutoStatusSuffix,
 };

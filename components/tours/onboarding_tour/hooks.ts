@@ -8,7 +8,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'types/store';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 
-import {TutorialTourName} from './constant';
+import {TutorialTourName} from '../constant';
 
 export const useShowOnboardingTutorialStep = (stepToShow: number): boolean => {
     const currentUserId = useSelector(getCurrentUserId);

@@ -19,7 +19,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
 import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
-import {OnboardingTourSteps, useShowOnboardingTutorialStep} from 'components/onboarding_tour';
+import {OnboardingTourSteps, useShowOnboardingTutorialStep} from 'components/tours/onboarding_tour';
+
 import {setAddChannelDropdown} from '../../../actions/views/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {

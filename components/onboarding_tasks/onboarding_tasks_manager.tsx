@@ -16,7 +16,7 @@ import {
     OnboardingTourSteps,
     TTNameMapToATStatusKey,
     TutorialTourName,
-} from 'components/onboarding_tour';
+} from 'components/tours/onboarding_tour';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';

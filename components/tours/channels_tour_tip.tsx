@@ -8,10 +8,9 @@ import {Placement} from 'tippy.js';
 
 import {TourTip, PunchOutCoordsHeightAndWidth} from '@mattermost/components';
 
-import useBoardingTourTipManager from './onboarding_tour_manager';
-import {getLastStep} from './utils';
+import {ChannelsTourTipManager, getLastStep} from './utils';
 
-type Props = {
+export type ChannelsTourTipProps = {
     screen: JSX.Element;
     title: JSX.Element;
     imageURL?: string;
@@ -22,9 +21,10 @@ type Props = {
     pulsatingDotTranslate?: {x: number; y: number};
     offset?: [number, number];
     width?: string | number;
+    manager: () => ChannelsTourTipManager;
 }
 
-const OnboardingTourTip = ({
+export const ChannelsTourTip = ({
     title,
     screen,
     imageURL,
@@ -35,7 +35,8 @@ const OnboardingTourTip = ({
     offset = [-18, 4],
     placement = 'right-start',
     width = 320,
-}: Props) => {
+    manager,
+}: ChannelsTourTipProps) => {
     const prevBtn = (
         <>
             <i className='icon icon-chevron-left'/>
@@ -87,7 +88,7 @@ const OnboardingTourTip = ({
         handlePrevious,
         handleSkip,
         handleJump,
-    } = useBoardingTourTipManager();
+    } = manager();
 
     return (
         <TourTip
@@ -114,5 +115,3 @@ const OnboardingTourTip = ({
         />
     );
 };
-
-export default OnboardingTourTip;

@@ -10,7 +10,7 @@ import * as Utils from 'utils/utils';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
-import {UserThread} from '@mattermost/types/threads';
+
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
@@ -23,14 +23,17 @@ import Button from '../../common/button';
 import BalloonIllustration from '../../common/balloon_illustration';
 
 import {useThreadRouting} from '../../hooks';
+
 import './thread_list.scss';
-import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
+import CRTListTutorialTip from 'components/tours/crt_tour/crt_list_tutorial_tip';
 import {GlobalState} from 'types/store';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import CRTUnreadTutorialTip
-    from 'components/crt_tour/crt_unread_tutorial_tip/crt_unread_tutorial_tip';
+    from 'components/tours/crt_tour/crt_unread_tutorial_tip';
 
 import {getIsMobileView} from 'selectors/views/browser';
+
+import {UserThread} from '@mattermost/types/threads';
 
 import VirtualizedThreadList from './virtualized_thread_list';
 
@@ -66,7 +69,6 @@ const ThreadList = ({
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
     const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const showUnreadTutorialTip = tipStep === CrtTutorialSteps.UNREAD_POPOVER;
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
@@ -192,7 +194,7 @@ const ThreadList = ({
                                     defaultMessage='Unreads'
                                 />
                             </Button>
-                            {showUnreadTutorialTip && <CRTUnreadTutorialTip autoTour={tutorialTipAutoTour}/>}
+                            {showUnreadTutorialTip && <CRTUnreadTutorialTip/>}
                         </div>
                     </>
                 )}
@@ -231,7 +233,7 @@ const ThreadList = ({
                     isLoading={isLoading}
                     addNoMoreResultsItem={hasLoaded && !unread}
                 />
-                {showListTutorialTip && !isMobileView && <CRTListTutorialTip autoTour={tutorialTipAutoTour}/>}
+                {showListTutorialTip && !isMobileView && <CRTListTutorialTip/>}
                 {unread && !someUnread && isEmpty(unreadIds) ? (
                     <NoResultsIndicator
                         expanded={true}

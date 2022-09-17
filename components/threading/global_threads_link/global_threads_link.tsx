@@ -16,12 +16,11 @@ import {getThreadCounts} from 'mattermost-redux/actions/threads';
 import {t} from 'utils/i18n';
 
 import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
-import {useThreadRouting} from '../hooks';
+
 import {trackEvent} from 'actions/telemetry_actions';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
-import CRTWelcomeTutorialTip
-    from '../../crt_tour/crt_welcome_tutorial_tip/crt_welcome_tutorial_tip';
+
 import {GlobalState} from 'types/store';
 import {isAnyModalOpen} from 'selectors/views/modals';
 import Constants, {
@@ -31,10 +30,14 @@ import Constants, {
     Preferences,
 } from 'utils/constants';
 import CollapsedReplyThreadsModal
-    from 'components/crt_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
+    from 'components/tours/crt_tour/collapsed_reply_threads_modal/collapsed_reply_threads_modal';
+
+import {openModal} from 'actions/views/modals';
 
 import {PulsatingDot} from '@mattermost/components';
-import {openModal} from 'actions/views/modals';
+import CRTWelcomeTutorialTip
+    from '../../tours/crt_tour/crt_welcome_tutorial_tip';
+import {useThreadRouting} from '../hooks';
 
 import ThreadsIcon from './threads_icon';
 import './global_threads_link.scss';
@@ -55,7 +58,6 @@ const GlobalThreadsLink = () => {
     const appHaveOpenModal = useSelector(isAnyModalOpen);
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId, CrtTutorialSteps.WELCOME_POPOVER));
     const crtTutorialTrigger = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_TRIGGERED, currentUserId, Constants.CrtTutorialTriggerSteps.START));
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const threads = useSelector(getThreadsInCurrentTeam);
     const showTutorialTip = crtTutorialTrigger === CrtTutorialTriggerSteps.STARTED && tipStep === CrtTutorialSteps.WELCOME_POPOVER && threads.length >= 1;
     const threadsCount = useSelector(getThreadCountsInCurrentTeam);
@@ -114,7 +116,7 @@ const GlobalThreadsLink = () => {
                     )}
                     {showTutorialTrigger && <PulsatingDot/>}
                 </Link>
-                {showTutorialTip && <CRTWelcomeTutorialTip autoTour={tutorialTipAutoTour}/>}
+                {showTutorialTip && <CRTWelcomeTutorialTip/>}
             </li>
         </ul>
     );

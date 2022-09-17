@@ -9,7 +9,7 @@ import {
     CustomizeYourExperienceTour,
     OnboardingTourSteps,
     useShowOnboardingTutorialStep,
-} from 'components/onboarding_tour';
+} from 'components/tours/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';

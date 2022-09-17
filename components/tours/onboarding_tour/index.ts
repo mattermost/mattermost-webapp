@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export * from './constant';
-export * from './utils';
+export * from '../constant';
 export * from './hooks';
 export * from './onboarding_tour_manager';
 export * from './create_and_join_channels_tour_tip';
