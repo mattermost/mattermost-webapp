@@ -5,10 +5,11 @@ import React, {useCallback, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import type {ActionResult} from 'mattermost-redux/types/actions';
-import type {Team} from '@mattermost/types/teams';
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
+
+import type {Team} from '@mattermost/types/teams';
 
 type Props = {
     teamId: string;

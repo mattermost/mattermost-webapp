@@ -17,7 +17,7 @@ import LocalizedInput from 'components/localized_input/localized_input';
 
 import {Team} from '@mattermost/types/teams';
 
-import OpenInvite from './open_invite/open_invite';
+import OpenInvite from './open_invite';
 
 import {PropsFromRedux} from '.';
 
