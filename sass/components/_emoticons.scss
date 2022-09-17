@@ -280,7 +280,7 @@
 
         &-exit {
             position: absolute;
-            width: 100% !important;
+            width: 100%;
             transform: translateX(0%);
         }
 
@@ -293,7 +293,6 @@
     .skin-tones {
         z-index: 10;
         display: flex;
-        width: 32px;
         height: 100%;
         align-items: center;
         background: var(--center-channel-bg);

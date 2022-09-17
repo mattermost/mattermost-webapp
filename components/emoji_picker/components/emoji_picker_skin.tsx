@@ -159,7 +159,7 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
             <CSSTransition
                 in={this.state.pickerExtended}
                 classNames='skin-tones-animation'
-                timeout={300}
+                timeout={200}
             >
                 <div className={classNames('skin-tones', {'skin-tones--active': this.state.pickerExtended})}>
                     <div className={classNames('skin-tones__content', {'skin-tones__content__single': !this.state.pickerExtended})}>
