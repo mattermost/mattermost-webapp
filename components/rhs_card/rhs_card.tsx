@@ -9,6 +9,8 @@ import {Link} from 'react-router-dom';
 import DelayedAction from 'utils/delayed_action';
 import Constants from 'utils/constants';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import RhsCardHeader from 'components/rhs_card_header';
 import Markdown from 'components/markdown';
 import UserProfile from 'components/user_profile';
@@ -114,7 +116,11 @@ export default class RhsCard extends React.Component<Props, State> {
         let content: ReactNode = null;
         if (pluginPostCardTypes?.hasOwnProperty(postType)) {
             const PluginComponent = pluginPostCardTypes[postType].component;
-            content = <PluginComponent post={selected}/>;
+            content = (
+                <PluggableErrorBoundary>
+                    <PluginComponent post={selected}/>
+                </PluggableErrorBoundary>
+            );
         }
 
         if (!content) {
