@@ -14,6 +14,8 @@ import {getActivePluginId} from 'selectors/rhs';
 import {PluginComponent} from 'types/store/plugins';
 import Constants, {suitePluginIds} from 'utils/constants';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import PluginIcon from 'components/widgets/icons/plugin_icon';
 
@@ -86,23 +88,25 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
     }
 
     return (
-        <OverlayTrigger
-            trigger={['hover', 'focus']}
-            delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='left'
-            overlay={tooltip}
-        >
-            <div
-                id={buttonId}
-                className={classNames('app-bar__icon', {'app-bar__icon--active': isButtonActive})}
-                onClick={() => {
-                    component.action?.(channel, channelMember);
-                }}
+        <PluggableErrorBoundary>
+            <OverlayTrigger
+                trigger={['hover', 'focus']}
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='left'
+                overlay={tooltip}
             >
-                {content}
-                {component.pluginId === suitePluginIds.focalboard && <NewChannelWithBoardTourTip/>}
-            </div>
-        </OverlayTrigger>
+                <div
+                    id={buttonId}
+                    className={classNames('app-bar__icon', {'app-bar__icon--active': isButtonActive})}
+                    onClick={() => {
+                        component.action?.(channel, channelMember);
+                    }}
+                >
+                    {content}
+                    {component.pluginId === suitePluginIds.focalboard && <NewChannelWithBoardTourTip/>}
+                </div>
+            </OverlayTrigger>
+        </PluggableErrorBoundary>
     );
 };
 

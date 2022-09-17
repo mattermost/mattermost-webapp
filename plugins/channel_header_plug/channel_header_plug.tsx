@@ -15,6 +15,8 @@ import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -165,16 +167,18 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
     createComponentButton = (plug: PluginComponent) => {
         return (
-            <HeaderIconWrapper
-                key={'channelHeaderButton' + plug.id}
-                buttonClass='channel-header__icon'
-                iconComponent={plug.icon!}
-                onClick={() => this.fireAction(plug.action!)}
-                buttonId={plug.id}
-                tooltipKey={'plugin'}
-                tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
-                pluginId={plug.pluginId}
-            />
+            <PluggableErrorBoundary>
+                <HeaderIconWrapper
+                    key={'channelHeaderButton' + plug.id}
+                    buttonClass='channel-header__icon'
+                    iconComponent={plug.icon!}
+                    onClick={() => this.fireAction(plug.action!)}
+                    buttonId={plug.id}
+                    tooltipKey={'plugin'}
+                    tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
+                    pluginId={plug.pluginId}
+                />
+            </PluggableErrorBoundary>
         );
     }
 
@@ -256,14 +260,16 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                 <li
                     key={'channelHeaderPlug' + plug.id}
                 >
-                    <a
-                        href='#'
-                        className='d-flex align-items-center'
-                        onClick={() => this.fireActionAndClose(plug.action!)}
-                    >
-                        <span className='d-flex align-items-center overflow--ellipsis'>{plug.icon}</span>
-                        <span>{plug.dropdownText}</span>
-                    </a>
+                    <PluggableErrorBoundary>
+                        <a
+                            href='#'
+                            className='d-flex align-items-center'
+                            onClick={() => this.fireActionAndClose(plug.action!)}
+                            >
+                            <span className='d-flex align-items-center overflow--ellipsis'>{plug.icon}</span>
+                            <span>{plug.dropdownText}</span>
+                        </a>
+                    </PluggableErrorBoundary>
                 </li>
             );
         });

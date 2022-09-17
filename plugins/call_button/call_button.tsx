@@ -12,6 +12,8 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {Constants} from 'utils/constants';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {PluginComponent} from 'types/store/plugins';
 
@@ -62,7 +64,9 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
                 onClick={clickEnabled ? clickHandler : undefined}
                 onTouchEnd={clickEnabled ? clickHandler : undefined}
             >
-                {item.button}
+                <PluggableErrorBoundary>
+                    {item.button}
+                </PluggableErrorBoundary>
             </div>
         );
     }
@@ -77,7 +81,9 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
                     item.action?.(currentChannel, channelMember);
                 }}
             >
-                {item.dropdownButton}
+                <PluggableErrorBoundary>
+                    {item.dropdownButton}
+                </PluggableErrorBoundary>
             </li>
         );
     });

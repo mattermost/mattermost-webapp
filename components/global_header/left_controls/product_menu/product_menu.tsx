@@ -31,6 +31,8 @@ import {GlobalState} from 'types/store';
 
 import {suitePluginIds} from 'utils/constants';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
 
 import ProductBranding from './product_branding';
@@ -120,16 +122,18 @@ const ProductMenu = (): JSX.Element => {
         }
 
         return (
-            <ProductMenuItem
-                key={product.id}
-                destination={product.switcherLinkURL}
-                icon={product.switcherIcon}
-                text={product.switcherText}
-                active={product.id === currentProductID}
-                onClick={handleClick}
-                tourTip={tourTip}
-                id={`product-menu-item-${product.pluginId || product.id}`}
-            />
+            <PluggableErrorBoundary>
+                <ProductMenuItem
+                    key={product.id}
+                    destination={product.switcherLinkURL}
+                    icon={product.switcherIcon}
+                    text={product.switcherText}
+                    active={product.id === currentProductID}
+                    onClick={handleClick}
+                    tourTip={tourTip}
+                    id={`product-menu-item-${product.pluginId || product.id}`}
+                />
+            </PluggableErrorBoundary>
         );
     });
 

@@ -11,6 +11,7 @@ import {localizeMessage} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
 
 import CategoryMenuItems from 'components/category_menu_items';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
@@ -85,16 +86,18 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
             return (
-                <Menu.ItemAction
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={() => {
-                        if (item.action) {
-                            item.action(this.props.channel.id);
-                        }
-                    }}
-                    text={item.text}
-                />
+                <PluggableErrorBoundary>
+                    <Menu.ItemAction
+                        id={item.id + '_pluginmenuitem'}
+                        key={item.id + '_pluginmenuitem'}
+                        onClick={() => {
+                            if (item.action) {
+                                item.action(this.props.channel.id);
+                            }
+                        }}
+                        text={item.text}
+                    />
+                </PluggableErrorBoundary>
             );
         });
 

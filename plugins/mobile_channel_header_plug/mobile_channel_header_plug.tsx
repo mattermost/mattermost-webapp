@@ -14,6 +14,8 @@ import {PluginComponent} from 'types/store/plugins';
 import {createCallContext} from 'utils/apps';
 import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 type Props = {
 
     /*
@@ -92,27 +94,31 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
                     role='presentation'
                     className='MenuItem'
                 >
-                    <a
-                        role='menuitem'
-                        href='#'
-                        onClick={onClick}
-                    >
-                        {plug.dropdownText}
-                    </a>
+                    <PluggableErrorBoundary>
+                        <a
+                            role='menuitem'
+                            href='#'
+                            onClick={onClick}
+                            >
+                            {plug.dropdownText}
+                        </a>
+                    </PluggableErrorBoundary>
                 </li>
             );
         }
 
         return (
             <li className='flex-parent--center'>
-                <button
-                    className='navbar-toggle navbar-right__icon'
-                    onClick={onClick}
-                >
-                    <span className='icon navbar-plugin-button'>
-                        {plug.icon}
-                    </span>
-                </button>
+                <PluggableErrorBoundary>
+                    <button
+                        className='navbar-toggle navbar-right__icon'
+                        onClick={onClick}
+                    >
+                        <span className='icon navbar-plugin-button'>
+                            {plug.icon}
+                        </span>
+                    </button>
+                </PluggableErrorBoundary>
             </li>
         );
     }

@@ -9,6 +9,8 @@ import {getHistory} from 'utils/browser_history';
 import {getSiteURL} from 'utils/url';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import Menu from 'components/widgets/menu/menu';
@@ -61,12 +63,14 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
         const {fileInfo} = this.props;
         const pluginItems = this.props.pluginMenuItems?.filter((item) => item?.match(fileInfo)).map((item) => {
             return (
-                <Menu.ItemAction
-                    id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
-                    onClick={() => item.action?.(fileInfo)}
-                    text={item.text}
-                />
+                <PluggableErrorBoundary>
+                    <Menu.ItemAction
+                        id={item.id + '_pluginmenuitem'}
+                        key={item.id + '_pluginmenuitem'}
+                        onClick={() => item.action?.(fileInfo)}
+                        text={item.text}
+                    />
+                </PluggableErrorBoundary>
             );
         });
 

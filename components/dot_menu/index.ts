@@ -114,11 +114,9 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
 
     return {
         channelIsArchived: isArchivedChannel(channel),
-        components: state.plugins.components,
         postEditTimeLimit: config.PostEditTimeLimit,
         isLicensed: license.IsLicensed === 'true',
         teamId: getCurrentTeamId(state),
-        pluginMenuItems: state.plugins.components.PostDropdownMenu,
         canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
         canDelete: PostUtils.canDeletePost(state, post, channel),
         teamUrl,
