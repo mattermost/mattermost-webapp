@@ -60,7 +60,7 @@ const messages = defineMessages({
     },
 });
 
-const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, showSetHeader, showBoardsButton}: AddMembersButtonProps) => {
+const AddMembersButton = ({totalUsers, usersLimit, channel, showSetHeader, showBoardsButton}: AddMembersButtonProps) => {
     const currentTeamId = useSelector(getCurrentTeamId);
 
     if (!totalUsers) {
