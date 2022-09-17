@@ -48,12 +48,8 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     isEmbedToggleable = (embed: PostEmbed) => {
         const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
         for (const c of postWillRenderEmbedComponents) {
-            try {
-                if (c.match(embed)) {
-                    return Boolean(c.toggleable);
-                }
-            } catch (e) {
-
+            if (c.match(embed)) {
+                return Boolean(c.toggleable);
             }
         }
 
@@ -63,20 +59,16 @@ export default class PostBodyAdditionalContent extends React.PureComponent<Props
     renderEmbed = (embed: PostEmbed) => {
         const postWillRenderEmbedComponents = this.props.pluginPostWillRenderEmbedComponents || [];
         for (const c of postWillRenderEmbedComponents) {
-            try {
-                if (c.match(embed)) {
-                    const Component = c.component;
-                    return this.props.isEmbedVisible && (
-                        <PluggableErrorBoundary>
-                            <Component
-                                embed={embed}
-                                webSocketClient={webSocketClient}
-                            />
-                        </PluggableErrorBoundary>
-                    );
-                }
-            } catch (e) {
-
+            if (c.match(embed)) {
+                const Component = c.component;
+                return this.props.isEmbedVisible && (
+                    <PluggableErrorBoundary>
+                        <Component
+                            embed={embed}
+                            webSocketClient={webSocketClient}
+                        />
+                    </PluggableErrorBoundary>
+                );
             }
         }
 
