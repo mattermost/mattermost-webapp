@@ -80,11 +80,3 @@ export function wrapComponentWithErrorBoundary(PluggableComponent: React.Element
         </PluggableErrorBoundary>
     );
 }
-
-export function wrapElementWithErrorBoundary(pluggableElement) {
-    return (
-        <PluggableErrorBoundary>
-            {pluggableElement}
-        </PluggableErrorBoundary>
-    )
-}
