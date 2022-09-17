@@ -30,6 +30,7 @@ import SaveButton from 'components/save_button';
 import FormError from 'components/form_error';
 import Tooltip from 'components/tooltip';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -819,7 +820,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
     buildCustomSetting = (setting) => {
         const CustomComponent = setting.component;
 
-        const componentInstance = (
+        let componentInstance = (
             <CustomComponent
                 key={this.props.schema.id + '_custom_' + setting.key}
                 id={setting.key}
@@ -836,7 +837,16 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 unRegisterSaveAction={this.unRegisterSaveAction}
                 cancelSubmit={this.cancelSubmit}
                 showConfirm={this.state.showConfirmId === setting.key}
-            />);
+            />
+        );
+
+        if (setting.fromPlugin) {
+            componentInstance = (
+                <PluggableErrorBoundary>
+                    {componentInstance}
+                </PluggableErrorBoundary>
+            );
+        }
 
         // Show the plugin custom setting title
         // consistently as other settings with the Setting component

@@ -71,6 +71,7 @@ function makeGetPluginSchema() {
                     return {
                         ...setting,
                         type,
+                        fromPlugin: true,
                         key: 'PluginSettings.Plugins.' + escapedPluginId + '.' + key,
                         help_text_markdown: true,
                         label: displayName,
