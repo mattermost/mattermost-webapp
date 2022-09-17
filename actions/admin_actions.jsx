@@ -13,7 +13,6 @@ import {emitUserLoggedOutEvent} from 'actions/global_actions';
 import {getOnNavigationConfirmed} from 'selectors/views/admin';
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
-import {wrapPluginComponentWithErrorBoundary} from 'plugins/pluggable/error_boundary';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -398,7 +397,6 @@ export function registerAdminConsoleCustomSetting(pluginId, key, component, {sho
             data: {
                 pluginId,
                 key,
-                component: wrapPluginComponentWithErrorBoundary(component),
                 component,
                 options: {showTitle},
             },
