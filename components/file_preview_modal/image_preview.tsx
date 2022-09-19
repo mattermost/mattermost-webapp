@@ -48,6 +48,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     const background = useMemo(() => new Image(), []);
     const {width, height} = background;
     const containerScale = fitCanvas(width, height);
+    const {maxWidth, maxHeight} = getWindowDimensions();
 
     const zoom = useRef(0);
     const minZoom = useRef(0);
@@ -64,10 +65,10 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         zoom.current = minZoom.current;
         break;
     case 'W':
-        zoom.current = getWindowDimensions().maxWidth / width;
+        zoom.current = maxWidth / width;
         break;
     case 'H':
-        zoom.current = getWindowDimensions().maxHeight / height;
+        zoom.current = maxHeight / height;
         break;
     default:
         zoom.current = toolbarZoom;
