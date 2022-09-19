@@ -95,7 +95,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                         BuildEnterpriseReady: 'true',
                     },
                     license: {
-                        IsLicensed: 'false',
+                        IsLicensed: 'true',
                         Cloud: 'true',
                         SkuShortName: CloudProducts.STARTER,
                     },
@@ -148,7 +148,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                         BuildEnterpriseReady: 'true',
                     },
                     license: {
-                        IsLicensed: 'false',
+                        IsLicensed: 'true',
                         Cloud: 'true',
                         SkuShortName: CloudProducts.STARTER,
                     },
@@ -227,7 +227,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         expect(badgeText).toBe('Professional feature- try it out free');
     });
 
-    test('restricted badge shows "Upgrade" for self hosted starter', () => {
+    test('restricted badge shows "Upgrade" for self hosted starter post trial', () => {
         const state = {
             entities: {
                 admin: {
@@ -276,10 +276,10 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                 },
                 general: {
                     config: {
-                        BuildEnterpriseReady: 'false',
+                        BuildEnterpriseReady: 'true',
                     },
                     license: {
-                        IsLicensed: 'false',
+                        IsLicensed: 'true',
                         Cloud: 'true',
                         SkuShortName: CloudProducts.STARTER,
                     },
@@ -322,7 +322,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                 },
                 general: {
                     config: {
-                        BuildEnterpriseReady: 'false',
+                        BuildEnterpriseReady: 'true',
                     },
                     license: {
                         IsLicensed: 'true',
