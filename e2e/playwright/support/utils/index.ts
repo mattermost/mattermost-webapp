@@ -43,3 +43,5 @@ export function getRandomId(length = 7): string {
 // selected for compatibility with existing local development.
 // It should not be used for testing.
 export const defaultTeam = {name: 'ad-1', displayName: 'eligendi', type: 'O'};
+
+export const illegalRe = /[/?<>\\:*|":&();]/g;

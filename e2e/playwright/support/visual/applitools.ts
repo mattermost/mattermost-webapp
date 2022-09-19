@@ -1,16 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Page} from '@playwright/test';
 import {Eyes, ClassicRunner, Target, CheckSettings} from '@applitools/eyes-playwright';
 
-import testConfig from '@test.config';
+import testConfig, {TestArgs} from '@test.config';
 
-export default async function snapshotWithApplitools(page: Page, isMobile: boolean, browserName: string, name: string) {
+export default async function openApplitoolsEyes(name: string, testArgs: TestArgs) {
     let eyes: Eyes;
     let targetWindow: CheckSettings;
 
-    if (!isMobile && browserName === 'chromium' && testConfig.applitoolsEnabled) {
+    if (!testArgs.isMobile && testArgs.browserName === 'chromium' && testConfig.applitoolsEnabled) {
         if (!process.env.APPLITOOLS_API_KEY) {
             console.error('Error: API key is missing! Please set using: "export APPLITOOLS_API_KEY=<change_me>"');
         }
@@ -18,11 +17,12 @@ export default async function snapshotWithApplitools(page: Page, isMobile: boole
         eyes = new Eyes(runner);
         targetWindow = Target.window().fully();
 
-        eyes.setBranchName(process.env.BRANCH);
+        eyes.setBranchName(testConfig.branch);
+        eyes.setParentBranchName(testConfig.parentBranch);
         eyes.setAppName('webapp');
         eyes.setTestName(name);
 
-        await eyes.open(page);
+        await eyes.open(testArgs.page);
     }
 
     return {eyes, targetWindow};
