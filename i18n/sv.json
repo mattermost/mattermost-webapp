@@ -3565,6 +3565,7 @@
   "insights.leastActiveChannels.copyLink": "Kopiera länk",
   "insights.leastActiveChannels.lastActivity": "Senaste aktiviteten: {time}",
   "insights.leastActiveChannels.lastActivityCell": "Senaste aktivitet",
+  "insights.leastActiveChannels.lastActivityNone": "Ingen aktivitet",
   "insights.leastActiveChannels.leaveChannel": "Lämna kanalen",
   "insights.leastActiveChannels.members": "Medlemmar",
   "insights.leastActiveChannels.menuAriaLabel": "Hantera kanalmenyn",
