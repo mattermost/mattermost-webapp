@@ -105,3 +105,11 @@ export function getFirstAdminSetupComplete(state: GlobalState): boolean {
 export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
     return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
 }
+
+export const isMarketplaceEnabled: (state: GlobalState) => boolean = createSelector(
+    'isMarketplaceEnabled',
+    getConfig,
+    (config) => {
+        return config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
+    },
+);

@@ -4,7 +4,7 @@
 import {ReactWrapper, shallow} from 'enzyme';
 import React, {ComponentProps} from 'react';
 import nock from 'nock';
-import {match} from 'react-router';
+import {match} from 'react-router-dom';
 
 import {act} from 'react-dom/test-utils';
 
@@ -31,7 +31,7 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
-jest.mock('actions/channel_actions.jsx', () => ({
+jest.mock('actions/channel_actions', () => ({
     loadChannelsForCurrentUser: jest.fn(() => {
         return {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'};
     }),

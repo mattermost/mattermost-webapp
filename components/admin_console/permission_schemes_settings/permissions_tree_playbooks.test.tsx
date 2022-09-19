@@ -2,13 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React, {ComponentProps} from 'react';
-
 import {shallow} from 'enzyme';
 
+import {LicenseSkus} from 'utils/constants';
+
 import PermissionGroup from 'components/admin_console/permission_schemes_settings/permission_group';
-
-import {LicenseSkus} from 'mattermost-redux/types/general';
-
 import PermissionsTreePlaybooks from 'components/admin_console/permission_schemes_settings/permissions_tree_playbooks';
 
 import {Group, Permission} from './permissions_tree/types';

@@ -178,6 +178,11 @@ class Timestamp extends PureComponent<Props, State> {
         timeZoneName: 'short',
     }
     nextUpdate: ReturnType<typeof setTimeout> | null = null;
+    mounted = false;
+
+    componentDidMount() {
+        this.mounted = true;
+    }
 
     formatParts(value: Date, {relative: relFormat, date: dateFormat, time: timeFormat}: ResolvedFormats): FormattedParts {
         try {
@@ -355,6 +360,7 @@ class Timestamp extends PureComponent<Props, State> {
     }
 
     componentWillUnmount() {
+        this.mounted = false;
         if (this.nextUpdate) {
             clearTimeout(this.nextUpdate);
             this.nextUpdate = null;
@@ -374,7 +380,11 @@ class Timestamp extends PureComponent<Props, State> {
             !relative.updateIntervalInSeconds) {
             return null;
         }
-        return setTimeout(() => this.setState({now: new Date()}), relative.updateIntervalInSeconds * 1000);
+        return setTimeout(() => {
+            if (this.mounted) {
+                this.setState({now: new Date()});
+            }
+        }, relative.updateIntervalInSeconds * 1000);
     }
 
     static format({relative, date, time}: FormattedParts): ReactNode {

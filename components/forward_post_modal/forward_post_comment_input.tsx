@@ -21,13 +21,14 @@ type Props = {
     channelId: string;
     canForwardPost: boolean;
     comment: string;
+    permaLinkLength: number;
     onSubmit: () => void;
     onChange: (comment: string) => void;
     onError: (error: React.ReactNode) => void;
     onHeightChange: (width: number, height: number) => void;
 }
 
-const ForwardPostCommentInput = ({channelId, canForwardPost, comment, onChange, onError, onSubmit, onHeightChange}: Props) => {
+const ForwardPostCommentInput = ({channelId, canForwardPost, comment, permaLinkLength, onChange, onError, onSubmit, onHeightChange}: Props) => {
     const {formatMessage} = useIntl();
 
     const config = useSelector((state: GlobalState) => getConfig(state));
@@ -35,8 +36,8 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, comment, onChange, 
     const textboxRef = useRef<TextboxClass>(null);
 
     const maxPostSize =
-        parseInt(config.MaxPostSize || '', 10) ||
-        Constants.DEFAULT_CHARACTER_LIMIT;
+        (parseInt(config.MaxPostSize || '', 10) ||
+        Constants.DEFAULT_CHARACTER_LIMIT) - permaLinkLength - 1;
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
 
     // we do not allow sending the forwarding when hitting enter
@@ -76,8 +77,7 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, comment, onChange, 
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
-        const ctrlKeyCombo =
-            Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
@@ -150,6 +150,7 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, comment, onChange, 
             useChannelMentions={false}
             supportsCommands={false}
             suggestionListPosition='bottom'
+            alignWithTextbox={true}
         />
     );
 };
