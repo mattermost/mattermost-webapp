@@ -607,9 +607,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     return;
                 }
 
-                console.log('updatedBroadcastThreadReply');
-                console.log(this.state.draft!.props.broadcasted_thread_reply);
-
                 await this.doSubmit(e);
             });
 
@@ -631,9 +628,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         const draft = this.state.draft!;
         const enableAddButton = this.shouldEnableAddButton();
-
-        console.log('doSubmit');
-        console.log(draft.props?.broadcasted_thread_reply);
 
         if (!enableAddButton) {
             return;
@@ -669,10 +663,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const options = {ignoreSlash};
 
         try {
-            console.log('Submitting Draft...');
-            console.log(`draft.props.broadcasted_thread_reply: ${draft.props?.broadcasted_thread_reply}`);
-
-            await this.props.onSubmit(draft, options);
+            this.props.onSubmit(draft, options);
 
             this.setState({
                 postError: null,

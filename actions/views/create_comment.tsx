@@ -100,10 +100,6 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft) 
 
         post = hookResult.data;
 
-        console.log('SUBMIT POST:');
-        console.log(post.message);
-        console.log(`post.props.broadcasted_thread_reply: ${post.props.broadcasted_thread_reply}`);
-
         return dispatch(PostActions.createPost(post, draft.fileInfos));
     };
 }
