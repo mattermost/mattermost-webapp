@@ -27,6 +27,7 @@ import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GlobalHeader from 'components/global_header/global_header';
+import CloudEffects from 'components/cloud_effects';
 import ModalController from 'components/modal_controller';
 import {HFTRoute, LoggedInHFTRoute} from 'components/header_footer_template_route';
 import {HFRoute} from 'components/header_footer_route/header_footer_route';
@@ -125,6 +126,7 @@ export type Actions = {
     migrateRecentEmojis: () => void;
     loadConfigAndMe: () => Promise<{data: boolean}>;
     registerCustomPostRenderer: (type: string, component: any, id: string) => Promise<ActionResult>;
+    initializeProducts: () => Promise<void[]>;
 }
 
 type Props = {
@@ -136,7 +138,7 @@ type Props = {
     permalinkRedirectTeamName: string;
     isCloud: boolean;
     actions: Actions;
-    plugins: PluginComponent[];
+    plugins?: PluginComponent[];
     products: ProductComponent[];
     showLaunchingWorkspace: boolean;
 } & RouteComponentProps
@@ -262,7 +264,10 @@ export default class Root extends React.PureComponent<Props, State> {
             this.props.history.push('/signup_user_complete');
         }
 
-        initializePlugins().then(() => {
+        Promise.all([
+            this.props.actions.initializeProducts(),
+            initializePlugins(),
+        ]).then(() => {
             if (this.mounted) {
                 // supports enzyme tests, set state if and only if
                 // the component is still mounted on screen
@@ -566,6 +571,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         )}
                         <ModalController/>
                         <GlobalHeader/>
+                        <CloudEffects/>
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <Switch>

@@ -6,7 +6,8 @@ import assert from 'assert';
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/preferences';
-import {login} from 'mattermost-redux/actions/users';
+import {loadMeREST} from 'mattermost-redux/actions/users';
+import {UserTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from '../constants';
 
@@ -188,7 +189,10 @@ describe('Actions.Preferences', () => {
         const user2 = await TestHelper.createClient4().createUser(TestHelper.fakeUser());
 
         TestHelper.mockLogin();
-        await login(user.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await loadMeREST()(store.dispatch, store.getState);
 
         // Test that a new preference is created if none exists
         nock(Client4.getUsersRoute()).
@@ -274,7 +278,10 @@ describe('Actions.Preferences', () => {
     it('deleteTeamSpecificThemes', async () => {
         const user = TestHelper.basicUser;
         TestHelper.mockLogin();
-        await login(user.email, user.password)(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await loadMeREST()(store.dispatch, store.getState);
 
         const theme = {
             type: 'Mattermost Dark',
@@ -324,6 +331,5 @@ describe('Actions.Preferences', () => {
 
         assert.equal(Object.entries(myPreferences).length, 1);
         assert.ok(myPreferences['theme--'], 'theme preference doesn\'t exist');
-        assert.equal(myPreferences['theme--'].value, JSON.stringify(theme));
     });
 });

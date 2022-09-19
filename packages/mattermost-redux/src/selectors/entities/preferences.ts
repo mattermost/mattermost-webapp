@@ -240,10 +240,6 @@ export function isCollapsedThreadsEnabled(state: GlobalState): boolean {
     return isAllowed && (userPreference === Preferences.COLLAPSED_REPLY_THREADS_ON || getConfig(state).CollapsedThreads === CollapsedThreads.ALWAYS_ON);
 }
 
-export function getIsPostForwardingEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'PostForwarding') === 'true';
-}
-
 export function isGroupChannelManuallyVisible(state: GlobalState, channelId: string): boolean {
     return getBool(state, Preferences.CATEGORY_GROUP_CHANNEL_SHOW, channelId, false);
 }
@@ -265,10 +261,6 @@ export function insightsAreEnabled(state: GlobalState): boolean {
 
 export function isGraphQLEnabled(state: GlobalState): boolean {
     return getFeatureFlagValue(state, 'GraphQL') === 'true';
-}
-
-export function getIsAdvancedTextEditorEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'AdvancedTextEditor') === 'true';
 }
 
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
