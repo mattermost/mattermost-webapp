@@ -1,0 +1,70 @@
+.image-controls {
+    position: relative;
+    display: flex;
+    height: 48px;
+    align-items: center;
+    justify-content: center;
+    background: #222224;
+    color: white;
+
+    &__dropdown {
+        height: 32px;
+        padding: 0 23px 0 12px;
+        border: none;
+        margin-left: 16px;
+        appearance: none;
+        background-color: rgba(255, 255, 255, 0.04);
+        background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+        background-position: right 7px center;
+        background-repeat: no-repeat;
+        background-size: 1em;
+        border-radius: 4px;
+        color: white;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+
+        &:hover:enabled {
+            background-color: rgba(255, 255, 255, 0.08);
+        }
+
+        &:active:enabled {
+            background-color: rgba(255, 255, 255, 0.16);
+        }
+    }
+
+    button + button {
+        margin-left: 8px;
+    }
+
+    button {
+        overflow: hidden;
+        align-items: center;
+        padding: 7.0545px 7px 4.4545px 7px;
+        border: none;
+        background-color: transparent;
+        background-repeat: no-repeat;
+        border-radius: 4px;
+        color: white;
+        font-family: 'compass-icons';
+        font-size: 18px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 18px;
+        outline: none;
+        text-align: center;
+
+        &[disabled],
+        &:disabled {
+            color: rgba(255, 255, 255, 0.56);
+        }
+
+        &:hover:enabled {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        &:active:enabled {
+            background: rgba(255, 255, 255, 0.16);
+        }
+    }
+}

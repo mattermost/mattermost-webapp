@@ -20,6 +20,8 @@ import FileInfoPreview from 'components/file_info_preview';
 
 import {FilePreviewComponent} from 'types/store/plugins';
 
+import {ZoomValue} from './file_preview_modal_image_controls/file_preview_modal_image_controls';
+
 import ImagePreview from './image_preview';
 import './file_preview_modal.scss';
 import FilePreviewModalFooter from './file_preview_modal_footer/file_preview_modal_footer';
@@ -62,6 +64,7 @@ export type Props = {
 }
 
 type State = {
+    toolbarZoom: ZoomValue;
     show: boolean;
     imageIndex: number;
     imageHeight: number | string;
@@ -84,6 +87,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         super(props);
 
         this.state = {
+            toolbarZoom: 'A',
             show: true,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
@@ -95,6 +99,8 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             scale: Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
         };
     }
+
+    setToolbarZoom = (newToolbarZoom: ZoomValue) => this.setState({toolbarZoom: newToolbarZoom});
 
     handleNext = () => {
         let id = this.state.imageIndex + 1;
@@ -296,8 +302,9 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                 if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
                     content = (
                         <ImagePreview
-                            fileInfo={fileInfo}
-                            canDownloadFiles={this.props.canDownloadFiles}
+                            fileInfo={fileInfo as FileInfo & LinkInfo}
+                            toolbarZoom={this.state.toolbarZoom}
+                            setToolbarZoom={this.setToolbarZoom}
                         />
                     );
                 } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {
@@ -411,6 +418,9 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                                     post={this.props.post!}
                                     showPublicLink={showPublicLink}
                                     fileIndex={this.state.imageIndex}
+                                    toolbarZoom={this.state.toolbarZoom}
+                                    setToolbarZoom={this.setToolbarZoom}
+                                    fileType={fileType}
                                     totalFiles={this.props.fileInfos?.length}
                                     filename={fileName}
                                     fileURL={fileDownloadUrl}
