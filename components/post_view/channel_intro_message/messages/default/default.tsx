@@ -63,7 +63,7 @@ const DefaultIntroMessage = ({
                         dialogType={AddGroupsToTeamModal}
                         dialogProps={{channel}}
                     >
-                        {/* MM-46602: convert to compass icon after localization is added */}
+                        {/* MM-47138: convert to compass icon after localization is added */}
                         <LocalizedIcon
                             className='fa fa-user-plus'
                             title={{id: t('generic_icons.add'), defaultMessage: 'Add Icon'}}
