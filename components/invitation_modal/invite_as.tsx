@@ -9,7 +9,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {GlobalState} from 'types/store';
 
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getSubscriptionProduct, checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
@@ -52,9 +52,11 @@ export default function InviteAs(props: Props) {
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
     const subscriptionProduct = useSelector(getSubscriptionProduct);
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
+    const config = useSelector(getConfig);
 
     const isCloudStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
-    const isSelfHostedStarter = license.IsLicensed === 'false';
+    const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
+    const isSelfHostedStarter = isEnterpriseReady && license.IsLicensed === 'false';
     const isStarter = isCloudStarter || isSelfHostedStarter;
 
     let extraGuestLegend = true;
