@@ -262,8 +262,10 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
 
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];
+        console.log('######### MICHEL: getDefaultResults?');
 
         const handleDefaultResults = (res: ProviderResults) => {
+            console.log('######### MICHEL: getDefaultResults callback?', res);
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
@@ -293,6 +295,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
             const handleResults = (res: ProviderResults) => {
+                console.log('######### MICHEL: handleInputChange callback?', res);
                 res.items.filter((item) => isValidChannelType(item.channel) && item.deactivated === 0).forEach((item) => {
                     const {channel} = item;
 
@@ -311,6 +314,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
 
                 callCount++;
             };
+            console.log('######### MICHEL: handleInputChange?');
 
             provider.handlePretextChanged(inputValue, handleResults);
         });
