@@ -5,15 +5,18 @@ import React, {HTMLAttributes} from 'react';
 import classNames from 'classnames';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Channel} from '@mattermost/types/channels';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
-import {Post} from '@mattermost/types/posts';
-import {UserThread} from '@mattermost/types/threads';
 
 import deferComponentRender from 'components/deferComponentRender';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import LoadingScreen from 'components/loading_screen';
+
 import {FakePost} from 'types/store/rhs';
+
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
+
 import ThreadViewerVirtualized from '../virtualized_thread_viewer';
 
 import './thread_viewer.scss';

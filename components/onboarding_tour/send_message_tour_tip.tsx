@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Channel} from '@mattermost/types/channels';
-import PrewrittenChips from 'components/create_post/prewritten_chips';
+import PrewrittenChips from 'components/advanced_create_post/prewritten_chips';
 import {useMeasurePunchouts} from 'components/widgets/tour_tip';
 
 import OnboardingTourTip from './onboarding_tour_tip';
