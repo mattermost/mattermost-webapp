@@ -103,7 +103,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     categoryMenuItems.push(
         {
             id: 'ChannelMenu-moveToDivider',
-            text: (<li className='MenuGroup menu-divider'/>),
+            text: (<span className='MenuGroup menu-divider'/>),
         },
         {
             id: `moveToNewCategory-${channel.id}`,
