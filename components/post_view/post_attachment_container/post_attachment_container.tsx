@@ -11,6 +11,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isTeamSameWithCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {focusPost} from 'components/permalink_view/actions';
 import {GlobalState} from 'types/store';
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 export type Props = {
     className?: string;
@@ -39,6 +41,8 @@ const PostAttachmentContainer = (props: Props) => {
 
     const userId = useSelector(getCurrentUserId);
     const shouldFocusPostWithoutRedirect = useSelector((state: GlobalState) => isTeamSameWithCurrentTeam(state, params?.teamName ?? ''));
+    const post = useSelector((state: GlobalState) => getPost(state, params?.postId ?? ''));
+    const crtEnabled = useSelector(isCollapsedThreadsEnabled);
 
     const handleOnClick = useCallback((e) => {
         const {tagName} = e.target;
@@ -57,7 +61,7 @@ const PostAttachmentContainer = (props: Props) => {
                 'file-icon',
             ];
 
-            if (params && shouldFocusPostWithoutRedirect) {
+            if (params && shouldFocusPostWithoutRedirect && crtEnabled && post && post.root_id) {
                 dispatch(focusPost(params.postId, link, userId, {skipRedirectReplyPermalink: true}));
                 return;
             }
@@ -65,7 +69,7 @@ const PostAttachmentContainer = (props: Props) => {
                 history.push(link);
             }
         }
-    }, [className, dispatch, history, link, params, shouldFocusPostWithoutRedirect, userId]);
+    }, [className, crtEnabled, dispatch, history, link, params, post, shouldFocusPostWithoutRedirect, userId]);
     return (
         <div
             className={`attachment attachment--${className}`}
