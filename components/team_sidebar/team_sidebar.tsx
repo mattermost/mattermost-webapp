@@ -192,9 +192,9 @@ export default class TeamSidebar extends React.PureComponent<Props, State> {
 
     render() {
         const root: Element | null = document.querySelector('#root');
-        const forceTeamSidebarToBeVisible = this.props.forceTeamSidebarToBeVisible;
+        const teamSidebarVisible = this.props.teamSidebarVisible;
 
-        if (this.props.myTeams.length <= 1 && !forceTeamSidebarToBeVisible) {
+        if (this.props.myTeams.length <= 1 && !teamSidebarVisible) {
             root!.classList.remove('multi-teams');
             return null;
         }

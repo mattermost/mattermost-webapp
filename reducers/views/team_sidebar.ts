@@ -7,9 +7,9 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {ActionTypes} from 'utils/constants';
 
-export function forceTeamSidebarToBeVisible(state = false, action: GenericAction): boolean {
+export function setTeamSidebarVisible(state = false, action: GenericAction): boolean {
     switch (action.type) {
-    case ActionTypes.FORCE_TEAM_SIDEBAR_TO_BE_VISIBLE:
+    case ActionTypes.SET_TEAM_SIDEBAR_VISIBLE:
         return action.showSidebar;
     default:
         return state;
@@ -17,5 +17,5 @@ export function forceTeamSidebarToBeVisible(state = false, action: GenericAction
 }
 
 export default combineReducers({
-    forceTeamSidebarToBeVisible,
+    setTeamSidebarVisible,
 });

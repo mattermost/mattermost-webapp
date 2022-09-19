@@ -3,6 +3,6 @@
 
 import {GlobalState} from 'types/store';
 
-export function getForceTeamSidebarToBeVisible(state: GlobalState): boolean {
-    return state.views.teamSidebar.forceTeamSidebarToBeVisible;
+export function getTeamSidebarVisible(state: GlobalState): boolean {
+    return state.views.teamSidebar.setTeamSidebarVisible;
 }

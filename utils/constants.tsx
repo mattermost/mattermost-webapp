@@ -308,7 +308,7 @@ export const ActionTypes = keyMirror({
     SET_EDIT_CHANNEL_MEMBERS: null,
     NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK: null,
 
-    FORCE_TEAM_SIDEBAR_TO_BE_VISIBLE: null,
+    SET_TEAM_SIDEBAR_VISIBLE: null,
 });
 
 export const PostRequestTypes = keyMirror({

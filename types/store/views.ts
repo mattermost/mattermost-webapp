@@ -170,11 +170,10 @@ export type ViewsState = {
         multiSelectedChannelIds: string[];
         lastSelectedChannel: string;
         firstChannelName: string;
-        forceTeamSidebarToBeVisible: boolean;
     };
 
     teamSidebar: {
-        forceTeamSidebarToBeVisible: boolean;
+        setTeamSidebarVisible: boolean;
     };
 
     statusDropdown: {

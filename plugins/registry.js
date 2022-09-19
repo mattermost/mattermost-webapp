@@ -905,9 +905,9 @@ export default class PluginRegistry {
         });
     }
 
-    forceTeamSidebarToBeVisible(showSidebar) {
+    setTeamSidebarVisible(showSidebar) {
         store.dispatch({
-            type: ActionTypes.FORCE_TEAM_SIDEBAR_TO_BE_VISIBLE,
+            type: ActionTypes.SET_TEAM_SIDEBAR_VISIBLE,
             showSidebar,
         });
     }
