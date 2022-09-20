@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentsOverrides} from '@mui/material/styles/overrides';
-import {DefaultTheme} from '@mui/private-theming';
+import type { ComponentsOverrides } from '@mui/material/styles/overrides';
+import type { DefaultTheme } from '@mui/private-theming';
 
 const componentName = 'MuiOutlinedInput';
 
-export const outlinedInputStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+const outlinedInputStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         backgroundColor: 'var(--center-channel-bg)',
         fontSize: '1.6rem',
@@ -40,6 +40,8 @@ export const outlinedInputStyleOverrides: ComponentsOverrides<DefaultTheme>[type
     },
 };
 
-export default {
+const overrides = {
     styleOverrides: outlinedInputStyleOverrides,
 };
+
+export default overrides;

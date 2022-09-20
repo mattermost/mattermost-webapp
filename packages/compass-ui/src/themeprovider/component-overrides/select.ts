@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentsOverrides} from '@mui/material/styles/overrides';
-import {DefaultTheme} from '@mui/private-theming';
+import type { ComponentsOverrides } from '@mui/material/styles/overrides';
+import type { DefaultTheme } from '@mui/private-theming';
 
 const componentName = 'MuiSelect';
 
-export const selectStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
-    standard: ({ownerState}) => ({
+const selectStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+    standard: ({ ownerState }) => ({
         backgroundColor: ownerState?.open ? 'rgba(var(--button-bg-rgb), 0.08)' : 'transparent',
         color: 'var(--button-bg)',
         borderRadius: 4,
@@ -43,6 +43,8 @@ export const selectStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof comp
     },
 };
 
-export default {
+const overrides = {
     styleOverrides: selectStyleOverrides,
 };
+
+export default overrides;

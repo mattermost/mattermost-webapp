@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentsVariants} from '@mui/material';
-import {ComponentsOverrides} from '@mui/material/styles/overrides';
-import {DefaultTheme} from '@mui/private-theming';
+import type { ComponentsVariants } from '@mui/material';
+import type { ComponentsOverrides } from '@mui/material/styles/overrides';
+import type { DefaultTheme } from '@mui/private-theming';
 
 const componentName = 'MuiIconButton';
 
@@ -13,7 +13,7 @@ declare module '@mui/material/IconButton' {
     }
 }
 
-export const iconButtonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+const iconButtonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         borderRadius: 4,
         color: 'rgba(var(--center-channel-text-rgb), 0.56)',
@@ -48,7 +48,7 @@ export const iconButtonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof 
 
 const iconButtonVariantsOverride: ComponentsVariants[typeof componentName] = [
     {
-        props: {size: 'x-small'},
+        props: { size: 'x-small' },
         style: {
             padding: 4,
 
@@ -59,7 +59,7 @@ const iconButtonVariantsOverride: ComponentsVariants[typeof componentName] = [
         },
     },
     {
-        props: {size: 'small'},
+        props: { size: 'small' },
         style: {
             padding: 6,
 
@@ -70,7 +70,7 @@ const iconButtonVariantsOverride: ComponentsVariants[typeof componentName] = [
         },
     },
     {
-        props: {size: 'medium'},
+        props: { size: 'medium' },
         style: {
             padding: 8,
 
@@ -81,7 +81,7 @@ const iconButtonVariantsOverride: ComponentsVariants[typeof componentName] = [
         },
     },
     {
-        props: {size: 'large'},
+        props: { size: 'large' },
         style: {
             padding: 8,
 
@@ -93,7 +93,9 @@ const iconButtonVariantsOverride: ComponentsVariants[typeof componentName] = [
     },
 ];
 
-export default {
+const overrides = {
     variants: iconButtonVariantsOverride,
     styleOverrides: iconButtonStyleOverrides,
 };
+
+export default overrides;

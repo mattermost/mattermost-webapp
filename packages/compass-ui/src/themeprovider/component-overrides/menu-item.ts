@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentsOverrides} from '@mui/material/styles/overrides';
-import {DefaultTheme} from '@mui/private-theming';
+import type { ComponentsOverrides } from '@mui/material/styles/overrides';
+import type { DefaultTheme } from '@mui/private-theming';
 
 const componentName = 'MuiMenuItem';
 
-export const menuItemStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+const menuItemStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     root: {
         background: 'transparent',
 
@@ -34,6 +34,8 @@ export const menuItemStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof co
     },
 };
 
-export default {
+const overrides = {
     styleOverrides: menuItemStyleOverrides,
 };
+
+export default overrides;
