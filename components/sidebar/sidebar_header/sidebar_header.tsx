@@ -138,7 +138,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                                 tabIndex={0}
                             >{currentTeam.display_name}</div>
                             <i
-                                tabIndex={1}
+                                tabIndex={0}
                                 className='icon icon-chevron-down'
                             />
                         </SidebarHeading>
