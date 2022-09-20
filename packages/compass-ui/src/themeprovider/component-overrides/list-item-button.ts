@@ -1,18 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ComponentsOverrides} from '@mui/material/styles/overrides';
-import {DefaultTheme} from '@mui/private-theming';
+import type { ComponentsOverrides } from '@mui/material/styles/overrides';
+import type { DefaultTheme } from '@mui/private-theming';
 
 const componentName = 'MuiListItemButton';
 
-export const listItemButtonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
+const listItemButtonStyleOverrides: ComponentsOverrides<DefaultTheme>[typeof componentName] = {
     dense: {
         paddingTop: 0,
         paddingBottom: 0,
     },
 };
 
-export default {
+const overrides = {
     styleOverrides: listItemButtonStyleOverrides,
 };
+
+export default overrides;
