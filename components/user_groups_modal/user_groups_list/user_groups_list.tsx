@@ -4,7 +4,9 @@ import React, {useCallback, useState} from 'react';
 import {useIntl} from 'react-intl';
 import {
     AccountMultipleOutlineIcon,
+    ChevronRightIcon,
     DotsVerticalIcon,
+    InformationOutlineIcon,
     TrashCanOutlineIcon,
 } from '@mattermost/compass-icons/components';
 import {Menu, Divider, IconButton, List, ListItem, ListItemButton, ListItemText, Typography} from '@mui/material';
@@ -153,8 +155,10 @@ type GroupItemMenuProps = {
 
 const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: GroupItemMenuProps) => {
     const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+    const [submenuAnchorEl, setSubmenuAnchorEl] = useState<HTMLElement | null>(null);
 
     const open = Boolean(anchorEl);
+    const subMenuOpen = Boolean(submenuAnchorEl);
 
     const handleClose = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
@@ -163,6 +167,14 @@ const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: Gr
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
         setAnchorEl(event.currentTarget);
+    };
+    const handleSubmenuClick = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        setSubmenuAnchorEl(event.currentTarget);
+    };
+    const handleSubmenuClose = (event: React.MouseEvent<HTMLElement>) => {
+        event.stopPropagation();
+        setSubmenuAnchorEl(null);
     };
     const makeHandleViewClick = (group: Group) => (event: React.MouseEvent<HTMLElement>) => {
         event.stopPropagation();
@@ -211,6 +223,47 @@ const GroupItemMenu = ({group, viewGroup, archiveGroup, groupPermissionsMap}: Gr
                         />
                     </ListItemIcon>
                     {Utils.localizeMessage('user_groups_modal.viewGroup', 'View Group')}
+                </MenuItem>
+                <MenuItem onClick={handleSubmenuClick}>
+                    <ListItemIcon position={'start'}>
+                        <InformationOutlineIcon
+                            size={18}
+                            color={'currentColor'}
+                        />
+                    </ListItemIcon>
+                    {'Open Submenu'}
+                    <ListItemIcon position={'end'}>
+                        <ChevronRightIcon
+                            size={18}
+                            color={'currentColor'}
+                        />
+                    </ListItemIcon>
+                    <Menu
+                        anchorOrigin={{
+                            horizontal: 'right',
+                            vertical: 'top',
+                        }}
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        anchorEl={submenuAnchorEl}
+                        open={subMenuOpen}
+                        onClose={handleSubmenuClose}
+                        MenuListProps={{
+                            'aria-labelledby': 'demo-customized-button',
+                        }}
+                    >
+                        <MenuItem>
+                            <ListItemIcon position={'start'}>
+                                <InformationOutlineIcon
+                                    size={18}
+                                    color={'currentColor'}
+                                />
+                            </ListItemIcon>
+                            {'Submenu Item'}
+                        </MenuItem>
+                    </Menu>
                 </MenuItem>
                 {groupPermissionsMap[group.id].can_delete && <Divider/>}
                 {groupPermissionsMap[group.id].can_delete && (
