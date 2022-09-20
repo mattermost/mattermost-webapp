@@ -148,11 +148,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         this.setState({loading: false});
     }
 
-    handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const term = e.target.value;
-        this.props.actions.setModalSearchTerm(term);
-    }
-
     scrollGetGroups = debounce(
         async () => {
             const {page} = this.state;
@@ -231,7 +226,11 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
 
     render() {
         const groups = this.state.selectedFilter === 'all' ? this.props.groups : this.props.myGroups;
-        const handleChange = (e: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => this.setState({value: e.target.value});
+        const handleChange = (e: React.ChangeEvent<HTMLInputElement| HTMLTextAreaElement>) => {
+            const {value} = e.target;
+            this.setState({value});
+            this.props.actions.setModalSearchTerm(value);
+        };
 
         return (
             <Modal
@@ -239,7 +238,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 dialogId='userGroupsModal'
                 dialogClassName='a11y__modal user-groups-modal'
                 onClose={this.doHide}
-                aria-labelledby='userGroupsModalLabel'
             >
                 <ModalTitle
                     title={Utils.localizeMessage('user_groups_modal.title', 'User Groups')}
@@ -254,11 +252,12 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                     )}
                 >
                     <TextField
-                        label={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
                         id='search_groups_input'
-                        fullWidth={true}
                         value={this.state.value}
+                        label={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
+                        fullWidth={true}
                         onChange={handleChange}
+                        autoComplete={'off'}
                         startIcon={(
                             <MagnifyIcon
                                 size={18}
