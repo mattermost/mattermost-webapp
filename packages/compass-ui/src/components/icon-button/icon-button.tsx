@@ -4,24 +4,23 @@
 import React from 'react';
 import MuiIconButton, {IconButtonProps as MuiIconButtonProps} from '@mui/material/IconButton';
 
-import {OmitMUIProps} from '../../types';
-
-type IconButtonProps = OmitMUIProps<MuiIconButtonProps> & {
+type IconButtonProps = MuiIconButtonProps & {
     IconComponent: React.FC;
     compact?: boolean;
 }
 
-const IconButton = ({IconComponent, compact = false, ...props}: IconButtonProps) => {
-    const sx = compact ? {
+const IconButton = ({IconComponent, compact = false, sx, ...props}: IconButtonProps) => {
+    const sxOverride = compact ? {
+        ...sx,
         svg: {
             margin: 0,
         },
-    } : null;
+    } : {...sx};
 
     return (
         <MuiIconButton
             {...props}
-            sx={sx}
+            sx={sxOverride}
         >
             <IconComponent/>
         </MuiIconButton>

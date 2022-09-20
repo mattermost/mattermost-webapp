@@ -58,7 +58,6 @@ const TextField = ({startIcon, endIcon, value, onFocus, onBlur, ...props}: TextF
             onBlur={makeFocusHandler(false)}
             InputProps={InputProps}
             InputLabelProps={InputLabelProps}
-            autoComplete={'off'}
         />
     );
 };
