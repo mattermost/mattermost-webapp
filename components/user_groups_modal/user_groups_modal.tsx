@@ -14,7 +14,7 @@ import Modal from '@mattermost/compass-ui/components/modal/modal';
 import TextField from '@mattermost/compass-ui/components/textfield/textfield';
 import ModalTitle from '@mattermost/compass-ui/components/modal/modal_title';
 import Select from '@mattermost/compass-ui/components/select/select';
-import ListItemIcon from '@mattermost/compass-ui/components/list-item-icon/list-item-icon';
+import ListItemIcon from '@mattermost/compass-ui/components/list-item/list-item-icon';
 import MenuItem from '@mattermost/compass-ui/components/menu-item/menu-item';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
