@@ -9,7 +9,7 @@ import {Team} from './teams';
 // **P**rivate channel,
 // **D**irect message to one other,
 // **G**roup direct message to 2+ others
-export type ChannelType = 'O' | 'P' | 'D' | 'G';
+export type ChannelType = 'O' | 'P' | 'D' | 'G' | 'threads';
 
 export type ChannelStats = {
     channel_id: string;

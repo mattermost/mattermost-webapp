@@ -29,7 +29,7 @@ import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCod
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import PostDeletedModal from 'components/post_deleted_modal';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
@@ -49,7 +49,6 @@ import FileLimitStickyBanner from '../file_limit_sticky_banner';
 
 const KeyCodes = Constants.KeyCodes;
 
-const CreateCommentDraftTimeoutMilliseconds = 500;
 type Props = {
 
     // The channel for which this comment is a part of
@@ -413,9 +412,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         });
     }
 
-    toggleEmojiPicker = () => {
-        this.setState({showEmojiPicker: !this.state.showEmojiPicker});
-    }
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
+        const showEmojiPicker = !this.state.showEmojiPicker;
+        this.setState({showEmojiPicker});
+    };
 
     hideEmojiPicker = () => {
         this.setState({showEmojiPicker: false});
@@ -713,7 +714,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.onUpdateCommentDraft(updatedDraft);
-        }, CreateCommentDraftTimeoutMilliseconds);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {

@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const GuestAccessFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='guest_access'
+            minimumSKURequiredForFeature={LicenseSkus.Professional}
             titleID='admin.guest_access_feature_discovery.title'
             titleDefault='Enable guest accounts with Mattermost Professional'
             copyID='admin.guest_access_feature_discovery.copy'

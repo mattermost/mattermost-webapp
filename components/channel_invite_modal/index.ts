@@ -18,7 +18,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {Value} from 'components/multiselect/multiselect';
 
 import {addUsersToChannel} from 'actions/channel_actions';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions';
 
 import {closeModal} from 'actions/views/modals';
 

@@ -24,7 +24,6 @@ export type Props = {
     role: Role;
     totalCount: number;
     term: string;
-    currentUserId: string;
     usersToRemove: Record<string, UserProfile>;
     usersToAdd: Record<string, UserProfile>;
     onAddCallback: (users: UserProfile[]) => void;
@@ -162,7 +161,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
     }
 
     getRows = () => {
-        const {users, readOnly, usersToAdd, usersToRemove, currentUserId} = this.props;
+        const {users, readOnly, usersToAdd, usersToRemove} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
 
         // Remove users to remove and add users to add
@@ -195,7 +194,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                         <UserGridRemove
                             user={user}
                             removeUser={this.onRemoveCallback}
-                            isDisabled={readOnly || user.id === currentUserId}
+                            isDisabled={readOnly}
                         />
                     ),
                 },

@@ -128,19 +128,8 @@
         position: relative;
         display: flex;
         align-self: center;
-        gap: 12px;
-
-        .self-hosted-svg-left {
-            position: absolute;
-            top: 36px;
-            left: -145px;
-        }
-
-        .self-hosted-svg-right {
-            position: absolute;
-            top: 36px;
-            right: -130px;
-        }
+        margin-bottom: 111px;
+        gap: 48px;
 
         .PlanCard {
             position: relative;
@@ -151,7 +140,7 @@
                 top: -36px;
                 left: 52px;
                 display: flex;
-                width: 184px;
+                width: auto;
                 height: 36px;
                 align-items: center;
                 justify-content: center;
@@ -167,144 +156,190 @@
             }
 
             .bottom {
-                height: 668px;
-                padding-right: 24px;
-                padding-left: 24px;
-                border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+                height: auto;
+                border: 1px solid var(--center-channel-bg);
                 background-color: var(--center-channel-bg);
                 border-radius: 0 0 4px 4px;
+                box-shadow: 0 20px 32px rgba(0, 0, 0, 0.12);
 
-                .plan_briefing,
-                .plan_extra_briefing {
-                    display: flex;
-                    height: 253px;
-                    flex-direction: column;
-                    justify-content: space-between;
-                    margin-top: 16px;
-                    margin-bottom: 8px;
+                .bottom_container {
+                    padding-right: 24px;
+                    padding-left: 24px;
+                    margin-bottom: 24px;
 
-                    .title {
-                        color: var(--center-channel-color);
-                        font-family: 'Metropolis';
-                        font-size: 14px;
-                        font-style: normal;
-                        font-weight: 600;
-                        letter-spacing: -0.02em;
-                        line-height: 24px;
-                        white-space: nowrap;
-                    }
+                    .plan_price_rate_section {
+                        width: 100%;
+                        height: 221px;
+                        text-align: center;
 
-                    .item {
-                        display: flex;
-                        max-height: 72px;
-
-                        .bullet {
-                            display: inline-block;
-                            margin: 8px 8px 0 0;
-                            color: #0058cc;
-                            font-size: 10px;
+                        h3 {
+                            color: var(--center-channel-color);
+                            font-family: 'Metropolis';
+                            font-size: 24px;
+                            font-style: normal;
+                            font-weight: 700;
+                            line-height: 31px;
+                            text-align: center;
                         }
 
-                        p {
+                        h1 {
                             margin: 0;
                             color: var(--center-channel-color);
                             font-family: 'Metropolis';
-                            font-size: 14px;
+                            font-size: 52px;
+                            font-style: normal;
+                            font-weight: 700;
+                            letter-spacing: -0.02em;
+                            line-height: 60px;
+                        }
+
+                        span,
+                        p {
+                            margin-bottom: 32px;
+                            color: rgba(var(--center-channel-color-rgb), 0.72);
+                            font-family: 'Metropolis';
+                            font-size: 16px;
                             font-style: normal;
                             font-weight: 400;
-                            letter-spacing: -0.02em;
                             line-height: 24px;
                         }
                     }
-                }
 
-                .plan_extra_briefing {
-                    height: 200px;
-
-                    span {
-                        font-size: 12px;
-                    }
-                }
-
-                .plan_action_btn {
-                    width: 100%;
-                    height: 40px;
-                    padding: 10px 24px;
-                    border: none;
-                    background: none;
-                    border-radius: 4px;
-                    color: var(--denim-button-bg);
-                    font-weight: 700;
-
-                    &.grayed {
-                        background: rgba(var(--center-channel-color-rgb), 0.08);
-                        color: rgba(var(--center-channel-color-rgb), 0.32);
-                        cursor: not-allowed;
+                    .contact_sales_cta {
+                        height: 49px;
+                        margin-top: 16px;
+                        text-align: center;
                     }
 
-                    &.secondary {
-                        background: rgba(var(--denim-button-bg-rgb), 0.08);
-                        color: var(--denim-button-bg);
+                    .plan_limits_cta {
+                        height: 21px;
                     }
 
-                    &.active {
-                        border: 1px solid var(--denim-button-bg);
-                    }
+                    .plan_buttons {
+                        height: auto;
 
-                    &.special {
-                        background: var(--denim-button-bg);
-                        color: var(--button-color);
-                    }
-                }
+                        .plan_action_btn {
+                            width: 100%;
+                            height: 40px;
+                            padding: 10px 24px;
+                            border: none;
+                            background: none;
+                            border-radius: 4px;
+                            color: var(--denim-button-bg);
+                            font-weight: 600;
 
-                .plan_price_rate_section {
-                    width: 100%;
-                    height: 150px;
-                    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-                    text-align: center;
+                            &.grayed {
+                                background: rgba(var(--center-channel-color-rgb), 0.08);
+                                color: rgba(var(--center-channel-color-rgb), 0.32);
+                                cursor: not-allowed;
+                            }
 
-                    h4 {
-                        color: rgba(var(--center-channel-color-rgb), 0.72);
-                        font-family: 'Metropolis';
-                        font-size: 20px;
-                        font-style: normal;
-                        font-weight: 400;
-                        letter-spacing: -0.02em;
-                        line-height: 30px;
-                    }
+                            &.secondary {
+                                background: rgba(var(--denim-button-bg-rgb), 0.08);
+                                color: var(--denim-button-bg);
+                            }
 
-                    h1 {
-                        color: var(--center-channel-color);
-                        font-family: 'Metropolis';
-                        font-size: 52px;
-                        font-style: normal;
-                        font-weight: 700;
-                        letter-spacing: -0.02em;
-                        line-height: 60px;
+                            &.active {
+                                border: 1px solid var(--denim-button-bg);
+                            }
 
-                        span {
-                            color: var(--center-channel-color);
-                            font-family: 'Metropolis';
-                            font-size: 18px;
-                            font-style: normal;
-                            font-weight: 400;
-                            letter-spacing: -0.02em;
-                            line-height: 20px;
+                            &.special {
+                                background: var(--denim-button-bg);
+                                color: var(--button-color);
+                            }
                         }
                     }
 
-                    .enterprise_price {
-                        font-size: 32px;
+                    .plan_briefing {
+                        height: auto;
+
+                        hr {
+                            border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
+                        }
+
+                        .plan_briefing_content {
+                            margin-top: 16px;
+
+                            .title {
+                                color: var(--center-channel-text);
+                                font-family: 'Metropolis';
+                                font-size: 13px;
+                                font-style: normal;
+                                font-weight: 600;
+                                letter-spacing: -0.02em;
+                                line-height: 24px;
+                                white-space: nowrap;
+                            }
+
+                            .item {
+                                display: flex;
+                                max-height: 72px;
+
+                                .bullet {
+                                    display: inline-block;
+                                    margin: 8px 8px 0 0;
+                                    color: #0058cc;
+                                    font-size: 10px;
+                                }
+
+                                p {
+                                    margin: 0;
+                                    color: rgba(var(--center-channel-text-rgb), 0.72);
+                                    font-family: 'Metropolis';
+                                    font-size: 14px;
+                                    font-style: normal;
+                                    font-weight: 400;
+                                    letter-spacing: -0.02em;
+                                    line-height: 24px;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                .plan_add_ons {
+                    position: relative;
+                    height: auto;
+                    padding: 37px 24px 24px 24px;
+                    background-color: var(--title-color-indigo-500);
+                    border-radius: 0 0 4px 4px;
+                    color: var(--sidebar-text);
+
+                    .illustration {
+                        position: absolute;
+                        top: 24px;
+                        right: 36px;
                     }
 
-                    p {
-                        color: rgba(var(--center-channel-color-rgb), 0.72);
+                    .title {
                         font-family: 'Metropolis';
-                        font-size: 18px;
+                        font-size: 16px;
                         font-style: normal;
+                        font-weight: 700;
+                        line-height: 24px;
+                    }
+
+                    .item,
+                    .subitem {
                         font-weight: 400;
-                        letter-spacing: -0.02em;
-                        line-height: 20px;
+
+                        &_title {
+                            display: flex;
+
+                            .bullet {
+                                display: inline-block;
+                                margin: 8px 8px 0 0;
+                                font-size: 5px;
+                            }
+                        }
+                    }
+
+                    .item {
+                        margin-left: 5px;
+                    }
+
+                    .subitem {
+                        margin-left: 20px;
                     }
                 }
             }

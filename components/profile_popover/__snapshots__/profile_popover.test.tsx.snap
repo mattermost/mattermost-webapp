@@ -45,16 +45,11 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -64,7 +59,6 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -121,16 +115,11 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -140,7 +129,6 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -213,16 +201,11 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -232,7 +215,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -292,21 +274,16 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "",
               "id": "user_id",
               "is_bot": false,
@@ -316,7 +293,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -346,7 +322,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }
@@ -364,7 +339,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
@@ -374,16 +349,11 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -393,7 +363,6 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -504,16 +473,11 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "shared",
         "id": "user_id",
         "is_bot": false,
@@ -523,7 +487,6 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -584,21 +547,16 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "shared",
               "id": "user_id",
               "is_bot": false,
@@ -608,7 +566,6 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -639,7 +596,6 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }
@@ -657,7 +613,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
@@ -667,16 +623,11 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "shared",
         "id": "user_id",
         "is_bot": false,
@@ -686,7 +637,6 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -767,16 +717,11 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -786,7 +731,6 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -888,21 +832,16 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "",
               "id": "user_id",
               "is_bot": false,
@@ -912,7 +851,6 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -942,7 +880,6 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }
@@ -960,7 +897,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
@@ -970,16 +907,11 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -989,7 +921,6 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -1069,16 +1000,11 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -1088,7 +1014,6 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -1148,21 +1073,16 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
       href="#"
       onClick={[Function]}
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         ariaLabel="Add to a Channel"
         dialogProps={
           Object {
             "user": Object {
-              "allow_marketing": false,
-              "auth_data": "",
               "auth_service": "",
               "bot_description": "",
-              "bot_last_icon_update": 0,
               "create_at": 0,
               "delete_at": 0,
               "email": "",
-              "email_verified": true,
-              "failed_attempts": 0,
               "first_name": "",
               "id": "user_id",
               "is_bot": false,
@@ -1172,7 +1092,6 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
               "last_picture_update": 0,
               "locale": "",
               "mfa_active": false,
-              "mfa_secret": "",
               "nickname": "",
               "notify_props": Object {
                 "channel": "false",
@@ -1202,7 +1121,6 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddUserToChannelModal)",
             "type": [Function],
           }
         }
@@ -1220,7 +1138,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
           }
         />
         Add to a Channel
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </a>
   </div>
   <Connect(Pluggable)
@@ -1230,16 +1148,11 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "user_id",
         "is_bot": false,
@@ -1249,7 +1162,6 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -1322,16 +1234,11 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "",
         "is_bot": false,
@@ -1341,7 +1248,6 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",
@@ -1422,16 +1328,11 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
     status="offline"
     user={
       Object {
-        "allow_marketing": false,
-        "auth_data": "",
         "auth_service": "",
         "bot_description": "",
-        "bot_last_icon_update": 0,
         "create_at": 0,
         "delete_at": 0,
         "email": "",
-        "email_verified": true,
-        "failed_attempts": 0,
         "first_name": "",
         "id": "",
         "is_bot": false,
@@ -1441,7 +1342,6 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
         "last_picture_update": 0,
         "locale": "",
         "mfa_active": false,
-        "mfa_secret": "",
         "nickname": "",
         "notify_props": Object {
           "channel": "false",

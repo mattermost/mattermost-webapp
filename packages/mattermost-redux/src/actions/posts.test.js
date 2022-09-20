@@ -9,11 +9,11 @@ import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/posts';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {login} from 'mattermost-redux/actions/users';
+import {loadMeREST} from 'mattermost-redux/actions/users';
 import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences, Posts, RequestStatus} from '../constants';
-import {PostTypes} from 'mattermost-redux/action_types';
+import {PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -260,7 +260,10 @@ describe('Actions.Posts', () => {
 
     it('deletePostWithReaction', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -351,7 +354,10 @@ describe('Actions.Posts', () => {
 
     it('removePostWithReaction', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -912,6 +918,7 @@ describe('Actions.Posts', () => {
             ],
             next_post_id: postsAfter.next_post_id,
             prev_post_id: postsBefore.prev_post_id,
+            first_inaccessible_post_time: 0,
         });
 
         const {posts, postsInChannel, postsInThread} = store.getState().entities.posts;
@@ -941,7 +948,10 @@ describe('Actions.Posts', () => {
         await TestHelper.basicClient4.logout();
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -971,7 +981,10 @@ describe('Actions.Posts', () => {
         await TestHelper.basicClient4.logout();
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1139,7 +1152,10 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1165,7 +1181,10 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1196,7 +1215,10 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').

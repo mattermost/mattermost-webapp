@@ -114,6 +114,7 @@ export type ClientConfig = {
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
     FeatureFlagGraphQL: string;
+    FeatureFlagPlanUpgradeButtonText: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -185,6 +186,7 @@ export type ClientConfig = {
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
     EnableComplianceExport: string;
+    PostPriority: string;
 };
 
 export type License = {
@@ -335,6 +337,7 @@ export type ServiceSettings = {
     LocalModeSocketLocation: string;
     CollapsedThreads: CollapsedThreads;
     ThreadAutoFollow: boolean;
+    PostPriority: boolean;
 };
 
 export type TeamSettings = {

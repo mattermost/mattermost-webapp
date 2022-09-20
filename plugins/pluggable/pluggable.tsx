@@ -3,12 +3,13 @@
 
 import React from 'react';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {WebSocketClient} from '@mattermost/client';
+
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {ProductComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
-import WebSocketClient from 'client/websocket_client';
 import webSocketClient from 'client/web_websocket_client';
 
 type Props = {

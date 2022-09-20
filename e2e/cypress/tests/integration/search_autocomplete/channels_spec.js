@@ -24,7 +24,11 @@ describe('Autocomplete without Elasticsearch - Channel', () => {
     let offTopicUrl;
 
     before(() => {
-        cy.shouldHaveElasticsearchDisabled();
+        cy.apiGetClientLicense().then(({isCloudLicensed}) => {
+            if (!isCloudLicensed) {
+                cy.shouldHaveElasticsearchDisabled();
+            }
+        });
 
         // # Login as test user and go to off-topic
         cy.apiInitSetup({loginAfter: true}).then((out) => {

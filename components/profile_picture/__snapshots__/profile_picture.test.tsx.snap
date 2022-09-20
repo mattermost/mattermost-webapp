@@ -56,7 +56,11 @@ exports[`components/ProfilePicture should match snapshot, profile and src, defau
   }
   placement="right"
   rootClose={true}
-  trigger="click"
+  trigger={
+    Array [
+      "click",
+    ]
+  }
 >
   <button
     className="status-wrapper style--none "

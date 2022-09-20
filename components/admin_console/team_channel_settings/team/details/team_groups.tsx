@@ -48,7 +48,7 @@ export const TeamGroups = ({onGroupRemoved, syncChecked, team, onAddCallback, to
                     excludeGroups: groups,
                     includeGroups: removedGroups,
                 }}
-                isDisabled={isDisabled}
+                disabled={isDisabled}
             >
                 <FormattedMessage
                     id='admin.team_settings.team_details.add_group'

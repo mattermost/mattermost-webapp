@@ -217,8 +217,8 @@ describe('components/FilePreviewModal', () => {
     test('should pass componentWillReceiveProps', () => {
         const wrapper = shallow<FilePreviewModal>(<FilePreviewModal {...baseProps}/>);
 
-        expect(wrapper.state('loaded').length).toBe(1);
-        expect(wrapper.state('progress').length).toBe(1);
+        expect(Object.keys(wrapper.state('loaded')).length).toBe(1);
+        expect(Object.keys(wrapper.state('progress')).length).toBe(1);
 
         wrapper.setProps({
             fileInfos: [
@@ -227,8 +227,8 @@ describe('components/FilePreviewModal', () => {
                 TestHelper.getFileInfoMock({id: 'file_id_3', extension: 'mp4'}),
             ],
         });
-        expect(wrapper.state('loaded').length).toBe(3);
-        expect(wrapper.state('progress').length).toBe(3);
+        expect(Object.keys(wrapper.state('loaded')).length).toBe(3);
+        expect(Object.keys(wrapper.state('progress')).length).toBe(3);
     });
 
     test('should match snapshot when plugin overrides the preview component', () => {

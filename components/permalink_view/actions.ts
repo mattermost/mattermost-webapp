@@ -14,8 +14,8 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
-import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
-import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions.jsx';
+import {loadChannelsForCurrentUser} from 'actions/channel_actions';
+import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions';
 import {selectPostAndHighlight} from 'actions/views/rhs';
 
 import {browserHistory} from 'utils/browser_history';

@@ -64,7 +64,8 @@ const CompanyInfoDisplay: React.FC = () => {
 
     let body = noCompanyInfoSection;
     const address = companyInfo?.company_address?.line1 ? companyInfo.company_address : companyInfo?.billing_address;
-    if (address?.line1) {
+    const isCompanyBillingFilled = address?.line1 !== undefined;
+    if (isCompanyBillingFilled) {
         body = (
             <div className='CompanyInfoDisplay__companyInfo'>
                 <div className='CompanyInfoDisplay__companyInfo-text'>
@@ -117,10 +118,16 @@ const CompanyInfoDisplay: React.FC = () => {
                         />
                     </div>
                     <div className='CompanyInfoDisplay__headerText-bottom'>
-                        <FormattedMessage
-                            id='admin.billing.company_info_display.provideDetails'
-                            defaultMessage='Provide your company name and address'
-                        />
+                        {isCompanyBillingFilled &&
+                            <FormattedMessage
+                                id='admin.billing.company_info_display.detailsProvided'
+                                defaultMessage='Your company name and address'
+                            />}
+                        {!isCompanyBillingFilled &&
+                            <FormattedMessage
+                                id='admin.billing.company_info_display.provideDetails'
+                                defaultMessage='Provide your company name and address'
+                            />}
                     </div>
                 </div>
                 {!address?.line1 && addInfoButton}

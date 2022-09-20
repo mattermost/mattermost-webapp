@@ -39,6 +39,7 @@ type SubscriptionBase = {
     last_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
+    delinquent_since?: number;
 }
 
 export type Product = {
@@ -105,7 +106,9 @@ export type PaymentMethod = {
 }
 
 export type NotifyAdminRequest = {
-    current_team_id: string;
+    trial_notification: boolean;
+    required_plan: string;
+    required_feature: string;
 }
 
 // Invoice model represents a invoice on the system.
@@ -188,4 +191,8 @@ export type TeamsUsage = {
     active: number;
     cloudArchived: number;
     teamsLoaded: boolean;
+}
+
+export type ValidBusinessEmail = {
+    is_valid: boolean;
 }

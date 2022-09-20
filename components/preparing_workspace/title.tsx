@@ -8,8 +8,10 @@ import './title.scss';
 type Props = {
     children: React.ReactNode | React.ReactNodeArray;
 }
-export default function Title(props: Props) {
+const Title = (props: Props) => {
     return (<h1 className='PreparingWorkspaceTitle'>
         {props.children}
     </h1>);
-}
+};
+
+export default Title;
