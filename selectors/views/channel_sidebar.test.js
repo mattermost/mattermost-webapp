@@ -5,7 +5,6 @@ import {Preferences} from 'mattermost-redux/constants';
 import mergeObjects from 'mattermost-redux/test/merge_objects';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
-import Constants from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
 import * as Selectors from './channel_sidebar';
@@ -642,7 +641,6 @@ describe('makeGetFilteredChannelIdsForCategory', () => {
                 currentTeamId: 'team1',
             },
             users: {
-                currentUserId: 'user1',
                 profiles: {},
             },
         },

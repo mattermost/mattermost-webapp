@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { UserProfile } from '@mattermost/types/users';
-import { Post } from '@mattermost/types/posts';
-import { Team, TeamMembership } from '@mattermost/types/teams';
-import { Channel, ChannelMembership, ChannelMessageCount } from '@mattermost/types/channels';
+import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Preferences, General} from 'mattermost-redux/constants';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
