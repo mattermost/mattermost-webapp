@@ -400,8 +400,12 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
 
         const customStatusComponent = this.renderCustomStatus(isStatusSet);
 
-        const menuAriaLabelValue = this.props.status;
-        const menuAriaLabeltext = intl.formatMessage({id: 'status_dropdown.menuAriaLabel.text', defaultMessage: 'user status is set to ' + menuAriaLabelValue + ' you can change status by opening'});
+        const menuAriaLabeltext = intl.formatMessage({
+            id: 'status_dropdown.menuAriaLabel.text',
+            defaultMessage: 'user status is set to {menuAriaLabelValue} you can change status by selecting your profile picture',
+        }, {
+            menuAriaLabelValue: this.props.status,
+        });
 
         return (
             <MenuWrapper
