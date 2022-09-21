@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.js';
+import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
     const team = {name: 'team_name'};
