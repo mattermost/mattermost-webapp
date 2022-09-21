@@ -11,7 +11,7 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getChannelMessageCounts, getCurrentChannelId, getMyChannelMemberships, makeGetChannelsForIds} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
 import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
 import {ChannelCategory, ChannelCategoryType, CategorySorting} from '@mattermost/types/channel_categories';
@@ -95,7 +95,7 @@ export function makeFilterArchivedChannels(): (state: GlobalState, channels: Cha
     );
 }
 
-export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channel[], categoryType: string, defaultDmLimit?: number) => Channel[] {
+export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channel[], categoryType: string) => Channel[] {
     return createSelector(
         'makeFilterAutoclosedDMs',
         (state: GlobalState, channels: Channel[]) => channels,
@@ -105,7 +105,7 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
         getCurrentUserId,
         getMyChannelMemberships,
         getChannelMessageCounts,
-        (state: GlobalState, channels, categoryType: string, defaultDmLimit?: number) => getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, defaultDmLimit ?? 20),
+        (state: GlobalState) => getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, Constants.DEFAULT_DM_NUMBER),
         getMyPreferences,
         isCollapsedThreadsEnabled,
         (channels, categoryType, currentChannelId, profiles, currentUserId, myMembers, messageCounts, limitPref, myPreferences, collapsedThreads) => {
@@ -403,12 +403,11 @@ export function makeFilterAndSortChannelsForCategory() {
 
     return (state: GlobalState, originalChannels: Channel[], category: ChannelCategory) => {
         let channels = originalChannels;
-        const defaultDmLimit = getCurrentUser(state).create_at > Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER ? 40 : 20;
 
         channels = filterArchivedChannels(state, channels);
         channels = filterManuallyClosedDMs(state, channels);
 
-        channels = filterAutoclosedDMs(state, channels, category.type, defaultDmLimit);
+        channels = filterAutoclosedDMs(state, channels, category.type);
 
         channels = sortChannels(state, channels, category);
 

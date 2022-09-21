@@ -7,7 +7,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {setCategorySorting} from 'mattermost-redux/actions/channel_categories';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 
@@ -19,13 +19,11 @@ import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
 function mapStateToProps() {
     return (state: GlobalState) => {
-        const currentUser = getCurrentUser(state);
-        const defaultValue = currentUser.create_at > Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER ? 40 : 20;
-        const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, defaultValue);
+        const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, Constants.DEFAULT_DM_NUMBER);
 
         return {
             selectedDmNumber,
-            currentUserId: currentUser.id,
+            currentUserId: getCurrentUserId(state),
         };
     };
 }
