@@ -185,6 +185,7 @@ export type ClientConfig = {
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
+    ExperimentalEnableVoiceMessages: string;
     EnableComplianceExport: string;
     PostPriority: string;
 };

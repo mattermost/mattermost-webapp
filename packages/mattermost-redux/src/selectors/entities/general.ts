@@ -9,6 +9,7 @@ import {GlobalState} from '@mattermost/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from '@mattermost/types/config';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import { boolean } from 'yargs';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
     return state.entities.general.config;
@@ -113,3 +114,10 @@ export const isMarketplaceEnabled: (state: GlobalState) => boolean = createSelec
         return config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
     },
 );
+
+export function canUseVoiceMessage(state: GlobalState): boolean {
+    const config = getConfig(state);
+    const enableVoiceMessagesFF = getFeatureFlagValue(state, 'EnableVoiceMessages') === 'true';
+
+    return config.EnableFileAttachments === 'true' && enableVoiceMessagesFF && config.ExperimentalEnableVoiceMessages === 'true';
+}
