@@ -6870,9 +6870,9 @@ const AdminDefinition = {
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ExperimentalSettings.EnableVoiceMessages',
-                        label: t('admin.experimental.EnableVoiceMessages.title'),
+                        label: t('admin.experimental.enableVoiceMessages.title'),
                         label_default: 'Enable Voice Messages:',
-                        help_text: t('admin.experimental.EnableVoiceMessages.desc'),
+                        help_text: t('admin.experimental.enableVoiceMessages.desc'),
                         help_text_default: 'When true, users can send voice messages.',
                         help_text_markdown: true,
                         isHidden: it.configIsFalse('FeatureFlags', 'EnableVoiceMessages'),
