@@ -174,6 +174,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
 
         let subMenuContent: React.ReactNode = '';
+        const selected = Utils.localizeMessage('sidebar.menu.item.selected', 'selected');
+        const notSelected = Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected');
 
         if (!isMobile) {
             subMenuContent = (
@@ -183,11 +185,11 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                 >
                     {hasSubmenu ? subMenu!.map((s) => {
                         const hasDivider = s.id === 'ChannelMenu-moveToDivider';
-                        let aria;
-                        if (s.tabIndex === 0) {
-                            aria = ariaLabel;
-                        } else if (s.tabIndex !== 0) {
-                            aria = s.text === selectedValueText ? `${s.text + Utils.localizeMessage('sidebar.menu.item.selected', 'selected')}` : `${s.text + Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected')}`;
+                        let aria = ariaLabel;
+                        if (s.action) {
+                            aria = s.text === selectedValueText ?
+                                s.text + ' ' + selected :
+                                s.text + ' ' + notSelected;
                         }
                         return (
                             <span
@@ -195,6 +197,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                 key={s.id}
                                 onFocus={this.setBackGroundColor}
                                 onBlur={this.unsetBackGroundColor}
+                                tabIndex={s.tabIndex}
                             >
                                 <SubMenuItem
                                     id={s.id}

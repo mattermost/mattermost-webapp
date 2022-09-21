@@ -104,7 +104,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         {
             id: 'ChannelMenu-moveToDivider',
             text: (<li className='MenuGroup menu-divider'/>),
-            tabIndex: 0,
+            tabIndex: -1,
         },
         {
             id: `moveToNewCategory-${channel.id}`,
@@ -112,7 +112,6 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
             direction: 'right' as any,
             text: intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
             action: moveToNewCategory,
-            tabIndex: 0,
         },
     );
 
