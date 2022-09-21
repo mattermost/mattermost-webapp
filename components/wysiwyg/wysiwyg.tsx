@@ -60,7 +60,7 @@ const RichTextExample = () => {
                     icon='looks_two'
                 />
                 <BlockButton
-                    format='quote'
+                    format='blockquote'
                     icon='format_quote'
                 />
                 <BlockButton
@@ -178,72 +178,15 @@ const isMarkActive = (editor, format) => {
 
 const Element = ({attributes, children, element}) => {
     const style = {textAlign: element.align};
-    switch (element.type) {
-    case 'quote':
-        return (
-            <blockquote
-                style={style}
-                {...attributes}
-            >
-                {children}
-            </blockquote>
-        );
-    case 'ul':
-        return (
-            <ul
-                style={style}
-                {...attributes}
-            >
-                {children}
-            </ul>
-        );
-    case 'h1':
-        return (
-            <h1
-                style={style}
-                {...attributes}
-            >
-                {children}
-            </h1>
-        );
-    case 'h2':
-        return (
-            <h2
-                style={style}
-                {...attributes}
-            >
-                {children}
-            </h2>
-        );
-    case 'li':
-        return (
-            <li
-                style={style}
-                {...attributes}
-            >
-                {children}
-            </li>
-        );
-    case 'ol':
-        return (
-            <ol
-                style={style}
-                {...attributes}
-            >
-                {children}
-            </ol>
-        );
-    case 'p':
-    default:
-        return (
-            <p
-                style={style}
-                {...attributes}
-            >
-                {children}
-            </p>
-        );
-    }
+    const Tag = element.type || 'p';
+    return (
+        <Tag
+            styles={style}
+            {...attributes}
+        >
+            {children}
+        </Tag>
+    );
 };
 
 const Leaf = ({attributes, children, leaf}) => {
@@ -328,7 +271,7 @@ const initialValue: Descendant[] = [
         ],
     },
     {
-        type: 'quote',
+        type: 'blockquote',
         children: [{text: 'A wise quote.'}],
     },
     {
