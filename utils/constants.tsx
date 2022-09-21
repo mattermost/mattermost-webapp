@@ -715,6 +715,7 @@ export const PostTypes = {
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
     REMOVE_LINK_PREVIEW: 'remove_link_preview' as const,
     ME: 'me' as const,
+    VOICE: 'voice' as const,
 };
 
 export const StatTypes = keyMirror({
