@@ -1,14 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {CategorySorting} from '@mattermost/types/channel_categories';
+
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import configureStore from 'store';
-
-import Constants from 'utils/constants';
-
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {CategorySorting} from '@mattermost/types/channel_categories';
 
 import * as Actions from './channel_sidebar';
 
@@ -36,12 +34,6 @@ describe('adjustTargetIndexForMove', () => {
                     fiveDeleted: {id: 'fiveDeleted', delete_at: 1},
                     six: {id: 'six', delete_at: 0},
                     seven: {id: 'seven', delete_at: 0},
-                },
-            },
-            users: {
-                currentUserId: 'current_user_id',
-                profiles: {
-                    current_user_id: {create_at: Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER - 1},
                 },
             },
         },
@@ -179,9 +171,6 @@ describe('multiSelectChannelTo', () => {
         entities: {
             users: {
                 currentUserId: 'user',
-                profiles: {
-                    user: {create_at: Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER - 1},
-                },
             },
             channelCategories: {
                 byId: {

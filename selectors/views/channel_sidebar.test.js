@@ -478,12 +478,7 @@ describe('getDisplayedChannels', () => {
                 currentTeamId: 'team1',
             },
             users: {
-                currentUserId: 'user1',
-                profiles: {
-                    user1: {
-                        create_at: Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER - 1,
-                    },
-                },
+                profiles: {},
             },
         },
         storage: {
@@ -569,7 +564,6 @@ describe('getDisplayedChannels', () => {
                     users: {
                         ...baseState.entities.users,
                         profiles: {
-                            ...baseState.entities.users.profiles,
                             someUser: {id: 'someUser'},
                         },
                     },
@@ -649,11 +643,7 @@ describe('makeGetFilteredChannelIdsForCategory', () => {
             },
             users: {
                 currentUserId: 'user1',
-                profiles: {
-                    user1: {
-                        create_at: Constants.TIMESTAMP_FOR_DEFAULT_DM_NUMBER - 1,
-                    },
-                },
+                profiles: {},
             },
         },
         views: {
