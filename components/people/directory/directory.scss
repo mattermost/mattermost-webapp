@@ -1,0 +1,34 @@
+.directory-header {
+    &.header {
+        display: flex;
+        flex-direction: column;        
+        justify-content: space-between;
+        padding: 16px;
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        background-color: var(--center-channel-bg);
+        grid-area: header;
+
+        .top {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            .people-title {
+                font-family: 'Metropolis';
+                font-style: normal;
+                font-weight: 600;
+                font-size: 20px;
+                line-height: 28px;
+                color: var(--center-channel-color);
+            }
+        }
+        .bottom {
+            display: flex;
+            align-items: center;
+
+            .people-search-input {
+                width: 300px;
+            }
+        }
+    }
+}
