@@ -15,16 +15,16 @@ import Describe from './describe.jsx';
 import ExtraInfo from './extra_info.jsx';
 import SectionTitle from './section_title.jsx';
 type Props = {
-    ignoreChannelMentions?:string,
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void,
-    onChangeThreads?: (e: ChangeEvent<HTMLInputElement>) => void,
-    onCollapseSection: (section: string) => void,
-    onSubmit: (setting?: string) => void,
-    globalNotifyLevel?: string,
-    memberNotifyLevel: string,
-    memberThreadsNotifyLevel?: string,
-    section: string,
-    serverError?: string,
+    ignoreChannelMentions?: string;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChangeThreads?: (e: ChangeEvent<HTMLInputElement>) => void;
+    onCollapseSection: (section: string) => void;
+    onSubmit: (setting?: string) => void;
+    globalNotifyLevel?: string;
+    memberNotifyLevel: string;
+    memberThreadsNotifyLevel?: string;
+    section: string;
+    serverError?: string;
 }
 
 export default function ExpandView({
@@ -279,5 +279,3 @@ export default function ExpandView({
         />
     );
 }
-
-
