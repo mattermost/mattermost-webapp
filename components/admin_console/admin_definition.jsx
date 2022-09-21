@@ -32,8 +32,6 @@ import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_i
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import {fallbackStarterLimits} from 'utils/limits';
-
 import OpenIdConvert from './openid_convert';
 import Audits from './audits';
 import CustomURLSchemesSetting from './custom_url_schemes_setting.jsx';
@@ -222,7 +220,6 @@ export const it = {
 
 export const validators = {
     isRequired: (text, textDefault) => (value) => new ValidationResult(Boolean(value), text, textDefault),
-    isSmallerOrEqualTo: (text, textDefault) => (value, max) => new ValidationResult(value <= max, text, textDefault),
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
