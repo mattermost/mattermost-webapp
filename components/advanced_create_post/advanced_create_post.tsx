@@ -47,25 +47,34 @@ import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
 
-import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
+
+import EmojiMap from 'utils/emoji_map';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {ModalData} from 'types/actions';
+
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
+
+import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
+
+import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriority} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
-import EmojiMap from 'utils/emoji_map';
-import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from '@mattermost/types/integrations';
 import {Group} from '@mattermost/types/groups';
-import {ModalData} from 'types/actions';
+
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
+import Wysiwyg from '../wysiwyg/wysiwyg';
 const KeyCodes = Constants.KeyCodes;
 
 // Temporary fix for IE-11, see MM-13423
@@ -1316,6 +1325,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (!this.props.fullWidthTextBox) {
             centerClass = 'center';
         }
+
+        return (
+            <Wysiwyg/>
+        );
 
         return (
             <form

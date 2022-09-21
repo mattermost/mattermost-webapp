@@ -16,6 +16,7 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
@@ -209,7 +210,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
     private handleBackSpace = (e: KeyboardEvent): void => {
         const excludedElements = ['input', 'textarea'];
 
-        if (e.which === BACKSPACE_CHAR && !(excludedElements.includes((e.target as HTMLElement).tagName.toLowerCase()))) {
+        if (e.which === BACKSPACE_CHAR && !(excludedElements.includes((e.target as HTMLElement).tagName.toLowerCase())) && (e.target as HTMLElement)?.getAttribute?.('role') !== 'textbox') {
             e.preventDefault();
         }
     }

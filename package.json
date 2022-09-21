@@ -10,6 +10,7 @@
     "node": ">=16.4.0"
   },
   "dependencies": {
+    "@emotion/css": "11.10.0",
     "@floating-ui/react-dom": "0.7.2",
     "@floating-ui/react-dom-interactions": "0.9.1",
     "@mattermost/compass-components": "^0.2.12",
@@ -87,6 +88,9 @@
     "semver": "7.3.7",
     "serialize-error": "8.0.1",
     "shallow-equals": "1.0.0",
+    "slate": "0.82.1",
+    "slate-history": "0.66.0",
+    "slate-react": "0.83.0",
     "smooth-scroll-into-view-if-needed": "1.1.33",
     "stream-browserify": "3.0.0",
     "styled-components": "5.3.5",
