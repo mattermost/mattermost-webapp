@@ -3,6 +3,8 @@
 
 import {createSelector} from 'reselect';
 
+import {Post} from '@mattermost/types/posts';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {
@@ -20,7 +22,7 @@ import {
 import {Posts} from 'mattermost-redux/constants';
 import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 import {executeCommand} from 'actions/command';
 import {runMessageWillBePostedHooks, runSlashCommandWillBePostedHooks} from 'actions/hooks';
 import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
@@ -29,7 +31,7 @@ import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils';
 import {Constants, StoragePrefixes} from 'utils/constants';
-import {PostDraft} from 'types/store/rhs';
+import {PostDraft} from 'types/store/draft';
 import {GlobalState} from 'types/store';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -95,7 +97,7 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft) 
             create_at: time,
             metadata: {},
             props: {...draft.props},
-        };
+        } as unknown as Post;
 
         const hookResult = await dispatch(runMessageWillBePostedHooks(post));
         if (hookResult.error) {

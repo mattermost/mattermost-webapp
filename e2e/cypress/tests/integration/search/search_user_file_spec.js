@@ -16,9 +16,7 @@
 function createNewDMChannel(channelname) {
     cy.uiAddDirectMessage().scrollIntoView().click();
 
-    cy.get('#selectItems').within(() => {
-        cy.get('input[type="text"]').scrollIntoView().type(channelname, {force: true});
-    });
+    cy.get('#selectItems input').typeWithForce(channelname);
 
     cy.contains('.more-modal__description', channelname).click({force: true});
     cy.get('#saveItems').click();
@@ -55,9 +53,9 @@ describe('Search in DMs', () => {
         createNewDMChannel(otherUser.email);
 
         // # Post file to user
-        cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile('word-file.doc');
+        cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile('word-file.doc');
         cy.get('.post-image__thumbnail').should('be.visible');
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // # Type `in:` in searchbox
         cy.get('#searchBox').type('in:');

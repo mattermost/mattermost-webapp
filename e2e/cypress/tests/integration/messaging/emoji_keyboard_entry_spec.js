@@ -96,7 +96,7 @@ describe('MM-T154 Use keyboard navigation in emoji picker', () => {
             cy.get('#emojiPickerSearch').type('{enter}');
 
             // # Post message with keyboard
-            cy.get('#post_textbox').type('{enter}');
+            cy.uiGetPostTextBox().type('{enter}');
 
             // * Compare selected emoji with last post
             cy.getLastPost().find('.emoticon').should('have.attr', 'title', selectedEmoji);

@@ -23,7 +23,7 @@ describe('Keyboard Shortcuts', () => {
     it('MM-T1243 CTRL/CMD+K - Open public channel using arrow keys and Enter, click out of current channel message box first', () => {
         // # To remove focus from message text box
         cy.get('#postListContent').click();
-        cy.get('#post_textbox').should('not.be.focused');
+        cy.uiGetPostTextBox().should('not.be.focused');
 
         // # Press CTRL/CMD+K
         cy.get('body').cmdOrCtrlShortcut('K');
@@ -41,6 +41,6 @@ describe('Keyboard Shortcuts', () => {
 
         // * Confirm that channel is open, and post text box has focus
         cy.contains('#channelHeaderTitle', 'Off-Topic');
-        cy.get('#post_textbox').should('be.focused');
+        cy.uiGetPostTextBox().should('be.focused');
     });
 });

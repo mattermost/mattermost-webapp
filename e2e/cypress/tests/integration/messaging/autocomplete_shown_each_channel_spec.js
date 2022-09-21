@@ -35,7 +35,7 @@ describe('Identical Message Drafts', () => {
 
     it('MM-T132 Identical Message Drafts - Autocomplete shown in each channel', () => {
         // # Start a draft in Channel A containing just "@"
-        cy.get('#post_textbox').should('be.visible').type('@');
+        cy.uiGetPostTextBox().type('@');
 
         // * At mention auto-complete appears in Channel A
         cy.get('#suggestionList').should('be.visible');
@@ -49,7 +49,7 @@ describe('Identical Message Drafts', () => {
         cy.get('#suggestionList').should('not.exist');
 
         // # Start a draft in Channel B containing just "@"
-        cy.get('#post_textbox').should('be.visible').type('@');
+        cy.uiGetPostTextBox().type('@');
 
         // * At mention auto-complete appears in Channel B
         cy.get('#suggestionList').should('be.visible');
@@ -61,7 +61,7 @@ describe('Identical Message Drafts', () => {
         // * Validate if the channel has been opened
         // * At mention auto-complete is preserved in Channel A
         cy.url().should('include', `/channels/${testChannelA.name}`);
-        cy.get('#post_textbox').should('be.visible');
+        cy.uiGetPostTextBox();
         cy.get('#suggestionList').should('be.visible');
     });
 });

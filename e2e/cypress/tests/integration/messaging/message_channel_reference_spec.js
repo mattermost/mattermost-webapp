@@ -27,7 +27,7 @@ describe('Messaging', () => {
         cy.postMessage(msg);
 
         // # Hit the "up" arrow to open the edit modal
-        cy.get('#post_textbox').type('{uparrow}');
+        cy.uiGetPostTextBox().type('{uparrow}');
 
         // # Insert a tilde (~) at the beginning of the post to be edited
         cy.get('#edit_textbox').should('be.visible').wait(TIMEOUTS.HALF_SEC).type('{home}~');

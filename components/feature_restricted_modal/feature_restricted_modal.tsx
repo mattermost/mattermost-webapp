@@ -14,6 +14,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import GenericModal from 'components/generic_modal';
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
@@ -28,8 +29,11 @@ type FeatureRestrictedModalProps = {
     messageAdminPreTrial: string;
     titleAdminPostTrial: string;
     messageAdminPostTrial: string;
-    titleEndUser: string;
-    messageEndUser: string;
+    titleEndUser?: string;
+    messageEndUser?: string;
+    customSecondaryButton?: {msg: string; action: () => void};
+    feature?: string;
+    minimumPlanRequiredForFeature?: string;
 }
 
 const FeatureRestrictedModal = ({
@@ -39,6 +43,9 @@ const FeatureRestrictedModal = ({
     messageAdminPostTrial,
     titleEndUser,
     messageEndUser,
+    customSecondaryButton,
+    feature,
+    minimumPlanRequiredForFeature,
 }: FeatureRestrictedModalProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -48,6 +55,17 @@ const FeatureRestrictedModal = ({
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
     const openPricingModal = useOpenPricingModal();
 
+    const [notifyAdminStatus, notifyAdmin] = useNotifyAdmin({
+        ctaText: formatMessage({
+            id: 'feature_restricted_modal.button.notify',
+            defaultMessage: 'Notify Admin',
+        }),
+    }, {
+        required_feature: feature || '',
+        required_plan: minimumPlanRequiredForFeature || '',
+        trial_notification: false,
+    });
+
     if (!show) {
         return null;
     }
@@ -56,9 +74,13 @@ const FeatureRestrictedModal = ({
         dispatch(closeModal(ModalIdentifiers.FEATURE_RESTRICTED_MODAL));
     };
 
-    const handleViewPlansClick = () => {
-        openPricingModal();
-        dismissAction();
+    const handleViewPlansClick = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        if (isSystemAdmin) {
+            openPricingModal({trackingLocation: 'feature_restricted_modal'});
+            dismissAction();
+        } else {
+            notifyAdmin(e, 'feature_restricted_modal');
+        }
     };
 
     const getTitle = () => {
@@ -79,11 +101,22 @@ const FeatureRestrictedModal = ({
 
     const showStartTrial = isSystemAdmin && !hasPriorTrial;
 
+    // define what is the secondary button text and action, by default will be the View Plan button
+    let secondaryBtnMsg = formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'});
+    if (!isSystemAdmin) {
+        secondaryBtnMsg = notifyAdminStatus as string;
+    }
+    let secondaryBtnAction = handleViewPlansClick;
+    if (customSecondaryButton) {
+        secondaryBtnMsg = customSecondaryButton.msg;
+        secondaryBtnAction = customSecondaryButton.action;
+    }
+
     return (
         <GenericModal
             id='FeatureRestrictedModal'
             className='FeatureRestrictedModal'
-            useCompassDesign={true}
+            compassDesign={true}
             modalHeaderText={getTitle()}
             onExited={dismissAction}
         >
@@ -125,10 +158,11 @@ const FeatureRestrictedModal = ({
                 )}
                 <div className={classNames('FeatureRestrictedModal__buttons', {single: !showStartTrial})}>
                     <button
+                        id='button-plans'
                         className='button-plans'
-                        onClick={handleViewPlansClick}
+                        onClick={secondaryBtnAction}
                     >
-                        {formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'})}
+                        {secondaryBtnMsg}
                     </button>
                     {showStartTrial && (
                         <CloudStartTrialButton

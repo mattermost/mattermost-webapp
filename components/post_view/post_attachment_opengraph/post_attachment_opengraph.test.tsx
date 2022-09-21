@@ -3,13 +3,12 @@
 
 import React from 'react';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 import {cloneDeep, set} from 'lodash';
 import {mount} from 'enzyme';
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {OpenGraphMetadata, Post} from '@mattermost/types/posts';
+import mockStore from 'tests/test_store';
 import {Preferences} from 'utils/constants';
 
 import {getBestImage, getIsLargeImage, PostAttachmentOpenGraphImage, PostAttachmentOpenGraphBody} from './post_attachment_opengraph';
@@ -68,8 +67,6 @@ const initialState = {
         },
     },
 };
-
-const mockStore = configureStore([thunk]);
 
 describe('PostAttachmentOpenGraph', () => {
     const imageUrl = 'http://mattermost.com/OpenGraphImage.jpg';

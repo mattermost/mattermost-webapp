@@ -27,13 +27,13 @@ describe('Integrations', () => {
 
     it('MM-T2829 Test an example of plugin that uses sub commands', () => {
         // # Post a slash command with trailing space
-        cy.get('#post_textbox').clear().type('/jira ');
+        cy.uiGetPostTextBox().clear().type('/jira ');
 
         // * Verify suggestion list is visible and includes 'info'
         cy.get('#suggestionList').findByText('info').scrollIntoView().should('be.visible');
 
         // # Narrow down list to show info only suggestion
-        cy.get('#post_textbox').type('inf');
+        cy.uiGetPostTextBox().type('inf');
 
         // * Verify suggestion list is visible with only 1 child
         cy.get('#suggestionList').should('be.visible').children().should('have.length', 1);
@@ -43,7 +43,7 @@ describe('Integrations', () => {
 
         // # click the info subcommand and hit enter
         cy.get('#suggestionList').findByText('info').should('be.visible').click();
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * Verify message is sent and (only visible to you)
         cy.getLastPostId().then((postId) => {
@@ -55,13 +55,13 @@ describe('Integrations', () => {
 
     it('MM-T2830 Test an example of a plugin using static list', () => {
         // # Post a slash command with trailing space
-        cy.get('#post_textbox').clear().type('/jira ');
+        cy.uiGetPostTextBox().clear().type('/jira ');
 
         // * Verify suggestion includes instance subcommand and is visible
         cy.get('#suggestionList').should('contain.text', 'instance').scrollIntoView().should('be.visible');
 
         // # Narrow down list to show info only suggestion
-        cy.get('#post_textbox').type('i');
+        cy.uiGetPostTextBox().type('i');
 
         // * Verify suggestion list is visible with three children (issue, instance, info)
         cy.get('#suggestionList').should('be.visible').children().
@@ -70,13 +70,13 @@ describe('Integrations', () => {
             should('contain.text', 'info');
 
         // # Clear test and post a slash command with trailing space
-        cy.get('#post_textbox').clear().type('/jira instance settings ');
+        cy.uiGetPostTextBox().clear().type('/jira instance settings ');
 
         // * Verify suggestion notifications is visible
         cy.get('#suggestionList').should('contain.text', 'notifications').scrollIntoView().should('be.visible');
 
         // # Clear test and Post a slash command with trailing space
-        cy.get('#post_textbox').type('notifications ');
+        cy.uiGetPostTextBox().type('notifications ');
 
         // * Verify notifications suggestion is visible and lists on/off options
         cy.get('#suggestionList').should('be.visible').children().
@@ -85,10 +85,10 @@ describe('Integrations', () => {
 
         // # down arrow to highlight the second suggestion
         // # enter to push to send command to post textbox
-        cy.get('#post_textbox').type('{downarrow}{downarrow}{enter}');
+        cy.uiGetPostTextBox().type('{downarrow}{downarrow}{enter}');
 
         // # Send the command
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * Verify message is sent and (only visible to you)
         cy.getLastPostId().then((postId) => {
@@ -100,7 +100,7 @@ describe('Integrations', () => {
 
     it('MM-T2831 Test an example of plugin using dynamic list', () => {
         // # Post a slash command with trailing space
-        cy.get('#post_textbox').clear().type('/autocomplete_test dynamic-arg ');
+        cy.uiGetPostTextBox().clear().type('/autocomplete_test dynamic-arg ');
 
         // * Verify suggestion list is visible with at three children (issue, instance, info)
         cy.get('#suggestionList').should('be.visible').children().
@@ -109,10 +109,10 @@ describe('Integrations', () => {
 
         // # down arrow to highlight the second suggestion
         // # enter to push to send command to post textbox
-        cy.get('#post_textbox').type('{downarrow}{downarrow}{enter}');
+        cy.uiGetPostTextBox().type('{downarrow}{downarrow}{enter}');
 
         // # Send the command
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * Verify correct message is sent,  (only visible to you)
         cy.getLastPostId().then((postId) => {
@@ -124,7 +124,7 @@ describe('Integrations', () => {
 
     it('MM-T2832 Use a slash command that omits the optional argument', () => {
         // # Post a slash command that omits the optional argument
-        cy.get('#post_textbox').clear().type('/autocomplete_test optional-arg {enter}');
+        cy.uiGetPostTextBox().clear().type('/autocomplete_test optional-arg {enter}');
 
         // * Verify item is sent and is (only visible to you)
         cy.getLastPostId().then((postId) => {
@@ -134,7 +134,7 @@ describe('Integrations', () => {
 
     it('MM-T2833 Use a slash command that accepts an optional argument', () => {
         // # Post a slash command that accepts an optional argument
-        cy.get('#post_textbox').clear().type('/autocomplete_test optional-arg --name1 testarg {enter}');
+        cy.uiGetPostTextBox().clear().type('/autocomplete_test optional-arg --name1 testarg {enter}');
 
         // * Verify item is sent and is (only visible to you)
         cy.getLastPostId().then((postId) => {
@@ -144,7 +144,7 @@ describe('Integrations', () => {
 
     it('MM-T2834 Slash command help stays visible for system slash command', () => {
         // # Post a slash command without trailing space
-        cy.get('#post_textbox').type('/rename');
+        cy.uiGetPostTextBox().type('/rename');
 
         // * Verify suggestion list is visible with only 1 child
         cy.get('#suggestionList').should('be.visible').children().should('have.length', 1);
@@ -153,7 +153,7 @@ describe('Integrations', () => {
         cy.get('#suggestionList').children().eq(0).findByText('Rename the channel').should('be.visible');
 
         // # Add trailing space to '/rename' command
-        cy.get('#post_textbox').type(' ');
+        cy.uiGetPostTextBox().type(' ');
 
         // * Verify command text is no longer visible after space is added
         cy.findByText('Rename the channel').should('not.exist');
@@ -170,7 +170,7 @@ describe('Integrations', () => {
 
     it('MM-T2835 Slash command help stays visible for plugin', () => {
         // # Post a slash command with trailing space
-        cy.get('#post_textbox').clear().type('/jira ');
+        cy.uiGetPostTextBox().clear().type('/jira ');
 
         // * Verify suggestion list is visible with 11 children
         cy.get('#suggestionList').should('be.visible').children().should('have.length', 11);

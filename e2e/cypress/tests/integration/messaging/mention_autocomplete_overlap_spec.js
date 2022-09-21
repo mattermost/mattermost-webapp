@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -21,7 +20,7 @@ describe('Messaging', () => {
         });
     });
 
-    it('At-mention user autocomplete should open below the textbox in RHS when only one message is present', () => {
+    it('At-mention user autocomplete should open below the textbox in RHS when only one message is present -- KNOWN ISSUE: MM-45597', () => {
         // # Add a single message to center textbox
         cy.postMessage(MESSAGES.TINY);
 
@@ -32,9 +31,9 @@ describe('Messaging', () => {
         cy.get('#rhsContainer').should('be.visible');
 
         // # Enter @ to allow opening of autocomplete box
-        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
+        cy.uiGetReplyTextBox().clear().type('@');
 
-        cy.get('#reply_textbox').then((replyTextbox) => {
+        cy.uiGetReplyTextBox().then((replyTextbox) => {
             cy.get('#suggestionList').then((suggestionList) => {
                 // * Verify that the suggestion box opened below the textbox
                 expect(replyTextbox[0].getBoundingClientRect().top).to.be.lessThan(suggestionList[0].getBoundingClientRect().top);
@@ -57,7 +56,7 @@ describe('Messaging', () => {
 
         // # Make a series of post so we are way past the first message in terms of scroll
         Cypress._.times(2, () => {
-            cy.get('#reply_textbox').
+            cy.uiGetReplyTextBox().
                 clear().
                 invoke('val', MESSAGES.HUGE).
                 wait(TIMEOUTS.ONE_SEC).
@@ -65,9 +64,9 @@ describe('Messaging', () => {
         });
 
         // # Enter @ to allow opening of autocomplete box
-        cy.get('#reply_textbox', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible').clear().type('@');
+        cy.uiGetReplyTextBox().clear().type('@');
 
-        cy.get('#reply_textbox').then((replyTextbox) => {
+        cy.uiGetReplyTextBox().then((replyTextbox) => {
             cy.get('#suggestionList').then((suggestionList) => {
                 // * Verify that the suggestion box opened above the textbox
                 expect(replyTextbox[0].getBoundingClientRect().top).to.be.greaterThan(suggestionList[0].getBoundingClientRect().top);
@@ -97,15 +96,15 @@ function uploadFileAndAddAutocompleteThenVerifyNoOverlap() {
     cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
 
     // # Create and then type message to use
-    cy.get('#post_textbox').clear();
+    cy.uiGetPostTextBox().clear();
     let message = 'h{shift}';
     for (let i = 0; i < 12; i++) {
         message += '{enter}h';
     }
-    cy.get('#post_textbox').type(message);
+    cy.uiGetPostTextBox().type(message);
 
     // # Add the mention
-    cy.get('#post_textbox').type('{shift}{enter}').type('@');
+    cy.uiGetPostTextBox().type('{shift}{enter}').type('@');
 
     cy.get('#channel-header').should('be.visible').then((header) => {
         cy.get('#suggestionList').should('be.visible').then((list) => {

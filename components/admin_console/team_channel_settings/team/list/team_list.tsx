@@ -14,7 +14,7 @@ import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils';
 
 import DataGrid, {Column} from 'components/admin_console/data_grid/data_grid';
-import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list.jsx';
+import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list';
 import TeamIcon from 'components/widgets/team_icon/team_icon';
 
 import './team_list.scss';

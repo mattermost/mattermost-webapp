@@ -49,7 +49,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
     };
 
     const buttonId = component.id;
-    const tooltipText = component.tooltipText || component.pluginId;
+    const tooltipText = component.tooltipText || component.dropdownText || component.pluginId;
     const tooltip = (
         <Tooltip id={'pluginTooltip-' + buttonId}>
             <span>{tooltipText}</span>

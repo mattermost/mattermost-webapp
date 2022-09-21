@@ -1,13 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
-
 import {getRecentEmojisData, getEmojiMap} from 'selectors/emojis';
 import * as EmojiActions from 'actions/emoji_actions';
 import * as PreferenceActions from 'mattermost-redux/actions/preferences';
+
+import mockStore from 'tests/test_store';
 
 const currentUserId = 'current_user_id';
 const initialState = {
@@ -17,8 +15,6 @@ const initialState = {
         },
     },
 };
-
-const mockStore = configureStore([thunk]);
 
 jest.mock('selectors/emojis', () => ({
     getRecentEmojisData: jest.fn(),

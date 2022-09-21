@@ -36,22 +36,6 @@
                 fill: var(--center-channel-text);
             }
         }
-
-        .header-alternate-container {
-            margin-left: auto;
-
-            .header-alternate-message {
-                color: var(--center-channel-text-rgb);
-                font-size: 12px;
-                line-height: 16px;
-            }
-
-            .header-alternate-link {
-                padding-left: 4px;
-
-                @include link;
-            }
-        }
     }
 
     .header-back-button {
@@ -75,14 +59,6 @@
         .header-main {
             .header-logo-link svg {
                 width: 145px;
-            }
-
-            .header-alternate-container {
-                margin-left: 0;
-
-                .header-alternate-message {
-                    display: none;
-                }
             }
         }
 

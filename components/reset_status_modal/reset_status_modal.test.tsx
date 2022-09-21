@@ -10,7 +10,7 @@ describe('components/ResetStatusModal', () => {
     const autoResetStatus = jest.fn().mockImplementation(
         () => {
             return new Promise((resolve) => {
-                process.nextTick(() => resolve({status: 'away'}));
+                process.nextTick(() => resolve({data: {status: 'away'}}));
             });
         },
     );

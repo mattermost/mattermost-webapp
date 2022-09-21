@@ -5,17 +5,14 @@ import React from 'react';
 
 import {ReactWrapper, shallow} from 'enzyme';
 
-import configureStore from 'redux-mock-store';
-
 import {Provider} from 'react-redux';
-
-import thunk from 'redux-thunk';
 
 import {act} from 'react-dom/test-utils';
 
 import * as cloudActions from 'actions/cloud';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
@@ -72,7 +69,6 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
         },
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     const props = {

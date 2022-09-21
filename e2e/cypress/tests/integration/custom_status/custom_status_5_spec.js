@@ -147,12 +147,12 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
 
     it('MM-T3850_11 should show custom status emoji at autocomplete', () => {
         // # type: /message @[username]
-        cy.get('#post_textbox').should('be.visible').type(`/message @${currentUser.username}`);
+        cy.uiGetPostTextBox().type(`/message @${currentUser.username}`);
 
         // * Autocomplete shows the user along with the custom status emoji
         cy.get('#suggestionList').find('.suggestion-list__item').eq(0).contains(`@${currentUser.username}`).get('span.emoticon').should('exist').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
 
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}');
     });
 
     it('MM-T3850_12 should show custom status emoji at channel switcher', () => {

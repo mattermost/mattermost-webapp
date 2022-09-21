@@ -4,7 +4,8 @@
 import {Post, PostType} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
-import {FileInfo} from '@mattermost/types/files';
+
+import {RHSStates} from 'utils/constants';
 
 export type SearchType = '' | 'files' | 'messages';
 
@@ -15,14 +16,6 @@ export type FakePost = {
     message: string;
     channel_id: Channel['id'];
     user_id: UserProfile['id'];
-};
-
-export type PostDraft = {
-    message: string;
-    fileInfos: FileInfo[];
-    uploadsInProgress: string[];
-    props?: any;
-    caretPosition?: number;
 };
 
 export type RhsViewState = {
@@ -46,4 +39,4 @@ export type RhsViewState = {
     editChannelMembers: boolean;
 };
 
-export type RhsState = 'mention' | 'search' | 'flag' | 'pin' | 'plugin' | 'channel-info' | 'channel-files' |'channel-members' | null;
+export type RhsState = typeof RHSStates[keyof typeof RHSStates] | null;

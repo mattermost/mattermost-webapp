@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
 import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
@@ -9,7 +8,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import * as GlobalActions from 'actions/global_actions';
 import {FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS} from 'utils/cloud_utils';
-import {Constants, ModalIdentifiers} from 'utils/constants';
+import {Constants, LicenseSkus, ModalIdentifiers, PaidFeatures} from 'utils/constants';
 import {cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 import {makeUrlSafe} from 'utils/url';
 import * as UserAgent from 'utils/user_agent';
@@ -61,6 +60,7 @@ export type Props = {
     teamUrl: string;
     isFirstAdmin: boolean;
     isCloud: boolean;
+    isStarterFree: boolean;
     isFreeTrial: boolean;
     usageDeltaTeams: number;
     location: {
@@ -153,7 +153,7 @@ export class MainMenu extends React.PureComponent<Props> {
 
         const someIntegrationEnabled = this.props.enableIncomingWebhooks || this.props.enableOutgoingWebhooks || this.props.enableCommands || this.props.enableOAuthServiceProvider || this.props.canManageSystemBots;
         const showIntegrations = !this.props.mobile && someIntegrationEnabled && this.props.canManageIntegrations;
-        const teamsLimitReached = this.props.isCloud && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
+        const teamsLimitReached = this.props.isStarterFree && !this.props.isFreeTrial && this.props.usageDeltaTeams >= 0;
         const createTeamRestricted = this.props.isCloud && (this.props.isFreeTrial || teamsLimitReached);
 
         const {formatMessage} = this.props.intl;
@@ -473,6 +473,8 @@ export class MainMenu extends React.PureComponent<Props> {
                             text={formatMessage({id: 'navbar_dropdown.create', defaultMessage: 'Create a Team'})}
                             sibling={createTeamRestricted && (
                                 <RestrictedIndicator
+                                    feature={PaidFeatures.CREATE_MULTIPLE_TEAMS}
+                                    minimumPlanRequiredForFeature={LicenseSkus.Professional}
                                     blocked={!this.props.isFreeTrial}
                                     tooltipMessage={formatMessage({
                                         id: 'navbar_dropdown.create.tooltip.cloudFreeTrial',

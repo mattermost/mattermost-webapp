@@ -93,7 +93,7 @@ export function mapStateToProps(state: GlobalState, props: OwnProps) {
 type Actions = {
     sendGuestsInvites: (teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     sendMembersInvites: (teamId: string, users: UserProfile[], emails: string[]) => Promise<{data: InviteResults}>;
-    sendMembersInvitesToChannels: (channels: Channel[], teamId: string, users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
+    sendMembersInvitesToChannels: (teamId: string, channels: Channel[], users: UserProfile[], emails: string[], message: string) => Promise<{data: InviteResults}>;
     regenerateTeamInviteId: (teamId: string) => void;
     searchProfiles: (term: string, options?: Record<string, string>) => Promise<{data: UserProfile[]}>;
     searchChannels: (teamId: string, term: string) => ActionFunc;

@@ -39,7 +39,7 @@ describe('Recent Emoji', () => {
             cy.findByAltText('emoji skin tone picker').should('exist').parent().click().wait(TIMEOUTS.ONE_SEC);
 
             // # Select default yellow skin
-            cy.findByTestId('skin-pick-default').should('exist').parent().click();
+            cy.findByTestId('skin-pick-default').should('exist').click();
 
             // # Search for a system emoji with skin
             cy.findByPlaceholderText('Search emojis').should('exist').type('thumbsup').wait(TIMEOUTS.HALF_SEC);
@@ -62,7 +62,7 @@ describe('Recent Emoji', () => {
             cy.findByAltText('emoji skin tone picker').should('exist').parent().click().wait(TIMEOUTS.ONE_SEC);
 
             // # Select a dark skin tone
-            cy.findByTestId('skin-pick-1F3FF').should('exist').parent().click();
+            cy.findByTestId('skin-pick-1F3FF').should('exist').click();
 
             // * Verify most recent one is the same thumbsup emoji but now with a dark skin tone
             cy.findAllByTestId('emojiItem').eq(0).find('img').should('have.attr', 'aria-label', '+1 dark skin tone emoji');

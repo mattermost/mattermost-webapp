@@ -3,6 +3,8 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
+import {Post} from '@mattermost/types/posts';
+
 import {TestHelper} from '../../../utils/test_helper';
 
 import FilePreviewModalHeader from './file_preview_modal_header';
@@ -17,7 +19,7 @@ describe('components/file_preview_modal/file_preview_modal_header/FilePreviewMod
         isMobileView: false,
         fileIndex: 1,
         totalFiles: 3,
-        post: {},
+        post: {} as Post,
         showPublicLink: false,
         isExternalFile: false,
         onGetPublicLink: jest.fn(),

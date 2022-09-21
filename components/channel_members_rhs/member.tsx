@@ -67,7 +67,6 @@ const SendMessage = styled.button`
 
 const RoleChooser = styled.div`
     display: none;
-    opacity: 0;
     flex-basis: fit-content;
     flex-shrink: 0;
 
@@ -128,31 +127,33 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                 className={classNames({editing}, 'member-role-chooser')}
                 data-testid='rolechooser'
             >
-                <ChannelMembersDropdown
-                    channel={channel}
-                    user={member.user}
-                    channelMember={member.membership}
-                    index={index}
-                    totalUsers={totalUsers}
-                    channelAdminLabel={
-                        <FormattedMessage
-                            id='channel_members_rhs.member.select_role_channel_admin'
-                            defaultMessage='Admin'
-                        />
-                    }
-                    channelMemberLabel={
-                        <FormattedMessage
-                            id='channel_members_rhs.member.select_role_channel_member'
-                            defaultMessage='Member'
-                        />
-                    }
-                    guestLabel={
-                        <FormattedMessage
-                            id='channel_members_rhs.member.select_role_guest'
-                            defaultMessage='Guest'
-                        />
-                    }
-                />
+                {member.membership && (
+                    <ChannelMembersDropdown
+                        channel={channel}
+                        user={member.user}
+                        channelMember={member.membership}
+                        index={index}
+                        totalUsers={totalUsers}
+                        channelAdminLabel={
+                            <FormattedMessage
+                                id='channel_members_rhs.member.select_role_channel_admin'
+                                defaultMessage='Admin'
+                            />
+                        }
+                        channelMemberLabel={
+                            <FormattedMessage
+                                id='channel_members_rhs.member.select_role_channel_member'
+                                defaultMessage='Member'
+                            />
+                        }
+                        guestLabel={
+                            <FormattedMessage
+                                id='channel_members_rhs.member.select_role_guest'
+                                defaultMessage='Guest'
+                            />
+                        }
+                    />
+                )}
             </RoleChooser>
             {!editing && (
                 <SendMessage onClick={() => actions.openDirectMessage(member.user)}>

@@ -3,19 +3,15 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
 
 import {BrowserRouter} from 'react-router-dom';
 
 import {TimeFrames, TopChannel} from '@mattermost/types/insights';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import TopChannelsLineChart from './top_channels_line_chart';
-
-const mockStore = configureStore([thunk]);
 
 jest.mock('mattermost-redux/actions/insights', () => ({
     ...jest.requireActual('mattermost-redux/actions/insights'),

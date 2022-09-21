@@ -80,7 +80,7 @@ describe('Custom emojis', () => {
         cy.postMessage(messageText);
 
         // # Post the built-in emoji
-        cy.get('#post_textbox').type('+' + builtinEmojiWithColons).wait(TIMEOUTS.HALF_SEC).type('{enter}').type('{enter}');
+        cy.uiGetPostTextBox().type('+' + builtinEmojiWithColons).wait(TIMEOUTS.HALF_SEC).type('{enter}').type('{enter}');
 
         cy.getLastPostId().then((postId) => {
             const postText = `#postMessageText_${postId}`;

@@ -84,6 +84,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         teammateNameDisplay: '',
         channelDisplayMode: '',
         messageDisplay: '',
+        colorizeUsernames: '',
         collapseDisplay: '',
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',

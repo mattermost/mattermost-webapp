@@ -23,7 +23,7 @@ describe('Messaging', () => {
 
         // # Post a message beginning with a new line and followed by emojis
         cy.postMessage('hello');
-        cy.get('#post_textbox').type('\n' + emojis.join(' ')).type('{enter}');
+        cy.uiGetPostTextBox().type('\n' + emojis.join(' ')).type('{enter}');
 
         // # Get last post message text
         cy.getLastPostId().then((postId) => {

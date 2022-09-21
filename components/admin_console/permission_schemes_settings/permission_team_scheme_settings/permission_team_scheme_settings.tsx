@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {RouteComponentProps} from 'react-router';
+import {RouteComponentProps} from 'react-router-dom';
 
 import {PermissionsScope, ModalIdentifiers} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -69,7 +69,7 @@ type State = {
     } | null;
     teams: Team[] | null;
     addTeamOpen: boolean;
-    selectedPermission: string | null;
+    selectedPermission: string | undefined;
     openRoles: {
         all_users: boolean;
         team_admin: boolean;
@@ -92,7 +92,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
             roles: null,
             teams: null,
             addTeamOpen: false,
-            selectedPermission: null,
+            selectedPermission: undefined,
             openRoles: {
                 all_users: true,
                 team_admin: true,
@@ -204,7 +204,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
 
         // Remove selection after animation
         setTimeout(() => {
-            this.setState({selectedPermission: null});
+            this.setState({selectedPermission: undefined});
         }, 3000);
     }
 

@@ -52,6 +52,7 @@ const SendButton = ({disabled, handleSubmit}: SendButtonProps) => {
 
     return (
         <SendButtonContainer
+            data-testid='SendMessageButton'
             tabIndex={0}
             aria-label={formatMessage({
                 id: 'create_post.send_message',
