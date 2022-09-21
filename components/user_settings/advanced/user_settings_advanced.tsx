@@ -23,6 +23,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import JoinLeaveSection from './join_leave_section';
+import WysiwygSection from './wysiwyg';
 import PerformanceDebuggingSection from './performance_debugging_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
@@ -803,6 +804,12 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     </h3>
                     <div className='divider-dark first'/>
                     {ctrlSendSection}
+                    {formattingSectionDivider}
+                    <WysiwygSection
+                        activeSection={this.props.activeSection}
+                        onUpdateSection={this.handleUpdateSection}
+                        renderOnOffLabel={this.renderOnOffLabel}
+                    />
                     {formattingSectionDivider}
                     {formattingSection}
                     <div className='divider-light'/>

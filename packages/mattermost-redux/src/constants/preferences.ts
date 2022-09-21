@@ -51,6 +51,7 @@ const Preferences = {
     SHOW_UNREAD_SECTION: 'show_unread_section',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     ADVANCED_FILTER_JOIN_LEAVE: 'join_leave',
+    ADVANCED_WYSIWYG: 'wysiwyg',
     ADVANCED_CODE_BLOCK_ON_CTRL_ENTER: 'code_block_ctrl_enter',
     ADVANCED_SEND_ON_CTRL_ENTER: 'send_on_ctrl_enter',
     CATEGORY_WHATS_NEW_MODAL: 'whats_new_modal',
