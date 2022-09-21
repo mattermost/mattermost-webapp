@@ -6,10 +6,6 @@ import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {Emoji} from '@mattermost/types/emojis';
-import {FileInfo} from '@mattermost/types/files';
-import {ServerError} from '@mattermost/types/errors';
-import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
@@ -28,6 +24,11 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo} from '@mattermost/types/files';
+import {Emoji} from '@mattermost/types/emojis';
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
@@ -35,6 +36,7 @@ import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
 import ShowFormat from './show_formatting';
 import SendButton from './send_button';
+import VoiceButton from './voice_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
 
 import './advanced_text_editor.scss';
@@ -435,6 +437,7 @@ const AdvanceTextEditor = ({
                     <TexteditorActions
                         placement='bottom'
                     >
+                        <VoiceButton/>
                         {sendButton}
                     </TexteditorActions>
                 </div>
