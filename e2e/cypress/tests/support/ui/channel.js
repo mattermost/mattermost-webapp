@@ -9,6 +9,7 @@ Cypress.Commands.add('uiCreateChannel', ({
     isPrivate = false,
     purpose = '',
     name = '',
+    createBoard = false,
 }) => {
     cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
@@ -22,6 +23,10 @@ Cypress.Commands.add('uiCreateChannel', ({
     cy.get('#input_new-channel-modal-name').should('be.visible').clear().type(channelName);
     if (purpose) {
         cy.get('#new-channel-modal-purpose').clear().type(purpose);
+    }
+
+    if (createBoard) {
+        cy.get('#add-board-to-channel').should('be.visible');
     }
     cy.findByText('Create channel').click();
     cy.get('#new-channel-modal').should('not.exist');
