@@ -2,14 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
-
 import {General} from 'mattermost-redux/constants';
 
 import {GlobalState} from '@mattermost/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from '@mattermost/types/config';
 
 import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
-import { boolean } from 'yargs';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
     return state.entities.general.config;

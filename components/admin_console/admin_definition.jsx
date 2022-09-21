@@ -32,6 +32,8 @@ import RestrictedIndicator from 'components/widgets/menu/menu_items/restricted_i
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
+import {fallbackStarterLimits} from 'utils/limits';
+
 import OpenIdConvert from './openid_convert';
 import Audits from './audits';
 import CustomURLSchemesSetting from './custom_url_schemes_setting.jsx';
@@ -220,6 +222,7 @@ export const it = {
 
 export const validators = {
     isRequired: (text, textDefault) => (value) => new ValidationResult(Boolean(value), text, textDefault),
+    isSmallerOrEqualTo: (text, textDefault) => (value, max) => new ValidationResult(value <= max, text, textDefault),
 };
 
 const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess, cloud) => {
@@ -2925,6 +2928,24 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.POSTS)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_NUMBER,
+                        key: 'FileSettings.MaxVoiceMessagesFileSize',
+                        label: t('admin.customization.maxVoiceMessageFileSizeTitle'),
+                        label_default: 'Voice message max size:',
+                        help_text: t('admin.customization.maxVoiceMessageFileSizeDesc'),
+                        help_text_default: 'Maximum file size for voice messages in megabytes. Caution: this number must be lower or equal to your server maximum file size.',
+                        onConfigLoad: (configVal) => configVal / MEBIBYTE,
+                        onConfigSave: (displayVal) => displayVal * MEBIBYTE,
+                        isHidden: it.any(
+                            it.configIsFalse('FeatureFlags', 'EnableVoiceMessages'),
+                        ),
+                        isDisabled: it.any(
+                            it.configIsFalse('ExperimentalSettings', 'EnableVoiceMessages'),
+                            it.configIsFalse('FileSettings', 'EnableFileAttachments'),
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE))
+                        ),
                     },
                 ],
             },
@@ -6876,7 +6897,10 @@ const AdminDefinition = {
                         help_text_default: 'When true, users can send voice messages.',
                         help_text_markdown: true,
                         isHidden: it.configIsFalse('FeatureFlags', 'EnableVoiceMessages'),
-                        isDisabled: it.any(it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)), it.configIsFalse('FileSettings', 'EnableFileAttachments')),
+                        isDisabled: it.any(
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
+                            it.configIsFalse('FileSettings', 'EnableFileAttachments'),
+                        ),
                     },
                 ],
             },
