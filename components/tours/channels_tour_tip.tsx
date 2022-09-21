@@ -8,7 +8,8 @@ import {Placement} from 'tippy.js';
 
 import {TourTip, PunchOutCoordsHeightAndWidth} from '@mattermost/components';
 
-import {ChannelsTourTipManager, getLastStep} from './utils';
+import {getLastStep} from './utils';
+import {useTourTipManager} from './tour_manager';
 
 export type ChannelsTourTipProps = {
     screen: JSX.Element;
@@ -21,7 +22,7 @@ export type ChannelsTourTipProps = {
     pulsatingDotTranslate?: {x: number; y: number};
     offset?: [number, number];
     width?: string | number;
-    manager: () => ChannelsTourTipManager;
+    tourCategory: string;
 }
 
 export const ChannelsTourTip = ({
@@ -35,8 +36,20 @@ export const ChannelsTourTip = ({
     offset = [-18, 4],
     placement = 'right-start',
     width = 320,
-    manager,
+    tourCategory,
 }: ChannelsTourTipProps) => {
+    const {
+        show,
+        currentStep,
+        tourSteps,
+        handleOpen,
+        handleDismiss,
+        handleNext,
+        handlePrevious,
+        handleSkip,
+        handleJump,
+    } = useTourTipManager(tourCategory);
+
     const prevBtn = (
         <>
             <i className='icon icon-chevron-left'/>
@@ -46,6 +59,7 @@ export const ChannelsTourTip = ({
             />
         </>
     );
+
     const nextBtn = (): JSX.Element => {
         let buttonText = (
             <>
@@ -78,28 +92,17 @@ export const ChannelsTourTip = ({
         return buttonText;
     };
 
-    const {
-        show,
-        currentStep,
-        tourSteps,
-        handleOpen,
-        handleDismiss,
-        handleNext,
-        handlePrevious,
-        handleSkip,
-        handleJump,
-    } = manager();
-
     return (
         <TourTip
             show={show}
             tourSteps={tourSteps}
             title={title}
             screen={screen}
+            singleTip={singleTip}
             imageURL={imageURL}
             overlayPunchOut={overlayPunchOut}
             nextBtn={nextBtn()}
-            prevBtn={prevBtn}
+            prevBtn={singleTip ? undefined : prevBtn}
             step={currentStep}
             placement={placement}
             pulsatingDotPlacement={pulsatingDotPlacement}

@@ -2,15 +2,13 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {ChannelsTourTip, ChannelsTourTipProps} from 'components/tours';
+import {ChannelsTourTip, ChannelsTourTipProps, TutorialTourName} from 'components/tours';
 
-import useBoardingTourTipManager from './explore_tools_tour_manager';
-
-const OnboardingExploreToolsTourTip = (props: Omit<ChannelsTourTipProps, 'manager'>) => {
+const OnboardingExploreToolsTourTip = (props: Omit<ChannelsTourTipProps, 'tourCategory'>) => {
     return (
         <ChannelsTourTip
             {...props}
-            manager={useBoardingTourTipManager}
+            tourCategory={TutorialTourName.EXPLORE_OTHER_TOOLS}
         />
     );
 };

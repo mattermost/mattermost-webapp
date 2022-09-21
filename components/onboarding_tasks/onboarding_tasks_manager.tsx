@@ -16,7 +16,7 @@ import {
     OnboardingTourSteps,
     TTNameMapToATStatusKey,
     TutorialTourName,
-} from 'components/tours/onboarding_tour';
+} from 'components/tours';
 import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_trial_modal';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
@@ -198,6 +198,8 @@ export const useHandleOnBoardingTaskTrigger = () => {
     const {pathname} = useLocation();
     const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
     const inChannels = matchPath(pathname, {path: '/:team/channels/:chanelId'}) != null;
+    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const boards = pluginsList.focalboard;
 
     return (taskName: string) => {
         switch (taskName) {
@@ -254,7 +256,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
                     user_id: currentUserId,
                     category: tourCategory,
                     name: currentUserId,
-                    value: ExploreOtherToolsTourSteps.BOARDS_TOUR.toString(),
+                    value: boards ? ExploreOtherToolsTourSteps.BOARDS_TOUR.toString() : ExploreOtherToolsTourSteps.PLAYBOOKS_TOUR.toString(),
                 },
                 {
                     user_id: currentUserId,

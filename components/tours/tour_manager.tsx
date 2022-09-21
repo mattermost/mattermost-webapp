@@ -1,115 +1,52 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useCallback, useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'types/store';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {savePreferences} from 'mattermost-redux/actions/preferences';
-import {open as openLhs, close as closeLhs} from 'actions/views/lhs';
-import {browserHistory} from 'utils/browser_history';
+
+import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
+import {
+    generateTelemetryTag,
+} from 'components/onboarding_tasks';
+
 import {
     ActionType,
-    AutoTourStatus,
     ChannelsTourTipManager,
-    CrtTutorialSteps,
-    FINISHED,
     getLastStep,
     isKeyPressed,
     KeyCodes,
-    SKIPPED, TTNameMapToATStatusKey,
-    TutorialTourName,
+    useGetTourSteps,
+    useHandleNavigationAndExtraActions,
 } from 'components/tours';
 
-const useHandleNavigationAndExtraActions = () => {
-    const dispatch = useDispatch();
-    const currentUserId = useSelector(getCurrentUserId);
-    const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
+import {GlobalState} from '@mattermost/types/store';
 
-    const nextStepActions = useCallback((step: number) => {
-        switch (step) {
-        case CrtTutorialSteps.WELCOME_POPOVER : {
-            dispatch(openLhs());
-            break;
-        }
-        case CrtTutorialSteps.LIST_POPOVER : {
-            const nextUrl = `${teamUrl}/threads`;
-            browserHistory.push(nextUrl);
-            break;
-        }
-        case CrtTutorialSteps.UNREAD_POPOVER : {
-            break;
-        }
-        default:
-        }
-    }, [currentUserId]);
+import {
+    AutoTourStatus,
+    ChannelsTour,
+    FINISHED,
+    SKIPPED,
+    TTNameMapToATStatusKey,
+} from './constant';
 
-    const lastStepActions = useCallback((lastStep: number) => {
-        switch (lastStep) {
-        case CrtTutorialSteps.WELCOME_POPOVER : {
-            dispatch(closeLhs());
-            break;
-        }
-        case CrtTutorialSteps.LIST_POPOVER : {
-            break;
-        }
-        case CrtTutorialSteps.UNREAD_POPOVER : {
-            break;
-        }
-        default:
-        }
-    }, [currentUserId]);
-
-    return useCallback((step: number, lastStep: number) => {
-        lastStepActions(lastStep);
-        nextStepActions(step);
-    }, [nextStepActions, lastStepActions]);
-};
-
-export const useCrtTourManager = (): ChannelsTourTipManager => {
+export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager => {
     const [show, setShow] = useState(false);
-    const tourSteps = CrtTutorialSteps;
-    const tourCategory = TutorialTourName.CRT_TUTORIAL_STEP;
-    const handleActions = useHandleNavigationAndExtraActions();
+    const tourSteps = useGetTourSteps(tourCategory);
 
+    // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
-    const currentStep = useSelector((state: GlobalState) =>
-        getInt(
-            state,
-            tourCategory,
-            currentUserId,
-            0,
-        ),
-    );
-
-    const isAutoTourEnabled =
-        useSelector((state: GlobalState) =>
-            getInt(
-                state,
-                TTNameMapToATStatusKey[tourCategory],
-                currentUserId,
-                AutoTourStatus.ENABLED,
-            ),
-        ) === AutoTourStatus.ENABLED;
-
-    useEffect(() => {
-        if (isAutoTourEnabled) {
-            setShow(true);
-        }
-    }, [isAutoTourEnabled]);
-
-    const handleEventPropagationAndDefault = (
-        e: React.MouseEvent | KeyboardEvent,
-    ) => {
-        e.stopPropagation();
-        e.preventDefault();
-    };
+    const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, 0));
+    const autoTourStatus = useSelector((state: GlobalState) => getInt(state, tourCategory, TTNameMapToATStatusKey[tourCategory], 0));
+    const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
+    const handleActions = useHandleNavigationAndExtraActions(tourCategory);
 
     const handleSaveDataAndTrackEvent = useCallback(
-        (stepValue: number, eventSource: ActionType, autoTour = true) => {
+        (stepValue: number, eventSource: ActionType, autoTour = true, trackEvent = true) => {
             const preferences = [
                 {
                     user_id: currentUserId,
@@ -119,15 +56,27 @@ export const useCrtTourManager = (): ChannelsTourTipManager => {
                 },
                 {
                     user_id: currentUserId,
-                    category: TTNameMapToATStatusKey[tourCategory],
-                    name: currentUserId,
+                    category: tourCategory,
+                    name: TTNameMapToATStatusKey[tourCategory],
                     value: (autoTour && !(eventSource === 'skipped' || eventSource === 'dismiss') ? AutoTourStatus.ENABLED : AutoTourStatus.DISABLED).toString(),
                 },
             ];
-            dispatch(savePreferences(currentUserId, preferences));
+            dispatch(storeSavePreferences(currentUserId, preferences));
+            if (trackEvent) {
+                const eventSuffix = `${stepValue}--${eventSource}`;
+                const telemetryTag = generateTelemetryTag(ChannelsTour, tourCategory, eventSuffix);
+                trackEventAction(tourCategory, telemetryTag);
+            }
         },
-        [currentUserId, tourCategory],
+        [currentUserId],
     );
+
+    // Function to save the tutorial step in redux store end here
+
+    const handleEventPropagationAndDefault = (e: React.MouseEvent | KeyboardEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+    };
 
     useEffect(() => {
         if (isAutoTourEnabled) {
@@ -139,13 +88,10 @@ export const useCrtTourManager = (): ChannelsTourTipManager => {
         setShow(false);
     }, []);
 
-    const handleOpen = useCallback(
-        (e: React.MouseEvent): void => {
-            handleEventPropagationAndDefault(e);
-            setShow(true);
-        },
-        [],
-    );
+    const handleOpen = useCallback((e: React.MouseEvent): void => {
+        handleEventPropagationAndDefault(e);
+        setShow(true);
+    }, [isAutoTourEnabled]);
 
     const handleSavePreferences = useCallback((nextStep: boolean | number): void => {
         let stepValue = currentStep;

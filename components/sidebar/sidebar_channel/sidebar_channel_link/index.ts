@@ -21,7 +21,7 @@ import {
     OnboardingTaskCategory,
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
-import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/tours/onboarding_tour';
+import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/tours';
 
 import {Channel} from '@mattermost/types/channels';
 

@@ -7,10 +7,10 @@ import styled from 'styled-components';
 import Pluggable from 'plugins/pluggable';
 import {
     CustomizeYourExperienceTour,
-    OnboardingTourSteps,
     useShowOnboardingTutorialStep,
 } from 'components/tours/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
+import {OnboardingTourSteps} from 'components/tours';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';

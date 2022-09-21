@@ -59,7 +59,7 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {OnboardingTourSteps, TutorialTourName} from 'components/tours/onboarding_tour';
+import {OnboardingTourSteps, TutorialTourName} from 'components/tours';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 

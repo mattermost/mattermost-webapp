@@ -3,15 +3,13 @@
 
 import React from 'react';
 
-import {ChannelsTourTip, ChannelsTourTipProps} from 'components/tours';
+import {ChannelsTourTip, ChannelsTourTipProps, TutorialTourName} from 'components/tours';
 
-import {useCrtTourManager} from './crt_tour_manager';
-
-const CRTTourTip = (props: Omit<ChannelsTourTipProps, 'manager'>) => {
+const CRTTourTip = (props: Omit<ChannelsTourTipProps, 'tourCategory'>) => {
     return (
         <ChannelsTourTip
             {...props}
-            manager={useCrtTourManager}
+            tourCategory={TutorialTourName.CRT_TUTORIAL_STEP}
         />
     );
 };
