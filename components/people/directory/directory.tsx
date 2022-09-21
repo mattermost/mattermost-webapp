@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useCallback, useEffect, useState } from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
@@ -13,7 +13,6 @@ import {localizeMessage} from 'utils/utils';
 import './directory.scss';
 
 const Directory = () => {
-
     const [searchTerm, setSearchTerm] = useState('');
 
     const searchOnChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,7 +20,7 @@ const Directory = () => {
     }, []);
 
     useEffect(() => {
-        // Search for a user 
+        // Search for a user
     }, [searchTerm]);
 
     return (
@@ -31,13 +30,12 @@ const Directory = () => {
             >
                 <div className='top'>
                     <span className='people-title'>
-                        <FormattedMessage 
+                        <FormattedMessage
                             defaultMessage={'{value} people'}
                             id={'directory.people.count'}
                             values={{value: 186}}
                         />
                     </span>
-                    
                 </div>
                 <div className='bottom'>
                     <Input
