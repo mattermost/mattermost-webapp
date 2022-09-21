@@ -9,12 +9,12 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {PreferenceType} from '@mattermost/types/preferences';
-import {GlobalState} from '@mattermost/types/store';
-
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+
+import {GlobalState} from '@mattermost/types/store';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {CollapsedThreads} from '@mattermost/types/config';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
@@ -268,5 +268,6 @@ export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): bo
 }
 
 export function isCommandPaletteEnabled(state: GlobalState): boolean {
-    return getFeatureFlagValue(state, 'CommandPalette') === 'true';
+    // return getFeatureFlagValue(state, 'CommandPalette') === 'true';
+    return true;
 }

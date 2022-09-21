@@ -11,6 +11,7 @@ import {getChannelsInAllTeams} from 'mattermost-redux/selectors/entities/channel
 import {CommandPaletteEntities} from 'components/command_palette/types';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
+
 import {switchToChannel} from '../../../actions/views/channel';
 import {openModal} from '../../../actions/views/modals';
 import {GlobalState} from '../../../types/store';
@@ -56,25 +57,32 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const recentHandler = useSelector((state: GlobalState) => {
         return state.plugins.recentlyViewedHandlers.focalboard;
     });
+    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const boards = pluginsList.focalboard;
+    const playbooks = pluginsList.playbooks;
     const recentChannels = useSelector(getChannelsInAllTeams);
     const channelsTransformedItems = channelToCommandPaletteItemTransformer(recentChannels, teams);
-    let boardsTransformedItems: CommandPaletteItem[] = [];
+    const boardsTransformedItems: CommandPaletteItem[] = [];
     const recentBoards = useCallback(async () => {
-        const recentData: any = await recentHandler();
-        if (recentData) {
-            boardsTransformedItems = boardToCommandPaletteItemTransformer(recentData, teams);
-            setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
-            setLoading(false);
-        }
+        // const recentData: any = await recentHandler();
+        // if (recentData) {
+        //     boardsTransformedItems = boardToCommandPaletteItemTransformer(recentData, teams);
+        //     setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
+        //     setLoading(false);
+        // }
+        setTransformedItems([...channelsTransformedItems]);
+        setLoading(false);
     }, [currentTeamId]);
 
     const searchBoards = useCallback(async (query: string) => {
-        const searchData: any = await searchHandler(currentTeamId, query);
-        if (searchData) {
-            boardsTransformedItems = boardToCommandPaletteItemTransformer(searchData, teams);
-            setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
-            setLoading(false);
-        }
+        // const searchData: any = await searchHandler(currentTeamId, query);
+        // if (searchData) {
+        //     boardsTransformedItems = boardToCommandPaletteItemTransformer(searchData, teams);
+        //     setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
+        //     setLoading(false);
+        // }
+        setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
+        setLoading(false);
     }, [currentTeamId]);
 
     useEffect(() => {
