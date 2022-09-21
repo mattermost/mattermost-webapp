@@ -17,13 +17,6 @@
         "storybook": "start-storybook -s ./ -p 6006",
         "gc": "node ./scripts/generate-component.js"
     },
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/mattermost/compass-components.git"
-    },
-    "bugs": {
-        "url": "https://github.com/mattermost/compass-components/issues"
-    },
     "engines": {
         "node": ">=14.0.0"
     },
@@ -39,17 +32,12 @@
     "dependencies": {
         "@mattermost/compass-icons": "^0.1.19",
         "@mui/material": "5.10.6",
-        "@mui/private-theming": "5.10.6",
         "clsx": "^1.1.1",
-        "color-blend": "^3.0.1",
+        "color-blend": "4.0.0",
         "csstype": "^3.0.8",
         "lodash.kebabcase": "^4.1.1",
         "lodash.random": "^3.2.0",
         "lodash.upperfirst": "^4.3.1",
-        "react": "17.0.2",
-        "react-dom": "17.0.2"
-    },
-    "peerDependencies": {
         "react": "17.0.2",
         "react-dom": "17.0.2"
     },

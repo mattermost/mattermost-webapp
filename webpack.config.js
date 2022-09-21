@@ -239,6 +239,7 @@ var config = {
             path.resolve(__dirname),
         ],
         alias: {
+            '@mattermost/compass-ui': 'packages/compass-ui/src',
             'mattermost-redux/test': 'packages/mattermost-redux/test',
             'mattermost-redux': 'packages/mattermost-redux/src',
             reselect: 'packages/reselect/src',
