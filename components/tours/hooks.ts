@@ -3,6 +3,7 @@
 import {useCallback} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
