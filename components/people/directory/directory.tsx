@@ -2,13 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useState} from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
+
+import classNames from 'classnames';
 
 import {getProfiles as fetchProfiles} from 'mattermost-redux/actions/users';
 import {getProfiles} from 'mattermost-redux/selectors/entities/users';
-
-import classNames from 'classnames';
 
 import {localizeMessage} from 'utils/utils';
 
@@ -19,7 +19,6 @@ import PeopleList from './people_list';
 import './directory.scss';
 
 const Directory = () => {
-
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
 
@@ -33,7 +32,7 @@ const Directory = () => {
     }, []);
 
     useEffect(() => {
-        // Search for a user 
+        // Search for a user
     }, [searchTerm]);
 
     useEffect(() => {
@@ -64,7 +63,6 @@ const Directory = () => {
                             values={{value: 62}}
                         />
                     </span>
-                    
                 </div>
                 <div className='bottom'>
                     <Input
@@ -78,7 +76,7 @@ const Directory = () => {
                     />
                 </div>
             </header>
-            <PeopleList 
+            <PeopleList
                 people={people}
                 hasNextPage={people.length < 62}
                 isNextPageLoading={isNextPageLoading}

@@ -13,7 +13,7 @@ export interface Props {
     hasNextPage: boolean;
     isNextPageLoading: boolean;
     searchTerms: string;
-    loadMore: () => Promise<void>
+    loadMore: () => Promise<void>;
 }
 
 const PeopleList = ({
@@ -21,7 +21,7 @@ const PeopleList = ({
     isNextPageLoading,
     people,
     searchTerms,
-    loadMore
+    loadMore,
 }: Props) => {
     const infiniteLoaderRef = useRef<InfiniteLoader | null>(null);
     const [hasMounted, setHasMounted] = useState(false);
@@ -44,7 +44,7 @@ const PeopleList = ({
     };
 
     const Item = ({columnIndex, rowIndex, style}: GridChildComponentProps) => {
-        const index = rowIndex * 4 + columnIndex;
+        const index = (rowIndex * 4) + columnIndex;
         if (isItemLoaded(index)) {
             const user = people[index] as UserProfile;
             if (!user) {
@@ -58,7 +58,6 @@ const PeopleList = ({
                     <>{user.username}</>
                 </div>
             );
-            
         }
 
         return null;
@@ -84,7 +83,7 @@ const PeopleList = ({
                             className='Grid'
                             columnCount={4}
                             height={height}
-                            rowCount={62/4}
+                            rowCount={62 / 4}
                             width={width}
                             columnWidth={width / 4}
                             rowHeight={width / 4}
@@ -95,8 +94,8 @@ const PeopleList = ({
                                 const overscanStopIndex = overscanRowStopIndex * (overscanColumnStopIndex + 1);
                                 const visibleStartIndex = visibleRowStartIndex * (visibleColumnStopIndex + 1);
                                 const visibleStopIndex = visibleRowStopIndex * (visibleColumnStopIndex + 1);
-    
-                                onItemsRendered({ overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex });
+
+                                onItemsRendered({overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex});
                             }}
                         >
                             {Item}
