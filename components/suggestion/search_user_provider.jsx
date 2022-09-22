@@ -9,7 +9,7 @@ import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
 
 import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Suggestion from './suggestion';
 
 class SearchUserSuggestion extends Suggestion {
     render() {

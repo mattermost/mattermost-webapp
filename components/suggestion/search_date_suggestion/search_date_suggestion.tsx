@@ -7,7 +7,7 @@ import DayPicker from 'react-day-picker';
 
 import MomentLocaleUtils from 'react-day-picker/moment';
 
-import Suggestion from '../suggestion.jsx';
+import Suggestion from '../suggestion';
 
 import 'react-day-picker/lib/style.css';
 

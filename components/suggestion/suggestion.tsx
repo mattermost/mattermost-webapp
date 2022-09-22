@@ -4,7 +4,17 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-export default class Suggestion extends React.PureComponent {
+type Props = typeof Suggestion.baseProps & {
+    role: string;
+    tabIndex: number;
+    onClick: (term: string, matchedPretext: string) => void;
+    onMouseMove: (term: string) => void;
+    term: string;
+    matchedPretext: string;
+    isSelection: boolean;
+}
+
+export default class Suggestion extends React.PureComponent<Props> {
     static get propTypes() {
         return {
             item: PropTypes.oneOfType([
@@ -24,15 +34,17 @@ export default class Suggestion extends React.PureComponent {
         tabIndex: -1,
     };
 
-    handleClick = (e) => {
+    handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
 
-        this.props.onClick(this.props.term, this.props.matchedPretext);
+        this.props.onClick!(this.props.term, this.props.matchedPretext);
     }
 
-    handleMouseMove = (e) => {
+    handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
 
-        this.props.onMouseMove(this.props.term);
+        this.props.onMouseMove!(this.props.term);
     }
+
+    
 }

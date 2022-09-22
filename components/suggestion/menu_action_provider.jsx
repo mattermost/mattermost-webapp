@@ -4,7 +4,7 @@
 import React from 'react';
 
 import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Suggestion from './suggestion';
 
 class MenuActionSuggestion extends Suggestion {
     render() {

@@ -13,7 +13,7 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
-import Suggestion from './suggestion.jsx';
+import Suggestion from './suggestion';
 
 class UserSuggestion extends Suggestion {
     render() {
