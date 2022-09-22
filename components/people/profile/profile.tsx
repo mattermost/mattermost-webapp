@@ -12,7 +12,7 @@ import UserSettingsModal from 'components/user_settings/modal';
 
 import {FormattedMessage} from 'react-intl';
 
-import {useUser, useUserCustomStatus, useUserDisplayMeta, useUserIdFromUsername} from './hooks';
+import {useUser, useUserCustomStatus, useUserIdFromUsername} from './hooks';
 
 /**
  * Get user from route parameter and keep url consistent when username changes.
@@ -45,15 +45,14 @@ const useUserFromRoute = () => {
 const Profile = () => {
     const user = useUserFromRoute();
     const status = useUserCustomStatus(user?.id);
-    const display = useUserDisplayMeta(user);
     const me = useSelector(getCurrentUser);
     const canEdit = user?.id === me.id;
 
-    return (
-        <>
-            {display.name}
+    return user && (
+        <aside>
+            <ProfileCard user={user}/>
             {canEdit && <EditProfileBtn/>}
-        </>
+        </aside>
     );
 };
 
