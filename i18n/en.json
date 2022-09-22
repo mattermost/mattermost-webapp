@@ -4183,6 +4183,8 @@
   "people.groups.detail": "{firstGroup}, +{restCount} more",
   "people.groups.title": "Groups",
   "people.location.title": "Location",
+  "people.sidebar.groupsLabel": "Groups",
+  "people.sidebar.peopleLabel": "People",
   "people.teams.detail": "{firstTeam}, +{restCount} more",
   "people.teams.title": "Teams",
   "permalink.error.access": "Permalink belongs to a deleted message or to a channel to which you do not have access.",
