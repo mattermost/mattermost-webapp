@@ -9,12 +9,12 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {PreferenceType} from '@mattermost/types/preferences';
-import {GlobalState} from '@mattermost/types/store';
-
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+
+import {GlobalState} from '@mattermost/types/store';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {CollapsedThreads} from '@mattermost/types/config';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
@@ -266,3 +266,23 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
+
+export function getWysiwygPreference(state: GlobalState): boolean {
+    return get(
+        state,
+        Preferences.CATEGORY_ADVANCED_SETTINGS,
+        Preferences.ADVANCED_WYSIWYG,
+        'false',
+    );
+}
+
+export function isWysiwygAllowed(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'WysiwygEditor') === 'true';
+}
+
+export function isWysiwygEnabled(state: GlobalState): boolean {
+    const isAllowed = isCollapsedThreadsAllowed(state);
+    const userPreference = getWysiwygPreference(state);
+    return isAllowed && userPreference;
+}
+
