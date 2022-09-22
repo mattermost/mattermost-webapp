@@ -27,6 +27,7 @@ const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
 const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
+const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process.env.VSCODE_CWD;
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
@@ -588,7 +589,7 @@ if (process.env.PRODUCTION_PERF_DEBUG) {
     };
 }
 
-if (NPM_TARGET === 'check' || process.env.VSCODE_CWD) {
+if (targetIsEslint) {
     // ESLint can't handle setting an async config, so just skip the async part
     module.exports = config;
 } else {
