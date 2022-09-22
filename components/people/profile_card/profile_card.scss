@@ -1,0 +1,115 @@
+.profile-card {
+    display: flex;
+    width: 260px;
+    flex-direction: column;
+    padding: 12px 0 17px;
+    border: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+    background-color: var(--center-channel-bg);
+    border-radius: 4px;
+    box-shadow: var(--elevation-1);
+
+    &__role {
+        width: fit-content;
+        padding: 0 4px;
+        margin-left: 12px;
+        background-color: rgba(var(--center-channel-text-rgb), 0.08);
+        border-radius: 4px;
+        color: var(--center-channel-text);
+        font-size: 10px;
+        font-weight: 600;
+        line-height: 16px;
+        text-transform: uppercase;
+    }
+
+    &__image {
+        position: relative;
+        display: block;
+        width: 96px;
+        margin: 8px auto;
+
+        img {
+            width: 96px !important;
+            min-width: 96px !important;
+            height: 96px !important;
+        }
+    }
+
+    &__status {
+        position: absolute;
+        top: auto;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        width: 24px;
+        height: 24px;
+        padding: 2px;
+        margin: 0;
+        background: rgba(var(--center-channel-bg-rgb), 1);
+        border-radius: 50px;
+
+        svg {
+            width: 100%;
+            min-height: 100%;
+        }
+    }
+
+    &__detail {
+        padding: 0 16px;
+        color: var(--center-channel-text);
+        font-size: 14px;
+        line-height: 20px;
+        text-align: center;
+        text-overflow: ellipsis;
+
+        &:not(:last-of-type) {
+            margin-bottom: 4px;
+        }
+    }
+
+    &__fullname {
+        font-family: 'Metropolis';
+        font-size: 18px;
+        font-weight: 600;
+        line-height: 24px;
+    }
+
+    &__extended {
+        display: flex;
+        flex-direction: column;
+        padding: 16px 16px 0;
+        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+        margin-top: 16px;
+
+        &__item {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+
+            &:not(:last-child) {
+                margin-bottom: 12px;
+            }
+        }
+
+        &__title {
+            display: block;
+            margin-bottom: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            line-height: 16px;
+        }
+
+        &__detail {
+            height: 20px;
+            padding: 0;
+            text-align: left;
+
+            &.detail-bio {
+                display: -webkit-box;
+                overflow: hidden;
+                height: 40px;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 2;
+            }
+        }
+    }
+}
