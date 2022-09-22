@@ -33,20 +33,18 @@ const VoiceMessagePreview = () => {
 
     const [countdownTimer, setCountdownTimer] = useState<number>(0);
 
-    function refreshAnalyzer() {
-        const bufferLength = audioAnalyzerRef.current?.frequencyBinCount ?? 0;
-
-        const amplitudeArray = new Uint8Array(bufferLength);
-        audioAnalyzerRef.current?.getByteFrequencyData(amplitudeArray);
-
+    function drawOnVisualizerCanvas(amplitudeArray: Uint8Array) {
         const visualizerCanvasContext = visualizerCanvasRef.current?.getContext('2d');
         if (visualizerCanvasContext && visualizerCanvasRef.current) {
+            // We need to clear the canvas before drawing the new visualizer
             visualizerCanvasContext.clearRect(0, 0, visualizerCanvasRef.current.width, visualizerCanvasRef.current.height);
+
             visualizerCanvasContext.fillStyle = theme.centerChannelBg;
             visualizerCanvasContext.lineWidth = 4;
             visualizerCanvasContext.strokeStyle = theme.buttonBg;
             const spacing = Number(visualizerCanvasRef.current?.width) / amplitudeArray.length;
             amplitudeArray.forEach((amplitude, index) => {
+                // skipping the first one because its was looking weird. Change later
                 if (index !== 0) {
                     visualizerCanvasContext.beginPath();
                     visualizerCanvasContext.moveTo(spacing * index, Number(visualizerCanvasRef.current?.width));
@@ -55,8 +53,17 @@ const VoiceMessagePreview = () => {
                 }
             });
         }
+    }
 
-        console.log('amplitudeArray', amplitudeArray);
+    function refreshAnalyzer() {
+        const bufferLength = audioAnalyzerRef.current?.frequencyBinCount ?? 0;
+
+        const amplitudeArray = new Uint8Array(bufferLength);
+        audioAnalyzerRef.current?.getByteFrequencyData(amplitudeArray);
+
+        requestAnimationFrame(() => {
+            drawOnVisualizerCanvas(amplitudeArray);
+        });
     }
 
     async function stopRecording() {
