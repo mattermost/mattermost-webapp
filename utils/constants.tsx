@@ -411,6 +411,7 @@ export const ModalIdentifiers = {
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    MOVE_THREAD_MODAL: 'move_thread_modal',
 };
 
 export const UserStatuses = {
@@ -688,6 +689,7 @@ export const TELEMETRY_LABELS = {
     REPLY: 'reply',
     UNREAD: 'unread',
     FORWARD: 'forward',
+    MOVE_THREAD: 'move_thread',
 };
 
 export const PostTypes = {
