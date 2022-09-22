@@ -10,19 +10,28 @@ import LoadingScreen from 'components/loading_screen';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import LogList from './log_list';
+import {LogObject, LogsSortByEnum, LogsSortOrderEnum} from '@mattermost/types/admin';
+
+// import LogList from './log_list';
+
+type GetLogsPayload = {
+    search: string;
+    sortBy: LogsSortByEnum;
+    sortOrder: LogsSortOrderEnum;
+}
 
 type Props = {
-    logs: any[string],
+    logs: LogObject[];
     actions: {
-        getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc;
+        getLogs: (payload: GetLogsPayload) => ActionFunc;
     };
 };
 
 type State = {
     loadingLogs: boolean;
-    page: number;
-    perPage: number;
+    search: string;
+    sortBy: LogsSortByEnum;
+    sortOrder: LogsSortOrderEnum;
 };
 
 export default class Logs extends React.PureComponent<Props, State> {
@@ -30,8 +39,9 @@ export default class Logs extends React.PureComponent<Props, State> {
         super(props);
         this.state = {
             loadingLogs: true,
-            page: 0,
-            perPage: 1000,
+            search: '',
+            sortBy: LogsSortByEnum.TIMESTAMP,
+            sortOrder: LogsSortOrderEnum.DESC,
         };
     }
 
@@ -39,23 +49,9 @@ export default class Logs extends React.PureComponent<Props, State> {
         this.reload();
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State) {
-        if (this.state.page !== prevState.page) {
-            this.reload();
-        }
-    }
-
-    nextPage = () => {
-        this.setState({page: this.state.page + 1});
-    }
-
-    previousPage = () => {
-        this.setState({page: this.state.page - 1});
-    }
-
     reload = async () => {
         this.setState({loadingLogs: true});
-        await this.props.actions.getLogs(this.state.page, this.state.perPage);
+        await this.props.actions.getLogs({search: this.state.search, sortBy: this.state.sortBy, sortOrder: this.state.sortOrder});
         this.setState({loadingLogs: false});
     }
 
@@ -65,15 +61,11 @@ export default class Logs extends React.PureComponent<Props, State> {
         if (this.state.loadingLogs || !this.props.logs) {
             content = <LoadingScreen/>;
         } else {
-            content = (
-                <LogList
-                    {...this.props}
-                    nextPage={this.nextPage}
-                    previousPage={this.previousPage}
-                    page={this.state.page}
-                    perPage={this.state.perPage}
-                />
-            );
+            // content = (
+            //     // <LogList
+            //     //     {...this.props}
+            //     // />
+            // );
         }
 
         return (

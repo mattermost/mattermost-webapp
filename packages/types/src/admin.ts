@@ -12,8 +12,29 @@ import {Team} from './teams';
 import {UserAccessToken, UserProfile} from './users';
 import {RelationOneToOne} from './utilities';
 
+export enum LogsSortOrderEnum {
+    ASC = 'asc',
+    DESC = 'desc'
+}
+
+export enum LogsSortByEnum {
+    TIMESTAMP = 'timestamp',
+    NODE = 'node',
+    LEVEL = 'level',
+    CALLER = 'caller',
+}
+
+export type LogObject = {
+    caller: string;
+    job_id: string;
+    level: string;
+    msg: string;
+    timestamp: string;
+    worker: string;
+}
+
 export type AdminState = {
-    logs: string[];
+    logs: Record<string, LogObject[]>;
     audits: Record<string, Audit>;
     config: Partial<AdminConfig>;
     environmentConfig: Partial<EnvironmentConfig>;

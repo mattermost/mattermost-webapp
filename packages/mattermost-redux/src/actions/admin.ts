@@ -4,10 +4,11 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {AdminTypes} from 'mattermost-redux/action_types';
-import {General} from '../constants';
+import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Client4} from 'mattermost-redux/client';
 
-import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {General} from '../constants';
+
 import {Compliance} from '@mattermost/types/compliance';
 import {GroupSearchOpts} from '@mattermost/types/groups';
 import {
@@ -21,17 +22,19 @@ import {
 } from '@mattermost/types/channels';
 
 import {CompleteOnboardingRequest} from '@mattermost/types/setup';
+import {LogsSortByEnum, LogsSortOrderEnum} from '@mattermost/types/admin';
 
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
 
-export function getLogs(page = 0, perPage: number = General.LOGS_PAGE_SIZE_DEFAULT): ActionFunc {
+export function getLogs({search = '', sortOrder = LogsSortOrderEnum.DESC, sortBy = LogsSortByEnum.TIMESTAMP}): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getLogs,
         onSuccess: [AdminTypes.RECEIVED_LOGS],
         params: [
-            page,
-            perPage,
+            search,
+            sortBy,
+            sortOrder,
         ],
     });
 }

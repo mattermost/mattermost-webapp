@@ -1,13 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import {createSelector} from 'reselect';
 
 import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
 import {PluginStatusRedux} from '@mattermost/types/plugins';
+
 import {GlobalState} from '@mattermost/types/store';
+import {LogObject} from '@mattermost/types/admin';
 
 export function getLogs(state: GlobalState) {
     return state.entities.admin.logs;
 }
+export const getAllLogs = createSelector(
+    'getAllLogs',
+    getLogs,
+    (logs) => {
+        return Object.values(logs).reduce<LogObject[]>((acc, log) => {
+            acc.push(...log);
+            return acc;
+        }, []);
+    },
+);
 
 export function getAudits(state: GlobalState) {
     return state.entities.admin.audits;
