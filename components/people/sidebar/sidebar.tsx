@@ -17,7 +17,7 @@ const Sidebar = () => {
             >
                 <FormattedMessage
                     defaultMessage='People'
-                    id='people.sidebar.people-label'
+                    id='people.sidebar.peopleLabel'
                 />
             </NavLink>
             <NavLink
@@ -27,7 +27,7 @@ const Sidebar = () => {
             >
                 <FormattedMessage
                     defaultMessage='Groups'
-                    id='people.sidebar.groups-label'
+                    id='people.sidebar.groupsLabel'
                 />
             </NavLink>
         </div>
