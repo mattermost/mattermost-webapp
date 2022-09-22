@@ -14,7 +14,7 @@ export type WidgetTextSettingProps = {
     placeholder?: string;
     helpText?: React.ReactNode;
     footer?: React.ReactNode;
-    value: string | number;
+    value: string | number | string[];
     inputClassName?: string;
     maxLength?: number;
     resizable?: boolean;
@@ -41,6 +41,8 @@ export default class TextSetting extends React.PureComponent<WidgetTextSettingPr
     private handleChange: HandleChangeTypes = (e) => {
         if (this.props.type === 'number') {
             this.props.onChange(this.props.id, parseInt(e.target.value, 10));
+        } else if (this.props.type === 'input' && this.props.multiple) {
+            this.props.onChange(this.props.id, e.target.value.split(','));
         } else {
             this.props.onChange(this.props.id, e.target.value);
         }
