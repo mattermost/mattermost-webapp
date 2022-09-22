@@ -10,8 +10,10 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';
-import {PreferenceType} from '@mattermost/types/preferences';
+
 import {t} from 'utils/i18n';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 
 const messages = defineMessages({
     title: {
