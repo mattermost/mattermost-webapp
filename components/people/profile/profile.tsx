@@ -24,32 +24,39 @@ const StyledCard = styled.div<StyledCardProps>`
             height: ${(props) => `${props.height}px`};
             box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);`;
 
+const backToDirectory = () => {
+    return true;
+};
+
 const Profile = () => {
     return (
         <div className='UserProfile'>
             <div className='UserProfile__header-card'>
                 <div className='UserProfile__header-card__top-section'>
-                    <div className='UserProfile__header-card__top-section__back'>
+                    <a
+                        className='UserProfile__header-card__top-section__back'
+                        onClick={backToDirectory}
+                    >
                         <i className='icon-arrow-left'/>
                         <FormattedMessage
                             id={'user-profile.header.back-text'}
                             defaultMessage={'Back to directory'}
                         />
-                    </div>
+                    </a>
                 </div>
-                {/* <StyledCard
-                    width={400}
-                    height={200}
+                <StyledCard
+                    width={280}
+                    height={308}
                     id={'user-picture-card'}
                 >
                     <p>{'holi'}</p>
-                </StyledCard> */}
+                </StyledCard>
                 <TimeZoneSelectMap/>
             </div>
             <div className='UserProfile__bottom-card'>
                 <StyledCard
-                    width={400}
-                    height={200}
+                    width={591}
+                    height={325}
                     id={'user-profile-details-card'}
                 >
                     <p>{'details'}</p>

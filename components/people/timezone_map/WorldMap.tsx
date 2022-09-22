@@ -43,9 +43,7 @@ interface WorldMapProps {
 const WorldMap = (props: WorldMapProps): ReactElement => {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const handleClick = (e: any) => {
-        // We have a few 'unresolved' areas on map. We ignore clicking on those areas.
         const timezone = findTimeZone(e.target.id);
-        debugger;
         if (timezone) {
             props.onChange(timezone.name);
         }
