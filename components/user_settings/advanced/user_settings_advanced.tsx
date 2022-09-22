@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
+
 /* eslint-disable max-lines */
 
 import React, {ReactNode} from 'react';
@@ -38,7 +38,6 @@ type Settings = {
 export type Props = {
     currentUser: UserProfile;
     advancedSettingsCategory: PreferenceType[];
-    isAdvancedTextEditorEnabled: boolean;
     sendOnCtrlEnter: string;
     codeBlockOnCtrlEnter: string;
     formatting: string;
@@ -86,9 +85,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         };
 
         const PreReleaseFeaturesLocal = JSON.parse(JSON.stringify(PreReleaseFeatures));
-        if (this.props.isAdvancedTextEditorEnabled) {
-            delete PreReleaseFeaturesLocal.MARKDOWN_PREVIEW;
-        }
+        delete PreReleaseFeaturesLocal.MARKDOWN_PREVIEW;
         const preReleaseFeaturesKeys = Object.keys(PreReleaseFeaturesLocal);
 
         let enabledFeatures = 0;
@@ -595,7 +592,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             );
         }
 
-        const formattingSection = this.props.isAdvancedTextEditorEnabled ? null : this.renderFormattingSection();
+        const formattingSection = this.renderFormattingSection();
         let formattingSectionDivider = null;
         if (formattingSection) {
             formattingSectionDivider = <div className='divider-light'/>;
@@ -780,6 +777,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     </button>
                     <h4
                         className='modal-title'
+                        // eslint-disable-next-line react/no-string-refs
                         ref='title'
                     >
                         <div className='modal-back'>

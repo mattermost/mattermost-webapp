@@ -2,27 +2,25 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import {ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 
-import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils.jsx';
+import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils';
 import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
-
 import {t} from 'utils/i18n';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
-import AnnouncementBar from '../default_announcement_bar';
-import TextDismissableBar from '../text_dismissable_bar';
+import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
 import warningIcon from 'images/icons/warning-icon.svg';
 
+import AnnouncementBar from '../default_announcement_bar';
+import TextDismissableBar from '../text_dismissable_bar';
 import RenewalLink from '../renewal_link/';
-import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 
 type Props = {
     config?: Partial<ClientConfig>;
@@ -374,13 +372,28 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
         let defaultMessage;
         if (props.config?.EnableSignUpWithGitLab === 'true') {
             id = t('announcement_bar.error.site_url_gitlab.full');
-            defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb.';
+            defaultMessage = 'Please configure your <linkSite>site URL</linkSite> either on the <linkConsole>System Console<linkConsole> or, if you\'re using GitLab Mattermost, in gitlab.rb.';
         } else {
             id = t('announcement_bar.error.site_url.full');
-            defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server).';
+            defaultMessage = 'Please configure your <linkSite>site URL</linkSite> on the <linkConsole>System Console</linkConsole>.';
         }
 
-        const values = {siteURL: props.siteURL};
+        const values = {
+            linkSite: (msg: string) => (
+                <a
+                    href={props.siteURL}
+                    target='_blank'
+                    rel='noreferrer'
+                >
+                    {msg}
+                </a>
+            ),
+            linkConsole: (msg: string) => (
+                <Link to='/admin_console/environment/web_server'>
+                    {msg}
+                </Link>
+            ),
+        };
         const siteURLMessage = formatMessage({id, defaultMessage}, values);
 
         return (

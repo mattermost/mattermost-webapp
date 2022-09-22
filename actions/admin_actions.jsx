@@ -460,11 +460,7 @@ export function requestTrialLicense(users, termsAccepted, receiveEmailsAccepted,
             return {data: response};
         } catch (e) {
             // In the event that the status code returned is 451, this request has been blocked because it originated from an embargoed country_dropdown
-            // The response code is passed back as part of the data attribute so that the requesting component can render the proper error
-            if (e.status_code === 451) {
-                return {error: e.message, data: {status: e.status_code}};
-            }
-            return {error: e.message};
+            return {error: e.message, data: {status: e.status_code}};
         }
     };
 }

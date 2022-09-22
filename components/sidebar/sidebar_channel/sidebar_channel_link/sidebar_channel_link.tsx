@@ -151,7 +151,6 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             event.preventDefault();
             this.props.actions.multiSelectChannelTo(this.props.channel.id);
         } else {
-            this.props.actions.unsetEditingPost();
             this.props.actions.clearChannelSelection();
         }
     }

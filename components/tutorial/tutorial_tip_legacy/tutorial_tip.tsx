@@ -21,6 +21,7 @@ const OnBoardingTutorialStep = Constants.TutorialSteps;
 const AdminOnBoardingTutorialStep = Constants.AdminTutorialSteps;
 const TutorialSteps = {
     [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
+    [Preferences.EXPLORE_OTHER_TOOLS_TUTORIAL_STEP]: Constants.ExploreOtherToolsTourSteps,
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
     [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
 };
@@ -111,13 +112,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private show = (e?: React.MouseEvent): void => {
+        e?.stopPropagation();
         this.setState({show: true, hasShown: true});
-        if (this.props.preventDefault && e) {
-            e.preventDefault();
-        }
-        if (this.props.stopPropagation && e) {
-            e.stopPropagation();
-        }
     }
 
     private hide = (): void => {
