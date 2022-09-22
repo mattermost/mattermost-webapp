@@ -3541,12 +3541,13 @@ export default class Client4 {
         );
     };
 
-    getGroups = (filterAllowReference = false, page = 0, perPage = 10, includeMemberCount = false, hasFilterMember = false) => {
+    getGroups = (filterAllowReference = false, page = 0, perPage = 10, includeMemberCount = false, hasFilterMember = false, includeMemberIDs = false) => {
         const qs: any = {
             filter_allow_reference: filterAllowReference,
             page,
             per_page: perPage,
             include_member_count: includeMemberCount,
+            include_member_ids: includeMemberIDs,
         };
 
         if (hasFilterMember) {

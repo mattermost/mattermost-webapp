@@ -37,7 +37,7 @@ export type Props = {
     backButtonCallback: () => void;
     backButtonAction: () => void;
     actions: {
-        getGroup: (groupId: string, includeMemberCount: boolean) => Promise<{data: Group}>;
+        getGroup: (groupId: string, includeMemberCount: boolean, includeMemberIDs: boolean) => Promise<{data: Group}>;
         getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
         setModalSearchTerm: (term: string) => void;
         searchProfiles: (term: string, options: any) => Promise<ActionResult>;
@@ -89,7 +89,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
         } = this.props;
 
         await Promise.all([
-            actions.getGroup(groupId, true),
+            actions.getGroup(groupId, true, true),
             actions.getUsersInGroup(groupId, 0, USERS_PER_PAGE),
         ]);
         this.loadComplete();

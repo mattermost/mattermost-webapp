@@ -35,7 +35,9 @@ export type Props = {
             filterAllowReference?: boolean,
             page?: number,
             perPage?: number,
-            includeMemberCount?: boolean
+            includeMemberCount?: boolean,
+            hasFilterMember?: false,
+            includeMemberIDs?: boolean,
         ) => Promise<{data: Group[]}>;
         setModalSearchTerm: (term: string) => void;
         getGroupsByUserIdPaginated: (
@@ -43,7 +45,8 @@ export type Props = {
             filterAllowReference?: boolean,
             page?: number,
             perPage?: number,
-            includeMemberCount?: boolean
+            includeMemberCount?: boolean,
+            includeMemberIDs?: boolean,
         ) => Promise<{data: Group[]}>;
         searchGroups: (
             params: GroupSearachParams,
@@ -90,8 +93,8 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
             actions,
         } = this.props;
         await Promise.all([
-            actions.getGroups(false, this.state.page, GROUPS_PER_PAGE, true),
-            actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, this.state.myGroupsPage, GROUPS_PER_PAGE, true),
+            actions.getGroups(false, this.state.page, GROUPS_PER_PAGE, true, false, true),
+            actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, this.state.myGroupsPage, GROUPS_PER_PAGE, true, true),
         ]);
         this.loadComplete();
     }
@@ -191,7 +194,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         const {actions} = this.props;
 
         this.startLoad();
-        const data = await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, page, GROUPS_PER_PAGE, true);
+        const data = await actions.getGroupsByUserIdPaginated(this.props.currentUserId, false, page, GROUPS_PER_PAGE, true, true);
         if (data.data.length === 0) {
             this.setState({myGroupsFull: true});
         }
@@ -203,7 +206,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
         const {actions} = this.props;
 
         this.startLoad();
-        const data = await actions.getGroups(false, page, GROUPS_PER_PAGE, true);
+        const data = await actions.getGroups(false, page, GROUPS_PER_PAGE, true, false, true);
         if (data.data.length === 0) {
             this.setState({allGroupsFull: true});
         }

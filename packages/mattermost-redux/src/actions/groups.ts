@@ -147,21 +147,22 @@ export function patchGroupSyncable(groupID: string, syncableID: string, syncable
     };
 }
 
-export function getGroup(id: string, includeMemberCount = false): ActionFunc {
+export function getGroup(id: string, includeMemberCount = false, includeMemberIDs = false): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getGroup,
         onSuccess: [GroupTypes.RECEIVED_GROUP],
         params: [
             id,
             includeMemberCount,
+            includeMemberIDs,
         ],
     });
 }
 
-export function getGroups(filterAllowReference: false, page = 0, perPage = 10, includeMemberCount = false): ActionFunc {
+export function getGroups(filterAllowReference: false, page = 0, perPage = 10, includeMemberCount = false, hasFilterMember = false, includeMemberIDs = false): ActionFunc {
     return bindClientFunc({
-        clientFunc: async (param1, param2, param3, param4) => {
-            const result = await Client4.getGroups(param1, param2, param3, param4);
+        clientFunc: async (param1, param2, param3, param4, param5, param6) => {
+            const result = await Client4.getGroups(param1, param2, param3, param4, param5, param6);
             return result;
         },
         onSuccess: [GroupTypes.RECEIVED_GROUPS],
@@ -170,6 +171,8 @@ export function getGroups(filterAllowReference: false, page = 0, perPage = 10, i
             page,
             perPage,
             includeMemberCount,
+            hasFilterMember,
+            includeMemberIDs,
         ],
     });
 }
@@ -304,10 +307,10 @@ export function getGroupsByUserId(userID: string): ActionFunc {
     });
 }
 
-export function getGroupsByUserIdPaginated(userId: string, filterAllowReference = false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false): ActionFunc {
+export function getGroupsByUserIdPaginated(userId: string, filterAllowReference = false, page = 0, perPage: number = General.PAGE_SIZE_DEFAULT, includeMemberCount = false, includeMemberIDs = false): ActionFunc {
     return bindClientFunc({
-        clientFunc: async (param1, param2, param3, param4, param5) => {
-            const result = await Client4.getGroups(param1, param2, param3, param4, param5);
+        clientFunc: async (param1, param2, param3, param4, param5, param6) => {
+            const result = await Client4.getGroups(param1, param2, param3, param4, param5, param6);
             return result;
         },
         onSuccess: [GroupTypes.RECEIVED_MY_GROUPS, GroupTypes.RECEIVED_GROUPS],
@@ -317,6 +320,7 @@ export function getGroupsByUserIdPaginated(userId: string, filterAllowReference 
             perPage,
             includeMemberCount,
             userId,
+            includeMemberIDs,
         ],
     });
 }
