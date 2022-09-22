@@ -26,6 +26,7 @@ import PostReaction from 'components/post_view/post_reaction';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 import {Emoji} from '@mattermost/types/emojis';
 
 type Props = {
@@ -120,6 +121,8 @@ type Props = {
      */
     showActionsMenuPulsatingDot: boolean;
 
+    isPostPriorityEnabled: boolean;
+
     actions: {
 
         /**
@@ -178,9 +181,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        if (e) {
-            e.stopPropagation();
-        }
+        e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
 
         this.setState({
@@ -401,7 +402,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const {post} = this.props;
+        const {post, isPostPriorityEnabled} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -476,13 +477,19 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        let priority;
+        if (post.props?.priority && isPostPriorityEnabled) {
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+        }
+
         return (
             <div
                 className='post__header--info'
                 ref={this.postHeaderRef}
             >
-                <div className='col'>
+                <div className='col d-flex align-items-center'>
                     {postTime}
+                    {priority}
                     {postInfoIcon}
                     {visibleMessage}
                 </div>

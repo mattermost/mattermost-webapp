@@ -716,7 +716,16 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
         return (
             <>
-                <div className={classNames('login-body-message', {'custom-branding': enableCustomBrand, 'with-brand-image': enableCustomBrand && !brandImageError})}>
+                <div
+                    className={classNames(
+                        'login-body-message',
+                        {
+                            'custom-branding': enableCustomBrand,
+                            'with-brand-image': enableCustomBrand && !brandImageError,
+                            'with-alternate-link': showSignup && !isMobileView,
+                        },
+                    )}
+                >
                     {enableCustomBrand && !brandImageError ? (
                         <img
                             className={classNames('login-body-custom-branding-image')}
@@ -736,82 +745,85 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
                         </div>
                     )}
                 </div>
-                <div className={classNames('login-body-card', {'custom-branding': enableCustomBrand, 'with-error': hasError})}>
-                    <div
-                        className='login-body-card-content'
-                        onKeyDown={onEnterKeyDown}
-                        tabIndex={0}
-                    >
-                        <p className='login-body-card-title'>
-                            {getCardTitle()}
-                        </p>
-                        {enableCustomBrand && getMessageSubtitle()}
-                        {alertBanner && (
-                            <AlertBanner
-                                className='login-body-card-banner'
-                                mode={alertBanner.mode}
-                                title={alertBanner.title}
-                                onDismiss={alertBanner.onDismiss ?? dismissAlert}
-                            />
-                        )}
-                        {enableBaseLogin && (
-                            <div className='login-body-card-form'>
-                                <Input
-                                    ref={loginIdInput}
-                                    name='loginId'
-                                    containerClassName='login-body-card-form-input'
-                                    type='text'
-                                    inputSize={SIZE.LARGE}
-                                    value={loginId}
-                                    onChange={handleInputOnChange}
-                                    hasError={hasError}
-                                    placeholder={getInputPlaceholder()}
-                                    disabled={isWaiting}
-                                    autoFocus={true}
+                <div className='login-body-action'>
+                    {!isMobileView && getAlternateLink()}
+                    <div className={classNames('login-body-card', {'custom-branding': enableCustomBrand, 'with-error': hasError})}>
+                        <div
+                            className='login-body-card-content'
+                            onKeyDown={onEnterKeyDown}
+                            tabIndex={0}
+                        >
+                            <p className='login-body-card-title'>
+                                {getCardTitle()}
+                            </p>
+                            {enableCustomBrand && getMessageSubtitle()}
+                            {alertBanner && (
+                                <AlertBanner
+                                    className='login-body-card-banner'
+                                    mode={alertBanner.mode}
+                                    title={alertBanner.title}
+                                    onDismiss={alertBanner.onDismiss ?? dismissAlert}
                                 />
-                                <PasswordInput
-                                    ref={passwordInput}
-                                    className='login-body-card-form-password-input'
-                                    value={password}
-                                    inputSize={SIZE.LARGE}
-                                    onChange={handlePasswordInputOnChange}
-                                    hasError={hasError}
-                                    disabled={isWaiting}
-                                />
-                                {(enableSignInWithUsername || enableSignUpWithEmail) && (
-                                    <div className='login-body-card-form-link'>
-                                        <Link to='/reset_password'>
-                                            {formatMessage({id: 'login.forgot', defaultMessage: 'Forgot your password?'})}
-                                        </Link>
-                                    </div>
-                                )}
-                                <SaveButton
-                                    extraClasses='login-body-card-form-button-submit large'
-                                    saving={isWaiting}
-                                    onClick={preSubmit}
-                                    defaultMessage={formatMessage({id: 'login.logIn', defaultMessage: 'Log in'})}
-                                    savingMessage={formatMessage({id: 'login.logingIn', defaultMessage: 'Logging in…'})}
-                                />
-                            </div>
-                        )}
-                        {enableBaseLogin && enableExternalSignup && (
-                            <div className='login-body-card-form-divider'>
-                                <span className='login-body-card-form-divider-label'>
-                                    {formatMessage({id: 'login.or', defaultMessage: 'or log in with'})}
-                                </span>
-                            </div>
-                        )}
-                        {enableExternalSignup && (
-                            <div className={classNames('login-body-card-form-login-options', {column: !enableBaseLogin})}>
-                                {getExternalLoginOptions().map((option) => (
-                                    <ExternalLoginButton
-                                        key={option.id}
-                                        direction={enableBaseLogin ? undefined : 'column'}
-                                        {...option}
+                            )}
+                            {enableBaseLogin && (
+                                <div className='login-body-card-form'>
+                                    <Input
+                                        ref={loginIdInput}
+                                        name='loginId'
+                                        containerClassName='login-body-card-form-input'
+                                        type='text'
+                                        inputSize={SIZE.LARGE}
+                                        value={loginId}
+                                        onChange={handleInputOnChange}
+                                        hasError={hasError}
+                                        placeholder={getInputPlaceholder()}
+                                        disabled={isWaiting}
+                                        autoFocus={true}
                                     />
-                                ))}
-                            </div>
-                        )}
+                                    <PasswordInput
+                                        ref={passwordInput}
+                                        className='login-body-card-form-password-input'
+                                        value={password}
+                                        inputSize={SIZE.LARGE}
+                                        onChange={handlePasswordInputOnChange}
+                                        hasError={hasError}
+                                        disabled={isWaiting}
+                                    />
+                                    {(enableSignInWithUsername || enableSignUpWithEmail) && (
+                                        <div className='login-body-card-form-link'>
+                                            <Link to='/reset_password'>
+                                                {formatMessage({id: 'login.forgot', defaultMessage: 'Forgot your password?'})}
+                                            </Link>
+                                        </div>
+                                    )}
+                                    <SaveButton
+                                        extraClasses='login-body-card-form-button-submit large'
+                                        saving={isWaiting}
+                                        onClick={preSubmit}
+                                        defaultMessage={formatMessage({id: 'login.logIn', defaultMessage: 'Log in'})}
+                                        savingMessage={formatMessage({id: 'login.logingIn', defaultMessage: 'Logging in…'})}
+                                    />
+                                </div>
+                            )}
+                            {enableBaseLogin && enableExternalSignup && (
+                                <div className='login-body-card-form-divider'>
+                                    <span className='login-body-card-form-divider-label'>
+                                        {formatMessage({id: 'login.or', defaultMessage: 'or log in with'})}
+                                    </span>
+                                </div>
+                            )}
+                            {enableExternalSignup && (
+                                <div className={classNames('login-body-card-form-login-options', {column: !enableBaseLogin})}>
+                                    {getExternalLoginOptions().map((option) => (
+                                        <ExternalLoginButton
+                                            key={option.id}
+                                            direction={enableBaseLogin ? undefined : 'column'}
+                                            {...option}
+                                        />
+                                    ))}
+                                </div>
+                            )}
+                        </div>
                     </div>
                 </div>
             </>
@@ -820,7 +832,6 @@ const Login = ({onCustomizeHeader}: LoginProps) => {
 
     return (
         <div className='login-body'>
-            {!isMobileView && getAlternateLink()}
             <div className='login-body-content'>
                 {getContent()}
             </div>
