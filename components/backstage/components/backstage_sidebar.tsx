@@ -119,7 +119,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let oauthApps;
+        let oauthApps: JSX.Element;
         if (this.props.enableOAuthServiceProvider) {
             oauthApps = (
                 <SystemPermissionGate permissions={[Permissions.MANAGE_OAUTH]}>
