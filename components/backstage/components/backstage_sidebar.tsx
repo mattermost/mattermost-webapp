@@ -75,7 +75,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let outgoingWebhooks: JSX.Element;
+        let outgoingWebhooks: JSX.Element | null = null;
         if (this.props.enableOutgoingWebhooks) {
             outgoingWebhooks = (
                 <TeamPermissionGate
@@ -97,7 +97,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let commands: JSX.Element;
+        let commands: JSX.Element | null = null;
         if (this.props.enableCommands) {
             commands = (
                 <TeamPermissionGate
@@ -119,7 +119,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let oauthApps: JSX.Element;
+        let oauthApps: JSX.Element | null = null;
         if (this.props.enableOAuthServiceProvider) {
             oauthApps = (
                 <SystemPermissionGate permissions={[Permissions.MANAGE_OAUTH]}>
