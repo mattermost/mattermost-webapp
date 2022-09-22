@@ -51,7 +51,7 @@ const Directory = () => {
     };
 
     return (
-        <>
+        <div className='people-directory'>
             <header
                 className={classNames('header directory-header')}
             >
@@ -83,7 +83,7 @@ const Directory = () => {
                 searchTerms={''}
                 loadMore={loadMore}
             />
-        </>
+        </div>
     );
 };
 

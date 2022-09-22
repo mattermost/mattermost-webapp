@@ -1,35 +1,40 @@
-.directory-header {
-    &.header {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 16px;
-        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-        background-color: var(--center-channel-bg);
-        grid-area: header;
+.people-directory {
+    width: 100%;
 
-        .top {
+    .directory-header {
+        &.header {
             display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-
-            .people-title {
-                color: var(--center-channel-color);
-                font-family: 'Metropolis';
-                font-size: 20px;
-                font-style: normal;
-                font-weight: 600;
-                line-height: 28px;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 16px;
+            border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+            background-color: var(--center-channel-bg);
+            grid-area: header;
+    
+            .top {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
+    
+                .people-title {
+                    color: var(--center-channel-color);
+                    font-family: 'Metropolis';
+                    font-size: 20px;
+                    font-style: normal;
+                    font-weight: 600;
+                    line-height: 28px;
+                }
             }
-        }
-
-        .bottom {
-            display: flex;
-            align-items: center;
-
-            .people-search-input {
-                width: 300px;
+    
+            .bottom {
+                display: flex;
+                align-items: center;
+    
+                .people-search-input {
+                    width: 300px;
+                }
             }
         }
     }
+    
 }
