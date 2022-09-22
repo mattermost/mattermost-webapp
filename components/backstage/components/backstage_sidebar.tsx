@@ -97,7 +97,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let commands;
+        let commands: JSX.Element;
         if (this.props.enableCommands) {
             commands = (
                 <TeamPermissionGate
