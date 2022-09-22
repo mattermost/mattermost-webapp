@@ -281,11 +281,12 @@ export default class SuggestionList extends React.PureComponent {
                 ref={this.wrapperRef}
                 className={mainClass}
             >
-                {this.state.component === 'EmoticonSuggestion' && <div
+                {this.state.component === 'EmoticonSuggestion' &&
+                <div
                     className='sr-only'
-                    aria-label={'emojy ' + ' ' + this.state.focused}
+                    aria-label={'emojy ' + this.state.focused}
                     aria-live='polite'
-                >{'emojy ' + ' ' + this.state.focused}</div>}
+                >{'emojy ' + this.state.focused}</div>}
                 <div
                     id='suggestionList'
                     role='list'
