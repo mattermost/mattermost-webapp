@@ -107,7 +107,7 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
         >
             <g
                 style={{cursor: 'pointer'}}
-                transform='matrix(2 0 0 -2 400 200)'
+                transform='matrix(2.3 0 0 -2 400 200)'
             >
                 {tzPaths}
             </g>
