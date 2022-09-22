@@ -29,6 +29,8 @@ const VoiceMessagePreview = () => {
     const refreshIntervalTimer = useRef<ReturnType<typeof setTimeout> | null>();
     const countdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+    const visualizerCanvasRef = useRef<HTMLCanvasElement>(null);
+
     const [countdownTimer, setCountdownTimer] = useState<number>(0);
 
     function refreshAnalyzer() {
@@ -37,7 +39,24 @@ const VoiceMessagePreview = () => {
         const amplitudeArray = new Uint8Array(bufferLength);
         audioAnalyzerRef.current?.getByteFrequencyData(amplitudeArray);
 
-        console.log('amplitudeArray', amplitudeArray, bufferLength);
+        const visualizerCanvasContext = visualizerCanvasRef.current?.getContext('2d');
+        if (visualizerCanvasContext && visualizerCanvasRef.current) {
+            visualizerCanvasContext.clearRect(0, 0, visualizerCanvasRef.current.width, visualizerCanvasRef.current.height);
+            visualizerCanvasContext.fillStyle = theme.centerChannelBg;
+            visualizerCanvasContext.lineWidth = 4;
+            visualizerCanvasContext.strokeStyle = theme.buttonBg;
+            const spacing = Number(visualizerCanvasRef.current?.width) / amplitudeArray.length;
+            amplitudeArray.forEach((amplitude, index) => {
+                if (index !== 0) {
+                    visualizerCanvasContext.beginPath();
+                    visualizerCanvasContext.moveTo(spacing * index, Number(visualizerCanvasRef.current?.width));
+                    visualizerCanvasContext.lineTo(spacing * index, Number(visualizerCanvasRef.current?.height) - amplitude);
+                    visualizerCanvasContext.stroke();
+                }
+            });
+        }
+
+        console.log('amplitudeArray', amplitudeArray);
     }
 
     async function stopRecording() {
@@ -81,8 +100,8 @@ const VoiceMessagePreview = () => {
             const audioSourceNode = audioCtx.createMediaStreamSource(audioStream);
             audioSourceNode.connect(audioAnalyzer);
 
-            // audioAnalyzer.minDecibels = -90;
-            // audioAnalyzer.maxDecibels = -10;
+            audioAnalyzer.minDecibels = -90;
+            audioAnalyzer.maxDecibels = -10;
 
             audioContextRef.current = audioCtx;
             audioAnalyzerRef.current = audioAnalyzer;
@@ -120,8 +139,13 @@ const VoiceMessagePreview = () => {
                         />
                     </IconWrapper>
                 </div>
-                <div className='post-image__details'>
-                    {moment.utc(countdownTimer * 1000).format('mm:ss')}
+                <ControlsColumn>
+                    <VisualizerContainer>
+                        <Canvas ref={visualizerCanvasRef}/>
+                    </VisualizerContainer>
+                    <span>
+                        {moment.utc(countdownTimer * 1000).format('mm:ss')}
+                    </span>
                     <CancelButton onClick={dispatchOpenVoiceMessageAtToClear}>
                         <CloseIcon
                             size={18}
@@ -133,11 +157,23 @@ const VoiceMessagePreview = () => {
                             color={theme.buttonColor}
                         />
                     </OkButton>
-                </div>
+                </ControlsColumn>
             </div>
         </div>
     );
 };
+
+const ControlsColumn = styled.div`
+    position: relative;
+    display: flex;
+    overflow: hidden;
+    height: 100%;
+    flex: 1;
+    align-items: center;
+    font-size: 12px;
+    text-align: left;
+    padding-right: 1rem;
+`;
 
 const IconWrapper = styled.div`
     width: 40px;
@@ -171,6 +207,19 @@ const CancelButton = styled.button`
     justify-content: center;
     align-items: center;
     margin-right: 4px;
+`;
+
+const VisualizerContainer = styled.div`
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-right: 1rem
+`;
+
+const Canvas = styled.canvas`
+    width: 100%;
+    height: 20px;
 `;
 
 export default VoiceMessagePreview;
