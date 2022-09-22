@@ -34,7 +34,7 @@ function mapStateToProps(state: GlobalState) {
         prevTrialLicense: state.entities.admin.prevTrialLicense,
         isCloud,
         isCloudTrial,
-        isSubscriptionLoaded: subscription !== undefined,
+        isSubscriptionLoaded: subscription !== undefined && subscription !== null,
         hadPrevCloudTrial: hasPriorTrial,
         isPaidSubscription: isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isCloudTrial,
         contactSalesLink,
