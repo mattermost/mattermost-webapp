@@ -2,19 +2,19 @@
 // See LICENSE.txt for license information.
 import React, {useCallback, useMemo} from 'react';
 import isHotkey from 'is-hotkey';
-import {Editable, withReact, useSlate, Slate} from 'slate-react';
 import {
     Editor,
     Transforms,
     createEditor,
-    Descendant,
     Element as SlateElement,
+    CustomTypes,
 } from 'slate';
+import {Editable, withReact, useSlate, Slate, RenderElementProps, RenderLeafProps} from 'slate-react';
 import {withHistory} from 'slate-history';
 
-import {Button, Icon, Toolbar} from './components';
+import {Button, Icon, Toolbar} from './wysiwyg_components';
 
-const HOTKEYS = {
+const HOTKEYS: Record<string, string> = {
     'mod+b': 'bold',
     'mod+i': 'italic',
     'mod+u': 'underline',
@@ -96,7 +96,7 @@ const RichTextExample = () => {
                 autoFocus={true}
                 onKeyDown={(event) => {
                     for (const hotkey in HOTKEYS) {
-                        if (isHotkey(hotkey, event as any)) {
+                        if (isHotkey(hotkey, event)) {
                             event.preventDefault();
                             const mark = HOTKEYS[hotkey];
                             toggleMark(editor, mark);
@@ -108,7 +108,7 @@ const RichTextExample = () => {
     );
 };
 
-const toggleBlock = (editor, format) => {
+const toggleBlock = (editor: CustomTypes['Editor'], format) => {
     const isActive = isBlockActive(
         editor,
         format,
@@ -142,7 +142,7 @@ const toggleBlock = (editor, format) => {
     }
 };
 
-const toggleMark = (editor, format) => {
+const toggleMark = (editor: CustomTypes['Editor'], format) => {
     const isActive = isMarkActive(editor, format);
 
     if (isActive) {
@@ -152,7 +152,7 @@ const toggleMark = (editor, format) => {
     }
 };
 
-const isBlockActive = (editor, format, blockType = 'type') => {
+const isBlockActive = (editor: CustomTypes['Editor'], format, blockType = 'type') => {
     const {selection} = editor;
     if (!selection) {
         return false;
@@ -171,17 +171,17 @@ const isBlockActive = (editor, format, blockType = 'type') => {
     return Boolean(match);
 };
 
-const isMarkActive = (editor, format) => {
+const isMarkActive = (editor: CustomTypes['Editor'], format) => {
     const marks = Editor.marks(editor);
     return marks ? marks[format] === true : false;
 };
 
-const Element = ({attributes, children, element}) => {
-    const style = {textAlign: element.align};
+const Element = ({attributes, children, element}: RenderElementProps) => {
+    const style = {textAlign: element.align ?? 'left'};
     const Tag = element.type || 'p';
     return (
         <Tag
-            styles={style}
+            style={style}
             {...attributes}
         >
             {children}
@@ -189,24 +189,25 @@ const Element = ({attributes, children, element}) => {
     );
 };
 
-const Leaf = ({attributes, children, leaf}) => {
+const Leaf = ({attributes, children, leaf}: RenderLeafProps) => {
+    let alteredChildren = children;
     if (leaf.bold) {
-        children = <strong>{children}</strong>;
+        alteredChildren = <strong>{children}</strong>;
     }
 
     if (leaf.code) {
-        children = <code>{children}</code>;
+        alteredChildren = <code>{children}</code>;
     }
 
     if (leaf.italic) {
-        children = <em>{children}</em>;
+        alteredChildren = <em>{children}</em>;
     }
 
     if (leaf.underline) {
-        children = <u>{children}</u>;
+        alteredChildren = <u>{children}</u>;
     }
 
-    return <span {...attributes}>{children}</span>;
+    return <span {...attributes}>{alteredChildren}</span>;
 };
 
 const BlockButton = ({format, icon}) => {
@@ -216,7 +217,6 @@ const BlockButton = ({format, icon}) => {
             active={isBlockActive(
                 editor,
                 format,
-                TEXT_ALIGN_TYPES.includes(format) ? 'align' : 'type',
             )}
             onMouseDown={(event) => {
                 event.preventDefault();
@@ -243,7 +243,7 @@ const MarkButton = ({format, icon}) => {
     );
 };
 
-const initialValue: Descendant[] = [
+const initialValue: Array<CustomTypes['Descendant']> = [
     {
         type: 'p',
         children: [
