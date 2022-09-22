@@ -2941,7 +2941,7 @@ const AdminDefinition = {
                         isDisabled: it.any(
                             it.configIsFalse('ExperimentalSettings', 'EnableVoiceMessages'),
                             it.configIsFalse('FileSettings', 'EnableFileAttachments'),
-                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE))
+                            it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ENVIRONMENT.FILE_STORAGE)),
                         ),
                     },
                 ],
