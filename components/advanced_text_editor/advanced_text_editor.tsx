@@ -5,6 +5,7 @@ import React, {CSSProperties, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
+import {useSelector} from 'react-redux';
 
 import {PostDraft} from 'types/store/draft';
 
@@ -25,6 +26,8 @@ import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
 
+import {getVoiceMessageOrigin} from 'selectors/views/textbox';
+
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 import {FileInfo} from '@mattermost/types/files';
@@ -38,6 +41,7 @@ import ShowFormat from './show_formatting';
 import SendButton from './send_button';
 import VoiceButton from './voice_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
+import VoiceMessagePreview from './voice_message_preview';
 
 import './advanced_text_editor.scss';
 
@@ -167,6 +171,9 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
+    // add selector for voice message
+    const voiceMessageOrigin = useSelector(getVoiceMessageOrigin);
+
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
 
@@ -192,8 +199,18 @@ const AdvanceTextEditor = ({
         );
     }
 
+    const showVoiceMessageAttachment = (voiceMessageOrigin.location === Locations.CENTER && voiceMessageOrigin.channelId === currentChannel?.id);
     let attachmentPreview = null;
-    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
+
+    if (showVoiceMessageAttachment) {
+        attachmentPreview = (
+            <div>
+                <VoiceMessagePreview/>
+            </div>
+        );
+    }
+
+    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && !showVoiceMessageAttachment) {
         attachmentPreview = (
             <div>
                 <FilePreview
@@ -437,7 +454,10 @@ const AdvanceTextEditor = ({
                     <TexteditorActions
                         placement='bottom'
                     >
-                        <VoiceButton/>
+                        <VoiceButton
+                            location={location}
+                            currentChannelId={currentChannel?.id}
+                        />
                         {sendButton}
                     </TexteditorActions>
                 </div>

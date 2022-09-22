@@ -44,8 +44,26 @@ function shouldShowPreviewOnEditChannelHeaderModal(state = false, action: Generi
     }
 }
 
+const defaultVoiceMessageState = {
+    location: '',
+    channelId: '',
+};
+
+function voiceMessageOrigin(state = defaultVoiceMessageState, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.OPEN_VOICE_MESSAGE_AT:
+        return action.data;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return null;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     shouldShowPreviewOnCreateComment,
     shouldShowPreviewOnCreatePost,
     shouldShowPreviewOnEditChannelHeaderModal,
+    voiceMessageOrigin,
 });

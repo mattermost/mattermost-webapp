@@ -3,7 +3,7 @@
 
 import React, {useEffect, useState} from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
 
 import {MicrophoneIcon} from '@mattermost/compass-icons/components';
 
@@ -13,12 +13,20 @@ import {isVoiceMessageEnabled} from 'selectors/views/textbox';
 
 import Constants from 'utils/constants';
 
+import {Channel} from '@mattermost/types/channels';
+
 import {IconContainer} from '../formatting_bar/formatting_icon';
 
-const VoiceButton = () => {
+interface Props {
+    location: string;
+    currentChannelId?: Channel['id'];
+}
+
+const VoiceButton = (props: Props) => {
     const {formatMessage} = useIntl();
 
     const voiceMessageEnabled = useSelector(isVoiceMessageEnabled);
+    const dispatch = useDispatch();
 
     const [canRecordAudio, setCanRecordAudio] = useState(false);
 
@@ -30,6 +38,18 @@ const VoiceButton = () => {
             setCanRecordAudio(false);
         }
     }, []);
+
+    function handleVoiceMessageClick() {
+        if (canRecordAudio) {
+            dispatch({
+                type: Constants.ActionTypes.OPEN_VOICE_MESSAGE_AT,
+                data: {
+                    location: props.location,
+                    channelId: props.currentChannelId,
+                },
+            });
+        }
+    }
 
     if (!voiceMessageEnabled) {
         return null;
@@ -58,9 +78,7 @@ const VoiceButton = () => {
             <IconContainer
                 type='button'
                 id='PreviewInputTextButton'
-
-                // onClick={onClick}
-                // className={classNames({active})}
+                onClick={handleVoiceMessageClick}
                 aria-label={formatMessage({id: 'voiceMessage.sendMessage', defaultMessage: 'TBD change on state'})}
             >
                 <MicrophoneIcon

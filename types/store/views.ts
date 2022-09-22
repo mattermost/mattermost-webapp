@@ -198,5 +198,9 @@ export type ViewsState = {
         shouldShowPreviewOnCreatePost: boolean;
         shouldShowPreviewOnEditChannelHeaderModal: boolean;
         shouldShowPreviewOnEditPostModal: boolean;
+        voiceMessageOrigin: {
+            location: string;
+            channelId: string;
+        };
     };
 };
