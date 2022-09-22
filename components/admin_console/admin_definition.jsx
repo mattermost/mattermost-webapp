@@ -46,6 +46,7 @@ import SystemRole from './system_roles/system_role';
 import SystemUsers from './system_users';
 import SystemUserDetail from './system_user_detail';
 import ServerLogs from './server_logs';
+import Events from './events';
 import BrandImageSetting from './brand_image_setting/brand_image_setting';
 import GroupSettings from './group_settings/group_settings';
 import GroupDetails from './group_settings/group_details';
@@ -478,6 +479,18 @@ const AdminDefinition = {
             schema: {
                 id: 'ServerLogs',
                 component: ServerLogs,
+            },
+        },
+        event_logs: {
+            url: 'reporting/events',
+            title: t('admin.sidebar.events'),
+            title_default: 'Events',
+            searchableStrings: [
+                'event',
+            ],
+            schema: {
+                id: 'Events',
+                component: Events,
             },
         },
     },
