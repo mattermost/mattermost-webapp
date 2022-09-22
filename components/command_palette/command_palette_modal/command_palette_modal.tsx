@@ -24,7 +24,7 @@ import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
 import {GotoListItemConstants, GotoListItemData} from '../constant';
-import {boardToCommandPaletteItemTransformer, channelToCommandPaletteItemTransformer} from '../utils';
+import {channelToCommandPaletteItemTransformer, defaultsTransformer} from '../utils';
 import './command_palette_modal.scss';
 
 import Filters from './filters';
@@ -53,41 +53,31 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const currentTeamId = useSelector(getCurrentTeamId);
     const teams = useSelector(getTeams);
 
-    const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
-    const recentHandler = useSelector((state: GlobalState) => {
-        return state.plugins.recentlyViewedHandlers.focalboard;
-    });
+    const recentlyViewedHandlers = useSelector((state: GlobalState) => state.plugins.recentlyViewedHandlers);
+    const searchHandlers = useSelector((state: GlobalState) => state.plugins.searchHandlers);
+
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const boards = pluginsList.focalboard;
-    const playbooks = pluginsList.playbooks;
     const recentChannels = useSelector(getChannelsInAllTeams);
     const channelsTransformedItems = channelToCommandPaletteItemTransformer(recentChannels, teams);
-    const boardsTransformedItems: CommandPaletteItem[] = [];
-    const recentBoards = useCallback(async () => {
-        // const recentData: any = await recentHandler();
-        // if (recentData) {
-        //     boardsTransformedItems = boardToCommandPaletteItemTransformer(recentData, teams);
-        //     setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
-        //     setLoading(false);
-        // }
-        setTransformedItems([...channelsTransformedItems]);
+
+    // recentlyViewed synchronously fetches recently viewed items from all registered handlers.
+    const recentlyViewed = useCallback(async () => {
+        let items = Object.values(recentlyViewedHandlers).map((f) => f());
+        setTransformedItems([...defaultsTransformer(items.flat(), teams), ...channelsTransformedItems]);
         setLoading(false);
     }, [currentTeamId]);
 
-    const searchBoards = useCallback(async (query: string) => {
-        // const searchData: any = await searchHandler(currentTeamId, query);
-        // if (searchData) {
-        //     boardsTransformedItems = boardToCommandPaletteItemTransformer(searchData, teams);
-        //     setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
-        //     setLoading(false);
-        // }
-        setTransformedItems([...boardsTransformedItems, ...channelsTransformedItems]);
+
+    // search asynchronously fetches search result items from all registered handlers.
+    const search = useCallback(async (query: string) => {
+        let items = await Promise.all(Object.values(searchHandlers).map((f) => f(query)))
+        setTransformedItems([...defaultsTransformer(items.flat(), teams), ...channelsTransformedItems]);
         setLoading(false);
     }, [currentTeamId]);
 
     useEffect(() => {
-        recentBoards();
-    }, [recentBoards]);
+        recentlyViewed();
+    }, [recentlyViewed]);
 
     const addChip = useCallback((chip: string) => {
         setChips((chips) => {
@@ -130,7 +120,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const updateSearchTerm = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         setSearchTerm(e.target.value);
-        searchBoards(query);
+        search(query);
     }, []);
 
     const onHide = (): void => {

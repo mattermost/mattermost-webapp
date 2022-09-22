@@ -88,6 +88,20 @@ export function channelToCommandPaletteItemTransformer(channels: Channel[], team
     });
 }
 
+export function defaultsTransformer(items: any[], teams: Record<string, Team>): CommandPaletteItem[] {
+    return items.filter((item) => Boolean(item)).map((item) => {
+        return {
+            teamName: teams[item.teamId]?.name,
+            pictograph: {
+                type: CmdPalettePictographType.ICON,
+                pictographItem: CmdPalettePictographIcon.GLOBE,
+            },
+
+            ...item,
+        };
+    });
+}
+
 function sortChannelsByTypeAndDisplayName(locale: string, cmdPaletteItemA: CommandPaletteItem, cmdPaletteItemB: CommandPaletteItem): number {
     if (channelTypeOrder[cmdPaletteItemA.subType] !== channelTypeOrder[cmdPaletteItemB.subType]) {
         if (channelTypeOrder[cmdPaletteItemA.subType] < channelTypeOrder[cmdPaletteItemB.subType]) {
