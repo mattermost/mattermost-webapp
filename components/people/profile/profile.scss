@@ -6,18 +6,23 @@
     &__header-card {
         width: 100%;
         height: 30%;
-        border: 1px solid red;
         display: flex;
         flex-direction: column;
+        background-color: var(--center-channel-bg);
+        z-index: 0;
+        border: 1px solid blue;
 
         &__top-section {
             min-height: 56px;
             display: flex;
             padding: 15px;
+            background-color: var(--center-channel-bg);
+            z-index: 1;
 
             &__back {
                 color: rgba(var(--center-channel-color), 0.72) !important;
                 cursor: pointer;
+
                 &:hover {
                     text-decoration: none !important;
                 }
@@ -32,22 +37,35 @@
             }
         }
 
-        #user-picture-card {
-            position: absolute;
-        }
+
 
         .TimeZoneSelectMap {
-
+            position: absolute;
+            width: 80%;
+            left: 10%;
         }
     }
 
     &__bottom-card {
         width: 100%;
         height: 70%;
-        border: 1px solid blue;
+        background-color: var(--center-channel-bg);
+        z-index: 0;
+        border: 1px solid red;
+        display: flex;
+
+        #user-picture-card {
+            position: relative;
+            top: -20%;
+            left: 5%;
+            min-height: 308px;
+            z-index: 10;
+        }
 
         #user-profile-details-card {
-            position: absolute;
+            position: relative;
+            top: 5%;
+            left: 50%;
         }
     }
 }

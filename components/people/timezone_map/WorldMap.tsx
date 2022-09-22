@@ -103,7 +103,7 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
     return (
         <svg
             viewBox='0 0 800 320'
-            width={700}
+            width={'100%'}
         >
             <g
                 style={{cursor: 'pointer'}}

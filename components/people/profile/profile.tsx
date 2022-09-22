@@ -44,6 +44,9 @@ const Profile = () => {
                         />
                     </a>
                 </div>
+                <TimeZoneSelectMap/>
+            </div>
+            <div className='UserProfile__bottom-card'>
                 <StyledCard
                     width={280}
                     height={308}
@@ -51,9 +54,6 @@ const Profile = () => {
                 >
                     <p>{'holi'}</p>
                 </StyledCard>
-                <TimeZoneSelectMap/>
-            </div>
-            <div className='UserProfile__bottom-card'>
                 <StyledCard
                     width={591}
                     height={325}
