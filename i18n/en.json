@@ -3121,6 +3121,8 @@
   "device_icons.apple": "Apple Icon",
   "device_icons.linux": "Linux Icon",
   "device_icons.windows": "Windows Icon",
+  "directory.people.count": "{value} people",
+  "directory.people.search": "Search for a person",
   "discard_changes_modal.leave": "Yes, Discard",
   "discard_changes_modal.message": "You have unsaved changes, are you sure you want to discard them?",
   "discard_changes_modal.title": "Discard Changes?",
