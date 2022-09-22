@@ -12,7 +12,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getWysiwygPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import WysiwygSection from './wysiwyg_editor';
+import WysiwygSection from './wysiwyg_section';
 
 function mapStateToProps(state: GlobalState) {
     return {

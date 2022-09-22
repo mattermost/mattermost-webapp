@@ -25,7 +25,6 @@ function makeMapStateToProps() {
 
         const enablePreviewFeatures = config.EnablePreviewFeatures === 'true';
         const enableUserDeactivation = config.EnableUserDeactivation === 'true';
-        const wysiwygAllowed = isWysiwygAllowed(state);
 
         return {
             advancedSettingsCategory: getAdvancedSettingsCategory(state, Preferences.CATEGORY_ADVANCED_SETTINGS),
@@ -37,7 +36,7 @@ function makeMapStateToProps() {
             unreadScrollPosition: getUnreadScrollPositionPreference(state),
             enablePreviewFeatures,
             enableUserDeactivation,
-            wysiwygAllowed,
+            wysiwygAllowed: isWysiwygAllowed(state),
         };
     };
 }
