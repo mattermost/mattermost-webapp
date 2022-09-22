@@ -49,7 +49,6 @@ export default function People() {
 }
 
 const PeopleRoot = styled.div`
-    overflow-y: auto;
     height: 100%;
     background: var(--center-channel-bg);
 `;
