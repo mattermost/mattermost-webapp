@@ -11,6 +11,8 @@ import {applyTheme} from 'utils/utils';
 
 import Profile from './profile/profile';
 import Directory from './directory/directory';
+import Sidebar from './sidebar/sidebar';
+import Groups from './groups/groups';
 
 function useInitTheme() {
     const currentTheme = useSelector(getTheme);
@@ -36,9 +38,13 @@ export default function People() {
 
     return (
         <PeopleRoot>
+            <Sidebar/>
             <Switch>
                 <Route path={`${path}/:username`}>
                     <Profile/>
+                </Route>
+                <Route path={`${path}/groups/:group`}>
+                    <Groups/>
                 </Route>
                 <Route>
                     <Directory/>
