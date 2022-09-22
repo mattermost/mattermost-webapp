@@ -75,7 +75,7 @@ export default class BackstageSidebar extends React.PureComponent<Props> {
             );
         }
 
-        let outgoingWebhooks;
+        let outgoingWebhooks: JSX.Element;
         if (this.props.enableOutgoingWebhooks) {
             outgoingWebhooks = (
                 <TeamPermissionGate
