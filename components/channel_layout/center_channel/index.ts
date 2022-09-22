@@ -3,7 +3,7 @@
 
 import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
-import {RouteComponentProps} from 'react-router-dom';
+import {RouteComponentProps, withRouter} from 'react-router-dom';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getProfiles} from 'mattermost-redux/actions/users';
@@ -83,5 +83,5 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 export type PropsFromRedux = ConnectedProps<typeof connector>;
 
-export default connector(CenterChannel);
+export default withRouter(connector(CenterChannel));
 

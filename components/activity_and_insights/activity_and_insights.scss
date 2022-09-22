@@ -94,17 +94,22 @@
             }
         }
 
-        .top-playbooks-card {
-            visibility: hidden;
-        }
-
-        .top-playbooks-card,
         .top-boards-card {
             .Card__body {
                 padding: 0 12px 18px;
             }
         }
 
+        .top-playbooks-card,
+        .least-active-channels-card {
+            &.medium {
+                @media screen and (max-width: 1279px) and (min-width: 769px) {
+                    width: calc(100% - 16px);
+                }
+            }
+        }
+
+        .top-playbooks-card,
         .top-dms-card {
             .Card__body {
                 padding: 0 12px 12px;
@@ -168,44 +173,6 @@
                     display: flex;
                     align-items: center;
                     padding: 12px 12px 12px 0;
-
-                    &:nth-of-type(2) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.85;
-                            }
-                        }
-                    }
-
-                    &:nth-of-type(3) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.9;
-                            }
-                        }
-                    }
-
-                    &:nth-of-type(4) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.5;
-                            }
-                        }
-                    }
-
-                    &:nth-of-type(5) {
-                        .skeleton-loader {
-                            &.title {
-                                flex: 0.7;
-                            }
-                        }
-                    }
-
-                    .skeleton-loader {
-                        &.title {
-                            margin-left: 8px;
-                        }
-                    }
                 }
 
                 .channel-row {
@@ -309,12 +276,6 @@
                 margin-top: auto;
 
                 &:nth-of-type(1) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 140px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--button-bg);
                     }
@@ -327,36 +288,18 @@
                 }
 
                 &:nth-of-type(3) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 140px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--dnd-indicator);
                     }
                 }
 
                 &:nth-of-type(4) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 120px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--new-message-separator);
                     }
                 }
 
                 &:nth-of-type(5) {
-                    .skeleton-loader {
-                        &.bar-chart {
-                            height: 140px;
-                        }
-                    }
-
                     .bar-chart-data {
                         background-color: var(--away-indicator);
                     }
@@ -369,12 +312,6 @@
                     font-style: normal;
                     font-weight: 600;
                     line-height: 16px;
-                }
-
-                .skeleton-loader {
-                    &.bar-chart {
-                        margin-bottom: 6px;
-                    }
                 }
 
                 .bar-chart-data {
@@ -401,22 +338,6 @@
                     display: flex;
                     align-items: center;
                     padding-bottom: 8px;
-
-                    .skeleton-loader {
-                        &.title {
-                            flex: 0.5;
-                            margin-left: 8px;
-                        }
-                    }
-                }
-
-                .loading-lines {
-                    .skeleton-loader {
-                        &.title {
-                            height: 8px;
-                            margin-bottom: 8px;
-                        }
-                    }
                 }
             }
 
@@ -461,15 +382,6 @@
                     flex: 1;
                     flex-direction: column;
                     margin-left: 10px;
-
-                    .title {
-                        flex: none;
-
-                        &:nth-of-type(2) {
-                            height: 8px;
-                            margin-top: 6px;
-                        }
-                    }
                 }
             }
 
@@ -553,18 +465,6 @@
                 &:nth-of-type(4) {
                     margin-bottom: 10px;
                 }
-
-                .title {
-                    margin-left: 6px;
-
-                    &:nth-of-type(3) {
-                        margin-left: 30px;
-                    }
-
-                    &:nth-of-type(4) {
-                        margin-left: 50px;
-                    }
-                }
             }
 
             .channel-list {
@@ -618,27 +518,18 @@
                     }
                 }
             }
+
+            .empty-state {
+                margin: 38px 0;
+            }
         }
 
         .top-playbooks-container {
             .top-playbooks-loading-container {
                 padding: 0 12px;
 
-                .title {
-                    &:nth-of-type(1) {
-                        height: 12px;
-                        margin-bottom: 8px;
-                    }
-
-                    &:nth-of-type(2) {
-                        max-width: 80%;
-                        height: 8px;
-                        margin-bottom: 8px;
-                    }
-                }
-
                 &:nth-of-type(1) {
-                    margin-top: 2px;
+                    margin-top: 12px;
                 }
 
                 &:nth-of-type(2) {
@@ -647,9 +538,9 @@
                 }
 
                 &:nth-of-type(3) {
-                    margin-bottom: 2px;
+                    margin-bottom: 12px;
 
-                    .title {
+                    > div {
                         &:nth-of-type(2) {
                             margin-bottom: 0;
                         }
@@ -699,7 +590,6 @@
                         .display-name {
                             overflow: hidden;
                             margin-right: 10px;
-                            margin-bottom: 2px;
                             color: var(--center-channel-color);
                             float: left;
                             font-family: 'Open Sans';
@@ -730,6 +620,10 @@
                     }
                 }
             }
+
+            .empty-state {
+                margin: 38px 0;
+            }
         }
 
         .top-dms-container {
@@ -748,25 +642,10 @@
                 align-items: left;
                 margin-top: auto;
 
-                .circle {
-                    margin-bottom: 16px;
-                }
-
                 .title-line {
                     width: 124px;
+                    margin-top: 16px;
                     margin-bottom: 8px;
-                }
-
-                .info-line {
-                    .title {
-                        width: 72px;
-                        height: 8px;
-
-                        &:nth-of-type(1) {
-                            width: 92px;
-                            margin-bottom: 12px;
-                        }
-                    }
                 }
             }
 

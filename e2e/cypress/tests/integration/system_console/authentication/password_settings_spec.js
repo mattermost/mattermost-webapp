@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @not_cloud @system_console
+// Group: @not_cloud @system_console @restrict_system_admin
 
 describe('Password settings', () => {
     it('MM-T4679 - Should NOT show MaximumLoginAttempts when ExperimentalSettings.RestrictSystemAdmin is true', () => {
