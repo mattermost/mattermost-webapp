@@ -95,7 +95,7 @@ import {syncPostsInChannel} from 'actions/views/channel';
 import {updateThreadLastOpened} from 'actions/views/threads';
 
 import {browserHistory} from 'utils/browser_history';
-import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
+import {loadChannelsForCurrentUser} from 'actions/channel_actions';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
 import {handleNewPost} from 'actions/post_actions';

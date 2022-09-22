@@ -47,8 +47,8 @@ type Props = {
     currentChannelId?: string;
     currentTeamId?: string;
     actions: {
-        fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
-        fetchAllMyTeamsChannelsAndChannelMembers: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
+        fetchMyChannelsAndMembersREST: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
+        fetchAllMyTeamsChannelsAndChannelMembersREST: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -139,6 +139,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         startPeriodicStatusUpdates();
+        if (this.state.team) {
+            this.initTeam(this.state.team);
+        }
         this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
@@ -195,7 +198,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             window.isActive = true;
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
-            this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
+            this.props.actions.fetchMyChannelsAndMembersREST(this.props.currentTeamId);
         }
     }
 
@@ -236,7 +239,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         if (this.props.currentUser && isGuest(this.props.currentUser.roles)) {
             this.setState({finishedFetchingChannels: false});
         }
-        this.props.actions.fetchMyChannelsAndMembers(team.id).then(
+        this.props.actions.fetchMyChannelsAndMembersREST(team.id).then(
             () => {
                 this.setState({
                     finishedFetchingChannels: true,
@@ -267,7 +270,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     fetchAllTeams = () => {
-        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
+        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembersREST();
     }
 
     updateCurrentTeam = (props: Props) => {
@@ -275,7 +278,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         // for the current url.
         const team = props.teamsList ? props.teamsList.find((teamObj) => teamObj.name === props.match.params.team) : null;
         if (team) {
-            this.initTeam(team);
             return team;
         }
         return null;

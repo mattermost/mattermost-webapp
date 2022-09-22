@@ -15,6 +15,11 @@ import Badge from 'components/widgets/badges/badge';
 import {WindowSizes} from 'utils/constants';
 
 import {TestHelper} from 'utils/test_helper';
+import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
+jest.mock('mattermost-redux/actions/threads');
+
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+jest.mock('actions/views/threads');
 
 import ThreadItem from './thread_item';
 
@@ -172,5 +177,14 @@ describe('components/threading/global_threads/thread_item', () => {
         wrapper.find('.preview').simulate('click', {});
 
         expect(spy).toHaveBeenCalledWith({}, '/tname');
+    });
+
+    test('should allow marking as unread on alt + click', () => {
+        const wrapper = shallow(<ThreadItem {...props}/>);
+        wrapper.simulate('click', {altKey: true});
+        expect(updateThreadRead).not.toHaveBeenCalled();
+        expect(markLastPostInThreadAsUnread).toHaveBeenCalledWith('user_id', 'tid', '1y8hpek81byspd4enyk9mp1ncw');
+        expect(manuallyMarkThreadAsUnread).toHaveBeenCalledWith('1y8hpek81byspd4enyk9mp1ncw', 1611786714912);
+        expect(mockDispatch).toHaveBeenCalledTimes(2);
     });
 });

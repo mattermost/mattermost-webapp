@@ -45,6 +45,7 @@ export type Props = {
     onPaste?: (e: ClipboardEvent) => void;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
+    alignWithTextbox?: boolean;
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -64,6 +65,7 @@ export type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    hasLabels?: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -257,6 +259,9 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
+        if (this.props.hasLabels) {
+            textboxClassName += ' textarea--has-labels';
+        }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
             textWrapperClass += ' textarea-wrapper--preview';
@@ -314,6 +319,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                     openWhenEmpty={this.props.openWhenEmpty}
+                    alignWithTextbox={this.props.alignWithTextbox}
                 />
                 {preview}
             </div>

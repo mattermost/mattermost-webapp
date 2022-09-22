@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useState, useCallback, useEffect, useMemo, ComponentProps} from 'react';
 import {useSelector} from 'react-redux';
-
 import {Link} from 'react-router-dom';
-
 import {FormattedMessage} from 'react-intl';
 
-import {trackEvent} from 'actions/telemetry_actions';
+import {TopPlaybook} from '@mattermost/types/insights';
+
+import {RectangleSkeletonLoader} from '@mattermost/components';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
-import {TopPlaybook} from '@mattermost/types/insights';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import {GlobalState} from 'types/store';
 
 import Timestamp from 'components/timestamp';
 
-import TitleLoader from '../skeleton_loader/title_loader/title_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
@@ -65,8 +65,15 @@ const TopPlaybooks = (props: WidgetHocProps) => {
                     className='top-playbooks-loading-container'
                     key={i}
                 >
-                    <TitleLoader/>
-                    <TitleLoader/>
+                    <RectangleSkeletonLoader
+                        height={12}
+                        margin='0 0 8px 0'
+                    />
+                    <RectangleSkeletonLoader
+                        height={8}
+                        margin='0 0 8px 0'
+                        width='80%'
+                    />
                 </div>,
             );
         }

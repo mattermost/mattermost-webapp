@@ -41,7 +41,6 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         formatting: '',
         joinLeave: '',
         unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT,
-        isAdvancedTextEditorEnabled: false,
         codeBlockOnCtrlEnter: 'false',
         enablePreviewFeatures: false,
         enableUserDeactivation: false,
