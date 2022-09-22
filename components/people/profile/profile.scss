@@ -1,0 +1,17 @@
+.UserProfile {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+
+    &__header-card {
+        width: 100%;
+        height: 30%;
+        border: 1px solid red;
+    }
+
+    &__bottom-card {
+        width: 100%;
+        height: 70%;
+        border: 1px solid blue;
+    }
+}
