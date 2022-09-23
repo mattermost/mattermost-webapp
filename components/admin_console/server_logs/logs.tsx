@@ -41,7 +41,7 @@ export default class Logs extends React.PureComponent<Props, State> {
             sortOrder: LogsSortOrderEnum.DESC,
         };
     }
-    console.log(props);
+
     componentDidMount() {
         this.reload();
     }

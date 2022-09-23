@@ -101,7 +101,7 @@ export default class LogList extends React.PureComponent<Props, State> {
             {
                 name: caller,
                 field: 'caller',
-                width: 4,
+                width: 2,
                 fixed: true,
             },
             {
@@ -113,18 +113,21 @@ export default class LogList extends React.PureComponent<Props, State> {
             {
                 name: level,
                 field: 'level',
+                width: 1.5,
                 fixed: true,
             },
             {
                 name: msg,
                 field: 'message',
                 textAlign: 'right',
+                width: 1.5,
                 fixed: true,
             },
             {
                 name: timestamp,
                 field: 'timestamp',
                 textAlign: 'right',
+                width: 1.5,
                 fixed: true,
             },
             {
