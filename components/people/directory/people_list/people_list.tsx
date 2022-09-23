@@ -46,7 +46,7 @@ const PeopleList = ({
     };
 
     const Item = ({columnIndex, rowIndex, style}: GridChildComponentProps) => {
-        const index = (rowIndex * 5) + columnIndex;
+        const index = (rowIndex * 4) + columnIndex;
         if (isItemLoaded(index)) {
             const user = people[index] as UserProfile;
             if (!user) {
@@ -100,12 +100,12 @@ const PeopleList = ({
                             ref={ref}
                             itemData={people}
                             className='Grid'
-                            columnCount={5}
+                            columnCount={4}
                             height={height}
-                            rowCount={62 / 5}
+                            rowCount={62 / 4}
                             width={width}
-                            columnWidth={width / 5}
-                            rowHeight={width / 5}
+                            columnWidth={width / 4}
+                            rowHeight={230}
                             onItemsRendered={(gridData) => {
                                 const {visibleRowStartIndex, visibleRowStopIndex, visibleColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex, overscanColumnStopIndex} = gridData;
 
