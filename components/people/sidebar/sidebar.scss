@@ -1,0 +1,40 @@
+.People__LHS {
+    display: flex;
+    width: 240px;
+    height: 100%;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    background-color: var(--sidebar-bg);
+
+    .Link {
+        position: relative;
+        display: flex;
+        width: 100%;
+        flex-direction: row;
+        align-items: center;
+        padding: 6px 12px;
+        color: rgba(var(--sidebar-text-rgb), 0.72);
+
+        &:hover,
+        &:focus,
+        &:active,
+        &.active {
+            background-color: rgba(var(--sidebar-text-rgb), 0.16);
+            color: var(--sidebar-text);
+            text-decoration: none;
+        }
+
+        // Active indicator
+        &.active::before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 2px;
+            height: 100%;
+            background: var(--sidebar-text-active-border);
+            border-radius: 0 2px 2px 0;
+            content: "";
+        }
+    }
+}
