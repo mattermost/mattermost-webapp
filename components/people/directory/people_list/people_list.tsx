@@ -6,9 +6,11 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import {FixedSizeGrid, GridChildComponentProps} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
-import {UserProfile} from '@mattermost/types/users';
 import ProfileCard from 'components/people/profile_card/profile_card';
-import {imageURLForUser} from 'utils/utils';
+
+import {useHistory} from 'react-router-dom';
+
+import {UserProfile} from '@mattermost/types/users';
 
 export interface Props {
     people: UserProfile[];
@@ -27,6 +29,7 @@ const PeopleList = ({
 }: Props) => {
     const infiniteLoaderRef = useRef<InfiniteLoader | null>(null);
     const [hasMounted, setHasMounted] = useState(false);
+    const history = useHistory();
 
     useEffect(() => {
         if (hasMounted) {
@@ -63,9 +66,7 @@ const PeopleList = ({
                 >
                     <ProfileCard
                         user={user}
-                        avatarSrc={imageURLForUser(user.id)}
-                        role={'system_user'}
-                        onSubmit={() => {}}
+                        onSubmit={() => history.push(`/people/${user.username}`)}
                     />
                 </div>
             );
