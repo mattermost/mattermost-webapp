@@ -189,6 +189,22 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
       show={true}
       text="Pin"
     />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon"
+        />
+      }
+      id="move_thread_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="W"
+        />
+      }
+      show={true}
+      text="Move Thread"
+    />
     <li
       className="MenuItem__divider"
       id="divider_post_post_id_1_edit"
@@ -465,6 +481,22 @@ exports[`components/dot_menu/DotMenu should match snapshot, hide "New" badge on 
           className="icon-link-variant MenuItem__compass-icon"
         />
       }
+      id="move_thread_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="W"
+        />
+      }
+      show={true}
+      text="Move Thread"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon"
+        />
+      }
       id="permalink_post_id_1"
       onClick={[Function]}
       rightDecorator={
@@ -723,6 +755,22 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
       }
       show={true}
       text="Pin"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon"
+        />
+      }
+      id="move_thread_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="W"
+        />
+      }
+      show={true}
+      text="Move Thread"
     />
     <li
       className="MenuItem__divider"
@@ -1001,6 +1049,22 @@ exports[`components/dot_menu/DotMenu should match snapshot, show "New" badge on 
       }
       show={true}
       text="Pin"
+    />
+    <MenuItemAction
+      icon={
+        <span
+          className="icon-link-variant MenuItem__compass-icon"
+        />
+      }
+      id="move_thread_post_id_1"
+      onClick={[Function]}
+      rightDecorator={
+        <ShortcutKey
+          shortcutKey="W"
+        />
+      }
+      show={true}
+      text="Move Thread"
     />
     <MenuItemAction
       icon={

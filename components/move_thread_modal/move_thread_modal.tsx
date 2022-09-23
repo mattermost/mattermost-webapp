@@ -3,7 +3,7 @@
 
 import React, {useCallback, useRef, useState} from 'react';
 
-import {FormattedList, FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useSelector} from 'react-redux';
 
@@ -16,43 +16,59 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import NotificationBox from 'components/notification_box';
 
-import {PostPreviewMetadata} from '@mattermost/types/posts';
 import {GlobalState} from 'types/store';
 
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {General, Permissions} from 'mattermost-redux/constants';
+import {General} from 'mattermost-redux/constants';
 
 import Constants from 'utils/constants';
 
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import GenericModal from 'components/generic_modal';
-import {getSiteURL} from '../../utils/url';
-import * as Utils from '../../utils/utils';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import ForwardPostChannelSelect, {ChannelOption, makeSelectedChannelOption} from '../forward_post_modal/forward_post_channel_select';
 
-import {ActionProps, OwnProps, PropsFromRedux} from './index';
-
 import '../forward_post_modal/forward_post_modal.scss';
 
-export type Props = PropsFromRedux & OwnProps & { actions: ActionProps };
+export type ActionProps = {
+
+    // join the selected channel when necessary
+    joinChannelById: (channelId: string) => Promise<ActionResult>;
+
+    // switch to the selected channel
+    switchToChannel: (channel: Channel) => Promise<ActionResult>;
+
+    // action called to move the post from the original channel to a new channel
+    moveThread: (postId: string, channelId: string) => Promise<ActionResult>;
+}
+
+export type OwnProps = {
+
+    // The function called immediately after the modal is hidden
+    onExited?: () => void;
+
+    // the post that is going to be moved
+    post: Post;
+};
+
+export type Props = OwnProps & {actions: ActionProps};
 
 const noop = () => {};
+
+const getChannel = makeGetChannel();
 
 const MoveThreadModal = ({onExited, post, actions}: Props) => {
     const {formatMessage} = useIntl();
 
-    const getChannel = makeGetChannel();
-
     const channel = useSelector((state: GlobalState) => getChannel(state, {id: post.channel_id}));
     const currentTeam = useSelector(getCurrentTeam);
 
-    const relativePermaLink = useSelector((state: GlobalState) => Utils.getPermalinkURL(state, currentTeam.id, post.id));
-    const permaLink = `${getSiteURL()}${relativePermaLink}`;
-
     const isPrivateConversation = channel.type !== General.OPEN_CHANNEL;
 
-    const [comment, setComment] = useState('');
     const [bodyHeight, setBodyHeight] = useState<number>(0);
     const [hasError, setHasError] = useState<boolean>(false);
     const [postError, setPostError] = useState<React.ReactNode>(null);
@@ -67,31 +83,8 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
         }
     }, []);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const onHeightChange = (width: number, height: number) => {
-        if (bodyRef.current) {
-            setBodyHeight(bodyRef.current.getBoundingClientRect().height);
-        }
-    };
-
-    const selectedChannelId = selectedChannel?.details?.id || '';
-
-    const canPostInSelectedChannel = useSelector(
-        (state: GlobalState) => {
-            const channelId = isPrivateConversation ? channel.id : selectedChannelId;
-            const teamId = isPrivateConversation ? currentTeam.id : selectedChannel?.details?.team_id;
-
-            return Boolean(channelId) &&
-            haveIChannelPermission(
-                state,
-                teamId || '',
-                channelId,
-                Permissions.CREATE_POST,
-            );
-        },
-    );
-
-    const canMoveThread = (isPrivateConversation || canPostInSelectedChannel) && !postError;
+    // TODO: modify when threads are movable based on config settings (instead of always being able to)
+    const canMoveThread = true;
 
     const onHide = useCallback(() => {
         onExited?.();
@@ -114,7 +107,7 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
     };
 
     const messagePreviewTitle = formatMessage({
-        id: 'forward_post_modal.preview.title',
+        id: 'move_thread_modal.preview.title',
         defaultMessage: 'Message preview',
     });
 
@@ -127,23 +120,21 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
         channel_id: channel.id,
     };
 
-    let notification;
-        let notificationText;
-        notificationText = (
-            <FormattedMessage
-                id='forward_post_modal.notification.dm_or_gm'
-                defaultMessage='Moving this thread changes who has access' // localization?
-                values={{
-                    strong: (x: React.ReactNode) => <strong>{x}</strong>,
-                }}
-            />
-        );
+    const notificationText = (
+        <FormattedMessage
+            id='move_thread_modal.notification.dm_or_gm'
+            defaultMessage='Moving this thread changes who has access' // localization?
+            values={{
+                strong: (x: React.ReactNode) => <strong>{x}</strong>,
+            }}
+        />
+    );
 
-    notification = (
+    const notification = (
         <NotificationBox
             variant={'info'}
             text={notificationText}
-            id={'forward_post'}
+            id={'move_thread'}
         />
     );
 
@@ -158,19 +149,16 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
             return;
         }
 
-        const channelToForward = isPrivateConversation ? makeSelectedChannelOption(channel) : selectedChannel;
+        const channelToMove = isPrivateConversation ? makeSelectedChannelOption(channel) : selectedChannel;
 
-        if (!channelToForward) {
+        if (!channelToMove) {
             return;
         }
 
-        const channelId = channelToForward.details.id;
+        const channelId = channelToMove.details.id;
 
-        let result = await actions.forwardPost(
-            post,
-            channelToForward.details,
-            comment,
-        );
+        // if from RHS, need post.root.id instead of post.id
+        let result = await actions.moveThread(post.id, channelId);
 
         if (result.error) {
             handlePostError(result.error);
@@ -178,8 +166,8 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
         }
 
         if (
-            channelToForward.details.type === Constants.MENTION_MORE_CHANNELS &&
-            channelToForward.details.type === Constants.OPEN_CHANNEL
+            channelToMove.details.type === Constants.MENTION_MORE_CHANNELS &&
+            channelToMove.details.type === Constants.OPEN_CHANNEL
         ) {
             result = await actions.joinChannelById(channelId);
 
@@ -191,7 +179,7 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
 
         // only switch channels when we are not in a private conversation
         if (!isPrivateConversation) {
-            result = await actions.switchToChannel(channelToForward.details);
+            result = await actions.switchToChannel(channelToMove.details);
 
             if (result.error) {
                 handlePostError(result.error);
@@ -199,20 +187,16 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
             }
         }
 
-        // do deletions here?
-        let deleteResult = await actions.moveThread(post.id, channelId);
-        if(deleteResult.error) {
-            // some errorchecking goes here
-        }
         onHide();
     };
 
     const postPreviewFooterMessage = formatMessage({
-        id: 'forward_post_modal.preview.footer_message',
+        id: 'move_thread_modal.preview.footer_message',
         defaultMessage: 'Originally posted in ~{channelName}',
+
     },
     {
-        channel: channel.display_name,
+        channelName: channel.display_name,
     });
 
     return (
@@ -224,15 +208,15 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
             autoCloseOnConfirmButton={false}
             compassDesign={true}
             modalHeaderText={formatMessage({
-                id: 'forward_post_modal.title',
+                id: 'move_thread_modal.title',
                 defaultMessage: 'Move thread',
             })}
             confirmButtonText={formatMessage({
-                id: 'forward_post_modal.button.forward',
+                id: 'move_thread_modal.button.forward',
                 defaultMessage: 'Move',
             })}
             cancelButtonText={formatMessage({
-                id: 'forward_post_modal.button.cancel',
+                id: 'move_thread_modal.button.cancel',
                 defaultMessage: 'Cancel',
             })}
             isConfirmDisabled={!canMoveThread}
@@ -245,15 +229,12 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
                 className={'forward-post__body'}
                 ref={measuredRef}
             >
-                {isPrivateConversation ? (
-                    notification
-                ) : (
-                    <ForwardPostChannelSelect
-                        onSelect={handleChannelSelect}
-                        value={selectedChannel}
-                        currentBodyHeight={bodyHeight}
-                    />
-                )}
+                {notification}
+                <ForwardPostChannelSelect
+                    onSelect={handleChannelSelect}
+                    value={selectedChannel}
+                    currentBodyHeight={bodyHeight}
+                />
                 <div className={'forward-post__post-preview'}>
                     <span className={'forward-post__post-preview--title'}>
                         {messagePreviewTitle}
