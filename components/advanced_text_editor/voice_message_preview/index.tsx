@@ -5,12 +5,14 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import moment from 'moment';
+import {ProgressBar} from 'react-bootstrap';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {MicrophoneIcon, CheckIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
 import Constants from 'utils/constants';
+import {FormattedMessage} from 'react-intl';
 
 declare global {
     interface Window {
@@ -18,13 +20,24 @@ declare global {
     }
 }
 
+enum VoiceMessageStates {
+    Recording = 'recording',
+    Encoding = 'encoding',
+    Uploading = 'uploading',
+}
+
 const VoiceMessagePreview = () => {
     const theme = useSelector(getTheme);
 
     const dispatch = useDispatch();
 
+    const [voiceMessageIs, setVoiceMessageIs] = useState(VoiceMessageStates.Recording);
+
     const audioContextRef = useRef<AudioContext>();
     const audioAnalyzerRef = useRef<AnalyserNode>();
+
+    const audioRecorderRef = useRef<MediaRecorder>();
+    const audioChunksRef = useRef<Blob[]>([]);
 
     const refreshIntervalTimer = useRef<ReturnType<typeof setTimeout> | null>();
     const countdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -66,12 +79,16 @@ const VoiceMessagePreview = () => {
         });
     }
 
-    async function stopRecording() {
+    async function cleanUpAfterRecordings() {
         // eslint-disable-next-line no-console
-        console.log('stopRecording');
+        console.log('cleanUpAfterRecordings');
 
         if (audioContextRef.current) {
             await audioContextRef.current.close();
+        }
+
+        if (audioRecorderRef.current) {
+            audioRecorderRef.current.stop();
         }
 
         if (refreshIntervalTimer && refreshIntervalTimer.current) {
@@ -83,7 +100,8 @@ const VoiceMessagePreview = () => {
         }
     }
 
-    function dispatchOpenVoiceMessageAtToClear() {
+    function unmountVoiceMessageComponent() {
+        // We don't stop recording here as when the component is unmounted, the recording is stopped
         dispatch({
             type: Constants.ActionTypes.OPEN_VOICE_MESSAGE_AT,
             data: {
@@ -91,6 +109,17 @@ const VoiceMessagePreview = () => {
                 channelId: '',
             },
         });
+    }
+
+    function pushStreamToAudioChunks(event: BlobEvent) {
+        audioChunksRef.current.push(event.data);
+    }
+
+    function onRecordedStopped() {
+        const audioBlob = new Blob(audioChunksRef.current);
+        const audioUrl = URL.createObjectURL(audioBlob);
+        console.log('audioUrl', audioUrl);
+        audioChunksRef.current = [];
     }
 
     async function startRecording() {
@@ -103,6 +132,20 @@ const VoiceMessagePreview = () => {
             const audioCtx = new AudioContext();
             const audioAnalyzer = audioCtx.createAnalyser();
             audioAnalyzer.fftSize = 32;
+
+            audioRecorderRef.current = new MediaRecorder(audioStream, {
+                audioBitsPerSecond: 128000,
+            });
+
+            audioRecorderRef.current.start();
+
+            audioRecorderRef.current.ondataavailable = (event) => {
+                pushStreamToAudioChunks(event);
+            };
+
+            audioRecorderRef.current.onstop = () => {
+                onRecordedStopped();
+            };
 
             const audioSourceNode = audioCtx.createMediaStreamSource(audioStream);
             audioSourceNode.connect(audioAnalyzer);
@@ -126,12 +169,20 @@ const VoiceMessagePreview = () => {
         }
     }
 
+    function handleCompleteRecordingClicked() {
+        setVoiceMessageIs(VoiceMessageStates.Encoding);
+
+        if (audioRecorderRef.current) {
+            audioRecorderRef.current.stop();
+        }
+    }
+
     // We start the recording as soon as the component is mounted
     useEffect(() => {
         startRecording();
 
         return () => {
-            stopRecording();
+            cleanUpAfterRecordings();
         };
     }, []);
 
@@ -147,28 +198,65 @@ const VoiceMessagePreview = () => {
                     </IconWrapper>
                 </div>
                 <ControlsColumn>
-                    <VisualizerContainer>
-                        <Canvas ref={visualizerCanvasRef}/>
-                    </VisualizerContainer>
-                    <span>
-                        {moment.utc(countdownTimer * 1000).format('mm:ss')}
-                    </span>
-                    <CancelButton onClick={dispatchOpenVoiceMessageAtToClear}>
+                    {voiceMessageIs === VoiceMessageStates.Recording && (
+                        <VisualizerContainer>
+                            {/* Separate this into component with forwardRef */}
+                            <Canvas ref={visualizerCanvasRef}/>
+                        </VisualizerContainer>
+                    )}
+                    {(voiceMessageIs === VoiceMessageStates.Encoding || voiceMessageIs === VoiceMessageStates.Uploading) && (
+                        <TextColumn>
+                            <TitleContainer>
+                                <FormattedMessage
+                                    id='voiceMessage.main'
+                                    defaultMessage='Voice message'
+                                />
+                            </TitleContainer>
+                            {voiceMessageIs === VoiceMessageStates.Encoding && (
+                                <SubtitleContainer>
+                                    <FormattedMessage
+                                        id='voiceMessage.encoding'
+                                        defaultMessage='Encoding...'
+                                    />
+                                </SubtitleContainer>
+                            )}
+                        </TextColumn>
+                    )}
+                    {voiceMessageIs === VoiceMessageStates.Recording && (
+                        <span>
+                            {moment.utc(countdownTimer * 1000).format('mm:ss')}
+                        </span>
+                    )}
+                    <CancelButton onClick={unmountVoiceMessageComponent}>
                         <CloseIcon
                             size={18}
                         />
                     </CancelButton>
-                    <OkButton>
-                        <CheckIcon
-                            size={18}
-                            color={theme.buttonColor}
-                        />
-                    </OkButton>
+                    {voiceMessageIs === VoiceMessageStates.Recording && (
+                        <OkButton onClick={handleCompleteRecordingClicked}>
+                            <CheckIcon
+                                size={18}
+                                color={theme.buttonColor}
+                            />
+                        </OkButton>
+                    )}
+                    <ProgressBar
+                        className='post-image__progressBar'
+                        now={20}
+                        active={20 === 100}
+                    />
+                    <audio controls src='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'/>
                 </ControlsColumn>
             </div>
         </div>
     );
 };
+
+const TextColumn = styled.div`
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+`;
 
 const ControlsColumn = styled.div`
     position: relative;
@@ -227,6 +315,26 @@ const VisualizerContainer = styled.div`
 const Canvas = styled.canvas`
     width: 100%;
     height: 20px;
+`;
+
+const TitleContainer = styled.div`
+    display: block;
+    overflow: hidden;
+    max-width: 151px;
+    margin-bottom: 3px;
+    font-weight: 600;
+    outline: none;
+    text-decoration: none;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-break: break-word;
+`;
+
+const SubtitleContainer = styled.div`
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+    font-size: 12px;
+    text-align: left;
+    overflow: hidden;
 `;
 
 export default VoiceMessagePreview;
