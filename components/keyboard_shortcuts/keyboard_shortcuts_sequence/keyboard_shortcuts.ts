@@ -331,6 +331,16 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Code',
         },
     },
+    msgMarkdownCodeBlock: {
+        default: {
+            id: t('shortcuts.msgs.markdown.code_block'),
+            defaultMessage: 'Code Block',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.code_block.mac'),
+            defaultMessage: 'Code Block',
+        },
+    },
     msgMarkdownStrike: {
         default: {
             id: t('shortcuts.msgs.markdown.strike'),
@@ -341,14 +351,64 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Strikethrough:\t⌘|Shift|X',
         },
     },
+    msgMarkdownH1: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h1'),
+            defaultMessage: 'Heading 1',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h1.mac'),
+            defaultMessage: 'Heading 1',
+        },
+    },
+    msgMarkdownH2: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h2'),
+            defaultMessage: 'Heading 2',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h2.mac'),
+            defaultMessage: 'Heading 2',
+        },
+    },
     msgMarkdownH3: {
         default: {
             id: t('shortcuts.msgs.markdown.h3'),
-            defaultMessage: 'Heading',
+            defaultMessage: 'Heading 3',
         },
         mac: {
             id: t('shortcuts.msgs.markdown.h3.mac'),
-            defaultMessage: 'Heading',
+            defaultMessage: 'Heading 3',
+        },
+    },
+    msgMarkdownH4: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h4'),
+            defaultMessage: 'Heading 4',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h4.mac'),
+            defaultMessage: 'Heading 4',
+        },
+    },
+    msgMarkdownH5: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h5'),
+            defaultMessage: 'Heading 5',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h5.mac'),
+            defaultMessage: 'Heading 5',
+        },
+    },
+    msgMarkdownH6: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h6'),
+            defaultMessage: 'Heading 6',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h6.mac'),
+            defaultMessage: 'Heading 6',
         },
     },
     msgMarkdownQuote: {
