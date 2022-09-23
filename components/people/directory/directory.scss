@@ -1,5 +1,6 @@
 .people-directory {
     width: 100%;
+    background-color: rgba(var(--center-channel-color-rgb), 0.04);
 
     .directory-header {
         &.header {
@@ -36,5 +37,7 @@
             }
         }
     }
-    
+    // .Grid {
+    //     margin: 24px;
+    // }
 }

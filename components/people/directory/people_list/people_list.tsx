@@ -7,6 +7,8 @@ import {FixedSizeGrid, GridChildComponentProps} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
 
 import {UserProfile} from '@mattermost/types/users';
+import ProfileCard from 'components/people/profile_card/profile_card';
+import { imageURLForUser } from 'utils/utils';
 
 export interface Props {
     people: UserProfile[];
@@ -44,18 +46,35 @@ const PeopleList = ({
     };
 
     const Item = ({columnIndex, rowIndex, style}: GridChildComponentProps) => {
-        const index = (rowIndex * 4) + columnIndex;
+        const index = (rowIndex * 5) + columnIndex;
         if (isItemLoaded(index)) {
             const user = people[index] as UserProfile;
             if (!user) {
                 return null;
             }
+            // let newStyle  = style;
+            // newStyle.width = '25%';
+            // newStyle.height = 'auto';
+            // const newStyles = {
+            //     height: '210px',
+            //     top: rowIndex * 210,
+            //     padding: '12px',
+            // };
             return (
                 <div
-                    style={style}
+                    style={{
+                        ...style, 
+                        // ...newStyles,
+                    }}
+                    className='Grid__item'
                     key={user.id}
                 >
-                    <>{user.username}</>
+                    <ProfileCard
+                        user={user}
+                        avatarSrc={imageURLForUser(user.id)}
+                        role={'system_user'}
+                        onSubmit={() => {}}
+                    />
                 </div>
             );
         }
@@ -81,12 +100,12 @@ const PeopleList = ({
                             ref={ref}
                             itemData={people}
                             className='Grid'
-                            columnCount={4}
+                            columnCount={5}
                             height={height}
-                            rowCount={62 / 4}
+                            rowCount={62 / 5}
                             width={width}
-                            columnWidth={width / 4}
-                            rowHeight={width / 4}
+                            columnWidth={width / 5}
+                            rowHeight={width / 5}
                             onItemsRendered={(gridData) => {
                                 const {visibleRowStartIndex, visibleRowStopIndex, visibleColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex, overscanColumnStopIndex} = gridData;
 
