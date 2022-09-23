@@ -414,6 +414,7 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    MOVE_THREAD_MODAL: 'move_thread_modal',
 };
 
 export const UserStatuses = {
@@ -692,6 +693,7 @@ export const TELEMETRY_LABELS = {
     REPLY: 'reply',
     UNREAD: 'unread',
     FORWARD: 'forward',
+    MOVE_THREAD: 'move_thread',
 };
 
 export const PostTypes = {

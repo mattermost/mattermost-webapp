@@ -22,7 +22,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
+
 import ForwardPostModal from '../forward_post_modal';
+import MoveThreadModal from '../move_thread_modal';
 import Badge from '../widgets/badges/badge';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
@@ -292,6 +294,22 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.openModal(forwardPostModalData);
     }
 
+    handleMoveThreadMenuItemActivated = (e: ChangeEvent): void => {
+        e.preventDefault();
+
+        trackDotMenuEvent(e, TELEMETRY_LABELS.MOVE_THREAD);
+        const moveThreadModalData = {
+            modalId: ModalIdentifiers.MOVE_THREAD_MODAL,
+            dialogType: MoveThreadModal,
+            dialogProps: {
+                post: this.props.post,
+            },
+        };
+
+        this.props.actions.setGlobalItem(Preferences.FORWARD_POST_VIEWED, false);
+        this.props.actions.openModal(moveThreadModalData);
+    }
+
     handleEditMenuItemActivated = (e: ChangeEvent): void => {
         trackDotMenuEvent(e, TELEMETRY_LABELS.EDIT);
         this.props.handleDropdownOpened?.(false);
@@ -406,6 +424,12 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         // delete post
         case Utils.isKeyPressed(e, Constants.KeyCodes.DELETE):
             this.handleDeleteMenuItemActivated(e);
+            this.props.handleDropdownOpened(false);
+            break;
+
+        // move thread
+        case Utils.isKeyPressed(e, Constants.KeyCodes.W):
+            this.handleMoveThreadMenuItemActivated(e);
             this.props.handleDropdownOpened(false);
             break;
 
@@ -597,6 +621,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         icon={Utils.getMenuItemIcon('icon-pin-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='P'/>}
                         onClick={this.handlePinMenuItemActivated}
+                    />
+                    <Menu.ItemAction
+                        id={`move_thread_${this.props.post.id}`}
+                        show={!isSystemMessage}
+                        text={Utils.localizeMessage('post_info.move_thread', 'Move Thread')}
+                        icon={Utils.getMenuItemIcon('icon-message-move-outline')}
+                        rightDecorator={<ShortcutKey shortcutKey='W'/>}
+                        onClick={this.handleMoveThreadMenuItemActivated}
                     />
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
