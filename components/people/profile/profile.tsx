@@ -8,12 +8,15 @@ import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-
-import Badge from 'components/widgets/badges/badge';
+import {Client4} from 'mattermost-redux/client';
 
 import {GlobalState} from 'types/store';
 
+import {UserProfile} from '@mattermost/types/users';
+
 import TimeZoneSelectMap from '../timezone_map/TimeZoneSelectMap';
+
+import ProfileCard from '../profile_card/profile_card';
 
 import './profile.scss';
 
@@ -35,8 +38,18 @@ const backToDirectory = () => {
     return true;
 };
 
-const Profile = () => {
-    const user = useSelector((state: GlobalState) => getCurrentUser(state));
+type ProfileProps = {
+    user?: UserProfile;
+}
+
+const Profile = ({user}: ProfileProps) => {
+    const userMe = useSelector((state: GlobalState) => getCurrentUser(state));
+
+    const canEditProfile = user?.id === userMe.id;
+
+    const userProfile = user || userMe;
+
+    const imgUrl = Client4.getProfilePictureUrl(userProfile.id, userProfile.last_picture_update);
 
     return (
         <div className='UserProfile'>
@@ -53,21 +66,14 @@ const Profile = () => {
                         />
                     </a>
                 </div>
-                <TimeZoneSelectMap timeZoneName={user.timezone?.automaticTimezone || undefined}/>
+                <TimeZoneSelectMap timeZoneName={userProfile.timezone?.automaticTimezone || undefined}/>
             </div>
             <div className='UserProfile__bottom-card'>
-                <StyledCard
-                    width={280}
-                    height={308}
-                    id={'user-picture-card'}
-                >
-                    <Badge
-                        className='user-role'
-                        show={true}
-                    >
-                        {user.roles}
-                    </Badge>
-                </StyledCard>
+                <ProfileCard
+                    user={userProfile}
+                    avatarSrc={imgUrl}
+                    role={'system_admin'}
+                />
                 <StyledCard
                     width={591}
                     height={325}

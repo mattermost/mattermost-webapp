@@ -4,7 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {UserProfile} from '@mattermost/types/users';
 import {General} from 'mattermost-redux/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
@@ -14,6 +13,8 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import './profile_card.scss';
 
@@ -31,7 +32,8 @@ type ProfileCardProps = {
     showLocation?: boolean;
     showTeams?: boolean;
     showGroups?: boolean;
-    onSubmit: () => void;
+    actionButtons?: boolean;
+    onSubmit?: () => void;
 }
 
 const ProfileCard = ({
@@ -48,13 +50,14 @@ const ProfileCard = ({
     showLocation,
     showTeams,
     showGroups,
+    actionButtons,
     onSubmit,
 }: ProfileCardProps) => {
     const {formatMessage} = useIntl();
 
     const {id, username, position} = user;
     const fullname = Utils.getFullName(user);
-    const extended = showBio || showLocation || showTeams || showGroups;
+    const extended = showBio || showLocation || showTeams || showGroups || actionButtons;
 
     const getRole = () => {
         switch (role) {
@@ -137,7 +140,9 @@ const ProfileCard = ({
     const handleOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
 
-        onSubmit();
+        if (onSubmit) {
+            onSubmit();
+        }
     };
 
     return (
