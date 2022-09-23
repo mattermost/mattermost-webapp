@@ -137,7 +137,7 @@ export type GroupCreateWithUserIds = {
     allow_reference: boolean;
     display_name: string;
     source: string;
-    user_ids: string[];
+    member_ids: string[];
     description?: string;
 }
 
