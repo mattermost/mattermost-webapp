@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {useSelector, useDispatch} from 'react-redux';
 
-import {useEffect, useMemo, useState, DependencyList} from 'react';
+import {useEffect, useState, DependencyList} from 'react';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {getUser as fetchUser, getUserByUsername as fetchUserByUsername} from 'mattermost-redux/actions/users';
@@ -10,7 +10,6 @@ import {GlobalState} from 'types/store';
 
 import {getUser, getUserByUsername} from 'mattermost-redux/selectors/entities/users';
 
-import {makeGetCustomStatus} from 'selectors/views/custom_status';
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 
@@ -98,11 +97,6 @@ export const useReduxThing = <T extends NonNullable<any>>(
         },
     };
     return [thing, metadata];
-};
-
-export const useUserCustomStatus = (userId: UserProfile['id'] | undefined | null) => {
-    const getCustomStatus = useMemo(makeGetCustomStatus, []);
-    return useSelector((state: GlobalState) => (userId ? getCustomStatus(state, userId) : null));
 };
 
 export const useUserDisplayMeta = (user: UserProfile | null | undefined) => {
