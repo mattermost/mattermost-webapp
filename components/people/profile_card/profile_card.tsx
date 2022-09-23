@@ -31,7 +31,7 @@ type ProfileCardProps = {
     showLocation?: boolean;
     showTeams?: boolean;
     showGroups?: boolean;
-    onSubmit: () => void;
+    onSubmit: (user: UserProfile) => void;
 }
 
 const ProfileCard = ({
@@ -137,7 +137,7 @@ const ProfileCard = ({
     const handleOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
 
-        onSubmit();
+        onSubmit(user);
     };
 
     return (

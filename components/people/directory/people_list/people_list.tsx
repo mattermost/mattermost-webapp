@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {FixedSizeGrid, GridChildComponentProps} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
@@ -9,6 +9,7 @@ import InfiniteLoader from 'react-window-infinite-loader';
 import {UserProfile} from '@mattermost/types/users';
 import ProfileCard from 'components/people/profile_card/profile_card';
 import {imageURLForUser} from 'utils/utils';
+import {browserHistory} from 'utils/browser_history';
 
 export interface Props {
     people: UserProfile[];
@@ -45,6 +46,10 @@ const PeopleList = ({
         return !hasNextPage || index < people.length;
     };
 
+    const openUser = useCallback((user: UserProfile) => {
+        browserHistory.push(`/people/@${user.username}`);
+    }, []);
+
     const Item = ({columnIndex, rowIndex, style}: GridChildComponentProps) => {
         const index = (rowIndex * 4) + columnIndex;
         if (isItemLoaded(index)) {
@@ -65,7 +70,7 @@ const PeopleList = ({
                         user={user}
                         avatarSrc={imageURLForUser(user.id)}
                         role={'system_user'}
-                        onSubmit={() => {}}
+                        onSubmit={openUser}
                     />
                 </div>
             );

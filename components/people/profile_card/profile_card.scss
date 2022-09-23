@@ -8,6 +8,10 @@
     border-radius: 4px;
     box-shadow: var(--elevation-1);
 
+    &:hover {
+        cursor: pointer;
+    }
+
     &__role {
         width: fit-content;
         padding: 0 4px;
