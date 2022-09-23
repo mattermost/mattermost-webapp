@@ -100,29 +100,6 @@ const MAP_MARKDOWN_MODE_TO_ICON: Record<FormattingIconProps['mode'], React.FC<Ic
     ol: FormatListNumberedIcon,
 };
 
-type SupportedBlockElements = Pick<JSX.IntrinsicElements, 'code' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote' | 'pre' | 'ul' | 'ol'>;
-
-type SupportedMarkElements = Pick<JSX.IntrinsicElements, 'strong' | 'em' | 'a' | 's' | 'code' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'blockquote' | 'ul' | 'ol'>
-
-type SupportedElements = SupportedMarkElements & SupportedBlockElements;
-
-const MAP_MARKDOWN_MODE_TO_TAG: Record<FormattingIconProps['mode'], keyof SupportedElements> = {
-    bold: 'strong',
-    italic: 'em',
-    link: 'a',
-    strike: 's',
-    code: 'code',
-    h1: 'h1',
-    h2: 'h2',
-    h3: 'h3',
-    h4: 'h4',
-    h5: 'h5',
-    h6: 'h6',
-    quote: 'blockquote',
-    ul: 'ul',
-    ol: 'ol',
-};
-
 const MAP_MARKDOWN_MODE_TO_ARIA_LABEL: Record<FormattingIconProps['mode'], MessageDescriptor> = {
     bold: {id: t('accessibility.button.bold'), defaultMessage: 'bold'},
     italic: {id: t('accessibility.button.italic'), defaultMessage: 'italic'},
