@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {getProfiles as fetchProfiles, searchProfiles} from 'mattermost-redux/actions/users';
 import {getProfiles} from 'mattermost-redux/selectors/entities/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
@@ -61,10 +62,10 @@ const Directory = () => {
         setIsNextPageLoading(true);
 
         const options = {
-            allow_inactive: true,
+            allow_inactive: false,
         };
 
-        const {data: profiles} = await dispatch(searchProfiles(term, options));
+        const {data: profiles} = await dispatch(searchProfiles(term, options)) as ActionResult;
 
         setSearchPeople(profiles);
         setIsNextPageLoading(false);
