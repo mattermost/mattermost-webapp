@@ -63,7 +63,7 @@ export default function People() {
 }
 
 const PeopleRoot = styled.div`
-    overflow-y: auto;
+    display: flex;
     height: 100%;
     background: var(--center-channel-bg);
 `;
