@@ -7,8 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
-
 describe('Scroll', () => {
     let testTeam;
 
