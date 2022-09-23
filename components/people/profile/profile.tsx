@@ -2,9 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
 import styled from 'styled-components';
+
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import Badge from 'components/widgets/badges/badge';
+
+import {GlobalState} from 'types/store';
 
 import TimeZoneSelectMap from '../timezone_map/TimeZoneSelectMap';
 
@@ -29,6 +36,8 @@ const backToDirectory = () => {
 };
 
 const Profile = () => {
+    const user = useSelector((state: GlobalState) => getCurrentUser(state));
+
     return (
         <div className='UserProfile'>
             <div className='UserProfile__header-card'>
@@ -44,7 +53,7 @@ const Profile = () => {
                         />
                     </a>
                 </div>
-                <TimeZoneSelectMap/>
+                <TimeZoneSelectMap timeZoneName={user.timezone?.automaticTimezone || undefined}/>
             </div>
             <div className='UserProfile__bottom-card'>
                 <StyledCard
@@ -52,7 +61,12 @@ const Profile = () => {
                     height={308}
                     id={'user-picture-card'}
                 >
-                    <p>{'holi'}</p>
+                    <Badge
+                        className='user-role'
+                        show={true}
+                    >
+                        {user.roles}
+                    </Badge>
                 </StyledCard>
                 <StyledCard
                     width={591}
