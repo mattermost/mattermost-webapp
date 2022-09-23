@@ -72,9 +72,9 @@ import {getSiteURL} from 'utils/url';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
 
-import {UserProfile} from '@mattermost/types/users';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import {applyLuxonDefaults} from './effects';
 
@@ -608,10 +608,15 @@ export default class Root extends React.PureComponent<Props, State> {
                             ))}
                             <Route
                                 key={'product-people'}
-                                path={'/people/:userId?'}
+                                path={'/people'}
                                 render={(props) => (
                                     <LoggedIn {...props}>
-                                        <div className={classNames(['product-wrapper', {wide: true}])}>
+                                        <div
+                                            css={`
+                                                background: var(--center-channel-bg);
+                                            `}
+                                            className={classNames(['product-wrapper', {wide: true}])}
+                                        >
                                             <People/>
                                         </div>
                                     </LoggedIn>

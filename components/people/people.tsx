@@ -35,7 +35,11 @@ export default function People() {
     const {path} = useRouteMatch();
 
     return (
-        <PeopleRoot>
+        <PeopleRoot
+            css={`
+                background: rgba(var(--center-channel-color-rgb), 0.04);
+            `}
+        >
             <Switch>
                 <Redirect
                     from={`${path}/@:username`}
