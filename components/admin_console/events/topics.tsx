@@ -4,6 +4,9 @@
 import React from 'react';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
+import {ModalIdentifiers} from 'utils/constants';
+import Menu from 'components/widgets/menu/menu';
+import SchemaInformationModal from 'components/admin_console/events/schema_info_modal';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -57,7 +60,16 @@ export default class Topics extends React.PureComponent<Props, State> {
                             {this.props.topics[i].description}
                         </td>
                         <td>
-                            {this.props.topics[i].schema}
+                            {
+                                <Menu.ItemToggleModalRedux
+                                    id='about'
+                                    modalId={ModalIdentifiers.EVENTS_SCHEMA}
+                                    dialogType={SchemaInformationModal}
+                                    dialogProps={{schema: this.props.topics[i].schema}}
+                                    text={''}
+                                    icon={<i className='fa fa-info'/>}
+                                />
+                            }
                         </td>
                     </tr>),
                 );
@@ -96,3 +108,4 @@ export default class Topics extends React.PureComponent<Props, State> {
         );
     }
 }
+
