@@ -3,6 +3,7 @@
 
 import {connect} from 'react-redux';
 import {compose} from 'redux';
+import {RouteComponentProps} from 'react-router-dom';
 
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
@@ -14,7 +15,9 @@ import {isCloudLicense} from 'utils/license_utils';
 
 import {GlobalState} from 'types/store';
 
-import CreateTeam from './create_team';
+import {CloudUsage} from '@mattermost/types/cloud';
+
+import CreateTeam, {Props} from './create_team';
 
 function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
@@ -43,4 +46,4 @@ function mapStateToProps(state: GlobalState) {
 export default compose(
     connect(mapStateToProps),
     withUseGetUsageDelta,
-)(CreateTeam) as any;
+)(CreateTeam) as React.FunctionComponent<Props & RouteComponentProps & {usageDeltas: CloudUsage}>;
