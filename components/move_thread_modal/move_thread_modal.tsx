@@ -157,8 +157,7 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
 
         const channelId = channelToMove.details.id;
 
-        // if from RHS, need post.root.id instead of post.id
-        let result = await actions.moveThread(post.id, channelId);
+        let result = await actions.moveThread(post.root_id || post.id, channelId);
 
         if (result.error) {
             handlePostError(result.error);
