@@ -8,7 +8,8 @@ import {Stats} from 'mattermost-redux/constants';
 import PluginState from 'mattermost-redux/constants/plugins';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ClusterInfo, AnalyticsRow} from '@mattermost/types/admin';
+
+import {ClusterInfo, AnalyticsRow, Topic} from '@mattermost/types/admin';
 import {Audit} from '@mattermost/types/audits';
 import {Compliance} from '@mattermost/types/compliance';
 import {AdminConfig, EnvironmentConfig} from '@mattermost/types/config';
@@ -28,6 +29,18 @@ function logs(state: string[] = [], action: GenericAction) {
     case UserTypes.LOGOUT_SUCCESS:
         return [];
 
+    default:
+        return state;
+    }
+}
+
+function topics(state: Topic[] = [], action: GenericAction) {
+    switch (action.type) {
+    case AdminTypes.RECEIVED_TOPICS: {
+        return action.data;
+    }
+    case UserTypes.LOGOUT_SUCCESS:
+        return [];
     default:
         return state;
     }
@@ -657,6 +670,9 @@ function dataRetentionCustomPoliciesCount(state = 0, action: GenericAction) {
 }
 
 export default combineReducers({
+
+    // array of topic objects
+    topics,
 
     // array of strings each representing a log entry
     logs,

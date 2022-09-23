@@ -36,6 +36,14 @@ export function getLogs(page = 0, perPage: number = General.LOGS_PAGE_SIZE_DEFAU
     });
 }
 
+export function getTopics(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getTopics,
+        onSuccess: [AdminTypes.RECEIVED_TOPICS],
+        params: [],
+    });
+}
+
 export function getAudits(page = 0, perPage: number = General.PAGE_SIZE_DEFAULT): ActionFunc {
     return bindClientFunc({
         clientFunc: Client4.getAudits,

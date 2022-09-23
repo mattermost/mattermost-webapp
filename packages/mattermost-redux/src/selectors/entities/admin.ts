@@ -5,6 +5,10 @@ import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@mattermos
 import {PluginStatusRedux} from '@mattermost/types/plugins';
 import {GlobalState} from '@mattermost/types/store';
 
+export function getTopics(state: GlobalState) {
+    return state.entities.admin.topics;
+}
+
 export function getLogs(state: GlobalState) {
     return state.entities.admin.logs;
 }

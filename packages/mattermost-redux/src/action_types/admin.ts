@@ -40,6 +40,7 @@ export default keyMirror({
     REMOVED_PLUGIN: null,
     ENABLED_PLUGIN: null,
     DISABLED_PLUGIN: null,
+    RECEIVED_TOPICS: null,
 
     RECEIVED_SAML_METADATA_RESPONSE: null,
 

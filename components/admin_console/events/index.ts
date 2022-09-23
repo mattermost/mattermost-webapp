@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {getLogs} from 'mattermost-redux/actions/admin';
+import {getTopics} from 'mattermost-redux/actions/admin';
 
 import * as Selectors from 'mattermost-redux/selectors/entities/admin';
 
@@ -16,14 +16,14 @@ import Topics from './topics';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        logs: Selectors.getLogs(state),
+        topics: Selectors.getTopics(state),
     };
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
-            getLogs,
+            getTopics,
         }, dispatch),
     };
 }

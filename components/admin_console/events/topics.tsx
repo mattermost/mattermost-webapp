@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -10,26 +9,24 @@ import LoadingScreen from 'components/loading_screen';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
+import {Topic} from '@mattermost/types/admin';
+
 type Props = {
-    logs: string[];
+    topics: Topic[];
     actions: {
-        getLogs: (page?: number | undefined, perPage?: number | undefined) => ActionFunc;
+        getTopics: () => ActionFunc;
     };
 };
 
 type State = {
-    loadingLogs: boolean;
-    page: number;
-    perPage: number;
+    loadingTopics: boolean;
 };
 
 export default class Topics extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            loadingLogs: true,
-            page: 0,
-            perPage: 1000,
+            loadingTopics: true,
         };
     }
 
@@ -37,30 +34,16 @@ export default class Topics extends React.PureComponent<Props, State> {
         this.reload();
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State) {
-        if (this.state.page !== prevState.page) {
-            this.reload();
-        }
-    }
-
-    nextPage = () => {
-        this.setState({page: this.state.page + 1});
-    }
-
-    previousPage = () => {
-        this.setState({page: this.state.page - 1});
-    }
-
     reload = async () => {
-        this.setState({loadingLogs: true});
-        await this.props.actions.getLogs(this.state.page, this.state.perPage);
-        this.setState({loadingLogs: false});
+        this.setState({loadingTopics: true});
+        await this.props.actions.getTopics();
+        this.setState({loadingTopics: false});
     }
 
     render() {
         let content = null;
 
-        if (this.state.loadingLogs || !this.props.logs || this.props.logs.length === 0) {
+        if (this.state.loadingTopics || !this.props.topics || this.props.topics.length === 0) {
             content = <LoadingScreen/>;
         } else {
             content = (

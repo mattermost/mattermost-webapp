@@ -32,7 +32,14 @@ export type AdminState = {
     dataRetentionCustomPolicies: DataRetentionCustomPolicies;
     dataRetentionCustomPoliciesCount: number;
     prevTrialLicense: ClientLicense;
+    topics: Topic[];
 };
+
+export type Topic = {
+    topic: string;
+    description: string;
+    schema: string;
+}
 
 export type ClusterInfo = {
     id: string;
