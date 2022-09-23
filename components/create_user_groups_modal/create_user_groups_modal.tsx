@@ -140,7 +140,7 @@ export default class CreateUserGroupsModal extends React.PureComponent<Props, St
             display_name: this.state.name,
             allow_reference: true,
             source: 'custom',
-            user_ids: users.map((user) => {
+            member_ids: users.map((user) => {
                 return user.id;
             }),
         };
