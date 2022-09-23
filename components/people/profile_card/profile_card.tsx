@@ -11,14 +11,11 @@ import StatusIcon from 'components/status_icon';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 
-import CallButton from 'plugins/call_button';
-
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import SendMessageButton from './send_message_button';
 import './profile_card.scss';
 
 type ProfileCardProps = {
@@ -35,7 +32,7 @@ type ProfileCardProps = {
     showLocation?: boolean;
     showTeams?: boolean;
     showGroups?: boolean;
-    actionButtons?: boolean;
+    footer?: React.ReactNode;
     onSubmit?: () => void;
 }
 
@@ -53,7 +50,7 @@ const ProfileCard = ({
     showLocation,
     showTeams,
     showGroups,
-    actionButtons,
+    footer,
     onSubmit,
 }: ProfileCardProps) => {
     const {formatMessage} = useIntl();
@@ -143,9 +140,7 @@ const ProfileCard = ({
     const handleOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
 
-        if (onSubmit) {
-            onSubmit();
-        }
+        onSubmit?.();
     };
 
     return (
@@ -191,16 +186,7 @@ const ProfileCard = ({
                     {getExtended()}
                 </div>
             )}
-            {/* check if same user as current user then don't show this section */}
-            {actionButtons && (
-                <div className='profile-card__action-buttons'>
-                    <SendMessageButton
-                        user={user}
-                        buttonText={formatMessage({id: 'people.teams.message', defaultMessage: 'Message'})}
-                    />
-                    <CallButton/>
-                </div>
-            )}
+            {footer}
         </div>
     );
 };

@@ -2,25 +2,25 @@
 // See LICENSE.txt for license information.
 .UserProfile {
     display: flex;
-    flex-direction: column;
-    height: 100%;
     width: 100%;
+    height: 100%;
+    flex-direction: column;
 
     &__header-card {
+        position: relative;
+        z-index: 0;
+        display: flex;
         width: 100%;
         height: 35%;
-        display: flex;
         flex-direction: column;
         background-color: var(--center-channel-bg);
-        z-index: 0;
-        position: relative;
 
         &__top-section {
-            min-height: 56px;
+            z-index: 1;
             display: flex;
+            min-height: 56px;
             padding: 15px;
             background-color: var(--center-channel-bg);
-            z-index: 1;
 
             &__back {
                 color: rgba(var(--center-channel-color-rgb), 0.72) !important;
@@ -29,18 +29,18 @@
                 &:hover {
                     text-decoration: none !important;
                 }
+
                 i {
                     font-size: 18px;
                 }
+
                 span {
+                    margin-left: 9px;
                     font-size: 14px;
                     font-weight: 600;
-                    margin-left: 9px;
                 }
             }
         }
-
-
 
         .TimeZoneSelectMap {
             position: absolute;
@@ -49,28 +49,28 @@
     }
 
     &__bottom-card {
-        width: 100%;
-        height: 65%;
         position: relative;
-        background-color: var(--center-channel-bg);
         z-index: 0;
         display: flex;
-        justify-content: space-between;
+        width: 100%;
+        height: 65%;
         flex-direction: column;
+        justify-content: space-between;
+        background-color: var(--center-channel-bg);
 
         .profile-card {
             position: relative;
-            top: -15%;
             z-index: 10;
-            margin: 0 auto;
+            top: -15%;
             min-height: 308px;
+            margin: 0 auto;
         }
 
         #user-profile-details-card {
             position: relative;
             top: -10%;
-            margin: 0 auto;
             max-width: 450px;
+            margin: 0 auto;
         }
 
         @media screen and (min-width: 960px) {

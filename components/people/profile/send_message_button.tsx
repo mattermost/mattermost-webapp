@@ -1,14 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import * as React from 'react';
+import React from 'react';
 import styled from 'styled-components';
-
+import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
+import {useHistory} from 'react-router-dom';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import Constants from 'utils/constants';
+
+import {getMyTeams, getTeam, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getPreviousTeamId} from 'selectors/local_storage';
+
+import {GlobalState} from 'types/store';
 
 import {UserProfile} from '@mattermost/types/users';
 
@@ -31,12 +37,10 @@ type SendMessageProps = {
 }
 
 const SendMessageButton = ({user, buttonText}: SendMessageProps) => {
-    const openDirectMessage = (user: UserProfile) => {
-        console.log(user);
-    };
+    const openDirectMessage = useOpenDM(user);
 
     return (
-        <SendMessage onClick={() => openDirectMessage(user)}>
+        <SendMessage onClick={() => openDirectMessage()}>
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='left'
@@ -58,6 +62,19 @@ const SendMessageButton = ({user, buttonText}: SendMessageProps) => {
             </OverlayTrigger>
         </SendMessage>
     );
+};
+
+const useOpenDM = (user: UserProfile) => {
+    const history = useHistory();
+
+    const team = useSelector((state: GlobalState) => {
+        const prevTeamId = getPreviousTeamId(state);
+        return getCurrentTeam(state) ?? (prevTeamId && getTeam(state, prevTeamId)) ?? getMyTeams(state)?.[0];
+    });
+
+    return () => {
+        history.push(`/${team.name}/messages/@${user.username}`);
+    };
 };
 
 export default SendMessageButton;
