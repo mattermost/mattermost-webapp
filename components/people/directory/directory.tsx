@@ -7,9 +7,11 @@ import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {getProfiles as fetchProfiles} from 'mattermost-redux/actions/users';
+import {debounce} from 'mattermost-redux/actions/helpers';
+import {getProfiles as fetchProfiles, searchProfiles} from 'mattermost-redux/actions/users';
 import {getProfiles} from 'mattermost-redux/selectors/entities/users';
 
+import {Constants} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
 import Input from 'components/widgets/inputs/input/input';
@@ -20,6 +22,7 @@ import './directory.scss';
 
 const Directory = () => {
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchPeople, setSearchPeople] = useState([]);
     const dispatch = useDispatch();
 
     const [page, setPage] = useState(0);
@@ -32,7 +35,7 @@ const Directory = () => {
     }, []);
 
     useEffect(() => {
-        // Search for a user
+        doSearch(searchTerm);
     }, [searchTerm]);
 
     useEffect(() => {
@@ -49,6 +52,23 @@ const Directory = () => {
 
         setIsNextPageLoading(false);
     };
+
+    const doSearch = debounce(async (term) => {
+        if (!term) {
+            return;
+        }
+
+        setIsNextPageLoading(true);
+
+        const options = {
+            allow_inactive: true,
+        };
+
+        const {data: profiles} = await dispatch(searchProfiles(term, options));
+
+        setSearchPeople(profiles);
+        setIsNextPageLoading(false);
+    }, Constants.SEARCH_TIMEOUT_MILLISECONDS, false, () => {});
 
     return (
         <div className='people-directory'>
@@ -77,10 +97,10 @@ const Directory = () => {
                 </div>
             </header>
             <PeopleList
-                people={people}
+                people={searchTerm ? searchPeople : people}
                 hasNextPage={people.length < 62}
                 isNextPageLoading={isNextPageLoading}
-                searchTerms={''}
+                searchTerms={searchTerm}
                 loadMore={loadMore}
             />
         </div>

@@ -1,3 +1,5 @@
+@import 'utils/variables';
+
 .profile-card {
     display: flex;
     flex-direction: column;
@@ -54,6 +56,7 @@
     }
 
     &__detail {
+        height: 20px;
         padding: 0 16px;
         color: var(--center-channel-text);
         font-size: 14px;
@@ -99,7 +102,6 @@
         }
 
         &__detail {
-            height: 20px;
             padding: 0;
             text-align: left;
 
@@ -111,5 +113,9 @@
                 -webkit-line-clamp: 2;
             }
         }
+    }
+
+    mark {
+        background-color: $highlight-color;
     }
 }
