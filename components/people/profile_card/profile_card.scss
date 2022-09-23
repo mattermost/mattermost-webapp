@@ -119,18 +119,18 @@
         }
 
         &__username {
-            font-weight: 600;
             font-size: 18px;
+            font-weight: 600;
             line-height: 24px;
         }
     }
 
     &__action-buttons {
-        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
-        margin-top: 20px;
-        padding: 20px;
         display: flex;
         justify-content: space-between;
+        padding: 20px;
+        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+        margin-top: 20px;
 
         button {
             @include primary-button;
