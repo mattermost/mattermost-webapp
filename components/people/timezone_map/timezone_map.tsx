@@ -4,9 +4,9 @@ import React from 'react';
 
 import {RawTimeZone, rawTimeZones} from '@vvo/tzdb';
 
-import {findTimeZone} from './Util';
-import {DEFAULT_TIME_ZONE_NAME} from './Constant';
-import WorldMap from './WorldMap';
+import {findTimeZone} from './util';
+import {DEFAULT_TIME_ZONE_NAME} from './constant';
+import WorldMap from './world_map';
 
 function findTimeZoneWithDefault(timeZoneName: string): RawTimeZone {
     const timezone = findTimeZone(timeZoneName);

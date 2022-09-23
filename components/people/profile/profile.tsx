@@ -16,7 +16,7 @@ import CallButton from 'plugins/call_button';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import TimeZoneSelectMap from '../timezone_map/TimeZoneSelectMap';
+import TimeZoneSelectMap from '../timezone_map/timezone_map';
 
 import ProfileCard from '../profile_card/profile_card';
 

@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import * as d3 from 'd3';
+import {geoPath} from 'd3';
 import * as GeoJSON from 'geojson';
 import React, {ReactElement} from 'react';
 import * as topojson from 'topojson-client';
 import {Topology} from 'topojson-specification';
 
 import timezoneTopoJson from './assets/timezones.json';
-import {findTimeZone} from './Util';
+import {findTimeZone} from './util';
 
 type PolygonFeature = GeoJSON.Feature<
 GeoJSON.Polygon,
@@ -49,7 +49,7 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
         }
     };
 
-    const pathGenerator = d3.geoPath();
+    const pathGenerator = geoPath();
     const timeZonePolygonFeatures = React.useMemo(
         createTimeZonePolygonFeatures,
         [],
