@@ -11,11 +11,14 @@ import StatusIcon from 'components/status_icon';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 
+import CallButton from 'plugins/call_button';
+
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import {UserProfile} from '@mattermost/types/users';
 
+import SendMessageButton from './send_message_button';
 import './profile_card.scss';
 
 type ProfileCardProps = {
@@ -57,7 +60,7 @@ const ProfileCard = ({
 
     const {id, username, position} = user;
     const fullname = Utils.getFullName(user);
-    const extended = showBio || showLocation || showTeams || showGroups || actionButtons;
+    const extended = showBio || showLocation || showTeams || showGroups;
 
     const getRole = () => {
         switch (role) {
@@ -175,7 +178,7 @@ const ProfileCard = ({
             >
                 <span className='profile-card__detail profile-card__fullname'>{fullname}</span>
             </OverlayTrigger>
-            <span className='profile-card__detail'>{username}</span>
+            <span className='profile-card__detail username'>{username}</span>
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
@@ -186,6 +189,16 @@ const ProfileCard = ({
             {extended && (
                 <div className='profile-card__extended'>
                     {getExtended()}
+                </div>
+            )}
+            {/* check if same user as current user then don't show this section */}
+            {actionButtons && (
+                <div className='profile-card__action-buttons'>
+                    <SendMessageButton
+                        user={user}
+                        buttonText={formatMessage({id: 'people.teams.message', defaultMessage: 'Message'})}
+                    />
+                    <CallButton/>
                 </div>
             )}
         </div>

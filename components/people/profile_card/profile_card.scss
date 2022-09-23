@@ -1,3 +1,9 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+@import 'utils/variables';
+@import 'utils/mixins';
+
 .profile-card {
     display: flex;
     width: 260px;
@@ -109,6 +115,29 @@
                 height: 40px;
                 -webkit-box-orient: vertical;
                 -webkit-line-clamp: 2;
+            }
+        }
+
+        &__username {
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 24px;
+        }
+    }
+
+    &__action-buttons {
+        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+        margin-top: 20px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+
+        button {
+            @include primary-button;
+            @include button-small;
+
+            &:focus {
+                padding: 11px 18px;
             }
         }
     }

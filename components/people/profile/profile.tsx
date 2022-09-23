@@ -66,13 +66,16 @@ const Profile = ({user}: ProfileProps) => {
                         />
                     </a>
                 </div>
-                <TimeZoneSelectMap timeZoneName={userProfile.timezone?.automaticTimezone || undefined}/>
+                <TimeZoneSelectMap
+                    timeZoneName={userProfile.timezone?.automaticTimezone || undefined}
+                />
             </div>
             <div className='UserProfile__bottom-card'>
                 <ProfileCard
                     user={userProfile}
                     avatarSrc={imgUrl}
                     role={'system_admin'}
+                    actionButtons={true}
                 />
                 <StyledCard
                     width={591}
