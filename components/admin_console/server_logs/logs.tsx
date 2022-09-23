@@ -21,10 +21,7 @@ type GetLogsPayload = {
 }
 
 type Props = {
-    logs: LogObject[];
-    actions: {
-        getLogs: (payload: GetLogsPayload) => ActionFunc;
-    };
+    logs: any[string];
 };
 
 type State = {
@@ -44,7 +41,7 @@ export default class Logs extends React.PureComponent<Props, State> {
             sortOrder: LogsSortOrderEnum.DESC,
         };
     }
-
+    console.log(props);
     componentDidMount() {
         this.reload();
     }
@@ -61,11 +58,11 @@ export default class Logs extends React.PureComponent<Props, State> {
         if (this.state.loadingLogs || !this.props.logs) {
             content = <LoadingScreen/>;
         } else {
-            // content = (
-            //     // <LogList
-            //     //     {...this.props}
-            //     // />
-            // );
+            content = (
+                <LogList
+                    {...this.props}
+                />
+            );
         }
 
         return (

@@ -65,6 +65,7 @@ class DataGridSearch extends React.PureComponent<Props, State> {
 
         let filter;
         if (filterProps) {
+            console.log(filterProps);
             filter = <Filter {...filterProps}/>;
         }
 
