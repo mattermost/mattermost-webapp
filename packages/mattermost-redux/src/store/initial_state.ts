@@ -104,7 +104,7 @@ const state: GlobalState = {
             dataRetentionCustomPolicies: {},
             dataRetentionCustomPoliciesCount: 0,
             prevTrialLicense: {},
-            topics: [],
+            topics: [{topic: 'asdf', description: 'asdfaf', schema: '{}'}, {topic: 'asfdf', description: 'asdgwfaf', schema: '{}'}],
         },
         jobs: {
             jobs: {},

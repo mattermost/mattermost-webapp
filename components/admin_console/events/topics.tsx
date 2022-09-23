@@ -26,12 +26,12 @@ export default class Topics extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            loadingTopics: true,
+            loadingTopics: false,
         };
     }
 
     componentDidMount() {
-        this.reload();
+        // this.reload();
     }
 
     reload = async () => {
@@ -46,8 +46,37 @@ export default class Topics extends React.PureComponent<Props, State> {
         if (this.state.loadingTopics || !this.props.topics || this.props.topics.length === 0) {
             content = <LoadingScreen/>;
         } else {
+            const tableRows = [];
+            for (let i = 0; i < this.props.topics.length; i++) {
+                tableRows.push(
+                    (<tr key={i}>
+                        <td>
+                            {this.props.topics[i].topic}
+                        </td>
+                        <td>
+                            {this.props.topics[i].description}
+                        </td>
+                        <td>
+                            {this.props.topics[i].schema}
+                        </td>
+                    </tr>),
+                );
+            }
             content = (
-                <p>{'This would contain some events'}</p>
+                <table
+                    className='table table-bordered'
+                    cellPadding='5'
+                >
+                    <tbody>
+                        <tr>
+                            <th>{'Topic'}</th>
+                            <th>{'Description'}</th>
+                            <th>{'Schema'}</th>
+                        </tr>
+
+                        {tableRows}
+                    </tbody>
+                </table>
             );
         }
 
