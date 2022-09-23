@@ -8,7 +8,7 @@ import InfiniteLoader from 'react-window-infinite-loader';
 
 import {UserProfile} from '@mattermost/types/users';
 import ProfileCard from 'components/people/profile_card/profile_card';
-import { imageURLForUser } from 'utils/utils';
+import {imageURLForUser} from 'utils/utils';
 
 export interface Props {
     people: UserProfile[];
@@ -52,19 +52,11 @@ const PeopleList = ({
             if (!user) {
                 return null;
             }
-            // let newStyle  = style;
-            // newStyle.width = '25%';
-            // newStyle.height = 'auto';
-            // const newStyles = {
-            //     height: '210px',
-            //     top: rowIndex * 210,
-            //     padding: '12px',
-            // };
+
             return (
                 <div
                     style={{
-                        ...style, 
-                        // ...newStyles,
+                        ...style,
                     }}
                     className='Grid__item'
                     key={user.id}
