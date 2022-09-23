@@ -55,8 +55,9 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const teams = useSelector(getTeams);
 
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const isBoardsEnabled = true || Boolean(pluginsList.focalboard);
-    const isPlaybooksEnabled = true || Boolean(pluginsList.playbooks);
+    const isBoardsEnabled = Boolean(pluginsList.focalboard);
+    const isPlaybooksEnabled = Boolean(pluginsList.playbooks);
+    
     const searchPrefixMap: {
         [key: string]: {
             enabled: boolean;
@@ -81,9 +82,6 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const recentHandler = useSelector((state: GlobalState) => {
         return state.plugins.recentlyViewedHandlers.focalboard;
     });
-    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const boards = pluginsList.focalboard;
-    const playbooks = pluginsList.playbooks;
     const recentChannels = useSelector(getChannelsInAllTeams);
     const channelsTransformedItems = channelToCommandPaletteItemTransformer(recentChannels, teams);
     const boardsTransformedItems: CommandPaletteItem[] = [];
@@ -117,7 +115,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         if (searchPrefix) {
             setSearchPrefix('');
         }
-        setChips((chips) => {
+        setChips((chips: string[]) => {
             if (chips.indexOf(chip) === -1) {
                 return [...chips, chip];
             }
@@ -126,7 +124,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     }, [searchPrefix]);
 
     const removeChip = useCallback((index: number) => {
-        setChips((chips) => chips.filter((_, i) => i !== index));
+        setChips((chips: string[]) => chips.filter((_, i) => i !== index));
     }, []);
 
     const handleKeyDown = useCallback((e: KeyboardEvent<HTMLInputElement>) => {
