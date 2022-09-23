@@ -47,23 +47,42 @@
     &__bottom-card {
         width: 100%;
         height: 65%;
+        position: relative;
         background-color: var(--center-channel-bg);
         z-index: 0;
         display: flex;
         justify-content: space-between;
+        flex-direction: column;
 
         #user-picture-card {
             position: relative;
             top: -15%;
-            left: 5%;
-            min-height: 308px;
             z-index: 10;
+            margin: 0 auto;
         }
 
         #user-profile-details-card {
             position: relative;
-            top: 5%;
-            right: 5%;
+            top: -10%;
+            margin: 0 auto;
+            max-width: 450px;
+        }
+
+        @media screen and (min-width: 960px) {
+            flex-direction: row;
+
+            #user-picture-card {
+                position: absolute;
+                top: -15%;
+                left: 5%;
+                min-height: 308px;
+            }
+
+            #user-profile-details-card {
+                position: absolute;
+                top: 5%;
+                right: 5%;
+            }
         }
     }
 }
