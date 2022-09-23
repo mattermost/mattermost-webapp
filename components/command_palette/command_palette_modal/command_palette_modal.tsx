@@ -24,7 +24,7 @@ import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
 import {GotoListItemConstants, GotoListItemData} from '../constant';
-import {boardToCommandPaletteItemTransformer, channelToCommandPaletteItemTransformer} from '../utils';
+import {channelToCommandPaletteItemTransformer} from '../utils';
 import './command_palette_modal.scss';
 
 import Filters from './filters';
@@ -35,8 +35,6 @@ interface Props {
     selectedEntities: CommandPaletteEntities[];
     onExited: () => void;
 }
-
-const defaultEnities = [CommandPaletteEntities.Channel, CommandPaletteEntities.Playbooks, CommandPaletteEntities.Boards];
 
 const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [modalVisibility, setModalVisibility] = useState(true);
@@ -57,7 +55,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
     const isBoardsEnabled = Boolean(pluginsList.focalboard);
     const isPlaybooksEnabled = Boolean(pluginsList.playbooks);
-    
+
     const searchPrefixMap: {
         [key: string]: {
             enabled: boolean;
@@ -78,7 +76,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         },
     }), [isBoardsEnabled, isPlaybooksEnabled]);
 
-    const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
+    const searchHandler = useSelector((state: GlobalState) => state.plugins.syncSearchHandlers.focalboard);
     const recentHandler = useSelector((state: GlobalState) => {
         return state.plugins.recentlyViewedHandlers.focalboard;
     });
@@ -179,7 +177,9 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
             break;
         }
         case CommandPaletteEntities.Channel : {
-            dispatch(switchToChannel(item.channel));
+            if (item.channel) {
+                dispatch(switchToChannel(item.channel));
+            }
             break;
         }
         case CommandPaletteEntities.GoTo : {

@@ -7,12 +7,13 @@ import remove from 'lodash/remove';
 
 import {UserTypes} from 'mattermost-redux/action_types';
 import type {GenericAction} from 'mattermost-redux/types/actions';
-import {IDMappedObjects} from '@mattermost/types/utilities';
-import {ClientPluginManifest} from '@mattermost/types/plugins';
 
 import type {PluginsState, PluginComponent, AdminConsolePluginComponent, Menu} from 'types/store/plugins';
 
 import {ActionTypes} from 'utils/constants';
+
+import {IDMappedObjects} from '@mattermost/types/utilities';
+import {ClientPluginManifest} from '@mattermost/types/plugins';
 
 function hasMenuId(menu: Menu|PluginComponent, menuId: string) {
     if (!menu.subMenu) {
@@ -409,7 +410,34 @@ function insightsHandlers(state: PluginsState['insightsHandlers'] = {}, action: 
     }
 }
 
-function searchHandlers(state: PluginsState['searchHandlers'] = {}, action: GenericAction) {
+//
+function syncSearchHandlers(state: PluginsState['searchHandlers'] = {}, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.RECIEVED_PRODUCT_SEARCH_HANDLER:
+        if (action.data) {
+            const nextState = {...state};
+            nextState[action.data.pluginId] = action.data.handler;
+            return nextState;
+        }
+        return state;
+
+    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
+    case ActionTypes.REMOVED_WEBAPP_PLUGIN:
+        if (action.data) {
+            const nextState = {...state};
+            delete nextState[action.data.id];
+            return nextState;
+        }
+        return state;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return {};
+    default:
+        return state;
+    }
+}
+
+function asyncSearchHandlers(state: PluginsState['searchHandlers'] = {}, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.RECIEVED_PRODUCT_SEARCH_HANDLER:
         if (action.data) {
@@ -497,6 +525,11 @@ export default combineReducers({
     // object where every key is a plugin id and the value is recently viewed plugin entities handler
     recentlyViewedHandlers,
 
+    // object where every key is a plugin id and the value is the in plugin search handler,
+    // for sending data from redux store or local storage
+    syncSearchHandlers,
+
     // object where every key is a plugin id and the value is the in plugin search handler
-    searchHandlers,
+    // for sending data coming from api (backend)
+    asyncSearchHandlers,
 });
