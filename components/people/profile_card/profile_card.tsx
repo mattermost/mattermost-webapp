@@ -4,7 +4,6 @@
 import React from 'react';
 import {useIntl} from 'react-intl';
 
-import {UserProfile} from '@mattermost/types/users';
 import {General} from 'mattermost-redux/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
@@ -14,6 +13,8 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import './profile_card.scss';
 
@@ -31,7 +32,8 @@ type ProfileCardProps = {
     showLocation?: boolean;
     showTeams?: boolean;
     showGroups?: boolean;
-    onSubmit: () => void;
+    footer?: React.ReactNode;
+    onSubmit?: () => void;
 }
 
 const ProfileCard = ({
@@ -48,6 +50,7 @@ const ProfileCard = ({
     showLocation,
     showTeams,
     showGroups,
+    footer,
     onSubmit,
 }: ProfileCardProps) => {
     const {formatMessage} = useIntl();
@@ -137,7 +140,7 @@ const ProfileCard = ({
     const handleOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
 
-        onSubmit();
+        onSubmit?.();
     };
 
     return (
@@ -170,7 +173,7 @@ const ProfileCard = ({
             >
                 <span className='profile-card__detail profile-card__fullname'>{fullname}</span>
             </OverlayTrigger>
-            <span className='profile-card__detail'>{username}</span>
+            <span className='profile-card__detail username'>{username}</span>
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
@@ -183,6 +186,7 @@ const ProfileCard = ({
                     {getExtended()}
                 </div>
             )}
+            {footer}
         </div>
     );
 };
