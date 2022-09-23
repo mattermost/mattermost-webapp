@@ -67,7 +67,26 @@ export const IconContainer = styled.button`
 `;
 
 export type MarkdownMode = 'bold' | 'italic' | 'link' | 'strike' | 'code' | 'codeBlock' | 'quote' | 'ul' | 'ol' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
-export const MarkdownModes: MarkdownMode[] = ['bold', 'italic', 'link', 'strike', 'code', 'codeBlock', 'quote', 'ul', 'ol', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+
+/**
+ * all modes that can apply to a whole block of text
+ */
+export const MarkdownBlockModes: MarkdownMode[] = ['code', 'codeBlock', 'quote', 'ul', 'ol'];
+
+/**
+ * all modes that can apply to a string
+ */
+export const MarkdownLeafModes: MarkdownMode[] = ['bold', 'italic', 'strike', 'link'];
+
+/**
+ * all modes that apply a heading style
+ */
+export const MarkdownHeadingModes: MarkdownMode[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+
+/**
+ * combined set of markdown modes
+ */
+export const MarkdownModes: MarkdownMode[] = MarkdownLeafModes.concat(MarkdownBlockModes, MarkdownHeadingModes);
 
 type ToolbarControlProps = {
     mode: MarkdownMode;

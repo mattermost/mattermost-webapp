@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useEffect, useLayoutEffect, useState} from 'react';
-import {Instance} from '@popperjs/core';
+import React, {useLayoutEffect, useState} from 'react';
 
 import {debounce} from 'lodash';
 
-import {MarkdownMode, MarkdownModes} from './toolbar_controls';
+import {MarkdownBlockModes, MarkdownLeafModes, MarkdownMode} from './toolbar_controls';
 
 type WideMode = 'wide' | 'normal' | 'narrow';
 
@@ -59,14 +58,14 @@ const MAP_WIDE_MODE_TO_CONTROLS_QUANTITY: {[key in WideMode]: number} = {
     narrow: 3,
 };
 
-export const useFormattingBarControls = (
-    formattingBarRef: React.RefObject<HTMLDivElement>,
-): {
+type UseToolbarControlsReturnValue = {
     controls: MarkdownMode[];
     hiddenControls: MarkdownMode[];
     wideMode: WideMode;
-} => {
-    const allControls = MarkdownModes;
+};
+
+export const useToolbarControls = (formattingBarRef: React.RefObject<HTMLDivElement>): UseToolbarControlsReturnValue => {
+    const allControls = MarkdownLeafModes.concat(MarkdownBlockModes);
     const wideMode = useResponsiveToolBar(formattingBarRef);
 
     const controlsLength = MAP_WIDE_MODE_TO_CONTROLS_QUANTITY[wideMode];
@@ -79,20 +78,4 @@ export const useFormattingBarControls = (
         hiddenControls,
         wideMode,
     };
-};
-
-export const useUpdateOnVisibilityChange = (update: Instance['update'] | null, isVisible: boolean) => {
-    const updateComponent = async () => {
-        if (!update) {
-            return;
-        }
-        await update();
-    };
-
-    useEffect(() => {
-        if (!isVisible) {
-            return;
-        }
-        updateComponent();
-    }, [isVisible]);
 };

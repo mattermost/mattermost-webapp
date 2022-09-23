@@ -10,9 +10,14 @@ import {useFloating, offset} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
 import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
 
-import ToolbarControl, {IconContainer, makeControlActiveAssertionMap, makeControlHandlerMap} from './toolbar_controls';
+import ToolbarControl, {
+    IconContainer,
+    makeControlActiveAssertionMap,
+    makeControlHandlerMap,
+    MarkdownHeadingModes,
+} from './toolbar_controls';
 
-import {useFormattingBarControls, useGetLatest} from './toolbar_hooks';
+import {useToolbarControls, useGetLatest} from './toolbar_hooks';
 
 /** eslint-disable no-confusing-arrow */
 
@@ -24,11 +29,11 @@ const Separator = styled.div`
     background: rgba(var(--center-channel-color-rgb), 0.32);
 `;
 
-const FormattingBarContainer = styled.div`
+const ToolbarContainer = styled.div`
     display: flex;
     height: 48px;
     padding-left: 7px;
-    background: rgba(var(--center-channel-color-rgb), 0.04);
+    background: transparent;
     align-items: center;
     gap: 4px;
     transform-origin: top;
@@ -39,7 +44,7 @@ const FormattingBarContainer = styled.div`
     }
 `;
 
-const HiddenControlsContainer = styled.div`
+const HeadingControlsContainer = styled.div`
     padding: 5px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 4px;
@@ -51,6 +56,7 @@ const HiddenControlsContainer = styled.div`
     transform: scale(0);
     opacity: 0;
     display: flex;
+    flex-direction: column;
 
     &.scale-enter {
         transform: scale(0);
@@ -89,12 +95,12 @@ const HiddenControlsContainer = styled.div`
     }
 `;
 
-interface FormattingBarProps {
+interface ToolbarProps {
 
     /**
-     * controls that extend the functionality
+     * the editor create from the tiptap package
      */
-    extraControls: JSX.Element;
+    editor: Editor;
 
     /**
      * location of the advanced text editor in the UI (center channel / RHS)
@@ -102,35 +108,39 @@ interface FormattingBarProps {
     location: string;
 
     /**
+     * controls that extend the functionality
+     */
+    extraControls?: JSX.Element;
+
+    /**
      * controls that enhance the message,
      * e.g: message priority picker
      */
     additionalControls?: React.ReactNodeArray;
-    editor: Editor;
 }
 
-const FormattingBar = (props: FormattingBarProps): JSX.Element => {
+const Toolbar = (props: ToolbarProps): JSX.Element => {
     const {
         extraControls,
         location,
         additionalControls,
         editor,
     } = props;
-    const [showHiddenControls, setShowHiddenControls] = useState(false);
+    const [showHeadingControls, setShowHeadingControls] = useState(false);
     const formattingBarRef = useRef<HTMLDivElement>(null);
-    const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
+    const {controls, wideMode} = useToolbarControls(formattingBarRef);
 
     const {formatMessage} = useIntl();
     const HiddenControlsButtonAriaLabel = formatMessage({id: 'accessibility.button.hidden_controls_button', defaultMessage: 'show hidden formatting options'});
 
     const {x, y, reference, floating, strategy, update, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
-        placement: 'top',
+        placement: 'top-start',
         middleware: [offset({mainAxis: 4})],
     });
 
-    // this little helper hook always returns the latest refs and does not mess with the popper placement calculation
+    // this little helper hook always returns the latest refs and does not mess with the floatingUI placement calculation
     const getLatest = useGetLatest({
-        showHiddenControls,
+        showHeadingControls,
         buttonRef,
         floatingRef,
     });
@@ -146,7 +156,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     !floatingRef.current?.contains(target) &&
                     !buttonRef.current?.contains(target)
                 ) {
-                    setShowHiddenControls(false);
+                    setShowHeadingControls(false);
                 }
             }
         };
@@ -154,20 +164,16 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         document.addEventListener('mousedown', handleClickOutside);
 
         return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, [getLatest, setShowHiddenControls]);
+    }, [getLatest]);
 
     useEffect(() => {
         update?.();
-    }, [wideMode, update, showHiddenControls]);
+    }, [wideMode, update]);
 
-    const hasHiddenControls = wideMode !== 'wide';
-
-    const toggleHiddenControls = useCallback((event?) => {
-        if (event) {
-            event.preventDefault();
-        }
-        setShowHiddenControls(!showHiddenControls);
-    }, [showHiddenControls]);
+    const toggleHeadingControls = useCallback((event?) => {
+        event?.preventDefault();
+        setShowHeadingControls(!showHeadingControls);
+    }, [showHeadingControls]);
 
     const hiddenControlsContainerStyles: React.CSSProperties = {
         position: strategy,
@@ -179,11 +185,43 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     const controlActiveAssertionMap = makeControlActiveAssertionMap(editor);
 
     return (
-        <FormattingBarContainer ref={formattingBarRef}>
-            {additionalControls}
+        <ToolbarContainer ref={formattingBarRef}>
+            <IconContainer
+                id={'HiddenControlsButton' + location}
+                ref={reference}
+                className={classNames({active: showHeadingControls})}
+                onClick={toggleHeadingControls}
+                aria-label={HiddenControlsButtonAriaLabel}
+            >
+                <DotsHorizontalIcon
+                    color={'currentColor'}
+                    size={18}
+                />
+            </IconContainer>
+            <CSSTransition
+                timeout={250}
+                classNames='scale'
+                in={showHeadingControls}
+            >
+                <HeadingControlsContainer
+                    ref={floating}
+                    style={hiddenControlsContainerStyles}
+                >
+                    {MarkdownHeadingModes.map((mode) => {
+                        return (
+                            <ToolbarControl
+                                key={mode}
+                                mode={mode}
+                                onClick={controlHandlerMap[mode]}
+                                className={classNames({active: controlActiveAssertionMap[mode]()})}
+                            />
+                        );
+                    })}
+                </HeadingControlsContainer>
+            </CSSTransition>
             <Separator/>
             {controls.map((mode) => {
-                const insertSeparator = mode === 'h6' || mode === 'ol';
+                const insertSeparator = mode === 'strike' || mode === 'ol';
                 return (
                     <React.Fragment key={mode}>
                         <ToolbarControl
@@ -195,48 +233,10 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     </React.Fragment>
                 );
             })}
-
-            {hasHiddenControls && (
-                <>
-                    <IconContainer
-                        id={'HiddenControlsButton' + location}
-                        ref={reference}
-                        className={classNames({active: showHiddenControls})}
-                        onClick={toggleHiddenControls}
-                        aria-label={HiddenControlsButtonAriaLabel}
-                    >
-                        <DotsHorizontalIcon
-                            color={'currentColor'}
-                            size={18}
-                        />
-                    </IconContainer>
-                    <Separator/>
-                </>
-            )}
-            <CSSTransition
-                timeout={250}
-                classNames='scale'
-                in={showHiddenControls}
-            >
-                <HiddenControlsContainer
-                    ref={floating}
-                    style={hiddenControlsContainerStyles}
-                >
-                    {hiddenControls.map((mode) => {
-                        return (
-                            <ToolbarControl
-                                key={mode}
-                                mode={mode}
-                                onClick={controlHandlerMap[mode]}
-                                className={classNames({active: controlActiveAssertionMap[mode]()})}
-                            />
-                        );
-                    })}
-                </HiddenControlsContainer>
-            </CSSTransition>
+            {additionalControls}
             {extraControls}
-        </FormattingBarContainer>
+        </ToolbarContainer>
     );
 };
 
-export default memo(FormattingBar);
+export default memo(Toolbar);
