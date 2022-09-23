@@ -18,11 +18,12 @@ type Props = {
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onKeyDown: (e: KeyboardEvent<HTMLInputElement>) => void;
     removeChip: (chipIndex: number) => void;
+    searchPrefix: string;
     searchTerm: string;
     toggleCommandVisibility: () => void;
 }
 
-function Input({chips, entities, onChange, onKeyDown, intl, isCommandVisible, removeChip, searchTerm, toggleCommandVisibility}: Props) {
+function Input({chips, entities, intl, isCommandVisible, onChange, onKeyDown, removeChip, searchPrefix, searchTerm, toggleCommandVisibility}: Props) {
     // Render the list of chips
     const renderChips = chips.map((label, index) => (
         <Chip
@@ -40,7 +41,7 @@ function Input({chips, entities, onChange, onKeyDown, intl, isCommandVisible, re
             type='text'
             onChange={onChange}
             onKeyDown={onKeyDown}
-            placeholder={getInputPlaceholder(intl, entities, chips)}
+            placeholder={getInputPlaceholder({intl, entities, chips, searchPrefix, searchTerm})}
             value={searchTerm}
         />
     );
@@ -88,6 +89,9 @@ function Input({chips, entities, onChange, onKeyDown, intl, isCommandVisible, re
             <i className='icon icon-magnify icon-24'/>
             <div className='command-palette-input'>
                 {renderChips}
+                <div className='command-palette-search-prefix'>
+                    {searchPrefix}
+                </div>
                 {renderInput}
                 <div className='command-palette-input-shortcut'>
                     {renderShortCut()}
@@ -97,12 +101,37 @@ function Input({chips, entities, onChange, onKeyDown, intl, isCommandVisible, re
     );
 }
 
-function getInputPlaceholder(intl: IntlShape, entities: CommandPaletteEntities[], chips: string[]): string {
+type InputPlaceholder = Pick<Props, 'chips' | 'entities' | 'searchPrefix' | 'searchTerm'> & {
+    intl: IntlShape;
+}
+
+function getInputPlaceholder({intl, entities, chips, searchPrefix, searchTerm}: InputPlaceholder): string {
     if (chips.length > 0) {
         return '';
     }
 
     const {formatMessage} = intl;
+
+    if (!searchTerm && searchPrefix) {
+        if (searchPrefix === '~') {
+            return formatMessage({
+                id: 'command_palette.input.placeholder.channel',
+                defaultMessage: 'Search for a channel or direct message...',
+            });
+        }
+        if (searchPrefix === '!') {
+            return formatMessage({
+                id: 'command_palette.input.placeholder.playbook',
+                defaultMessage: 'Search for a playbook or playbook run...',
+            });
+        }
+        if (searchPrefix === '*') {
+            return formatMessage({
+                id: 'command_palette.input.placeholder.board',
+                defaultMessage: 'Search for a board...',
+            });
+        }
+    }
 
     if (chips.length === 1 && entities.includes(CommandPaletteEntities.GoTo)) {
         return formatMessage({

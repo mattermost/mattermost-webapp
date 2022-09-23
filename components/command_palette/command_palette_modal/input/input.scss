@@ -10,6 +10,11 @@
         flex-wrap: wrap;
         align-items: center;
 
+        .command-palette-search-prefix {
+            color: var(--center-channel-color);
+            font-size: 20px;
+        }
+
         > input {
             display: flex;
             min-width: 160px;

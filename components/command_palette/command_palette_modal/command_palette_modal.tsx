@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -50,8 +50,32 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [entities, setEntities] = useState<CommandPaletteEntities[]>(selectedEntities || []);
     const [isCommandVisible, setIsCommandVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
+    const [searchPrefix, setSearchPrefix] = useState('');
     const currentTeamId = useSelector(getCurrentTeamId);
     const teams = useSelector(getTeams);
+
+    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const isBoardsEnabled = true || Boolean(pluginsList.focalboard);
+    const isPlaybooksEnabled = true || Boolean(pluginsList.playbooks);
+    const searchPrefixMap: {
+        [key: string]: {
+            enabled: boolean;
+            entity: CommandPaletteEntities;
+        };
+    } = useMemo(() => ({
+        '~': {
+            enabled: true,
+            entity: CommandPaletteEntities.Channel,
+        },
+        '!': {
+            enabled: isPlaybooksEnabled,
+            entity: CommandPaletteEntities.Playbooks,
+        },
+        '*': {
+            enabled: isBoardsEnabled,
+            entity: CommandPaletteEntities.Boards,
+        },
+    }), [isBoardsEnabled, isPlaybooksEnabled]);
 
     const searchHandler = useSelector((state: GlobalState) => state.plugins.searchHandlers.focalboard);
     const recentHandler = useSelector((state: GlobalState) => {
@@ -90,13 +114,16 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     }, [recentBoards]);
 
     const addChip = useCallback((chip: string) => {
+        if (searchPrefix) {
+            setSearchPrefix('');
+        }
         setChips((chips) => {
             if (chips.indexOf(chip) === -1) {
                 return [...chips, chip];
             }
             return chips;
         });
-    }, []);
+    }, [searchPrefix]);
 
     const removeChip = useCallback((index: number) => {
         setChips((chips) => chips.filter((_, i) => i !== index));
@@ -106,10 +133,15 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         if (searchTerm.trim().length && isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             addChip(searchTerm);
             setSearchTerm('');
-        } else if (chips.length && isKeyPressed(e, Constants.KeyCodes.BACKSPACE) && !searchTerm) {
-            removeChip(chips.length - 1);
+        } else if (isKeyPressed(e, Constants.KeyCodes.BACKSPACE) && !searchTerm.trim()) {
+            if (searchPrefix) {
+                setSearchPrefix('');
+                setEntities(selectedEntities || []);
+            } else if (chips.length) {
+                removeChip(chips.length - 1);
+            }
         }
-    }, [addChip, chips, removeChip, searchTerm]);
+    }, [addChip, chips, removeChip, searchPrefix, searchTerm]);
 
     const toggleFilter = useCallback((entity: CommandPaletteEntities) => {
         if (entities.includes(entity)) {
@@ -129,9 +161,14 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
 
     const updateSearchTerm = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
-        setSearchTerm(e.target.value);
-        searchBoards(query);
-    }, []);
+        if (!chips.length && !searchTerm.trim() && searchPrefixMap[query]?.enabled) {
+            setSearchPrefix(query);
+            setEntities([searchPrefixMap[query].entity]);
+        } else {
+            setSearchTerm(e.target.value);
+            searchBoards(query);
+        }
+    }, [chips, searchBoards, searchTerm, searchPrefixMap]);
 
     const onHide = (): void => {
         setModalVisibility(false);
@@ -211,6 +248,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
                     onKeyDown={handleKeyDown}
                     isCommandVisible={isCommandVisible}
                     removeChip={removeChip}
+                    searchPrefix={searchPrefix}
                     searchTerm={searchTerm}
                     toggleCommandVisibility={toggleCommandVisibility}
                 />
@@ -218,7 +256,9 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
             <Modal.Body className={'cmd-pl-modal__body'}>
                 <Filters
                     entities={entities}
+                    isBoardsEnabled={isBoardsEnabled}
                     isCommandVisible={isCommandVisible}
+                    isPlaybooksEnabled={isPlaybooksEnabled}
                     toggleFilter={toggleFilter}
                 />
                 {isLoading && <LoadingSpinner/>}

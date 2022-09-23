@@ -14,13 +14,15 @@ import './filters.scss';
 type Props = {
     entities: CommandPaletteEntities[];
     intl: IntlShape;
+    isBoardsEnabled: boolean;
     isCommandVisible: boolean;
+    isPlaybooksEnabled: boolean;
     toggleFilter: (entity: CommandPaletteEntities) => void;
 };
 
-type Filter = Omit<FilterTagProps, 'isCommandVisible' | 'onClick'>;
+type Filter = Omit<FilterTagProps, 'isCommandVisible' | 'onClick'> | null;
 
-function Filters({entities, intl, isCommandVisible, toggleFilter}: Props) {
+function Filters({entities, intl, isBoardsEnabled, isCommandVisible, isPlaybooksEnabled, toggleFilter}: Props) {
     const {formatMessage} = intl;
 
     const filtersGroups: Filter[][] = [
@@ -34,7 +36,7 @@ function Filters({entities, intl, isCommandVisible, toggleFilter}: Props) {
                 id: 'command_palette.footer.filters.channels',
                 defaultMessage: 'Channels',
             }),
-        }, {
+        }, isPlaybooksEnabled ? {
             command: '!',
             entity: CommandPaletteEntities.Playbooks,
             isActive: entities.includes(CommandPaletteEntities.Playbooks),
@@ -42,7 +44,7 @@ function Filters({entities, intl, isCommandVisible, toggleFilter}: Props) {
                 id: 'command_palette.footer.filters.playbooks',
                 defaultMessage: 'Playbooks',
             }),
-        }, {
+        } : null, isBoardsEnabled ? {
             command: '*',
             entity: CommandPaletteEntities.Boards,
             isActive: entities.includes(CommandPaletteEntities.Boards),
@@ -50,7 +52,7 @@ function Filters({entities, intl, isCommandVisible, toggleFilter}: Props) {
                 id: 'command_palette.footer.filters.boards',
                 defaultMessage: 'Boards',
             }),
-        }],
+        } : null],
 
         // Group 2
         [{
@@ -85,6 +87,9 @@ function Filters({entities, intl, isCommandVisible, toggleFilter}: Props) {
 
     const renderFilters = (group: Filter[]) => {
         return group.map((filter) => {
+            if (filter === null) {
+                return null;
+            }
             return (
                 <FilterTag
                     {...filter}
