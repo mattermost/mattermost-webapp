@@ -78,6 +78,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             [Constants.SettingsTypes.TYPE_LANGUAGE]: this.buildLanguageSetting,
             [Constants.SettingsTypes.TYPE_JOBSTABLE]: this.buildJobsTableSetting,
             [Constants.SettingsTypes.TYPE_FILE_UPLOAD]: this.buildFileUploadSetting,
+            [Constants.SettingsTypes.TYPE_ROLES]: this.buildRolesSetting,
             [Constants.SettingsTypes.TYPE_CUSTOM]: this.buildCustomSetting,
         };
         this.state = {
@@ -447,7 +448,13 @@ export default class SchemaAdminSettings extends React.PureComponent {
             inputType = 'textarea';
         }
 
-        let value = this.state[setting.key] || '';
+        let value = '';
+        if (setting.multiple) {
+            value = this.state[setting.key]?.join(',') || '';
+        } else {
+            value = this.state[setting.key] || '';
+        }
+
         if (setting.dynamic_value) {
             value = setting.dynamic_value(value, this.props.config, this.state, this.props.license);
         }
@@ -467,6 +474,7 @@ export default class SchemaAdminSettings extends React.PureComponent {
             <TextSetting
                 key={this.props.schema.id + '_text_' + setting.key}
                 id={setting.key}
+                multiple={setting.multiple}
                 type={inputType}
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(setting)}
@@ -554,6 +562,60 @@ export default class SchemaAdminSettings extends React.PureComponent {
                 label={this.renderLabel(setting)}
                 helpText={this.renderHelpText(selectedOptionForHelpText || setting)}
                 value={selectedValue}
+                disabled={this.isDisabled(setting)}
+                setByEnv={this.isSetByEnv(setting.key)}
+                onChange={this.handleChange}
+            />
+        );
+    }
+
+    buildRolesSetting = (setting) => {
+        const {roles} = this.props;
+
+        const values = Object.keys(roles).map((r) => {
+            const text = roles[r].display_name ? (
+                <FormattedMessage
+                    id={roles[r].display_name}
+                    defaultMessage={roles[r].name}
+                />
+            ) : roles[r].name;
+
+            return {
+                value: roles[r].name,
+                text,
+            };
+        });
+
+        if (setting.multiple) {
+            const noResultText = (
+                <FormattedMessage
+                    id={setting.no_result}
+                    defaultMessage={setting.no_result_default}
+                />
+            );
+            return (
+                <MultiSelectSetting
+                    key={this.props.schema.id + '_language_' + setting.key}
+                    id={setting.key}
+                    label={this.renderLabel(setting)}
+                    values={values}
+                    helpText={this.renderHelpText(setting)}
+                    selected={(this.state[setting.key] || [])}
+                    disabled={this.isDisabled(setting)}
+                    setByEnv={this.isSetByEnv(setting.key)}
+                    onChange={(changedId, value) => this.handleChange(changedId, value)}
+                    noResultText={noResultText}
+                />
+            );
+        }
+        return (
+            <DropdownSetting
+                key={this.props.schema.id + '_language_' + setting.key}
+                id={setting.key}
+                label={this.renderLabel(setting)}
+                values={values}
+                helpText={this.renderHelpText(setting)}
+                value={this.state[setting.key] || values[0].value}
                 disabled={this.isDisabled(setting)}
                 setByEnv={this.isSetByEnv(setting.key)}
                 onChange={this.handleChange}

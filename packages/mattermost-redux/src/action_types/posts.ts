@@ -54,4 +54,7 @@ export default keyMirror({
     MOVE_HISTORY_INDEX_FORWARD: null,
 
     RESET_POSTS_IN_CHANNEL: null,
+
+    MOVE_POST_SUCCESS: null,
+    MOVE_POST_FAILURE: null,
 });
