@@ -1,18 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {openModal} from 'actions/views/modals';
-import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {useParams, useHistory} from 'react-router-dom';
+import {useIntl, FormattedMessage} from 'react-intl';
+
+import styled from 'styled-components';
+
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+
+import CallButton from 'plugins/call_button';
+
+import './profile.scss';
+
+import {openModal} from 'actions/views/modals';
+
+import {useParams, useHistory, Link} from 'react-router-dom';
 import {ModalIdentifiers} from 'utils/constants';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
-import {FormattedMessage} from 'react-intl';
-
 import ProfileCard from '../profile_card/profile_card';
+
+import SendMessageButton from './send_message_button';
 
 import {useUser, useUserIdFromUsername} from './hooks';
 
@@ -45,20 +55,65 @@ const useUserFromRoute = () => {
 };
 
 const Profile = () => {
+    const {formatMessage} = useIntl();
     const user = useUserFromRoute();
-    const me = useSelector(getCurrentUser);
-    const canEdit = user?.id === me.id;
+    const currentUser = useSelector(getCurrentUser);
 
     return user && (
-        <aside>
-            <ProfileCard user={user}/>
-            {canEdit && <EditProfileBtn/>}
-        </aside>
+        <div className='UserProfile'>
+            <div className='UserProfile__header-card'>
+                <div className='UserProfile__header-card__top-section'>
+                    <Link
+                        className='UserProfile__header-card__top-section__back'
+                        to='/people'
+                    >
+                        <i className='icon-arrow-left'/>
+                        <FormattedMessage
+                            id={'user-profile.header.back-text'}
+                            defaultMessage={'Back to directory'}
+                        />
+                    </Link>
+                </div>
+                {/* <TimeZoneSelectMap
+                    timeZoneName={userProfile.timezone?.automaticTimezone || undefined}
+                /> */}
+            </div>
+            <div className='UserProfile__bottom-card'>
+                <ProfileCard
+                    user={user}
+                    css={`
+                        min-width: 320px;
+                    `}
+                    actions={user.id === currentUser.id ? (
+                        <EditProfileBtn/>
+                    ) : (
+                        <>
+                            <SendMessageButton
+                                user={user}
+                            >
+                                {formatMessage({id: 'people.teams.message', defaultMessage: 'Message'})}
+                            </SendMessageButton>
+                            <CallButton/>
+                        </>
+                    )}
+                />
+                <MainContent
+                    css={`
+                        width: 600px;
+                        min-height: 300px;
+                    `}
+                    id={'user-profile-details-card'}
+                />
+            </div>
+        </div>
     );
 };
 
+export default Profile;
+
 const EditProfileBtn = () => {
     const dispatch = useDispatch();
+    const {formatMessage} = useIntl();
 
     const openEditProfile = () => {
         dispatch(openModal({
@@ -71,18 +126,20 @@ const EditProfileBtn = () => {
     return (
         <button
             css={`
-                display: inline-block;
-                height: 32px;
-                margin: 1rem;
+                width: 100%;
             `}
+            className={'btn style--none btn-primary'}
             onClick={openEditProfile}
         >
-            <FormattedMessage
-                id='people.user_profile.edit'
-                defaultMessage='Edit Profile'
-            />
+            {formatMessage({id: 'people.user_profile.edit', defaultMessage: 'Edit Profile'})}
         </button>
     );
 };
 
-export default Profile;
+const MainContent = styled.div`
+    padding: 28px 32px;
+    border: 1px solid rgba(var(--sys-center-channel-color-rgb), 0.08);
+    background: var(--sys-center-channel-bg);
+    border-radius: 4px;
+    box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
+`;

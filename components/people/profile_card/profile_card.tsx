@@ -18,7 +18,7 @@ import {useUserCustomStatus, useUserStatus} from 'hooks/users';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ExpiryTime from 'components/custom_status/expiry_time';
 
-import {UserProfile} from '@mattermost/types/users';
+import {CustomStatusDuration, UserProfile} from '@mattermost/types/users';
 
 import './profile_card.scss';
 import {useUserDisplayMeta} from '../profile/hooks';
@@ -31,6 +31,8 @@ type ProfileCardProps = {
     teams?: string[];
     groups?: string[];
     onSubmit?: () => void;
+    actions?: React.ReactNode;
+    className?: string;
 } & ProfileDisplaySettings;
 
 type ProfileDisplaySettings = {
@@ -68,6 +70,8 @@ const ProfileCard = ({
     showTeams = Boolean(teams?.length),
     showGroups = Boolean(groups?.length),
     onSubmit,
+    actions,
+    className,
 }: ProfileCardProps) => {
     const {formatMessage} = useIntl();
 
@@ -164,7 +168,7 @@ const ProfileCard = ({
 
     return (
         <div
-            className='profile-card'
+            className={`profile-card ${className}`}
             key={`profile-card-${id}`}
             onClick={handleOnClick}
         >
@@ -203,7 +207,7 @@ const ProfileCard = ({
                     />
                     <span>
                         {customStatus.text}
-                        {customStatus.expires_at ? (
+                        {customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR ? (
                             <ExpiryTime
                                 css={`
                                     opacity: 0.7;
@@ -225,7 +229,7 @@ const ProfileCard = ({
             >
                 <span className='profile-card__detail profile-card__fullname'>{display.name}</span>
             </OverlayTrigger>
-            <span className='profile-card__detail'>{`@${username}`}</span>
+            <span className='profile-card__detail username'>{`@${username}`}</span>
             <OverlayTrigger
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='top'
@@ -236,6 +240,11 @@ const ProfileCard = ({
             {extended && (
                 <div className='profile-card__extended'>
                     {getExtended()}
+                </div>
+            )}
+            {actions && (
+                <div className='profile-card__actions'>
+                    {actions}
                 </div>
             )}
         </div>

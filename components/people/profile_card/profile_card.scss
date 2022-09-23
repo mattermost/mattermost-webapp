@@ -1,3 +1,6 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 .profile-card {
     display: flex;
     flex-direction: column;
@@ -109,5 +112,19 @@
                 -webkit-line-clamp: 2;
             }
         }
+
+        &__username {
+            font-size: 18px;
+            font-weight: 600;
+            line-height: 24px;
+        }
+    }
+
+    &__actions {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px 20px 0;
+        border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+        margin-top: 20px;
     }
 }

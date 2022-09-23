@@ -65,5 +65,4 @@ export default function People() {
 const PeopleRoot = styled.div`
     display: flex;
     height: 100%;
-    background: var(--center-channel-bg);
 `;
