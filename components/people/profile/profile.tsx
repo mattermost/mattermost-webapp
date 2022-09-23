@@ -16,8 +16,6 @@ import CallButton from 'plugins/call_button';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import TimeZoneSelectMap from '../timezone_map/timezone_map';
-
 import ProfileCard from '../profile_card/profile_card';
 
 import './profile.scss';
@@ -70,9 +68,9 @@ const Profile = ({user}: ProfileProps) => {
                         />
                     </a>
                 </div>
-                <TimeZoneSelectMap
+                {/* <TimeZoneSelectMap
                     timeZoneName={userProfile.timezone?.automaticTimezone || undefined}
-                />
+                /> */}
             </div>
             <div className='UserProfile__bottom-card'>
                 <ProfileCard
