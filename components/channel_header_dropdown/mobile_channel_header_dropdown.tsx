@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import StatusIcon from 'components/status_icon';
@@ -14,18 +13,22 @@ import {ChannelHeaderDropdownItems} from 'components/channel_header_dropdown';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import MobileChannelHeaderDropdownAnimation from './mobile_channel_header_dropdown_animation.jsx';
+import {UserProfile} from '@mattermost/types/users.js';
 
-export default class MobileChannelHeaderDropdown extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        channel: PropTypes.object.isRequired,
-        teammateId: PropTypes.string,
-        teammateIsBot: PropTypes.bool,
-        teammateStatus: PropTypes.string,
-        displayName: PropTypes.string.isRequired,
-    }
+import {Channel} from '@mattermost/types/channels.js';
 
+import MobileChannelHeaderDropdownAnimation from './mobile_channel_header_dropdown_animation';
+
+type Props = {
+    user: UserProfile;
+    channel: Channel;
+    teammateId: string | null;
+    teammateIsBot: boolean;
+    teammateStatus?: string;
+    displayName: string;
+}
+
+export default class MobileChannelHeaderDropdown extends React.PureComponent<Props> {
     getChannelTitle = () => {
         const {user, channel, teammateId, displayName} = this.props;
 
@@ -68,7 +71,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         {(title) => (
                             <span
                                 className='fa fa-angle-down header-dropdown__icon'
-                                title={title}
+                                title={title as unknown as string}
                             />
                         )}
                     </FormattedMessage>
@@ -79,7 +82,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                     defaultMessage='Channel Menu'
                 >
                     {(ariaLabel) => (
-                        <Menu ariaLabel={ariaLabel}>
+                        <Menu ariaLabel={ariaLabel as unknown as string}>
                             <ChannelHeaderDropdownItems isMobile={true}/>
                             <div className='Menu__close visible-xs-block'>
                                 {'×'}

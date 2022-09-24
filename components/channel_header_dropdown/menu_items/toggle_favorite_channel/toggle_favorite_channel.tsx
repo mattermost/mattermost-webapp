@@ -3,11 +3,11 @@
 
 import React from 'react';
 
-import {Channel} from '@mattermost/types/channels';
-
 import {localizeMessage} from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
+
+import {Channel} from '@mattermost/types/channels';
 
 type Action = {
     favoriteChannel: (channelId: string) => void;
@@ -15,6 +15,7 @@ type Action = {
 };
 
 type Props = {
+    id?: string;
     show: boolean;
     channel: Channel;
     isFavorite: boolean;
@@ -52,6 +53,7 @@ export default class ToggleFavoriteChannel extends React.PureComponent<Props> {
         }
         return (
             <Menu.ItemAction
+                id={this.props.id}
                 show={this.props.show}
                 onClick={this.handleClick}
                 text={text}
