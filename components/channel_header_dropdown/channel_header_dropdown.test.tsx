@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {shallow} from 'enzyme';
+
 import React from 'react';
+
 import {TestHelper} from 'utils/test_helper';
 
 import ChannelHeaderDropdown, {Props} from './channel_header_dropdown_items';
