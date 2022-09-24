@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import moment from 'moment';
 import {ProgressBar} from 'react-bootstrap';
+import {createEncoder} from 'wasm-media-encoders';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -35,9 +36,9 @@ const VoiceMessagePreview = () => {
 
     const audioContextRef = useRef<AudioContext>();
     const audioAnalyzerRef = useRef<AnalyserNode>();
-
+    const audioScriptProcessorRef = useRef<ScriptProcessorNode>();
     const audioRecorderRef = useRef<MediaRecorder>();
-    const audioChunksRef = useRef<Blob[]>([]);
+    const audioChannelDataRef = useRef<Float32Array>();
 
     const refreshIntervalTimer = useRef<ReturnType<typeof setTimeout> | null>();
     const countdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -91,6 +92,10 @@ const VoiceMessagePreview = () => {
             audioRecorderRef.current.stop();
         }
 
+        if (audioScriptProcessorRef.current) {
+            audioScriptProcessorRef.current.disconnect();
+        }
+
         if (refreshIntervalTimer && refreshIntervalTimer.current) {
             clearInterval(refreshIntervalTimer.current);
         }
@@ -115,12 +120,12 @@ const VoiceMessagePreview = () => {
         audioChunksRef.current.push(event.data);
     }
 
-    function onRecordedStopped() {
-        const audioBlob = new Blob(audioChunksRef.current);
-        const audioUrl = URL.createObjectURL(audioBlob);
-        console.log('audioUrl', audioUrl);
-        audioChunksRef.current = [];
-    }
+    // function onRecordedStopped() {
+    //     const audioBlob = new Blob(audioChunksRef.current);
+    //     const audioUrl = URL.createObjectURL(audioBlob);
+    //     console.log('audioUrl', audioUrl);
+    //     audioChunksRef.current = [];
+    // }
 
     async function startRecording() {
         try {
@@ -129,32 +134,41 @@ const VoiceMessagePreview = () => {
             });
 
             const AudioContext = window.AudioContext || window.webkitAudioContext;
-            const audioCtx = new AudioContext();
-            const audioAnalyzer = audioCtx.createAnalyser();
+            const audioContext = new AudioContext();
+
+            const audioAnalyzer = audioContext.createAnalyser();
             audioAnalyzer.fftSize = 32;
 
-            audioRecorderRef.current = new MediaRecorder(audioStream, {
-                audioBitsPerSecond: 128000,
+            const audioSourceNode = audioContext.createMediaStreamSource(audioStream);
+
+            const wasmFileURL = new URL('wasm-media-encoders/wasm/mp3', import.meta.url);
+            const encoder = await createEncoder('audio/mpeg', wasmFileURL.href);
+
+            encoder.configure({
+                sampleRate: 48000,
+                channels: 2,
+                vbrQuality: 2,
             });
 
-            audioRecorderRef.current.start();
+            const scriptProcessorNode = audioContext.createScriptProcessor(4096, 1, 1);
 
-            audioRecorderRef.current.ondataavailable = (event) => {
-                pushStreamToAudioChunks(event);
+            scriptProcessorNode.onaudioprocess = (event) => {
+                const inputBuffer = event.inputBuffer;
+                const inputData = inputBuffer.getChannelData(0);
+                console.log('inputData', inputData);
             };
 
-            audioRecorderRef.current.onstop = () => {
-                onRecordedStopped();
-            };
+            audioSourceNode.connect(audioAnalyzer).connect(scriptProcessorNode);
 
-            const audioSourceNode = audioCtx.createMediaStreamSource(audioStream);
-            audioSourceNode.connect(audioAnalyzer);
+            const muteNode = audioContext.createGain();
+            muteNode.gain.value = 0;
 
-            audioAnalyzer.minDecibels = -90;
-            audioAnalyzer.maxDecibels = -10;
+            scriptProcessorNode.connect(muteNode);
+            muteNode.connect(audioContext.destination);
 
-            audioContextRef.current = audioCtx;
+            audioContextRef.current = audioContext;
             audioAnalyzerRef.current = audioAnalyzer;
+            audioScriptProcessorRef.current = scriptProcessorNode;
 
             refreshIntervalTimer.current = setInterval(() => {
                 refreshAnalyzer();
@@ -172,9 +186,7 @@ const VoiceMessagePreview = () => {
     function handleCompleteRecordingClicked() {
         setVoiceMessageIs(VoiceMessageStates.Encoding);
 
-        if (audioRecorderRef.current) {
-            audioRecorderRef.current.stop();
-        }
+        cleanUpAfterRecordings();
     }
 
     // We start the recording as soon as the component is mounted
@@ -245,7 +257,6 @@ const VoiceMessagePreview = () => {
                         now={20}
                         active={20 === 100}
                     />
-                    <audio controls src='https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3'/>
                 </ControlsColumn>
             </div>
         </div>
