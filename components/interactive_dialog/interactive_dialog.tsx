@@ -18,7 +18,47 @@ import {localizeMessage} from 'utils/utils';
 import DialogElement from './dialog_element';
 import DialogIntroductionText from './dialog_introduction_text';
 
-export default class InteractiveDialog extends React.PureComponent {
+interface Props {
+    elements: {
+        map: (e: unknown) => void;
+        length: number;
+        forEach: (e: unknown) => void;
+    };
+    data: {
+        errors: string;
+        error: unknown;
+        elements: unknown;
+    };
+    actions: {
+        submitInteractiveDialog: (dialog: unknown) => unknown;
+        checkIfErrorsMatchElements: () => void;
+    };
+    name: string;
+    default: boolean | null;
+    type: boolean | string;
+    title: string;
+    introductionText: string;
+    iconUrl: string;
+    submitLabel: JSX.Element;
+    url: string;
+    callbackId: unknown;
+    state: boolean;
+    notifyOnCancel: unknown;
+    onChange: (name: string, value: string) => string;
+    onExited: () => void;
+    emojiMap: Record<string, never>;
+    style?: React.CSSProperties | undefined;
+}
+
+type State = {
+    show: boolean;
+    values: { [x: string]: string | boolean};
+    error: unknown;
+    errors: string;
+    submitting: boolean;
+}
+
+export default class InteractiveDialog extends React.PureComponent <Props, State > {
     static propTypes = {
         url: PropTypes.string.isRequired,
         callbackId: PropTypes.string,
@@ -36,12 +76,12 @@ export default class InteractiveDialog extends React.PureComponent {
         emojiMap: PropTypes.object.isRequired,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
-        const values = {};
+        const values: Record<string, boolean> = {};
         if (props.elements != null) {
-            props.elements.forEach((e) => {
+            props.elements.forEach((e: any) => {
                 if (e.type === 'bool') {
                     values[e.name] =
                         e.default === true ||
@@ -56,19 +96,19 @@ export default class InteractiveDialog extends React.PureComponent {
             show: true,
             values,
             error: null,
-            errors: {},
+            errors: '',
             submitting: false,
         };
     }
 
-    handleSubmit = async (e) => {
+    handleSubmit = async (e: { preventDefault: () => void}): Promise<void> => {
         e.preventDefault();
 
         const {elements} = this.props;
         const values = this.state.values;
-        const errors = {};
+        const errors = '';
         if (elements) {
-            elements.forEach((elem) => {
+            elements.forEach((elem: any, values: any, errors: any) => {
                 const error = checkDialogElementForError(
                     elem,
                     values[elem.name],
@@ -91,18 +131,19 @@ export default class InteractiveDialog extends React.PureComponent {
             return;
         }
 
-        const {url, callbackId, state} = this.props;
+        const {url, callbackId, state}: Props = this.props;
 
         const dialog = {
             url,
             callback_id: callbackId,
             state,
             submission: values,
+            errors,
         };
 
         this.setState({submitting: true});
 
-        const {data} = await this.props.actions.submitInteractiveDialog(
+        const {data}: any = this.props.actions.submitInteractiveDialog(
             dialog,
         );
 
@@ -119,7 +160,7 @@ export default class InteractiveDialog extends React.PureComponent {
             if (
                 data.errors &&
                 Object.keys(data.errors).length >= 0 &&
-                checkIfErrorsMatchElements(data.errors, elements)
+                checkIfErrorsMatchElements(data.errors)
             ) {
                 hasErrors = true;
                 this.setState({errors: data.errors});
@@ -152,7 +193,7 @@ export default class InteractiveDialog extends React.PureComponent {
         this.setState({show: false});
     };
 
-    onChange = (name, value) => {
+    onChange = (name: string, value: string) => {
         const values = {...this.state.values, [name]: value};
         this.setState({values});
     };
@@ -207,7 +248,7 @@ export default class InteractiveDialog extends React.PureComponent {
                 >
                     <Modal.Header
                         closeButton={true}
-                        style={{borderBottom: elements == null && '0px'}}
+                        style={{borderBottom: '0px'}}
                     >
                         <Modal.Title
                             componentClass='h1'
@@ -227,10 +268,9 @@ export default class InteractiveDialog extends React.PureComponent {
                                 />
                             )}
                             {elements &&
-                            elements.map((e, index) => {
+                            elements.map((e: any) => {
                                 return (
                                     <DialogElement
-                                        autoFocus={index === 0}
                                         key={'dialogelement' + e.name}
                                         displayName={e.display_name}
                                         name={e.name}

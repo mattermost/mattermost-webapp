@@ -29,6 +29,7 @@ type Props = {
     placeholder?: string;
     helpText?: string;
     errorText?: React.ReactNode;
+    minLength?: number;
     maxLength?: number;
     dataSource?: string;
     optional?: boolean;
@@ -36,7 +37,7 @@ type Props = {
         text: string;
         value: string;
     }>;
-    value?: string | boolean;
+    value?: string | boolean ;
     onChange: (name: string, selected: string) => void;
     autoFocus?: boolean;
     actions: {

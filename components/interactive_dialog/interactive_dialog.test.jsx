@@ -11,7 +11,7 @@ import EmojiMap from 'utils/emoji_map';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import mockStore from 'tests/test_store';
 
-import InteractiveDialog from './interactive_dialog.jsx';
+import InteractiveDialog from './interactive_dialog.tsx';
 
 describe('components/interactive_dialog/InteractiveDialog', () => {
     const baseProps = {
