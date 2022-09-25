@@ -14,6 +14,12 @@
     border-radius: 4px;
     box-shadow: var(--elevation-1);
 
+    // HACKHACKHACK: <Highlight> component wraps in empty div
+    > div {
+        display: flex;
+        flex-direction: column;
+    }
+
     &__role {
         width: fit-content;
         padding: 0 4px;
@@ -60,6 +66,7 @@
     }
 
     &__detail {
+        height: 20px;
         padding: 0 16px;
         color: var(--center-channel-text);
         font-size: 14px;
@@ -105,7 +112,6 @@
         }
 
         &__detail {
-            height: 20px;
             padding: 0;
             text-align: left;
 
@@ -140,5 +146,9 @@
                 padding: 11px 18px;
             }
         }
+    }
+
+    mark {
+        background-color: $highlight-color;
     }
 }

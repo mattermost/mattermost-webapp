@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 
 import {General} from 'mattermost-redux/constants';
 
+import Highlight from 'components/admin_console/highlight';
 import OverlayTrigger from 'components/overlay_trigger';
 import StatusIcon from 'components/status_icon';
 import Tooltip from 'components/tooltip';
@@ -32,6 +33,7 @@ type ProfileCardProps = {
     showLocation?: boolean;
     showTeams?: boolean;
     showGroups?: boolean;
+    filter?: string;
     footer?: React.ReactNode;
     onSubmit?: () => void;
 }
@@ -50,6 +52,7 @@ const ProfileCard = ({
     showLocation,
     showTeams,
     showGroups,
+    filter = '',
     footer,
     onSubmit,
 }: ProfileCardProps) => {
@@ -166,26 +169,28 @@ const ProfileCard = ({
                     button={true}
                 />
             </div>
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
-            >
-                <span className='profile-card__detail profile-card__fullname'>{fullname}</span>
-            </OverlayTrigger>
-            <span className='profile-card__detail username'>{username}</span>
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
-            >
-                <span className='profile-card__detail'>{position}</span>
-            </OverlayTrigger>
-            {extended && (
-                <div className='profile-card__extended'>
-                    {getExtended()}
-                </div>
-            )}
+            <Highlight filter={filter}>
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
+                >
+                    <span className='profile-card__detail profile-card__fullname'>{fullname}</span>
+                </OverlayTrigger>
+                <span className='profile-card__detail'>{username}</span>
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
+                >
+                    <span className='profile-card__detail'>{position}</span>
+                </OverlayTrigger>
+                {extended && (
+                    <div className='profile-card__extended'>
+                        {getExtended()}
+                    </div>
+                )}
+            </Highlight>
             {footer}
         </div>
     );

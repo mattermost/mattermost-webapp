@@ -65,6 +65,7 @@ const PeopleList = ({
                         user={user}
                         avatarSrc={imageURLForUser(user.id)}
                         role={'system_user'}
+                        filter={searchTerms}
                         onSubmit={() => {}}
                     />
                 </div>
