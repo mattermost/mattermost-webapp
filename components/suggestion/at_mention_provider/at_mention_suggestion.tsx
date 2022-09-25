@@ -17,15 +17,32 @@ import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import StatusIcon from 'components/status_icon';
 
+interface Item {
+    is_bot: any;
+    remote_id: any;
+    status: string;
+    last_picture_update: number;
+    display_name: any;
+    name: string;
+    isCurrentUser: any;
+    type: string;
+    id: string;
+    username: string;
+    nickname: string;
+    first_name: string;
+    last_name: string;
+    roles: string;
+}
+
 export default class AtMentionSuggestion extends Suggestion {
     render() {
-        const isSelection = this.props.isSelection;
-        const item = this.props.item;
+        const isSelection: true | false = this.props.isSelection;
+        const item: Item = this.props.item;
 
-        let itemname;
-        let description;
-        let icon;
-        let customStatus;
+        let itemname: string;
+        let description: JSX.Element | string | null = null;
+        let icon: JSX.Element;
+        let customStatus: JSX.Element | null = null;
         if (item.username === 'all') {
             itemname = 'all';
             description = (
@@ -45,7 +62,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title}
+                                title={title as any}
                             />
                         </span>
                     )}
@@ -70,7 +87,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title}
+                                title={title as any}
                             />
                         </span>
                     )}
@@ -95,7 +112,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title}
+                                title={title as any}
                             />
                         </span>
                     )}
@@ -113,7 +130,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title}
+                                title={title as any}
                             />
                         </span>
                     )}
@@ -126,14 +143,14 @@ export default class AtMentionSuggestion extends Suggestion {
                 if (item.first_name || item.last_name) {
                     description = (
                         <span className='ml-2'>
-                            {Utils.getFullName(item)}
+                            {Utils.getFullName(item as any)}
                         </span>
                     );
                 }
             } else if (item.first_name || item.last_name || item.nickname) {
                 description = (
                     <span className='ml-2'>
-                        {`${Utils.getFullName(item)} ${
+                        {`${Utils.getFullName(item as any)} ${
                             item.nickname ? `(${item.nickname})` : ''
                         }`.trim()}
                     </span>
