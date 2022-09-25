@@ -15,7 +15,6 @@ export const getAllLogs = createSelector(
     'getAllLogs',
     getLogs,
     (logs) => {
-        console.log(logs);
         return Object.values(logs).reduce<LogObject[]>((acc, log) => {
             acc.push(...log);
             return acc;

@@ -12,7 +12,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import LogList from './log_list';
+import Logs from './logs';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -20,4 +20,12 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 
-export default connect(mapStateToProps)(LogList);
+function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+    return {
+        actions: bindActionCreators({
+            getLogs,
+        }, dispatch),
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logs);

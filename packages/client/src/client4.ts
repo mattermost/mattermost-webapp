@@ -7,7 +7,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import FormData from 'form-data';
 
 import {SystemSetting} from '@mattermost/types/general';
-import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
+import {ClusterInfo, AnalyticsRow, SchemaMigration, LogFilter} from '@mattermost/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
@@ -2946,10 +2946,10 @@ export default class Client4 {
 
     // Admin Routes
 
-    getLogs = (page = 0, perPage = LOGS_PER_PAGE_DEFAULT) => {
+    getLogs = (logFilter: LogFilter) => {
         return this.doFetch<string[]>(
-            `${this.getBaseRoute()}/logs${buildQueryString({page, logs_per_page: perPage})}`,
-            {method: 'get'},
+            `${this.getBaseRoute()}/logs`,
+            {method: 'post', body: JSON.stringify(logFilter)},
         );
     };
 

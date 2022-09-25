@@ -10,25 +10,23 @@ import LoadingScreen from 'components/loading_screen';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import {LogObject, LogsSortByEnum, LogsSortOrderEnum} from '@mattermost/types/admin';
+import {LogFilter, LogLevels, LogObject, LogServerNames} from '@mattermost/types/admin';
 
-// import LogList from './log_list';
-
-type GetLogsPayload = {
-    search: string;
-    sortBy: LogsSortByEnum;
-    sortOrder: LogsSortOrderEnum;
-}
+import LogList from './log_list';
 
 type Props = {
-    logs: any[string];
+    logs: LogObject[];
+    actions: {
+        getLogs: (logFilter: LogFilter) => ActionFunc;
+    };
 };
 
 type State = {
     loadingLogs: boolean;
-    search: string;
-    sortBy: LogsSortByEnum;
-    sortOrder: LogsSortOrderEnum;
+    serverNames: LogServerNames;
+    logLevels: LogLevels;
+    dateFrom: string;
+    dateTo: string;
 };
 
 export default class Logs extends React.PureComponent<Props, State> {
@@ -36,9 +34,10 @@ export default class Logs extends React.PureComponent<Props, State> {
         super(props);
         this.state = {
             loadingLogs: true,
-            search: '',
-            sortBy: LogsSortByEnum.TIMESTAMP,
-            sortOrder: LogsSortOrderEnum.DESC,
+            serverNames: [],
+            logLevels: [],
+            dateFrom: '',
+            dateTo: '',
         };
     }
 
@@ -48,7 +47,12 @@ export default class Logs extends React.PureComponent<Props, State> {
 
     reload = async () => {
         this.setState({loadingLogs: true});
-        await this.props.actions.getLogs({search: this.state.search, sortBy: this.state.sortBy, sortOrder: this.state.sortOrder});
+        await this.props.actions.getLogs({
+            serverNames: this.state.serverNames,
+            logLevels: this.state.logLevels,
+            dateFrom: this.state.dateFrom,
+            dateTo: this.state.dateTo,
+        });
         this.setState({loadingLogs: false});
     }
 
