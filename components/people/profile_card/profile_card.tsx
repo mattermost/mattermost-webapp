@@ -34,7 +34,8 @@ type ProfileCardProps = {
     showTeams?: boolean;
     showGroups?: boolean;
     filter?: string;
-    onSubmit: () => void;
+    footer?: React.ReactNode;
+    onSubmit?: () => void;
 }
 
 const ProfileCard = ({
@@ -52,6 +53,7 @@ const ProfileCard = ({
     showTeams,
     showGroups,
     filter = '',
+    footer,
     onSubmit,
 }: ProfileCardProps) => {
     const {formatMessage} = useIntl();
@@ -141,7 +143,7 @@ const ProfileCard = ({
     const handleOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
 
-        onSubmit();
+        onSubmit?.();
     };
 
     return (
@@ -189,6 +191,7 @@ const ProfileCard = ({
                     </div>
                 )}
             </Highlight>
+            {footer}
         </div>
     );
 };
