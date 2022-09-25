@@ -191,7 +191,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
             const {userIsActive, manual} = desktopMessage.data.message;
 
             // update the server with the users current away status
-            if (userIsActive === true || userIsActive === false) {
+            if (userIsActive || !userIsActive) {
                 WebSocketClient.userUpdateActiveStatus(userIsActive, manual);
             }
             break;
@@ -210,7 +210,11 @@ export default class LoggedIn extends React.PureComponent<Props> {
     private handleBackSpace = (e: KeyboardEvent): void => {
         const excludedElements = ['input', 'textarea'];
 
-        if (e.which === BACKSPACE_CHAR && !(excludedElements.includes((e.target as HTMLElement).tagName.toLowerCase())) && (e.target as HTMLElement)?.getAttribute?.('role') !== 'textbox') {
+        if (
+            e.which === BACKSPACE_CHAR &&
+            !(excludedElements.includes((e.target as HTMLElement).tagName.toLowerCase())) &&
+            (e.target as HTMLElement)?.getAttribute?.('contentditable') !== 'true'
+        ) {
             e.preventDefault();
         }
     }

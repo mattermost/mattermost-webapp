@@ -8,10 +8,10 @@ import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useFloating, offset} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
-import {DotsHorizontalIcon} from '@mattermost/compass-icons/components';
+import {ChevronDownIcon} from '@mattermost/compass-icons/components';
 
 import ToolbarControl, {
-    IconContainer,
+    DropdownContainer,
     makeControlActiveAssertionMap,
     makeControlHandlerMap,
     MarkdownHeadingModes,
@@ -186,18 +186,19 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
 
     return (
         <ToolbarContainer ref={formattingBarRef}>
-            <IconContainer
+            <DropdownContainer
                 id={'HiddenControlsButton' + location}
                 ref={reference}
                 className={classNames({active: showHeadingControls})}
                 onClick={toggleHeadingControls}
                 aria-label={HiddenControlsButtonAriaLabel}
             >
-                <DotsHorizontalIcon
+                {'Normal text'}
+                <ChevronDownIcon
                     color={'currentColor'}
                     size={18}
                 />
-            </IconContainer>
+            </DropdownContainer>
             <CSSTransition
                 timeout={250}
                 classNames='scale'

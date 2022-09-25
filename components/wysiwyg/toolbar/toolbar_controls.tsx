@@ -42,6 +42,7 @@ export const IconContainer = styled.button`
     border: none;
     background: transparent;
     padding: 0;
+    gap: 4px;
     border-radius: 4px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
 
@@ -64,6 +65,11 @@ export const IconContainer = styled.button`
             fill: inherit;
         }
     }
+`;
+
+export const DropdownContainer = styled(IconContainer)`
+    width: auto;
+    padding: 8px;
 `;
 
 export type MarkdownMode = 'bold' | 'italic' | 'link' | 'strike' | 'code' | 'codeBlock' | 'quote' | 'ul' | 'ol' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
