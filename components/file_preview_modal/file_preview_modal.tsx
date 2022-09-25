@@ -336,7 +336,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                     dialogClassName += ' modal-code';
                     content = (
                         <CodePreview
-                            fileInfo={fileInfo}
+                            fileInfo={fileInfo as FileInfo}
                             fileUrl={fileUrl}
                             className='file-preview-modal__code-preview'
                         />

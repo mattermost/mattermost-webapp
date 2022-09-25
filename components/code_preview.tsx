@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import Constants from 'utils/constants';
@@ -10,8 +9,26 @@ import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import FileInfoPreview from 'components/file_info_preview';
 
-export default class CodePreview extends React.PureComponent {
-    constructor(props) {
+import {FileInfo} from '@mattermost/types/files';
+
+import {LinkInfo} from './file_preview_modal/types';
+
+type Props = {
+    fileInfo: FileInfo;
+    fileUrl: string;
+    className: string;
+};
+
+type State = {
+    code: string;
+    lang: string;
+    loading: boolean;
+    success: boolean;
+    prevFileUrl?: string;
+}
+
+export default class CodePreview extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -26,7 +43,7 @@ export default class CodePreview extends React.PureComponent {
         this.getCode();
     }
 
-    static getDerivedStateFromProps(props, state) {
+    static getDerivedStateFromProps(props: Props, state: State) {
         if (props.fileUrl !== state.prevFileUrl) {
             const usedLanguage = SyntaxHighlighting.getLanguageFromFileExtension(props.fileInfo.extension);
 
@@ -50,7 +67,7 @@ export default class CodePreview extends React.PureComponent {
         return null;
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (this.props.fileUrl !== prevProps.fileUrl) {
             this.getCode();
         }
@@ -69,7 +86,7 @@ export default class CodePreview extends React.PureComponent {
         }
     }
 
-    handleReceivedCode = (data) => {
+    handleReceivedCode = (data: any) => {
         let code = data;
         if (data.nodeName === '#document') {
             code = new XMLSerializer().serializeToString(data);
@@ -85,7 +102,7 @@ export default class CodePreview extends React.PureComponent {
         this.setState({loading: false, success: false});
     }
 
-    static supports(fileInfo) {
+    static supports(fileInfo: FileInfo | LinkInfo) {
         return Boolean(SyntaxHighlighting.getLanguageFromFileExtension(fileInfo.extension));
     }
 
@@ -126,8 +143,3 @@ export default class CodePreview extends React.PureComponent {
         );
     }
 }
-
-CodePreview.propTypes = {
-    fileInfo: PropTypes.object.isRequired,
-    fileUrl: PropTypes.string.isRequired,
-};
