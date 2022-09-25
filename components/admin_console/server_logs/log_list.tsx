@@ -3,30 +3,24 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {Link} from 'react-router-dom';
 
-import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {LogObject} from '@mattermost/types/admin';
-
-import {ChannelWithTeamData, ChannelSearchOpts} from '@mattermost/types/channels';
-import {debounce} from 'mattermost-redux/actions/helpers';
-
-import {browserHistory} from 'utils/browser_history';
-import {trackEvent} from 'actions/telemetry_actions.jsx';
-
-import {Constants} from 'utils/constants';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import {FilterOptions} from 'components/admin_console/filter/filter';
-import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
+
+import {LogFilter, LogObject} from '@mattermost/types/admin';
+import {ChannelSearchOpts} from '@mattermost/types/channels';
 
 type Props = {
     logs: LogObject[];
+    getLogs: (logFilter: LogFilter) => ActionFunc;
 };
 
 type State = {
     loading: boolean;
-    term: string[],
+    term: string;
     filters: FilterOptions;
+    page: number;
 };
 
 export default class LogList extends React.PureComponent<Props, State> {
@@ -34,30 +28,17 @@ export default class LogList extends React.PureComponent<Props, State> {
         super(props);
         this.state = {
             loading: false,
-            term: [],
-            filters: {}
+            term: '',
+            filters: {},
+            page: 1,
         };
     }
 
-    componentDidMount() {
-        this.loadPage();
-    }
-
     isSearching = (term: string, filters: ChannelSearchOpts) => {
-        // return term.length > 0 || Object.keys(filters).length > 0;
+        return term.length > 0 || Object.keys(filters).length > 0;
     }
 
-    loadPage = async (page = 0, term = '', filters = {}) => {
-        this.setState({loading: true, term, filters});
-
-        // await this.props.actions.getData(page, PAGE_SIZE, '', false, true);
-        // this.setState({page, loading: false});
-    }
-
-
-    onSearch = async (term = '') => {
-        // this.loadPage(0, term, this.state.filters);
-    }
+    onSearch = async () => {}
 
     getColumns = (): Column[] => {
         const caller: JSX.Element = (
@@ -66,7 +47,7 @@ export default class LogList extends React.PureComponent<Props, State> {
                 defaultMessage='Caller'
             />
         );
-        const job_id: JSX.Element = (
+        const jobId: JSX.Element = (
             <FormattedMessage
                 id='admin.logs.id'
                 defaultMessage='Job ID'
@@ -105,7 +86,7 @@ export default class LogList extends React.PureComponent<Props, State> {
                 fixed: true,
             },
             {
-                name: job_id,
+                name: jobId,
                 field: 'job_id',
                 width: 1.5,
                 fixed: true,
@@ -140,8 +121,6 @@ export default class LogList extends React.PureComponent<Props, State> {
     }
 
     getRows = (): Row[] => {
-        const {channels, term, filters} = this.state;
-
         return this.props.logs.map((log: LogObject) => {
             return {
                 cells: {
@@ -169,25 +148,25 @@ export default class LogList extends React.PureComponent<Props, State> {
                         <span
                             className='group-description row-content'
                         >
-                        {log.msg}
+                            {log.msg}
                         </span>
                     ),
                     timestamp: (
                         <span
                             className='group-description row-content'
                         >
-                        {log.timestamp}
+                            {log.timestamp}
                         </span>
                     ),
                     worker: (
                         <span
                             className='group-description row-content'
                         >
-                        {log.worker}
+                            {log.worker}
                         </span>
                     ),
                 },
-                onClick: () => browserHistory.push(`/admin_console/user_management/channels/${channel.id}`),
+                onClick: () => {/* browserHistory.push(`/admin_console/user_management/channels/${channel.id}`) */},
             };
         });
     }
@@ -199,7 +178,7 @@ export default class LogList extends React.PureComponent<Props, State> {
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
 
-        let placeholderEmpty: JSX.Element = (
+        const placeholderEmpty: JSX.Element = (
             <FormattedMessage
                 id='admin.channel_settings.channel_list.no_channels_found'
                 defaultMessage='No channels found'
@@ -210,8 +189,7 @@ export default class LogList extends React.PureComponent<Props, State> {
             minHeight: `${rows.length * 40}px`,
         };
 
-        const filterOptions = {};
-        const filterProps = {};
+        const logsCount = this.props.logs?.length ?? 0;
 
         return (
             <div className='LogTable'>
@@ -219,14 +197,16 @@ export default class LogList extends React.PureComponent<Props, State> {
                     columns={columns}
                     rows={rows}
                     loading={this.state.loading}
-                    // startCount={startCount}
-                    // endCount={endCount}
-                    // total={total}
+                    startCount={1}
+                    endCount={logsCount}
+                    total={logsCount}
                     onSearch={this.onSearch}
-                    // term={term}
-                    // placeholderEmpty={placeholderEmpty}
+                    term={term}
+                    placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}
-                    // filterProps={filterProps}
+                    page={1}
+                    nextPage={() => {}}
+                    previousPage={() => {}}
                 />
             </div>
         );

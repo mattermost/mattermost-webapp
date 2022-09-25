@@ -59,12 +59,13 @@ export default class Logs extends React.PureComponent<Props, State> {
     render() {
         let content = null;
 
-        if (this.state.loadingLogs || !this.props.logs) {
+        if (this.state.loadingLogs) {
             content = <LoadingScreen/>;
         } else {
             content = (
                 <LogList
-                    {...this.props}
+                    logs={this.props.logs}
+                    getLogs={this.props.actions.getLogs}
                 />
             );
         }
