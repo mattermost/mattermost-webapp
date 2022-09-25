@@ -4,11 +4,6 @@
 import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
-import {Role} from '@mattermost/types/roles';
-import {CloudState, Product} from '@mattermost/types/cloud';
-import {DeepPartial} from '@mattermost/types/utilities';
-import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import AnnouncementBar from 'components/announcement_bar';
@@ -17,6 +12,11 @@ import ModalController from 'components/modal_controller';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import DiscardChangesModal from 'components/discard_changes_modal';
 import BackstageNavbar from 'components/backstage/components/backstage_navbar';
+
+import {Role} from '@mattermost/types/roles';
+import {CloudState, Product} from '@mattermost/types/cloud';
+import {DeepPartial} from '@mattermost/types/utilities';
+import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';

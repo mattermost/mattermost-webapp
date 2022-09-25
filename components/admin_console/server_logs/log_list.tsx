@@ -80,42 +80,45 @@ export default class LogList extends React.PureComponent<Props, State> {
 
         return [
             {
-                name: caller,
                 field: 'caller',
+                fixed: true,
+                name: caller,
+                textAlign: 'left',
                 width: 2,
-                fixed: true,
             },
             {
-                name: jobId,
                 field: 'job_id',
-                width: 1.5,
                 fixed: true,
+                name: jobId,
+                textAlign: 'left',
+                width: 1.5,
             },
             {
-                name: level,
                 field: 'level',
-                width: 1.5,
                 fixed: true,
+                name: level,
+                textAlign: 'left',
+                width: 1.5,
             },
             {
+                field: 'msg',
+                fixed: true,
                 name: msg,
-                field: 'message',
-                textAlign: 'right',
+                textAlign: 'left',
                 width: 1.5,
-                fixed: true,
             },
             {
-                name: timestamp,
                 field: 'timestamp',
-                textAlign: 'right',
-                width: 1.5,
                 fixed: true,
+                name: timestamp,
+                textAlign: 'left',
+                width: 1.5,
             },
             {
-                name: worker,
                 field: 'worker',
-                textAlign: 'right',
                 fixed: true,
+                name: worker,
+                textAlign: 'left',
             },
         ];
     }
@@ -147,6 +150,7 @@ export default class LogList extends React.PureComponent<Props, State> {
                     msg: (
                         <span
                             className='group-description row-content'
+                            title={log.msg}
                         >
                             {log.msg}
                         </span>
