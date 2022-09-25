@@ -28,6 +28,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
 import TexteditorActions from './texteditor_actions';
@@ -83,17 +84,19 @@ type Props = {
     hideEmojiPicker: () => void;
     toggleAdvanceTextEditor: () => void;
     handleUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    handleUploadError: (err: string | ServerError, clientId: string, channelId: string) => void;
+    handleUploadError: (err: string | ServerError, clientId?: string, channelId?: string) => void;
     handleFileUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
     handleUploadStart: (clientIds: string[], channelId: string) => void;
     handleFileUploadChange: () => void;
-    getFileUploadTarget: () => TextboxClass | null;
+    getFileUploadTarget: () => HTMLInputElement | null;
     fileUploadRef: React.RefObject<FileUploadClass>;
     prefillMessage?: (message: string, shouldFocus?: boolean) => void;
     channelId: string;
     postId: string;
     textboxRef: React.RefObject<TextboxClass>;
     isThreadView?: boolean;
+    additionalControls?: React.ReactNodeArray;
+    labels?: React.ReactNode;
 }
 
 const AdvanceTextEditor = ({
@@ -148,6 +151,8 @@ const AdvanceTextEditor = ({
     prefillMessage,
     textboxRef,
     isThreadView,
+    additionalControls,
+    labels,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -360,6 +365,7 @@ const AdvanceTextEditor = ({
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
             disableControls={shouldShowPreview}
+            additionalControls={additionalControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
             showFormattingControls={!isFormattingBarHidden}
@@ -391,7 +397,10 @@ const AdvanceTextEditor = ({
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
                 >
+                    {labels}
                     <Textbox
+                        hasLabels={Boolean(labels)}
+                        suggestionList={RhsSuggestionList}
                         onChange={handleChange}
                         onKeyPress={postMsgKeyPress}
                         onKeyDown={handleKeyDown}
@@ -414,6 +423,7 @@ const AdvanceTextEditor = ({
                         badConnection={badConnection}
                         listenForMentionKeyClick={true}
                         useChannelMentions={useChannelMentions}
+                        rootId={postId}
                     />
                     {attachmentPreview}
                     <TexteditorActions

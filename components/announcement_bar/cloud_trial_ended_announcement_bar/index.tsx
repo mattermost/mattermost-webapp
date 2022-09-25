@@ -15,9 +15,7 @@ import {
     CloudBanners,
     CloudProducts,
 } from 'utils/constants';
-import {anyUsageDeltaExceededLimit} from 'utils/limits';
 import {GlobalState} from 'types/store';
-import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -32,7 +30,6 @@ import {
 } from 'mattermost-redux/selectors/entities/cloud';
 
 const CloudTrialEndAnnouncementBar: React.FC = () => {
-    const usageDeltas = useGetUsageDeltas();
     const limits = useGetLimits();
     const subscription = useGetSubscription();
     const getCategory = makeGetCategory();
@@ -105,21 +102,17 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         );
     };
 
-    let message = {
-        id: t('freemium.banner.trial_ended.premium_features'),
+    const message = {
+        id: t('starter.banner.downgraded'),
         defaultMessage:
-            'Your trial has ended. Upgrade to regain access to paid features',
+            'Your workspace now has restrictions and some data has been archived',
     };
-
-    if (anyUsageDeltaExceededLimit(usageDeltas) || usageDeltas.teams.cloudArchived) {
-        message = {id: t('freemium.banner.trial_ended.archived_data'), defaultMessage: 'Your trial has ended. Upgrade to regain access to archived data'};
-    }
 
     return (
         <AnnouncementBar
             type={AnnouncementBarTypes.CRITICAL}
             showCloseButton={true}
-            onButtonClick={openPricingModal}
+            onButtonClick={() => openPricingModal({trackingLocation: 'cloud_trial_ended_announcement_bar'})}
             modalButtonText={t('more.details')}
             modalButtonDefaultText={'More details'}
             message={<FormattedMessage {...message}/>}

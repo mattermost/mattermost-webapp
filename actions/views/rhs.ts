@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import debounce from 'lodash/debounce';
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
@@ -34,8 +32,6 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
-import {getEditingPost} from '../../selectors/posts';
-import {unsetEditingPost} from '../post_actions';
 import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
@@ -99,9 +95,11 @@ export function updateRhsState(rhsState: string, channelId?: string, previousRhs
 export function goBack() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const prevState = getPreviousRhsState(getState() as GlobalState);
+        const defaultTab = 'channel-info';
+
         dispatch({
             type: ActionTypes.RHS_GO_BACK,
-            state: prevState,
+            state: prevState || defaultTab,
         });
 
         return {data: true};
@@ -433,10 +431,7 @@ export function showChannelInfo(channelId: string) {
 }
 
 export function closeRightHandSide() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
-        const editingPost = getEditingPost(state);
-
+    return (dispatch: DispatchFunc) => {
         const actionsBatch: AnyAction[] = [
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
@@ -449,10 +444,6 @@ export function closeRightHandSide() {
                 timestamp: 0,
             },
         ];
-
-        if (editingPost?.isRHS) {
-            actionsBatch.push(unsetEditingPost());
-        }
 
         dispatch(batchActions(actionsBatch));
         return {data: true};

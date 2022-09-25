@@ -30,6 +30,7 @@ import {
     getAllDirectChannelsNameMapInCurrentTeam,
     isFavoriteChannel,
     isManuallyUnread,
+    getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
 import {
     getCurrentRelativeTeamUrl,
@@ -46,7 +47,7 @@ import {getChannelByName} from 'mattermost-redux/utils/channel_utils';
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 
 import {closeRightHandSide} from 'actions/views/rhs';
-import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {loadCustomStatusEmojisForPostList} from 'actions/emoji_actions';
 import {getLastViewedChannelName} from 'selectors/local_storage';
 import {getLastPostsApiTimeForChannel} from 'selectors/views/channel';
@@ -58,7 +59,6 @@ import {Constants, ActionTypes, EventTypes, PostRequestTypes} from 'utils/consta
 import {isMobile} from 'utils/utils';
 import LocalStorageStore from 'stores/local_storage_store.jsx';
 import {isArchivedChannel} from 'utils/channel_utils';
-import {unsetEditingPost} from '../post_actions';
 import type {GlobalState} from 'types/store';
 
 export function checkAndSetMobileView() {
@@ -124,8 +124,6 @@ export function switchToChannel(channel: Channel & {userId?: string}) {
             browserHistory.push(`${teamUrl}/channels/${channel.name}`);
         }
 
-        dispatch(unsetEditingPost());
-
         return {data: true};
     };
 }
@@ -146,6 +144,7 @@ export function leaveChannel(channelId: string) {
         const currentUserId = getCurrentUserId(state);
         const currentTeam = getCurrentTeam(state);
         const channel = getChannel(state, channelId);
+        const currentChannelId = getCurrentChannelId(state);
 
         if (isFavoriteChannel(state, channelId)) {
             dispatch(unfavoriteChannel(channelId));
@@ -179,7 +178,8 @@ export function leaveChannel(channelId: string) {
             dispatch(selectTeam(''));
             dispatch({type: TeamTypes.LEAVE_TEAM, data: currentTeam});
             browserHistory.push('/');
-        } else {
+        } else if (channelId === currentChannelId) {
+            // We only need to leave the channel if we are in the channel
             browserHistory.push(teamUrl);
         }
 

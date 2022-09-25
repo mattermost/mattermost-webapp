@@ -67,18 +67,6 @@ To set up a new package:
 1. Ensure all source files are located in `src` and all compiled files are built to `lib`.
 1. Add an entry to the `workspaces` section of the root `package.json` so that NPM is aware of your package.
 1. Set up import aliases so that the package is visible from the web app to the following tools:
-    1. Webpack - Add an entry to the `resolve.alias` section of the root `webpack.config.js` pointing to the `src` folder set up above.
-
-    ```js
-    module.exports = {
-        resolve: {
-            alias: {
-                '@mattermost/apple': 'packages/apple/src',
-            },
-        },
-    };
-    ```
-
     1. TypeScript - In the root `tsconfig.json`, add an entry to the `compilerOptions.paths` section pointing to the `src` folder and an entry to the `references` section pointing to the root of your package which should contain its own `tsconfig.json`.
 
     Note that the `compilerOptions.paths` entry will differ based on if your package exports just a single module (ie a single `index.js` file) or if it exports multiple submodules.
@@ -87,8 +75,8 @@ To set up a new package:
     {
         "compilerOptions": {
             "paths": {
-                "@mattermost/apple": ["packages/apple/src"], // import * as Apple from '@mattermost/apple';
-                "@mattermost/banana/*": ["packages/banana/src/*"], // import Yellow from '@mattermost/banana/yellow';
+                "@mattermost/apple": ["packages/apple/lib"], // import * as Apple from '@mattermost/apple';
+                "@mattermost/banana/*": ["packages/banana/lib/*"], // import Yellow from '@mattermost/banana/yellow';
             }
         },
         "references": [
@@ -111,6 +99,15 @@ To set up a new package:
             }
         }
     }
+    ```
+1. Add the compiled code to the CircleCI dependency cache. This is done by modifying the `paths` used by the `save_cache` step in `.circleci/config.yml`
+    ```yml
+    aliases:
+      - &save_cache
+        save_cache:
+          paths:
+            - ~/mattermost/mattermost-webapp/packages/apple/lib
+            - ~/mattermost/mattermost-webapp/packages/banana/lib
     ```
 
 ### Publishing a subpackage

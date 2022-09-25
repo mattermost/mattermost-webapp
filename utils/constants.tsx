@@ -82,6 +82,7 @@ export const Preferences = {
     CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
     CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
+    EXPLORE_OTHER_TOOLS_TUTORIAL_STEP: 'explore_other_tools_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
@@ -132,6 +133,7 @@ export const Preferences = {
     ONE_CLICK_REACTIONS_ENABLED_DEFAULT: 'true',
     CLOUD_TRIAL_END_BANNER: 'cloud_trial_end_banner',
     CLOUD_USER_EPHEMERAL_INFO: 'cloud_user_ephemeral_info',
+    CATEGORY_CLOUD_LIMITS: 'cloud_limits',
     THREE_DAYS_LEFT_TRIAL_MODAL: 'three_days_left_trial_modal',
 
     // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -148,6 +150,9 @@ export const Preferences = {
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
 
     FORWARD_POST_VIEWED: 'forward_post_viewed',
+    HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
+    SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
+    USE_CASE: 'use_case',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -299,8 +304,9 @@ export const ActionTypes = keyMirror({
 
     FIRST_CHANNEL_NAME: null,
 
-    RECEIVED_BOARDS_INSIGHTS: null,
+    RECEIVED_PLUGIN_INSIGHT: null,
     SET_EDIT_CHANNEL_MEMBERS: null,
+    NEEDS_LOGGED_IN_LIMIT_REACHED_CHECK: null,
 });
 
 export const PostRequestTypes = keyMirror({
@@ -404,6 +410,9 @@ export const ModalIdentifiers = {
     FORWARD_POST_MODAL: 'forward_post_modal',
     CLOUD_SUBSCRIBE_WITH_LOADING_MODAL: 'cloud_subscribe_with_loading_modal',
     JOIN_PUBLIC_CHANNEL_MODAL: 'join_public_channel_modal',
+    CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
+    BILLING_HISTORY: 'billing_history',
+    SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
 };
 
 export const UserStatuses = {
@@ -412,7 +421,7 @@ export const UserStatuses = {
     AWAY: 'away',
     ONLINE: 'online',
     DND: 'dnd',
-};
+} as const;
 
 export const EventTypes = Object.assign(
     {
@@ -442,10 +451,27 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
-export const SelfHostedLicenseSKUNames = {
-    PROFESSIONAL: 'professional',
-    ENTERPRISE: 'enterprise',
+export const PaidFeatures = {
+    GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
+    CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
+    CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
+    START_CALL: 'mattermost.feature.start_call',
+    PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
+    UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
+    UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
+    UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
+    UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
+    ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
+    ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
 };
+
+export enum LicenseSkus {
+    E10 = 'E10',
+    E20 = 'E20',
+    Starter = 'starter',
+    Professional = 'professional',
+    Enterprise = 'enterprise',
+}
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -568,6 +594,13 @@ export const CrtTutorialSteps = {
     UNREAD_POPOVER: 2,
     FINISHED: 999,
 };
+
+export const ExploreOtherToolsTourSteps = {
+    BOARDS_TOUR: 0,
+    PLAYBOOKS_TOUR: 1,
+    FINISHED: 999,
+};
+
 export const CrtTutorialTriggerSteps = {
     START: 0,
     STARTED: 1,
@@ -631,6 +664,8 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_PURCHASING: 'cloud_purchasing',
     SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
     CLOUD_ADMIN: 'cloud_admin',
+    CLOUD_DELINQUENCY: 'cloud_delinquency',
+    SELF_HOSTED_ADMIN: 'self_hosted_admin',
     POST_INFO_MORE: 'post_info_more_menu',
     POST_INFO: 'post_info',
     SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
@@ -770,6 +805,7 @@ export const StorageTypes = keyMirror({
 export const StoragePrefixes = {
     EMBED_VISIBLE: 'isVisible_',
     COMMENT_DRAFT: 'comment_draft_',
+    EDIT_DRAFT: 'edit_draft_',
     DRAFT: 'draft_',
     LOGOUT: '__logout__',
     LOGIN: '__login__',
@@ -866,7 +902,7 @@ export const NotificationLevels = {
     ALL: 'all',
     MENTION: 'mention',
     NONE: 'none',
-};
+} as const;
 
 export const IgnoreChannelMentions = {
     ON: 'on',
@@ -944,6 +980,7 @@ export const CloudLinks = {
     DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
     CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
     SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
+    DELINQUENCY_DOCS: 'https://docs.mattermost.com/about/cloud-subscriptions.html#failed-or-late-payments',
 };
 
 export const DocLinks = {
@@ -960,8 +997,10 @@ export const DocLinks = {
 };
 
 export const LicenseLinks = {
-    CONTACT_SALES: 'https://mattermost.com/pl/contact-sales',
-    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/pl/software-evaluation-agreement',
+    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    SOFTWARE_EVALUATION_AGREEMENT: 'https://mattermost.com/software-evaluation-agreement/',
+    TRIAL_INFO_LINK: 'https://mattermost.com/trial',
+    EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
 };
 
 export const BillingSchemes = {
@@ -1208,6 +1247,7 @@ export const Constants = {
     AdminTutorialSteps,
     CrtTutorialSteps,
     CrtTutorialTriggerSteps,
+    ExploreOtherToolsTourSteps,
     AutoTourStatus,
     CrtThreadPaneSteps,
     PostTypes,
@@ -1248,7 +1288,9 @@ export const Constants = {
     MAX_ADD_MEMBERS_BATCH: 256,
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
+    PLAN_MENTIONS: /Professional plan|Enterprise plan|Enterprise trial/gi,
     SPECIAL_MENTIONS_REGEX: /(?:\B|\b_+)@(channel|all|here)(?!(\.|-|_)*[^\W_])/gi,
+    SUM_OF_MEMBERS_MENTION_REGEX: /\d+ members/gi,
     ALL_MENTION_REGEX: /(?:\B|\b_+)@(all)(?!(\.|-|_)*[^\W_])/gi,
     CHANNEL_MENTION_REGEX: /(?:\B|\b_+)@(channel)(?!(\.|-|_)*[^\W_])/gi,
     HERE_MENTION_REGEX: /(?:\B|\b_+)@(here)(?!(\.|-|_)*[^\W_])/gi,
@@ -1649,9 +1691,9 @@ export const Constants = {
     HighlightedLanguages: {
         '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
         actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
-        applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt']},
-        bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh']},
-        clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic']},
+        applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt'], aliases: ['osascript']},
+        bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh', 'zsh']},
+        clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic'], aliases: ['clj']},
         coffeescript: {name: 'CoffeeScript', extensions: ['coffee', '_coffee', 'cake', 'cjsx', 'cson', 'iced'], aliases: ['coffee', 'coffee-script']},
         cpp: {name: 'C/C++', extensions: ['cpp', 'c', 'cc', 'h', 'c++', 'h++', 'hpp'], aliases: ['c++', 'c']},
         cs: {name: 'C#', extensions: ['cs', 'csharp'], aliases: ['c#', 'csharp']},
@@ -1660,35 +1702,35 @@ export const Constants = {
         dart: {name: 'Dart', extensions: ['dart']},
         delphi: {name: 'Delphi', extensions: ['delphi', 'dpr', 'dfm', 'pas', 'pascal', 'freepascal', 'lazarus', 'lpr', 'lfm']},
         diff: {name: 'Diff', extensions: ['diff', 'patch'], aliases: ['patch', 'udiff']},
-        django: {name: 'Django', extensions: ['django', 'jinja']},
+        django: {name: 'Django', extensions: ['django', 'jinja'], aliases: ['jinja']},
         dockerfile: {name: 'Dockerfile', extensions: ['dockerfile', 'docker'], aliases: ['docker']},
         elixir: {name: 'Elixir', extensions: ['ex', 'exs'], aliases: ['ex', 'exs']},
         erlang: {name: 'Erlang', extensions: ['erl'], aliases: ['erl']},
-        fortran: {name: 'Fortran', extensions: ['f90', 'f95']},
-        fsharp: {name: 'F#', extensions: ['fsharp', 'fs']},
+        fortran: {name: 'Fortran', extensions: ['f90', 'f95'], aliases: ['f90', 'f95']},
+        fsharp: {name: 'F#', extensions: ['fsharp', 'fs'], aliases: ['fs']},
         gcode: {name: 'G-Code', extensions: ['gcode', 'nc']},
         go: {name: 'Go', extensions: ['go'], aliases: ['golang']},
         groovy: {name: 'Groovy', extensions: ['groovy']},
         handlebars: {name: 'Handlebars', extensions: ['handlebars', 'hbs', 'html.hbs', 'html.handlebars'], aliases: ['hbs', 'mustache']},
         haskell: {name: 'Haskell', extensions: ['hs'], aliases: ['hs']},
-        haxe: {name: 'Haxe', extensions: ['hx']},
+        haxe: {name: 'Haxe', extensions: ['hx'], aliases: ['hx']},
         java: {name: 'Java', extensions: ['java', 'jsp']},
         javascript: {name: 'JavaScript', extensions: ['js', 'jsx'], aliases: ['js']},
         json: {name: 'JSON', extensions: ['json']},
         julia: {name: 'Julia', extensions: ['jl'], aliases: ['jl']},
-        kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts']},
+        kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts'], aliases: ['kt']},
         latex: {name: 'LaTeX', extensions: ['tex'], aliases: ['tex']},
         less: {name: 'Less', extensions: ['less']},
         lisp: {name: 'Lisp', extensions: ['lisp']},
         lua: {name: 'Lua', extensions: ['lua']},
-        makefile: {name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake']},
+        makefile: {name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake', 'mk']},
         markdown: {name: 'Markdown', extensions: ['md', 'mkdown', 'mkd'], aliases: ['md', 'mkd']},
         matlab: {name: 'Matlab', extensions: ['matlab', 'm'], aliases: ['m']},
         objectivec: {name: 'Objective C', extensions: ['mm', 'objc', 'obj-c'], aliases: ['objective_c', 'objc']},
-        ocaml: {name: 'OCaml', extensions: ['ml']},
+        ocaml: {name: 'OCaml', extensions: ['ml'], aliases: ['ml']},
         perl: {name: 'Perl', extensions: ['perl', 'pl'], aliases: ['pl']},
         pgsql: {name: 'PostgreSQL', extensions: ['pgsql', 'postgres', 'postgresql'], aliases: ['postgres', 'postgresql']},
-        php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5']},
+        php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5', 'php6']},
         powershell: {name: 'PowerShell', extensions: ['ps', 'ps1'], aliases: ['posh']},
         puppet: {name: 'Puppet', extensions: ['pp'], aliases: ['pp']},
         python: {name: 'Python', extensions: ['py', 'gyp'], aliases: ['py']},
@@ -1696,18 +1738,18 @@ export const Constants = {
         ruby: {name: 'Ruby', extensions: ['ruby', 'rb', 'gemspec', 'podspec', 'thor', 'irb'], aliases: ['rb']},
         rust: {name: 'Rust', extensions: ['rs'], aliases: ['rs']},
         scala: {name: 'Scala', extensions: ['scala']},
-        scheme: {name: 'Scheme', extensions: ['scm', 'sld']},
+        scheme: {name: 'Scheme', extensions: ['scm', 'sld'], aliases: ['scm']},
         scss: {name: 'SCSS', extensions: ['scss']},
         smalltalk: {name: 'Smalltalk', extensions: ['st'], aliases: ['st', 'squeak']},
         sql: {name: 'SQL', extensions: ['sql']},
         stylus: {name: 'Stylus', extensions: ['styl'], aliases: ['styl']},
         swift: {name: 'Swift', extensions: ['swift']},
-        text: {name: 'Text', extensions: ['txt', 'log']},
+        text: {name: 'Text', extensions: ['txt', 'log'], aliases: ['txt']},
         typescript: {name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx']},
         vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
-        vbscript: {name: 'VBScript', extensions: ['vbs']},
+        vbscript: {name: 'VBScript', extensions: ['vbs'], aliases: ['vbs']},
         verilog: {name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh']},
-        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl']},
+        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl'], aliases: ['vhd']},
         xml: {name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist']},
         yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']},
     },
@@ -1776,6 +1818,7 @@ export const Constants = {
     MTPNS: 'https://push-test.mattermost.com',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
+    SAVE_DRAFT_TIMEOUT: 500,
     PERMISSIONS_ALL: 'all',
     PERMISSIONS_CHANNEL_ADMIN: 'channel_admin',
     PERMISSIONS_TEAM_ADMIN: 'team_admin',
@@ -2021,6 +2064,60 @@ export const InsightsCardTitles = {
             id: t('insights.topBoards.mySubTitle'),
             defaultMessage: 'Most active boards I\'ve participated in',
         },
+    },
+    LEAST_ACTIVE_CHANNELS: {
+        teamTitle: {
+            id: t('insights.leastActiveChannels.title'),
+            defaultMessage: 'Least active channels',
+        },
+        myTitle: {
+            id: t('insights.leastActiveChannels.myTitle'),
+            defaultMessage: 'My least active channels',
+        },
+        teamSubTitle: {
+            id: t('insights.leastActiveChannels.subTitle'),
+            defaultMessage: 'Channels with the least posts',
+        },
+        mySubTitle: {
+            id: t('insights.leastActiveChannels.mySubTitle'),
+            defaultMessage: 'My channels with the least posts',
+        },
+    },
+    TOP_PLAYBOOKS: {
+        teamTitle: {
+            id: t('insights.topPlaybooks.title'),
+            defaultMessage: 'Top playbooks',
+        },
+        myTitle: {
+            id: t('insights.topPlaybooks.myTitle'),
+            defaultMessage: 'My top playbooks',
+        },
+        teamSubTitle: {
+            id: t('insights.topPlaybooks.subTitle'),
+            defaultMessage: 'Playbooks with the most runs',
+        },
+        mySubTitle: {
+            id: t('insights.topPlaybooks.mySubTitle'),
+            defaultMessage: 'Playbooks I\'ve used with the most runs',
+        },
+    },
+    TOP_DMS: {
+        teamTitle: {},
+        myTitle: {
+            id: t('insights.topDMs.myTitle'),
+            defaultMessage: 'My most active direct messages',
+        },
+        teamSubTitle: {},
+        mySubTitle: {},
+    },
+    NEW_TEAM_MEMBERS: {
+        teamTitle: {
+            id: t('insights.newTeamMembers.title'),
+            defaultMessage: 'New team members',
+        },
+        myTitle: {},
+        teamSubTitle: {},
+        mySubTitle: {},
     },
 };
 

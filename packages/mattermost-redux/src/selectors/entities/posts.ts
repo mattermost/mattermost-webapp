@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {createSelector} from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
@@ -10,8 +8,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/common';
 import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences';
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
-
-import {PostWithFormatData} from 'mattermost-redux/types/posts';
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
 import {Channel} from '@mattermost/types/channels';
 import {
@@ -42,6 +39,11 @@ import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 export function getAllPosts(state: GlobalState) {
     return state.entities.posts.posts;
+}
+
+export type UserActivityPost = Post & {
+    system_post_ids: string[];
+    user_activity_posts: Post[];
 }
 
 export function getPost(state: GlobalState, postId: Post['id']): Post {
@@ -89,6 +91,17 @@ export function getPostIdsInCurrentChannel(state: GlobalState): Array<Post['id']
     return getPostIdsInChannel(state, state.entities.channels.currentChannelId);
 }
 
+export type PostWithFormatData = Post & {
+    isFirstReply: boolean;
+    isLastReply: boolean;
+    previousPostIsComment: boolean;
+    commentedOnPost?: Post;
+    consecutivePostByUser: boolean;
+    replyCount: number;
+    isCommentMention: boolean;
+    highlight: boolean;
+};
+
 // getPostsInCurrentChannel returns the posts loaded at the bottom of the channel. It does not include older posts
 // such as those loaded by viewing a thread or a permalink.
 export const getPostsInCurrentChannel: (state: GlobalState) => PostWithFormatData[] | undefined | null = (() => {
@@ -135,9 +148,9 @@ export function makeGetPostsChunkAroundPost(): (state: GlobalState, postId: Post
     );
 }
 
-export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a: {
-    postsBeforeCount: number;
-    postsAfterCount: number;
+export function makeGetPostIdsAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id'], a?: {
+    postsBeforeCount?: number;
+    postsAfterCount?: number;
 }) => Array<Post['id']> | undefined | null {
     const getPostsChunkAroundPost = makeGetPostsChunkAroundPost();
     return createIdsSelector(
@@ -732,4 +745,11 @@ export function getExpandedLink(state: GlobalState, link: string): string {
 
 export function getLimitedViews(state: GlobalState): GlobalState['entities']['posts']['limitedViews'] {
     return state.entities.posts.limitedViews;
+}
+
+export function isPostPriorityEnabled(state: GlobalState) {
+    return (
+        getFeatureFlagValue(state, 'PostPriority') === 'true' &&
+        getConfig(state).PostPriority === 'true'
+    );
 }
