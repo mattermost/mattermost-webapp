@@ -131,20 +131,6 @@ describe('components/activity_and_insights/insights/top_reactions', () => {
     });
 
     test('check if bar chart renders', async () => {
-        // const store = await mockStore({
-        //     entities: {
-        //         teams: {
-        //             currentTeamId: 'team_id1',
-        //         },
-        //         users: {
-        //             currentUserId: 'current_user_id',
-        //         },
-        //         insights: {
-        //             topReactions: {},
-        //             myTopReactions: {},
-        //         },
-        //     },
-        // });
         const store = await mockStore(initialState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
