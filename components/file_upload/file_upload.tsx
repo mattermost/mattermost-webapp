@@ -26,6 +26,7 @@ import {
     isFileTransfer,
     isUriDrop,
     localizeMessage,
+    isTextDroppableEvent,
 } from 'utils/utils';
 
 import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
@@ -385,6 +386,7 @@ export class FileUpload extends PureComponent<Props, State> {
             if (!isUriDrop(files) && isFileTransfer(files)) {
                 overlay?.classList.remove('hidden');
             }
+            e.detail.preventDefault();
         };
 
         const leave = (e: CustomEvent) => {
@@ -395,18 +397,36 @@ export class FileUpload extends PureComponent<Props, State> {
             }
 
             dragTimeout.cancel();
+
+            e.detail.preventDefault();
         };
 
-        const over = () => dragTimeout.fireAfter(OVERLAY_TIMEOUT);
+        const over = (e: CustomEvent) => {
+            dragTimeout.fireAfter(OVERLAY_TIMEOUT);
+            if (!isTextDroppableEvent(e.detail)) {
+                e.detail.preventDefault();
+            }
+        };
         const dropWithHiddenClass = (e: CustomEvent) => {
             overlay?.classList.add('hidden');
             dragTimeout.cancel();
 
             this.handleDrop(e.detail);
+
+            if (!isTextDroppableEvent(e.detail)) {
+                e.detail.preventDefault();
+            }
         };
 
-        const drop = (e: CustomEvent) => this.handleDrop(e.detail);
+        const drop = (e: CustomEvent) => {
+            this.handleDrop(e.detail);
 
+            if (!isTextDroppableEvent(e.detail)) {
+                e.detail.preventDefault();
+            }
+        };
+
+        const noop = () => {}; // eslint-disable-line no-empty-function
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
             dragsterActions = {
@@ -416,7 +436,12 @@ export class FileUpload extends PureComponent<Props, State> {
                 drop: dropWithHiddenClass,
             };
         } else {
-            dragsterActions = {drop};
+            dragsterActions = {
+                enter: noop,
+                leave: noop,
+                over: noop,
+                drop,
+            };
         }
 
         this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);

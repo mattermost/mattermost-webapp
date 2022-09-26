@@ -1312,6 +1312,17 @@ export function isUriDrop(dataTransfer: DataTransfer) {
     return false; // we don't care about others, they handle as we want it
 }
 
+export function isTextTransfer(dataTransfer: DataTransfer) {
+    return ['text/plain', 'text/unicode', 'Text'].some((type) => dataTransfer.types.includes(type));
+}
+
+export function isTextDroppableEvent(e: Event) {
+    return (e instanceof DragEvent) &&
+           (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement) &&
+           e.dataTransfer !== null &&
+           isTextTransfer(e.dataTransfer);
+}
+
 export function clearFileInput(elm: HTMLInputElement) {
     // clear file input for all modern browsers
     try {
