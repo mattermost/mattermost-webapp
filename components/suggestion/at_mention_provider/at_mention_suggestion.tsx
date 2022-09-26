@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Constants} from 'utils/constants';
@@ -17,21 +17,13 @@ import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import StatusIcon from 'components/status_icon';
 
-interface Item {
-    is_bot: any;
-    remote_id: any;
-    status: string;
-    last_picture_update: number;
+import {UserProfile} from '../command_provider/app_command_parser/app_command_parser_dependencies.js';
+
+interface Item extends UserProfile {
     display_name: any;
     name: string;
     isCurrentUser: any;
     type: string;
-    id: string;
-    username: string;
-    nickname: string;
-    first_name: string;
-    last_name: string;
-    roles: string;
 }
 
 export default class AtMentionSuggestion extends Suggestion {
@@ -40,9 +32,9 @@ export default class AtMentionSuggestion extends Suggestion {
         const item: Item = this.props.item;
 
         let itemname: string;
-        let description: JSX.Element | string | null = null;
+        let description: ReactNode;
         let icon: JSX.Element;
-        let customStatus: JSX.Element | null = null;
+        let customStatus: ReactNode;
         if (item.username === 'all') {
             itemname = 'all';
             description = (
@@ -62,7 +54,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title as any}
+                                title={title as ReactNode as string}
                             />
                         </span>
                     )}
@@ -87,7 +79,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title as any}
+                                title={title as ReactNode as string}
                             />
                         </span>
                     )}
@@ -112,7 +104,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title as any}
+                                title={title as ReactNode as string}
                             />
                         </span>
                     )}
@@ -130,7 +122,7 @@ export default class AtMentionSuggestion extends Suggestion {
                         <span className='suggestion-list__icon suggestion-list__icon--large'>
                             <i
                                 className='icon icon-account-multiple-outline'
-                                title={title as any}
+                                title={title as ReactNode as string}
                             />
                         </span>
                     )}
