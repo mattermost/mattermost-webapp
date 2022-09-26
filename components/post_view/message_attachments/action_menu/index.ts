@@ -12,10 +12,10 @@ import {autocompleteChannels} from 'actions/channel_actions';
 import {autocompleteUsers} from 'actions/user_actions';
 import {selectAttachmentMenuAction} from 'actions/views/posts';
 
-import ActionMenu from './action_menu';
-
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel, UserProfile} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
+
+import ActionMenu from './action_menu';
 
 export type OwnProps = {
     postId: string;
