@@ -24,7 +24,7 @@ interface Props {
         length: number;
         forEach: (e: unknown) => void;
     };
-    data: {
+    data?: {
         errors: string;
         error: unknown;
         elements: unknown;
@@ -33,9 +33,9 @@ interface Props {
         submitInteractiveDialog: (dialog: unknown) => unknown;
         checkIfErrorsMatchElements: () => void;
     };
-    name: string;
+    name?: string;
     default: boolean | null;
-    type: boolean | string;
+    type?: boolean | string;
     title: string;
     introductionText: string;
     iconUrl: string;
@@ -44,7 +44,7 @@ interface Props {
     callbackId: unknown;
     state: boolean;
     notifyOnCancel: unknown;
-    onChange: (name: string, value: string) => string;
+    onChange?: (name: string, value: string) => string;
     onExited: () => void;
     emojiMap: Record<string, never>;
     style?: React.CSSProperties | undefined;
