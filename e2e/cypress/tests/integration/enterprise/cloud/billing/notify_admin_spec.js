@@ -7,6 +7,10 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+import {getAdminAccount} from '../../../../support/env';
+
+const admin = getAdminAccount();
+
 function simulateFilesLimitReached(fileStorageUsageBytes) {
     cy.intercept('GET', '**/api/v4/usage/storage', {
         statusCode: 200,
@@ -136,7 +140,7 @@ function createTrialNotificationForEnterpriseFeatures() {
     }));
 }
 
-function triggerNotifications(url, trial = false) {
+function triggerNotifications(url, trial = false, _failOnStatusCode = true) {
     cy.apiAdminLogin().then(() => {
         cy.request({
             headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -145,6 +149,7 @@ function triggerNotifications(url, trial = false) {
             body: {
                 trial_notification: trial,
             },
+            failOnStatusCode: _failOnStatusCode,
         });
     });
 
@@ -171,13 +176,18 @@ function mapFeatureIdToId(id) {
         return '';
     }
 }
-
+function deletePost() {
+    // # Delete system-bot message
+    cy.get('@postId').then((postId) => {
+        cy.externalRequest({user: admin, method: 'DELETE', path: `posts/${postId}`});
+    });
+}
 function assertNotification(featureId, minimumPlan, totalRequests, requestsCount, teamName, trial = false) {
     // # Open system-bot and admin DM
     cy.visit(`/${teamName}/messages/@system-bot`);
 
     // * Check for the post from the system-bot
-    cy.getLastPostId().then((postId) => {
+    cy.getLastPostId().as('postId').then((postId) => {
         if (trial) {
             cy.get(`#${postId}_message`).then(() => {
                 cy.get('a').contains('Enterprise trial');
@@ -203,8 +213,8 @@ function assertNotification(featureId, minimumPlan, totalRequests, requestsCount
                 cy.get('#at_plan_mention').click();
             });
 
-            cy.get('.PurchaseModal').should('exist').then(() => {
-                cy.get('.close-x').click();
+            cy.get('.PricingModal__header').should('exist').then(() => {
+                cy.get('#closeIcon').click();
             });
         }
     });
@@ -229,8 +239,7 @@ function assertTrialMessageButton() {
         cy.get('.close').click();
     });
 
-    cy.get('#view_upgrade_options').contains('View upgrade options');
-    cy.get('#view_upgrade_options').click();
+    cy.findByText('View upgrade options').click();
     cy.get('#pricingModal').should('exist');
 }
 
@@ -287,7 +296,10 @@ function testTrialNotifications(subscription, limits) {
         assertNotification('mattermost.feature.all_enterprise', 'Enterprise plan', TOTAL, ALL_ENTERPRISE_FEATURES_REQUESTS, myTeam.name, true);
         assertTrialMessageButton();
     });
+
+    deletePost();
 }
+
 function testFilesNotifications(subscription, limits) {
     let myTeam;
     let myChannel;
@@ -326,6 +338,7 @@ function testFilesNotifications(subscription, limits) {
         assertNotification('mattermost.feature.unlimited_file_storage', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name);
         assertUpgradeMessageButton();
     });
+    deletePost();
 }
 
 function testUpgradeNotifications(subscription, limits) {
@@ -389,7 +402,7 @@ function testUpgradeNotifications(subscription, limits) {
 
     cy.then(() => {
         // # Manually trigger saved notifications
-        triggerNotifications(myUrl);
+        triggerNotifications(myUrl, false);
     });
 
     cy.then(() => {
@@ -398,6 +411,7 @@ function testUpgradeNotifications(subscription, limits) {
         assertNotification('mattermost.feature.unlimited_messages', 'Professional plan', 10, UNLIMITED_MESSAGES_USERS, myTeam.name);
         assertUpgradeMessageButton();
     });
+    deletePost();
 }
 
 describe('Notify Admin', () => {
@@ -409,6 +423,10 @@ describe('Notify Admin', () => {
                 EnableAPITriggerAdminNotifications: true,
             },
         });
+    });
+
+    beforeEach(() => {
+        triggerNotifications('', false, false);
     });
 
     it('should test upgrade notifications', () => {
