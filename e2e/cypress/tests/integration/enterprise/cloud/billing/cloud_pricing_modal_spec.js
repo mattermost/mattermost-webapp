@@ -242,7 +242,6 @@ describe('Pricing modal', () => {
 
         // * Check that enterprise card action button shows Try free for 30 days
         cy.get('#pricingModal').should('be.visible');
-        cy.get('#enterprise').should('be.visible');
         cy.get('#start_cloud_trial_btn').contains('Try free for 30 days');
     });
 
@@ -302,7 +301,7 @@ describe('Pricing modal', () => {
         cy.get('.PricingModal__body').should('exist');
 
         // * Close PurchaseModal
-        cy.get('#closeIcon').click();
+        cy.get('button.close-x').click();
 
         // * Contact Sales button shows and Contact sales for quote CTA should not show
         cy.get('#UpgradeButton').should('exist').click();

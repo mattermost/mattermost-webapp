@@ -95,7 +95,7 @@ describe('System Console - Subscriptions section', () => {
         cy.get('#professional_action').click();
 
         // * Check for "Provide Your Payment Details" label
-        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
+        cy.findByText('Provide your payment details').should('be.visible');
 
         // # Click on close button of Upgrade window
         cy.get('#closeIcon').parent().should('exist').click();
