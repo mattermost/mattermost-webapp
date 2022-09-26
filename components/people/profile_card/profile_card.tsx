@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 
 import {General} from 'mattermost-redux/constants';
 
+import Highlight from 'components/admin_console/highlight';
 import OverlayTrigger from 'components/overlay_trigger';
 import StatusIcon from 'components/status_icon';
 import Tooltip from 'components/tooltip';
@@ -32,10 +33,9 @@ type ProfileCardProps = {
     groups?: string[];
     onSubmit?: () => void;
     actions?: React.ReactNode;
+    filter?: string;
     className?: string;
-} & ProfileDisplaySettings;
 
-type ProfileDisplaySettings = {
     showRole?: boolean;
     showBio?: boolean;
     showLocation?: boolean;
@@ -69,6 +69,8 @@ const ProfileCard = ({
     showLocation = Boolean(location),
     showTeams = Boolean(teams?.length),
     showGroups = Boolean(groups?.length),
+
+    filter = '',
     onSubmit,
     actions,
     className,
@@ -222,26 +224,28 @@ const ProfileCard = ({
 
                 </div>
             )}
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={<Tooltip id='fullNameTooltip'>{display.name}</Tooltip>}
-            >
-                <span className='profile-card__detail profile-card__fullname'>{display.name}</span>
-            </OverlayTrigger>
-            <span className='profile-card__detail username'>{`@${username}`}</span>
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
-            >
-                <span className='profile-card__detail'>{position}</span>
-            </OverlayTrigger>
-            {extended && (
-                <div className='profile-card__extended'>
-                    {getExtended()}
-                </div>
-            )}
+            <Highlight filter={filter}>
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={<Tooltip id='fullNameTooltip'>{display.name}</Tooltip>}
+                >
+                    <span className='profile-card__detail profile-card__fullname'>{display.name}</span>
+                </OverlayTrigger>
+                <span className='profile-card__detail username'>{`@${username}`}</span>
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
+                >
+                    <span className='profile-card__detail'>{position}</span>
+                </OverlayTrigger>
+                {extended && (
+                    <div className='profile-card__extended'>
+                        {getExtended()}
+                    </div>
+                )}
+            </Highlight>
             {actions && (
                 <div className='profile-card__actions'>
                     {actions}

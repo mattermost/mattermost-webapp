@@ -67,6 +67,7 @@ const PeopleList = ({
                     <ProfileCard
                         user={user}
                         onSubmit={() => history.push(`/people/${user.username}`)}
+                        filter={searchTerms}
                     />
                 </div>
             );

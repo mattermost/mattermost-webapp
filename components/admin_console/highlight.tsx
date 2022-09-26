@@ -41,7 +41,10 @@ export default class Highlight extends React.PureComponent<Props> {
         // Run on next frame
         setTimeout(this.redrawHighlight, 0);
         return (
-            <div ref={this.ref}>
+            <div
+                ref={this.ref}
+                className='highlight__wrapper'
+            >
                 {this.props.children}
             </div>
         );

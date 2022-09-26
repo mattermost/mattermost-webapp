@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+@import 'utils/variables';
+@import 'utils/mixins';
+
 .profile-card {
     display: flex;
     flex-direction: column;
@@ -10,6 +13,11 @@
     background-color: var(--center-channel-bg);
     border-radius: 4px;
     box-shadow: var(--elevation-1);
+
+    .highlight__wrapper {
+        display: flex;
+        flex-direction: column;
+    }
 
     &__role {
         width: fit-content;
@@ -56,6 +64,7 @@
     }
 
     &__detail {
+        height: 20px;
         padding: 0 16px;
         font-size: 14px;
         line-height: 20px;
@@ -100,7 +109,6 @@
         }
 
         &__detail {
-            height: 20px;
             padding: 0;
             text-align: left;
 
@@ -126,5 +134,9 @@
         padding: 20px 20px 0;
         border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
         margin-top: 20px;
+    }
+
+    mark {
+        background-color: $highlight-color;
     }
 }
