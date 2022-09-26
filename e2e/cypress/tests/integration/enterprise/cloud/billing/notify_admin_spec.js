@@ -7,8 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-function simulateFilesLimitReached(fileStorageUsageBytes){
-
+function simulateFilesLimitReached(fileStorageUsageBytes) {
     cy.intercept('GET', '**/api/v4/usage/storage', {
         statusCode: 200,
         body: {
@@ -460,7 +459,6 @@ describe('Notify Admin', () => {
             is_free_trial: 'false',
             trial_end_at: 0, // never trialed before
         };
-
 
         const fileStorageUsageBytes = 11000000000;
 
