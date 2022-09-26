@@ -18,7 +18,6 @@ import {Channel} from './command_provider/app_command_parser/app_command_parser_
 
 const getState = store.getState;
 
-
 export type Results = {
     matchedPretext: string;
     terms: string[];
