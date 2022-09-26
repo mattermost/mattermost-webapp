@@ -23,7 +23,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 type Actions = {
-    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
+    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
     autocompleteUsers: (search: string) => Promise<UserProfile[]>;
 };
 

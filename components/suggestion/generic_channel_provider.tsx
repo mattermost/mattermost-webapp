@@ -1,10 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Channel} from '@mattermost/types/channels.js';
 import React from 'react';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
+
+export type Results = {
+    matchedPretext: string;
+    terms: string[];
+    items: Channel[];
+    component: React.ElementType;
+}
+
+type ResultsCallback = (results: Results) => void;
 
 class ChannelSuggestion extends Suggestion {
     render() {
@@ -53,24 +63,25 @@ class ChannelSuggestion extends Suggestion {
 }
 
 export default class ChannelProvider extends Provider {
-    constructor(channelSearchFunc) {
+    autocompleteChannels: any;
+    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>) {
         super();
 
         this.autocompleteChannels = channelSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: ResultsCallback) {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
         this.autocompleteChannels(
             normalizedPretext,
-            (data) => {
+            (data: Channel[]) => {
                 if (this.shouldCancelDispatch(normalizedPretext)) {
                     return;
                 }
 
-                const channels = Object.assign([], data);
+                const channels: Channel[] = Object.assign([], data);
 
                 resultsCallback({
                     matchedPretext: normalizedPretext,

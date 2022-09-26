@@ -8,7 +8,7 @@ import {Channel} from '@mattermost/types/channels';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+import GenericChannelProvider from 'components/suggestion/generic_channel_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
 
@@ -40,9 +40,9 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
         this.providers = [];
         if (action) {
             if (action.data_source === 'users') {
-                this.providers = [new GenericUserProvider(props.autocompleteUsers)];
+                this.providers = [new GenericUserProvider(props.actions.autocompleteUsers)];
             } else if (action.data_source === 'channels') {
-                this.providers = [new GenericChannelProvider(props.autocompleteChannels)];
+                this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (action.options) {
                 this.providers = [new MenuActionProvider(action.options)];
             }
@@ -97,7 +97,7 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
             value = option.value;
         }
 
-        this.props.selectAttachmentMenuAction(
+        this.props.actions.selectAttachmentMenuAction(
             this.props.postId, this.props.action.id || '', this.props.action.cookie || '', this.props.action?.data_source, text, value);
 
         this.setState({value: text});
