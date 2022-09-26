@@ -8,6 +8,7 @@ import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
 
 import {SearchType} from 'types/store/rhs';
+import {ServerError} from '@mattermost/types/errors';
 
 export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
 
@@ -48,7 +49,7 @@ export type DispatchProps = {
         showFlaggedPosts: () => void;
         setRhsExpanded: (expanded: boolean) => Action;
         closeRightHandSide: () => void;
-        autocompleteChannelsForSearch: (term: string, success?: () => void, error?: () => void) => void;
+        autocompleteChannelsForSearch: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
         autocompleteUsersInTeam: (username: string) => DispatchFunc;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;

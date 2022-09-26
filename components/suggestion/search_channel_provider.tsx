@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ServerError} from '@mattermost/types/errors.js';
+import {ActionFunc} from 'mattermost-redux/types/actions.js';
+
 import {isDirectChannel, isGroupChannel, sortChannelsByTypeListAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import store from 'stores/redux_store.jsx';
@@ -8,23 +11,23 @@ import store from 'stores/redux_store.jsx';
 import Constants from 'utils/constants';
 import {getCurrentLocale} from 'selectors/i18n';
 
-import {AutocompleteSuggestion} from '@mattermost/types/integrations';
-
 import Provider from './provider.jsx';
 import SearchChannelSuggestion from './search_channel_suggestion';
+
+import {Channel} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
 
 const getState = store.getState;
 
 export type Results = {
     matchedPretext: string;
     terms: string[];
-    items: AutocompleteSuggestion[];
+    items: Channel[];
     component: React.ElementType;
 }
 
 type ResultsCallback = (results: Results) => void;
 
-function itemToTerm(isAtSearch: any, item: { type: string; display_name: string; name: any }) {
+function itemToTerm(isAtSearch: boolean, item: { type: string; display_name: string; name: string }) {
     const prefix = isAtSearch ? '' : '@';
     if (item.type === Constants.DM_CHANNEL) {
         return prefix + item.display_name;
@@ -40,7 +43,7 @@ function itemToTerm(isAtSearch: any, item: { type: string; display_name: string;
 
 export default class SearchChannelProvider extends Provider {
     autocompleteChannelsForSearch: any;
-    constructor(channelSearchFunc: (term: string, success?: () => void, error?: () => void) => void) {
+    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc) {
         super();
         this.autocompleteChannelsForSearch = channelSearchFunc;
     }
@@ -58,14 +61,14 @@ export default class SearchChannelProvider extends Provider {
 
             this.autocompleteChannelsForSearch(
                 channelPrefix,
-                (data: any) => {
+                (data: Channel[]) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
                         return;
                     }
 
                     let channels = data;
                     if (isAtSearch) {
-                        channels = channels.filter((ch: any) => isDirectChannel(ch) || isGroupChannel(ch));
+                        channels = channels.filter((ch: Channel) => isDirectChannel(ch) || isGroupChannel(ch));
                     }
 
                     const locale = getCurrentLocale(getState());
