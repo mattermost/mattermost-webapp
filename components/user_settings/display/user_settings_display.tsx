@@ -689,7 +689,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             defaultDisplay: 'false',
             title: {
                 id: t('user.settings.display.gif'),
-                message: "Autoplay Gif's and Emojis",
+                message: 'Allow animated images and emoji',
             },
             firstOption: {
                 value: 'true',

@@ -140,7 +140,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -447,7 +447,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -816,7 +816,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -1061,7 +1061,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -1368,7 +1368,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -1603,7 +1603,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -1910,7 +1910,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -2155,7 +2155,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -2480,7 +2480,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -2725,7 +2725,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -2970,7 +2970,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -3227,7 +3227,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }
@@ -3472,7 +3472,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
         section="gif"
         title={
           <Memo(MemoizedFormattedMessage)
-            defaultMessage="Autoplay Gif's and Emojis"
+            defaultMessage="Allow animated images and emoji"
             id="user.settings.display.gif"
           />
         }

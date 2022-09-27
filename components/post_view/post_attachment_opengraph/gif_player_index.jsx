@@ -12,7 +12,7 @@ const preload = (src, callback) => {
     var img = new Image();
     if (typeof callback === 'function') {
         img.onload = () => callback(img);
-        img.setAttribute('crossOrigin', 'anonymous');
+        img.setAttribute('crossOrigin', 'use-credentials');
     }
     img.src = src;
 };
