@@ -7,6 +7,7 @@ import debounce from 'lodash/debounce';
 
 type Props = {
     filter: string;
+    className?: string;
     children: React.ReactNode;
 }
 
@@ -43,7 +44,7 @@ export default class Highlight extends React.PureComponent<Props> {
         return (
             <div
                 ref={this.ref}
-                className='highlight__wrapper'
+                className={this.props.className}
             >
                 {this.props.children}
             </div>

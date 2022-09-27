@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {useIntl} from 'react-intl';
+import {Link} from 'react-router-dom';
+import styled from 'styled-components';
 
 import {General} from 'mattermost-redux/constants';
 
@@ -31,7 +33,7 @@ type ProfileCardProps = {
     location?: string;
     teams?: string[];
     groups?: string[];
-    onSubmit?: () => void;
+    linked?: boolean;
     actions?: React.ReactNode;
     filter?: string;
     className?: string;
@@ -43,24 +45,22 @@ type ProfileCardProps = {
     showGroups?: boolean;
 }
 
-const getSystemRole = (user: UserProfile) => {
-    let role: ProfileCardProps['role'];
-
-    if (user.roles.includes(General.SYSTEM_ADMIN_ROLE)) {
-        role = General.SYSTEM_ADMIN_ROLE as 'system_admin';
-    } else if (user.roles.includes(General.SYSTEM_GUEST_ROLE)) {
-        role = General.SYSTEM_ADMIN_ROLE as 'system_guest';
-    } else if (user.roles.includes(General.SYSTEM_USER_ROLE)) {
-        role = General.SYSTEM_USER_ROLE as 'system_admin';
-    }
-
-    return role;
-};
-
 const ProfileCard = ({
     user,
-    role = getSystemRole(user),
-    bio,
+    role = (() => {
+        let role: ProfileCardProps['role'];
+
+        if (user.roles.includes(General.SYSTEM_ADMIN_ROLE)) {
+            role = General.SYSTEM_ADMIN_ROLE as 'system_admin';
+        } else if (user.roles.includes(General.SYSTEM_GUEST_ROLE)) {
+            role = General.SYSTEM_ADMIN_ROLE as 'system_guest';
+        } else if (user.roles.includes(General.SYSTEM_USER_ROLE)) {
+            role = General.SYSTEM_USER_ROLE as 'system_admin';
+        }
+
+        return role;
+    })(),
+    bio = user.bio,
     location,
     teams,
     groups,
@@ -71,7 +71,7 @@ const ProfileCard = ({
     showGroups = Boolean(groups?.length),
 
     filter = '',
-    onSubmit,
+    linked,
     actions,
     className,
 }: ProfileCardProps) => {
@@ -97,13 +97,13 @@ const ProfileCard = ({
     };
 
     const getExtended = () => {
-        const extended = [];
+        const extended: Array<{id: string; title: string; detail: React.ReactNode}> = [];
 
         if (showBio) {
             extended.push({
                 id: 'bio',
                 title: formatMessage({id: 'people.bio.title', defaultMessage: 'Bio'}),
-                detail: bio,
+                detail: user.bio,
             });
         }
 
@@ -162,97 +162,117 @@ const ProfileCard = ({
         ));
     };
 
-    const handleOnClick = (e: React.MouseEvent | React.KeyboardEvent) => {
-        e.preventDefault();
-
-        onSubmit?.();
-    };
+    const Container = linked ? RootLink : RootPlain;
 
     return (
-        <div
+        <Container
             className={`profile-card ${className}`}
             key={`profile-card-${id}`}
-            onClick={handleOnClick}
+            to={(location) => ({
+                pathname: `/people/${user.username}`,
+                state: {from: location.pathname},
+            })}
         >
-            {showRole && (
-                <span className='profile-card__role'>
-                    {getRole()}
-                </span>
-            )}
-            <div className='profile-card__image'>
-                <Avatar
-                    size='xxl'
-                    username={username}
-                    url={display.profileImageUrl}
-                />
-                {status && (
-                    <StatusIcon
-                        className='status profile-card__status'
-                        status={status}
-                        button={true}
-                    />
-                )}
-            </div>
-            {customStatus && (
-                <div
-                    css={`
-                        display: flex;
-                        place-content: center;
-                        margin-bottom: 1rem;
-                    `}
-                >
-                    <CustomStatusEmoji
-                        showTooltip={false}
-                        emojiStyle={{marginRight: '6px'}}
-                        userID={user.id}
-                        emojiSize={20}
-                    />
-                    <span>
-                        {customStatus.text}
-                        {customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR ? (
-                            <ExpiryTime
-                                css={`
-                                    opacity: 0.7;
-                                    font-size: 12px;
-                                    margin-left: 6px;
-                                `}
-                                time={customStatus.expires_at}
-                                withinBrackets={true}
-                            />
-                        ) : null}
-                    </span>
-
+            <>
+                <div className='profile-card__header'>
+                    {showRole && (
+                        <span className='profile-card__role'>
+                            {getRole()}
+                        </span>
+                    )}
                 </div>
-            )}
-            <Highlight filter={filter}>
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='fullNameTooltip'>{display.name}</Tooltip>}
-                >
-                    <span className='profile-card__detail profile-card__fullname'>{display.name}</span>
-                </OverlayTrigger>
-                <span className='profile-card__detail username'>{`@${username}`}</span>
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
-                >
-                    <span className='profile-card__detail'>{position}</span>
-                </OverlayTrigger>
-                {extended && (
-                    <div className='profile-card__extended'>
-                        {getExtended()}
+                <div className='profile-card__main'>
+                    <div className='profile-card__image'>
+                        <Avatar
+                            size='xxl'
+                            username={username}
+                            url={display.profileImageUrl}
+                            tabIndex={-1}
+                        />
+                        {status && (
+                            <StatusIcon
+                                className='status profile-card__status'
+                                status={status}
+                                button={true}
+                            />
+                        )}
+                    </div>
+                    {customStatus && (
+                        <div
+                            css={`
+                                display: flex;
+                                place-content: center;
+                                margin-bottom: 1rem;
+                            `}
+                        >
+                            <CustomStatusEmoji
+                                showTooltip={false}
+                                emojiStyle={{marginRight: '6px'}}
+                                userID={user.id}
+                                emojiSize={20}
+                            />
+                            <span>
+                                {customStatus.text}
+                                {customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && (
+                                    <ExpiryTime
+                                        css={`
+                                            opacity: 0.7;
+                                            font-size: 12px;
+                                            margin-left: 6px;
+                                        `}
+                                        time={customStatus.expires_at}
+                                        withinBrackets={true}
+                                    />
+                                )}
+                            </span>
+
+                        </div>
+                    )}
+                    <Highlight
+                        filter={filter}
+                        className='profile-card__highlighted'
+                    >
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='top'
+                            overlay={<Tooltip id='fullNameTooltip'>{display.name}</Tooltip>}
+                        >
+                            <span className='profile-card__detail profile-card__fullname'>{display.name}</span>
+                        </OverlayTrigger>
+                        <span className='profile-card__detail username'>{`@${username}`}</span>
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='top'
+                            overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
+                        >
+                            <span className='profile-card__detail'>{position}</span>
+                        </OverlayTrigger>
+                        {extended && (
+                            <div className='profile-card__extended'>
+                                {getExtended()}
+                            </div>
+                        )}
+                    </Highlight>
+                </div>
+                {actions && (
+                    <div className='profile-card__actions'>
+                        {actions}
                     </div>
                 )}
-            </Highlight>
-            {actions && (
-                <div className='profile-card__actions'>
-                    {actions}
-                </div>
-            )}
-        </div>
+            </>
+
+        </Container>
     );
 };
+
+const RootPlain = styled.div<ComponentProps<typeof Link>>`
+`;
+
+const RootLink = styled(Link)`
+    color: var(--center-channel-text) !important;
+    &:hover {
+        text-decoration: none;
+    }
+`;
 
 export default ProfileCard;

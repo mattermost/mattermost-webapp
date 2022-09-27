@@ -7,8 +7,6 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {CustomStatusDuration} from '@mattermost/types/users';
-
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -28,6 +26,8 @@ import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
+
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
@@ -1805,6 +1805,7 @@ export const Constants = {
     MIN_PASSWORD_LENGTH: 5,
     MAX_PASSWORD_LENGTH: 64,
     MAX_POSITION_LENGTH: 128,
+    MAX_BIO_LENGTH: 320,
     MIN_TRIGGER_LENGTH: 1,
     MAX_TRIGGER_LENGTH: 128,
     MAX_SITENAME_LENGTH: 30,

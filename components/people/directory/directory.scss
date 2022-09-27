@@ -3,13 +3,10 @@
 
     .directory-header {
         &.header {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            height: 120px;
             padding: 16px;
             border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
             background-color: var(--center-channel-bg);
-            grid-area: header;
 
             .top {
                 display: flex;

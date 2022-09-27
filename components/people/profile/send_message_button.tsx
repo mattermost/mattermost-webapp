@@ -3,22 +3,21 @@
 import React from 'react';
 import styled from 'styled-components';
 import {useSelector} from 'react-redux';
-import {FormattedMessage} from 'react-intl';
-import {useHistory} from 'react-router-dom';
-
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
-
-import Constants from 'utils/constants';
+import {FormattedMessage, useIntl} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import {getMyTeams, getTeam, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getPreviousTeamId} from 'selectors/local_storage';
 
 import {GlobalState} from 'types/store';
 
+import {getDisplayName} from 'utils/utils';
+
+import SimpleTooltip from 'components/widgets/simple_tooltip/simple_tooltip';
+
 import {UserProfile} from '@mattermost/types/users';
 
-const SendMessage = styled.button`
+const SendMessage = styled(Link)`
     display: inline-flex;
     border: 0;
     border-radius: 4px;
@@ -33,49 +32,36 @@ const SendMessage = styled.button`
 
 type SendMessageProps = {
     user: UserProfile;
-    children?: React.ReactNode;
 }
 
-const SendMessageButton = ({user, children}: SendMessageProps) => {
-    const openDirectMessage = useOpenDM(user);
-
-    return (
-        <SendMessage
-            className='btn style--none btn-primary'
-            onClick={() => openDirectMessage()}
-        >
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='left'
-                overlay={
-                    <Tooltip>
-                        <FormattedMessage
-                            id='channel_members_rhs.member.send_message'
-                            defaultMessage='Send message'
-                        />
-                    </Tooltip>
-                }
-            >
-                <>
-                    <i className='icon icon-send'/>
-                    {children}
-                </>
-            </OverlayTrigger>
-        </SendMessage>
-    );
-};
-
-const useOpenDM = (user: UserProfile) => {
-    const history = useHistory();
-
-    const team = useSelector((state: GlobalState) => {
+const SendMessageButton = ({user}: SendMessageProps) => {
+    const {formatMessage} = useIntl();
+    const dmChannelRoute = useSelector((state: GlobalState) => {
         const prevTeamId = getPreviousTeamId(state);
-        return getCurrentTeam(state) ?? (prevTeamId && getTeam(state, prevTeamId)) ?? getMyTeams(state)?.[0];
+        const team = getCurrentTeam(state) ?? (prevTeamId && getTeam(state, prevTeamId)) ?? getMyTeams(state)?.[0];
+        return `/${team.name}/messages/@${user.username}`;
     });
 
-    return () => {
-        history.push(`/${team.name}/messages/@${user.username}`);
-    };
+    return (
+        <SimpleTooltip
+            id={`send_message_tooltip_${user.id}`}
+            content={(
+                <FormattedMessage
+                    id='people.profile_card.message_user'
+                    defaultMessage='Message {user}'
+                    values={{user: getDisplayName(user)}}
+                />
+            )}
+        >
+            <SendMessage
+                className='btn style--none btn-primary'
+                to={dmChannelRoute}
+            >
+                <i className='icon icon-send'/>
+                {formatMessage({id: 'people.teams.message', defaultMessage: 'Message'})}
+            </SendMessage>
+        </SimpleTooltip>
+    );
 };
 
 export default SendMessageButton;

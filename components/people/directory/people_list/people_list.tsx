@@ -8,8 +8,6 @@ import InfiniteLoader from 'react-window-infinite-loader';
 
 import ProfileCard from 'components/people/profile_card/profile_card';
 
-import {useHistory} from 'react-router-dom';
-
 import {UserProfile} from '@mattermost/types/users';
 
 export interface Props {
@@ -29,7 +27,6 @@ const PeopleList = ({
 }: Props) => {
     const infiniteLoaderRef = useRef<InfiniteLoader | null>(null);
     const [hasMounted, setHasMounted] = useState(false);
-    const history = useHistory();
 
     useEffect(() => {
         if (hasMounted) {
@@ -66,7 +63,7 @@ const PeopleList = ({
                 >
                     <ProfileCard
                         user={user}
-                        onSubmit={() => history.push(`/people/${user.username}`)}
+                        linked={true}
                         filter={searchTerms}
                     />
                 </div>
@@ -89,31 +86,37 @@ const PeopleList = ({
                     itemCount={itemCount}
                     loadMoreItems={loadMoreItems}
                 >
-                    {({onItemsRendered, ref}) => (
-                        <FixedSizeGrid
-                            ref={ref}
-                            itemData={people}
-                            className='Grid'
-                            columnCount={4}
-                            height={height}
-                            rowCount={62 / 4}
-                            width={width}
-                            columnWidth={width / 4}
-                            rowHeight={230}
-                            onItemsRendered={(gridData) => {
-                                const {visibleRowStartIndex, visibleRowStopIndex, visibleColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex, overscanColumnStopIndex} = gridData;
+                    {({onItemsRendered, ref}) => {
+                        const columnWidth = 320;
+                        const rowHeight = 365;
+                        const columnCount = width / columnWidth;
+                        return (
+                            <FixedSizeGrid
+                                ref={ref}
+                                itemData={people}
+                                className='Grid'
+                                width={width}
+                                height={height - 120}
+                                rowCount={Math.ceil(itemCount / columnCount)}
+                                columnCount={columnCount}
+                                columnWidth={columnWidth}
+                                rowHeight={rowHeight}
 
-                                const overscanStartIndex = overscanRowStartIndex * (overscanColumnStopIndex + 1);
-                                const overscanStopIndex = overscanRowStopIndex * (overscanColumnStopIndex + 1);
-                                const visibleStartIndex = visibleRowStartIndex * (visibleColumnStopIndex + 1);
-                                const visibleStopIndex = visibleRowStopIndex * (visibleColumnStopIndex + 1);
+                                onItemsRendered={(gridData) => {
+                                    const {visibleRowStartIndex, visibleRowStopIndex, visibleColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex, overscanColumnStopIndex} = gridData;
 
-                                onItemsRendered({overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex});
-                            }}
-                        >
-                            {Item}
-                        </FixedSizeGrid>
-                    )}
+                                    const overscanStartIndex = overscanRowStartIndex * (overscanColumnStopIndex + 1);
+                                    const overscanStopIndex = overscanRowStopIndex * (overscanColumnStopIndex + 1);
+                                    const visibleStartIndex = visibleRowStartIndex * (visibleColumnStopIndex + 1);
+                                    const visibleStopIndex = visibleRowStopIndex * (visibleColumnStopIndex + 1);
+
+                                    onItemsRendered({overscanStartIndex, overscanStopIndex, visibleStartIndex, visibleStopIndex});
+                                }}
+                            >
+                                {Item}
+                            </FixedSizeGrid>
+                        );
+                    }}
                 </InfiniteLoader>
             )}
         </AutoSizer>

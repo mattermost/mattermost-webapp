@@ -15,12 +15,14 @@ import './profile.scss';
 
 import {openModal} from 'actions/views/modals';
 
-import {useParams, useHistory, Link} from 'react-router-dom';
+import {useParams, useHistory, Link, useLocation} from 'react-router-dom';
 import {ModalIdentifiers} from 'utils/constants';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
 import ProfileCard from '../profile_card/profile_card';
+
+import TimeZoneSelectMap from '../timezone_map/timezone_map';
 
 import SendMessageButton from './send_message_button';
 
@@ -55,9 +57,10 @@ const useUserFromRoute = () => {
 };
 
 const Profile = () => {
-    const {formatMessage} = useIntl();
     const user = useUserFromRoute();
     const currentUser = useSelector(getCurrentUser);
+    const {state} = useLocation<{from?: string}>();
+    const history = useHistory();
 
     return user && (
         <div className='UserProfile'>
@@ -66,6 +69,10 @@ const Profile = () => {
                     <Link
                         className='UserProfile__header-card__top-section__back'
                         to='/people'
+                        onClick={(state?.from === '/people' && history?.length) ? (e) => {
+                            e.preventDefault();
+                            history.goBack();
+                        } : undefined}
                     >
                         <i className='icon-arrow-left'/>
                         <FormattedMessage
@@ -74,25 +81,23 @@ const Profile = () => {
                         />
                     </Link>
                 </div>
-                {/* <TimeZoneSelectMap
-                    timeZoneName={userProfile.timezone?.automaticTimezone || undefined}
-                /> */}
+                {user.timezone?.automaticTimezone && (
+                    <TimeZoneSelectMap
+                        timeZoneName={user.timezone?.automaticTimezone || undefined}
+                    />
+                )}
             </div>
             <div className='UserProfile__bottom-card'>
                 <ProfileCard
                     user={user}
                     css={`
-                        min-width: 320px;
+                        width: 320px;
                     `}
                     actions={user.id === currentUser.id ? (
                         <EditProfileBtn/>
                     ) : (
                         <>
-                            <SendMessageButton
-                                user={user}
-                            >
-                                {formatMessage({id: 'people.teams.message', defaultMessage: 'Message'})}
-                            </SendMessageButton>
+                            <SendMessageButton user={user}/>
                             <CallButton/>
                         </>
                     )}
