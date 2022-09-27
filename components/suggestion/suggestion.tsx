@@ -16,6 +16,7 @@ type Props = {
     currentDate?: any;
 };
 
+
 export default class Suggestion extends React.PureComponent<Props> {
     static baseProps = {
         role: 'button',
