@@ -13,6 +13,7 @@ import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as Utils from 'utils/utils';
@@ -26,6 +27,7 @@ import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
@@ -70,7 +72,7 @@ function ThreadItem({
     isFirstThreadInList,
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
-    const {select, goToInChannel} = useThreadRouting();
+    const {select, goToInChannel, currentTeamId} = useThreadRouting();
     const {formatMessage} = useIntl();
     const isMobileView = useSelector(getIsMobileView);
     const currentUserId = useSelector(getCurrentUserId);
@@ -102,7 +104,30 @@ function ThreadItem({
         return [post.user_id, ...ids];
     }, [thread?.participants]);
 
-    const selectHandler = useCallback(() => select(threadId), [threadId]);
+    let unreadTimestamp = post.edit_at || post.create_at;
+
+    const selectHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
+        if (e.altKey) {
+            const hasUnreads = thread ? Boolean(thread.unread_replies) : false;
+            const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
+
+            dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
+            if (hasUnreads) {
+                dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
+            } else {
+                dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
+            }
+        } else {
+            select(threadId);
+        }
+    }, [
+        currentUserId,
+        currentTeamId,
+        threadId,
+        thread,
+        updateThreadRead,
+        unreadTimestamp,
+    ]);
 
     const imageProps = useMemo(() => ({
         onImageHeightChanged: () => {},
@@ -129,8 +154,6 @@ function ThreadItem({
         reply_count: totalReplies,
         is_following: isFollowing,
     } = thread;
-
-    let unreadTimestamp = post.edit_at || post.create_at;
 
     // if we have the whole thread, get the posts in it, sorted from newest to oldest.
     // First post is latest reply. Use that timestamp
