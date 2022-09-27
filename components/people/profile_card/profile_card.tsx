@@ -2,10 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {ComponentProps} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
-
-import {General} from 'mattermost-redux/constants';
 
 import Highlight from 'components/admin_console/highlight';
 import StatusIcon from 'components/status_icon';
