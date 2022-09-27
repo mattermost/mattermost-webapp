@@ -174,53 +174,52 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
         setTimeout(() => setHasError(false), Constants.ANIMATION_TIMEOUT);
     };
 
-    const handleSubmit = async () => {
+    const handleSubmit = () => {
         if (postError) {
-            return;
+            return Promise.resolve();
         }
 
         const channelToForward = isPrivateConversation ? makeSelectedChannelOption(channel) : selectedChannel;
 
         if (!channelToForward) {
-            return;
+            return Promise.resolve();
         }
 
-        const channelId = channelToForward.details.id;
+        const {type, userId} = channelToForward.details;
 
-        let result = await actions.forwardPost(
-            post,
-            channelToForward.details,
-            comment,
-        );
-
-        if (result.error) {
-            handlePostError(result.error);
-            return;
-        }
-
-        if (
-            channelToForward.details.type === Constants.MENTION_MORE_CHANNELS &&
-            channelToForward.details.type === Constants.OPEN_CHANNEL
-        ) {
-            result = await actions.joinChannelById(channelId);
-
-            if (result.error) {
-                handlePostError(result.error);
-                return;
+        return Promise.resolve().then(() => {
+            if (type === Constants.DM_CHANNEL && userId) {
+                return actions.openDirectChannelToUserId(userId);
             }
-        }
-
-        // only switch channels when we are not in a private conversation
-        if (!isPrivateConversation) {
-            result = await actions.switchToChannel(channelToForward.details);
-
-            if (result.error) {
-                handlePostError(result.error);
-                return;
+            return {data: false};
+        }).then(({data}) => {
+            if (data) {
+                channelToForward.details.id = data.id;
             }
-        }
 
-        onHide();
+            return actions.forwardPost(
+                post,
+                channelToForward.details,
+                comment,
+            );
+        }).then(() => {
+            if (type === Constants.MENTION_MORE_CHANNELS && type === Constants.OPEN_CHANNEL) {
+                return actions.joinChannelById(channelToForward.details.id);
+            }
+            return {data: false};
+        }).then(() => {
+            // only switch channels when we are not in a private conversation
+            if (!isPrivateConversation) {
+                return actions.switchToChannel(channelToForward.details);
+            }
+            return {data: false};
+        }).then(() => {
+            onHide();
+        }).catch((result) => {
+            if (result?.error) {
+                handlePostError(result.error);
+            }
+        });
     };
 
     const postPreviewFooterMessage = formatMessage({
