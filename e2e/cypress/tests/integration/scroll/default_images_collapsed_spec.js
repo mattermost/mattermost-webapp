@@ -31,7 +31,7 @@ describe('Scroll', () => {
 
         cy.get('.post-image').should('be.visible');
 
-        cy.get('#post_textbox').should('be.visible').clear().type('{enter}');
+        cy.uiGetPostTextBox().clear().type('{enter}');
 
         // * Observe image preview is collapsed
         cy.uiGetFileThumbnail(filename).should('not.exist');

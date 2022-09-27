@@ -94,8 +94,8 @@ describe('User Management', () => {
 
         // * Verify that new messages cannot be posted.
         cy.get('#moreDmModal').should('be.visible').within(() => {
-            cy.get('#selectItems input').type(otherUser.email + '{enter}').wait(TIMEOUTS.HALF_SEC);
-            cy.get('#post_textbox').should('not.exist');
+            cy.get('#selectItems input').typeWithForce(otherUser.email + '{enter}').wait(TIMEOUTS.HALF_SEC);
+            cy.uiGetPostTextBox({exist: false});
         });
 
         // # Restore the user.

@@ -11,7 +11,7 @@ export function addNewCommand(team, trigger, url) {
     cy.get('#addSlashCommand').click();
 
     // # Type a trigger word, url and display name
-    cy.get('#trigger').type(`${trigger}`);
+    cy.get('#trigger').type(trigger);
     cy.get('#displayName').type('Test Message');
     cy.apiGetChannelByName(team.name, 'town-square').then(({channel}) => {
         let urlToType = url;
@@ -43,7 +43,7 @@ export function runSlashCommand(linkToVisit, trigger) {
     cy.visit(linkToVisit);
 
     // # Run slash command
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);
+    cy.uiGetPostTextBox().clear().type(`/${trigger}{enter}{enter}`);
     cy.wait(TIMEOUTS.TWO_SEC);
 
     // # Get last post message text

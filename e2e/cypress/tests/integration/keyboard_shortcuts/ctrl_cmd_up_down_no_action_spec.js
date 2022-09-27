@@ -7,6 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Stage: @prod
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -23,23 +24,23 @@ describe('Keyboard Shortcuts', () => {
         const message = 'Test message from User 1';
 
         // # Type a message in the input box but do not post it
-        cy.get('#post_textbox').type(message).wait(TIMEOUTS.ONE_SEC);
+        cy.uiGetPostTextBox().type(message).wait(TIMEOUTS.ONE_SEC);
 
         // # Press CMD/CTRL+DOWN arrow
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{downarrow}');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{downarrow}');
 
         // * Check the focus after pressing CTRL/CMD + DOWN then check match the text and the cursor position respectively
-        cy.get('#post_textbox').
+        cy.uiGetPostTextBox().
             should('be.focused').
             and('have.text', message).
             and('have.prop', 'selectionStart', message.length).
             and('have.prop', 'selectionEnd', message.length);
 
         // # Press CMD/CTRL+UP arrow
-        cy.get('#post_textbox').cmdOrCtrlShortcut('{uparrow}');
+        cy.uiGetPostTextBox().cmdOrCtrlShortcut('{uparrow}');
 
         // * Check the focus after pressing CTRL/CMD + UP then check match the text and the cursor position respectively
-        cy.get('#post_textbox').
+        cy.uiGetPostTextBox().
             should('be.focused').
             and('have.text', message).
             and('have.prop', 'selectionStart', 0).

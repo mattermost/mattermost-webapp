@@ -81,7 +81,7 @@ describe('Custom emojis', () => {
         cy.findAllByTestId('emojiItem').children('img').first().should('have.class', 'emoji-category--custom');
 
         // # Post a message with the emoji
-        cy.get('#post_textbox').clear().type(customEmojiWithColons.substring(0, 10));
+        cy.uiGetPostTextBox().clear().type(customEmojiWithColons.substring(0, 10));
 
         // * Suggestion list should appear
         cy.get('#suggestionList').should('be.visible');
@@ -90,7 +90,7 @@ describe('Custom emojis', () => {
         cy.findByText(customEmojiWithColons).should('be.visible');
 
         // # Hit enter to select from suggestion list and enter to post
-        cy.get('#post_textbox').type('{enter}').type('{enter}');
+        cy.uiGetPostTextBox().type('{enter}').type('{enter}');
 
         // * Check that the emoji image appears in the message - extract the image url and compare with local image
         verifyLastPostedEmoji(customEmojiWithColons, largeEmojiFileResized);

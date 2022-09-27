@@ -213,7 +213,7 @@ describe('Guest Account - Guest User Experience', () => {
         });
 
         // # Wait for page to load and then logout
-        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
+        cy.uiGetPostTextBox().wait(TIMEOUTS.TWO_SEC);
         cy.apiLogout();
         cy.visit('/');
 

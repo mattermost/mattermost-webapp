@@ -40,7 +40,7 @@ describe('Team Scheme', () => {
         cy.findByTestId('add-teams').should('be.visible').click().wait(TIMEOUTS.HALF_SEC);
 
         // # Find and select testTeam
-        cy.get('#selectItems input').type(testTeam.display_name).wait(TIMEOUTS.HALF_SEC);
+        cy.get('#selectItems input').typeWithForce(testTeam.display_name).wait(TIMEOUTS.HALF_SEC);
         cy.get('#multiSelectList div.more-modal__row.clickable').eq(0).click().wait(TIMEOUTS.HALF_SEC);
 
         // # Save scheme

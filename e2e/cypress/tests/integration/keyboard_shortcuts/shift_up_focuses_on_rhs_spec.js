@@ -21,21 +21,21 @@ describe('Keyboard Shortcuts', () => {
 
     it('MM-T1277 SHIFT+UP', () => {
         // # Press shift+up to open the latest thread in the channel in the RHS
-        cy.get('#post_textbox').type('{shift}{uparrow}');
+        cy.uiGetPostTextBox().type('{shift}{uparrow}');
 
         // * RHS Opens up
         cy.get('.sidebar--right__header').should('be.visible');
 
         // * RHS textbox should be focused
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
 
         // # Click into the post textbox in the center channel
-        cy.get('#post_textbox').click();
+        cy.uiGetPostTextBox().click();
 
         // # Press shift+up again
-        cy.get('#post_textbox').type('{shift}{uparrow}');
+        cy.uiGetPostTextBox().type('{shift}{uparrow}');
 
         // * RHS textbox should be focused
-        cy.get('#reply_textbox').should('be.focused');
+        cy.uiGetReplyTextBox().should('be.focused');
     });
 });

@@ -8,19 +8,22 @@ import classNames from 'classnames';
 
 import {selectPostAndParentChannel} from 'actions/views/rhs';
 import {trackEvent} from 'actions/telemetry_actions';
+import {openModal} from 'actions/views/modals';
 
 import {getMyTopThreads as fetchMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
 
 import {TimeFrame, TopThread} from '@mattermost/types/insights';
-import {Post} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
+import {GlobalState} from '@mattermost/types/store';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import {InsightsScopes} from 'utils/constants';
+import {InsightsScopes, ModalIdentifiers} from 'utils/constants';
 import {imageURLForUser} from 'utils/utils';
 
 import Badge from 'components/widgets/badges/badge';
@@ -29,6 +32,8 @@ import Avatars from 'components/widgets/users/avatars';
 import Markdown from 'components/markdown';
 import Attachment from 'components/threading/global_threads/thread_item/attachments';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+
+import JoinChannelModal from '../../join_channel_modal/join_channel_modal';
 
 import './../../../activity_and_insights.scss';
 import '../top_threads.scss';
@@ -47,6 +52,9 @@ const TopThreadsTable = (props: Props) => {
 
     const currentTeamId = useSelector(getCurrentTeamId);
     const teammateNameDisplaySetting = useSelector(getTeammateNameDisplaySetting);
+    const myChannelMemberships = useSelector(getMyChannelMemberships);
+    const complianceExportEnabled = useSelector((state: GlobalState) => state.entities.general.config.EnableComplianceExport);
+    const license = useSelector(getLicense);
 
     const getTopTeamThreads = useCallback(async () => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -87,11 +95,57 @@ const TopThreadsTable = (props: Props) => {
         props.closeModal();
     }, [props.closeModal]);
 
-    const openThread = (post: Post) => {
-        trackEvent('insights', 'open_thread_from_top_threads_modal');
-        dispatch(selectPostAndParentChannel(post));
+    const openRHSOrJoinChannel = useCallback((thread: TopThread, isChannelMember: boolean) => {
+        if (!isChannelMember && (license.Compliance === 'true' && complianceExportEnabled === 'true')) {
+            dispatch(openModal({
+                modalId: ModalIdentifiers.INSIGHTS,
+                dialogType: JoinChannelModal,
+                dialogProps: {
+                    thread,
+                    currentTeamId,
+                },
+            }));
+        } else {
+            trackEvent('insights', 'open_thread_from_top_threads_modal');
+            dispatch(selectPostAndParentChannel(thread.post));
+        }
         closeModal();
-    };
+    }, [currentTeamId]);
+
+    const getPreview = useCallback((thread: TopThread, isChannelMember: boolean) => {
+        if (!isChannelMember && (license.Compliance === 'true' && complianceExportEnabled === 'true')) {
+            return (
+                <span className='compliance-information'>
+                    <FormattedMessage
+                        id='insights.topThreadItem.notChannelMember'
+                        defaultMessage={'You\'ll need to join the {channel} channel to see this thread.'}
+                        values={{
+                            channel: <strong>{thread.channel_display_name}</strong>,
+                        }}
+                    />
+                </span>
+            );
+        }
+
+        if (thread.post.message) {
+            return (
+                <Markdown
+                    message={thread.post.message}
+                    options={{
+                        singleline: true,
+                        mentionHighlight: false,
+                        atMentions: false,
+                    }}
+                    imagesMetadata={thread.post?.metadata && thread.post?.metadata?.images}
+                    imageProps={imageProps}
+                />
+            );
+        }
+
+        return (
+            <Attachment post={thread.post}/>
+        );
+    }, []);
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [
@@ -142,6 +196,12 @@ const TopThreadsTable = (props: Props) => {
 
     const getRows = useMemo((): Row[] => {
         return topThreads.map((thread, i) => {
+            const channelMembership = myChannelMemberships[thread.channel_id];
+            let isChannelMember = false;
+            if (typeof channelMembership !== 'undefined') {
+                isChannelMember = true;
+            }
+
             return (
                 {
                     cells: {
@@ -166,20 +226,7 @@ const TopThreadsTable = (props: Props) => {
                                     aria-readonly='true'
                                     className='preview'
                                 >
-                                    {thread.post.message ? (
-                                        <Markdown
-                                            message={thread.post.message}
-                                            options={{
-                                                singleline: true,
-                                                mentionHighlight: false,
-                                                atMentions: false,
-                                            }}
-                                            imagesMetadata={thread.post?.metadata && thread.post?.metadata?.images}
-                                            imageProps={imageProps}
-                                        />
-                                    ) : (
-                                        <Attachment post={thread.post}/>
-                                    )}
+                                    {getPreview(thread, isChannelMember)}
                                 </div>
                             </div>
                         ),
@@ -200,12 +247,12 @@ const TopThreadsTable = (props: Props) => {
                         ),
                     },
                     onClick: () => {
-                        openThread(thread.post);
+                        openRHSOrJoinChannel(thread, isChannelMember);
                     },
                 }
             );
         });
-    }, [topThreads]);
+    }, [topThreads, myChannelMemberships]);
 
     return (
         <DataGrid

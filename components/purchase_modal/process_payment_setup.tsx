@@ -39,6 +39,8 @@ type Props = RouteComponentProps & {
     isProratedPayment?: boolean;
     isUpgradeFromTrial: boolean;
     setIsUpgradeFromTrialToFalse: () => void;
+    telemetryProps?: { callerInfo: string };
+    onSuccess?: () => void;
 }
 
 type State = {
@@ -104,7 +106,10 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         } = this.props;
         const success = await addPaymentMethod((await stripe)!, billingDetails!, isDevMode);
 
-        if (!success) {
+        if (typeof success !== 'boolean' || !success) {
+            trackEvent('cloud_admin', 'complete_payment_failed', {
+                callerInfo: this.props.telemetryProps?.callerInfo,
+            });
             this.setState({
                 error: true,
                 state: ProcessState.FAILED});
@@ -116,6 +121,9 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
 
             // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
             if (typeof productUpdated !== 'boolean') {
+                trackEvent('cloud_admin', 'complete_payment_failed', {
+                    callerInfo: this.props.telemetryProps?.callerInfo,
+                });
                 this.setState({
                     error: true,
                     state: ProcessState.FAILED});
@@ -135,7 +143,13 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
 
     private completePayment = () => {
         clearInterval(this.intervalId);
-        trackEvent('cloud_admin', 'complete_payment_success');
+        trackEvent('cloud_admin', 'complete_payment_success', {
+            callerInfo: this.props.telemetryProps?.callerInfo,
+        });
+        pageVisited(
+            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+            'pageview_payment_success',
+        );
         this.setState({state: ProcessState.SUCCESS, progress: 100});
     }
 
@@ -207,6 +221,10 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             this.props.onClose();
         };
 
+        if (typeof this.props.onSuccess === 'function') {
+            this.props.onSuccess();
+        }
+
         // if is the first purchase, show a different success purchasing title
         if (this.props.isUpgradeFromTrial) {
             handleClose = () => {
@@ -275,16 +293,8 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
                 />
             );
         case ProcessState.SUCCESS:
-            pageVisited(
-                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                'pageview_payment_success',
-            );
             return this.sucessPage();
         case ProcessState.FAILED:
-            pageVisited(
-                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                'pageview_payment_failed',
-            );
             return (
                 <IconMessage
                     title={t('admin.billing.subscription.paymentVerificationFailed')}

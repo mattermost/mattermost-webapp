@@ -7,7 +7,6 @@ import {Modal} from 'react-bootstrap';
 
 import Constants from 'utils/constants';
 
-import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 import * as Utils from 'utils/utils';
 import {Group, GroupSearachParams} from '@mattermost/types/groups';
 
@@ -236,7 +235,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         /> :
                         <>
                             <div className='user-groups-search'>
-                                <FaSearchIcon/>
                                 <Input
                                     type='text'
                                     placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
@@ -244,6 +242,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     value={this.props.searchTerm}
                                     data-testid='searchInput'
                                     className={'user-group-search-input'}
+                                    inputPrefix={<i className={'icon icon-magnify'}/>}
                                 />
                             </div>
                             <div className='more-modal__dropdown'>

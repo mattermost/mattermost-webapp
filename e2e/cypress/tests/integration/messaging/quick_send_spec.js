@@ -23,7 +23,7 @@ describe('Messaging', () => {
         // # Build a message and send
         for (let i = 9; i >= 0; i--) {
             const message = i + '{enter}';
-            cy.get('#post_textbox').type(message, {delay: 0});
+            cy.uiGetPostTextBox().type(message, {delay: 0});
         }
 
         for (let i = 10; i > 0; i--) {

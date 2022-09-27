@@ -16,6 +16,7 @@ type Props = {
     titleDefault: string;
     subtitleId: string;
     subtitleDefault: string;
+    subtitleValues?: any;
     url: string;
     disabled?: boolean;
     linkTextId: string;
@@ -33,6 +34,7 @@ const AdminPanelWithLink = (props: Props) => {
             <FormattedMessage
                 id={props.linkTextId}
                 defaultMessage={props.linkTextDefault}
+                values={props.subtitleValues}
             />
         </Link>
     );

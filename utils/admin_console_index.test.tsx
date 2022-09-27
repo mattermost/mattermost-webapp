@@ -36,8 +36,8 @@ describe('AdminConsoleIndex.generateIndex', () => {
             'environment/rate_limiting',
         ]);
         expect(idx.search('characters')).toEqual([
-            'authentication/password',
             'site_config/customization',
+            'authentication/password',
         ]);
         expect(idx.search('caracteres')).toEqual([]);
         expect(idx.search('notexistingword')).toEqual([]);

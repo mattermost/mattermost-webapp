@@ -103,9 +103,19 @@ describe('components/activity_and_insights/insights/top_threads/top_threads_tabl
                         name: 'channel1',
                     },
                 },
+                myMembers: {
+                    channel1: {
+                        id: 'channel1',
+                        team_id: 'team_id1',
+                        name: 'channel1',
+                    },
+                },
             },
             general: {
                 config: {},
+                license: {
+                    Compliance: 'true',
+                },
             },
             users: {
                 currentUserId: 'current_user_id',
