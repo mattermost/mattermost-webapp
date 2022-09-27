@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import React, {useEffect, useState, DependencyList} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-
-import {useEffect, useState, DependencyList} from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {getUser as fetchUser, getUserByUsername as fetchUserByUsername} from 'mattermost-redux/actions/users';
@@ -12,6 +12,8 @@ import {getUser, getUserByUsername} from 'mattermost-redux/selectors/entities/us
 
 import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
+
+import {General} from 'mattermost-redux/constants';
 
 import {UserProfile} from '@mattermost/types/users';
 import {ClientError} from '@mattermost/client';
@@ -117,9 +119,33 @@ export const useUserDisplayMeta = (user: UserProfile | null | undefined) => {
 
     const profileImageUrl = Utils.imageURLForUser(user.id, user.last_picture_update);
 
+    const role = getRole(user);
+
     return {
         name,
         position,
         profileImageUrl,
+        role,
     };
+};
+
+const getRole = (user: UserProfile) => {
+    switch (true) {
+    case user.roles.includes(General.SYSTEM_ADMIN_ROLE):
+        return (
+            <FormattedMessage
+                id='admin.permissions.roles.system_admin.name'
+                defaultMessage='System Admin'
+            />
+        );
+    case user.roles.includes(General.SYSTEM_GUEST_ROLE):
+        return (
+            <FormattedMessage
+                id='admin.system_users.guest'
+                defaultMessage='Guest'
+            />
+        );
+    default:
+        return null;
+    }
 };
