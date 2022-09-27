@@ -58,7 +58,7 @@ type State = {
     submitting: boolean;
 }
 
-export default class InteractiveDialog extends React.PureComponent <Props, State > {
+export default class InteractiveDialog extends React.PureComponent <Props, State> {
     static propTypes = {
         url: PropTypes.string.isRequired,
         callbackId: PropTypes.string,
