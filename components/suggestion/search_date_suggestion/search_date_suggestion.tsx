@@ -23,7 +23,7 @@ type Props = {
 export default class SearchDateSuggestion extends Suggestion {
     handleDayClick = (day: Date) => {
         const dayString = day.toISOString().split('T')[0];
-        this.props.onClick!(dayString, this.props.matchedPretext);
+        this.props.onClick?.(dayString, this.props.matchedPretext);
     }
 
     componentDidMount() {
@@ -39,7 +39,7 @@ export default class SearchDateSuggestion extends Suggestion {
     }
 
     componentDidUpdate(prevProps: Props) {
-        const locale = this.props.locale && this.props.locale.toLowerCase();
+        const locale = this.props.locale?.toLowerCase();
 
         if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {
             /* eslint-disable global-require */

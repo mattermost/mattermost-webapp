@@ -25,12 +25,12 @@ export default class Suggestion extends React.PureComponent<Props> {
     handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
 
-        this.props.onClick!(this.props.term, this.props.matchedPretext);
+        this.props.onClick?.(this.props.term, this.props.matchedPretext);
     };
 
     handleMouseMove = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
 
-        this.props.onMouseMove!(this.props.term);
+        this.props.onMouseMove?.(this.props.term);
     };
 }
