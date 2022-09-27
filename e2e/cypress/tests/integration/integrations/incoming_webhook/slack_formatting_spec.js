@@ -269,21 +269,6 @@ describe('Incoming webhook', () => {
         });
     });
 
-    it('MM-T632 Slack compatibility code shouldn\'t mess up characters', () => {
-        const id = 'MM-T632';
-        const text = `${id} <>|<>|`;
-        const payload = {
-            channel: testChannel.name,
-            text,
-        };
-
-        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
-
-        cy.getLastPost().within(() => {
-            cy.get('.post__body p').should('have.text', text);
-        });
-    });
-
     it('MM-T634 Action buttons in Slack-style attachment post', () => {
         const id = 'MM-T634';
 
@@ -303,6 +288,21 @@ describe('Incoming webhook', () => {
             cy.get('.attachment-actions > button:nth-child(3)').should('have.text', 'Ephemeral Message');
             cy.get('.attachment-actions > button:nth-child(4)').should('have.attr', 'data-action-id');
             cy.get('.attachment-actions > button:nth-child(4)').should('have.text', 'Update');
+        });
+    });
+
+    it('MM-T632 Slack compatibility code shouldn\'t mess up characters', () => {
+        const id = 'MM-T632';
+        const text = `${id} <>|<>|`;
+        const payload = {
+            channel: testChannel.name,
+            text,
+        };
+
+        cy.postIncomingWebhook({url: incomingWebhook.url, data: payload});
+
+        cy.getLastPost().within(() => {
+            cy.get('.post__body p').should('have.text', text);
         });
     });
 
