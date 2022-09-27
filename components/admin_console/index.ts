@@ -5,9 +5,6 @@ import {connect, ConnectedProps} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
-import {AdminConfig} from '@mattermost/types/config';
-import {Role} from '@mattermost/types/roles';
-
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {getConfig, getEnvironmentConfig, updateConfig} from 'mattermost-redux/actions/admin';
 import {loadRolesIfNeeded, editRole} from 'mattermost-redux/actions/roles';
@@ -28,6 +25,9 @@ import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
 import LocalStorageStore from 'stores/local_storage_store';
 
 import {GlobalState} from 'types/store';
+
+import {AdminConfig} from '@mattermost/types/config';
+import {Role} from '@mattermost/types/roles';
 
 import AdminConsole from './admin_console';
 

@@ -22,22 +22,24 @@ type Props = {
 };
 
 type State = {
-    loadingLogs: boolean;
-    serverNames: LogServerNames;
-    logLevels: LogLevels;
     dateFrom: string;
     dateTo: string;
+    loadingLogs: boolean;
+    logLevels: LogLevels;
+    search: string;
+    serverNames: LogServerNames;
 };
 
 export default class Logs extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            loadingLogs: true,
-            serverNames: [],
-            logLevels: [],
             dateFrom: '',
             dateTo: '',
+            loadingLogs: true,
+            logLevels: [],
+            search: '',
+            serverNames: [],
         };
     }
 
@@ -56,20 +58,11 @@ export default class Logs extends React.PureComponent<Props, State> {
         this.setState({loadingLogs: false});
     }
 
+    onSearchChange = (search: string) => {
+        this.setState({search});
+    }
+
     render() {
-        let content = null;
-
-        if (this.state.loadingLogs) {
-            content = <LoadingScreen/>;
-        } else {
-            content = (
-                <LogList
-                    logs={this.props.logs}
-                    getLogs={this.props.actions.getLogs}
-                />
-            );
-        }
-
         return (
             <div className='wrapper--admin'>
                 <FormattedAdminHeader
@@ -79,25 +72,34 @@ export default class Logs extends React.PureComponent<Props, State> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-logs-content admin-console__content'>
-                        <div className='banner'>
-                            <div className='banner__content'>
-                                <FormattedMessage
-                                    id='admin.logs.bannerDesc'
-                                    defaultMessage='To look up users by User ID or Token ID, go to User Management > Users and paste the ID into the search filter.'
-                                />
+                        <div className='banner_wrapper'>
+                            <div className='banner'>
+                                <div className='banner__content'>
+                                    <FormattedMessage
+                                        id='admin.logs.bannerDesc'
+                                        defaultMessage='To look up users by User ID or Token ID, go to User Management > Users and paste the ID into the search filter.'
+                                    />
+                                </div>
                             </div>
+                            <button
+                                type='submit'
+                                className='btn btn-primary'
+                                onClick={this.reload}
+                            >
+                                <FormattedMessage
+                                    id='admin.logs.ReloadLogs'
+                                    defaultMessage='ReloadLogs'
+                                />
+                            </button>
                         </div>
-                        <button
-                            type='submit'
-                            className='btn btn-primary'
-                            onClick={this.reload}
-                        >
-                            <FormattedMessage
-                                id='admin.logs.reload'
-                                defaultMessage='Reload'
+                        {this.state.loadingLogs ?
+                            <LoadingScreen/> :
+                            <LogList
+                                logs={this.props.logs}
+                                onSearchChange={this.onSearchChange}
+                                search={this.state.search}
                             />
-                        </button>
-                        {content}
+                        }
                     </div>
                 </div>
             </div>

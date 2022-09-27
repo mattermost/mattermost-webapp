@@ -4,23 +4,23 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ActionFunc} from 'mattermost-redux/types/actions';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
+import DropdownInput from 'components/dropdown_input';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
-import {LogFilter, LogObject} from '@mattermost/types/admin';
+import {LogObject} from '@mattermost/types/admin';
 import {ChannelSearchOpts} from '@mattermost/types/channels';
 
 type Props = {
     logs: LogObject[];
-    getLogs: (logFilter: LogFilter) => ActionFunc;
+    onSearchChange: (term: string) => void;
+    search: string;
 };
 
 type State = {
     loading: boolean;
     term: string;
     filters: FilterOptions;
-    page: number;
 };
 
 export default class LogList extends React.PureComponent<Props, State> {
@@ -30,7 +30,6 @@ export default class LogList extends React.PureComponent<Props, State> {
             loading: false,
             term: '',
             filters: {},
-            page: 1,
         };
     }
 
@@ -38,7 +37,9 @@ export default class LogList extends React.PureComponent<Props, State> {
         return term.length > 0 || Object.keys(filters).length > 0;
     }
 
-    onSearch = async () => {}
+    onSearch = (term: string) => {
+        this.props.onSearchChange(term);
+    }
 
     getColumns = (): Column[] => {
         const caller: JSX.Element = (
@@ -175,12 +176,15 @@ export default class LogList extends React.PureComponent<Props, State> {
         });
     }
 
-    onFilter = () => {}
+    onFilter = (filterOptions: FilterOptions) => {
+        console.log({filterOptions});
+    }
 
     render = (): JSX.Element => {
-        const {term} = this.state;
+        const {search} = this.props;
         const rows: Row[] = this.getRows();
         const columns: Column[] = this.getColumns();
+        const logsCount = this.props.logs?.length ?? 0;
 
         const placeholderEmpty: JSX.Element = (
             <FormattedMessage
@@ -193,7 +197,72 @@ export default class LogList extends React.PureComponent<Props, State> {
             minHeight: `${rows.length * 40}px`,
         };
 
-        const logsCount = this.props.logs?.length ?? 0;
+        const filterOptions: FilterOptions = {
+            nodes: {
+                name: 'Nodes',
+                values: {
+                    node_ids: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.logs.node1'
+                                defaultMessage='Node 1'
+                            />
+                        ),
+                        value: 'node_1',
+                    },
+                },
+                keys: ['node_ids'],
+                type: DropdownInput,
+            },
+            levels: {
+                name: 'Levels',
+                values: {
+                    all: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.logs.Alllevels'
+                                defaultMessage='All levels'
+                            />
+                        ),
+                        value: true,
+                    },
+                    error: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.logs.Error'
+                                defaultMessage='Error'
+                            />
+                        ),
+                        value: false,
+                    },
+                    info: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.logs.Info'
+                                defaultMessage='Info'
+                            />
+                        ),
+                        value: false,
+                    },
+                    debug: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.logs.Debug'
+                                defaultMessage='Debug'
+                            />
+                        ),
+                        value: false,
+                    },
+                },
+                keys: ['all', 'error', 'info', 'debug'],
+            },
+        };
+
+        const filterProps = {
+            options: filterOptions,
+            keys: ['nodes', 'levels'],
+            onFilter: this.onFilter,
+        };
 
         return (
             <div className='LogTable'>
@@ -205,12 +274,13 @@ export default class LogList extends React.PureComponent<Props, State> {
                     endCount={logsCount}
                     total={logsCount}
                     onSearch={this.onSearch}
-                    term={term}
+                    term={search}
                     placeholderEmpty={placeholderEmpty}
                     rowsContainerStyles={rowsContainerStyles}
                     page={1}
                     nextPage={() => {}}
                     previousPage={() => {}}
+                    filterProps={filterProps}
                 />
             </div>
         );
