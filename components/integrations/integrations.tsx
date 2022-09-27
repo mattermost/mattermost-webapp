@@ -20,11 +20,24 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import IntegrationOption from './integration_option.jsx';
 
-export default class Integrations extends React.PureComponent {
+type Props ={
+    siteName: string;
+    enableIncomingWebhooks: string;
+    enableOutgoingWebhooks: string;
+    enableCommands: string;
+    enableOAuthServiceProvider: string;
+    team: {
+        name: string;
+        id: string;
+        display_name: string;
+    };
+
+}
+
+export default class Integrations extends React.PureComponent <Props> {
     static get propTypes() {
         return {
             team: PropTypes.object,
-            user: PropTypes.object,
             siteName: PropTypes.string,
             enableIncomingWebhooks: PropTypes.bool,
             enableOutgoingWebhooks: PropTypes.bool,

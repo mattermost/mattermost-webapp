@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import Integrations from './integrations.jsx';
+import Integrations from './integrations.tsx';
 
 function mapStateToProps(state) {
     const config = getConfig(state);
