@@ -7,7 +7,45 @@ import React from 'react';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import {getClosestParent} from 'utils/utils';
 
-export default class ModalSuggestionList extends React.PureComponent {
+type Props = {
+    open: boolean;
+    cleared: boolean;
+    inputRef: React.RefObject<any>;
+    onLoseVisibility: () => void;
+    ariaLiveRef?: React.Ref<HTMLDivElement>;
+    position?: 'top' | 'bottom';
+    renderDividers?: string[];
+    renderNoResults?: boolean;
+    onCompleteWord: (term: string, matchedPretext: any, e?: React.KeyboardEventHandler<HTMLDivElement>) => boolean;
+    preventClose?: () => void;
+    onItemHover: (term: string) => void;
+    pretext: string;
+    matchedPretext: string[];
+    items: any[];
+    terms: string[];
+    selection: string;
+    components: Array<React.Component<{item: any}>>;
+    wrapperHeight?: number;
+
+    // suggestionBoxAlgn is an optional object that can be passed to align the SuggestionList with the keyboard caret
+    // as the user is typing.
+    suggestionBoxAlgn?: {
+        lineHeight: number;
+        pixelsToMoveX: number;
+        pixelsToMoveY: number;
+    };
+}
+
+type State = {
+    scroll: number;
+    modalBounds: {top: number; bottom: number};
+    inputBounds: {top: number; bottom: number; width: number};
+    position: 'top' | 'bottom' | undefined;
+    open?: boolean;
+    cleared?: boolean;
+}
+
+export default class ModalSuggestionList extends React.PureComponent<Props, State> {
     static propTypes = {
         position: PropTypes.string.isRequired,
         open: PropTypes.bool.isRequired,
@@ -15,8 +53,11 @@ export default class ModalSuggestionList extends React.PureComponent {
         inputRef: PropTypes.object.isRequired,
         onLoseVisibility: PropTypes.func.isRequired,
     }
+    container: React.RefObject<HTMLDivElement>;
+    latestHeight: number;
+    suggestionList: React.RefObject<any>;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -39,7 +80,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         return {top: 0, bottom: 0, width: 0};
     }
 
-    onModalScroll = (e) => {
+    onModalScroll = (e: any) => {
         if (this.state.scroll !== e.target.scrollTop &&
             this.latestHeight !== 0) {
             this.setState({scroll: e.target.scrollTop});
@@ -49,7 +90,7 @@ export default class ModalSuggestionList extends React.PureComponent {
     componentDidMount() {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
-            modalBodyContainer.addEventListener('scroll', this.onModalScroll);
+            modalBodyContainer?.addEventListener('scroll', this.onModalScroll);
         }
         window.addEventListener('resize', this.updateModalBounds);
     }
@@ -57,12 +98,12 @@ export default class ModalSuggestionList extends React.PureComponent {
     componentWillUnmount() {
         if (this.container.current) {
             const modalBodyContainer = getClosestParent(this.container.current, '.modal-body');
-            modalBodyContainer.removeEventListener('scroll', this.onModalScroll);
+            modalBodyContainer?.removeEventListener('scroll', this.onModalScroll);
         }
         window.removeEventListener('resize', this.updateModalBounds);
     }
 
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps: Props, prevState: State) {
         if (!this.props.open || this.props.cleared) {
             return;
         }
@@ -76,10 +117,12 @@ export default class ModalSuggestionList extends React.PureComponent {
             this.updatePosition(newInputBounds);
 
             if (this.container.current) {
-                const modalBodyRect = getClosestParent(this.container.current, '.modal-body').getBoundingClientRect();
-                if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
-                    this.props.onLoseVisibility();
-                    return;
+                const modalBodyRect = getClosestParent(this.container.current, '.modal-body')?.getBoundingClientRect();
+                if (modalBodyRect) {
+                    if ((newInputBounds.bottom < modalBodyRect.top) || (newInputBounds.top > modalBodyRect.bottom)) {
+                        this.props.onLoseVisibility();
+                        return;
+                    }
                 }
             }
 
@@ -110,7 +153,7 @@ export default class ModalSuggestionList extends React.PureComponent {
         return inputBounds;
     }
 
-    updatePosition = (newInputBounds) => {
+    updatePosition = (newInputBounds: { top: number; bottom: number; width: number}) => {
         let inputBounds = newInputBounds;
         if (!newInputBounds) {
             inputBounds = this.state.inputBounds;
@@ -141,10 +184,12 @@ export default class ModalSuggestionList extends React.PureComponent {
         }
 
         const modalContainer = getClosestParent(this.container.current, '.modal-content');
-        const modalBounds = modalContainer.getBoundingClientRect();
+        const modalBounds = modalContainer?.getBoundingClientRect();
 
-        if (this.state.modalBounds.top !== modalBounds.top || this.state.modalBounds.bottom !== modalBounds.bottom) {
-            this.setState({modalBounds: {top: modalBounds.top, bottom: modalBounds.bottom}});
+        if (modalBounds) {
+            if (this.state.modalBounds.top !== modalBounds.top || this.state.modalBounds.bottom !== modalBounds.bottom) {
+                this.setState({modalBounds: {top: modalBounds.top, bottom: modalBounds.bottom}});
+            }
         }
     }
 
