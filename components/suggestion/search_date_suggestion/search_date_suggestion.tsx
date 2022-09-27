@@ -28,7 +28,7 @@ export default class SearchDateSuggestion extends Suggestion {
 
     componentDidMount() {
         //the naming scheme of momentjs packages are all lowercases
-        const locale = this.props.locale && this.props.locale.toLowerCase();
+        const locale = this.props.locale?.toLowerCase();
 
         // Momentjs use en as defualt, no need to import en
         if (locale && locale !== 'en' && !loadedLocales[locale]) {
