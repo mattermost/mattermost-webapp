@@ -4,6 +4,7 @@
 import React, {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIntl, FormattedMessage} from 'react-intl';
+import {useParams, useHistory, Link, useLocation} from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -15,7 +16,6 @@ import './profile.scss';
 
 import {openModal} from 'actions/views/modals';
 
-import {useParams, useHistory, Link, useLocation} from 'react-router-dom';
 import {ModalIdentifiers} from 'utils/constants';
 
 import UserSettingsModal from 'components/user_settings/modal';

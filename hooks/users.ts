@@ -1,10 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {useMemo, useEffect} from 'react';
+
+import {useDispatch, useSelector} from 'react-redux';
+
 import {getStatusesByIdsBatchedDebounced} from 'mattermost-redux/actions/users';
 import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {useMemo, useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
 import {GlobalState} from 'types/store';
 
