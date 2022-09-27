@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {geoPath} from 'd3';
+import {geoPath} from 'd3-geo';
 import * as GeoJSON from 'geojson';
 import React, {ReactElement} from 'react';
 import * as topojson from 'topojson-client';
@@ -41,14 +41,6 @@ interface WorldMapProps {
 }
 
 const WorldMap = (props: WorldMapProps): ReactElement => {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const handleClick = (e: any) => {
-        const timezone = findTimeZone(e.target.id);
-        if (timezone) {
-            props.onChange(timezone.name);
-        }
-    };
-
     const pathGenerator = geoPath();
     const timeZonePolygonFeatures = React.useMemo(
         createTimeZonePolygonFeatures,
@@ -93,7 +85,6 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
                 fill={fill}
                 strokeWidth={0.5}
                 stroke={stroke}
-                onClick={handleClick}
             >
                 <title>{title}</title>
             </path>
@@ -105,10 +96,7 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
             viewBox='0 0 800 320'
             width={'100%'}
         >
-            <g
-                style={{cursor: 'pointer'}}
-                transform='matrix(2.3 0 0 -2 400 200)'
-            >
+            <g transform='matrix(2.3 0 0 -2 400 200)'>
                 {tzPaths}
             </g>
         </svg>
