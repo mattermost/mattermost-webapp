@@ -1327,7 +1327,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         return (
-            <Wysiwyg/>
+            <Wysiwyg
+                channelId={this.props.currentChannel.id}
+            />
         );
 
         return (
