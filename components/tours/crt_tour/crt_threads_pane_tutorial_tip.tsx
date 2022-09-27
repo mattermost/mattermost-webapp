@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Constants, Preferences} from 'utils/constants';
@@ -14,6 +14,7 @@ const translate = {x: 2, y: 25};
 
 const CRTThreadsPaneTutorialTip = () => {
     const dispatch = useDispatch();
+    const {formatMessage} = useIntl();
     const currentUserId = useSelector(getCurrentUserId);
     const title = (
         <FormattedMessage
@@ -24,13 +25,15 @@ const CRTThreadsPaneTutorialTip = () => {
 
     const screen = (
         <p>
-            <FormattedMessage
-                id='tutorial_threads.threads_pane.description'
-                defaultMessage='Click the <b>Follow</b> button to be notified about replies and see it in your <b>Threads</b> view. Within a thread, the <b>New Messages</b> line shows you where you left off.'
-                values={{
+            {formatMessage(
+                {
+                    id: 'tutorial_threads.threads_pane.description',
+                    defaultMessage: 'Click the <b>Follow</b> button to be notified about replies and see it in your <b>Threads</b> view. Within a thread, the <b>New Messages</b> line shows you where you left off.',
+                },
+                {
                     b: (value: string) => <b>{value}</b>,
-                }}
-            />
+                },
+            )}
         </p>
     );
 

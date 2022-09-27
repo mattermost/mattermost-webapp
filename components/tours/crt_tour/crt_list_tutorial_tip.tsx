@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
 import {GlobalState} from 'types/store';
@@ -14,15 +14,32 @@ import CRTTourTip from './crt_tour_tip';
 
 const translate = {x: -6, y: 62};
 
-export const UpShortcut = () => (
-    <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'UP'}</ShortcutKey>
-);
+export const UpShortcut = () => {
+    const {formatMessage} = useIntl();
+    return (<ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>
+        {
+            formatMessage({
+                id: 'tutorial_threads.list.Up',
+                defaultMessage: 'UP',
+            })
+        }
+    </ShortcutKey>);
+};
 
-export const DownShortcut = () => (
-    <ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>{'DOWN'}</ShortcutKey>
-);
+export const DownShortcut = () => {
+    const {formatMessage} = useIntl();
+    return (<ShortcutKey variant={ShortcutKeyVariant.TutorialTip}>
+        {
+            formatMessage({
+                id: 'tutorial_threads.list.Down',
+                defaultMessage: 'Down',
+            })
+        }
+    </ShortcutKey>);
+};
 
 const CRTListTutorialTip = () => {
+    const {formatMessage} = useIntl();
     const isMobileView = useSelector((state: GlobalState) =>
         getIsMobileView(state),
     );
@@ -36,24 +53,22 @@ const CRTListTutorialTip = () => {
     const screen = (
         <>
             <p>
-                <FormattedMessage
-                    id='tutorial_threads.list.description-p1'
-                    defaultMessage={
-                        'Here you’ll see a preview of all threads you’re following or participating in. Clicking on a thread in this list will open the full thread on the right.'
-                    }
-                />
+                {formatMessage({
+                    id: 'tutorial_threads.list.description-p1',
+                    defaultMessage: 'Here you’ll see a preview of all threads you’re following or participating in. Clicking on a thread in this list will open the full thread on the right.',
+                })}
             </p>
             <p>
-                <FormattedMessage
-                    id='tutorial_threads.list.description-p2'
-                    defaultMessage={
-                        'Use {upKey} / {downKey} to navigate the thread list.'
-                    }
-                    values={{
-                        upKey: <UpShortcut/>,
-                        downKey: <DownShortcut/>,
-                    }}
-                />
+
+                {formatMessage({
+                    id: 'tutorial_threads.list.description-p2',
+                    defaultMessage: 'Use {upKey} / {downKey} to navigate the thread list.',
+                },
+                {
+                    upKey: <UpShortcut/>,
+                    downKey: <DownShortcut/>,
+                })
+                }
             </p>
         </>
     );

@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import {useMeasurePunchouts} from '@mattermost/components';
 
 import CRTTourTip from './crt_tour_tip';
 
 const CRTWelcomeTutorialTip = () => {
+    const {formatMessage} = useIntl();
     const title = (
         <FormattedMessage
             id='tutorial_threads.welcome.title'
@@ -17,12 +18,14 @@ const CRTWelcomeTutorialTip = () => {
 
     const screen = (
         <p>
-            <FormattedMessage
-                id='tutorial_threads.welcome.description'
-                defaultMessage={
-                    'All the conversations that you’re participating in or following will show here. If you have unread messages or mentions within your threads, you’ll see that here too.'
-                }
-            />
+            {formatMessage(
+                {
+                    id: 'tutorial_threads.welcome.description',
+                    defaultMessage:
+                        'All the conversations that you’re participating in or following will show here. If you have unread messages or mentions within your threads, you’ll see that here too.',
+
+                })
+            }
         </p>
     );
 
