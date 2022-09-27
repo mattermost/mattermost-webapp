@@ -24,11 +24,6 @@ interface Props {
         length: number;
         forEach: (e: unknown) => void;
     };
-    data?: {
-        errors: string;
-        error: unknown;
-        elements: unknown;
-    };
     actions: {
         submitInteractiveDialog: (dialog: unknown) => unknown;
         checkIfErrorsMatchElements: () => void;
