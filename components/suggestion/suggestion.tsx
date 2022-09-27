@@ -21,7 +21,6 @@ export default class Suggestion extends React.PureComponent<Props> {
         role: 'button',
         tabIndex: -1,
     };
-    
 
     handleClick = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
         e.preventDefault();
