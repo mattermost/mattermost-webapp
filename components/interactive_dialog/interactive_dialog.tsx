@@ -41,7 +41,7 @@ interface Props {
     iconUrl: string;
     submitLabel: JSX.Element;
     url: string;
-    callbackId: string;
+    callbackId: unknown;
     state: boolean;
     notifyOnCancel: unknown;
     onChange?: (name: string, value: string) => string;
