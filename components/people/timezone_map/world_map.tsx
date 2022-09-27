@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {geoPath} from 'd3-geo';
+import {geoPath} from 'd3';
 import * as GeoJSON from 'geojson';
 import React, {ReactElement} from 'react';
 import * as topojson from 'topojson-client';
