@@ -13,7 +13,34 @@ import FilePreviewModal from 'components/file_preview_modal';
 
 import brokenImageIcon from 'images/icons/brokenimage.png';
 
-export default class MarkdownImage extends React.PureComponent {
+type Props = {
+    imageMetadata: {
+        height: number;
+        width: number;
+        format: string;
+    };
+    height: string;
+    width: string;
+    imageIsLink: boolean;
+    postId: string;
+    alt: string;
+    postType: string;
+    src: string;
+    title: string;
+    className: string;
+    // eslint-disable-next-line no-empty-pattern
+    onImageLoaded: ({}) => void;
+    actions: {
+        // eslint-disable-next-line no-empty-pattern
+        openModal: ({}) => void;
+    };
+}
+type State = {
+    loadFailed: boolean;
+    loaded: boolean;
+}
+
+export default class MarkdownImage extends React.PureComponent <Props, State> {
     static defaultProps = {
         imageMetadata: {},
     };
@@ -32,7 +59,6 @@ export default class MarkdownImage extends React.PureComponent {
         postId: PropTypes.string.isRequired,
         imageIsLink: PropTypes.bool.isRequired,
         onImageLoaded: PropTypes.func,
-        onImageHeightChanged: PropTypes.func,
         postType: PropTypes.string,
 
         actions: PropTypes.shape({
@@ -40,7 +66,7 @@ export default class MarkdownImage extends React.PureComponent {
         }).isRequired,
     }
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -54,7 +80,7 @@ export default class MarkdownImage extends React.PureComponent {
             height,
             imageMetadata,
             width,
-        } = this.props;
+        }: any = this.props;
 
         if (!height) {
             return imageMetadata.height;
@@ -69,12 +95,12 @@ export default class MarkdownImage extends React.PureComponent {
         return parseInt(height, 10);
     }
 
-    getFileExtensionFromUrl = (url) => {
+    getFileExtensionFromUrl = (url: string) => {
         const index = url.lastIndexOf('.');
         return index > 0 ? url.substring(index + 1) : null;
     };
 
-    showModal = (e, link) => {
+    showModal = (e: any, link: string) => {
         const extension = this.getFileExtensionFromUrl(link);
 
         if (!this.props.imageIsLink && extension) {
@@ -105,17 +131,17 @@ export default class MarkdownImage extends React.PureComponent {
             this.props.postType === Constants.PostTypes.HEADER_CHANGE;
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: any) {
         this.onUpdated(prevProps.src);
     }
 
-    onUpdated = (prevSrc) => {
+    onUpdated = (prevSrc: string) => {
         if (this.props.src && this.props.src !== prevSrc) {
             this.setState({loadFailed: false});
         }
     }
 
-    handleImageLoaded = ({height, width}) => {
+    handleImageLoaded = ({height, width}: any) => {
         this.setState({
             loaded: true,
         }, () => { // Call onImageLoaded prop only after state has already been set
@@ -177,7 +203,7 @@ export default class MarkdownImage extends React.PureComponent {
                         className = `${this.props.className} ${loadingClass}`;
                     }
 
-                    const {height, width, title, postId, onImageHeightChanged} = this.props;
+                    const {height, width, title, postId} = this.props;
 
                     let imageElement = (
                         <SizeAwareImage
@@ -202,7 +228,12 @@ export default class MarkdownImage extends React.PureComponent {
                                 alt={alt || safeSrc}
                                 postId={postId}
                                 imageKey={safeSrc}
-                                onToggle={onImageHeightChanged}
+                                isExpanded={false}
+                                actions={{
+                                    toggleInlineImageVisibility(): void {
+                                        throw new Error('Function not implemented.');
+                                    },
+                                }}
                             >
                                 {imageElement}
                             </MarkdownImageExpand>

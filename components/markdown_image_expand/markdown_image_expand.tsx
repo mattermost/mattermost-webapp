@@ -20,7 +20,7 @@ const MarkdownImageExpand: React.FC<Props> = ({children, alt, isExpanded, postId
 
     useEffect(() => {
         onToggle?.(isExpanded);
-    }, [isExpanded]);
+    }, [isExpanded, onToggle]);
 
     const handleToggleButtonClick = () => {
         toggleInlineImageVisibility(postId, imageKey);
