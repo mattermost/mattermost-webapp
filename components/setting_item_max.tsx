@@ -11,7 +11,7 @@ import {isKeyPressed} from 'utils/utils';
 type Props = {
     inputs: ReactNode;
     containerStyle?: string;
-    clientError?: string;
+    clientError?: string | React.ReactNode | null;
     serverError?: string | null;
     extraInfo?: string | JSX.Element;
     infoPosition?: string;
