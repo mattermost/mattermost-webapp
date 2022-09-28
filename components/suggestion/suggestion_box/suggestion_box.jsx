@@ -155,6 +155,11 @@ export default class SuggestionBox extends React.PureComponent {
          */
         forceSuggestionsWhenBlur: PropTypes.bool,
 
+        /**
+         * aligns the suggestionlist with the textbox dimension
+         */
+        alignWithTextbox: PropTypes.bool,
+
         actions: PropTypes.shape({
             addMessageIntoHistory: PropTypes.func.isRequired,
         }).isRequired,
@@ -174,6 +179,7 @@ export default class SuggestionBox extends React.PureComponent {
         replaceAllInputOnSelect: false,
         listenForMentionKeyClick: false,
         forceSuggestionsWhenBlur: false,
+        alignWithTextbox: false,
     }
 
     constructor(props) {
@@ -672,6 +678,7 @@ export default class SuggestionBox extends React.PureComponent {
     }
 
     nonDebouncedPretextChanged = (pretext, complete = false) => {
+        const {alignWithTextbox} = this.props;
         this.pretext = pretext;
         let handled = false;
         let callback = this.handleReceivedSuggestions;
@@ -687,7 +694,7 @@ export default class SuggestionBox extends React.PureComponent {
                     const pxToSubstract = Utils.getPxToSubstract(char);
 
                     // get the alignment for the box and set it in the component state
-                    const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(this.getTextbox(), pxToSubstract);
+                    const suggestionBoxAlgn = Utils.getSuggestionBoxAlgn(this.getTextbox(), pxToSubstract, alignWithTextbox);
                     this.setState({
                         suggestionBoxAlgn,
                     });
@@ -794,6 +801,7 @@ export default class SuggestionBox extends React.PureComponent {
         Reflect.deleteProperty(props, 'onSuggestionsReceived');
         Reflect.deleteProperty(props, 'actions');
         Reflect.deleteProperty(props, 'shouldSearchCompleteText');
+        Reflect.deleteProperty(props, 'alignWithTextbox');
 
         // This needs to be upper case so React doesn't think it's an html tag
         const SuggestionListComponent = listComponent;

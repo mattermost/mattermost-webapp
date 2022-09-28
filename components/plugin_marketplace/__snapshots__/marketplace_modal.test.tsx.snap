@@ -224,7 +224,6 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -304,7 +303,6 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
@@ -384,7 +382,6 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
             inputComponent={
               Object {
                 "$$typeof": Symbol(react.forward_ref),
-                "displayName": "LocalizedInput",
                 "render": [Function],
               }
             }
