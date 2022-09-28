@@ -3,6 +3,7 @@
     height: 100%;
     align-items: center;
     padding: 0;
+    border-right: 1px solid rgba(var(--center-channel-color-rgb), 0.12);
     background-color: var(--sidebar-bg);
 
     .Link {

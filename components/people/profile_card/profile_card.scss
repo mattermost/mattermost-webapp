@@ -5,28 +5,34 @@
 @import 'utils/mixins';
 
 .profile-card {
-    display: flex;
-    flex-direction: column;
-    padding: 12px 0 17px;
+    display: grid;
+    padding: 12px 0 16px;
     border: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
     margin: 8px;
     background-color: var(--center-channel-bg);
     border-radius: 4px;
     box-shadow: var(--elevation-1);
+    grid-auto-rows: 16px 1fr auto;
 
-    // HACKHACKHACK: <Highlight> component wraps in empty div
-    > div {
+    .Grid__item & {
+        height: calc(100% - 15px);
+    }
+
+    &__highlighted {
         display: flex;
         flex-direction: column;
+    }
+
+    &__header {
+        display: flex;
+        padding: 0 12px;
     }
 
     &__role {
         width: fit-content;
         padding: 0 4px;
-        margin-left: 12px;
         background-color: rgba(var(--center-channel-text-rgb), 0.08);
         border-radius: 4px;
-        color: var(--center-channel-text);
         font-size: 10px;
         font-weight: 600;
         line-height: 16px;
@@ -68,7 +74,6 @@
     &__detail {
         height: 20px;
         padding: 0 16px;
-        color: var(--center-channel-text);
         font-size: 14px;
         line-height: 20px;
         text-align: center;
@@ -76,6 +81,10 @@
 
         &:not(:last-of-type) {
             margin-bottom: 4px;
+        }
+
+        &:last-of-type {
+            margin-bottom: 16px;
         }
     }
 
@@ -89,9 +98,8 @@
     &__extended {
         display: flex;
         flex-direction: column;
-        padding: 16px 16px 0;
+        padding: 16px;
         border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
-        margin-top: 16px;
 
         &__item {
             display: flex;
@@ -131,21 +139,11 @@
         }
     }
 
-    &__action-buttons {
+    &__actions {
         display: flex;
         justify-content: space-between;
-        padding: 20px;
+        padding: 16px 16px 0;
         border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
-        margin-top: 20px;
-
-        button {
-            @include primary-button;
-            @include button-small;
-
-            &:focus {
-                padding: 11px 18px;
-            }
-        }
     }
 
     mark {

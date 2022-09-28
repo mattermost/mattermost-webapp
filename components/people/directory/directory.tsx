@@ -81,7 +81,7 @@ const Directory = () => {
                         <FormattedMessage
                             defaultMessage={'{value} people'}
                             id={'directory.people.count'}
-                            values={{value: 62}}
+                            values={{value: (searchTerm ? searchPeople : people)?.length}}
                         />
                     </span>
                 </div>

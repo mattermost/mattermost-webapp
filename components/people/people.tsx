@@ -4,7 +4,7 @@
 import React, {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
-import {Route, Switch, useRouteMatch} from 'react-router-dom';
+import {Route, Switch, useRouteMatch, Redirect} from 'react-router-dom';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {applyTheme} from 'utils/utils';
@@ -37,9 +37,17 @@ export default function People() {
     const {path} = useRouteMatch();
 
     return (
-        <PeopleRoot>
+        <PeopleRoot
+            css={`
+                background: rgba(var(--center-channel-color-rgb), 0.04);
+            `}
+        >
             <Sidebar/>
             <Switch>
+                <Redirect
+                    from={`${path}/@:username`}
+                    to={`${path}/:username`}
+                />
                 <Route path={`${path}/:username`}>
                     <Profile/>
                 </Route>
@@ -57,6 +65,4 @@ export default function People() {
 const PeopleRoot = styled.div`
     display: flex;
     height: 100%;
-    display: flex;
-    background: var(--center-channel-bg);
 `;

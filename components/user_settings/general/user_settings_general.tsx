@@ -6,7 +6,6 @@ import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as Utils from 'utils/utils';
@@ -18,6 +17,8 @@ import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
+
+import {UserProfile} from '@mattermost/types/users';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -88,6 +89,10 @@ const holders = defineMessages({
         id: t('user.settings.general.position'),
         defaultMessage: 'Position',
     },
+    bio: {
+        id: t('user.settings.general.bio'),
+        defaultMessage: 'Bio',
+    },
 });
 
 export type Props = {
@@ -141,6 +146,7 @@ type State = {
     lastName: string;
     nickname: string;
     position: string;
+    bio: string;
     originalEmail: string;
     email: string;
     confirmEmail: string;
@@ -402,6 +408,22 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
         this.submitUser(user, false);
     }
 
+    submitBio = () => {
+        const user = Object.assign({}, this.props.user);
+        const bio = this.state.bio.trim();
+
+        if (user.bio === bio) {
+            this.updateSection('');
+            return;
+        }
+
+        user.bio = bio;
+
+        trackEvent('settings', 'user_settings_update', {field: 'bio'});
+
+        this.submitUser(user, false);
+    }
+
     updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({username: e.target.value});
     }
@@ -420,6 +442,10 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 
     updatePosition = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({position: e.target.value});
+    }
+
+    updateBio = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+        this.setState({bio: e.target.value});
     }
 
     updateEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -460,6 +486,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             lastName: user.last_name,
             nickname: user.nickname,
             position: user.position,
+            bio: user.bio ?? '',
             originalEmail: user.email,
             email: '',
             confirmEmail: '',
@@ -1241,6 +1268,95 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
             );
         }
 
+        let bioSection;
+        if (this.props.activeSection === 'bio') {
+            const extraInfo = (
+                <span>
+                    <FormattedMessage
+                        id='user.settings.general.bioExtra'
+                        defaultMessage='Use Bio to share a little about yourself. This will be shown in your profile popover.'
+                    />
+                </span>
+            );
+            let submit = null;
+
+            let bioLabel: JSX.Element | string = (
+                <FormattedMessage
+                    id='user.settings.general.bio'
+                    defaultMessage='Bio'
+                />
+            );
+            if (Utils.isMobile()) {
+                bioLabel = '';
+            }
+
+            inputs.push(
+                <div
+                    key='bioSetting'
+                    className='form-group'
+                >
+                    <label className='col-sm-5 control-label'>{bioLabel}</label>
+                    <div className='col-sm-7'>
+                        <textarea
+                            id='bio'
+                            autoFocus={true}
+                            className='form-control'
+                            onChange={this.updateBio}
+                            value={this.state.bio}
+                            maxLength={Constants.MAX_BIO_LENGTH}
+                            autoCapitalize='off'
+                            onFocus={Utils.moveCursorToEnd}
+                            aria-label={formatMessage({id: 'user.settings.general.bio', defaultMessage: 'Bio'})}
+                        />
+                    </div>
+                </div>,
+            );
+
+            submit = this.submitBio;
+
+            bioSection = (
+                <SettingItemMax
+                    title={formatMessage(holders.bio)}
+                    inputs={inputs}
+                    submit={submit}
+                    saving={this.state.sectionIsSaving}
+                    serverError={serverError}
+                    clientError={clientError}
+                    updateSection={this.updateSection}
+                    extraInfo={extraInfo}
+                />
+            );
+        } else {
+            let describe: JSX.Element|string = '';
+            if (user.bio) {
+                describe = user.bio;
+            } else {
+                describe = (
+                    <FormattedMessage
+                        id='user.settings.general.emptyBio'
+                        defaultMessage="Click 'Edit' to add your bio"
+                    />
+                );
+                if (Utils.isMobile()) {
+                    describe = (
+                        <FormattedMessage
+                            id='user.settings.general.mobile.emptyBio'
+                            defaultMessage='Click to add your bio'
+                        />
+                    );
+                }
+            }
+
+            bioSection = (
+                <SettingItemMin
+                    title={formatMessage(holders.bio)}
+                    describe={describe}
+                    section={'bio'}
+                    updateSection={this.updateSection}
+                />
+            );
+        }
+
         const emailSection = this.createEmailSection();
 
         let pictureSection;
@@ -1374,6 +1490,8 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     {nicknameSection}
                     <div className='divider-light'/>
                     {positionSection}
+                    <div className='divider-light'/>
+                    {bioSection}
                     <div className='divider-light'/>
                     {emailSection}
                     <div className='divider-light'/>

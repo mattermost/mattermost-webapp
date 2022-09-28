@@ -23,6 +23,7 @@ query gqlWebCurrentUserInfo {
       first_name: firstName
       last_name: lastName
       position
+      bio
       roles {
         id
         name
