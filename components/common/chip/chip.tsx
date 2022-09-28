@@ -19,7 +19,7 @@ type Props = {
     // for the "other" option unlike the others, e.g. free-form response
     otherOption?: boolean;
     leadingIcon?: string;
-    additionalMarkup?: JSX.Element;
+    additionalMarkup?: React.ReactNode | React.ReactNodeArray;
 }
 
 const StyledChip = styled.button<{ otherOption?: boolean }>`
