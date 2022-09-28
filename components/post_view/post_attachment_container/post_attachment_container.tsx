@@ -39,7 +39,7 @@ const PostAttachmentContainer = (props: Props) => {
 
     const dispatch = useDispatch();
 
-    const userId = useSelector(getCurrentUserId);
+    const currentUserId = useSelector(getCurrentUserId);
     const shouldFocusPostWithoutRedirect = useSelector((state: GlobalState) => isTeamSameWithCurrentTeam(state, params?.teamName ?? ''));
     const post = useSelector((state: GlobalState) => getPost(state, params?.postId ?? ''));
     const crtEnabled = useSelector(isCollapsedThreadsEnabled);
@@ -62,14 +62,14 @@ const PostAttachmentContainer = (props: Props) => {
             ];
 
             if (params && shouldFocusPostWithoutRedirect && crtEnabled && post && post.root_id) {
-                dispatch(focusPost(params.postId, link, userId, {skipRedirectReplyPermalink: true}));
+                dispatch(focusPost(params.postId, link, currentUserId, {skipRedirectReplyPermalink: true}));
                 return;
             }
             if (!classNames.some((className) => e.target.className.includes(className)) && e.target.id !== 'image-name-text') {
                 history.push(link);
             }
         }
-    }, [className, crtEnabled, dispatch, history, link, params, post, shouldFocusPostWithoutRedirect, userId]);
+    }, [className, crtEnabled, dispatch, history, link, params, post, shouldFocusPostWithoutRedirect, currentUserId]);
     return (
         <div
             className={`attachment attachment--${className}`}
