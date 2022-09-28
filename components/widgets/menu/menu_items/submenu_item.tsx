@@ -174,8 +174,6 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
 
         let subMenuContent: React.ReactNode = '';
-        const selected = Utils.localizeMessage('sidebar.menu.item.selected', 'selected');
-        const notSelected = Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected');
 
         if (!isMobile) {
             subMenuContent = (
@@ -188,8 +186,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                         let aria = ariaLabel;
                         if (s.action) {
                             aria = s.text === selectedValueText ?
-                                s.text + ' ' + selected :
-                                s.text + ' ' + notSelected;
+                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.selected', 'selected') :
+                                s.text + ' ' + Utils.localizeMessage('sidebar.menu.item.notSelected', 'not selected');
                         }
                         return (
                             <span
