@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -35,17 +34,6 @@ type Props ={
 }
 
 export default class Integrations extends React.PureComponent <Props> {
-    static get propTypes() {
-        return {
-            team: PropTypes.object,
-            siteName: PropTypes.string,
-            enableIncomingWebhooks: PropTypes.bool,
-            enableOutgoingWebhooks: PropTypes.bool,
-            enableCommands: PropTypes.bool,
-            enableOAuthServiceProvider: PropTypes.bool,
-        };
-    }
-
     componentDidMount() {
         this.updateTitle();
     }
