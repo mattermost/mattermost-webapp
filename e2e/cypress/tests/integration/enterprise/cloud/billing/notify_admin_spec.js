@@ -7,6 +7,8 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
+// Group: @cws @cloud_only @cloud_trial
+
 import {getAdminAccount} from '../../../../support/env';
 
 const admin = getAdminAccount();
