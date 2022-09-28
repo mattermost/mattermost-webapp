@@ -10,23 +10,23 @@ import {isKeyPressed} from 'utils/utils';
 
 type Props = {
     inputs: ReactNode;
-    containerStyle: string;
-    clientError: string;
-    serverError: string;
-    extraInfo: string | JSX.Element;
-    infoPosition: string;
-    section: string;
+    containerStyle?: string;
+    clientError?: string;
+    serverError?: string;
+    extraInfo?: string | JSX.Element;
+    infoPosition?: string;
+    section?: string;
     updateSection: (section: string) => void;
     submit?: (setting?: string) => void;
-    disableEnterSubmit: boolean;
-    submitExtra: ReactNode;
-    saving: boolean;
+    disableEnterSubmit?: boolean;
+    submitExtra?: ReactNode;
+    saving?: boolean;
     title: ReactNode;
-    width: string;
-    cancelButtonText: ReactNode;
-    shiftEnter: boolean;
-    saveButtonText: string;
-    setting: string;
+    width?: string;
+    cancelButtonText?: ReactNode;
+    shiftEnter?: boolean;
+    saveButtonText?: string;
+    setting?: string;
 }
 
 export default class SettingItemMax extends React.PureComponent<Props> {
@@ -90,7 +90,7 @@ export default class SettingItemMax extends React.PureComponent<Props> {
     }
 
     handleUpdateSection = (e: React.MouseEvent<HTMLButtonElement>) => {
-        this.props.updateSection(this.props.section);
+        this.props.updateSection(this.props.section ?? '');
         e.preventDefault();
     }
 
