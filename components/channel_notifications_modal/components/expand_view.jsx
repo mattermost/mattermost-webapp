@@ -10,7 +10,7 @@ import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/pre
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 
 import Describe from './describe.jsx';
 import ExtraInfo from './extra_info.jsx';
