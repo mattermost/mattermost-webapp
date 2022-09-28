@@ -163,10 +163,10 @@ const ProfileCard = ({
                 {customStatus && (
                     <div
                         css={`
-                                display: flex;
-                                place-content: center;
-                                margin-bottom: 1rem;
-                            `}
+                            display: flex;
+                            place-content: center;
+                            margin-bottom: 1rem;
+                        `}
                     >
                         <CustomStatusEmoji
                             showTooltip={false}
@@ -179,10 +179,10 @@ const ProfileCard = ({
                             {customStatus.expires_at && customStatus.duration !== CustomStatusDuration.DONT_CLEAR && (
                                 <ExpiryTime
                                     css={`
-                                            opacity: 0.7;
-                                            font-size: 12px;
-                                            margin-left: 6px;
-                                        `}
+                                        opacity: 0.7;
+                                        font-size: 12px;
+                                        margin-left: 6px;
+                                    `}
                                     time={customStatus.expires_at}
                                     withinBrackets={true}
                                 />
@@ -198,7 +198,7 @@ const ProfileCard = ({
                     <SimpleTooltip
                         id='fullNameTooltip'
                         placement='top'
-                        content={<Tooltip >{display.name}</Tooltip>}
+                        content={display.name}
                     >
                         <span className='profile-card__detail profile-card__fullname'>{display.name}</span>
                     </SimpleTooltip>
