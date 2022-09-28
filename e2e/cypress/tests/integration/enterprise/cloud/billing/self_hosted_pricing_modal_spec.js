@@ -143,12 +143,6 @@ describe('Self hosted Pricing modal', () => {
 
         cy.apiLogout();
         cy.apiAdminLogin();
-
-        // * Verify the license is not trial
-        cy.visit('admin_console/about/license');
-        cy.get('div.Badge').should('exist').should('contain', 'Trial');
-        cy.findByTitle('Back Icon').should('be.visible').click();
-
         cy.visit(urlL);
 
         // * Open pricing modal
