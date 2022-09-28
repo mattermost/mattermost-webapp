@@ -111,9 +111,9 @@
 
             .icon-chevron-down {
                 position: absolute;
-                right: 10px;
                 z-index: 3;
                 top: 12px;
+                right: 10px;
                 opacity: 0.7;
             }
         }
@@ -126,10 +126,11 @@
         width: 100%;
         text-align: left !important;
     }
+
     .title {
         font-weight: 800;
-
     }
+
     .description {
         font-weight: 500;
     }
