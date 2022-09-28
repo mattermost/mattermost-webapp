@@ -11,7 +11,7 @@ type TexteditorActionsProps = {
     show?: boolean;
 }
 
-const TexteditorActions = styled.span<TexteditorActionsProps>`
+const TexteditorActions = styled.div<TexteditorActionsProps>`
     position: absolute;
     z-index: 2;
     display: flex;

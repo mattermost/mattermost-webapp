@@ -39,6 +39,7 @@ export const IconContainer = styled.button`
     height: 32px;
     place-items: center;
     place-content: center;
+    white-space: nowrap;
     border: none;
     background: transparent;
     padding: 0;
@@ -49,6 +50,14 @@ export const IconContainer = styled.button`
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);
         color: rgba(var(--center-channel-color-rgb), 0.72);
+        fill: currentColor;
+    }
+
+    &:active,
+    &.active,
+    &.active:hover {
+        background: rgba(var(--button-bg-rgb), 0.08);
+        color: var(--button-bg);
         fill: currentColor;
     }
 

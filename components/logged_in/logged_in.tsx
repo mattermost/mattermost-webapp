@@ -213,7 +213,7 @@ export default class LoggedIn extends React.PureComponent<Props> {
         if (
             e.which === BACKSPACE_CHAR &&
             !(excludedElements.includes((e.target as HTMLElement).tagName.toLowerCase())) &&
-            (e.target as HTMLElement)?.getAttribute?.('contentditable') !== 'true'
+            (e.target as HTMLElement)?.getAttribute?.('contenteditable') !== 'true'
         ) {
             e.preventDefault();
         }

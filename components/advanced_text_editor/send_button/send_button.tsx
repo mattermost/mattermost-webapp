@@ -9,7 +9,7 @@ import {SendIcon} from '@mattermost/compass-icons/components';
 import {t} from 'utils/i18n';
 
 type SendButtonProps = {
-    handleSubmit: (e: React.FormEvent) => void;
+    handleSubmit: (e: FormEvent) => void;
     disabled: boolean;
 }
 
@@ -44,12 +44,6 @@ const SendButtonContainer = styled.button`
 const SendButton = ({disabled, handleSubmit}: SendButtonProps) => {
     const {formatMessage} = useIntl();
 
-    const sendMessage = (e: React.FormEvent) => {
-        e.stopPropagation();
-        e.preventDefault();
-        handleSubmit(e);
-    };
-
     return (
         <SendButtonContainer
             data-testid='SendMessageButton'
@@ -59,7 +53,7 @@ const SendButton = ({disabled, handleSubmit}: SendButtonProps) => {
                 defaultMessage: 'Send a message',
             })}
             disabled={disabled}
-            onClick={sendMessage}
+            onClick={handleSubmit}
         >
             <SendIcon
                 size={18}

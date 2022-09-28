@@ -433,17 +433,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handleEmojiClose();
     }
 
-    doSubmit = async (e?: React.FormEvent) => {
+    doSubmit = async (text: string) => {
         const channelId = this.props.currentChannel.id;
-        if (e) {
-            e.preventDefault();
-        }
 
         if (this.props.draft.uploadsInProgress.length > 0 || this.state.submitting) {
             return;
         }
 
-        let message = this.state.message;
+        let message = text;
 
         let ignoreSlash = false;
         const serverError = this.state.serverError;
@@ -575,7 +572,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         return command === 'online' || command === 'away' || command === 'dnd' || command === 'offline';
     };
 
-    handleSubmit = async (e: React.FormEvent) => {
+    handleSubmit = async (message: string) => {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
@@ -681,7 +678,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        await this.doSubmit(e);
+        await this.doSubmit();
     }
 
     sendMessage = async (originalPost: Post) => {
@@ -800,9 +797,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
 
             if (withClosedCodeBlock && message) {
-                this.setState({message}, () => this.handleSubmit(e));
+                this.setState({message}, () => this.handleSubmit());
             } else {
-                this.handleSubmit(e);
+                this.handleSubmit();
             }
 
             this.setShowPreview(false);
@@ -816,10 +813,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (e: React.ChangeEvent<TextboxElement>) => {
-        const message = e.target.value;
-        const channelId = this.props.currentChannel.id;
-
+    handleChange = (message: string) => {
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
@@ -829,20 +823,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             message,
             serverError,
         });
-
-        const draft = {
-            ...this.props.draft,
-            message,
-        };
-
-        if (this.saveDraftFrame) {
-            clearTimeout(this.saveDraftFrame);
-        }
-
-        this.saveDraftFrame = window.setTimeout(() => {
-            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        }, Constants.SAVE_DRAFT_TIMEOUT);
-        this.draftsForChannel[channelId] = draft;
     }
 
     pasteHandler = (e: ClipboardEvent) => {
@@ -1329,6 +1309,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         return (
             <Wysiwyg
                 channelId={this.props.currentChannel.id}
+                onSubmit={this.doSubmit}
+                readOnly={!this.props.canPost}
             />
         );
 

@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import throttle from 'lodash/throttle';
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
@@ -15,9 +16,12 @@ import {ActionTypes, Locations} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {NewPostDraft} from 'types/store/draft';
 
-import Toolbar from './toolbar';
+import SendButton from '../advanced_text_editor/send_button/send_button';
 
-const WysiwygContainer = styled.div`
+import Toolbar from './toolbar';
+import {htmlToMarkdown} from './utils/turndown';
+
+const WysiwygContainer = styled.form`
     margin: 0 24px 12px;
     border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
     border-radius: 4px;
@@ -43,23 +47,30 @@ function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: J
             channelId,
             rootId,
 
-            // JSONContent or some of its children aren't plain JS objects, so they can't be serialized automatically.
-            // TODO figure out how to persist them properly since serializing and deserializing them feels hacky or
-            // perhaps serialize their generated Markdown.
+            /**
+             * JSONContent or some of its children aren't plain JS objects, so they can't be serialized automatically.
+             *
+             * TODO@michel
+             * figure out how to persist them properly since serializing and deserializing them feels hacky or
+             * perhaps serialize their generated Markdown.
+             */
             content: JSON.parse(JSON.stringify(newContent)),
         });
     }, [dispatch, channelId, rootId]);
 
-    return {draft, setDraftContent};
+    return [draft, setDraftContent];
 }
 
 type Props = {
     channelId: string;
     rootId?: string;
+    onSubmit: (markdownText: string) => void;
+    onChange?: (markdownText: string) => void;
+    readOnly?: boolean;
 }
 
-export default (props: Props) => {
-    const {draft, setDraftContent} = useDraft(props.channelId, props.rootId);
+export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
+    const [draft, setDraftContent] = useDraft(channelId, rootId);
 
     const editor = useEditor({
         extensions: [
@@ -73,27 +84,58 @@ export default (props: Props) => {
         content: draft?.content,
         onUpdate: ({editor}) => {
             // Save draft while typing
-            // TODO throttle this
-            setDraftContent(editor.getJSON());
-        },
-    }, [props.channelId, props.rootId]);
+            // TODO: determine which wait period is sufficient
+            throttle(() => setDraftContent(editor.getJSON()), 1000);
 
+            // call the onChange function from the parent component (if any available)
+            onChange?.(htmlToMarkdown(editor.getHTML()));
+        },
+    }, [channelId, rootId]);
+
+    // focus the editor on mount
     useEffect(() => {
         editor?.chain().focus();
     }, [editor]);
+
+    // store the current value as draft when the editor gets destroyed
+    useEffect(() => {
+        if (!editor) {
+            return () => {};
+        }
+
+        const storeDraft = () => setDraftContent(editor.getJSON());
+
+        editor.on('destroy', storeDraft);
+        return () => editor.off('destroy', storeDraft);
+    }, [editor, setDraftContent]);
 
     if (!editor) {
         return null;
     }
 
+    const handleSubmit = (event: React.FormEvent) => {
+        event.preventDefault();
+        onSubmit(htmlToMarkdown(editor.getHTML()));
+        editor.commands.clearContent(true);
+    };
+
+    const disableSendButton = editor.isEmpty;
+    const sendButton = readOnly ? null : (
+        <SendButton
+            disabled={disableSendButton}
+            handleSubmit={handleSubmit}
+        />
+    );
+
     return (
-        <WysiwygContainer>
+        <WysiwygContainer onSubmit={handleSubmit}>
             <EditorContainer>
                 <EditorContent editor={editor}/>
             </EditorContainer>
             <Toolbar
                 editor={editor}
                 location={Locations.CENTER}
+                rightControls={sendButton}
             />
         </WysiwygContainer>
     );

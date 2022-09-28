@@ -3,7 +3,7 @@
 
 import {Editor} from '@tiptap/react';
 import classNames from 'classnames';
-import React, {memo, useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {useFloating, offset} from '@floating-ui/react-dom';
@@ -31,17 +31,20 @@ const Separator = styled.div`
 
 const ToolbarContainer = styled.div`
     display: flex;
+    position: relative;
     height: 48px;
-    padding-left: 7px;
+    padding: 0 8px;
+    justify-content: space-between;
     background: transparent;
-    align-items: center;
-    gap: 4px;
     transform-origin: top;
     transition: max-height 0.25s ease;
+`;
 
-    &.wide ${Separator} {
-        display: block;
-    }
+const ToolSection = styled.div`
+    display: flex;
+    align-items: center;
+    flex: 0;
+    gap: 4px;
 `;
 
 const HeadingControlsContainer = styled.div`
@@ -108,22 +111,23 @@ interface ToolbarProps {
     location: string;
 
     /**
-     * controls that extend the functionality
-     */
-    extraControls?: JSX.Element;
-
-    /**
      * controls that enhance the message,
      * e.g: message priority picker
      */
     additionalControls?: React.ReactNodeArray;
+
+    /**
+     * controls shown aligned to the very right of the toolbar
+     * (perfect for adding in send buttons, etc.)
+     */
+    rightControls?: React.ReactNode | React.ReactNodeArray;
 }
 
 const Toolbar = (props: ToolbarProps): JSX.Element => {
     const {
-        extraControls,
         location,
         additionalControls,
+        rightControls,
         editor,
     } = props;
     const [showHeadingControls, setShowHeadingControls] = useState(false);
@@ -181,63 +185,67 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
         left: x ?? 0,
     };
 
-    const controlHandlerMap = makeControlHandlerMap(editor);
-    const controlActiveAssertionMap = makeControlActiveAssertionMap(editor);
+    const controlHandlerMap = useMemo(() => makeControlHandlerMap(editor), [editor]);
+    const controlActiveAssertionMap = useMemo(() => makeControlActiveAssertionMap(editor), [editor]);
 
     return (
         <ToolbarContainer ref={formattingBarRef}>
-            <DropdownContainer
-                id={'HiddenControlsButton' + location}
-                ref={reference}
-                className={classNames({active: showHeadingControls})}
-                onClick={toggleHeadingControls}
-                aria-label={HiddenControlsButtonAriaLabel}
-            >
-                {'Normal text'}
-                <ChevronDownIcon
-                    color={'currentColor'}
-                    size={18}
-                />
-            </DropdownContainer>
-            <CSSTransition
-                timeout={250}
-                classNames='scale'
-                in={showHeadingControls}
-            >
-                <HeadingControlsContainer
-                    ref={floating}
-                    style={hiddenControlsContainerStyles}
+            <ToolSection>
+                <DropdownContainer
+                    id={'HiddenControlsButton' + location}
+                    ref={reference}
+                    className={classNames({active: showHeadingControls})}
+                    onClick={toggleHeadingControls}
+                    aria-label={HiddenControlsButtonAriaLabel}
                 >
-                    {MarkdownHeadingModes.map((mode) => {
-                        return (
+                    {'Normal text'}
+                    <ChevronDownIcon
+                        color={'currentColor'}
+                        size={18}
+                    />
+                </DropdownContainer>
+                <CSSTransition
+                    timeout={250}
+                    classNames='scale'
+                    in={showHeadingControls}
+                >
+                    <HeadingControlsContainer
+                        ref={floating}
+                        style={hiddenControlsContainerStyles}
+                    >
+                        {MarkdownHeadingModes.map((mode) => {
+                            return (
+                                <ToolbarControl
+                                    key={mode}
+                                    mode={mode}
+                                    onClick={controlHandlerMap[mode]}
+                                    className={classNames({active: controlActiveAssertionMap[mode]()})}
+                                />
+                            );
+                        })}
+                    </HeadingControlsContainer>
+                </CSSTransition>
+                <Separator/>
+                {controls.map((mode) => {
+                    const insertSeparator = mode === 'strike' || mode === 'ol';
+                    return (
+                        <React.Fragment key={mode}>
                             <ToolbarControl
-                                key={mode}
                                 mode={mode}
                                 onClick={controlHandlerMap[mode]}
                                 className={classNames({active: controlActiveAssertionMap[mode]()})}
                             />
-                        );
-                    })}
-                </HeadingControlsContainer>
-            </CSSTransition>
-            <Separator/>
-            {controls.map((mode) => {
-                const insertSeparator = mode === 'strike' || mode === 'ol';
-                return (
-                    <React.Fragment key={mode}>
-                        <ToolbarControl
-                            mode={mode}
-                            onClick={controlHandlerMap[mode]}
-                            className={classNames({active: controlActiveAssertionMap[mode]()})}
-                        />
-                        {insertSeparator && <Separator/>}
-                    </React.Fragment>
-                );
-            })}
-            {additionalControls}
-            {extraControls}
+                            {insertSeparator && <Separator/>}
+                        </React.Fragment>
+                    );
+                })}
+                {additionalControls}
+            </ToolSection>
+            <ToolSection>
+                {rightControls}
+            </ToolSection>
         </ToolbarContainer>
     );
 };
 
-export default memo(Toolbar);
+export default Toolbar;
