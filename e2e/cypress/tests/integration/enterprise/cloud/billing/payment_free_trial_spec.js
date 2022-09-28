@@ -10,10 +10,50 @@
 // Group: @cloud_only @cloud_trial
 // Skip:  @headless @electron // run on Chrome (headed) only
 
+function simulateSubscription() {
+    cy.intercept('GET', '**/api/v4/cloud/subscription', {
+        statusCode: 200,
+        body: {
+            id: 'sub_test1',
+            is_free_trial: 'true',
+            customer_id: '5zqhakmibpgyix9juiwwkpfnmr',
+            product_id: 'prod_Jh6tBLcgWWOOog',
+            seats: 25,
+            status: 'active',
+        },
+    });
+
+    cy.intercept('GET', '**/api/v4/cloud/products**', {
+        statusCode: 200,
+        body:
+        [
+            {
+                id: 'prod_LSBESgGXq9KlLj',
+                sku: 'cloud-starter',
+                price_per_seat: 0,
+                name: 'Cloud Starter',
+            },
+            {
+                id: 'prod_K0AxuWCDoDD9Qq',
+                sku: 'cloud-professional',
+                price_per_seat: 10,
+                name: 'Cloud Professional',
+            },
+            {
+                id: 'prod_Jh6tBLcgWWOOog',
+                sku: 'cloud-enterprise',
+                price_per_seat: 30,
+                name: 'Cloud Enterprise',
+            },
+        ],
+    });
+}
+
 describe('System Console - Payment Information section', () => {
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
+        simulateSubscription();
 
         // # Visit Subscription page
         cy.visit('/admin_console/billing/subscription');
