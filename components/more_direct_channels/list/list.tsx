@@ -4,11 +4,10 @@
 import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {UserProfile} from '@mattermost/types/users';
-
 import MultiSelect from 'components/multiselect/multiselect';
-
 import Constants from 'utils/constants';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import ListItem from '../list_item';
 import {Option, optionValue, OptionValue} from '../types';
@@ -47,6 +46,7 @@ const List = React.forwardRef((props: Props, ref?: React.Ref<MultiSelect<OptionV
         return (
             <ListItem
                 ref={isSelected ? props.selectedItemRef : undefined}
+                key={'more_direct_channels_list_' + option.value}
                 option={option}
                 isSelected={isSelected}
                 add={add}
