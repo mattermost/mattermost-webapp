@@ -7,7 +7,9 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {Action, GenericAction} from 'mattermost-redux/types/actions';
+import {checkHadPriorTrial} from 'mattermost-redux/selectors/entities/cloud';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import {ModalData} from 'types/actions';
@@ -26,7 +28,7 @@ function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
     const license = getLicense(state);
     const isCloud = isCloudLicense(license);
-    const hasPriorTrial = Boolean(subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0);
+    const hasPriorTrial = checkHadPriorTrial(state);
     const isCloudTrial = subscription?.is_free_trial === 'true';
     const contactSalesLink = getCloudContactUsLink(state)(InquiryType.Sales);
     return {
