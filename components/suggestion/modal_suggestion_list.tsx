@@ -1,30 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
 import {getClosestParent} from 'utils/utils';
 
-type Props = {
-    open: boolean;
-    cleared: boolean;
-    inputRef: React.RefObject<any>;
-    onLoseVisibility: () => void;
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+interface SuggestionItem {}
+
+type SuggestionListProps = {
     ariaLiveRef?: React.Ref<HTMLDivElement>;
-    position?: 'top' | 'bottom';
     renderDividers?: string[];
     renderNoResults?: boolean;
-    onCompleteWord: (term: string, matchedPretext: any, e?: React.KeyboardEventHandler<HTMLDivElement>) => boolean;
     preventClose?: () => void;
     onItemHover: (term: string) => void;
+    onCompleteWord: (term: string, matchedPretext: string, e?: React.KeyboardEventHandler<HTMLDivElement>) => boolean;
     pretext: string;
     matchedPretext: string[];
-    items: any[];
+    items: SuggestionItem[];
     terms: string[];
     selection: string;
-    components: Array<React.Component<{item: any}>>;
+    components: Array<React.Component<{item: SuggestionItem}>>;
     wrapperHeight?: number;
 
     // suggestionBoxAlgn is an optional object that can be passed to align the SuggestionList with the keyboard caret
@@ -36,6 +33,14 @@ type Props = {
     };
 }
 
+type Props = SuggestionListProps & {
+    open: boolean;
+    cleared: boolean;
+    inputRef: React.RefObject<HTMLInputElement>;
+    onLoseVisibility: () => void;
+    position?: 'top' | 'bottom';
+};
+
 type State = {
     scroll: number;
     modalBounds: {top: number; bottom: number};
@@ -46,13 +51,6 @@ type State = {
 }
 
 export default class ModalSuggestionList extends React.PureComponent<Props, State> {
-    static propTypes = {
-        position: PropTypes.string.isRequired,
-        open: PropTypes.bool.isRequired,
-        cleared: PropTypes.bool.isRequired,
-        inputRef: PropTypes.object.isRequired,
-        onLoseVisibility: PropTypes.func.isRequired,
-    }
     container: React.RefObject<HTMLDivElement>;
     latestHeight: number;
     suggestionList: React.RefObject<any>;
@@ -80,10 +78,11 @@ export default class ModalSuggestionList extends React.PureComponent<Props, Stat
         return {top: 0, bottom: 0, width: 0};
     }
 
-    onModalScroll = (e: any) => {
-        if (this.state.scroll !== e.target.scrollTop &&
+    onModalScroll = (e: Event) => {
+        const eventTarget = e.target as HTMLElement;
+        if (this.state.scroll !== eventTarget.scrollTop &&
             this.latestHeight !== 0) {
-            this.setState({scroll: e.target.scrollTop});
+            this.setState({scroll: eventTarget.scrollTop});
         }
     }
 
@@ -135,7 +134,7 @@ export default class ModalSuggestionList extends React.PureComponent<Props, Stat
             return 0;
         }
 
-        const listElement = this.suggestionList.current?.getContent()?.[0];
+        const listElement = this.suggestionList?.current?.getContent()?.[0];
         if (!listElement) {
             return 0;
         }
