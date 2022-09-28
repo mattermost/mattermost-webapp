@@ -4,6 +4,7 @@ import React, {memo, useEffect, useCallback} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
+import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 import LocalStorageStore from 'stores/local_storage_store';
 import {useGlobalState} from 'stores/hooks';
@@ -59,12 +60,17 @@ const Insights = () => {
 
     useEffect(() => {
         dispatch(selectChannel(''));
+        dispatch(suppressRHS);
         const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
 
         if (penultimateType !== PreviousViewedTypes.INSIGHTS) {
             LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
             LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.INSIGHTS);
         }
+
+        return () => {
+            dispatch(unsuppressRHS);
+        };
     });
 
     return (

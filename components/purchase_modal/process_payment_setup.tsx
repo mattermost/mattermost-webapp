@@ -39,7 +39,8 @@ type Props = RouteComponentProps & {
     isProratedPayment?: boolean;
     isUpgradeFromTrial: boolean;
     setIsUpgradeFromTrialToFalse: () => void;
-    telemetryProps?: {callerInfo: string};
+    telemetryProps?: { callerInfo: string };
+    onSuccess?: () => void;
 }
 
 type State = {
@@ -219,6 +220,10 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         let handleClose = () => {
             this.props.onClose();
         };
+
+        if (typeof this.props.onSuccess === 'function') {
+            this.props.onSuccess();
+        }
 
         // if is the first purchase, show a different success purchasing title
         if (this.props.isUpgradeFromTrial) {

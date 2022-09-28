@@ -535,12 +535,6 @@ describe('rhs view actions', () => {
                         channelId: '',
                         timestamp: 0,
                     },
-                    {
-                        type: 'TOGGLE_EDITING_POST',
-                        data: {
-                            show: false,
-                        },
-                    },
                 ],
             }];
 
