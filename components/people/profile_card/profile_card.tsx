@@ -7,7 +7,6 @@ import {Link} from 'react-router-dom';
 
 import Highlight from 'components/admin_console/highlight';
 import StatusIcon from 'components/status_icon';
-import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
 
 import {useUserCustomStatus, useUserStatus} from 'hooks/users';
