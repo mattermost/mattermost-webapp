@@ -4,6 +4,7 @@
 import React from 'react';
 import {mount} from 'enzyme';
 import * as reactRedux from 'react-redux';
+
 import mockStore from 'tests/test_store';
 
 import {LicenseSkus} from 'utils/constants';
