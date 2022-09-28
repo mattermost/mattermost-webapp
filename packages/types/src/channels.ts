@@ -25,6 +25,8 @@ export type ChannelNotifyProps = {
     mark_unread: 'all' | 'mention';
     push: 'default' | 'all' | 'mention' | 'none';
     ignore_channel_mentions: 'default' | 'off' | 'on';
+    desktop_threads: 'default' | 'all' | 'mention' | 'none';
+    push_threads: 'default' | 'all' | 'mention' | 'none';
 };
 
 export type Channel = {

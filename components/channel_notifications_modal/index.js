@@ -8,7 +8,7 @@ import {updateChannelNotifyProps} from 'mattermost-redux/actions/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getMyCurrentChannelMembership} from 'mattermost-redux/selectors/entities/channels';
 
-import ChannelNotificationsModal from './channel_notifications_modal.jsx';
+import ChannelNotificationsModal from './channel_notifications_modal';
 
 const mapStateToProps = (state) => ({
     channelMember: getMyCurrentChannelMembership(state),
