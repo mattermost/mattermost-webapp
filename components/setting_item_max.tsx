@@ -60,11 +60,17 @@ export default class SettingItemMax extends React.PureComponent<Props> {
         document.removeEventListener('keydown', this.onKeyDown);
     }
 
-    onKeyDown = (e: KeyboardEvent) => {
+    onKeyDown = (e: any) => {
         if (this.props.shiftEnter && e.key === Constants.KeyCodes.ENTER[0] && e.shiftKey) {
             return;
         }
-        if (this.props.disableEnterSubmit !== true && isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel') && this.settingList.current && this.settingList.current.contains(e.target)) {
+        if (this.props.disableEnterSubmit !== true &&
+                isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+                this.props.submit && e.target.tagName !== 'SELECT' &&
+                e.target.parentElement &&
+                e.target.parentElement.className !== 'react-select__input' &&
+                !e.target.classList.contains('btn-cancel') &&
+                this.settingList.current && this.settingList.current.contains(e.target)) {
             this.handleSubmit(e);
         }
     }
