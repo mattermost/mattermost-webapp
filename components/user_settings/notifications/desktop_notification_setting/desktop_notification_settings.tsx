@@ -325,7 +325,7 @@ export default class DesktopNotificationSettings extends React.PureComponent<Pro
                 inputs={inputs}
                 submit={this.props.submit}
                 saving={this.props.saving}
-                server_error={this.props.error}
+                serverError={this.props.error}
                 updateSection={this.handleMaxUpdateSection}
             />
         );
