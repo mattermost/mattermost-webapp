@@ -56,7 +56,7 @@ export default class SearchDateSuggestion extends Suggestion {
             };
         }
 
-        const locale = this.props.locale && this.props.locale.toLowerCase();
+        const locale = this.props.locale?.toLowerCase();
 
         return (
             <DayPicker
