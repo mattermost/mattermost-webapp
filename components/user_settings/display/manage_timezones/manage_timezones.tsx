@@ -9,7 +9,7 @@ import {Timezone} from 'timezones.json';
 import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import {getBrowserTimezone} from 'utils/timezone';
 import {getTimezoneLabel} from 'mattermost-redux/utils/timezone_utils';
 
