@@ -9,7 +9,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {UserProfile} from '@mattermost/types/users';
 
 import * as I18n from 'i18n/i18n.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import {isKeyPressed} from 'utils/utils';
 import Constants from 'utils/constants';
 
