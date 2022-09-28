@@ -12,7 +12,7 @@ import {UserNotifyProps} from '@mattermost/types/users';
 import {Preferences, NotificationLevels} from 'utils/constants';
 import {localizeMessage} from 'utils/utils';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 const SECONDS_PER_MINUTE = 60;
@@ -246,7 +246,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                             />
                         </div>,
                     ]}
-                    server_error={this.props.serverError}
+                    serverError={this.props.serverError}
                     section={'email'}
                     updateSection={this.handleUpdateSection}
                 />
@@ -403,7 +403,7 @@ export default class EmailNotificationSetting extends React.PureComponent<Props,
                 ]}
                 submit={this.handleSubmit}
                 saving={this.props.saving}
-                server_error={this.props.serverError}
+                serverError={this.props.serverError}
                 updateSection={this.handleUpdateSection}
             />
         );
