@@ -17,8 +17,8 @@
              right: 12px;
              bottom: 12px;
              height: 44px; 
-             background-color: #5D89EA; 
-             color: white; 
+             background-color: var(--denim-sidebar-active-border); 
+             color: var(--button-color); 
              padding: 12px 8px; 
              box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.12); 
              border-radius: 8px; 
@@ -48,7 +48,7 @@
 
             .ad-ldap-banner-btn {
                 background: none;
-                color: white;
+                color: var(--button-color);
                 font-weight: 600;
                 font-size: 14px;
                 line-height: 14px;
@@ -75,7 +75,7 @@
             }
 
             .upsell-confirm-foreground {
-                background: white; 
+                background: var(--button-color); 
                 height: 148px;
                 padding: 16px 24px;
             }
@@ -91,7 +91,7 @@
                 font-weight: 400;
                 font-size: 14px;
                 line-height: 20px;
-                color: #3F4350;
+                color: var(--center-channel-text);
             }
 
             .btns-container {
@@ -106,20 +106,20 @@
                     background: rgba(28, 88, 217, 0.08); 
                     padding: 10px 16px; 
                     border-radius: 4px; 
-                    color: #1C58D9; 
+                    color: var(--denim-button-bg); 
                     font-weight: 600; 
                     font-size: 12px; 
                     line-height: 10px;
                 }
 
                 .learn-more {
-                    color: #1C58D9;
-                    background: rgba(28, 88, 217, 0.08);
+                    color: var(--denim-button-bg);
+                    background: rgba(var(--denim-button-bg-rgb), 0.08);
                 }
 
                 .continue {
-                    color: #FFFFFF;
-                    background: #1C58D9;
+                    color: var(--button-color);
+                    background: var(--denim-button-bg);
                 }
             }
         }
