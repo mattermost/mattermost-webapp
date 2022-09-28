@@ -13,11 +13,11 @@ type Props = {
     containerStyle: string;
     clientError: string;
     serverError: string;
-    extraInfo: any;
+    extraInfo: string | JSX.Element;
     infoPosition: string;
     section: string;
     updateSection: (section: string) => void;
-    submit: any;
+    submit?: (setting?: string) => void;
     disableEnterSubmit: boolean;
     submitExtra: ReactNode;
     saving: boolean;
@@ -26,6 +26,7 @@ type Props = {
     cancelButtonText: ReactNode;
     shiftEnter: boolean;
     saveButtonText: string;
+    setting: string;
 }
 
 export default class SettingItemMax extends React.PureComponent<Props> {
@@ -46,7 +47,7 @@ export default class SettingItemMax extends React.PureComponent<Props> {
         if (this.settingList.current) {
             const focusableElements = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
             if (focusableElements.length > 0) {
-                focusableElements[0].focus();
+                (focusableElements[0] as HTMLElement).focus();
             } else {
                 this.settingList.current.focus();
             }
@@ -59,8 +60,8 @@ export default class SettingItemMax extends React.PureComponent<Props> {
         document.removeEventListener('keydown', this.onKeyDown);
     }
 
-    onKeyDown = (e) => {
-        if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
+    onKeyDown = (e: KeyboardEvent) => {
+        if (this.props.shiftEnter && e.key === Constants.KeyCodes.ENTER[0] && e.shiftKey) {
             return;
         }
         if (this.props.disableEnterSubmit !== true && isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel') && this.settingList.current && this.settingList.current.contains(e.target)) {
@@ -68,8 +69,12 @@ export default class SettingItemMax extends React.PureComponent<Props> {
         }
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
+
+        if (!this.props.submit) {
+            return;
+        }
 
         if (this.props.setting) {
             this.props.submit(this.props.setting);
@@ -78,7 +83,7 @@ export default class SettingItemMax extends React.PureComponent<Props> {
         }
     }
 
-    handleUpdateSection = (e) => {
+    handleUpdateSection = (e: React.MouseEvent<HTMLButtonElement>) => {
         this.props.updateSection(this.props.section);
         e.preventDefault();
     }
