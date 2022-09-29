@@ -2756,7 +2756,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         expect(teamUnreadStatus[1].get('team2')).toBe(2);
     });
 
-    test('should not have mention count of muted channel and have its unread status', () => {
+    test('should only have mention count of muted channel and not have its unread status', () => {
         const myMemberA = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
         const myMemberB = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
         const myMemberC = {mention_count: 3, msg_count: 5, notify_props: {mark_unread: 'mention'}};
@@ -2809,10 +2809,10 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
 
         expect(teamUnreadStatus[0].has('team1')).toBe(false);
-        expect(teamUnreadStatus[0].has('team2')).toBe(false);
+        expect(teamUnreadStatus[0].has('team2')).toBe(true);
 
         expect(teamUnreadStatus[1].get('team1')).toBe(undefined);
-        expect(teamUnreadStatus[1].get('team2')).toBe(undefined);
+        expect(teamUnreadStatus[1].get('team2')).toBe(3);
     });
 });
 
