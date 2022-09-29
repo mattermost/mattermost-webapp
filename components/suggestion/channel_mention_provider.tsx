@@ -32,10 +32,6 @@ type WrappedChannels = {
     loading?: boolean;
 }
 
-type WrappedChannelIds = {
-    [k: string]: boolean;
-}
-
 export class ChannelMentionSuggestion extends Suggestion {
     render() {
         const isSelection = this.props.isSelection;
@@ -143,7 +139,7 @@ export default class ChannelMentionProvider extends Provider {
         this.startNewRequest(prefix);
 
         const words = prefix.toLowerCase().split(/\s+/);
-        const wrappedChannelIds: WrappedChannelIds = {};
+        const wrappedChannelIds: Record<string, boolean> = {};
         let wrappedChannels: WrappedChannels[] = [];
         getMyChannels(store.getState()).forEach((item) => {
             if (item.type !== 'O' || item.delete_at > 0) {
