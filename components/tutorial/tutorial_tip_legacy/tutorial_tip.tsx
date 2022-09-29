@@ -10,7 +10,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import Constants, {RecommendedNextStepsLegacy} from 'utils/constants';
-import PulsatingDot from 'components/widgets/pulsating_dot';
+import {PulsatingDot} from '@mattermost/components';
 
 import * as Utils from 'utils/utils';
 
@@ -112,13 +112,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private show = (e?: React.MouseEvent): void => {
+        e?.stopPropagation();
         this.setState({show: true, hasShown: true});
-        if (this.props.preventDefault && e) {
-            e.preventDefault();
-        }
-        if (this.props.stopPropagation && e) {
-            e.stopPropagation();
-        }
     }
 
     private hide = (): void => {

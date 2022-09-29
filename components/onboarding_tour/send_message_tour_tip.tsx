@@ -4,9 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import PrewrittenChips from 'components/advanced_create_post/prewritten_chips';
+
 import {Channel} from '@mattermost/types/channels';
-import PrewrittenChips from 'components/create_post/prewritten_chips';
-import {useMeasurePunchouts} from 'components/widgets/tour_tip';
+
+import {useMeasurePunchouts} from '@mattermost/components';
 
 import OnboardingTourTip from './onboarding_tour_tip';
 
