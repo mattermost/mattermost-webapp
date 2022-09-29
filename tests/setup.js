@@ -11,7 +11,6 @@ import './react-intl_mock';
 import './react-tippy_mock';
 
 global.performance = {};
-global.crypto = require('crypto');
 require('isomorphic-fetch');
 
 configure({adapter: new Adapter()});
