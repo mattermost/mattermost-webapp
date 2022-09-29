@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
@@ -15,6 +14,18 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import Describe from './describe.jsx';
 import ExtraInfo from './extra_info.jsx';
 import SectionTitle from './section_title.jsx';
+type Props = {
+    ignoreChannelMentions?: string;
+    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChangeThreads?: (e: ChangeEvent<HTMLInputElement>) => void;
+    onCollapseSection: (section: string) => void;
+    onSubmit: (setting?: string) => void;
+    globalNotifyLevel?: string;
+    memberNotifyLevel: string;
+    memberThreadsNotifyLevel?: string;
+    section: string;
+    serverError?: string;
+}
 
 export default function ExpandView({
     section,
@@ -27,7 +38,7 @@ export default function ExpandView({
     serverError,
     onCollapseSection,
     ignoreChannelMentions,
-}) {
+}: Props) {
     const isCRTEnabled = useSelector(isCollapsedThreadsEnabled);
 
     const inputs = [(
@@ -268,16 +279,3 @@ export default function ExpandView({
         />
     );
 }
-
-ExpandView.propTypes = {
-    ignoreChannelMentions: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
-    onChangeThreads: PropTypes.func,
-    onCollapseSection: PropTypes.func.isRequired,
-    onSubmit: PropTypes.func.isRequired,
-    globalNotifyLevel: PropTypes.string,
-    memberNotifyLevel: PropTypes.string.isRequired,
-    memberThreadsNotifyLevel: PropTypes.string,
-    section: PropTypes.string.isRequired,
-    serverError: PropTypes.string,
-};
