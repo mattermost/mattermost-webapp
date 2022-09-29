@@ -3,11 +3,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import TableChart from 'components/analytics/table_chart';
+import TableChart, {TableItem} from 'components/analytics/table_chart';
 
 describe('components/analytics/table_chart.tsx', () => {
     test('should match snapshot, loaded without data', () => {
-        const data = [];
+        const data: TableItem[] = [];
 
         const wrapper = shallow(
             <TableChart
