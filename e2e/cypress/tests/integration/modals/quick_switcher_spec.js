@@ -67,7 +67,8 @@ describe('Quick switcher', () => {
         cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
         // # Search with the term a
-        cy.focused().type('a');
+        cy.focused().type('a').wait(TIMEOUTS.HALF_SEC);
+        cy.get('body').type('{downarrow}');
 
         // * Should have recently interacted DM on top
         cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
@@ -85,6 +86,7 @@ describe('Quick switcher', () => {
 
         // # Search with the term a
         cy.focused().type('a');
+        cy.get('body').type('{downarrow}').wait(TIMEOUTS.HALF_SEC);
 
         // * Should have recently interacted DM on top
         cy.get('.suggestion--selected').should('exist').and('contain.text', thirdUser.username);
@@ -97,7 +99,8 @@ describe('Quick switcher', () => {
         cy.goToDm(secondUser.username);
 
         cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
-        cy.focused().type('a');
+        cy.focused().type('a').wait(TIMEOUTS.HALF_SEC);
+        cy.get('body').type('{downarrow}');
 
         // * Should have recently interacted DM on top
         cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
