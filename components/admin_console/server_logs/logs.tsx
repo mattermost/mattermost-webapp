@@ -72,7 +72,7 @@ export default class Logs extends React.PureComponent<Props, State> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-logs-content admin-console__content'>
-                        <div className='banner_wrapper'>
+                        <div className='logs-banner'>
                             <div className='banner'>
                                 <div className='banner__content'>
                                     <FormattedMessage

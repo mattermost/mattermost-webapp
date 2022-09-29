@@ -541,6 +541,11 @@
         font-size: 12px;
         font-weight: 400;
     }
+    .logs-banner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
 }
 
 .job-table__table {

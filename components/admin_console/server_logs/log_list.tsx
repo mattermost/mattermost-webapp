@@ -10,6 +10,7 @@ import {FilterOptions} from 'components/admin_console/filter/filter';
 
 import {LogObject} from '@mattermost/types/admin';
 import {ChannelSearchOpts} from '@mattermost/types/channels';
+import './log_list.scss';
 
 type Props = {
     logs: LogObject[];
@@ -42,22 +43,16 @@ export default class LogList extends React.PureComponent<Props, State> {
     }
 
     getColumns = (): Column[] => {
-        const caller: JSX.Element = (
+        const timestamp: JSX.Element = (
             <FormattedMessage
-                id='admin.logs.caller'
-                defaultMessage='Caller'
-            />
-        );
-        const jobId: JSX.Element = (
-            <FormattedMessage
-                id='admin.logs.id'
-                defaultMessage='Job ID'
+                id='admin.compliance_table.timestamp'
+                defaultMessage='Timestamp'
             />
         );
         const level: JSX.Element = (
             <FormattedMessage
                 id='admin.log.logLevel'
-                defaultMessage='Log Level'
+                defaultMessage='Level'
             />
         );
         const msg: JSX.Element = (
@@ -66,81 +61,84 @@ export default class LogList extends React.PureComponent<Props, State> {
                 defaultMessage='Message'
             />
         );
-        const timestamp: JSX.Element = (
-            <FormattedMessage
-                id='admin.compliance_table.timestamp'
-                defaultMessage='Timestamp'
-            />
-        );
         const worker: JSX.Element = (
             <FormattedMessage
                 id='admin.logs.worker'
                 defaultMessage='Worker'
             />
         );
+        const caller: JSX.Element = (
+            <FormattedMessage
+                id='admin.logs.caller'
+                defaultMessage='Caller'
+            />
+        );
+        const options: JSX.Element = (
+            <FormattedMessage
+                id='admin.logs.options'
+                defaultMessage='Options'
+            />
+        );
 
         return [
             {
-                field: 'caller',
+                field: 'timestamp',
                 fixed: true,
-                name: caller,
+                name: timestamp,
                 textAlign: 'left',
                 width: 2,
-            },
-            {
-                field: 'job_id',
-                fixed: true,
-                name: jobId,
-                textAlign: 'left',
-                width: 1.5,
             },
             {
                 field: 'level',
                 fixed: true,
                 name: level,
                 textAlign: 'left',
-                width: 1.5,
+                width: 1,
             },
             {
                 field: 'msg',
                 fixed: true,
                 name: msg,
                 textAlign: 'left',
-                width: 1.5,
+                width: 2,
             },
-            {
-                field: 'timestamp',
-                fixed: true,
-                name: timestamp,
-                textAlign: 'left',
-                width: 1.5,
-            },
+            
             {
                 field: 'worker',
                 fixed: true,
                 name: worker,
                 textAlign: 'left',
+            },{
+                field: 'caller',
+                fixed: true,
+                name: caller,
+                textAlign: 'left',
+                width: 1.5,
+            },
+            {
+                field: 'options',
+                fixed: true,
+                name: options,
+                textAlign: 'left',
+                width: 1,
             },
         ];
     }
 
     getRows = (): Row[] => {
+        console.log(this.props.logs);
+
         return this.props.logs.map((log: LogObject) => {
             return {
                 cells: {
-                    caller: (
+                    timestamp: (
                         <span
                             className='group-name overflow--ellipsis row-content'
-                            data-testid='caller'
+                            data-testid='timestamp'
                         >
                             <span className='group-description row-content'>
-                                {log.caller}
+                                {log.timestamp}
                             </span>
-                        </span>
-                    ),
-                    job_id: (
-                        <span className='group-description row-content'>
-                            {log.job_id}
                         </span>
                     ),
                     level: (
@@ -156,11 +154,11 @@ export default class LogList extends React.PureComponent<Props, State> {
                             {log.msg}
                         </span>
                     ),
-                    timestamp: (
+                    caller: (
                         <span
                             className='group-description row-content'
                         >
-                            {log.timestamp}
+                            {log.caller}
                         </span>
                     ),
                     worker: (
@@ -169,6 +167,18 @@ export default class LogList extends React.PureComponent<Props, State> {
                         >
                             {log.worker}
                         </span>
+                    ),
+                    options: (
+                        <button
+                            type='submit'
+                            className='btn btn-inverted'
+                            // onClick={this.reload}
+                        >
+                            <FormattedMessage
+                                id='admin.logs.fullEvent'
+                                defaultMessage='Full Log event'
+                            />
+                        </button>
                     ),
                 },
                 onClick: () => {/* browserHistory.push(`/admin_console/user_management/channels/${channel.id}`) */},
@@ -196,6 +206,19 @@ export default class LogList extends React.PureComponent<Props, State> {
         const rowsContainerStyles = {
             minHeight: `${rows.length * 40}px`,
         };
+
+        const errorsButton: JSX.Element = (
+            <button
+                type='submit'
+                className='btn btn-dangerous'
+                // onClick={this.reload}
+            >
+                <FormattedMessage
+                    id='admin.logs.showErrors'
+                    defaultMessage='Show last {n} errors'
+                />
+            </button>
+        )
 
         const filterOptions: FilterOptions = {
             nodes: {
@@ -281,6 +304,7 @@ export default class LogList extends React.PureComponent<Props, State> {
                     nextPage={() => {}}
                     previousPage={() => {}}
                     filterProps={filterProps}
+                    extraComponent={errorsButton}
                 />
             </div>
         );
