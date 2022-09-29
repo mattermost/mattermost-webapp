@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import shallowEqual from 'shallow-equals';
-import crypto from 'crypto';
 
 import * as reselect from 'reselect';
 
