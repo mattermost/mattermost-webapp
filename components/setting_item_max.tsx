@@ -17,7 +17,8 @@ type Props = {
     infoPosition?: string;
     section?: string;
     updateSection: (section: string) => void;
-    submit?: null | ((setting?: string | string[]) => void) | (() => Promise<void>);
+    submitWithSettings?: (settings: string[]) => void;
+    submit?: null | ((setting?: string) => void) | (() => Promise<void>);
     disableEnterSubmit?: boolean;
     submitExtra?: ReactNode;
     saving?: boolean;
@@ -83,7 +84,9 @@ export default class SettingItemMax extends React.PureComponent<Props> {
             return;
         }
 
-        if (this.props.setting) {
+        if (this.props.submitWithSettings) {
+            this.props.submitWithSettings([this.props.setting!]);
+        } else if (this.props.setting) {
             this.props.submit(this.props.setting);
         } else {
             this.props.submit();

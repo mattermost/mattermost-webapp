@@ -12,7 +12,7 @@ import Constants, {Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {isMac, localizeMessage} from 'utils/utils';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
@@ -368,7 +368,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         </fieldset>,
                     ]}
                     setting={'formatting'}
-                    submit={this.handleSubmit}
+                    submitWithSettings={this.handleSubmit}
                     saving={this.state.isSaving}
                     serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
@@ -450,9 +450,9 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         </fieldset>,
                     ]}
                     setting={Preferences.UNREAD_SCROLL_POSITION}
-                    submit={this.handleSubmit}
+                    submitWithSettings={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
