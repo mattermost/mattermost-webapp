@@ -575,7 +575,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     inputs={inputs}
                     submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
                     saving={this.state.isSaving}
-                    server_error={serverError}
+                    serverError={serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
