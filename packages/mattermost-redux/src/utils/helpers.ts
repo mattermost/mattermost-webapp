@@ -82,22 +82,7 @@ export const isMinimumServerVersion = (currentVersion: string, minMajorVersion =
 
 // Generates a RFC-4122 version 4 compliant globally unique identifier.
 export function generateId(): string {
-    // implementation taken from http://stackoverflow.com/a/2117523
-    let id = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx';
-    id = id.replace(/[xy]/g, (c) => {
-        const r = Math.floor(Math.random() * 16);
-        let v;
-
-        if (c === 'x') {
-            v = r;
-        } else {
-            // eslint-disable-next-line no-mixed-operators
-            v = r & 0x3 | 0x8;
-        }
-
-        return v.toString(16);
-    });
-    return id;
+    return crypto.randomUUID();
 }
 
 export function isEmail(email: string): boolean {
