@@ -16,7 +16,7 @@ import NotificationSection from 'components/channel_notifications_modal/componen
 import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
 import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 
-import {PropsFromRedux} from '.';
+import type {PropsFromRedux} from './index';
 
 type Props = PropsFromRedux & {
 
