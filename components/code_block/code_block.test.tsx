@@ -17,7 +17,6 @@ const myFunction = () => {
 \`\`\`
 `;
 
-
         const wrapper = shallow(
             <CodeBlock
                 id={postId}
