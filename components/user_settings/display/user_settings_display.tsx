@@ -617,7 +617,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                         inputs={inputs}
                         submit={submit}
                         saving={this.state.isSaving}
-                        server_error={this.state.serverError}
+                        serverError={this.state.serverError}
                         updateSection={this.updateSection}
                         extraInfo={extraInfo}
                     />
