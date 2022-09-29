@@ -297,7 +297,7 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
                     submit={this.submitTheme}
                     disableEnterSubmit={true}
                     saving={this.state.isSaving}
-                    server_error={serverError}
+                    serverError={serverError}
                     width='full'
                     updateSection={this.handleUpdateSection}
                 />

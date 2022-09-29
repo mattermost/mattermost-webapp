@@ -13,7 +13,7 @@ type Props = {
     containerStyle?: string;
     clientError?: string | React.ReactNode | null;
     serverError?: string | null;
-    extraInfo?: string | JSX.Element;
+    extraInfo?: string | JSX.Element | null;
     infoPosition?: string;
     section?: string;
     updateSection: (section: string) => void;
