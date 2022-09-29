@@ -13,7 +13,7 @@ import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import LocalizedIcon from 'components/localized_icon';
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';

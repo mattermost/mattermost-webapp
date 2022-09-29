@@ -12,7 +12,7 @@ type Props = {
     inputs: ReactNode;
     containerStyle?: string;
     clientError?: string | React.ReactNode | null;
-    serverError?: string | null;
+    serverError?: {server_error_id: string; message: string} | string | null;
     extraInfo?: string | JSX.Element | null;
     infoPosition?: string;
     section?: string;
