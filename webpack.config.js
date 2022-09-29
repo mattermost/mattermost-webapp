@@ -1,34 +1,39 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-console, no-process-env */
+
 const childProcess = require('child_process');
+const http = require('http');
 const path = require('path');
 
 const url = require('url');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const webpack = require('webpack');
+const {ModuleFederationPlugin} = require('webpack').container;
 const nodeExternals = require('webpack-node-externals');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const LiveReloadPlugin = require('webpack-livereload-plugin');
-const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
 
-const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
+// const {BundleAnalyzerPlugin} = require('webpack-bundle-analyzer');
+
+const packageJson = require('./package.json');
+
+const NPM_TARGET = process.env.npm_lifecycle_event;
 
 const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
 const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
+const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process.env.VSCODE_CWD;
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
-
-// react-hot-loader and development source maps require eval
-const CSP_UNSAFE_EVAL_IF_DEV = DEV ? ' \'unsafe-eval\'' : '';
 
 var MYSTATS = {
 
@@ -123,7 +128,7 @@ let publicPath = '/static/';
 
 // Allow overriding the publicPath in dev from the exported SiteURL.
 if (DEV) {
-    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || ''; //eslint-disable-line no-process-env
+    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || '';
     if (siteURL) {
         publicPath = path.join(new url.URL(siteURL).pathname, 'static') + '/';
     }
@@ -265,12 +270,6 @@ var config = {
             filename: 'root.html',
             inject: 'head',
             template: 'root.html',
-            meta: {
-                csp: {
-                    'http-equiv': 'Content-Security-Policy',
-                    content: 'script-src \'self\' cdn.rudderlabs.com/ js.stripe.com/v3 ' + CSP_UNSAFE_EVAL_IF_DEV,
-                },
-            },
         }),
         new CopyWebpackPlugin({
             patterns: [
@@ -371,13 +370,122 @@ var config = {
                 sizes: '96x96',
             }],
         }),
-        new BundleAnalyzerPlugin({
-            analyzerMode: 'disabled',
-            generateStatsFile: true,
-            statsFilename: 'bundlestats.json',
-        }),
+
+        // Disabling this plugin until we come up with better bundle analysis ci
+        // new BundleAnalyzerPlugin({
+        //     analyzerMode: 'disabled',
+        //     generateStatsFile: true,
+        //     statsFilename: 'bundlestats.json',
+        // }),
     ],
 };
+
+async function initializeModuleFederation() {
+    function makeSingletonSharedModules(packageNames) {
+        const sharedObject = {};
+
+        for (const packageName of packageNames) {
+            const version = packageJson.dependencies[packageName];
+
+            sharedObject[packageName] = {
+                requiredVersion: version,
+                singleton: true,
+                strictVersion: true,
+                version,
+            };
+        }
+
+        return sharedObject;
+    }
+
+    function isWebpackDevServerAvailable(baseUrl) {
+        return new Promise((resolve) => {
+            if (!DEV) {
+                resolve(false);
+                return;
+            }
+
+            const req = http.request(`${baseUrl}/remote_entry.js`, (response) => {
+                return resolve(response.statusCode === 200);
+            });
+
+            req.on('error', () => {
+                resolve(false);
+            });
+
+            req.end();
+        });
+    }
+
+    async function getRemoteModules() {
+        const products = [
+            {name: 'focalboard', baseUrl: 'http://localhost:9006'},
+        ];
+
+        const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
+
+        const remotes = {};
+        const aliases = {};
+
+        for (let i = 0; i < products.length; i++) {
+            const product = products[i];
+            const found = productsFound[i];
+
+            if (found) {
+                console.log(`Product ${product.name} found, adding as remote module`);
+
+                remotes[product.name] = `${product.name}@${product.baseUrl}/remote_entry.js`;
+            } else {
+                console.log(`Product ${product.name} not found`);
+
+                // Add false aliases to prevent Webpack from trying to resolve the missing modules
+                aliases[product.name] = false;
+                aliases[`${product.name}/manifest`] = false;
+            }
+        }
+
+        return {remotes, aliases};
+    }
+
+    const {remotes, aliases} = await getRemoteModules();
+
+    config.plugins.push(new ModuleFederationPlugin({
+        name: 'mattermost-webapp',
+        remotes,
+        shared: [
+
+            // Shared modules will be made available to other containers (ie products and plugins using module federation).
+            // To allow for better sharing, containers shouldn't require exact versions of packages like the web app does.
+
+            // Other containers will use these shared modules if their required versions match. If they don't match, the
+            // version packaged with the container will be used.
+            '@mattermost/client',
+            '@mattermost/components',
+            '@mattermost/types',
+            'luxon',
+            'prop-types',
+
+            // Other containers will be forced to use the exact versions of shared modules that the web app provides.
+            makeSingletonSharedModules([
+                'react',
+                'react-bootstrap',
+                'react-dom',
+                'react-intl',
+                'react-redux',
+                'react-router-dom',
+            ]),
+        ],
+    }));
+
+    config.resolve.alias = {
+        ...config.resolve.alias,
+        ...aliases,
+    };
+
+    config.plugins.push(new webpack.DefinePlugin({
+        REMOTE_MODULES: JSON.stringify(remotes),
+    }));
+}
 
 if (!targetIsStats) {
     config.stats = MYSTATS;
@@ -396,15 +504,15 @@ if (DEV) {
 const env = {};
 if (DEV) {
     env.PUBLIC_PATH = JSON.stringify(publicPath);
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
-    if (process.env.MM_LIVE_RELOAD) { //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
+    if (process.env.MM_LIVE_RELOAD) {
         config.plugins.push(new LiveReloadPlugin());
     }
 } else {
     env.NODE_ENV = JSON.stringify('production');
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
 }
 
 config.plugins.push(new webpack.DefinePlugin({
@@ -470,7 +578,7 @@ if (targetIsDevServer) {
 // not helpful.)
 // See https://reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html and
 // https://gist.github.com/bvaughn/25e6233aeb1b4f0cdb8d8366e54a3977
-if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
+if (process.env.PRODUCTION_PERF_DEBUG) {
     console.log('Enabling production performance debug settings'); //eslint-disable-line no-console
     config.resolve.alias['react-dom'] = 'react-dom/profiling';
     config.resolve.alias['schedule/tracing'] = 'schedule/tracing-profiling';
@@ -481,4 +589,14 @@ if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
     };
 }
 
-module.exports = config;
+if (targetIsEslint) {
+    // ESLint can't handle setting an async config, so just skip the async part
+    module.exports = config;
+} else {
+    module.exports = async () => {
+        // Do this asynchronously so we can determine whether which remote modules are available
+        await initializeModuleFederation();
+
+        return config;
+    };
+}

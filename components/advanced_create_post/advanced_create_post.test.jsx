@@ -103,6 +103,7 @@ function advancedCreatePost({
     useCustomGroupMentions = true,
     canPost = true,
     isMarkdownPreviewEnabled = false,
+    isPostPriorityEnabled = false,
 } = {}) {
     return (
         <AdvancedCreatePost
@@ -138,6 +139,7 @@ function advancedCreatePost({
             useCustomGroupMentions={useCustomGroupMentions}
             isMarkdownPreviewEnabled={isMarkdownPreviewEnabled}
             isFormattingBarHidden={false}
+            isPostPriorityEnabled={isPostPriorityEnabled}
         />
     );
 }
@@ -685,7 +687,7 @@ describe('components/advanced_create_post', () => {
     });
 
     it('onSubmit test for "/unknown" message ', async () => {
-        jest.mock('actions/channel_actions.jsx', () => ({
+        jest.mock('actions/channel_actions', () => ({
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
         }));
 
@@ -931,6 +933,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1031,6 +1034,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1066,6 +1070,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1464,6 +1469,18 @@ describe('components/advanced_create_post', () => {
 
     it('should match snapshot, cannot post; preview disabled', () => {
         const wrapper = shallow(advancedCreatePost({canPost: false, isMarkdownPreviewEnabled: false}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, post priority enabled', () => {
+        const wrapper = shallow(advancedCreatePost({isPostPriorityEnabled: true}));
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    it('should match snapshot, post priority enabled, with priority important', () => {
+        const wrapper = shallow(advancedCreatePost({draft: {...draftProp, props: {priority: 'important'}}}));
 
         expect(wrapper).toMatchSnapshot();
     });
