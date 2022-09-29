@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import ImportThemeModal from 'components/user_settings/import_theme_modal';
 

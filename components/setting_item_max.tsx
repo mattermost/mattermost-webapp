@@ -17,11 +17,11 @@ type Props = {
     infoPosition?: string;
     section?: string;
     updateSection: (section: string) => void;
-    submit?: (setting?: string) => void;
+    submit?: null | ((setting?: string | string[]) => void) | (() => Promise<void>);
     disableEnterSubmit?: boolean;
     submitExtra?: ReactNode;
     saving?: boolean;
-    title: ReactNode;
+    title?: ReactNode;
     width?: string;
     cancelButtonText?: ReactNode;
     shiftEnter?: boolean;
@@ -70,7 +70,8 @@ export default class SettingItemMax extends React.PureComponent<Props> {
                 e.target.parentElement &&
                 e.target.parentElement.className !== 'react-select__input' &&
                 !e.target.classList.contains('btn-cancel') &&
-                this.settingList.current && this.settingList.current.contains(e.target)) {
+                this.settingList.current && this.settingList.current.contains(e.target)
+        ) {
             this.handleSubmit(e);
         }
     }
