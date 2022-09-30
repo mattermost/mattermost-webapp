@@ -53,7 +53,7 @@ const getTeammateStatus = createSelector(
     getTeammateId,
     (userStatuses, teammateId) => {
         if (!teammateId) {
-            return null;
+            return undefined;
         }
 
         return userStatuses[teammateId];
@@ -91,7 +91,7 @@ const mobileMapStateToProps = (state: GlobalState) => {
         channel,
         teammateId,
         teammateIsBot,
-        teammateStatus: getTeammateStatus(state) ?? undefined,
+        teammateStatus: getTeammateStatus(state),
         displayName,
     };
 };
