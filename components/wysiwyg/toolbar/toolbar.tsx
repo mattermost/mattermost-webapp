@@ -5,15 +5,15 @@ import {Editor} from '@tiptap/react';
 import classNames from 'classnames';
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
-import styled from 'styled-components';
+import styled, {css} from 'styled-components';
 import {useFloating, offset} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
-import {ChevronDownIcon} from '@mattermost/compass-icons/components';
+import {CheckIcon, ChevronDownIcon} from '@mattermost/compass-icons/components';
 
 import ToolbarControl, {
     DropdownContainer,
     makeControlActiveAssertionMap,
-    makeControlHandlerMap,
+    makeControlHandlerMap, MAP_HEADING_MODE_TO_ARIA_LABEL, MAP_HEADING_MODE_TO_LABEL, MarkdownHeadingMode,
     MarkdownHeadingModes,
 } from './toolbar_controls';
 
@@ -48,7 +48,7 @@ const ToolSection = styled.div`
 `;
 
 const HeadingControlsContainer = styled.div`
-    padding: 5px;
+    padding: 8px 0;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 4px;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
@@ -130,9 +130,9 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
         rightControls,
         editor,
     } = props;
-    const [showHeadingControls, setShowHeadingControls] = useState(false);
     const formattingBarRef = useRef<HTMLDivElement>(null);
     const {controls, wideMode} = useToolbarControls(formattingBarRef);
+    const [showHeadingControls, setShowHeadingControls] = useState(false);
 
     const {formatMessage} = useIntl();
     const HiddenControlsButtonAriaLabel = formatMessage({id: 'accessibility.button.hidden_controls_button', defaultMessage: 'show hidden formatting options'});
@@ -188,6 +188,26 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
     const controlHandlerMap = useMemo(() => makeControlHandlerMap(editor), [editor]);
     const controlActiveAssertionMap = useMemo(() => makeControlActiveAssertionMap(editor), [editor]);
 
+    const getHeadingLabel = () => {
+        switch (true) {
+        case editor.isActive('heading', {level: 1}):
+            return formatMessage(MAP_HEADING_MODE_TO_LABEL.h1);
+        case editor.isActive('heading', {level: 2}):
+            return formatMessage(MAP_HEADING_MODE_TO_LABEL.h2);
+        case editor.isActive('heading', {level: 3}):
+            return formatMessage(MAP_HEADING_MODE_TO_LABEL.h3);
+        case editor.isActive('heading', {level: 4}):
+            return formatMessage(MAP_HEADING_MODE_TO_LABEL.h4);
+        case editor.isActive('heading', {level: 5}):
+            return formatMessage(MAP_HEADING_MODE_TO_LABEL.h5);
+        case editor.isActive('heading', {level: 6}):
+            return formatMessage(MAP_HEADING_MODE_TO_LABEL.h6);
+        case editor.isActive('paragraph'):
+        default:
+            return formatMessage(MAP_HEADING_MODE_TO_LABEL.p);
+        }
+    };
+
     return (
         <ToolbarContainer ref={formattingBarRef}>
             <ToolSection>
@@ -198,7 +218,7 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                     onClick={toggleHeadingControls}
                     aria-label={HiddenControlsButtonAriaLabel}
                 >
-                    {'Normal text'}
+                    {getHeadingLabel()}
                     <ChevronDownIcon
                         color={'currentColor'}
                         size={18}
@@ -215,11 +235,13 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                     >
                         {MarkdownHeadingModes.map((mode) => {
                             return (
-                                <ToolbarControl
+                                <HeadingSelectOption
                                     key={mode}
                                     mode={mode}
+                                    active={controlActiveAssertionMap[mode]()}
                                     onClick={controlHandlerMap[mode]}
-                                    className={classNames({active: controlActiveAssertionMap[mode]()})}
+                                    label={formatMessage(MAP_HEADING_MODE_TO_LABEL[mode])}
+                                    aria-label={formatMessage(MAP_HEADING_MODE_TO_ARIA_LABEL[mode])}
                                 />
                             );
                         })}
@@ -247,5 +269,111 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
         </ToolbarContainer>
     );
 };
+
+type HeadingSelectOptionProps = {
+    mode: MarkdownHeadingMode;
+    active: boolean;
+    label: string;
+    onClick: () => void;
+}
+
+const HeadingSelectOption = ({active, label, ...rest}: HeadingSelectOptionProps) => {
+    return (
+        <StyledHeadingSelectOption {...rest}>
+            {label}
+            {active && (
+                <CheckIcon
+                    size={24}
+                    color={'rgba(var(--button-bg-rgb), 1)'}
+                />
+            )}
+        </StyledHeadingSelectOption>
+    );
+};
+
+const StyledHeadingSelectOption = styled.button(({mode}: {mode: HeadingSelectOptionProps['mode']}) => {
+    const genericStyles = css`
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        padding: 8px 20px;
+        min-width: 230px;
+        background: transparent;
+        border: none;
+        appearance: none;
+
+        &:hover {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+        }
+    `;
+
+    switch (mode) {
+    case 'h1':
+        return css`
+            ${genericStyles};
+            font-family: 'Metropolis', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 28px;
+            line-height: 36px;
+        `;
+    case 'h2':
+        return css`
+            ${genericStyles};
+            font-family: 'Metropolis', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 25px;
+            line-height: 30px;
+        `;
+    case 'h3':
+        return css`
+            ${genericStyles};
+            font-family: 'Metropolis', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 22px;
+            line-height: 28px;
+        `;
+    case 'h4':
+        return css`
+            ${genericStyles};
+            font-family: 'Metropolis', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 20px;
+            line-height: 28px;
+        `;
+    case 'h5':
+        return css`
+            ${genericStyles};
+            font-family: 'Metropolis', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 18px;
+            line-height: 24px;
+        `;
+    case 'h6':
+        return css`
+            ${genericStyles};
+            font-family: 'Metropolis', sans-serif;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 24px;
+        `;
+    case 'p':
+    default:
+        return css`
+            ${genericStyles};
+            font-family: 'Open Sans', sans-serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 14px;
+            line-height: 20px;
+        `;
+    }
+});
 
 export default Toolbar;

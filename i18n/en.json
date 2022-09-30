@@ -41,6 +41,7 @@
   "accessibility.button.italic": "italic",
   "accessibility.button.link": "link",
   "accessibility.button.numbered_list": "numbered list",
+  "accessibility.button.paragraph": "normal text",
   "accessibility.button.preview": "preview",
   "accessibility.button.quote": "quote",
   "accessibility.button.Search": "Search",
@@ -5430,5 +5431,12 @@
   "workspace_limits.upgrade_professional": "Professional plan data limit",
   "workspace_limits.upgrade_reasons.professional": "On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.",
   "workspace_limits.upgrade_reasons.starter": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.",
+  "wysiwyg.tool.heading1.label": "Heading 1",
+  "wysiwyg.tool.heading2.label": "Heading 2",
+  "wysiwyg.tool.heading3.label": "Heading 3",
+  "wysiwyg.tool.heading4.label": "Heading 4",
+  "wysiwyg.tool.heading5.label": "Heading 5",
+  "wysiwyg.tool.heading6.label": "Heading 6",
+  "wysiwyg.tool.paragraph.label": "Normal Text",
   "yourcomputer": "Your computer"
 }

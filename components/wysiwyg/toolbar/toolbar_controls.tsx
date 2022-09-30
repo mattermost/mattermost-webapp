@@ -13,13 +13,7 @@ import {
     CodeTagsIcon,
     FormatQuoteOpenIcon,
     FormatListBulletedIcon,
-    FormatListNumberedIcon,
-    FormatHeader1Icon,
-    FormatHeader2Icon,
-    FormatHeader3Icon,
-    FormatHeader4Icon,
-    FormatHeader5Icon,
-    FormatHeader6Icon,
+    FormatListNumberedIcon, CheckIcon,
 } from '@mattermost/compass-icons/components';
 import IconProps from '@mattermost/compass-icons/components/props';
 
@@ -81,27 +75,49 @@ export const DropdownContainer = styled(IconContainer)`
     padding: 8px;
 `;
 
-export type MarkdownMode = 'bold' | 'italic' | 'link' | 'strike' | 'code' | 'codeBlock' | 'quote' | 'ul' | 'ol' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+export type MarkdownHeadingMode =
+    | 'p'
+    | 'h1'
+    | 'h2'
+    | 'h3'
+    | 'h4'
+    | 'h5'
+    | 'h6';
+
+export type MarkdownMarkMode =
+    | 'bold'
+    | 'italic'
+    | 'link'
+    | 'strike'
+    | 'code'
+
+export type MarkdownBlockMode =
+    | 'codeBlock'
+    | 'quote'
+    | 'ul'
+    | 'ol'
+
+export type MarkdownMode = MarkdownMarkMode | MarkdownBlockMode;
 
 /**
  * all modes that can apply to a whole block of text
  */
-export const MarkdownBlockModes: MarkdownMode[] = ['code', 'codeBlock', 'quote', 'ul', 'ol'];
+export const MarkdownBlockModes: MarkdownMode[] = ['codeBlock', 'quote', 'ul', 'ol'];
 
 /**
  * all modes that can apply to a string
  */
-export const MarkdownLeafModes: MarkdownMode[] = ['bold', 'italic', 'strike', 'link'];
+export const MarkdownLeafModes: MarkdownMode[] = ['bold', 'italic', 'strike', 'link', 'code'];
 
 /**
  * all modes that apply a heading style
  */
-export const MarkdownHeadingModes: MarkdownMode[] = ['h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
+export const MarkdownHeadingModes: MarkdownHeadingMode[] = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
 
 /**
  * combined set of markdown modes
  */
-export const MarkdownModes: MarkdownMode[] = MarkdownLeafModes.concat(MarkdownBlockModes, MarkdownHeadingModes);
+export const MarkdownModes: MarkdownMode[] = MarkdownLeafModes.concat(MarkdownBlockModes);
 
 type ToolbarControlProps = {
     mode: MarkdownMode;
@@ -111,6 +127,36 @@ type ToolbarControlProps = {
     isActive?: boolean;
 }
 
+export const MAP_HEADING_MODE_TO_LABEL: Record<MarkdownHeadingMode, MessageDescriptor> = {
+    p: {id: t('wysiwyg.tool.paragraph.label'), defaultMessage: 'Normal text'},
+    h1: {id: t('wysiwyg.tool.heading1.label'), defaultMessage: 'Heading 1'},
+    h2: {id: t('wysiwyg.tool.heading2.label'), defaultMessage: 'Heading 2'},
+    h3: {id: t('wysiwyg.tool.heading3.label'), defaultMessage: 'Heading 3'},
+    h4: {id: t('wysiwyg.tool.heading4.label'), defaultMessage: 'Heading 4'},
+    h5: {id: t('wysiwyg.tool.heading5.label'), defaultMessage: 'Heading 5'},
+    h6: {id: t('wysiwyg.tool.heading6.label'), defaultMessage: 'Heading 6'},
+};
+
+export const MAP_HEADING_MODE_TO_ARIA_LABEL: Record<MarkdownHeadingMode, MessageDescriptor> = {
+    p: {id: t('accessibility.button.paragraph'), defaultMessage: 'normal text'},
+    h1: {id: t('accessibility.button.heading1'), defaultMessage: 'heading 1'},
+    h2: {id: t('accessibility.button.heading2'), defaultMessage: 'heading 2'},
+    h3: {id: t('accessibility.button.heading3'), defaultMessage: 'heading 3'},
+    h4: {id: t('accessibility.button.heading4'), defaultMessage: 'heading 4'},
+    h5: {id: t('accessibility.button.heading5'), defaultMessage: 'heading 5'},
+    h6: {id: t('accessibility.button.heading6'), defaultMessage: 'heading 6'},
+};
+
+export const MAP_HEADING_MODE_TO_SHORTCUT: Record<MarkdownHeadingMode, KeyboardShortcutDescriptor> = {
+    p: KEYBOARD_SHORTCUTS.msgMarkdownH1,
+    h1: KEYBOARD_SHORTCUTS.msgMarkdownH1,
+    h2: KEYBOARD_SHORTCUTS.msgMarkdownH2,
+    h3: KEYBOARD_SHORTCUTS.msgMarkdownH3,
+    h4: KEYBOARD_SHORTCUTS.msgMarkdownH4,
+    h5: KEYBOARD_SHORTCUTS.msgMarkdownH5,
+    h6: KEYBOARD_SHORTCUTS.msgMarkdownH6,
+};
+
 const MAP_MARKDOWN_MODE_TO_ICON: Record<ToolbarControlProps['mode'], React.FC<IconProps>> = {
     bold: FormatBoldIcon,
     italic: FormatItalicIcon,
@@ -118,12 +164,6 @@ const MAP_MARKDOWN_MODE_TO_ICON: Record<ToolbarControlProps['mode'], React.FC<Ic
     strike: FormatStrikethroughVariantIcon,
     code: CodeTagsIcon,
     codeBlock: CodeTagsIcon,
-    h1: FormatHeader1Icon,
-    h2: FormatHeader2Icon,
-    h3: FormatHeader3Icon,
-    h4: FormatHeader4Icon,
-    h5: FormatHeader5Icon,
-    h6: FormatHeader6Icon,
     quote: FormatQuoteOpenIcon,
     ul: FormatListBulletedIcon,
     ol: FormatListNumberedIcon,
@@ -136,12 +176,6 @@ const MAP_MARKDOWN_MODE_TO_ARIA_LABEL: Record<ToolbarControlProps['mode'], Messa
     strike: {id: t('accessibility.button.strike'), defaultMessage: 'strike through'},
     code: {id: t('accessibility.button.code'), defaultMessage: 'code'},
     codeBlock: {id: t('accessibility.button.code_block'), defaultMessage: 'code block'},
-    h1: {id: t('accessibility.button.heading1'), defaultMessage: 'heading 1'},
-    h2: {id: t('accessibility.button.heading2'), defaultMessage: 'heading 2'},
-    h3: {id: t('accessibility.button.heading3'), defaultMessage: 'heading 3'},
-    h4: {id: t('accessibility.button.heading4'), defaultMessage: 'heading 4'},
-    h5: {id: t('accessibility.button.heading5'), defaultMessage: 'heading 5'},
-    h6: {id: t('accessibility.button.heading6'), defaultMessage: 'heading 6'},
     quote: {id: t('accessibility.button.quote'), defaultMessage: 'quote'},
     ul: {id: t('accessibility.button.bulleted_list'), defaultMessage: 'bulleted list'},
     ol: {id: t('accessibility.button.numbered_list'), defaultMessage: 'numbered list'},
@@ -154,12 +188,6 @@ const MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS: Record<ToolbarControlProps['mode'
     strike: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
     code: KEYBOARD_SHORTCUTS.msgMarkdownCode,
     codeBlock: KEYBOARD_SHORTCUTS.msgMarkdownCode,
-    h1: KEYBOARD_SHORTCUTS.msgMarkdownH1,
-    h2: KEYBOARD_SHORTCUTS.msgMarkdownH2,
-    h3: KEYBOARD_SHORTCUTS.msgMarkdownH3,
-    h4: KEYBOARD_SHORTCUTS.msgMarkdownH4,
-    h5: KEYBOARD_SHORTCUTS.msgMarkdownH5,
-    h6: KEYBOARD_SHORTCUTS.msgMarkdownH6,
     quote: KEYBOARD_SHORTCUTS.msgMarkdownQuote,
     ul: KEYBOARD_SHORTCUTS.msgMarkdownUl,
     ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
@@ -186,13 +214,14 @@ function setLink(editor: Editor) {
     editor.chain().focus().extendMarkRange('link').setLink({href: url}).run();
 }
 
-export const makeControlHandlerMap = (editor: Editor): Record<ToolbarControlProps['mode'], () => void> => ({
+export const makeControlHandlerMap = (editor: Editor): Record<ToolbarControlProps['mode'] | MarkdownHeadingMode, () => void> => ({
     bold: () => editor.chain().focus().toggleBold().run(),
     italic: () => editor.chain().focus().toggleItalic().run(),
     link: () => setLink(editor),
     strike: () => editor.chain().focus().toggleStrike().run(),
-    code: () => editor.chain().focus().toggleCodeBlock().run(),
+    code: () => editor.chain().focus().toggleCode().run(),
     codeBlock: () => editor.chain().focus().toggleCodeBlock().run(),
+    p: () => editor.chain().focus().setParagraph().run(),
     h1: () => editor.chain().focus().toggleHeading({level: 1}).run(),
     h2: () => editor.chain().focus().toggleHeading({level: 2}).run(),
     h3: () => editor.chain().focus().toggleHeading({level: 3}).run(),
@@ -204,13 +233,14 @@ export const makeControlHandlerMap = (editor: Editor): Record<ToolbarControlProp
     ol: () => editor.chain().focus().toggleOrderedList().run(),
 });
 
-export const makeControlActiveAssertionMap = (editor: Editor): Record<ToolbarControlProps['mode'], () => boolean> => ({
+export const makeControlActiveAssertionMap = (editor: Editor): Record<ToolbarControlProps['mode'] | MarkdownHeadingMode, () => boolean> => ({
     bold: () => editor.isActive('bold'),
     italic: () => editor.isActive('italic'),
     link: () => editor.isActive('link'),
     strike: () => editor.isActive('strike'),
-    code: () => editor.isActive('codeBlock'),
+    code: () => editor.isActive('code'),
     codeBlock: () => editor.isActive('codeBlock'),
+    p: () => editor.isActive('paragraph'),
     h1: () => editor.isActive('heading', {level: 1}),
     h2: () => editor.isActive('heading', {level: 2}),
     h3: () => editor.isActive('heading', {level: 3}),

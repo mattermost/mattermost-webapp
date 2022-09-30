@@ -351,6 +351,16 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Strikethrough:\t⌘|Shift|X',
         },
     },
+    msgMarkdownP: {
+        default: {
+            id: t('shortcuts.msgs.markdown.p'),
+            defaultMessage: 'Normal Text',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.p.mac'),
+            defaultMessage: 'Normal Text',
+        },
+    },
     msgMarkdownH1: {
         default: {
             id: t('shortcuts.msgs.markdown.h1'),

@@ -9,6 +9,8 @@ import StarterKit from '@tiptap/starter-kit';
 import {EditorContent, JSONContent, useEditor} from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
 import Link from '@tiptap/extension-link';
+import Typography from '@tiptap/extension-typography';
+import Code from '@tiptap/extension-code';
 import styled from 'styled-components';
 
 import {ActionTypes, Locations} from 'utils/constants';
@@ -21,8 +23,8 @@ import SendButton from '../advanced_text_editor/send_button/send_button';
 import Toolbar from './toolbar';
 import {htmlToMarkdown} from './utils/turndown';
 
-const WysiwygContainer = styled.form`
-    margin: 0 24px 12px;
+const WysiwygContainer = styled.div`
+    margin: 0 24px 24px;
     border: 2px solid rgba(var(--center-channel-color-rgb), 0.32);
     border-radius: 4px;
 `;
@@ -76,10 +78,13 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
         extensions: [
             StarterKit,
             Highlight,
+            Typography,
+            Code,
             Link.configure({
                 linkOnPaste: true,
                 openOnClick: false,
             }),
+
         ],
         content: draft?.content,
         onUpdate: ({editor}) => {
@@ -128,7 +133,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     );
 
     return (
-        <WysiwygContainer onSubmit={handleSubmit}>
+        <WysiwygContainer>
             <EditorContainer>
                 <EditorContent editor={editor}/>
             </EditorContainer>
