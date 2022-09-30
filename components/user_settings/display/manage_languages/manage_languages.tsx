@@ -181,7 +181,7 @@ export class ManageLanguage extends React.PureComponent<Props, State> {
                 zIndex: 9999,
             }),
         };
-        const interfaceLanguageLabelAria = intl.formatMessage({id: 'user.settings.languages.dropdown.arialabel', defaultMessage: 'dropdown selector to change the interface language'});
+        const interfaceLanguageLabelAria = intl.formatMessage({id: 'user.settings.languages.dropdown.arialabel', defaultMessage: 'Dropdown selector to change the interface language'});
 
         const input = (
             <div key='changeLanguage'>
