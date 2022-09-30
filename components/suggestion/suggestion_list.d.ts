@@ -9,7 +9,7 @@ import React from 'react';
 // eslint-disable-next-line @typescript-eslint/no-empty-interface
 interface SuggestionItem {}
 
-interface Props {
+export interface Props {
     ariaLiveRef?: React.Ref<HTMLDivElement>;
     open: boolean;
     position?: 'top' | 'bottom';
@@ -24,7 +24,7 @@ interface Props {
     items: SuggestionItem[];
     terms: string[];
     selection: string;
-    components: Array<React.Component<{item: SuggestionItem}>>;
+    components: ReactComponent<Array<React.Component<{item: SuggestionItem}>>>;
     wrapperHeight?: number;
 
     // suggestionBoxAlgn is an optional object that can be passed to align the SuggestionList with the keyboard caret
