@@ -19,6 +19,8 @@ import {browserHistory} from 'utils/browser_history';
 import {ModalIdentifiers} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
+import './more_channels.scss'
+
 const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;
 const SEARCH_TIMEOUT_MILLISECONDS = 100;
@@ -202,12 +204,12 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 <button
                     id='createNewChannel'
                     type='button'
-                    className='btn btn-primary channel-create-btn'
+                    className='btn'
                     onClick={this.handleNewChannel}
                 >
                     <FormattedMessage
                         id='more_channels.create'
-                        defaultMessage='Create Channel'
+                        defaultMessage='Create New Channel'
                     />
                 </button>
             </TeamPermissionGate>
@@ -255,8 +257,8 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
 
         return (
             <GenericModal
-                className='a11y__modal more-modal more-modal--action'
                 onExited={this.handleExit}
+                compassDesign={true}
                 id='moreChannelsModal'
                 aria-labelledby='moreChannelsModalLabel'
                 modalHeaderText={title}

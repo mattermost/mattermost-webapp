@@ -133,6 +133,7 @@
                 }
 
                 .GenericModal__header {
+                    width: 85%;
                     padding: 0;
                     border-top-left-radius: 12px;
                     border-top-right-radius: 12px;
@@ -245,6 +246,7 @@
 .GenericModal__header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
     padding: 28px 24px 16px 24px;
 
     h1 {

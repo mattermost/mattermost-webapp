@@ -3967,7 +3967,7 @@
   "modal.manual_status.title_dnd": "Your Status is Set to \"Do Not Disturb\"",
   "modal.manual_status.title_offline": "Your Status is Set to \"Offline\"",
   "modal.manual_status.title_ooo": "Your Status is Set to \"Out of Office\"",
-  "more_channels.create": "Create Channel",
+  "more_channels.create": "Create New Channel",
   "more_channels.createClick": "Click 'Create New Channel' to make a new one",
   "more_channels.join": "Join",
   "more_channels.joining": "Joining...",

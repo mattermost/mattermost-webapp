@@ -1,0 +1,11 @@
+@charset 'UTF-8';
+
+#createNewChannel {
+  background-color: var(--center-channel-bg);
+  border: 1px solid var(--denim-button-bg);
+  border-radius: 4px;
+  color: var(--denim-button-bg);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
+}
