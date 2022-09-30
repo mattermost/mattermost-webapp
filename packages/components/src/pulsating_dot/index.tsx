@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {Coords} from 'components/widgets/tour_tip';
+import {Coords} from '../common/hooks/useMeasurePunchouts';
 
 import './pulsating_dot.scss';
 
@@ -40,5 +40,3 @@ export class PulsatingDot extends React.PureComponent<Props> {
         );
     }
 }
-
-export default PulsatingDot;
