@@ -74,8 +74,10 @@ export default class SearchChannelSuggestion extends Suggestion {
         if (isSelection) {
             className += ' suggestion--selected';
         }
-
-        const nameObject = itemToName(item, currentUser);
+        let nameObject = null;
+        if (currentUser) {
+            nameObject = itemToName(item, currentUser);
+        }
         if (!nameObject) {
             return (<></>);
         }

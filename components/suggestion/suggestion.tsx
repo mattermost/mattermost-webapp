@@ -3,17 +3,19 @@
 
 import React from 'react';
 
+import {UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies';
+
 type Props = {
-    onClick?: (term: string, matchedPretext: string, e?: any) => boolean;
+    onClick?: (term: string, matchedPretext: string) => boolean;
     onMouseMove?: (term: string) => void;
     term: string;
     matchedPretext: string;
     isSelection?: boolean;
     item?: any;
-    teammate?: any;
-    currentUser?: any;
+    teammate?: UserProfile;
+    currentUser?: string;
     locale?: string;
-    currentDate?: any;
+    currentDate?: Date;
 };
 
 export default class Suggestion extends React.PureComponent<Props> {

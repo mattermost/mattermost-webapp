@@ -17,7 +17,7 @@ const loadedLocales: Record<string, moment.Locale> = {};
 
 type Props = {
     locale?: string;
-    currentDate?: any;
+    currentDate?: Date;
 }
 
 export default class SearchDateSuggestion extends Suggestion {
