@@ -4,7 +4,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import { TourTip, useMeasurePunchouts } from '@mattermost/components';
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 
 import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
