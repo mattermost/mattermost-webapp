@@ -5,7 +5,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
   aria-label="channel header region"
   className="channel-header alt a11y__region"
   data-a11y-sort-order="8"
-  data-channelid="undefined"
+  data-channelid="channel_id"
   id="channel-header"
   role="banner"
   tabIndex={-1}
@@ -44,15 +44,12 @@ exports[`components/ChannelHeader should match snapshot with last active display
                     role="heading"
                   >
                     <span>
-                      <ArchiveIcon
-                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
-                      />
                       <MemoizedFormattedMessage
                         defaultMessage="{displayname} (you) "
                         id="channel_header.directchannel.you"
                         values={
                           Object {
-                            "displayname": undefined,
+                            "displayname": "some-user",
                           }
                         }
                       />
@@ -71,6 +68,40 @@ exports[`components/ChannelHeader should match snapshot with last active display
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
           </div>
         </div>
         <div
@@ -214,9 +245,22 @@ exports[`components/ChannelHeader should match snapshot with last active display
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
       channelMember={
@@ -246,9 +290,22 @@ exports[`components/ChannelHeader should match snapshot with last active display
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
     />
@@ -261,7 +318,7 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
   aria-label="channel header region"
   className="channel-header alt a11y__region"
   data-a11y-sort-order="8"
-  data-channelid="undefined"
+  data-channelid="channel_id"
   id="channel-header"
   role="banner"
   tabIndex={-1}
@@ -300,15 +357,12 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
                     role="heading"
                   >
                     <span>
-                      <ArchiveIcon
-                        className="icon icon__archive icon channel-header-archived-icon svg-text-color"
-                      />
                       <MemoizedFormattedMessage
                         defaultMessage="{displayname} (you) "
                         id="channel_header.directchannel.you"
                         values={
                           Object {
-                            "displayname": undefined,
+                            "displayname": "some-user",
                           }
                         }
                       />
@@ -327,6 +381,40 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
               </div>
               <ChannelHeaderDropdown />
             </MenuWrapper>
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={400}
+              key="isFavorite-undefined"
+              onEntering={[Function]}
+              overlay={
+                <Tooltip
+                  id="favoriteTooltip"
+                >
+                  <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Add to Favorites"
+                    id="channelHeader.addToFavorites"
+                  />
+                </Tooltip>
+              }
+              placement="bottom"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <button
+                aria-label="add to favorites"
+                className="style--none color--link channel-header__favorites inactive"
+                id="toggleFavorite"
+                onClick={[Function]}
+              >
+                <i
+                  className="icon icon-star-outline"
+                />
+              </button>
+            </OverlayTrigger>
           </div>
         </div>
         <div
@@ -450,9 +538,22 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
       channelMember={
@@ -482,9 +583,22 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
     <ChannelInfoButton
       channel={
         Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
           "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
           "status": "offline",
+          "team_id": "team_id",
           "type": "D",
+          "update_at": 0,
         }
       }
     />

@@ -356,18 +356,18 @@ describe('components/ChannelHeader', () => {
     test('should match snapshot with last active display', () => {
         const props = {
             ...populatedProps,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 header: 'not the bot description',
-                type: Constants.DM_CHANNEL,
+                type: Constants.DM_CHANNEL as ChannelType,
                 status: 'offline',
-            },
-            dmUser: {
+            }),
+            dmUser: TestHelper.getUserMock({
                 id: 'user_id',
                 is_bot: false,
                 props: {
                     show_last_active: 'true',
                 },
-            },
+            }),
         };
 
         const wrapper = shallowWithIntl(
@@ -380,18 +380,18 @@ describe('components/ChannelHeader', () => {
         const props = {
             ...populatedProps,
             isLastActiveEnabled: false,
-            channel: {
+            channel: TestHelper.getChannelMock({
                 header: 'not the bot description',
-                type: Constants.DM_CHANNEL,
+                type: Constants.DM_CHANNEL as ChannelType,
                 status: 'offline',
-            },
-            dmUser: {
+            }),
+            dmUser: TestHelper.getUserMock({
                 id: 'user_id',
                 is_bot: false,
                 props: {
                     show_last_active: 'false',
                 },
-            },
+            }),
         };
 
         const wrapper = shallowWithIntl(

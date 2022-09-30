@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import timezones from 'timezones.json';
 
-import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
+import {GenericAction, ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 
 import {updateMe} from 'mattermost-redux/actions/users';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
@@ -19,11 +19,19 @@ import {getTimezoneLabel, makeGetUserTimezone} from 'mattermost-redux/selectors/
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
 import {CollapsedThreads} from '@mattermost/types/config';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {UserProfile} from '@mattermost/types/users';
 
 import {GlobalState} from 'types/store';
 import {Preferences} from 'utils/constants';
 
 import UserSettingsDisplay from './user_settings_display';
+
+type Actions = {
+    autoUpdateTimezone: (deviceTimezone: string) => void;
+    savePreferences: (userId: string, preferences: PreferenceType[]) => void;
+    updateMe: (user: UserProfile) => Promise<ActionResult>;
+}
 
 export function makeMapStateToProps() {
     const getUserTimezone = makeGetUserTimezone();
