@@ -17,6 +17,7 @@ type Props = {
     fileInfo: FileInfo;
     fileUrl: string;
     className: string;
+    getContent?: (code: string) => void;
 };
 
 type State = {
@@ -92,6 +93,7 @@ export default class CodePreview extends React.PureComponent<Props, State> {
         if (Data.nodeName === '#document') {
             code = new XMLSerializer().serializeToString(Data);
         }
+        this.props.getContent?.(code);
         this.setState({
             code,
             loading: false,
