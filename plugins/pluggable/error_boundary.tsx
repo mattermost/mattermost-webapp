@@ -15,12 +15,12 @@ type State = {
 }
 
 const WrapperDiv = styled.div`
-align-items: center;
-display: flex;
-flex-direction: column;
-height: 100%;
-justify-content: center;
-width: 100%;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    justify-content: center;
+    width: 100%;
 `;
 
 export default class PluggableErrorBoundary extends React.PureComponent<Props, State> {
