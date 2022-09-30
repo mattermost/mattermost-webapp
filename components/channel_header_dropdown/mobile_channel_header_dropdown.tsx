@@ -4,9 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from '@mattermost/types/users.js';
-
-import {Channel} from '@mattermost/types/channels.js';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
 
 import StatusIcon from 'components/status_icon';
 

@@ -29,8 +29,8 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 import Menu from 'components/widgets/menu/menu';
 
 import {PluginComponent} from 'types/store/plugins';
-import {UserProfile} from '@mattermost/types/users';
 
+import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
 import MenuItemLeaveChannel from './menu_items/leave_channel';
