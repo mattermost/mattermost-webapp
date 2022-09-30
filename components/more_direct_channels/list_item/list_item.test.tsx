@@ -6,6 +6,8 @@ import React from 'react';
 
 import {General} from 'mattermost-redux/constants';
 
+import {OptionValue} from '../types';
+
 import ListItem from './list_item';
 
 describe('ListItem', () => {
@@ -21,7 +23,7 @@ describe('ListItem', () => {
             id: 'user_id_1',
             username: 'username1',
             last_post_at: 0,
-        };
+        } as OptionValue;
 
         const wrapper = shallow(
             <ListItem
@@ -53,7 +55,7 @@ describe('ListItem', () => {
                     username: 'user3',
                 },
             ],
-        };
+        } as OptionValue;
 
         const wrapper = shallow(
             <ListItem
