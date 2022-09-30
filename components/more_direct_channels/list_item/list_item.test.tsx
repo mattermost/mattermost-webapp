@@ -8,14 +8,15 @@ import {General} from 'mattermost-redux/constants';
 
 import {OptionValue} from '../types';
 
-import ListItem from './list_item';
+import ListItem, {Props} from './list_item';
 
 describe('ListItem', () => {
-    const baseProps = {
+    const baseProps: Props = {
         isMobileView: false,
         isSelected: false,
         add: jest.fn(),
         select: jest.fn(),
+        option: {} as OptionValue,
     };
 
     test('should match snapshot when rendering user', () => {
