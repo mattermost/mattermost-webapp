@@ -4,13 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+
 import {Constants, NotificationLevels} from 'utils/constants';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
-
-import {UserProfile} from '@mattermost/types/users';
-import {Channel} from '@mattermost/types/channels';
 
 import MenuItemToggleMuteChannel from './toggle_mute_channel';
 
@@ -27,7 +27,6 @@ describe('components/ChannelHeaderDropdown/MenuItemToggleMuteChannel', () => {
         actions: {
             updateChannelNotifyProps: jest.fn(),
         },
-        isArchived: false,
     };
 
     it('should match snapshot', () => {

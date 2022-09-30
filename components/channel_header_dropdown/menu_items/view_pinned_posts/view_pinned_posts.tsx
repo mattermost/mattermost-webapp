@@ -10,7 +10,6 @@ import {localizeMessage} from 'utils/utils';
 import Menu from 'components/widgets/menu/menu';
 
 type Props = {
-    id?: string;
     show?: boolean;
     channel: any;
     hasPinnedPosts: boolean;
@@ -43,7 +42,6 @@ export default class ViewPinnedPosts extends React.PureComponent<Props> {
     render() {
         return (
             <Menu.ItemAction
-                id={this.props.id}
                 show={this.props.show}
                 onClick={this.handleClick}
                 text={localizeMessage('navbar.viewPinnedPosts', 'View Pinned Posts')}

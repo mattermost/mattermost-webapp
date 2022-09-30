@@ -8,7 +8,6 @@ import {localizeMessage} from 'utils/utils';
 import Menu from 'components/widgets/menu/menu';
 
 type Props = {
-    id?: string;
     isArchived: boolean;
     actions: {
         goToLastViewedChannel: () => void;
@@ -23,7 +22,6 @@ export default class CloseChannel extends React.PureComponent<Props> {
     render() {
         return (
             <Menu.ItemAction
-                id={this.props.id}
                 show={this.props.isArchived}
                 onClick={this.handleClose}
                 text={localizeMessage('center_panel.archived.closeChannel', 'Close Channel')}
