@@ -12,7 +12,7 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import {showNewChannelWithBoardPulsatingDot} from 'selectors/plugins';
 
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 
 import './new_channel_with_board_tour_tip.scss';
 
