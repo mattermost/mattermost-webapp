@@ -13,6 +13,7 @@ import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
 import RootPost from './root_post';
 import Reply from './reply';
+import PostComponent from 'components/new_post';
 
 type Props = {
     a11yIndex: number;
@@ -25,6 +26,7 @@ type Props = {
     previousPostId: string;
     teamId: string;
     timestampProps?: Partial<TimestampProps>;
+    lastPost: Post;
 };
 
 function noop() {}
@@ -39,6 +41,7 @@ function ThreadViewerRow({
     previousPostId,
     teamId,
     timestampProps,
+    lastPost,
 }: Props) {
     switch (true) {
     case PostListUtils.isDateLine(listId): {
@@ -56,11 +59,11 @@ function ThreadViewerRow({
 
     case isRootPost:
         return (
-            <RootPost
+            <PostComponent
+                post={lastPost}
                 currentUserId={currentUserId}
-                id={listId}
                 isLastPost={isLastPost}
-                onCardClick={onCardClick}
+                handleCardClick={onCardClick}
                 teamId={teamId}
                 timestampProps={timestampProps}
             />

@@ -12,13 +12,14 @@ import {CloudUsage, Limits} from '@mattermost/types/cloud';
 import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
-import Post from 'components/post_view/post';
+import {Post} from '@mattermost/types/posts';
 import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {isIdNotPost} from 'utils/post_utils';
 import {PostListRowListIds, Locations} from 'utils/constants';
 import CenterMessageLock from 'components/center_message_lock';
+import PostComponent from 'components/new_post';
 
 export type PostListRowProps = {
     listId: string;
@@ -28,7 +29,7 @@ export type PostListRowProps = {
     loadOlderPosts: () => void;
     loadNewerPosts: () => void;
     togglePostMenu: (opened: boolean) => void;
-
+    post: Post;
     /**
      * To Check if the current post is last in the list
      */
@@ -173,8 +174,8 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
         }
 
         return (
-            <Post
-                postId={listId}
+            <PostComponent
+                post={this.props.post}
                 {...postProps}
             />
         );

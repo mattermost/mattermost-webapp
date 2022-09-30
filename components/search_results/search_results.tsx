@@ -37,6 +37,7 @@ import SearchLimitsBanner from './search_limits_banner';
 import type {Props} from './types';
 
 import './search_results.scss';
+import PostComponent from 'components/new_post';
 
 const GET_MORE_BUFFER = 30;
 
@@ -279,7 +280,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         contentItems = sortedResults.map((item: Post|FileSearchResultItemType, index: number) => {
             if (searchType === DataSearchTypes.MESSAGES_SEARCH_TYPE && !props.isChannelFiles) {
                 return (
-                    <SearchResultsItem
+                    <PostComponent
                         key={item.id}
                         compactDisplay={props.compactDisplay}
                         post={item as Post}

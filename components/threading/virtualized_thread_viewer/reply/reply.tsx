@@ -9,7 +9,7 @@ import {removePost} from 'mattermost-redux/actions/posts';
 
 import {Post} from '@mattermost/types/posts';
 
-import RhsComment from 'components/rhs_comment';
+import PostComponent from 'components/new_post';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
 type Props = {
@@ -44,7 +44,7 @@ function Reply({
     }, []);
 
     return (
-        <RhsComment
+        <PostComponent
             a11yIndex={a11yIndex}
             currentUserId={currentUserId}
             handleCardClick={onCardClick}
