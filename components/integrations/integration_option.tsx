@@ -1,28 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes, {ReactNodeLike} from 'prop-types';
-
 import React from 'react';
 
 import {Link} from 'react-router-dom';
 
 type Props = {
     image: string;
-    title: ReactNodeLike;
-    description: ReactNodeLike;
+    title: JSX.Element;
+    description: JSX.Element;
     link: string;
 }
-export default class IntegrationOption extends React.PureComponent <Props> {
-    static get propTypes() {
-        return {
-            image: PropTypes.string.isRequired,
-            title: PropTypes.node.isRequired,
-            description: PropTypes.node.isRequired,
-            link: PropTypes.string.isRequired,
-        };
-    }
 
+export default class IntegrationOption extends React.PureComponent <Props> {
     render() {
         const {image, title, description, link} = this.props;
 
