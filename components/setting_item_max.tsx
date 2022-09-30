@@ -8,7 +8,7 @@ import SaveButton from 'components/save_button';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
 
-type Props = {
+export type Props = {
     inputs: ReactNode;
     containerStyle?: string;
     clientError?: string | React.ReactNode | null;
@@ -45,13 +45,9 @@ export default class SettingItemMax extends React.PureComponent<Props> {
     }
 
     componentDidMount() {
-        if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
-            if (focusableElements.length > 0) {
-                (focusableElements[0] as HTMLElement).focus();
-            } else {
-                this.settingList.current.focus();
-            }
+        const focusableElements = this.settingList?.current?.querySelectorAll?.('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
+        if (focusableElements && focusableElements.length > 0) {
+            (focusableElements[0] as HTMLElement).focus();
         }
 
         document.addEventListener('keydown', this.onKeyDown);
