@@ -243,6 +243,8 @@
 }
 
 .GenericModal__header {
+    display: flex;
+    justify-content: space-between;
     padding: 28px 24px 16px 24px;
 
     h1 {

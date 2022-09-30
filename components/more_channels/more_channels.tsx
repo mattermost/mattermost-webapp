@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -12,6 +11,7 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
+import GenericModal from 'components/generic_modal';
 
 import {ModalData} from 'types/actions';
 
@@ -45,7 +45,6 @@ export type Props = {
 }
 
 type State = {
-    show: boolean;
     shouldShowArchivedChannels: boolean;
     search: boolean;
     searchedChannels: Channel[];
@@ -63,7 +62,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         this.searchTimeoutId = 0;
 
         this.state = {
-            show: true,
             shouldShowArchivedChannels: this.props.morePublicChannelsModalType === 'private',
             search: false,
             searchedChannels: [],
@@ -78,10 +76,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         if (this.props.canShowArchivedChannels) {
             this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
         }
-    }
-
-    handleHide = () => {
-        this.setState({show: false});
     }
 
     handleNewChannel = () => {
@@ -119,7 +113,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             this.setState({serverError: result.error.message});
         } else {
             browserHistory.push(getRelativeChannelURL(teamName, channel.name));
-            this.handleHide();
         }
 
         if (done) {
@@ -183,7 +176,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             search,
             searchedChannels,
             serverError: serverErrorState,
-            show,
             searching,
             shouldShowArchivedChannels,
         } = this.state;
@@ -254,35 +246,24 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             </React.Fragment>
         );
 
+        const title = (
+            <FormattedMessage
+                id='more_channels.title'
+                defaultMessage='Browse Channels'
+            />
+        );
+
         return (
-            <Modal
-                dialogClassName='a11y__modal more-modal more-modal--action'
-                show={show}
-                onHide={this.handleHide}
+            <GenericModal
+                className='a11y__modal more-modal more-modal--action'
                 onExited={this.handleExit}
-                role='dialog'
                 id='moreChannelsModal'
                 aria-labelledby='moreChannelsModalLabel'
+                modalHeaderText={title}
+                headerButton={createNewChannelButton}
             >
-                <Modal.Header
-                    id='moreChannelsModalHeader'
-                    closeButton={true}
-                >
-                    <Modal.Title
-                        componentClass='h1'
-                        id='moreChannelsModalLabel'
-                    >
-                        <FormattedMessage
-                            id='more_channels.title'
-                            defaultMessage='More Channels'
-                        />
-                    </Modal.Title>
-                    {createNewChannelButton}
-                </Modal.Header>
-                <Modal.Body>
-                    {body}
-                </Modal.Body>
-            </Modal>
+                {body}
+            </GenericModal>
         );
     }
 }
