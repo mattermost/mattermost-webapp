@@ -4,9 +4,11 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import { TourTip, useMeasurePunchouts } from '@mattermost/components';
+
 import {Constants, Preferences} from 'utils/constants';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
