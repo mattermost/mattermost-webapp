@@ -119,8 +119,8 @@ const TourTip = ({
     const content = (
         <>
             <div
-                data-testid={'current_tutorial_tip'}
                 className='tour-tip__header'
+                data-testid={'current_tutorial_tip'}
             >
                 <h4 className='tour-tip__header__title'>
                     {title}
