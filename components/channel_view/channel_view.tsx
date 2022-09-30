@@ -197,18 +197,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 id='app-content'
                 className='app__content'
             >
-                <div
-                    id={'speak-'}
-                    aria-live='assertive'
-                    className='sr-only'
-                >
-                    {
-                        <FormattedMessage
-                            id='channelView.login.successfull'
-                            defaultMessage='Login Successfull'
-                        />
-                    }
-                </div>
                 <FileUploadOverlay overlayType='center'/>
                 <ChannelHeader
                     {...this.props}
