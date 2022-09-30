@@ -455,7 +455,9 @@ const NewChannelModal = () => {
                                 checked={addBoard}
                                 id={'add-board-to-channel'}
                             />
-                            {formatMessage({id: 'channel_modal.create_board.title', defaultMessage: 'Create a board for this channel'})}
+                            <span>
+                                {formatMessage({id: 'channel_modal.create_board.title', defaultMessage: 'Create a board for this channel'})}
+                            </span>
                         </label>
                         {newBoardInfoIcon()}
                     </div>

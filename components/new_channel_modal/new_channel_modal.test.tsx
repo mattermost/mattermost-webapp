@@ -4,6 +4,7 @@
 import React from 'react';
 import {act} from 'react-dom/test-utils';
 import {shallow} from 'enzyme';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import GenericModal from 'components/generic_modal';
