@@ -1,17 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import throttle from 'lodash/throttle';
 import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import styled from 'styled-components';
+import debounce from 'lodash/debounce';
 
+import {EditorContent, JSONContent, useEditor, ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
-import {EditorContent, JSONContent, useEditor} from '@tiptap/react';
 import Highlight from '@tiptap/extension-highlight';
 import Link from '@tiptap/extension-link';
 import Typography from '@tiptap/extension-typography';
+import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Code from '@tiptap/extension-code';
-import styled from 'styled-components';
+
+// load all highlight.js languages
+import {lowlight} from 'lowlight';
 
 import {ActionTypes, Locations} from 'utils/constants';
 
@@ -22,6 +26,8 @@ import SendButton from '../advanced_text_editor/send_button/send_button';
 
 import Toolbar from './toolbar';
 import {htmlToMarkdown} from './utils/turndown';
+
+import CodeBlockComponent from './components/codeblockview';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -84,13 +90,43 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                 linkOnPaste: true,
                 openOnClick: false,
             }),
+            CodeBlockLowlight.
+                extend({
+                    addNodeView() {
+                        return renderReactNodeView(CodeBlockComponent);
+                    },
+                    addKeyboardShortcuts() {
+                        return {
 
+                            // exit node on arrow down
+                            ArrowUp: (...params) => {
+                                /**
+                                 * This is where we should add the logic to add a new paragraph node before the
+                                 * codeBlock, when we are in the first position of the selection as described in the
+                                 * design document for the editor
+                                 * @see https://www.figma.com/file/lMtUxkdoBSWZH1s9Z2wiwE/MM-46955-WYSIWYG-Editor%3A-Mattercon-Contribute?node-id=1387%3A132682
+                                 *
+                                 * Maybe we can copy some of the code that is in the other keaboardshortcut to exit the
+                                 * codeBlock when in last position and onArrowDown
+                                 * @see https://github.com/ueberdosis/tiptap/blob/6b0401c783f5d380a7e5106f166af56da74dbe59/packages/extension-code-block/src/code-block.ts#L178
+                                 */
+                                // eslint-disable-next-line no-console
+                                console.log('#### params', params);
+                                return false;
+                            },
+                        };
+                    },
+                }).
+                configure({
+                    lowlight,
+                    defaultLanguage: 'css',
+                }),
         ],
         content: draft?.content,
         onUpdate: ({editor}) => {
             // Save draft while typing
             // TODO: determine which wait period is sufficient
-            throttle(() => setDraftContent(editor.getJSON()), 1000);
+            debounce(() => setDraftContent(editor.getJSON()), 500);
 
             // call the onChange function from the parent component (if any available)
             onChange?.(htmlToMarkdown(editor.getHTML()));

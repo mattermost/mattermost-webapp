@@ -47,7 +47,7 @@ const ToolSection = styled.div`
     gap: 4px;
 `;
 
-const HeadingControlsContainer = styled.div`
+export const HeadingControlsContainer = styled.div`
     padding: 8px 0;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     border-radius: 4px;
@@ -208,6 +208,8 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
         }
     };
 
+    const codeBlockModeIsActive = editor.isActive('codeBlock');
+
     return (
         <ToolbarContainer ref={formattingBarRef}>
             <ToolSection>
@@ -217,6 +219,7 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                     className={classNames({active: showHeadingControls})}
                     onClick={toggleHeadingControls}
                     aria-label={HiddenControlsButtonAriaLabel}
+                    disabled={codeBlockModeIsActive}
                 >
                     {getHeadingLabel()}
                     <ChevronDownIcon
@@ -256,6 +259,7 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                                 mode={mode}
                                 onClick={controlHandlerMap[mode]}
                                 className={classNames({active: controlActiveAssertionMap[mode]()})}
+                                disabled={mode !== 'codeBlock' && codeBlockModeIsActive}
                             />
                             {insertSeparator && <Separator/>}
                         </React.Fragment>
