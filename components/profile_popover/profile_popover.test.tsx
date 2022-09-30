@@ -197,5 +197,4 @@ describe('components/ProfilePopover', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
-
 });
