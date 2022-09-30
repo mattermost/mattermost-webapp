@@ -400,10 +400,10 @@ const AdvanceTextEditor = ({
                     id='advancedTextEditorCell'
                     data-a11y-sort-order='2'
                     aria-label={
-                        <FormattedMessage
-                            id='channelView.login.successfull'
-                            defaultMessage='Login Successfull'
-                        /> + ' ' + ariaLabelMessageInput
+                        Utils.localizeMessage(
+                            'channelView.login.successfull',
+                            'Login Successfull',
+                        ) + ' ' + ariaLabelMessageInput
                     }
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
