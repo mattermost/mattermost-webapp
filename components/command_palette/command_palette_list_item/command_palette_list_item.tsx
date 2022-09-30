@@ -5,6 +5,7 @@
 import React from 'react';
 
 import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import RenderEmoji from 'components/emoji/render_emoji';
 import BotBadge from 'components/widgets/badges/bot_badge';
@@ -31,6 +32,7 @@ export interface CommandPaletteItem {
     lastViewedAt?: number;
     isDeactivated?: boolean;
     channel?: Channel;
+    user?: UserProfile;
     type: CommandPaletteEntities;
     subType: ChannelType | BoardsType | PlaybooksType | GotoType;
     isSelected?: boolean;

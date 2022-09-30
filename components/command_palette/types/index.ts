@@ -9,6 +9,7 @@ export enum CommandPaletteEntities {
     Files = 'files',
     Runs = 'runs',
     GoTo = 'goTo',
+    User = 'user',
 }
 
 export enum ChannelType {

@@ -28,7 +28,7 @@ export const CommandPaletteList = ({itemList, onItemSelected}: Props) => {
             setSelectedItemIndex(selectedItemIndex + 1);
             e.preventDefault();
         }
-    }, [selectedItemIndex]);
+    }, [KeyCodes.DOWN, KeyCodes.UP, selectedItemIndex]);
 
     useEffect(() => {
         document.addEventListener('keydown', handleKeyDown);

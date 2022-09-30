@@ -428,6 +428,30 @@ export default class SwitchChannelProvider extends Provider {
         return true;
     }
 
+    handlePretextChangedForChannelSearch(channelPrefix, resultsCallback) {
+        if (channelPrefix) {
+            prefix = channelPrefix;
+            this.startNewRequest(channelPrefix);
+            if (this.shouldCancelDispatch(channelPrefix)) {
+                return false;
+            }
+
+            // Dispatch suggestions for local data
+            const channels = getChannelsInAllTeams(getState()).concat(getDirectAndGroupChannels(getState()));
+            const formattedData = this.formatList(channelPrefix, [ThreadsChannel, ...channels], [], true, true);
+            if (formattedData) {
+                resultsCallback(formattedData);
+            }
+
+            // Fetch data from the server and dispatch
+            this.fetchChannels(channelPrefix, resultsCallback);
+        } else {
+            this.fetchAndFormatRecentlyViewedChannels(resultsCallback);
+        }
+
+        return true;
+    }
+
     async fetchUsersAndChannels(channelPrefix, resultsCallback) {
         const state = getState();
         const teamId = getCurrentTeamId(state);

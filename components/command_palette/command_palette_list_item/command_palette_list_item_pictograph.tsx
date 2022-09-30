@@ -12,6 +12,7 @@ export enum CmdPalettePictographType {
     GOTO_ICON= 'goto_icon',
     EMOJI= 'emoji',
     TEXT= 'text',
+    GROUP_ICON = 'status status--group'
 }
 
 export enum CmdPalettePictographIcon{
@@ -50,6 +51,12 @@ export const CommandPaletteListItemPictograph = ({type, pictographItem, userStat
             <RenderEmoji
                 emojiName={pictographItem}
             />);
+    } else if (type === CmdPalettePictographType.GROUP_ICON) {
+        return (
+            <span className='suggestion-list__icon suggestion-list__icon--large'>
+                <div className='status status--group'>{'G'}</div>
+            </span>
+        );
     }
     return null;
 };

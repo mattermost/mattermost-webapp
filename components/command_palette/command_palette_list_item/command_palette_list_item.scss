@@ -71,3 +71,38 @@
         font-weight: 400;
     }
 }
+
+.suggestion-list__icon {
+    display: inline-flex;
+    flex: 0 0 1.6rem;
+    align-items: center;
+    justify-content: center;
+    fill: v(center-channel-color);
+    opacity: 0.56;
+
+    &--standard {
+        width: 2rem;
+        height: 2rem;
+        flex: 0 0 2.4rem;
+        margin: 0 12px 0 0;
+        font-size: 1.2rem;
+    }
+
+    &--large {
+        width: 2.4rem;
+        height: 2.4rem;
+        flex: 0 0 2.4rem;
+        margin: 0 12px 0 0;
+        font-size: 2rem;
+    }
+
+    .status--group {
+        display: flex;
+        width: 1.8rem;
+        height: 1.8rem;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        background-color: rgba(var(--center-channel-color-rgb), 0.2);
+    }
+}

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useState} from 'react';
+import React, {ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,8 +24,11 @@ import LoadingSpinner from '../../widgets/loading/loading_spinner';
 import {CommandPaletteList} from '../command_palette_list/command_palette_list';
 import {CommandPaletteItem} from '../command_palette_list_item/command_palette_list_item';
 import {GotoListItemConstants, GotoListItemData} from '../constant';
-import {channelToCommandPaletteItemTransformer} from '../utils';
+import {channelToCommandPaletteItemTransformer, userToCommandPaletteItemTransform} from '../utils';
 import './command_palette_modal.scss';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
 
 import Filters from './filters';
 import Footer from './footer';
@@ -34,9 +37,28 @@ import Input from './input';
 interface Props {
     selectedEntities: CommandPaletteEntities[];
     onExited: () => void;
+    actions: {
+        autocompleteUsersInTeam: (username: string) => DispatchFunc | any;
+    };
 }
 
-const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
+type ProviderResults = {
+    matchedPretext: string;
+    terms: string[];
+
+    // The providers currently do not provide a clearly defined type and structure
+    items: Array<Record<string, any>>;
+    component?: React.ReactNode;
+}
+
+enum ChipType {
+    IN = 'IN',
+    FROM = 'FROM',
+}
+
+const defaultEnities = [CommandPaletteEntities.Channel, CommandPaletteEntities.Playbooks, CommandPaletteEntities.Boards];
+
+const CommandPaletteModal = ({onExited, selectedEntities, actions}: Props) => {
     const [modalVisibility, setModalVisibility] = useState(true);
     const [isLoading, setLoading] = useState(true);
     const [transformedItems, setTransformedItems] = useState<CommandPaletteItem[]>([]);
@@ -51,6 +73,10 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
     const [searchPrefix, setSearchPrefix] = useState('');
     const currentTeamId = useSelector(getCurrentTeamId);
     const teams = useSelector(getTeams);
+
+    const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
+
+    const [currentChipType, setCurrentChipType] = useState<ChipType | null>(null);
 
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
     const isBoardsEnabled = Boolean(pluginsList.focalboard);
@@ -109,6 +135,33 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         recentBoards();
     }, [recentBoards]);
 
+    // Channel Autocomplete
+    const autocompleteChannels = useCallback(async (term: string) => {
+        let channelPrefix = term;
+        const isAtSearch = channelPrefix.startsWith('@');
+        if (isAtSearch) {
+            channelPrefix = channelPrefix.replace(/^@/, '');
+        }
+
+        const handleResults = (res: ProviderResults) => {
+            const t = res.items.map((item) => item.channel);
+
+            const channels = channelToCommandPaletteItemTransformer(t, teams);
+            setTransformedItems([...channels]);
+        };
+
+        provider.handlePretextChangedForChannelSearch(channelPrefix, handleResults);
+    }, [provider, teams]);
+
+    // User Autocomplete
+    const autocompleteUsers = useCallback(async (term: string) => {
+        const usernamePrefix = term;
+
+        const data = await actions.autocompleteUsersInTeam(usernamePrefix);
+        const users = userToCommandPaletteItemTransform(data.users);
+        setTransformedItems([...users]);
+    }, [actions]);
+
     const addChip = useCallback((chip: string) => {
         if (searchPrefix) {
             setSearchPrefix('');
@@ -137,7 +190,7 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
                 removeChip(chips.length - 1);
             }
         }
-    }, [addChip, chips, removeChip, searchPrefix, searchTerm]);
+    }, [addChip, chips.length, removeChip, searchPrefix, searchTerm, selectedEntities]);
 
     const toggleFilter = useCallback((entity: CommandPaletteEntities) => {
         if (entities.includes(entity)) {
@@ -155,6 +208,23 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
         setIsCommandVisible((isCommandVisible) => !isCommandVisible);
     }, []);
 
+    const updateCurrentChip = useCallback((query) => {
+        if (searchPrefix === '~') {
+            autocompleteChannels(query);
+        } else {
+            const capturedChannel = (/\b(?:in|channel):\s*(\S*)$/i).exec(query.toLowerCase());
+            const capturedUser = (/\bfrom:\s*(\S*)$/i).exec(query.toLowerCase());
+
+            if (capturedChannel) {
+                setCurrentChipType(ChipType.IN);
+                autocompleteChannels(capturedChannel[1]);
+            } else if (capturedUser) {
+                setCurrentChipType(ChipType.FROM);
+                autocompleteUsers(capturedUser[1]);
+            }
+        }
+    }, [searchPrefix, autocompleteChannels, autocompleteUsers]);
+
     const updateSearchTerm = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         const query = e.target.value;
         if (!chips.length && !searchTerm.trim() && searchPrefixMap[query]?.enabled) {
@@ -164,13 +234,42 @@ const CommandPaletteModal = ({onExited, selectedEntities}: Props) => {
             setSearchTerm(e.target.value);
             searchBoards(query);
         }
-    }, [chips, searchBoards, searchTerm, searchPrefixMap]);
+
+        updateCurrentChip(query);
+    }, [chips.length, searchTerm, searchPrefixMap, updateCurrentChip, searchBoards]);
 
     const onHide = (): void => {
         setModalVisibility(false);
     };
 
+    const onItemSelectedMessagesAndFiles = (item: CommandPaletteItem) => {
+        switch (item.type) {
+        case CommandPaletteEntities.Channel : {
+            if (currentChipType === ChipType.IN) {
+                addChip(`${ChipType.IN}: ${item.title}`);
+                setSearchTerm('');
+                setCurrentChipType(null);
+            }
+            break;
+        }
+        case CommandPaletteEntities.User : {
+            if (currentChipType === ChipType.FROM) {
+                addChip(`${ChipType.FROM}: ${item.title}`);
+                setSearchTerm('');
+                setCurrentChipType(null);
+            }
+            break;
+        }
+        }
+    };
+
     const onItemSelected = (item: CommandPaletteItem) => {
+        if (currentChipType) {
+            onItemSelectedMessagesAndFiles(item);
+            setCurrentChipType(null);
+            return;
+        }
+
         switch (item.type) {
         case CommandPaletteEntities.Boards : {
             browserHistory.push(`/boards/team/${item.teamId}/${item.id}`);

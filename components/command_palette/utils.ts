@@ -2,6 +2,9 @@
 // See LICENSE.txt for license information.
 import {Channel} from '@mattermost/types/channels';
 import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+
+import {imageURLForUser} from 'utils/utils';
 
 import {CommandPaletteItem} from './command_palette_list_item/command_palette_list_item';
 import {
@@ -61,6 +64,21 @@ export function boardToCommandPaletteItemTransformer(boards: Board[], teams: Rec
     });
 }
 
+export function userToCommandPaletteItemTransform(users: UserProfile[]): CommandPaletteItem[] {
+    return users.map((user) => {
+        return {
+            title: user.username,
+            id: user.id,
+            type: CommandPaletteEntities.User,
+            pictograph: {
+                type: CmdPalettePictographType.IMAGE,
+                pictographItem: imageURLForUser(user.id, user.last_picture_update),
+            },
+            user,
+        };
+    });
+}
+
 export function channelToCommandPaletteItemTransformer(channels: Channel[], teams: Record<string, Team>): CommandPaletteItem[] {
     return channels.map((channel) => {
         const isArchived = channel.delete_at ? channel.delete_at !== 0 : false;
@@ -68,6 +86,8 @@ export function channelToCommandPaletteItemTransformer(channels: Channel[], team
         let channelIcon = CmdPalettePictographIcon.GLOBE;
         if (isArchived) {
             channelIcon = CmdPalettePictographIcon.ARCHIVE;
+        } else if (channel.type === ChannelType.PRIVATE_CHANNEL) {
+            channelIcon = CmdPalettePictographIcon.LOCK;
         }
         return {
             description: channel.type === ChannelType.DM_CHANNEL ? channel.name : '',
@@ -75,7 +95,7 @@ export function channelToCommandPaletteItemTransformer(channels: Channel[], team
             isDeactivated: isArchived,
             teamName: teams[channel.team_id]?.name,
             pictograph: {
-                type: CmdPalettePictographType.ICON,
+                type: channel.type === ChannelType.GM_CHANNEL ? CmdPalettePictographType.GROUP_ICON : CmdPalettePictographType.ICON,
                 pictographItem: channelIcon,
             },
             subType: channel.type as ChannelType,
