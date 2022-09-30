@@ -115,13 +115,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                 />
                 <Menu.Group divider={divider}>
                     <MenuItemToggleFavoriteChannel
-                        id='channelToggleFavorite'
                         show={isMobile}
                         channel={channel}
                         isFavorite={isFavorite}
                     />
                     <MenuItemViewPinnedPosts
-                        id='channelViewPinnedPosts'
                         show={isMobile}
                         channel={channel}
                     />
@@ -141,7 +139,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                         user={user}
                         channel={channel}
                         isMuted={isMuted}
-                        isArchived={isArchived}
                     />
                 </Menu.Group>
 
@@ -308,7 +305,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                         currentUser={user}
                     />
                     <MenuItemCloseChannel
-                        id='channelCloseChannel'
                         isArchived={isArchived}
                     />
                 </Menu.Group>

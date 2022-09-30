@@ -68,7 +68,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           "update_at": 0,
         }
       }
-      id="channelToggleFavorite"
       isFavorite={false}
       show={false}
     />
@@ -92,7 +91,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           "update_at": 0,
         }
       }
-      id="channelViewPinnedPosts"
       show={false}
     />
     <MenuItemToggleModalRedux
@@ -189,7 +187,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         }
       }
       id="channelToggleMuteChannel"
-      isArchived={false}
       isMuted={false}
       user={
         Object {
@@ -749,7 +746,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       id="channelCloseMessage"
     />
     <Connect(CloseChannel)
-      id="channelCloseChannel"
       isArchived={false}
     />
   </MenuGroup>
@@ -873,7 +869,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           "update_at": 0,
         }
       }
-      id="channelToggleFavorite"
       isFavorite={false}
       show={false}
     />
@@ -897,7 +892,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           "update_at": 0,
         }
       }
-      id="channelViewPinnedPosts"
       show={false}
     />
     <MenuItemToggleModalRedux
@@ -994,7 +988,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         }
       }
       id="channelToggleMuteChannel"
-      isArchived={false}
       isMuted={false}
       user={
         Object {
@@ -1554,7 +1547,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       id="channelCloseMessage"
     />
     <Connect(CloseChannel)
-      id="channelCloseChannel"
       isArchived={false}
     />
   </MenuGroup>
