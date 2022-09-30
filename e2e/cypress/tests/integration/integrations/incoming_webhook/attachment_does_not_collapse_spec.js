@@ -44,6 +44,7 @@ describe('Integrations/Incoming Webhook', () => {
             attachments: [{text: content}],
         };
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'text'});
+
         // * Check that the webhook has posted
         cy.getLastPostId().then((postId) => {
             cy.get(`#${postId}_message`).should('exist').within(() => {
@@ -51,9 +52,11 @@ describe('Integrations/Incoming Webhook', () => {
                 cy.findByText(content).should('exist');
             });
         });
+
         // # Type /collapse and press Enter
         const collapseCommand = 'collapse';
         cy.uiGetPostTextBox().type(`/${collapseCommand} {enter}`);
+
         // * Check that the post from the webhook has NOT collapsed (verify expanded post)
         cy.getLastPostId().then((postId) => {
             const postMessageId = `#${postId}_message`;
