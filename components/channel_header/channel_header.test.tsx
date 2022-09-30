@@ -39,7 +39,12 @@ describe('components/ChannelHeader', () => {
         isCustomStatusExpired: false,
         isFileAttachmentsEnabled: true,
         lastActivityTimestamp: 1632146562846,
-        enableLastActiveTime: true,
+        isLastActiveEnabled: true,
+        timestampUnits: [
+            'now',
+            'minute',
+            'hour',
+        ],
     };
 
     const populatedProps = {
@@ -371,32 +376,10 @@ describe('components/ChannelHeader', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with no last active display because of online status', () => {
+    test('should match snapshot with no last active display because it is disabled', () => {
         const props = {
             ...populatedProps,
-            channel: {
-                header: 'not the bot description',
-                type: Constants.DM_CHANNEL,
-                status: 'online',
-            },
-            dmUser: {
-                id: 'user_id',
-                is_bot: false,
-                props: {
-                    show_last_active: 'true',
-                },
-            },
-        };
-
-        const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot with no last active display because it is disabled by user', () => {
-        const props = {
-            ...populatedProps,
+            isLastActiveEnabled: false,
             channel: {
                 header: 'not the bot description',
                 type: Constants.DM_CHANNEL,
@@ -408,26 +391,6 @@ describe('components/ChannelHeader', () => {
                 props: {
                     show_last_active: 'false',
                 },
-            },
-        };
-
-        const wrapper = shallowWithIntl(
-            <ChannelHeader {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot with last active display because default is on', () => {
-        const props = {
-            ...populatedProps,
-            channel: {
-                header: 'not the bot description',
-                type: Constants.DM_CHANNEL,
-                status: 'offline',
-            },
-            dmUser: {
-                id: 'user_id',
-                is_bot: false,
             },
         };
 

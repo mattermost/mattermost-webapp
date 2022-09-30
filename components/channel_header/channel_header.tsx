@@ -423,7 +423,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     {this.renderCustomStatus()}
                 </span>
             );
-            console.log(this.props);
+
             if (this.props.isLastActiveEnabled && this.props.lastActivityTimestamp && this.props.timestampUnits) {
                 dmHeaderTextStatus = (
                     <span className='header-status__text'>

@@ -369,8 +369,10 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
     test('should update last active state', () => {
         const wrapper = mountWithIntl(
-            <UserSettingsDisplay {...requiredProps}/>,
-        );
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
 
         (wrapper.instance() as UserSettingsDisplay).handleLastActiveRadio('false');
         expect(wrapper.state('lastActiveDisplay')).toBe('false');

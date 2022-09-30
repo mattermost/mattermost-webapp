@@ -41,6 +41,11 @@ describe('components/ProfilePopover', () => {
         },
         lastActivityTimestamp: 1632146562846,
         enableLastActiveTime: true,
+        timestampUnits: [
+            'now',
+            'minute',
+            'hour',
+        ],
     };
 
     test('should match snapshot', () => {
@@ -181,10 +186,10 @@ describe('components/ProfilePopover', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with no last active display because of online status', () => {
+    test('should match snapshot with no last active display because it is disabled', () => {
         const props = {
             ...baseProps,
-            status: 'online',
+            enableLastActiveTime: false,
         };
 
         const wrapper = shallowWithIntl(
@@ -193,53 +198,4 @@ describe('components/ProfilePopover', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot with no last active display because it is disabled by user', () => {
-        const user = TestHelper.getUserMock({
-            props: {
-                show_last_active: 'false',
-            },
-        });
-        const props = {
-            ...baseProps,
-            user,
-            status: 'offline',
-        };
-
-        const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot with last active display because prop is not set (default is on)', () => {
-        const user = TestHelper.getUserMock();
-        const props = {
-            ...baseProps,
-            user,
-            status: 'offline',
-        };
-
-        const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot with last active display because props.show_last_active is true', () => {
-        const user = TestHelper.getUserMock({
-            props: {
-                show_last_active: 'true',
-            },
-        });
-        const props = {
-            ...baseProps,
-            user,
-            status: 'offline',
-        };
-
-        const wrapper = shallowWithIntl(
-            <ProfilePopover {...props}/>,
-        );
-        expect(wrapper).toMatchSnapshot();
-    });
 });
