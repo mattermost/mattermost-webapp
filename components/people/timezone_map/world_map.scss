@@ -1,0 +1,20 @@
+.map-location-name-tooltip {
+    .tooltip-inner {
+        background-color: var(--center-channel-bg);
+        color: var(--center-channel-color);
+        font-size: 14px;
+        font-weight: 700;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.36);
+        width: 200px;
+        height: 80px;
+
+        p {
+            text-align: left;
+            margin-left: 10px;
+            margin-top: 5px;
+        }
+    }
+    .tooltip-arrow {
+        display: none;
+    }
+}

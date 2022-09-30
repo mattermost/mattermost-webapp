@@ -6,8 +6,13 @@ import React, {ReactElement} from 'react';
 import * as topojson from 'topojson-client';
 import {Topology} from 'topojson-specification';
 
+import {Tooltip} from 'react-bootstrap';
+
+import OverlayTrigger from 'components/overlay_trigger';
+
 import timezoneTopoJson from './assets/timezones.json';
 import {findTimeZone} from './util';
+import './world_map.scss';
 
 type PolygonFeature = GeoJSON.Feature<
 GeoJSON.Polygon,
@@ -74,20 +79,33 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
         }
 
         const generatedPath = pathGenerator(d) || undefined;
-        const title = timeZone ? `${timeZone.countryName} / ${timeZone.mainCities[0]}` : '';
-        return (
-            <path
-                id={id}
-                key={id}
-                data-testid={id}
-                d={generatedPath}
-                opacity={opacity}
-                fill={fill}
-                strokeWidth={0.5}
-                stroke={stroke}
+
+        const tooltip = (
+            <Tooltip
+                id='mapLocationTooltip'
+                className='map-location-name-tooltip'
             >
-                <title>{title}</title>
-            </path>
+                <p className='location-name'>{'Location: '}{props.timeZoneName}</p>
+            </Tooltip>
+        );
+
+        return (
+            <OverlayTrigger
+                delayShow={100}
+                placement='top'
+                overlay={tooltip}
+                key={id}
+            >
+                <path
+                    id={id}
+                    data-testid={id}
+                    d={generatedPath}
+                    opacity={opacity}
+                    fill={fill}
+                    strokeWidth={0.5}
+                    stroke={stroke}
+                />
+            </OverlayTrigger>
         );
     });
 
