@@ -70,7 +70,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent<Pro
                         {(title) => (
                             <span
                                 className='fa fa-angle-down header-dropdown__icon'
-                                title={title as unknown as string}
+                                title={`${title}`}
                             />
                         )}
                     </FormattedMessage>
@@ -81,7 +81,7 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent<Pro
                     defaultMessage='Channel Menu'
                 >
                     {(ariaLabel) => (
-                        <Menu ariaLabel={ariaLabel as unknown as string}>
+                        <Menu ariaLabel={`${ariaLabel}`}>
                             <ChannelHeaderDropdownItems isMobile={true}/>
                             <div className='Menu__close visible-xs-block'>
                                 {'×'}
