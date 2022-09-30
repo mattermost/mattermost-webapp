@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {AnyAction, bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {Action} from 'mattermost-redux/types/actions';
 import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 
@@ -37,26 +38,33 @@ import type {StateProps, DispatchProps, OwnProps} from './types';
 function mapStateToProps(state: GlobalState) {
     const rhsState = getRhsState(state);
     const currentChannel = getCurrentChannel(state);
+    const isMobileView = getIsMobileView(state);
+    const isRhsOpen = getIsRhsOpen(state);
 
     return {
         currentChannel,
         isRhsExpanded: getIsRhsExpanded(state),
-        isRhsOpen: getIsRhsOpen(state),
+        isRhsOpen,
         isSearchingTerm: getIsSearchingTerm(state),
         searchTerms: getSearchTerms(state),
         searchType: getSearchType(state),
-        searchVisible: Boolean(rhsState) && rhsState !== RHSStates.PLUGIN,
+        searchVisible: rhsState !== null && (![
+            RHSStates.PLUGIN,
+            RHSStates.CHANNEL_INFO,
+            RHSStates.CHANNEL_MEMBERS,
+        ].includes(rhsState)),
+        hideMobileSearchBarInRHS: isMobileView && isRhsOpen && rhsState === RHSStates.CHANNEL_INFO,
         isMentionSearch: rhsState === RHSStates.MENTION,
         isFlaggedPosts: rhsState === RHSStates.FLAG,
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
-        isMobileView: getIsMobileView(state),
+        isMobileView,
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, DispatchProps['actions']>({
             updateSearchTerms,
             updateSearchTermsForShortcut,
             updateSearchType,
@@ -76,5 +84,4 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
         }, dispatch),
     };
 }
-
 export default connect<StateProps, DispatchProps, OwnProps, GlobalState>(mapStateToProps, mapDispatchToProps)(Search);

@@ -184,4 +184,12 @@
             font-size: 12px;
         }
     }
+
+    &List {
+        margin-top: 12px;
+
+        li:not(:last-child) {
+            margin-bottom: 8px;
+        }
+    }
 }

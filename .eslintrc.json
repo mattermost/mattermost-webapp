@@ -2,7 +2,8 @@
   "root": true,
   "extends": [
     "plugin:mattermost/react",
-    "plugin:cypress/recommended"
+    "plugin:cypress/recommended",
+    "plugin:react-hooks/recommended"
   ],
   "plugins": [
     "babel",
@@ -25,6 +26,8 @@
     }
   },
   "rules": {
+    "no-duplicate-imports": 0,
+    "import/no-duplicates": 2,
     "max-nested-callbacks": ["error", 10],
     "no-unused-expressions": 0,
     "babel/no-unused-expressions": 2,
@@ -68,7 +71,8 @@
       "paths": [
         {"name": "react-bootstrap", "importNames": ["OverlayTrigger"], "message": "Please use OverlayTrigger from '/components/overlay_trigger' instead"}
       ]
-    }]
+    }],
+    "max-lines": ["warn", {"max": 800, "skipBlankLines": true, "skipComments": true}]
   },
   "overrides": [
     {

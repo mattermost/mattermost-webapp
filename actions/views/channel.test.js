@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import {General, Posts, RequestStatus} from 'mattermost-redux/constants';
 import {leaveChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
 import * as UserActions from 'mattermost-redux/actions/users';
@@ -12,9 +9,8 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {browserHistory} from 'utils/browser_history';
 import * as Actions from 'actions/views/channel';
 import {closeRightHandSide} from 'actions/views/rhs';
+import mockStore from 'tests/test_store';
 import {ActionTypes, PostRequestTypes} from 'utils/constants';
-
-const mockStore = configureStore([thunk]);
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {

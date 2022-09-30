@@ -86,7 +86,7 @@ const HistoryButtons = (): JSX.Element => {
     return (
         <HistoryButtonsContainer>
             <OverlayTrigger
-                trigger={['hover']}
+                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='bottom'
                 overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelPrev)}
@@ -102,7 +102,7 @@ const HistoryButtons = (): JSX.Element => {
                 />
             </OverlayTrigger>
             <OverlayTrigger
-                trigger={['hover']}
+                trigger={['hover', 'focus']}
                 delayShow={Constants.OVERLAY_TIME_DELAY}
                 placement='bottom'
                 overlay={getTooltip(KEYBOARD_SHORTCUTS.browserChannelNext)}

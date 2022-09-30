@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Client4} from 'mattermost-redux/client';
-import {Job} from 'mattermost-redux/types/jobs';
+import {Job} from '@mattermost/types/jobs';
 
 import {exportFormats} from 'utils/constants';
 

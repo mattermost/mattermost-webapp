@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 
 import {t} from 'utils/i18n';
 import {browserHistory} from 'utils/browser_history';
@@ -47,7 +47,7 @@ import './system_roles.scss';
 export default class SystemRoles extends React.PureComponent<Props> {
     render() {
         const {roles} = this.props;
-        const roleNames = ['system_admin', 'system_manager', 'system_user_manager', 'system_read_only_admin'];
+        const roleNames = ['system_admin', 'system_manager', 'system_user_manager', 'system_custom_group_admin', 'system_read_only_admin'];
         const rows: Row[] = [];
         roleNames.forEach((name) => {
             const role = roles[name];
@@ -124,4 +124,7 @@ t('admin.permissions.roles.system_manager.type');
 t('admin.permissions.roles.system_read_only_admin.name');
 t('admin.permissions.roles.system_read_only_admin.description');
 t('admin.permissions.roles.system_read_only_admin.type');
+t('admin.permissions.roles.system_custom_group_admin.name');
+t('admin.permissions.roles.system_custom_group_admin.description');
+t('admin.permissions.roles.system_custom_group_admin.type');
 

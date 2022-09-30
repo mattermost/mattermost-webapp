@@ -27,6 +27,8 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             post: TestHelper.getPostMock({id: 'post_id_1'}),
             isLicensed: false,
             postEditTimeLimit: '-1',
+            handleCommentClick: jest.fn(),
+            handleDropdownOpened: jest.fn(),
             enableEmojiPicker: true,
             components: {},
             channelIsArchived: false,
@@ -39,11 +41,10 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
                 unpinPost: jest.fn(),
                 openModal: jest.fn(),
                 markPostAsUnread: jest.fn(),
-                doAppCall: jest.fn(),
+                handleBindingClick: jest.fn(),
                 postEphemeralCallResponseForPost: jest.fn(),
                 setThreadFollow: jest.fn(),
-                openAppsModal: jest.fn(),
-                fetchBindings: jest.fn(),
+                setGlobalItem: jest.fn(),
             },
             canEdit: false,
             canDelete: false,
@@ -56,6 +57,7 @@ describe('components/dot_menu/DotMenu on mobile view', () => {
             teamId: '',
             threadId: 'post_id_1',
             userId: 'user_id_1',
+            showForwardPostNewLabel: false,
         };
 
         const wrapper = shallow(

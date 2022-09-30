@@ -1,17 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
-
-import deepEqual from 'fast-deep-equal';
 import React from 'react';
 
+import deepEqual from 'fast-deep-equal';
+
 import {FormattedMessage} from 'react-intl';
+import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
 import {Timezone} from 'timezones.json';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {UserProfile, UserTimezone} from 'mattermost-redux/types/users';
+
+import {PreferenceType} from '@mattermost/types/preferences';
+import {UserProfile, UserTimezone} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -21,7 +23,6 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
@@ -39,6 +40,7 @@ function getDisplayStateFromProps(props: Props) {
         availabilityStatusOnPosts: props.availabilityStatusOnPosts,
         channelDisplayMode: props.channelDisplayMode,
         messageDisplay: props.messageDisplay,
+        colorizeUsernames: props.colorizeUsernames,
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
@@ -48,6 +50,15 @@ function getDisplayStateFromProps(props: Props) {
     };
 }
 
+type ChildOption = {
+    id: string;
+    message: string;
+    value: string;
+    display: string;
+    moreId: string;
+    moreMessage: string;
+};
+
 type Option = {
     value: string;
     radionButtonText: {
@@ -56,6 +67,7 @@ type Option = {
         moreId?: string;
         moreMessage?: string;
     };
+    childOption?: ChildOption;
 }
 
 type SectionProps ={
@@ -73,6 +85,7 @@ type SectionProps ={
     description: {
         id: string;
         message: string;
+        values?: Record<string, React.ReactNode | PrimitiveType | FormatXMLElementFn<React.ReactNode, React.ReactNode>>;
     };
     disabled?: boolean;
     onSubmit?: () => void;
@@ -95,13 +108,14 @@ type Props = {
     configTeammateNameDisplay: string;
     currentUserTimezone: string;
     enableTimezone: boolean;
-    shouldAutoUpdateTimezone: boolean;
+    shouldAutoUpdateTimezone: boolean | string;
     lockTeammateNameDisplay: boolean;
     militaryTime: string;
     teammateNameDisplay: string;
     availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
+    colorizeUsernames: string;
     collapseDisplay: string;
     collapsedReplyThreads: string;
     collapsedReplyThreadsAllowUserPreference: boolean;
@@ -127,6 +141,7 @@ type State = {
     availabilityStatusOnPosts: string;
     channelDisplayMode: string;
     messageDisplay: string;
+    colorizeUsernames: string;
     collapseDisplay: string;
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
@@ -253,6 +268,12 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             name: Preferences.MESSAGE_DISPLAY,
             value: this.state.messageDisplay,
         };
+        const colorizeUsernamesPreference = {
+            user_id: userId,
+            category: Preferences.CATEGORY_DISPLAY_SETTINGS,
+            name: Preferences.COLORIZE_USERNAMES,
+            value: this.state.colorizeUsernames,
+        };
         const collapseDisplayPreference = {
             user_id: userId,
             category: Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -297,6 +318,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             teammateNameDisplayPreference,
             availabilityStatusOnPostsPreference,
             oneClickReactionsOnPostsPreference,
+            colorizeUsernamesPreference,
         ];
 
         this.trackChangeIfNecessary(collapsedReplyThreadsPreference, this.props.collapsedReplyThreads);
@@ -442,20 +464,27 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         );
 
         const messageDesc = (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id={description.id}
                 defaultMessage={description.message}
+                values={description.values}
             />
         );
 
         if (this.props.activeSection === section) {
             const format = [false, false, false];
+            let childOptionToShow: ChildOption | undefined;
             if (value === firstOption.value) {
                 format[0] = true;
+                childOptionToShow = firstOption.childOption;
             } else if (value === secondOption.value) {
                 format[1] = true;
+                childOptionToShow = secondOption.childOption;
             } else {
                 format[2] = true;
+                if (thirdOption) {
+                    childOptionToShow = thirdOption.childOption;
+                }
             }
 
             const name = section + 'Format';
@@ -486,6 +515,39 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                                 onChange={() => this.handleOnChange(thirdDisplay)}
                             />
                             {thirdMessage}
+                        </label>
+                        <br/>
+                    </div>
+                );
+            }
+
+            let childOptionSection;
+            if (childOptionToShow) {
+                const childDisplay = childOptionToShow.display;
+                childOptionSection = (
+                    <div className='checkbox'>
+                        <hr/>
+                        <label>
+                            <input
+                                id={name + 'childOption'}
+                                type='checkbox'
+                                name={childOptionToShow.id}
+                                checked={childOptionToShow.value === 'true'}
+                                onChange={(e) => {
+                                    this.handleOnChange({[childDisplay]: e.target.checked ? 'true' : 'false'});
+                                }}
+                            />
+                            <FormattedMessage
+                                id={childOptionToShow.id}
+                                defaultMessage={childOptionToShow.message}
+                            />
+                            {moreColon}
+                            <span className='font-weight--normal'>
+                                <FormattedMessage
+                                    id={childOptionToShow.moreId}
+                                    defaultMessage={childOptionToShow.moreMessage}
+                                />
+                            </span>
                         </label>
                         <br/>
                     </div>
@@ -532,6 +594,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                         <br/>
                         {messageDesc}
                     </div>
+                    {childOptionSection}
                 </fieldset>,
             ];
 
@@ -842,6 +905,14 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     moreId: t('user.settings.display.messageDisplayCompactDes'),
                     moreMessage: 'Fit as many messages on the screen as we can.',
                 },
+                childOption: {
+                    id: t('user.settings.display.colorize'),
+                    value: this.state.colorizeUsernames,
+                    display: 'colorizeUsernames',
+                    message: 'Colorize usernames',
+                    moreId: t('user.settings.display.colorizeDes'),
+                    moreMessage: 'Use colors to distinguish users in compact mode',
+                },
             },
             description: {
                 id: t('user.settings.display.messageDisplayDescription'),
@@ -859,7 +930,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 defaultDisplay: Preferences.COLLAPSED_REPLY_THREADS_FALLBACK_DEFAULT,
                 title: {
                     id: t('user.settings.display.collapsedReplyThreadsTitle'),
-                    message: 'Collapsed Reply Threads (Beta)',
+                    message: 'Collapsed Reply Threads',
                 },
                 firstOption: {
                     value: Preferences.COLLAPSED_REPLY_THREADS_ON,
@@ -877,7 +948,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 },
                 description: {
                     id: t('user.settings.display.collapsedReplyThreadsDescription'),
-                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.\nPlease review our [documentation for known issues](!https://docs.mattermost.com/help/messaging/organizing-conversations.html) and help provide feedback in our [community channel](!https://community-daily.mattermost.com/core/channels/folded-reply-threads).',
+                    message: 'When enabled, reply messages are not shown in the channel and you\'ll be notified about threads you\'re following in the "Threads" view.',
                 },
             });
         }
@@ -1074,6 +1145,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     </h3>
                     <div className='divider-dark first'/>
                     {themeSection}
+                    {collapsedReplyThreads}
                     {clockSection}
                     {teammateNameDisplaySection}
                     {availabilityStatusOnPostsSection}
@@ -1082,7 +1154,6 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {linkPreviewSection}
                     {collapseSection}
                     {messageDisplaySection}
-                    {collapsedReplyThreads}
                     {clickToReply}
                     {channelDisplayModeSection}
                     {oneClickReactionsOnPostsSection}

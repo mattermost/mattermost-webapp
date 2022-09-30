@@ -8,7 +8,7 @@ import {Props as AsyncSelectProps} from 'react-select/async';
 import classNames from 'classnames';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MailIcon from 'components/widgets/icons/mail_icon';
@@ -18,9 +18,9 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import Avatar from 'components/widgets/users/avatar';
-import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils.jsx';
+import {imageURLForUser, getDisplayName, getLongDisplayNameParts} from 'utils/utils';
 
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import './users_emails_input.scss';
@@ -212,18 +212,14 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
         const Msg: any = components.NoOptionsMessage;
         return (
             <div className='users-emails-input__option users-emails-input__option--no-matches'>
-                <FormattedMarkdownMessage
-                    id={this.props.noMatchMessageId}
-                    defaultMessage={this.props.noMatchMessageDefault}
-                    values={{text: inputValue}}
-                    disableLinks={true}
-                >
-                    {(message: React.ReactNode) => (
-                        <Msg {...props}>
-                            {message}
-                        </Msg>
-                    )}
-                </FormattedMarkdownMessage>
+                <Msg {...props}>
+                    <FormattedMarkdownMessage
+                        id={this.props.noMatchMessageId}
+                        defaultMessage={this.props.noMatchMessageDefault}
+                        values={{text: inputValue}}
+                        disableLinks={true}
+                    />
+                </Msg>
             </div>
         );
     };
@@ -309,6 +305,9 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
             }
             return {label: v as string, value: v as string};
         });
+
+        const Msg: any = components.NoOptionsMessage;
+
         return (
             <>
                 <AsyncCreatable
@@ -345,21 +344,14 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
                 />
                 {this.props.showError && (
                     <div className='InputErrorBox'>
-                        <FormattedMarkdownMessage
-                            id={this.props.errorMessageId}
-                            defaultMessage={this.props.errorMessageDefault}
-                            values={this.props.errorMessageValues || null}
-                            disableLinks={true}
-                        >
-                            {(message: React.ReactNode) => {
-                                const Msg: any = components.NoOptionsMessage;
-                                return (
-                                    <Msg>
-                                        {message}
-                                    </Msg>
-                                );
-                            }}
-                        </FormattedMarkdownMessage>
+                        <Msg>
+                            <FormattedMarkdownMessage
+                                id={this.props.errorMessageId}
+                                defaultMessage={this.props.errorMessageDefault}
+                                values={this.props.errorMessageValues}
+                                disableLinks={true}
+                            />
+                        </Msg>
                         {this.props.extraErrorText || null}
                     </div>
                 )}

@@ -23,14 +23,14 @@ const LocalizedIcon = React.forwardRef((props: Props, ref?: React.Ref<HTMLSpanEl
         ...otherProps
     } = props;
 
+    const {formatMessage} = useIntl();
+
     if (component !== 'i' && component !== 'span') {
         return null;
     }
 
     // Use an uppercase name since JSX thinks anything lowercase is an HTML tag
     const Component = component;
-
-    const {formatMessage} = useIntl();
 
     const iconProps: HTMLAttributes<HTMLElement> = {
         ...otherProps,

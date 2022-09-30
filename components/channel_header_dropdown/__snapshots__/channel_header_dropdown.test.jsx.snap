@@ -2,27 +2,13 @@
 
 exports[`components/ChannelHeaderDropdown should match snapshot with no plugin items 1`] = `
 <Fragment>
-  <MenuItemToggleModalRedux
-    dialogProps={
+  <Connect(ToggleInfo)
+    channel={
       Object {
-        "channel": Object {
-          "id": "test-channel-id",
-        },
+        "id": "test-channel-id",
       }
     }
-    dialogType={
-      Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(ChannelInfoModal)",
-        "type": [Function],
-      }
-    }
-    id="channelViewInfo"
-    modalId="channel_info"
     show={true}
-    text="View Info"
   />
   <CategoryMenuItems
     channel={
@@ -69,7 +55,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ChannelNotificationsModal)",
           "type": [Function],
         }
       }
@@ -116,7 +101,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ChannelInviteModal)",
             "type": [Function],
           }
         }
@@ -136,7 +120,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(MoreDirectChannels)",
             "type": [Function],
           }
         }
@@ -146,25 +129,13 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         text="Add Members"
       />
     </Connect(ChannelPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogProps={
+    <Connect(ToggleChannelMembersRHS)
+      channel={
         Object {
-          "channel": Object {
-            "id": "test-channel-id",
-          },
-        }
-      }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(ChannelMembersModal)",
-          "type": [Function],
+          "id": "test-channel-id",
         }
       }
       id="channelViewMembers"
-      modalId="channel_members"
       show={false}
       text="View Members"
     />
@@ -182,7 +153,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToChannelModal)",
             "type": [Function],
           }
         }
@@ -202,7 +172,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(ChannelGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -211,25 +180,14 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         show={false}
         text="Manage Groups"
       />
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
+            "id": "test-channel-id",
           }
         }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
-          }
-        }
+        editMembers={true}
         id="channelManageMembers"
-        modalId="channel_members"
         show={true}
         text="Manage Members"
       />
@@ -243,25 +201,13 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         ]
       }
     >
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
-          }
-        }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
+            "id": "test-channel-id",
           }
         }
         id="channelViewMembers"
-        modalId="channel_members"
         show={true}
         text="View Members"
       />
@@ -281,7 +227,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -311,7 +256,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(EditChannelHeaderModal)",
             "type": [Function],
           }
         }
@@ -333,7 +277,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(EditChannelPurposeModal))",
             "type": [Function],
           }
         }
@@ -355,7 +298,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(RenameChannelModal))",
             "type": [Function],
           }
         }
@@ -385,7 +327,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ConvertChannelModal)",
             "type": [Function],
           }
         }
@@ -404,6 +345,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
       }
     >
       <MenuItemToggleModalRedux
+        className="MenuItem__dangerous"
         dialogProps={
           Object {
             "channel": Object {
@@ -417,7 +359,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(DeleteChannelModal)",
             "type": [Function],
           }
         }
@@ -480,7 +421,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(UnarchiveChannelModal)",
             "type": [Function],
           }
         }
@@ -496,27 +436,13 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
 
 exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`] = `
 <Fragment>
-  <MenuItemToggleModalRedux
-    dialogProps={
+  <Connect(ToggleInfo)
+    channel={
       Object {
-        "channel": Object {
-          "id": "test-channel-id",
-        },
+        "id": "test-channel-id",
       }
     }
-    dialogType={
-      Object {
-        "$$typeof": Symbol(react.memo),
-        "WrappedComponent": [Function],
-        "compare": null,
-        "displayName": "Connect(ChannelInfoModal)",
-        "type": [Function],
-      }
-    }
-    id="channelViewInfo"
-    modalId="channel_info"
     show={true}
-    text="View Info"
   />
   <CategoryMenuItems
     channel={
@@ -563,7 +489,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(ChannelNotificationsModal)",
           "type": [Function],
         }
       }
@@ -610,7 +535,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ChannelInviteModal)",
             "type": [Function],
           }
         }
@@ -630,7 +554,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(MoreDirectChannels)",
             "type": [Function],
           }
         }
@@ -640,25 +563,13 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         text="Add Members"
       />
     </Connect(ChannelPermissionGate)>
-    <MenuItemToggleModalRedux
-      dialogProps={
+    <Connect(ToggleChannelMembersRHS)
+      channel={
         Object {
-          "channel": Object {
-            "id": "test-channel-id",
-          },
-        }
-      }
-      dialogType={
-        Object {
-          "$$typeof": Symbol(react.memo),
-          "WrappedComponent": [Function],
-          "compare": null,
-          "displayName": "Connect(ChannelMembersModal)",
-          "type": [Function],
+          "id": "test-channel-id",
         }
       }
       id="channelViewMembers"
-      modalId="channel_members"
       show={false}
       text="View Members"
     />
@@ -676,7 +587,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToChannelModal)",
             "type": [Function],
           }
         }
@@ -696,7 +606,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(ChannelGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -705,25 +614,14 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         show={false}
         text="Manage Groups"
       />
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
+            "id": "test-channel-id",
           }
         }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
-          }
-        }
+        editMembers={true}
         id="channelManageMembers"
-        modalId="channel_members"
         show={true}
         text="Manage Members"
       />
@@ -737,25 +635,13 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         ]
       }
     >
-      <MenuItemToggleModalRedux
-        dialogProps={
+      <Connect(ToggleChannelMembersRHS)
+        channel={
           Object {
-            "channel": Object {
-              "id": "test-channel-id",
-            },
-          }
-        }
-        dialogType={
-          Object {
-            "$$typeof": Symbol(react.memo),
-            "WrappedComponent": [Function],
-            "compare": null,
-            "displayName": "Connect(ChannelMembersModal)",
-            "type": [Function],
+            "id": "test-channel-id",
           }
         }
         id="channelViewMembers"
-        modalId="channel_members"
         show={true}
         text="View Members"
       />
@@ -775,7 +661,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -805,7 +690,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(EditChannelHeaderModal)",
             "type": [Function],
           }
         }
@@ -827,7 +711,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(EditChannelPurposeModal))",
             "type": [Function],
           }
         }
@@ -849,7 +732,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(RenameChannelModal))",
             "type": [Function],
           }
         }
@@ -879,7 +761,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(ConvertChannelModal)",
             "type": [Function],
           }
         }
@@ -898,6 +779,7 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
       }
     >
       <MenuItemToggleModalRedux
+        className="MenuItem__dangerous"
         dialogProps={
           Object {
             "channel": Object {
@@ -911,7 +793,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(DeleteChannelModal)",
             "type": [Function],
           }
         }
@@ -989,7 +870,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(UnarchiveChannelModal)",
             "type": [Function],
           }
         }

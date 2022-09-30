@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {doPostActionWithCookie} from 'mattermost-redux/actions/posts';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {openModal} from 'actions/views/modals';

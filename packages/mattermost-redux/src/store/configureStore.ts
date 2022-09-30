@@ -10,7 +10,7 @@ import {
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import serviceReducers from '../reducers';
 

@@ -56,6 +56,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -173,21 +188,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
         section="click_to_reply"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -255,7 +255,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <injectIntl(FormattedMarkdownMessage)
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Select the width of the center channel."
                   id="user.settings.display.channeldisplaymode"
                 />
@@ -369,6 +369,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -485,21 +500,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       />
     </div>
     <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
       <SettingItemMax
         containerStyle=""
         extraInfo={null}
@@ -553,7 +553,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <injectIntl(FormattedMarkdownMessage)
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="When enabled, click anywhere on a message to open the reply thread."
                   id="user.settings.display.clickToReplyDescription"
                 />
@@ -681,6 +681,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
       className="divider-dark first"
     />
     <div>
+      <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
       <SettingItemMax
         containerStyle=""
         extraInfo={null}
@@ -734,7 +749,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <injectIntl(FormattedMarkdownMessage)
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Select how you prefer time displayed."
                   id="user.settings.display.preferTime"
                 />
@@ -851,21 +866,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -993,6 +993,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
+    <div>
+      <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
     <div>
       <Connect(SettingItemMin)
         section="clock"
@@ -1134,7 +1149,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <injectIntl(FormattedMarkdownMessage)
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Set whether previews of image links and image attachment thumbnails show as expanded or collapsed by default. This setting can also be controlled using the slash commands /expand and /collapse."
                   id="user.settings.display.collapseDesc"
                 />
@@ -1164,21 +1179,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -1308,6 +1308,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1415,21 +1430,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -1564,6 +1564,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1656,21 +1671,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -1800,6 +1800,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1924,7 +1939,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <injectIntl(FormattedMarkdownMessage)
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="When available, the first web link in a message will show a preview of the website content below the message."
                   id="user.settings.display.linkPreviewDesc"
                 />
@@ -1969,21 +1984,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -2111,6 +2111,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
+    <div>
+      <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
     <div>
       <Connect(SettingItemMin)
         section="clock"
@@ -2285,7 +2300,7 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
               </div>
               <div>
                 <br />
-                <injectIntl(FormattedMarkdownMessage)
+                <Memo(MemoizedFormattedMessage)
                   defaultMessage="Select how messages in a channel should be displayed."
                   id="user.settings.display.messageDisplayDescription"
                 />
@@ -2300,21 +2315,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -2444,6 +2444,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2551,21 +2566,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -2695,6 +2695,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2802,21 +2817,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -2946,6 +2946,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     />
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3053,21 +3068,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -3209,6 +3209,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="clock"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3316,21 +3331,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}
@@ -3458,6 +3458,21 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     <div
       className="divider-dark first"
     />
+    <div>
+      <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
     <div>
       <Connect(SettingItemMin)
         section="clock"
@@ -3797,21 +3812,6 @@ exports[`components/user_settings/display/UserSettingsDisplay should not show la
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Message Display"
             id="user.settings.display.messageDisplayTitle"
-          />
-        }
-        updateSection={[Function]}
-      />
-      <div
-        className="divider-dark"
-      />
-    </div>
-    <div>
-      <Connect(SettingItemMin)
-        section="collapsed_reply_threads"
-        title={
-          <Memo(MemoizedFormattedMessage)
-            defaultMessage="Collapsed Reply Threads (Beta)"
-            id="user.settings.display.collapsedReplyThreadsTitle"
           />
         }
         updateSection={[Function]}

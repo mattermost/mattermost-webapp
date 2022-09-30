@@ -17,11 +17,11 @@ import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {removeUserFromTeamAndGetStats} from 'actions/team_actions.jsx';
+import {removeUserFromTeamAndGetStats} from 'actions/team_actions';
 
 import TeamMembersDropdown from './team_members_dropdown';
 

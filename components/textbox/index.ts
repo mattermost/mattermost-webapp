@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {bindActionCreators, Dispatch} from 'redux';
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
 import {getAssociatedGroupsForReference} from 'mattermost-redux/selectors/entities/groups';
@@ -14,19 +14,21 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {GenericAction} from 'mattermost-redux/types/actions';
+import {GlobalState} from '@mattermost/types/store';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {autocompleteUsersInChannel} from 'actions/views/channel';
 import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {autocompleteChannels} from 'actions/channel_actions';
 
-import Textbox from './textbox';
+import Textbox, {Props as TextboxProps} from './textbox';
 
 type Props = {
     channelId: string;
     rootId?: string;
 };
+
+export type TextboxElement = HTMLInputElement | HTMLTextAreaElement;
 
 const makeMapStateToProps = () => {
     const getProfilesForThread = makeGetProfilesForThread();
@@ -49,8 +51,8 @@ const makeMapStateToProps = () => {
     };
 };
 
-const mapDispatchToProps = (dispatch: Dispatch<GenericAction>) => ({
-    actions: bindActionCreators({
+const mapDispatchToProps = (dispatch: Dispatch) => ({
+    actions: bindActionCreators<ActionCreatorsMapObject<Action>, TextboxProps['actions']>({
         autocompleteUsersInChannel,
         autocompleteChannels,
         searchAssociatedGroupsForReference,

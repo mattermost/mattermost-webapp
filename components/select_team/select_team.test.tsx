@@ -4,7 +4,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {CloudUsage} from '@mattermost/types/cloud';
+import {Team} from '@mattermost/types/teams';
 
 import SelectTeam, {TEAMS_PER_PAGE} from 'components/select_team/select_team';
 
@@ -39,6 +40,13 @@ describe('components/select_team/SelectTeam', () => {
             addUserToTeam: jest.fn().mockResolvedValue({data: true}),
         },
         totalTeamsCount: 15,
+        isCloud: false,
+        isFreeTrial: false,
+        usageDeltas: {
+            teams: {
+                active: Number.MAX_VALUE,
+            },
+        } as CloudUsage,
     };
 
     test('should match snapshot', () => {
@@ -117,5 +125,24 @@ describe('components/select_team/SelectTeam', () => {
         wrapper.setState({error: {message: 'error message'}});
         wrapper.instance().clearError({preventDefault: jest.fn()} as any);
         expect(wrapper.state('error')).toBeNull();
+    });
+
+    test('should match snapshot, on create team restricted', () => {
+        const props = {
+            ...baseProps,
+            isCloud: true,
+            isFreeTrial: false,
+            usageDeltas: {
+                teams: {
+                    active: 0,
+                },
+            } as CloudUsage,
+        };
+
+        const wrapper = shallow<SelectTeam>(
+            <SelectTeam {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

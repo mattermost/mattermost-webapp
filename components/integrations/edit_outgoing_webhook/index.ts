@@ -6,10 +6,10 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getOutgoingHook, updateOutgoingHook} from 'mattermost-redux/actions/integrations';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {OutgoingWebhook} from '@mattermost/types/integrations';
+import {ServerError} from '@mattermost/types/errors';
 
 import EditOutgoingWebhook from './edit_outgoing_webhook';
 

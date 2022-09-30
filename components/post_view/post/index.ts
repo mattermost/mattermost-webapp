@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
-import {getPost, makeIsPostCommentMention, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeIsPostCommentMention, makeGetCommentCountForPost, UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -14,7 +14,7 @@ import {
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {markPostAsUnread} from 'actions/post_actions';
 import {selectPost, selectPostCard} from 'actions/views/rhs';
@@ -29,13 +29,13 @@ import {getIsPostBeingEdited, getIsPostBeingEditedInRHS} from '../../../selector
 import PostComponent from './post';
 
 interface OwnProps {
-    post?: Post;
+    post?: UserActivityPost;
     postId: string;
     previousPostId?: string;
 }
 
 // isFirstReply returns true when the given post a comment that isn't part of the same thread as the previous post.
-export function isFirstReply(post: Post, previousPost: Post): boolean {
+export function isFirstReply(post: Post, previousPost?: Post | null): boolean {
     if (post.root_id) {
         if (previousPost) {
             // Returns true as long as the previous post is part of a different thread
@@ -55,7 +55,7 @@ function makeMapStateToProps() {
     const isPostCommentMention = makeIsPostCommentMention();
 
     return (state: GlobalState, ownProps: OwnProps) => {
-        const post = ownProps.post || getPost(state, ownProps.postId);
+        const post: UserActivityPost = ownProps.post || getPost(state, ownProps.postId) as UserActivityPost;
         const channel = getChannel(state, post.channel_id);
 
         let previousPost = null;
@@ -66,7 +66,7 @@ function makeMapStateToProps() {
         let consecutivePostByUser = false;
         let previousPostIsComment = false;
 
-        if (previousPost) {
+        if (previousPost && !post.props.priority) {
             consecutivePostByUser = areConsecutivePostsBySameUser(post, previousPost);
             previousPostIsComment = Boolean(previousPost.root_id);
         }
@@ -82,6 +82,7 @@ function makeMapStateToProps() {
             isCommentMention: isPostCommentMention(state, post.id),
             center: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CHANNEL_DISPLAY_MODE, Preferences.CHANNEL_DISPLAY_MODE_DEFAULT) === Preferences.CHANNEL_DISPLAY_MODE_CENTERED,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
             channelIsArchived: isArchivedChannel(channel),
             isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
             isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),

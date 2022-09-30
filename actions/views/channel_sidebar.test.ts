@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
+import {CategorySorting} from '@mattermost/types/channel_categories';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {insertWithoutDuplicates} from 'mattermost-redux/utils/array_utils';
 
 import configureStore from 'store';

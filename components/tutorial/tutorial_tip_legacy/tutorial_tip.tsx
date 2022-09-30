@@ -9,8 +9,8 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import Constants, {RecommendedNextSteps} from 'utils/constants';
-import PulsatingDot from 'components/widgets/pulsating_dot';
+import Constants, {RecommendedNextStepsLegacy} from 'utils/constants';
+import {PulsatingDot} from '@mattermost/components';
 
 import * as Utils from 'utils/utils';
 
@@ -21,6 +21,7 @@ const OnBoardingTutorialStep = Constants.TutorialSteps;
 const AdminOnBoardingTutorialStep = Constants.AdminTutorialSteps;
 const TutorialSteps = {
     [Preferences.TUTORIAL_STEP]: Constants.TutorialSteps,
+    [Preferences.EXPLORE_OTHER_TOOLS_TUTORIAL_STEP]: Constants.ExploreOtherToolsTourSteps,
     [Preferences.CRT_TUTORIAL_STEP]: Constants.CrtTutorialSteps,
     [Preferences.CRT_THREAD_PANE_STEP]: Constants.CrtThreadPaneSteps,
 };
@@ -111,13 +112,8 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
     }
 
     private show = (e?: React.MouseEvent): void => {
+        e?.stopPropagation();
         this.setState({show: true, hasShown: true});
-        if (this.props.preventDefault && e) {
-            e.preventDefault();
-        }
-        if (this.props.stopPropagation && e) {
-            e.stopPropagation();
-        }
     }
 
     private hide = (): void => {
@@ -241,7 +237,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
             const abPreferences = [{
                 user_id: currentUserId,
                 category: Preferences.AB_TEST_PREFERENCE_VALUE,
-                name: RecommendedNextSteps.CREATE_FIRST_CHANNEL,
+                name: RecommendedNextStepsLegacy.CREATE_FIRST_CHANNEL,
                 value: '',
             }];
 
@@ -451,7 +447,10 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                     onHide={this.dismiss}
                     target={this.getTarget}
                 >
-                    <div className={'tip-overlay ' + this.props.overlayClass}>
+                    <div
+                        className={'tip-overlay ' + this.props.overlayClass}
+                        data-testid={'current_tutorial_tip'}
+                    >
                         <div className='arrow'/>
                         <div className='tutorial-tip__header'>
                             <h4 className='tutorial-tip__header__title'>
@@ -460,6 +459,7 @@ export default class TutorialTip extends React.PureComponent<Props, State> {
                             <button
                                 className='tutorial-tip__header__close'
                                 onClick={this.dismiss}
+                                data-testid={'close_tutorial_tip'}
                             >
                                 <i className='icon icon-close'/>
                             </button>

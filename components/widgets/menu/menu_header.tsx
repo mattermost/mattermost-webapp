@@ -8,14 +8,18 @@ import './menu_header.scss';
 type Props = {
     divider?: React.ReactNode;
     children?: React.ReactNode;
+    onClick?: () => void;
 }
 
 export default class MenuHeader extends React.PureComponent<Props> {
     public render() {
-        const {children} = this.props;
+        const {children, onClick} = this.props;
 
         return (
-            <li className='MenuHeader'>
+            <li
+                className='MenuHeader'
+                onClick={onClick}
+            >
                 {children}
             </li>
         );

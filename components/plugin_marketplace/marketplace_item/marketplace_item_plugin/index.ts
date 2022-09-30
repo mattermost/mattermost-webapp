@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {getPluginStatus} from 'mattermost-redux/selectors/entities/admin';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
@@ -26,11 +27,14 @@ function mapStateToProps(state: GlobalState, props: Props) {
     const error = getError(state, props.id);
     const isDefaultMarketplace = getConfig(state).IsDefaultMarketplace === 'true';
 
+    const pluginStatus = getPluginStatus(state, props.id);
+
     return {
         installing,
         error,
         isDefaultMarketplace,
         trackEvent,
+        pluginStatus,
     };
 }
 

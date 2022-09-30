@@ -5,7 +5,7 @@ import React, {AnimationEvent} from 'react';
 import {Draggable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {DraggingState} from 'types/store';

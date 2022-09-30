@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ChannelModeration as ChannelPermissions} from 'mattermost-redux/types/channels';
+import {ChannelModeration as ChannelPermissions} from '@mattermost/types/channels';
 
 import ChannelModeration, {ChannelModerationTableRow} from './channel_moderation';
 

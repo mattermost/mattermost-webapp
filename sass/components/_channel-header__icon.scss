@@ -54,6 +54,13 @@
         }
     }
 
+    &--active-inverted,
+    &--active-inverted:hover {
+        background: v(button-bg);
+        color: v(button-color);
+        fill: v(button-color);
+    }
+
     .icon__text {
         margin: 0 2px;
         font-weight: 600;

@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {debounce} from 'lodash';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';
@@ -43,7 +43,7 @@ export type Props = {
     * The mode by which direct messages are restricted, if at all.
     */
     restrictDirectMessage?: string;
-    onModalDismissed: () => void;
+    onModalDismissed?: () => void;
     onExited?: () => void;
     actions: {
         getProfiles: (page?: number | undefined, perPage?: number | undefined, options?: any) => Promise<any>;

@@ -21,7 +21,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -40,7 +40,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       ariaLabel="Set a Header"
       className="intro-links color--link channelIntroButton"
       dialogProps={
@@ -66,7 +66,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -77,7 +76,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         defaultMessage="Set a Header"
         id="intro_messages.setHeader"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </Connect(ChannelPermissionGate)>
   <br />
 </div>
@@ -104,7 +103,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nMessages can only be posted by system admins. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.readonly.default"
       values={
@@ -139,7 +138,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -168,7 +167,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       ariaLabel="Set a Header"
       className="intro-links color--link channelIntroButton"
       dialogProps={
@@ -194,7 +193,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -205,7 +203,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         defaultMessage="Set a Header"
         id="intro_messages.setHeader"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </Connect(ChannelPermissionGate)>
   <br />
 </div>
@@ -232,7 +230,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -258,7 +256,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
       }
       teamId="team-id"
     >
-      <Connect(injectIntl(ToggleModalButton))
+      <Connect(ToggleModalButton)
         className="intro-links color--link"
         dialogProps={
           Object {
@@ -283,7 +281,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -302,7 +299,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           defaultMessage="Add other groups to this team"
           id="intro_messages.addGroupsToTeam"
         />
-      </Connect(injectIntl(ToggleModalButton))>
+      </Connect(ToggleModalButton)>
     </Connect(TeamPermissionGate)>
   </Connect(TeamPermissionGate)>
   <button
@@ -324,7 +321,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
     }
     teamId="team-id"
   >
-    <Connect(injectIntl(ToggleModalButton))
+    <Connect(ToggleModalButton)
       ariaLabel="Set a Header"
       className="intro-links color--link channelIntroButton"
       dialogProps={
@@ -350,7 +347,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(EditChannelHeaderModal)",
           "type": [Function],
         }
       }
@@ -361,7 +357,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
         defaultMessage="Set a Header"
         id="intro_messages.setHeader"
       />
-    </Connect(injectIntl(ToggleModalButton))>
+    </Connect(ToggleModalButton)>
   </Connect(ChannelPermissionGate)>
   <br />
 </div>
@@ -388,7 +384,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
   <p
     className="channel-intro__content"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="**Welcome to {display_name}!**\\\\n \\\\nPost messages here that you want everyone to see. Everyone automatically becomes a permanent member of this channel when they join the team."
       id="intro_messages.default"
       values={
@@ -453,7 +449,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
             }
             teamId="team-id"
           >
-            <Memo(Connect(injectIntl(ToggleModalButton)))
+            <Memo(Connect(ToggleModalButton))
               ariaLabel="Set a Header"
               className="intro-links color--link channelIntroButton"
               dialogProps={
@@ -479,7 +475,6 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                   "$$typeof": Symbol(react.memo),
                   "WrappedComponent": [Function],
                   "compare": null,
-                  "displayName": "Connect(EditChannelHeaderModal)",
                   "type": [Function],
                 }
               }
@@ -490,7 +485,7 @@ exports[`components/post_view/ChannelIntroMessages test DEFAULT Channel should m
                 defaultMessage="Set a Header"
                 id="intro_messages.setHeader"
               />
-            </Memo(Connect(injectIntl(ToggleModalButton)))>
+            </Memo(Connect(ToggleModalButton))>
           </Memo(Connect(ChannelPermissionGate))>
         }
         usersLimit={10}
@@ -513,6 +508,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       hasMention={true}
       isEmoji={false}
       isRHS={false}
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -531,7 +527,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your direct message history with {teammate}.\\\\nDirect messages and files shared here are not shown to people outside this area."
       id="intro_messages.DM"
       values={
@@ -551,7 +547,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       id="intro_messages.createBoard"
     />
   </button>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -577,7 +573,6 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -588,7 +583,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -604,6 +599,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       hasMention={true}
       isEmoji={false}
       isRHS={false}
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -622,7 +618,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your direct message history with {teammate}.\\\\nDirect messages and files shared here are not shown to people outside this area."
       id="intro_messages.DM"
       values={
@@ -632,7 +628,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       }
     />
   </p>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -658,7 +654,6 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -669,7 +664,7 @@ exports[`components/post_view/ChannelIntroMessages test DIRECT Channel should ma
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -718,6 +713,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureuser1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -728,6 +724,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureguest1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/guest1/image?_=0"
       userId="guest1"
@@ -737,7 +734,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
@@ -757,7 +754,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       id="intro_messages.createBoard"
     />
   </button>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -783,7 +780,6 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -794,7 +790,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -811,6 +807,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureuser1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/user1/image?_=0"
       userId="user1"
@@ -821,6 +818,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       isEmoji={false}
       isRHS={false}
       key="introprofilepictureguest1"
+      popoverPlacement="right"
       size="xl"
       src="/api/v4/users/guest1/image?_=0"
       userId="guest1"
@@ -830,7 +828,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
   <p
     className="channel-intro-text"
   >
-    <injectIntl(FormattedMarkdownMessage)
+    <FormattedMarkdownMessage
       defaultMessage="This is the start of your group message history with {names}.\\\\nMessages and files shared here are not shown to people outside this area."
       id="intro_messages.GM"
       values={
@@ -840,7 +838,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       }
     />
   </p>
-  <Connect(injectIntl(ToggleModalButton))
+  <Connect(ToggleModalButton)
     ariaLabel="Set a Header"
     className="intro-links color--link channelIntroButton"
     dialogProps={
@@ -866,7 +864,6 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
         "$$typeof": Symbol(react.memo),
         "WrappedComponent": [Function],
         "compare": null,
-        "displayName": "Connect(EditChannelHeaderModal)",
         "type": [Function],
       }
     }
@@ -877,7 +874,7 @@ exports[`components/post_view/ChannelIntroMessages test Group Channel should mat
       defaultMessage="Set a Header"
       id="intro_messages.setHeader"
     />
-  </Connect(injectIntl(ToggleModalButton))>
+  </Connect(ToggleModalButton)>
 </div>
 `;
 
@@ -951,7 +948,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -977,7 +974,6 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }
@@ -988,7 +984,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
@@ -1055,7 +1051,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -1081,7 +1077,6 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }
@@ -1092,7 +1087,7 @@ exports[`components/post_view/ChannelIntroMessages test OFFTOPIC Channel should 
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
@@ -1195,7 +1190,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -1221,7 +1216,6 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }
@@ -1232,7 +1226,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
@@ -1324,7 +1318,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
         }
         teamId="team-id"
       >
-        <Memo(Connect(injectIntl(ToggleModalButton)))
+        <Memo(Connect(ToggleModalButton))
           ariaLabel="Set a Header"
           className="intro-links color--link channelIntroButton"
           dialogProps={
@@ -1350,7 +1344,6 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
-              "displayName": "Connect(EditChannelHeaderModal)",
               "type": [Function],
             }
           }
@@ -1361,7 +1354,7 @@ exports[`components/post_view/ChannelIntroMessages test Open Channel should matc
             defaultMessage="Set a Header"
             id="intro_messages.setHeader"
           />
-        </Memo(Connect(injectIntl(ToggleModalButton)))>
+        </Memo(Connect(ToggleModalButton))>
       </Memo(Connect(ChannelPermissionGate))>
     }
     usersLimit={10}
