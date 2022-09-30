@@ -27,7 +27,7 @@ export default function AboutBuildModalCloud(props: Props) {
     const config = props.config;
     const license = props.license;
 
-    let companyName = license.Company
+    let companyName = license.Company;
     const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
     if (companyInfo) {
