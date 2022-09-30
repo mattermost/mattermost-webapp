@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {Link} from 'react-router-dom';
 
 type Props = {
