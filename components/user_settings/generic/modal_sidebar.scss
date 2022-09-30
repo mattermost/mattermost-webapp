@@ -1,0 +1,32 @@
+.mm-modal-sidebar{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0;
+    margin: 0;
+    gap: 8px;
+    li {
+        list-style: none;
+    }
+    &__item {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 8px 12px;
+        width: 184px;
+        height: 32px;
+        border: none;
+        color: rgba(var(--center-channel-text-rgb), 0.56);
+        border-radius: 4px;
+        background: none;
+        gap: 8px;
+
+        &:hover {
+            background: rgba(var(--denim-button-bg-rgb), 0.08);
+        }
+    }
+    &__item--active{
+        color: var(--denim-button-bg);
+        background:  rgba(var(--denim-button-bg-rgb), 0.08);
+    }
+}

@@ -15,7 +15,7 @@ import {ProductComponent, PluginComponent} from 'types/store/plugins';
 import {rudderAnalytics, RudderTelemetryHandler} from 'mattermost-redux/client/rudder';
 import {Client4} from 'mattermost-redux/client';
 import {setUrl} from 'mattermost-redux/actions/general';
-import {General} from 'mattermost-redux/constants';
+import {General, Preferences} from 'mattermost-redux/constants';
 import {setSystemEmojis} from 'mattermost-redux/actions/emojis';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'mattermost-redux/selectors/entities/users';
@@ -72,11 +72,11 @@ import {getSiteURL} from 'utils/url';
 import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
 
-import {UserProfile} from '@mattermost/types/users';
-
 import {ActionResult} from 'mattermost-redux/types/actions';
-
 import WelcomePostRenderer from 'components/welcome_post_renderer';
+import {applyTheme} from 'utils/utils';
+
+import {UserProfile} from '@mattermost/types/users';
 
 import {applyLuxonDefaults} from './effects';
 
@@ -206,7 +206,15 @@ export default class Root extends React.PureComponent<Props, State> {
 
         this.updateWindowSize();
 
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', this.handleOsColorSchemeChange);
+        }
+
         store.subscribe(() => applyLuxonDefaults(store.getState()));
+    }
+
+    handleOsColorSchemeChange = (e: MediaQueryListEvent) => {
+        applyTheme(e.matches ? Preferences.THEMES.indigo : Preferences.THEMES.denim);
     }
 
     onConfigLoaded = () => {
@@ -426,6 +434,10 @@ export default class Root extends React.PureComponent<Props, State> {
     componentWillUnmount() {
         this.mounted = false;
         window.removeEventListener('storage', this.handleLogoutLoginSignal);
+
+        if (window.matchMedia) {
+            window.matchMedia('(prefers-color-scheme: dark)').removeEventListener('change', this.handleOsColorSchemeChange);
+        }
 
         if (this.desktopMediaQuery.removeEventListener) {
             this.desktopMediaQuery.removeEventListener('change', this.handleMediaQueryChangeEvent);

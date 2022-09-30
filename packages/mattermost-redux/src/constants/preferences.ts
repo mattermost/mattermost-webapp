@@ -76,6 +76,9 @@ const Preferences = {
     NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED: 'channel_with_board_tip_showed',
 
     CATEGORY_THEME: 'theme',
+    SYNC_THEME_WITH_OS: 'sync_theme_with_os',
+    WEB_DARK_THEME: 'web_dark_theme',
+    WEB_LIGHT_THEME: 'web_light_theme',
     THEMES: {
         denim: {
             type: 'Denim',

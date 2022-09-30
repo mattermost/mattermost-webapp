@@ -171,7 +171,7 @@ export function savePreferences(userId: string, preferences: PreferenceType[]) {
     };
 }
 
-export function saveTheme(teamId: string, theme: Theme): ActionFunc {
+export function saveTheme(teamId: string, theme: Theme) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = getCurrentUserId(state);

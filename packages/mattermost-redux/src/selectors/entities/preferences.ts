@@ -9,12 +9,12 @@ import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selec
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
-import {PreferenceType} from '@mattermost/types/preferences';
-import {GlobalState} from '@mattermost/types/store';
-
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {setThemeDefaults} from 'mattermost-redux/utils/theme_utils';
+
+import {GlobalState} from '@mattermost/types/store';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {CollapsedThreads} from '@mattermost/types/config';
 
 export function getMyPreferences(state: GlobalState): { [x: string]: PreferenceType } {
@@ -98,13 +98,28 @@ const getThemePreference = createSelector(
     (myPreferences, currentTeamId) => {
         // Prefer the user's current team-specific theme over the user's current global theme
         let themePreference;
+        const syncWithOS = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, Preferences.SYNC_THEME_WITH_OS)];
+        if (syncWithOS && syncWithOS.value === 'true') {
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+            if (isDarkMode) {
+                themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId + Preferences.WEB_DARK_THEME)];
+            } else {
+                themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId + Preferences.WEB_LIGHT_THEME)];
+            }
 
-        if (currentTeamId) {
-            themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId)];
-        }
+            if (!themePreference && isDarkMode) {
+                themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, Preferences.WEB_DARK_THEME)];
+            } else {
+                themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, Preferences.WEB_LIGHT_THEME)];
+            }
+        } else {
+            if (currentTeamId) {
+                themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId)];
+            }
 
-        if (!themePreference) {
-            themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, '')];
+            if (!themePreference) {
+                themePreference = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, '')];
+            }
         }
 
         return themePreference;
@@ -147,17 +162,29 @@ export type Theme = {
     codeTheme: string;
 };
 
-const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): Theme => {
-    if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
-        const theme: Theme = Preferences.THEMES[config.DefaultTheme as ThemeKey];
-        if (theme) {
-            return theme;
+const getDefaultTheme = createSelector(
+    'getDefaultTheme',
+    getConfig,
+    getMyPreferences,
+    (config, myPreferences): Theme => {
+        const syncWithOS = myPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, Preferences.SYNC_THEME_WITH_OS)];
+        if (syncWithOS && syncWithOS.value === 'true') {
+            const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)');
+            if (isDarkMode) {
+                return Preferences.THEMES.indigo;
+            }
+            return Preferences.THEMES.denim;
         }
-    }
+        if (config.DefaultTheme && config.DefaultTheme in Preferences.THEMES) {
+            const theme: Theme = Preferences.THEMES[config.DefaultTheme as ThemeKey];
+            if (theme) {
+                return theme;
+            }
+        }
 
-    // If no config.DefaultTheme or value doesn't refer to a valid theme name...
-    return Preferences.THEMES.denim;
-});
+        // If no config.DefaultTheme or value doesn't refer to a valid theme name...
+        return Preferences.THEMES.denim;
+    });
 
 export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
     'getTheme',
