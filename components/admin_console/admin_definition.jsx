@@ -2365,6 +2365,7 @@ const AdminDefinition = {
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                     },
                     {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableCustomGroups',
                         label: t('admin.team.customUserGroupsTitle'),
                         label_default: 'Enable Custom User Groups (Beta): ',
