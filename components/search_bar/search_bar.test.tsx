@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {render} from '@testing-library/react';
 import {IntlProvider} from 'react-intl';
 import {Provider} from 'react-redux';
@@ -13,7 +13,7 @@ import en from 'i18n/en.json';
 
 import mockStore from 'tests/test_store';
 
-import SearchBar from './search_bar.tsx';
+import SearchBar from './search_bar';
 
 const suggestionProviders = [
     new SearchDateProvider(),
@@ -29,7 +29,7 @@ jest.mock('utils/utils', () => {
     };
 });
 
-const wrapIntl = (component) => (
+const wrapIntl = (component: JSX.Element) => (
     <IntlProvider
         locale={'en'}
         messages={en}
@@ -41,13 +41,13 @@ const wrapIntl = (component) => (
 describe('components/search_bar/SearchBar', () => {
     const store = mockStore({});
 
-    const wrapStore = (component) => (
+    const wrapStore = (component: JSX.Element) => (
         <Provider store={store}>
             {component}
         </Provider>
     );
 
-    const baseProps = {
+    const baseProps: ComponentProps<typeof SearchBar> = {
         suggestionProviders,
         searchTerms: '',
         keepFocused: false,
