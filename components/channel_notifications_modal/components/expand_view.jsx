@@ -263,7 +263,7 @@ export default function ExpandView({
             title={<SectionTitle section={section}/>}
             inputs={inputs}
             submit={onSubmit}
-            server_error={serverError}
+            serverError={serverError}
             updateSection={onCollapseSection}
         />
     );
