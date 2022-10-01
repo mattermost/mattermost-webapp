@@ -5,7 +5,6 @@ import React from 'react';
 
 import * as Markdown from 'utils/markdown';
 import {getSiteURL} from 'utils/url';
-
 import EmojiMap from 'utils/emoji_map';
 
 type Props = {
