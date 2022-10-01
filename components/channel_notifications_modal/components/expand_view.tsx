@@ -14,6 +14,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 import Describe from './describe.jsx';
 import ExtraInfo from './extra_info.jsx';
 import SectionTitle from './section_title.jsx';
+
 type Props = {
     ignoreChannelMentions?: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
