@@ -210,6 +210,7 @@ export default class SearchableChannelList extends React.PureComponent {
             }
         }
 
+        // sinan todo add icon
         let input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
