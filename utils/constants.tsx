@@ -5,9 +5,9 @@
 
 import keyMirror from 'key-mirror';
 
-import {CustomStatusDuration} from '@mattermost/types/users';
-
 import Permissions from 'mattermost-redux/constants/permissions';
+
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
