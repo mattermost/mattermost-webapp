@@ -6,8 +6,6 @@ import {TestHelper} from 'utils/test_helper';
 
 import {GlobalState} from 'types/store';
 
-import {Post} from '@mattermost/types/posts';
-
 import {makeGetMentionKeysForPost} from './index';
 
 describe('makeGetMentionKeysForPost', () => {
@@ -73,7 +71,7 @@ describe('makeGetMentionKeysForPost', () => {
     it('should return all mentionKeys', () => {
         const post = TestHelper.getPostMock({
             props: {
-                disable_group_highlight: true,
+                disable_group_highlight: false,
                 mentionHighlightDisabled: false,
             },
         });
@@ -99,8 +97,8 @@ describe('makeGetMentionKeysForPost', () => {
     it('should return group mentions and all mentions without channel mentions', () => {
         const post = TestHelper.getPostMock({
             props: {
-                disable_group_highlight: true,
-                mentionHighlightDisabled: false,
+                disable_group_highlight: false,
+                mentionHighlightDisabled: true,
             },
         });
         const getMentionKeysForPost = makeGetMentionKeysForPost();
@@ -113,7 +111,7 @@ describe('makeGetMentionKeysForPost', () => {
         const post = TestHelper.getPostMock({
             props: {
                 disable_group_highlight: true,
-                mentionHighlightDisabled: false,
+                mentionHighlightDisabled: true,
             },
         });
         const getMentionKeysForPost = makeGetMentionKeysForPost();
