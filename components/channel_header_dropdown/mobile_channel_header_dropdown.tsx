@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
@@ -25,9 +25,10 @@ type Props = {
     teammateIsBot?: boolean;
     teammateStatus?: string;
     displayName: string;
+    intl: IntlShape;
 }
 
-export default class MobileChannelHeaderDropdown extends React.PureComponent<Props> {
+class MobileChannelHeaderDropdown extends React.PureComponent<Props> {
     getChannelTitle = () => {
         const {user, channel, teammateId, displayName} = this.props;
 
@@ -63,33 +64,22 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent<Pro
                         {dmHeaderIconStatus}
                         {this.getChannelTitle()}
                     </span>
-                    <FormattedMessage
-                        id='generic_icons.dropdown'
-                        defaultMessage='Dropdown Icon'
-                    >
-                        {(title) => (
-                            <span
-                                className='fa fa-angle-down header-dropdown__icon'
-                                title={`${title}`}
-                            />
-                        )}
-                    </FormattedMessage>
+                    <span
+                        className='fa fa-angle-down header-dropdown__icon'
+                        title={this.props.intl.formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
+                    />
                 </a>
 
-                <FormattedMessage
-                    id='channel_header.menuAriaLabel'
-                    defaultMessage='Channel Menu'
-                >
-                    {(ariaLabel) => (
-                        <Menu ariaLabel={`${ariaLabel}`}>
-                            <ChannelHeaderDropdownItems isMobile={true}/>
-                            <div className='Menu__close visible-xs-block'>
-                                {'×'}
-                            </div>
-                        </Menu>
-                    )}
-                </FormattedMessage>
+                <Menu ariaLabel={this.props.intl.formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'})}>
+                    <ChannelHeaderDropdownItems isMobile={true}/>
+                    <div className='Menu__close visible-xs-block'>
+                        {'×'}
+                    </div>
+                </Menu>
             </MenuWrapper>
         );
     }
 }
+
+export default injectIntl(MobileChannelHeaderDropdown);
+
