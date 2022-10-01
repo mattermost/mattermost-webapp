@@ -117,10 +117,10 @@ describe('components/SettingItemMax', () => {
         );
         const instance = wrapper.instance();
 
-        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT', classList: {contains: jest.fn()}, parentElement: {className: 'react-select__input'}}});
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: 'SELECT', classList: {contains: jest.fn()}, parentElement: {className: 'react-select__input'}}} as any);
         expect(submit).toHaveBeenCalledTimes(0);
 
-        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: '', classList: {contains: jest.fn()}, parentElement: {className: ''}}});
+        instance.onKeyDown({preventDefault: jest.fn(), key: Constants.KeyCodes.ENTER[0], target: {tagName: '', classList: {contains: jest.fn()}, parentElement: {className: ''}}} as any);
         expect(submit).toHaveBeenCalledTimes(1);
         expect(submit).toHaveBeenCalledWith('setting');
     });
