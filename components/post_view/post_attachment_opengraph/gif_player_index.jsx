@@ -3,16 +3,16 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-// import lifecyclesPoylfill from 'react-lifecycles-compat';
 import {polyfill} from 'react-lifecycles-compat';
 
-import GifPlayer from './gif_player';
+import GifPlayer from './gif_player.jsx';
 
 const preload = (src, callback) => {
     var img = new Image();
     if (typeof callback === 'function') {
+        // console.log('true')
         img.onload = () => callback(img);
-        img.setAttribute('crossOrigin', 'use-credentials');
+        img.setAttribute('crossorigin', 'Anonymous');
     }
     img.src = src;
 };
