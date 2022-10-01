@@ -19,7 +19,7 @@ import {browserHistory} from 'utils/browser_history';
 import {ModalIdentifiers} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
-import './more_channels.scss'
+import './more_channels.scss';
 
 const CHANNELS_CHUNK_SIZE = 50;
 const CHANNELS_PER_PAGE = 50;

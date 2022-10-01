@@ -12,7 +12,7 @@ import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils';
+import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import SharedChannelIndicator from 'components/shared_channel_indicator';
@@ -250,36 +250,45 @@ export default class SearchableChannelList extends React.PureComponent {
 
         if (this.props.canShowArchivedChannels) {
             channelDropdown = (
-                <div className='more-modal__dropdown'>
-                    <MenuWrapper id='channelsMoreDropdown'>
-                        <a>
-                            <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
-                            <span className='caret'/>
-                        </a>
-                        <Menu
-                            openLeft={false}
-                            ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
-                        >
-                            <Menu.ItemAction
-                                id='channelsMoreDropdownPublic'
-                                onClick={this.toggleArchivedChannelsOff}
-                                text={localizeMessage('suggestion.search.public', 'Public Channels')}
-                            />
-                            <Menu.ItemAction
-                                id='channelsMoreDropdownArchived'
-                                onClick={this.toggleArchivedChannelsOn}
-                                text={localizeMessage('suggestion.archive', 'Archived Channels')}
-                            />
-                        </Menu>
-                    </MenuWrapper>
-                </div>
+                <MenuWrapper id='channelsMoreDropdown'>
+                    <a>
+                        <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
+                        <span className='caret'/>
+                    </a>
+                    <Menu
+                        openLeft={false}
+                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
+                    >
+                        <Menu.ItemAction
+                            id='channelsMoreDropdownPublic'
+                            onClick={this.toggleArchivedChannelsOff}
+                            text={localizeMessage('suggestion.search.public', 'Public Channels')}
+                        />
+                        <Menu.ItemAction
+                            id='channelsMoreDropdownArchived'
+                            onClick={this.toggleArchivedChannelsOn}
+                            text={localizeMessage('suggestion.archive', 'Archived Channels')}
+                        />
+                    </Menu>
+                </MenuWrapper>
             );
         }
+
+        const channelCountLabel = channels.length > 0 ?
+            localizeAndFormatMessage(t('more_channels.count'), '0 Channel', {count: channels.length}) :
+            localizeMessage('more_channels.count_zero', '0 Channel');
+
+        const dropDownContainer = (
+            <div className='more-modal__dropdown'>
+                <span id='channelCountLabel'>{channelCountLabel}</span>
+                {channelDropdown}
+            </div>
+        );
 
         return (
             <div className='filtered-user-list'>
                 {input}
-                {channelDropdown}
+                {dropDownContainer}
                 <div
                     role='application'
                     ref='channelList'
