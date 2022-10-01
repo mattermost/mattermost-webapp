@@ -8,7 +8,7 @@ import classNames from 'classnames';
 import {CloseIcon} from '@mattermost/compass-icons/components';
 
 import {Constants} from 'utils/constants';
-import * as Emoji from 'utils/emoji.jsx';
+import * as Emoji from 'utils/emoji';
 import imgTrans from 'images/img_trans.gif';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';

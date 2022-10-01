@@ -18,7 +18,7 @@ export const EmojiIndicesByUnicode = new Map([["1f600",0],["1f603",1],["1f604",2
 
 export const CategoryNames = ["recent","smileys-emotion","people-body","animals-nature","food-drink","travel-places","activities","objects","symbols","flags","custom"];
 
-export const CategoryMessage = new Map([[["smileys-emotion","Smileys & Emotion"],["people-body","People & Body"],["component","Component"],["animals-nature","Animals & Nature"],["food-drink","Food & Drink"],["travel-places","Travel & Places"],["activities","Activities"],["objects","Objects"],["symbols","Symbols"],["flags","Flags"],["custom","Custom"],["recent","Recently Used"],["searchResults","Search Results"]]]);
+export const CategoryMessage = new Map([["smileys-emotion","Smileys & Emotion"],["people-body","People & Body"],["component","Component"],["animals-nature","Animals & Nature"],["food-drink","Food & Drink"],["travel-places","Travel & Places"],["activities","Activities"],["objects","Objects"],["symbols","Symbols"],["flags","Flags"],["custom","Custom"],["recent","Recently Used"],["searchResults","Search Results"]]);
 
 export const CategoryTranslations = new Map([['recent', t('emoji_picker.recent')],['searchResults', t('emoji_picker.searchResults')],['recent', t('emoji_picker.recent')],['smileys-emotion', t('emoji_picker.smileys-emotion')],['people-body', t('emoji_picker.people-body')],['animals-nature', t('emoji_picker.animals-nature')],['food-drink', t('emoji_picker.food-drink')],['travel-places', t('emoji_picker.travel-places')],['activities', t('emoji_picker.activities')],['objects', t('emoji_picker.objects')],['symbols', t('emoji_picker.symbols')],['flags', t('emoji_picker.flags')],['custom', t('emoji_picker.custom')]]);
 
@@ -34,7 +34,7 @@ const EmojiIndicesByCategoryNoSkin = new Map([["smileys-emotion",[0,1,2,3,4,5,6,
 const skinCodes = {"1F3FB":"light_skin_tone","1F3FC":"medium_light_skin_tone","1F3FD":"medium_skin_tone","1F3FE":"medium_dark_skin_tone","1F3FF":"dark_skin_tone","default":"default"};
 
 // Generate the list of indices that belong to each category by an specified skin
-function genSkinnedCategories(skin) {
+function genSkinnedCategories(skin: string) {
     const result = new Map();
     for (const cat of CategoryNames) {
         const indices = [];
