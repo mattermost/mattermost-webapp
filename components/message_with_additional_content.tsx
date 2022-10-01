@@ -14,11 +14,11 @@ import {Post} from '@mattermost/types/posts';
 
 type Props = {
     post: Post;
-    isEmbedVisible: boolean;
-    pluginPostTypes: PluginsState['postTypes'];
+    isEmbedVisible?: boolean;
+    pluginPostTypes?: PluginsState['postTypes'];
 }
 export default function MessageWithAdditionalContent({post, isEmbedVisible, pluginPostTypes}: Props) {
-    const hasPlugin = post.type && pluginPostTypes.hasOwnProperty(post.type);
+    const hasPlugin = post.type && pluginPostTypes && pluginPostTypes.hasOwnProperty(post.type);
     let msg;
     const messageWrapper = (
         <PostMessageView
