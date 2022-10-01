@@ -22,7 +22,7 @@ type Props = {
     user: UserProfile;
     channel: Channel;
     teammateId: string | null;
-    teammateIsBot: boolean;
+    teammateIsBot?: boolean;
     teammateStatus?: string;
     displayName: string;
 }
