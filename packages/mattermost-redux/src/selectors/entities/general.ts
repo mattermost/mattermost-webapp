@@ -112,10 +112,3 @@ export const isMarketplaceEnabled: (state: GlobalState) => boolean = createSelec
         return config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
     },
 );
-
-export function canUseVoiceMessage(state: GlobalState): boolean {
-    const config = getConfig(state);
-    const enableVoiceMessagesFF = getFeatureFlagValue(state, 'EnableVoiceMessages') === 'true';
-
-    return config.EnableFileAttachments === 'true' && enableVoiceMessagesFF && config.ExperimentalEnableVoiceMessages === 'true';
-}

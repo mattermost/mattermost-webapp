@@ -114,6 +114,7 @@ export type ClientConfig = {
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
     FeatureFlagGraphQL: string;
+    FeatureFlagVoiceMessages: string;
     FeatureFlagPlanUpgradeButtonText: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
@@ -185,7 +186,7 @@ export type ClientConfig = {
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
-    ExperimentalEnableVoiceMessages: string;
+    ExperimentalVoiceMessages: string;
     EnableComplianceExport: string;
     PostPriority: string;
 };

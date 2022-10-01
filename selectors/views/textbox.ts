@@ -3,6 +3,8 @@
 
 import type {GlobalState} from 'types/store';
 
+import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
+
 export function showPreviewOnCreateComment(state: GlobalState) {
     return state.views.textbox.shouldShowPreviewOnCreateComment;
 }
@@ -15,10 +17,14 @@ export function showPreviewOnEditChannelHeaderModal(state: GlobalState) {
     return state.views.textbox.shouldShowPreviewOnEditChannelHeaderModal;
 }
 
-export function isVoiceMessageEnabled(_state: GlobalState): boolean {
-    // return getFeatureFlagValue(state, 'VoiceMessage') === 'true';
-    // TODO: remove this once the feature flag is added
-    return true;
+export function isVoiceMessagesEnabled(state: GlobalState): boolean {
+    const config = getConfig(state);
+    const fileAttachmentsEnabled = config.EnableFileAttachments === 'true';
+    const voiceMessagesExperimentalEnabled = config.ExperimentalVoiceMessages === 'true';
+
+    const voiceMessageFeatureFlagEnabled = getFeatureFlagValue(state, 'VoiceMessages') === 'true';
+
+    return (fileAttachmentsEnabled && voiceMessagesExperimentalEnabled && voiceMessageFeatureFlagEnabled);
 }
 
 export function getVoiceMessageOrigin(state: GlobalState) {
