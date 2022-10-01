@@ -39,7 +39,6 @@ describe('System Console - Billing History', () => {
 
         // * Check for default record in grid
         cy.contains('td:nth-of-type(1) span', dayJs(new Date(currentDate.getFullYear(), currentDate.getMonth(), 1)).format('MM/DD/YYYY')).should('exist');
-        cy.contains('td:nth-of-type(2) div', productSubscription.name).should('exist');
         cy.contains('td:nth-of-type(3) span', '$0.00').should('exist');
         cy.contains('td:nth-of-type(4) span', 'Paid').should('exist');
     });

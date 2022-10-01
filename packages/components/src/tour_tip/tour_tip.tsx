@@ -7,13 +7,15 @@ import Tippy from '@tippyjs/react';
 import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
+import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
+
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
 import 'tippy.js/animations/scale-subtle.css';
 import 'tippy.js/animations/perspective-subtle.css';
-import PulsatingDot from 'components/widgets/pulsating_dot';
+import {PulsatingDot} from '../pulsating_dot';
 
-import {TourTipBackdrop, TourTipOverlayPunchOut} from './tour_tip_backdrop';
+import {TourTipBackdrop} from './tour_tip_backdrop';
 import './tour_tip.scss';
 
 export type TourTipEventSource = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped' | 'open' | 'punchOut'
@@ -39,7 +41,7 @@ type Props = {
     className?: string;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
-    overlayPunchOut: TourTipOverlayPunchOut | null;
+    overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
 
     // if we want to interact with element visible via punchOut
     interactivePunchOut?: boolean;
@@ -53,7 +55,7 @@ type Props = {
     handlePunchOut?: (e: React.MouseEvent) => void;
 }
 
-const TourTip = ({
+export const TourTip = ({
     title,
     screen,
     imageURL,
@@ -118,13 +120,17 @@ const TourTip = ({
 
     const content = (
         <>
-            <div className='tour-tip__header'>
+            <div
+                className='tour-tip__header'
+                data-testid={'current_tutorial_tip'}
+            >
                 <h4 className='tour-tip__header__title'>
                     {title}
                 </h4>
                 <button
                     className='tour-tip__header__close'
                     onClick={handleDismiss}
+                    data-testid={'close_tutorial_tip'}
                 >
                     <i className='icon icon-close'/>
                 </button>
@@ -189,6 +195,7 @@ const TourTip = ({
     return (
         <>
             <div
+                id='tipButton'
                 ref={triggerRef}
                 onClick={handleOpen}
                 className='tour-tip__pulsating-dot-ctr'
@@ -229,5 +236,3 @@ const TourTip = ({
         </>
     );
 };
-
-export default TourTip;
