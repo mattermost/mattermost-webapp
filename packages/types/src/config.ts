@@ -52,6 +52,7 @@ export type ClientConfig = {
     EnableCustomEmoji: string;
     EnableCustomGroups: string;
     EnableCustomUserStatuses: string;
+    EnableLastActiveTime: string;
     EnableTimedDND: string;
     EnableCustomTermsOfService: string;
     EnableDeveloper: string;
@@ -364,6 +365,7 @@ export type TeamSettings = {
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
     ExperimentalDefaultChannels: string[];
+    EnableLastActiveTime: boolean;
 };
 
 export type ClientRequirements = {

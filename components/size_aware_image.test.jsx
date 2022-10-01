@@ -57,7 +57,7 @@ describe('components/SizeAwareImage', () => {
         wrapper.setState({loaded: true, error: false});
 
         const style = wrapper.find('.file-preview__button').prop('style');
-        expect(style).toHaveProperty('display', 'initial');
+        expect(style).toHaveProperty('display', 'inline');
     });
 
     test('should render the actual image when first mounted without dimensions', () => {

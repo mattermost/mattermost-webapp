@@ -33,6 +33,8 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
             fileURL: 'http://example.com/img.png',
             filename: 'img.png',
             handleModalClose: jest.fn(),
+            content: 'test content',
+            canCopyContent: false,
         };
 
         mockState = {
@@ -86,6 +88,16 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
         expect(wrapper).toMatchSnapshot();
     });
 
+    test('should match snapshot when copy content is enabled', () => {
+        const props = {
+            ...defaultProps,
+            canCopyContent: true,
+        };
+
+        const wrapper = shallow(<FilePreviewModalMainActions {...props}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
     test('should call public link callback', () => {
         const spy = jest.spyOn(Utils, 'copyToClipboard');
         const props = {
@@ -113,6 +125,18 @@ describe('components/file_preview_modal/file_preview_modal_main_actions/FilePrev
             enablePublicLink: true,
         };
         mount(<FilePreviewModalMainActions {...props}/>);
+        expect(spy).toHaveBeenCalledTimes(1);
+    });
+
+    test('should copy the content to clipboard', async () => {
+        const spy = jest.spyOn(Utils, 'copyToClipboard');
+        const props = {
+            ...defaultProps,
+            canCopyContent: true,
+        };
+        const wrapper = mount(<FilePreviewModalMainActions {...props}/>);
+        expect(spy).toHaveBeenCalledTimes(0);
+        wrapper.find('.icon-content-copy').simulate('click');
         expect(spy).toHaveBeenCalledTimes(1);
     });
 });

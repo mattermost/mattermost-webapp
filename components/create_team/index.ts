@@ -12,9 +12,11 @@ import {getCloudSubscription as selectCloudSubscription} from 'mattermost-redux/
 import withUseGetUsageDelta from 'components/common/hocs/cloud/with_use_get_usage_deltas';
 import {isCloudLicense} from 'utils/license_utils';
 
-import CreateTeam from './create_team';
+import {GlobalState} from 'types/store';
 
-function mapStateToProps(state) {
+import CreateTeam, {Props} from './create_team';
+
+function mapStateToProps(state: GlobalState) {
     const config = getConfig(state);
     const currentChannel = getCurrentChannel(state);
     const currentTeam = getCurrentTeam(state);
@@ -41,4 +43,4 @@ function mapStateToProps(state) {
 export default compose(
     connect(mapStateToProps),
     withUseGetUsageDelta,
-)(CreateTeam);
+)(CreateTeam) as React.FunctionComponent<Props>;

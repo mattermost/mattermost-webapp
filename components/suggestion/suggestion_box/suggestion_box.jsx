@@ -615,7 +615,6 @@ export default class SuggestionBox extends React.PureComponent {
                 this.clear();
                 this.setState({presentationType: 'text'});
                 e.preventDefault();
-                e.stopPropagation();
             } else if (this.props.onKeyDown) {
                 this.props.onKeyDown(e);
             }

@@ -125,7 +125,7 @@ describe('Markdown', () => {
         cy.updateChannelHeader('![MM Logo](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/small-image.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
-        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');
+        cy.get('#channelHeaderDescription').find('span.markdown__paragraph-inline').as('imageDiv');
 
         cy.get('@imageDiv').find('img.markdown-inline-img').
             should('have.class', 'markdown-inline-img--hover').
@@ -148,7 +148,7 @@ describe('Markdown', () => {
         cy.updateChannelHeader('[![Build Status](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/small-image.png)](https://raw.githubusercontent.com/furqanmlk/furqanmlk.github.io/main/images/small-image.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
-        cy.get('#channelHeaderDescription').find('div.markdown__paragraph-inline').as('imageDiv');
+        cy.get('#channelHeaderDescription').find('span.markdown__paragraph-inline').as('imageDiv');
 
         cy.get('@imageDiv').find('img.markdown-inline-img').
             should('have.class', 'markdown-inline-img--hover').
