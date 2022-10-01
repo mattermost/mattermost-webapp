@@ -400,5 +400,42 @@ describe('Selectors.General', () => {
             expect(Selectors.getFirstAdminVisitMarketplaceStatus(state)).toEqual(false);
         });
     });
+
+    it('canUseVoiceMessage', () => {
+        expect(Selectors.canUseVoiceMessage({
+            entities: {
+                general: {
+                    config: {
+                        EnableFileAttachments: 'true',
+                        FeatureFlagEnableVoiceMessages: 'true',
+                        ExperimentalEnableVoiceMessages: 'true',
+
+                    },
+                },
+            },
+        } as unknown as GlobalState)).toEqual(true);
+
+        [
+            ['false', 'false', 'false'],
+            ['false', 'false', 'true'],
+            ['false', 'true', 'false'],
+            ['false', 'true', 'true'],
+            ['true', 'false', 'false'],
+            ['true', 'false', 'true'],
+            ['true', 'true', 'false'],
+        ].forEach((config) => {
+            expect(Selectors.canUseVoiceMessage({
+                entities: {
+                    general: {
+                        config: {
+                            EnableFileAttachments: config[0],
+                            FeatureFlagEnableVoiceMessages: config[1],
+                            ExperimentalEnableVoiceMessages: config[2],
+                        },
+                    },
+                },
+            } as unknown as GlobalState)).toEqual(false);
+        });
+    });
 });
 
