@@ -5,7 +5,21 @@ import React from 'react';
 
 import Popover from 'components/widgets/popover';
 
-import {Props} from './suggestion_list';
+// eslint-disable-next-line @typescript-eslint/ban-types
+type SuggestionItem = {}
+
+type Props = {onCompleteWord: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;
+    matchedPretext: string[];
+    items: SuggestionItem[];
+    terms: string[];
+    components: Array<React.ComponentType<{key: string;
+        ref: string;
+        item: SuggestionItem;
+        term: string;
+        matchedPretext: string;
+        isSelection: boolean;
+        onClick: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;}>>;
+}
 
 export default class SuggestionDate extends React.PureComponent<Props> {
     render() {
