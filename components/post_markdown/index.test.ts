@@ -26,7 +26,7 @@ describe('makeGetMentionKeysForPost', () => {
         delete_at: 0,
     });
 
-    const baseState: GlobalState = {
+    const baseState = {
         entities: {
             users: {
                 currentUserId: user.id,
