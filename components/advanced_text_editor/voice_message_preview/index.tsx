@@ -38,7 +38,8 @@ const VoiceMessagePreview = () => {
     const audioAnalyzerRef = useRef<AnalyserNode>();
     const audioScriptProcessorRef = useRef<ScriptProcessorNode>();
     const audioRecorderRef = useRef<MediaRecorder>();
-    const audioChannelDataRef = useRef<Float32Array>();
+
+    const audioChunksRef = useRef<Uint8Array>();
 
     const refreshIntervalTimer = useRef<ReturnType<typeof setTimeout> | null>();
     const countdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -116,16 +117,29 @@ const VoiceMessagePreview = () => {
         });
     }
 
-    function pushStreamToAudioChunks(event: BlobEvent) {
-        audioChunksRef.current.push(event.data);
+    function pushStreamToAudioChunks(inputDataHead: Uint8Array, inputDataTail: Uint8Array) {
+        if (audioChunksRef.current) {
+            const tempBuffer = new Uint8Array(audioChunksRef.current.length + inputDataHead.length + inputDataTail.length);
+            tempBuffer.set(audioChunksRef.current);
+            tempBuffer.set(inputDataHead, audioChunksRef.current.length);
+            tempBuffer.set(inputDataTail, audioChunksRef.current.length + inputDataHead.length);
+            audioChunksRef.current = tempBuffer;
+        } else {
+            audioChunksRef.current = new Uint8Array(inputDataHead.length + inputDataTail.length);
+            audioChunksRef.current.set(inputDataHead);
+            audioChunksRef.current.set(inputDataTail, inputDataHead.length);
+        }
     }
 
-    // function onRecordedStopped() {
-    //     const audioBlob = new Blob(audioChunksRef.current);
-    //     const audioUrl = URL.createObjectURL(audioBlob);
-    //     console.log('audioUrl', audioUrl);
-    //     audioChunksRef.current = [];
-    // }
+    function onRecordedStopped() {
+        // create blob from audio chunks
+        if (audioChunksRef.current) {
+            const audioBlob = new Blob([audioChunksRef.current], {type: 'audio/mpeg'});
+            const audioUrl = URL.createObjectURL(audioBlob);
+            console.log('audioUrl', audioUrl);
+            audioChunksRef.current = undefined;
+        }
+    }
 
     async function startRecording() {
         try {
@@ -150,12 +164,20 @@ const VoiceMessagePreview = () => {
                 vbrQuality: 2,
             });
 
-            const scriptProcessorNode = audioContext.createScriptProcessor(4096, 1, 1);
+            const scriptProcessorNode = audioContext.createScriptProcessor(4096, 2, 1);
 
             scriptProcessorNode.onaudioprocess = (event) => {
-                const inputBuffer = event.inputBuffer;
-                const inputData = inputBuffer.getChannelData(0);
-                console.log('inputData', inputData);
+                const leftChannelInputData = event.inputBuffer.getChannelData(0);
+                const rightChannelInputData = event.inputBuffer.getChannelData(1);
+
+                const mp3DataHead = encoder.encode([leftChannelInputData, rightChannelInputData]);
+                const mp3DataTail = encoder.finalize();
+
+                const mp3Data = new Uint8Array(mp3DataHead.length + mp3DataTail.length);
+                mp3Data.set(mp3DataHead);
+                mp3Data.set(mp3DataTail, mp3DataHead.length);
+
+                pushStreamToAudioChunks(mp3DataHead, mp3DataTail);
             };
 
             audioSourceNode.connect(audioAnalyzer).connect(scriptProcessorNode);
@@ -186,6 +208,7 @@ const VoiceMessagePreview = () => {
     function handleCompleteRecordingClicked() {
         setVoiceMessageIs(VoiceMessageStates.Encoding);
 
+        onRecordedStopped();
         cleanUpAfterRecordings();
     }
 
