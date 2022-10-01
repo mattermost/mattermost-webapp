@@ -135,7 +135,7 @@ interface FormattingBarProps {
      * disable formatting controls when the texteditor is in preview state
      */
     disableControls: boolean;
-    extraControls: JSX.Element;
+    extraControls: JSX.Element | null;
     toggleAdvanceTextEditor: () => void;
 
     /**

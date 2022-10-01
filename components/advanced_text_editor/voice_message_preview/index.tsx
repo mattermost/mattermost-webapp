@@ -220,18 +220,10 @@ const VoiceMessagePreview = () => {
                         <TextColumn>
                             <TitleContainer>
                                 <FormattedMessage
-                                    id='voiceMessage.main'
+                                    id='voiceMessage.preview.title'
                                     defaultMessage='Voice message'
                                 />
                             </TitleContainer>
-                            {voiceMessageIs === VoiceMessageStates.Encoding && (
-                                <SubtitleContainer>
-                                    <FormattedMessage
-                                        id='voiceMessage.encoding'
-                                        defaultMessage='Encoding...'
-                                    />
-                                </SubtitleContainer>
-                            )}
                         </TextColumn>
                     )}
                     {voiceMessageIs === VoiceMessageStates.Recording && (

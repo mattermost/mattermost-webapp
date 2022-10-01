@@ -171,7 +171,6 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
-    // add selector for voice message
     const voiceMessageOrigin = useSelector(getVoiceMessageOrigin);
 
     const handleHeightChange = (height: number, maxHeight: number) => {
@@ -199,10 +198,13 @@ const AdvanceTextEditor = ({
         );
     }
 
-    const showVoiceMessageAttachment = (voiceMessageOrigin.location === Locations.CENTER && voiceMessageOrigin.channelId === currentChannel?.id);
     let attachmentPreview = null;
 
-    if (showVoiceMessageAttachment) {
+    const isVoiceMessagePreviewAttached = (voiceMessageOrigin.location === Locations.CENTER || voiceMessageOrigin.location === Locations.RHS_COMMENT) &&
+        voiceMessageOrigin.location === location &&
+        voiceMessageOrigin.channelId === channelId;
+
+    if (isVoiceMessagePreviewAttached) {
         attachmentPreview = (
             <div>
                 <VoiceMessagePreview/>
@@ -210,7 +212,7 @@ const AdvanceTextEditor = ({
         );
     }
 
-    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && !showVoiceMessageAttachment) {
+    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && !isVoiceMessagePreviewAttached) {
         attachmentPreview = (
             <div>
                 <FilePreview
@@ -320,7 +322,7 @@ const AdvanceTextEditor = ({
         />
     );
 
-    const extraControls = (
+    const extraControls = isVoiceMessagePreviewAttached ? null : (
         <>
             {fileUploadJSX}
             {emojiPicker}
@@ -383,7 +385,7 @@ const AdvanceTextEditor = ({
             getCurrentMessage={getCurrentValue}
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
-            disableControls={shouldShowPreview}
+            disableControls={shouldShowPreview || isVoiceMessagePreviewAttached}
             additionalControls={additionalControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
@@ -391,6 +393,13 @@ const AdvanceTextEditor = ({
             location={location}
         />
     );
+
+    const voiceMessage = channelId && (location === Locations.CENTER || location === Locations.RHS_COMMENT) && !readOnlyChannel ? (
+        <VoiceButton
+            location={location}
+            currentChannelId={channelId}
+        />
+    ) : null;
 
     return (
         <div
@@ -454,10 +463,7 @@ const AdvanceTextEditor = ({
                     <TexteditorActions
                         placement='bottom'
                     >
-                        <VoiceButton
-                            location={location}
-                            currentChannelId={currentChannel?.id}
-                        />
+                        {voiceMessage}
                         {sendButton}
                     </TexteditorActions>
                 </div>
