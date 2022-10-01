@@ -10,10 +10,44 @@
   line-height: 16px;
 }
 
-.GenericModal {
-  .col-sm-12, .more-modal__row {
+#moreChannelsModal {
+  .col-sm-12 {
     padding: 0;
   }
+
+  .more-modal__row {
+    padding: 0;
+
+    .more-modal__details {
+      padding-left: 0px;
+    }
+
+    .more-modal__actions {
+      button {
+        padding: 7px 16px;
+        border-radius: 4px;
+        background-color: var(--denim-button-bg);
+      }
+    }
+  }
+
+
+  .more-modal__dropdown {
+    padding: 0;
+    min-height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 6px;
+
+    span {
+      color: rgba(var(--center-channel-text-rgb), 0.64);
+      font-size: 11px;
+      line-height: 16px;
+    }
+  }
+
 
   #searchChannelsTextbox {
     height: 48px;
