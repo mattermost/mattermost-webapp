@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -26,8 +26,9 @@ interface Item extends UserProfile {
     type: string;
 }
 
-export default class AtMentionSuggestion extends Suggestion {
+class AtMentionSuggestion extends Suggestion {
     render() {
+        const {intl} = this.props;
         const isSelection: boolean = this.props.isSelection;
         const item: Item = this.props.item;
 
@@ -46,19 +47,12 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
             );
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title as ReactNode as string}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else if (item.username === 'channel') {
             itemname = 'channel';
@@ -71,19 +65,12 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
             );
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title as ReactNode as string}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else if (item.username === 'here') {
             itemname = 'here';
@@ -96,37 +83,23 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
             );
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title as ReactNode as string}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else if (item.type === Constants.MENTION_GROUPS) {
             itemname = item.name;
             description = `- ${item.display_name}`;
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title as ReactNode as string}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else {
             itemname = item.username;
@@ -230,3 +203,5 @@ export default class AtMentionSuggestion extends Suggestion {
         );
     }
 }
+
+export default injectIntl(AtMentionSuggestion);
