@@ -20,15 +20,15 @@ import StatusIcon from 'components/status_icon';
 import {UserProfile} from '../command_provider/app_command_parser/app_command_parser_dependencies.js';
 
 interface Item extends UserProfile {
-    display_name: any;
+    display_name: string;
     name: string;
-    isCurrentUser: any;
+    isCurrentUser: boolean;
     type: string;
 }
 
 export default class AtMentionSuggestion extends Suggestion {
     render() {
-        const isSelection: true | false = this.props.isSelection;
+        const isSelection: boolean = this.props.isSelection;
         const item: Item = this.props.item;
 
         let itemname: string;
@@ -135,14 +135,14 @@ export default class AtMentionSuggestion extends Suggestion {
                 if (item.first_name || item.last_name) {
                     description = (
                         <span className='ml-2'>
-                            {Utils.getFullName(item as any)}
+                            {Utils.getFullName(item)}
                         </span>
                     );
                 }
             } else if (item.first_name || item.last_name || item.nickname) {
                 description = (
                     <span className='ml-2'>
-                        {`${Utils.getFullName(item as any)} ${
+                        {`${Utils.getFullName(item)} ${
                             item.nickname ? `(${item.nickname})` : ''
                         }`.trim()}
                     </span>
