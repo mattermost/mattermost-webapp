@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {createSelector} from 'reselect';
+
 import {General} from 'mattermost-redux/constants';
 
 import {GlobalState} from '@mattermost/types/store';

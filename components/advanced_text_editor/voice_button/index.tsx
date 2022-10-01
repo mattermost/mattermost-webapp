@@ -9,7 +9,7 @@ import {MicrophoneIcon} from '@mattermost/compass-icons/components';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {isVoiceMessageEnabled} from 'selectors/views/textbox';
+import {isVoiceMessagesEnabled} from 'selectors/views/textbox';
 
 import Constants from 'utils/constants';
 
@@ -25,7 +25,7 @@ interface Props {
 const VoiceButton = (props: Props) => {
     const {formatMessage} = useIntl();
 
-    const voiceMessageEnabled = useSelector(isVoiceMessageEnabled);
+    const voiceMessageEnabled = useSelector(isVoiceMessagesEnabled);
     const dispatch = useDispatch();
 
     const [canRecordAudio, setCanRecordAudio] = useState(false);
