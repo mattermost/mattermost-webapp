@@ -2357,6 +2357,15 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'TeamSettings.EnableLastActiveTime',
+                        label: t('admin.team.lastActiveTimeTitle'),
+                        label_default: 'Enable last active time: ',
+                        help_text: t('admin.team.lastActiveTimeDescription'),
+                        help_text_default: 'When enabled, last active time allows users to see when someone was last online.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                    },
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
                         key: 'ServiceSettings.EnableCustomGroups',
                         label: t('admin.team.customUserGroupsTitle'),
                         label_default: 'Enable Custom User Groups (Beta): ',
