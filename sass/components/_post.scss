@@ -76,6 +76,10 @@
     .textbox-preview-link {
         margin-right: 8px;
     }
+
+    &.hidden {
+        display: none;
+    }
 }
 
 .help__format-text {

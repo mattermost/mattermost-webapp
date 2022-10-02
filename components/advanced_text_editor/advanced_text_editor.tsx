@@ -311,7 +311,9 @@ const AdvanceTextEditor = ({
     const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length));
     const sendButton = readOnlyChannel ? null : (
         <SendButton
-            disabled={disableSendButton}
+
+            // Add more states to disable send until upload is complete
+            disabled={disableSendButton || isVoicePreviewAttachedInCurrentEditor}
             handleSubmit={handleSubmit}
         />
     );
@@ -447,7 +449,8 @@ const AdvanceTextEditor = ({
                         channelId={channelId}
                         id={textboxId}
                         ref={textboxRef!}
-                        disabled={readOnlyChannel || isVoicePreviewAttachedInCurrentEditor}
+                        disabled={readOnlyChannel}
+                        hidden={isVoicePreviewAttachedInCurrentEditor}
                         characterLimit={maxPostSize}
                         preview={shouldShowPreview}
                         badConnection={badConnection}

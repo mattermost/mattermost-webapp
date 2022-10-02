@@ -50,6 +50,7 @@ export type Props = {
     isRHS?: boolean;
     characterLimit: number;
     disabled?: boolean;
+    hidden?: boolean;
     badConnection?: boolean;
     listenForMentionKeyClick?: boolean;
     currentUserId: string;
@@ -80,6 +81,7 @@ export default class Textbox extends React.PureComponent<Props> {
         listenForMentionKeyClick: false,
         inputComponent: AutosizeTextarea,
         suggestionList: SuggestionList,
+        hidden: false,
     };
 
     constructor(props: Props) {
@@ -283,6 +285,9 @@ export default class Textbox extends React.PureComponent<Props> {
                     />
                 </div>
             );
+        }
+        if (this.props.hidden) {
+            textWrapperClass += ' hidden';
         }
 
         return (
