@@ -4,16 +4,20 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
+import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
+import {autocompleteChannels} from 'actions/channel_actions';
+
+import {autocompleteUsers} from 'actions/user_actions';
+
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+
 import {GlobalState} from '@mattermost/types/store';
 
-import {autocompleteChannels} from 'actions/channel_actions';
-import {autocompleteUsers} from 'actions/user_actions';
+import {ServerError} from '@mattermost/types/errors';
 
 import AppsFormField from './apps_form_field';
 
@@ -23,7 +27,7 @@ function mapStateToProps(state: GlobalState) {
     };
 }
 type Actions = {
-    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
+    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionResult<any, any> | Promise<ActionResult<any, any> | Array<ActionResult<any, any>>>;
     autocompleteUsers: (search: string) => Promise<UserProfile[]>;
 };
 

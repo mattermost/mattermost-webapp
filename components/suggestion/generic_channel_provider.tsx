@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {Channel} from '@mattermost/types/channels.js';
+import {ServerError} from '@mattermost/types/errors.js';
+import {ActionResult} from 'mattermost-redux/types/actions.js';
 import React from 'react';
 
 import Provider from './provider.jsx';
@@ -64,7 +66,7 @@ class ChannelSuggestion extends Suggestion {
 
 export default class ChannelProvider extends Provider {
     autocompleteChannels: any;
-    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>) {
+    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionResult<any, any> | Promise<ActionResult<any, any> | Array<ActionResult<any, any>>>) {
         super();
 
         this.autocompleteChannels = channelSearchFunc;

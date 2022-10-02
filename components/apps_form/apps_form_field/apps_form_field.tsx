@@ -3,10 +3,6 @@
 
 import React from 'react';
 
-import {AppField, AppSelectOption} from '@mattermost/types/apps';
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
-
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
@@ -20,6 +16,13 @@ import BoolSetting from 'components/widgets/settings/bool_setting';
 import Provider from 'components/suggestion/provider';
 
 import Markdown from 'components/markdown';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
+
+import {ServerError} from '@mattermost/types/errors';
+import {AppField, AppSelectOption} from '@mattermost/types/apps';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
 
 import AppsFormSelectField from './apps_form_select_field';
 
@@ -38,7 +41,7 @@ export interface Props {
     listComponent?: React.ComponentProps<typeof AutocompleteSelector>['listComponent'];
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
     actions: {
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionResult<any, any> | Promise<ActionResult<any, any> | Array<ActionResult<any, any>>>;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;
     };
 }
