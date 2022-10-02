@@ -3983,6 +3983,7 @@
   "more_channels.view": "View",
   "more_channels.count": "{count} Channels",
   "more_channels.count_zero": "0 Channel",
+  "more_channels.count_one": "1 Channel",
   "more_direct_channels.directchannel.deactivated": "{displayname} - Deactivated",
   "more_direct_channels.directchannel.you": "{displayname} (you)",
   "more_direct_channels.new_convo_note": "This will start a new conversation. If you're adding a lot of people, consider creating a private channel instead.",
