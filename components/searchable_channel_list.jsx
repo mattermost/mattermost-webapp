@@ -6,24 +6,26 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
+import {AccountOutlineIcon, ArchiveOutlineIcon, DotsHorizontalIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
+
+import {isPrivateChannel} from 'mattermost-redux/utils/channel_utils';
 
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
-import * as UserAgent from 'utils/user_agent';
-import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import SharedChannelIndicator from 'components/shared_channel_indicator';
-
 import {t} from 'utils/i18n';
+import * as UserAgent from 'utils/user_agent';
+import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
+import {isArchivedChannel} from 'utils/channel_utils';
 
 import MenuWrapper from './widgets/menu/menu_wrapper';
 import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
+// todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
@@ -63,28 +65,30 @@ export default class SearchableChannelList extends React.PureComponent {
 
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
-        let archiveIcon;
-        let sharedIcon;
+        let channelIcon;
         const {shouldShowArchivedChannels} = this.props;
 
-        if (shouldShowArchivedChannels) {
-            archiveIcon = (
-                <ArchiveOutlineIcon
-                    size={20}
-                    color={'currentColor'}
-                />
-            );
+        // todo sinan fix team member count
+        // const memberCount = this.props.allChannelStats[channel.id].member_count || 0
+        const memberCount = 120;
+
+        if (isArchivedChannel(channel)) {
+            channelIcon = <ArchiveOutlineIcon size={18}/>;
+        } else if (isPrivateChannel(channel)) {
+            channelIcon = <LockIcon size={18}/>;
+        } else {
+            channelIcon = <GlobeIcon size={18}/>;
         }
 
-        if (channel.shared) {
-            sharedIcon = (
-                <SharedChannelIndicator
-                    className='shared-channel-icon'
-                    channelType={channel.type}
-                    withTooltip={true}
-                />
-            );
-        }
+        // todo sinan fix dot
+        const channelPurposeContainer = (
+            <div id='channelPurposeContainer' >
+                <AccountOutlineIcon size={14}/>
+                <span>{memberCount}</span>
+                <span className='dot'/>
+                <span className='more-modal__description'>{channel.purpose}</span>
+            </div>
+        );
 
         return (
             <div
@@ -98,11 +102,11 @@ export default class SearchableChannelList extends React.PureComponent {
                         aria-label={ariaLabel}
                         className='style--none more-modal__name'
                     >
-                        {archiveIcon}
+                        {channelIcon}
                         {channel.display_name}
-                        {sharedIcon}
                     </button>
-                    <p className='more-modal__description'>{channel.purpose}</p>
+                    {}
+                    {channelPurposeContainer}
                 </div>
                 <div className='more-modal__actions'>
                     <button
@@ -274,9 +278,16 @@ export default class SearchableChannelList extends React.PureComponent {
             );
         }
 
-        const channelCountLabel = channels.length > 0 ?
-            localizeAndFormatMessage(t('more_channels.count'), '0 Channel', {count: channels.length}) :
-            localizeMessage('more_channels.count_zero', '0 Channel');
+        let channelCountLabel;
+        if (channels.length === 0) {
+            channelCountLabel = localizeMessage('more_channels.count_zero', '0 Channel');
+        } else if (channels.length === 1) {
+            channelCountLabel = localizeMessage('more_channels.count_one', '1 Channel');
+        } else if (channels.length > 1) {
+            channelCountLabel = localizeAndFormatMessage('more_channels.count', '- Channel', {count: channels.length});
+        } else {
+            channelCountLabel = localizeAndFormatMessage('more_channels.count', '- Channel', {count: '-'});
+        }
 
         const dropDownContainer = (
             <div className='more-modal__dropdown'>

@@ -35,6 +35,37 @@
 
       svg {
         color: rgba(var(--center-channel-text-rgb), 0.56);
+        flex-shrink: 0;
+      }
+
+      .more-modal__name {
+        align-items: center;
+      }
+
+      #channelPurposeContainer {
+        display:flex;
+        align-items: center;
+        justify-content: flex-start;
+
+        .dot {
+          width: 3px;
+          height: 3px;
+          border-radius: 50%;
+          background-color: rgba(var(--center-channel-text-rgb), 0.56);
+          flex-shrink: 0;
+        }
+
+        .more-modal__description {
+          margin-left: 4px;
+        }
+
+        span {
+          color: rgba(var(--center-channel-text-rgb), 0.56);
+          font-size: 12px;
+          line-height: 12px;
+          opacity: 1;
+          margin: 0 4px;
+        }
       }
     }
 
