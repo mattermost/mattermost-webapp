@@ -9,6 +9,8 @@ import classNames from 'classnames';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
+import {SearchParams} from '@mattermost/types/search';
+import {formatRecentSearch} from 'components/search/search';
 
 interface SearchTerm {
     searchTerm: string;
@@ -27,6 +29,8 @@ type Props = {
     onElementBlur?: () => void;
     onElementFocus?: () => void;
     searchType?: 'files' | 'messages' | '';
+    recentSearches?: SearchParams[];
+    onRecentSearchSelected?: (query: string) => void;
 }
 
 const SearchHint = (props: Props): JSX.Element => {
@@ -134,6 +138,49 @@ const SearchHint = (props: Props): JSX.Element => {
                         </div>
                     </li>))}
             </ul>
+            {props.recentSearches && <>
+                <h4 className='recent-searches__title'>
+                    <FormattedMessage
+                        id='search_bar.usage.recent_searches'
+                        defaultMessage='Recent searches'
+                    />
+                </h4>
+                <ul
+                    role='list'
+                    className='recent-searches__suggestions-list'
+                >
+                    {props.recentSearches.map((searchParams, optionIndex) => {
+                        const searchQuery = formatRecentSearch(searchParams);
+                        return (
+                            <li
+                                className={classNames(
+                                    'recent-searches__suggestions-list__item',
+                                    {
+                                        highlighted:
+                                            props.highlightedIndex ===
+                                            props.options.length + optionIndex,
+                                    },
+                                )}
+                                key={String(optionIndex) + searchQuery}
+                                onMouseDown={() =>
+                                    props.onRecentSearchSelected?.(searchQuery)
+                                }
+                                onTouchEnd={() =>
+                                    props.onRecentSearchSelected?.(searchQuery)
+                                }
+                                onMouseOver={() =>
+                                    handleOnOptionHover(
+                                        props.options.length + optionIndex,
+                                    )
+                                }
+                            >
+                                {searchQuery}
+                            </li>
+                        );
+                    })}
+                </ul>
+            </>
+            }
         </React.Fragment>
     );
 };

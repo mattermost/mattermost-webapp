@@ -14,6 +14,8 @@ import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autoco
 import {Bot, BotPatch} from '@mattermost/types/bots';
 import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
+import {SearchParams} from '@mattermost/types/search';
+
 import {
     Channel,
     ChannelMemberCountsByGroup,
@@ -1668,6 +1670,10 @@ export default class Client4 {
             {method: 'get'},
         );
     };
+
+    getRecentSearches = () => {
+        return this.doFetch<SearchParams>(`${this.getUserRoute('me')}/recent_searches`, {method: 'get'});
+    }
 
     getAllChannelsMembers = (userId: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
         return this.doFetch<ChannelMembership[]>(

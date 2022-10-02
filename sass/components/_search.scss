@@ -443,6 +443,31 @@
     }
 }
 
+.recent-searches__title {
+    padding: 22px 24px;
+    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    margin: 0;
+    text-transform: uppercase;
+}
+
+.recent-searches__suggestions-list {
+    padding: 8px 0;
+    margin: 0;
+    list-style-type: none;
+}
+
+.recent-searches__suggestions-list__item {
+    padding: 10px 24px;
+    color: var(--center-channel-color);
+    cursor: pointer;
+    text-align: left;
+
+    &.highlighted,
+    &:hover {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+}
+
 .sidebar--right__subheader {
     // Fighting specificity with _sidebar-right.scss (sidebar--right .sidebar--right__subheader ul)
     ul.search-hint__suggestions-list {

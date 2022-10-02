@@ -322,6 +322,18 @@ function isLimitedResults(state = -1, action: GenericAction): number {
     }
 }
 
+function recentSearches(state: Record<string, Search[]> = {}, action: GenericAction) {
+    const {data, type} = action;
+
+    switch (type) {
+    case SearchTypes.RECENT_SEARCHES_SUCCESS: {
+        return data;
+    }
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
 
     // An ordered array with posts ids of flagged posts
@@ -355,4 +367,7 @@ export default combineReducers({
     // Boolean true if the search returns results inaccessible because
     // they are beyond a cloud workspace's message limits.
     isLimitedResults,
+
+    // An ordered array of 5 most recent user's recent searches
+    recentSearches,
 });

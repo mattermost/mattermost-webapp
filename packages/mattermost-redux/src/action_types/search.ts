@@ -25,4 +25,8 @@ export default keyMirror({
     REMOVE_SEARCH_POSTS: null,
     REMOVE_SEARCH_FILES: null,
     REMOVE_SEARCH_TERM: null,
+
+    RECENT_SEARCHES_REQUEST: null,
+    RECENT_SEARCHES_SUCCESS: null,
+    RECENT_SEARCHES_FAILURE: null,
 });

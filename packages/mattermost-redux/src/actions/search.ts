@@ -3,24 +3,24 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {Client4} from 'mattermost-redux/client';
 import {SearchTypes} from 'mattermost-redux/action_types';
+import {Client4} from 'mattermost-redux/client';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {ActionResult, DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import {PostList} from '@mattermost/types/posts';
 
-import {FileSearchResults, FileSearchResultItem} from '@mattermost/types/files';
+import {FileSearchResultItem, FileSearchResults} from '@mattermost/types/files';
 
 import {SearchParameter} from '@mattermost/types/search';
 
 import {getChannelAndMyMember, getChannelMembers} from './channels';
-import {forceLogoutIfNecessary} from './helpers';
 import {logError} from './errors';
-import {getProfilesAndStatusesForPosts, receivedPosts} from './posts';
 import {receivedFiles} from './files';
+import {forceLogoutIfNecessary} from './helpers';
+import {getProfilesAndStatusesForPosts, receivedPosts} from './posts';
 
 const WEBAPP_SEARCH_PER_PAGE = 20;
 
@@ -296,6 +296,31 @@ export function removeSearchTerms(teamId: string, terms: string): ActionFunc {
         });
 
         return {data: true};
+    };
+}
+
+export function getRecentSearches(): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        dispatch({type: SearchTypes.RECENT_SEARCHES_REQUEST});
+        let recentSearches;
+        try {
+            const recentSearchesRequest = Client4.getRecentSearches();
+
+            recentSearches = await recentSearchesRequest;
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch({type: SearchTypes.RECENT_SEARCHES_FAILURE, error});
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: SearchTypes.RECENT_SEARCHES_SUCCESS,
+                data: recentSearches,
+
+            });
+
+        return {data: recentSearches};
     };
 }
 

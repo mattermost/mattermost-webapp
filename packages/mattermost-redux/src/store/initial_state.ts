@@ -138,6 +138,7 @@ const state: GlobalState = {
             isSearchingTerm: false,
             isSearchGettingMore: false,
             isLimitedResults: -1,
+            recentSearches: [],
         },
         typing: {},
         roles: {

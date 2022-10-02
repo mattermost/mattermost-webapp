@@ -5,8 +5,9 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {Action} from 'mattermost-redux/types/actions';
-import {getMorePostsForSearch, getMoreFilesForSearch} from 'mattermost-redux/actions/search';
+import {getMorePostsForSearch, getMoreFilesForSearch, getRecentSearches} from 'mattermost-redux/actions/search';
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
+import {recentSearches} from 'mattermost-redux/selectors/entities/search';
 
 import {
     updateSearchTerms,
@@ -59,6 +60,7 @@ function mapStateToProps(state: GlobalState) {
         isPinnedPosts: rhsState === RHSStates.PIN,
         isChannelFiles: rhsState === RHSStates.CHANNEL_FILES,
         isMobileView,
+        recentSearches: recentSearches(state),
     };
 }
 
@@ -81,6 +83,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             openRHSSearch,
             getMoreFilesForSearch,
             filterFilesSearchByExt,
+            getRecentSearches,
         }, dispatch),
     };
 }

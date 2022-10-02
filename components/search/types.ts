@@ -8,6 +8,7 @@ import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
 
 import {SearchType} from 'types/store/rhs';
+import {SearchParams} from '@mattermost/types/search';
 
 export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
 
@@ -35,6 +36,7 @@ export type StateProps = {
     isChannelFiles: boolean;
     currentChannel?: Channel;
     isMobileView: boolean;
+    recentSearches: SearchParams[];
 }
 
 export type DispatchProps = {
@@ -55,6 +57,7 @@ export type DispatchProps = {
         openRHSSearch: () => void;
         getMoreFilesForSearch: () => ActionFunc;
         filterFilesSearchByExt: (extensions: string[]) => void;
+        getRecentSearches: () => ActionFunc;
     };
 }
 

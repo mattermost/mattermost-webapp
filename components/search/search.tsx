@@ -29,6 +29,8 @@ import SearchChannelProvider from 'components/suggestion/search_channel_provider
 import SearchUserProvider from 'components/suggestion/search_user_provider';
 import type {SearchType} from 'types/store/rhs';
 
+import {SearchParams} from '@mattermost/types/search';
+
 import type {Props, SearchFilterType} from './types';
 
 interface SearchHintOption {
@@ -69,6 +71,54 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 
     return newVisibleSearchHintOptions;
 };
+export const formatRecentSearch = (searchParams: SearchParams) => {
+    let searchQuery = '';
+    if (searchParams.terms) {
+        searchQuery += `${searchParams.terms} `;
+    }
+    if (searchParams.excluded_terms) {
+        searchQuery += `-${searchParams.terms}`;
+    }
+    if (searchParams.on_date) {
+        searchQuery += `on:${searchParams.on_date} `;
+    }
+    if (searchParams.excluded_date) {
+        searchQuery += `-on:${searchParams.excluded_date} `;
+    }
+    if (searchParams.from_users) {
+        searchParams.from_users.forEach((userProfile) => {
+            searchQuery += `from:${userProfile.username} `;
+        });
+    }
+    if (searchParams.excluded_users) {
+        searchParams.excluded_users.forEach((userProfile) => {
+            searchQuery += `-from:${userProfile.username} `;
+        });
+    }
+    if (searchParams.in_channels) {
+        searchParams.in_channels.forEach((channel) => {
+            searchQuery += `in:${channel.name} `;
+        });
+    }
+    if (searchParams.excluded_channels) {
+        searchParams.excluded_channels.forEach((channel) => {
+            searchQuery += `-in:${channel.name} `;
+        });
+    }
+    if (searchParams.before_date) {
+        searchQuery += `before:${searchParams.before_date} `;
+    }
+    if (searchParams.excluded_before_date) {
+        searchQuery += `-before:${searchParams.before_date} `;
+    }
+    if (searchParams.after_date) {
+        searchQuery += `after:${searchParams.after_date} `;
+    }
+    if (searchParams.excluded_after_date) {
+        searchQuery += `-after:${searchParams.after_date} `;
+    }
+    return searchQuery.trim();
+};
 
 const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const {
@@ -80,6 +130,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         searchTerms,
         searchType,
         hideMobileSearchBarInRHS,
+        recentSearches,
     } = props;
 
     const intl = useIntl();
@@ -90,7 +141,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const [dropdownFocused, setDropdownFocused] = useState<boolean>(false);
     const [keepInputFocused, setKeepInputFocused] = useState<boolean>(false);
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
-    const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
+    const [highlightedSearchItemIndex, setHighlightedSearchItemIndex] = useState<number>(-1);
     const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(
         determineVisibleSearchHintOptions(searchTerms, searchType),
     );
@@ -149,6 +200,16 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         }
     }, [isMobileView, searchTerms]);
 
+    useEffect((): void => {
+        if (!isMobileView && indexChangedViaKeyPress) {
+            // Scroll to to the highlighted item
+            const highlightedElement = document.querySelector('.search-hint__suggestions-list__option.highlighted,.recent-searches__suggestions-list__item.highlighted');
+            if (highlightedElement) {
+                highlightedElement.scrollIntoView({behavior: 'smooth', block: 'center'});
+            }
+        }
+    }, [isMobileView, indexChangedViaKeyPress, highlightedSearchItemIndex]);
+
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
 
@@ -200,6 +261,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         if (!searchType) {
             setDropdownFocused(false);
         }
+        props.actions.getRecentSearches();
         setFocused(true);
     };
 
@@ -214,26 +276,25 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return;
         }
 
-        let newIndex = highlightedSearchHintIndex + indexDelta;
+        let newIndex = highlightedSearchItemIndex + indexDelta;
 
         switch (indexDelta) {
         case 1:
             // KEY.DOWN
             // is it at the end of the list?
-            newIndex = newIndex === visibleSearchHintOptions.length ? 0 : newIndex;
+            newIndex = newIndex === visibleSearchHintOptions.length + recentSearches.length ? 0 : newIndex;
             break;
         case -1:
             // KEY.UP
             // is it at the start of the list (or initial value)?
-            newIndex = newIndex < 0 ? visibleSearchHintOptions.length - 1 : newIndex;
+            newIndex = newIndex < 0 ? (visibleSearchHintOptions.length + recentSearches.length) - 1 : newIndex;
             break;
         case 0:
         default:
             // reset the index (e.g. on blur)
             newIndex = -1;
         }
-
-        setHighlightedSearchHintIndex(newIndex);
+        setHighlightedSearchItemIndex(newIndex);
         setIndexChangedViaKeyPress(changedViaKeyPress);
     };
 
@@ -244,18 +305,33 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         if (indexChangedViaKeyPress && !searchType && !searchTerms) {
             e.preventDefault();
             setKeepInputFocused(true);
-            actions.updateSearchType(highlightedSearchHintIndex === 0 ? 'messages' : 'files');
-            setHighlightedSearchHintIndex(-1);
+            actions.updateSearchType(highlightedSearchItemIndex === 0 ? 'messages' : 'files');
+            setHighlightedSearchItemIndex(-1);
+            props.actions.getRecentSearches();
         } else if (indexChangedViaKeyPress) {
-            e.preventDefault();
-            setKeepInputFocused(true);
-            handleAddSearchTerm(visibleSearchHintOptions[highlightedSearchHintIndex].searchTerm);
+            if (highlightedSearchItemIndex < visibleSearchHintOptions.length) {
+                e.preventDefault();
+                setKeepInputFocused(true);
+                handleAddSearchTerm(visibleSearchHintOptions[highlightedSearchItemIndex].searchTerm);
+            } else {
+                const recentSearchItemIndex = highlightedSearchItemIndex - visibleSearchHintOptions.length;
+                handleUpdateSearchTerms(formatRecentSearch(recentSearches[recentSearchItemIndex]));
+            }
         }
 
         if (props.isMentionSearch) {
             e.preventDefault();
             actions.updateRhsState(RHSStates.SEARCH);
         }
+    };
+
+    const handleSelectRecentSearch = (term: string): void => {
+        handleUpdateSearchTerms(term);
+
+        handleSearch(term).then(() => {
+            setKeepInputFocused(false);
+            setFocused(false);
+        });
     };
 
     const handleSubmit = (e: FormEvent<HTMLFormElement>): void => {
@@ -267,10 +343,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         });
     };
 
-    const handleSearch = async (): Promise<void> => {
-        const terms = searchTerms.trim();
-
-        if (terms.length === 0) {
+    const handleSearch = async (terms = searchTerms): Promise<void> => {
+        if (terms.trim().length === 0) {
             return;
         }
 
@@ -334,8 +408,8 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         }
     };
 
-    const setHoverHintIndex = (_highlightedSearchHintIndex: number): void => {
-        setHighlightedSearchHintIndex(_highlightedSearchHintIndex);
+    const setHoverHintIndex = (_highlightedSearchItemIndex: number): void => {
+        setHighlightedSearchItemIndex(_highlightedSearchItemIndex);
         setIndexChangedViaKeyPress(false);
     };
 
@@ -430,12 +504,14 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     withTitle={true}
                     onOptionSelected={handleAddSearchTerm}
                     onMouseDown={handleSearchHintSelection}
-                    highlightedIndex={highlightedSearchHintIndex}
+                    highlightedIndex={highlightedSearchItemIndex}
                     onOptionHover={setHoverHintIndex}
                     onSearchTypeSelected={handleOnSearchTypeSelected}
                     onElementBlur={handleDropdownBlur}
                     onElementFocus={handleDropdownFocus}
                     searchType={searchType}
+                    recentSearches={recentSearches}
+                    onRecentSearchSelected={handleSelectRecentSearch}
                 />
             </Popover>
         );

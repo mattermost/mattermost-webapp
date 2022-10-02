@@ -4412,6 +4412,7 @@
   "search_bar.search_types.files": "FILES",
   "search_bar.search_types.messages": "MESSAGES",
   "search_bar.searchGroupMembers": "Search group members",
+  "search_bar.usage.recent_searches": "Recent searches",
   "search_bar.usage.search_type_files": "Files",
   "search_bar.usage.search_type_messages": "Messages",
   "search_bar.usage.search_type_question": "What are you searching for?",
