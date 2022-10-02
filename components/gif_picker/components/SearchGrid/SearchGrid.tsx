@@ -11,8 +11,9 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 import SearchItem from 'components/gif_picker/components/SearchItem';
 
-import './SearchGrid.scss';
 import {GfycatAPIItem, GifsAppState, GifsResult} from '@mattermost/types/gifs';
+
+import './SearchGrid.scss';
 
 const ITEMS_PADDING = 8;
 const NUMBER_OF_COLUMNS_PORTRAIT = 2;
