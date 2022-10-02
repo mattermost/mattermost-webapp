@@ -21,7 +21,7 @@ import {IconContainer} from '../formatting_bar/formatting_icon';
 interface Props {
     location: string;
     currentChannelId: Channel['id'];
-    disable: boolean;
+    disabled: boolean;
 }
 
 const VoiceButton = (props: Props) => {
@@ -69,7 +69,7 @@ const VoiceButton = (props: Props) => {
                 id='PreviewInputTextButton'
                 type='button'
                 onClick={handleOnClick}
-                disabled={props.disable}
+                disabled={props.disabled}
                 aria-label={formatMessage({id: 'advanceTextEditor.voiceMessageButton.tooltip', defaultMessage: 'Voice message'})}
             >
                 {/* Change to new icon */}

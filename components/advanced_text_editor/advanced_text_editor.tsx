@@ -401,7 +401,7 @@ const AdvanceTextEditor = ({
         <VoiceButton
             location={location}
             currentChannelId={channelId}
-            disable={isVoicePreviewAttached}
+            disabled={isVoicePreviewAttached}
         />
     ) : null;
 

@@ -3,17 +3,17 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 import moment from 'moment';
 import {ProgressBar} from 'react-bootstrap';
-import {createEncoder} from 'wasm-media-encoders';
-
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {createEncoder, WasmMediaEncoder} from 'wasm-media-encoders';
 
 import {MicrophoneIcon, CheckIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+
 import Constants from 'utils/constants';
-import {FormattedMessage} from 'react-intl';
 
 declare global {
     interface Window {
@@ -27,6 +27,8 @@ enum VoiceMessageStates {
     Uploading = 'uploading',
 }
 
+const mp3MimeType = 'audio/mpeg';
+
 const VoiceMessagePreview = () => {
     const theme = useSelector(getTheme);
 
@@ -38,8 +40,9 @@ const VoiceMessagePreview = () => {
     const audioAnalyzerRef = useRef<AnalyserNode>();
     const audioScriptProcessorRef = useRef<ScriptProcessorNode>();
     const audioRecorderRef = useRef<MediaRecorder>();
+    const audioEncoderRef = useRef<WasmMediaEncoder<typeof mp3MimeType>>();
 
-    const audioChunksRef = useRef<Uint8Array[]>();
+    const audioChunksRef = useRef<Uint8Array[]>([]);
 
     const refreshIntervalTimer = useRef<ReturnType<typeof setTimeout> | null>();
     const countdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -85,7 +88,7 @@ const VoiceMessagePreview = () => {
         // eslint-disable-next-line no-console
         console.log('cleanUpAfterRecordings');
 
-        if (audioContextRef.current) {
+        if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
             await audioContextRef.current.close();
         }
 
@@ -107,7 +110,8 @@ const VoiceMessagePreview = () => {
     }
 
     function unmountVoiceMessageComponent() {
-        // We don't stop recording here as when the component is unmounted, the recording is stopped
+        // We don't stop recording here as when the component is unmounted,
+        // the recording is stopped automatically along with necessary clean ups
         dispatch({
             type: Constants.ActionTypes.OPEN_VOICE_MESSAGE_AT,
             data: {
@@ -117,13 +121,19 @@ const VoiceMessagePreview = () => {
         });
     }
 
-    function onRecordedStopped() {
-        // create blob from audio chunks
-        if (audioChunksRef.current) {
-            const audioBlob = new Blob(audioChunksRef.current, {type: 'audio/mpeg'});
+    async function onRecordedStopped() {
+        await cleanUpAfterRecordings();
+
+        if (audioChunksRef.current && audioEncoderRef.current) {
+            const mp3DataFinal = audioEncoderRef.current.finalize();
+            audioChunksRef.current.push(mp3DataFinal);
+
+            // create blob from audio chunks
+            const audioBlob = new Blob(audioChunksRef.current, {type: mp3MimeType});
             const audioUrl = URL.createObjectURL(audioBlob);
-            console.log('audioUrl', audioUrl);
-            audioChunksRef.current = undefined;
+
+            console.log('audioBlob', audioUrl);
+            audioChunksRef.current = [];
         }
     }
 
@@ -142,25 +152,25 @@ const VoiceMessagePreview = () => {
             const audioSourceNode = audioContext.createMediaStreamSource(audioStream);
 
             const wasmFileURL = new URL('wasm-media-encoders/wasm/mp3', import.meta.url);
-            const encoder = await createEncoder('audio/mpeg', wasmFileURL.href);
+            audioEncoderRef.current = await createEncoder(mp3MimeType, wasmFileURL.href);
 
-            encoder.configure({
+            audioEncoderRef.current.configure({
                 sampleRate: 48000,
                 channels: 2,
                 vbrQuality: 2,
             });
 
-            const scriptProcessorNode = audioContext.createScriptProcessor(4096, 2, 1);
-
-            audioChunksRef.current = [];
+            const scriptProcessorNode = audioContext.createScriptProcessor(4096, 2, 2);
 
             scriptProcessorNode.onaudioprocess = (event) => {
                 const leftChannelInputData = event.inputBuffer.getChannelData(0);
                 const rightChannelInputData = event.inputBuffer.getChannelData(1);
 
-                const mp3Data = encoder.encode([leftChannelInputData, rightChannelInputData]);
+                const mp3Data = audioEncoderRef.current?.encode([leftChannelInputData, rightChannelInputData]);
 
-                audioChunksRef.current.push(new Uint8Array(mp3Data));
+                if (mp3Data) {
+                    audioChunksRef.current.push(new Uint8Array(mp3Data));
+                }
             };
 
             audioSourceNode.connect(audioAnalyzer).connect(scriptProcessorNode);
