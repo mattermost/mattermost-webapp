@@ -1,36 +1,9 @@
 @charset 'UTF-8';
 
-#createNewChannel {
-  background-color: var(--center-channel-bg);
-  border: 1px solid var(--denim-button-bg);
-  border-radius: 4px;
-  color: var(--denim-button-bg);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 16px;
-}
-
 #moreChannelsModal {
   .col-sm-12 {
     padding: 0;
   }
-
-  .more-modal__row {
-    padding: 0;
-
-    .more-modal__details {
-      padding-left: 0px;
-    }
-
-    .more-modal__actions {
-      button {
-        padding: 7px 16px;
-        border-radius: 4px;
-        background-color: var(--denim-button-bg);
-      }
-    }
-  }
-
 
   .more-modal__dropdown {
     padding: 0;
@@ -54,9 +27,38 @@
     }
   }
 
+  .more-modal__row {
+    padding: 0;
+
+    .more-modal__details {
+      padding-left: 0px;
+
+      svg {
+        color: rgba(var(--center-channel-text-rgb), 0.56);
+      }
+    }
+
+    .more-modal__actions {
+      button {
+        padding: 7px 16px;
+        border-radius: 4px;
+        background-color: var(--denim-button-bg);
+      }
+    }
+  }
 
   #searchChannelsTextbox {
     height: 48px;
     border: 1px solid rgba(var(--center-channel-text-rgb), 0.16)
+  }
+
+  #createNewChannel {
+  background-color: var(--center-channel-bg);
+  border: 1px solid var(--denim-button-bg);
+  border-radius: 4px;
+  color: var(--denim-button-bg);
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 16px;
   }
 }
