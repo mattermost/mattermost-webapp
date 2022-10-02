@@ -200,11 +200,10 @@ const AdvanceTextEditor = ({
 
     let attachmentPreview = null;
 
-    const isVoiceMessagePreviewAttached = (voiceMessageOrigin.location === Locations.CENTER || voiceMessageOrigin.location === Locations.RHS_COMMENT) &&
-        voiceMessageOrigin.location === location &&
-        voiceMessageOrigin.channelId === channelId;
+    const isVoicePreviewAttached = voiceMessageOrigin.location === Locations.CENTER || voiceMessageOrigin.location === Locations.RHS_COMMENT;
+    const isVoicePreviewAttachedInCurrentEditor = isVoicePreviewAttached && voiceMessageOrigin.location === location && voiceMessageOrigin.channelId === channelId;
 
-    if (isVoiceMessagePreviewAttached) {
+    if (isVoicePreviewAttachedInCurrentEditor) {
         attachmentPreview = (
             <div>
                 <VoiceMessagePreview/>
@@ -212,7 +211,7 @@ const AdvanceTextEditor = ({
         );
     }
 
-    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && !isVoiceMessagePreviewAttached) {
+    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && !isVoicePreviewAttachedInCurrentEditor) {
         attachmentPreview = (
             <div>
                 <FilePreview
@@ -247,6 +246,7 @@ const AdvanceTextEditor = ({
             rootId={postId}
             channelId={channelId}
             postType={postType}
+            disabled={isVoicePreviewAttachedInCurrentEditor}
         />
     );
 
@@ -270,6 +270,7 @@ const AdvanceTextEditor = ({
                 />
             </Tooltip>
         );
+
         emojiPicker = (
             <>
                 <EmojiPickerOverlay
@@ -294,7 +295,7 @@ const AdvanceTextEditor = ({
                         onClick={toggleEmojiPicker}
                         type='button'
                         aria-label={emojiButtonAriaLabel}
-                        disabled={shouldShowPreview}
+                        disabled={shouldShowPreview || isVoicePreviewAttachedInCurrentEditor}
                         className={classNames({active: showEmojiPicker})}
                     >
                         <EmoticonHappyOutlineIcon
@@ -315,14 +316,14 @@ const AdvanceTextEditor = ({
         />
     );
 
-    const showFormatJSX = disableSendButton ? null : (
+    const showFormatJSX = disableSendButton || isVoicePreviewAttachedInCurrentEditor ? null : (
         <ShowFormat
             onClick={handleShowFormat}
             active={shouldShowPreview}
         />
     );
 
-    const extraControls = isVoiceMessagePreviewAttached ? null : (
+    const extraControls = (
         <>
             {fileUploadJSX}
             {emojiPicker}
@@ -385,7 +386,7 @@ const AdvanceTextEditor = ({
             getCurrentMessage={getCurrentValue}
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
-            disableControls={shouldShowPreview || isVoiceMessagePreviewAttached}
+            disableControls={shouldShowPreview || isVoicePreviewAttachedInCurrentEditor}
             additionalControls={additionalControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
@@ -398,6 +399,7 @@ const AdvanceTextEditor = ({
         <VoiceButton
             location={location}
             currentChannelId={channelId}
+            disable={isVoicePreviewAttached}
         />
     ) : null;
 
@@ -445,7 +447,7 @@ const AdvanceTextEditor = ({
                         channelId={channelId}
                         id={textboxId}
                         ref={textboxRef!}
-                        disabled={readOnlyChannel}
+                        disabled={readOnlyChannel || isVoicePreviewAttachedInCurrentEditor}
                         characterLimit={maxPostSize}
                         preview={shouldShowPreview}
                         badConnection={badConnection}

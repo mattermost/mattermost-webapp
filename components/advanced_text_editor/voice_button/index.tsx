@@ -5,14 +5,14 @@ import React from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
+import {MicrophoneIcon} from '@mattermost/compass-icons/components';
+
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 
 import {isVoiceMessagesEnabled} from 'selectors/views/textbox';
 
 import Constants from 'utils/constants';
-
-import {MicrophoneIcon} from '@mattermost/compass-icons/components';
 
 import {Channel} from '@mattermost/types/channels';
 
@@ -21,6 +21,7 @@ import {IconContainer} from '../formatting_bar/formatting_icon';
 interface Props {
     location: string;
     currentChannelId: Channel['id'];
+    disable: boolean;
 }
 
 const VoiceButton = (props: Props) => {
@@ -68,6 +69,7 @@ const VoiceButton = (props: Props) => {
                 id='PreviewInputTextButton'
                 type='button'
                 onClick={handleOnClick}
+                disabled={props.disable}
                 aria-label={formatMessage({id: 'advanceTextEditor.voiceMessageButton.tooltip', defaultMessage: 'Voice message'})}
             >
                 {/* Change to new icon */}

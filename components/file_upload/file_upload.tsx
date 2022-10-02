@@ -102,6 +102,7 @@ export type Props = {
     intl: IntlShape;
 
     locale: string;
+    disabled: boolean;
 
     /**
      * Function to be called when file upload input is clicked
@@ -587,8 +588,9 @@ export class FileUpload extends PureComponent<Props, State> {
                         }
                     >
                         <button
-                            type='button'
                             id='fileUploadButton'
+                            type='button'
+                            disabled={this.props.disabled}
                             aria-label={buttonAriaLabel}
                             className={classNames('style--none AdvancedTextEditor__action-button', {
                                 disabled: uploadsRemaining <= 0,
@@ -666,8 +668,9 @@ export class FileUpload extends PureComponent<Props, State> {
                             }
                         >
                             <button
-                                type='button'
                                 id='fileUploadButton'
+                                type='button'
+                                disabled={this.props.disabled}
                                 aria-label={buttonAriaLabel}
                                 className='style--none AdvancedTextEditor__action-button'
                             >

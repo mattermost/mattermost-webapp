@@ -98,11 +98,26 @@
         cursor: pointer;
         fill: currentColor;
 
-        &:hover {
+        &:hover:not(:disabled) {
             background: rgba(var(--center-channel-color-rgb), 0.08);
             color: rgba(var(--center-channel-color-rgb), 0.72);
             fill: currentColor;
             text-decoration: none;
+        }
+
+        &:disabled {
+            pointer-events: none;
+            cursor: not-allowed;
+            color: rgba(var(--center-channel-color-rgb), 0.32);
+
+            &:hover,
+            &:active,
+            &.active,
+            &.active:hover {
+                background: inherit;
+                color: inherit;
+                fill: inherit;
+            }
         }
 
         &.hidden {
