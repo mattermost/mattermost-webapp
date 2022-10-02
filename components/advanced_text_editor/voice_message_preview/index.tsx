@@ -5,7 +5,6 @@ import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
-import moment from 'moment';
 import {ProgressBar} from 'react-bootstrap';
 import {createEncoder, WasmMediaEncoder} from 'wasm-media-encoders';
 
@@ -44,12 +43,13 @@ const VoiceMessagePreview = () => {
 
     const audioChunksRef = useRef<Uint8Array[]>([]);
 
-    const refreshIntervalTimer = useRef<ReturnType<typeof setTimeout> | null>();
-    const countdownTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+    const visualizerRefreshRafId = useRef<ReturnType<AnimationFrameProvider['requestAnimationFrame']>>();
+    const countdownTimerRafId = useRef<ReturnType<AnimationFrameProvider['requestAnimationFrame']>>();
 
     const visualizerCanvasRef = useRef<HTMLCanvasElement>(null);
 
     const [countdownTimer, setCountdownTimer] = useState<number>(0);
+    const lastCountdownTime = useRef<number>((new Date()).getTime());
 
     function drawOnVisualizerCanvas(amplitudeArray: Uint8Array) {
         const visualizerCanvasContext = visualizerCanvasRef.current?.getContext('2d');
@@ -73,14 +73,31 @@ const VoiceMessagePreview = () => {
         }
     }
 
-    function refreshAnalyzer() {
+    function animateRecordingVisualizer() {
         const bufferLength = audioAnalyzerRef.current?.frequencyBinCount ?? 0;
 
         const amplitudeArray = new Uint8Array(bufferLength);
         audioAnalyzerRef.current?.getByteFrequencyData(amplitudeArray);
 
-        requestAnimationFrame(() => {
-            drawOnVisualizerCanvas(amplitudeArray);
+        drawOnVisualizerCanvas(amplitudeArray);
+
+        visualizerRefreshRafId.current = window.requestAnimationFrame(() => {
+            animateRecordingVisualizer();
+        });
+    }
+
+    function animateCountdownTimer() {
+        // Using native date api instead of moment.js for performance reasons
+        const currentTime = (new Date()).getTime();
+        const timeElapsed = currentTime - lastCountdownTime.current;
+
+        if (timeElapsed >= 1000) {
+            setCountdownTimer((countdownTimer) => countdownTimer + 1);
+            lastCountdownTime.current = currentTime;
+        }
+
+        countdownTimerRafId.current = requestAnimationFrame(() => {
+            animateCountdownTimer();
         });
     }
 
@@ -92,20 +109,20 @@ const VoiceMessagePreview = () => {
             await audioContextRef.current.close();
         }
 
-        if (audioRecorderRef.current) {
+        if (audioRecorderRef && audioRecorderRef.current) {
             audioRecorderRef.current.stop();
         }
 
-        if (audioScriptProcessorRef.current) {
+        if (audioScriptProcessorRef && audioScriptProcessorRef.current) {
             audioScriptProcessorRef.current.disconnect();
         }
 
-        if (refreshIntervalTimer && refreshIntervalTimer.current) {
-            clearInterval(refreshIntervalTimer.current);
+        if (visualizerRefreshRafId && visualizerRefreshRafId.current) {
+            cancelAnimationFrame(visualizerRefreshRafId.current);
         }
 
-        if (countdownTimerRef && countdownTimerRef.current) {
-            clearTimeout(countdownTimerRef.current);
+        if (countdownTimerRafId && countdownTimerRafId.current) {
+            cancelAnimationFrame(countdownTimerRafId.current);
         }
     }
 
@@ -122,8 +139,6 @@ const VoiceMessagePreview = () => {
     }
 
     async function onRecordedStopped() {
-        await cleanUpAfterRecordings();
-
         if (audioChunksRef.current && audioEncoderRef.current) {
             const mp3DataFinal = audioEncoderRef.current.finalize();
             audioChunksRef.current.push(mp3DataFinal);
@@ -185,24 +200,21 @@ const VoiceMessagePreview = () => {
             audioAnalyzerRef.current = audioAnalyzer;
             audioScriptProcessorRef.current = scriptProcessorNode;
 
-            refreshIntervalTimer.current = setInterval(() => {
-                refreshAnalyzer();
-            }, 100);
+            animateRecordingVisualizer();
 
-            countdownTimerRef.current = setInterval(() => {
-                setCountdownTimer((countdownTimer) => countdownTimer + 1);
-            }, 1000);
+            animateCountdownTimer();
         } catch (error) {
             // eslint-disable-next-line no-console
             console.log(error);
         }
     }
 
-    function handleCompleteRecordingClicked() {
+    async function handleCompleteRecordingClicked() {
         setVoiceMessageIs(VoiceMessageStates.Encoding);
 
+        await cleanUpAfterRecordings();
+
         onRecordedStopped();
-        cleanUpAfterRecordings();
     }
 
     // We start the recording as soon as the component is mounted
@@ -244,7 +256,7 @@ const VoiceMessagePreview = () => {
                     )}
                     {voiceMessageIs === VoiceMessageStates.Recording && (
                         <span>
-                            {moment.utc(countdownTimer * 1000).format('mm:ss')}
+                            {convertSecondsToMMSS(countdownTimer)}
                         </span>
                     )}
                     <CancelButton onClick={unmountVoiceMessageComponent}>
@@ -355,5 +367,15 @@ const SubtitleContainer = styled.div`
     text-align: left;
     overflow: hidden;
 `;
+
+function convertSecondsToMMSS(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+    const secondsLeft = seconds - (minutes * 60);
+
+    const minutesPadded = minutes.toString().padStart(2, '0');
+    const secondsPadded = secondsLeft.toString().padStart(2, '0');
+
+    return `${minutesPadded}:${secondsPadded}`;
+}
 
 export default VoiceMessagePreview;
