@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {Modifier} from 'react-day-picker';
 
 import {UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies';
 
@@ -11,11 +12,11 @@ type Props = {
     term: string;
     matchedPretext: string;
     isSelection?: boolean;
-    item?: any;
+    item: any;
     teammate?: UserProfile;
     currentUser?: string;
     locale?: string;
-    currentDate?: Date;
+    currentDate?: Modifier;
 };
 
 export default class Suggestion extends React.PureComponent<Props> {

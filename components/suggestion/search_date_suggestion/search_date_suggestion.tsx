@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import DayPicker from 'react-day-picker';
+import DayPicker, {Modifier} from 'react-day-picker';
 
 import MomentLocaleUtils from 'react-day-picker/moment';
 
@@ -17,7 +17,7 @@ const loadedLocales: Record<string, moment.Locale> = {};
 
 type Props = {
     locale?: string;
-    currentDate?: Date;
+    currentDate?: Modifier;
 }
 
 export default class SearchDateSuggestion extends Suggestion {
