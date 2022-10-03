@@ -84,6 +84,7 @@ const BillingSubscriptions = () => {
     const product = useSelector(getSubscriptionProduct);
 
     const openPricingModal = useOpenPricingModal();
+
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
 
     // show the upgrade section when is a free tier customer
@@ -121,6 +122,10 @@ const BillingSubscriptions = () => {
 
         if (actionQueryParam === 'show_pricing_modal') {
             openPricingModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
+        }
+
+        if (actionQueryParam === 'show_delinquency_modal') {
+            openCloudPurchaseModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
         }
     }, []);
 
