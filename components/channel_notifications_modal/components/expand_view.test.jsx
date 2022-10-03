@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels, NotificationSections} from 'utils/constants';
 
-import ExpandView from 'components/channel_notifications_modal/components/expand_view.tsx';
+import ExpandView from 'components/channel_notifications_modal/components/expand_view.jsx';
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux'),

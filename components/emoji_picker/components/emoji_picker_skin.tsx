@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
+import {CSSTransition} from 'react-transition-group';
 
 import {CloseIcon} from '@mattermost/compass-icons/components';
 
@@ -155,11 +156,17 @@ export class EmojiPickerSkin extends React.PureComponent<Props, State> {
 
     render() {
         return (
-            <div className={classNames('skin-tones', {'skin-tones--active': this.state.pickerExtended})}>
-                <div className={classNames('skin-tones__content', {'skin-tones__content__single': !this.state.pickerExtended})}>
-                    {this.state.pickerExtended ? this.extended() : this.collapsed()}
+            <CSSTransition
+                in={this.state.pickerExtended}
+                classNames='skin-tones-animation'
+                timeout={200}
+            >
+                <div className={classNames('skin-tones', {'skin-tones--active': this.state.pickerExtended})}>
+                    <div className={classNames('skin-tones__content', {'skin-tones__content__single': !this.state.pickerExtended})}>
+                        {this.state.pickerExtended ? this.extended() : this.collapsed()}
+                    </div>
                 </div>
-            </div>
+            </CSSTransition>
         );
     }
 }
