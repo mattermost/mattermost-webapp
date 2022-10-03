@@ -20,11 +20,11 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 import IntegrationOption from './integration_option.jsx';
 
 type Props ={
-    siteName: string;
-    enableIncomingWebhooks: string;
-    enableOutgoingWebhooks: string;
-    enableCommands: string;
-    enableOAuthServiceProvider: string;
+    siteName: string | undefined;
+    enableIncomingWebhooks: boolean;
+    enableOutgoingWebhooks: boolean;
+    enableCommands: boolean;
+    enableOAuthServiceProvider: boolean;
     team: {
         name: string;
         id: string;
