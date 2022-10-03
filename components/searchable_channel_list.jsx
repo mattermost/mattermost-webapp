@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountOutlineIcon, ArchiveOutlineIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
+import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
 
 import {isPrivateChannel} from 'mattermost-redux/utils/channel_utils';
 
@@ -81,8 +81,20 @@ export default class SearchableChannelList extends React.PureComponent {
             channelIcon = <GlobeIcon size={18}/>;
         }
 
+        const membershipIndicator = this.props.myChannelMemberships.hasOwnProperty(channel.id) ? (
+            <div id='membershipIndicatorContainer'>
+                <CheckIcon size={14}/>
+                <FormattedMessage
+                    id={'more_channels.joined'}
+                    defaultMessage={'Joined'}
+                />
+                <span className='dot'/>
+            </div>
+        ) : null;
+
         const channelPurposeContainer = (
             <div id='channelPurposeContainer' >
+                {membershipIndicator}
                 <AccountOutlineIcon size={14}/>
                 <span>{memberCount}</span>
                 <span className='dot'/>
@@ -101,7 +113,7 @@ export default class SearchableChannelList extends React.PureComponent {
                     text={localizeMessage('more_channels.joining', 'Joining...')}
                 >
                     <FormattedMessage
-                        id={shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
+                        id={shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
                         defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
                     />
                 </LoadingWrapper>
@@ -114,7 +126,7 @@ export default class SearchableChannelList extends React.PureComponent {
                 className='btn outlineButton'
             >
                 <FormattedMessage
-                    id={t('more_channels.view')}
+                    id={'more_channels.view'}
                     defaultMessage={'View'}
                 />
             </button>

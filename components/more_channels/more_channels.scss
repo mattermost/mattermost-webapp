@@ -63,6 +63,15 @@
             margin-left: 4px;
           }
 
+          #membershipIndicatorContainer {
+            display: flex;
+            align-items: center;
+            
+            span, svg {
+              color: var(--online-indicator);
+            }
+          }
+
           span {
             color: rgba(var(--center-channel-text-rgb), 0.56);
             font-size: 12px;
