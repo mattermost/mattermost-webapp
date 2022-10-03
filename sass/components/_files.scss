@@ -640,21 +640,21 @@
         padding-left: 8px;
     }
 
-    .post-image__progressBar {
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        height: 7px;
-        margin-bottom: 0;
-        border-radius: 0;
-    }
-
-    .progress-bar {
-        background-color: rgb(40, 90, 185);
-    }
-
     .post-image__uploadingTxt {
         color: rgba(v(center-channel-color-rgb), 0.56);
+    }
+}
+
+.attachments-progress-bar {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 7px;
+    margin-bottom: 0;
+    border-radius: 0;
+
+    & > .progress-bar {
+        background-color: var(--button-bg);
     }
 }
 

@@ -88,3 +88,12 @@ export function toUTCUnix(date: Date): number {
     return Math.round(new Date(date.toISOString()).getTime() / 1000);
 }
 
+export function convertSecondsToMSS(seconds: number) {
+    const minutes = Math.floor(seconds / 60);
+
+    const secondsLeft = Math.floor(seconds - (minutes * 60));
+    const secondsPadded = secondsLeft.toString().padStart(2, '0');
+
+    return `${minutes}:${secondsPadded}`;
+}
+

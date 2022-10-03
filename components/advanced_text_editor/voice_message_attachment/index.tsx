@@ -3,16 +3,17 @@
 
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-import {FormattedMessage} from 'react-intl';
-import styled from 'styled-components';
-import {ProgressBar} from 'react-bootstrap';
 import {createEncoder, WasmMediaEncoder} from 'wasm-media-encoders';
-
-import {MicrophoneIcon, CheckIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import Constants from 'utils/constants';
+
+import VoiceMessageRecordingStarted from './components/recording_started';
+import VoiceMessageRecordingFailed from './components/recording_failed';
+import VoiceMessageUploadingStarted from './components/upload_started';
+import VoiceMessageUploadingFailed from './components/upload_failed';
+import VoiceMessageUploadingCompleted from './components/upload_complete';
 
 declare global {
     interface Window {
@@ -20,20 +21,22 @@ declare global {
     }
 }
 
-enum VoiceMessageStates {
-    Recording = 'recording',
-    Encoding = 'encoding',
-    Uploading = 'uploading',
+enum VMStates {
+    RecordingStarted = 'RECORDING_STARTED',
+    RecordingFailed = 'RECORDING_FAILED',
+    UploadingStarted = 'UPLOADING_STARTED',
+    UploadingFailed = 'UPLOADING_FAILED',
+    UploadingCompleted = 'UPLOADING_COMPLETED',
 }
 
 const mp3MimeType = 'audio/mpeg';
 
-const VoiceMessagePreview = () => {
+const VoiceMessageAttachment = () => {
     const theme = useSelector(getTheme);
 
     const dispatch = useDispatch();
 
-    const [voiceMessageIs, setVoiceMessageIs] = useState(VoiceMessageStates.Recording);
+    const [vmState, vmTransitionTo] = useState<VMStates>(VMStates.RecordingStarted);
 
     const audioContextRef = useRef<AudioContext>();
     const audioAnalyzerRef = useRef<AnalyserNode>();
@@ -42,13 +45,15 @@ const VoiceMessagePreview = () => {
     const audioEncoderRef = useRef<WasmMediaEncoder<typeof mp3MimeType>>();
 
     const audioChunksRef = useRef<Uint8Array[]>([]);
+    const audioBlobUrlRef = useRef<string>('');
+    const [audioBlobUrl, setAudioBlobUrl] = useState<string>('');
 
     const visualizerRefreshRafId = useRef<ReturnType<AnimationFrameProvider['requestAnimationFrame']>>();
     const countdownTimerRafId = useRef<ReturnType<AnimationFrameProvider['requestAnimationFrame']>>();
 
     const visualizerCanvasRef = useRef<HTMLCanvasElement>(null);
 
-    const [countdownTimer, setCountdownTimer] = useState<number>(0);
+    const [elapsedTime, setElapsedTimer] = useState<number>(0);
     const lastCountdownTime = useRef<number>((new Date()).getTime());
 
     function drawOnVisualizerCanvas(amplitudeArray: Uint8Array) {
@@ -92,7 +97,7 @@ const VoiceMessagePreview = () => {
         const timeElapsed = currentTime - lastCountdownTime.current;
 
         if (timeElapsed >= 1000) {
-            setCountdownTimer((countdownTimer) => countdownTimer + 1);
+            setElapsedTimer((elapsedTime) => elapsedTime + 1);
             lastCountdownTime.current = currentTime;
         }
 
@@ -101,9 +106,9 @@ const VoiceMessagePreview = () => {
         });
     }
 
-    async function cleanUpAfterRecordings() {
+    async function recordingCleanup() {
         // eslint-disable-next-line no-console
-        console.log('cleanUpAfterRecordings');
+        console.log('recordingCleanup');
 
         if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
             await audioContextRef.current.close();
@@ -126,19 +131,7 @@ const VoiceMessagePreview = () => {
         }
     }
 
-    function unmountVoiceMessageComponent() {
-        // We don't stop recording here as when the component is unmounted,
-        // the recording is stopped automatically along with necessary clean ups
-        dispatch({
-            type: Constants.ActionTypes.OPEN_VOICE_MESSAGE_AT,
-            data: {
-                location: '',
-                channelId: '',
-            },
-        });
-    }
-
-    async function onRecordedStopped() {
+    function recordingStop() {
         if (audioChunksRef.current && audioEncoderRef.current) {
             const mp3DataFinal = audioEncoderRef.current.finalize();
             audioChunksRef.current.push(mp3DataFinal);
@@ -147,12 +140,17 @@ const VoiceMessagePreview = () => {
             const audioBlob = new Blob(audioChunksRef.current, {type: mp3MimeType});
             const audioUrl = URL.createObjectURL(audioBlob);
 
-            console.log('audioBlob', audioUrl);
+            setAudioBlobUrl(audioUrl);
+
             audioChunksRef.current = [];
+
+            return audioUrl;
         }
+
+        return '';
     }
 
-    async function startRecording() {
+    async function recordingStart() {
         try {
             const audioStream = await navigator.mediaDevices.getUserMedia({
                 audio: true,
@@ -204,178 +202,123 @@ const VoiceMessagePreview = () => {
 
             animateCountdownTimer();
         } catch (error) {
-            // eslint-disable-next-line no-console
-            console.log(error);
+            console.log('Error in recording', error); // eslint-disable-line no-console
+            vmTransitionTo(VMStates.RecordingFailed);
+        }
+    }
+
+    async function recordingUpload(audioBlobUrl: string) {
+        console.log('recordingUpload', audioBlobUrl); // eslint-disable-line no-console
+        vmTransitionTo(VMStates.UploadingStarted);
+
+        try {
+            setTimeout(() => {
+                vmTransitionTo(VMStates.UploadingCompleted);
+                return Promise.resolve();
+            }
+            , 2000);
+        } catch (error) {
+            console.log('Error in uploading', error); // eslint-disable-line no-console
+            vmTransitionTo(VMStates.UploadingFailed);
         }
     }
 
     async function handleCompleteRecordingClicked() {
-        setVoiceMessageIs(VoiceMessageStates.Encoding);
+        await recordingCleanup();
 
-        await cleanUpAfterRecordings();
+        const audioBlobUrl = recordingStop();
 
-        onRecordedStopped();
+        if (audioBlobUrl.length === 0) {
+            console.log('No audio recorded', audioBlobUrl); // eslint-disable-line no-console
+            vmTransitionTo(VMStates.RecordingFailed);
+            return;
+        }
+
+        await recordingUpload(audioBlobUrl);
     }
 
     // We start the recording as soon as the component is mounted
     useEffect(() => {
-        startRecording();
+        recordingStart();
 
         return () => {
-            cleanUpAfterRecordings();
+            recordingCleanup();
         };
     }, []);
 
-    return (
-        <div className='file-preview__container'>
-            <div className='file-preview post-image__column'>
-                <div className='post-image__thumbnail'>
-                    <IconWrapper>
-                        <MicrophoneIcon
-                            size={24}
-                            color={theme.buttonBg}
-                        />
-                    </IconWrapper>
-                </div>
-                <ControlsColumn>
-                    {voiceMessageIs === VoiceMessageStates.Recording && (
-                        <VisualizerContainer>
-                            {/* Separate this into component with forwardRef */}
-                            <Canvas ref={visualizerCanvasRef}/>
-                        </VisualizerContainer>
-                    )}
-                    {(voiceMessageIs === VoiceMessageStates.Encoding || voiceMessageIs === VoiceMessageStates.Uploading) && (
-                        <TextColumn>
-                            <TitleContainer>
-                                <FormattedMessage
-                                    id='voiceMessage.preview.title'
-                                    defaultMessage='Voice message'
-                                />
-                            </TitleContainer>
-                        </TextColumn>
-                    )}
-                    {voiceMessageIs === VoiceMessageStates.Recording && (
-                        <span>
-                            {convertSecondsToMMSS(countdownTimer)}
-                        </span>
-                    )}
-                    <CancelButton onClick={unmountVoiceMessageComponent}>
-                        <CloseIcon
-                            size={18}
-                        />
-                    </CancelButton>
-                    {voiceMessageIs === VoiceMessageStates.Recording && (
-                        <OkButton onClick={handleCompleteRecordingClicked}>
-                            <CheckIcon
-                                size={18}
-                                color={theme.buttonColor}
-                            />
-                        </OkButton>
-                    )}
-                    <ProgressBar
-                        className='post-image__progressBar'
-                        now={20}
-                        active={20 === 100}
-                    />
-                </ControlsColumn>
-            </div>
-        </div>
-    );
+    // Automatically stop recording after Max time
+    useEffect(() => {
+        if (elapsedTime >= 20) {
+            handleCompleteRecordingClicked();
+        }
+    }, [elapsedTime]);
+
+    function unmountVoiceMessageComponent() {
+        // We don't stop recording here as when the component is unmounted,
+        // the recording is stopped automatically along with necessary clean ups
+        dispatch({
+            type: Constants.ActionTypes.OPEN_VOICE_MESSAGE_AT,
+            data: {
+                location: '',
+                channelId: '',
+            },
+        });
+    }
+
+    function handleUploadRetryClicked() {
+        recordingUpload(audioBlobUrl);
+    }
+
+    if (vmState === VMStates.RecordingStarted) {
+        return (
+            <VoiceMessageRecordingStarted
+                ref={visualizerCanvasRef}
+                theme={theme}
+                elapsedTime={elapsedTime}
+                onCancel={unmountVoiceMessageComponent}
+                onComplete={handleCompleteRecordingClicked}
+            />
+        );
+    }
+
+    if (vmState === VMStates.RecordingFailed) {
+        return (
+            <VoiceMessageRecordingFailed
+                onCancel={unmountVoiceMessageComponent}
+            />
+        );
+    }
+
+    if (vmState === VMStates.UploadingStarted) {
+        return (
+            <VoiceMessageUploadingStarted
+                theme={theme}
+                progress={40}
+                onCancel={unmountVoiceMessageComponent}
+            />
+        );
+    }
+
+    if (vmState === VMStates.UploadingFailed) {
+        return (
+            <VoiceMessageUploadingFailed
+                onRetry={handleUploadRetryClicked}
+                onCancel={unmountVoiceMessageComponent}
+            />
+        );
+    }
+
+    if (vmState === VMStates.UploadingCompleted) {
+        return (
+            <VoiceMessageUploadingCompleted
+                theme={theme}
+                src={audioBlobUrl}
+                onCancel={unmountVoiceMessageComponent}
+            />
+        );
+    }
+
+    return null;
 };
 
-const TextColumn = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-`;
-
-const ControlsColumn = styled.div`
-    position: relative;
-    display: flex;
-    overflow: hidden;
-    height: 100%;
-    flex: 1;
-    align-items: center;
-    font-size: 12px;
-    text-align: left;
-    padding-right: 1rem;
-`;
-
-const IconWrapper = styled.div`
-    width: 40px;
-    background-color: rgba(var(--button-bg-rgb), 0.12);
-    height: 40px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    border-radius: 50%;
-`;
-
-const OkButton = styled.button`
-    background-color: var(--button-bg);
-    color: var(--button-color);
-    border-radius: 50%;
-    width: 28px;
-    height: 28px;
-    border-width: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-`;
-
-const CancelButton = styled.button`
-    background-color: var(--button-color);
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    border-width: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 4px;
-`;
-
-const VisualizerContainer = styled.div`
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-right: 1rem
-`;
-
-const Canvas = styled.canvas`
-    width: 100%;
-    height: 20px;
-`;
-
-const TitleContainer = styled.div`
-    display: block;
-    overflow: hidden;
-    max-width: 151px;
-    margin-bottom: 3px;
-    font-weight: 600;
-    outline: none;
-    text-decoration: none;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    word-break: break-word;
-`;
-
-const SubtitleContainer = styled.div`
-    color: rgba(var(--center-channel-color-rgb), 0.56);
-    font-size: 12px;
-    text-align: left;
-    overflow: hidden;
-`;
-
-function convertSecondsToMMSS(seconds: number) {
-    const minutes = Math.floor(seconds / 60);
-    const secondsLeft = seconds - (minutes * 60);
-
-    const minutesPadded = minutes.toString().padStart(2, '0');
-    const secondsPadded = secondsLeft.toString().padStart(2, '0');
-
-    return `${minutesPadded}:${secondsPadded}`;
-}
-
-export default VoiceMessagePreview;
+export default VoiceMessageAttachment;

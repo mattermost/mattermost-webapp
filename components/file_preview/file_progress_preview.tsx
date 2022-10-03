@@ -63,7 +63,7 @@ export default class FileProgressPreview extends React.PureComponent<Props> {
             if (percent) {
                 progressBar = (
                     <ProgressBar
-                        className='post-image__progressBar'
+                        className='attachments-progress-bar'
                         now={percent}
                         active={percent === 100}
                     />

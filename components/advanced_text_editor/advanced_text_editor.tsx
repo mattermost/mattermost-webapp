@@ -41,7 +41,7 @@ import ShowFormat from './show_formatting';
 import SendButton from './send_button';
 import VoiceButton from './voice_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
-import VoiceMessagePreview from './voice_message_preview';
+import VoiceMessageAttachment from './voice_message_attachment';
 
 import './advanced_text_editor.scss';
 
@@ -206,7 +206,7 @@ const AdvanceTextEditor = ({
     if (isVoicePreviewAttachedInCurrentEditor) {
         attachmentPreview = (
             <div>
-                <VoiceMessagePreview/>
+                <VoiceMessageAttachment/>
             </div>
         );
     }
