@@ -26,6 +26,7 @@ import Popover from 'components/widgets/popover';
 import CallButton from 'plugins/call_button';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusText from 'components/custom_status/custom_status_text';
+import Timestamp from 'components/timestamp';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
 
 import {
@@ -89,6 +90,9 @@ export type Props = {
     isCustomStatusEnabled: boolean;
     isCustomStatusExpired: boolean;
     isFileAttachmentsEnabled: boolean;
+    isLastActiveEnabled: boolean;
+    timestampUnits?: string[];
+    lastActivityTimestamp?: number;
 };
 
 type State = {
@@ -255,7 +259,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
         }
 
         return (
-            <>
+            <div className='custom-emoji__wrapper'>
                 <CustomStatusEmoji
                     userID={this.props.dmUser?.id}
                     showTooltip={true}
@@ -268,7 +272,7 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                 <CustomStatusText
                     text={customStatus?.text}
                 />
-            </>
+            </div>
         );
     }
 
@@ -419,6 +423,30 @@ class ChannelHeader extends React.PureComponent<Props, State> {
                     {this.renderCustomStatus()}
                 </span>
             );
+
+            if (this.props.isLastActiveEnabled && this.props.lastActivityTimestamp && this.props.timestampUnits) {
+                dmHeaderTextStatus = (
+                    <span className='header-status__text'>
+                        <span className='last-active__text'>
+                            <FormattedMessage
+                                id='channel_header.lastActive'
+                                defaultMessage='Active {timestamp}'
+                                values={{
+                                    timestamp: (
+                                        <Timestamp
+                                            value={this.props.lastActivityTimestamp}
+                                            units={this.props.timestampUnits}
+                                            useTime={false}
+                                            style={'short'}
+                                        />
+                                    ),
+                                }}
+                            />
+                        </span>
+                        {this.renderCustomStatus()}
+                    </span>
+                );
+            }
         }
 
         const channelFilesIconClass = classNames('channel-header__icon channel-header__icon--wide channel-header__icon--left', {
