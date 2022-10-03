@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useMemo, useState} from 'react';
+import React from 'react';
 import styled from 'styled-components';
 
 import {
@@ -14,6 +14,8 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {convertSecondsToMSS} from 'utils/datetime';
 
+import {useAudioPlayer, AudioPlayerState} from 'components/common/hooks/useAudioPlayer';
+
 import {AttachmentContainer, CancelButton, Duration} from '../containers';
 
 interface Props {
@@ -22,54 +24,13 @@ interface Props {
     onCancel: () => void;
 }
 
-enum PlayerState {
-    Playing = 'PLAYING',
-    Paused = 'PAUSED',
-    Stopped = 'STOPPED',
-}
-
 const VoiceMessageUploadCompleted = (props: Props) => {
-    const [playerState, setPlayerState] = useState<PlayerState>(PlayerState.Stopped);
-    const [duration, setDuration] = useState('00:00');
-
-    const audio = useMemo(() => new Audio(props.src), [props.src]);
-
-    useEffect(() => {
-        function onEnded() {
-            setPlayerState(PlayerState.Stopped);
-            audio.currentTime = 0;
-        }
-
-        function onLoadedData() {
-            setDuration(convertSecondsToMSS(audio.duration));
-        }
-
-        audio.addEventListener('loadeddata', onLoadedData);
-        audio.addEventListener('ended', onEnded);
-
-        return () => {
-            audio.removeEventListener('loadeddata', onLoadedData);
-            audio.removeEventListener('ended', onEnded);
-        };
-    }, [audio]);
-
-    function togglePlayPause() {
-        if (audio.readyState === 4) {
-            const isPlaying = audio.currentTime > 0 && !audio.paused && !audio.ended;
-            if (isPlaying) {
-                audio.pause();
-                setPlayerState(PlayerState.Paused);
-            } else {
-                audio.play();
-                setPlayerState(PlayerState.Playing);
-            }
-        }
-    }
+    const {playerState, duration, togglePlayPause} = useAudioPlayer(props.src);
 
     return (
         <AttachmentContainer
             icon={
-                playerState === PlayerState.Playing ? (
+                playerState === AudioPlayerState.Playing ? (
                     <PauseIcon
                         size={24}
                         color={props.theme.buttonBg}
@@ -85,7 +46,7 @@ const VoiceMessageUploadCompleted = (props: Props) => {
         >
             <VisualizerContainer><span>k</span></VisualizerContainer>
             <Duration>
-                {duration}
+                {convertSecondsToMSS(duration)}
             </Duration>
             <CancelButton onClick={props.onCancel}>
                 <CloseIcon size={18}/>
