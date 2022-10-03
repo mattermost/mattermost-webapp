@@ -112,7 +112,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const firstTimeModalOpened = useSelector(showStatusDropdownPulsatingDot);
     const timezone = useSelector(getCurrentUserTimezone);
 
-    const currentTime = getCurrentMomentForTimezone(timezone as string);
+    const currentTime = getCurrentMomentForTimezone(timezone);
     let initialCustomExpiryTime: Moment = getRoundedTime(currentTime);
     if (isCurrentCustomStatusSet && currentCustomStatus?.duration === DATE_AND_TIME && currentCustomStatus?.expires_at) {
         initialCustomExpiryTime = moment(currentCustomStatus.expires_at);

@@ -105,7 +105,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const {formatMessage} = useIntl();
 
     const setTimeAndOptions = () => {
-        const currentTime = getCurrentMomentForTimezone(timezone as string);
+        const currentTime = getCurrentMomentForTimezone(timezone);
         let startTime = moment(time).startOf('day');
         if (time.date() === currentTime.date()) {
             startTime = getRoundedTime(currentTime);
@@ -117,7 +117,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
 
     const handleDayChange = (day: Date, modifiers: DayModifiers) => {
         if (modifiers.today) {
-            const currentTime = getCurrentMomentForTimezone(timezone as string);
+            const currentTime = getCurrentMomentForTimezone(timezone);
             const roundedTime = getRoundedTime(currentTime);
             handleChange(roundedTime);
         } else {
@@ -131,7 +131,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
         handleChange(moment(time));
     }, [handleChange]);
 
-    const currentTime = getCurrentMomentForTimezone(timezone as string).toDate();
+    const currentTime = getCurrentMomentForTimezone(timezone).toDate();
     const modifiers = {
         today: currentTime,
     };
