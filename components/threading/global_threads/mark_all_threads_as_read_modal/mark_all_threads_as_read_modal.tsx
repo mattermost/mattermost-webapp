@@ -8,7 +8,15 @@ import {GenericModal} from '@mattermost/components';
 
 import './mark_all_threads_as_read_modal.scss';
 
-function MarkAllThreadsAsReadModal() {
+export type MarkAllThreadsAsReadModalProps = {
+    onConfirm: () => void;
+    onCancel: () => void;
+}
+
+function MarkAllThreadsAsReadModal({
+    onConfirm,
+    onCancel,
+}: MarkAllThreadsAsReadModalProps) {
     const {formatMessage} = useIntl();
 
     return (
@@ -29,8 +37,8 @@ function MarkAllThreadsAsReadModal() {
                 id: 'mark_all_threads_as_read_modal.cancel',
                 defaultMessage: 'Cancel',
             })}
-            handleCancel={() => {}}
-            handleConfirm={() => {}}
+            handleCancel={onCancel}
+            handleConfirm={onConfirm}
         >
             <div className='mark_all_threads_as_read_modal__body'>
                 <span>

@@ -413,6 +413,7 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
 };
 
 export const UserStatuses = {
