@@ -25,7 +25,7 @@ interface Props {
 }
 
 const ExpiryTime = ({time, timezone, className, showPrefix, withinBrackets}: Props) => {
-    const currentMomentTime = getCurrentMomentForTimezone(timezone);
+    const currentMomentTime = getCurrentMomentForTimezone(timezone as string);
     const timestampProps: Partial<TimestampProps> = {
         value: time,
         ranges: CUSTOM_STATUS_EXPIRY_RANGES,

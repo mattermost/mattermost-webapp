@@ -38,7 +38,7 @@ export function isCustomStatusExpired(state: GlobalState, customStatus?: UserCus
 
     const expiryTime = moment(customStatus.expires_at);
     const timezone = getCurrentUserTimezone(state);
-    const currentTime = getCurrentMomentForTimezone(timezone);
+    const currentTime = getCurrentMomentForTimezone(timezone as string);
     return currentTime.isSameOrAfter(expiryTime);
 }
 
