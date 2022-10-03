@@ -3,17 +3,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-export type Coords = {
-    x?: string;
-    y?: string;
-}
-export type TourTipOverlayPunchOut = Coords & {
-    width: string;
-    height: string;
-}
+import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
 
 type Props = {
-    overlayPunchOut: TourTipOverlayPunchOut | null;
+    overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
     show: boolean;
     interactivePunchOut?: boolean;
     onDismiss?: (e: React.MouseEvent) => void;

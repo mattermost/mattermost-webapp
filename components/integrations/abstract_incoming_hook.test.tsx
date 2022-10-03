@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook.jsx';
+import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
 
 describe('components/integrations/AbstractIncomingWebhook', () => {
     const team = {name: 'team_name'};
@@ -22,7 +22,7 @@ describe('components/integrations/AbstractIncomingWebhook', () => {
 
     const action = jest.fn().mockImplementation(
         () => {
-            return new Promise((resolve) => {
+            return new Promise<void>((resolve) => {
                 process.nextTick(() => resolve());
             });
         },

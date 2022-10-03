@@ -59,6 +59,10 @@ export function isFromWebhook(post: Post): boolean {
     return post.props && post.props.from_webhook === 'true';
 }
 
+export function isFromBot(post: Post): boolean {
+    return post.props && post.props.from_bot === 'true';
+}
+
 export function isPostOwner(state: GlobalState, post: Post): boolean {
     return getCurrentUserId(state) === post.user_id;
 }

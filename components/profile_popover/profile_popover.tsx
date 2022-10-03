@@ -144,6 +144,12 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
+
+    lastActivityTimestamp: number;
+
+    enableLastActiveTime: boolean;
+
+    timestampUnits: string[];
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -363,6 +369,30 @@ ProfilePopoverState
                 />
             </div>,
         );
+        if (this.props.enableLastActiveTime && this.props.lastActivityTimestamp && this.props.timestampUnits) {
+            dataContent.push(
+                <div
+                    className='user-popover-last-active'
+                    key='user-popover-last-active'
+                >
+                    <FormattedMessage
+                        id='channel_header.lastActive'
+                        defaultMessage='Active {timestamp}'
+                        values={{
+                            timestamp: (
+                                <Timestamp
+                                    value={this.props.lastActivityTimestamp}
+                                    units={this.props.timestampUnits}
+                                    useTime={false}
+                                    style={'short'}
+                                />
+                            ),
+                        }}
+                    />
+                </div>,
+            );
+        }
+
         const fullname = Utils.getFullName(this.props.user);
         const haveOverrideProp =
       this.props.overwriteIcon || this.props.overwriteName;
