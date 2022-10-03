@@ -5,11 +5,11 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
-import {limitThresholds, asGBString, inK} from 'utils/limits';
+import {limitThresholds, asGBString, inK, LimitTypes} from 'utils/limits';
 import {t} from 'utils/i18n';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
-import {LimitTypes, LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import {LimitSummary} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import {PaidFeatures, LicenseSkus} from 'utils/constants';
 
