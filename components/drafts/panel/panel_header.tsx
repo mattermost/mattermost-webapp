@@ -5,7 +5,7 @@ import React, {ComponentProps} from 'react';
 import cn from 'classnames';
 
 import Timestamp from 'components/timestamp';
-import Label, {LabelType} from 'components/label/label';
+import Badge from 'components/widgets/badges/badge';
 
 import './panel_header.scss';
 
@@ -55,11 +55,12 @@ function PanelHeader({
                             />
                         )}
                     </div>
-                    <div>
-                        <Label type={LabelType.Danger}>
-                            {'DRAFT'}
-                        </Label>
-                    </div>
+                    <Badge
+                        variant={'danger'}
+                        uppercase={true}
+                    >
+                        {'draft'}
+                    </Badge>
                 </div>
             </div>
         </header>
