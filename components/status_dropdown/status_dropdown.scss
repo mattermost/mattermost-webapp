@@ -271,6 +271,9 @@ button.custom_status__row {
             bottom: -4px;
             width: 16px;
             height: 16px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background-color: var(--global-header-background);
             color: var(--global-header-text);
 
