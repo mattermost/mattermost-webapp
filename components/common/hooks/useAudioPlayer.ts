@@ -14,7 +14,7 @@ export function useAudioPlayer(src?: string) {
     const [duration, setDuration] = useState(0);
     const [elapsed, setElapsedTime] = useState(0);
 
-    // Create audio element with given src
+    // Create audio element with given audio source
     const audio = useMemo(() => new Audio(src), [src]);
 
     // Add event listeners to audio element
@@ -31,12 +31,20 @@ export function useAudioPlayer(src?: string) {
             setElapsedTime(0);
         }
 
+        function onTimeUpdate() {
+            requestAnimationFrame(() => {
+                setElapsedTime(audio.currentTime);
+            });
+        }
+
         audio.addEventListener('ended', onEnded);
         audio.addEventListener('loadeddata', onLoadedData);
+        audio.addEventListener('timeupdate', onTimeUpdate);
 
         return () => {
             audio.removeEventListener('ended', onEnded);
             audio.removeEventListener('loadeddata', onLoadedData);
+            audio.removeEventListener('timeupdate', onTimeUpdate);
         };
     }, [audio]);
 

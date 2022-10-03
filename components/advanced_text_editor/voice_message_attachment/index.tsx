@@ -248,7 +248,7 @@ const VoiceMessageAttachment = () => {
 
     // Automatically stop recording after Max time
     useEffect(() => {
-        if (elapsedTime >= 20) {
+        if (elapsedTime >= 30) {
             handleCompleteRecordingClicked();
         }
     }, [elapsedTime]);

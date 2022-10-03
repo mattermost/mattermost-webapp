@@ -25,7 +25,7 @@ interface Props {
 }
 
 const VoiceMessageUploadCompleted = (props: Props) => {
-    const {playerState, duration, togglePlayPause} = useAudioPlayer(props.src);
+    const {playerState, duration, elapsed, togglePlayPause} = useAudioPlayer(props.src);
 
     return (
         <AttachmentContainer
@@ -44,9 +44,18 @@ const VoiceMessageUploadCompleted = (props: Props) => {
             }
             onIconClick={togglePlayPause}
         >
-            <VisualizerContainer><span>k</span></VisualizerContainer>
+            <VisualizerContainer>
+                <div
+                    className='temp__audio-seeker'
+                >
+                    <progress
+                        value={Math.round((elapsed / duration) * 100)}
+                        max={100}
+                    />
+                </div>
+            </VisualizerContainer>
             <Duration>
-                {convertSecondsToMSS(duration)}
+                {convertSecondsToMSS(elapsed)}
             </Duration>
             <CancelButton onClick={props.onCancel}>
                 <CloseIcon size={18}/>
