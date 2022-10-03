@@ -16,15 +16,19 @@ import {Team} from '@mattermost/types/teams';
 
 import TeamGeneralTab from './team_general_tab';
 
-type OwnProps = {
-    team: Team;
+export type OwnProps = {
+    updateSection: (section: string) => void;
+    team?: Team & { last_team_icon_update?: number };
+    activeSection: string;
+    closeModal: () => void;
+    collapseModal: () => void;
 };
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const config = getConfig(state);
     const maxFileSize = parseInt(config.MaxFileSize ?? '', 10);
 
-    const canInviteTeamMembers = haveITeamPermission(state, ownProps.team.id, Permissions.INVITE_USER);
+    const canInviteTeamMembers = haveITeamPermission(state, ownProps.team?.id || '', Permissions.INVITE_USER);
 
     return {
         maxFileSize,

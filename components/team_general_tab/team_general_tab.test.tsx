@@ -87,7 +87,7 @@ describe('components/TeamSettings', () => {
         wrapper.instance().handleTeamIconSubmit();
 
         expect(actions.setTeamIcon).toHaveBeenCalledTimes(1);
-        expect(actions.setTeamIcon).toHaveBeenCalledWith(props.team.id, teamIconFile);
+        expect(actions.setTeamIcon).toHaveBeenCalledWith(props.team?.id, teamIconFile);
     });
 
     test('should call actions.removeTeamIcon on handleTeamIconRemove', () => {
@@ -98,7 +98,7 @@ describe('components/TeamSettings', () => {
         wrapper.instance().handleTeamIconRemove();
 
         expect(actions.removeTeamIcon).toHaveBeenCalledTimes(1);
-        expect(actions.removeTeamIcon).toHaveBeenCalledWith(props.team.id);
+        expect(actions.removeTeamIcon).toHaveBeenCalledWith(props.team?.id);
     });
 
     test('hide invite code if no permissions for team inviting', () => {
@@ -125,7 +125,9 @@ describe('components/TeamSettings', () => {
     test('should call actions.patchTeam on handleNameSubmit', () => {
         const actions = {...baseActions};
         const props = {...defaultProps, actions};
-        props.team.display_name = 'TestTeam';
+        if (props.team) {
+            props.team.display_name = 'TestTeam';
+        }
 
         const wrapper = shallow<GeneralTab>(<GeneralTab {...props}/>);
 
@@ -138,14 +140,16 @@ describe('components/TeamSettings', () => {
     test('should call actions.patchTeam on handleInviteIdSubmit', () => {
         const actions = {...baseActions};
         const props = {...defaultProps, actions};
-        props.team.invite_id = '12345';
+        if (props.team) {
+            props.team.invite_id = '12345';
+        }
 
         const wrapper = shallow<GeneralTab>(<GeneralTab {...props}/>);
 
         wrapper.instance().handleInviteIdSubmit();
 
         expect(actions.regenerateTeamInviteId).toHaveBeenCalledTimes(1);
-        expect(actions.regenerateTeamInviteId).toHaveBeenCalledWith(props.team.id);
+        expect(actions.regenerateTeamInviteId).toHaveBeenCalledWith(props.team?.id);
     });
 
     test('should call actions.patchTeam on handleDescriptionSubmit', () => {
@@ -157,7 +161,9 @@ describe('components/TeamSettings', () => {
         const newDescription = 'The Test Team';
         wrapper.setState({description: newDescription});
         wrapper.instance().handleDescriptionSubmit();
-        props.team.description = newDescription;
+        if (props.team) {
+            props.team.description = newDescription;
+        }
 
         expect(actions.patchTeam).toHaveBeenCalledTimes(1);
         expect(actions.patchTeam).toHaveBeenCalledWith(props.team);
@@ -165,7 +171,9 @@ describe('components/TeamSettings', () => {
 
     test('should match snapshot when team is group constrained', () => {
         const props = {...defaultProps};
-        props.team.group_constrained = true;
+        if (props.team) {
+            props.team.group_constrained = true;
+        }
 
         const wrapper = shallow(<GeneralTab {...props}/>);
 
@@ -175,13 +183,15 @@ describe('components/TeamSettings', () => {
     test('should call actions.getTeam on handleUpdateSection if invite_id is empty', () => {
         const actions = {...baseActions};
         const props = {...defaultProps, actions};
-        props.team.invite_id = '';
+        if (props.team) {
+            props.team.invite_id = '';
+        }
 
         const wrapper = shallow<GeneralTab>(<GeneralTab {...props}/>);
 
         wrapper.instance().handleUpdateSection('invite_id');
 
         expect(actions.getTeam).toHaveBeenCalledTimes(1);
-        expect(actions.getTeam).toHaveBeenCalledWith(props.team.id);
+        expect(actions.getTeam).toHaveBeenCalledWith(props.team?.id);
     });
 });

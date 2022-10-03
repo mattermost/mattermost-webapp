@@ -19,23 +19,17 @@ import {Team} from '@mattermost/types/teams';
 
 import OpenInvite from './open_invite';
 
-import {PropsFromRedux} from '.';
+import {PropsFromRedux, OwnProps} from '.';
 
 const ACCEPTED_TEAM_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/bmp'];
 
-type Props = PropsFromRedux & {
-    updateSection: (section: string) => void;
-    team: Team & {last_team_icon_update?: number};
-    activeSection: string;
-    closeModal: () => void;
-    collapseModal: () => void;
-};
+type Props = PropsFromRedux & OwnProps;
 
 type State = {
-    name: Team['display_name'];
-    invite_id: Team['invite_id'];
-    description: Team['description'];
-    allowed_domains: Team['allowed_domains'];
+    name?: Team['display_name'];
+    invite_id?: Team['invite_id'];
+    description?: Team['description'];
+    allowed_domains?: Team['allowed_domains'];
     serverError: ReactNode;
     clientError: ReactNode;
     teamIconFile: File | null;
@@ -60,10 +54,10 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         const team = props.team;
 
         return {
-            name: team.display_name,
-            invite_id: team.invite_id,
-            description: team.description,
-            allowed_domains: team.allowed_domains,
+            name: team?.display_name,
+            invite_id: team?.invite_id,
+            description: team?.description,
+            allowed_domains: team?.allowed_domains,
             serverError: '',
             clientError: '',
             teamIconFile: null,
@@ -77,10 +71,10 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         const {team} = nextProps;
         if (!prevState.isInitialState) {
             return {
-                name: team.display_name,
-                description: team.description,
-                allowed_domains: team.allowed_domains,
-                invite_id: team.invite_id,
+                name: team?.display_name,
+                description: team?.description,
+                allowed_domains: team?.allowed_domains,
+                invite_id: team?.invite_id,
                 isInitialState: false,
             };
         }
@@ -97,16 +91,18 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         if (this.state.serverError) {
             return;
         }
-        this.props.actions.getTeam(this.props.team.id).then(({error}) => {
-            const state = {
-                shouldFetchTeam: false,
-                serverError: '',
-            };
-            if (error) {
-                state.serverError = error.message;
-            }
-            this.setState(state);
-        });
+        if (this.props.team) {
+            this.props.actions.getTeam(this.props.team.id).then(({error}) => {
+                const state = {
+                    shouldFetchTeam: false,
+                    serverError: '',
+                };
+                if (error) {
+                    state.serverError = error.message;
+                }
+                this.setState(state);
+            });
+        }
     }
 
     handleAllowedDomainsSubmit = async () => {
@@ -129,7 +125,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         const state: Pick<State, 'serverError' | 'clientError'> = {serverError: '', clientError: ''};
         let valid = true;
 
-        const name = this.state.name.trim();
+        const name = this.state.name?.trim();
 
         if (!name) {
             state.clientError = localizeMessage('general_tab.required', 'This field is required');
@@ -174,7 +170,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         const state = {serverError: '', clientError: ''};
         this.setState(state);
 
-        const {error} = await this.props.actions.regenerateTeamInviteId(this.props.team.id);
+        const {error} = await this.props.actions.regenerateTeamInviteId(this.props.team?.id || '');
 
         if (error) {
             state.serverError = error.message;
@@ -190,8 +186,8 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         const state = {serverError: '', clientError: ''};
         let valid = true;
 
-        const description = this.state.description.trim();
-        if (description === this.props.team.description) {
+        const description = this.state.description?.trim();
+        if (description === this.props.team?.description) {
             state.clientError = localizeMessage('general_tab.chooseDescription', 'Please choose a new description for your team');
             valid = false;
         } else {
@@ -228,7 +224,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
             serverError: '',
         });
 
-        const {error} = await this.props.actions.setTeamIcon(this.props.team.id, this.state.teamIconFile);
+        const {error} = await this.props.actions.setTeamIcon(this.props.team?.id || '', this.state.teamIconFile);
 
         if (error) {
             this.setState({
@@ -251,7 +247,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
             serverError: '',
         });
 
-        const {error} = await this.props.actions.removeTeamIcon(this.props.team.id);
+        const {error} = await this.props.actions.removeTeamIcon(this.props.team?.id || '');
 
         if (error) {
             this.setState({
@@ -278,7 +274,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
     onOpenInviteToggle = (active: boolean) => this.handleUpdateSection(active ? 'open_invite' : '');
 
     handleUpdateSection = (section: string) => {
-        if (section === 'invite_id' && this.props.activeSection !== section && !this.props.team.invite_id) {
+        if (section === 'invite_id' && this.props.activeSection !== section && !this.props.team?.invite_id) {
             this.setState({shouldFetchTeam: true}, () => {
                 this.updateSection(section);
             });
@@ -525,7 +521,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
                 <SettingPicture
                     imageContext='team'
                     title={localizeMessage('general_tab.teamIcon', 'Team Icon')}
-                    src={imageURLForTeam(team)}
+                    src={imageURLForTeam(team || {} as Team)}
                     file={this.state.teamIconFile}
                     serverError={this.state.serverError}
                     clientError={this.state.clientError}
@@ -544,7 +540,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
         } else {
             let minMessage;
 
-            if (team.last_team_icon_update) {
+            if (team?.last_team_icon_update) {
                 minMessage = (
                     <FormattedMessage
                         id='general_tab.teamIconLastUpdated'
@@ -675,7 +671,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
                     {descriptionSection}
                     <div className='divider-light'/>
                     {teamIconSection}
-                    {!team.group_constrained &&
+                    {!team?.group_constrained &&
                         <>
                             <div className='divider-light'/>
                             {allowedDomainsSection}
@@ -683,14 +679,14 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
                     }
                     <div className='divider-light'/>
                     <OpenInvite
-                        teamId={this.props.team.id}
+                        teamId={this.props.team?.id}
                         isActive={this.props.activeSection === 'open_invite'}
-                        isGroupConstrained={this.props.team.group_constrained}
-                        allowOpenInvite={this.props.team.allow_open_invite}
+                        isGroupConstrained={this.props.team?.group_constrained}
+                        allowOpenInvite={this.props.team?.allow_open_invite}
                         onToggle={this.onOpenInviteToggle}
                         patchTeam={this.props.actions.patchTeam}
                     />
-                    {!team.group_constrained &&
+                    {!team?.group_constrained &&
                         <>
                             <div className='divider-light'/>
                             {inviteSection}

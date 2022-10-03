@@ -12,7 +12,7 @@ import SettingItemMin from 'components/setting_item_min';
 import type {Team} from '@mattermost/types/teams';
 
 type Props = {
-    teamId: string;
+    teamId?: string;
     isActive: boolean;
     isGroupConstrained?: boolean;
     allowOpenInvite?: boolean;
