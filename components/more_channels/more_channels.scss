@@ -6,7 +6,7 @@
   }
 
   .more-modal__dropdown {
-    padding: 0;
+    padding: 0 32px;
     min-height: 32px;
     display: flex;
     align-items: center;
@@ -27,54 +27,70 @@
     }
   }
 
-  .more-modal__row {
-    padding: 0;
+  .modal-body {
+    padding: 15px 0 0;
+    
+    .more-modal__row {
+      padding: 0 32px;
+      border-bottom: none;
 
-    .more-modal__details {
-      padding-left: 0px;
+      .more-modal__details {
+        padding-left: 0px;
 
-      svg {
-        color: rgba(var(--center-channel-text-rgb), 0.56);
-        flex-shrink: 0;
-      }
-
-      .more-modal__name {
-        align-items: center;
-      }
-
-      #channelPurposeContainer {
-        display:flex;
-        align-items: center;
-        justify-content: flex-start;
-
-        .dot {
-          width: 3px;
-          height: 3px;
-          border-radius: 50%;
-          background-color: rgba(var(--center-channel-text-rgb), 0.56);
+        svg {
+          color: rgba(var(--center-channel-text-rgb), 0.56);
           flex-shrink: 0;
         }
 
-        .more-modal__description {
-          margin-left: 4px;
+        .more-modal__name {
+          align-items: center;
         }
 
-        span {
-          color: rgba(var(--center-channel-text-rgb), 0.56);
-          font-size: 12px;
-          line-height: 12px;
-          opacity: 1;
-          margin: 0 4px;
+        #channelPurposeContainer {
+          display:flex;
+          align-items: center;
+          justify-content: flex-start;
+
+          .dot {
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            background-color: rgba(var(--center-channel-text-rgb), 0.56);
+            flex-shrink: 0;
+          }
+
+          .more-modal__description {
+            margin-left: 4px;
+          }
+
+          span {
+            color: rgba(var(--center-channel-text-rgb), 0.56);
+            font-size: 12px;
+            line-height: 12px;
+            opacity: 1;
+            margin: 0 4px;
+          }
+        }
+      }
+
+      .more-modal__actions {
+        button {
+          padding: 7px 16px;
+          border-radius: 4px;
+          background-color: var(--denim-button-bg);
+          display: none;
         }
       }
     }
 
-    .more-modal__actions {
-      button {
-        padding: 7px 16px;
-        border-radius: 4px;
-        background-color: var(--denim-button-bg);
-      }
+    .more-modal__row:hover {
+      background-color: rgba(var(--center-channel-text-rgb), 0.08);
+
+      .more-modal__actions {
+          button {
+            display: inline-block;
+          }
+        }
     }
   }
 
