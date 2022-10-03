@@ -301,6 +301,15 @@ describe('Collapsed Reply Threads', () => {
             // # Get the "mark all as read" button (the selector is pretty ambiguous here, but should work for now)
             cy.get('#threads-list__mark-all-as-read').click();
 
+            // * mark_all_threads_as_read_modal is open
+            cy.get('#mark-all-threads-as-read-modal').should('exist');
+
+            // # Click confirm button
+            cy.get('button.confirm').contains('Mark all as read').click();
+
+            // * mark_all_threads_as_read_modal is closed
+            cy.get('#mark-all-threads-as-read-modal').should('not.exist');
+
             // * The unreads tab button does NOT have a blue dot (unread indicator)
             cy.get('#threads-list-unread-button .dot').should('not.exist');
 
