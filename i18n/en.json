@@ -3763,6 +3763,7 @@
   "invitation_modal.members.users_emails_input.no_user_found_matching-email-disabled": "No one found matching **{text}**",
   "invitation_modal.members.users_emails_input.valid_email": "Invite **{email}** as a team member",
   "invitation-modal.confirm.details-header": "Details",
+  "invitation-modal.confirm.guest-invitation-disabled": "Guest invite is disabled.",
   "invitation-modal.confirm.not-valid-channel": "Does not match a valid channel name.",
   "invitation-modal.confirm.not-valid-user-or-email": "Does not match a valid user or email.",
   "invitation-modal.confirm.people-header": "People",

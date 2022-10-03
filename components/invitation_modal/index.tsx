@@ -11,12 +11,14 @@ import {haveIChannelPermission, haveICurrentTeamPermission} from 'mattermost-red
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {getProfiles, searchProfiles as reduxSearchProfiles} from 'mattermost-redux/actions/users';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {searchChannels as reduxSearchChannels} from 'mattermost-redux/actions/channels';
 import {regenerateTeamInviteId} from 'mattermost-redux/actions/teams';
 import {Permissions} from 'mattermost-redux/constants';
+import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {CloseModalType} from 'actions/views/modals';
-import {Constants} from 'utils/constants';
+import {Constants, CloudProducts} from 'utils/constants';
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {
     sendMembersInvites,
@@ -25,13 +27,13 @@ import {
 } from 'actions/invite_actions';
 import {makeAsyncComponent} from 'components/async_load';
 
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-
 import {GlobalState} from 'types/store';
 
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+
 import type {InviteResults} from './result_view';
+
 const InvitationModal = makeAsyncComponent('InvitationModal', React.lazy(() => import('./invitation_modal')));
 
 const searchProfiles = (term: string, options = {}) => {
@@ -75,6 +77,15 @@ export function mapStateToProps(state: GlobalState, props: OwnProps) {
     const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveICurrentTeamPermission(state, Permissions.INVITE_GUEST);
     const isCloud = license.Cloud === 'true';
 
+    const subscription = state.entities.cloud.subscription;
+    const subscriptionProduct = getSubscriptionProduct(state);
+
+    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
+
+    const isCloudFreeTrial = subscription?.is_free_trial === 'true';
+
+    const isPaidSubscription = isCloud && !isStarter && !isCloudFreeTrial;
+
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
 
     return {
@@ -87,6 +98,8 @@ export function mapStateToProps(state: GlobalState, props: OwnProps) {
         isAdmin: isAdmin(getCurrentUser(state).roles),
         currentChannel,
         townSquareDisplayName,
+        isCloudFreeTrial,
+        isPaidSubscription,
     };
 }
 

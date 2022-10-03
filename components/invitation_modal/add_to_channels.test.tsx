@@ -6,9 +6,12 @@ import {screen} from '@testing-library/react';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {renderWithIntl} from 'tests/react_testing_utils';
+
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Channel} from '@mattermost/types/channels';
+
 import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
+
+import {Channel} from '@mattermost/types/channels';
 
 import AddToChannels, {Props} from './add_to_channels';
 
@@ -30,6 +33,9 @@ const defaultProps: Props = deepFreeze({
         display_name: '',
     },
     townSquareDisplayName: 'Town Square',
+    isCloud: false,
+    isCloudFreeTrial: false,
+    isPaidSubscription: false,
 });
 
 let props = defaultProps;
@@ -98,6 +104,48 @@ describe('AddToChannels', () => {
                 },
             });
             expect(props.setCustomMessage).toHaveBeenCalledWith(expectedMessage);
+        });
+
+        it('Should SHOW the add to channel if the subscription is Cloud Free Trial', () => {
+            props = {
+                ...props,
+                isCloud: true,
+                isCloudFreeTrial: true,
+                isPaidSubscription: false,
+            };
+            const wrapper = mountWithIntl(<AddToChannels {...props}/>);
+
+            const channelsInput = wrapper.find('ChannelsInput');
+
+            expect(channelsInput).toHaveLength(1);
+        });
+
+        it('Should SHOW the add to channel if the subscription is a paid subscription', () => {
+            props = {
+                ...props,
+                isCloud: true,
+                isCloudFreeTrial: false,
+                isPaidSubscription: true,
+            };
+            const wrapper = mountWithIntl(<AddToChannels {...props}/>);
+
+            const channelsInput = wrapper.find('ChannelsInput');
+
+            expect(channelsInput).toHaveLength(1);
+        });
+
+        it('Should HIDE the add to channel if the guest invitation is restricted by feature subscription restrictions', () => {
+            props = {
+                ...props,
+                isCloud: true,
+                isCloudFreeTrial: false,
+                isPaidSubscription: false,
+            };
+            const wrapper = mountWithIntl(<AddToChannels {...props}/>);
+
+            const channelsInput = wrapper.find('ChannelsInput');
+
+            expect(channelsInput).toHaveLength(0);
         });
     });
 });

@@ -10,14 +10,13 @@ import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Team} from '@mattermost/types/teams';
-
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
-
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
+
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
 import InviteView, {InviteState, initializeInviteState} from './invite_view';
@@ -64,6 +63,8 @@ export type Props = {
     emailInvitationsEnabled: boolean;
     isAdmin: boolean;
     isCloud: boolean;
+    isCloudFreeTrial: boolean;
+    isPaidSubscription: boolean;
     canAddUsers: boolean;
     canInviteGuests: boolean;
     intl: IntlShape;
@@ -189,14 +190,26 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 invites = result.data;
             }
         } else if (inviteAs === InviteType.GUEST) {
-            const result = await this.props.actions.sendGuestsInvites(
-                this.props.currentTeam.id,
-                this.state.invite.inviteChannels.channels,
-                users,
-                emails,
-                this.state.invite.customMessage.open ? this.state.invite.customMessage.message : '',
-            );
-            invites = result.data;
+            // make sure the endpoint is not called if the guest invitation is restricted by subscription restriction
+            // but somehow the enduser finds the way to manipulate DOM (see MM-47228) to overpass restriction by enabling disabled elements
+            if (this.props.isCloud && !this.props.isCloudFreeTrial && !this.props.isPaidSubscription) {
+                invites.notSent.push({
+                    text: emails.length > 1 ? `${emails[0]} ...` : emails[0], // show the first email so don't create potentially a big table email list with same message,
+                    reason: this.props.intl.formatMessage({
+                        id: 'invitation-modal.confirm.guest-invitation-disabled',
+                        defaultMessage: 'Guest invite is disabled.',
+                    }),
+                });
+            } else {
+                const result = await this.props.actions.sendGuestsInvites(
+                    this.props.currentTeam.id,
+                    this.state.invite.inviteChannels.channels,
+                    users,
+                    emails,
+                    this.state.invite.customMessage.open ? this.state.invite.customMessage.message : '',
+                );
+                invites = result.data;
+            }
         }
 
         if (this.state.invite.usersEmailsSearch !== '') {
@@ -373,6 +386,8 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 onChangeUsersEmails={this.onChangeUsersEmails}
                 onUsersInputChange={this.onUsersInputChange}
                 isCloud={this.props.isCloud}
+                isCloudFreeTrial={this.props.isCloudFreeTrial}
+                isPaidSubscription={this.props.isPaidSubscription}
                 canAddUsers={this.props.canAddUsers}
                 canInviteGuests={this.props.canInviteGuests}
                 headerClass='InvitationModal__header'

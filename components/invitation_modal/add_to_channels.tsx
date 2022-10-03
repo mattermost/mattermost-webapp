@@ -5,13 +5,13 @@ import React, {useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Channel} from '@mattermost/types/channels';
 
 import CloseCircleIcon from 'components/widgets/icons/close_circle_icon';
 import ChannelsInput from 'components/widgets/inputs/channels_input';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
-import Constants from 'utils/constants';
+import {Constants} from 'utils/constants';
+
+import {Channel} from '@mattermost/types/channels';
 
 import {InviteType} from './invite_as';
 
@@ -51,13 +51,17 @@ export type Props = {
 
     inviteType: InviteType;
 
+    isCloud: boolean;
+    isCloudFreeTrial: boolean;
+    isPaidSubscription: boolean;
+
     // this prop is only sent when inviting members to channels
     channelToInvite?: Channel;
 }
 
 const RENDER_TIMEOUT_GUESS = 100;
 
-export default function AddToChannels(props: Props) {
+const AddToChannels = (props: Props): JSX.Element | null => {
     useEffect(() => {
         if (props.customMessage.open) {
             setTimeout(() => {
@@ -78,6 +82,12 @@ export default function AddToChannels(props: Props) {
         placeholderChannelName = props.currentChannel.display_name;
     }
 
+    // don't show the add to channels if it is not a free trial nor a paid subscription
+    // in case the enduser overpasses restrictions by DOM manipulation (see MM-47228)
+    if (props.isCloud && !props.isCloudFreeTrial && !props.isPaidSubscription) {
+        return null;
+    }
+
     return (<div className='AddToChannels'>
         <div className='InviteView__sectionTitle'>
             <FormattedMessage
@@ -87,14 +97,16 @@ export default function AddToChannels(props: Props) {
             {' '}
             <span className='InviteView__sectionTitleParenthetical'>
                 {(props.channelToInvite && props.inviteType === InviteType.MEMBER) ? (
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='invite_modal.add_channels_title_c'
-                        defaultMessage='**(Optional)**'
+                        defaultMessage='(Optional)'
+                        tagName='strong'
                     />
                 ) : (
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='invite_modal.add_channels_title_b'
-                        defaultMessage='**(required)**'
+                        defaultMessage='(required)'
+                        tagName='strong'
                     />
                 )}
             </span>
@@ -137,7 +149,7 @@ export default function AddToChannels(props: Props) {
                 </div>
             )}
             {props.customMessage.open && (
-                <React.Fragment>
+                <>
                     <div className={'AddToChannels__customMessageTitle ' + props.titleClass}>
                         <FormattedMessage
                             id='invitation_modal.guests.custom-message.title'
@@ -153,8 +165,10 @@ export default function AddToChannels(props: Props) {
                         onChange={(e) => props.setCustomMessage(e.target.value)}
                         value={props.customMessage.message}
                     />
-                </React.Fragment>
+                </>
             )}
         </div>
     </div>);
-}
+};
+
+export default AddToChannels;

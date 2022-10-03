@@ -5,11 +5,6 @@ import React, {useEffect, useMemo} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
-import {Team} from '@mattermost/types/teams';
-
 import {getSiteURL} from 'utils/url';
 import {Constants} from 'utils/constants';
 
@@ -19,6 +14,12 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 import {getAnalyticsCategory} from 'components/onboarding_tasks';
 
 import {t} from 'utils/i18n';
+
+import deepFreeze from 'mattermost-redux/utils/deep_freeze';
+
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
@@ -58,6 +59,8 @@ export type Props = InviteState & {
     usersLoader: (value: string, callback: (users: UserProfile[]) => void) => Promise<UserProfile[]> | undefined;
     onChangeUsersEmails: (usersEmails: Array<UserProfile | string>) => void;
     isCloud: boolean;
+    isCloudFreeTrial: boolean;
+    isPaidSubscription: boolean;
     emailInvitationsEnabled: boolean;
     onUsersInputChange: (usersEmailsSearch: string) => void;
     headerClass: string;
@@ -243,6 +246,9 @@ export default function InviteView(props: Props) {
                         titleClass='InviteView__sectionTitle'
                         channelToInvite={props.channelToInvite}
                         inviteType={props.inviteType}
+                        isCloud={props.isCloud}
+                        isCloudFreeTrial={props.isCloudFreeTrial}
+                        isPaidSubscription={props.isPaidSubscription}
                     />
                 )}
             </Modal.Body>
