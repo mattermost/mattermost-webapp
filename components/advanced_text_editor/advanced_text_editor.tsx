@@ -206,7 +206,11 @@ const AdvanceTextEditor = ({
     if (isVoicePreviewAttachedInCurrentEditor) {
         attachmentPreview = (
             <div>
-                <VoiceMessageAttachment/>
+                <VoiceMessageAttachment
+                    channelId={channelId}
+                    rootId={postId}
+                    location={voiceMessageOrigin.location}
+                />
             </div>
         );
     }

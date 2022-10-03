@@ -20,12 +20,14 @@ import {AttachmentContainer, CancelButton, Duration} from '../containers';
 
 interface Props {
     theme: Theme;
-    src: string;
+    src?: string;
     onCancel: () => void;
 }
 
 const VoiceMessageUploadCompleted = (props: Props) => {
-    const {playerState, duration, elapsed, togglePlayPause} = useAudioPlayer(props.src);
+    const {playerState, duration, elapsed, togglePlayPause} = useAudioPlayer(props.src ? `/api/v4/files/${props.src}` : '');
+
+    const progressValue = elapsed === 0 || duration === 0 ? 0 : Math.floor((elapsed / duration) * 100);
 
     return (
         <AttachmentContainer
@@ -49,7 +51,7 @@ const VoiceMessageUploadCompleted = (props: Props) => {
                     className='temp__audio-seeker'
                 >
                     <progress
-                        value={Math.round((elapsed / duration) * 100)}
+                        value={progressValue}
                         max={100}
                     />
                 </div>
