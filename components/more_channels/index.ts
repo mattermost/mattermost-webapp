@@ -12,8 +12,8 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
-import {getOtherChannels, getChannelsInCurrentTeam, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
+import {getChannels, getArchivedChannels, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
+import {getChannelsInCurrentTeam, getMyChannelMemberships, getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 
 import {searchMoreChannels} from 'actions/channel_actions';
 import {openModal, closeModal} from 'actions/views/modals';
@@ -22,12 +22,6 @@ import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
 
 import MoreChannels from './more_channels';
-
-const getNotArchivedOtherChannels = createSelector(
-    'getNotArchivedOtherChannels',
-    getOtherChannels,
-    (channels: Channel[]) => channels && channels.filter((c) => c.delete_at === 0),
-);
 
 const getArchivedOtherChannels = createSelector(
     'getArchivedOtherChannels',
@@ -39,9 +33,7 @@ function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state) || {};
 
     return {
-        channels: getNotArchivedOtherChannels(state) || [],
-
-        // channels: getChannelsInAllTeams(state) || [],
+        channels: getChannelsInCurrentTeam(state) || [],
         archivedChannels: getArchivedOtherChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,
@@ -49,6 +41,7 @@ function mapStateToProps(state: GlobalState) {
         channelsRequestStarted: state.requests.channels.getChannels.status === RequestStatus.STARTED,
         canShowArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true'),
         myChannelMemberships: getMyChannelMemberships(state) || {},
+        allChannelStats: getAllChannelStats(state) || {},
     };
 }
 
@@ -59,6 +52,7 @@ type Actions = {
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
+    getChannelStats: (channelId: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -70,6 +64,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             searchMoreChannels,
             openModal,
             closeModal,
+            getChannelStats,
         }, dispatch),
     };
 }

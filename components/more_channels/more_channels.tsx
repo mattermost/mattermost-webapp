@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Channel, ChannelMembership, ChannelStats} from '@mattermost/types/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 
 import {RelationOneToOne} from '@mattermost/types/utilities';
@@ -14,6 +14,7 @@ import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import GenericModal from 'components/generic_modal';
+import LoadingScreen from 'components/loading_screen';
 
 import {ModalData} from 'types/actions';
 
@@ -34,6 +35,7 @@ type Actions = {
     searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
+    getChannelStats: (channelId: string) => void;
 }
 
 export type Props = {
@@ -46,6 +48,7 @@ export type Props = {
     canShowArchivedChannels?: boolean;
     morePublicChannelsModalType?: string;
     myChannelMemberships: RelationOneToOne<Channel, ChannelMembership>;
+    allChannelStats: RelationOneToOne<Channel, ChannelStats>;
     actions: Actions;
 }
 
@@ -56,6 +59,7 @@ type State = {
     serverError: React.ReactNode | string;
     searching: boolean;
     searchTerm: string;
+    loading: boolean;
 }
 
 export default class MoreChannels extends React.PureComponent<Props, State> {
@@ -73,14 +77,21 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             serverError: null,
             searching: false,
             searchTerm: '',
+            loading: true,
         };
     }
 
-    componentDidMount() {
-        this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
+    async componentDidMount() {
+        await this.props.actions.getChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
         if (this.props.canShowArchivedChannels) {
-            this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
+            await this.props.actions.getArchivedChannels(this.props.teamId, 0, CHANNELS_CHUNK_SIZE * 2);
         }
+        await this.props.channels.forEach((channel) => this.props.actions.getChannelStats(channel.id));
+        this.loadComplete();
+    }
+
+    loadComplete = () => {
+        this.setState({loading: false});
     }
 
     handleNewChannel = () => {
@@ -231,7 +242,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             </TeamPermissionGate>
         );
 
-        const body = (
+        const body = this.state.loading ? <LoadingScreen/> : (
             <React.Fragment>
                 <SearchableChannelList
                     channels={activeChannels}
@@ -246,6 +257,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     shouldShowArchivedChannels={this.state.shouldShowArchivedChannels}
                     canShowArchivedChannels={this.props.canShowArchivedChannels}
                     myChannelMemberships={this.props.myChannelMemberships}
+                    allChannelStats={this.props.allChannelStats}
                 />
                 {serverError}
             </React.Fragment>

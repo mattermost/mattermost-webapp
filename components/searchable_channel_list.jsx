@@ -68,9 +68,10 @@ export default class SearchableChannelList extends React.PureComponent {
         let channelIcon;
         const {shouldShowArchivedChannels} = this.props;
 
-        // todo sinan fix team member count
-        // const memberCount = this.props.allChannelStats[channel.id].member_count || 0
-        const memberCount = 120;
+        let memberCount = 0;
+        if (this.props.allChannelStats.hasOwnProperty(channel.id)) {
+            memberCount = this.props.allChannelStats[channel.id].member_count;
+        }
 
         if (isArchivedChannel(channel)) {
             channelIcon = <ArchiveOutlineIcon size={18}/>;
@@ -354,5 +355,6 @@ SearchableChannelList.propTypes = {
     shouldShowArchivedChannels: PropTypes.bool.isRequired,
     canShowArchivedChannels: PropTypes.bool.isRequired,
     myChannelMemberships: PropTypes.object.isRequired,
+    allChannelStats: PropTypes.object.isRequired,
 };
 /* eslint-enable react/no-string-refs */

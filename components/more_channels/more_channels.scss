@@ -2,7 +2,7 @@
 
 #moreChannelsModal {
   .col-sm-12 {
-    padding: 0;
+    padding: 0 32px;
   }
 
   .more-modal__dropdown {
@@ -109,7 +109,7 @@
 
   #searchChannelsTextbox {
     height: 48px;
-    border: 1px solid rgba(var(--center-channel-text-rgb), 0.16)
+    border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
   }
 
   .outlineButton {
