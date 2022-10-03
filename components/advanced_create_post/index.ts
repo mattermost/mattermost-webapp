@@ -32,6 +32,7 @@ import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
     makeGetMessageInHistoryItem,
+    isPostPriorityEnabled,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {
@@ -131,6 +132,7 @@ function makeMapStateToProps() {
             channelMemberCountsByGroup,
             isLDAPEnabled,
             useCustomGroupMentions,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }
@@ -165,8 +167,6 @@ type Actions = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
 }
 
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
 function setDraft(key: string, value: PostDraft) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const channelId = getCurrentChannelId(getState());

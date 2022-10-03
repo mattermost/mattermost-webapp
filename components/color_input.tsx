@@ -50,7 +50,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
 
         if (isOpened !== prevIsOpened) {
             if (isOpened) {
-                document.addEventListener('click', this.checkClick);
+                document.addEventListener('click', this.checkClick, {capture: true});
             } else {
                 document.removeEventListener('click', this.checkClick);
             }
@@ -71,6 +71,7 @@ export default class ColorInput extends React.PureComponent<Props, State> {
     };
 
     public handleColorChange = (newColorData: ColorResult) => {
+        this.setState({focused: false});
         this.props.onChange(newColorData.hex);
     };
 

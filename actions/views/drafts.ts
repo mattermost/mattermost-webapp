@@ -5,17 +5,17 @@ import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 
-import type {UserProfile} from '@mattermost/types/users';
-
 import {setGlobalItem} from 'actions/storage';
 import {getConnectionId} from 'selectors/general';
 import type {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/draft';
 import {StoragePrefixes} from 'utils/constants';
+import {getGlobalItem} from 'selectors/storage';
+
+import type {UserProfile} from '@mattermost/types/users';
 
 export function removeDraft(key: string, channelId: string, rootId = '') {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        localStorage.removeItem(key);
         dispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
         const connectionId = getConnectionId(getState() as GlobalState);
         await Client4.deleteDraft(channelId, rootId, connectionId);
@@ -28,25 +28,21 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '') {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let updatedValue: PostDraft|null = null;
         if (value) {
+            const state = getState() as GlobalState;
             const timestamp = new Date().getTime();
-            const item = localStorage.getItem(key);
-            const data = item ? JSON.parse(item) : {};
+            const data = getGlobalItem(state, key, {});
             updatedValue = {
                 ...value,
                 createAt: data.createAt || timestamp,
                 updateAt: timestamp,
                 remote: false,
             };
-            localStorage.setItem(key, JSON.stringify(updatedValue));
 
-            const state = getState() as GlobalState;
             const connectionId = getConnectionId(state);
             const userId = getCurrentUserId(state);
             if (updatedValue.show) {
                 await upsertDraft(updatedValue, userId, rootId, connectionId);
             }
-        } else {
-            localStorage.removeItem(key);
         }
         dispatch(setGlobalItem(key, updatedValue));
         return {data: true};
@@ -55,12 +51,12 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '') {
 
 export function removeFilePreview(key: string, id: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const item = localStorage.getItem(key);
-        if (!item) {
+        const state = getState() as GlobalState;
+        const defaultValue = {};
+        const draft = getGlobalItem(state, key, defaultValue) as PostDraft;
+        if (draft === defaultValue) {
             return;
         }
-        const draft = JSON.parse(item) as PostDraft;
-        const state = getState() as GlobalState;
         const connectionId = getConnectionId(state);
 
         const index = draft.fileInfos.findIndex((info) => info.id === id);
@@ -80,7 +76,6 @@ export function removeFilePreview(key: string, id: string) {
                 rootId = id;
             }
 
-            localStorage.setItem(key, JSON.stringify(updatedDraft));
             dispatch(setGlobalItem(key, updatedDraft));
 
             const userId = getCurrentUserId(state);
