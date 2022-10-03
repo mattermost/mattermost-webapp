@@ -97,7 +97,7 @@ export type TopBoard = {
     icon: string;
     title: string;
     activityCount: number;
-    activeUsers: string;
+    activeUsers: string[];
     createdBy: string;
 };
 
