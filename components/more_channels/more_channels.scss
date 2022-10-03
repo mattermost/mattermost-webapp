@@ -97,6 +97,14 @@
           }
         }
     }
+
+    ::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: none;
+    }
   }
 
   #searchChannelsTextbox {
