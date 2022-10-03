@@ -10,7 +10,7 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, canWrangler} from 'mattermost-redux/selectors/entities/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
@@ -130,6 +130,7 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
         threadReplyCount,
         isMobileView: getIsMobileView(state),
         showForwardPostNewLabel,
+        canMove: canWrangler(state, channel.type, threadReplyCount),
         ...ownProps,
     };
 }

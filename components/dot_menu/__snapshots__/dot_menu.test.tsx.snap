@@ -192,7 +192,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-link-variant MenuItem__compass-icon"
+          className="icon-message-arrow-right-outline MenuItem__compass-icon"
         />
       }
       id="move_thread_post_id_1"
@@ -478,7 +478,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, hide "New" badge on 
     <MenuItemAction
       icon={
         <span
-          className="icon-link-variant MenuItem__compass-icon"
+          className="icon-message-arrow-right-outline MenuItem__compass-icon"
         />
       }
       id="move_thread_post_id_1"
@@ -759,7 +759,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
     <MenuItemAction
       icon={
         <span
-          className="icon-link-variant MenuItem__compass-icon"
+          className="icon-message-arrow-right-outline MenuItem__compass-icon"
         />
       }
       id="move_thread_post_id_1"
@@ -1053,7 +1053,7 @@ exports[`components/dot_menu/DotMenu should match snapshot, show "New" badge on 
     <MenuItemAction
       icon={
         <span
-          className="icon-link-variant MenuItem__compass-icon"
+          className="icon-message-arrow-right-outline MenuItem__compass-icon"
         />
       }
       id="move_thread_post_id_1"
