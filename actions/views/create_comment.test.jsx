@@ -159,6 +159,9 @@ describe('rhs view actions', () => {
                 },
             },
         },
+        websocket: {
+            connectionId: '',
+        },
     };
 
     let store;
@@ -206,6 +209,7 @@ describe('rhs view actions', () => {
                 ...draft,
                 createAt: 42,
                 updateAt: 42,
+                remote: false,
             }));
 
             expect(store.getActions()).toEqual(testStore.getActions());
@@ -237,7 +241,7 @@ describe('rhs view actions', () => {
             );
         });
 
-        test('it stores history message in draft', () => {
+        test('it stores history message in draft', (done) => {
             const onMoveHistoryIndex = makeOnMoveHistoryIndex(rootId, -1);
 
             store.dispatch(onMoveHistoryIndex());
@@ -249,6 +253,8 @@ describe('rhs view actions', () => {
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),
             );
+
+            done();
         });
     });
 

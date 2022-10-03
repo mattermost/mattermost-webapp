@@ -70,7 +70,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
 
         const nextMessageInHistory = getMessageInHistory(getState());
 
-        dispatch(updateCommentDraft(rootId, {...draft, message: nextMessageInHistory}, true));
+        dispatch(updateCommentDraft(rootId, {...draft, message: nextMessageInHistory}));
         return {data: true};
     };
 }
