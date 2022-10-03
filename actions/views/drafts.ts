@@ -24,7 +24,7 @@ export function removeDraft(key: string, channelId: string, rootId = '') {
     };
 }
 
-export function updateDraft(key: string, value: PostDraft|null, rootId = '') {
+export function updateDraft(key: string, value: PostDraft|null, rootId = '', save = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         let updatedValue: PostDraft|null = null;
         if (value) {
@@ -40,7 +40,7 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '') {
 
             const connectionId = getConnectionId(state);
             const userId = getCurrentUserId(state);
-            if (updatedValue.show) {
+            if (save) {
                 await upsertDraft(updatedValue, userId, rootId, connectionId);
             }
         }

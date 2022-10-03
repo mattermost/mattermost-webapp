@@ -365,6 +365,7 @@ const state: GlobalState = {
         connected: false,
         lastConnectAt: 0,
         lastDisconnectAt: 0,
+        connectionId: '',
     },
 };
 export default state;

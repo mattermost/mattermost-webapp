@@ -99,10 +99,10 @@ type Props = {
     clearCommentDraftUploads: () => void;
 
     // Called when comment draft needs to be updated
-    onUpdateCommentDraft: (draft?: PostDraft) => void;
+    onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
 
     // Called when comment draft needs to be updated for a specific root ID
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
 
     // Called when submitting the comment
     onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
@@ -332,13 +332,15 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             return {
                 draft: prev.draft,
             };
-        }, this.saveDraft);
+        }, () => {
+            this.saveDraft(true);
+        });
     }
 
-    saveDraft = () => {
+    saveDraft = (save = false) => {
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
-            this.props.onUpdateCommentDraft(this.state.draft);
+            this.props.onUpdateCommentDraft(this.state.draft, save);
             this.saveDraftFrame = null;
         }
     }
@@ -981,7 +983,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             fileInfos: newFileInfos,
             uploadsInProgress,
         };
-        this.props.updateCommentDraftWithRootId(rootId!, modifiedDraft);
+        this.props.updateCommentDraftWithRootId(rootId!, modifiedDraft, true);
         this.draftsForPost[rootId!] = modifiedDraft;
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
@@ -1002,7 +1004,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 ...draft,
                 uploadsInProgress,
             };
-            this.props.updateCommentDraftWithRootId(rootId, modifiedDraft);
+            this.props.updateCommentDraftWithRootId(rootId, modifiedDraft, true);
             this.draftsForPost[rootId] = modifiedDraft;
             if (this.props.rootId === rootId) {
                 this.setState({draft: modifiedDraft});

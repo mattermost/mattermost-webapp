@@ -117,17 +117,17 @@ function makeMapStateToProps() {
 }
 
 function makeOnUpdateCommentDraft(rootId: string, channelId: string) {
-    return (draft?: PostDraft) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft);
+    return (draft?: PostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
 }
 
 function makeUpdateCommentDraftWithRootId(channelId: string) {
-    return (rootId: string, draft?: PostDraft) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft);
+    return (rootId: string, draft?: PostDraft, save = false) => updateCommentDraft(rootId, draft ? {...draft, channelId, remote: false} : draft, save);
 }
 
 type Actions = {
     clearCommentDraftUploads: () => void;
-    onUpdateCommentDraft: (draft?: PostDraft) => void;
-    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+    onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
+    updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
     onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
@@ -143,8 +143,8 @@ type Actions = {
 };
 
 function makeMapDispatchToProps() {
-    let onUpdateCommentDraft: (draft?: PostDraft) => void;
-    let updateCommentDraftWithRootId: (rootID: string, draft: PostDraft) => void;
+    let onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
+    let updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
     let onSubmit: (
         draft: PostDraft,
         options: {ignoreSlash: boolean},

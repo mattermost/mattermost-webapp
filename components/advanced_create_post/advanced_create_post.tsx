@@ -202,7 +202,7 @@ type Props = {
         runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
 
         // func called for setting drafts
-        setDraft: (name: string, value: PostDraft | null) => void;
+        setDraft: (name: string, value: PostDraft | null, save?: boolean) => void;
 
         // func called for editing posts
         setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
@@ -376,13 +376,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
         }
 
-        this.saveDraft(props);
+        this.saveDraft(props, true);
     }
 
-    saveDraft = (props = this.props) => {
+    saveDraft = (props = this.props, save = false) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
-            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId], save);
             clearTimeout(this.saveDraftFrame);
             this.saveDraftFrame = null;
         }

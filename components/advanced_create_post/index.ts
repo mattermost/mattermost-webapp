@@ -167,7 +167,7 @@ type Actions = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
 }
 
-function setDraft(key: string, value: PostDraft) {
+function setDraft(key: string, value: PostDraft, save = false) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const channelId = getCurrentChannelId(getState());
         let updatedValue = null;
@@ -180,7 +180,7 @@ function setDraft(key: string, value: PostDraft) {
             };
         }
         if (updatedValue) {
-            return dispatch(updateDraft(key, updatedValue));
+            return dispatch(updateDraft(key, updatedValue, '', save));
         }
 
         return dispatch(removeDraft(key, channelId));
