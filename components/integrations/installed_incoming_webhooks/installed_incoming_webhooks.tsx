@@ -29,6 +29,7 @@ type Props = {
     enableIncomingWebhooks: boolean;
     actions: {
         removeIncomingHook: (hookId: string) => Promise<ActionResult>;
+        updateIncomingHook: (hook : IncomingWebhook) => Promise<ActionResult>;
         loadIncomingHooksAndProfilesForTeam: (teamId: string, startPageNumber: number,
             pageSize: string) => Promise<ActionResult>;
     };
@@ -63,6 +64,10 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
         this.props.actions.removeIncomingHook(incomingWebhook.id);
     }
 
+    toggleIncomingWebhook = (incomingWebhook: IncomingWebhook) => {
+        this.props.actions.updateIncomingHook(incomingWebhook);
+    }
+
     incomingWebhookCompare = (a: IncomingWebhook, b: IncomingWebhook) => {
         let displayNameA = a.display_name;
         if (!displayNameA) {
@@ -90,6 +95,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
                     key={incomingWebhook.id}
                     incomingWebhook={incomingWebhook}
                     onDelete={this.deleteIncomingWebhook}
+                    onToggle={this.toggleIncomingWebhook}
                     creator={this.props.users[incomingWebhook.user_id] || {}}
                     canChange={canChange}
                     team={this.props.team}

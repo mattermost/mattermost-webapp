@@ -8,6 +8,7 @@ import {Link} from 'react-router-dom';
 import {getSiteURL} from 'utils/url';
 
 import CopyText from 'components/copy_text';
+import Toggle from 'components/toggle';
 
 import {IncomingWebhook} from '@mattermost/types/integrations';
 import {Team} from '@mattermost/types/teams';
@@ -52,6 +53,11 @@ type Props = {
     filter?: string;
 
     /**
+    * Function to enable or disable webhook when toggle button is pressed
+    */
+    onToggle: (incomingWebhook: IncomingWebhook) => void;
+
+    /**
      * Data used for showing created by details
      */
     creator: {
@@ -79,6 +85,15 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
         this.props.onDelete(this.props.incomingWebhook);
     }
 
+    handleToggle = () => {
+        var incomingWebhook = this.props.incomingWebhook
+        const toggledWebhook = {
+            ...incomingWebhook,
+            enabled: !incomingWebhook.enabled,
+        };
+        this.props.onToggle(toggledWebhook);
+    }
+
     render() {
         const incomingWebhook = this.props.incomingWebhook;
         const channel = this.props.channel;
@@ -98,6 +113,23 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                 <FormattedMessage
                     id='installed_incoming_webhooks.unknown_channel'
                     defaultMessage='A Private Webhook'
+                />
+            );
+        }
+
+        let displayEnabled;
+        if(incomingWebhook.enabled) {
+            displayEnabled = (
+                <FormattedMessage
+                    id='installed_incoming_webhooks.enabled_webhook'
+                    defaultMessage=' - Enabled'
+                />
+            );
+        } else {
+            displayEnabled = (
+                <FormattedMessage
+                    id='installed_incoming_webhooks.disabled_webhook'
+                    defaultMessage=' - Disabled'
                 />
             );
         }
@@ -133,6 +165,12 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                         }
                         onDelete={this.handleDelete}
                     />
+                    {' - '}
+                    <Toggle
+                        disabled={false}
+                        onToggle={this.handleToggle}
+                        toggled={this.props.incomingWebhook.enabled}
+                    />
                 </div>
             );
         }
@@ -145,6 +183,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                     <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {displayName}
+                            {displayEnabled}
                         </strong>
                         {actions}
                     </div>

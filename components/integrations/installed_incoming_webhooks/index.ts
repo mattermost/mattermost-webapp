@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {removeIncomingHook} from 'mattermost-redux/actions/integrations';
+import {removeIncomingHook, updateIncomingHook} from 'mattermost-redux/actions/integrations';
 
 import {getAllChannels} from 'mattermost-redux/selectors/entities/channels';
 import {getIncomingHooks} from 'mattermost-redux/selectors/entities/integrations';
@@ -20,8 +20,10 @@ import {loadIncomingHooksAndProfilesForTeam} from 'actions/integration_actions.j
 
 import InstalledIncomingWebhooks from './installed_incoming_webhooks';
 
+import {IncomingWebhook} from '@mattermost/types/integrations';
 type Actions = {
     removeIncomingHook: (hookId: string) => Promise<ActionResult>;
+    updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>
     loadIncomingHooksAndProfilesForTeam: (teamId: string, startPageNumber: number, pageSize: string) => Promise<ActionResult>;
 }
 
@@ -49,6 +51,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
             loadIncomingHooksAndProfilesForTeam,
             removeIncomingHook,
+            updateIncomingHook,
         }, dispatch),
     };
 }

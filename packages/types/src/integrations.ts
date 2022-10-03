@@ -17,6 +17,7 @@ export type IncomingWebhook = {
     username: string;
     icon_url: string;
     channel_locked: boolean;
+    enabled: boolean;
 };
 
 export type OutgoingWebhook = {
@@ -36,6 +37,7 @@ export type OutgoingWebhook = {
     content_type: string;
     username: string;
     icon_url: string;
+    enabled: boolean;
 };
 
 export type Command = {
