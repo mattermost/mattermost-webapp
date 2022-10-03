@@ -1,0 +1,23 @@
+.console__body .modal .GenericModal.GenericModal__compassDesign.mark-all-threads-as-read .modal-content,
+.app__body .modal .GenericModal.GenericModal__compassDesign.mark-all-threads-as-read .modal-content {
+    max-width: 512px;
+    margin: 0 auto;
+
+    .modal-footer {
+      text-align: center;
+      padding-top: 32px;
+      padding-bottom: 48px;
+    }   
+
+    .modal-header {
+        padding-top: 48px;
+
+        .GenericModal__header {
+            margin: 0 auto;
+        }
+    }
+}
+
+.mark_all_threads_as_read_modal__body {
+    text-align: center;
+}
