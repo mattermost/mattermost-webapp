@@ -11,6 +11,10 @@ import {getSiteURL} from 'utils/url';
 import CopyText from 'components/copy_text';
 import Toggle from 'components/toggle';
 
+import {IncomingWebhook} from '@mattermost/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
+
 import DeleteIntegrationLink from './delete_integration_link';
 
 export function matchesFilter(incomingWebhook, channel, filter) {
@@ -50,10 +54,15 @@ export default class InstalledIncomingWebhook extends React.PureComponent {
         */
          onToggle: PropTypes.func.isRequired,
 
-        /**
+         /**
         * String used for filtering webhook item
         */
         filter: PropTypes.string,
+
+        /**
+        * Function to enable or disable webhook when toggle button is pressed
+        */
+        onToggle: PropTypes.func.isRequired,
 
         /**
         * Data used for showing created by details

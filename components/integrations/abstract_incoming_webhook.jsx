@@ -119,6 +119,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
             icon_url: this.state.iconURL,
         };
 
+        console.log(hook);
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
