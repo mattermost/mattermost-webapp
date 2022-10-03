@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountOutlineIcon, ArchiveOutlineIcon, DotsHorizontalIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
+import {AccountOutlineIcon, ArchiveOutlineIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
 
 import {isPrivateChannel} from 'mattermost-redux/utils/channel_utils';
 
@@ -80,7 +80,6 @@ export default class SearchableChannelList extends React.PureComponent {
             channelIcon = <GlobeIcon size={18}/>;
         }
 
-        // todo sinan fix dot
         const channelPurposeContainer = (
             <div id='channelPurposeContainer' >
                 <AccountOutlineIcon size={14}/>
@@ -88,6 +87,36 @@ export default class SearchableChannelList extends React.PureComponent {
                 <span className='dot'/>
                 <span className='more-modal__description'>{channel.purpose}</span>
             </div>
+        );
+
+        const joinChannelButton = (
+            <button
+                onClick={this.handleJoin.bind(this, channel)}
+                className='btn primaryButton'
+                disabled={this.state.joiningChannel}
+            >
+                <LoadingWrapper
+                    loading={this.state.joiningChannel === channel.id}
+                    text={localizeMessage('more_channels.joining', 'Joining...')}
+                >
+                    <FormattedMessage
+                        id={shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
+                        defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
+                    />
+                </LoadingWrapper>
+            </button>
+        );
+
+        const viewChannelButton = (
+            <button
+                onClick={this.handleJoin.bind(this, channel)}
+                className='btn outlineButton'
+            >
+                <FormattedMessage
+                    id={t('more_channels.view')}
+                    defaultMessage={'View'}
+                />
+            </button>
         );
 
         return (
@@ -105,25 +134,10 @@ export default class SearchableChannelList extends React.PureComponent {
                         {channelIcon}
                         {channel.display_name}
                     </button>
-                    {}
                     {channelPurposeContainer}
                 </div>
                 <div className='more-modal__actions'>
-                    <button
-                        onClick={this.handleJoin.bind(this, channel)}
-                        className='btn btn-primary'
-                        disabled={this.state.joiningChannel}
-                    >
-                        <LoadingWrapper
-                            loading={this.state.joiningChannel === channel.id}
-                            text={localizeMessage('more_channels.joining', 'Joining...')}
-                        >
-                            <FormattedMessage
-                                id={shouldShowArchivedChannels ? t('more_channels.view') : t('more_channels.join')}
-                                defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
-                            />
-                        </LoadingWrapper>
-                    </button>
+                    {this.props.myChannelMemberships.hasOwnProperty(channel.id) ? viewChannelButton : joinChannelButton}
                 </div>
             </div>
         );
@@ -339,5 +353,6 @@ SearchableChannelList.propTypes = {
     toggleArchivedChannels: PropTypes.func.isRequired,
     shouldShowArchivedChannels: PropTypes.bool.isRequired,
     canShowArchivedChannels: PropTypes.bool.isRequired,
+    myChannelMemberships: PropTypes.object.isRequired,
 };
 /* eslint-enable react/no-string-refs */

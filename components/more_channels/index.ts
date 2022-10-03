@@ -13,7 +13,7 @@ import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
-import {getOtherChannels, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
+import {getOtherChannels, getChannelsInCurrentTeam, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 
 import {searchMoreChannels} from 'actions/channel_actions';
 import {openModal, closeModal} from 'actions/views/modals';
@@ -40,12 +40,15 @@ function mapStateToProps(state: GlobalState) {
 
     return {
         channels: getNotArchivedOtherChannels(state) || [],
+
+        // channels: getChannelsInAllTeams(state) || [],
         archivedChannels: getArchivedOtherChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,
         teamName: team.name,
         channelsRequestStarted: state.requests.channels.getChannels.status === RequestStatus.STARTED,
         canShowArchivedChannels: (getConfig(state).ExperimentalViewArchivedChannels === 'true'),
+        myChannelMemberships: getMyChannelMemberships(state) || {},
     };
 }
 

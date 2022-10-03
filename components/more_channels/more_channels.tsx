@@ -5,8 +5,10 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Channel} from '@mattermost/types/channels';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
+
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import SearchableChannelList from 'components/searchable_channel_list.jsx';
@@ -43,6 +45,7 @@ export type Props = {
     channelsRequestStarted?: boolean;
     canShowArchivedChannels?: boolean;
     morePublicChannelsModalType?: string;
+    myChannelMemberships: RelationOneToOne<Channel, ChannelMembership>;
     actions: Actions;
 }
 
@@ -202,9 +205,8 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
             >
                 <button
-                    id='createNewChannel'
                     type='button'
-                    className='btn'
+                    className='btn outlineButton'
                     onClick={this.handleNewChannel}
                 >
                     <FormattedMessage
@@ -243,6 +245,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     toggleArchivedChannels={this.toggleArchivedChannels}
                     shouldShowArchivedChannels={this.state.shouldShowArchivedChannels}
                     canShowArchivedChannels={this.props.canShowArchivedChannels}
+                    myChannelMemberships={this.props.myChannelMemberships}
                 />
                 {serverError}
             </React.Fragment>

@@ -74,11 +74,16 @@
       }
 
       .more-modal__actions {
-        button {
+        .primaryButton {
+          display: none;
           padding: 7px 16px;
           border-radius: 4px;
           background-color: var(--denim-button-bg);
+          color: var(--button-color);
+        }
+        .outlineButton {
           display: none;
+          background-color: rgba(var(--center-channel-text-rgb), 0.08);
         }
       }
     }
@@ -87,7 +92,7 @@
       background-color: rgba(var(--center-channel-text-rgb), 0.08);
 
       .more-modal__actions {
-          button {
+          .primaryButton, .outlineButton {
             display: inline-block;
           }
         }
@@ -99,7 +104,7 @@
     border: 1px solid rgba(var(--center-channel-text-rgb), 0.16)
   }
 
-  #createNewChannel {
+  .outlineButton {
   background-color: var(--center-channel-bg);
   border: 1px solid var(--denim-button-bg);
   border-radius: 4px;
