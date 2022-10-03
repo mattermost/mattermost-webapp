@@ -36,7 +36,7 @@ type Props = PropsFromRedux & {
     currentUser: UserProfile;
 };
 
-type ChannelMemberNotifyProps = Partial<ChannelNotifyProps> & Pick<UserNotifyProps, 'desktop_threads' | 'push_threads'>
+export type ChannelMemberNotifyProps = Partial<ChannelNotifyProps> & Pick<UserNotifyProps, 'desktop_threads' | 'push_threads'>
 
 type State = {
     show: boolean;

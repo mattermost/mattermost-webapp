@@ -18,14 +18,16 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             id: 'channel_id',
             display_name: 'channel_display_name',
         }),
-        channelMember: TestHelper.getChannelMembershipMock({
+        channelMember: {
             notify_props: {
                 desktop: NotificationLevels.ALL,
                 mark_unread: NotificationLevels.ALL,
                 push: NotificationLevels.DEFAULT,
                 ignore_channel_mentions: IgnoreChannelMentions.DEFAULT,
+                desktop_threads: NotificationLevels.ALL,
+                push_threads: NotificationLevels.DEFAULT,
             },
-        }),
+        } as unknown as ChannelMembership,
         currentUser: TestHelper.getUserMock({
             id: 'current_user_id',
             notify_props: {
@@ -282,13 +284,14 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleSubmitPushNotificationLevel', () => {
-        const channelMember = TestHelper.getChannelMembershipMock({
+        const channelMember = {
             notify_props: {
                 desktop: NotificationLevels.NONE,
                 mark_unread: NotificationLevels.MENTION,
                 push: NotificationLevels.ALL,
+                push_threads: NotificationLevels.ALL,
             },
-        });
+        } as unknown as ChannelMembership;
         const props = {...baseProps, channelMember};
         const wrapper = shallow<ChannelNotificationsModal>(
             <ChannelNotificationsModal {...props}/>,
