@@ -100,14 +100,14 @@ describe('PolicyRolesAdapter', () => {
         describe('enableTeamCreation', () => {
             test('true', () => {
                 roles.system_user.permissions = [];
-                const updatedRoles = rolesFromMapping({enableTeamCreation: 'true'}, roles);
+                const updatedRoles = rolesFromMapping({enableTeamCreation: 'True'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
                 expect(updatedRoles.system_user.permissions).toEqual(expect.arrayContaining([Permissions.CREATE_TEAM]));
             });
 
             test('false', () => {
                 roles.system_user.permissions = [Permissions.CREATE_TEAM];
-                const updatedRoles = rolesFromMapping({enableTeamCreation: 'false'}, roles);
+                const updatedRoles = rolesFromMapping({enableTeamCreation: 'False'}, roles);
                 expect(Object.values(updatedRoles).length).toEqual(1);
                 expect(updatedRoles.system_user.permissions).not.toEqual(expect.arrayContaining([Permissions.CREATE_TEAM]));
             });
@@ -124,11 +124,11 @@ describe('PolicyRolesAdapter', () => {
             test('returns the expected policy value for a enableTeamCreation policy', () => {
                 addPermissionToRole(Permissions.CREATE_TEAM, roles.system_user);
                 let value = mappingValueFromRoles('enableTeamCreation', roles);
-                expect(value).toEqual('true');
+                expect(value).toEqual('True');
 
                 removePermissionFromRole(Permissions.CREATE_TEAM, roles.system_user);
                 value = mappingValueFromRoles('enableTeamCreation', roles);
-                expect(value).toEqual('false');
+                expect(value).toEqual('False');
             });
         });
     });
