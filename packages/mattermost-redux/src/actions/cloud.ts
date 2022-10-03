@@ -52,7 +52,7 @@ export function retryFailedCloudFetches() {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const errors = getCloudErrors(getState());
         if (Object.keys(errors).length === 0) {
-            return;
+            return {data: true};
         }
 
         if (errors.subscription) {

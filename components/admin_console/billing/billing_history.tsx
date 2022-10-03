@@ -6,14 +6,12 @@ import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInvoices} from 'mattermost-redux/actions/cloud';
-import CloudFetchError from 'components/cloud_fetch_error';
-import {GlobalState} from '@mattermost/types/store';
-
-import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-
+import {getCloudErrors, getCloudInvoices} from 'mattermost-redux/selectors/entities/cloud';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
+import CloudFetchError from 'components/cloud_fetch_error';
+import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import EmptyBillingHistorySvg from 'components/common/svg_images_components/empty_billing_history_svg';
 
 import {CloudLinks} from 'utils/constants';
@@ -21,7 +19,6 @@ import {CloudLinks} from 'utils/constants';
 import BillingHistoryTable from './billing_history_table';
 
 import './billing_history.scss';
-import {getCloudErrors, getCloudInvoices} from 'mattermost-redux/selectors/entities/cloud';
 
 const noBillingHistorySection = (
     <div className='BillingHistory__noHistory'>

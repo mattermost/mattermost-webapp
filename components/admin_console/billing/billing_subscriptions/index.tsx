@@ -4,6 +4,8 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 
+import {GlobalState} from '@mattermost/types/store';
+
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
@@ -54,7 +56,6 @@ import {
 import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
-import {GlobalState} from '@mattermost/types/store';
 
 const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();

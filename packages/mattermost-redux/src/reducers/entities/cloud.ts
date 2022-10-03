@@ -119,44 +119,54 @@ export function errors(state: ErrorsReducer = emptyErrors, action: GenericAction
     }
 
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {
-        const {subscription, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.subscription;
         return newState;
     }
     case CloudTypes.RECEIVED_CLOUD_PRODUCTS: {
-        const {products, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.products;
         return newState;
     }
     case CloudTypes.RECEIVED_CLOUD_CUSTOMER: {
-        const {customer, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.customer;
         return newState;
     }
     case CloudTypes.RECEIVED_CLOUD_INVOICES: {
-        const {invoices, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.invoices;
         return newState;
     }
     case CloudTypes.RECEIVED_CLOUD_LIMITS: {
-        const {limits, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.limits;
         return newState;
     }
 
     case CloudTypes.CLOUD_SUBSCRIPTION_REQUEST: {
-        const {subscription, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.subscription;
         return newState;
     }
     case CloudTypes.CLOUD_PRODUCTS_REQUEST: {
-        const {products, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.products;
         return newState;
     }
     case CloudTypes.CLOUD_CUSTOMER_REQUEST: {
-        const {customer, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.customer;
         return newState;
     }
     case CloudTypes.CLOUD_INVOICES_REQUEST: {
-        const {invoices, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.invoices;
         return newState;
     }
     case CloudTypes.CLOUD_LIMITS_REQUEST: {
-        const {limits, ...newState} = state;
+        const newState = Object.assign({}, state);
+        delete newState.limits;
         return newState;
     }
 

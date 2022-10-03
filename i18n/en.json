@@ -2962,7 +2962,7 @@
   "cloud_subscribe.contact_support": "Compare plans",
   "cloud.invoice_pdf_preview.download": "<downloadLink>Download</downloadLink> this page for your records",
   "cloud.startTrial.modal.btn": "Start trial",
-  "cloud.fetch_error": "Error fetching cloud data. Please try again later.",
+  "cloud.fetch_error": "Error fetching billing data. Please try again later.",
   "cloud.fetch_error.retry": "Retry",
   "collapsed_reply_threads_modal.confirm": "Got it",
   "collapsed_reply_threads_modal.description": "Threads have been revamped to help you create organized conversation around specific messages. Now, channels will appear less cluttered as replies are collapsed under the original message, and all the conversations you're following are available in your **Threads** view. Take the tour to see what's new.",

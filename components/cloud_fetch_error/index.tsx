@@ -22,7 +22,7 @@ export default function CloudFetchError() {
         <div className='CloudFetchError__header '>
             <FormattedMessage
                 id='cloud.fetch_error'
-                defaultMessage='Error fetching data. Please try again later.'
+                defaultMessage='Error fetching billing data. Please try again later.'
             />
         </div>
         <button
