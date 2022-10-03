@@ -19,9 +19,11 @@ import {t} from 'utils/i18n';
 import * as UserAgent from 'utils/user_agent';
 import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
 import {isArchivedChannel} from 'utils/channel_utils';
+import {ModalIdentifiers} from 'utils/constants';
 
 import MenuWrapper from './widgets/menu/menu_wrapper';
 import Menu from './widgets/menu/menu';
+import classNames from 'classnames';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
@@ -61,12 +63,19 @@ export default class SearchableChannelList extends React.PureComponent {
                 this.setState({joiningChannel: ''});
             },
         );
+        if (this.isMemberOfChannel(channel.id)) {
+            this.props.closeModal(ModalIdentifiers.MORE_CHANNELS);
+        }
+    }
+
+    isMemberOfChannel(channelId) {
+        return this.props.myChannelMemberships.hasOwnProperty(channelId);
     }
 
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
         let channelIcon;
-        const {shouldShowArchivedChannels} = this.props;
+        const {shouldShowArchivedChannels} = this.props; // remove from props
 
         let memberCount = 0;
         if (this.props.allChannelStats.hasOwnProperty(channel.id)) {
@@ -81,7 +90,7 @@ export default class SearchableChannelList extends React.PureComponent {
             channelIcon = <GlobeIcon size={18}/>;
         }
 
-        const membershipIndicator = this.props.myChannelMemberships.hasOwnProperty(channel.id) ? (
+        const membershipIndicator = this.isMemberOfChannel(channel.id) ? (
             <div id='membershipIndicatorContainer'>
                 <CheckIcon size={14}/>
                 <FormattedMessage
@@ -102,10 +111,15 @@ export default class SearchableChannelList extends React.PureComponent {
             </div>
         );
 
+        const joinChannelButtonClass = classNames('btn', {
+            outlineButton: this.isMemberOfChannel(channel.id),
+            primaryButton: !this.isMemberOfChannel(channel.id),
+        });
+
         const joinChannelButton = (
             <button
                 onClick={this.handleJoin.bind(this, channel)}
-                className='btn primaryButton'
+                className={joinChannelButtonClass}
                 disabled={this.state.joiningChannel}
             >
                 <LoadingWrapper
@@ -113,22 +127,10 @@ export default class SearchableChannelList extends React.PureComponent {
                     text={localizeMessage('more_channels.joining', 'Joining...')}
                 >
                     <FormattedMessage
-                        id={shouldShowArchivedChannels ? 'more_channels.view' : 'more_channels.join'}
-                        defaultMessage={shouldShowArchivedChannels ? 'View' : 'Join'}
+                        id={this.isMemberOfChannel(channel.id) ? 'more_channels.view' : 'more_channels.join'}
+                        defaultMessage={this.isMemberOfChannel(channel.id) ? 'View' : 'Join'}
                     />
                 </LoadingWrapper>
-            </button>
-        );
-
-        const viewChannelButton = (
-            <button
-                onClick={this.handleJoin.bind(this, channel)}
-                className='btn outlineButton'
-            >
-                <FormattedMessage
-                    id={'more_channels.view'}
-                    defaultMessage={'View'}
-                />
             </button>
         );
 
@@ -150,7 +152,8 @@ export default class SearchableChannelList extends React.PureComponent {
                     {channelPurposeContainer}
                 </div>
                 <div className='more-modal__actions'>
-                    {this.props.myChannelMemberships.hasOwnProperty(channel.id) ? viewChannelButton : joinChannelButton}
+                    {/* {this.isMemberOfChannel(channel.id) ? viewChannelButton : joinChannelButton} */}
+                    {joinChannelButton}
                 </div>
             </div>
         );
@@ -368,5 +371,6 @@ SearchableChannelList.propTypes = {
     canShowArchivedChannels: PropTypes.bool.isRequired,
     myChannelMemberships: PropTypes.object.isRequired,
     allChannelStats: PropTypes.object.isRequired,
+    closeModal: PropTypes.func.isRequired,
 };
 /* eslint-enable react/no-string-refs */

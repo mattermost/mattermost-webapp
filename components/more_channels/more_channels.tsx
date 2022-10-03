@@ -256,8 +256,9 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     toggleArchivedChannels={this.toggleArchivedChannels}
                     shouldShowArchivedChannels={this.state.shouldShowArchivedChannels}
                     canShowArchivedChannels={this.props.canShowArchivedChannels}
-                    myChannelMemberships={this.props.myChannelMemberships}
-                    allChannelStats={this.props.allChannelStats}
+                    myChannelMemberships={this.props.myChannelMemberships} // todo sinan refactor to receive it directly from index
+                    allChannelStats={this.props.allChannelStats} // todo sinan refactor to receive it directly from index
+                    closeModal={this.props.actions.closeModal} // todo sinan refactor to receive it directly from index
                 />
                 {serverError}
             </React.Fragment>
