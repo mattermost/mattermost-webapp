@@ -80,7 +80,7 @@ export default class MarkdownImage extends React.PureComponent <Props, State> {
             height,
             imageMetadata,
             width,
-        }: any = this.props;
+        }: Props = this.props;
 
         if (!height) {
             return imageMetadata.height;
