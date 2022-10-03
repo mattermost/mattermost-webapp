@@ -58,6 +58,7 @@ describe('components/dot_menu/DotMenu returning empty ("")', () => {
             threadId: 'post_id_1',
             userId: 'user_id_1',
             showForwardPostNewLabel: false,
+            canMove: false,
         };
 
         const wrapper = shallow(
