@@ -29,7 +29,7 @@
                         max-height: calc(100vh - 108px);
                     }
 
-                    >div {
+                    > div {
                         min-width: 250px;
                         font-size: 12px;
                     }
@@ -344,7 +344,7 @@
                     }
 
                     .post-menu {
-                        top: -12px;
+                        top: -34px;
                     }
                 }
 
@@ -356,7 +356,7 @@
                     &.post--comment {
                         .post__header {
                             .post-menu {
-                                top: -12px;
+                                top: -34px;
                             }
                         }
                     }
@@ -392,7 +392,7 @@
                     float: left;
 
                     .post-menu {
-                        top: -32px;
+                        top: -34px;
                     }
                 }
 

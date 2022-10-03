@@ -4,6 +4,7 @@
 import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
+import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
 
@@ -15,6 +16,8 @@ type Props = {
     content: string;
     beforeCopyText?: string;
     afterCopyText?: string;
+    placement?: string;
+    className?: string;
 };
 
 const CopyButton: React.FC<Props> = (props: Props) => {
@@ -31,24 +34,40 @@ const CopyButton: React.FC<Props> = (props: Props) => {
         copyToClipboard(props.content);
     };
 
+    const getId = () => {
+        if (isCopied) {
+            return t('copied.message');
+        }
+        return props.beforeCopyText ? t('copy.text.message') : t('copy.code.message');
+    };
+
+    const getDefaultMessage = () => {
+        if (isCopied) {
+            return props.afterCopyText;
+        }
+        return props.beforeCopyText ?? 'Copy code';
+    };
+
     const tooltip = (
         <Tooltip id='copyButton'>
             <FormattedMessage
-                id={isCopied ? t('copied.message') : t('copy.block.message')}
-                defaultMessage={isCopied ? props.afterCopyText : props.beforeCopyText}
+                id={getId()}
+                defaultMessage={getDefaultMessage()}
             />
         </Tooltip>
     );
+
+    const spanClassName = classNames('post-code__clipboard', props.className);
 
     return (
         <OverlayTrigger
             shouldUpdatePosition={true}
             delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='top'
+            placement={props.placement}
             overlay={tooltip}
         >
             <span
-                className='post-code__clipboard'
+                className={spanClassName}
                 onClick={copyText}
             >
                 {!isCopied &&
@@ -69,8 +88,8 @@ const CopyButton: React.FC<Props> = (props: Props) => {
 };
 
 CopyButton.defaultProps = {
-    beforeCopyText: 'Copy code block',
     afterCopyText: 'Copied',
+    placement: 'top',
 };
 
 export default CopyButton;
