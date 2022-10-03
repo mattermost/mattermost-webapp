@@ -11,7 +11,8 @@ import useGetUsage from 'components/common/hooks/useGetUsage';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {t, Message} from 'utils/i18n';
 import CloudUsageModal from 'components/cloud_usage_modal';
-import useGetMultiplesExceededCloudLimit, {LimitTypes} from 'components/common/hooks/useGetMultiplesExceededCloudLimit';
+import useGetMultiplesExceededCloudLimit from 'components/common/hooks/useGetMultiplesExceededCloudLimit';
+import {LimitTypes} from 'utils/limits';
 import {TELEMETRY_CATEGORIES} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -32,7 +33,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
     noLimits: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_freemium'
-            defaultMessage='Cloud starter is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
+            defaultMessage='Cloud Starter is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>

@@ -48,15 +48,11 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
     }, []);
 
     useEffect(() => {
-        if (showModal) {
+        if (showModal || !isCloud) {
             return;
         }
 
         if (delinquencyModalPreferencesConfirmed.length > 0) {
-            return;
-        }
-
-        if (!isCloud) {
             return;
         }
 
@@ -87,7 +83,7 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
             return;
         }
 
-        setShowModal(() => true);
+        setShowModal(true);
     }, [delinquencyModalPreferencesConfirmed.length, isCloud, openModal, showModal, subscription, userIsAdmin]);
 
     useEffect(() => {

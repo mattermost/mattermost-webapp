@@ -9,6 +9,22 @@
         transform: translate(-50%, -50%) !important;
     }
 
+    .modal-content {
+        border-radius: 12px;
+        max-width: 512px;
+        max-height: 465px;
+    }
+
+    .modal-header {
+        border-radius: 12px 12px 0 0;
+    }
+
+    .modal-footer {
+        padding-top: 24px;
+        padding-bottom: 24px;
+        border-radius: 0 0 12px 12px;
+    }
+
     .modal-header,
     .modal-footer {
         display: flex;
