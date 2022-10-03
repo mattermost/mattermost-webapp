@@ -36,15 +36,17 @@ type Props = PropsFromRedux & {
     currentUser: UserProfile;
 };
 
+type ChannelMemberNotifyProps = Partial<ChannelNotifyProps> & Pick<UserNotifyProps, 'desktop_threads' | 'push_threads'>
+
 type State = {
     show: boolean;
     activeSection: string;
     serverError: string | null;
     desktopNotifyLevel: ChannelNotifyProps['desktop'];
-    desktopThreadsNotifyLevel: ChannelNotifyProps['desktop_threads'];
+    desktopThreadsNotifyLevel: UserNotifyProps['desktop_threads'];
     markUnreadNotifyLevel: ChannelNotifyProps['mark_unread'];
     pushNotifyLevel: ChannelNotifyProps['push'];
-    pushThreadsNotifyLevel: ChannelNotifyProps['push_threads'];
+    pushThreadsNotifyLevel: UserNotifyProps['push_threads'];
     ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions'];
 };
 
@@ -75,7 +77,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
         this.setState(this.getStateFromNotifyProps(currentUserNotifyProps, channelMemberNotifyProps));
     }
 
-    getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: Partial<ChannelNotifyProps>) {
+    getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
         let ignoreChannelMentionsDefault: ChannelNotifyProps['ignore_channel_mentions'] = IgnoreChannelMentions.OFF;
 
         if (channelMemberNotifyProps?.mark_unread === NotificationLevels.MENTION || (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false')) {
@@ -129,7 +131,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
     }
 
     handleSubmitDesktopNotifyLevel = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props as ChannelMemberNotifyProps;
         const {desktopNotifyLevel, desktopThreadsNotifyLevel} = this.state;
 
         if (
@@ -146,7 +148,8 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
     }
 
     handleUpdateDesktopNotifyLevel = (desktopNotifyLevel: ChannelNotifyProps['desktop']) => this.setState({desktopNotifyLevel});
-    handleUpdateDesktopThreadsNotifyLevel = (desktopThreadsNotifyLevel: ChannelNotifyProps['desktop_threads']) => this.setState({desktopThreadsNotifyLevel});
+
+    handleUpdateDesktopThreadsNotifyLevel = (desktopThreadsNotifyLevel: UserNotifyProps['desktop_threads']) => this.setState({desktopThreadsNotifyLevel});
 
     handleSubmitMarkUnreadLevel = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
@@ -164,7 +167,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
     handleUpdateMarkUnreadLevel = (markUnreadNotifyLevel: ChannelNotifyProps['mark_unread']) => this.setState({markUnreadNotifyLevel});
 
     handleSubmitPushNotificationLevel = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props as ChannelMemberNotifyProps;
         const {pushNotifyLevel, pushThreadsNotifyLevel} = this.state;
 
         if (
@@ -180,7 +183,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
     }
 
     handleUpdatePushNotificationLevel = (pushNotifyLevel: ChannelNotifyProps['push']) => this.setState({pushNotifyLevel});
-    handleUpdatePushThreadsNotificationLevel = (pushThreadsNotifyLevel: ChannelNotifyProps['push_threads']) => this.setState({pushThreadsNotifyLevel});
+    handleUpdatePushThreadsNotificationLevel = (pushThreadsNotifyLevel: UserNotifyProps['push_threads']) => this.setState({pushThreadsNotifyLevel});
     handleUpdateIgnoreChannelMentions = (ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions']) => this.setState({ignoreChannelMentions});
 
     handleSubmitIgnoreChannelMentions = () => {

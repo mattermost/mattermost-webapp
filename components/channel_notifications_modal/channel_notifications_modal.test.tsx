@@ -21,10 +21,8 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         channelMember: TestHelper.getChannelMembershipMock({
             notify_props: {
                 desktop: NotificationLevels.ALL,
-                desktop_threads: NotificationLevels.ALL,
                 mark_unread: NotificationLevels.ALL,
                 push: NotificationLevels.DEFAULT,
-                push_threads: NotificationLevels.DEFAULT,
                 ignore_channel_mentions: IgnoreChannelMentions.DEFAULT,
             },
         }),
@@ -289,7 +287,6 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
                 desktop: NotificationLevels.NONE,
                 mark_unread: NotificationLevels.MENTION,
                 push: NotificationLevels.ALL,
-                push_threads: NotificationLevels.ALL,
             },
         });
         const props = {...baseProps, channelMember};
@@ -315,7 +312,6 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         const channelMember = TestHelper.getChannelMembershipMock({
             notify_props: {
                 desktop: NotificationLevels.NONE,
-                desktop_threads: NotificationLevels.NONE,
                 mark_unread: NotificationLevels.MENTION,
                 push: NotificationLevels.ALL,
             },
