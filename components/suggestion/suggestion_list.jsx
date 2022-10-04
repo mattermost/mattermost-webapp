@@ -50,10 +50,6 @@ export default class SuggestionList extends React.PureComponent {
         this.suggestionReadOut = React.createRef();
         this.currentLabel = '';
         this.currentItem = {};
-        this.state = {
-            focused: 'hello there',
-            component: null,
-        };
     }
 
     componentDidMount() {
@@ -121,8 +117,9 @@ export default class SuggestionList extends React.PureComponent {
             }
         } else if (item.type === 'mention.channels') {
             this.currentLabel = item.channel.display_name;
+        } else if (item.emoji) {
+            this.currentLabel = item.name;
         }
-
         if (this.currentLabel) {
             this.currentLabel = this.currentLabel.toLowerCase();
         }
@@ -260,7 +257,6 @@ export default class SuggestionList extends React.PureComponent {
             if (isSelection) {
                 this.currentItem = item;
             }
-            this.setState({focused: this.props.selection.substring(1), component: this.props.components[i]?.toString().split(' ')[1]});
             items.push(
                 <Component
                     key={term}
@@ -281,12 +277,6 @@ export default class SuggestionList extends React.PureComponent {
                 ref={this.wrapperRef}
                 className={mainClass}
             >
-                {this.state.component === 'EmoticonSuggestion' &&
-                <div
-                    className='sr-only'
-                    aria-label={'emojy ' + this.state.focused}
-                    aria-live='polite'
-                >{'emojy ' + this.state.focused}</div>}
                 <div
                     id='suggestionList'
                     role='list'
