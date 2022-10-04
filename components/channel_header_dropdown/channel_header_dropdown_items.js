@@ -288,7 +288,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         />
                     </ChannelPermissionGate>
                 </Menu.Group>
-                <Menu.Group divider={divider}>
+                <Menu.Group>
                     {isMobile &&
                         <MobileChannelHeaderPlug
                             channel={channel}
