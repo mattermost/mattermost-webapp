@@ -9,6 +9,11 @@ import {Link} from 'react-router-dom';
 import CopyText from 'components/copy_text';
 import Toggle from 'components/toggle';
 
+import {OutgoingWebhook} from '@mattermost/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+
 import DeleteIntegrationLink from './delete_integration_link';
 
 export function matchesFilter(outgoingWebhook, channel, filter) {
@@ -44,6 +49,18 @@ export function matchesFilter(outgoingWebhook, channel, filter) {
     }
 
     return false;
+}
+
+type Props = {
+    outgoingWebhook: OutgoingWebhook;
+    onRegenToken: (outgoingWebhook: OutgoingWebhook) => void;
+    onDelete: (outgoingWebhook: OutgoingWebhook) => void;
+    onToggle: (outgoingWebhook: OutgoingWebhook) => void;
+    team: Team;
+    creator: UserProfile;
+    channel: Channel;
+    canChange: boolean;
+    filter?: string;
 }
 
 export default class InstalledOutgoingWebhook extends React.PureComponent {
