@@ -2910,6 +2910,7 @@
   "channelHeader.removeFromFavorites": "Remove from Favorites",
   "channelHeader.unmute": "Unmute",
   "channelHeader.viewInfo": "View Info",
+  "channelView.login.successfull": "Login Successful",
   "claim.email_to_ldap.enterLdapPwd": "Enter the ID and password for your AD/LDAP account",
   "claim.email_to_ldap.enterPwd": "Enter the password for your {site} email account",
   "claim.email_to_ldap.ldapId": "AD/LDAP ID",
