@@ -15,7 +15,6 @@ import {getThreadCounts} from 'mattermost-redux/actions/threads';
 
 import {t} from 'utils/i18n';
 
-import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
 import {useThreadRouting} from '../hooks';
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -50,7 +49,6 @@ const GlobalThreadsLink = () => {
     const {currentTeamId, currentUserId} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
-    const unreadsOnly = useSelector(isUnreadFilterEnabled);
     const someUnreadThreads = counts?.total_unread_threads;
     const appHaveOpenModal = useSelector(isAnyModalOpen);
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId, CrtTutorialSteps.WELCOME_POPOVER));
@@ -75,8 +73,8 @@ const GlobalThreadsLink = () => {
         }
     }, [currentUserId, currentTeamId, isFeatureEnabled]);
 
-    if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
-        // hide link if feature disabled or filtering unreads and there are no unread threads
+    if (!isFeatureEnabled) {
+        // hide link if feature disabled
         return null;
     }
 
