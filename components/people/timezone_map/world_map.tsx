@@ -145,7 +145,6 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
 
         return (
             <>
-
                 <path
                     id={id}
                     data-testid={id}
