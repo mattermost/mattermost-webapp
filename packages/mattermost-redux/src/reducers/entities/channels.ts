@@ -29,6 +29,7 @@ import {Team} from '@mattermost/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
 
 import messageCounts from './channels/message_counts';
+import { Group } from '@mattermost/types/groups';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, Record<string, ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
@@ -848,6 +849,21 @@ export function channelMemberCountsByGroup(state: any = {}, action: GenericActio
         return {
             ...state,
             [channelId]: memberCountsByGroup,
+        };
+    }
+    case ChannelTypes.RECEIVED_CHANNEL_MEMBER_COUNTS_FROM_GROUPS_LIST: {
+        const memberCountsByGroup: ChannelMemberCountsByGroup = {};
+        action.data.forEach((group: Group) => {
+            memberCountsByGroup[group.id] = {
+                group_id: group.id,
+                channel_member_count: group.channel_member_count || 0,
+                channel_member_timezones_count: group.channel_member_timezones_count || 0,
+            };
+        });
+
+        return {
+            ...state,
+            [action.channelId]: memberCountsByGroup,
         };
     }
     default:

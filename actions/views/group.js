@@ -19,7 +19,15 @@ export function searchAssociatedGroupsForReference(prefix, teamId, channelId) {
         }
 
         if (isCustomGroupsEnabled(state)) {
-            await dispatch(searchGroups({q: prefix, filter_allow_reference: true, page: 0, per_page: 60, include_member_count: true}));
+            await dispatch(searchGroups({
+                q: prefix, 
+                filter_allow_reference: true, 
+                page: 0, 
+                per_page: 60, 
+                include_member_count: true,
+                include_channel_member_count: channelId,
+                include_timezones: true,
+            }));
         }
         return {data: searchAssociatedGroupsForReferenceLocal(state, prefix, teamId, channelId)};
     };
