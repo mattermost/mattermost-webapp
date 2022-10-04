@@ -18,6 +18,7 @@ import timezoneTopoJson from './assets/timezones.json';
 import {findTimeZone} from './util';
 
 import './world_map.scss';
+import PinSvg from './assets/pin_svg';
 
 type PolygonFeature = GeoJSON.Feature<
 GeoJSON.Polygon,
@@ -116,6 +117,11 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
                         }}
                     />
                 </p>
+                <PinSvg
+                    width={20}
+                    height={32}
+                    id='map-pin'
+                />
             </Tooltip>
         );
 

@@ -6,14 +6,16 @@ import React from 'react';
 type SvgProps = {
     width: number;
     height: number;
+    id: string;
 };
 
-const FileSvg = (props: SvgProps) => (
+const PinSvg = (props: SvgProps) => (
     <svg
         width={props.width ? props.width.toString() : '20'}
         height={props.height ? props.height.toString() : '32'}
         viewBox='0 0 20 32'
         fill='none'
+        id={props.id}
         xmlns='http://www.w3.org/2000/svg'
     >
         <path
@@ -25,4 +27,4 @@ const FileSvg = (props: SvgProps) => (
     </svg>
 );
 
-export default FileSvg;
+export default PinSvg;
