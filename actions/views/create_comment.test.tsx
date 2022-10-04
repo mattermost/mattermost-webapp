@@ -64,7 +64,7 @@ jest.mock('actions/storage', () => {
     };
 });
 
-function lastCall(calls: Array<any>) {
+function lastCall(calls: any[]) {
     return calls[calls.length - 1];
 }
 
@@ -376,7 +376,7 @@ describe('rhs view actions', () => {
             const testStore = mockStore(initialState);
             testStore.dispatch(submitCommand(channelId, rootId, {message: '/away', fileInfos: [], uploadsInProgress: []}));
 
-            const commandActions = [{"args": ["/away"], "type": "MOCK_ADD_MESSAGE_INTO_HISTORY"}, {"args": ["comment_draft_fc234c34c23", null], "type": "MOCK_SET_GLOBAL_ITEM"}];
+            const commandActions = [{args: ['/away'], type: 'MOCK_ADD_MESSAGE_INTO_HISTORY'}, {args: ['comment_draft_fc234c34c23', null], type: 'MOCK_SET_GLOBAL_ITEM'}];
             expect(store.getActions()).toEqual(
                 expect.arrayContaining(testStore.getActions()),
             );

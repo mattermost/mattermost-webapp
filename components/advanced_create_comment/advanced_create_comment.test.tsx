@@ -2,10 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {shallow, ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {Emoji} from '@mattermost/types/emojis';
-import {Group} from '@mattermost/types/groups'
+import {Group} from '@mattermost/types/groups';
 
 import {testComponentForLineBreak} from 'tests/helpers/line_break_helpers';
 import {testComponentForMarkdownHotkeys} from 'tests/helpers/markdown_hotkey_helpers.js';
@@ -1130,7 +1130,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.setProps({rootId: 'new_root_id'});
         expect(wrapper.state('draft')).toEqual({
             ...draft,
-             uploadsInProgress: [], 
+            uploadsInProgress: [],
             fileInfos: [TestHelper.getFileInfoMock({}), TestHelper.getFileInfoMock({}), TestHelper.getFileInfoMock({})],
         });
     });
