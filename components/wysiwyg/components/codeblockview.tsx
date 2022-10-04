@@ -13,8 +13,6 @@ import {NodeViewProps} from '@tiptap/core/src/types';
 import {DropdownContainer} from '../toolbar/toolbar_controls';
 import {useGetLatest} from '../toolbar/toolbar_hooks';
 
-import 'highlight.js/styles/stackoverflow-light.css';
-
 const StyledCodeBlock = styled(NodeViewWrapper)`
     position: relative;
 

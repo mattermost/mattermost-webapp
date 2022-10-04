@@ -281,7 +281,7 @@ export function isWysiwygAllowed(state: GlobalState): boolean {
 }
 
 export function isWysiwygEnabled(state: GlobalState): boolean {
-    const isAllowed = isCollapsedThreadsAllowed(state);
+    const isAllowed = isWysiwygAllowed(state);
     const userPreference = getWysiwygPreference(state);
     return isAllowed && userPreference;
 }

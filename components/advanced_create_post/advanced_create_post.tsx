@@ -3,6 +3,7 @@
 
 /* eslint-disable max-lines */
 
+import {JSONContent} from '@tiptap/react';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
@@ -47,7 +48,7 @@ import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
 
-import {PostDraft} from 'types/store/draft';
+import {NewPostDraft} from 'types/store/draft';
 
 import EmojiMap from 'utils/emoji_map';
 
@@ -124,7 +125,7 @@ type Props = {
     messageInHistoryItem?: string;
 
     // Data used for populating message state from previous draft
-    draft: PostDraft;
+    draft: NewPostDraft;
 
     // Data used dispatching handleViewAction ex: edit post
     latestReplyablePostId?: string;
@@ -174,6 +175,8 @@ type Props = {
 
     isPostPriorityEnabled: boolean;
 
+    isWysiwygEnabled: boolean;
+
     actions: {
 
         //Set show preview for textbox
@@ -207,7 +210,7 @@ type Props = {
         runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
 
         // func called for setting drafts
-        setDraft: (name: string, value: PostDraft | null) => void;
+        setDraft: (name: string, value: NewPostDraft | null) => void;
 
         // func called for editing posts
         setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
@@ -263,7 +266,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     private lastBlurAt = 0;
     private lastChannelSwitchAt = 0;
-    private draftsForChannel: {[channelID: string]: PostDraft | null} = {};
+    private draftsForChannel: {[channelID: string]: NewPostDraft | null} = {};
     private lastOrientation?: string;
     private saveDraftFrame?: number | null;
 
@@ -433,14 +436,15 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handleEmojiClose();
     }
 
-    doSubmit = async (text: string) => {
-        const channelId = this.props.currentChannel.id;
+    doSubmit = async (e?: React.FormEvent) => {
+        const {id: channelId} = this.props.currentChannel;
+        e?.preventDefault();
 
         if (this.props.draft.uploadsInProgress.length > 0 || this.state.submitting) {
             return;
         }
 
-        let message = text;
+        let {message} = this.state;
 
         let ignoreSlash = false;
         const serverError = this.state.serverError;
@@ -572,7 +576,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         return command === 'online' || command === 'away' || command === 'dnd' || command === 'offline';
     };
 
-    handleSubmit = async (message: string) => {
+    handleSubmit = async (e?: React.FormEvent) => {
         const {
             currentChannel: updateChannel,
             userIsOutOfOffice,
@@ -678,7 +682,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             return;
         }
 
-        await this.doSubmit();
+        await this.doSubmit(e);
     }
 
     sendMessage = async (originalPost: Post) => {
@@ -797,9 +801,9 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
 
             if (withClosedCodeBlock && message) {
-                this.setState({message}, () => this.handleSubmit());
+                this.setState({message}, () => this.handleSubmit(e));
             } else {
-                this.handleSubmit();
+                this.handleSubmit(e);
             }
 
             this.setShowPreview(false);
@@ -813,7 +817,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         GlobalActions.emitLocalUserTypingEvent(channelId, '');
     }
 
-    handleChange = (message: string) => {
+    handleChange_DEPR = (e: React.ChangeEvent<TextboxElement>) => {
+        const message = e.currentTarget.value;
+        this.handleChange(message);
+    }
+
+    handleChange = (message: string, content?: JSONContent) => {
+        const channelId = this.props.currentChannel.id;
+
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
             serverError = null;
@@ -823,6 +834,21 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             message,
             serverError,
         });
+
+        const draft = {
+            ...this.props.draft,
+            message,
+            content,
+        };
+
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
+
+        this.saveDraftFrame = window.setTimeout(() => {
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
+        this.draftsForChannel[channelId] = draft;
     }
 
     pasteHandler = (e: ClipboardEvent) => {
@@ -940,7 +966,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     };
 
     removePreview = (id: string) => {
-        let modifiedDraft = {} as PostDraft;
+        let modifiedDraft = {} as NewPostDraft;
         const draft = {...this.props.draft};
         const channelId = this.props.currentChannel.id;
 
@@ -1306,13 +1332,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             centerClass = 'center';
         }
 
-        return (
-            <Wysiwyg
-                channelId={this.props.currentChannel.id}
-                onSubmit={this.doSubmit}
-                readOnly={!this.props.canPost}
-            />
-        );
+        if (this.props.isWysiwygEnabled) {
+            return (
+                <Wysiwyg
+                    channelId={this.props.currentChannel.id}
+                    onSubmit={this.handleSubmit}
+                    onChange={this.handleChange}
+                    readOnly={!this.props.canPost}
+                />
+            );
+        }
 
         return (
             <form
@@ -1360,7 +1389,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     handleSelect={this.handleSelect}
                     handleKeyDown={this.handleKeyDown}
                     postMsgKeyPress={this.postMsgKeyPress}
-                    handleChange={this.handleChange}
+                    handleChange={this.handleChange_DEPR}
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}

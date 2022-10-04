@@ -1,18 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect} from 'react';
+import React, {FormEvent, useCallback, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
-import debounce from 'lodash/debounce';
+import {debounce} from 'lodash';
+import type {DebouncedFunc} from 'lodash';
 
-import {EditorContent, JSONContent, useEditor, ReactNodeViewRenderer as renderReactNodeView} from '@tiptap/react';
+import {Editor} from '@tiptap/core';
+import {
+    EditorContent,
+    JSONContent,
+    useEditor,
+    ReactNodeViewRenderer as renderReactNodeView,
+} from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import Link from '@tiptap/extension-link';
 import Typography from '@tiptap/extension-typography';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Code from '@tiptap/extension-code';
+
+import Table from '@tiptap/extension-table';
+import TableCell from '@tiptap/extension-table-cell';
+import TableHeader from '@tiptap/extension-table-header';
+import TableRow from '@tiptap/extension-table-row';
 
 // load all highlight.js languages
 import {lowlight} from 'lowlight';
@@ -72,13 +84,14 @@ function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: J
 type Props = {
     channelId: string;
     rootId?: string;
-    onSubmit: (markdownText: string) => void;
+    onSubmit: (e?: FormEvent) => void;
     onChange?: (markdownText: string) => void;
     readOnly?: boolean;
 }
 
 export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
+    const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
 
     const editor = useEditor({
         extensions: [
@@ -86,6 +99,10 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
             Highlight,
             Typography,
             Code,
+            Table,
+            TableCell,
+            TableHeader,
+            TableRow,
             Link.configure({
                 linkOnPaste: true,
                 openOnClick: false,
@@ -106,7 +123,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                                  * design document for the editor
                                  * @see https://www.figma.com/file/lMtUxkdoBSWZH1s9Z2wiwE/MM-46955-WYSIWYG-Editor%3A-Mattercon-Contribute?node-id=1387%3A132682
                                  *
-                                 * Maybe we can copy some of the code that is in the other keaboardshortcut to exit the
+                                 * Maybe we can copy some code that is in the other keaboardshortcut to exit the
                                  * codeBlock when in last position and onArrowDown
                                  * @see https://github.com/ueberdosis/tiptap/blob/6b0401c783f5d380a7e5106f166af56da74dbe59/packages/extension-code-block/src/code-block.ts#L178
                                  */
@@ -123,10 +140,9 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                 }),
         ],
         content: draft?.content,
+        autofocus: 'end',
         onUpdate: ({editor}) => {
-            // Save draft while typing
-            // TODO: determine which wait period is sufficient
-            debounce(() => setDraftContent(editor.getJSON()), 500);
+            debouncedDraft.current?.(editor);
 
             // call the onChange function from the parent component (if any available)
             onChange?.(htmlToMarkdown(editor.getHTML()));
@@ -144,7 +160,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
             return () => {};
         }
 
-        const storeDraft = () => setDraftContent(editor.getJSON());
+        const storeDraft = () => debouncedDraft.current?.flush();
 
         editor.on('destroy', storeDraft);
         return () => editor.off('destroy', storeDraft);
@@ -156,7 +172,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
-        onSubmit(htmlToMarkdown(editor.getHTML()));
+        onSubmit();
         editor.commands.clearContent(true);
     };
 

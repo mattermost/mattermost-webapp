@@ -13,7 +13,7 @@ import {
     CodeTagsIcon,
     FormatQuoteOpenIcon,
     FormatListBulletedIcon,
-    FormatListNumberedIcon, CheckIcon,
+    FormatListNumberedIcon, CheckIcon, CodeBlockIcon,
 } from '@mattermost/compass-icons/components';
 import IconProps from '@mattermost/compass-icons/components/props';
 
@@ -163,7 +163,7 @@ const MAP_MARKDOWN_MODE_TO_ICON: Record<ToolbarControlProps['mode'], React.FC<Ic
     link: LinkVariantIcon,
     strike: FormatStrikethroughVariantIcon,
     code: CodeTagsIcon,
-    codeBlock: CodeTagsIcon,
+    codeBlock: CodeBlockIcon,
     quote: FormatQuoteOpenIcon,
     ul: FormatListBulletedIcon,
     ol: FormatListNumberedIcon,

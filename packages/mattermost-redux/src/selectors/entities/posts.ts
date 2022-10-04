@@ -10,6 +10,19 @@ import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences'
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
+import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+
+import {
+    isPostEphemeral,
+    isSystemMessage,
+    shouldFilterJoinLeavePost,
+    comparePosts,
+    isPostPendingOrFailed,
+    isPostCommentMention,
+} from 'mattermost-redux/utils/post_utils';
+
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+
 import {Channel} from '@mattermost/types/channels';
 import {
     MessageHistory,
@@ -25,17 +38,6 @@ import {
     RelationOneToOne,
     RelationOneToMany,
 } from '@mattermost/types/utilities';
-
-import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {
-    isPostEphemeral,
-    isSystemMessage,
-    shouldFilterJoinLeavePost,
-    comparePosts,
-    isPostPendingOrFailed,
-    isPostCommentMention,
-} from 'mattermost-redux/utils/post_utils';
-import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 export function getAllPosts(state: GlobalState) {
     return state.entities.posts.posts;

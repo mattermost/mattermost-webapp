@@ -13,6 +13,6 @@ export type PostDraft = {
     caretPosition?: number;
 };
 
-export type NewPostDraft = {
-    content: JSONContent;
+export type NewPostDraft = PostDraft & {
+    content?: JSONContent;
 }

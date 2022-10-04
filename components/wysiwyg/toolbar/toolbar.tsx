@@ -242,7 +242,10 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                                     key={mode}
                                     mode={mode}
                                     active={controlActiveAssertionMap[mode]()}
-                                    onClick={controlHandlerMap[mode]}
+                                    onClick={() => {
+                                        setShowHeadingControls(false);
+                                        controlHandlerMap[mode]();
+                                    }}
                                     label={formatMessage(MAP_HEADING_MODE_TO_LABEL[mode])}
                                     aria-label={formatMessage(MAP_HEADING_MODE_TO_ARIA_LABEL[mode])}
                                 />

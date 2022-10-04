@@ -183,6 +183,7 @@ export type ClientConfig = {
     WebsocketPort: string;
     WebsocketSecurePort: string;
     WebsocketURL: string;
+    Wysiwyg: string;
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
     EnableComplianceExport: string;
