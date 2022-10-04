@@ -120,6 +120,7 @@ export default class SuggestionList extends React.PureComponent {
         } else if (item.emoji) {
             this.currentLabel = item.name;
         }
+
         if (this.currentLabel) {
             this.currentLabel = this.currentLabel.toLowerCase();
         }
@@ -257,6 +258,7 @@ export default class SuggestionList extends React.PureComponent {
             if (isSelection) {
                 this.currentItem = item;
             }
+
             items.push(
                 <Component
                     key={term}
@@ -272,6 +274,7 @@ export default class SuggestionList extends React.PureComponent {
         }
         const mainClass = 'suggestion-list suggestion-list--' + this.props.position;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.position;
+        
         return (
             <div
                 ref={this.wrapperRef}
