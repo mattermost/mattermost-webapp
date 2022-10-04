@@ -1,13 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable react/no-string-refs */
-
-import deepEqual from 'fast-deep-equal';
 import React from 'react';
 
+import deepEqual from 'fast-deep-equal';
+
 import {FormattedMessage} from 'react-intl';
+import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
 import {Timezone} from 'timezones.json';
+
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 import {UserProfile, UserTimezone} from '@mattermost/types/users';
@@ -20,7 +23,6 @@ import {getBrowserTimezone} from 'utils/timezone.jsx';
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
@@ -42,6 +44,7 @@ function getDisplayStateFromProps(props: Props) {
         collapseDisplay: props.collapseDisplay,
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
+        lastActiveDisplay: props.lastActiveDisplay.toString(),
         oneClickReactionsOnPosts: props.oneClickReactionsOnPosts,
         clickToReply: props.clickToReply,
     };
@@ -82,8 +85,10 @@ type SectionProps ={
     description: {
         id: string;
         message: string;
+        values?: Record<string, React.ReactNode | PrimitiveType | FormatXMLElementFn<React.ReactNode, React.ReactNode>>;
     };
     disabled?: boolean;
+    onSubmit?: () => void;
 }
 
 type Props = {
@@ -119,9 +124,12 @@ type Props = {
     oneClickReactionsOnPosts: string;
     emojiPickerEnabled: boolean;
     timezoneLabel: string;
+    lastActiveDisplay: boolean;
+    lastActiveTimeEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
+        updateMe: (user: UserProfile) => Promise<ActionResult>;
     };
 }
 
@@ -137,6 +145,7 @@ type State = {
     collapseDisplay: string;
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
+    lastActiveDisplay: string;
     oneClickReactionsOnPosts: string;
     clickToReply: string;
     handleSubmit?: () => void;
@@ -196,6 +205,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             trackEvent('settings', 'user_settings_update', props);
         }
     }
+
+    submitLastActive = () => {
+        const {user, actions} = this.props;
+        const {lastActiveDisplay} = this.state;
+
+        const updatedUser = {
+            ...user,
+            props: {
+                ...user.props,
+                show_last_active: lastActiveDisplay,
+            },
+        };
+
+        actions.updateMe(updatedUser).
+            then((res) => {
+                if ('data' in res) {
+                    this.props.updateSection('');
+                } else if ('error' in res) {
+                    const {error} = res;
+                    let serverError;
+                    if (error instanceof Error) {
+                        serverError = error.message;
+                    } else {
+                        serverError = error as string;
+                    }
+                    this.setState({serverError, isSaving: false});
+                }
+            });
+    };
 
     handleSubmit = async () => {
         const userId = this.props.user.id;
@@ -318,6 +356,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({collapsedReplyThreads});
     }
 
+    handleLastActiveRadio(lastActiveDisplay: string) {
+        this.setState({lastActiveDisplay});
+    }
+
     handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
     }
@@ -359,9 +401,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             thirdOption,
             description,
             disabled,
+            onSubmit,
         } = props;
         let extraInfo = null;
-        let submit: (() => Promise<void>) | null = this.handleSubmit;
+        let submit: (() => Promise<void>) | (() => void) | null = onSubmit || this.handleSubmit;
 
         const firstMessage = (
             <FormattedMessage
@@ -421,9 +464,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         );
 
         const messageDesc = (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id={description.id}
                 defaultMessage={description.message}
+                values={description.values}
             />
         );
 
@@ -668,6 +712,40 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             this.prevSections.message_display = 'linkpreview';
         } else {
             this.prevSections.message_display = this.prevSections.linkpreview;
+        }
+
+        let lastActiveSection = null;
+
+        if (this.props.lastActiveTimeEnabled) {
+            lastActiveSection = this.createSection({
+                section: 'lastactive',
+                display: 'lastActiveDisplay',
+                value: this.state.lastActiveDisplay,
+                defaultDisplay: 'true',
+                title: {
+                    id: t('user.settings.display.lastActiveDisplay'),
+                    message: 'Share last active time',
+                },
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: t('user.settings.display.lastActiveOn'),
+                        message: 'On',
+                    },
+                },
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: t('user.settings.display.lastActiveOff'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.lastActiveDesc'),
+                    message: 'When enabled, other users will see when you were last active.',
+                },
+                onSubmit: this.submitLastActive,
+            });
         }
 
         const clockSection = this.createSection({
@@ -1071,6 +1149,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {clockSection}
                     {teammateNameDisplaySection}
                     {availabilityStatusOnPostsSection}
+                    {lastActiveSection}
                     {timezoneSelection}
                     {linkPreviewSection}
                     {collapseSection}

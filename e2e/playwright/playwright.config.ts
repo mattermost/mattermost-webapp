@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {PlaywrightTestConfig, devices} from '@playwright/test';
-import testConfig from './test.config';
-import {duration} from './support/utils';
+
+import {duration} from '@support/utils';
+import testConfig from '@test.config';
 
 const config: PlaywrightTestConfig = {
     globalSetup: require.resolve('./global_setup'),
@@ -12,10 +13,11 @@ const config: PlaywrightTestConfig = {
     retries: 1,
     testDir: 'tests',
     timeout: duration.one_min,
-    workers: process.env.CI ? 2 : 1,
+    workers: process.env.CI && process.env.PW_WORKERS ? parseInt(process.env.PW_WORKERS, 10) : 1,
     expect: {
         toMatchSnapshot: {
             threshold: 0.4,
+            maxDiffPixelRatio: 0.0001,
         },
     },
     use: {
@@ -27,6 +29,15 @@ const config: PlaywrightTestConfig = {
         trace: 'off',
         video: 'on-first-retry',
         actionTimeout: duration.ten_sec,
+        storageState: {
+            cookies: [],
+            origins: [
+                {
+                    origin: testConfig.baseURL,
+                    localStorage: [{name: '__landingPageSeen__', value: 'true'}],
+                },
+            ],
+        },
     },
     projects: [
         {
@@ -59,6 +70,12 @@ const config: PlaywrightTestConfig = {
                 viewport: {width: 1280, height: 1024},
             },
         },
+    ],
+    reporter: [
+        ['html', {open: 'never'}],
+        ['json', {outputFile: 'playwright-report/results.json'}],
+        ['junit', {outputFile: 'playwright-report/results.xml'}],
+        ['list'],
     ],
 };
 

@@ -17,7 +17,7 @@ import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 type Props = {
-    previousRhsState: RhsState;
+    previousRhsState?: RhsState;
     isExpanded: boolean;
     actions: {
         showMentions: () => void;

@@ -6,7 +6,7 @@ import React from 'react';
 
 import {ChannelType} from '@mattermost/types/channels';
 
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 
 import {TestHelper} from 'utils/test_helper';
 
@@ -19,7 +19,7 @@ jest.mock('p-queue', () => class PQueueMock {
     clear = () => mockQueue.splice(0, mockQueue.length);
 });
 
-jest.mock('actions/user_actions.jsx', () => ({
+jest.mock('actions/user_actions', () => ({
     loadProfilesForSidebar: jest.fn(() => Promise.resolve({})),
 }));
 

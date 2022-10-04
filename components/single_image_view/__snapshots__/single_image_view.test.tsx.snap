@@ -44,6 +44,7 @@ exports[`components/SingleImageView permalink preview should render with permali
             enablePublicLink={false}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -118,6 +119,7 @@ exports[`components/SingleImageView should match snapshot 1`] = `
             enablePublicLink={false}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -192,6 +194,7 @@ exports[`components/SingleImageView should match snapshot 2`] = `
             enablePublicLink={false}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -270,6 +273,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 1`] = `
             enablePublicLink={false}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -348,6 +352,7 @@ exports[`components/SingleImageView should match snapshot, SVG image 2`] = `
             enablePublicLink={false}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,
@@ -422,6 +427,7 @@ exports[`components/SingleImageView should set loaded state on callback of onIma
             enablePublicLink={false}
             fileInfo={
               Object {
+                "archived": false,
                 "clientId": "client_id",
                 "create_at": 1,
                 "delete_at": 1,

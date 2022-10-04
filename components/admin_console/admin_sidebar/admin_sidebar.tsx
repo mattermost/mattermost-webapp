@@ -1,21 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import isEqual from 'lodash/isEqual';
-
 import classNames from 'classnames';
 
+import {PluginRedux} from '@mattermost/types/plugins';
+
 import {generateIndex, Index} from 'utils/admin_console_index';
-
 import {browserHistory} from 'utils/browser_history';
-
 import {localizeMessage} from 'utils/utils';
-
-import AdminDefinition from '../admin_definition';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar/admin_sidebar_category';
 import AdminSidebarHeader from 'components/admin_console/admin_sidebar_header';
@@ -24,31 +20,13 @@ import Highlight from 'components/admin_console/highlight';
 import SearchIcon from 'components/widgets/icons/search_icon';
 import QuickInput from 'components/quick_input';
 
-import {ConsoleAccess} from 'mattermost-redux/types/admin';
-import {AdminConfig, ClientLicense} from '@mattermost/types/config';
-import {CloudState, Product} from '@mattermost/types/cloud';
-import {DeepPartial} from '@mattermost/types/utilities';
-import {PluginRedux, PluginsResponse} from '@mattermost/types/plugins';
+import AdminDefinition from '../admin_definition';
 
-export type Props = {
-    adminDefinition: typeof AdminDefinition;
-    buildEnterpriseReady: boolean;
-    config: DeepPartial<AdminConfig>;
-    consoleAccess: ConsoleAccess;
-    cloud: CloudState;
+import type {PropsFromRedux} from './index';
+
+export interface Props extends PropsFromRedux {
     intl: IntlShape;
-    license: ClientLicense;
-    navigationBlocked: boolean;
     onFilterChange: (term: string) => void;
-    showTaskList: boolean;
-    plugins?: Record<string, PluginRedux>;
-    siteName?: string;
-    subscriptionProduct?: Product;
-    actions: {
-
-        // Function to get installed plugins
-        getPlugins: () => Promise<{data: PluginsResponse}>;
-    };
 }
 
 type State = {
@@ -333,7 +311,6 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                     />
                 </div>
                 <Scrollbars
-                    ref='scrollbar'
                     autoHide={true}
                     autoHideTimeout={500}
                     autoHideDuration={500}
@@ -355,4 +332,3 @@ class AdminSidebar extends React.PureComponent<Props, State> {
 }
 
 export default injectIntl(AdminSidebar);
-/* eslint-enable react/no-string-refs */

@@ -41,7 +41,7 @@ describe('System Console > User Management > Reactivation', () => {
                 cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
                 // # Type the user name of the other user on Channel switcher input
-                cy.get('.more-direct-channels #selectItems').type(id).wait(TIMEOUTS.HALF_SEC);
+                cy.get('.more-direct-channels #selectItems input').typeWithForce(id).wait(TIMEOUTS.HALF_SEC);
 
                 // * Verify user 1 is shown first and doesn't have deactivated text
                 cy.get('#moreDmModal .more-modal__row').siblings().its(0).get('#displayedUserName' + user1.username).parent().should('not.contain', 'Deactivated');

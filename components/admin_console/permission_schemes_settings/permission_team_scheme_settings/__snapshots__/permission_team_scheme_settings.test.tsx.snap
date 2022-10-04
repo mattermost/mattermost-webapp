@@ -183,7 +183,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -514,7 +513,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -540,7 +538,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -869,7 +866,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -895,7 +891,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1096,7 +1091,7 @@ Object {
   "saving": false,
   "schemeDescription": undefined,
   "schemeName": undefined,
-  "selectedPermission": null,
+  "selectedPermission": undefined,
   "serverError": null,
   "teams": null,
   "urlParams": URLSearchParams {},
@@ -1297,7 +1292,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1323,7 +1317,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable

@@ -57,14 +57,14 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
             const target = e.target as HTMLElement | undefined;
 
             if (target && target.className !== 'navbar-toggle' && target.className !== 'icon-bar') {
-                // this.props.actions.closeLhs();
-                // this.props.actions.closeRhsMenu();
+                this.props.actions.closeLhs();
+                this.props.actions.closeRhsMenu();
             }
         }
     }
 
     render() {
-        const {user, channel, isMuted, isReadOnly, isRHSOpen, currentRelativeTeamUrl, inGlobalThreads} = this.props;
+        const {user, channel, isMuted, inGlobalThreads} = this.props;
 
         let heading;
         if (inGlobalThreads) {
@@ -104,9 +104,6 @@ export default class ChannelHeaderMobile extends React.PureComponent<Props> {
                         {channel && (
                             <ChannelInfoButton
                                 channel={channel}
-                                isReadOnly={isReadOnly}
-                                isRHSOpen={isRHSOpen}
-                                currentRelativeTeamUrl={currentRelativeTeamUrl}
                             />
                         )}
                         <ShowSearchButton/>

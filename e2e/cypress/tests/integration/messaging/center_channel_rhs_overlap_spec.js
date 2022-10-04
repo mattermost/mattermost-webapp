@@ -264,7 +264,7 @@ describe('Messaging', () => {
         });
 
         // # [19] Post message with quotes
-        cy.uiGetPostTextBox().should('be.visible').clear().type(`${messageWithCodeblock1}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().should('be.visible').clear().type(messageWithCodeblock1).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}');
 
         // * Check that the message has been posted
@@ -289,7 +289,7 @@ describe('Messaging', () => {
         });
 
         // # [21] Post message with quotes incomplete
-        cy.uiGetPostTextBox().clear().type(`${messageWithCodeblockIncomplete2}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().clear().type(messageWithCodeblockIncomplete2).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}');
 
         // * Check that the message has not been posted
@@ -403,7 +403,7 @@ describe('Messaging', () => {
         });
 
         // # [31] Post message with quotes
-        cy.uiGetPostTextBox().should('be.visible').clear().type(`${messageWithCodeblock1}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().should('be.visible').clear().type(messageWithCodeblock1).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the message has been posted
@@ -428,7 +428,7 @@ describe('Messaging', () => {
         });
 
         // # [33] Post message with quotes incomplete
-        cy.uiGetPostTextBox().clear().type(`${messageWithCodeblockIncomplete2}`).wait(TIMEOUTS.HALF_SEC);
+        cy.uiGetPostTextBox().clear().type(messageWithCodeblockIncomplete2).wait(TIMEOUTS.HALF_SEC);
         cy.uiGetPostTextBox().type('{enter}').wait(TIMEOUTS.HALF_SEC);
 
         // * Check that the message has been posted
@@ -504,6 +504,7 @@ describe('Messaging', () => {
     it('MM-T2140 Edited message displays edits and "Edited" in center and RHS', () => {
         // # Mobile app
         cy.viewport('iphone-6');
+        cy.reload();
 
         // # Post message
         cy.uiGetPostTextBox().type(message1).type('{enter}').wait(TIMEOUTS.HALF_SEC);
@@ -551,7 +552,7 @@ describe('Messaging', () => {
 
         // # Edit post by opening modal
         cy.getLastPostId().then((postId) => {
-            cy.clickPostDotMenu(postId);
+            cy.clickPostDotMenu(postId, 'RHS_ROOT');
 
             // * Click edit post
             cy.get(`#edit_post_${postId}`).scrollIntoView().should('be.visible').click();

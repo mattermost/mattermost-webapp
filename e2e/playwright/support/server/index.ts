@@ -3,7 +3,7 @@
 
 import {UserProfile} from '@mattermost/types/lib/users';
 
-import testConfig from '../../test.config';
+import testConfig from '@test.config';
 
 import {createRandomChannel} from './channel';
 import Client from './client';

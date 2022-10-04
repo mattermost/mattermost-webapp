@@ -24,7 +24,7 @@ import * as Utils from 'utils/utils';
 
 import {TextboxElement} from './index';
 
-type Props = {
+export type Props = {
     id: string;
     channelId: string;
     rootId?: string;
@@ -40,11 +40,12 @@ type Props = {
     onMouseUp?: (e: React.MouseEvent<TextboxElement>) => void;
     onKeyUp?: (e: React.KeyboardEvent<TextboxElement>) => void;
     onBlur?: (e: FocusEvent<TextboxElement>) => void;
-    supportsCommands: boolean;
+    supportsCommands?: boolean;
     handlePostError?: (message: JSX.Element | null) => void;
     onPaste?: (e: ClipboardEvent) => void;
     suggestionList?: React.ComponentProps<typeof SuggestionBox>['listComponent'];
     suggestionListPosition?: React.ComponentProps<typeof SuggestionList>['position'];
+    alignWithTextbox?: boolean;
     emojiEnabled?: boolean;
     isRHS?: boolean;
     characterLimit: number;
@@ -56,14 +57,15 @@ type Props = {
     preview?: boolean;
     autocompleteGroups: Array<{ id: string }> | null;
     actions: {
-        autocompleteUsersInChannel: (prefix: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<string[]>;
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<ActionResult>;
-        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => (dispatch: any, getState: any) => Promise<{ data: any }>;
+        autocompleteUsersInChannel: (prefix: string, channelId: string) => Promise<ActionResult>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<ActionResult>;
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
     };
     useChannelMentions: boolean;
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    hasLabels?: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -257,6 +259,9 @@ export default class Textbox extends React.PureComponent<Props> {
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
         }
+        if (this.props.hasLabels) {
+            textboxClassName += ' textarea--has-labels';
+        }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';
             textWrapperClass += ' textarea-wrapper--preview';
@@ -314,6 +319,7 @@ export default class Textbox extends React.PureComponent<Props> {
                     contextId={this.props.channelId}
                     listenForMentionKeyClick={this.props.listenForMentionKeyClick}
                     openWhenEmpty={this.props.openWhenEmpty}
+                    alignWithTextbox={this.props.alignWithTextbox}
                 />
                 {preview}
             </div>

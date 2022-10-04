@@ -1,12 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {ProductNotices} from '@mattermost/types/product_notices';
-import {WebsocketStatus} from 'mattermost-redux/types/websocket';
 import {getInProductNotices, updateNoticesAsViewed} from 'mattermost-redux/actions/teams';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
@@ -27,7 +26,7 @@ type Actions = {
 function mapStateToProps(state: GlobalState) {
     const config: Partial<ClientConfig> = getConfig(state);
     const version: string = config.Version || ''; //this should always exist but TS throws error
-    const socketStatus: WebsocketStatus = getSocketStatus(state);
+    const socketStatus = getSocketStatus(state);
 
     return {
         currentTeamId: getCurrentTeamId(state),
@@ -45,4 +44,8 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(ProductNoticesModal);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(ProductNoticesModal);

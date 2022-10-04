@@ -75,7 +75,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
 
             // # Type the email of the new user
-            cy.get('input').type(email, {force: true});
+            cy.get('input').typeWithForce(email);
         });
         cy.get('.users-emails-input__menu').
             children().should('have.length', 1).
@@ -96,7 +96,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.visit(inviteMembersLink);
 
         // * Verify the sign up options
-        cy.findByText('AD/LDAP Credentials').should('be.visible');
+        cy.findByText('AD/LDAP Credentials').scrollIntoView().should('be.visible');
         cy.findByText('Email address').should('be.visible');
         cy.findByPlaceholderText('Choose a Password').should('be.visible');
 
@@ -220,7 +220,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             // # Add a random username without proper email address format
             const username = `temp-${getRandomId()}`;
             cy.get('.users-emails-input__control').should('be.visible').within(() => {
-                cy.get('input').type(username, {force: true}).tab();
+                cy.get('input').typeWithForce(username).tab();
             });
 
             // # Click Invite Members
@@ -255,7 +255,7 @@ function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
 
     // # Search and add a member
     cy.get('.users-emails-input__control').should('be.visible').within(() => {
-        cy.get('input').type(typeText, {force: true});
+        cy.get('input').typeWithForce(typeText);
     });
 
     cy.get('.users-emails-input__menu').

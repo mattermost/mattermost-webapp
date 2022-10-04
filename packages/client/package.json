@@ -1,6 +1,6 @@
 {
   "name": "@mattermost/client",
-  "version": "7.0.0",
+  "version": "7.1.0",
   "description": "JavaScript/TypeScript client for Mattermost",
   "keywords": [
     "mattermost"
@@ -33,7 +33,8 @@
     }
   },
   "scripts": {
-    "build": "tsc -b -v",
+    "build": "tsc --build --verbose",
+    "run": "tsc --watch --preserveWatchOutput",
     "clean": "rm -rf tsconfig.tsbuildinfo ./lib"
   }
 }

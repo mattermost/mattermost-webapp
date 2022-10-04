@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {createSelector} from 'reselect';
 
 import {
@@ -40,6 +38,8 @@ import {
     RelationOneToOne,
 } from '@mattermost/types/utilities';
 import {Reaction} from '@mattermost/types/reactions';
+
+import {General} from 'mattermost-redux/constants';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -722,6 +722,14 @@ export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], 
     return profiles;
 }
 
+export function getUserLastActivities(state: GlobalState): RelationOneToOne<UserProfile, number> {
+    return state.entities.users.lastActivity;
+}
+
+export function getLastActivityForUserId(state: GlobalState, userId: UserProfile['id']): number {
+    return getUserLastActivities(state)[userId];
+}
+
 export function checkIsFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfile>): boolean {
     if (!currentUser) {
         return false;
@@ -743,4 +751,46 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     checkIsFirstAdmin,
+);
+
+export const displayLastActiveLabel: (state: GlobalState, userId: string) => boolean = createSelector(
+    'displayLastActiveLabel',
+    (state: GlobalState, userId: string) => getStatusForUserId(state, userId),
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (state: GlobalState, userId: string) => getUser(state, userId),
+    getConfig,
+    (userStatus, timestamp, user, config) => {
+        const currentTime = new Date();
+        const oneMin = 60 * 1000;
+
+        if (
+            (!userStatus || userStatus === General.ONLINE) ||
+            (timestamp && (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin) ||
+            user?.props?.show_last_active === 'false' ||
+            user?.is_bot ||
+            timestamp === 0 ||
+            config.EnableLastActiveTime !== 'true'
+        ) {
+            return false;
+        }
+        return true;
+    },
+);
+
+export const getLastActiveTimestampUnits: (state: GlobalState, userId: string) => string[] = createSelector(
+    'getLastActiveTimestampUnits',
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (timestamp) => {
+        const timestampUnits = [
+            'now',
+            'minute',
+            'hour',
+        ];
+        const currentTime = new Date();
+        const twoDaysAgo = 48 * 60 * 60 * 1000;
+        if ((currentTime.valueOf() - new Date(timestamp).valueOf()) < twoDaysAgo) {
+            timestampUnits.push('day');
+        }
+        return timestampUnits;
+    },
 );

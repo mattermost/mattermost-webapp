@@ -33,7 +33,7 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
 import {Preferences} from 'utils/constants';
 
-import RhsComment from './rhs_comment.jsx';
+import RhsComment from './rhs_comment';
 
 interface OwnProps {
     post: Post;
