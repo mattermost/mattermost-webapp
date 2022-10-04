@@ -12,7 +12,7 @@ import {General} from 'mattermost-redux/constants';
 
 import BotDefaultIcon from 'images/bot_default_icon.png';
 
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import SpinnerButton from 'components/spinner_button';
