@@ -4,31 +4,34 @@
 import {Role} from '@mattermost/types/roles';
 import {Permissions} from 'mattermost-redux/constants/index';
 
+const trueString = 'true';
+const falseString = 'false';
+
 const MAPPING = {
     enableTeamCreation: {
-        True: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: true}],
-        False: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}],
+        [trueString]: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: true}],
+        [falseString]: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}],
     },
 
     editOthersPosts: {
-        True: [
+        [trueString]: [
             {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
             {roleName: 'team_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
         ],
-        False: [
+        [falseString]: [
             {roleName: 'team_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: false},
             {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
         ],
     },
 
     enableOnlyAdminIntegrations: {
-        True: [
+        [trueString]: [
             {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: false},
             {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: false},
         ],
-        False: [
+        [falseString]: [
             {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: true},
             {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: true},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: true},
@@ -102,7 +105,7 @@ function purgeNonPertinentRoles(roles: Record<string, Role>) {
     });
 }
 
-function mutateRolesBasedOnMapping(mappingKey: MappingKeyTypes, value: 'True' | 'False', roles: Record<string, Role>) {
+function mutateRolesBasedOnMapping(mappingKey: MappingKeyTypes, value: 'true' | 'false', roles: Record<string, Role>) {
     const roleRules = MAPPING[mappingKey][value];
 
     if (typeof roleRules === 'undefined') {
