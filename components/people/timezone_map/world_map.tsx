@@ -2,20 +2,22 @@
 // See LICENSE.txt for license information.
 import {geoPath} from 'd3';
 import * as GeoJSON from 'geojson';
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useRef} from 'react';
 import * as topojson from 'topojson-client';
 import {Topology} from 'topojson-specification';
 
-import {Tooltip} from 'react-bootstrap';
+import {Tooltip, Overlay} from 'react-bootstrap';
 
-import OverlayTrigger from 'components/overlay_trigger';
+// import OverlayTrigger from 'components/overlay_trigger';
+import StatusIcon from 'components/status_icon';
+import Timestamp from 'components/timestamp';
+
+import {UserTimezone} from '@mattermost/types/users';
 
 import timezoneTopoJson from './assets/timezones.json';
 import {findTimeZone} from './util';
+
 import './world_map.scss';
-import StatusIcon from 'components/status_icon';
-import { UserTimezone } from '@mattermost/types/users';
-import Timestamp from 'components/timestamp';
 
 type PolygonFeature = GeoJSON.Feature<
 GeoJSON.Polygon,
@@ -55,6 +57,7 @@ interface WorldMapProps {
 
 const WorldMap = (props: WorldMapProps): ReactElement => {
     const pathGenerator = geoPath();
+    const refEl = useRef<any>(null);
     const timeZonePolygonFeatures = React.useMemo(
         createTimeZonePolygonFeatures,
         [],
@@ -135,12 +138,8 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
         }
 
         return (
-            <OverlayTrigger
-                delayShow={100}
-                placement='top'
-                overlay={tooltip}
-                key={id}
-            >
+            <>
+
                 <path
                     id={id}
                     data-testid={id}
@@ -149,8 +148,17 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
                     fill={fill}
                     strokeWidth={0.5}
                     stroke={stroke}
+                    ref={refEl}
                 />
-            </OverlayTrigger>
+                <Overlay
+                    placement='top'
+                    key={id}
+                    show={true}
+                    target={refEl.current}
+                >
+                    {tooltip}
+                </Overlay>
+            </>
         );
     });
 
