@@ -599,8 +599,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
             this.props.onUpdateCommentDraft(updatedDraft);
 
-            // TODO: This is a temporary change for development, will need to redo this entire function as
-            // state is not being updated properly.
+            // // TODO: This is a temporary change for development, will need to redo this entire function as
+            // // state is not being updated properly.
             this.setState({draft: updatedDraft}, async () => {
                 if (memberNotifyCount > 0) {
                     this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
@@ -682,9 +682,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
         }
-        this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
-        this.draftsForPost[this.props.rootId] = null;
         this.setState({isBroadcastThreadReply: false});
+        this.setState({draft: {...this.props.draft, uploadsInProgress: [], props: {...draft.props, broadcasted_thread_reply: false}}});
+        this.draftsForPost[this.props.rootId] = null;
     }
 
     commentMsgKeyPress = (e: React.KeyboardEvent<TextboxElement>) => {
