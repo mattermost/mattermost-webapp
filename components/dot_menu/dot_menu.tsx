@@ -464,9 +464,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             </span>
         );
 
-        const fromWebhook = this.props.post.props?.from_webhook === 'true';
-        const fromBot = this.props.post.props?.from_bot === 'true';
-        this.canPostBeForwarded = !(fromWebhook || fromBot || isSystemMessage);
+        this.canPostBeForwarded = !(isSystemMessage);
 
         const forwardPostItemText = (
             <span className={'title-with-new-badge'}>

@@ -9,7 +9,7 @@ import {EmoticonPlusOutlineIcon} from '@mattermost/compass-icons/components';
 import {Post} from '@mattermost/types/posts';
 import {Emoji, SystemEmoji} from '@mattermost/types/emojis';
 
-import {AppEvents, Constants, ModalIdentifiers} from 'utils/constants';
+import {AppEvents, Constants, ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {
     formatGithubCodePaste,
     formatMarkdownTableMessage,
@@ -24,6 +24,7 @@ import DeletePostModal from 'components/delete_post_modal';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import Textbox, {TextboxClass, TextboxElement} from 'components/textbox';
 import {ModalData} from 'types/actions';
+import {PostDraft} from '../../types/store/draft';
 
 import EditPostFooter from './edit_post_footer';
 
@@ -35,6 +36,7 @@ type DialogProps = {
 export type Actions = {
     addMessageIntoHistory: (message: string) => void;
     editPost: (input: Partial<Post>) => Promise<Post>;
+    setDraft: (name: string, value: PostDraft | null) => void;
     unsetEditingPost: () => void;
     openModal: (input: ModalData<DialogProps>) => void;
     scrollPostListToBottom: () => void;
@@ -44,9 +46,11 @@ export type Props = {
     canEditPost?: boolean;
     canDeletePost?: boolean;
     readOnlyChannel?: boolean;
+    teamId: string;
     channelId: string;
     codeBlockOnCtrlEnter: boolean;
     ctrlSend: boolean;
+    draft: PostDraft;
     config: {
         EnableEmojiPicker?: string;
         EnableGifPicker?: string;
@@ -79,9 +83,9 @@ const {KeyCodes} = Constants;
 const TOP_OFFSET = 0;
 const RIGHT_OFFSET = 10;
 
-const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): JSX.Element | null => {
+const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, ...rest}: Props): JSX.Element | null => {
     const [editText, setEditText] = useState<string>(
-        editingPost?.post?.message_source || editingPost?.post?.message || '',
+        draft.message || editingPost?.post?.message_source || editingPost?.post?.message || '',
     );
     const [selectionRange, setSelectionRange] = useState<State['selectionRange']>({start: editText.length, end: editText.length});
     const [postError, setPostError] = useState<React.ReactNode | null>(null);
@@ -93,7 +97,36 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
     const emojiButtonRef = useRef<HTMLButtonElement>(null);
     const wrapperRef = useRef<HTMLDivElement>(null);
 
+    // using a ref here makes sure that the unmounting callback (saveDraft) is fired with the correct value.
+    // If we would just use the editText value from the state it would be a stale since it is encapsuled in the
+    // function closure on initial render
+    const draftRef = useRef<PostDraft>(draft);
+    const saveDraftFrame = useRef<number|null>();
+
+    const draftStorageId = `${StoragePrefixes.EDIT_DRAFT}${editingPost.postId}`;
+
     const {formatMessage} = useIntl();
+
+    const saveDraft = useCallback(() => {
+        // to be run on unmount and only when there is an active saveDraftFrame timer
+        if (saveDraftFrame.current && editingPost.postId) {
+            actions.setDraft(draftStorageId, draftRef.current);
+            clearTimeout(saveDraftFrame.current);
+            saveDraftFrame.current = null;
+        }
+    }, [actions, draftStorageId, editingPost.postId]);
+
+    useEffect(() => saveDraft, [saveDraft]);
+
+    useEffect(() => {
+        if (saveDraftFrame.current) {
+            clearTimeout(saveDraftFrame.current);
+        }
+
+        saveDraftFrame.current = window.setTimeout(() => {
+            actions.setDraft(draftStorageId, draftRef.current);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
+    }, [actions, draftStorageId, editText]);
 
     useEffect(() => {
         const focusTextBox = () => textboxRef?.current?.focus();
@@ -308,7 +341,16 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
         }
     };
 
-    const handleChange = (e: React.ChangeEvent<TextboxElement>) => setEditText(e.target.value);
+    const handleChange = (e: React.ChangeEvent<TextboxElement>) => {
+        const message = e.target.value;
+
+        draftRef.current = {
+            ...draftRef.current,
+            message,
+        };
+
+        setEditText(message);
+    };
 
     const handleHeightChange = (height: number, maxHeight: number) => setRenderScrollbar(height > maxHeight);
 
@@ -331,9 +373,10 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
             return;
         }
 
-        if (editText === '') {
-            setEditText(`:${emojiAlias}: `);
-        } else {
+        let newMessage = `:${emojiAlias}: `;
+        let newCaretPosition = newMessage.length;
+
+        if (editText.length > 0) {
             const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(
                 selectionRange.start,
                 editText,
@@ -341,30 +384,40 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
 
             // check whether the first piece of the message is empty when cursor
             // is placed at beginning of message and avoid adding an empty string at the beginning of the message
-            const newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
-            const newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
-
-            setEditText(newMessage);
-            setCaretPosition(newCaretPosition);
+            newMessage = firstPiece === '' ? `:${emojiAlias}: ${lastPiece}` : `${firstPiece} :${emojiAlias}: ${lastPiece}`;
+            newCaretPosition = firstPiece === '' ? `:${emojiAlias}: `.length : `${firstPiece} :${emojiAlias}: `.length;
         }
 
+        draftRef.current = {
+            ...draftRef.current,
+            message: newMessage,
+        };
+
+        setEditText(newMessage);
+        setCaretPosition(newCaretPosition);
         setShowEmojiPicker(false);
         textboxRef.current?.focus();
     };
 
     const handleGifClick = (gif: string) => {
-        if (editText === '') {
-            setEditText(gif);
-        } else {
-            const newMessage = (/\s+$/).test(editText) ? `${editText}${gif}` : `${editText} ${gif}`;
-            setEditText(newMessage);
+        let newMessage = gif;
+
+        if (editText.length > 0) {
+            newMessage = (/\s+$/).test(editText) ? `${editText}${gif}` : `${editText} ${gif}`;
         }
 
+        draftRef.current = {
+            ...draftRef.current,
+            message: newMessage,
+        };
+
+        setEditText(newMessage);
         setShowEmojiPicker(false);
         textboxRef.current?.focus();
     };
 
-    const toggleEmojiPicker = () => {
+    const toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         setShowEmojiPicker(!showEmojiPicker);
         if (showEmojiPicker) {
             textboxRef.current?.focus();
@@ -428,7 +481,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, ...rest}: Props): 
                 handlePostError={handlePostError}
                 onPaste={handlePaste}
                 value={editText}
-                channelId={rest.channelId}
+                channelId={channelId}
                 emojiEnabled={config.EnableEmojiPicker === 'true'}
                 createMessage={formatMessage({id: 'edit_post.editPost', defaultMessage: 'Edit the post...'})}
                 supportsCommands={false}

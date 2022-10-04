@@ -7,7 +7,7 @@ import {
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {useIntl} from 'react-intl';
 
@@ -62,7 +62,7 @@ type GroupedOption = {
     options: ChannelOption[];
 }
 
-export const makeSelectedChannelOption = (channel: Channel) => ({
+export const makeSelectedChannelOption = (channel: Channel): ChannelOption => ({
     label: channel.display_name || channel.name,
     value: channel.id,
     details: channel,
@@ -252,6 +252,10 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
     const {formatMessage} = useIntl();
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
 
+    useEffect(() => {
+        provider.forceDispatch = true;
+    }, [provider]);
+
     const baseStyles = getBaseStyles(currentBodyHeight);
 
     const isValidChannelType = (channel: Channel) => validChannelTypes.includes(channel.type) && !channel.delete_at;
@@ -279,6 +283,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
 
     const handleInputChange = (inputValue: string) => {
         return new Promise<ChannelOption[]>((resolve) => {
+            let callCount = inputValue ? 0 : 1;
             const options: ChannelOption[] = [];
 
             /** we optimistically assume this callback gets invoked twice when we have a value to be passed into the provider.
@@ -287,21 +292,27 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              *
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
-            let callCount = inputValue ? 1 : 0;
             const handleResults = (res: ProviderResults) => {
-                callCount++;
                 res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
                     const {channel} = item;
 
                     options.push(makeSelectedChannelOption(channel));
                 });
+
+                if (callCount === 1) {
+                    const filteredOptions = options.reduce((unique: ChannelOption[], o) => {
+                        if (!unique.some((obj) => obj.value === o.value)) {
+                            unique.push(o);
+                        }
+                        return unique;
+                    }, []);
+                    resolve(filteredOptions);
+                }
+
+                callCount++;
             };
 
             provider.handlePretextChanged(inputValue, handleResults);
-            if (callCount === 2) {
-                // only resolvbe when the count reaches 2
-                resolve(options);
-            }
         });
     };
 
