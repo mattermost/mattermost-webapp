@@ -6,15 +6,18 @@ import moment from 'moment';
 import {useIntl} from 'react-intl';
 
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
+import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
 import {isAdmin} from 'mattermost-redux/utils/user_utils';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
+import {checkHadPriorTrial, isCurrentLicenseCloud, getSubscriptionProduct as selectSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {getBrowserTimezone} from 'utils/timezone';
 
-import {LicenseLinks, LicenseSkus} from 'utils/constants';
+import {CloudProducts, LicenseLinks, LicenseSkus} from 'utils/constants';
+
+import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {GlobalState} from '@mattermost/types/store';
 
@@ -24,6 +27,7 @@ function ADLDAPUpsellBanner() {
 
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
+    const openSalesLink = useOpenSalesLink();
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
@@ -33,9 +37,15 @@ function ADLDAPUpsellBanner() {
     const isCloud = useSelector(isCurrentLicenseCloud);
     const currentLicense = useSelector(getLicense);
     const prevTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
-    const prevTrialed = prevTrialLicense?.IsLicensed === 'true';
+    const product = useSelector(selectSubscriptionProduct);
 
-    const isProfessional = currentLicense?.SkuShortName === LicenseSkus.Professional;
+    const prevCloudTrialed = useSelector(checkHadPriorTrial);
+    const prevSelfHostedTrialed = prevTrialLicense?.IsLicensed === 'true';
+    const prevTrialed = prevSelfHostedTrialed || prevCloudTrialed;
+
+    const isSelfHostedProfessional = currentLicense?.SkuShortName === LicenseSkus.Professional;
+    const isCloudProfessional = product?.sku === CloudProducts.PROFESSIONAL;
+    const isProfessional = isSelfHostedProfessional || isCloudProfessional;
 
     if (!show) {
         return null;
@@ -43,8 +53,12 @@ function ADLDAPUpsellBanner() {
 
     const currentLicenseEndDate = new Date(parseInt(currentLicense?.ExpiresAt, 10));
 
-    const openSelfHostedLink = () => {
-        window.open(LicenseLinks.CONTACT_SALES, '_blank');
+    const openLink = () => {
+        if (isCloud) {
+            openSalesLink();
+        } else {
+            window.open(LicenseLinks.CONTACT_SALES, '_blank');
+        }
     };
 
     const confirmBanner = (
@@ -56,7 +70,7 @@ function ADLDAPUpsellBanner() {
                 <div className='btns-container'>
                     <button
                         className='confrim-btn learn-more'
-                        onClick={openSelfHostedLink}
+                        onClick={openLink}
                     >
                         {formatMessage({id: 'adldap_upsell_banner.confirm.learn_more', defaultMessage: 'Learn more'})}
                     </button>
@@ -79,10 +93,6 @@ function ADLDAPUpsellBanner() {
         return null;
     }
 
-    if (isCloud) {
-        return null;
-    }
-
     if (!isProfessional) {
         return null;
     }
@@ -96,11 +106,22 @@ function ADLDAPUpsellBanner() {
             onClick={() => setConfirmed(true)}
         />);
 
+    if (isCloud) {
+        btn = (
+            <CloudStartTrialButton
+                extraClass='ad-ldap-banner-btn'
+                message={formatMessage({id: 'adldap_upsell_banner.trial_btn', defaultMessage: 'Try free for 30 days'})}
+                telemetryId={'start_cloud_trial_from_adldap_upsell_banner'}
+                onClick={() => setConfirmed(true)}
+            />
+        );
+    }
+
     if (prevTrialed) {
         btn = (
             <button
                 className='ad-ldap-banner-btn'
-                onClick={openSelfHostedLink}
+                onClick={openLink}
             >
                 {formatMessage({id: 'adldap_upsell_banner.sales_btn', defaultMessage: 'Contact sales to use'})}
             </button>

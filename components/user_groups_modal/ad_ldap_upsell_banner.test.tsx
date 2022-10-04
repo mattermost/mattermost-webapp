@@ -46,7 +46,7 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
         },
     };
 
-    test('should display for admin users on professional with option to start trial if no trial before', () => {
+    test('should display for admin users on professional with option to start trial if no self-hosted trial before', () => {
         const store = mockStore(initState);
         const dummyDispatch = jest.fn();
         useDispatchMock.mockReturnValue(dummyDispatch);
@@ -61,7 +61,7 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
         expect(wrapper.find('.ad-ldap-banner-btn').text()).toEqual('Try free for 30 days');
     });
 
-    test('should display for admin users on professional with option to contact sales if trialed before', () => {
+    test('should display for admin users on professional with option to contact sales if self-hosted trialed before', () => {
         const state = JSON.parse(JSON.stringify(initState));
         state.entities.admin.prevTrialLicense.IsLicensed = 'true';
         const store = mockStore(state);
@@ -94,7 +94,7 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
         expect(wrapper.find('#ad_ldap_upsell_banner')).toHaveLength(0);
     });
 
-    test('should not display for non professional users', () => {
+    test('should not display for non self-hosted professional users', () => {
         const state = JSON.parse(JSON.stringify(initState));
         state.entities.general.license.SkuShortName = LicenseSkus.Enterprise;
         const store = mockStore(state);
