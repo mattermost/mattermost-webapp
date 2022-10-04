@@ -2,14 +2,26 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {mount} from 'enzyme';
+import {mount, ReactWrapper} from 'enzyme';
 import * as reactRedux from 'react-redux';
+import {act} from '@testing-library/react';
 
 import mockStore from 'tests/test_store';
 
-import {LicenseSkus} from 'utils/constants';
+import {CloudProducts, LicenseSkus} from 'utils/constants';
 
 import ADLDAPUpsellBanner from './ad_ldap_upsell_banner';
+
+const actImmediate = (wrapper: ReactWrapper) =>
+    act(
+        () =>
+            new Promise<void>((resolve) => {
+                setImmediate(() => {
+                    wrapper.update();
+                    resolve();
+                });
+            }),
+    );
 
 describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
@@ -28,7 +40,9 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
                     SkuShortName: LicenseSkus.Professional,
                     ExpiresAt: 100000000,
                 },
+                config: {},
             },
+            cloud: {},
             admin: {
                 prevTrialLicense: {
                     IsLicensed: 'false',
@@ -61,6 +75,42 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
         expect(wrapper.find('.ad-ldap-banner-btn').text()).toEqual('Try free for 30 days');
     });
 
+    test('should display for admin users on professional with option to start trial if no cloud trial before', async () => {
+        const state = JSON.parse(JSON.stringify(initState));
+        state.entities.admin = {};
+        state.entities.general.license = {
+            Cloud: 'true',
+            ExpiresAt: 100000000,
+        };
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'prod_professional',
+                is_free_trial: 'false',
+                trial_end_at: 0,
+            },
+            products: {
+                prod_professional: {
+                    id: 'prod_professional',
+                    sku: CloudProducts.PROFESSIONAL,
+                },
+            },
+        };
+        const store = mockStore(state);
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
+        const wrapper = mount(
+            <reactRedux.Provider store={store}>
+                <ADLDAPUpsellBanner/>
+            </reactRedux.Provider>,
+        );
+
+        await actImmediate(wrapper);
+
+        expect(wrapper.find('#ad_ldap_upsell_banner')).toHaveLength(1);
+        expect(wrapper.find('.ad-ldap-banner-btn').text()).toEqual('Try free for 30 days');
+    });
+
     test('should display for admin users on professional with option to contact sales if self-hosted trialed before', () => {
         const state = JSON.parse(JSON.stringify(initState));
         state.entities.admin.prevTrialLicense.IsLicensed = 'true';
@@ -73,6 +123,42 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
                 <ADLDAPUpsellBanner/>
             </reactRedux.Provider>,
         );
+
+        expect(wrapper.find('#ad_ldap_upsell_banner')).toHaveLength(1);
+        expect(wrapper.find('.ad-ldap-banner-btn').text()).toEqual('Contact sales to use');
+    });
+
+    test('should display for admin users on professional with option to contact sales if cloud trialed before', async () => {
+        const state = JSON.parse(JSON.stringify(initState));
+        state.entities.admin = {};
+        state.entities.general.license = {
+            Cloud: 'true',
+            ExpiresAt: 100000000,
+        };
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'prod_professional',
+                is_free_trial: 'false',
+                trial_end_at: 1,
+            },
+            products: {
+                prod_professional: {
+                    id: 'prod_professional',
+                    sku: CloudProducts.PROFESSIONAL,
+                },
+            },
+        };
+        const store = mockStore(state);
+        const dummyDispatch = jest.fn();
+        useDispatchMock.mockReturnValue(dummyDispatch);
+
+        const wrapper = mount(
+            <reactRedux.Provider store={store}>
+                <ADLDAPUpsellBanner/>
+            </reactRedux.Provider>,
+        );
+
+        await actImmediate(wrapper);
 
         expect(wrapper.find('#ad_ldap_upsell_banner')).toHaveLength(1);
         expect(wrapper.find('.ad-ldap-banner-btn').text()).toEqual('Contact sales to use');
@@ -110,9 +196,26 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
         expect(wrapper.find('#ad_ldap_upsell_banner')).toHaveLength(0);
     });
 
-    test('should not display for cloud', () => {
+    test('should not display for non cloud professional users', async () => {
         const state = JSON.parse(JSON.stringify(initState));
-        state.entities.general.license.Cloud = 'true';
+        state.entities.admin = {};
+        state.entities.general.license = {
+            Cloud: 'true',
+            ExpiresAt: 100000000,
+        };
+        state.entities.cloud = {
+            subscription: {
+                product_id: 'prod_starter',
+                is_free_trial: 'false',
+                trial_end_at: 1,
+            },
+            products: {
+                prod_starter: {
+                    id: 'prod_starter',
+                    sku: CloudProducts.STARTER,
+                },
+            },
+        };
         const store = mockStore(state);
         const dummyDispatch = jest.fn();
         useDispatchMock.mockReturnValue(dummyDispatch);
@@ -122,6 +225,8 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
                 <ADLDAPUpsellBanner/>
             </reactRedux.Provider>,
         );
+
+        await actImmediate(wrapper);
 
         expect(wrapper.find('#ad_ldap_upsell_banner')).toHaveLength(0);
     });
