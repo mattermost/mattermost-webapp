@@ -368,26 +368,27 @@
     }
 }
 
+// adding important as temporary fix, will be removing tippy very soon (WIP)
 .tippy-box[data-placement^=right] > .tippy-arrow::before {
-    top: -1px;
-    border-width: 1px 0 0 1px;
-    transform: rotate(-45deg);
+    top: -1px !important;
+    border-width: 1px 0 0 1px !important;
+    transform: rotate(-45deg) !important;
 }
 
 .tippy-box[data-placement^=left] > .tippy-arrow::before {
-    top: -1px;
-    border-width: 1px 1px 0 0;
-    transform: rotate(45deg);
+    top: -1px !important;
+    border-width: 1px 1px 0 0 !important;
+    transform: rotate(45deg) !important;
 }
 
 .tippy-box[data-placement^=bottom] > .tippy-arrow::before {
-    left: 1px;
-    border-width: 1px 0 0 1px;
-    transform: rotate(45deg);
+    left: 1px !important;
+    border-width: 1px 0 0 1px !important;
+    transform: rotate(45deg) !important;
 }
 
 .tippy-box[data-placement^=top] > .tippy-arrow::before {
-    left: 1px;
-    border-width: 0 0 1px 1px;
-    transform: rotate(-45deg);
+    left: 1px !important;
+    border-width: 0 0 1px 1px !important;
+    transform: rotate(-45deg) !important;
 }
