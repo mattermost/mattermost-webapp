@@ -20,6 +20,8 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import UserSettingsModal from 'components/user_settings/modal';
 
+import {useUserStatus} from 'hooks/users';
+
 import ProfileCard from '../profile_card/profile_card';
 
 import TimeZoneSelectMap from '../timezone_map/timezone_map';
@@ -61,6 +63,7 @@ const Profile = () => {
     const currentUser = useSelector(getCurrentUser);
     const {state} = useLocation<{from?: string}>();
     const history = useHistory();
+    const userStatus = useUserStatus(user?.id);
 
     return user && (
         <div className='UserProfile'>
@@ -84,6 +87,8 @@ const Profile = () => {
                 {user.timezone?.automaticTimezone && (
                     <TimeZoneSelectMap
                         timeZoneName={user.timezone?.automaticTimezone || undefined}
+                        userStatus={userStatus!}
+                        userTimezone={user.timezone}
                     />
                 )}
             </div>

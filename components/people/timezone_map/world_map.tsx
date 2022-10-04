@@ -13,6 +13,9 @@ import OverlayTrigger from 'components/overlay_trigger';
 import timezoneTopoJson from './assets/timezones.json';
 import {findTimeZone} from './util';
 import './world_map.scss';
+import StatusIcon from 'components/status_icon';
+import { UserTimezone } from '@mattermost/types/users';
+import Timestamp from 'components/timestamp';
 
 type PolygonFeature = GeoJSON.Feature<
 GeoJSON.Polygon,
@@ -40,6 +43,11 @@ interface WorldMapProps {
 
     /** Time zone name selected e.g. 'Asia/Tokyo' */
     timeZoneName: string;
+
+    /** User status - online - away - offline */
+    userStatus: string;
+
+    userTimezone: UserTimezone;
 
     /** Called when a timezone is selected. */
     onChange: (timeZoneName: string) => void;
@@ -86,8 +94,45 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
                 className='map-location-name-tooltip'
             >
                 <p className='location-name'>{'Location: '}{props.timeZoneName}</p>
+                <p className='location-user-status'>
+                    <StatusIcon status={props.userStatus}/>
+                    <span className='user-status-legend'>
+                        {props.userStatus}
+                    </span>
+                </p>
+                <p>
+                    <i className='icon-clock-outline'/>
+                    <Timestamp
+                        useRelative={false}
+                        useDate={false}
+                        userTimezone={props.userTimezone as UserTimezone | undefined}
+                        useTime={{
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            timeZoneName: 'short',
+                        }}
+                    />
+                </p>
             </Tooltip>
         );
+
+        if (selectedTimeZone && selectedTimeZone !== timeZone) {
+            const title = timeZone ? `${timeZone.countryName} / ${timeZone.mainCities[0]}` : '';
+            return (
+                <path
+                    id={id}
+                    key={id}
+                    data-testid={id}
+                    d={generatedPath}
+                    opacity={opacity}
+                    fill={fill}
+                    strokeWidth={0.5}
+                    stroke={stroke}
+                >
+                    <title>{title}</title>
+                </path>
+            );
+        }
 
         return (
             <OverlayTrigger
