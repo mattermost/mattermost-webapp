@@ -41,6 +41,7 @@ enum VMStates {
 const MP3MimeType = 'audio/mpeg';
 const MP3Extension = 'mp3';
 const AUDIO_FILE_NAME_PREFIX = 'voice_message_';
+const FFT_SIZE = 64;
 
 interface Props {
     channelId: Channel['id'];
@@ -61,6 +62,7 @@ const VoiceMessageAttachment = (props: Props) => {
     const audioRecorderRef = useRef<MediaRecorder>();
     const audioEncoderRef = useRef<WasmMediaEncoder<typeof MP3MimeType>>();
 
+    const amplitudeArrayRef = useRef<Uint8Array>();
     const audioChunksRef = useRef<Uint8Array[]>([]);
 
     const [recordedAudio, setRecordedAudio] = useState<File | undefined>(undefined);
@@ -80,6 +82,7 @@ const VoiceMessageAttachment = (props: Props) => {
     const generatedClientId = useMemo(() => generateId(), []);
 
     function drawOnVisualizerCanvas(amplitudeArray: Uint8Array) {
+        console.log('drawOnVisualizerCanvas', amplitudeArray);
         const visualizerCanvasContext = visualizerCanvasRef.current?.getContext('2d');
         if (visualizerCanvasContext && visualizerCanvasRef.current) {
             // We need to clear the canvas before drawing the new visualizer
@@ -102,16 +105,17 @@ const VoiceMessageAttachment = (props: Props) => {
     }
 
     function animateRecordingVisualizer() {
-        const bufferLength = audioAnalyzerRef.current?.frequencyBinCount ?? 0;
+        if (amplitudeArrayRef.current && audioAnalyzerRef.current) {
+            // Copies new frequency data into the amplitudeArray
+            audioAnalyzerRef.current.getByteFrequencyData(amplitudeArrayRef.current);
 
-        const amplitudeArray = new Uint8Array(bufferLength);
-        audioAnalyzerRef.current?.getByteFrequencyData(amplitudeArray);
+            drawOnVisualizerCanvas(amplitudeArrayRef.current);
 
-        drawOnVisualizerCanvas(amplitudeArray);
-
-        visualizerRefreshRafId.current = window.requestAnimationFrame(() => {
-            animateRecordingVisualizer();
-        });
+            // Run the visualizer again on each animation frame
+            visualizerRefreshRafId.current = window.requestAnimationFrame(() => {
+                animateRecordingVisualizer();
+            });
+        }
     }
 
     function animateCountdownTimer() {
@@ -189,7 +193,7 @@ const VoiceMessageAttachment = (props: Props) => {
             const audioContext = new AudioContext();
 
             const audioAnalyzer = audioContext.createAnalyser();
-            audioAnalyzer.fftSize = 32;
+            audioAnalyzer.fftSize = FFT_SIZE;
 
             const audioSourceNode = audioContext.createMediaStreamSource(audioStream);
 
@@ -223,6 +227,7 @@ const VoiceMessageAttachment = (props: Props) => {
             scriptProcessorNode.connect(muteNode);
             muteNode.connect(audioContext.destination);
 
+            amplitudeArrayRef.current = new Uint8Array(audioAnalyzer.frequencyBinCount);
             audioContextRef.current = audioContext;
             audioAnalyzerRef.current = audioAnalyzer;
             audioScriptProcessorRef.current = scriptProcessorNode;
