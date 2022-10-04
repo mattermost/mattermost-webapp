@@ -274,7 +274,7 @@ export default class SuggestionList extends React.PureComponent {
         }
         const mainClass = 'suggestion-list suggestion-list--' + this.props.position;
         const contentClass = 'suggestion-list__content suggestion-list__content--' + this.props.position;
-        
+
         return (
             <div
                 ref={this.wrapperRef}
