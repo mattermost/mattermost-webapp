@@ -20,7 +20,7 @@ import {
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {Posts, Preferences} from 'mattermost-redux/constants';
+import {Posts, Preferences, General} from 'mattermost-redux/constants';
 import {
     getChannel,
     getChannelsNameMapInTeam,
@@ -30,7 +30,7 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting, Theme} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
@@ -1813,4 +1813,41 @@ export function numberToFixedDynamic(num: number, places: number): string {
         return str;
     }
     return str.slice(0, indexToExclude);
+}
+
+export function getRoleForTrackFlow() {
+    const state = store.getState();
+    let startedByRole;
+
+    if (isFirstAdmin(state)) {
+        startedByRole = Constants.FIRST_ADMIN_ROLE;
+    } else if (isSystemAdmin(getCurrentUser(state).roles)) {
+        startedByRole = General.SYSTEM_ADMIN_ROLE;
+    } else {
+        startedByRole = General.SYSTEM_USER_ROLE;
+    }
+
+    return {started_by_role: startedByRole};
+}
+
+export function getRoleFromTrackFlow() {
+    const params = new URLSearchParams(window.location.search);
+    const sbr = params.get('sbr');
+    let startedByRole;
+
+    switch (sbr) {
+    case 'fa':
+        startedByRole = Constants.FIRST_ADMIN_ROLE;
+        break;
+    case 'sa':
+        startedByRole = General.SYSTEM_ADMIN_ROLE;
+        break;
+    case 'su':
+        startedByRole = General.SYSTEM_USER_ROLE;
+        break;
+    default:
+        startedByRole = '';
+    }
+
+    return {started_by_role: startedByRole};
 }

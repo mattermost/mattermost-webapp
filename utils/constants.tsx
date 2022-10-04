@@ -1873,6 +1873,7 @@ export const Constants = {
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
+    FIRST_ADMIN_ROLE: 'first_admin',
 };
 
 export const ValidationErrors = {
