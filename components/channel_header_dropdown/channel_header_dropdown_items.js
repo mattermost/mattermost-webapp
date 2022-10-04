@@ -287,8 +287,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('channel_header.delete', 'Archive Channel')}
                         />
                     </ChannelPermissionGate>
-                </Menu.Group>
-                <Menu.Group>
                     {isMobile &&
                         <MobileChannelHeaderPlug
                             channel={channel}
