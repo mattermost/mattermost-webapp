@@ -418,7 +418,7 @@ export default class RhsRootPost extends React.PureComponent {
                     colorize={colorize}
                 />
             );
-        } else if (post.props && post.props.from_webhook) {
+        } else if (PostUtils.isFromWebhook(post)) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile

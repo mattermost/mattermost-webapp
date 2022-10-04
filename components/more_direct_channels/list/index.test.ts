@@ -8,6 +8,12 @@ import * as ChannelUtils from 'mattermost-redux/utils/channel_utils';
 import mergeObjects from 'packages/mattermost-redux/test/merge_objects';
 import TestHelper from 'packages/mattermost-redux/test/test_helper';
 
+import {GlobalState} from 'types/store';
+
+import {OptionValue} from '../types';
+
+import {UserProfile} from '@mattermost/types/users';
+
 import {makeGetOptions} from './index';
 
 describe('makeGetOptions', () => {
@@ -33,7 +39,7 @@ describe('makeGetOptions', () => {
                 modalSearch: '',
             },
         },
-    };
+    } as unknown as GlobalState;
 
     test('should return the same result when called with the same arguments', () => {
         const getOptions = makeGetOptions();
@@ -45,7 +51,7 @@ describe('makeGetOptions', () => {
         ];
         const values = [
             TestHelper.fakeUserWithId(),
-        ];
+        ] as OptionValue[];
 
         expect(getOptions(baseState, users, values)).toBe(getOptions(baseState, users, values));
     });
@@ -96,7 +102,7 @@ describe('makeGetOptions', () => {
             user2,
             deletedUser,
         ];
-        const values = [];
+        const values: OptionValue[] = [];
 
         // Results are sorted by last_post_at descending
         expect(getOptions(state, users, values)).toEqual([
@@ -157,7 +163,7 @@ describe('makeGetOptions', () => {
             user2,
             deletedUser,
         ];
-        const values = [];
+        const values: OptionValue[] = [];
 
         // Results are sorted by last_post_at descending
         expect(getOptions(state, users, values)).toEqual([
@@ -229,8 +235,8 @@ describe('makeGetOptions', () => {
             },
         });
 
-        const users = [];
-        const values = [];
+        const users: UserProfile[] = [];
+        const values: OptionValue[] = [];
 
         // Results are sorted by last_post_at descending
         expect(getOptions(state, users, values)).toEqual([
@@ -303,8 +309,8 @@ describe('makeGetOptions', () => {
             },
         });
 
-        const users = [];
-        const values = [];
+        const users: UserProfile[] = [];
+        const values: OptionValue[] = [];
 
         // Results are sorted by last_post_at descending
         expect(getOptions(state, users, values)).toEqual([
@@ -396,8 +402,8 @@ describe('makeGetOptions', () => {
             },
         });
 
-        const users = [];
-        const values = [];
+        const users: UserProfile[] = [];
+        const values: OptionValue[] = [];
 
         // Results are sorted by last_post_at descending
         expect(getOptions(state, users, values)).toEqual([
@@ -498,7 +504,7 @@ describe('makeGetOptions', () => {
             user3,
         ];
 
-        let values = [];
+        let values: OptionValue[] = [];
 
         // Results are sorted by last_post_at descending followed by DMs matching users
         expect(getOptions(state, users, values)).toEqual([
@@ -506,26 +512,26 @@ describe('makeGetOptions', () => {
             gmChannel1WithProfiles,
         ]);
 
-        values = [user1];
+        values = [user1] as OptionValue[];
 
         expect(getOptions(state, users, values)).toEqual([
             gmChannel1WithProfiles,
         ]);
 
-        values = [user2];
+        values = [user2] as OptionValue[];
 
         expect(getOptions(state, users, values)).toEqual([
             gmChannel2WithProfiles,
         ]);
 
-        values = [user3];
+        values = [user3] as OptionValue[];
 
         expect(getOptions(state, users, values)).toEqual([
             gmChannel2WithProfiles,
             gmChannel1WithProfiles,
         ]);
 
-        values = [user3, user2];
+        values = [user3, user2] as OptionValue[];
 
         expect(getOptions(state, users, values)).toEqual([
             gmChannel2WithProfiles,
@@ -560,7 +566,7 @@ describe('makeGetOptions', () => {
             user2,
             user3,
         ];
-        const values = [];
+        const values: OptionValue[] = [];
 
         let state = mergeObjects(baseState, {
             users: {

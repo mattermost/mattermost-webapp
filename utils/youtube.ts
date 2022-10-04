@@ -3,7 +3,7 @@
 
 export const ytRegex = /(?:http|https):\/\/(?:www\.|m\.)?(?:(?:youtube\.com\/(?:(?:v\/)|(?:(?:watch|embed\/watch)(?:\/|.*v=))|(?:embed\/)|(?:user\/[^/]+\/u\/[0-9]\/)))|(?:youtu\.be\/))([^#&?]*)/;
 
-export function handleYoutubeTime(link) {
+export function handleYoutubeTime(link: string) {
     const timeRegex = /[\\?&](t|time|start|time_continue)=([0-9]+h)?([0-9]+m)?([0-9]+s?)/;
 
     const time = link.match(timeRegex);
@@ -32,7 +32,7 @@ export function handleYoutubeTime(link) {
     return `&start=${startSeconds}`;
 }
 
-export function getVideoId(link) {
+export function getVideoId(link: string) {
     const match = link.trim().match(ytRegex);
     if (!match || match[1].length !== 11) {
         return null;
