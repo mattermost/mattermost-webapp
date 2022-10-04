@@ -143,16 +143,67 @@ export type PostWillRenderEmbedPluginComponent = {
 }
 
 export type ProductComponent = {
+
+    /**
+     * The main uuid of the product.
+     */
     id: string;
+
+    /**
+     * The plain identifier of the source plugin
+     */
     pluginId: string;
+
+    /**
+     * A compass-icon glyph to display as the icon in the product switcher
+     */
     switcherIcon: TIconGlyph;
-    switcherText: string;
+
+    /**
+     * A string or React element to display in the product switcher
+     */
+    switcherText: React.ReactNode | React.ElementType;
+
+    /**
+     * The route to be displayed at starting from the siteURL
+     */
     baseURL: string;
+
+    /**
+     * A string specifying the URL the switcher item should point to.
+     */
     switcherLinkURL: string;
+
+    /**
+     * The component to be displayed below the global header when your route is active.
+     */
     mainComponent: React.ComponentType;
-    headerCentreComponent?: React.ComponentType;
-    headerRightComponent?: React.ComponentType;
+
+    /**
+     * A component to fill the generic area in the center of
+     * the global header when your route is active.
+     */
+    headerCentreComponent: React.ComponentType;
+
+    /**
+     * A component to fill the generic area in the right of
+     * the global header when your route is active.
+     */
+    headerRightComponent: React.ComponentType;
+
+    /**
+     * A flag to display or hide the team sidebar in products.
+     */
     showTeamSidebar: boolean;
+
+    /**
+     * A flag to display or hide the App Sidebar in products.
+     */
     showAppBar: boolean;
+
+    /**
+     * Wrap or flatten in root grid layout to make use of predefined grid areas.
+     * @default true
+     */
     wrapped: boolean;
 };
