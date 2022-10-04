@@ -9,7 +9,17 @@ import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 const b = createBrowserHistory({basename: window.basename});
 const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '5.0.0');
 
-window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = {}) => {
+type Data = {
+    type?: string;
+    message?: Record<string, string>;
+}
+
+type Params = {
+    origin?: string;
+    data?: Data;
+}
+
+window.addEventListener('message', ({origin, data: {type, message = {}} = {}}: Params = {}) => {
     if (origin !== window.location.origin) {
         return;
     }
@@ -27,7 +37,7 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = 
 
 export const browserHistory = {
     ...b,
-    push: (path, ...args) => {
+    push: (path: any, ...args: string[]) => {
         if (isDesktop) {
             window.postMessage(
                 {
