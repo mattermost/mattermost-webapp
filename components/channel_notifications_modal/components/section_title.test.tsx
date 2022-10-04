@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationSections} from 'utils/constants';
 
-import SectionTitle from 'components/channel_notifications_modal/components/section_title.jsx';
+import SectionTitle from 'components/channel_notifications_modal/components/section_title';
 
 describe('components/channel_notifications_modal/ExtraInfo', () => {
     const baseProps = {
