@@ -164,11 +164,15 @@ const NewMembersTable = (props: Props) => {
                 total={0}
                 className={classNames('InsightsTable', 'NewMembersTable')}
             />
-            <ModalPagination
-                hasNext={hasNext}
-                offset={props.offset}
-                setOffset={props.setOffset}
-            />
+            {
+                (props.offset !== 0 || newMembers.length === 10) &&
+                <ModalPagination
+                    hasNext={hasNext}
+                    offset={props.offset}
+                    setOffset={props.setOffset}
+                />
+            }
+
         </>
 
     );

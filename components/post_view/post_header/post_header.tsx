@@ -192,7 +192,7 @@ export default class PostHeader extends React.PureComponent<Props> {
                     {indicator}
                     {customStatus}
                 </div>
-                <div className='col'>
+                <div className='col d-flex align-items-center'>
                     <PostInfo
                         post={post}
                         handleCommentClick={this.props.handleCommentClick}

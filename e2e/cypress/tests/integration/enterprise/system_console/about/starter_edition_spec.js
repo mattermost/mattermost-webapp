@@ -17,7 +17,7 @@ describe('System console', () => {
         cy.apiDeleteLicense();
     });
 
-    it('License page shows View plans button', () => {
+    it('MM-T5132 License page shows View plans button', () => {
         cy.visit('/admin_console/about/license');
 
         // *Validate View plans button exits

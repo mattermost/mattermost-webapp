@@ -366,21 +366,6 @@
         "AndroidAppDownloadLink": "https://mattermost.com/mattermost-android-app/",
         "IosAppDownloadLink": "https://mattermost.com/mattermost-ios-app/"
     },
-    "ClusterSettings": {
-        "Enable": false,
-        "ClusterName": "",
-        "OverrideHostname": "",
-        "NetworkInterface": "",
-        "BindAddress": "",
-        "AdvertiseAddress": "",
-        "UseIpAddress": true,
-        "ReadOnlyConfig": false,
-        "GossipPort": 8074,
-        "StreamingPort": 8075,
-        "MaxIdleConns": 100,
-        "MaxIdleConnsPerHost": 128,
-        "IdleConnTimeoutMilliseconds": 90000
-    },
     "MetricsSettings": {
         "Enable": false,
         "BlockProfileRate": 0,
