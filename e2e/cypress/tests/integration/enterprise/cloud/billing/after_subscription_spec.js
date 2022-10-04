@@ -25,7 +25,7 @@ describe('System Console - after subscription scenarios', () => {
         cy.contains('.admin-console__header', 'Subscription').should('be.visible');
 
         // # Click Subscribe Now button
-        cy.contains('span', 'Subscribe Now').parent().click();
+        cy.contains('span', 'Upgrade Now').parent().click();
 
         cy.intercept('POST', '/api/v4/cloud/payment/confirm').as('confirm');
 
@@ -39,14 +39,14 @@ describe('System Console - after subscription scenarios', () => {
         });
         cy.get('#input_name').clear().type('test name');
         cy.findByText('Country').parent().find('.icon-chevron-down').click();
-        cy.findByText('Country').parent().find("input[type='text']").type('India{enter}');
+        cy.findByText('Country').parent().find("input[type='text']").type('India{enter}', {force: true});
         cy.get('#input_address').clear().type('testaddress');
         cy.get('#input_city').clear().type('testcity');
         cy.get('#input_state').clear().type('teststate');
         cy.get('#input_postalCode').clear().type('4444');
 
         // # Click Subscribe button
-        cy.get('.RHS').find('button').should('be.enabled').click();
+        cy.get('.RHS').find('button').last().should('be.enabled').click();
 
         cy.wait(['@confirm', '@subscribe']);
 
@@ -60,7 +60,7 @@ describe('System Console - after subscription scenarios', () => {
         cy.contains('span', 'Your trial has started!').should('not.exist');
 
         // * Check for non existence of 'Subscribe now' button in banner message
-        cy.contains('span', 'Subscribe Now').parent().should('not.exist');
+        cy.contains('span', 'Upgrade Now').parent().should('not.exist');
     });
 
     describe('System Console - Subscription section', () => {

@@ -75,6 +75,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
+            "displayName": "Connect(injectIntl(UserSettingsModal))",
             "type": [Function],
           }
         }
@@ -104,6 +105,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(AddGroupsToTeamModal)",
               "type": [Function],
             }
           }
@@ -133,6 +135,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(InvitationModal)",
               "type": [Function],
             }
           }
@@ -164,6 +167,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamSettingsModal)",
               "type": [Function],
             }
           }
@@ -197,6 +201,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
               "type": [Function],
             }
           }
@@ -226,6 +231,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
               "type": [Function],
             }
           }
@@ -256,6 +262,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
               "type": [Function],
             }
           }
@@ -308,6 +315,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
+            "displayName": "Connect(LeaveTeamModal)",
             "type": [Function],
           }
         }
@@ -373,6 +381,7 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
+            "displayName": "Connect(AboutBuildModal)",
             "type": [Function],
           }
         }
@@ -430,6 +439,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(AddGroupsToTeamModal)",
               "type": [Function],
             }
           }
@@ -454,6 +464,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(InvitationModal)",
               "type": [Function],
             }
           }
@@ -479,6 +490,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamSettingsModal)",
               "type": [Function],
             }
           }
@@ -507,6 +519,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
               "type": [Function],
             }
           }
@@ -531,6 +544,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
               "type": [Function],
             }
           }
@@ -556,6 +570,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
               "$$typeof": Symbol(react.memo),
               "WrappedComponent": [Function],
               "compare": null,
+              "displayName": "Connect(TeamMembersModal)",
               "type": [Function],
             }
           }
@@ -578,6 +593,7 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
+            "displayName": "Connect(LeaveTeamModal)",
             "type": [Function],
           }
         }

@@ -4,8 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import TourTip from 'components/widgets/tour_tip/tour_tip';
-import {TourTipOverlayPunchOut} from 'components/widgets/tour_tip/tour_tip_backdrop';
+import {PunchOutCoordsHeightAndWidth, TourTip} from '@mattermost/components';
 
 import {getLastStep} from '../onboarding_tour/utils';
 
@@ -15,7 +14,7 @@ type Props = {
     screen: JSX.Element;
     title: JSX.Element;
     imageURL?: string;
-    overlayPunchOut: TourTipOverlayPunchOut | null;
+    overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
     singleTip?: boolean;
     offset?: [number, number];
 }
