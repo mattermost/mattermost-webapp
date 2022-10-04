@@ -38,7 +38,7 @@ import {getBaseStyles} from './forward_post_channel_select_styles';
 
 const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
 
-type ProviderResults = {
+export type ProviderResults = {
     matchedPretext: string;
     terms: string[];
 

@@ -1,7 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ProviderResults} from 'components/forward_post_modal/forward_post_channel_select';
+
 export default class Provider {
+    latestPrefix: string;
+    latestComplete: boolean;
+    disableDispatches: boolean;
+    requestStarted: boolean;
+    forceDispatch: boolean;
     constructor() {
         this.latestPrefix = '';
         this.latestComplete = true;
@@ -10,7 +17,8 @@ export default class Provider {
         this.forceDispatch = false;
     }
 
-    handlePretextChanged(pretext, callback) { // eslint-disable-line no-unused-vars
+    // eslint-disable-next-line
+    handlePretextChanged(pretext: string, callback: (res: ProviderResults) => void) { // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
 
@@ -18,13 +26,13 @@ export default class Provider {
         this.requestStarted = false;
     }
 
-    startNewRequest(prefix) {
+    startNewRequest(prefix: string) {
         this.latestPrefix = prefix;
         this.latestComplete = false;
         this.requestStarted = true;
     }
 
-    shouldCancelDispatch(prefix) {
+    shouldCancelDispatch(prefix: string) {
         if (this.forceDispatch) {
             return false;
         }
