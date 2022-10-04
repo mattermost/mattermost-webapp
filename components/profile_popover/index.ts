@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {displayLastActiveLabel, getCurrentUserId, getLastActiveTimestampUnits, getLastActivityForUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {
     getCurrentTeam,
     getCurrentRelativeTeamUrl,
@@ -16,7 +16,7 @@ import {
     getCurrentChannelId,
 } from 'mattermost-redux/selectors/entities/channels';
 
-import {openDirectChannelToUserId} from 'actions/channel_actions.jsx';
+import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
 import {closeModal, openModal} from 'actions/views/modals';
 
@@ -60,6 +60,12 @@ function makeMapStateToProps() {
         }
 
         const customStatus = getCustomStatus(state, userId);
+        const status = getStatusForUserId(state, userId);
+        const user = getUser(state, userId);
+
+        const lastActivityTimestamp = getLastActivityForUserId(state, userId);
+        const timestampUnits = getLastActiveTimestampUnits(state, userId);
+        const enableLastActiveTime = displayLastActiveLabel(state, userId);
         return {
             currentTeamId: team.id,
             currentUserId: getCurrentUserId(state),
@@ -68,15 +74,18 @@ function makeMapStateToProps() {
             isChannelAdmin,
             isInCurrentTeam: Boolean(teamMember) && teamMember?.delete_at === 0,
             canManageAnyChannelMembersInCurrentTeam: canManageAnyChannelMembersInCurrentTeam(state),
-            status: getStatusForUserId(state, userId),
+            status,
             teamUrl: getCurrentRelativeTeamUrl(state),
-            user: getUser(state, userId),
+            user,
             modals: state.views.modals,
             customStatus,
             isCustomStatusEnabled: isCustomStatusEnabled(state),
             isCustomStatusExpired: isCustomStatusExpired(state, customStatus),
             channelId,
             currentUserTimezone: getCurrentUserTimezone(state),
+            lastActivityTimestamp,
+            enableLastActiveTime,
+            timestampUnits,
             isMobileView: getIsMobileView(state),
         };
     };

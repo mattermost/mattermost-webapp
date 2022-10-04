@@ -43,6 +43,37 @@ const LeastActiveChannelsItem = ({channel, actionCallback}: Props) => {
         return iconToDisplay;
     }, [channel]);
 
+    let timeMessage = (
+        <FormattedMessage
+            id='insights.leastActiveChannels.lastActivity'
+            defaultMessage='Last activity: {time}'
+            values={{
+                time:
+                (
+                    <Timestamp
+                        value={channel.last_activity_at}
+                        units={[
+                            'now',
+                            'minute',
+                            'hour',
+                            'day',
+                            'week',
+                            'month',
+                        ]}
+                        useTime={false}
+                    />
+                ),
+            }}
+        />
+    );
+    if (channel.last_activity_at === 0) {
+        timeMessage = (
+            <FormattedMessage
+                id='insights.leastActiveChannels.lastActivityNone'
+                defaultMessage='No activity'
+            />
+        );
+    }
     return (
         <Link
             className='channel-row'
@@ -57,26 +88,7 @@ const LeastActiveChannelsItem = ({channel, actionCallback}: Props) => {
                     <span className='display-name'>{channel.display_name}</span>
                 </div>
                 <span className='last-activity'>
-                    <FormattedMessage
-                        id='insights.leastActiveChannels.lastActivity'
-                        defaultMessage='Last activity: {time}'
-                        values={{
-                            time: (
-                                <Timestamp
-                                    value={channel.last_activity_at}
-                                    units={[
-                                        'now',
-                                        'minute',
-                                        'hour',
-                                        'day',
-                                        'week',
-                                        'month',
-                                    ]}
-                                    useTime={false}
-                                />
-                            ),
-                        }}
-                    />
+                    {timeMessage}
                 </span>
             </div>
             <Avatars
