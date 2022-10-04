@@ -8,6 +8,8 @@ import {FormattedMessage} from 'react-intl';
 
 import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
 
+import classNames from 'classnames';
+
 import {isPrivateChannel} from 'mattermost-redux/utils/channel_utils';
 
 import LoadingScreen from 'components/loading_screen';
@@ -23,11 +25,16 @@ import {ModalIdentifiers} from 'utils/constants';
 
 import MenuWrapper from './widgets/menu/menu_wrapper';
 import Menu from './widgets/menu/menu';
-import classNames from 'classnames';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 // todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
+// todo sinan For channels that have been archived, The hover state again should be to view the channel, since they cannot join. You should change the joinHandle logic. For view make only View and not join
+// todo sinan check next and prev buttons
+// todo sinan pass only one channel list which is channelsInCurrentTeam
+// todo sinan change empty page with pictures etc.
+// todo sinan add hide joined checkbox
+// todo sinan When typing a channel name that matches one a user has already joined, we should show it as joined rather than not show it at all: try searching town
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
@@ -101,12 +108,15 @@ export default class SearchableChannelList extends React.PureComponent {
             </div>
         ) : null;
 
+        console.log('purpose: ', channel.purpose)
+        console.log('purpose length: ', channel.purpose.length)
+
         const channelPurposeContainer = (
             <div id='channelPurposeContainer' >
                 {membershipIndicator}
                 <AccountOutlineIcon size={14}/>
                 <span>{memberCount}</span>
-                <span className='dot'/>
+                {channel.purpose.length > 0 && <span className='dot'/>}
                 <span className='more-modal__description'>{channel.purpose}</span>
             </div>
         );
@@ -152,7 +162,6 @@ export default class SearchableChannelList extends React.PureComponent {
                     {channelPurposeContainer}
                 </div>
                 <div className='more-modal__actions'>
-                    {/* {this.isMemberOfChannel(channel.id) ? viewChannelButton : joinChannelButton} */}
                     {joinChannelButton}
                 </div>
             </div>
@@ -314,9 +323,9 @@ export default class SearchableChannelList extends React.PureComponent {
         } else if (channels.length === 1) {
             channelCountLabel = localizeMessage('more_channels.count_one', '1 Channel');
         } else if (channels.length > 1) {
-            channelCountLabel = localizeAndFormatMessage('more_channels.count', '- Channel', {count: channels.length});
+            channelCountLabel = localizeAndFormatMessage('more_channels.count', '0 Channel', {count: channels.length});
         } else {
-            channelCountLabel = localizeAndFormatMessage('more_channels.count', '- Channel', {count: '-'});
+            channelCountLabel = localizeMessage('more_channels.count_zero', '0 Channel');
         }
 
         const dropDownContainer = (
