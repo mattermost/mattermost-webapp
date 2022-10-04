@@ -30,6 +30,7 @@ export type PostListRowProps = {
     loadNewerPosts: () => void;
     togglePostMenu: (opened: boolean) => void;
     post: Post;
+
     /**
      * To Check if the current post is last in the list
      */

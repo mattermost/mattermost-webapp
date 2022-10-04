@@ -18,8 +18,8 @@ import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 import * as Utils from 'utils/utils';
 import {searchHintOptions, DataSearchTypes} from 'utils/constants';
 
+import PostComponent from 'components/new_post';
 import SearchResultsHeader from 'components/search_results_header';
-import SearchResultsItem from 'components/search_results_item';
 import SearchHint from 'components/search_hint/search_hint';
 import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
@@ -37,7 +37,6 @@ import SearchLimitsBanner from './search_limits_banner';
 import type {Props} from './types';
 
 import './search_results.scss';
-import PostComponent from 'components/new_post';
 
 const GET_MORE_BUFFER = 30;
 

@@ -42,7 +42,7 @@ function Reply({
     const handleRemovePost = useCallback((post: Post) => {
         dispatch(removePost(post));
     }, []);
-
+    console.log(post);
     return (
         <PostComponent
             a11yIndex={a11yIndex}

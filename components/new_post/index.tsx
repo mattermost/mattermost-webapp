@@ -18,6 +18,7 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
+import {selectPost} from 'actions/views/rhs';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -103,6 +104,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             markPostAsUnread,
             emitShortcutReactToLastPostFrom,
             setActionsMenuInitialisationState,
+            selectPost,
         }, dispatch),
     };
 }

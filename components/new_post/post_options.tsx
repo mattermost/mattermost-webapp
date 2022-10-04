@@ -17,6 +17,7 @@ import DotMenu from 'components/dot_menu';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostReaction from 'components/post_view/post_reaction';
+import CommentIcon from 'components/common/comment_icon';
 
 type Props = {
     post: Post;
@@ -27,6 +28,8 @@ type Props = {
     isReadOnly: boolean;
     channelIsArchived?: boolean;
     setActionsMenuInitialisationState: (initializationState: Record<string, boolean>) => void;
+    handleCommentClick?: (e: React.MouseEvent) => void;
+    handleDropdownOpened?: (e: boolean) => void;
     collapsedThreadsEnabled?: boolean;
     shouldShowActionsMenu?: boolean;
     showActionsMenuPulsatingDot?: boolean;
@@ -36,6 +39,8 @@ type Props = {
     hover?: boolean;
     isMobileView: boolean;
     a11yActive?: boolean;
+    hasReplies?: boolean;
+    isFirstReply?: boolean;
 };
 
 const PostOptions = (props: Props): JSX.Element => {
@@ -44,17 +49,16 @@ const PostOptions = (props: Props): JSX.Element => {
     const [showDotMenu, setShowDotMenu] = useState(false);
     const [showActionsMenu, setShowActionsMenu] = useState(false);
     const [showActionTip, setShowActionTip] = useState(false);
-    console.log(props, showDotMenu, showActionsMenu);
+
     const {
         channelIsArchived,
         collapsedThreadsEnabled,
-        isMobileView,
         isReadOnly,
         post,
-        hover,
         oneClickReactionsEnabled,
         showActionsMenuPulsatingDot,
         a11yActive,
+        isMobileView,
     } = props;
 
     const removePost = () => props.removePost(props.post);
@@ -75,7 +79,10 @@ const PostOptions = (props: Props): JSX.Element => {
         setShowEmojiPicker(!showEmojiPicker);
     };
 
-    const handleDotMenuOpened = () => setShowDotMenu(true);
+    const handleDotMenuOpened = (open: boolean) => {
+        setShowDotMenu(true);
+        props.handleDropdownOpened!(open || showEmojiPicker);
+    };
 
     const handleActionsMenuOpened = (open: boolean) => {
         if (showActionsMenuPulsatingDot) {
@@ -83,6 +90,7 @@ const PostOptions = (props: Props): JSX.Element => {
             return;
         }
         setShowActionsMenu(open);
+        props.handleDropdownOpened!(open);
     };
 
     const handleActionsMenuTipOpened = () => setShowActionTip(true);
@@ -100,7 +108,20 @@ const PostOptions = (props: Props): JSX.Element => {
     const isEphemeral = isPostEphemeral(post);
     const isSystemMessage = PostUtils.isSystemMessage(post);
 
-    const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker);
+    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
+
+    const showCommentIcon = !isSystemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply);
+    let commentIcon;
+    if (showCommentIcon) {
+        commentIcon = (
+            <CommentIcon
+                handleCommentClick={props.handleCommentClick}
+                postId={post.id}
+            />
+        );
+    }
+
+    const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
     let showRecentReactions: ReactNode;
     if (showRecentlyUsedReactions) {
         showRecentReactions = (
@@ -137,13 +158,9 @@ const PostOptions = (props: Props): JSX.Element => {
         options = null;
     } else if (!isSystemMessage &&
         (isMobileView ||
-        hover ||
-        a11yActive ||
-        showDotMenu ||
-        showActionsMenu ||
-        showActionTip ||
-        showEmojiPicker)) {
-        const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobile || hover);
+        hoverLocal ||
+        a11yActive)) {
+        const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobile || hoverLocal);
         const actionsMenu = showActionsMenuIcon && (
             <ActionsMenu
                 post={post}
@@ -163,6 +180,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 location={Locations.RHS_COMMENT}
                 isFlagged={props.isFlagged}
                 handleDropdownOpened={handleDotMenuOpened}
+                handleCommentClick={props.handleCommentClick}
                 handleAddReactionClick={toggleEmojiPicker}
                 isReadOnly={isReadOnly || channelIsArchived}
                 isMenuOpen={showDotMenu}
@@ -191,6 +209,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 {flagIcon}
                 {actionsMenu}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
+                {commentIcon}
             </div>
         );
     }

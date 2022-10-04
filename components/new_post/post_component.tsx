@@ -56,12 +56,14 @@ export type Props = {
     isLastPost?: boolean;
     recentEmojis: Emoji[];
     handleCardClick?: (post: Post) => void;
+    togglePostMenu?: (opened: boolean) => void;
     a11yIndex?: number;
     isBot: boolean;
     actions: {
         markPostAsUnread: (post: Post, location: string) => void;
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
         setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
+        selectPost: (post: Post) => void;
     };
     timestampProps?: Partial<TimestampProps>;
     shouldHighlight?: boolean;
@@ -121,6 +123,12 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const handleFileDropdownOpened = (open: boolean) => setFileDropdownOpened(open);
 
+    const handleDropdownOpened = (opened: boolean) => {
+        if (props.togglePostMenu) {
+            props.togglePostMenu(opened);
+        }
+    };
+
     const setsHover = (e: MouseEvent<HTMLDivElement>) => {
         setHover(true);
         setAlt(e.altKey);
@@ -155,6 +163,15 @@ const PostComponent = (props: Props): JSX.Element => {
         if (e.altKey) {
             props.actions.markPostAsUnread(props.post, 'RHS_COMMENT');
         }
+    };
+
+    const handleCommentClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+
+        if (!post) {
+            return;
+        }
+        props.actions.selectPost(post);
     };
 
     const {
@@ -280,6 +297,9 @@ const PostComponent = (props: Props): JSX.Element => {
                             <PostOptions
                                 {...props}
                                 setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
+                                handleDropdownOpened={handleDropdownOpened}
+                                handleCommentClick={handleCommentClick}
+                                hover={hover}
                             />
                         }
                     </div>

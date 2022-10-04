@@ -11,9 +11,9 @@ import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
-import RootPost from './root_post';
-import Reply from './reply';
 import PostComponent from 'components/new_post';
+
+import Reply from './reply';
 
 type Props = {
     a11yIndex: number;
@@ -90,6 +90,7 @@ function ThreadViewerRow({
                 previousPostId={previousPostId}
                 teamId={teamId}
                 timestampProps={timestampProps}
+                post={lastPost}
             />
         );
     }
