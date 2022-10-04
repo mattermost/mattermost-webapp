@@ -119,7 +119,6 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
             icon_url: this.state.iconURL,
         };
 
-        console.log(hook);
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
@@ -313,7 +312,7 @@ export default class AbstractIncomingWebhook extends React.PureComponent {
                                 <div className='form__help'>
                                     <FormattedMessage
                                         id='add_incoming_webhook.enabled.help'
-                                        defaultMessage='If set, the incoming webhook will be enabled!'
+                                        defaultMessage='If set, the incoming webhook will be enabled.'
                                     />
                                 </div>
                             </div>

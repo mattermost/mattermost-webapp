@@ -62,6 +62,11 @@ export type Props = {
         removeOutgoingHook: (hookId: string) => Promise<void>;
 
         /**
+         * The function to call for updating outgoingWebhook
+         */
+        updateOutgoingHook: (hook: OutgoingWebhook) => Promise<void>;
+
+        /**
         * The function to call for outgoingWebhook List and for the status of api
         */
         loadOutgoingHooksAndProfilesForTeam: (teamId: string, page: number, perPage: number) => Promise<void>;
@@ -111,6 +116,10 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
         this.props.actions.removeOutgoingHook(outgoingWebhook.id);
     }
 
+    toggleOutgoingHook = (outgoingWebhook: OutgoingWebhook) => {
+        this.props.actions.updateOutgoingHook(outgoingWebhook);
+    }
+
     outgoingWebhookCompare = (a: OutgoingWebhook, b: OutgoingWebhook) => {
         let displayNameA = a.display_name;
         if (!displayNameA) {
@@ -146,6 +155,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
                     outgoingWebhook={outgoingWebhook}
                     onRegenToken={this.regenOutgoingWebhookToken}
                     onDelete={this.removeOutgoingHook}
+                    onToggle={this.toggleOutgoingHook}
                     creator={this.props.users[outgoingWebhook.creator_id] || {}}
                     canChange={canChange}
                     team={this.props.team}
