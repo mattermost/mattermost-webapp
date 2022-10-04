@@ -34,68 +34,6 @@ export function editPost(post) {
     };
 }
 
-// TODO: NEED TO REFORMAT FOR THREAD BROADCAST PERMALINK
-export function broadcastThreadReply(rootId, channelId) {
-    const getCurrentUsersLatestReply = makeGetCurrentUsersLatestReply();
-
-    return async (dispatch, getState) => {
-        const state = getState();
-        const post = getCurrentUsersLatestReply(state, rootId);
-
-        const channel = getChannel(state, channelId);
-        const currentUserId = getCurrentUserId(state);
-        const currentTeam = getCurrentTeam(state);
-
-        if (!post) {
-            return null;
-        }
-
-        const relativePermaLink = Utils.getPermalinkURL(state, currentTeam.id, post.id);
-        const permaLink = `${getSiteURL()}${relativePermaLink}`;
-
-        const license = getLicense(state);
-        const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
-        const useLDAPGroupMentions = isLDAPEnabled && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
-        const useChannelMentions = haveIChannelPermission(state, channel.team_id, channelId, Permissions.USE_CHANNEL_MENTIONS);
-        const useCustomGroupMentions = isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS);
-        const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeam.id, channelId) : null;
-
-        let newPost = {};
-
-        newPost.channel_id = channelId;
-
-        const time = Utils.getTimestamp();
-        const userId = currentUserId;
-
-        const message = '';
-
-        newPost.message = message ? `${message}\n${permaLink}` : permaLink;
-        newPost.pending_post_id = `${userId}:${time}`;
-        newPost.user_id = userId;
-        newPost.create_at = time;
-        newPost.metadata = {};
-        newPost.props = {};
-
-        if (!useChannelMentions && containsAtChannel(newPost.message, {checkAllMentions: true})) {
-            newPost.props.mentionHighlightDisabled = true;
-        }
-
-        if (!useLDAPGroupMentions && !useCustomGroupMentions && groupsMentionedInText(newPost.message, groupsWithAllowReference)) {
-            newPost.props.disable_group_highlight = true;
-        }
-
-        const hookResult = await dispatch(runMessageWillBePostedHooks(newPost));
-
-        if (hookResult.error) {
-            return hookResult;
-        }
-
-        newPost = hookResult.data;
-
-        return dispatch(PostActions.createPost(newPost, []));
-    };
-}
-
 export function forwardPost(post, channel, message = '') {
     return async (dispatch, getState) => {
         const state = getState();
