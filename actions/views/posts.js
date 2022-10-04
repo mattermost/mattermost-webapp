@@ -5,20 +5,16 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 
 import {Permissions} from 'mattermost-redux/constants';
 import {logError} from 'mattermost-redux/actions/errors';
-import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {makeGetCurrentUsersLatestReply} from 'mattermost-redux/selectors/entities/threads';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-
 import * as Utils from 'utils/utils';
 import {getSiteURL} from 'utils/url';
 import {containsAtChannel, groupsMentionedInText} from 'utils/post_utils';
 import {ActionTypes, AnnouncementBarTypes} from 'utils/constants';
-
 import {runMessageWillBePostedHooks} from '../hooks';
 
 export function editPost(post) {

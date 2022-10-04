@@ -4,15 +4,11 @@
 import {createSelector} from 'reselect';
 
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {makeGetPostIdsForThread, getPost} from 'mattermost-redux/selectors/entities/posts';
 import {GlobalState} from '@mattermost/types/store';
 import {Team} from '@mattermost/types/teams';
 import {UserThread, ThreadsState, UserThreadType, UserThreadSynthetic} from '@mattermost/types/threads';
 import {Post} from '@mattermost/types/posts';
 import {IDMappedObjects, RelationOneToMany} from '@mattermost/types/utilities';
-import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
-import {Constants} from 'utils/constants';
 
 export function getThreadsInTeam(state: GlobalState): RelationOneToMany<Team, UserThread> {
     return state.entities.threads.threadsInTeam;
@@ -186,48 +182,3 @@ export const getThreadsInChannel: (
         return Object.keys(allThreads).filter((id) => allThreads[id].post.channel_id === channelID);
     },
 );
-
-export function makeGetCurrentUsersLatestReply() {
-    const getPostIdsInThread = makeGetPostIdsForThread();
-    return createSelector(
-        'makeGetCurrentUsersLatestReply',
-        getCurrentUserId,
-        getPostIdsInThread,
-        (state) => (id: string) => getPost(state, id),
-        (_state, rootId) => rootId,
-        (userId, postIds, getPostById, rootId) => {
-            let lastPost = null;
-
-            if (!postIds) {
-                return lastPost;
-            }
-
-            for (const id of postIds) {
-                const post = getPostById(id) || {};
-
-                // don't get webhook posts, deleted posts, or system messages
-                if (
-                    post.user_id !== userId ||
-                    (post.props && post.props.from_webhook) ||
-                    post.state === Constants.POST_DELETED ||
-                    (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX)) ||
-                    isPostPendingOrFailed(post)
-                ) {
-                    continue;
-                }
-
-                if (rootId) {
-                    if (post.root_id === rootId || post.id === rootId) {
-                        lastPost = post;
-                        break;
-                    }
-                } else {
-                    lastPost = post;
-                    break;
-                }
-            }
-
-            return lastPost;
-        },
-    );
-}

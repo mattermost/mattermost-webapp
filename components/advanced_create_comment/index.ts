@@ -37,7 +37,6 @@ import {
     makeOnSubmit,
     makeOnEditLatestPost,
 } from 'actions/views/create_comment';
-import {broadcastThreadReply} from 'actions/views/posts';
 import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selectors/rhs';
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
@@ -204,7 +203,6 @@ function makeMapDispatchToProps() {
                 getChannelMemberCountsByGroup,
                 openModal,
                 savePreferences,
-                broadcastThreadReply,
             },
             dispatch,
         );

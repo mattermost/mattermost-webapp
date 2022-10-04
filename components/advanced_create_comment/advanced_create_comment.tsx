@@ -180,7 +180,6 @@ type Props = {
 
     // Broadcast thread reply to main channel
     isCRTEnabled: boolean;
-    broadcastThreadReply: (postId: string, channelId: string) => Promise<ActionResult>;
 }
 
 type State = {

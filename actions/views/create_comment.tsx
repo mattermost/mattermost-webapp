@@ -1,12 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {createSelector} from 'reselect';
+
 import {Post} from '@mattermost/types/posts';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetMessageInHistoryItem} from 'mattermost-redux/selectors/entities/posts';
-import {makeGetCurrentUsersLatestReply} from 'mattermost-redux/selectors/entities/threads';
+import {
+    makeGetMessageInHistoryItem,
+    getPost,
+    makeGetPostIdsForThread,
+} from 'mattermost-redux/selectors/entities/posts';
 import {getCustomEmojisByName} from 'mattermost-redux/selectors/entities/emojis';
 import {
     removeReaction,
@@ -15,6 +20,7 @@ import {
     moveHistoryIndexForward,
 } from 'mattermost-redux/actions/posts';
 import {Posts} from 'mattermost-redux/constants';
+import {isPostPendingOrFailed} from 'mattermost-redux/utils/post_utils';
 
 import * as PostActions from 'actions/post_actions';
 import {executeCommand} from 'actions/command';
@@ -24,7 +30,7 @@ import EmojiMap from 'utils/emoji_map';
 import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils';
-import {StoragePrefixes} from 'utils/constants';
+import {Constants, StoragePrefixes} from 'utils/constants';
 import {PostDraft} from 'types/store/draft';
 import {GlobalState} from 'types/store';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
@@ -180,6 +186,51 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
         }
         return {data: true};
     };
+}
+
+function makeGetCurrentUsersLatestReply() {
+    const getPostIdsInThread = makeGetPostIdsForThread();
+    return createSelector(
+        'makeGetCurrentUsersLatestReply',
+        getCurrentUserId,
+        getPostIdsInThread,
+        (state) => (id: string) => getPost(state, id),
+        (_state, rootId) => rootId,
+        (userId, postIds, getPostById, rootId) => {
+            let lastPost = null;
+
+            if (!postIds) {
+                return lastPost;
+            }
+
+            for (const id of postIds) {
+                const post = getPostById(id) || {};
+
+                // don't edit webhook posts, deleted posts, or system messages
+                if (
+                    post.user_id !== userId ||
+                    (post.props && post.props.from_webhook) ||
+                    post.state === Constants.POST_DELETED ||
+                    (post.type && post.type.startsWith(Constants.SYSTEM_MESSAGE_PREFIX)) ||
+                    isPostPendingOrFailed(post)
+                ) {
+                    continue;
+                }
+
+                if (rootId) {
+                    if (post.root_id === rootId || post.id === rootId) {
+                        lastPost = post;
+                        break;
+                    }
+                } else {
+                    lastPost = post;
+                    break;
+                }
+            }
+
+            return lastPost;
+        },
+    );
 }
 
 export function makeOnEditLatestPost(rootId: string) {
