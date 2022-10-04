@@ -333,14 +333,12 @@ export const getChannelDrawerBadgeCount: (state: GlobalState) => number = create
     },
 );
 
-export const isTeamSameWithCurrentTeam: (state: GlobalState, teamName: string) => boolean = createSelector(
-    'isTeamSameWithCurrentTeam',
-    (state: GlobalState, teamName: string) => getTeamByName(state, teamName),
-    getCurrentTeam,
-    (newTeam, currentTeam) => {
-        return Boolean(newTeam && newTeam.id === currentTeam.id);
-    },
-);
+export const isTeamSameWithCurrentTeam = (state: GlobalState, teamName: string): boolean => {
+    const targetTeam = getTeamByName(state, teamName);
+    const currentTeam = getCurrentTeam(state);
+
+    return Boolean(targetTeam && targetTeam.id === currentTeam.id);
+};
 
 // returns the badge for a team
 // > 0 means is returning the mention count
