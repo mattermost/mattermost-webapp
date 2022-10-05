@@ -85,6 +85,10 @@ h6.markdown__heading {
             top: 14px;
             right: 12px;
         }
+
+        .image-loaded-container {
+            display: inline;
+        }
     }
 
     .markdown-inline-img--loading {
@@ -169,6 +173,10 @@ h6.markdown__heading {
     .broken-image {
         max-height: 18px;
         border-radius: unset;
+    }
+
+    .image-loaded-container {
+        display: inline;
     }
 }
 

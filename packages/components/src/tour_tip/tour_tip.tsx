@@ -120,13 +120,17 @@ export const TourTip = ({
 
     const content = (
         <>
-            <div className='tour-tip__header'>
+            <div
+                className='tour-tip__header'
+                data-testid={'current_tutorial_tip'}
+            >
                 <h4 className='tour-tip__header__title'>
                     {title}
                 </h4>
                 <button
                     className='tour-tip__header__close'
                     onClick={handleDismiss}
+                    data-testid={'close_tutorial_tip'}
                 >
                     <i className='icon icon-close'/>
                 </button>
@@ -191,6 +195,7 @@ export const TourTip = ({
     return (
         <>
             <div
+                id='tipButton'
                 ref={triggerRef}
                 onClick={handleOpen}
                 className='tour-tip__pulsating-dot-ctr'

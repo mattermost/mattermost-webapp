@@ -1,33 +1,33 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Permissions} from 'mattermost-redux/constants';
 
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import BackstageCategory from './backstage_category.jsx';
-import BackstageSection from './backstage_section.jsx';
+import BackstageCategory from './backstage_category';
+import BackstageSection from './backstage_section';
 
-export default class BackstageSidebar extends React.PureComponent {
-    static get propTypes() {
-        return {
-            team: PropTypes.object.isRequired,
-            user: PropTypes.object.isRequired,
-            enableCustomEmoji: PropTypes.bool.isRequired,
-            enableIncomingWebhooks: PropTypes.bool.isRequired,
-            enableOutgoingWebhooks: PropTypes.bool.isRequired,
-            enableCommands: PropTypes.bool.isRequired,
-            enableOAuthServiceProvider: PropTypes.bool.isRequired,
-            canCreateOrDeleteCustomEmoji: PropTypes.bool.isRequired,
-            canManageIntegrations: PropTypes.bool.isRequired,
-        };
-    }
+type Props = {
+    team: Team;
+    user: UserProfile;
+    enableCustomEmoji: boolean;
+    enableIncomingWebhooks: boolean;
+    enableOutgoingWebhooks: boolean;
+    enableCommands: boolean;
+    enableOAuthServiceProvider: boolean;
+    canCreateOrDeleteCustomEmoji: boolean;
+    canManageIntegrations: boolean;
+}
 
+export default class BackstageSidebar extends React.PureComponent<Props> {
     renderCustomEmoji() {
         if (!this.props.enableCustomEmoji || !this.props.canCreateOrDeleteCustomEmoji) {
             return null;
@@ -53,7 +53,7 @@ export default class BackstageSidebar extends React.PureComponent {
             return null;
         }
 
-        let incomingWebhooks = null;
+        let incomingWebhooks;
         if (this.props.enableIncomingWebhooks) {
             incomingWebhooks = (
                 <TeamPermissionGate
@@ -75,7 +75,7 @@ export default class BackstageSidebar extends React.PureComponent {
             );
         }
 
-        let outgoingWebhooks = null;
+        let outgoingWebhooks: JSX.Element | null = null;
         if (this.props.enableOutgoingWebhooks) {
             outgoingWebhooks = (
                 <TeamPermissionGate
@@ -97,7 +97,7 @@ export default class BackstageSidebar extends React.PureComponent {
             );
         }
 
-        let commands = null;
+        let commands: JSX.Element | null = null;
         if (this.props.enableCommands) {
             commands = (
                 <TeamPermissionGate
@@ -119,7 +119,7 @@ export default class BackstageSidebar extends React.PureComponent {
             );
         }
 
-        let oauthApps = null;
+        let oauthApps: JSX.Element | null = null;
         if (this.props.enableOAuthServiceProvider) {
             oauthApps = (
                 <SystemPermissionGate permissions={[Permissions.MANAGE_OAUTH]}>
