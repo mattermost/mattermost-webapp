@@ -1815,39 +1815,35 @@ export function numberToFixedDynamic(num: number, places: number): string {
     return str.slice(0, indexToExclude);
 }
 
-export function getRoleForTrackFlow() {
+const TrackFlowRoles: Record<string, string> = {
+    fa: Constants.FIRST_ADMIN_ROLE,
+    sa: General.SYSTEM_ADMIN_ROLE,
+    su: General.SYSTEM_USER_ROLE,
+};
+
+export function getTrackFlowRole() {
     const state = store.getState();
-    let startedByRole;
+    let trackFlowRole = 'su';
 
     if (isFirstAdmin(state)) {
-        startedByRole = Constants.FIRST_ADMIN_ROLE;
+        trackFlowRole = 'fa';
     } else if (isSystemAdmin(getCurrentUser(state).roles)) {
-        startedByRole = General.SYSTEM_ADMIN_ROLE;
-    } else {
-        startedByRole = General.SYSTEM_USER_ROLE;
+        trackFlowRole = 'sa';
     }
+
+    return trackFlowRole;
+}
+
+export function getRoleForTrackFlow() {
+    const startedByRole = TrackFlowRoles[getTrackFlowRole()];
 
     return {started_by_role: startedByRole};
 }
 
 export function getRoleFromTrackFlow() {
     const params = new URLSearchParams(window.location.search);
-    const sbr = params.get('sbr');
-    let startedByRole;
-
-    switch (sbr) {
-    case 'fa':
-        startedByRole = Constants.FIRST_ADMIN_ROLE;
-        break;
-    case 'sa':
-        startedByRole = General.SYSTEM_ADMIN_ROLE;
-        break;
-    case 'su':
-        startedByRole = General.SYSTEM_USER_ROLE;
-        break;
-    default:
-        startedByRole = '';
-    }
+    const sbr = params.get('sbr') ?? '';
+    const startedByRole = TrackFlowRoles[sbr] ?? '';
 
     return {started_by_role: startedByRole};
 }
