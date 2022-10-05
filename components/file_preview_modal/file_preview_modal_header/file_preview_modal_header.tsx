@@ -10,7 +10,6 @@ import {Post} from '@mattermost/types/posts';
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainNav from '../file_preview_modal_main_nav/file_preview_modal_main_nav';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
-import {ZoomValue} from '../file_preview_modal_image_controls/file_preview_modal_image_controls';
 import {LinkInfo} from '../types';
 
 import './file_preview_modal_header.scss';
@@ -34,7 +33,7 @@ interface Props {
     content: string;
 }
 
-const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, fileType, ...actionProps}: Props) => {
+const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, ...actionProps}: Props) => {
     let mainActions = (<div/>);
     if (totalFiles > 1) {
         mainActions = (
