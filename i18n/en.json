@@ -4571,6 +4571,8 @@
   "shortcuts.nav.settings.mac": "Settings:\t⌘|Shift|A",
   "shortcuts.nav.switcher": "Quick channel navigation:\tCtrl|K",
   "shortcuts.nav.switcher.mac": "Quick channel navigation:\t⌘|K",
+  "shortcuts.nav.toggle_unreads": "Toggle unread/all channels:\tCtrl|Shift|U",
+  "shortcuts.nav.toggle_unreads.mac": "Toggle unread/all channels:\t⌘|Shift|U",
   "shortcuts.nav.unread_next": "Next unread channel:\tAlt|Shift|Down",
   "shortcuts.nav.unread_next.mac": "Next unread channel:\t⌥|Shift|Down",
   "shortcuts.nav.unread_prev": "Previous unread channel:\tAlt|Shift|Up",
