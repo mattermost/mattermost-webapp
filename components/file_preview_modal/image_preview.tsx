@@ -6,6 +6,7 @@ import {clamp} from 'lodash';
 import classNames from 'classnames';
 
 import {getFilePreviewUrl, getFileDownloadUrl} from 'mattermost-redux/utils/file_utils';
+
 import {FileInfo} from '@mattermost/types/files';
 
 import {ZoomValue} from './file_preview_modal_image_controls/file_preview_modal_image_controls';
@@ -64,10 +65,10 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     case 'Automatic':
         zoom.current = minZoom.current;
         break;
-    case 'Width':
+    case 'FitWidth':
         zoom.current = maxWidth / width;
         break;
-    case 'Height':
+    case 'FitHeight':
         zoom.current = maxHeight / height;
         break;
     default:

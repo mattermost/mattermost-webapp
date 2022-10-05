@@ -10,7 +10,7 @@ import {PlusIcon, MinusIcon} from '@mattermost/compass-icons/components';
 import {minZoomExport, zoomExport} from '../image_preview';
 import './file_preview_modal_image_controls.scss';
 
-export type ZoomValue = 'Automatic' | 'Width' | 'Height' | number;
+export type ZoomValue = 'Automatic' | 'FitWidth' | 'FitHeight' | number;
 
 interface Props {
     toolbarZoom: ZoomValue;
@@ -34,8 +34,8 @@ const FilePreviewModalImageControls = ({toolbarZoom, setToolbarZoom}: Props) => 
     const fitWidthText = formatMessage({id: 'imageToolbarZoomDropdown.fitWidth', defaultMessage: 'Fit width'});
     const fitHeightText = formatMessage({id: 'imageToolbarZoomDropdown.fitHeight', defaultMessage: 'Fit height'});
     zoomLevels.set('Automatic', {text: autoText, type: 'auto'});
-    zoomLevels.set('Width', {text: fitWidthText, type: 'auto'});
-    zoomLevels.set('Height', {text: fitHeightText, type: 'auto'});
+    zoomLevels.set('FitWidth', {text: fitWidthText, type: 'auto'});
+    zoomLevels.set('FitHeight', {text: fitHeightText, type: 'auto'});
 
     const zoomLevelOptions = [];
     for (const [zoomLevelKey, zoomLevel] of zoomLevels) {
