@@ -83,7 +83,7 @@ const AddToChannels = (props: Props): JSX.Element | null => {
     }
 
     // don't show the add to channels if it is not a free trial nor a paid subscription
-    // in case the enduser overpasses restrictions by DOM manipulation (see MM-47228)
+    // (see MM-47228)
     if (props.isCloud && !props.isCloudFreeTrial && !props.isPaidSubscription) {
         return null;
     }
