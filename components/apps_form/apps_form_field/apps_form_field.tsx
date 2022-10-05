@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';

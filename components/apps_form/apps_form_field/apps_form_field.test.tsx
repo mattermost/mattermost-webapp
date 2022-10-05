@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import {AppField} from '@mattermost/types/apps';
 

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 

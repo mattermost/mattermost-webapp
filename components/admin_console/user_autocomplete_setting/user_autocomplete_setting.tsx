@@ -3,7 +3,7 @@
 
 import React, {useCallback, useRef} from 'react';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import {UserProfile} from '@mattermost/types/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
