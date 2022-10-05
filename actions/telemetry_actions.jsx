@@ -40,10 +40,10 @@ export function trackEvent(category, event, props) {
     }
 
     Client4.trackEvent(category, event, props);
-    if (isDevMode() && props) {
-        // eslint-disable-next-line no-console
-        console.log(category + ' - ' + event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
-    }
+
+    // !!! Only for testing purposes in cloud test env - Will be set back before merge !!!
+    // eslint-disable-next-line no-console
+    console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
 }
 
 export function pageVisited(category, name) {
