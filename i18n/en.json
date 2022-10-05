@@ -4242,6 +4242,7 @@
   "post_body.commentedOn": "Commented on {name}'s message: ",
   "post_body.deleted": "(message deleted)",
   "post_body.plusMore": " plus {count, number} other {count, plural, one {file} other {files}}",
+  "post_body.repliedTo": "Replied to {name}'s thread: ",
   "post_delete.notPosted": "Comment could not be posted",
   "post_delete.okay": "Okay",
   "post_delete.someone": "Someone deleted the message on which you tried to post a comment.",
