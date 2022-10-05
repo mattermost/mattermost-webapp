@@ -3,7 +3,6 @@
 
 import {createSelector} from 'reselect';
 
-import {AppBinding} from '@mattermost/types/apps';
 import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {createShallowSelector} from 'mattermost-redux/utils/helpers';
 
@@ -11,6 +10,9 @@ import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
+
+import {AppBinding} from '@mattermost/types/apps';
+
 import {FileDropdownPluginComponent, PluginComponent} from '../types/store/plugins';
 
 export const getFilesDropdownPluginMenuItems = createSelector(

@@ -8,6 +8,7 @@ import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
 import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
+import {useClickOutsideRef} from '../common/hooks/useClickOutsideRef';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -91,6 +92,12 @@ export const TourTip = ({
             handleJump(event, jumpToStep);
         }
     };
+
+    useClickOutsideRef(triggerRef, (e: any) => {
+        if (!showBackdrop && handleDismiss) {
+            handleDismiss(e);
+        }
+    });
 
     // This needs to be changed if root-portal node isn't available to maybe body
     const rootPortal = document.getElementById('root-portal');
