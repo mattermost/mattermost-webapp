@@ -908,7 +908,7 @@ export const IgnoreChannelMentions = {
     ON: 'on',
     OFF: 'off',
     DEFAULT: 'default',
-};
+} as const;
 
 export const NotificationSections = {
     IGNORE_CHANNEL_MENTIONS: 'ignoreChannelMentions',
