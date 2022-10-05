@@ -1,4 +1,4 @@
-@charset 'UTF-8';
+@charset "utf-8";
 
 .browser--ie {
     .modal {
@@ -880,6 +880,7 @@
             overflow: hidden;
             min-width: 0;
             margin: 5px 0;
+            gap: 4px;
             text-overflow: ellipsis;
             white-space: nowrap;
 
