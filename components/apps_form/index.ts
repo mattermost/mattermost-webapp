@@ -5,21 +5,25 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {DoAppCall, PostEphemeralCallResponseForContext} from 'types/apps';
+import {DoAppSubmit, DoAppFetchForm, DoAppLookup, PostEphemeralCallResponseForContext} from 'types/apps';
 
-import {doAppCall, postEphemeralCallResponseForContext} from 'actions/apps';
+import {doAppSubmit, doAppFetchForm, doAppLookup, postEphemeralCallResponseForContext} from 'actions/apps';
 
 import AppsFormContainer from './apps_form_container';
 
 type Actions = {
-    doAppCall: DoAppCall<any>;
+    doAppSubmit: DoAppSubmit<any>;
+    doAppFetchForm: DoAppFetchForm<any>;
+    doAppLookup: DoAppLookup<any>;
     postEphemeralCallResponseForContext: PostEphemeralCallResponseForContext;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
-            doAppCall,
+            doAppSubmit,
+            doAppFetchForm,
+            doAppLookup,
             postEphemeralCallResponseForContext,
         }, dispatch),
     };

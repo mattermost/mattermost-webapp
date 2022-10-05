@@ -7,9 +7,9 @@ import {debounce} from 'lodash';
 
 import Constants from 'utils/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {Team, TeamSearchOpts} from 'mattermost-redux/types/teams';
+import {Team, TeamSearchOpts} from '@mattermost/types/teams';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import DataGrid, {Column, Row} from 'components/admin_console/data_grid/data_grid';
 import TeamIcon from 'components/widgets/team_icon/team_icon';

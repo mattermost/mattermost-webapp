@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 
 import {createSelector} from 'reselect';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {makeGetPostsForThread} from 'mattermost-redux/selectors/entities/posts';

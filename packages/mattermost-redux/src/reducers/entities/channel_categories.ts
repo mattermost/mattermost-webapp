@@ -6,9 +6,9 @@ import {combineReducers} from 'redux';
 import {ChannelCategoryTypes, TeamTypes, UserTypes, ChannelTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Team} from 'mattermost-redux/types/teams';
-import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
+import {Team} from '@mattermost/types/teams';
+import {IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
 
 import {removeItem} from 'mattermost-redux/utils/array_utils';
 

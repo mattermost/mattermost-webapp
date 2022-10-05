@@ -53,7 +53,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         className="channel-switcher__hint"
         id="quickSwitchHint"
       >
-        <injectIntl(FormattedMarkdownMessage)
+        <FormattedMarkdownMessage
           defaultMessage="Type to find a channel. Use **UP/DOWN** to browse, **ENTER** to select, **ESC** to dismiss."
           id="quick_switch_modal.help_no_team"
         />
@@ -74,7 +74,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
         id="quickSwitchInput"
         listComponent={[Function]}
         listPosition="bottom"
-        maxLength="64"
+        maxLength={64}
         onChange={[Function]}
         onItemSelected={[Function]}
         onSuggestionsReceived={[Function]}
@@ -83,13 +83,19 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
           Array [
             SwitchChannelProvider {
               "disableDispatches": false,
+              "forceDispatch": false,
               "latestComplete": true,
               "latestPrefix": "",
               "requestStarted": false,
             },
           ]
         }
-        renderDividers={true}
+        renderDividers={
+          Array [
+            "mention.unread",
+            "mention.recent.channels",
+          ]
+        }
         shouldSearchCompleteText={true}
         spellCheck="false"
         value=""

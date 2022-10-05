@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';

@@ -70,7 +70,6 @@ exports[`/components/common/Carousel should match snapshot 1`] = `
       />
       <CarouselButton
         direction="next"
-        disabled={false}
         moveSlide={[Function]}
       />
     </div>

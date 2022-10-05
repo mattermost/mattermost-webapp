@@ -5,7 +5,7 @@ import React, {useState, useEffect} from 'react';
 
 import ThemeProvider, {lightTheme} from '@mattermost/compass-components/utilities/theme';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 type Props = {
     theme: Theme;

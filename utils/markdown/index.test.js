@@ -4,29 +4,39 @@
 import {format} from './index';
 
 describe('format', () => {
-    test('should highlight code without space before language', () => {
-        const output = format(`~~~diff
+    const htmlOutput = '<div data-codeblock-code="{code}" data-codeblock-language="{language}" data-codeblock-searchedcontent=""></div>';
+
+    test('should return valid div for html to component transformation', () => {
+        const language = 'diff';
+        const code =
+            `
 - something
 + something else
-~~~`);
+`;
 
-        expect(output).toContain('<span class="post-code__language">Diff</span>');
+        const text = `~~~${language}\n${code}\n~~~`;
+        const output = format(text);
+        expect(output).toContain(htmlOutput.replace('{code}', code).replace('{language}', language));
     });
 
-    test('should highlight code with space before language', () => {
-        const output = format(`~~~ diff
-- something
-+ something else
-~~~`);
+    test('should return valid div for tex/latex language', () => {
+        const languageTex = 'tex';
+        const texCode =
+            `
+F_m - 2 = F_0 F_1 \\dots F_{m-1}
+`;
 
-        expect(output).toContain('<span class="post-code__language">Diff</span>');
-    });
+        const languageLatex = 'latex';
+        const latexCode =
+            `
+x^2 + y^2 = z^2
+`;
 
-    test('should not highlight code with an invalid language', () => {
-        const output = format(`~~~garbage
-~~~`);
+        const outputTex = format(`~~~${languageTex}\n${texCode}\n~~~`);
+        expect(outputTex).toContain(`<div data-latex="${texCode}"></div>`);
 
-        expect(output).not.toContain('<span class="post-code__language">');
+        const outputLatex = format(`~~~${languageLatex}\n${latexCode}\n~~~`);
+        expect(outputLatex).toContain(`<div data-latex="${latexCode}"></div>`);
     });
 
     describe('lists', () => {
@@ -75,14 +85,6 @@ describe('format', () => {
         });
     });
 
-    test('should wrap code without a language tag', () => {
-        const output = format(`~~~
-this is long text this is long text this is long text this is long text this is long text this is long text
-~~~`);
-
-        expect(output).toContain('post-code--wrap');
-    });
-
     test('should not wrap code with a valid language tag', () => {
         const output = format(`~~~java
 this is long text this is long text this is long text this is long text this is long text this is long text
@@ -97,39 +99,6 @@ this is long text this is long text this is long text this is long text this is 
 ~~~`);
 
         expect(output).not.toContain('post-code--wrap');
-    });
-
-    test('should highlight code with Tex highlighting without rendering', () => {
-        const output = format(`~~~texcode
-\\sqrt{x * y + 2}
-~~~`);
-
-        expect(output).toContain('<span class="post-code__language">LaTeX</span>');
-    });
-
-    test('should add line numbers to code', () => {
-        const output = format(`~~~diff
-- something
-+ something else
-~~~`);
-
-        expect(output).toContain('<div class="post-code__line-numbers">1\n2</div>');
-    });
-
-    test('should generate valid HTML for code blocks with line numbers', () => {
-        const output = format(`\`\`\`python
-    op.execute("""
-        UPDATE events.settings
-        SET name = 'paper_review_conditions'
-        WHERE module = 'editing' AND name = 'review_conditions'
-    """)
-\`\`\``);
-
-        const div = document.createElement('div');
-        div.innerHTML = output;
-
-        // The HTML is valid as long as no new HTML tags have been injected. Unescaped characters are fine though.
-        expect(div.innerHTML).toBe(output.replace(/&quot;&quot;&quot;/g, '"""').replace(/&#x27;/g, '\''));
     });
 
     test('<a> should contain target=_blank for external links', () => {
@@ -171,32 +140,17 @@ this is long text this is long text this is long text this is long text this is 
     });
 
     describe('should correctly open links in the current tab based on whether they are handled by the web app', () => {
-        for (const testCase of [
-            {name: 'regular link', link: 'https://example.com', handled: false},
-            {name: 'www link', link: 'www.example.com', handled: false},
+        for (const testCase of [{name: 'regular link', link: 'https://example.com', handled: false}, {name: 'www link', link: 'www.example.com', handled: false},
 
-            {name: 'link to a channel', link: 'http://localhost/team/channels/foo', handled: true},
-            {name: 'link to a DM', link: 'http://localhost/team/messages/@bar', handled: true},
-            {name: 'link to the system console', link: 'http://localhost/admin_console', handled: true},
-            {name: 'permalink', link: 'http://localhost/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc', handled: true},
-            {name: 'link to a specific system console page', link: 'http://localhost/admin_console/plugins/plugin_com.github.matterpoll.matterpoll', handled: true},
+            {name: 'link to a channel', link: 'http://localhost/team/channels/foo', handled: true}, {name: 'link to a DM', link: 'http://localhost/team/messages/@bar', handled: true}, {name: 'link to the system console', link: 'http://localhost/admin_console', handled: true}, {name: 'permalink', link: 'http://localhost/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc', handled: true}, {name: 'link to a specific system console page', link: 'http://localhost/admin_console/plugins/plugin_com.github.matterpoll.matterpoll', handled: true},
 
-            {name: 'relative link', link: '/', handled: true},
-            {name: 'relative link to a channel', link: '/reiciendis-0/channels/b3hrs3brjjn7fk4kge3xmeuffc', handled: true},
-            {name: 'relative link to a DM', link: '/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc', handled: true},
-            {name: 'relative permalink', link: '/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc', handled: true},
-            {name: 'relative link to the system console', link: '/admin_console', handled: true},
-            {name: 'relative link to a specific system console page', link: '/admin_console/plugins/plugin_com.github.matterpoll.matterpoll', handled: true},
+            {name: 'relative link', link: '/', handled: true}, {name: 'relative link to a channel', link: '/reiciendis-0/channels/b3hrs3brjjn7fk4kge3xmeuffc', handled: true}, {name: 'relative link to a DM', link: '/reiciendis-0/messages/b3hrs3brjjn7fk4kge3xmeuffc', handled: true}, {name: 'relative permalink', link: '/reiciendis-0/pl/b3hrs3brjjn7fk4kge3xmeuffc', handled: true}, {name: 'relative link to the system console', link: '/admin_console', handled: true}, {name: 'relative link to a specific system console page', link: '/admin_console/plugins/plugin_com.github.matterpoll.matterpoll', handled: true},
 
-            {name: 'link to a plugin-handled path', link: 'http://localhost/plugins/example', handled: false},
-            {name: 'link to a file attachment public link', link: 'http://localhost/files/o6eujqkmjfd138ykpzmsmc131y/public?h=j5nPX8JlgUeNVMOB3dLXwyG_jlxlSw4nSgZmegXfpHw', handled: false},
+            {name: 'link to a plugin-handled path', link: 'http://localhost/plugins/example', handled: false}, {name: 'link to a file attachment public link', link: 'http://localhost/files/o6eujqkmjfd138ykpzmsmc131y/public?h=j5nPX8JlgUeNVMOB3dLXwyG_jlxlSw4nSgZmegXfpHw', handled: false},
 
-            {name: 'relative link to a plugin-handled path', link: '/plugins/example', handled: false},
-            {name: 'relative link to a file attachment public link', link: '/files/o6eujqkmjfd138ykpzmsmc131y/public?h=j5nPX8JlgUeNVMOB3dLXwyG_jlxlSw4nSgZmegXfpHw', handled: false},
+            {name: 'relative link to a plugin-handled path', link: '/plugins/example', handled: false}, {name: 'relative link to a file attachment public link', link: '/files/o6eujqkmjfd138ykpzmsmc131y/public?h=j5nPX8JlgUeNVMOB3dLXwyG_jlxlSw4nSgZmegXfpHw', handled: false},
 
-            {name: 'link to a managed resource', link: 'http://localhost/trusted/jitsi', options: {managedResourcePaths: ['trusted']}, handled: false},
-            {name: 'relative link to a managed resource', link: '/trusted/jitsi', options: {managedResourcePaths: ['trusted']}, handled: false},
-            {name: 'link that is not to a managed resource', link: 'http://localhost/trusted/jitsi', options: {managedResourcePaths: ['jitsi']}, handled: true},
+            {name: 'link to a managed resource', link: 'http://localhost/trusted/jitsi', options: {managedResourcePaths: ['trusted']}, handled: false}, {name: 'relative link to a managed resource', link: '/trusted/jitsi', options: {managedResourcePaths: ['trusted']}, handled: false}, {name: 'link that is not to a managed resource', link: 'http://localhost/trusted/jitsi', options: {managedResourcePaths: ['jitsi']}, handled: true},
         ]) {
             test(testCase.name, () => {
                 const options = {

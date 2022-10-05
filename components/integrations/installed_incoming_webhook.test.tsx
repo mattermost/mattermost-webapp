@@ -5,7 +5,7 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import {shallow} from 'enzyme';
 
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {IncomingWebhook} from '@mattermost/types/integrations';
 
 import DeleteIntegrationLink from 'components/integrations/delete_integration_link';
 import InstalledIncomingWebhook from 'components/integrations/installed_incoming_webhook.jsx';

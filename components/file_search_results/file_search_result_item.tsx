@@ -93,6 +93,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
             dialogProps: {
                 fileInfos: [this.props.fileInfo],
                 postId: this.props.fileInfo.post_id,
+                startIndex: 0,
             },
         });
     }

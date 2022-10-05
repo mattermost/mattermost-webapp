@@ -63,17 +63,21 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}
+        backButtonClass="btn-cancel tertiary-button"
+        backButtonClick={[Function]}
+        backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        customNoOptionsMessage={null}
         focusOnLoad={true}
         handleAdd={[Function]}
+        handleCancel={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
         handlePageChange={[Function]}
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        maxValues={20}
         optionRenderer={[Function]}
         options={
           Array [
@@ -119,6 +123,7 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     hasMention={false}
     isEmoji={false}
     isRHS={false}
+    popoverPlacement="right"
     size="md"
     src="/api/v4/users/user-1/image"
     status="online"
@@ -130,15 +135,17 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
     <div
       className="more-modal__name"
     >
-      <span
-        id="displayedUserNameundefined"
-      >
+      <span>
         @undefined
         <span
           className="light"
-        >
-          
-        </span>
+          style={
+            Object {
+              "position": "absolute",
+              "right": 20,
+            }
+          }
+        />
       </span>
       <BotBadge
         className="badge-popoverlist"
@@ -225,17 +232,21 @@ exports[`components/channel_invite_modal should match snapshot with exclude and 
     >
       <MultiSelect
         ariaLabelRenderer={[Function]}
+        backButtonClass="btn-cancel tertiary-button"
+        backButtonClick={[Function]}
+        backButtonText="Cancel"
         buttonSubmitLoadingText="Adding..."
         buttonSubmitText="Add"
+        customNoOptionsMessage={null}
         focusOnLoad={true}
         handleAdd={[Function]}
+        handleCancel={[Function]}
         handleDelete={[Function]}
         handleInput={[Function]}
         handlePageChange={[Function]}
         handleSubmit={[Function]}
         key="addUsersToChannelKey"
         loading={true}
-        maxValues={20}
         optionRenderer={[Function]}
         options={
           Array [

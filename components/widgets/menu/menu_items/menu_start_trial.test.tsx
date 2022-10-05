@@ -3,11 +3,10 @@
 
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
-
 import * as reactRedux from 'react-redux';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import MenuStartTrial from './menu_start_trial';
 
@@ -17,8 +16,6 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
     beforeEach(() => {
         useDispatchMock.mockClear();
     });
-
-    const mockStore = configureStore();
 
     test('should render when no trial license has ever been used and there is no license currently loaded', () => {
         const state = {
@@ -213,6 +210,7 @@ describe('components/widgets/menu/menu_items/menu_start_trial', () => {
         useDispatchMock.mockReturnValue(dummyDispatch);
         const wrapper = mountWithIntl(<reactRedux.Provider store={store}><MenuStartTrial id='startTrial'/></reactRedux.Provider>);
         expect(wrapper.find('button').exists()).toEqual(true);
-        expect(wrapper.find('button').text()).toEqual('Start Trial');
+        expect(wrapper.find('div.start_trial_content').text()).toEqual('Try Enterprise for free now!');
+        expect(wrapper.find('button').text()).toEqual('Learn More');
     });
 });

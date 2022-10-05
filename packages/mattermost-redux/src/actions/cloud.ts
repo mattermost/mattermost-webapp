@@ -4,7 +4,7 @@ import {CloudTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {Address, CloudCustomerPatch} from 'mattermost-redux/types/cloud';
+import {Address, CloudCustomerPatch} from '@mattermost/types/cloud';
 
 import {bindClientFunc} from './helpers';
 
@@ -20,13 +20,6 @@ export function getCloudProducts(includeLegacyProducts?: boolean): ActionFunc {
         clientFunc: Client4.getCloudProducts,
         onSuccess: [CloudTypes.RECEIVED_CLOUD_PRODUCTS],
         params: [includeLegacyProducts],
-    });
-}
-
-export function getSubscriptionStats(): ActionFunc {
-    return bindClientFunc({
-        clientFunc: Client4.getSubscriptionStats,
-        onSuccess: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION_STATS,
     });
 }
 

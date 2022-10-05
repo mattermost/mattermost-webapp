@@ -5,10 +5,8 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {useMeasurePunchouts} from '@mattermost/components';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
-import {toTitleCase} from 'utils/utils';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 import ChannelsImg from 'images/channels_and_direct_tour_tip.svg';
@@ -20,16 +18,12 @@ type Props = {
 }
 
 const FirstChannel = ({firstChannelName}: {firstChannelName: string}) => {
-    const displayFirstChannelName = firstChannelName.split('-').join(' ').trim();
     return (
-        <>
-            <FormattedMarkdownMessage
-                id='onboardingTour.ChannelsAndDirectMessagesTour.firstChannel'
-                defaultMessage='Hey look, there’s your **{firstChannelName}** channel! '
-                values={{firstChannelName: toTitleCase(displayFirstChannelName)}}
-            />
-            <br/>
-        </>
+        <FormattedMessage
+            id='onboardingTour.ChannelsAndDirectMessagesTour.firstChannel'
+            defaultMessage='Hey look, there’s your **{firstChannelName}** channel! '
+            values={{firstChannelName}}
+        />
     );
 };
 
@@ -54,14 +48,14 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
                 />
             </p>
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='onboardingTour.ChannelsAndDirectMessagesTour.townSquare'
                     defaultMessage={'We’ve also added the **{townSquare}** and **{offTopic}** channels for everyone on your team.'}
-                    values={{townSquare: toTitleCase(townSquareDisplayName), offTopic: toTitleCase(offTopicDisplayName)}}
+                    values={{townSquare: townSquareDisplayName, offTopic: offTopicDisplayName}}
                 />
             </p>
             <p>
-                <FormattedMarkdownMessage
+                <FormattedMessage
                     id='onboardingTour.ChannelsAndDirectMessagesTour.directMessages'
                     defaultMessage={'**Direct messages** are for private conversations between individuals or small groups.'}
                 />

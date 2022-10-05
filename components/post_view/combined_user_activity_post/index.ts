@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 
 import {makeGenerateCombinedPost} from 'mattermost-redux/utils/post_list';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import Post from 'components/post_view/post';
 

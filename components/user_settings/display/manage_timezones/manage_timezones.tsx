@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
 import {Timezone} from 'timezones.json';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import SettingItemMax from 'components/setting_item_max.jsx';

@@ -9,8 +9,8 @@ import {getSearchMatches, getSearchResults} from 'mattermost-redux/selectors/ent
 import {getSearchFilesResults} from 'mattermost-redux/selectors/entities/files';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentSearchForCurrentTeam} from 'mattermost-redux/selectors/entities/search';
-import {Post} from 'mattermost-redux/types/posts';
-import {FileSearchResultItem} from 'mattermost-redux/types/files';
+import {Post} from '@mattermost/types/posts';
+import {FileSearchResultItem} from '@mattermost/types/files';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {
@@ -21,7 +21,7 @@ import {
     getIsSearchGettingMore,
 } from 'selectors/rhs';
 import {GlobalState} from 'types/store';
-import {Preferences} from 'utils/constants.jsx';
+import {Preferences} from 'utils/constants';
 
 import SearchResults from './search_results';
 import {StateProps, OwnProps} from './types';

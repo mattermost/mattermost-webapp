@@ -36,22 +36,42 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
 
     let description = '';
     let keys = '';
+    let altKeys = '';
 
     if (splitShortcut.length > 1) {
         description = splitShortcut[0];
         keys = splitShortcut[1];
+        altKeys = splitShortcut[2];
     } else if (splitShortcut[0].includes(KEY_SEPARATOR)) {
         keys = splitShortcut[0];
     } else {
         description = splitShortcut[0];
     }
 
+    const renderAltKeys = () => {
+        const shortcutKeys = altKeys.split(KEY_SEPARATOR).map((key) => (
+            <ShortcutKey
+                key={key}
+                variant={isInsideTooltip ? ShortcutKeyVariant.Tooltip : ShortcutKeyVariant.ShortcutModal}
+            >
+                {key}
+            </ShortcutKey>
+        ));
+
+        return (
+            <React.Fragment>
+                <span>{'\t|\t'}</span>
+                {shortcutKeys}
+            </React.Fragment>
+        );
+    };
+
     return (
         <>
             {hoistDescription && !hideDescription && description?.replace(/:{1,2}$/, '')}
             <div className='shortcut-line'>
                 {!hoistDescription && !hideDescription && description && <span>{description}</span>}
-                {keys?.split(KEY_SEPARATOR).map((key) => (
+                {keys && keys.split(KEY_SEPARATOR).map((key) => (
                     <ShortcutKey
                         key={key}
                         variant={isInsideTooltip ? ShortcutKeyVariant.Tooltip : ShortcutKeyVariant.ShortcutModal}
@@ -59,6 +79,8 @@ function KeyboardShortcutSequence({shortcut, values, hideDescription, hoistDescr
                         {key}
                     </ShortcutKey>
                 ))}
+
+                {altKeys && renderAltKeys()}
             </div>
         </>
     );

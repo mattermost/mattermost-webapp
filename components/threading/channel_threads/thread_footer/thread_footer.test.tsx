@@ -12,7 +12,7 @@ import FollowButton from '../../common/follow_button';
 
 import {mockStore} from 'tests/test_store';
 
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 
 import {fakeDate} from 'tests/helpers/date';
 

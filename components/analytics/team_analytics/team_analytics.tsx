@@ -4,11 +4,11 @@
 import React from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 
-import {AnalyticsRow} from 'mattermost-redux/types/admin';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {AnalyticsRow} from '@mattermost/types/admin';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 import {General} from 'mattermost-redux/constants';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -177,9 +177,25 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
             banner = (
                 <div className='banner'>
                     <div className='banner__content'>
-                        <FormattedMarkdownMessage
-                            id='analytics.system.infoAndSkippedIntensiveQueries'
-                            defaultMessage='Use data for only the chosen team. Exclude posts in direct message channels that are not tied to a team. \n \n To maximize performance, some statistics are disabled. You can [re-enable them in config.json](!https://docs.mattermost.com/administration/statistics.html).'
+                        <FormattedMessage
+                            id='analytics.system.infoAndSkippedIntensiveQueries1'
+                            defaultMessage='Use data for only the chosen team. Exclude posts in direct message channels that are not tied to a team.'
+                        />
+                        <p/>
+                        <FormattedMessage
+                            id='analytics.system.infoAndSkippedIntensiveQueries2'
+                            defaultMessage='To maximize performance, some statistics are disabled. You can <link>re-enable them in config.json</link>.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://docs.mattermost.com/administration/statistics.html'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </div>
                 </div>

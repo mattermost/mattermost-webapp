@@ -4,17 +4,16 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 
 import {TestHelper} from 'utils/test_helper';
 import {fakeDate} from 'tests/helpers/date';
 
 import {FakePost} from 'types/store/rhs';
 
-import ThreadViewer from './thread_viewer';
+import ThreadViewer, {Props} from './thread_viewer';
 
 describe('components/threading/ThreadViewer', () => {
     const post: Post = TestHelper.getPostMock({
@@ -48,6 +47,7 @@ describe('components/threading/ThreadViewer', () => {
     const actions = {
         removePost: jest.fn(),
         selectPostCard: jest.fn(),
+        getNewestPostThread: jest.fn(),
         getPostThread: jest.fn(),
         getThread: jest.fn(),
         updateThreadRead: jest.fn(),
@@ -55,20 +55,16 @@ describe('components/threading/ThreadViewer', () => {
         fetchRHSAppsBindings: jest.fn(),
     };
 
-    const directTeammate: UserProfile = TestHelper.getUserMock();
-
-    const baseProps = {
+    const baseProps: Props = {
         selected: post,
         channel,
         currentUserId: 'user_id',
         currentTeamId: 'team_id',
-        previewCollapsed: 'false',
-        previewEnabled: true,
         socketConnectionStatus: true,
         actions,
-        directTeammate,
         isCollapsedThreadsEnabled: false,
         postIds: [post.id],
+        appsEnabled: true,
     };
 
     test('should match snapshot', async () => {
@@ -91,7 +87,7 @@ describe('components/threading/ThreadViewer', () => {
         wrapper.setProps({socketConnectionStatus: false});
         wrapper.setProps({socketConnectionStatus: true});
 
-        return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, false);
+        return expect(actions.getPostThread).toHaveBeenCalledWith(post.id, true);
     });
 
     test('should not break if root post is a fake post', () => {
@@ -205,5 +201,30 @@ describe('components/threading/ThreadViewer', () => {
             Date.now = dateNowOrig;
             done();
         });
+    });
+
+    test('should call fetchRHSAppsBindings on mount if appsEnabled', () => {
+        const {actions} = baseProps;
+
+        shallow(
+            <ThreadViewer
+                {...baseProps}
+            />,
+        );
+
+        expect(actions.fetchRHSAppsBindings).toHaveBeenCalledWith('channel_id', 'id');
+    });
+
+    test('should not call fetchRHSAppsBindings on mount if not appsEnabled', () => {
+        const {actions} = baseProps;
+
+        shallow(
+            <ThreadViewer
+                {...baseProps}
+                appsEnabled={false}
+            />,
+        );
+
+        expect(actions.fetchRHSAppsBindings).not.toHaveBeenCalledWith('channel_id', 'id');
     });
 });

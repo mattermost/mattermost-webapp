@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import * as ServerVersion from 'utils/server_version';
@@ -34,9 +36,20 @@ const notices: Notice[] = [
         ),
         icon: mattermostIcon,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.api3'
-                defaultMessage='If you’ve created or installed integrations in the last two years, find out how [recent changes](!https://about.mattermost.com/default-apiv3-deprecation-guide) may have affected them.'
+                defaultMessage='If you’ve created or installed integrations in the last two years, find out how <link>recent changes</link> may have affected them.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://api.mattermost.com/#tag/APIv3-Deprecation'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         allowForget: true,
@@ -58,9 +71,20 @@ const notices: Notice[] = [
         ),
         icon: mattermostIcon,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.permissions'
-                defaultMessage='Some policy and permission System Console settings have moved with the release of [advanced permissions](!https://about.mattermost.com/default-advanced-permissions) into Mattermost Starter and Professional.'
+                defaultMessage='Some policy and permission System Console settings have moved with the release of <link>advanced permissions</link> into Mattermost Starter and Professional.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://docs.mattermost.com/deployment/advanced-permissions.html'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         allowForget: true,
@@ -88,9 +112,20 @@ const notices: Notice[] = [
         ),
         icon: mattermostIcon,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.ee_upgrade_advice'
-                defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. [Learn more](!https://mattermost.com/performance).'
+                defaultMessage='Enterprise Edition is recommended to ensure optimal operation and reliability. <link>Learn more</link>.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://mattermost.com/performance'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         allowForget: false,
@@ -124,9 +159,20 @@ const notices: Notice[] = [
         icon: mattermostIcon,
         allowForget: false,
         body: (
-            <FormattedMarkdownMessage
+            <FormattedMessage
                 id='system_notice.body.ie11_deprecation'
-                defaultMessage='Your browser, IE11, will no longer be supported in an upcoming release. [Find out how to move to another browser in one simple step](!https://forum.mattermost.org/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575).'
+                defaultMessage='Your browser, IE11, will no longer be supported in an upcoming release. <link>Find out how to move to another browser in one simple step</link>.'
+                values={{
+                    link: (msg: React.ReactNode) => (
+                        <a
+                            href='https://forum.mattermost.com/t/mattermost-is-dropping-support-for-internet-explorer-ie11-in-v5-16/7575'
+                            target='_blank'
+                            rel='noreferrer'
+                        >
+                            {msg}
+                        </a>
+                    ),
+                }}
             />
         ),
         show: (serverVersion) => {

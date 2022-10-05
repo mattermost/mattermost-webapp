@@ -11,7 +11,7 @@ import {getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion, isMacApp} from 'utils/user_agent';
 import Constants, {searchHintOptions, RHSStates, searchFilesHintOptions} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import SearchHint from 'components/search_hint/search_hint';
@@ -79,6 +79,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         isMobileView,
         searchTerms,
         searchType,
+        hideMobileSearchBarInRHS,
     } = props;
 
     const intl = useIntl();
@@ -86,6 +87,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     // generate intial component state and setters
     const [focused, setFocused] = useState<boolean>(false);
+    const [dropdownFocused, setDropdownFocused] = useState<boolean>(false);
     const [keepInputFocused, setKeepInputFocused] = useState<boolean>(false);
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
     const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
@@ -166,9 +168,12 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                 setFocused(false);
             }
         }, 0);
-
         updateHighlightedSearchHint();
     };
+
+    const handleDropdownBlur = () => setDropdownFocused(false);
+
+    const handleDropdownFocus = () => setDropdownFocused(true);
 
     const handleSearchHintSelection = (): void => {
         if (focused) {
@@ -188,6 +193,14 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     const handleUpdateSearchTerms = (terms: string): void => {
         actions.updateSearchTerms(terms);
         updateHighlightedSearchHint();
+    };
+
+    const handleOnSearchTypeSelected = (searchType || searchTerms) ? undefined : (value: SearchType) => {
+        actions.updateSearchType(value);
+        if (!searchType) {
+            setDropdownFocused(false);
+        }
+        setFocused(true);
     };
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -404,7 +417,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
             return <></>;
         }
 
-        const helpClass = `search-help-popover${(focused && termsUsed <= 2) ? ' visible' : ''}`;
+        const helpClass = `search-help-popover${((dropdownFocused || focused) && termsUsed <= 2) ? ' visible' : ''}`;
 
         return (
             <Popover
@@ -419,7 +432,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onMouseDown={handleSearchHintSelection}
                     highlightedIndex={highlightedSearchHintIndex}
                     onOptionHover={setHoverHintIndex}
-                    onSearchTypeSelected={(searchType || searchTerms) ? undefined : (value: SearchType) => actions.updateSearchType(value)}
+                    onSearchTypeSelected={handleOnSearchTypeSelected}
+                    onElementBlur={handleDropdownBlur}
+                    onElementFocus={handleDropdownFocus}
                     searchType={searchType}
                 />
             </Popover>
@@ -497,14 +512,16 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
 
     return (
         <div className='sidebar--right__content'>
-            <div className='search-bar__container channel-header alt'>
-                <div className='sidebar-right__table'>
-                    {renderSearchBar()}
-                    {renderMentionButton()}
-                    {renderFlagBtn()}
-                    <UserGuideDropdown/>
+            {!hideMobileSearchBarInRHS && (
+                <div className='search-bar__container channel-header alt'>
+                    <div className='sidebar-right__table'>
+                        {renderSearchBar()}
+                        {renderMentionButton()}
+                        {renderFlagBtn()}
+                        <UserGuideDropdown/>
+                    </div>
                 </div>
-            </div>
+            )}
             {props.searchVisible ? (
                 <SearchResults
                     isMentionSearch={props.isMentionSearch}
@@ -533,6 +550,7 @@ const defaultProps: Partial<Props> = {
     searchTerms: '',
     channelDisplayName: '',
     isSideBarRight: false,
+    hideMobileSearchBarInRHS: false,
     getFocus: () => {},
 };
 

@@ -454,6 +454,11 @@ $tip-index: 1000;
         }
     }
 
+    &.tip-overlay--actions {
+        margin-top: -7px;
+        margin-right: 8px;
+    }
+
     &.tip-overlay--sidebar {
         top: 10px;
         right: 10px;

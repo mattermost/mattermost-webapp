@@ -9,7 +9,7 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import BotAccountsIcon from 'images/bot_default_icon.png';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import IncomingWebhookIcon from 'images/incoming_webhook.jpg';
 import OAuthIcon from 'images/oauth_icon.png';
 import OutgoingWebhookIcon from 'images/outgoing_webhook.jpg';
@@ -18,7 +18,7 @@ import SlashCommandIcon from 'images/slash_command_icon.jpg';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import IntegrationOption from './integration_option.jsx';
+import IntegrationOption from './integration_option';
 
 export default class Integrations extends React.PureComponent {
     static get propTypes() {
@@ -199,7 +199,7 @@ export default class Integrations extends React.PureComponent {
                                 <a
                                     target='_blank'
                                     rel='noopener noreferrer'
-                                    href='https://about.mattermost.com/default-app-directory/'
+                                    href='https://mattermost.com/marketplace'
                                 >
                                     <FormattedMessage
                                         id='integrations.help.appDirectory'

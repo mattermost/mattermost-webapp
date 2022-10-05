@@ -9,10 +9,10 @@ import {getMyTeamMembers} from 'mattermost-redux/actions/teams';
 
 import {closeModal, openModal} from 'actions/views/modals';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {Action} from 'mattermost-redux/types/actions';
-import {Group, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {Group, SyncablePatch, SyncableType} from '@mattermost/types/groups';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import {ModalData} from 'types/actions';
 

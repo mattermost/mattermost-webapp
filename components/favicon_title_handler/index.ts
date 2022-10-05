@@ -9,7 +9,7 @@ import {withRouter, RouteChildrenProps, matchPath} from 'react-router-dom';
 import {getCurrentChannel, getUnreadStatus} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import FaviconTitleHandler from './favicon_title_handler';
@@ -29,6 +29,7 @@ function mapStateToProps(state: GlobalState, {location: {pathname}}: Props): Com
         siteName: config.SiteName,
         unreadStatus: getUnreadStatus(state),
         inGlobalThreads: matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'}) != null,
+        inActivityAndInsights: matchPath(pathname, {path: '/:team/activity-and-insights'}) != null,
     };
 }
 

@@ -4,8 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {OAuthApp} from 'mattermost-redux/types/integrations';
-import {Team} from 'mattermost-redux/types/teams';
+import {OAuthApp} from '@mattermost/types/integrations';
+import {Team} from '@mattermost/types/teams';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {browserHistory} from 'utils/browser_history';

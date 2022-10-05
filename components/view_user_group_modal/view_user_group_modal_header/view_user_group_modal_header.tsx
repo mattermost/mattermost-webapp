@@ -7,14 +7,11 @@ import {FormattedMessage} from 'react-intl';
 import {ModalData} from 'types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {ModalIdentifiers} from 'utils/constants';
-import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import Menu from 'components/widgets/menu/menu';
 import AddUsersToGroupModal from 'components/add_users_to_group_modal';
-import * as Utils from 'utils/utils.jsx';
+import ViewUserGroupHeaderSubMenu from '../view_user_group_header_sub_menu';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import UpdateUserGroupModal from 'components/update_user_group_modal';
 
 export type Props = {
     groupId: string;
@@ -53,20 +50,6 @@ const ViewUserGroupModalHeader = (props: Props) => {
         props.onExited();
     };
 
-    const goToEditGroupModal = () => {
-        const {actions, groupId} = props;
-
-        actions.openModal({
-            modalId: ModalIdentifiers.EDIT_GROUP_MODAL,
-            dialogType: UpdateUserGroupModal,
-            dialogProps: {
-                groupId,
-                backButtonCallback: props.backButtonAction,
-            },
-        });
-        props.onExited();
-    };
-
     const showSubMenu = (source: string) => {
         const {permissionToEditGroup, permissionToJoinGroup, permissionToLeaveGroup, permissionToArchiveGroup} = props;
 
@@ -77,31 +60,6 @@ const ViewUserGroupModalHeader = (props: Props) => {
                 permissionToLeaveGroup ||
                 permissionToArchiveGroup
             );
-    };
-
-    const leaveGroup = async (groupId: string) => {
-        const {currentUserId, actions, decrementMemberCount} = props;
-
-        await actions.removeUsersFromGroup(groupId, [currentUserId]).then(() => {
-            decrementMemberCount();
-        });
-    };
-
-    const joinGroup = async (groupId: string) => {
-        const {currentUserId, actions, incrementMemberCount} = props;
-
-        await actions.addUsersToGroup(groupId, [currentUserId]).then(() => {
-            incrementMemberCount();
-        });
-    };
-
-    const archiveGroup = async (groupId: string) => {
-        const {actions} = props;
-
-        await actions.archiveGroup(groupId).then(() => {
-            props.backButtonCallback();
-            props.onExited();
-        });
     };
 
     const modalTitle = () => {
@@ -140,67 +98,26 @@ const ViewUserGroupModalHeader = (props: Props) => {
     };
 
     const subMenuButton = () => {
-        const {group, isGroupMember} = props;
+        const {group} = props;
 
         if (group && showSubMenu(group?.source)) {
             return (
-                <div className='details-action'>
-                    <MenuWrapper
-                        isDisabled={false}
-                        stopPropagationOnToggle={false}
-                        id={`detailsCustomWrapper-${group.id}`}
-                    >
-                        <button className='action-wrapper btn-icon'>
-                            <LocalizedIcon
-                                className='icon icon-dots-vertical'
-                                ariaLabel={{id: t('user_groups_modal.goBackLabel'), defaultMessage: 'Back'}}
-                            />
-                        </button>
-                        <Menu
-                            openLeft={false}
-                            openUp={false}
-                            ariaLabel={Utils.localizeMessage('admin.user_item.menuAriaLabel', 'User Actions Menu')}
-                        >
-                            <Menu.ItemAction
-                                show={props.permissionToEditGroup}
-                                onClick={() => {
-                                    goToEditGroupModal();
-                                }}
-                                text={Utils.localizeMessage('user_groups_modal.editDetails', 'Edit Details')}
-                                disabled={false}
-                            />
-                            <Menu.ItemAction
-                                show={props.permissionToJoinGroup && !isGroupMember}
-                                onClick={() => {
-                                    joinGroup(group.id);
-                                }}
-                                text={Utils.localizeMessage('user_groups_modal.joinGroup', 'Join Group')}
-                                disabled={false}
-                            />
-                            <Menu.ItemAction
-                                show={props.permissionToLeaveGroup && isGroupMember}
-                                onClick={() => {
-                                    leaveGroup(group.id);
-                                }}
-                                text={Utils.localizeMessage('user_groups_modal.leaveGroup', 'Leave Group')}
-                                disabled={false}
-                                isDangerous={true}
-                            />
-                            <Menu.ItemAction
-                                show={props.permissionToArchiveGroup}
-                                onClick={() => {
-                                    archiveGroup(group.id);
-                                }}
-                                text={Utils.localizeMessage('user_groups_modal.archiveGroup', 'Archive Group')}
-                                disabled={false}
-                                isDangerous={true}
-                            />
-                        </Menu>
-                    </MenuWrapper>
-                </div>
+                <ViewUserGroupHeaderSubMenu
+                    group={group}
+                    isGroupMember={props.isGroupMember}
+                    decrementMemberCount={props.decrementMemberCount}
+                    incrementMemberCount={props.incrementMemberCount}
+                    backButtonCallback={props.backButtonCallback}
+                    backButtonAction={props.backButtonAction}
+                    onExited={props.onExited}
+                    permissionToEditGroup={props.permissionToEditGroup}
+                    permissionToJoinGroup={props.permissionToJoinGroup}
+                    permissionToLeaveGroup={props.permissionToLeaveGroup}
+                    permissionToArchiveGroup={props.permissionToArchiveGroup}
+                />
             );
         }
-        return (<></>);
+        return null;
     };
 
     return (
@@ -226,4 +143,4 @@ const ViewUserGroupModalHeader = (props: Props) => {
     );
 };
 
-export default ViewUserGroupModalHeader;
+export default React.memo(ViewUserGroupModalHeader);

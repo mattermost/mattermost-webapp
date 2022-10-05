@@ -4,15 +4,16 @@
 import fs from 'fs';
 
 import assert from 'assert';
+
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/posts';
 import {getChannelStats} from 'mattermost-redux/actions/channels';
-import {login} from 'mattermost-redux/actions/users';
+import {loadMeREST} from 'mattermost-redux/actions/users';
 import {createCustomEmoji} from 'mattermost-redux/actions/emojis';
 import {Client4} from 'mattermost-redux/client';
 import {Preferences, Posts, RequestStatus} from '../constants';
-import {PostTypes} from 'mattermost-redux/action_types';
+import {PostTypes, UserTypes} from 'mattermost-redux/action_types';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
@@ -259,7 +260,10 @@ describe('Actions.Posts', () => {
 
     it('deletePostWithReaction', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -350,7 +354,10 @@ describe('Actions.Posts', () => {
 
     it('removePostWithReaction', async () => {
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -403,6 +410,68 @@ describe('Actions.Posts', () => {
         assert.ok(posts[post.id]);
     });
 
+    it('getPostsUnread should load recent posts when unreadScrollPosition is startFromNewest and unread posts are not the latestPosts', async () => {
+        const mockStore = configureStore({
+            entities: {
+                general: {
+                    config: {
+                        FeatureFlagCollapsedThreads: 'true',
+                        CollapsedThreads: 'always_on',
+                    },
+                },
+                preferences: {
+                    myPreferences: {
+                        'advanced_settings--unread_scroll_position': {
+                            category: 'advanced_settings',
+                            name: 'unread_scroll_position',
+                            value: Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST,
+                        },
+                    },
+                },
+            },
+        });
+
+        const {dispatch, getState} = mockStore;
+
+        const userId = getState().entities.users.currentUserId;
+        const channelId = TestHelper.basicChannel.id;
+        const post = TestHelper.fakePostWithId(channelId);
+        const recentPost = TestHelper.fakePostWithId(channelId);
+
+        const response = {
+            posts: {
+                [post.id]: post,
+            },
+            order: [post.id],
+            next_post_id: recentPost.id,
+            prev_post_id: '',
+        };
+
+        const responseWithRecentPosts = {
+            posts: {
+                [recentPost.id]: recentPost,
+            },
+            order: [recentPost.id],
+            next_post_id: '',
+            prev_post_id: '',
+        };
+
+        nock(Client4.getUsersRoute()).
+            get(`/${userId}/channels/${channelId}/posts/unread`).
+            query(true).
+            reply(200, response);
+
+        nock(Client4.getChannelsRoute()).
+            get(`/${channelId}/posts`).
+            query(true).
+            reply(200, responseWithRecentPosts);
+
+        await Actions.getPostsUnread(channelId)(dispatch, getState);
+        const {posts} = getState().entities.posts;
+
+        assert.ok(posts[recentPost.id]);
+    });
+
     it('getPostThread', async () => {
         const channelId = TestHelper.basicChannel.id;
         const post = {id: TestHelper.generateId(), channel_id: channelId, message: ''};
@@ -419,7 +488,7 @@ describe('Actions.Posts', () => {
         };
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post.id)(store.dispatch, store.getState);
 
@@ -849,6 +918,7 @@ describe('Actions.Posts', () => {
             ],
             next_post_id: postsAfter.next_post_id,
             prev_post_id: postsBefore.prev_post_id,
+            first_inaccessible_post_time: 0,
         });
 
         const {posts, postsInChannel, postsInThread} = store.getState().entities.posts;
@@ -878,7 +948,10 @@ describe('Actions.Posts', () => {
         await TestHelper.basicClient4.logout();
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -908,7 +981,10 @@ describe('Actions.Posts', () => {
         await TestHelper.basicClient4.logout();
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1009,7 +1085,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1048,7 +1124,7 @@ describe('Actions.Posts', () => {
         postList.posts[post1.id] = post1;
 
         nock(Client4.getBaseRoute()).
-            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false`).
+            get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=true&collapsedThreadsExtended=false&direction=down&perPage=60`).
             reply(200, postList);
         await Actions.getPostThread(post1.id)(dispatch, getState);
 
@@ -1076,7 +1152,10 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1102,7 +1181,10 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1133,7 +1215,10 @@ describe('Actions.Posts', () => {
         const {dispatch, getState} = store;
 
         TestHelper.mockLogin();
-        await login(TestHelper.basicUser.email, 'password1')(dispatch, getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await store.dispatch(loadMeREST());
 
         nock(Client4.getBaseRoute()).
             post('/posts').
@@ -1204,12 +1289,12 @@ describe('Actions.Posts', () => {
     it('getOpenGraphMetadata', async () => {
         const {dispatch, getState} = store;
 
-        const url = 'https://about.mattermost.com';
+        const url = 'https://mattermost.com';
         const docs = 'https://docs.mattermost.com/';
 
         nock(Client4.getBaseRoute()).
             post('/opengraph').
-            reply(200, {type: 'article', url: 'https://about.mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
+            reply(200, {type: 'article', url: 'https://mattermost.com/', title: 'Mattermost private cloud messaging', description: 'Open source,  private cloud\nSlack-alternative, \nWorkplace messaging for web, PCs and phones.'});
         await dispatch(Actions.getOpenGraphMetadata(url));
 
         nock(Client4.getBaseRoute()).
@@ -1487,7 +1572,7 @@ describe('Actions.Posts', () => {
             };
 
             nock(Client4.getBaseRoute()).
-                get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false`).
+                get(`/posts/${post1.id}/thread?skipFetchThreads=false&collapsedThreads=false&collapsedThreadsExtended=false&direction=down&perPage=60`).
                 reply(200, threadList);
         });
 

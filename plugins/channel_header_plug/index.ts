@@ -8,14 +8,12 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {appBarEnabled, appsEnabled, getChannelHeaderAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
-import {DoAppCall, PostEphemeralCallResponseForChannel} from 'types/apps';
+import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
+
+import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {GlobalState} from 'types/store';
 
-import {getChannelHeaderPluginComponents} from 'selectors/plugins';
-
-import {doAppCall, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
-
-import {AppCallRequest, AppForm} from 'mattermost-redux/types/apps';
+import {getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
 
 import ChannelHeaderPlug from './channel_header_plug';
 
@@ -28,19 +26,20 @@ function mapStateToProps(state: GlobalState) {
         appBarEnabled: appBarEnabled(state),
         theme: getTheme(state),
         sidebarOpen: state.views.rhs.isSidebarOpen,
+        shouldShowAppBar: shouldShowAppBar(state),
     };
 }
 
 type Actions = {
-    doAppCall: DoAppCall;
+    handleBindingClick: HandleBindingClick;
     postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
-    openAppsModal: (form: AppForm, call: AppCallRequest) => void;
+    openAppsModal: OpenAppsModal;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Actions>({
-            doAppCall,
+            handleBindingClick,
             postEphemeralCallResponseForChannel,
             openAppsModal,
         }, dispatch),

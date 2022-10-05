@@ -4,12 +4,12 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {TeamMembership} from 'mattermost-redux/types/teams';
-import {ChannelMembership} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {TeamMembership} from '@mattermost/types/teams';
+import {ChannelMembership} from '@mattermost/types/channels';
 
 import {Constants} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

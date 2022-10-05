@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import debounce from 'lodash/debounce';
+import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
@@ -16,22 +17,22 @@ import * as PostActions from 'mattermost-redux/actions/posts';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut, getChannel as getChannelSelector} from 'mattermost-redux/selectors/entities/channels';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
+import {makeGetUserTimezone} from 'mattermost-redux/selectors/entities/timezone';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 import {Action, ActionResult, DispatchFunc, GenericAction, GetStateFunc} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
-import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter} from 'selectors/rhs';
+import {getSearchTerms, getRhsState, getPluggableId, getFilesSearchExtFilter, getPreviousRhsState} from 'selectors/rhs';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
 import {getPostsByIds} from 'mattermost-redux/actions/posts';
-import {unsetEditingPost} from '../post_actions';
+import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -66,18 +67,40 @@ function selectPostCardFromRightHandSideSearchWithPreviousState(post: Post, prev
     };
 }
 
-export function updateRhsState(rhsState: string, channelId?: string) {
+export function updateRhsState(rhsState: string, channelId?: string, previousRhsState?: RhsState) {
     return (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const action = {
             type: ActionTypes.UPDATE_RHS_STATE,
             state: rhsState,
         } as GenericAction;
 
-        if (rhsState === RHSStates.PIN || rhsState === RHSStates.CHANNEL_FILES) {
+        if ([
+            RHSStates.PIN,
+            RHSStates.CHANNEL_FILES,
+            RHSStates.CHANNEL_INFO,
+            RHSStates.CHANNEL_MEMBERS,
+        ].includes(rhsState)) {
             action.channelId = channelId || getCurrentChannelId(getState());
+        }
+        if (previousRhsState) {
+            action.previousRhsState = previousRhsState;
         }
 
         dispatch(action);
+
+        return {data: true};
+    };
+}
+
+export function goBack() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const prevState = getPreviousRhsState(getState() as GlobalState);
+        const defaultTab = 'channel-info';
+
+        dispatch({
+            type: ActionTypes.RHS_GO_BACK,
+            state: prevState || defaultTab,
+        });
 
         return {data: true};
     };
@@ -141,7 +164,7 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
 
         // timezone offset in seconds
         const userId = getCurrentUserId(getState());
-        const userTimezone = getUserTimezone(getState(), userId);
+        const userTimezone = makeGetUserTimezone()(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
         const messagesPromise = dispatch(searchPostsWithParams(isMentionSearch ? '' : teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
@@ -156,6 +179,7 @@ export function filterFilesSearchByExt(extensions: string[]) {
             type: ActionTypes.SET_FILES_FILTER_BY_EXT,
             data: extensions,
         });
+        return {data: true};
     };
 }
 
@@ -177,13 +201,34 @@ export function showSearchResults(isMentionSearch = false) {
 }
 
 export function showRHSPlugin(pluggableId: string) {
-    const action = {
+    return {
         type: ActionTypes.UPDATE_RHS_STATE,
         state: RHSStates.PLUGIN,
         pluggableId,
     };
+}
 
-    return action;
+export function showChannelMembers(channelId: string, inEditingMode = false) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+
+        if (inEditingMode) {
+            await dispatch(setEditChannelMembers(true));
+        }
+
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.CHANNEL_MEMBERS) {
+            previousRhsState = getPreviousRhsState(state);
+        }
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_MEMBERS,
+            previousRhsState,
+        });
+
+        return {data: true};
+    };
 }
 
 export function hideRHSPlugin(pluggableId: string) {
@@ -249,14 +294,19 @@ export function showFlaggedPosts() {
 
 export function showPinnedPosts(channelId?: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
         const currentChannelId = getCurrentChannelId(state);
         const teamId = getCurrentTeamId(state);
 
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.PIN) {
+            previousRhsState = getPreviousRhsState(state);
+        }
         dispatch({
             type: ActionTypes.UPDATE_RHS_STATE,
             channelId: channelId || currentChannelId,
             state: RHSStates.PIN,
+            previousRhsState,
         });
 
         const results = await dispatch(getPinnedPosts(channelId || currentChannelId));
@@ -287,14 +337,20 @@ export function showPinnedPosts(channelId?: string) {
 
 export function showChannelFiles(channelId: string) {
     return async (dispatch: (action: Action, getState?: GetStateFunc | null) => Promise<ActionResult|[ActionResult, ActionResult]>, getState: GetStateFunc) => {
-        const state = getState();
+        const state = getState() as GlobalState;
         const teamId = getCurrentTeamId(state);
 
+        let previousRhsState = getRhsState(state);
+        if (previousRhsState === RHSStates.CHANNEL_FILES) {
+            previousRhsState = getPreviousRhsState(state);
+        }
         dispatch({
             type: ActionTypes.UPDATE_RHS_STATE,
             channelId,
             state: RHSStates.CHANNEL_FILES,
+            previousRhsState,
         });
+        dispatch(updateSearchType('files'));
 
         const results = await dispatch(performSearch('channel:' + channelId));
         const fileData = results instanceof Array ? results[0].data : null;
@@ -363,9 +419,20 @@ export function showMentions() {
     };
 }
 
+export function showChannelInfo(channelId: string) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.UPDATE_RHS_STATE,
+            channelId,
+            state: RHSStates.CHANNEL_INFO,
+        });
+        return {data: true};
+    };
+}
+
 export function closeRightHandSide() {
     return (dispatch: DispatchFunc) => {
-        dispatch(batchActions([
+        const actionsBatch: AnyAction[] = [
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
                 state: null,
@@ -376,8 +443,9 @@ export function closeRightHandSide() {
                 channelId: '',
                 timestamp: 0,
             },
-            unsetEditingPost(),
-        ]));
+        ];
+
+        dispatch(batchActions(actionsBatch));
         return {data: true};
     };
 }
@@ -404,6 +472,16 @@ export function setRhsExpanded(expanded: boolean) {
 export function toggleRhsExpanded() {
     return {
         type: ActionTypes.TOGGLE_RHS_EXPANDED,
+    };
+}
+
+export function selectPostAndParentChannel(post: Post) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const channel = getChannelSelector(getState(), post.channel_id);
+        if (!channel) {
+            await dispatch(getChannel(post.channel_id));
+        }
+        return dispatch(selectPost(post));
     };
 }
 
@@ -466,6 +544,14 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
             return openRHSSearch()(dispatch);
         }
 
+        if (previous.isChannelInfo) {
+            const currentChannelId = getCurrentChannelId(getState());
+            return showChannelInfo(currentChannelId)(dispatch);
+        }
+        if (previous.isChannelMembers) {
+            const currentChannelId = getCurrentChannelId(getState());
+            return showChannelMembers(currentChannelId)(dispatch, getState);
+        }
         if (previous.isMentionSearch) {
             return showMentions()(dispatch, getState);
         }
@@ -498,3 +584,13 @@ export const suppressRHS = {
 export const unsuppressRHS = {
     type: ActionTypes.UNSUPPRESS_RHS,
 };
+
+export function setEditChannelMembers(active: boolean) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: ActionTypes.SET_EDIT_CHANNEL_MEMBERS,
+            active,
+        });
+        return {data: true};
+    };
+}
