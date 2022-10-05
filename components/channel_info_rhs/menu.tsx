@@ -5,8 +5,9 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {Constants} from 'utils/constants';
+
+import {Channel, ChannelStats} from '@mattermost/types/channels';
 
 const MenuItemContainer = styled.div`
     padding: 8px 16px;

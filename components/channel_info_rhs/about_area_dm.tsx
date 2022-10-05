@@ -6,13 +6,12 @@ import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
 import BotTag from 'components/widgets/tag/bot_tag';
-
 import GuestTag from 'components/widgets/tag/guest_tag';
-
-import {Channel} from '@mattermost/types/channels';
 import Markdown from 'components/markdown';
 import ProfilePicture from 'components/profile_picture';
 import {Client4} from 'mattermost-redux/client';
+
+import {Channel} from '@mattermost/types/channels';
 
 import {DMUser} from './channel_info_rhs';
 import LineLimiter from './components/linelimiter';

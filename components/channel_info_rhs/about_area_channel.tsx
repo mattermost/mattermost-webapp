@@ -5,8 +5,9 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {Channel} from '@mattermost/types/channels';
 import Markdown from 'components/markdown';
+
+import {Channel} from '@mattermost/types/channels';
 
 import LineLimiter from './components/linelimiter';
 import EditableArea from './components/editable_area';
