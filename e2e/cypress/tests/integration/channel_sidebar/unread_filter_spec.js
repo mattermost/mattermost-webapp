@@ -205,7 +205,7 @@ describe('Channel sidebar unread filter', () => {
         cy.get(`#sidebarItem_${unreadChannelName}`).should('be.visible');
     });
 
-    it('MM- should toggle between unreads and all channels with shortcut usage', () => {
+    it('MM-T5192 should toggle between unreads and all channels with shortcut usage', () => {
         // * Verify that the unread filter is not enabled
         cy.get('.SidebarChannelGroupHeader:contains(CHANNELS)').should('be.visible');
 
