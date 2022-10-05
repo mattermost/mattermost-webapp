@@ -805,6 +805,7 @@ export const StorageTypes = keyMirror({
 export const StoragePrefixes = {
     EMBED_VISIBLE: 'isVisible_',
     COMMENT_DRAFT: 'comment_draft_',
+    EDIT_DRAFT: 'edit_draft_',
     DRAFT: 'draft_',
     LOGOUT: '__logout__',
     LOGIN: '__login__',
@@ -1425,6 +1426,7 @@ export const Constants = {
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
     THREADS: 'threads',
+    INSIGHTS: 'insights',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
@@ -1817,6 +1819,7 @@ export const Constants = {
     MTPNS: 'https://push-test.mattermost.com',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
+    SAVE_DRAFT_TIMEOUT: 500,
     PERMISSIONS_ALL: 'all',
     PERMISSIONS_CHANNEL_ADMIN: 'channel_admin',
     PERMISSIONS_TEAM_ADMIN: 'team_admin',
@@ -1870,6 +1873,7 @@ export const Constants = {
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
+    DEFAULT_DM_NUMBER: 40,
 };
 
 export const ValidationErrors = {

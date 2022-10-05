@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import {Link} from 'react-router-dom';
 
 import {ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 
@@ -371,13 +372,28 @@ const ConfigurationAnnouncementBar: React.FC<Props> = (props: Props) => {
         let defaultMessage;
         if (props.config?.EnableSignUpWithGitLab === 'true') {
             id = t('announcement_bar.error.site_url_gitlab.full');
-            defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) either on the [System Console](/admin_console/environment/web_server) or, if you\'re using GitLab Mattermost, in gitlab.rb.';
+            defaultMessage = 'Please configure your <linkSite>site URL</linkSite> either on the <linkConsole>System Console<linkConsole> or, if you\'re using GitLab Mattermost, in gitlab.rb.';
         } else {
             id = t('announcement_bar.error.site_url.full');
-            defaultMessage = 'Please configure your [site URL](https://docs.mattermost.com/administration/config-settings.html#site-url) on the [System Console](/admin_console/environment/web_server).';
+            defaultMessage = 'Please configure your <linkSite>site URL</linkSite> on the <linkConsole>System Console</linkConsole>.';
         }
 
-        const values = {siteURL: props.siteURL};
+        const values = {
+            linkSite: (msg: string) => (
+                <a
+                    href={props.siteURL}
+                    target='_blank'
+                    rel='noreferrer'
+                >
+                    {msg}
+                </a>
+            ),
+            linkConsole: (msg: string) => (
+                <Link to='/admin_console/environment/web_server'>
+                    {msg}
+                </Link>
+            ),
+        };
         const siteURLMessage = formatMessage({id, defaultMessage}, values);
 
         return (
