@@ -20,7 +20,7 @@ import FileInfoPreview from 'components/file_info_preview';
 
 import {FilePreviewComponent} from 'types/store/plugins';
 
-import {ZoomValue} from './file_preview_modal_image_controls/file_preview_modal_image_controls';
+import FilePreviewModalImageControls, {ZoomValue} from './file_preview_modal_image_controls/file_preview_modal_image_controls';
 
 import ImagePreview from './image_preview';
 import './file_preview_modal.scss';
@@ -87,7 +87,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         super(props);
 
         this.state = {
-            toolbarZoom: 'A',
+            toolbarZoom: 'Automatic',
             show: true,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
@@ -300,6 +300,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         if (!isFileInfo(fileInfo) || !fileInfo.archived) {
             if (this.state.loaded[this.state.imageIndex]) {
                 if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
+                    zoomBar = (
+                        <FilePreviewModalImageControls
+                            toolbarZoom={this.state.toolbarZoom}
+                            setToolbarZoom={this.setToolbarZoom}
+                        />
+                    );
                     content = (
                         <ImagePreview
                             fileInfo={fileInfo as FileInfo & LinkInfo}

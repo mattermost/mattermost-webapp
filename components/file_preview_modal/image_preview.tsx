@@ -61,17 +61,17 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
 
     // Set the zoom given by the toolbar dropdown
     switch (toolbarZoom) {
-    case 'A':
+    case 'Automatic':
         zoom.current = minZoom.current;
         break;
-    case 'W':
+    case 'Width':
         zoom.current = maxWidth / width;
         break;
-    case 'H':
+    case 'Height':
         zoom.current = maxHeight / height;
         break;
     default:
-        zoom.current = toolbarZoom;
+        zoom.current = toolbarZoom as number;
         break;
     }
 
@@ -117,7 +117,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         const {deltaY} = event;
         if (!dragging) {
             zoom.current = clamp(zoom.current + (deltaY * SCROLL_SENSITIVITY * -1), minZoom.current, MAX_ZOOM);
-            setToolbarZoom(zoom.current === minZoom.current ? 'A' : zoom.current);
+            setToolbarZoom(zoom.current === minZoom.current ? 'Automatic' : zoom.current);
         }
     };
 

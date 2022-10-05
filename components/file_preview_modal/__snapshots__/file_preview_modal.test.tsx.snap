@@ -116,7 +116,7 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>
@@ -252,7 +252,7 @@ exports[`components/FilePreviewModal should match snapshot 1`] = `
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>
@@ -388,7 +388,7 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>
@@ -524,7 +524,7 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>
@@ -702,8 +702,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
+          />
+          <Memo(FilePreviewModalImageControls)
+            setToolbarZoom={[Function]}
+            toolbarZoom="Automatic"
           />
         </ModalTitle>
         <div
@@ -730,7 +734,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
               }
             }
             setToolbarZoom={[Function]}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
           />
         </div>
       </div>
@@ -855,8 +859,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
+          />
+          <Memo(FilePreviewModalImageControls)
+            setToolbarZoom={[Function]}
+            toolbarZoom="Automatic"
           />
         </ModalTitle>
         <div
@@ -883,7 +891,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
               }
             }
             setToolbarZoom={[Function]}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
           />
         </div>
       </div>
@@ -1008,7 +1016,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>
@@ -1161,7 +1169,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>
@@ -1313,7 +1321,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>
@@ -1465,8 +1473,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={3}
+          />
+          <Memo(FilePreviewModalImageControls)
+            setToolbarZoom={[Function]}
+            toolbarZoom="Automatic"
           />
         </ModalTitle>
         <div
@@ -1493,7 +1505,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
               }
             }
             setToolbarZoom={[Function]}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
           />
         </div>
       </div>
@@ -1618,8 +1630,12 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
+          />
+          <Memo(FilePreviewModalImageControls)
+            setToolbarZoom={[Function]}
+            toolbarZoom="Automatic"
           />
         </ModalTitle>
         <div
@@ -1646,7 +1662,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
               }
             }
             setToolbarZoom={[Function]}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
           />
         </div>
       </div>
@@ -1771,7 +1787,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
             }
             setToolbarZoom={[Function]}
             showPublicLink={true}
-            toolbarZoom="A"
+            toolbarZoom="Automatic"
             totalFiles={1}
           />
         </ModalTitle>

@@ -50,10 +50,6 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       usedInside="Header"
     />
   </div>
-  <Memo(FilePreviewModalImageControls)
-    setToolbarZoom={[MockFunction]}
-    toolbarZoom="A"
-  />
 </Fragment>
 `;
 
@@ -102,10 +98,6 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       totalFiles={3}
     />
   </div>
-  <Memo(FilePreviewModalImageControls)
-    setToolbarZoom={[MockFunction]}
-    toolbarZoom="A"
-  />
 </Fragment>
 `;
 
@@ -159,10 +151,6 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       usedInside="Header"
     />
   </div>
-  <Memo(FilePreviewModalImageControls)
-    setToolbarZoom={[MockFunction]}
-    toolbarZoom={1.33}
-  />
 </Fragment>
 `;
 
@@ -216,10 +204,6 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       usedInside="Header"
     />
   </div>
-  <Memo(FilePreviewModalImageControls)
-    setToolbarZoom={[MockFunction]}
-    toolbarZoom="H"
-  />
 </Fragment>
 `;
 
@@ -273,10 +257,6 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       usedInside="Header"
     />
   </div>
-  <Memo(FilePreviewModalImageControls)
-    setToolbarZoom={[MockFunction]}
-    toolbarZoom={1.25}
-  />
 </Fragment>
 `;
 
@@ -330,9 +310,5 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       usedInside="Header"
     />
   </div>
-  <Memo(FilePreviewModalImageControls)
-    setToolbarZoom={[MockFunction]}
-    toolbarZoom="W"
-  />
 </Fragment>
 `;

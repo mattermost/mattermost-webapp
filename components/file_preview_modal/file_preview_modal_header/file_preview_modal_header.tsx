@@ -48,15 +48,6 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, t
             />
         );
     }
-    let imageControls;
-    if (fileType === FileTypes.IMAGE || fileType === FileTypes.SVG) {
-        imageControls = (
-            <FilePreviewModalImageControls
-                toolbarZoom={toolbarZoom}
-                setToolbarZoom={setToolbarZoom}
-            />
-        );
-    }
     const actions = (
         <FilePreviewModalMainActions
             {...actionProps}
@@ -77,7 +68,6 @@ const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, t
                 {mainActions}
                 {!actionProps.isMobileView && actions}
             </div>
-            {imageControls}
         </>
     );
 };
