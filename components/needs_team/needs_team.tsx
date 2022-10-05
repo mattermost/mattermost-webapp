@@ -26,7 +26,7 @@ import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {PluginComponent} from 'types/store/plugins';
+import {NeedsTeamComponent} from 'types/store/plugins';
 
 const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
@@ -75,7 +75,7 @@ type Props = {
     };
     teamsList: Team[];
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
-    plugins?: PluginComponent[];
+    plugins?: NeedsTeamComponent[];
     selectedThreadId: string | null;
     isCustomGroupsEnabled: boolean;
 }

@@ -36,6 +36,7 @@ export type PluginsState = {
         AppBar: AppBarComponent[];
         UserGuideDropdownItem: PluginComponent[];
         FilesWillUploadHook: PluginComponent[];
+        NeedsTeamComponent: NeedsTeamComponent[];
     };
 
     postTypes: {
@@ -97,6 +98,10 @@ export type PluginComponent = {
 
 export type AppBarComponent = PluginComponent & {
     rhsComponentId?: string;
+}
+
+export type NeedsTeamComponent = PluginComponent & {
+    route: string;
 }
 
 export type FilesWillUploadHook = {

@@ -6,16 +6,16 @@ import Icon from '@mattermost/compass-components/foundations/icon';
 
 import {TopLevelProducts} from 'utils/constants';
 
-import * as hooks from '../../../hooks';
+import * as productUtils from 'utils/products';
 import {TestHelper} from 'utils/test_helper';
 
 import ProductBranding from './product_branding';
 
 describe('components/ProductBranding', () => {
     test('should show correct icon glyph when we are on Channels', () => {
-        const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
         spyProduct.mockReturnValue('Channels');
-        const products = jest.spyOn(hooks, 'useProducts');
+        const products = jest.spyOn(productUtils, 'useProducts');
         products.mockReturnValue([]);
 
         const wrapper = shallow(
@@ -27,13 +27,13 @@ describe('components/ProductBranding', () => {
     });
 
     test('should show correct icon glyph when we are on Playbooks', () => {
-        const products = jest.spyOn(hooks, 'useProducts');
+        const products = jest.spyOn(productUtils, 'useProducts');
         products.mockReturnValue([
             TestHelper.makeProduct(TopLevelProducts.BOARDS),
             TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ]);
 
-        const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
         spyProduct.mockReturnValue('Playbooks');
         const wrapper = shallow(
             <ProductBranding/>,
@@ -44,13 +44,13 @@ describe('components/ProductBranding', () => {
     });
 
     test('should show correct icon glyph when we are on Boards', () => {
-        const products = jest.spyOn(hooks, 'useProducts');
+        const products = jest.spyOn(productUtils, 'useProducts');
         products.mockReturnValue([
             TestHelper.makeProduct(TopLevelProducts.BOARDS),
             TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ]);
 
-        const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
         spyProduct.mockReturnValue('Boards');
         const wrapper = shallow(
             <ProductBranding/>,

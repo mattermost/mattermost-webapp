@@ -81,8 +81,6 @@ import {UserProfile} from '@mattermost/types/users';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {RhsState} from 'types/store/rhs';
-
 import {applyLuxonDefaults} from './effects';
 
 import RootProvider from './root_provider';
@@ -151,7 +149,6 @@ type Props = {
     showLaunchingWorkspace: boolean;
     rhsIsExpanded: boolean;
     rhsIsOpen: boolean;
-    rhsState: RhsState;
     shouldShowAppBar: boolean;
 } & RouteComponentProps
 
@@ -326,7 +323,6 @@ export default class Root extends React.PureComponent<Props, State> {
             }
         }
         if (
-            this.props.rhsState !== prevProps.rhsState ||
             this.props.shouldShowAppBar !== prevProps.shouldShowAppBar ||
             this.props.rhsIsOpen !== prevProps.rhsIsOpen ||
             this.props.rhsIsExpanded !== prevProps.rhsIsExpanded
@@ -476,8 +472,6 @@ export default class Root extends React.PureComponent<Props, State> {
         })) {
             root.classList.toggle(className, enabled);
         }
-
-        root.setAttribute('data-rhs-state', this.props.rhsState ?? '');
     }
 
     updateWindowSize = () => {
