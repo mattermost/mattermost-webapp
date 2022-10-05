@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
+import Markdown from 'components/markdown';
 
 type Props = {
 
@@ -35,6 +36,12 @@ export default class SchemaInformationModal extends React.PureComponent<Props, S
     }
 
     render() {
+        /* eslint-disable no-console */
+
+        let schemaText = this.props.schema ? JSON.stringify(JSON.parse(this.props.schema), null, 2) : '';
+        schemaText = `\`\`\`json
+${schemaText}
+\`\`\``;
         return (
             <Modal
                 dialogClassName='a11y__modal about-modal'
@@ -55,7 +62,7 @@ export default class SchemaInformationModal extends React.PureComponent<Props, S
                 <Modal.Body>
                     <div className='about-modal__content'>
                         <div>
-                            <pre>{this.props.schema}</pre>
+                            <Markdown message={schemaText}/>
                         </div>
                     </div>
                 </Modal.Body>
