@@ -12,7 +12,7 @@ describe('components/view_image/ImagePreview', () => {
         fileInfo: {
             id: 'file_id',
         },
-        toolbar: 'A',
+        toolbar: 'Automatic',
         setToolbarZoom: jest.fn(),
     };
 

@@ -7,7 +7,7 @@ import FilePreviewModalImageControls, {ZoomValue} from './file_preview_modal_ima
 
 describe('components/file_preview_modal/file_preview_modal_image_controls/FilePreviewModalImageControls', () => {
     const defaultProps = {
-        toolbarZoom: 'A' as ZoomValue,
+        toolbarZoom: 'Automatic' as ZoomValue,
         setToolbarZoom: jest.fn(),
     };
 

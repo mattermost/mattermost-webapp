@@ -1229,6 +1229,7 @@ export const exportFormats = {
 };
 
 export const ZoomSettings = {
+    DEFAULT_IMAGE_MODE: 'Automatic',
     DEFAULT_SCALE: 1.75,
     SCALE_DELTA: 0.25,
     MIN_SCALE: 0.25,

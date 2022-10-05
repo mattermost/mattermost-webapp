@@ -21,7 +21,7 @@ describe('components/file_preview_modal/file_preview_modal_header/FilePreviewMod
         isMobileView: false,
         fileIndex: 1,
         totalFiles: 3,
-        toolbarZoom: 'A' as ZoomValue,
+        toolbarZoom: 'Automatic' as ZoomValue,
         post: {} as Post,
         showPublicLink: false,
         isExternalFile: false,

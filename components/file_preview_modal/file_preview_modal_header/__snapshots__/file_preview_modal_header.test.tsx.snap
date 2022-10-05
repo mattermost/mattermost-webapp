@@ -39,6 +39,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
           "width": 350,
         }
       }
+      fileType="image"
       fileURL="http://example.com/img.png"
       filename="img.png"
       handleModalClose={[MockFunction]}
@@ -47,8 +48,10 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       isExternalFile={false}
       isMobileView={false}
       onGetPublicLink={[MockFunction]}
+      setToolbarZoom={[MockFunction]}
       showOnlyClose={false}
       showPublicLink={false}
+      toolbarZoom="Automatic"
       usedInside="Header"
     />
   </div>
@@ -83,6 +86,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
           "width": 350,
         }
       }
+      fileType="image"
       fileURL="http://example.com/img.png"
       filename="img.png"
       handleModalClose={[MockFunction]}
@@ -91,8 +95,10 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       isExternalFile={false}
       isMobileView={true}
       onGetPublicLink={[MockFunction]}
+      setToolbarZoom={[MockFunction]}
       showOnlyClose={true}
       showPublicLink={false}
+      toolbarZoom="Automatic"
       usedInside="Header"
     />
     <Memo(FilePreviewModalMainNav)
@@ -144,6 +150,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
           "width": 350,
         }
       }
+      fileType="image"
       fileURL="http://example.com/img.png"
       filename="img.png"
       handleModalClose={[MockFunction]}
@@ -152,8 +159,10 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       isExternalFile={false}
       isMobileView={false}
       onGetPublicLink={[MockFunction]}
+      setToolbarZoom={[MockFunction]}
       showOnlyClose={false}
       showPublicLink={false}
+      toolbarZoom={1.33}
       usedInside="Header"
     />
   </div>
@@ -199,6 +208,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
           "width": 350,
         }
       }
+      fileType="image"
       fileURL="http://example.com/img.png"
       filename="img.png"
       handleModalClose={[MockFunction]}
@@ -207,8 +217,10 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       isExternalFile={false}
       isMobileView={false}
       onGetPublicLink={[MockFunction]}
+      setToolbarZoom={[MockFunction]}
       showOnlyClose={false}
       showPublicLink={false}
+      toolbarZoom="H"
       usedInside="Header"
     />
   </div>
@@ -254,6 +266,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
           "width": 350,
         }
       }
+      fileType="image"
       fileURL="http://example.com/img.png"
       filename="img.png"
       handleModalClose={[MockFunction]}
@@ -262,8 +275,10 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       isExternalFile={false}
       isMobileView={false}
       onGetPublicLink={[MockFunction]}
+      setToolbarZoom={[MockFunction]}
       showOnlyClose={false}
       showPublicLink={false}
+      toolbarZoom={1.25}
       usedInside="Header"
     />
   </div>
@@ -309,6 +324,7 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
           "width": 350,
         }
       }
+      fileType="image"
       fileURL="http://example.com/img.png"
       filename="img.png"
       handleModalClose={[MockFunction]}
@@ -317,8 +333,10 @@ exports[`components/file_preview_modal/file_preview_modal_header/FilePreviewModa
       isExternalFile={false}
       isMobileView={false}
       onGetPublicLink={[MockFunction]}
+      setToolbarZoom={[MockFunction]}
       showOnlyClose={false}
       showPublicLink={false}
+      toolbarZoom="W"
       usedInside="Header"
     />
   </div>

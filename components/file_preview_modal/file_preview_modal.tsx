@@ -88,7 +88,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         super(props);
 
         this.state = {
-            toolbarZoom: 'Automatic',
+            toolbarZoom: ZoomSettings.DEFAULT_IMAGE_MODE,
             show: true,
             imageIndex: this.props.startIndex,
             imageHeight: '100%',
