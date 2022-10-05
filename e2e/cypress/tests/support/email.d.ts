@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 /// <reference types="cypress" />
+import {UserProfile} from '@mattermost/types/lib/users';
 
 declare namespace Cypress {
     interface Chainable {
