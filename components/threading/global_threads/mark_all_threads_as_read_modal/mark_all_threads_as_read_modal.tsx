@@ -36,6 +36,7 @@ function MarkAllThreadsAsReadModal({
                 id: 'mark_all_threads_as_read_modal.cancel',
                 defaultMessage: 'Cancel',
             })}
+            onExited={onCancel}
             handleCancel={onCancel}
             handleConfirm={onConfirm}
         >
