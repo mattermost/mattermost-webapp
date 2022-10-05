@@ -57,7 +57,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     minZoom = Math.min(containerScale, 1);
     const maxCanvasZoom = containerScale;
 
-    let isFullscreen = {horizontal: false, vertical: false};
+    const isFullscreen = useRef({horizontal: false, vertical: false});
     let cursorType = 'normal';
 
     // Set the zoom given by the toolbar dropdown
@@ -101,7 +101,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     const clampOffset = (x: number, y: number) => {
         // Clamps the offset to something that is inside canvas or window depending on zoom level
         const {w, h} = canvasBorder.current;
-        const {horizontal, vertical} = isFullscreen;
+        const {horizontal, vertical} = isFullscreen.current;
 
         if (zoom <= maxCanvasZoom) {
             return {xPos: 0, yPos: 0};
@@ -195,7 +195,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
 
             // Update borders and clamp offset accordingly
             canvasBorder.current = {w: context.canvas.offsetLeft, h: context.canvas.offsetTop - 72 - 48};
-            isFullscreen = {
+            isFullscreen.current = {
                 horizontal: canvasBorder.current.w <= 0,
                 vertical: canvasBorder.current.h <= 0,
             };
@@ -209,12 +209,12 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     }
 
     // Reset offset to center when unzoomed
-    if (!(isFullscreen.horizontal || isFullscreen.vertical) && (offset.x !== 0 && offset.y !== 0)) {
+    if (!(isFullscreen.current.horizontal || isFullscreen.current.vertical) && (offset.x !== 0 && offset.y !== 0)) {
         setOffset({x: 0, y: 0});
     }
 
     // Change cursor to dragging only if the image in the canvas is zoomed and draggable
-    if (isFullscreen.horizontal || isFullscreen.vertical) {
+    if (isFullscreen.current.horizontal || isFullscreen.current.vertical) {
         cursorType = dragging ? 'dragging' : 'hover';
     } else {
         cursorType = 'normal';
