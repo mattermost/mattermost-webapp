@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef, useMemo, useEffect, useState} from 'react';
+import React, {useRef, useMemo, useEffect, useState, useCallback} from 'react';
 import {clamp} from 'lodash';
 import classNames from 'classnames';
 
@@ -181,36 +181,44 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         initializeCanvas();
     }, [previewUrl]);
 
-    if (canvasRef.current) {
-        const context = canvasRef.current.getContext('2d');
+    useEffect(() => {
+        if (canvasRef.current) {
+            const context = canvasRef.current.getContext('2d');
 
-        if (context) {
-            // Improve smoothing quality
-            context.imageSmoothingQuality = 'high';
+            if (context) {
+                // Improve smoothing quality
+                context.imageSmoothingQuality = 'high';
 
-            // Resize canvas to current zoom level
-            canvasRef.current.width = width * zoom;
-            canvasRef.current.height = height * zoom;
+                // Resize canvas to current zoom level
+                canvasRef.current.width = width * zoom;
+                canvasRef.current.height = height * zoom;
 
-            // Update borders and clamp offset accordingly
-            canvasBorder.current = {w: context.canvas.offsetLeft, h: context.canvas.offsetTop - 72 - 48};
-            isFullscreen.current = {
-                horizontal: canvasBorder.current.w <= 0,
-                vertical: canvasBorder.current.h <= 0,
-            };
+                // Update borders and clamp offset accordingly
+                canvasBorder.current = {w: context.canvas.offsetLeft, h: context.canvas.offsetTop - 72 - 48};
+                isFullscreen.current = {
+                    horizontal: canvasBorder.current.w <= 0,
+                    vertical: canvasBorder.current.h <= 0,
+                };
 
-            // Translate canvas to current offset
-            const {xPos, yPos} = clampOffset(offset.x, offset.y);
-            context.translate(-xPos, -yPos);
+                // Translate canvas to current offset
+                const {xPos, yPos} = clampOffset(offset.x, offset.y);
+                context.translate(-xPos, -yPos);
 
-            context.drawImage(background, 0, 0, width * zoom, height * zoom);
+                context.drawImage(background, 0, 0, width * zoom, height * zoom);
+            }
         }
-    }
+    }, [canvasRef, background, width, height, zoom, clampOffset, offset]);
 
     // Reset offset to center when unzoomed
-    if (!(isFullscreen.current.horizontal || isFullscreen.current.vertical) && (offset.x !== 0 && offset.y !== 0)) {
-        setOffset({x: 0, y: 0});
-    }
+    const resetOffset = useCallback(() => {
+        if (!(isFullscreen.current.horizontal || isFullscreen.current.vertical) && (offset.x !== 0 && offset.y !== 0)) {
+            setOffset({x: 0, y: 0});
+        }
+    }, [toolbarZoom, handleMouseMove]);
+
+    useEffect(() => {
+        resetOffset();
+    }, [resetOffset]);
 
     // Change cursor to dragging only if the image in the canvas is zoomed and draggable
     if (isFullscreen.current.horizontal || isFullscreen.current.vertical) {
