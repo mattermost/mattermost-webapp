@@ -165,7 +165,6 @@ function plugins(state: IDMappedObjects<ClientPluginManifest> = {}, action: Gene
         }
         return state;
     }
-
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     default:
@@ -215,7 +214,6 @@ function components(state: PluginsState['components'] = initialComponents, actio
     }
     case ActionTypes.REMOVED_PLUGIN_COMPONENT:
         return removePluginComponent(state, action);
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         return removePluginComponents(state, action);
 
@@ -245,7 +243,6 @@ function postTypes(state: PluginsState['postTypes'] = {}, action: GenericAction)
     }
     case ActionTypes.REMOVED_PLUGIN_POST_COMPONENT:
         return removePostPluginComponent(state, action);
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         return removePostPluginComponents(state, action);
 
@@ -275,7 +272,6 @@ function postCardTypes(state: PluginsState['postTypes'] = {}, action: GenericAct
     }
     case ActionTypes.REMOVED_PLUGIN_POST_CARD_COMPONENT:
         return removePostPluginComponent(state, action);
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         return removePostPluginComponents(state, action);
 
@@ -304,7 +300,6 @@ function adminConsoleReducers(state: {[pluginId: string]: any} = {}, action: Gen
         }
         return state;
     }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         if (action.data && state[action.data.id]) {
             const nextState = {...state};
@@ -340,7 +335,6 @@ function adminConsoleCustomComponents(state: {[pluginId: string]: Record<string,
 
         return nextState;
     }
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN: {
         if (!action.data || !state[action.data.id]) {
             return state;
@@ -369,7 +363,6 @@ function siteStatsHandlers(state: PluginsState['siteStatsHandlers'] = {}, action
         }
         return state;
 
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         if (action.data) {
             const nextState = {...state};
@@ -394,7 +387,6 @@ function insightsHandlers(state: PluginsState['insightsHandlers'] = {}, action: 
             return nextState;
         }
         return state;
-    case ActionTypes.RECEIVED_WEBAPP_PLUGIN:
     case ActionTypes.REMOVED_WEBAPP_PLUGIN:
         if (action.data) {
             const nextState = {...state};
