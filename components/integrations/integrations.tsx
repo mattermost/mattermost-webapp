@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {Team} from '@mattermost/types/teams.js';
+
 import {Permissions} from 'mattermost-redux/constants';
 
 import BotAccountsIcon from 'images/bot_default_icon.png';
@@ -19,18 +21,13 @@ import TeamPermissionGate from 'components/permissions_gates/team_permission_gat
 
 import IntegrationOption from './integration_option.jsx';
 
-type Props ={
+type Props = {
     siteName: string | undefined;
     enableIncomingWebhooks: boolean;
     enableOutgoingWebhooks: boolean;
     enableCommands: boolean;
     enableOAuthServiceProvider: boolean;
-    team: {
-        name: string;
-        id: string;
-        display_name: string;
-    };
-
+    team: Team;
 }
 
 export default class Integrations extends React.PureComponent <Props> {
