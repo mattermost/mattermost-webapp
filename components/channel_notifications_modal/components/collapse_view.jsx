@@ -7,7 +7,7 @@ import React from 'react';
 import SettingItemMin from 'components/setting_item_min';
 
 import Describe from './describe.tsx';
-import SectionTitle from './section_title.jsx';
+import SectionTitle from './section_title.tsx';
 
 export default function CollapseView({onExpandSection, globalNotifyLevel, memberNotifyLevel, section, ignoreChannelMentions}) {
     return (

@@ -14,7 +14,7 @@ import SettingItemMax from 'components/setting_item_max.jsx';
 
 import Describe from './describe.tsx';
 import ExtraInfo from './extra_info.jsx';
-import SectionTitle from './section_title.jsx';
+import SectionTitle from './section_title';
 
 export default function ExpandView({
     section,
