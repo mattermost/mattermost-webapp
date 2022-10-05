@@ -21,9 +21,8 @@ function MarkAllThreadsAsReadModal({
 
     return (
         <GenericModal
-            className='a11y__modal mark-all-threads-as-read'
+            className='mark-all-threads-as-read'
             id='mark-all-threads-as-read-modal'
-            show={true}
             compassDesign={true}
             modalHeaderText={formatMessage({
                 id: 'mark_all_threads_as_read_modal.title',
@@ -42,7 +41,7 @@ function MarkAllThreadsAsReadModal({
         >
             <div className='mark_all_threads_as_read_modal__body'>
                 <span>
-                    { formatMessage({
+                    {formatMessage({
                         id: 'mark_all_threads_as_read_modal.description',
                         defaultMessage: 'This will clear the unread state and mention badges on all your threads. Are you sure?',
                     })}
