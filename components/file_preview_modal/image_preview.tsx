@@ -83,7 +83,6 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     const touch = useRef({x: 0, y: 0});
     const canvasBorder = useRef({w: 0, h: 0});
     const isMouseDown = useRef(false);
-    const containerRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
 
     const isExternalFile = !fileInfo.id;
@@ -230,10 +229,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     minZoomExport = minZoom;
 
     return (
-        <div
-            ref={containerRef}
-            className={containerClass}
-        >
+        <div className={containerClass}>
             <canvas
                 onMouseDown={handleMouseDown}
                 onMouseMove={handleMouseMove}
