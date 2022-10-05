@@ -10,38 +10,66 @@
 // Group: @cloud_only @cloud_trial
 // Skip:  @headless @electron // run on Chrome (headed) only
 
-import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
 
+function simulateSubscription() {
+    cy.intercept('GET', '**/api/v4/cloud/subscription', {
+        statusCode: 200,
+        body: {
+            id: 'sub_test1',
+            is_free_trial: 'true',
+            customer_id: '5zqhakmibpgyix9juiwwkpfnmr',
+            product_id: 'prod_Jh6tBLcgWWOOog',
+            seats: 25,
+            status: 'active',
+        },
+    });
+
+    cy.intercept('GET', '**/api/v4/cloud/products**', {
+        statusCode: 200,
+        body:
+        [
+            {
+                id: 'prod_LSBESgGXq9KlLj',
+                sku: 'cloud-starter',
+                price_per_seat: 0,
+                name: 'Cloud Starter',
+            },
+            {
+                id: 'prod_K0AxuWCDoDD9Qq',
+                sku: 'cloud-professional',
+                price_per_seat: 10,
+                name: 'Cloud Professional',
+            },
+            {
+                id: 'prod_Jh6tBLcgWWOOog',
+                sku: 'cloud-enterprise',
+                price_per_seat: 30,
+                name: 'Cloud Enterprise',
+            },
+        ],
+    });
+}
+
 describe('System Console - Subscriptions section', () => {
-    let adminUser;
     before(() => {
         // * Check if server has license for Cloud
         cy.apiRequireLicenseForFeature('Cloud');
-
-        cy.apiGetMe().then(({user}) => {
-            adminUser = user;
-        });
-
-        // # Visit Subscription page
-        cy.visit('/admin_console/billing/subscription');
-
-        // * Check for Subscription header
-        cy.contains('.admin-console__header', 'Subscription').should('be.visible');
     });
 
     beforeEach(() => {
-        // # Click on close button of subscribe window if exist
-        cy.get('body').then(($body) => {
-            if ($body.find('#closeIcon').length > 0) {
-                cy.get('#closeIcon').parent().click();
-            }
-        });
+        simulateSubscription();
+
+        // # Visit Subscription page
+        cy.visit('/admin_console/billing/subscription');
     });
 
     it('MM-T4118 Subscription page UI check', () => {
+        // * Check for Subscription header
+        cy.contains('.admin-console__header', 'Subscription').should('be.visible');
+
         // * Check for visibility of Trial tag
-        cy.contains('span', 'Trial', {timeout: TIMEOUTS.TEN_SEC}).should('be.visible');
+        cy.contains('span', 'trial', {timeout: 10000}).should('be.visible');
 
         // * Check for User count
         cy.request('/api/v4/analytics/old?name=standard&team_id=').then((response) => {
@@ -51,93 +79,59 @@ describe('System Console - Subscriptions section', () => {
             });
         });
 
-        // * Check for Contact Sales navigation
-        const email = encodeURIComponent(adminUser.email);
-        const name = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
-        cy.contains('span', 'Contact Sales').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales&inquiry-issue=trial_questions`);
-            cy.wrap(link).should('have.attr', 'target', '_blank');
-            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
-
         // * Check for See how billing works navigation
         cy.contains('span', 'See how billing works').parent().then((link) => {
             const getHref = () => link.prop('href');
             cy.wrap({href: getHref}).invoke('href').should('contains', '/cloud-billing.html');
-            cy.wrap(link).should('have.attr', 'target', '_new');
+            cy.wrap(link).should('have.attr', 'target', '_blank');
             cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
             cy.request(link.prop('href')).its('status').should('eq', 200);
         });
     });
 
-    it('MM-T4122 "Subscribe now" navigation and closing of Subscribe window', () => {
-        // # Click on Subscribe Now button
-        cy.contains('span', 'Subscribe Now').parent().click();
+    it('MM-T4122 "Upgrade now" navigation and closing of Upgrade window', () => {
+        // # Click on Upgrade Now button
+        cy.contains('span', 'Upgrade Now').parent().click();
+        cy.get('#professional_action').click();
 
         // * Check for "Provide Your Payment Details" label
-        cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
+        cy.findByText('Provide your payment details').should('be.visible');
 
-        // # Click on close button of subscribe window
+        // # Click on close button of Upgrade window
         cy.get('#closeIcon').parent().should('exist').click();
 
-        // * Check for "You're currently on a free trial" label
-        cy.contains('span', "You're currently on a free trial").should('be.visible');
+        // * Check for "Your trial has started!" label
+        cy.contains('span', 'Your trial has started!').should('be.visible');
     });
 
     it('MM-T4124 Purchase modal UI check', () => {
-        // # Click on Subscribe Now button
-        cy.contains('span', 'Subscribe Now').parent().click();
+        // # Click on Upgrade Now button
+        cy.contains('span', 'Upgrade Now').parent().click();
+
+        cy.get('#professional_action').click();
 
         // * Check for "Provide Your Payment Details" label
-        cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
+        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
 
         // * Check for Compare plans navigation
-        cy.contains('span', 'Compare plans').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', '/pricing-cloud');
-            cy.wrap(link).should('have.attr', 'target', '_blank');
-            cy.wrap(link).should('have.attr', 'rel', 'noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
+        cy.contains('span', 'Compare plans').click();
+
+        cy.findByRole('heading', {name: 'Select a plan'}).should('be.visible');
+        cy.findByRole('button', {name: 'Close'}).click();
 
         // * Check for See how billing works navigation
-        cy.contains('span', 'See how billing works').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', '/cloud-billing.html');
-            cy.wrap(link).should('have.attr', 'target', '_new');
-            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
-
-        // * Check for Contact Support navigation
-        const email = encodeURIComponent(adminUser.email);
-        const name = encodeURIComponent(`${adminUser.first_name} ${adminUser.last_name}`);
-        cy.contains('span', 'Contact Support').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=technical`);
-            cy.wrap(link).should('have.attr', 'target', '_new');
-            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
-
-        // * Check for Contact Sales navigation
-        cy.contains('span', 'Contact Sales').parent().then((link) => {
-            const getHref = () => link.prop('href');
-            cy.wrap({href: getHref}).invoke('href').should('contains', `/contact-us?email=${email}&name=${name}&inquiry=sales`);
-            cy.wrap(link).should('have.attr', 'target', '_blank');
-            cy.wrap(link).should('have.attr', 'rel', 'noopener noreferrer');
-            cy.request(link.prop('href')).its('status').should('eq', 200);
-        });
+        cy.contains('span', 'See how billing works').should('be.visible');
     });
 
-    it('MM-T4128 Enable/disable "Subscribe" button in Purchase modal', () => {
-        // # Click on Subscribe Now button
-        cy.contains('span', 'Subscribe Now').parent().click();
+    it('MM-T4128 Enable/disable "Upgrade" button in Purchase modal', () => {
+        // # Click on Upgrade Now button
+        cy.contains('span', 'Upgrade Now').parent().click();
+
+        // # Click on Upgrade Now button on plans modal
+        cy.get('#professional_action').click();
 
         // * Check for "Provide Your Payment Details" label
-        cy.get('.title').contains('span', 'Provide Your Payment Details').should('be.visible');
+        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
 
         // # Enter card details
         cy.uiGetPaymentCardInput().within(() => {
@@ -147,14 +141,14 @@ describe('System Console - Subscriptions section', () => {
         });
         cy.get('#input_name').clear().type('test name');
         cy.findByText('Country').parent().find('.icon-chevron-down').click();
-        cy.findByText('Country').parent().find("input[type='text']").type('India{enter}');
+        cy.findByText('Country').parent().find("input[type='text']").type('India{enter}', {force: true});
         cy.get('#input_address').type('test1');
         cy.get('#input_address2').type('test2');
         cy.get('#input_city').clear().type('testcity');
         cy.get('#input_state').type('test');
         cy.get('#input_postalCode').type('444');
 
-        // * Check for enable status of Subscribe button
+        // * Check for enable status of Upgrade button
         cy.get('.RHS').find('button').should('be.enabled');
 
         // # Enter invalid csv
@@ -166,7 +160,7 @@ describe('System Console - Subscriptions section', () => {
 
         // # Enter billing details
         cy.findByText('Country').parent().find('.icon-chevron-down').click();
-        cy.findByText('Country').parent().find("input[type='text']").type('India{enter}');
+        cy.findByText('Country').parent().find("input[type='text']").type('India{enter}', {force: true});
         cy.get('.RHS').find('button').should('be.disabled');
         cy.get('#input_address').type('test1');
         cy.get('#input_address2').type('test2');
@@ -184,8 +178,7 @@ describe('System Console - Subscriptions section', () => {
         });
         cy.get('#input_name').clear().type('test user');
 
-        // * Check for disabled Subscribe button for having wrong card details
+        // * Check for disabled Upgrade button for having wrong card details
         cy.get('.RHS').find('button').should('be.disabled');
     });
 });
-

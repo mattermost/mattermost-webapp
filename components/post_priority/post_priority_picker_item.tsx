@@ -13,7 +13,6 @@ type Props = {
     onClick: () => void;
     ariaLabel: string;
     text: React.ReactNode;
-    id: string;
 }
 
 const ItemButton = styled.button`
@@ -28,6 +27,11 @@ const StyledCheckIcon = styled(CheckIcon)`
 `;
 
 const Menu = styled.ul`
+    display: block;
+    position: relative;
+    box-shadow: none;
+    border-radius: 0;
+    border: 0;
     padding: 8px 0;
     margin: 0;
     color: var(--center-channel-text-rgb);
@@ -39,11 +43,9 @@ function Item({
     ariaLabel,
     text,
     isSelected,
-    id,
 }: Props) {
     return (
         <ItemButton
-            id={id}
             aria-label={ariaLabel}
             className='style--none'
             onClick={onClick}
