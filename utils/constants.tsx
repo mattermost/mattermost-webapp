@@ -7,8 +7,6 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {CustomStatusDuration} from '@mattermost/types/users';
-
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -28,6 +26,10 @@ import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
+
+import {ZoomValue} from 'components/file_preview_modal/file_preview_modal_image_controls/file_preview_modal_image_controls';
+
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
@@ -1229,7 +1231,7 @@ export const exportFormats = {
 };
 
 export const ZoomSettings = {
-    DEFAULT_IMAGE_MODE: 'Automatic',
+    DEFAULT_IMAGE_MODE: 'Automatic' as ZoomValue,
     DEFAULT_SCALE: 1.75,
     SCALE_DELTA: 0.25,
     MIN_SCALE: 0.25,
