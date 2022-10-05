@@ -13,7 +13,8 @@ import {
     CodeTagsIcon,
     FormatQuoteOpenIcon,
     FormatListBulletedIcon,
-    FormatListNumberedIcon, CheckIcon, CodeBlockIcon,
+    FormatListNumberedIcon,
+    CodeBlockIcon,
 } from '@mattermost/compass-icons/components';
 import IconProps from '@mattermost/compass-icons/components/props';
 
