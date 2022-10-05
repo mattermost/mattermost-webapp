@@ -6,9 +6,6 @@ import {Modal} from 'react-bootstrap';
 
 import classNames from 'classnames';
 
-import {FileInfo} from '@mattermost/types/files';
-import {Post} from '@mattermost/types/posts';
-
 import {getFileDownloadUrl, getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
 import LoadingImagePreview from 'components/loading_image_preview';
 import Constants, {FileTypes, ZoomSettings} from 'utils/constants';
@@ -19,6 +16,9 @@ import ArchivedPreview from 'components/archived_preview';
 import FileInfoPreview from 'components/file_info_preview';
 
 import {FilePreviewComponent} from 'types/store/plugins';
+
+import {Post} from '@mattermost/types/posts';
+import {FileInfo} from '@mattermost/types/files';
 
 import FilePreviewModalImageControls, {ZoomValue} from './file_preview_modal_image_controls/file_preview_modal_image_controls';
 
