@@ -51,10 +51,10 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     const containerScale = fitCanvas(width, height);
     const {maxWidth, maxHeight} = getWindowDimensions();
 
-    const zoom = useRef(0);
-    const minZoom = useRef(0);
+    let zoom = 0;
+    let minZoom = 0;
 
-    minZoom.current = Math.min(containerScale, 1);
+    minZoom = Math.min(containerScale, 1);
     const maxCanvasZoom = containerScale;
 
     let isFullscreen = {horizontal: false, vertical: false};
@@ -63,16 +63,16 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     // Set the zoom given by the toolbar dropdown
     switch (toolbarZoom) {
     case 'Automatic':
-        zoom.current = minZoom.current;
+        zoom = minZoom;
         break;
     case 'FitWidth':
-        zoom.current = maxWidth / width;
+        zoom = maxWidth / width;
         break;
     case 'FitHeight':
-        zoom.current = maxHeight / height;
+        zoom = maxHeight / height;
         break;
     default:
-        zoom.current = toolbarZoom as number;
+        zoom = toolbarZoom as number;
         break;
     }
 
@@ -103,7 +103,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         const {w, h} = canvasBorder.current;
         const {horizontal, vertical} = isFullscreen;
 
-        if (zoom.current <= maxCanvasZoom) {
+        if (zoom <= maxCanvasZoom) {
             return {xPos: 0, yPos: 0};
         }
 
@@ -117,8 +117,8 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
         event.persist();
         const {deltaY} = event;
         if (!dragging) {
-            zoom.current = clamp(zoom.current + (deltaY * SCROLL_SENSITIVITY * -1), minZoom.current, MAX_ZOOM);
-            setToolbarZoom(zoom.current === minZoom.current ? 'Automatic' : zoom.current);
+            zoom = clamp(zoom + (deltaY * SCROLL_SENSITIVITY * -1), minZoom, MAX_ZOOM);
+            setToolbarZoom(zoom === minZoom ? 'Automatic' : zoom);
         }
     };
 
@@ -190,8 +190,8 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
             context.imageSmoothingQuality = 'high';
 
             // Resize canvas to current zoom level
-            canvasRef.current.width = width * zoom.current;
-            canvasRef.current.height = height * zoom.current;
+            canvasRef.current.width = width * zoom;
+            canvasRef.current.height = height * zoom;
 
             // Update borders and clamp offset accordingly
             canvasBorder.current = {w: context.canvas.offsetLeft, h: context.canvas.offsetTop - 72 - 48};
@@ -204,7 +204,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
             const {xPos, yPos} = clampOffset(offset.x, offset.y);
             context.translate(-xPos, -yPos);
 
-            context.drawImage(background, 0, 0, width * zoom.current, height * zoom.current);
+            context.drawImage(background, 0, 0, width * zoom, height * zoom);
         }
     }
 
@@ -222,12 +222,12 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
 
     const containerClass = classNames({
         image_preview_div: true,
-        fullscreen: zoom.current >= maxCanvasZoom,
-        normal: zoom.current < maxCanvasZoom,
+        fullscreen: zoom >= maxCanvasZoom,
+        normal: zoom < maxCanvasZoom,
     });
 
-    zoomExport = zoom.current;
-    minZoomExport = minZoom.current;
+    zoomExport = zoom;
+    minZoomExport = minZoom;
 
     return (
         <div
