@@ -3,14 +3,16 @@
 
 import React from 'react';
 
+import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';
+
 import {UserProfile} from '@mattermost/types/users';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
@@ -20,6 +22,8 @@ import BoolSetting from 'components/widgets/settings/bool_setting';
 import Provider from 'components/suggestion/provider';
 
 import Markdown from 'components/markdown';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import AppsFormSelectField from './apps_form_select_field';
 
@@ -39,7 +43,7 @@ export interface Props {
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
-        autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+        autocompleteUsers: (search: string) => (doDispatch: DispatchFunc) => Promise<any>;
     };
 }
 

@@ -3,10 +3,11 @@
 
 import React, {useCallback, useRef} from 'react';
 
+import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+
 import {UserProfile} from '@mattermost/types/users';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import Setting from 'components/admin_console/setting';
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';

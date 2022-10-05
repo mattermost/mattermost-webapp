@@ -4,9 +4,8 @@
 import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
+import {ActionFunc, DispatchFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
 
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -24,7 +23,7 @@ function mapStateToProps(state: GlobalState) {
 }
 type Actions = {
     autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
-    autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+    autocompleteUsers: (search: string) => (doDispatch: DispatchFunc) => Promise<any>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

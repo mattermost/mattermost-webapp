@@ -7,9 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {autocompleteChannels} from 'actions/channel_actions';
 import {autocompleteUsers} from 'actions/user_actions';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-
-import {UserProfile} from '@mattermost/types/users';
+import {ActionFunc, DispatchFunc, GenericAction} from 'mattermost-redux/types/actions';
 
 import {Channel} from '@mattermost/types/channels';
 
@@ -17,7 +15,7 @@ import DialogElement from './dialog_element';
 
 type Actions = {
     autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
-    autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+    autocompleteUsers: (search: string) => (doDispatch: DispatchFunc) => Promise<any>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

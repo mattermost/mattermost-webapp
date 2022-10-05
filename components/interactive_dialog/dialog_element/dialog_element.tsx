@@ -5,18 +5,20 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
+
+import MenuActionProvider from 'components/suggestion/menu_action_provider';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
-import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 import Provider from 'components/suggestion/provider';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
@@ -41,7 +43,7 @@ type Props = {
     autoFocus?: boolean;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
-        autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+        autocompleteUsers: (search: string) => (doDispatch: DispatchFunc) => Promise<any>;
     };
 }
 

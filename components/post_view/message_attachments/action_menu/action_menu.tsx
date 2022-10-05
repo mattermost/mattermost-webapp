@@ -3,14 +3,18 @@
 
 import React from 'react';
 
+import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import type {OwnProps, PropsFromRedux} from './index';
 
@@ -30,6 +34,8 @@ type State = {
     value: string;
 };
 
+type AutocompleteUsers = (username: string) => (doDispatch: DispatchFunc) => Promise<any>;
+
 export default class ActionMenu extends React.PureComponent<Props, State> {
     private providers: Provider[];
 
@@ -40,7 +46,7 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
         this.providers = [];
         if (action) {
             if (action.data_source === 'users') {
-                this.providers = [new GenericUserProvider(props.autocompleteUsers)];
+                this.providers = [new GenericUserProvider(props.autocompleteUsers as unknown as AutocompleteUsers)];
             } else if (action.data_source === 'channels') {
                 this.providers = [new GenericChannelProvider(props.autocompleteChannels)];
             } else if (action.options) {
