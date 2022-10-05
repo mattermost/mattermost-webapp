@@ -18,7 +18,7 @@ import SlashCommandIcon from 'images/slash_command_icon.jpg';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 
-import IntegrationOption from './integration_option.jsx';
+import IntegrationOption from './integration_option';
 
 export default class Integrations extends React.PureComponent {
     static get propTypes() {
