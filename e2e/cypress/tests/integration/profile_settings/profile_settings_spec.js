@@ -11,16 +11,12 @@
 
 describe('Profile Settings', () => {
     let testUser;
-    let testTeam;
-    let offTopic;
 
     before(() => {
         // # Login as new user and visit off-topic
-        cy.apiInitSetup({prefix: 'other', loginAfter: true}).then(({offTopicUrl, user, team}) => {
+        cy.apiInitSetup({prefix: 'other', loginAfter: true}).then(({offTopicUrl, user}) => {
             cy.visit(offTopicUrl);
-            offTopic = offTopicUrl;
             testUser = user;
-            testTeam = team;
         });
     });
 
@@ -46,7 +42,7 @@ describe('Profile Settings', () => {
         cy.uiCancel();
 
         // * Check that the full name was not updated since it was not saved
-        cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name +" "+testUser.last_name);
+        cy.get('#nameDesc').should('be.visible').should('contain', testUser.first_name + ' ' + testUser.last_name);
 
         // # Close the modal
         cy.uiClose();
