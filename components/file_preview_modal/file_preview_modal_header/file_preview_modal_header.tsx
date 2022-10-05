@@ -28,16 +28,13 @@ interface Props {
     canDownloadFiles: boolean;
     canCopyContent: boolean;
     isExternalFile: boolean;
-    fileType: string;
-    toolbarZoom: ZoomValue;
-    setToolbarZoom: (toolbarZoom: ZoomValue) => void;
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
     content: string;
 }
 
-const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, toolbarZoom, setToolbarZoom, fileType, ...actionProps}: Props) => {
+const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, fileType, ...actionProps}: Props) => {
     let mainActions = (<div/>);
     if (totalFiles > 1) {
         mainActions = (
