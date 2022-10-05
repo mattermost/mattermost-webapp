@@ -7,11 +7,9 @@ import {useSelector} from 'react-redux';
 import Scrollbars from 'react-custom-scrollbars';
 
 import classNames from 'classnames';
-
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
+
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Post} from '@mattermost/types/posts';
 
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
 
@@ -29,6 +27,9 @@ import FileSearchResultItem from 'components/file_search_results';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
 import {t} from 'utils/i18n';
+
+import {Post} from '@mattermost/types/posts';
+import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
 
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
