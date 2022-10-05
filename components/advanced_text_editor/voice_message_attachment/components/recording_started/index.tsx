@@ -66,7 +66,7 @@ export const VisualizerContainer = styled.div`
 
 const Canvas = styled.canvas`
     width: 100%;
-    height: 20px;
+    height: 24px;
 `;
 
 export default VoiceMessageRecordingStarted;

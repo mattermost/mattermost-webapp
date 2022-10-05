@@ -41,7 +41,11 @@ enum VMStates {
 const MP3MimeType = 'audio/mpeg';
 const MP3Extension = 'mp3';
 const AUDIO_FILE_NAME_PREFIX = 'voice_message_';
-const FFT_SIZE = 64;
+const FFT_SIZE = 32;
+const REDUCED_SAMPLE_SIZE = 9;
+const MINIMUM_AMPLITUDE_PERCENTAGE = 14;
+const MAX_SCALE_FREQUENCY_DATA = 255;
+const VISUALIZER_BAR_WIDTH = 5;
 
 interface Props {
     channelId: Channel['id'];
@@ -81,40 +85,71 @@ const VoiceMessageAttachment = (props: Props) => {
 
     const generatedClientId = useMemo(() => generateId(), []);
 
-    function drawOnVisualizerCanvas(amplitudeArray: Uint8Array) {
-        console.log('drawOnVisualizerCanvas', amplitudeArray);
-        const visualizerCanvasContext = visualizerCanvasRef.current?.getContext('2d');
-        if (visualizerCanvasContext && visualizerCanvasRef.current) {
-            // We need to clear the canvas before drawing the new visualizer
-            visualizerCanvasContext.clearRect(0, 0, visualizerCanvasRef.current.width, visualizerCanvasRef.current.height);
+    function drawOnVisualizerCanvas(amplitudePercentageArray: number[], visualizerCanvasContext: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, spacing: number) {
+        // We need to clear the canvas before drawing the new visualizer changes
+        visualizerCanvasContext.clearRect(0, 0, canvasWidth, -canvasHeight);
+        visualizerCanvasContext.clearRect(0, 0, canvasWidth, canvasHeight);
+        visualizerCanvasContext.restore();
 
-            visualizerCanvasContext.fillStyle = theme.centerChannelBg;
-            visualizerCanvasContext.lineWidth = 4;
+        amplitudePercentageArray.forEach((amplitude, index) => {
+            const xPoint = ((VISUALIZER_BAR_WIDTH * (1 + (2 * index))) + (2 * index * spacing)) / 2;
+            const amplitudeHeight = (amplitude * canvasHeight) / (2 * 100);
+
+            // set properties of the visualizer bars
+            visualizerCanvasContext.lineWidth = VISUALIZER_BAR_WIDTH;
             visualizerCanvasContext.strokeStyle = theme.buttonBg;
-            const spacing = Number(visualizerCanvasRef.current?.width) / amplitudeArray.length;
-            amplitudeArray.forEach((amplitude, index) => {
-                // skipping the first one because its was looking weird. Change later
-                if (index !== 0) {
-                    visualizerCanvasContext.beginPath();
-                    visualizerCanvasContext.moveTo(spacing * index, Number(visualizerCanvasRef.current?.width));
-                    visualizerCanvasContext.lineTo(spacing * index, Number(visualizerCanvasRef.current?.height) - amplitude);
-                    visualizerCanvasContext.stroke();
-                }
-            });
-        }
+            visualizerCanvasContext.lineCap = 'round';
+            visualizerCanvasContext.beginPath();
+            visualizerCanvasContext.moveTo(xPoint, amplitudeHeight);
+            visualizerCanvasContext.lineTo(xPoint, -amplitudeHeight);
+            visualizerCanvasContext.stroke();
+        });
     }
 
-    function animateRecordingVisualizer() {
-        if (amplitudeArrayRef.current && audioAnalyzerRef.current) {
-            // Copies new frequency data into the amplitudeArray
-            audioAnalyzerRef.current.getByteFrequencyData(amplitudeArrayRef.current);
+    function visualizeAudioStream() {
+        function animateVisualizerRecursively(canvasContext: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, spacing: number) {
+            if (amplitudeArrayRef.current && audioAnalyzerRef.current) {
+                // Copies new frequency data into the amplitudeArray
+                audioAnalyzerRef.current.getByteFrequencyData(amplitudeArrayRef.current);
 
-            drawOnVisualizerCanvas(amplitudeArrayRef.current);
+                const amplitudeNumArray = Array.from(amplitudeArrayRef.current);
+                const amplitudePercentageFrwArray = amplitudeNumArray.map((amp) => {
+                    const ampPercentage = Math.floor((amp / MAX_SCALE_FREQUENCY_DATA) * 100);
+                    if (ampPercentage < MINIMUM_AMPLITUDE_PERCENTAGE) {
+                        return MINIMUM_AMPLITUDE_PERCENTAGE;
+                    }
+                    return ampPercentage;
+                }).slice(0, REDUCED_SAMPLE_SIZE);
+                const amplitudePercentageRvArray = [...amplitudePercentageFrwArray].reverse();
+                const amplitudePercentageArray = [...amplitudePercentageRvArray, ...amplitudePercentageFrwArray];
 
-            // Run the visualizer again on each animation frame
-            visualizerRefreshRafId.current = window.requestAnimationFrame(() => {
-                animateRecordingVisualizer();
-            });
+                drawOnVisualizerCanvas(amplitudePercentageArray, canvasContext, canvasWidth, canvasHeight, spacing);
+
+                // Run the visualizer again on each animation frame
+                visualizerRefreshRafId.current = window.requestAnimationFrame(() => {
+                    animateVisualizerRecursively(canvasContext, canvasWidth, canvasHeight, spacing);
+                });
+            }
+        }
+
+        // prepare the canvas
+        const visualizerCanvasContext = visualizerCanvasRef.current?.getContext('2d');
+        const canvasWidth = Number(visualizerCanvasRef?.current?.width ?? 0);
+        const canvasHeight = Number(visualizerCanvasRef?.current?.height ?? 0);
+
+        if (visualizerCanvasContext && canvasWidth !== 0 && canvasHeight !== 0 && visualizerCanvasRef && visualizerCanvasRef.current) {
+            const spacing = (canvasWidth - ((REDUCED_SAMPLE_SIZE * 2) * VISUALIZER_BAR_WIDTH)) / ((REDUCED_SAMPLE_SIZE * 2) - 1);
+
+            // Add background color to canvas
+            visualizerCanvasRef.current.style.background = theme.centerChannelBg;
+            visualizerCanvasContext.fillStyle = theme.centerChannelBg;
+            visualizerCanvasContext.fillRect(0, 0, canvasWidth, canvasHeight);
+
+            // translate the canvas origin to middle of the height
+            visualizerCanvasContext.translate(0, canvasHeight / 2);
+            visualizerCanvasContext.save();
+
+            animateVisualizerRecursively(visualizerCanvasContext, canvasWidth, canvasHeight, spacing);
         }
     }
 
@@ -232,7 +267,7 @@ const VoiceMessageAttachment = (props: Props) => {
             audioAnalyzerRef.current = audioAnalyzer;
             audioScriptProcessorRef.current = scriptProcessorNode;
 
-            animateRecordingVisualizer();
+            visualizeAudioStream();
 
             animateCountdownTimer();
         } catch (error) {
