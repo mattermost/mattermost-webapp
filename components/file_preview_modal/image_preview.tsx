@@ -58,7 +58,7 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     const maxCanvasZoom = containerScale;
 
     const isFullscreen = useRef({horizontal: false, vertical: false});
-    let cursorType = 'normal';
+    const [cursorType, setCursorType] = useState('normal');
 
     // Set the zoom given by the toolbar dropdown
     switch (toolbarZoom) {
@@ -215,9 +215,9 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
 
     // Change cursor to dragging only if the image in the canvas is zoomed and draggable
     if (isFullscreen.current.horizontal || isFullscreen.current.vertical) {
-        cursorType = dragging ? 'dragging' : 'hover';
+        setCursorType(dragging ? 'dragging' : 'hover');
     } else {
-        cursorType = 'normal';
+        setCursorType('normal');
     }
 
     const containerClass = classNames({
