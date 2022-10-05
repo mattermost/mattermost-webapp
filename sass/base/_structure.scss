@@ -87,8 +87,9 @@ body {
     height: 100%;
 }
 
-#root {
+body.app__body #root {
     display: grid;
+    overflow: hidden;
     grid-template:
         'announcement announcement announcement announcement announcement' min-content
         'header header header header header' min-content
