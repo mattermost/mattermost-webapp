@@ -11,20 +11,20 @@ export function getBrowserUtcOffset() {
     return moment().utcOffset();
 }
 
-export function getUtcOffsetForTimeZone(timezone) {
+export function getUtcOffsetForTimeZone(timezone: string) {
     return moment.tz(timezone).utcOffset();
 }
 
-export function getCurrentDateForTimezone(timezone) {
+export function getCurrentDateForTimezone(timezone: string) {
     const tztime = moment().tz(timezone);
     return new Date(tztime.year(), tztime.month(), tztime.date());
 }
 
-export function getCurrentDateTimeForTimezone(timezone) {
+export function getCurrentDateTimeForTimezone(timezone: string) {
     const tztime = moment().tz(timezone);
     return new Date(tztime.year(), tztime.month(), tztime.date(), tztime.hour(), tztime.minute(), tztime.second());
 }
 
-export function getCurrentMomentForTimezone(timezone) {
+export function getCurrentMomentForTimezone(timezone?: string) {
     return timezone ? moment.tz(timezone) : moment();
 }
