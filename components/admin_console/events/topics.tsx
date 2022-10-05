@@ -34,7 +34,7 @@ export default class Topics extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        // this.reload();
+        this.reload();
     }
 
     reload = async () => {
@@ -65,9 +65,9 @@ export default class Topics extends React.PureComponent<Props, State> {
                                     id='about'
                                     modalId={ModalIdentifiers.EVENTS_SCHEMA}
                                     dialogType={SchemaInformationModal}
-                                    dialogProps={{schema: this.props.topics[i].schema}}
-                                    text={''}
-                                    icon={<i className='fa fa-info'/>}
+                                    dialogProps={{schema: JSON.stringify(JSON.parse(this.props.topics[i].schema), null, 2)}}
+                                    text={<button>{'View Schema'}</button>}
+                                    icon={null}
                                 />
                             }
                         </td>

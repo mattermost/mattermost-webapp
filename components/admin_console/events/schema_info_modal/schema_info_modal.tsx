@@ -55,7 +55,7 @@ export default class SchemaInformationModal extends React.PureComponent<Props, S
                 <Modal.Body>
                     <div className='about-modal__content'>
                         <div>
-                            <p>{this.props.schema}</p>
+                            <pre>{this.props.schema}</pre>
                         </div>
                     </div>
                 </Modal.Body>

@@ -2955,7 +2955,7 @@ export default class Client4 {
 
     getTopics = () => {
         return this.doFetch<string[]>(
-            `${this.getBaseRoute()}/events/topics`,
+            `${this.getBaseRoute()}/system/events/topics?withSchema=true`,
             {method: 'get'},
         );
     };
