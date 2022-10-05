@@ -3,7 +3,7 @@
 
 import React, {CSSProperties, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Emoji} from '@mattermost/types/emojis';
@@ -386,6 +386,18 @@ const AdvanceTextEditor = ({
             }
         >
             <div
+                id={'speak-'}
+                aria-live='assertive'
+                className='sr-only'
+            >
+                {
+                    <FormattedMessage
+                        id='channelView.login.successfull'
+                        defaultMessage='Login Successfull'
+                    />
+                }
+            </div>
+            <div
                 className={'AdvancedTextEditor__body'}
                 disabled={readOnlyChannel}
             >
@@ -393,7 +405,12 @@ const AdvanceTextEditor = ({
                     role='application'
                     id='advancedTextEditorCell'
                     data-a11y-sort-order='2'
-                    aria-label={ariaLabelMessageInput}
+                    aria-label={
+                        Utils.localizeMessage(
+                            'channelView.login.successfull',
+                            'Login Successfull',
+                        ) + ' ' + ariaLabelMessageInput
+                    }
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
                 >

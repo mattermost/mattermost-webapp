@@ -109,7 +109,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         const {channelIsArchived} = this.props;
-
         let createPost;
         if (this.props.deactivatedChannel) {
             createPost = (
