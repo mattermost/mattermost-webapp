@@ -4,14 +4,13 @@
 import React, {memo} from 'react';
 
 import {FileInfo} from '@mattermost/types/files';
-import {FileTypes} from 'utils/constants';
 
 import {Post} from '@mattermost/types/posts';
 
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainNav from '../file_preview_modal_main_nav/file_preview_modal_main_nav';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
-import FilePreviewModalImageControls, {ZoomValue} from '../file_preview_modal_image_controls/file_preview_modal_image_controls';
+import {ZoomValue} from '../file_preview_modal_image_controls/file_preview_modal_image_controls';
 import {LinkInfo} from '../types';
 
 import './file_preview_modal_header.scss';
