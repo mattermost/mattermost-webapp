@@ -294,7 +294,7 @@ export default class Post extends React.PureComponent<Props, State> {
         }
 
         let postType = '';
-        if (post.root_id && post.root_id.length > 0) {
+        if (post.root_id && post.root_id.length > 0 && !(post.props?.broadcasted_thread_reply && this.props.isCollapsedThreadsEnabled)) {
             postType = 'post--comment';
         } else if (this.props.hasReplies) {
             postType = 'post--root';

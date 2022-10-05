@@ -270,8 +270,8 @@ export default class PostBody extends React.PureComponent<Props, State> {
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}
                 >
                     {messageWithAdditionalContent}
-                    {fileAttachmentHolder}
-                    <ReactionList post={post}/>
+                    {!post.props?.broadcasted_thread_reply && fileAttachmentHolder}
+                    {!post.props?.broadcasted_thread_reply && <ReactionList post={post}/>}
                 </div>
             </>
         );

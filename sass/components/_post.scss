@@ -1194,6 +1194,10 @@
         &.post--comment {
             .post__link {
                 display: none;
+
+                &.broadcast-reply {
+                    display: block;
+                }
             }
 
             &.same--user {

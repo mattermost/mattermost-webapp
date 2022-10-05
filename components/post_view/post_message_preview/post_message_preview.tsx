@@ -20,6 +20,8 @@ import PostAttachmentContainer from '../post_attachment_container/post_attachmen
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 
+import ReactionList from 'components/post_view/reaction_list';
+
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 import {General} from 'mattermost-redux/constants';
@@ -154,6 +156,15 @@ const PostMessagePreview = (props: Props) => {
         </div>
     ) : null;
 
+    let reactionPreview;
+    if (previewPost.props?.broadcasted_thread_reply) {
+        reactionPreview = (
+            <div>
+                <ReactionList post={previewPost}/>
+            </div>
+        );
+    }
+
     return (
         <PostAttachmentContainer
             className='permalink'
@@ -204,7 +215,7 @@ const PostMessagePreview = (props: Props) => {
                 />
                 {urlPreview}
                 {fileAttachmentPreview}
-                {previewFooter}
+                {reactionPreview || previewFooter}
             </div>
         </PostAttachmentContainer>
     );

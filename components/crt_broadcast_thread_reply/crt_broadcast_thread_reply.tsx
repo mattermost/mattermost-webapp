@@ -45,7 +45,7 @@ export default function BroadcastThreadReply(props: Props) {
                     <FormattedMessage
                         id='rhs_thread.broadcast.channel'
                         defaultMessage='Also send to {channel}'
-                        values={{channel: <b>{'~'}{channelDisplayName}</b>}}
+                        values={{channel: <b>{channelDisplayName}</b>}}
                     />
                 </label>
             </OverlayTrigger>
