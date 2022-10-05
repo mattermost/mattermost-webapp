@@ -13,7 +13,7 @@ import {
 export const CHANNELS_MAX_PER_PAGE = 80;
 export const CHANNEL_MEMBERS_MAX_PER_PAGE = 80;
 
-enum ChannelQueriessOperationNames {
+enum ChannelQueriesOperationNames {
     allChannelAndMembers = 'gqlWebAllChannelsAndChannelMembers',
     teamsChannelAndMembers = 'gqlWebTeamsChannelsAndChannelMembers',
     nextChannels = 'gqlWebNextChannels',
@@ -51,7 +51,7 @@ export type ChannelsAndChannelMembersQueryResponseType = {
 }
 
 function makeChannelsAndMembersQueryString(
-    operationName: ChannelQueriessOperationNames,
+    operationName: ChannelQueriesOperationNames,
     teamId: Team['id'] = '',
 ) {
     return `
@@ -107,20 +107,20 @@ function makeChannelsAndMembersQueryString(
 
 export function getAllChannelsAndMembersQueryString() {
     return JSON.stringify({
-        query: makeChannelsAndMembersQueryString(ChannelQueriessOperationNames.allChannelAndMembers),
-        operationName: ChannelQueriessOperationNames.allChannelAndMembers,
+        query: makeChannelsAndMembersQueryString(ChannelQueriesOperationNames.allChannelAndMembers),
+        operationName: ChannelQueriesOperationNames.allChannelAndMembers,
     });
 }
 
 export function getTeamsChannelsAndMembersQueryString(teamId: Team['id']) {
     return JSON.stringify({
-        query: makeChannelsAndMembersQueryString(ChannelQueriessOperationNames.teamsChannelAndMembers, teamId),
-        operationName: ChannelQueriessOperationNames.teamsChannelAndMembers,
+        query: makeChannelsAndMembersQueryString(ChannelQueriesOperationNames.teamsChannelAndMembers, teamId),
+        operationName: ChannelQueriesOperationNames.teamsChannelAndMembers,
     });
 }
 
 function makeChannelsNextQueryString(
-    operationName: ChannelQueriessOperationNames,
+    operationName: ChannelQueriesOperationNames,
     cursor: string,
     teamId: Team['id'] = '',
 ) {
@@ -156,20 +156,20 @@ function makeChannelsNextQueryString(
 
 export function getAllChannelsNextQueryString(cursor: string) {
     return JSON.stringify({
-        query: makeChannelsNextQueryString(ChannelQueriessOperationNames.nextChannels, cursor),
-        operationName: ChannelQueriessOperationNames.nextChannels,
+        query: makeChannelsNextQueryString(ChannelQueriesOperationNames.nextChannels, cursor),
+        operationName: ChannelQueriesOperationNames.nextChannels,
     });
 }
 
 export function getTeamsChannelsNextQueryString(teamId: Team['id'], cursor: string) {
     return JSON.stringify({
-        query: makeChannelsNextQueryString(ChannelQueriessOperationNames.nextTeamChannels, cursor, teamId),
-        operationName: ChannelQueriessOperationNames.nextTeamChannels,
+        query: makeChannelsNextQueryString(ChannelQueriesOperationNames.nextTeamChannels, cursor, teamId),
+        operationName: ChannelQueriesOperationNames.nextTeamChannels,
     });
 }
 
 function makeChannelMembersNextQueryString(
-    operationName: ChannelQueriessOperationNames,
+    operationName: ChannelQueriesOperationNames,
     cursor: string,
     teamId: Team['id'] = '',
 ) {
@@ -200,15 +200,15 @@ function makeChannelMembersNextQueryString(
 
 export function getAllChannelMembersNextQueryString(cursor: string) {
     return JSON.stringify({
-        query: makeChannelMembersNextQueryString(ChannelQueriessOperationNames.nextChannelMembers, cursor),
-        operationName: ChannelQueriessOperationNames.nextChannelMembers,
+        query: makeChannelMembersNextQueryString(ChannelQueriesOperationNames.nextChannelMembers, cursor),
+        operationName: ChannelQueriesOperationNames.nextChannelMembers,
     });
 }
 
 export function getTeamsChannelMembersNextQueryString(teamId: Team['id'], cursor: string) {
     return JSON.stringify({
-        query: makeChannelMembersNextQueryString(ChannelQueriessOperationNames.nextTeamChannelMembers, cursor, teamId),
-        operationName: ChannelQueriessOperationNames.nextTeamChannelMembers,
+        query: makeChannelMembersNextQueryString(ChannelQueriesOperationNames.nextTeamChannelMembers, cursor, teamId),
+        operationName: ChannelQueriesOperationNames.nextTeamChannelMembers,
     });
 }
 
