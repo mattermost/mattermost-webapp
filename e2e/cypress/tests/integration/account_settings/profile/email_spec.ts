@@ -10,7 +10,9 @@
 // Stage: @prod
 // Group: @account_setting
 
+import { AdminConfig } from '@mattermost/types/lib/config';
 import {UserProfile} from '@mattermost/types/lib/users';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {reUrl, getRandomId} from '../../../utils';
 
@@ -19,37 +21,36 @@ describe('Profile > Profile Settings > Email', () => {
     let testUser: UserProfile;
     let otherUser;
     let offTopicUrl;
-    let origConfig;
+    let origConfig: AdminConfig;
 
     before(() => {
         // Get config
         cy.apiGetConfig().then((config) => {
             origConfig = config;
-        });
+            const newConfig = {
+                ...origConfig,
+                EmailSettings: {
+                    ...origConfig.EmailSettings,
+                    RequireEmailVerification: true
+                },
+            }
 
-        let newConfig = {
-            ...origConfig,
-            EmailSettings: {
-                ...origConfig.EmailSettings,
-                RequireEmailVerification: true
-            },
-        }
+            cy.apiUpdateConfig(newConfig).then((config) => {
+                siteName = config.TeamSettings.SiteName;
+            });
 
-        cy.apiUpdateConfig(newConfig).then((config) => {
-            siteName = config.TeamSettings.SiteName;
-        });
+            cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
+                testUser = user;
+                offTopicUrl = url;
 
-        cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
-            testUser = user;
-            offTopicUrl = url;
+                cy.apiVerifyUserEmailById(testUser.id);
 
-            cy.apiVerifyUserEmailById(testUser.id);
-
-            return cy.apiCreateUser({});
-        }).then(({user: user1}) => {
-            otherUser = user1;
-            cy.apiLogin(testUser);
-            cy.visit(offTopicUrl);
+                return cy.apiCreateUser({});
+            }).then(({user: user1}) => {
+                otherUser = user1;
+                cy.apiLogin(testUser);
+                cy.visit(offTopicUrl);
+            });
         });
     });
 
