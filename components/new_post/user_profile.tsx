@@ -18,7 +18,7 @@ type Props = {
     compactDisplay?: boolean;
     colorizeUsernames?: boolean;
     isBusy?: boolean;
-    enablePostUsernameOverride: boolean;
+    enablePostUsernameOverride?: boolean;
     isConsecutivePost?: boolean;
     isBot: boolean;
     isSystemMessage?: boolean;

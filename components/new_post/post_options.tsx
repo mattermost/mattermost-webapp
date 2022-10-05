@@ -24,8 +24,8 @@ type Props = {
     teamId: string;
     isFlagged: boolean;
     removePost: (post: Post) => void;
-    enableEmojiPicker: boolean;
-    isReadOnly: boolean;
+    enableEmojiPicker?: boolean;
+    isReadOnly?: boolean;
     channelIsArchived?: boolean;
     setActionsMenuInitialisationState: (initializationState: Record<string, boolean>) => void;
     handleCommentClick?: (e: React.MouseEvent) => void;

@@ -43,13 +43,12 @@ export type Props = {
     colorizeUsernames?: boolean;
     isFlagged: boolean;
     isBusy?: boolean;
-    removePost: (post: Post) => void;
     previewCollapsed?: string;
     previewEnabled?: boolean;
     isEmbedVisible?: boolean;
-    enableEmojiPicker: boolean;
-    enablePostUsernameOverride: boolean;
-    isReadOnly: boolean;
+    enableEmojiPicker?: boolean;
+    enablePostUsernameOverride?: boolean;
+    isReadOnly?: boolean;
     pluginPostTypes?: {[postType: string]: PostPluginComponent};
     channelIsArchived?: boolean;
     isConsecutivePost?: boolean;
@@ -64,6 +63,7 @@ export type Props = {
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
         setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
         selectPost: (post: Post) => void;
+        removePost: (post: Post) => void;
     };
     timestampProps?: Partial<TimestampProps>;
     shouldHighlight?: boolean;
@@ -87,7 +87,7 @@ const PostComponent = (props: Props): JSX.Element => {
         if (a11yActive) {
             postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
-    }, [postRef.current]);
+    }, []);
 
     useEffect(() => {
         if (hover) {
@@ -98,7 +98,7 @@ const PostComponent = (props: Props): JSX.Element => {
             postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
             postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
         }
-    }, [hover, postRef.current]);
+    }, [hover]);
 
     const getClassName = (post: Post, isSystemMessage: boolean, isMeMessage: boolean) => {
         const hovered =
@@ -300,6 +300,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                 handleDropdownOpened={handleDropdownOpened}
                                 handleCommentClick={handleCommentClick}
                                 hover={hover}
+                                removePost={props.actions.removePost}
                             />
                         }
                     </div>

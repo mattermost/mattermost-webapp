@@ -18,7 +18,7 @@ import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
-import {selectPost} from 'actions/views/rhs';
+import {closeRightHandSide, selectPost} from 'actions/views/rhs';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -34,6 +34,9 @@ import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_u
 import {Preferences} from 'utils/constants';
 
 import PostComponent from './post_component';
+import { ExtendedPost, removePost } from 'mattermost-redux/actions/posts';
+import { DispatchFunc, GetStateFunc } from 'mattermost-redux/types/actions';
+import { isThreadOpen } from 'selectors/views/threads';
 
 interface OwnProps {
     post: Post;
@@ -51,6 +54,16 @@ function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
         consecutivePost = areConsecutivePostsBySameUser(post, previousPost);
     }
     return consecutivePost;
+}
+
+function removePostAndCloseRHS(post: ExtendedPost) {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
+        if (isThreadOpen(state, post.id)) {
+            dispatch(closeRightHandSide());
+        }
+        return dispatch(removePost(post));
+    };
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
@@ -105,6 +118,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             emitShortcutReactToLastPostFrom,
             setActionsMenuInitialisationState,
             selectPost,
+            removePost: removePostAndCloseRHS,
         }, dispatch),
     };
 }

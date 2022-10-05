@@ -16,6 +16,7 @@ import NewMessageSeparator from 'components/post_view/new_message_separator/new_
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 
 import {PostListRowListIds} from 'utils/constants';
+import {TestHelper} from 'utils/test_helper';
 
 import PostListRow from './post_list_row';
 
@@ -37,6 +38,7 @@ describe('components/post_view/post_list_row', () => {
         limitsLoaded: false,
         limits: {},
         usage: {} as CloudUsage,
+        post: TestHelper.getPostMock({id: 'post_id_1'}),
     };
 
     test('should render more messages loading indicator', () => {
