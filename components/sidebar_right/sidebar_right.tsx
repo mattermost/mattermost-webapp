@@ -110,7 +110,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                 e.preventDefault();
                 if (this.props.isOpen && this.props.isChannelInfo) {
                     this.props.actions.closeRightHandSide();
-                } else {
+                } else if (this.props.channel) {
                     this.props.actions.showChannelInfo(this.props.channel.id);
                 }
             }

@@ -74,6 +74,7 @@ type State = {
     showCloseBtn: boolean;
     showZoomControls: boolean;
     scale: Record<number, number>;
+    content: string;
 }
 
 export default class FilePreviewModal extends React.PureComponent<Props, State> {
@@ -97,6 +98,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             showCloseBtn: false,
             showZoomControls: false,
             scale: Utils.fillRecord(ZoomSettings.DEFAULT_SCALE, this.props.fileInfos.length),
+            content: '',
         };
     }
 
@@ -251,6 +253,10 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         this.setState({show: false});
     }
 
+    getContent = (content: string) => {
+        this.setState({content});
+    }
+
     handleBgClose = (e: React.MouseEvent) => {
         if (e.currentTarget === e.target) {
             this.handleModalClose();
@@ -270,6 +276,7 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         let fileUrl;
         let fileDownloadUrl;
         let isExternalFile;
+        let canCopyContent = false;
         if (isFileInfo(fileInfo)) {
             showPublicLink = true;
             fileName = fileInfo.name;
@@ -347,10 +354,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                     );
                 } else if (CodePreview.supports(fileInfo)) {
                     dialogClassName += ' modal-code';
+                    canCopyContent = true;
                     content = (
                         <CodePreview
                             fileInfo={fileInfo}
                             fileUrl={fileUrl}
+                            getContent={this.getContent}
                             className='file-preview-modal__code-preview'
                         />
                     );
@@ -433,10 +442,12 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                                     fileInfo={fileInfo}
                                     enablePublicLink={this.props.enablePublicLink}
                                     canDownloadFiles={this.props.canDownloadFiles}
+                                    canCopyContent={canCopyContent}
                                     isExternalFile={isExternalFile}
                                     handlePrev={this.handlePrev}
                                     handleNext={this.handleNext}
                                     handleModalClose={this.handleModalClose}
+                                    content={this.state.content}
                                 />
                                 {zoomBar}
                             </Modal.Title>
@@ -460,8 +471,10 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                                     fileInfo={fileInfo}
                                     enablePublicLink={this.props.enablePublicLink}
                                     canDownloadFiles={this.props.canDownloadFiles}
+                                    canCopyContent={canCopyContent}
                                     isExternalFile={isExternalFile}
                                     handleModalClose={this.handleModalClose}
+                                    content={this.state.content}
                                 />
                             }
                         </div>

@@ -122,6 +122,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -404,6 +425,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show user availability on posts"
             id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
           />
         }
         updateSection={[Function]}
@@ -768,6 +810,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -988,6 +1051,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show user availability on posts"
             id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
           />
         }
         updateSection={[Function]}
@@ -1290,6 +1374,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1525,6 +1630,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="collapse"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -1730,6 +1856,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show user availability on posts"
             id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
           />
         }
         updateSection={[Function]}
@@ -2022,6 +2169,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show user availability on posts"
             id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
           />
         }
         updateSection={[Function]}
@@ -2342,6 +2510,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2572,6 +2761,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -2792,6 +3002,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Show user availability on posts"
             id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
           />
         }
         updateSection={[Function]}
@@ -3044,6 +3275,27 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
     </div>
     <div>
       <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
         section="linkpreview"
         title={
           <Memo(MemoizedFormattedMessage)
@@ -3153,6 +3405,257 @@ exports[`components/user_settings/display/UserSettingsDisplay should match snaps
 `;
 
 exports[`components/user_settings/display/UserSettingsDisplay should match snapshot, timezone section 1`] = `
+<div
+  id="displaySettings"
+>
+  <div
+    className="modal-header"
+  >
+    <button
+      aria-label="Close"
+      className="close"
+      data-dismiss="modal"
+      id="closeButton"
+      onClick={[MockFunction]}
+      type="button"
+    >
+      <span
+        aria-hidden="true"
+      >
+        ×
+      </span>
+    </button>
+    <h4
+      className="modal-title"
+    >
+      <div
+        className="modal-back"
+      >
+        <span
+          onClick={[MockFunction]}
+        >
+          <BackIcon />
+        </span>
+      </div>
+      <MemoizedFormattedMessage
+        defaultMessage="Display Settings"
+        id="user.settings.display.title"
+      />
+    </h4>
+  </div>
+  <div
+    className="user-settings"
+  >
+    <h3
+      className="tab-header"
+      id="displaySettingsTitle"
+    >
+      <MemoizedFormattedMessage
+        defaultMessage="Display Settings"
+        id="user.settings.display.title"
+      />
+    </h3>
+    <div
+      className="divider-dark first"
+    />
+    <div>
+      <Connect(SettingItemMin)
+        section="collapsed_reply_threads"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Collapsed Reply Threads"
+            id="user.settings.display.collapsedReplyThreadsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="clock"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Clock Display"
+            id="user.settings.display.clockDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show first and last name"
+            id="user.settings.display.teammateNameDisplayFullname"
+          />
+        }
+        section="name_format"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Teammate Name Display"
+            id="user.settings.display.teammateNameDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="availabilityStatus"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Show user availability on posts"
+            id="user.settings.display.availabilityStatusOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="On"
+            id="user.settings.display.lastActiveOn"
+          />
+        }
+        section="lastactive"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Share last active time"
+            id="user.settings.display.lastActiveDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="linkpreview"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Website Link Previews"
+            id="user.settings.display.linkPreviewDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="collapse"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Default Appearance of Image Previews"
+            id="user.settings.display.collapseDisplay"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="message_display"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Message Display"
+            id="user.settings.display.messageDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="click_to_reply"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Click to open threads"
+            id="user.settings.display.clickToReply"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="channel_display_mode"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Channel Display"
+            id="user.settings.display.channelDisplayTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        section="one_click_reactions_enabled"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Quick reactions on messages"
+            id="user.settings.display.oneClickReactionsOnPostsTitle"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+    <div>
+      <Connect(SettingItemMin)
+        describe="English (US)"
+        section="languages"
+        title={
+          <Memo(MemoizedFormattedMessage)
+            defaultMessage="Language"
+            id="user.settings.display.language"
+          />
+        }
+        updateSection={[Function]}
+      />
+      <div
+        className="divider-dark"
+      />
+    </div>
+  </div>
+</div>
+`;
+
+exports[`components/user_settings/display/UserSettingsDisplay should not show last active section 1`] = `
 <div
   id="displaySettings"
 >

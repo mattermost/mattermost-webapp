@@ -27,6 +27,7 @@ interface Props {
     showPublicLink?: boolean;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
+    canCopyContent: boolean;
     isExternalFile: boolean;
     fileType: string;
     toolbarZoom: ZoomValue;
@@ -34,6 +35,7 @@ interface Props {
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
+    content: string;
 }
 
 const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, toolbarZoom, setToolbarZoom, fileType, ...actionProps}: Props) => {
