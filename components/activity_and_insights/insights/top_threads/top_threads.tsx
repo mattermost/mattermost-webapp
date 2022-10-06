@@ -1,19 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
-
-import {getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
-
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {TopThread} from '@mattermost/types/insights';
 import {GlobalState} from '@mattermost/types/store';
 
+import {CircleSkeletonLoader, RectangleSkeletonLoader} from '@mattermost/components';
+
+import {getMyTopThreads, getTopThreadsForTeam} from 'mattermost-redux/actions/insights';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {InsightsScopes} from 'utils/constants';
 
-import TitleLoader from '../skeleton_loader/title_loader/title_loader';
-import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
@@ -70,14 +70,19 @@ const TopThreads = (props: WidgetHocProps) => {
                     key={i}
                 >
                     <div className='top-thread-loading-row'>
-                        <CircleLoader
-                            size={20}
+                        <CircleSkeletonLoader size={20}/>
+                        <RectangleSkeletonLoader
+                            height={12}
+                            margin='0 0 0 8px'
+                            flex='0.5'
                         />
-                        <TitleLoader/>
                     </div>
-                    <div className='loading-lines'>
-                        <TitleLoader/>
-                        <TitleLoader/>
+                    <div>
+                        <RectangleSkeletonLoader
+                            height={8}
+                            margin='0 0 8px 0'
+                        />
+                        <RectangleSkeletonLoader height={8}/>
                     </div>
                 </div>,
             );

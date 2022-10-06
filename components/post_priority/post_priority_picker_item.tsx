@@ -13,7 +13,6 @@ type Props = {
     onClick: () => void;
     ariaLabel: string;
     text: React.ReactNode;
-    id: string;
 }
 
 const ItemButton = styled.button`
@@ -44,11 +43,9 @@ function Item({
     ariaLabel,
     text,
     isSelected,
-    id,
 }: Props) {
     return (
         <ItemButton
-            id={id}
             aria-label={ariaLabel}
             className='style--none'
             onClick={onClick}

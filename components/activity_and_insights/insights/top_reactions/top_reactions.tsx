@@ -1,18 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo, useEffect, useState, useCallback} from 'react';
+
+import React, {memo, useEffect, useState, useCallback, useMemo} from 'react';
 import {shallowEqual, useDispatch, useSelector} from 'react-redux';
+
+import {GlobalState} from '@mattermost/types/store';
+import {TopReaction} from '@mattermost/types/insights';
+
+import {CircleSkeletonLoader, RectangleSkeletonLoader} from '@mattermost/components';
 
 import {getTopReactionsForTeam, getMyTopReactions} from 'mattermost-redux/actions/insights';
 import {getTopReactionsForCurrentTeam, getMyTopReactionsForCurrentTeam} from 'mattermost-redux/selectors/entities/insights';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from '@mattermost/types/store';
-import {TopReaction} from '@mattermost/types/insights';
 
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {InsightsScopes} from 'utils/constants';
 
-import BarChartLoader from '../skeleton_loader/bar_chart_loader/bar_chart_loader';
-import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
@@ -31,11 +34,9 @@ const TopReactions = (props: WidgetHocProps) => {
     const myTopReactions = useSelector((state: GlobalState) => getMyTopReactionsForCurrentTeam(state, props.timeFrame, 5), shallowEqual);
 
     useEffect(() => {
-        if (props.filterType === InsightsScopes.TEAM) {
-            setTopReactions(teamTopReactions);
-        } else {
-            setTopReactions(myTopReactions);
-        }
+        const reactions = props.filterType === InsightsScopes.TEAM ? teamTopReactions : myTopReactions;
+        setTopReactions(reactions);
+        dispatch(loadCustomEmojisIfNeeded(reactions.map((reaction) => reaction.emoji_name)));
     }, [props.filterType, teamTopReactions, myTopReactions]);
 
     const currentTeamId = useSelector(getCurrentTeamId);
@@ -64,18 +65,23 @@ const TopReactions = (props: WidgetHocProps) => {
         getMyTeamReactions();
     }, [getMyTeamReactions]);
 
-    const skeletonLoader = useCallback(() => {
+    const skeletonLoader = useMemo(() => {
+        const barChartHeights = [140, 178, 140, 120, 140];
         const entries = [];
+
         for (let i = 0; i < 5; i++) {
             entries.push(
                 <div
                     className='bar-chart-entry'
                     key={i}
                 >
-                    <BarChartLoader/>
-                    <CircleLoader
-                        size={20}
+                    <RectangleSkeletonLoader
+                        width={8}
+                        height={barChartHeights[i]}
+                        borderRadius={6}
+                        margin='0 0 6px 0'
                     />
+                    <CircleSkeletonLoader size={20}/>
                 </div>,
             );
         }
@@ -86,7 +92,7 @@ const TopReactions = (props: WidgetHocProps) => {
         <div className='top-reaction-container'>
             {
                 loading &&
-                skeletonLoader()
+                skeletonLoader
             }
             {
                 (topReactions && !loading) &&
