@@ -84,17 +84,13 @@ export default class YoutubeVideo extends React.PureComponent<Props, State> {
                         <ExternalImage src={image?.secure_url || image?.url || ''}>
                             {(safeUrl) => (
                                 <img
-                                    style={{cursor: 'pointer'}}
                                     src={safeUrl}
                                     alt='youtube video thumbnail'
                                     className='video-thumbnail'
                                 />
                             )}
                         </ExternalImage>
-                        <div
-                            style={{cursor: 'pointer'}}
-                            className='block'
-                        >
+                        <div className='block'>
                             <span className='play-button'><span/></span>
                         </div>
                     </div>
