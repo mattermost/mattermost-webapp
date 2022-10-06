@@ -26,7 +26,7 @@ const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
 ];
 
-type Props = PropsFromRedux & OwnProps & WrappedComponentProps & RouteComponentProps<{team: string}> & {
+export type Props = PropsFromRedux & OwnProps & WrappedComponentProps & RouteComponentProps<{team: string}> & {
     channelMarkedAsUnread?: boolean;
     postListIds: string[];
     latestPostTimeStamp?: number;
