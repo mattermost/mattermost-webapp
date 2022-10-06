@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @account_setting
 
-import { AdminConfig } from '@mattermost/types/lib/config';
+import {AdminConfig} from '@mattermost/types/lib/config';
 import {UserProfile} from '@mattermost/types/lib/users';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -31,9 +31,9 @@ describe('Profile > Profile Settings > Email', () => {
                 ...origConfig,
                 EmailSettings: {
                     ...origConfig.EmailSettings,
-                    RequireEmailVerification: true
+                    RequireEmailVerification: true,
                 },
-            }
+            };
 
             cy.apiUpdateConfig(newConfig).then(({config}) => {
                 siteName = config.TeamSettings.SiteName;
@@ -126,7 +126,7 @@ describe('Profile > Profile Settings > Email', () => {
     // This test is a combination of 4 sub-tests because they are sub-parts of the same test.
     // Doing them individually would have a dependency with the previous test.
     // Hence, a combined single test for everything is better.
-    it.only('MM-T2069 Email: Can update email address and verify through email notification', () => {
+    it('MM-T2069 Email: Can update email address and verify through email notification', () => {
         // # Click "Edit" to the right of "Email"
         cy.get('#emailEdit').should('be.visible').click();
 
@@ -152,7 +152,7 @@ describe('Profile > Profile Settings > Email', () => {
         // * Check that the email verification message is not showed.
         cy.get('.announcement-bar').should('not.exist');
 
-        cy.getRecentEmail({user: testUser}).then((data) => {
+        cy.getRecentEmail(testUser).then((data) => {
             // * Verify the subject
             expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
@@ -172,7 +172,7 @@ describe('Profile > Profile Settings > Email', () => {
             // # Wait for one second for the mail to be sent out.
             cy.wait(TIMEOUTS.FIVE_SEC);
 
-            cy.getRecentEmail({user: testUser}).then(({subject}) => {
+            cy.getRecentEmail(testUser).then(({subject}) => {
                 // * Verify the subject
                 expect(subject).to.equal(`[${siteName}] Your email address has changed`);
             });
@@ -202,12 +202,12 @@ describe('Profile > Profile Settings > Email', () => {
 
         // # Close modal then logout
         cy.get('body').type('{esc}');
-        cy.uiOpenUserMenu({'Log Out': true});
+        cy.uiOpenUserMenu('Log Out');
 
         // # Wait for one second for the mail to be sent out.
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        cy.getRecentEmail({user: testUser}).then((data) => {
+        cy.getRecentEmail(testUser).then((data) => {
             // * Verify the subject
             expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
