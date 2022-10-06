@@ -134,6 +134,8 @@ if (DEV) {
     }
 }
 
+const isDesktopApp = true;
+
 var config = {
     entry: ['./root.tsx', 'root.html'],
     output: {
@@ -449,7 +451,7 @@ async function initializeModuleFederation() {
 
     const {remotes, aliases} = await getRemoteModules();
 
-    config.plugins.push(new ModuleFederationPlugin({
+    const moduleFederationPluginOptions = {
         name: 'mattermost-webapp',
         remotes,
         shared: [
@@ -475,7 +477,44 @@ async function initializeModuleFederation() {
                 'react-router-dom',
             ]),
         ],
-    }));
+    };
+
+    if (isDesktopApp) {
+        moduleFederationPluginOptions.shared.push({
+            history: {
+                singleton: true,
+                eager: true,
+                requiredVersion: packageJson.dependencies.history,
+            },
+            'mattermost-redux/store/reducer_registry': {
+                singleton: true,
+                eager: true,
+                import: false,
+            },
+            'stores/redux_store.jsx': {
+                singleton: true,
+                eager: true,
+                import: false,
+            },
+            'utils/browser_history': {
+                singleton: true,
+                eager: true,
+                import: false,
+            },
+        });
+        moduleFederationPluginOptions.exposes = {
+            './root': 'components/root',
+            './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
+            './styles': 'sass/styles.scss',
+            './reducerRegistry': './packages/mattermost-redux/src/store/reducer_registry',
+            './store': './store',
+            './websocket': 'client/web_websocket_client.jsx',
+        };
+        moduleFederationPluginOptions.filename = 'remoteEntry.js';
+        moduleFederationPluginOptions.name = 'mattermost_webapp';
+    }
+
+    config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 
     config.resolve.alias = {
         ...config.resolve.alias,
@@ -589,72 +628,7 @@ if (process.env.PRODUCTION_PERF_DEBUG) {
     };
 }
 
-if (targetIsEslint) {
-    // ESLint can't handle setting an async config, so just skip the async part
-    const isDesktopApp = true;
 if (isDesktopApp) {
-    config.plugins = [
-        new webpack.container.ModuleFederationPlugin({
-            name: 'mattermost_webapp',
-            filename: 'remoteEntry.js',
-            exposes: {
-                './root': 'components/root',
-                './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
-                './styles': 'sass/styles.scss',
-                './reducerRegistry': './packages/mattermost-redux/src/store/reducer_registry',
-                './store': './store',
-                './websocket': 'client/web_websocket_client.jsx',
-            },
-            shared: {
-                history: {
-                    singleton: true,
-                    eager: true,
-                    requiredVersion: deps.history,
-                },
-                'mattermost-redux/store/reducer_registry': {
-                    singleton: true,
-                    eager: true,
-                    import: false,
-                },
-                react: {
-                    singleton: true,
-                    eager: true,
-                    requiredVersion: deps.react,
-                },
-                'react-dom': {
-                    singleton: true,
-                    eager: true,
-                    requiredVersion: deps['react-dom'],
-                },
-                'react-redux': {
-                    singleton: true,
-                    eager: true,
-                    requiredVersion: deps['react-redux'],
-                },
-                'react-router': {
-                    singleton: true,
-                    eager: true,
-                    requiredVersion: deps['react-router'],
-                },
-                'react-router-dom': {
-                    singleton: true,
-                    eager: true,
-                    requiredVersion: deps['react-router-dom'],
-                },
-                'stores/redux_store.jsx': {
-                    singleton: true,
-                    eager: true,
-                    import: false,
-                },
-                'utils/browser_history': {
-                    singleton: true,
-                    eager: true,
-                    import: false,
-                },
-            },
-        }),
-        ...config.plugins,
-    ];
     config.output = {
         ...config.output,
         libraryTarget: 'umd',
@@ -662,7 +636,9 @@ if (isDesktopApp) {
     };
 }
 
-module.exports = config;
+if (targetIsEslint) {
+    // ESLint can't handle setting an async config, so just skip the async part
+    module.exports = config;
 } else {
     module.exports = async () => {
         // Do this asynchronously so we can determine whether which remote modules are available
