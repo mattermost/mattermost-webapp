@@ -976,6 +976,10 @@
             box-shadow: none;
         }
     }
+
+    .schema-information {
+        overflow: scroll;
+    }
 }
 
 .discard-changes-modal .modal-dialog {

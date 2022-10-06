@@ -60,7 +60,7 @@ ${schemaText}
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className='about-modal__content'>
+                    <div className='schema-information__content'>
                         <div>
                             <Markdown message={schemaText}/>
                         </div>

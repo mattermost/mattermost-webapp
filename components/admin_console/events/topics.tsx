@@ -62,7 +62,7 @@ export default class Topics extends React.PureComponent<Props, State> {
                         <td>
                             {
                                 <Menu.ItemToggleModalRedux
-                                    id='about'
+                                    id='eventSchema'
                                     modalId={ModalIdentifiers.EVENTS_SCHEMA}
                                     dialogType={SchemaInformationModal}
                                     dialogProps={{schema: JSON.stringify(JSON.parse(this.props.topics[i].schema), null, 2)}}
