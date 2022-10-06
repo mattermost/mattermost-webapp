@@ -3,7 +3,7 @@
 
 import React, {CSSProperties, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Emoji} from '@mattermost/types/emojis';
@@ -28,6 +28,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
 import TexteditorActions from './texteditor_actions';
@@ -94,6 +95,8 @@ type Props = {
     postId: string;
     textboxRef: React.RefObject<TextboxClass>;
     isThreadView?: boolean;
+    additionalControls?: React.ReactNodeArray;
+    labels?: React.ReactNode;
 }
 
 const AdvanceTextEditor = ({
@@ -148,6 +151,8 @@ const AdvanceTextEditor = ({
     prefillMessage,
     textboxRef,
     isThreadView,
+    additionalControls,
+    labels,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
@@ -360,6 +365,7 @@ const AdvanceTextEditor = ({
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
             disableControls={shouldShowPreview}
+            additionalControls={additionalControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
             showFormattingControls={!isFormattingBarHidden}
@@ -380,6 +386,18 @@ const AdvanceTextEditor = ({
             }
         >
             <div
+                id={'speak-'}
+                aria-live='assertive'
+                className='sr-only'
+            >
+                {
+                    <FormattedMessage
+                        id='channelView.login.successfull'
+                        defaultMessage='Login Successfull'
+                    />
+                }
+            </div>
+            <div
                 className={'AdvancedTextEditor__body'}
                 disabled={readOnlyChannel}
             >
@@ -387,11 +405,19 @@ const AdvanceTextEditor = ({
                     role='application'
                     id='advancedTextEditorCell'
                     data-a11y-sort-order='2'
-                    aria-label={ariaLabelMessageInput}
+                    aria-label={
+                        Utils.localizeMessage(
+                            'channelView.login.successfull',
+                            'Login Successfull',
+                        ) + ' ' + ariaLabelMessageInput
+                    }
                     tabIndex={-1}
                     className='AdvancedTextEditor__cell a11y__region'
                 >
+                    {labels}
                     <Textbox
+                        hasLabels={Boolean(labels)}
+                        suggestionList={RhsSuggestionList}
                         onChange={handleChange}
                         onKeyPress={postMsgKeyPress}
                         onKeyDown={handleKeyDown}

@@ -9,7 +9,8 @@ import {renderWithIntl} from 'tests/react_testing_utils';
 import {trackEvent} from 'actions/telemetry_actions';
 import configureStore from 'store';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import useGetMultiplesExceededCloudLimit, {LimitTypes} from 'components/common/hooks/useGetMultiplesExceededCloudLimit';
+import useGetMultiplesExceededCloudLimit from 'components/common/hooks/useGetMultiplesExceededCloudLimit';
+import {LimitTypes} from 'utils/limits';
 
 import {FreemiumModal} from './freemium_modal';
 

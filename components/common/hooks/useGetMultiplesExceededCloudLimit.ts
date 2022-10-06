@@ -4,15 +4,17 @@
 import {useMemo} from 'react';
 
 import {CloudUsage, Limits} from '@mattermost/types/cloud';
-import {limitThresholds} from 'utils/limits';
+import {limitThresholds, LimitTypes} from 'utils/limits';
+
+type LimitsKeys = typeof LimitTypes[keyof typeof LimitTypes];
 
 interface MaybeLimitSummary {
-    id: typeof LimitTypes[keyof typeof LimitTypes];
+    id: LimitsKeys;
     limit: number | undefined;
     usage: number;
 }
 export interface LimitSummary {
-    id: typeof LimitTypes[keyof typeof LimitTypes];
+    id: LimitsKeys;
     limit: number;
     usage: number;
 }
@@ -26,14 +28,7 @@ function refineToDefined(...args: MaybeLimitSummary[]): LimitSummary[] {
     }, []);
 }
 
-export const LimitTypes = {
-    messageHistory: 'messageHistory',
-    fileStorage: 'fileStorage',
-    enabledIntegrations: 'enabledIntegrations',
-    boardsCards: 'boardsCards',
-} as const;
-
-export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, limits: Limits): Array<typeof LimitTypes[keyof typeof LimitTypes]> {
+export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, limits: Limits): LimitsKeys[] {
     return useMemo(() => {
         if (Object.keys(limits).length === 0) {
             return [];
@@ -73,13 +68,13 @@ export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, lim
                 usage: boardsCardsUsage,
             },
         ).
-            reduce((acc: Array<typeof LimitTypes[keyof typeof LimitTypes]>, curr: LimitSummary) => {
+            reduce((acc: LimitsKeys[], curr: LimitSummary) => {
                 if ((curr.usage / curr.limit) > (limitThresholds.exceeded / 100)) {
                     acc.push(curr.id);
                     return acc;
                 }
                 return acc;
-            }, [] as Array<typeof LimitTypes[keyof typeof LimitTypes]>);
+            }, [] as LimitsKeys[]);
 
         return highestLimit;
     }, [usage, limits]);
