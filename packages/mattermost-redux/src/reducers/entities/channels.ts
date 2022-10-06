@@ -28,8 +28,9 @@ import {
 import {Team} from '@mattermost/types/teams';
 import {channelListToMap, splitRoles} from 'mattermost-redux/utils/channel_utils';
 
+import {Group} from '@mattermost/types/groups';
+
 import messageCounts from './channels/message_counts';
-import { Group } from '@mattermost/types/groups';
 
 function removeMemberFromChannels(state: RelationOneToOne<Channel, Record<string, ChannelMembership>>, action: GenericAction) {
     const nextState = {...state};
