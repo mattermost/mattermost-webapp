@@ -391,7 +391,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 {placeHolder}
                 <div
                     className='file-preview__button'
-                    style={{display: shouldShowImg ? 'initial' : 'none'}}
+                    style={{display: shouldShowImg ? 'inline' : 'none'}}
                 >
                     {this.renderImageWithContainerIfNeeded()}
                 </div>
