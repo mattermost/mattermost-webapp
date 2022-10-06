@@ -101,7 +101,9 @@ function TeamController(props: Props) {
         } else {
             props.fetchAllMyTeamsChannelsAndChannelMembersREST();
         }
+    }, []);
 
+    useEffect(() => {
         const wakeUpIntervalId = setInterval(() => {
             const currentTime = (new Date()).getTime();
             if ((currentTime - lastTime.current) > WAKEUP_THRESHOLD) {

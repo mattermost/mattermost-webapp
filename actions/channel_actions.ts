@@ -22,9 +22,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions';
 import {
-    getTeamsChannelsAndMembersQueryString,
+    getChannelsAndChannelMembersQueryString,
     ChannelsAndChannelMembersQueryResponseType,
-    getAllChannelsAndMembersQueryString,
     transformToReceivedChannelsReducerPayload,
     transformToReceivedChannelMembersReducerPayload,
     transformToReceivedChannelsRolesReducerPayload,
@@ -199,13 +198,8 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
     return async (dispatch, getState) => {
         let channelsAndMembers: ChannelsAndChannelMembersQueryResponseType['data'] | null = null;
         try {
-            if (teamId.length > 0) {
-                const {data} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getTeamsChannelsAndMembersQueryString(teamId));
-                channelsAndMembers = data;
-            } else {
-                const {data} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getAllChannelsAndMembersQueryString());
-                channelsAndMembers = data;
-            }
+            const {data} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getChannelsAndChannelMembersQueryString(teamId));
+            channelsAndMembers = data;
         } catch (error) {
             dispatch(logError(error as ServerError));
             return {error: error as ServerError};

@@ -6,21 +6,10 @@ import {Role} from '@mattermost/types/roles';
 import {Team} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
 
-import {
-    convertRolesNamesArrayToString,
-} from 'mattermost-redux/actions/users_queries';
+import {convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
 
 export const CHANNELS_MAX_PER_PAGE = 80;
 export const CHANNEL_MEMBERS_MAX_PER_PAGE = 80;
-
-enum ChannelQueriesOperationNames {
-    allChannelAndMembers = 'gqlWebAllChannelsAndChannelMembers',
-    teamsChannelAndMembers = 'gqlWebTeamsChannelsAndChannelMembers',
-    nextChannels = 'gqlWebNextChannels',
-    nextTeamChannels = 'gqlWebNextTeamsChannels',
-    nextChannelMembers = 'gqlWebNextChannelMembers',
-    nextTeamChannelMembers = 'gqlWebNextTeamsChannelMembers'
-}
 
 type Cursor = {
     cursor: string;
@@ -50,82 +39,9 @@ export type ChannelsAndChannelMembersQueryResponseType = {
     };
 }
 
-function makeChannelsAndMembersQueryString(
-    operationName: ChannelQueriesOperationNames,
-    teamId: Team['id'] = '',
-) {
-    return `
-    query ${operationName} {
-        channels(userId: "me", teamId: "${teamId}", first: ${CHANNELS_MAX_PER_PAGE}) {
-          id
-          create_at: createAt
-          update_at: updateAt
-          delete_at: deleteAt
-          team {
-            id
-          }
-          type
-          display_name: displayName
-          name
-          header
-          purpose
-          last_post_at: lastPostAt
-          last_root_post_at: lastRootPostAt
-          total_msg_count: totalMsgCount
-          total_msg_count_root: totalMsgCountRoot
-          creator_id: creatorId
-          scheme_id: schemeId
-          group_constrained: groupConstrained
-          shared
-          props
-          policy_id: policyId
-          cursor
-        }
-        channelMembers(userId: "me", teamId: "${teamId}", first: ${CHANNEL_MEMBERS_MAX_PER_PAGE}) {
-          cursor
-          channel {
-            id
-          }
-          roles {
-            id
-            name
-            permissions
-          }
-          last_viewed_at: lastViewedAt
-          msg_count: msgCount
-          msg_count_root: msgCountRoot
-          mention_count: mentionCount
-          mention_count_root: mentionCountRoot
-          notify_props: notifyProps
-          last_update_at: lastUpdateAt
-          scheme_admin: schemeAdmin
-          scheme_user: schemeUser
-        }
-      }
-`;
-}
-
-export function getAllChannelsAndMembersQueryString() {
-    return JSON.stringify({
-        query: makeChannelsAndMembersQueryString(ChannelQueriesOperationNames.allChannelAndMembers),
-        operationName: ChannelQueriesOperationNames.allChannelAndMembers,
-    });
-}
-
-export function getTeamsChannelsAndMembersQueryString(teamId: Team['id']) {
-    return JSON.stringify({
-        query: makeChannelsAndMembersQueryString(ChannelQueriesOperationNames.teamsChannelAndMembers, teamId),
-        operationName: ChannelQueriesOperationNames.teamsChannelAndMembers,
-    });
-}
-
-function makeChannelsNextQueryString(
-    operationName: ChannelQueriesOperationNames,
-    cursor: string,
-    teamId: Team['id'] = '',
-) {
-    return `query ${operationName} {
-    channels(userId: "me", teamId: "${teamId}", first: ${CHANNELS_MAX_PER_PAGE}, after: "${cursor}") {
+const channelsFragment = `
+    fragment channelsFragment on Channel {
+        cursor
         id
         create_at: createAt
         update_at: updateAt
@@ -148,67 +64,109 @@ function makeChannelsNextQueryString(
         shared
         props
         policy_id: policyId
+    }
+`;
+
+const channelMembersFragment = `
+    fragment channelMembersFragment on ChannelMember {
         cursor
+          channel {
+            id
+          }
+          roles {
+            id
+            name
+            permissions
+          }
+          last_viewed_at: lastViewedAt
+          msg_count: msgCount
+          msg_count_root: msgCountRoot
+          mention_count: mentionCount
+          mention_count_root: mentionCountRoot
+          notify_props: notifyProps
+          last_update_at: lastUpdateAt
+          scheme_admin: schemeAdmin
+          scheme_user: schemeUser
+    }
+`;
+
+const channelsAndChannelMembersQueryString = `
+    query gqlWebChannelsAndChannelMembers($teamId: String!, $maxChannelsPerPage: Int!, $maxChannelMembersPerPage: Int!) {
+        channels(userId: "me", teamId: $teamId, first: $maxChannelsPerPage) {
+          ...channelsFragment
+        }
+        channelMembers(userId: "me", teamId: $teamId, first: $maxChannelMembersPerPage) {
+          ...channelMembersFragment
+        }
+      }
+
+    ${channelsFragment}
+    ${channelMembersFragment}
+`;
+
+/**
+ * @param teamId : If empty, returns all channels and channel members across teams. Otherwise only for the specified team.
+ */
+export function getChannelsAndChannelMembersQueryString(teamId: Team['id'] = '') {
+    return JSON.stringify({
+        query: channelsAndChannelMembersQueryString,
+        operationName: 'gqlWebChannelsAndChannelMembers',
+        variables: {
+            teamId,
+            maxChannelsPerPage: CHANNELS_MAX_PER_PAGE,
+            maxChannelMembersPerPage: CHANNEL_MEMBERS_MAX_PER_PAGE,
+        },
+    });
+}
+
+const channelsQueryString = `
+query gqlWebChannels($teamId: String!, $maxChannelsPerPage: Int!, $cursor: String!) {
+    channels(userId: "me", teamId: $teamId, first: $maxChannelsPerPage, after: $cursor) {
+        ...channelsFragment
     }
   }
+
+  ${channelsFragment}
 `;
-}
 
-export function getAllChannelsNextQueryString(cursor: string) {
+/**
+ * @param cursor : If empty, will return the first page of channel.
+ * @param teamId : If its empty, will return channel for all teams instead. Otherwise only for the specified team.
+ */
+export function getChannelsQueryString(cursor = '', teamId: Team['id'] = '') {
     return JSON.stringify({
-        query: makeChannelsNextQueryString(ChannelQueriesOperationNames.nextChannels, cursor),
-        operationName: ChannelQueriesOperationNames.nextChannels,
+        query: channelsQueryString,
+        operationName: 'gqlWebChannels',
+        variables: {
+            teamId,
+            maxChannelsPerPage: CHANNELS_MAX_PER_PAGE,
+            cursor,
+        },
     });
 }
 
-export function getTeamsChannelsNextQueryString(teamId: Team['id'], cursor: string) {
-    return JSON.stringify({
-        query: makeChannelsNextQueryString(ChannelQueriesOperationNames.nextTeamChannels, cursor, teamId),
-        operationName: ChannelQueriesOperationNames.nextTeamChannels,
-    });
-}
-
-function makeChannelMembersNextQueryString(
-    operationName: ChannelQueriesOperationNames,
-    cursor: string,
-    teamId: Team['id'] = '',
-) {
-    return `query ${operationName} {
-    channelMembers(userId: "me", teamId: "${teamId}", first: ${CHANNEL_MEMBERS_MAX_PER_PAGE}, after: "${cursor}") {
-        cursor
-        channel {
-          id
-        }
-        roles {
-          id
-          name
-          permissions
-        }
-        last_viewed_at: lastViewedAt
-        msg_count: msgCount
-        msg_count_root: msgCountRoot
-        mention_count: mentionCount
-        mention_count_root: mentionCountRoot
-        notify_props: notifyProps
-        last_update_at: lastUpdateAt
-        scheme_admin: schemeAdmin
-        scheme_user: schemeUser
+const channelMembersQueryString = `
+query gqlWebChannelMembers($teamId: String!, $maxChannelMembersPerPage: Int!, $cursor: String!) {
+    channelMembers(userId: "me", teamId: $teamId, first: $maxChannelMembersPerPage, after: $cursor) {
+        ...channelMembersFragment
     }
+    ${channelMembersFragment}
   }
 `;
-}
 
-export function getAllChannelMembersNextQueryString(cursor: string) {
+/**
+ * @param cursor : If empty, will return the first page of channel members.
+ * @param teamId : If its empty, will return channel members for all teams instead. Otherwise only for the specified team.
+ */
+export function getChannelMembersQueryString(cursor = '', teamId: Team['id'] = '') {
     return JSON.stringify({
-        query: makeChannelMembersNextQueryString(ChannelQueriesOperationNames.nextChannelMembers, cursor),
-        operationName: ChannelQueriesOperationNames.nextChannelMembers,
-    });
-}
-
-export function getTeamsChannelMembersNextQueryString(teamId: Team['id'], cursor: string) {
-    return JSON.stringify({
-        query: makeChannelMembersNextQueryString(ChannelQueriesOperationNames.nextTeamChannelMembers, cursor, teamId),
-        operationName: ChannelQueriesOperationNames.nextTeamChannelMembers,
+        query: channelMembersQueryString,
+        operationName: 'gqlWebChannelMembers',
+        variables: {
+            maxChannelMembersPerPage: CHANNEL_MEMBERS_MAX_PER_PAGE,
+            cursor,
+            teamId,
+        },
     });
 }
 

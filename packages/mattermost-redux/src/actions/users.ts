@@ -12,14 +12,13 @@ import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes, RoleTyp
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
-import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {loadRolesIfNeeded, convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
 import {
     currentUserInfoQuery,
     CurrentUserInfoQueryResponseType,
-    convertRolesNamesArrayToString,
     transformToRecievedMeReducerPayload,
     transformToRecievedTeamsListReducerPayload,
     transformToReceivedUserAndTeamRolesReducerPayload,
