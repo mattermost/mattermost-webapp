@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {RouteComponentProps} from 'react-router-dom';
 
 import PermissionSchemesSettings from 'components/admin_console/permission_schemes_settings/permission_schemes_settings';
-import {Scheme} from 'mattermost-redux/types/schemes';
+import {Scheme} from '@mattermost/types/schemes';
 
 describe('components/admin_console/permission_schemes_settings/permission_schemes_settings', () => {
     const defaultProps: ComponentProps<typeof PermissionSchemesSettings> = {

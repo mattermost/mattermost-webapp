@@ -145,7 +145,6 @@ export default class AutocompleteSelector extends React.PureComponent {
                         onBlur={this.onBlur}
                         providers={providers}
                         completeOnTab={true}
-                        renderDividers={false}
                         renderNoResults={true}
                         openOnFocus={true}
                         openWhenEmpty={true}

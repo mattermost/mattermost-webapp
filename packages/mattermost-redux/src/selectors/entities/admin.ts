@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from 'mattermost-redux/types/data_retention';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@mattermost/types/data_retention';
+import {PluginStatusRedux} from '@mattermost/types/plugins';
+import {GlobalState} from '@mattermost/types/store';
 
 export function getLogs(state: GlobalState) {
     return state.entities.admin.logs;
@@ -55,4 +56,12 @@ export function getDataRetentionCustomPolicy(state: GlobalState, id: string): Da
 
 export function getAdminAnalytics(state: GlobalState) {
     return state.entities.admin.analytics;
+}
+
+export function getPluginStatuses(state: GlobalState): Record<string, PluginStatusRedux> | undefined {
+    return state.entities.admin.pluginStatuses;
+}
+
+export function getPluginStatus(state: GlobalState, id: string): PluginStatusRedux | undefined {
+    return getPluginStatuses(state)?.[id];
 }

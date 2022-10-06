@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import moment from 'moment';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 import {Client4} from 'mattermost-redux/client';
 
 import RenewalLink from 'components/announcement_bar/renewal_link/';

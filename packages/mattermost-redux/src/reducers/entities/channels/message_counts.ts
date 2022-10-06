@@ -15,8 +15,8 @@ import {
     Channel,
     ChannelMessageCount,
     ServerChannel,
-} from 'mattermost-redux/types/channels';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/channels';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 export default function messageCounts(state: RelationOneToOne<Channel, ChannelMessageCount> = {}, action: GenericAction): RelationOneToOne<Channel, ChannelMessageCount> {
     switch (action.type) {

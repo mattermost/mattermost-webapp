@@ -15,27 +15,22 @@ import {
     getThread,
 } from 'mattermost-redux/selectors/entities/threads';
 
-import {getThreads} from 'mattermost-redux/actions/threads';
+import {getThreadCounts, getThreads} from 'mattermost-redux/actions/threads';
 import {selectChannel} from 'mattermost-redux/actions/channels';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {setShowNextStepsView} from 'actions/views/next_steps';
 
 import {GlobalState} from 'types/store/index';
 
 import {useGlobalState} from 'stores/hooks';
+import LocalStorageStore from 'stores/local_storage_store';
 import {clearLastUnreadChannel} from 'actions/global_actions';
 import {setSelectedThreadId} from 'actions/views/threads';
 import {suppressRHS, unsuppressRHS} from 'actions/views/rhs';
 import {loadProfilesForSidebar} from 'actions/user_actions';
 import {getSelectedThreadIdInCurrentTeam} from 'selectors/views/threads';
-import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
-import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
-import {showNextSteps} from 'components/next_steps_view/steps';
 
-import {Constants} from 'utils/constants';
+import {Constants, PreviousViewedTypes} from 'utils/constants';
 
 import Header from 'components/widgets/header';
 import LoadingScreen from 'components/loading_screen';
@@ -45,8 +40,6 @@ import {useThreadRouting} from '../hooks';
 import ChatIllustration from '../common/chat_illustration';
 
 import ThreadViewer from '../thread_viewer';
-
-import {browserHistory} from 'utils/browser_history';
 
 import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
@@ -65,12 +58,6 @@ const GlobalThreads = () => {
     const selectedThread = useSelector((state: GlobalState) => getThread(state, threadIdentifier));
     const selectedThreadId = useSelector(getSelectedThreadIdInCurrentTeam);
     const selectedPost = useSelector((state: GlobalState) => getPost(state, threadIdentifier!));
-    const showNextStepsEphemeral = useSelector((state: GlobalState) => state.views.nextSteps.show);
-    const showSteps = useSelector((state: GlobalState) => showNextSteps(state));
-    const useCaseOnboarding = useSelector(getUseCaseOnboarding);
-    const isUserFirstAdmin = useSelector(isFirstAdmin);
-    const config = useSelector(getConfig);
-    const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const threadIds = useSelector((state: GlobalState) => getThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const unreadThreadIds = useSelector((state: GlobalState) => getUnreadThreadOrderInCurrentTeam(state, selectedThread?.id), shallowEqual);
     const numUnread = counts?.total_unread_threads || 0;
@@ -81,11 +68,22 @@ const GlobalThreads = () => {
         dispatch(clearLastUnreadChannel);
         loadProfilesForSidebar();
 
+        const penultimateType = LocalStorageStore.getPreviousViewedType(currentUserId, currentTeamId);
+
+        if (penultimateType !== PreviousViewedTypes.THREADS) {
+            LocalStorageStore.setPenultimateViewedType(currentUserId, currentTeamId, penultimateType);
+            LocalStorageStore.setPreviousViewedType(currentUserId, currentTeamId, PreviousViewedTypes.THREADS);
+        }
+
         // unsuppresses RHS on navigating away (unmount)
         return () => {
             dispatch(unsuppressRHS);
         };
     }, []);
+
+    useEffect(() => {
+        dispatch(getThreadCounts(currentUserId, currentTeamId));
+    }, [currentTeamId, currentUserId]);
 
     useEffect(() => {
         if (!selectedThreadId || selectedThreadId !== threadIdentifier) {
@@ -111,18 +109,21 @@ const GlobalThreads = () => {
     }, [currentUserId, currentTeamId]);
 
     const isOnlySelectedThreadInList = (list: string[]) => {
-        return selectedThreadId && list.length === 1 && list.includes(selectedThreadId);
+        return selectedThreadId && list.length === 1 && list[0] === selectedThreadId;
     };
+
+    const shouldLoadThreads = isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds);
+    const shouldLoadUnreadThreads = isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds);
 
     useEffect(() => {
         const promises = [];
 
         // this is needed to jump start threads fetching
-        if (isEmpty(threadIds) || isOnlySelectedThreadInList(threadIds)) {
+        if (shouldLoadThreads) {
             promises.push(fetchThreads(false));
         }
 
-        if (filter === ThreadFilter.unread && (isEmpty(unreadThreadIds) || isOnlySelectedThreadInList(unreadThreadIds))) {
+        if (filter === ThreadFilter.unread && shouldLoadUnreadThreads) {
             promises.push(fetchThreads(true));
         }
 
@@ -146,14 +147,6 @@ const GlobalThreads = () => {
 
     const handleSelectUnread = useCallback(() => {
         setFilter(ThreadFilter.unread);
-    }, []);
-
-    useEffect(() => {
-        const enableOnboardingFlow = config.EnableOnboardingFlow === 'true';
-        if (enableOnboardingFlow && showSteps && !showNextStepsEphemeral && !(useCaseOnboarding && isUserFirstAdmin)) {
-            dispatch(setShowNextStepsView(true));
-            browserHistory.push(`${teamUrl}/tips`);
-        }
     }, []);
 
     return (

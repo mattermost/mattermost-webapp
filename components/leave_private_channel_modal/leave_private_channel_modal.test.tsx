@@ -4,7 +4,7 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal';
 

@@ -6,7 +6,7 @@ import ReactDOM from 'react-dom';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 const SettingsSidebar = React.lazy(() => import('components/settings_sidebar'));
 
 import TeamSettings from 'components/team_settings';

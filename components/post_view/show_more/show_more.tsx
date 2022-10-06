@@ -4,7 +4,7 @@
 
 import React from 'react';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 export type AttachmentTextOverflowType = 'ellipsis';
 

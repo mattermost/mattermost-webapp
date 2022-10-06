@@ -104,6 +104,10 @@ class DataGrid extends React.PureComponent<Props, State> {
         window.addEventListener('resize', this.handleResize);
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.handleResize);
+    }
+
     private handleResize = () => {
         if (!this.ref?.current) {
             return;

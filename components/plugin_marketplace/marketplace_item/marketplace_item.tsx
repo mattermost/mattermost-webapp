@@ -4,7 +4,7 @@
 import React from 'react';
 import classNames from 'classnames';
 
-import type {MarketplaceLabel} from 'mattermost-redux/types/marketplace';
+import type {MarketplaceLabel} from '@mattermost/types/marketplace';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';

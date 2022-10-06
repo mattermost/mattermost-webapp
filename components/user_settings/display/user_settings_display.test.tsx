@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import configureStore from 'store';
 
@@ -69,6 +69,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         actions: {
             autoUpdateTimezone: jest.fn(),
             savePreferences: jest.fn(),
+            updateMe: jest.fn(),
         },
 
         configTeammateNameDisplay: '',
@@ -84,13 +85,16 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         teammateNameDisplay: '',
         channelDisplayMode: '',
         messageDisplay: '',
+        colorizeUsernames: '',
         collapseDisplay: '',
         linkPreviewDisplay: '',
         globalHeaderDisplay: '',
         globalHeaderAllowed: true,
+        lastActiveDisplay: true,
         oneClickReactionsOnPosts: '',
         emojiPickerEnabled: true,
         clickToReply: '',
+        lastActiveTimeEnabled: true,
     };
 
     let store: ReturnType<typeof configureStore>;
@@ -361,5 +365,30 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
 
         (wrapper.instance() as UserSettingsDisplay).handleCollapseReplyThreadsRadio('on');
         expect(wrapper.state('collapsedReplyThreads')).toBe('on');
+    });
+
+    test('should update last active state', () => {
+        const wrapper = mountWithIntl(
+            <Provider store={store}>
+                <UserSettingsDisplay {...requiredProps}/>
+            </Provider>,
+        ).find(UserSettingsDisplay);
+
+        (wrapper.instance() as UserSettingsDisplay).handleLastActiveRadio('false');
+        expect(wrapper.state('lastActiveDisplay')).toBe('false');
+
+        (wrapper.instance() as UserSettingsDisplay).handleLastActiveRadio('true');
+        expect(wrapper.state('lastActiveDisplay')).toBe('true');
+    });
+
+    test('should not show last active section', () => {
+        const wrapper = shallow(
+            <UserSettingsDisplay
+                {...requiredProps}
+                lastActiveTimeEnabled={false}
+            />,
+        );
+
+        expect(wrapper).toMatchSnapshot();
     });
 });

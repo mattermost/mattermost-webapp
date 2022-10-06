@@ -7,6 +7,7 @@ export default class Provider {
         this.latestComplete = true;
         this.disableDispatches = false;
         this.requestStarted = false;
+        this.forceDispatch = false;
     }
 
     handlePretextChanged(pretext, callback) { // eslint-disable-line no-unused-vars
@@ -24,6 +25,10 @@ export default class Provider {
     }
 
     shouldCancelDispatch(prefix) {
+        if (this.forceDispatch) {
+            return false;
+        }
+
         if (this.disableDispatches) {
             return true;
         }

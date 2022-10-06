@@ -3,10 +3,16 @@
 
 import React from 'react';
 
-import {Theme} from 'mattermost-redux/types/themes';
+import {WebSocketClient} from '@mattermost/client';
+
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {ProductComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
+
+import webSocketClient from 'client/web_websocket_client';
+
+import PluggableErrorBoundary from './error_boundary';
 
 type Props = {
 
@@ -46,6 +52,7 @@ type Props = {
 
 type BaseChildProps = {
     theme: Theme;
+    webSocketClient?: WebSocketClient;
 }
 
 export default function Pluggable(props: Props): JSX.Element | null {
@@ -82,11 +89,15 @@ export default function Pluggable(props: Props): JSX.Element | null {
             const Component = pc[subComponentName]! as React.ComponentType<BaseChildProps>;
 
             return (
-                <Component
-                    {...otherProps}
-                    theme={theme}
+                <PluggableErrorBoundary
                     key={pluggableName + pc.id}
-                />
+                    pluginId={pc.pluginId}
+                >
+                    <Component
+                        {...otherProps}
+                        theme={theme}
+                    />
+                </PluggableErrorBoundary>
             );
         });
     } else {
@@ -98,11 +109,16 @@ export default function Pluggable(props: Props): JSX.Element | null {
             const Component = p.component as React.ComponentType<BaseChildProps>;
 
             return (
-                <Component
-                    {...otherProps}
-                    theme={theme}
+                <PluggableErrorBoundary
                     key={pluggableName + p.id}
-                />
+                    pluginId={p.pluginId}
+                >
+                    <Component
+                        {...otherProps}
+                        theme={theme}
+                        webSocketClient={webSocketClient}
+                    />
+                </PluggableErrorBoundary>
             );
         });
     }

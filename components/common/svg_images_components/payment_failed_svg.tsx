@@ -8,15 +8,15 @@ type SvgProps = {
     height: number;
 }
 
-const PaymentFailedSvg = (props: SvgProps) => (
+const PaymentFailedSvg = ({width, height}: SvgProps) => (
     <svg
-        width={props.width ? props.width.toString() : '319'}
-        height={props.height ? props.height.toString() : '260'}
+        width={width ? width.toString() : '319'}
+        height={height ? height.toString() : '260'}
         viewBox='0 0 319 260'
         fill='none'
         xmlns='http://www.w3.org/2000/svg'
     >
-        <g clipPath='url(#clip0)'>
+        <g clipPath='url(#clip_payment_failed)'>
             <path
                 d='M23.3084 212.009H234.816C236.372 211.987 237.857 211.35 238.944 210.236C240.031 209.123 240.633 207.624 240.618 206.068V64.7859C240.633 63.2299 240.031 61.7311 238.944 60.6177C237.857 59.5042 236.372 58.8668 234.816 58.845H23.3084C21.7528 58.869 20.2697 59.5071 19.1829 60.62C18.096 61.733 17.4936 63.2305 17.5069 64.7859V206.076C17.4958 207.63 18.0992 209.125 19.1858 210.237C20.2724 211.348 21.7542 211.985 23.3084 212.009Z'
                 fill='#24262E'
@@ -75,7 +75,7 @@ const PaymentFailedSvg = (props: SvgProps) => (
             fill='#505667'
         />
         <defs>
-            <clipPath id='clip0'>
+            <clipPath id='clip_payment_failed'>
                 <rect
                     width='257'
                     height='219'

@@ -4,7 +4,6 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {Provider} from 'react-redux';
-
 import ReactDOM from 'react-dom';
 import {
     defineMessages,
@@ -13,15 +12,13 @@ import {
     IntlShape,
 } from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {StatusOK} from 'mattermost-redux/types/client4';
-
+import {UserProfile} from '@mattermost/types/users';
+import {StatusOK} from '@mattermost/types/client4';
 import store from 'stores/redux_store.jsx';
-
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
-import ConfirmModal from '../../confirm_modal';
+import ConfirmModal from 'components/confirm_modal';
 
 const UserSettings = React.lazy(() => import(/* webpackPrefetch: true */ 'components/user_settings'));
 const SettingsSidebar = React.lazy(() => import(/* webpackPrefetch: true */ '../../settings_sidebar'));

@@ -4,7 +4,7 @@ import {combineReducers} from 'redux';
 
 import {BotTypes, UserTypes} from 'mattermost-redux/action_types';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Bot} from 'mattermost-redux/types/bots';
+import {Bot} from '@mattermost/types/bots';
 
 function accounts(state: Record<string, Bot> = {}, action: GenericAction) {
     switch (action.type) {

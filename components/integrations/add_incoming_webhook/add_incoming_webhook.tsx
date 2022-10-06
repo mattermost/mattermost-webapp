@@ -6,8 +6,8 @@ import React from 'react';
 import {browserHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 import AbstractIncomingWebhook from 'components/integrations/abstract_incoming_webhook';
-import {Team} from 'mattermost-redux/types/teams';
-import {IncomingWebhook} from 'mattermost-redux/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {IncomingWebhook} from '@mattermost/types/integrations';
 
 const HEADER = {id: t('integrations.add'), defaultMessage: 'Add'};
 const FOOTER = {id: t('add_incoming_webhook.save'), defaultMessage: 'Save'};

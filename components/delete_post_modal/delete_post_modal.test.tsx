@@ -5,7 +5,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import {PostType, PostMetadata} from 'mattermost-redux/types/posts';
+import {PostType, PostMetadata} from '@mattermost/types/posts';
 
 import {browserHistory} from 'utils/browser_history';
 

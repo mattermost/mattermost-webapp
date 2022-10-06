@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import XRegExp from 'xregexp';
-
 import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 import {makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
 import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/utils';
@@ -15,10 +13,11 @@ import Provider from '../provider.jsx';
 import AtMentionSuggestion from './at_mention_suggestion.jsx';
 
 const profilesInChannelOptions = {active: true};
+const regexForAtMention = /(?:^|\W)@([\p{L}\d\-_. ]*)$/iu;
 
 // The AtMentionProvider provides matches for at mentions, including @here, @channel, @all,
 // users in the channel and users not in the channel. It mixes together results from the local
-// store with results fetch from the server.
+// store with results fetched from the server.
 export default class AtMentionProvider extends Provider {
     constructor(props) {
         super();
@@ -100,6 +99,11 @@ export default class AtMentionProvider extends Provider {
         return groupSuggestions;
     }
 
+    // normalizeString performs a unicode normalization to a string
+    normalizeString(name) {
+        return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
     // filterProfile constrains profiles to those matching the latest prefix.
     filterProfile(profile) {
         if (!profile) {
@@ -108,7 +112,9 @@ export default class AtMentionProvider extends Provider {
 
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
-        return profileSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
+        return profileSuggestions.some((suggestion) =>
+            this.normalizeString(suggestion).startsWith(this.normalizeString(prefixLower)),
+        );
     }
 
     // filterGroup constrains group mentions to those matching the latest prefix.
@@ -315,7 +321,7 @@ export default class AtMentionProvider extends Provider {
     }
 
     handlePretextChanged(pretext, resultCallback) {
-        const captured = XRegExp.cache('(?:^|\\W)@([\\pL\\d\\-_. ]*)$', 'i').exec(pretext.toLowerCase());
+        const captured = regexForAtMention.exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }

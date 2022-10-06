@@ -5,7 +5,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration} from '@mattermost/types/users';
 import {durationValues} from 'utils/constants';
 
 import ExpiryTime from './expiry_time';

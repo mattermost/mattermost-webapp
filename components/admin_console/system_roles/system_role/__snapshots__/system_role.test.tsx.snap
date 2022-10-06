@@ -61,7 +61,6 @@ exports[`admin_console/system_role should match snapshot 1`] = `
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
-    serverError={null}
   />
 </div>
 `;
@@ -127,7 +126,6 @@ exports[`admin_console/system_role should match snapshot with isLicensedForCloud
     onClick={[Function]}
     saveNeeded={false}
     saving={false}
-    serverError={null}
   />
 </div>
 `;

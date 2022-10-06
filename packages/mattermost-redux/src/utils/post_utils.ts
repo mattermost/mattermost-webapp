@@ -3,12 +3,12 @@
 import {Posts, Preferences, Permissions} from '../constants';
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 
-import {GlobalState} from 'mattermost-redux/types/store';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
-import {Post, PostType, PostMetadata, PostEmbed} from 'mattermost-redux/types/posts';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {Post, PostType, PostMetadata, PostEmbed} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
 
 import {getPreferenceKey} from './preference_utils';
 
@@ -35,10 +35,14 @@ export function isPostEphemeral(post: Post): boolean {
     return post.type === Posts.POST_TYPES.EPHEMERAL || post.type === Posts.POST_TYPES.EPHEMERAL_ADD_TO_CHANNEL || post.state === Posts.POST_DELETED;
 }
 
-export function shouldIgnorePost(post: Post, userId?: UserProfile['id']): boolean {
+export function isUserAddedInChannel(post: Post, userId?: UserProfile['id']): boolean {
     const postTypeCheck = post.type && (post.type === Posts.POST_TYPES.ADD_TO_CHANNEL);
     const userIdCheck = post.props && post.props.addedUserId && (post.props.addedUserId === userId);
-    if (postTypeCheck && userIdCheck) {
+    return postTypeCheck && userIdCheck;
+}
+
+export function shouldIgnorePost(post: Post, userId?: UserProfile['id']): boolean {
+    if (isUserAddedInChannel(post, userId)) {
         return false;
     }
     return Posts.IGNORE_POST_TYPES.includes(post.type);
@@ -192,6 +196,18 @@ export function getEmbedFromMetadata(metadata: PostMetadata): PostEmbed | null {
     return metadata.embeds[0];
 }
 
+export function isPermalink(post: Post) {
+    if (post.metadata && post.metadata.embeds) {
+        for (const embed of post.metadata.embeds) {
+            if (embed.type === 'permalink') {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 export function shouldUpdatePost(receivedPost: Post, storedPost?: Post): boolean {
     if (!storedPost) {
         return true;
@@ -214,6 +230,11 @@ export function shouldUpdatePost(receivedPost: Post, storedPost?: Post): boolean
         ) {
             // CRT properties are not the same between posts
             // e.g: in the case of toggling CRT on/off
+            return true;
+        }
+
+        if (!storedPost.metadata && receivedPost.metadata) {
+            // Metadata is not the same between posts
             return true;
         }
 

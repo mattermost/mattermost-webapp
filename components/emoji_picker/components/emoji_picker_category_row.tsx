@@ -4,7 +4,7 @@
 import React, {CSSProperties, memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {EmojiCategory} from 'mattermost-redux/types/emojis';
+import {EmojiCategory} from '@mattermost/types/emojis';
 
 interface Props {
     categoryName: EmojiCategory;

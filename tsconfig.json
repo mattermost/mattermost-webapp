@@ -9,6 +9,7 @@
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
+    "isolatedModules": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
     "strictNullChecks": true,
@@ -21,8 +22,12 @@
     "jsx": "react",
     "baseUrl": ".",
     "paths": {
+        "@mattermost/client": ["packages/client/src"],
+        "@mattermost/components": ["packages/components/src"],
+        "@mattermost/types/*": ["packages/types/src/*"],
         "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
         "reselect": ["packages/reselect/src"],
+        "!!file-loader*": ["utils/empty-string"]
     }
   },
   "include": [
@@ -32,7 +37,11 @@
     "dist",
     "e2e",
     "!node_modules/@types",
-    "storybook-static",
-    "coverage"
+    "coverage",
+    "packages/matermost-components"
+  ],
+  "references": [
+    {"path": "./packages/client"},
+    {"path": "./packages/types"}
   ]
 }

@@ -3,8 +3,8 @@
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {Channel, ChannelType} from 'mattermost-redux/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel, ChannelType} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
 import {GetStateFunc, DispatchFunc, ActionFunc} from 'mattermost-redux/types/actions';
 import {removeUserFromTeam} from 'mattermost-redux/actions/teams';
 import {TeamTypes} from 'mattermost-redux/action_types';
@@ -19,7 +19,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 import {GlobalState} from 'types/store';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import {browserHistory} from './browser_history';
 

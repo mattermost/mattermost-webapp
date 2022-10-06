@@ -5,10 +5,10 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {TestHelper} from 'utils/test_helper';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import VirtualizedThreadViewer from './virtualized_thread_viewer';
 

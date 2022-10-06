@@ -3,7 +3,8 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as reactRedux from 'react-redux';
-import configureStore from 'redux-mock-store';
+
+import mockStore from 'tests/test_store';
 
 import {TopLevelProducts} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
@@ -20,7 +21,6 @@ spyProduct.mockReturnValue(null);
 describe('components/global/product_switcher', () => {
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
     const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
-    const mockStore = configureStore();
 
     beforeEach(() => {
         const products = [

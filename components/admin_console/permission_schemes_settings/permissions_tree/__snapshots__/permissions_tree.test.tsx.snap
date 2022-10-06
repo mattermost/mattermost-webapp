@@ -42,7 +42,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -102,6 +101,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_public",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_public_create",
               "playbook_public_manage_properties",
@@ -111,10 +111,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_private",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -149,13 +151,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
+              "create_post",
             ],
           },
           Object {
             "id": "integrations",
-            "permissions": Array [
-              "create_post",
-            ],
+            "permissions": Array [],
           },
           Object {
             "id": "manage_shared_channels",
@@ -164,16 +165,10 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -240,7 +235,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -300,6 +294,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_public",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_public_create",
               "playbook_public_manage_properties",
@@ -309,10 +304,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_private",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -347,16 +344,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -368,18 +360,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
+          },
+          Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -446,7 +436,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -506,19 +495,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_public",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_public_create",
               "playbook_public_manage_properties",
               "playbook_public_manage_members",
-              "playbook_public_make_private",
-            ],
-          },
-          Object {
-            "id": "playbook_private",
-            "permissions": Array [
-              "playbook_private_create",
-              "playbook_private_manage_properties",
-              "playbook_private_manage_members",
             ],
           },
           Object {
@@ -553,16 +534,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -574,18 +550,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
+          },
+          Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -652,7 +626,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -712,6 +685,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_public",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_public_create",
               "playbook_public_manage_properties",
@@ -721,10 +695,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_private",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -759,16 +735,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -780,18 +751,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
+          },
+          Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -858,7 +827,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -918,6 +886,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_public",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_public_create",
               "playbook_public_manage_properties",
@@ -927,10 +896,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_private",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -965,16 +936,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -986,18 +952,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
+          },
+          Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -1064,7 +1028,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
       id="all"
       key="all"
       onChange={[Function]}
-      parentRole={null}
       permissions={
         Array [
           Object {
@@ -1124,6 +1087,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_public",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_public_create",
               "playbook_public_manage_properties",
@@ -1133,10 +1097,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_private",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -1171,16 +1137,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -1192,18 +1153,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
+          },
+          Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]
@@ -1336,6 +1295,7 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_public",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_public_create",
               "playbook_public_manage_properties",
@@ -1345,10 +1305,12 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
           },
           Object {
             "id": "playbook_private",
+            "isVisible": [Function],
             "permissions": Array [
               "playbook_private_create",
               "playbook_private_manage_properties",
               "playbook_private_manage_members",
+              "playbook_private_make_public",
             ],
           },
           Object {
@@ -1383,16 +1345,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
                 ],
               },
               "use_channel_mentions",
-            ],
-          },
-          Object {
-            "id": "integrations",
-            "permissions": Array [
               "create_post",
             ],
           },
           Object {
-            "id": "manage_shared_channels",
+            "id": "integrations",
             "permissions": Array [
               "manage_incoming_webhooks",
               "manage_outgoing_webhooks",
@@ -1404,18 +1361,16 @@ exports[`components/admin_console/permission_schemes_settings/permission_tree sh
             ],
           },
           Object {
+            "id": "manage_shared_channels",
+            "permissions": Array [],
+          },
+          Object {
             "id": "custom_groups",
             "permissions": Array [
-              Object {
-                "combined": true,
-                "id": "custom_groups",
-                "permissions": Array [
-                  "create_custom_group",
-                  "manage_custom_group_members",
-                  "delete_custom_group",
-                  "edit_custom_group",
-                ],
-              },
+              "create_custom_group",
+              "manage_custom_group_members",
+              "edit_custom_group",
+              "delete_custom_group",
             ],
           },
         ]

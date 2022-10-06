@@ -6,10 +6,10 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 import GroupDetails from 'components/admin_console/group_settings/group_details/group_details';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
-import {Group, GroupChannel, GroupTeam} from 'mattermost-redux/types/groups';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {ChannelWithTeamData} from '@mattermost/types/channels';
+import {Group, GroupChannel, GroupTeam} from '@mattermost/types/groups';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 describe('components/admin_console/group_settings/group_details/GroupDetails', () => {
     const defaultProps = {
