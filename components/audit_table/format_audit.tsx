@@ -14,7 +14,7 @@ import UserRow from './user_row/user_row';
 import holders from './holders';
 import AuditRow from './audit_row/audit_row';
 
-type Props = {
+export type Props = {
     audit: Audit;
     showUserId: boolean;
     showIp: boolean;

@@ -13,7 +13,7 @@ import {toTitleCase} from 'utils/utils';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from '@mattermost/types/store';
 
-interface Props {
+export type Props = {
     audit: Audit;
     actionURL: string;
     desc?: string;
@@ -23,8 +23,8 @@ interface Props {
 }
 
 export default function AuditRow({
-    audit,
     actionURL,
+    audit,
     desc: aDesc,
     showUserId,
     showIp,
