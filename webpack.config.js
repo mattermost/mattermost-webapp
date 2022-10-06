@@ -530,14 +530,15 @@ if (!targetIsStats) {
     config.stats = MYSTATS;
 }
 
+config.devtool = 'source-map';
 if (DEV) {
     // Development mode configuration
     config.mode = 'development';
-    config.devtool = 'eval-cheap-module-source-map';
+    //config.devtool = 'eval-cheap-module-source-map';
 } else {
     // Production mode configuration
     config.mode = 'production';
-    config.devtool = 'source-map';
+    
 }
 
 const env = {};
@@ -625,14 +626,6 @@ if (process.env.PRODUCTION_PERF_DEBUG) {
 
         // Skip minification to make the profiled data more useful.
         minimize: false,
-    };
-}
-
-if (isDesktopApp) {
-    config.output = {
-        ...config.output,
-        libraryTarget: 'umd',
-        publicPath: undefined,
     };
 }
 
