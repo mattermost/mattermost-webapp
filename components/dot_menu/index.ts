@@ -59,7 +59,7 @@ type Props = {
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen: boolean;
-    isReadOnly?: boolean | null;
+    isReadOnly?: boolean;
     enableEmojiPicker?: boolean;
     location?: ComponentProps<typeof DotMenu>['location'];
 };
