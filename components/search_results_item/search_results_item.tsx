@@ -372,7 +372,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         isMenuOpen={this.state.dropdownOpened}
-                        isReadOnly={channelIsArchived || null}
+                        isReadOnly={channelIsArchived}
                     />
                     {flagContent}
                     {canReply && !hasCRTFooter &&

@@ -128,7 +128,7 @@ exports[`components/SearchResultsItem should hide reply button when said so 1`] 
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -405,7 +405,7 @@ exports[`components/SearchResultsItem should match snapshot for DM 1`] = `
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -970,7 +970,7 @@ exports[`components/SearchResultsItem should match snapshot for channel 1`] = `
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -1668,7 +1668,7 @@ exports[`components/SearchResultsItem should match snapshot for post with priori
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -1951,7 +1951,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -2228,7 +2228,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -2513,7 +2513,7 @@ exports[`components/SearchResultsItem should match snapshot with no thread in he
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -2798,7 +2798,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -3079,7 +3079,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -3364,7 +3364,7 @@ exports[`components/SearchResultsItem should match snapshot with thread in heade
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
@@ -3642,7 +3642,7 @@ exports[`components/SearchResultsItem should show team name when provided 1`] = 
               handleDropdownOpened={[Function]}
               isFlagged={true}
               isMenuOpen={false}
-              isReadOnly={null}
+              isReadOnly={false}
               location="SEARCH"
               post={
                 Object {
