@@ -15,7 +15,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
 import {getOtherChannels, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 
-import {searchMoreChannels} from 'actions/channel_actions.jsx';
+import {searchMoreChannels} from 'actions/channel_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 
 import {ModalData} from 'types/actions';

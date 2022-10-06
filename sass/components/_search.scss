@@ -61,7 +61,7 @@
 .input-clear {
     position: absolute;
     top: 0;
-    right: 0;
+    right: 2px;
     display: flex;
     width: 2.4rem;
     height: 100%;
@@ -131,6 +131,7 @@
         box-shadow: none;
         color: rgba(var(--global-header-text-rgb), 0.64);
         font-size: 12px;
+        line-height: 28px;
         outline: none;
 
         &::placeholder {
@@ -227,6 +228,7 @@
 
     .search__font-icon,
     .input-clear-x {
+        display: flex;
         color: rgba(var(--global-header-text-rgb), 0.56);
     }
 }

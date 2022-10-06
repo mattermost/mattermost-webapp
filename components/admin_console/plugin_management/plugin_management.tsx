@@ -13,7 +13,7 @@ import {DeepPartial} from '@mattermost/types/utilities';
 
 import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
+import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import ConfirmModal from 'components/confirm_modal';
 
 import AdminSettings, {BaseProps, BaseState} from '../admin_settings';
@@ -76,7 +76,7 @@ const PluginItemState = ({state}: {state: number}) => {
     }
 };
 
-const PluginItemStateDescription = ({state}: {state: number}) => {
+const PluginItemStateDescription = ({state, error}: {state: number; error?: string}) => {
     switch (state) {
     case PluginState.PLUGIN_STATE_NOT_RUNNING:
         return (
@@ -108,16 +108,27 @@ const PluginItemStateDescription = ({state}: {state: number}) => {
                 />
             </div>
         );
-    case PluginState.PLUGIN_STATE_FAILED_TO_START:
+    case PluginState.PLUGIN_STATE_FAILED_TO_START: {
+        const errorMessage = error || (
+            <FormattedMessage
+                id='admin.plugin.state.failed_to_start.check_logs'
+                defaultMessage='Check your system logs for errors.'
+            />
+        );
+
         return (
             <div className='alert alert-warning'>
                 <i className='fa fa-warning'/>
                 <FormattedMessage
                     id='admin.plugin.state.failed_to_start.description'
-                    defaultMessage='This plugin failed to start. Check your system logs for errors.'
+                    defaultMessage='This plugin failed to start. {error}'
+                    values={{
+                        error: errorMessage,
+                    }}
                 />
             </div>
         );
+    }
     case PluginState.PLUGIN_STATE_FAILED_TO_STAY_RUNNING:
         return (
             <div className='alert alert-warning'>
@@ -145,6 +156,7 @@ const PluginItemStateDescription = ({state}: {state: number}) => {
 
 type PluginStatus = {
     state: number;
+    error?: string;
     active: boolean;
     id: string;
     description: string;
@@ -300,6 +312,7 @@ const PluginItem = ({
         <PluginItemStateDescription
             key='state-description'
             state={pluginStatus.state}
+            error={pluginStatus.error}
         />,
     );
 

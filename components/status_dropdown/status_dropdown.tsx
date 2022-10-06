@@ -11,6 +11,7 @@ import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {TUserStatus} from '@mattermost/compass-components/shared';
 
 import {PreferenceType} from '@mattermost/types/preferences';
+import {PulsatingDot} from '@mattermost/components';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
 
@@ -26,7 +27,6 @@ import UserSettingsModal from 'components/user_settings/modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import PulsatingDot from 'components/widgets/pulsating_dot';
 import Avatar, {TAvatarSizeToken} from 'components/widgets/users/avatar/avatar';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps, CompleteYourProfileTour} from 'components/onboarding_tasks';
 import Tooltip from 'components/tooltip';
@@ -80,7 +80,6 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
     static defaultProps = {
         userId: '',
         profilePicture: '',
-        status: UserStatuses.OFFLINE,
     }
 
     constructor(props: Props) {
@@ -91,6 +90,14 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             width: 0,
             isStatusSet: false,
         };
+    }
+
+    openProfileModal = (): void => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_SETTINGS,
+            dialogType: UserSettingsModal,
+            dialogProps: {isContentProductSettings: false},
+        });
     }
 
     setStatus = (status: string, dndEndTime?: number): void => {
@@ -423,13 +430,17 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     listId={'status-drop-down-menu-list'}
                 >
                     {currentUser && (
-                        <Menu.Header>
+                        <Menu.Header onClick={this.openProfileModal}>
                             {this.renderProfilePicture('lg')}
                             <div className={'username-wrapper'}>
-                                <Text margin={'none'}>{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
+                                <Text
+                                    className={'bold'}
+                                    margin={'none'}
+                                >{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
                                 <Text
                                     margin={'none'}
-                                    color={!currentUser.first_name && !currentUser.last_name ? 'secondary' : 'disabled'}
+                                    className={!currentUser.first_name && !currentUser.last_name ? 'bold' : ''}
+                                    color={!currentUser.first_name && !currentUser.last_name ? undefined : 'disabled'}
                                 >
                                     {'@' + currentUser.username}
                                 </Text>

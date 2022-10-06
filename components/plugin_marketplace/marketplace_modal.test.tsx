@@ -128,6 +128,7 @@ describe('components/marketplace/', () => {
                     return Promise.resolve({});
                 }),
                 setFirstAdminVisitMarketplaceStatus: jest.fn(),
+                getPluginStatuses: jest.fn(),
             },
         };
 

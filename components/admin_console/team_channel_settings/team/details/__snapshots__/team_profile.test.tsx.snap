@@ -37,7 +37,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   />
@@ -81,7 +95,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile should match snaps
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   />
@@ -106,7 +134,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   >
@@ -139,60 +181,14 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
             <div
               className="mt-2"
             >
-              <injectIntl(FormattedMarkdownMessage)
+              <FormattedMessage
                 defaultMessage="Summary of the team, including team name and description."
                 id="admin.team_settings.team_detail.profileDescription"
               >
-                <FormattedMarkdownMessage
-                  defaultMessage="Summary of the team, including team name and description."
-                  disableLinks={false}
-                  id="admin.team_settings.team_detail.profileDescription"
-                  intl={
-                    Object {
-                      "defaultFormats": Object {},
-                      "defaultLocale": "en",
-                      "defaultRichTextElements": undefined,
-                      "formatDate": [Function],
-                      "formatDateTimeRange": [Function],
-                      "formatDateToParts": [Function],
-                      "formatDisplayName": [Function],
-                      "formatList": [Function],
-                      "formatListToParts": [Function],
-                      "formatMessage": [Function],
-                      "formatNumber": [Function],
-                      "formatNumberToParts": [Function],
-                      "formatPlural": [Function],
-                      "formatRelativeTime": [Function],
-                      "formatTime": [Function],
-                      "formatTimeToParts": [Function],
-                      "formats": Object {},
-                      "formatters": Object {
-                        "getDateTimeFormat": [Function],
-                        "getDisplayNames": [Function],
-                        "getListFormat": [Function],
-                        "getMessageFormat": [Function],
-                        "getNumberFormat": [Function],
-                        "getPluralRules": [Function],
-                        "getRelativeTimeFormat": [Function],
-                      },
-                      "locale": "en",
-                      "messages": Object {},
-                      "onError": [Function],
-                      "textComponent": "span",
-                      "timeZone": "Etc/UTC",
-                      "wrapRichTextChunksInFragment": undefined,
-                    }
-                  }
-                >
-                  <span
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "Summary of the team, including team name and description.",
-                      }
-                    }
-                  />
-                </FormattedMarkdownMessage>
-              </injectIntl(FormattedMarkdownMessage)>
+                <span>
+                  Summary of the team, including team name and description.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
         </div>
@@ -209,12 +205,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
                 className="large-team-image-col"
               >
                 <injectIntl(TeamIcon)
-                  content="test"
+                  content="name"
                   size="lg"
                   url={null}
                 >
                   <TeamIcon
-                    content="test"
+                    content="name"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -261,12 +257,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
                         className="TeamIcon__content no-hover"
                       >
                         <div
-                          aria-label="test Team Initials"
+                          aria-label="name Team Initials"
                           className="TeamIcon__initials TeamIcon__initials__lg"
                           data-testid="teamIconInitial"
                           role="img"
                         >
-                          te
+                          na
                         </div>
                       </div>
                     </div>
@@ -279,120 +275,36 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud restore sho
                 <div
                   className="row row-bottom-padding"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
+                  <FormattedMarkdownMessage
                     defaultMessage="**Team Name**:"
                     id="admin.team_settings.team_detail.teamName"
                   >
-                    <FormattedMarkdownMessage
-                      defaultMessage="**Team Name**:"
-                      disableLinks={false}
-                      id="admin.team_settings.team_detail.teamName"
-                      intl={
+                    <span
+                      dangerouslySetInnerHTML={
                         Object {
-                          "defaultFormats": Object {},
-                          "defaultLocale": "en",
-                          "defaultRichTextElements": undefined,
-                          "formatDate": [Function],
-                          "formatDateTimeRange": [Function],
-                          "formatDateToParts": [Function],
-                          "formatDisplayName": [Function],
-                          "formatList": [Function],
-                          "formatListToParts": [Function],
-                          "formatMessage": [Function],
-                          "formatNumber": [Function],
-                          "formatNumberToParts": [Function],
-                          "formatPlural": [Function],
-                          "formatRelativeTime": [Function],
-                          "formatTime": [Function],
-                          "formatTimeToParts": [Function],
-                          "formats": Object {},
-                          "formatters": Object {
-                            "getDateTimeFormat": [Function],
-                            "getDisplayNames": [Function],
-                            "getListFormat": [Function],
-                            "getMessageFormat": [Function],
-                            "getNumberFormat": [Function],
-                            "getPluralRules": [Function],
-                            "getRelativeTimeFormat": [Function],
-                          },
-                          "locale": "en",
-                          "messages": Object {},
-                          "onError": [Function],
-                          "textComponent": "span",
-                          "timeZone": "Etc/UTC",
-                          "wrapRichTextChunksInFragment": undefined,
+                          "__html": "<strong>Team Name</strong>:",
                         }
                       }
-                    >
-                      <span
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<strong>Team Name</strong>:",
-                          }
-                        }
-                      />
-                    </FormattedMarkdownMessage>
-                  </injectIntl(FormattedMarkdownMessage)>
+                    />
+                  </FormattedMarkdownMessage>
                   <br />
-                  test
+                  name
                 </div>
                 <div
                   className="row"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
+                  <FormattedMarkdownMessage
                     defaultMessage="**Team Description**:"
                     id="admin.team_settings.team_detail.teamDescription"
                   >
-                    <FormattedMarkdownMessage
-                      defaultMessage="**Team Description**:"
-                      disableLinks={false}
-                      id="admin.team_settings.team_detail.teamDescription"
-                      intl={
+                    <span
+                      dangerouslySetInnerHTML={
                         Object {
-                          "defaultFormats": Object {},
-                          "defaultLocale": "en",
-                          "defaultRichTextElements": undefined,
-                          "formatDate": [Function],
-                          "formatDateTimeRange": [Function],
-                          "formatDateToParts": [Function],
-                          "formatDisplayName": [Function],
-                          "formatList": [Function],
-                          "formatListToParts": [Function],
-                          "formatMessage": [Function],
-                          "formatNumber": [Function],
-                          "formatNumberToParts": [Function],
-                          "formatPlural": [Function],
-                          "formatRelativeTime": [Function],
-                          "formatTime": [Function],
-                          "formatTimeToParts": [Function],
-                          "formats": Object {},
-                          "formatters": Object {
-                            "getDateTimeFormat": [Function],
-                            "getDisplayNames": [Function],
-                            "getListFormat": [Function],
-                            "getMessageFormat": [Function],
-                            "getNumberFormat": [Function],
-                            "getPluralRules": [Function],
-                            "getRelativeTimeFormat": [Function],
-                          },
-                          "locale": "en",
-                          "messages": Object {},
-                          "onError": [Function],
-                          "textComponent": "span",
-                          "timeZone": "Etc/UTC",
-                          "wrapRichTextChunksInFragment": undefined,
+                          "__html": "<strong>Team Description</strong>:",
                         }
                       }
-                    >
-                      <span
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<strong>Team Description</strong>:",
-                          }
-                        }
-                      />
-                    </FormattedMarkdownMessage>
-                  </injectIntl(FormattedMarkdownMessage)>
+                    />
+                  </FormattedMarkdownMessage>
                   <br />
                   <span
                     className="greyed-out"
@@ -466,7 +378,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   >
@@ -499,60 +425,14 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
             <div
               className="mt-2"
             >
-              <injectIntl(FormattedMarkdownMessage)
+              <FormattedMessage
                 defaultMessage="Summary of the team, including team name and description."
                 id="admin.team_settings.team_detail.profileDescription"
               >
-                <FormattedMarkdownMessage
-                  defaultMessage="Summary of the team, including team name and description."
-                  disableLinks={false}
-                  id="admin.team_settings.team_detail.profileDescription"
-                  intl={
-                    Object {
-                      "defaultFormats": Object {},
-                      "defaultLocale": "en",
-                      "defaultRichTextElements": undefined,
-                      "formatDate": [Function],
-                      "formatDateTimeRange": [Function],
-                      "formatDateToParts": [Function],
-                      "formatDisplayName": [Function],
-                      "formatList": [Function],
-                      "formatListToParts": [Function],
-                      "formatMessage": [Function],
-                      "formatNumber": [Function],
-                      "formatNumberToParts": [Function],
-                      "formatPlural": [Function],
-                      "formatRelativeTime": [Function],
-                      "formatTime": [Function],
-                      "formatTimeToParts": [Function],
-                      "formats": Object {},
-                      "formatters": Object {
-                        "getDateTimeFormat": [Function],
-                        "getDisplayNames": [Function],
-                        "getListFormat": [Function],
-                        "getMessageFormat": [Function],
-                        "getNumberFormat": [Function],
-                        "getPluralRules": [Function],
-                        "getRelativeTimeFormat": [Function],
-                      },
-                      "locale": "en",
-                      "messages": Object {},
-                      "onError": [Function],
-                      "textComponent": "span",
-                      "timeZone": "Etc/UTC",
-                      "wrapRichTextChunksInFragment": undefined,
-                    }
-                  }
-                >
-                  <span
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "Summary of the team, including team name and description.",
-                      }
-                    }
-                  />
-                </FormattedMarkdownMessage>
-              </injectIntl(FormattedMarkdownMessage)>
+                <span>
+                  Summary of the team, including team name and description.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
         </div>
@@ -569,12 +449,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                 className="large-team-image-col"
               >
                 <injectIntl(TeamIcon)
-                  content="test"
+                  content="name"
                   size="lg"
                   url={null}
                 >
                   <TeamIcon
-                    content="test"
+                    content="name"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -621,12 +501,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                         className="TeamIcon__content no-hover"
                       >
                         <div
-                          aria-label="test Team Initials"
+                          aria-label="name Team Initials"
                           className="TeamIcon__initials TeamIcon__initials__lg"
                           data-testid="teamIconInitial"
                           role="img"
                         >
-                          te
+                          na
                         </div>
                       </div>
                     </div>
@@ -639,120 +519,36 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                 <div
                   className="row row-bottom-padding"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
+                  <FormattedMarkdownMessage
                     defaultMessage="**Team Name**:"
                     id="admin.team_settings.team_detail.teamName"
                   >
-                    <FormattedMarkdownMessage
-                      defaultMessage="**Team Name**:"
-                      disableLinks={false}
-                      id="admin.team_settings.team_detail.teamName"
-                      intl={
+                    <span
+                      dangerouslySetInnerHTML={
                         Object {
-                          "defaultFormats": Object {},
-                          "defaultLocale": "en",
-                          "defaultRichTextElements": undefined,
-                          "formatDate": [Function],
-                          "formatDateTimeRange": [Function],
-                          "formatDateToParts": [Function],
-                          "formatDisplayName": [Function],
-                          "formatList": [Function],
-                          "formatListToParts": [Function],
-                          "formatMessage": [Function],
-                          "formatNumber": [Function],
-                          "formatNumberToParts": [Function],
-                          "formatPlural": [Function],
-                          "formatRelativeTime": [Function],
-                          "formatTime": [Function],
-                          "formatTimeToParts": [Function],
-                          "formats": Object {},
-                          "formatters": Object {
-                            "getDateTimeFormat": [Function],
-                            "getDisplayNames": [Function],
-                            "getListFormat": [Function],
-                            "getMessageFormat": [Function],
-                            "getNumberFormat": [Function],
-                            "getPluralRules": [Function],
-                            "getRelativeTimeFormat": [Function],
-                          },
-                          "locale": "en",
-                          "messages": Object {},
-                          "onError": [Function],
-                          "textComponent": "span",
-                          "timeZone": "Etc/UTC",
-                          "wrapRichTextChunksInFragment": undefined,
+                          "__html": "<strong>Team Name</strong>:",
                         }
                       }
-                    >
-                      <span
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<strong>Team Name</strong>:",
-                          }
-                        }
-                      />
-                    </FormattedMarkdownMessage>
-                  </injectIntl(FormattedMarkdownMessage)>
+                    />
+                  </FormattedMarkdownMessage>
                   <br />
-                  test
+                  name
                 </div>
                 <div
                   className="row"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
+                  <FormattedMarkdownMessage
                     defaultMessage="**Team Description**:"
                     id="admin.team_settings.team_detail.teamDescription"
                   >
-                    <FormattedMarkdownMessage
-                      defaultMessage="**Team Description**:"
-                      disableLinks={false}
-                      id="admin.team_settings.team_detail.teamDescription"
-                      intl={
+                    <span
+                      dangerouslySetInnerHTML={
                         Object {
-                          "defaultFormats": Object {},
-                          "defaultLocale": "en",
-                          "defaultRichTextElements": undefined,
-                          "formatDate": [Function],
-                          "formatDateTimeRange": [Function],
-                          "formatDateToParts": [Function],
-                          "formatDisplayName": [Function],
-                          "formatList": [Function],
-                          "formatListToParts": [Function],
-                          "formatMessage": [Function],
-                          "formatNumber": [Function],
-                          "formatNumberToParts": [Function],
-                          "formatPlural": [Function],
-                          "formatRelativeTime": [Function],
-                          "formatTime": [Function],
-                          "formatTimeToParts": [Function],
-                          "formats": Object {},
-                          "formatters": Object {
-                            "getDateTimeFormat": [Function],
-                            "getDisplayNames": [Function],
-                            "getListFormat": [Function],
-                            "getMessageFormat": [Function],
-                            "getNumberFormat": [Function],
-                            "getPluralRules": [Function],
-                            "getRelativeTimeFormat": [Function],
-                          },
-                          "locale": "en",
-                          "messages": Object {},
-                          "onError": [Function],
-                          "textComponent": "span",
-                          "timeZone": "Etc/UTC",
-                          "wrapRichTextChunksInFragment": undefined,
+                          "__html": "<strong>Team Description</strong>:",
                         }
                       }
-                    >
-                      <span
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<strong>Team Description</strong>:",
-                          }
-                        }
-                      />
-                    </FormattedMarkdownMessage>
-                  </injectIntl(FormattedMarkdownMessage)>
+                    />
+                  </FormattedMarkdownMessage>
                   <br />
                   <span
                     className="greyed-out"
@@ -959,7 +755,21 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
     onToggleArchive={[MockFunction]}
     team={
       Object {
-        "display_name": "test",
+        "allow_open_invite": false,
+        "allowed_domains": "",
+        "company_name": "",
+        "create_at": 0,
+        "delete_at": 0,
+        "description": "",
+        "display_name": "name",
+        "email": "",
+        "group_constrained": false,
+        "id": "team_id",
+        "invite_id": "",
+        "name": "DN",
+        "scheme_id": "id",
+        "type": "O",
+        "update_at": 0,
       }
     }
   >
@@ -992,60 +802,14 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
             <div
               className="mt-2"
             >
-              <injectIntl(FormattedMarkdownMessage)
+              <FormattedMessage
                 defaultMessage="Summary of the team, including team name and description."
                 id="admin.team_settings.team_detail.profileDescription"
               >
-                <FormattedMarkdownMessage
-                  defaultMessage="Summary of the team, including team name and description."
-                  disableLinks={false}
-                  id="admin.team_settings.team_detail.profileDescription"
-                  intl={
-                    Object {
-                      "defaultFormats": Object {},
-                      "defaultLocale": "en",
-                      "defaultRichTextElements": undefined,
-                      "formatDate": [Function],
-                      "formatDateTimeRange": [Function],
-                      "formatDateToParts": [Function],
-                      "formatDisplayName": [Function],
-                      "formatList": [Function],
-                      "formatListToParts": [Function],
-                      "formatMessage": [Function],
-                      "formatNumber": [Function],
-                      "formatNumberToParts": [Function],
-                      "formatPlural": [Function],
-                      "formatRelativeTime": [Function],
-                      "formatTime": [Function],
-                      "formatTimeToParts": [Function],
-                      "formats": Object {},
-                      "formatters": Object {
-                        "getDateTimeFormat": [Function],
-                        "getDisplayNames": [Function],
-                        "getListFormat": [Function],
-                        "getMessageFormat": [Function],
-                        "getNumberFormat": [Function],
-                        "getPluralRules": [Function],
-                        "getRelativeTimeFormat": [Function],
-                      },
-                      "locale": "en",
-                      "messages": Object {},
-                      "onError": [Function],
-                      "textComponent": "span",
-                      "timeZone": "Etc/UTC",
-                      "wrapRichTextChunksInFragment": undefined,
-                    }
-                  }
-                >
-                  <span
-                    dangerouslySetInnerHTML={
-                      Object {
-                        "__html": "Summary of the team, including team name and description.",
-                      }
-                    }
-                  />
-                </FormattedMarkdownMessage>
-              </injectIntl(FormattedMarkdownMessage)>
+                <span>
+                  Summary of the team, including team name and description.
+                </span>
+              </FormattedMessage>
             </div>
           </div>
         </div>
@@ -1062,12 +826,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                 className="large-team-image-col"
               >
                 <injectIntl(TeamIcon)
-                  content="test"
+                  content="name"
                   size="lg"
                   url={null}
                 >
                   <TeamIcon
-                    content="test"
+                    content="name"
                     intl={
                       Object {
                         "defaultFormats": Object {},
@@ -1114,12 +878,12 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                         className="TeamIcon__content no-hover"
                       >
                         <div
-                          aria-label="test Team Initials"
+                          aria-label="name Team Initials"
                           className="TeamIcon__initials TeamIcon__initials__lg"
                           data-testid="teamIconInitial"
                           role="img"
                         >
-                          te
+                          na
                         </div>
                       </div>
                     </div>
@@ -1132,120 +896,36 @@ exports[`admin_console/team_channel_settings/team/TeamProfile__Cloud should matc
                 <div
                   className="row row-bottom-padding"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
+                  <FormattedMarkdownMessage
                     defaultMessage="**Team Name**:"
                     id="admin.team_settings.team_detail.teamName"
                   >
-                    <FormattedMarkdownMessage
-                      defaultMessage="**Team Name**:"
-                      disableLinks={false}
-                      id="admin.team_settings.team_detail.teamName"
-                      intl={
+                    <span
+                      dangerouslySetInnerHTML={
                         Object {
-                          "defaultFormats": Object {},
-                          "defaultLocale": "en",
-                          "defaultRichTextElements": undefined,
-                          "formatDate": [Function],
-                          "formatDateTimeRange": [Function],
-                          "formatDateToParts": [Function],
-                          "formatDisplayName": [Function],
-                          "formatList": [Function],
-                          "formatListToParts": [Function],
-                          "formatMessage": [Function],
-                          "formatNumber": [Function],
-                          "formatNumberToParts": [Function],
-                          "formatPlural": [Function],
-                          "formatRelativeTime": [Function],
-                          "formatTime": [Function],
-                          "formatTimeToParts": [Function],
-                          "formats": Object {},
-                          "formatters": Object {
-                            "getDateTimeFormat": [Function],
-                            "getDisplayNames": [Function],
-                            "getListFormat": [Function],
-                            "getMessageFormat": [Function],
-                            "getNumberFormat": [Function],
-                            "getPluralRules": [Function],
-                            "getRelativeTimeFormat": [Function],
-                          },
-                          "locale": "en",
-                          "messages": Object {},
-                          "onError": [Function],
-                          "textComponent": "span",
-                          "timeZone": "Etc/UTC",
-                          "wrapRichTextChunksInFragment": undefined,
+                          "__html": "<strong>Team Name</strong>:",
                         }
                       }
-                    >
-                      <span
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<strong>Team Name</strong>:",
-                          }
-                        }
-                      />
-                    </FormattedMarkdownMessage>
-                  </injectIntl(FormattedMarkdownMessage)>
+                    />
+                  </FormattedMarkdownMessage>
                   <br />
-                  test
+                  name
                 </div>
                 <div
                   className="row"
                 >
-                  <injectIntl(FormattedMarkdownMessage)
+                  <FormattedMarkdownMessage
                     defaultMessage="**Team Description**:"
                     id="admin.team_settings.team_detail.teamDescription"
                   >
-                    <FormattedMarkdownMessage
-                      defaultMessage="**Team Description**:"
-                      disableLinks={false}
-                      id="admin.team_settings.team_detail.teamDescription"
-                      intl={
+                    <span
+                      dangerouslySetInnerHTML={
                         Object {
-                          "defaultFormats": Object {},
-                          "defaultLocale": "en",
-                          "defaultRichTextElements": undefined,
-                          "formatDate": [Function],
-                          "formatDateTimeRange": [Function],
-                          "formatDateToParts": [Function],
-                          "formatDisplayName": [Function],
-                          "formatList": [Function],
-                          "formatListToParts": [Function],
-                          "formatMessage": [Function],
-                          "formatNumber": [Function],
-                          "formatNumberToParts": [Function],
-                          "formatPlural": [Function],
-                          "formatRelativeTime": [Function],
-                          "formatTime": [Function],
-                          "formatTimeToParts": [Function],
-                          "formats": Object {},
-                          "formatters": Object {
-                            "getDateTimeFormat": [Function],
-                            "getDisplayNames": [Function],
-                            "getListFormat": [Function],
-                            "getMessageFormat": [Function],
-                            "getNumberFormat": [Function],
-                            "getPluralRules": [Function],
-                            "getRelativeTimeFormat": [Function],
-                          },
-                          "locale": "en",
-                          "messages": Object {},
-                          "onError": [Function],
-                          "textComponent": "span",
-                          "timeZone": "Etc/UTC",
-                          "wrapRichTextChunksInFragment": undefined,
+                          "__html": "<strong>Team Description</strong>:",
                         }
                       }
-                    >
-                      <span
-                        dangerouslySetInnerHTML={
-                          Object {
-                            "__html": "<strong>Team Description</strong>:",
-                          }
-                        }
-                      />
-                    </FormattedMarkdownMessage>
-                  </injectIntl(FormattedMarkdownMessage)>
+                    />
+                  </FormattedMarkdownMessage>
                   <br />
                   <span
                     className="greyed-out"

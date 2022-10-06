@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {Redirect} from 'react-router';
+import {Redirect} from 'react-router-dom';
 
 import semver from 'semver';
 
@@ -12,7 +12,7 @@ import * as GlobalActions from 'actions/global_actions';
 import * as WebSocketActions from 'actions/websocket_actions.jsx';
 import * as UserAgent from 'utils/user_agent';
 import LoadingScreen from 'components/loading_screen';
-import {getBrowserTimezone} from 'utils/timezone.jsx';
+import {getBrowserTimezone} from 'utils/timezone';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import BrowserStore from 'stores/browser_store';

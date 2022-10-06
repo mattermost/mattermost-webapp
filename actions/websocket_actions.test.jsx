@@ -7,12 +7,7 @@ import {
     receivedNewPost,
 } from 'mattermost-redux/actions/posts';
 import {ChannelTypes, UserTypes, CloudTypes} from 'mattermost-redux/action_types';
-import {
-    getMissingProfilesByIds,
-    getStatusesByIds,
-    getUser,
-} from 'mattermost-redux/actions/users';
-import {General, WebsocketEvents} from 'mattermost-redux/constants';
+import {getUser} from 'mattermost-redux/actions/users';
 
 import {handleNewPost} from 'actions/post_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
@@ -37,7 +32,6 @@ import {
     handlePostEditEvent,
     handlePostUnreadEvent,
     handleUserRemovedEvent,
-    handleUserTypingEvent,
     handleLeaveTeamEvent,
     reconnect,
     handleAppsPluginEnabled,
@@ -585,137 +579,6 @@ describe('reconnect', () => {
     });
 });
 
-describe('handleUserTypingEvent', () => {
-    const initialState = {
-        entities: {
-            general: {
-                config: {},
-            },
-            users: {
-                currentUserId: 'user',
-                statuses: {},
-                users: {},
-            },
-        },
-    };
-
-    test('should dispatch a TYPING event', () => {
-        const testStore = configureStore(initialState);
-
-        const channelId = 'channel';
-        const rootId = 'root';
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: channelId,
-            },
-            data: {
-                parent_id: rootId,
-                user_id: userId,
-            },
-        };
-
-        testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(testStore.getActions().find((action) => action.type === WebsocketEvents.TYPING)).toMatchObject({
-            type: WebsocketEvents.TYPING,
-            data: {
-                id: channelId + rootId,
-                userId,
-            },
-        });
-    });
-
-    test('should possibly load missing users and not get again the state', () => {
-        const testStore = configureStore(initialState);
-
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: 'channel',
-            },
-            data: {
-                parent_id: '',
-                user_id: userId,
-            },
-        };
-
-        testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(getMissingProfilesByIds).toHaveBeenCalledWith([userId]);
-        expect(getStatusesByIds).not.toHaveBeenCalled();
-    });
-
-    test('should load statuses for users that are not online but are in the store', async () => {
-        const testStore = configureStore({
-            ...initialState,
-            entities: {
-                ...initialState.entities,
-                users: {
-                    ...initialState.entities.users,
-                    profiles: {
-                        ...initialState.entities.users.profiles,
-                        otheruser: {
-                            id: 'otheruser',
-                            roles: 'system_user',
-                        },
-                    },
-                    statuses: {
-                        ...initialState.entities.users.statuses,
-                        otheruser: General.AWAY,
-                    },
-                },
-            },
-        });
-
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: 'channel',
-            },
-            data: {
-                parent_id: '',
-                user_id: userId,
-            },
-        };
-
-        await testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(getStatusesByIds).toHaveBeenCalled();
-    });
-
-    test('should not load statuses for users that are online', () => {
-        const testStore = configureStore({
-            ...initialState,
-            entities: {
-                ...initialState.entities,
-                users: {
-                    ...initialState.entities.users,
-                    statuses: {
-                        ...initialState.entities.users.statuses,
-                        otheruser: General.ONLINE,
-                    },
-                },
-            },
-        });
-
-        const userId = 'otheruser';
-        const msg = {
-            broadcast: {
-                channel_id: 'channel',
-            },
-            data: {
-                parent_id: '',
-                user_id: userId,
-            },
-        };
-
-        testStore.dispatch(handleUserTypingEvent(msg));
-
-        expect(getStatusesByIds).not.toHaveBeenCalled();
-    });
-});
-
 describe('handleChannelUpdatedEvent', () => {
     const initialState = {
         entities: {
@@ -975,18 +838,30 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             const mockComponent = 'mockRootComponent';
             registery.registerRootComponent(mockComponent);
 
-            const dispatchArg = store.dispatch.mock.calls[0][0];
+            let dispatchArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifest);
+
+            dispatchArg = store.dispatch.mock.calls[1][0];
+
             expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
             expect(dispatchArg.name).toBe('Root');
             expect(dispatchArg.data.component).toBe(mockComponent);
             expect(dispatchArg.data.pluginId).toBe(manifest.id);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(2);
 
             // Assert handlePluginEnabled is idempotent
             mockScript.onload = undefined;
             handlePluginEnabled({data: {manifest}});
             expect(mockScript.onload).toBeUndefined();
 
-            expect(store.dispatch).toHaveBeenCalledTimes(1);
+            dispatchArg = store.dispatch.mock.calls[2][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifest);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(3);
+
             expect(console.error).toHaveBeenCalledTimes(0);
         });
 
@@ -1004,6 +879,7 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
 
             const manifestv2 = {
                 ...manifest,
+                version: '0.2.1',
                 webapp: {
                     bundle_path: 'webapp/dist/main2.0.js',
                 },
@@ -1027,11 +903,15 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             const mockComponent = 'mockRootComponent';
             registry.registerRootComponent(mockComponent);
 
-            const dispatchReceivedArg = store.dispatch.mock.calls[0][0];
-            expect(dispatchReceivedArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
-            expect(dispatchReceivedArg.name).toBe('Root');
-            expect(dispatchReceivedArg.data.component).toBe(mockComponent);
-            expect(dispatchReceivedArg.data.pluginId).toBe(manifest.id);
+            let dispatchArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifest);
+
+            dispatchArg = store.dispatch.mock.calls[1][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
+            expect(dispatchArg.name).toBe('Root');
+            expect(dispatchArg.data.component).toBe(mockComponent);
+            expect(dispatchArg.data.pluginId).toBe(manifest.id);
 
             // Upgrade plugin
             mockScript.onload = undefined;
@@ -1050,19 +930,28 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             const mockComponent2 = 'mockRootComponent2';
             registry2.registerRootComponent(mockComponent2);
 
-            expect(store.dispatch).toHaveBeenCalledTimes(3);
-            const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
+            dispatchArg = store.dispatch.mock.calls[2][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifestv2);
+
+            expect(store.dispatch).toHaveBeenCalledTimes(6);
+            const dispatchRemovedArg = store.dispatch.mock.calls[3][0];
             expect(typeof dispatchRemovedArg).toBe('function');
             dispatchRemovedArg(store.dispatch);
 
-            const dispatchReceivedArg2 = store.dispatch.mock.calls[2][0];
+            dispatchArg = store.dispatch.mock.calls[4][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifestv2);
+
+            const dispatchReceivedArg2 = store.dispatch.mock.calls[5][0];
             expect(dispatchReceivedArg2.type).toBe(ActionTypes.RECEIVED_PLUGIN_COMPONENT);
             expect(dispatchReceivedArg2.name).toBe('Root');
             expect(dispatchReceivedArg2.data.component).toBe(mockComponent2);
             expect(dispatchReceivedArg2.data.pluginId).toBe(manifest.id);
 
-            expect(store.dispatch).toHaveBeenCalledTimes(5);
-            const dispatchReceivedArg4 = store.dispatch.mock.calls[4][0];
+            expect(store.dispatch).toHaveBeenCalledTimes(8);
+            const dispatchReceivedArg4 = store.dispatch.mock.calls[7][0];
+
             expect(dispatchReceivedArg4.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
             expect(dispatchReceivedArg4.data).toBe(manifestv2);
 
@@ -1128,13 +1017,19 @@ describe('handlePluginEnabled/handlePluginDisabled', () => {
             // Assert handlePluginDisabled is idempotent
             handlePluginDisabled({data: {manifest}});
 
-            expect(store.dispatch).toHaveBeenCalledTimes(2);
-            const dispatchRemovedArg = store.dispatch.mock.calls[0][0];
+            expect(store.dispatch).toHaveBeenCalledTimes(3);
+
+            const dispatchArg = store.dispatch.mock.calls[0][0];
+            expect(dispatchArg.type).toBe(ActionTypes.RECEIVED_WEBAPP_PLUGIN);
+            expect(dispatchArg.data).toBe(manifest);
+
+            const dispatchRemovedArg = store.dispatch.mock.calls[1][0];
+
             expect(typeof dispatchRemovedArg).toBe('function');
             dispatchRemovedArg(store.dispatch);
 
-            expect(store.dispatch).toHaveBeenCalledTimes(4);
-            const dispatchReceivedArg3 = store.dispatch.mock.calls[3][0];
+            expect(store.dispatch).toHaveBeenCalledTimes(5);
+            const dispatchReceivedArg3 = store.dispatch.mock.calls[4][0];
             expect(dispatchReceivedArg3.type).toBe(ActionTypes.REMOVED_WEBAPP_PLUGIN);
             expect(dispatchReceivedArg3.data).toBe(manifest);
 

@@ -5,21 +5,30 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Team} from '@mattermost/types/teams';
+import {AdminConfig, ExperimentalSettings} from '@mattermost/types/config';
 
 import AdminDefinition from 'components/admin_console/admin_definition';
 import {TestHelper} from 'utils/test_helper';
 
 import AdminConsole from './admin_console';
+import type {Props} from './admin_console';
 
 describe('components/AdminConsole', () => {
-    const baseProps = {
+    const baseProps: Props = {
         config: {
             TestField: true,
             ExperimentalSettings: {
                 RestrictSystemAdmin: false,
-            },
-        },
+            } as ExperimentalSettings,
+        } as Partial<AdminConfig>,
         adminDefinition: AdminDefinition,
+        environmentConfig: {},
+        unauthorizedRoute: '/',
+        consoleAccess: {
+            read: {},
+            write: {},
+        },
+        team: {} as Team,
         license: {},
         cloud: {
             limits: {

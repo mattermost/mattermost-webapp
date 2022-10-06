@@ -9,7 +9,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import useGetSubscription from 'components/common/hooks/useGetSubscription';
 
-import {requestCloudTrial, validateBusinessEmail, getCloudLimits} from 'actions/cloud';
+import {requestCloudTrial, validateWorkspaceBusinessEmail, getCloudLimits} from 'actions/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 
@@ -56,7 +56,7 @@ const CloudStartTrialButton = ({
     const [status, setLoadStatus] = useState(TrialLoadStatus.NotStarted);
 
     const validateBusinessEmailOnLoad = async () => {
-        const isValidBusinessEmail = await validateBusinessEmail()();
+        const isValidBusinessEmail = await validateWorkspaceBusinessEmail()();
         if (!isValidBusinessEmail) {
             setOpenBusinessEmailModal(true);
         }
@@ -148,10 +148,10 @@ const CloudStartTrialButton = ({
             return;
         }
         const updatedStatus = await requestStartTrial();
-
-        await openTrialBenefitsModal(updatedStatus);
         if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
+        } else {
+            await openTrialBenefitsModal(updatedStatus);
         }
         trackEvent(
             TELEMETRY_CATEGORIES.CLOUD_START_TRIAL_BUTTON,
@@ -161,6 +161,7 @@ const CloudStartTrialButton = ({
 
     return (
         <button
+            id='start_cloud_trial_btn'
             className={`CloudStartTrialButton ${extraClass}`}
             onClick={startCloudTrial}
             disabled={disabled || status === TrialLoadStatus.Failed}

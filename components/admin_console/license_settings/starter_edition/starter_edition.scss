@@ -1,3 +1,6 @@
+@import 'utils/variables';
+@import 'utils/mixins';
+
 .StarterEditionRightPannel {
     .svg-image {
         text-align: center;
@@ -75,6 +78,19 @@
 }
 
 .StarterLeftPanel {
+    position: relative;
+
+    .PlanDetails__viewPlansButton {
+        position: absolute;
+        right: 10px;
+        display: block;
+        margin-left: auto;
+
+        &.btn {
+            @include tertiary-button;
+        }
+    }
+
     .pre-title {
         margin-bottom: 10px;
         color: rgba(63, 67, 80, 0.56) !important;
