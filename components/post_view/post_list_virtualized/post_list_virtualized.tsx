@@ -44,6 +44,7 @@ const postListStyle = {
 const virtListStyles = {
     position: 'absolute',
     bottom: '0',
+    right: '5px',
     maxHeight: '100%',
 };
 
