@@ -7,6 +7,7 @@ import {mapStateToProps, OwnProps} from 'components/search_results_item';
 import {RHSStates, WindowSizes} from 'utils/constants';
 
 import {GlobalState} from '../../types/store';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/SearchResultsItem/WithStore', () => {
     const team = {
@@ -27,41 +28,21 @@ describe('components/SearchResultsItem/WithStore', () => {
         username: 'username',
         is_bot: false,
     };
-    const channel = {
+    const channel = TestHelper.getChannelMock({
         id: 'channel_id_open',
         type: General.OPEN_CHANNEL,
         team_id: team.id,
         name: 'open channel',
         display_name: 'open channel',
-        create_at: 1502715365009,
-        delete_at: 0,
-        update_at: 1502715372443,
-        purpose: 'channel purpose',
-        last_post_at: 1502715372443,
-        last_root_post_at: 1502715372443,
-        header: 'channel header',
-        creator_id: 'creator_id',
-        scheme_id: 'scheme_id',
-        group_constrained: false,
-    };
+    });
 
-    const dmChannel = {
+    const dmChannel = TestHelper.getChannelMock({
         id: 'channel_id_dm',
         type: General.DM_CHANNEL,
         team_id: team.id,
         name: `${currentUserID}__${user.id}`,
         display_name: `${currentUserID}__${user.id}`,
-        create_at: 1502715365009,
-        delete_at: 0,
-        update_at: 1502715372443,
-        purpose: 'channel purpose',
-        last_post_at: 1502715372443,
-        last_root_post_at: 1502715372443,
-        header: 'channel header',
-        creator_id: user.id,
-        scheme_id: 'scheme_id',
-        group_constrained: false,
-    };
+    });
 
     const post = {
         channel_id: channel.id,
