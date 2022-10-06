@@ -5,10 +5,11 @@ import React from 'react';
 import {Action} from 'redux';
 
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+
 import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 
 import {SearchType} from 'types/store/rhs';
-import {ServerError} from '@mattermost/types/errors';
 
 export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
 
