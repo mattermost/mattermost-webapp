@@ -40,6 +40,11 @@ exports[`YoutubeVideo should match init snapshot 1`] = `
           </Connect(ExternalImage)>
           <div
             className="block"
+            style={
+              Object {
+                "cursor": "pointer",
+              }
+            }
           >
             <span
               className="play-button"
