@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
+import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
+
+import {GlobalState} from 'types/store/index';
 
 import {createSelector} from 'reselect';
 
@@ -16,7 +18,13 @@ import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'matt
 
 import {updateToastStatus} from 'actions/views/channel';
 
-import ToastWrapper from './toast_wrapper.jsx';
+import ToastWrapper from './toast_wrapper';
+
+export type OwnProps = {
+    atLatestPost?: boolean;
+    channelId: string;
+};
+
 export function makeGetRootPosts() {
     return createSelector(
         'makeGetRootPosts',
@@ -31,7 +39,7 @@ export function makeGetRootPosts() {
                     post.channel_id === channel.id &&
                     post.state !== Posts.POST_DELETED
                 );
-            }).reduce((map, obj) => {
+            }).reduce((map: Record<string, boolean>, obj) => {
                 map[obj.id] = true;
                 return map;
             }, {});
@@ -44,8 +52,8 @@ export function makeCountUnreadsBelow() {
         'makeCountUnreadsBelow',
         getAllPosts,
         getCurrentUserId,
-        (state, postIds) => postIds,
-        (state, postIds, lastViewedBottom) => lastViewedBottom,
+        (state: GlobalState, postIds?: string[] | null) => postIds,
+        (state: GlobalState, postIds: string[] | null | undefined, lastViewedBottom: number) => lastViewedBottom,
         isCollapsedThreadsEnabled,
         (allPosts, currentUserId, postIds, lastViewedBottom, isCollapsed) => {
             if (!postIds) {
@@ -78,7 +86,7 @@ function makeMapStateToProps() {
     const countUnreadsBelow = makeCountUnreadsBelow();
     const getRootPosts = makeGetRootPosts();
     const preparePostIdsForPostList = makePreparePostIdsForPostList();
-    return function mapStateToProps(state, ownProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         let newRecentMessagesCount = 0;
         const channelMarkedAsUnread = isManuallyUnread(state, ownProps.channelId);
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
@@ -86,7 +94,7 @@ function makeMapStateToProps() {
         if (!ownProps.atLatestPost) {
             let postIds = getPostIdsInChannel(state, ownProps.channelId);
             if (postIds) {
-                postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt, channelId: ownProps.channelId});
+                postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt});
             }
             newRecentMessagesCount = countUnreadsBelow(state, postIds, lastViewedAt);
         }
@@ -102,7 +110,7 @@ function makeMapStateToProps() {
     };
 }
 
-function mapDispatchToProps(dispatch) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators({
             updateToastStatus,
@@ -110,4 +118,8 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(ToastWrapper));
+const connector = connect(makeMapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default withRouter(connector(ToastWrapper));
