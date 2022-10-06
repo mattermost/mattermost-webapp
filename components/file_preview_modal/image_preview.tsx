@@ -221,11 +221,13 @@ export default function ImagePreview({fileInfo, toolbarZoom, setToolbarZoom}: Pr
     }, [resetOffset]);
 
     // Change cursor to dragging only if the image in the canvas is zoomed and draggable
-    if (isFullscreen.current.horizontal || isFullscreen.current.vertical) {
-        setCursorType(dragging ? 'dragging' : 'hover');
-    } else {
-        setCursorType('normal');
-    }
+    useEffect(() => {
+        if (isFullscreen.current.horizontal || isFullscreen.current.vertical) {
+            setCursorType(dragging ? 'dragging' : 'hover');
+        } else {
+            setCursorType('normal');
+        }
+    }, [isFullscreen.current]);
 
     const containerClass = classNames({
         image_preview_div: true,
