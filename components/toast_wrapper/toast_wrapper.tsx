@@ -57,9 +57,8 @@ type State = {
     showUnreadWithBottomStartToast?: boolean;
 };
 
-class ToastWrapper extends React.PureComponent<Props, State> {
+export class ToastWrapperClass extends React.PureComponent<Props, State> {
     mounted?: boolean;
-    
     static defaultProps = {
         focusedPostId: '',
     };
@@ -71,7 +70,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
         };
     }
 
-    static countNewMessages = (rootPosts: Record<string, boolean>, isCollapsedThreadsEnabled: boolean, postListIds?: string[],) => {
+    static countNewMessages = (rootPosts: Record<string, boolean>, isCollapsedThreadsEnabled: boolean, postListIds?: string[]) => {
         const mark = getNewMessageIndex(postListIds || []);
         if (mark <= 0) {
             return 0;
@@ -91,7 +90,7 @@ class ToastWrapper extends React.PureComponent<Props, State> {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST && prevState.unreadCountInChannel) {
                 unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
             } else {
-                unreadCount = ToastWrapper.countNewMessages(props.rootPosts, props.isCollapsedThreadsEnabled, props.postListIds);
+                unreadCount = ToastWrapperClass.countNewMessages(props.rootPosts, props.isCollapsedThreadsEnabled, props.postListIds);
             }
         } else if (props.channelMarkedAsUnread) {
             if (props.unreadScrollPosition === Preferences.UNREAD_SCROLL_POSITION_START_FROM_NEWEST) {
@@ -462,4 +461,4 @@ class ToastWrapper extends React.PureComponent<Props, State> {
     }
 }
 
-export default injectIntl(ToastWrapper);
+export default injectIntl(ToastWrapperClass);

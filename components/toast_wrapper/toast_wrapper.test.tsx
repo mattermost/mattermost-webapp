@@ -14,8 +14,6 @@ import {browserHistory} from 'utils/browser_history';
 
 import ToastWrapper, {Props, ToastWrapperClass} from './toast_wrapper';
 
-// import ToastWrapperComp from '.';
-
 describe('components/ToastWrapper', () => {
     const baseProps: ComponentProps<typeof ToastWrapper> = {
         unreadCountInChannel: 0,
@@ -385,7 +383,7 @@ describe('components/ToastWrapper', () => {
             const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
             expect(wrapper.state('showUnreadToast')).toBe(true);
 
-            (wrapper.instance() as ToastWrapperClass).handleShortcut({key: 'ESC', keyCode: 27});
+            (wrapper.instance() as ToastWrapperClass).handleShortcut({key: 'ESC', keyCode: 27} as KeyboardEvent);
             expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
@@ -408,7 +406,7 @@ describe('components/ToastWrapper', () => {
             wrapper.setState({atBottom: false, showUnreadToast: false});
             wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
-            (wrapper.instance() as ToastWrapperClass).handleShortcut({key: 'ESC', keyCode: 27});
+            (wrapper.instance() as ToastWrapperClass).handleShortcut({key: 'ESC', keyCode: 27} as KeyboardEvent);
             expect(baseProps.updateLastViewedBottomAt).toHaveBeenCalledTimes(1);
         });
 
