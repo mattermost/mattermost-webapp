@@ -26,12 +26,12 @@
     }
 
     .admin-console__wrapper {
+        position: relative;
+        right: 5px;
         overflow: auto;
         height: 100%;
         -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
-        position: relative;
-        right: 5px;
         padding: 20px;
     }
 
