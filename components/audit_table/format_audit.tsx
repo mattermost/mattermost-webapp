@@ -9,10 +9,10 @@ import {Audit} from '@mattermost/types/audits';
 
 import {toTitleCase} from 'utils/utils';
 
-import ChannelRow from './channel_row';
-import UserRow from './user_row';
+import ChannelRow from './channel_row/channel_row';
+import UserRow from './user_row/user_row';
 import holders from './holders';
-import AuditRow from './audit_row';
+import AuditRow from './audit_row/audit_row';
 
 type Props = {
     audit: Audit;
@@ -35,7 +35,6 @@ export default function FormatAudit({
             <ChannelRow
                 audit={audit}
                 actionURL={actionURL}
-                intl={intl}
                 showUserId={showUserId}
                 showIp={showIp}
                 showSession={showSession}
@@ -48,7 +47,6 @@ export default function FormatAudit({
             <UserRow
                 audit={audit}
                 actionURL={actionURL}
-                intl={intl}
                 showUserId={showUserId}
                 showIp={showIp}
                 showSession={showSession}
@@ -168,7 +166,6 @@ export default function FormatAudit({
             audit={audit}
             desc={auditDesc}
             actionURL={actionURL}
-            intl={intl}
             showUserId={showUserId}
             showIp={showIp}
             showSession={showSession}
