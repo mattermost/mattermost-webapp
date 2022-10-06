@@ -467,6 +467,13 @@ const AdvanceTextEditor = ({
                         currentChannelTeammateUsername={currentChannelTeammateUsername}
                     />}
             </div>
+            {location === Locations.RHS_COMMENT && isCRTEnabled &&
+                handleBroadcastThreadReply && isBroadcastThreadReply !== undefined &&
+                    <BroadcastThreadReply
+                        channelId={channelId}
+                        isBroadcastThreadReply={isBroadcastThreadReply}
+                        handleBroadcastThreadReply={handleBroadcastThreadReply}
+                    />}
             <div
                 id='postCreateFooter'
                 role='form'
@@ -476,13 +483,6 @@ const AdvanceTextEditor = ({
             >
                 {postError && <label className={classNames('post-error', {errorClass})}>{postError}</label>}
                 {serverErrorJsx}
-                {location === Locations.RHS_COMMENT && isCRTEnabled &&
-                handleBroadcastThreadReply && isBroadcastThreadReply !== undefined &&
-                    <BroadcastThreadReply
-                        channelId={channelId}
-                        isBroadcastThreadReply={isBroadcastThreadReply}
-                        handleBroadcastThreadReply={handleBroadcastThreadReply}
-                    />}
                 <MsgTyping
                     channelId={channelId}
                     postId={postId}

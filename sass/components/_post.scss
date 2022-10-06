@@ -1195,8 +1195,14 @@
             .post__link {
                 display: none;
 
-                &.broadcast-reply {
+                &.broadcast--reply {
                     display: block;
+                    padding-top: 2px;
+
+                    .broadcast-arrow-icon {
+                        display: flex;
+                        align-items: center;
+                    }
                 }
             }
 

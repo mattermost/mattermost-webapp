@@ -17,10 +17,10 @@ function makeMapStateToProps() {
     const getChannel = makeGetChannel();
 
     return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-        const channelDisplayName = getChannel(state, {id: ownProps.channelId}).display_name;
+        const channelName = getChannel(state, {id: ownProps.channelId}).display_name;
 
         return {
-            channelDisplayName,
+            channelName,
         };
     };
 }

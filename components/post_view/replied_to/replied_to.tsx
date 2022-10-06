@@ -1,18 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {PureComponent} from 'react';
+import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile as UserProfileType} from '@mattermost/types/users';
-
 import {Post} from '@mattermost/types/posts';
 
 import * as Utils from 'utils/utils';
 import {stripMarkdown} from 'utils/markdown';
 
 import CommentedOnFilesMessage from 'components/post_view/commented_on_files_message';
-import UserProfile from '../../user_profile/user_profile';
+import UserProfile from 'components/user_profile';
 
 type Props = {
     displayName?: string;
@@ -22,18 +21,19 @@ type Props = {
     post: Post;
 }
 
-export default class RepliedTo extends PureComponent<Props> {
-    makeUsername = () => {
-        const postProps = this.props.post.props;
-        let username = this.props.displayName;
-        if (this.props.enablePostUsernameOverride && postProps && postProps.from_webhook === 'true' && postProps.override_username) {
+export default function RepliedTo(props: Props) {
+    const {displayName, enablePostUsernameOverride, parentPostUser, onCommentClick, post} = props;
+
+    const makeUsername = () => {
+        const postProps = post.props;
+        let username = displayName;
+        if (enablePostUsernameOverride && postProps && postProps.from_webhook === 'true' && postProps.override_username) {
             username = postProps.override_username;
         }
         return username;
-    }
+    };
 
-    makeCommentedOnMessage = () => {
-        const {post} = this.props;
+    const makeCommentedOnMessage = () => {
         let message: React.ReactNode = '';
         if (post.message) {
             message = Utils.replaceHtmlEntities(post.message);
@@ -48,45 +48,42 @@ export default class RepliedTo extends PureComponent<Props> {
         }
 
         return message;
-    }
+    };
 
-    render() {
-        const username = this.makeUsername();
-        const message = this.makeCommentedOnMessage();
-        const parentPostUser = this.props.parentPostUser;
-        const parentPostUserId = (parentPostUser && parentPostUser.id) || '';
+    const username = makeUsername();
+    const message = makeCommentedOnMessage();
+    const parentPostUserId = (parentPostUser && parentPostUser.id) || '';
 
-        const parentUserProfile = (
-            <UserProfile
-                user={parentPostUser}
-                userId={parentPostUserId}
-                displayName={username}
-                hasMention={true}
-                disablePopover={false}
-            />
-        );
+    const parentUserProfile = (
+        <UserProfile
+            user={parentPostUser}
+            userId={parentPostUserId}
+            displayName={username}
+            hasMention={true}
+            disablePopover={false}
+        />
+    );
 
-        return (
-            <div
-                data-testid='post-link'
-                className='post__link'
-            >
-                <span>
-                    <FormattedMessage
-                        id='post_body.repliedTo'
-                        defaultMessage="Replied to {name}'s thread: "
-                        values={{
-                            name: <a className='theme user_name'>{parentUserProfile}</a>,
-                        }}
-                    />
-                    <a
-                        className='theme'
-                        onClick={this.props.onCommentClick}
-                    >
-                        {typeof message === 'string' ? stripMarkdown(message) : message}
-                    </a>
-                </span>
-            </div>
-        );
-    }
+    return (
+        <div
+            data-testid='post-link'
+            className='post__link'
+        >
+            <span>
+                <FormattedMessage
+                    id='post_body.repliedTo'
+                    defaultMessage="Replied to {name}'s thread: "
+                    values={{
+                        name: <a className='theme user_name'>{parentUserProfile}</a>,
+                    }}
+                />
+                <a
+                    className='theme'
+                    onClick={onCommentClick}
+                >
+                    {typeof message === 'string' ? stripMarkdown(message) : message}
+                </a>
+            </span>
+        </div>
+    );
 }
