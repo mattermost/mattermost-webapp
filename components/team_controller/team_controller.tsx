@@ -245,7 +245,7 @@ function getTeamFromTeamList(teamsList: Props['teamsList'], teamName?: string) {
         return null;
     }
 
-    const team = teamsList?.find((teamInList) => teamInList.name === teamName) ?? null;
+    const team = teamsList.find((teamInList) => teamInList.name === teamName) ?? null;
     if (!team) {
         return null;
     }

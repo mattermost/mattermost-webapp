@@ -4,17 +4,16 @@
 import {batchActions} from 'redux-batched-actions';
 
 import {UserProfile} from '@mattermost/types/users';
-import {ChannelMembership, ServerChannel} from '@mattermost/types/channels';
+import {Channel, ChannelMembership, ServerChannel} from '@mattermost/types/channels';
 import {Team} from '@mattermost/types/teams';
 import {ServerError} from '@mattermost/types/errors';
 
 import {Client4} from 'mattermost-redux/client';
-import {ChannelTypes, PreferenceTypes} from 'mattermost-redux/action_types';
+import {ChannelTypes, PreferenceTypes, RoleTypes} from 'mattermost-redux/action_types';
 import * as ChannelActions from 'mattermost-redux/actions/channels';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {logError} from 'mattermost-redux/actions/errors';
-import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getChannelByName, getUnreadChannelIds, getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -28,6 +27,7 @@ import {
     getAllChannelsAndMembersQueryString,
     transformToReceivedChannelsReducerPayload,
     transformToReceivedChannelMembersReducerPayload,
+    transformToReceivedChannelsRolesReducerPayload,
 } from 'actions/channel_queries';
 
 import {browserHistory} from 'utils/browser_history';
@@ -232,6 +232,11 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
                 type: ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS,
                 data: channelMembers,
             });
+
+            actions.push({
+                type: RoleTypes.RECEIVED_ROLES,
+                data: transformToReceivedChannelsRolesReducerPayload(channelsAndMembers.channelMembers),
+            });
         } else {
             actions.push({
                 type: ChannelTypes.RECEIVED_ALL_CHANNELS,
@@ -244,22 +249,6 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
         }
 
         await dispatch(batchActions(actions));
-
-        const roles = new Set<string>();
-        // if (teamId.length > 0) {
-        //     // Add any pending roles for the current team's channels
-        //     channelsAndMembers.channelMembers.forEach((channelMember) => {
-        //         if (channelMember.roles && channelMember.roles.length > 0) {
-        //             channelMember.roles.forEach((role) => {
-        //                 roles.add(role.name);
-        //             });
-        //         }
-        //     });
-
-        //     if (roles.size > 0) {
-        //         dispatch(loadRolesIfNeeded(roles));
-        //     }
-        // }
 
         return {data: {channels, channelMembers}};
     };

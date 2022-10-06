@@ -22,7 +22,7 @@ import {
     convertRolesNamesArrayToString,
     transformToRecievedMeReducerPayload,
     transformToRecievedTeamsListReducerPayload,
-    transformToRecievedRolesReducerPayload,
+    transformToReceivedUserAndTeamRolesReducerPayload,
     transformToRecievedMyTeamMembersReducerPayload,
 } from 'mattermost-redux/actions/users_queries';
 
@@ -142,7 +142,7 @@ export function loadMe(): ActionFunc {
                 },
                 {
                     type: RoleTypes.RECEIVED_ROLES,
-                    data: transformToRecievedRolesReducerPayload(responseData.user.roles, responseData.teamMembers),
+                    data: transformToReceivedUserAndTeamRolesReducerPayload(responseData.user.roles, responseData.teamMembers),
                 },
                 {
                     type: PreferenceTypes.RECEIVED_ALL_PREFERENCES,

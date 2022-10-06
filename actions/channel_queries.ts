@@ -262,15 +262,13 @@ export function transformToReceivedChannelMembersReducerPayload(
     }));
 }
 
-export function transformToReceivedRolesReducerPayload(
-    userRoles: CurrentUserInfoQueryResponseType['data']['user']['roles'],
-    teamMembers: CurrentUserInfoQueryResponseType['data']['teamMembers']): Role[] {
-    let roles: Role[] = [...userRoles];
+export function transformToReceivedChannelsRolesReducerPayload(
+    channelMembers: ChannelMembersQueryResponseType['data']['channelMembers'],
+): Role[] {
+    const roles: Role[] = [];
 
-    teamMembers.forEach((teamMember) => {
-        if (teamMember.roles) {
-            roles = [...roles, ...teamMember.roles];
-        }
+    channelMembers.forEach((channelMember) => {
+        roles.push(...channelMember.roles);
     });
 
     return roles;

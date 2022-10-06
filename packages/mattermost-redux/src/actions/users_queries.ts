@@ -102,7 +102,7 @@ export function convertRolesNamesArrayToString(roles: Role[]): string {
     return roles.map((role) => role.name!).join(' ') ?? '';
 }
 
-export function transformToRecievedRolesReducerPayload(
+export function transformToReceivedUserAndTeamRolesReducerPayload(
     userRoles: CurrentUserInfoQueryResponseType['data']['user']['roles'],
     teamMembers: CurrentUserInfoQueryResponseType['data']['teamMembers']): Role[] {
     let roles: Role[] = [...userRoles];
