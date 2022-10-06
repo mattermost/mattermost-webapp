@@ -17,7 +17,7 @@ import useGetSubscription from 'components/common/hooks/useGetSubscription';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 const LegacyMattermostCloudBar = () => {
-    const isLegacyMattermostCloud = Boolean(LegacyFreeProductIds[useGetSubscription()?.product_id]);
+    const isLegacyMattermostCloud = Boolean(LegacyFreeProductIds[useGetSubscription()?.product_id || '']);
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const openPricingModal = useOpenPricingModal();
 
