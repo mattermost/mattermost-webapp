@@ -17,7 +17,7 @@ import RadioSetting from 'components/widgets/settings/radio_setting';
 
 import Provider from 'components/suggestion/provider';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
@@ -46,7 +46,7 @@ type Props = {
     onChange: (name: string, selected: string) => void;
     autoFocus?: boolean;
     actions: {
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionResult<any, any> | Promise<ActionResult<any, any> | Array<ActionResult<any, any>>>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;
     };
 }

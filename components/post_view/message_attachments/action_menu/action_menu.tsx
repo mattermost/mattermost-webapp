@@ -13,7 +13,9 @@ import {Channel} from '@mattermost/types/channels';
 
 import {UserProfile} from '@mattermost/types/users';
 
-import type {OwnProps, PropsFromRedux} from './index';
+import {PostAction} from '@mattermost/types/integration_actions';
+import {ServerError} from '@mattermost/types/errors';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 type Option = {
     text: string;
@@ -24,7 +26,19 @@ type Provider = GenericUserProvider | GenericChannelProvider | MenuActionProvide
 
 type Selected = Option | UserProfile | Channel;
 
-export type Props = OwnProps & PropsFromRedux;
+export type Props = {
+    postId: string;
+    action: PostAction;
+    disabled?: boolean;
+    selected?: Selected;
+    actions: {
+        selectAttachmentMenuAction: (postId: any, actionId: any, cookie: any, dataSource: any, text: any, value: any) => (dispatch: any) => Promise<{
+            data: boolean;
+        }>;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
+        autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+    };
+}
 
 type State = {
     selected?: Selected;
@@ -41,9 +55,9 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
         this.providers = [];
         if (action) {
             if (action.data_source === 'users') {
-                this.providers = [new GenericUserProvider(props.autocompleteUsers)];
+                this.providers = [new GenericUserProvider(props.actions.autocompleteUsers)];
             } else if (action.data_source === 'channels') {
-                this.providers = [new GenericChannelProvider(props.autocompleteChannels)];
+                this.providers = [new GenericChannelProvider(props.actions.autocompleteChannels)];
             } else if (action.options) {
                 this.providers = [new MenuActionProvider(action.options)];
             }
@@ -98,7 +112,7 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
             value = option.value;
         }
 
-        this.props.selectAttachmentMenuAction(
+        this.props.actions.selectAttachmentMenuAction(
             this.props.postId, this.props.action.id || '', this.props.action.cookie || '', this.props.action?.data_source, text, value);
 
         this.setState({value: text});

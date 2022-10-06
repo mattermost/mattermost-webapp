@@ -3,6 +3,8 @@
 
 import {connect, ConnectedProps} from 'react-redux';
 
+import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
+
 import {GlobalState} from 'types/store';
 import {autocompleteChannels} from 'actions/channel_actions';
 import {autocompleteUsers} from 'actions/user_actions';
@@ -10,7 +12,9 @@ import {selectAttachmentMenuAction} from 'actions/views/posts';
 
 import {PostAction} from '@mattermost/types/integration_actions';
 
-import ActionMenu from './action_menu';
+import {ActionFunc} from 'mattermost-redux/types/actions';
+
+import ActionMenu, {Props} from './action_menu';
 
 export type OwnProps = {
     postId: string;
@@ -27,11 +31,15 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     };
 }
 
-const mapDispatchToProps = {
-    selectAttachmentMenuAction,
-    autocompleteChannels,
-    autocompleteUsers,
-};
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
+            selectAttachmentMenuAction,
+            autocompleteChannels,
+            autocompleteUsers,
+        }, dispatch),
+    };
+}
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
 
