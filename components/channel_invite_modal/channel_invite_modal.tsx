@@ -14,8 +14,8 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 
-import {filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
-import {getLongDisplayNameParts, localizeMessage} from 'utils/utils';
+import {displayUsername, filterProfilesStartingWithTerm, isGuest} from 'mattermost-redux/utils/user_utils';
+import {localizeMessage} from 'utils/utils';
 import ProfilePicture from 'components/profile_picture';
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import AddIcon from 'components/widgets/icons/fa_add_icon';
@@ -36,6 +36,7 @@ export type Props = {
     userStatuses: RelationOneToOne<UserProfile, string>;
     onExited: () => void;
     channel: Channel;
+    teammateNameDisplaySetting: string;
 
     // skipCommit = true used with onAddCallback will result in users not being committed immediately
     skipCommit?: boolean;
@@ -244,6 +245,8 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
             userMapping[ProfilesInGroup[i]] = 'Already in channel';
         }
 
+        const displayName = displayUsername(option, this.props.teammateNameDisplaySetting);
+
         return (
             <div
                 key={option.id}
@@ -258,18 +261,28 @@ export default class ChannelInviteModal extends React.PureComponent<Props, State
                     size='md'
                     username={option.username}
                 />
-
                 <div className='more-modal__details'>
                     <div className='more-modal__name'>
                         <span>
-                            {getLongDisplayNameParts(option).displayName}
+                            {displayName}
+                            {option.is_bot && <BotTag/>}
+                            {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
+                            {displayName === option.username ?
+                                null :
+                                <span
+                                    className='ml-2 light'
+                                    style={{fontSize: '12px'}}
+                                >
+                                    {'@'}{option.username}
+                                </span>
+                            }
                             <span
                                 style={{position: 'absolute', right: 20}}
                                 className='light'
-                            >{userMapping[option.id]}</span>
+                            >
+                                {userMapping[option.id]}
+                            </span>
                         </span>
-                        {option.is_bot && <BotTag/>}
-                        {isGuest(option.roles) && <GuestTag className='popoverlist'/>}
                     </div>
                 </div>
                 <div className='more-modal__actions'>

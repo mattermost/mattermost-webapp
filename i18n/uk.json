@@ -1668,8 +1668,6 @@
   "create_category_modal.create": "Створити",
   "create_comment.addComment": "Додати коментар...",
   "create_comment.commentTitle": "Коментар",
-  "create_comment.file": "Завантаження файлу",
-  "create_comment.files": "Завантаження файлів",
   "create_post.comment": "Коментар",
   "create_post.deactivated": "Ви переглядаєте архівований канал з деактивованим користувачем.",
   "create_post.error_message": "Ваше повідомлення занадто довге. Кількість символів: {length}/{limit}",

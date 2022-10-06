@@ -122,7 +122,10 @@ const Member = ({className, channel, member, index, totalUsers, editing, actions
                     {member.displayName}
                     {isGuest(member.user.roles) && <GuestTag/>}
                 </DisplayName>
-                <Username>{'@'}{member.user.username}</Username>
+                {member.displayName === member.user.username ?
+                    null :
+                    <Username>{'@'}{member.user.username}</Username>
+                }
             </UserInfo>
             <RoleChooser
                 className={classNames({editing}, 'member-role-chooser')}
