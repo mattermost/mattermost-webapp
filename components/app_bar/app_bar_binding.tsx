@@ -6,6 +6,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
 import {Tooltip} from 'react-bootstrap';
 
+import classNames from 'classnames';
+
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -18,6 +20,8 @@ import Constants from 'utils/constants';
 import {DoAppCallResult} from 'types/apps';
 
 import OverlayTrigger from 'components/overlay_trigger';
+import {getRhsAppBinding} from 'selectors/rhs';
+import {hideRHSAppBinding, showRHSAppBinding} from 'actions/views/rhs';
 
 type BindingComponentProps = {
     binding: AppBinding;
@@ -31,8 +35,19 @@ const AppBarBinding = (props: BindingComponentProps) => {
 
     const channelId = useSelector(getCurrentChannelId);
     const teamId = useSelector(getCurrentTeamId);
+    const rhsBinding = useSelector(getRhsAppBinding);
+
+    const handleRhsBinding = (callResponse: AppCallResponse) => {
+        const binding = callResponse.data as AppBinding;
+        dispatch(showRHSAppBinding(binding));
+    };
 
     const submitAppCall = async () => {
+        if (rhsBinding?.app_id === props.binding.app_id) {
+            dispatch(hideRHSAppBinding());
+            return;
+        }
+
         const context = createCallContext(
             binding.app_id,
             binding.location,
@@ -55,6 +70,9 @@ const AppBarBinding = (props: BindingComponentProps) => {
             if (callResp.text) {
                 dispatch(postEphemeralCallResponseForContext(callResp, callResp.text, context));
             }
+
+            handleRhsBinding(callResp);
+
             return;
         case AppCallResponseTypes.FORM:
             if (callResp.form) {
@@ -84,6 +102,9 @@ const AppBarBinding = (props: BindingComponentProps) => {
         </Tooltip>
     );
 
+
+    const isButtonActive = rhsBinding?.app_id === props.binding.app_id;
+
     return (
         <OverlayTrigger
             trigger={['hover', 'focus']}
@@ -94,10 +115,11 @@ const AppBarBinding = (props: BindingComponentProps) => {
             <div
                 id={id}
                 aria-label={label}
-                className={'app-bar__icon'}
+                className={classNames('app-bar__icon', {'app-bar__icon--active': isButtonActive})}
                 onClick={submitAppCall}
             >
                 <div className={'app-bar__icon-inner'}>
+                    // need to handle icon image errors
                     <img src={binding.icon}/>
                 </div>
             </div>

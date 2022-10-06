@@ -4,9 +4,13 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {AppBinding, AppContext, AppForm} from '@mattermost/types/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
+import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 
-import {handleBindingClick} from 'actions/apps';
+import {AppBinding, AppContext, AppForm} from '@mattermost/types/apps';
+import {DoAppCallResult, HandleBindingClick} from 'types/apps';
+
+import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel, postEphemeralCallResponseForPost} from 'actions/apps';
 import {getRhsAppBinding} from 'selectors/rhs';
 import {createCallContext} from 'utils/apps';
 
@@ -15,25 +19,16 @@ import SearchResultsHeader from 'components/search_results_header';
 import Markdown from 'components/markdown';
 import {MenuItem} from 'components/channel_info_rhs/menu';
 
+import {AppBindingView} from './view';
+
 export default function RhsAppBinding() {
     const binding = useSelector(getRhsAppBinding);
-    return <RhsAppBindingInner binding={binding}/>;
-}
-
-export function RhsAppBindingInner(props: {binding: AppBinding}) {
-    const {binding} = props;
-
-    const context = createCallContext(
-        binding.app_id,
-    );
 
     let view = <h3>{'Loading'}</h3>;
     if (binding) {
         view = (
-            <AppBindingView
-                app_id={binding.app_id}
+            <RhsAppBindingInner
                 binding={binding}
-                context={context}
             />
         );
     }
@@ -49,6 +44,7 @@ export function RhsAppBindingInner(props: {binding: AppBinding}) {
             <div
                 style={{
                     overflowY: 'scroll',
+                    height: '100%',
                 }}
             >
                 {view}
@@ -57,169 +53,58 @@ export function RhsAppBindingInner(props: {binding: AppBinding}) {
     );
 }
 
-type ViewProps = {
-    binding: AppBinding;
-    context: AppContext;
-    app_id: string;
-};
+export function RhsAppBindingInner(props: {binding: AppBinding}) {
+    const {binding} = props;
 
-export function AppBindingView(props: ViewProps) {
-    const {context} = props;
+    const dispatch = useDispatch();
+    const channelID = useSelector(getCurrentChannelId);
+    const context = createCallContext(binding.app_id!, 'RHSView', channelID);
 
-    const subviews = props.binding.bindings?.map((b, i) => {
-        const subviewProps = {
-            binding: b,
-            context,
-            app_id: props.app_id,
-            key: i,
-        };
+    const handleBindingClickBound = async (binding: AppBinding) => {
+        const res = await dispatch(handleBindingClick(binding, context, null)) as DoAppCallResult;
 
-        switch (b.type) {
-        case 'view':
-            return <AppBindingView {...subviewProps}/>;
-        case 'menu':
-            return <AppBindingMenu {...subviewProps}/>;
-        case 'form':
-            return <AppBindingForm {...subviewProps}/>;
-        case 'button':
-            return <AppBindingButton {...subviewProps}/>;
-        case 'divider':
-            return (
-                <div style={styles.containerSpacing}>
-                    <Markdown message='-----'/>
-                </div>
-            );
-        case 'markdown':
-            return (
-                <div style={styles.containerSpacing}>
-                    <Markdown message={b.label}/>
-                </div>
-            );
+        const request = binding.submit;
+
+        if (res.error) {
+            const {
+                app_metadata,
+                ...response
+            } = res.error;
+            alert(JSON.stringify({response, request}, null, 2));
+            return res.error;
         }
 
-        return <p key={i}>{'Unsupported binding type: ' + b.type}</p>;
-    });
+        const callResp = res.data!;
 
-    return (
-        <div>
-            {subviews}
-        </div>
-    );
-}
+        const {
+            app_metadata,
+            ...response
+        } = res.data!;
+        alert(JSON.stringify({response, request}, null, 2));
 
-export function AppBindingButton(props: FormProps) {
-    const form: AppForm = {
-        fields: [
-            {
-                name: 'submit',
-                type: 'static_select',
-                options: [
-                    {
-                        label: props.binding.label,
-                        value: props.binding.label,
-                    },
-                ],
-            },
-        ],
-        submit_buttons: 'submit',
-        submit: props.binding.submit,
+        switch(callResp.type) {
+        case AppCallResponseTypes.FORM:
+            dispatch(openAppsModal(callResp.form!, context));
+            break;
+        case AppCallResponseTypes.OK:
+            dispatch(postEphemeralCallResponseForChannel(callResp, callResp.text!, channelID));
+            break;
+        }
+
+        return res.data;
+    }
+
+    const childProps = {
+        app_id: binding.app_id!,
+        binding,
+        context,
+        viewComponent: AppBindingView,
+        handleBindingClick: handleBindingClickBound,
     };
 
     return (
-        <div style={styles.containerSpacing}>
-            <AppsForm
-                hideCancel={true}
-                isEmbedded={true}
-                onExited={() => {
-                    alert('exited');
-                }}
-                context={props.context}
-                form={form}
-            />
-        </div>
-    );
-}
-
-type FormProps = {
-    binding: AppBinding;
-    context: AppContext;
-    app_id: string;
-}
-
-export function AppBindingForm(props: FormProps) {
-    return (
-        <div style={styles.containerSpacing}>
-            <AppsForm
-                hideCancel={true}
-                isEmbedded={true}
-                onExited={() => {
-                    alert('exited');
-                }}
-                context={props.context}
-                form={props.binding.form}
-            />
-        </div>
-    );
-}
-
-type MenuProps = {
-    binding: AppBinding;
-    context: AppContext;
-    app_id: string;
-};
-
-export function AppBindingMenu(props: MenuProps) {
-    const menuItems = props.binding.bindings?.map((menuItem, i) => {
-        return (
-            <AppBindingMenuItem
-                key={i}
-                binding={menuItem}
-                app_id={props.app_id}
-                context={props.context}
-            />
-        );
-    });
-
-    return (
-        <div>
-            <h2>
-                {props.binding.label}
-            </h2>
-            {menuItems}
-        </div>
-    );
-}
-
-type MenuItemProps = {
-    binding: AppBinding;
-    context: AppContext;
-    app_id: string;
-};
-
-export function AppBindingMenuItem(props: MenuItemProps) {
-    const dispatch = useDispatch();
-
-    const binding = {...props.binding, app_id: props.app_id};
-    const context = {...props.context, app_id: props.app_id};
-
-    return (
-        <MenuItem
-            icon={(
-                <i
-                    className={binding.icon ? ('icon icon-' + binding.icon) : ''}
-                />
-            )}
-            text={props.binding.label}
-            onClick={() => dispatch(handleBindingClick(binding, context, null))}
-            opensSubpanel={true}
-            badge={props.binding.hint}
+        <AppBindingView
+            {...childProps}
         />
     );
 }
-
-const styles = {
-    containerSpacing: {
-        paddingLeft: '20px',
-        paddingRight: '20px',
-    },
-};

@@ -220,6 +220,13 @@ export function showRHSAppBinding(binding: AppBinding) {
     };
 }
 
+export function hideRHSAppBinding() {
+    return async (dispatch: DispatchFunc) => {
+        dispatch(closeRightHandSide());
+        return {data: true};
+    };
+}
+
 export function showChannelMembers(channelId: string, inEditingMode = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState() as GlobalState;
