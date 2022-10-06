@@ -7,7 +7,47 @@ import React from 'react';
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list';
 
-export default class AutocompleteSelector extends React.PureComponent {
+import {AppSelectOption} from '@mattermost/types/apps';
+
+import ModalSuggestionList from './suggestion/modal_suggestion_list';
+import {Channel} from './suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
+import UserProfile from './user_profile/user_profile';
+import Provider from './suggestion/provider';
+
+type Select = {
+    id: string;
+    username: string;
+    display_name: string;
+    value: string;
+    text: string;
+}
+type Selected = AppSelectOption & UserProfile & Channel & Select;
+
+type Props = {
+    onSelected: (selected: Selected) => void;
+    value: string;
+    providers: Provider[];
+    placeholder?: string ;
+    footer?: string;
+    label?: React.ReactNode;
+    labelClassName: string;
+    helpText?: React.ReactNode;
+    inputClassName: string;
+    disabled?: boolean;
+    listComponent: typeof ModalSuggestionList | typeof SuggestionList;
+    listPosition: string;
+    input?: string;
+    toggleFocus?: ((opened: boolean) => void) | null;
+    id: string;
+    setSuggestionRef?: (selected: Selected) => Promise<void>;
+}
+type State = {
+    target?: {value: string};
+    focused?: boolean;
+    input: string;
+}
+
+export default class AutocompleteSelector extends React.PureComponent <Props, State> {
     static propTypes = {
         providers: PropTypes.array.isRequired,
         value: PropTypes.string.isRequired,
@@ -32,8 +72,9 @@ export default class AutocompleteSelector extends React.PureComponent {
         listComponent: SuggestionList,
         listPosition: 'top',
     };
+    suggestionRef?: React.RefObject<HTMLDivElement>;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -41,7 +82,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         };
     }
 
-    onChange = (e) => {
+    onChange = (e: State) => {
         if (!e || !e.target) {
             return;
         }
@@ -49,7 +90,7 @@ export default class AutocompleteSelector extends React.PureComponent {
         this.setState({input: e.target.value});
     }
 
-    handleSelected = (selected) => {
+    handleSelected = (selected: Selected) => {
         this.setState({input: ''});
 
         if (this.props.onSelected) {
@@ -58,12 +99,12 @@ export default class AutocompleteSelector extends React.PureComponent {
 
         requestAnimationFrame(() => {
             if (this.suggestionRef) {
-                this.suggestionRef.blur();
+                this.suggestionRef.current?.blur();
             }
         });
     }
 
-    setSuggestionRef = (ref) => {
+    setSuggestionRef = (ref: React.RefObject<HTMLDivElement>) => {
         this.suggestionRef = ref;
     }
 
