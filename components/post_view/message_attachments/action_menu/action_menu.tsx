@@ -14,8 +14,6 @@ import GenericChannelProvider from 'components/suggestion/generic_channel_provid
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
 import type {OwnProps, PropsFromRedux} from './index';
 
 type Option = {
@@ -34,8 +32,6 @@ type State = {
     value: string;
 };
 
-type AutocompleteUsers = (username: string) => (doDispatch: DispatchFunc) => Promise<any>;
-
 export default class ActionMenu extends React.PureComponent<Props, State> {
     private providers: Provider[];
 
@@ -46,7 +42,7 @@ export default class ActionMenu extends React.PureComponent<Props, State> {
         this.providers = [];
         if (action) {
             if (action.data_source === 'users') {
-                this.providers = [new GenericUserProvider(props.autocompleteUsers as unknown as AutocompleteUsers)];
+                this.providers = [new GenericUserProvider(props.autocompleteUsers)];
             } else if (action.data_source === 'channels') {
                 this.providers = [new GenericChannelProvider(props.autocompleteChannels)];
             } else if (action.options) {

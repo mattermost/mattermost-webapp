@@ -6,13 +6,13 @@ import React, {useCallback, useRef} from 'react';
 import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import {UserProfile} from '@mattermost/types/users';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import Setting from 'components/admin_console/setting';
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
-type Props = {
+export type Props = {
     id: string;
     label: string;
     placeholder: string;
@@ -21,7 +21,7 @@ type Props = {
     onChange: (id: string, value: string) => void;
     disabled: boolean;
     actions: {
-        autocompleteUsers: (username: string) => (doDispatch: DispatchFunc) => Promise<UserProfile[]>;
+        autocompleteUsers: (username: string) => Promise<UserAutocomplete>;
     };
 }
 

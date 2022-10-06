@@ -23,7 +23,7 @@ import Provider from 'components/suggestion/provider';
 
 import Markdown from 'components/markdown';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import AppsFormSelectField from './apps_form_select_field';
 
@@ -43,7 +43,7 @@ export interface Props {
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
-        autocompleteUsers: (search: string) => (doDispatch: DispatchFunc) => Promise<any>;
+        autocompleteUsers: (search: string) => Promise<UserAutocomplete>;
     };
 }
 

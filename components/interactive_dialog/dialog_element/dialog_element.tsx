@@ -6,9 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import GenericUserProvider from 'components/suggestion/generic_user_provider';
-
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
-
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
@@ -18,12 +16,12 @@ import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
 import {Channel} from '@mattermost/types/channels';
 import Provider from 'components/suggestion/provider';
-import {DispatchFunc} from 'mattermost-redux/types/actions';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 const TEXT_DEFAULT_MAX_LENGTH = 150;
 const TEXTAREA_DEFAULT_MAX_LENGTH = 3000;
 
-type Props = {
+export type Props = {
     displayName: string;
     name: string;
     type: string;
@@ -43,7 +41,7 @@ type Props = {
     autoFocus?: boolean;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
-        autocompleteUsers: (search: string) => (doDispatch: DispatchFunc) => Promise<any>;
+        autocompleteUsers: (search: string) => Promise<UserAutocomplete>;
     };
 }
 

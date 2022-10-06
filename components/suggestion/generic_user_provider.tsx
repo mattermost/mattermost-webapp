@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions.js';
-
 import {Client4} from 'mattermost-redux/client';
 
 import * as Utils from 'utils/utils';
@@ -16,7 +14,7 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
-import {UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
+import {UserAutocomplete, UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
 
 type ProviderResults = {
     matchedPretext: string;
@@ -76,8 +74,8 @@ class UserSuggestion extends Suggestion {
 }
 
 export default class UserProvider extends Provider {
-    autocompleteUsers: any;
-    constructor(searchUsersFunc: (username: string) => (doDispatch: DispatchFunc) => Promise<any>) {
+    autocompleteUsers: (text: string) => Promise<UserAutocomplete>;
+    constructor(searchUsersFunc: (username: string) => Promise<UserAutocomplete>) {
         super();
         this.autocompleteUsers = searchUsersFunc;
     }
