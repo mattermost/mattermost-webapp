@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels, NotificationSections} from 'utils/constants';
 
-import Describe from 'components/channel_notifications_modal/components/describe.jsx';
+import Describe from 'components/channel_notifications_modal/components/describe';
 
 describe('components/channel_notifications_modal/NotificationSection', () => {
     const baseProps = {
@@ -42,7 +42,7 @@ describe('components/channel_notifications_modal/NotificationSection', () => {
     });
 
     test('should match snapshot, on MARK_UNREAD & ALL', () => {
-        const props = {...baseProps, section: NotificationSections.MARK_UNREAD, memberNotifyLevel: NotificationLevels.ALL, globalNotifyLevel: null};
+        const props = {...baseProps, section: NotificationSections.MARK_UNREAD, memberNotifyLevel: NotificationLevels.ALL};
         const wrapper = shallow(
             <Describe {...props}/>,
         );
