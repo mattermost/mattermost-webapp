@@ -34,18 +34,11 @@ import SwitchChannelProvider from 'components/suggestion/switch_channel_provider
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
+import {ProviderResult} from 'components/suggestion/provider';
+
 import {getBaseStyles} from './forward_post_channel_select_styles';
 
 const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
-
-export type ProviderResults = {
-    matchedPretext: string;
-    terms: string[];
-
-    // The providers currently do not provide a clearly defined type and structure
-    items: Array<Record<string, any>>;
-    component?: React.ReactNode;
-}
 
 type ChannelTypeFromProvider = Channel & {
     userId?: string;
@@ -263,7 +256,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];
 
-        const handleDefaultResults = (res: ProviderResults) => {
+        const handleDefaultResults = (res: ProviderResult) => {
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
@@ -292,7 +285,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              *
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
-            const handleResults = (res: ProviderResults) => {
+            const handleResults = (res: ProviderResult) => {
                 res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
                     const {channel} = item;
 

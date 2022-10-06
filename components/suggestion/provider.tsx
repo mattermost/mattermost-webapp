@@ -1,7 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ProviderResults} from 'components/forward_post_modal/forward_post_channel_select';
+export type ProviderResult = {
+    matchedPretext: string;
+    terms: string[];
+    items: Array<Record<string, any>>;
+    component?: React.ReactNode;
+}
 
 export default class Provider {
     latestPrefix: string;
@@ -18,7 +23,7 @@ export default class Provider {
     }
 
     // eslint-disable-next-line
-    handlePretextChanged(pretext: string, callback: (res: ProviderResults) => void) { // eslint-disable-line no-unused-vars
+    handlePretextChanged(pretext: string, callback: (res: ProviderResult) => void) { // eslint-disable-line no-unused-vars
         // NO-OP for inherited classes to override
     }
 
