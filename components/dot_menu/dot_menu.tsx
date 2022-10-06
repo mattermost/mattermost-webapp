@@ -6,24 +6,27 @@ import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {Post} from 'mattermost-redux/types/posts';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 
-import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS} from 'utils/constants';
+import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS, Preferences} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import DelayedAction from 'utils/delayed_action';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import ChannelPermissionGate from 'components/permissions_gates/channel_permission_gate';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
+import ForwardPostModal from '../forward_post_modal';
+import Badge from '../widgets/badges/badge';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
+import './dot_menu.scss';
 
 type ShortcutKeyProps = {
     shortcutKey: string;
@@ -43,11 +46,11 @@ type Props = {
     teamId: string;
     location?: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | 'SEARCH' | string;
     isFlagged?: boolean;
-    handleCommentClick: React.EventHandler<any>;
+    handleCommentClick?: React.EventHandler<any>;
     handleDropdownOpened: (open: boolean) => void;
     handleAddReactionClick?: () => void;
     isMenuOpen?: boolean;
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
     isLicensed?: boolean; // TechDebt: Made non-mandatory while converting to typescript
     postEditTimeLimit?: string; // TechDebt: Made non-mandatory while converting to typescript
     enableEmojiPicker?: boolean; // TechDebt: Made non-mandatory while converting to typescript
@@ -55,6 +58,7 @@ type Props = {
     currentTeamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     isMobileView: boolean;
+    showForwardPostNewLabel: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -105,6 +109,11 @@ type Props = {
          */
         setThreadFollow: (userId: string, teamId: string, threadId: string, newState: boolean) => void;
 
+        /**
+         * Function to set a global storage item on the store
+         */
+        setGlobalItem: (name: string, value: any) => void;
+
     }; // TechDebt: Made non-mandatory while converting to typescript
 
     canEdit: boolean;
@@ -129,9 +138,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         isReadOnly: false,
         location: Locations.CENTER,
     }
-    private keysHeldDown: string[] = [];
     private editDisableAction: DelayedAction;
     private buttonRef: React.RefObject<HTMLButtonElement>;
+    private canPostBeForwarded: boolean;
 
     constructor(props: Props) {
         super(props);
@@ -145,6 +154,8 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         };
 
         this.buttonRef = React.createRef<HTMLButtonElement>();
+
+        this.canPostBeForwarded = false;
     }
 
     static getDerivedStateFromProps(props: Props) {
@@ -179,18 +190,15 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     componentDidUpdate(prevProps: Props): void {
         if (!prevProps.isMenuOpen && this.props.isMenuOpen) {
             window.addEventListener('keydown', this.onShortcutKeyDown);
-            window.addEventListener('keyup', this.onShortcutKeyUp);
         }
 
         if (prevProps.isMenuOpen && !this.props.isMenuOpen) {
             window.removeEventListener('keydown', this.onShortcutKeyDown);
-            window.removeEventListener('keyup', this.onShortcutKeyUp);
         }
     }
 
     componentWillUnmount(): void {
         window.removeEventListener('keydown', this.onShortcutKeyDown);
-        window.removeEventListener('keyup', this.onShortcutKeyUp);
         this.editDisableAction.cancel();
     }
 
@@ -260,6 +268,30 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         this.props.actions.openModal(deletePostModalData);
     }
 
+    handleForwardMenuItemActivated = (e: ChangeEvent): void => {
+        if (!this.canPostBeForwarded) {
+            // adding this early return since only hiding the Item from the menu is not enough,
+            // since a user can always use the Shortcuts to activate the function as well
+            return;
+        }
+
+        e.preventDefault();
+
+        trackDotMenuEvent(e, TELEMETRY_LABELS.FORWARD);
+        const forwardPostModalData = {
+            modalId: ModalIdentifiers.FORWARD_POST_MODAL,
+            dialogType: ForwardPostModal,
+            dialogProps: {
+                post: this.props.post,
+            },
+        };
+
+        if (this.props.showForwardPostNewLabel) {
+            this.props.actions.setGlobalItem(Preferences.FORWARD_POST_VIEWED, false);
+        }
+        this.props.actions.openModal(forwardPostModalData);
+    }
+
     handleEditMenuItemActivated = (e: ChangeEvent): void => {
         trackDotMenuEvent(e, TELEMETRY_LABELS.EDIT);
         this.props.handleDropdownOpened?.(false);
@@ -274,12 +306,19 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     handleSetThreadFollow = (e: ChangeEvent) => {
         const {actions, teamId, threadId, userId, isFollowingThread, isMentionedInRootPost} = this.props;
         let followingThread: boolean;
-        if (isFollowingThread) {
-            trackDotMenuEvent(e, TELEMETRY_LABELS.UNFOLLOW);
-            followingThread = !isFollowingThread;
-        } else {
-            trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
+
+        // This is required as post with mention doesn't have isFollowingThread property set to true but user with mention is following, so we will get null as value kind of hack for this.
+
+        if (isFollowingThread === null) {
             followingThread = !isMentionedInRootPost;
+        } else {
+            followingThread = !isFollowingThread;
+        }
+
+        if (followingThread) {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.FOLLOW);
+        } else {
+            trackDotMenuEvent(e, TELEMETRY_LABELS.UNFOLLOW);
         }
         actions.setThreadFollow(
             userId,
@@ -291,7 +330,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     handleCommentClick = (e: ChangeEvent) => {
         trackDotMenuEvent(e, TELEMETRY_LABELS.REPLY);
-        this.props.handleCommentClick(e);
+        this.props.handleCommentClick?.(e);
     }
 
     tooltip = (
@@ -326,10 +365,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             return;
         }
 
-        if (this.keysHeldDown.includes(e.key)) {
-            return;
-        }
-        this.keysHeldDown.push(e.key);
+        const isShiftKeyPressed = e.shiftKey;
 
         switch (true) {
         case Utils.isKeyPressed(e, Constants.KeyCodes.R):
@@ -344,8 +380,14 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             break;
 
         // follow thread
-        case Utils.isKeyPressed(e, Constants.KeyCodes.F):
+        case Utils.isKeyPressed(e, Constants.KeyCodes.F) && !isShiftKeyPressed:
             this.handleSetThreadFollow(e);
+            this.props.handleDropdownOpened(false);
+            break;
+
+        // forward post
+        case Utils.isKeyPressed(e, Constants.KeyCodes.F) && isShiftKeyPressed:
+            this.handleForwardMenuItemActivated(e);
             this.props.handleDropdownOpened(false);
             break;
 
@@ -387,11 +429,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
         }
     }
 
-    onShortcutKeyUp = (e: KeyboardEvent): void => {
-        e.preventDefault();
-        this.keysHeldDown = this.keysHeldDown.filter((key) => key !== e.key);
-    }
-
     handleDropdownOpened = (open: boolean) => {
         this.props.handleDropdownOpened?.(open);
 
@@ -418,6 +455,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     render(): JSX.Element {
+        const isFollowingThread = this.props.isFollowingThread ?? this.props.isMentionedInRootPost;
         const isMobile = this.props.isMobileView;
         const isSystemMessage = PostUtils.isSystemMessage(this.props.post);
         const deleteShortcutText = (
@@ -426,10 +464,30 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
             </span>
         );
 
+        this.canPostBeForwarded = !(isSystemMessage);
+
+        const forwardPostItemText = (
+            <span className={'title-with-new-badge'}>
+                <FormattedMessage
+                    id='forward_post_button.label'
+                    defaultMessage='Forward'
+                />
+                {this.props.showForwardPostNewLabel && (
+                    <Badge variant='success'>
+                        <FormattedMessage
+                            id='badge.label.new'
+                            defaultMessage='NEW'
+                        />
+                    </Badge>
+                )}
+            </span>
+        );
+
         return (
             <MenuWrapper
                 open={this.props.isMenuOpen}
                 onToggle={this.handleDropdownOpened}
+                className={'dropdown-menu__dotmenu'}
             >
                 <OverlayTrigger
                     className='hidden-xs'
@@ -452,18 +510,27 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     </button>
                 </OverlayTrigger>
                 <Menu
-                    className={'status-dropdown-menu-global-header'}
+                    className={'Menu__content dropdown-menu'}
                     id={`${this.props.location}_dropdown_${this.props.post.id}`}
                     openLeft={true}
                     openUp={this.state.openUp}
                     ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 >
                     <Menu.ItemAction
+                        className={'MenuItem'}
                         show={!isSystemMessage && this.props.location === Locations.CENTER}
                         text={Utils.localizeMessage('post_info.reply', 'Reply')}
                         icon={Utils.getMenuItemIcon('icon-reply-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='R'/>}
                         onClick={this.handleCommentClick}
+                    />
+                    <Menu.ItemAction
+                        className={'MenuItem'}
+                        show={this.canPostBeForwarded}
+                        text={forwardPostItemText}
+                        icon={Utils.getMenuItemIcon('icon-arrow-right-bold-outline')}
+                        rightDecorator={<ShortcutKey shortcutKey='Shift + F'/>}
+                        onClick={this.handleForwardMenuItemActivated}
                     />
                     <ChannelPermissionGate
                         channelId={this.props.post.channel_id}
@@ -490,7 +557,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                                     this.props.location === Locations.RHS_COMMENT
                                 )
                         )}
-                        {...this.props.isFollowingThread ? {
+                        {...isFollowingThread ? {
                             icon: Utils.getMenuItemIcon('icon-message-minus-outline'),
                             text: this.props.threadReplyCount ? Utils.localizeMessage('threading.threadMenu.unfollow', 'Unfollow thread') : Utils.localizeMessage('threading.threadMenu.unfollowMessage', 'Unfollow message'),
                         } : {
@@ -507,16 +574,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         onClick={this.handleMarkPostAsUnread}
                     />
                     <Menu.ItemAction
-                        show={isMobile && !isSystemMessage && this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved')}
-                        icon={Utils.getMenuItemIcon('icon-bookmark')}
-                        rightDecorator={<ShortcutKey shortcutKey='S'/>}
-                        onClick={this.handleFlagMenuItemActivated}
-                    />
-                    <Menu.ItemAction
-                        show={isMobile && !isSystemMessage && !this.props.isFlagged}
-                        text={Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
-                        icon={Utils.getMenuItemIcon('icon-bookmark-outline')}
+                        show={!isSystemMessage}
+                        text={this.props.isFlagged ? Utils.localizeMessage('rhs_root.mobile.unflag', 'Remove from Saved') : Utils.localizeMessage('rhs_root.mobile.flag', 'Save')}
+                        icon={this.props.isFlagged ? Utils.getMenuItemIcon('icon-bookmark') : Utils.getMenuItemIcon('icon-bookmark-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='S'/>}
                         onClick={this.handleFlagMenuItemActivated}
                     />

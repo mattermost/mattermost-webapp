@@ -15,7 +15,6 @@ import MobileChannelHeaderPlug from 'plugins/mobile_channel_header_plug';
 import CategoryMenuItems from 'components/category_menu_items';
 import ChannelNotificationsModal from 'components/channel_notifications_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import ChannelMembersModal from 'components/channel_members_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import RenameChannelModal from 'components/rename_channel_modal';
@@ -37,6 +36,7 @@ import MenuItemToggleMuteChannel from './menu_items/toggle_mute_channel';
 import MenuItemToggleFavoriteChannel from './menu_items/toggle_favorite_channel';
 import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
 import MenuItemToggleInfo from './menu_items/toggle_info';
+import MenuItemOpenMembersRHS from './menu_items/open_members_rhs';
 
 export default class ChannelHeaderDropdown extends React.PureComponent {
     static propTypes = {
@@ -164,12 +164,10 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             text={localizeMessage('navbar.addMembers', 'Add Members')}
                         />
                     </ChannelPermissionGate>
-                    <Menu.ItemToggleModalRedux
+                    <MenuItemOpenMembersRHS
                         id='channelViewMembers'
+                        channel={channel}
                         show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && (isArchived || isDefault)}
-                        modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                        dialogType={ChannelMembersModal}
-                        dialogProps={{channel}}
                         text={localizeMessage('channel_header.viewMembers', 'View Members')}
                     />
                     <ChannelPermissionGate
@@ -192,13 +190,12 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             dialogProps={{channelID: channel.id}}
                             text={localizeMessage('navbar_dropdown.manageGroups', 'Manage Groups')}
                         />
-                        <Menu.ItemToggleModalRedux
+                        <MenuItemOpenMembersRHS
                             id='channelManageMembers'
+                            channel={channel}
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
-                            modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                            dialogType={ChannelMembersModal}
-                            dialogProps={{channel}}
                             text={localizeMessage('channel_header.manageMembers', 'Manage Members')}
+                            editMembers={!isArchived}
                         />
                     </ChannelPermissionGate>
                     <ChannelPermissionGate
@@ -207,12 +204,10 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         permissions={[channelMembersPermission]}
                         invert={true}
                     >
-                        <Menu.ItemToggleModalRedux
+                        <MenuItemOpenMembersRHS
                             id='channelViewMembers'
+                            channel={channel}
                             show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL && !isArchived && !isDefault}
-                            modalId={ModalIdentifiers.CHANNEL_MEMBERS}
-                            dialogType={ChannelMembersModal}
-                            dialogProps={{channel}}
                             text={localizeMessage('channel_header.viewMembers', 'View Members')}
                         />
                     </ChannelPermissionGate>
@@ -283,6 +278,7 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                             id='channelArchiveChannel'
                             show={!isArchived && !isDefault && channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                             modalId={ModalIdentifiers.DELETE_CHANNEL}
+                            className='MenuItem__dangerous'
                             dialogType={DeleteChannelModal}
                             dialogProps={{
                                 channel,

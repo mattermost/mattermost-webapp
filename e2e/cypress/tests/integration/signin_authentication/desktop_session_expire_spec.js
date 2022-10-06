@@ -56,7 +56,7 @@ describe('Authentication', () => {
         cy.externalRequest({user: sysadmin, method: 'post', path: `users/${testUser.id}/sessions/revoke/all`});
 
         // * Login page shows a message above the login box that the session has expired.
-        cy.get('#login_section .alert-warning', {timeout: timeouts.ONE_MIN}).should('contain.text', 'Your session has expired. Please log in again.');
+        cy.get('.AlertBanner.warning', {timeout: timeouts.ONE_MIN}).should('contain.text', 'Your session has expired. Please log in again.');
 
         // # Go back and view the original session app/browser, and wait until you see a desktop notification (may take up to a minute)
         // * Desktop notification is sent (may take up to 1 min)

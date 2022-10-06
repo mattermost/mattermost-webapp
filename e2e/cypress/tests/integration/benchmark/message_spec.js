@@ -51,7 +51,7 @@ describe('Message', () => {
             win.resetTrackedSelectors();
 
             // # Push a character key such as "A"
-            cy.get('#post_textbox').type('A').then(() => {
+            cy.uiGetPostTextBox().type('A').then(() => {
                 reportBenchmarkResults(cy, win);
             });
         });

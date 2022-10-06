@@ -74,18 +74,14 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
 
         menuItems.forEach((item) => {
             // * Verify that the menu item is focused
-            if (item === 'View Info' || item === 'Mute Channel' || item === 'Leave Channel') {
-                cy.uiGetChannelMenu().findByText(item).parent().parent().should('be.focused');
-            } else {
-                cy.uiGetChannelMenu().findByText(item).parent().should('be.focused');
-            }
+            cy.uiGetChannelMenu().findByText(item).parent().should('be.focused');
 
             // # Press tab for next item
             cy.focused().tab();
         });
 
         // * Verify if menu is closed when we press Escape
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.uiGetChannelMenu({exist: false});
     });
 
@@ -132,7 +128,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         });
 
         // * Verify if menu is closed when we press Escape
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.uiGetLHSTeamMenu().should('not.exist');
     });
 
@@ -188,7 +184,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         });
 
         // * Verify if menu is closed when we press Escape
-        cy.get('body').type('{esc}', {force: true});
+        cy.get('body').typeWithForce('{esc}');
         cy.uiGetStatusMenuContainer({exist: false});
     });
 });

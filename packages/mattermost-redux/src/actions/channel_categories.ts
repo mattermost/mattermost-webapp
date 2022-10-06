@@ -27,8 +27,8 @@ import {
     DispatchFunc,
     GetStateFunc,
 } from 'mattermost-redux/types/actions';
-import {CategorySorting, OrderedChannelCategories, ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Channel} from 'mattermost-redux/types/channels';
+import {CategorySorting, OrderedChannelCategories, ChannelCategory} from '@mattermost/types/channel_categories';
+import {Channel} from '@mattermost/types/channels';
 
 import {insertMultipleWithoutDuplicates, insertWithoutDuplicates, removeItem} from 'mattermost-redux/utils/array_utils';
 

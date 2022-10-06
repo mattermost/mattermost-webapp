@@ -7,7 +7,7 @@ import * as reselect from 'reselect';
 
 import {Posts, Preferences} from 'mattermost-redux/constants';
 
-import {makeGetPostsForIds} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetPostsForIds, UserActivityPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {isTimezoneEnabled} from 'mattermost-redux/selectors/entities/timezone';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -16,8 +16,8 @@ import {createIdsSelector, memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isUserActivityPost, shouldFilterJoinLeavePost, isFromWebhook} from 'mattermost-redux/utils/post_utils';
 import {getUserCurrentTimezone} from 'mattermost-redux/utils/timezone_utils';
 
-import {Post, UserActivityPost} from 'mattermost-redux/types/posts';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {Post} from '@mattermost/types/posts';
+import {GlobalState} from '@mattermost/types/store';
 
 export const COMBINED_USER_ACTIVITY = 'user-activity-';
 export const CREATE_COMMENT = 'create-comment';

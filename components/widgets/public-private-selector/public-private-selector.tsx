@@ -13,7 +13,7 @@ import GlobeCircleSolidIcon from '../icons/globe_circle_solid_icon';
 import LockCircleSolidIcon from '../icons/lock_circle_solid_icon';
 import UpgradeBadge from '../icons/upgrade_badge_icon';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import './public-private-selector.scss';
 

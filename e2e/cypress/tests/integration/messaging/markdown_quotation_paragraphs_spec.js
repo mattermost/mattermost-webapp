@@ -23,9 +23,9 @@ describe('Messaging', () => {
         const messageParts = ['this is', 'really', 'three quote lines'];
 
         // # Post message to use
-        cy.get('#post_textbox').clear().type('>' + messageParts[0]).type('{shift}{enter}{enter}');
-        cy.get('#post_textbox').type('>' + messageParts[1]).type('{shift}{enter}{enter}');
-        cy.get('#post_textbox').type('>' + messageParts[2]).type('{enter}');
+        cy.uiGetPostTextBox().clear().type('>' + messageParts[0]).type('{shift}{enter}{enter}');
+        cy.uiGetPostTextBox().type('>' + messageParts[1]).type('{shift}{enter}{enter}');
+        cy.uiGetPostTextBox().type('>' + messageParts[2]).type('{enter}');
 
         var firstPartLeft;
         cy.getLastPostId().then((postId) => {

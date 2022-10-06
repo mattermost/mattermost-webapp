@@ -172,7 +172,6 @@
     },
     "ComplianceSettings": {
         "Enable": false,
-        "Directory": "./data/",
         "EnableDaily": false
     },
     "LocalizationSettings": {

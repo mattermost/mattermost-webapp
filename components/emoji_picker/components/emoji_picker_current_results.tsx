@@ -7,8 +7,8 @@ import {FixedSizeList, ListItemKeySelector, ListOnScrollProps} from 'react-windo
 import InfiniteLoader from 'react-window-infinite-loader';
 import throttle from 'lodash/throttle';
 
-import {Emoji, EmojiCategory, CustomEmoji, SystemEmoji} from 'mattermost-redux/types/emojis';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {Emoji, EmojiCategory, CustomEmoji, SystemEmoji} from '@mattermost/types/emojis';
+import {ServerError} from '@mattermost/types/errors';
 
 import {CategoryOrEmojiRow, EmojiCursor} from 'components/emoji_picker/types';
 import {ITEM_HEIGHT, EMOJI_ROWS_OVERSCAN_COUNT, EMOJI_CONTAINER_HEIGHT, CUSTOM_EMOJIS_PER_PAGE, EMOJI_SCROLL_THROTTLE_DELAY} from 'components/emoji_picker/constants';

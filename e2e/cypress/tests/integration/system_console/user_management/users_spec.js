@@ -167,7 +167,7 @@ describe('System Console > User Management > Users', () => {
 
         // * Verify the appropriate error is returned.
         cy.get('form.form-horizontal').find('.has-error p.error').should('be.visible').
-            and('contain', 'Your password must contain between 5 and 64 characters.');
+            and('contain', 'Must be 5-64 characters long.');
     });
 
     it('MM-T936 Users - System admin changes own password - Blank fields', () => {
@@ -197,7 +197,7 @@ describe('System Console > User Management > Users', () => {
 
         // * Verify the appropriate error is returned.
         cy.get('form.form-horizontal').find('.has-error p.error').should('be.visible').
-            and('contain', 'Your password must contain between 5 and 64 characters.');
+            and('contain', 'Must be 5-64 characters long.');
     });
 
     it('MM-T937 Users - System admin changes own password - Successfully changed', () => {

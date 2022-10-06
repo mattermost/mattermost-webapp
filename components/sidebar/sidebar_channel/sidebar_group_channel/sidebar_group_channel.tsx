@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {Channel} from '@mattermost/types/channels';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {browserHistory} from 'utils/browser_history';

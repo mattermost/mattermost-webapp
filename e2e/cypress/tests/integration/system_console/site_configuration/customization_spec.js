@@ -46,8 +46,8 @@ describe('Customization', () => {
         cy.url().should('include', '/login');
 
         // * Ensure Site Name and Description are shown the updated values in the login screen
-        cy.get('#site_name').should('have.text', siteName);
-        cy.get('#site_description').should('have.text', siteDescription);
+        cy.findByRole('link', {name: siteName}).should('be.visible');
+        cy.get('.login-body-card-title').should('have.text', siteDescription);
     });
 
     it('MM-T1025 - Site Name - Product Menu ➜ About and About Modal show custom name', () => {
@@ -111,7 +111,7 @@ describe('Customization', () => {
         cy.url().should('include', '/login');
 
         // * Ensure that the signup is loaded and the img doesn't exist
-        cy.get('.signup__markdown').find('img').should('not.be.visible');
+        cy.get('.login-body-custom-branding-image').should('not.exist');
     });
 
     it('MM-T1028 - Custom brand image and text - true, and uploaded / updated', () => {
@@ -146,10 +146,10 @@ describe('Customization', () => {
         // * Ensure that the user was redirected to the login page after the logout
         cy.url().should('include', '/login');
 
-        cy.get('.signup__markdown').within(() => {
-            // * Ensure that the signup is loaded and the img is visible
-            cy.get('img').should('be.visible');
+        // * Verify that the image is visible
+        cy.get('.login-body-custom-branding-image').should('exist').and('be.visible');
 
+        cy.get('.login-body-custom-branding-markdown').first().within(() => {
             // * Ensure that the custom brand text has been updated
             cy.get('p').should('have.text', customBrandText);
         });
@@ -213,7 +213,7 @@ describe('Customization', () => {
         // * Ensure that the user was redirected to the login page after the logout
         cy.url().should('include', '/login');
 
-        cy.get('.signup__markdown div div').should('be.visible').within(() => {
+        cy.get('.login-body-custom-branding-markdown').first().scrollIntoView().should('be.visible').within(() => {
             // * Ensure custom emoji has been rendered
             // ToDo: uncomment after fixing MM-12657
             //cy.get('span.emoticon').should('have.attr', 'title', ':yay:');
@@ -275,15 +275,17 @@ describe('Customization', () => {
         // * Ensure that the user was redirected to the login page after the logout
         cy.url().should('include', '/login');
 
-        // * Ensure Site Name and Description have the default values
-        cy.get('#site_name').should('have.text', siteName);
-        cy.get('#site_description').should('have.text', 'All team communication in one place, searchable and accessible anywhere');
+        // * Ensure that the default Site Name is shown in the login screen
+        cy.get('.header-logo-link svg').should('be.visible');
+
+        // * Ensure Description have the default values
+        cy.findByText('Collaborate with your team in real-time').should('exist').and('be.visible');
 
         // * Ensure that the custom branding img is not visible
-        cy.get('img').should('not.be.visible');
+        cy.get('.login-body-custom-branding-image').should('not.exist');
 
-        // * Ensure that the custom branding text is empty
-        cy.get('.signup__markdown').should('be.empty');
+        // * Ensure that the custom branding text is not visible
+        cy.get('.login-body-custom-branding-markdown').should('not.exist');
     });
 
     it('MM-T1282 - Site Name help text matches text field behavior', () => {
@@ -304,7 +306,7 @@ describe('Customization', () => {
         cy.url().should('include', '/login');
 
         // * Ensure that the custom Site Name is shown
-        cy.get('#site_name').should('have.text', siteName);
+        cy.findByRole('link', {name: siteName}).should('be.visible');
 
         // # Log back in as an administrator
         cy.apiAdminLogin();
@@ -328,7 +330,7 @@ describe('Customization', () => {
         cy.url().should('include', '/login');
 
         // * Ensure that the default Site Name is shown in the login screen
-        cy.get('#site_name').should('have.text', 'Mattermost');
+        cy.get('.header-logo-link svg').should('be.visible');
 
         // # Log back in as an administrator
         cy.apiAdminLogin();

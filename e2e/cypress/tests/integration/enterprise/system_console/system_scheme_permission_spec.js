@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @system_console
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getAdminAccount} from '../../../support/env';
 
 describe('System Scheme Channel Mentions Permissions Test', () => {
@@ -118,11 +117,11 @@ const channelMentionsPermissionCheck = (enabled) => {
 const createPostPermissionCheck = (enabled) => {
     if (enabled) {
         // # Try post it to the channel
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('not.be.disabled');
+        cy.uiGetPostTextBox().and('not.be.disabled');
         cy.postMessage('test');
     } else {
         // # Ensure the input is disabled
-        cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('be.disabled');
+        cy.uiGetPostTextBox().and('be.disabled');
     }
 
     // # Get last post message text

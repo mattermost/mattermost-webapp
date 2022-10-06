@@ -6,7 +6,7 @@ import * as Selectors from 'selectors/storage';
 import * as Actions from 'actions/storage';
 import store from 'stores/redux_store.jsx';
 import {ErrorPageTypes, StoragePrefixes, LandingPreferenceTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 const dispatch = store.dispatch;
 const getState = store.getState;

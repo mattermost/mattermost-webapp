@@ -5,21 +5,100 @@ import {MessageDescriptor} from 'react-intl';
 
 import {t} from 'utils/i18n';
 
-export type KeyboardShortcutDescriptor = MessageDescriptor | {default: MessageDescriptor; mac?: MessageDescriptor};
+export type KeyboardShortcutDescriptor =
+	| MessageDescriptor
+	| {default: MessageDescriptor; mac?: MessageDescriptor};
 
-export function isMessageDescriptor(descriptor: KeyboardShortcutDescriptor): descriptor is MessageDescriptor {
+export function isMessageDescriptor(
+    descriptor: KeyboardShortcutDescriptor,
+): descriptor is MessageDescriptor {
     return Boolean((descriptor as MessageDescriptor).id);
 }
+
+const callsKBShortcuts = {
+    global: {
+        callsJoinCall: {
+            default: {
+                id: t('shortcuts.calls.join_call'),
+                defaultMessage: 'Join call in current channel:\tCtrl|Shift|S',
+            },
+            mac: {
+                id: t('shortcuts.calls.join_call.mac'),
+                defaultMessage: 'Join call in current channel:\t⌘|Shift|S',
+            },
+        },
+    },
+    widget: {
+        callsMuteToggle: {
+            default: {
+                id: t('shortcuts.calls.mute_toggle'),
+                defaultMessage: 'Mute or unmute:\tCtrl|Shift|Space',
+            },
+            mac: {
+                id: t('shortcuts.calls.mute_toggle.mac'),
+                defaultMessage: 'Mute or unmute:\t⌘|Shift|Space',
+            },
+        },
+        callsRaiseHandToggle: {
+            default: {
+                id: t('shortcuts.calls.raise_hand_toggle'),
+                defaultMessage: 'Raise or lower hand:\tCtrl|Shift|Y',
+            },
+            mac: {
+                id: t('shortcuts.calls.raise_hand_toggle.mac'),
+                defaultMessage: 'Raise or lower hand:\t⌘|Shift|Y',
+            },
+        },
+        callsShareScreenToggle: {
+            default: {
+                id: t('shortcuts.calls.share_screen_toggle'),
+                defaultMessage: 'Share or unshare the screen:\tCtrl|Shift|E',
+            },
+            mac: {
+                id: t('shortcuts.calls.share_screen_toggle.mac'),
+                defaultMessage: 'Share or unshare the screen:\t⌘|Shift|E',
+            },
+        },
+        callsParticipantsListToggle: {
+            default: {
+                id: t('shortcuts.calls.participants_list_toggle'),
+                defaultMessage: 'Show or hide participants list:\tAlt|P\tCtrl|Shift|P',
+            },
+            mac: {
+                id: t('shortcuts.calls.participants_list_toggle.mac'),
+                defaultMessage: 'Show or hide participants list:\t⌥|P\t⌘|Shift|P',
+            },
+        },
+        callsLeaveCall: {
+            default: {
+                id: t('shortcuts.calls.leave_call'),
+                defaultMessage: 'Leave current call:\tCtrl|Shift|L',
+            },
+            mac: {
+                id: t('shortcuts.calls.leave_call.mac'),
+                defaultMessage: 'Leave current call:\t⌘|Shift|L',
+            },
+        },
+    },
+    popout: {
+        callsPushToTalk: {
+            default: {
+                id: t('shortcuts.calls.push_to_talk'),
+                defaultMessage: 'Hold to unmute (push to talk):\tSpace',
+            },
+        },
+    },
+};
 
 export const KEYBOARD_SHORTCUTS = {
     mainHeader: {
         default: {
             id: t('shortcuts.header'),
-            defaultMessage: 'Keyboard Shortcuts\tCtrl|/',
+            defaultMessage: 'Keyboard shortcuts\tCtrl|/',
         },
         mac: {
             id: t('shortcuts.header.mac'),
-            defaultMessage: 'Keyboard Shortcuts\t⌘|/',
+            defaultMessage: 'Keyboard shortcuts\t⌘|/',
         },
     },
     navPrev: {
@@ -155,11 +234,11 @@ export const KEYBOARD_SHORTCUTS = {
     navOpenCloseSidebar: {
         default: {
             id: t('shortcuts.nav.open_close_sidebar'),
-            defaultMessage: 'Open or close the right sidebar\tCtrl|.',
+            defaultMessage: 'Open or close the right sidebar:\tCtrl|.',
         },
         mac: {
             id: t('shortcuts.nav.open_close_sidebar.mac'),
-            defaultMessage: 'Open or close the right sidebar\t⌘|.',
+            defaultMessage: 'Open or close the right sidebar:\t⌘|.',
         },
     },
     navExpandSidebar: {
@@ -170,6 +249,26 @@ export const KEYBOARD_SHORTCUTS = {
         mac: {
             id: t('shortcuts.nav.expand_sidebar.mac'),
             defaultMessage: 'Expand the right sidebar:\t⌘|Shift|.',
+        },
+    },
+    navOpenChannelInfo: {
+        default: {
+            id: t('shortcuts.nav.open_channel_info'),
+            defaultMessage: 'View channel info:\tCtrl|Alt|I',
+        },
+        mac: {
+            id: t('shortcuts.nav.open_channel_info.mac'),
+            defaultMessage: 'View channel info:\t⌘|Shift|I',
+        },
+    },
+    navToggleUnreads: {
+        default: {
+            id: t('shortcuts.nav.toggle_unreads'),
+            defaultMessage: 'Toggle unread/all channels:\tCtrl|Shift|U',
+        },
+        mac: {
+            id: t('shortcuts.nav.toggle_unreads.mac'),
+            defaultMessage: 'Toggle unread/all channels:\t⌘|Shift|U',
         },
     },
     msgEdit: {
@@ -232,6 +331,96 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Bold:\t⌘|B',
         },
     },
+    msgMarkdownCode: {
+        default: {
+            id: t('shortcuts.msgs.markdown.code'),
+            defaultMessage: 'Code',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.code.mac'),
+            defaultMessage: 'Code',
+        },
+    },
+    msgMarkdownStrike: {
+        default: {
+            id: t('shortcuts.msgs.markdown.strike'),
+            defaultMessage: 'Strikethrough:\tCtrl|Shift|X',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.strike.mac'),
+            defaultMessage: 'Strikethrough:\t⌘|Shift|X',
+        },
+    },
+    msgMarkdownH3: {
+        default: {
+            id: t('shortcuts.msgs.markdown.h3'),
+            defaultMessage: 'Heading',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.h3.mac'),
+            defaultMessage: 'Heading',
+        },
+    },
+    msgMarkdownQuote: {
+        default: {
+            id: t('shortcuts.msgs.markdown.quote'),
+            defaultMessage: 'Quote',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.quote.mac'),
+            defaultMessage: 'Quote',
+        },
+    },
+    msgMarkdownOl: {
+        default: {
+            id: t('shortcuts.msgs.markdown.ordered'),
+            defaultMessage: 'Numbered List',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.ordered.mac'),
+            defaultMessage: 'Numbered List',
+        },
+    },
+    msgMarkdownUl: {
+        default: {
+            id: t('shortcuts.msgs.markdown.unordered'),
+            defaultMessage: 'Bulleted List',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.unordered.mac'),
+            defaultMessage: 'Bulleted List',
+        },
+    },
+    msgShowFormatting: {
+        default: {
+            id: t('shortcuts.msgs.markdown.formatting'),
+            defaultMessage: 'Show/Hide Formatting:\tCtrl|Alt|T',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.formatting.mac'),
+            defaultMessage: 'Show/Hide Formatting:\t⌘|⌥|T',
+        },
+    },
+    msgShowEmojiPicker: {
+        default: {
+            id: t('shortcuts.msgs.markdown.emoji'),
+            defaultMessage: 'Emoji / Gif picker:\tCtrl|Shift|E',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.emoji.mac'),
+            defaultMessage: 'Emoji / Gif picker:\t⌘|Shift|E',
+        },
+    },
+    msgMarkdownPreview: {
+        default: {
+            id: t('shortcuts.msgs.markdown.preview'),
+            defaultMessage: 'Show/Hide Preview:\tCtrl|Alt|P',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.preview.mac'),
+            defaultMessage: 'Show/Hide Preview:\t⌘|Shift|P',
+        },
+    },
     msgMarkdownItalic: {
         default: {
             id: t('shortcuts.msgs.markdown.italic'),
@@ -249,7 +438,7 @@ export const KEYBOARD_SHORTCUTS = {
         },
         mac: {
             id: t('shortcuts.msgs.markdown.link.mac'),
-            defaultMessage: 'Link:\t⌘|Alt|K',
+            defaultMessage: 'Link:\t⌘|⌥|K',
         },
     },
     filesUpload: {
@@ -314,4 +503,25 @@ export const KEYBOARD_SHORTCUTS = {
         id: t('shortcuts.browser.newline'),
         defaultMessage: 'Create a new line:\tShift|Enter',
     },
+    msgSearchChannel: {
+        default: {
+            id: t('shortcuts.msgs.search_channel'),
+            defaultMessage: 'In channel:\tCtrl|F',
+        },
+        mac: {
+            id: t('shortcuts.msgs.search_channel.mac'),
+            defaultMessage: 'In channel:\t⌘|F',
+        },
+    },
+    msgPostPriority: {
+        default: {
+            id: t('shortcuts.msgs.formatting_bar.post_priority'),
+            defaultMessage: 'Message priority',
+        },
+        mac: {
+            id: t('shortcuts.msgs.formatting_bar.post_priority'),
+            defaultMessage: 'Message priority',
+        },
+    },
+    calls: callsKBShortcuts,
 };

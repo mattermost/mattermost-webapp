@@ -4,6 +4,7 @@
 import React, {RefObject, CSSProperties} from 'react';
 import Popper from 'popper.js';
 import ReactDOM from 'react-dom';
+import classNames from 'classnames';
 
 import {Constants} from 'utils/constants';
 import Pluggable from 'plugins/pluggable';
@@ -31,9 +32,6 @@ type State = {
 
 export default class LinkTooltip extends React.PureComponent<Props, State> {
     private tooltipContainerRef: RefObject<HTMLDivElement>;
-    private tooltipContainer: Element | null = null;
-    private targetRef: RefObject<HTMLSpanElement>;
-    private target: Element | null = null;
     private hideTimeout: number;
     private showTimeout: number;
     private popper?: Popper;
@@ -42,7 +40,6 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         super(props);
 
         this.tooltipContainerRef = React.createRef();
-        this.targetRef = React.createRef();
         this.showTimeout = -1;
         this.hideTimeout = -1;
 
@@ -51,19 +48,21 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         };
     }
 
-    componentDidUpdate(prevProps: Props, prevState: State) {
-        if (this.state.show && !prevState.show) {
-            //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
-            window.clearTimeout(this.hideTimeout);
+    public showTooltip = (e: React.MouseEvent<HTMLSpanElement>): void => {
+        //clear the hideTimeout in the case when the cursor is moved from a tooltipContainer child to the link
+        window.clearTimeout(this.hideTimeout);
+
+        if (!this.state.show) {
+            const target = e.currentTarget;
+            const tooltipContainer = this.tooltipContainerRef.current;
 
             //clear the old this.showTimeout if there is any before overriding
             window.clearTimeout(this.showTimeout);
 
-            this.tooltipContainer = this.tooltipContainerRef.current;
-            this.target = this.targetRef.current;
-
             this.showTimeout = window.setTimeout(() => {
-                if (!this.tooltipContainer || !this.target) {
+                this.setState({show: true});
+
+                if (!tooltipContainer) {
                     return;
                 }
 
@@ -75,10 +74,10 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                         }
                     });
                 };
-                this.tooltipContainer.childNodes.forEach(addChildEventListeners);
+                tooltipContainer.childNodes.forEach(addChildEventListeners);
 
-                this.popper = new Popper(this.target, this.tooltipContainer, {
-                    placement: 'auto',
+                this.popper = new Popper(target, tooltipContainer, {
+                    placement: 'bottom',
                     modifiers: {
                         preventOverflow: {enabled: false},
                         hide: {enabled: false},
@@ -86,13 +85,6 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                 });
             }, Constants.OVERLAY_TIME_DELAY);
         }
-    }
-
-    public showTooltip = (): void => {
-        if (this.state.show) {
-            return;
-        }
-        this.setState({show: true});
     };
 
     public hideTooltip = (): void => {
@@ -117,11 +109,11 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
         };
         return (
             <React.Fragment>
-                {this.state.show && ReactDOM.createPortal(
+                {ReactDOM.createPortal(
                     <div
                         style={tooltipContainerStyles}
                         ref={this.tooltipContainerRef}
-                        className='tooltip-container'
+                        className={classNames('tooltip-container', {visible: this.state.show})}
                     >
                         <Pluggable
                             href={href}
@@ -132,7 +124,6 @@ export default class LinkTooltip extends React.PureComponent<Props, State> {
                     document.getElementById('root') as HTMLElement,
                 )}
                 <span
-                    ref={this.targetRef}
                     onMouseOver={this.showTooltip}
                     onMouseLeave={this.hideTooltip}
                     {...dataAttributes}

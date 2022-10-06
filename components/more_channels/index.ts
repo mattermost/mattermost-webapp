@@ -7,7 +7,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {createSelector} from 'reselect';
 
 import {RequestStatus} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -15,7 +15,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannels, getArchivedChannels, joinChannel} from 'mattermost-redux/actions/channels';
 import {getOtherChannels, getChannelsInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 
-import {searchMoreChannels} from 'actions/channel_actions.jsx';
+import {searchMoreChannels} from 'actions/channel_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 
 import {ModalData} from 'types/actions';

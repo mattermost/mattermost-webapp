@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {Modal} from 'react-bootstrap';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import WarnMetricAckModal from 'components/warn_metric_ack_modal/warn_metric_ack_modal';
 

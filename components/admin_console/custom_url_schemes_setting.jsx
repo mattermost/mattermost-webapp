@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 
 import * as Utils from 'utils/utils';
-import {t} from 'utils/i18n.jsx';
+import {t} from 'utils/i18n';
 
 import LocalizedInput from 'components/localized_input/localized_input';
 

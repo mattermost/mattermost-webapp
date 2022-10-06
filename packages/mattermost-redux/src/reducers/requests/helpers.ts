@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {RequestStatus} from 'mattermost-redux/constants';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {RequestStatusType} from 'mattermost-redux/types/requests';
+import {RequestStatusType} from '@mattermost/types/requests';
 export function initialRequestState(): RequestStatusType {
     return {
         status: RequestStatus.NOT_STARTED,

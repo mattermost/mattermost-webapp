@@ -48,6 +48,18 @@
             line-height: 20px;
         }
 
+        .IconMessage-buttons {
+            display: flex;
+            height: 40px;
+            justify-content: center;
+            margin-top: 16px;
+            font-size: 14px;
+            font-weight: 600;
+            gap: 16px;
+            line-height: 14px;
+            text-align: center;
+        }
+
         .IconMessage-progress {
             width: 387px;
             height: 4px;
@@ -64,16 +76,19 @@
         }
 
         .IconMessage-button {
-            min-width: 95px;
-            height: 40px;
-            align-self: center;
-            margin-top: 16px;
-            margin-right: auto;
-            margin-left: auto;
-            font-size: 14px;
-            font-weight: 600;
-            line-height: 14px;
-            text-align: center;
+            button {
+                background: var(--button-bg);
+                border-radius: 4px;
+                color: var(--button-color);
+            }
+        }
+
+        .IconMessage-tertiary-button {
+            button {
+                background: rgba(var(--denim-button-bg-rgb), 0.08);
+                border-radius: 4px;
+                color: var(--button-bg);
+            }
         }
 
         .IconMessage-link {

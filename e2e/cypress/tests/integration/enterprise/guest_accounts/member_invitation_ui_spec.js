@@ -56,7 +56,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // * Verify UI Elements in initial step
         cy.findByTestId('invitationModal').within(() => {
-            cy.get('h1').should('have.text', `Invite members to ${testTeam.display_name}`);
+            cy.get('h1').should('have.text', `Invite people to ${testTeam.display_name}`);
         });
 
         stubClipboard().as('clipboard');
@@ -75,7 +75,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
 
             // # Type the email of the new user
-            cy.get('input').type(email, {force: true});
+            cy.get('input').typeWithForce(email);
         });
         cy.get('.users-emails-input__menu').
             children().should('have.length', 1).
@@ -88,7 +88,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
     it('MM-T1324 Invite Members - Team Link - New User', () => {
         // # Wait for page to load and then logout. Else invite members link will be redirected to login page
-        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
+        cy.uiGetPostTextBox().wait(TIMEOUTS.TWO_SEC);
         const inviteMembersLink = `/signup_user_complete/?id=${testTeam.invite_id}`;
         cy.apiLogout();
 
@@ -96,15 +96,16 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.visit(inviteMembersLink);
 
         // * Verify the sign up options
-        cy.findByText('AD/LDAP Credentials').should('be.visible');
-        cy.findByText('Email and Password').should('be.visible').click();
+        cy.findByText('AD/LDAP Credentials').scrollIntoView().should('be.visible');
+        cy.findByText('Email address').should('be.visible');
+        cy.findByPlaceholderText('Choose a Password').should('be.visible');
 
         // # Sign up via email
         const username = `temp-${getRandomId()}`;
         const email = `${username}@mattermost.com`;
-        cy.get('#email').type(email);
-        cy.get('#name').type(username);
-        cy.get('#password').type('Testing123');
+        cy.get('#input_email').type(email);
+        cy.get('#input_name').type(username);
+        cy.get('#input_password-input').type('Testing123');
         cy.findByText('Create Account').click();
 
         // * Verify if user is added to the invited team
@@ -123,7 +124,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Visit the team and wait for page to load and then logout.
             cy.visit(`/${team.name}/channels/town-square`);
-            cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
+            cy.uiGetPostTextBox().wait(TIMEOUTS.TWO_SEC);
             const inviteMembersLink = `/signup_user_complete/?id=${team.invite_id}`;
             cy.apiLogout();
 
@@ -131,12 +132,12 @@ describe('Guest Account - Member Invitation Flow', () => {
             cy.visit(inviteMembersLink);
 
             // # Click on the login option
-            cy.findByText('Click here to sign in.').should('be.visible').click();
+            cy.findByText('Log in').should('be.visible').click();
 
             // # Login as user
-            cy.get('#loginId').type(testUser.username);
-            cy.get('#loginPassword').type('passwd');
-            cy.findByText('Sign in').click();
+            cy.get('#input_loginId').type(testUser.username);
+            cy.get('#input_password-input').type('passwd');
+            cy.get('#saveSetting').should('not.be.disabled').click();
 
             // * Verify if user is added to the invited team
             cy.get(`#${testTeam.name}TeamButton`).as('teamButton').should('be.visible').within(() => {
@@ -219,7 +220,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             // # Add a random username without proper email address format
             const username = `temp-${getRandomId()}`;
             cy.get('.users-emails-input__control').should('be.visible').within(() => {
-                cy.get('input').type(username, {force: true}).tab();
+                cy.get('input').typeWithForce(username).tab();
             });
 
             // # Click Invite Members
@@ -254,7 +255,7 @@ function invitePeople(typeText, resultsCount, verifyText, clickInvite = true) {
 
     // # Search and add a member
     cy.get('.users-emails-input__control').should('be.visible').within(() => {
-        cy.get('input').type(typeText, {force: true});
+        cy.get('input').typeWithForce(typeText);
     });
 
     cy.get('.users-emails-input__menu').

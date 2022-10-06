@@ -4,11 +4,9 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import InviteMembersButton from 'components/sidebar/invite_members_button';
 
@@ -59,7 +57,6 @@ describe('components/sidebar/invite_members_button', () => {
         touchedInviteMembersButton: false,
     };
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
     jest.spyOn(teams, 'getCurrentTeamId').mockReturnValue('team_id2sss');
 

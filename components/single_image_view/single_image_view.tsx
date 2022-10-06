@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import SizeAwareImage from 'components/size_aware_image';
 import {FileTypes, ModalIdentifiers} from 'utils/constants';
@@ -91,6 +91,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             dialogProps: {
                 fileInfos: [this.props.fileInfo],
                 postId: this.props.postId,
+                startIndex: 0,
             },
         });
     }

@@ -41,9 +41,9 @@
         "CorsDebug": false,
         "AllowCookiesForSubdomains": false,
         "ExtendSessionLengthWithActivity": true,
-        "SessionLengthWebInDays": 30,
-        "SessionLengthMobileInDays": 30,
-        "SessionLengthSSOInDays": 30,
+        "SessionLengthWebInHours": 720,
+        "SessionLengthMobileInHours": 720,
+        "SessionLengthSSOInHours": 720,
         "SessionCacheInMinutes": 10,
         "SessionIdleTimeoutInMinutes": 43200,
         "WebsocketSecurePort": 443,
@@ -366,21 +366,6 @@
         "AndroidAppDownloadLink": "https://mattermost.com/mattermost-android-app/",
         "IosAppDownloadLink": "https://mattermost.com/mattermost-ios-app/"
     },
-    "ClusterSettings": {
-        "Enable": false,
-        "ClusterName": "",
-        "OverrideHostname": "",
-        "NetworkInterface": "",
-        "BindAddress": "",
-        "AdvertiseAddress": "",
-        "UseIpAddress": true,
-        "ReadOnlyConfig": false,
-        "GossipPort": 8074,
-        "StreamingPort": 8075,
-        "MaxIdleConns": 100,
-        "MaxIdleConnsPerHost": 128,
-        "IdleConnTimeoutMilliseconds": 90000
-    },
     "MetricsSettings": {
         "Enable": false,
         "BlockProfileRate": 0,
@@ -389,7 +374,6 @@
     "ExperimentalSettings": {
         "ClientSideCertEnable": false,
         "ClientSideCertCheck": "secondary",
-        "EnableClickToReply": false,
         "LinkMetadataTimeoutMilliseconds": 5000,
         "RestrictSystemAdmin": false,
         "UseNewSAMLLibrary": false

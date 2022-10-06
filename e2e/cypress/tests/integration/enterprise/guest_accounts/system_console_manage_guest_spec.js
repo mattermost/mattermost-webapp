@@ -132,7 +132,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
 
             // * Verify if the regular member is logged out and redirected to login page
             cy.url({timeout: TIMEOUTS.HALF_MIN}).should('include', '/login');
-            cy.get('#login_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+            cy.get('.login-body-card', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
         });
     });
 });

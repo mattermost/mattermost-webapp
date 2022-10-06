@@ -123,7 +123,7 @@ describe('Desktop notifications', () => {
             spyNotificationAs('withoutNotification', 'granted');
 
             // # Post the following: /dnd
-            cy.get('#post_textbox').clear().type('/dnd{enter}');
+            cy.uiGetPostTextBox().clear().type('/dnd{enter}');
 
             // # Have another user send you a DM
             cy.postMessageAs({sender: otherUser, message: MESSAGES.TINY, channelId: channel.id});

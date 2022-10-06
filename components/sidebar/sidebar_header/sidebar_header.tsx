@@ -12,6 +12,7 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 
+import useGetUsageDeltas from 'components/common/hooks/useGetUsageDeltas';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -42,7 +43,6 @@ const SidebarHeaderContainer = styled(Flex).attrs(() => ({
         transform: translate(0, 0);
         margin-left: 0;
         min-width: 210px;
-        max-width: 232px;
     }
 
     #SidebarContainer & .AddChannelDropdown_dropdownButton {
@@ -102,6 +102,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
     const currentTeam = useSelector((state: GlobalState) => getCurrentTeam(state));
     const showCreateTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CREATE_AND_JOIN_CHANNELS);
     const showInviteTutorialTip = useShowOnboardingTutorialStep(OnboardingTourSteps.INVITE_PEOPLE);
+    const usageDeltas = useGetUsageDeltas();
     const isAddChannelOpen = useSelector(isAddChannelDropdownOpen);
     const openAddChannelOpen = useCallback((open: boolean) => {
         dispatch(setAddChannelDropdown(open));
@@ -133,7 +134,10 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                             <span className='title'>{currentTeam.display_name}</span>
                             <i className='icon icon-chevron-down'/>
                         </SidebarHeading>
-                        <MainMenu id='sidebarDropdownMenu'/>
+                        <MainMenu
+                            id='sidebarDropdownMenu'
+                            usageDeltaTeams={usageDeltas.teams.active}
+                        />
                     </MenuWrapper>
                 </OverlayTrigger>
                 <AddChannelDropdown

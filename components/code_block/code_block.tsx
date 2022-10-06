@@ -11,7 +11,7 @@ import CopyButton from 'components/copy_button';
 import * as SyntaxHighlighting from 'utils/syntax_highlighting';
 
 import RootPortal from 'components/root_portal';
-import {copyToClipboard} from 'utils/utils.jsx';
+import {copyToClipboard} from 'utils/utils';
 
 type Props = {
     id: string;
@@ -110,7 +110,7 @@ const CodeBlock: React.FC<Props> = ({id, code, language, searchedContent}: Props
             {contextMenu}
             <ContextMenuTrigger
                 id={`copy-code-block-context-menu-${id}`}
-                holdToDisplay={1000}
+                holdToDisplay={-1}
             >
                 <div className='hljs'>
                     {lineNumbers}

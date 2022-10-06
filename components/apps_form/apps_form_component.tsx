@@ -8,8 +8,8 @@ import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse, AppFormValue} from 'mattermost-redux/types/apps';
-import {DialogElement} from 'mattermost-redux/types/integrations';
+import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse, AppFormValue} from '@mattermost/types/apps';
+import {DialogElement} from '@mattermost/types/integrations';
 import {AppCallResponseTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {DoAppCallResult} from 'types/apps';
@@ -18,7 +18,7 @@ import SpinnerButton from 'components/spinner_button';
 import SuggestionList from 'components/suggestion/suggestion_list';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import {filterEmptyOptions} from 'utils/apps';
 import Markdown from 'components/markdown';

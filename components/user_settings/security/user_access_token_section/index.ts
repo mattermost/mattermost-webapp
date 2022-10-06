@@ -12,7 +12,7 @@ import {
     enableUserAccessToken,
     disableUserAccessToken,
 } from 'mattermost-redux/actions/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import UserAccessTokenSection from './user_access_token_section';

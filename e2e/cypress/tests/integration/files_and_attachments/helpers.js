@@ -49,7 +49,7 @@ export function attachFile({filePath, fileName, mimeType}) {
     cy.fixture(filePath, 'binary').
         then(Cypress.Blob.binaryStringToBlob).
         then((fileContent) => {
-            cy.get('#centerChannelFooter').find('#fileUploadInput').attachFile({
+            cy.get('#advancedTextEditorCell').find('#fileUploadInput').attachFile({
                 fileContent,
                 fileName,
                 mimeType: mimeType || 'application/octet-stream',

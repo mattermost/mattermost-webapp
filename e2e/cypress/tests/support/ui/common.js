@@ -45,3 +45,11 @@ Cypress.Commands.add('uiGetHeading', (name) => {
 Cypress.Commands.add('uiGetTextbox', (name) => {
     return cy.findByRole('textbox', {name}).should('be.visible');
 });
+
+Cypress.Commands.add('uiCloseOnboardingTaskList', () => {
+    cy.get('[data-cy=onboarding-task-list-action-button]').then(($btn) => {
+        if ($btn.find('i.icon-close').length) {
+            $btn.trigger('click');
+        }
+    });
+});

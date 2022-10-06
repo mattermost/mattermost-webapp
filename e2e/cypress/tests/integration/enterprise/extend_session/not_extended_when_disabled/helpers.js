@@ -6,7 +6,7 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 const admin = getAdminAccount();
 const oneDay = 24 * 60 * 60 * 1000;
-const twentySeconds = 20 * 1000;
+const thirtySeconds = 30 * 1000;
 
 export function verifyExtendedSession(testUser, sessionLengthInDays, channelUrl) {
     // # Login as test user and visit default channel
@@ -22,7 +22,7 @@ export function verifyExtendedSession(testUser, sessionLengthInDays, channelUrl)
         cy.postMessage(now);
 
         // # Update user session which is to expire 20 sec from now
-        const soonToExpire = getExpirationFromNow(twentySeconds);
+        const soonToExpire = getExpirationFromNow(thirtySeconds);
         cy.dbUpdateUserSession({
             userId: initialSession.userid,
             sessionId: initialSession.id,
@@ -48,7 +48,7 @@ export function verifyExtendedSession(testUser, sessionLengthInDays, channelUrl)
                 expect(parseInt(extendedSession.expiresat, 10)).to.be.greaterThan(parseInt(updatedSession.expiresat, 10));
                 expect(parseInt(extendedSession.expiresat, 10)).to.be.greaterThan(parseInt(initialSession.expiresat, 10));
 
-                expect(parseInt(extendedSession.expiresat, 10)).to.be.closeTo(now + (sessionLengthInDays * oneDay), twentySeconds);
+                expect(parseInt(extendedSession.expiresat, 10)).to.be.closeTo(now + (sessionLengthInDays * oneDay * 0.042), thirtySeconds);
             });
 
             // # Post multiple times to check that the session continues and doesn't redirect to login page
@@ -74,7 +74,7 @@ export function verifyNotExtendedSession(testUser, channelUrl) {
         cy.postMessage(`now: ${now}`);
 
         // # Update user session which is to expire 20 sec from now
-        const soonToExpire = getExpirationFromNow(twentySeconds);
+        const soonToExpire = getExpirationFromNow(thirtySeconds);
         cy.dbUpdateUserSession({
             userId: initialSession.userid,
             sessionId: initialSession.id,

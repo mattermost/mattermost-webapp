@@ -146,9 +146,9 @@ describe('User Management', () => {
         cy.apiLogout();
 
         // # Type email and password.
-        cy.get('#loginId').type(testUser.email);
-        cy.get('#loginPassword').type(testUser.password);
-        cy.findByText('Sign in').click();
+        cy.get('#input_loginId').type(testUser.email);
+        cy.get('#input_password-input').type(testUser.password);
+        cy.get('#saveSetting').should('not.be.disabled').click();
 
         // * Verify that logging in with the old e-mail works but requires e-mail verification.
         cy.url().should('include', 'should_verify_email');
@@ -286,7 +286,7 @@ describe('User Management', () => {
             // # Complete verification.
             cy.visit(verificationLink);
             cy.findByText('Email Verified').should('be.visible');
-            cy.get('#loginId').should('be.visible').and('have.value', user.email);
+            cy.get('#input_loginId').should('be.visible').and('have.value', user.email);
         });
     }
 

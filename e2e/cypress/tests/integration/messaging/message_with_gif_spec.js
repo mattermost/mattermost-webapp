@@ -36,11 +36,11 @@ describe('Show GIF images properly', () => {
         cy.url().should('include', offtopiclink);
 
         // # Post tenor GIF
-        cy.postMessage('https://media1.tenor.com/images/4627c6507cdc899d211319081ba5740b/tenor.gif');
+        cy.postMessage('https://c.tenor.com/Ztva2YFROSkAAAAi/duck-searching.gif');
 
         cy.getLastPostId().as('postId').then((postId) => {
             // * Validate image size
-            cy.get(`#post_${postId}`).find('.attachment__image').should('have.css', 'width', '320px');
+            cy.get(`#post_${postId}`).find('.attachment__image').should('have.css', 'width', '137px');
         });
 
         // # Post giphy GIF

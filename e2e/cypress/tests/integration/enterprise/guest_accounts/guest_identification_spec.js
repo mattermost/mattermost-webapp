@@ -105,7 +105,7 @@ describe('Guest Accounts', () => {
 
         // # Type guest user e-mail address.
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
-            cy.get('input').type(guestEmail + '{enter}', {force: true});
+            cy.get('input').typeWithForce(guestEmail + '{enter}');
         });
         cy.get('.users-emails-input__menu').
             children().should('have.length', 1).
@@ -113,7 +113,7 @@ describe('Guest Accounts', () => {
 
         // # Search and add to a Channel.
         cy.get('.channels-input__control').should('be.visible').within(() => {
-            cy.get('input').type(testChannel.name, {force: true});
+            cy.get('input').typeWithForce(testChannel.name);
         });
         cy.get('.channels-input__menu').
             children().should('have.length', 1).
@@ -141,9 +141,8 @@ describe('Guest Accounts', () => {
         });
 
         // # Create an account with Email and Password.
-        cy.findAllByText('Email and Password').click();
-        cy.get('#name').type(username);
-        cy.get('#password').type(username);
+        cy.get('#input_name').type(username);
+        cy.get('#input_password-input').type(username);
         cy.findByText('Create Account').click();
 
         // * When MFA is enforced for Guest Access, guest user should be forced to configure MFA while creating an account.

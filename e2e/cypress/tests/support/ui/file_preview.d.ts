@@ -36,6 +36,14 @@ declare namespace Cypress {
         uiGetFileUploadPreview(): Chainable;
 
         /**
+         * Wait for file upload preview located below post textbox
+         *
+         * @example
+         *   cy.uiGetFileUploadPreview();
+         */
+        uiGetFileUploadPreview(): Chainable;
+
+        /**
          * Get file preview modal
          *
          * @param {bool} option.exist - Set to false to not verify if the element exists. Otherwise, true (default) to check existence.

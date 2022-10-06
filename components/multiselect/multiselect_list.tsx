@@ -8,7 +8,7 @@ import {getOptionValue} from 'react-select/src/builtins';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import Constants from 'utils/constants';
-import {cmdOrCtrlPressed} from 'utils/utils.jsx';
+import {cmdOrCtrlPressed} from 'utils/utils';
 
 import LoadingScreen from 'components/loading_screen';
 
@@ -31,6 +31,7 @@ export type Props<T extends Value> = {
     options: T[];
     page: number;
     perPage: number;
+    customNoOptionsMessage?: React.ReactNode;
 }
 
 type State = {
@@ -164,7 +165,7 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
     }
 
     public render() {
-        const options = this.props.options;
+        const {options, customNoOptionsMessage} = this.props;
         let renderOutput;
 
         if (this.props.loading) {
@@ -177,22 +178,26 @@ export default class MultiSelectList<T extends Value> extends React.PureComponen
                 </div>
             );
         } else if (options == null || options.length === 0) {
-            renderOutput = (
-                <div
-                    key='no-users-found'
-                    className='no-channel-message'
-                >
-                    <p className='primary-message'>
-                        <FormattedMarkdownMessage
-                            id='multiselect.list.notFound'
-                            defaultMessage='No results found matching **{searchQuery}**'
-                            values={{
-                                searchQuery: this.props.query,
-                            }}
-                        />
-                    </p>
-                </div>
-            );
+            if (customNoOptionsMessage) {
+                renderOutput = customNoOptionsMessage;
+            } else {
+                renderOutput = (
+                    <div
+                        key='no-users-found'
+                        className='no-channel-message'
+                    >
+                        <p className='primary-message'>
+                            <FormattedMarkdownMessage
+                                id='multiselect.list.notFound'
+                                defaultMessage='No results found matching **{searchQuery}**'
+                                values={{
+                                    searchQuery: this.props.query,
+                                }}
+                            />
+                        </p>
+                    </div>
+                );
+            }
         } else {
             let renderer: Props<T>['optionRenderer'];
             if (this.props.optionRenderer) {

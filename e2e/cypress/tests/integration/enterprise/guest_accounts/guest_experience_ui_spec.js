@@ -89,21 +89,6 @@ describe('Guest Account - Guest User Experience', () => {
             cy.wrap($el).find('.has-guest-header').should('be.visible').and('have.text', 'This channel has guests');
         });
 
-        // * Verify list of Users and Guest Badge in Channel Members List
-        cy.get('#member_popover').click();
-        cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 2).each(($elChild) => {
-                cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
-                    if (username === guestUser.username) {
-                        cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
-                    }
-                });
-            });
-        });
-
-        // # Close the Channel Members Popover
-        cy.get('#member_popover').click();
-
         // * Verify list of Users in Direct Messages Dialog
         cy.uiAddDirectMessage().click().wait(TIMEOUTS.FIVE_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
@@ -171,21 +156,6 @@ describe('Guest Account - Guest User Experience', () => {
             cy.wrap($el).find('.has-guest-header').should('not.exist');
         });
 
-        // * Verify Guest Badge is removed in Channel Members List
-        cy.get('#member_popover').click();
-        cy.get('#member-list-popover').should('be.visible').within(($el) => {
-            cy.wrap($el).findAllByTestId('popoverListMembersItem').should('have.length', 2).each(($elChild) => {
-                cy.wrap($elChild).invoke('attr', 'aria-label').then((username) => {
-                    if (username === guestUser.username) {
-                        cy.wrap($elChild).find('.Badge').should('not.exist');
-                    }
-                });
-            });
-        });
-
-        // # Close the Channel Members Popover
-        cy.get('#member_popover').click();
-
         // * Verify Guest Badge is removed when user posts a message
         cy.get('#sidebarItem_off-topic').click({force: true});
         cy.postMessage('testing');
@@ -243,14 +213,14 @@ describe('Guest Account - Guest User Experience', () => {
         });
 
         // # Wait for page to load and then logout
-        cy.get('#post_textbox').should('be.visible').wait(TIMEOUTS.TWO_SEC);
+        cy.uiGetPostTextBox().wait(TIMEOUTS.TWO_SEC);
         cy.apiLogout();
         cy.visit('/');
 
         // # Login with guest user credentials and check the error message
-        cy.get('#loginId').type(guestUser.username);
-        cy.get('#loginPassword').type('passwd');
-        cy.findByText('Sign in').click();
+        cy.get('#input_loginId').type(guestUser.username);
+        cy.get('#input_password-input').type('passwd');
+        cy.get('#saveSetting').should('not.be.disabled').click();
 
         // * Verify if guest account is deactivated
         cy.findByText('Login failed because your account has been deactivated. Please contact an administrator.').should('be.visible');

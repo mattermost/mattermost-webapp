@@ -65,14 +65,14 @@ describe('Onboarding', () => {
         cy.visit(`/${testTeam.name}`);
 
         // # Attempt to create a new account
-        cy.get('#login_section', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').click();
-        cy.get('#signup').should('be.visible').click();
-        cy.get('#email').should('be.focused').and('be.visible').type(email);
-        cy.get('#name').should('be.visible').type(username);
-        cy.get('#password').should('be.visible').type(password);
-        cy.get('#createAccountButton').should('be.visible').click();
+        cy.get('.login-body-card', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create an account').should('be.visible').click();
+        cy.get('#input_email').should('be.focused').and('be.visible').type(email);
+        cy.get('#input_name').should('be.visible').type(username);
+        cy.get('#input_password-input').should('be.visible').type(password);
+        cy.findByText('Create Account').click();
 
-        cy.findByText('Mattermost: You are almost done').should('be.visible');
+        cy.findByText('You’re almost done!').should('be.visible');
 
         // # Get invitation email and go to the provided link
         getEmail(username, email);
@@ -81,11 +81,14 @@ describe('Onboarding', () => {
         cy.findByText('Email Verified').should('be.visible');
 
         // * Ensure that the email was pre-filled and the password input box is focused
-        cy.get('#loginId').should('be.visible').and('have.value', email);
-        cy.get('#loginPassword').should('be.visible').and('be.focused').type(password);
+        cy.get('#input_loginId').should('be.visible').and('have.value', email);
+        cy.get('#input_password-input').should('be.visible').and('be.focused').type(password);
 
         // # Click on the login button
-        cy.get('#loginButton').click();
+        cy.get('#saveSetting').click();
+
+        // # Close the onboarding tutorial
+        cy.uiCloseOnboardingTaskList();
 
         // * Check that the display name of the team the user was invited to is being correctly displayed
         cy.uiGetLHSHeader().findByText(testTeam.display_name);
@@ -95,8 +98,8 @@ describe('Onboarding', () => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
-        // * Check that the 'Welcome to Mattermost' message is visible
-        cy.findByText(`Welcome to ${siteName}`).should('be.visible');
+        // * Check that the 'Beginning of Town Square' message is visible
+        cy.findByText('Beginning of Town Square').should('be.visible');
     });
 
     // eslint-disable-next-line no-shadow

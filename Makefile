@@ -1,4 +1,4 @@
-.PHONY: build test run clean stop check-style fix-style run-unit emojis help package-ci storybook build-storybook update-dependencies
+.PHONY: build test run clean stop check-style fix-style run-unit emojis help package-ci update-dependencies
 
 BUILD_SERVER_DIR = ../mattermost-server
 BUILD_WEBAPP_DIR = ../mattermost-webapp
@@ -13,14 +13,6 @@ RUN_IN_BACKGROUND ?=
 ifeq ($(RUN_CLIENT_IN_BACKGROUND),true)
 	RUN_IN_BACKGROUND := &
 endif
-
-build-storybook: node_modules ## Build the storybook
-	@echo Building storybook
-
-	npm run build-storybook
-
-storybook: node_modules ## Run the storybook development environment
-	npm run storybook
 
 check-style: node_modules ## Checks JS file for ESLint confirmity
 	@echo Checking for style guide compliance
@@ -110,8 +102,13 @@ restart: | stop run ## Restarts the app
 clean: ## Clears cached; deletes node_modules and dist directories
 	@echo Cleaning Webapp
 
+	npm run clean --workspaces --if-present
+
 	rm -rf dist
 	rm -rf node_modules
+
+	rm -f .eslintcache
+	rm -f .stylelintcache
 
 e2e-test: node_modules
 	@echo E2E: Running mattermost-mysql-e2e
@@ -164,7 +161,7 @@ emojis: ## Creates emoji JSON, JSX and Go files and extracts emoji images from t
 
 ## Help documentatin à la https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help:
-	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+	@grep -E '^[0-9a-zA-Z_-]+:.*?## .*$$' ./Makefile | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
 update-dependencies: # Updates the dependencies
 	npm update --depth 9999

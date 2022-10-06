@@ -14,7 +14,7 @@ import Constants from 'utils/constants';
 import {cleanUpUrlable} from 'utils/url';
 import {GlobalState} from 'types/store';
 import Permissions from 'mattermost-redux/constants/permissions';
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 import {createChannel} from 'mattermost-redux/actions/channels';
 jest.mock('mattermost-redux/actions/channels');
 
@@ -279,7 +279,7 @@ describe('components/new_channel_modal', () => {
         const mockChangeInvalidEvent = {
             preventDefault: jest.fn(),
             target: {
-                value: 'c',
+                value: '',
             },
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 
@@ -318,7 +318,7 @@ describe('components/new_channel_modal', () => {
         const mockChangeURLInvalidEvent = {
             preventDefault: jest.fn(),
             target: {
-                value: 'c',
+                value: 'c-',
             },
         } as unknown as React.ChangeEvent<HTMLInputElement>;
 

@@ -4,17 +4,16 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config.js';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
+import {Role} from '@mattermost/types/roles';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {Role} from 'mattermost-redux/types/roles';
 
-import PermissionGroup from '../permission_group.jsx';
+import {isEnterpriseLicense, isNonEnterpriseLicense} from 'utils/license_utils';
 
+import PermissionGroup from '../permission_group';
 import EditPostTimeLimitButton from '../edit_post_time_limit_button';
 import EditPostTimeLimitModal from '../edit_post_time_limit_modal';
-
-import {isEnterpriseLicense, isNonEnterpriseLicense} from 'mattermost-redux/types/general';
 
 import {AdditionalValues, Group} from './types';
 
@@ -23,8 +22,8 @@ type Props = {
     config: Partial<ClientConfig>;
     role: Partial<Role>;
     onToggle: (name: string, ids: string[]) => void;
-    parentRole?: Partial<Role> | null;
-    selected?: string | null;
+    parentRole?: Partial<Role>;
+    selected?: string;
     selectRow: (id: string) => void;
     readOnly?: boolean;
     license?: ClientLicense;
@@ -193,16 +192,12 @@ export default class PermissionsTree extends React.PureComponent<Props, State> {
             },
             {
                 id: 'custom_groups',
-                permissions: [{
-                    id: 'custom_groups',
-                    combined: true,
-                    permissions: [
-                        Permissions.CREATE_CUSTOM_GROUP,
-                        Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
-                        Permissions.DELETE_CUSTOM_GROUP,
-                        Permissions.EDIT_CUSTOM_GROUP,
-                    ],
-                }],
+                permissions: [
+                    Permissions.CREATE_CUSTOM_GROUP,
+                    Permissions.MANAGE_CUSTOM_GROUP_MEMBERS,
+                    Permissions.EDIT_CUSTOM_GROUP,
+                    Permissions.DELETE_CUSTOM_GROUP,
+                ],
             },
         ];
         this.updateGroups();

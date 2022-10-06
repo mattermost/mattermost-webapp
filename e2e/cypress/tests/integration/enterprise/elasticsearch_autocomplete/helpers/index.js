@@ -233,9 +233,8 @@ module.exports = {
     },
     searchAndVerifyUser: (user) => {
         // # Start @ mentions autocomplete with username
-        cy.get('#post_textbox').
+        cy.uiGetPostTextBox().
             as('input').
-            should('be.visible').
             clear().
             type(`@${user.username}`);
 

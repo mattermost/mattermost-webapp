@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import AdvancedTab from './advanced';
 import DisplayTab from './display';
@@ -16,7 +16,7 @@ export type Props = {
     user: UserProfile;
     activeTab?: string;
     activeSection: string;
-    updateSection: (section: string) => void;
+    updateSection: (section?: string) => void;
     updateTab: (notifications: string) => void;
     closeModal: () => void;
     collapseModal: () => void;

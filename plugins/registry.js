@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint max-lines: 0 */
-
 import React from 'react';
 
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
@@ -28,7 +26,9 @@ import {
 
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
-import {generateId} from 'utils/utils.jsx';
+import {generateId} from 'utils/utils';
+
+const defaultShouldRender = () => true;
 
 function dispatchPluginComponentAction(name, pluginId, component, id = generateId()) {
     store.dispatch({
@@ -105,6 +105,9 @@ export default class PluginRegistry {
 
     // Register a component to show as a tooltip when a user hovers on a link in a post.
     // Accepts a React component. Returns a unique identifier.
+    // The component will be passed the following props:
+    // - href - The URL for this link
+    // - show - A boolean used to signal that the user is currently hovering over this link. Use this value to initialize your component when this boolean is true for the first time, using `componentDidUpdate` or `useEffect`.
     registerLinkTooltipComponent(component) {
         return dispatchPluginComponentAction('LinkTooltip', this.id, component);
     }
@@ -305,8 +308,10 @@ export default class PluginRegistry {
     // Accepts the following:
     // - text - A string or React element to display in the menu
     // - action - A function that receives the channelId and is called when the menu items is clicked.
+    // - shouldRender - A function that receives the state before the
+    // component is about to render, allowing for conditional rendering.
     // Returns a unique identifier.
-    registerChannelHeaderMenuAction(text, action) {
+    registerChannelHeaderMenuAction(text, action, shouldRender = defaultShouldRender) {
         const id = generateId();
 
         store.dispatch({
@@ -317,6 +322,7 @@ export default class PluginRegistry {
                 pluginId: this.id,
                 text: resolveReactElement(text),
                 action,
+                shouldRender,
             },
         });
 
@@ -871,5 +877,31 @@ export default class PluginRegistry {
         });
 
         return id;
+    }
+
+    // INTERNAL: Subject to change without notice.
+    // Register a handler to retrieve stats that will be displayed on the system console
+    // Accepts the following:
+    // - handler - Func to be called to retrieve the stats from plugin api. It must be type PluginSiteStatsHandler.
+    // Returns undefined
+    registerSiteStatisticsHandler(handler) {
+        const data = {
+            pluginId: this.id,
+            handler,
+        };
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_STATS_HANDLER,
+            data,
+        });
+    }
+
+    registerInsightsHandler(handler) {
+        store.dispatch({
+            type: ActionTypes.RECEIVED_PLUGIN_INSIGHT,
+            data: {
+                pluginId: this.id,
+                handler,
+            },
+        });
     }
 }

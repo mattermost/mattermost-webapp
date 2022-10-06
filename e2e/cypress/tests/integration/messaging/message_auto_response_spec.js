@@ -74,7 +74,7 @@ describe('Auto Response In DMs', () => {
 
         // # Send direct message to userB
         cy.uiAddDirectMessage().click();
-        cy.get('#selectItems').type(`${userB.username}`);
+        cy.get('#selectItems input').typeWithForce(userB.username);
         cy.findByText('Loading', {timeout: TIMEOUTS.FIVE_SEC}).should('be.visible');
         cy.findByText('Loading').should('not.exist');
         cy.get('#multiSelectList').findByText(`@${userB.username}`).click();

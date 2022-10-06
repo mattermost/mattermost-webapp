@@ -17,13 +17,13 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {switchToChannel} from 'actions/views/channel';
 import {closeModal} from 'actions/views/modals';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ChannelType, Channel} from 'mattermost-redux/types/channels';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ChannelType, Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants, {ItemStatus, ModalIdentifiers} from 'utils/constants';
 import {cleanUpUrlable, validateChannelUrl, getSiteURL} from 'utils/url';
 import {localizeMessage} from 'utils/utils';
 
@@ -58,7 +58,7 @@ export function validateDisplayName(displayName: string) {
 }
 
 const enum ServerErrorId {
-    CHANNEL_URL_SIZE = 'model.channel.is_valid.2_or_more.app_error',
+    CHANNEL_URL_SIZE = 'model.channel.is_valid.1_or_more.app_error',
     CHANNEL_UPDATE_EXISTS = 'store.sql_channel.update.exists.app_error',
     CHANNEL_CREATE_EXISTS = 'store.sql_channel.save_channel.exists.app_error',
     CHANNEL_PURPOSE_SIZE = 'model.channel.is_valid.purpose.app_error',
@@ -85,6 +85,10 @@ const NewChannelModal = () => {
     const [serverError, setServerError] = useState('');
 
     const handleOnModalConfirm = async () => {
+        if (!canCreate) {
+            return;
+        }
+
         const channel: Channel = {
             team_id: currentTeamId,
             name: url,
@@ -129,7 +133,7 @@ const NewChannelModal = () => {
             setURLError(
                 formatMessage({
                     id: 'channel_modal.handleTooShort',
-                    defaultMessage: 'Channel URL must be 2 or more lowercase alphanumeric characters',
+                    defaultMessage: 'Channel URL must be 1 or more lowercase alphanumeric characters',
                 }),
             );
             break;
@@ -171,6 +175,7 @@ const NewChannelModal = () => {
 
         if (!urlModified) {
             setURL(cleanUpUrlable(displayName));
+            setURLError('');
         }
     };
 
@@ -207,6 +212,11 @@ const NewChannelModal = () => {
         setServerError('');
     };
 
+    const handleOnPurposeKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        // Avoid firing the handleEnterKeyPress in GenericModal from purpose textarea
+        e.stopPropagation();
+    };
+
     const canCreate = displayName && !displayNameError && url && !urlError && type && !purposeError && !serverError;
 
     return (
@@ -219,8 +229,9 @@ const NewChannelModal = () => {
             errorText={serverError}
             isConfirmDisabled={!canCreate}
             autoCloseOnConfirmButton={false}
-            useCompassDesign={true}
+            compassDesign={true}
             handleConfirm={handleOnModalConfirm}
+            handleEnterKeyPress={handleOnModalConfirm}
             handleCancel={handleOnModalCancel}
             onExited={handleOnModalCancel}
         >
@@ -237,7 +248,7 @@ const NewChannelModal = () => {
                     placeholder={formatMessage({id: 'channel_modal.name.placeholder', defaultMessage: 'Enter a name for your new channel'})}
                     limit={Constants.MAX_CHANNELNAME_LENGTH}
                     value={displayName}
-                    error={displayNameModified ? displayNameError : ''}
+                    customMessage={displayNameModified ? {type: ItemStatus.ERROR, value: displayNameError} : null}
                     onChange={handleOnDisplayNameChange}
                     onBlur={handleOnDisplayNameBlur}
                 />
@@ -276,6 +287,7 @@ const NewChannelModal = () => {
                         autoComplete='off'
                         value={purpose}
                         onChange={handleOnPurposeChange}
+                        onKeyDown={handleOnPurposeKeyDown}
                     />
                     {purposeError ? (
                         <div className='new-channel-modal-purpose-error'>

@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import LocalizedIcon from 'components/localized_icon';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -19,12 +19,13 @@ import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
 import CRTThreadsPaneTutorialTip
     from 'components/crt_tour/crt_threads_pane_tutorial_tip/crt_threads_pane_tutorial_tip';
+import {RhsState} from 'types/store/rhs';
 
 interface RhsHeaderPostProps {
     isExpanded: boolean;
     isMobileView: boolean;
     rootPostId: string;
-    previousRhsState?: string;
+    previousRhsState?: RhsState;
     relativeTeamUrl: string;
     channel: Channel;
     isCollapsedThreadsEnabled: boolean;

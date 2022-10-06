@@ -92,7 +92,10 @@ export const TaskListPopover = ({
                 in={isVisible}
                 unmountOnExit={true}
             >
-                <Overlay onClick={onClick}/>
+                <Overlay
+                    onClick={onClick}
+                    data-cy='onboarding-task-list-overlay'
+                />
             </CSSTransition>
             <div
                 ref={setPopperElement}

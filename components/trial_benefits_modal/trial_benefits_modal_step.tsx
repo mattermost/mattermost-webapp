@@ -16,6 +16,7 @@ export type TrialBenefitsModalStepProps = {
     bottomLeftMessage?: string;
     buttonLabel?: string;
     pageURL?: string;
+    isCloud?: boolean;
     onClose?: () => void;
 }
 

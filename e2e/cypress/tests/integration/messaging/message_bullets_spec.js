@@ -20,7 +20,7 @@ describe('Message', () => {
 
     it('MM-T87 Text in bullet points is the same size as text above and below it', () => {
         // # Post a message
-        cy.get('#post_textbox').clear().
+        cy.uiGetPostTextBox().clear().
             type('This is a normal sentence.').
             type('{shift}{enter}{enter}').
             type('1. this is point 1').
@@ -67,7 +67,7 @@ describe('Message', () => {
 
         bulletMessages.forEach((bulletMessage) => {
             // # Post the message containing bullets
-            cy.get('#post_textbox').
+            cy.uiGetPostTextBox().
                 clear().
                 type(bulletMessage.text).
                 type('{enter}');

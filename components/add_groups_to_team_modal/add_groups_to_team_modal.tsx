@@ -7,10 +7,10 @@ import {FormattedMessage} from 'react-intl';
 
 import {Groups} from 'mattermost-redux/constants';
 
-import {Group, GroupsWithCount, SyncablePatch, SyncableType} from 'mattermost-redux/types/groups';
+import {Group, GroupsWithCount, SyncablePatch, SyncableType} from '@mattermost/types/groups';
 
 import Constants from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import MultiSelect, {Value} from 'components/multiselect/multiselect';
 import groupsAvatar from 'images/groups-avatar.png';

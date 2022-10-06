@@ -17,7 +17,7 @@ import {GlobalState} from 'types/store';
 import {requestTrialLicense} from 'actions/admin_actions';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {closeModal, openModal} from 'actions/views/modals';
+import {openModal} from 'actions/views/modals';
 
 import TrialBenefitsModal from 'components/trial_benefits_modal/trial_benefits_modal';
 
@@ -30,6 +30,10 @@ export type StartTrialBtnProps = {
     telemetryId: string;
     onClick?: () => void;
     handleEmbargoError?: () => void;
+    btnClass?: string;
+    renderAsButton?: boolean;
+    disabled?: boolean;
+    trackingPage?: string;
 };
 
 enum TrialLoadStatus {
@@ -42,9 +46,13 @@ enum TrialLoadStatus {
 
 const StartTrialBtn = ({
     message,
+    btnClass,
     telemetryId,
     onClick,
     handleEmbargoError,
+    disabled = false,
+    renderAsButton = false,
+    trackingPage = 'licensing',
 }: StartTrialBtnProps) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
@@ -59,7 +67,7 @@ const StartTrialBtn = ({
             users = stats.TOTAL_USERS;
         }
         const requestedUsers = Math.max(users, 30);
-        const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, 'license'));
+        const {error, data} = await dispatch(requestTrialLicense(requestedUsers, true, true, trackingPage));
         if (error) {
             if (typeof data?.status !== 'undefined' && data.status === 451) {
                 setLoadStatus(TrialLoadStatus.Embargoed);
@@ -73,7 +81,6 @@ const StartTrialBtn = ({
         }
 
         await dispatch(getLicenseConfig());
-        await dispatch(closeModal(ModalIdentifiers.LEARN_MORE_TRIAL_MODAL));
         setLoadStatus(TrialLoadStatus.Success);
         return TrialLoadStatus.Success;
     };
@@ -110,9 +117,10 @@ const StartTrialBtn = ({
         // it will be too late to wait for the render cycle to happen again
         // to close over the updated value
         const updatedStatus = await requestLicense();
-        await openTrialBenefitsModal(updatedStatus);
         if (onClick && updatedStatus === TrialLoadStatus.Success) {
             onClick();
+        } else {
+            await openTrialBenefitsModal(updatedStatus);
         }
         trackEvent(
             TELEMETRY_CATEGORIES.SELF_HOSTED_START_TRIAL_MODAL,
@@ -127,8 +135,21 @@ const StartTrialBtn = ({
             </div>
         );
     }
-    return (
+
+    const id = 'start_trial_btn';
+
+    return renderAsButton ? (
+        <button
+            id={id}
+            className={btnClass}
+            onClick={startTrial}
+            disabled={disabled}
+        >
+            {btnText(status)}
+        </button>
+    ) : (
         <a
+            id={id}
             className='StartTrialBtn start-trial-btn'
             onClick={startTrial}
         >

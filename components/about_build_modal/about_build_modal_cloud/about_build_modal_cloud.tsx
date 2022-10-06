@@ -6,7 +6,6 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 
 import './about_build_modal_cloud.scss';
@@ -97,9 +96,38 @@ export default function AboutBuildModalCloud(props: Props) {
                         </div>
                         {licensee}
                         <div className='about-footer'>
-                            <FormattedMarkdownMessage
+                            <FormattedMessage
                                 id='about.notice'
-                                defaultMessage='Mattermost is made possible by the open source software used in our [server](!https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt), [desktop](!https://github.com/mattermost/desktop/blob/master/NOTICE.txt) and [mobile](!https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt) apps.'
+                                defaultMessage='Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps.'
+                                values={{
+                                    linkServer: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkDesktop: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://github.com/mattermost/desktop/blob/master/NOTICE.txt'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                    linkMobile: (msg: React.ReactNode) => (
+                                        <a
+                                            href='https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt'
+                                            target='_blank'
+                                            rel='noreferrer'
+                                        >
+                                            {msg}
+                                        </a>
+                                    ),
+                                }}
                             />
                             <div className='copy-right'>
                                 <FormattedMessage

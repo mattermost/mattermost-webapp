@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
+
+export type Permissions = Array<string | Group | Permission>;
 
 export type Permission = {
     id: string;
@@ -15,7 +17,7 @@ export type Group = {
 }
 
 export type AdditionalValues = {
-    edit_post: {
+    [edit_post: string]: {
         editTimeLimitButton: JSX.Element;
     };
 }

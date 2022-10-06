@@ -82,7 +82,7 @@ describe('Channel Settings', () => {
         cy.get('#addUsersToChannelModal').should('be.visible');
 
         // # Type into the input box to search for a user
-        cy.get('#selectItems input').type('u');
+        cy.get('#selectItems input').typeWithForce('u');
 
         // # First add one user in order to see them disappearing from the list
         cy.get('#multiSelectList > div').first().then((el) => {
@@ -140,12 +140,12 @@ describe('Channel Settings', () => {
         cy.get('#addUsersToChannelModal').should('be.visible');
 
         // # Type into the input box to search for already added user
-        cy.get('#selectItems input').type(firstUser.username);
+        cy.get('#selectItems input').typeWithForce(firstUser.username);
 
-        // * Verify users list does not exist
-        cy.get('#multiSelectList').should('not.exist');
-        cy.findByText('No results found matching');
-
+        // * Verify user list exist
+        cy.get('#multiSelectList').should('exist').within(() => {
+            cy.findByText('Already in channel').should('be.visible');
+        });
         cy.get('body').type('{esc}');
     });
 });
@@ -177,7 +177,7 @@ function addNumberOfUsersToChannel(num = 1) {
     // * Assert that modal appears
     // # Click the first row for a number of times
     Cypress._.times(num, () => {
-        cy.get('#selectItems input').type('u');
+        cy.get('#selectItems input').typeWithForce('u');
         cy.get('#multiSelectList').should('be.visible').first().click();
     });
 

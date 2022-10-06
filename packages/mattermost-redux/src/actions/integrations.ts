@@ -12,7 +12,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Command, CommandArgs, DialogSubmission, IncomingWebhook, OAuthApp, OutgoingWebhook} from 'mattermost-redux/types/integrations';
+import {Command, CommandArgs, DialogSubmission, IncomingWebhook, OAuthApp, OutgoingWebhook} from '@mattermost/types/integrations';
 
 import {logError} from './errors';
 import {bindClientFunc, forceLogoutIfNecessary} from './helpers';

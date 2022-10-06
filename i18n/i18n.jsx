@@ -85,13 +85,13 @@ const languages = {
     },
     'pt-BR': {
         value: 'pt-BR',
-        name: 'Português (Brasil)',
+        name: 'Português (Brasil) (Alpha)',
         order: 9,
         url: ptBR,
     },
     ro: {
         value: 'ro',
-        name: 'Română',
+        name: 'Română (Alpha)',
         order: 10,
         url: ro,
     },
@@ -109,7 +109,7 @@ const languages = {
     },
     bg: {
         value: 'bg',
-        name: 'Български',
+        name: 'Български (Beta)',
         order: 13,
         url: bg,
     },

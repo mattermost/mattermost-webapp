@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import {TestHelper} from 'utils/test_helper';

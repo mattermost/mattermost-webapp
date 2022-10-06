@@ -22,18 +22,18 @@ describe('Messaging', () => {
 
     it('MM-T96 Trying to type in middle of text should not send the cursor to end of textbox', () => {
         // # Type message to use
-        cy.get('#post_textbox').clear().type('aa');
+        cy.uiGetPostTextBox().clear().type('aa');
 
         // # Move the cursor and keep typing
-        cy.get('#post_textbox').click().type('{leftarrow}b');
+        cy.uiGetPostTextBox().click().type('{leftarrow}b');
 
         // # Wait for the cursor to move in failing case
         cy.wait(TIMEOUTS.FIVE_SEC);
 
         // # Write another letter
-        cy.get('#post_textbox').type('c');
+        cy.uiGetPostTextBox().type('c');
 
         // * Should contain abca instead of aabc or abac
-        cy.get('#post_textbox').should('contain', 'abca');
+        cy.uiGetPostTextBox().should('contain', 'abca');
     });
 });

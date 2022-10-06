@@ -1,7 +1,9 @@
 @charset "UTF-8";
 
+@use "sass:math";
+
 @function em($pixels, $context: 14px) {
-    @return ($pixels / $context * 1em);
+    @return (math.div($pixels, $context) * 1em);
 }
 
 @function v($var) {

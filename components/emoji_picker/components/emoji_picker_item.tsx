@@ -7,7 +7,7 @@ import classNames from 'classnames';
 import throttle from 'lodash/throttle';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import {Emoji} from '@mattermost/types/emojis';
 
 import imgTrans from 'images/img_trans.gif';
 import {EmojiCursor} from 'components/emoji_picker/types';

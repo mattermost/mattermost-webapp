@@ -5,7 +5,10 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import Carousel from 'components/common/carousel/carousel';
+
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {BtnStyle} from './carousel_button';
 
 describe('/components/common/Carousel', () => {
     const texts = ['First Slide', 'Second Slide', 'Third Slide'];
@@ -58,6 +61,20 @@ describe('/components/common/Carousel', () => {
 
         expect(buttonNext).toHaveLength(1);
         expect(buttonPrev).toHaveLength(1);
+    });
+
+    test('test carousel shows next and previous chevrons when this option is sent', () => {
+        const wrapper = mountWithIntl(
+            <Carousel
+                {...baseProps}
+                btnsStyle={BtnStyle.CHEVRON}
+            />,
+        );
+        const nextButton = wrapper.find(Carousel).find('CarouselButton div.chevron-right');
+        const prevButton = wrapper.find(Carousel).find('CarouselButton div.chevron-left');
+
+        expect(nextButton).toHaveLength(1);
+        expect(prevButton).toHaveLength(1);
     });
 
     test('test carousel shows first slide as active', () => {

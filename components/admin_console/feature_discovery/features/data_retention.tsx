@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const DataRetentionFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='data_retention'
+            minimumSKURequiredForFeature={LicenseSkus.Enterprise}
             titleID='admin.data_retention_feature_discovery.title'
             titleDefault='Create data retention schedules with Mattermost Enterprise'
             copyID='admin.data_retention_feature_discovery.copy'

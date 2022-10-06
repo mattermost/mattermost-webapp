@@ -19,7 +19,7 @@ jest.mock('utils/browser_history', () => ({
     },
 }));
 
-jest.mock('utils/utils.jsx', () => ({
+jest.mock('utils/utils', () => ({
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true).mockReturnValue(false),
     getDateForUnixTicks: jest.fn().mockReturnValue(new Date('2017-12-14T18:15:28.290Z')),
     localizeMessage: jest.fn(),
@@ -71,6 +71,7 @@ describe('components/SearchResultsItem', () => {
         enablePostUsernameOverride: false,
         isBot: false,
         isMobileView: false,
+        isPostPriorityEnabled: true,
         actions: {
             closeRightHandSide: mockFunc,
             selectPost: mockFunc,
@@ -335,6 +336,25 @@ describe('components/SearchResultsItem', () => {
             <SearchResultsItem {...props}/>,
         );
 
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot for post with priority', () => {
+        const props = {
+            ...defaultProps,
+            isPostPriorityEnabled: true,
+            post: {
+                ...post,
+                props: {
+                    ...post.props,
+                    priority: 'important',
+                },
+            },
+        };
+
+        const wrapper = shallow(
+            <SearchResultsItem {...props}/>,
+        );
         expect(wrapper).toMatchSnapshot();
     });
 });

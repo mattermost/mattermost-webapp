@@ -10,15 +10,14 @@ import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {getChannelMessageCounts, getCurrentChannelId, getMyChannelMemberships, makeGetChannelsForIds} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserLocale} from 'mattermost-redux/selectors/entities/i18n';
-import {getLastPostPerChannel} from 'mattermost-redux/selectors/entities/posts';
 import {getMyPreferences, getTeammateNameDisplaySetting, getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 
-import {Channel, ChannelMembership, ChannelMessageCount} from 'mattermost-redux/types/channels';
-import {ChannelCategory, ChannelCategoryType, CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {IDMappedObjects, RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {Channel, ChannelMembership, ChannelMessageCount} from '@mattermost/types/channels';
+import {ChannelCategory, ChannelCategoryType, CategorySorting} from '@mattermost/types/channel_categories';
+import {GlobalState} from '@mattermost/types/store';
+import {UserProfile} from '@mattermost/types/users';
+import {IDMappedObjects, RelationOneToOne} from '@mattermost/types/utilities';
 
 import {
     calculateUnreadCount,
@@ -27,6 +26,7 @@ import {
 } from 'mattermost-redux/utils/channel_utils';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import Constants from 'utils/constants';
 
 export function getAllCategoriesByIds(state: GlobalState) {
     return state.entities.channelCategories.byId;
@@ -105,7 +105,7 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
         getCurrentUserId,
         getMyChannelMemberships,
         getChannelMessageCounts,
-        (state: GlobalState) => getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, 20),
+        (state: GlobalState) => getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, Constants.DEFAULT_DM_NUMBER),
         getMyPreferences,
         isCollapsedThreadsEnabled,
         (channels, categoryType, currentChannelId, profiles, currentUserId, myMembers, messageCounts, limitPref, myPreferences, collapsedThreads) => {
@@ -334,25 +334,12 @@ export function makeSortChannelsByNameWithDMs(): (state: GlobalState, channels: 
 export function makeSortChannelsByRecency(): (state: GlobalState, channels: Channel[]) => Channel[] {
     return createSelector(
         'makeSortChannelsByRecency',
-        (state: GlobalState, channels: Channel[]) => channels,
-        getLastPostPerChannel,
+        (_state: GlobalState, channels: Channel[]) => channels,
         isCollapsedThreadsEnabled,
-        (channels, lastPosts, crtEnabled) => {
+        (channels, crtEnabled) => {
             return [...channels].sort((a, b) => {
-                // If available, get the last post time from the loaded posts for the channel, but fall back to the
-                // channel's last_post_at if that's not available. The last post time from the loaded posts is more
-                // accurate because channel.last_post_at is not updated on the client as new messages come in.
-
-                let aLastPostAt = crtEnabled ? a.last_root_post_at : a.last_post_at;
-                if (lastPosts[a.id] && lastPosts[a.id].create_at > a.last_post_at) {
-                    aLastPostAt = lastPosts[a.id].create_at;
-                }
-
-                let bLastPostAt = crtEnabled ? b.last_root_post_at : b.last_post_at;
-                if (lastPosts[b.id] && lastPosts[b.id].create_at > b.last_post_at) {
-                    bLastPostAt = lastPosts[b.id].create_at;
-                }
-
+                const aLastPostAt = Math.max(crtEnabled ? (a.last_root_post_at || a.last_post_at) : a.last_post_at, a.create_at);
+                const bLastPostAt = Math.max(crtEnabled ? (b.last_root_post_at || b.last_post_at) : b.last_post_at, b.create_at);
                 return bLastPostAt - aLastPostAt;
             });
         },

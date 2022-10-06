@@ -21,8 +21,9 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
@@ -33,8 +34,7 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {Constants, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import {OnboardingPreferences} from 'components/preparing_workspace/preparing_workspace';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
 import {generateTelemetryTag} from './utils';
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
@@ -71,6 +71,12 @@ const taskLabels = {
             defaultMessage='Complete your profile'
         />
     ),
+    [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
+        <FormattedMessage
+            id='onboardingTask.checklist.explore_other_tools'
+            defaultMessage='Explore other tools in the platform'
+        />
+    ),
     [OnboardingTasksName.DOWNLOAD_APP]: (
         <FormattedMessage
             id='onboardingTask.checklist.task_download_apps'
@@ -97,20 +103,41 @@ export const useTasksList = () => {
     const license = useSelector(getLicense);
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
+    const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
+
+    // Cloud conditions
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const isCloud = license?.Cloud === 'true';
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialTask = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
+    // if Cloud, show if not in trial and had never been on trial
+    const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
+    const cloudTrialCondition = isCloud && !isFreeTrial && !hadPrevCloudTrial;
+
+    const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
+
     const list: Record<string, string> = {...OnboardingTasksName};
-    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
-    const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
-    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
+    if (!pluginsList.focalboard || !isUserFirstAdmin) {
         delete list.BOARDS_TOUR;
     }
-    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks) {
+    if (!pluginsList.playbooks || !isUserFirstAdmin) {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {
         delete list.START_TRIAL;
+    }
+
+    if (!isUserFirstAdmin && !isUserAdmin) {
+        delete list.VISIT_SYSTEM_CONSOLE;
+        delete list.START_TRIAL;
+    }
+
+    // explore other tools tour is only shown to subsequent admins and end users
+    if (isUserFirstAdmin || (!pluginsList.playbooks && !pluginsList.focalboard)) {
+        delete list.EXPLORE_OTHER_TOOLS;
     }
 
     return Object.values(list);
@@ -214,6 +241,30 @@ export const useHandleOnBoardingTaskTrigger = () => {
             dispatch(setShowOnboardingCompleteProfileTour(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             if (inAdminConsole) {
+                dispatch(switchToChannels());
+            }
+            break;
+        }
+        case OnboardingTasksName.EXPLORE_OTHER_TOOLS: {
+            dispatch(setProductMenuSwitcherOpen(true));
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
+            const tourCategory = TutorialTourName.EXPLORE_OTHER_TOOLS;
+            const preferences = [
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: currentUserId,
+                    value: ExploreOtherToolsTourSteps.BOARDS_TOUR.toString(),
+                },
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: TTNameMapToATStatusKey[tourCategory],
+                    value: AutoTourStatus.ENABLED.toString(),
+                },
+            ];
+            dispatch(savePreferences(currentUserId, preferences));
+            if (!inChannels) {
                 dispatch(switchToChannels());
             }
             break;

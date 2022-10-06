@@ -142,6 +142,22 @@
                     color: var(--secondary-blue);
                 }
             }
+
+            .add-new-licence-btn {
+                display: block;
+                padding: 12px 20px;
+                border: 1px solid var(--sys-button-bg);
+                margin-top: 15px;
+                background-color: var(--sys-center-channel-bg);
+                border-radius: 4px;
+                color: var(--sys-button-bg);
+
+                span {
+                    font-size: 14px;
+                    font-weight: 600;
+                    line-height: 14px;
+                }
+            }
         }
 
         #remove-button {

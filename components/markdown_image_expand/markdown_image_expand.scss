@@ -44,7 +44,8 @@
 *   by potential nesting of this element within Markdown link
 */
 .markdown-image-expand__expand-button {
-    display: inline-block;
+    display: inline-flex;
+    width: 100%;
     padding: 0;
     border: none;
     background: transparent;
@@ -75,6 +76,10 @@
 
 .markdown-image-expand__alt-text {
     display: inline-block;
+    overflow: hidden;
     font-size: 12px;
     line-height: 16px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }

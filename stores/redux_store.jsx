@@ -8,13 +8,8 @@ import configureStore from 'store';
 
 const store = configureStore();
 
-export function bindActionToRedux(action, ...args) {
-    return async () => {
-        await action(...args)(store.dispatch, store.getState);
-    };
-}
-
-if (process.env.NODE_ENV !== 'production') { //eslint-disable-line no-process-env
+// eslint-disable-next-line no-process-env
+if (process.env.NODE_ENV !== 'production' || window.location.origin === 'https://community.mattermost.com') {
     window.store = store;
 }
 

@@ -6,9 +6,9 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Groups from 'mattermost-redux/constants/groups';
 
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
@@ -25,7 +25,7 @@ import Menu from 'components/widgets/menu/menu';
 
 import {ModalData} from 'types/actions';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Props = {
     channel: Channel;

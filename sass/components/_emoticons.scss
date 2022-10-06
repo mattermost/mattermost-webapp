@@ -185,8 +185,8 @@
     flex-grow: 0;
     flex-shrink: 0;
     justify-content: space-between;
-    padding: 0 10px;
-    margin-bottom: 8px;
+    padding: 0 12px;
+    margin: 8px 0 8px 0;
 
     .emoji-picker__category {
         display: inline-flex;
@@ -263,20 +263,39 @@
 .emoji-picker__search-container {
     position: relative;
     display: flex;
-    height: 32px;
     align-items: center;
     justify-content: space-between;
     border-color: transparent !important;
-    margin: 12px;
+    margin: 12px 12px 0 12px;
+
+    .skin-tones-animation {
+        &-enter {
+            transform: translateX(100%);
+        }
+
+        &-enter-active {
+            transform: translateX(0%);
+            transition: transform 200ms ease-in-out;
+        }
+
+        &-exit {
+            position: absolute;
+            width: 100%;
+            transform: translateX(0%);
+        }
+
+        &-exit-active {
+            transform: translateX(90%);
+            transition: transform 200ms ease-in-out;
+        }
+    }
 
     .skin-tones {
         z-index: 10;
         display: flex;
-        overflow: hidden;
         height: 100%;
         align-items: center;
         background: var(--center-channel-bg);
-        transition: all 0.35s ease;
 
         &--active {
             position: absolute;
@@ -287,25 +306,19 @@
             .skin-tones__icons {
                 position: relative;
                 display: inline-flex;
-                overflow: hidden;
                 justify-content: center;
-                margin: 0 3px;
                 opacity: 1;
-
-                .skin-tones__icon {
-                    width: 32px;
-                }
             }
         }
 
         .skin-tones__icon {
-            position: relative;
-            display: inline-flex;
-            overflow: hidden;
+            display: flex;
             width: 32px;
             height: 32px;
+            align-items: center;
             justify-content: center;
-            padding: 3px;
+            margin-right: 4px;
+            background: var(--button-bg-rgb);
             opacity: 1;
 
             &:hover {
@@ -313,9 +326,13 @@
                 border-radius: 4px;
             }
 
-            & img {
-                -moz-transform: matrix(0.35, 0, 0, 0.35, 0, -20); // firefox displaces the transformation, so we need to compensate
+            &:last-child {
+                margin-right: 0;
             }
+        }
+
+        .skin-tones__expand-icon {
+            margin: 0;
         }
 
         .emoji-picker__item {
@@ -327,22 +344,17 @@
 
     .skin-tones__content {
         display: flex;
-        max-height: 32px;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
-
-        &.skin-tones__content__single {
-            padding-right: 4px;
-            padding-left: 10px;
-        }
     }
 
     .emoji-picker__text-container {
         position: relative;
         z-index: 5;
-        width: 95%;
+        width: 284px;
         height: 32px;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
+        margin-right: 8px;
         border-radius: 4px;
 
         &:focus-within {
@@ -367,17 +379,20 @@
     }
 
     .skin-tones__close-text {
-        width: 60px;
+        width: 54px;
+        margin: 0 15px 0 15px;
         font-size: 12px;
         font-weight: 600;
         line-height: 14px;
     }
 
     .skin-tones__close-icon {
-        width: 32px;
-        height: 32px;
+        display: flex;
+        width: 28px;
+        height: 28px;
+        align-items: center;
+        justify-content: center;
         border: none;
-        margin-right: 12px;
         background: none;
         border-radius: 4px;
         color: rgba(v(center-channel-color-rgb), 0.56);

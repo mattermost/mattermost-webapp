@@ -36,10 +36,6 @@
       "versions": "",
       "reason": "MM-36772 - Emoji updates are handled separately from regular dependencies."
     },
-    "jasny-bootstrap": {
-      "versions": "",
-      "reason": "MM-18032 - Breaking changes that may involve upgrading Bootstrap."
-    },
     "p-queue": {
       "versions": "",
       "reason": "MM-34914 - Breaking changes to how modules are loaded."
@@ -50,27 +46,27 @@
     },
     "react": {
       "versions": "",
-      "reason": "MM-34187 - React updates are handled separately from regular dependencies."
+      "reason": "MM-45255 - React updates are handled separately from regular dependencies."
     },
     "@types/react": {
       "versions": "",
-      "reason": "MM-34187 - React updates are handled separately from regular dependencies."
+      "reason": "MM-45255 - React updates are handled separately from regular dependencies."
     },
     "react-dom": {
       "versions": "",
-      "reason": "MM-34187 - React updates are handled separately from regular dependencies."
+      "reason": "MM-45255 - React updates are handled separately from regular dependencies."
     },
     "@types/react-dom": {
       "versions": "",
-      "reason": "MM-34187 - React updates are handled separately from regular dependencies."
+      "reason": "MM-45255 - React updates are handled separately from regular dependencies."
     },
     "react-is": {
       "versions": "",
-      "reason": "MM-34187 - React updates are handled separately from regular dependencies."
+      "reason": "MM-45255 - React updates are handled separately from regular dependencies."
     },
     "@types/react-is": {
       "versions": "",
-      "reason": "MM-34187 - React updates are handled separately from regular dependencies."
+      "reason": "MM-45255 - React updates are handled separately from regular dependencies."
     },
     "react-overlays": {
       "versions": "",
@@ -86,7 +82,7 @@
     },
     "@hot-loader/react-dom": {
       "versions": "",
-      "reason": "MM-34187 - React updates are handled separately from other dependencies."
+      "reason": "MM-45255 - React updates are handled separately from other dependencies."
     },
     "@types/marked": {
       "versions": "",

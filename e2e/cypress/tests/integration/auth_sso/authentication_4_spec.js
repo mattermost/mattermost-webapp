@@ -60,6 +60,9 @@ describe('Authentication', () => {
         // # Login as test user and make sure it goes to team selection
         cy.visit('/login');
 
+        // # Remove autofocus from login input
+        cy.get('.login-body-card-content').should('be.visible').focus();
+
         // # Clear email/username field and type username
         cy.apiGetClientLicense().then(({isLicensed}) => {
             cy.findByPlaceholderText(isLicensed ? 'Email, Username or AD/LDAP Username' : 'Email or Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(testUser.username);
@@ -69,14 +72,14 @@ describe('Authentication', () => {
         cy.findByPlaceholderText('Password').clear().type(testUser.password);
 
         // # Hit enter to login
-        cy.findByText('Sign in').click();
+        cy.get('#saveSetting').should('not.be.disabled').click();
 
         cy.wait(TIMEOUTS.THREE_SEC);
 
         // * Assert that email verification has been sent and then resend to make sure it gets resent
         cy.findByText('Resend Email').should('be.visible').and('exist').click();
-        cy.findByText('Verification email sent.').should('be.visible').and('exist');
-        cy.findByText('Mattermost: You are almost done').should('be.visible').and('exist');
+        cy.findByText('Verification email sent').should('be.visible').and('exist');
+        cy.findByText('You’re almost done!').should('be.visible').and('exist');
         cy.findByText('Please verify your email address. Check your inbox for an email.').should('be.visible').and('exist');
 
         cy.getRecentEmail(testUser).then(({body}) => {
@@ -86,10 +89,10 @@ describe('Authentication', () => {
             cy.visit(permalink);
 
             // # Clear password field and type password
-            cy.findByPlaceholderText('Password').clear().type(testUser.password);
+            cy.get('#input_password-input').clear().type(testUser.password);
 
             // # Hit enter to login
-            cy.findByText('Sign in').click();
+            cy.get('#saveSetting').should('not.be.disabled').click();
 
             // * Should show the join team stuff
             cy.findByText('Teams you can join:', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
@@ -116,25 +119,27 @@ describe('Authentication', () => {
 
             cy.apiUpdateConfig(newConfig);
 
-            // * Ensure password has a minimum length of 10 and all password requirements are checked
+            // * Ensure password has a minimum length of 8 and no password requirements are checked
             cy.apiGetConfig().then(({config: {PasswordSettings}}) => {
-                expect(PasswordSettings.MinimumLength).equal(10);
-                expect(PasswordSettings.Lowercase).equal(true);
-                expect(PasswordSettings.Number).equal(true);
-                expect(PasswordSettings.Uppercase).equal(true);
-                expect(PasswordSettings.Symbol).equal(true);
+                expect(PasswordSettings.MinimumLength).equal(8);
+                expect(PasswordSettings.Lowercase).equal(false);
+                expect(PasswordSettings.Number).equal(false);
+                expect(PasswordSettings.Uppercase).equal(false);
+                expect(PasswordSettings.Symbol).equal(false);
             });
 
             cy.visit('/admin_console/authentication/password');
             cy.get('.admin-console__header').should('be.visible').and('have.text', 'Password');
 
-            cy.findByTestId('passwordMinimumLengthinput').should('be.visible').and('have.value', '10');
-            cy.findByRole('checkbox', {name: 'At least one lowercase letter'}).should('be.checked');
-            cy.findByRole('checkbox', {name: 'At least one uppercase letter'}).should('be.checked');
-            cy.findByRole('checkbox', {name: 'At least one number'}).should('be.checked');
-            cy.findByRole('checkbox', {name: 'At least one symbol (e.g. "~!@#$%^&*()")'}).should('be.checked');
+            cy.findByTestId('passwordMinimumLengthinput').should('be.visible').and('have.value', '8');
+            cy.findByLabelText('At least one lowercase letter').get('input').should('not.be.checked');
+            cy.findByLabelText('At least one uppercase letter').get('input').should('not.be.checked');
+            cy.findByLabelText('At least one number').get('input').should('not.be.checked');
+            cy.findByLabelText('At least one symbol (e.g. "~!@#$%^&*()")').get('input').should('not.be.checked');
 
-            cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', isCloudLicensed ? '' : '10');
+            if (!isCloudLicensed) {
+                cy.findByTestId('maximumLoginAttemptsinput').should('be.visible').and('have.value', '10');
+            }
         });
     });
 
@@ -147,14 +152,14 @@ describe('Authentication', () => {
         });
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type('Hossein_Is_The_Best_PROGRAMMER@BestInTheWorld.com');
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
         ['1user', 'te', 'user#1', 'user!1'].forEach((option) => {
-            cy.get('#name').clear().type(option);
+            cy.get('#input_name').clear().type(option);
             cy.findByText('Create Account').click();
 
             // * Assert the error is what is expected;
@@ -176,16 +181,16 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
+        cy.get('#input_name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.findByText('Create Account').click();
 
@@ -208,16 +213,16 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
+        cy.get('#input_name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.findByText('Create Account').click();
 
@@ -241,16 +246,16 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create one now.', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
-        cy.visit('/signup_email');
+        cy.visit('/signup_user_complete');
 
-        cy.get('#email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`Hossein_Is_The_Best_PROGRAMMER${getRandomId()}@BestInTheWorld.com`);
 
-        cy.get('#password').type('Test123456!');
+        cy.get('#input_password-input').type('Test123456!');
 
-        cy.get('#name').clear().type(`HosseinIs2Cool${getRandomId()}`);
+        cy.get('#input_name').clear().type(`HosseinIs2Cool${getRandomId()}`);
 
         cy.findByText('Create Account').click();
 

@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {LicenseSkus} from 'mattermost-redux/types/general';
+import {LicenseSkus} from 'utils/constants';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 

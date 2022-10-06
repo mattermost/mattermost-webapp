@@ -26,7 +26,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('body').cmdOrCtrlShortcut('{shift+l}');
 
         // * Verify channel message box is not focused
-        cy.get('#post_textbox').should('not.be.focused');
+        cy.uiGetPostTextBox().should('not.be.focused');
 
         // # Close settings modal
         cy.uiClose();
@@ -38,7 +38,7 @@ describe('Keyboard Shortcuts', () => {
         cy.get('body').cmdOrCtrlShortcut('{shift+l}');
 
         // * Verify channel message box is not focused
-        cy.get('#post_textbox').should('not.be.focused');
+        cy.uiGetPostTextBox().should('not.be.focused');
 
         // # Close invite members full-page screen
         cy.uiClose();
