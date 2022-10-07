@@ -45,10 +45,36 @@ describe('Paste.formatMarkdownMessage', () => {
         expect(formatMarkdownMessage(validClipboardData)).toBe(markdownTable);
     });
 
+    test('returns a markdown table when valid html table with headers provided', () => {
+        const tableHeadersClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
+            },
+        };
+        const markdownHeadersTable = '| test | test |\n| --- | --- |\n| test | test |';
+
+        expect(formatMarkdownMessage(tableHeadersClipboardData)).toBe(markdownHeadersTable);
+    });
+
     test('returns a markdown table under a message when one is provided', () => {
         const testMessage = 'test message';
 
         expect(formatMarkdownMessage(validClipboardData, testMessage)).toBe(`${testMessage}\n\n${markdownTable}`);
+    });
+
+    test('returns a markdown formatted link when valid hyperlink provided', () => {
+        const linkClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<a href="https://test.domain">link text</a>';
+            },
+        };
+        const markdownLink = '[link text](https://test.domain)';
+
+        expect(formatMarkdownMessage(linkClipboardData)).toBe(markdownLink);
     });
 });
 

@@ -1314,6 +1314,54 @@ describe('components/AdvancedCreateComment', () => {
                 items: [1],
                 types: ['text/html'],
                 getData: () => {
+                    return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted markdown table without headers', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...baseProps}
+                draft={draft}
+            />,
+        );
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
                     return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
                 },
             },
@@ -1323,6 +1371,54 @@ describe('components/AdvancedCreateComment', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted hyperlink', () => {
+        const draft = {
+            message: '',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...baseProps}
+                draft={draft}
+            />,
+        );
+
+        const mockTop = () => {
+            return document.createElement('div');
+        };
+
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a href="https://test.domain">link text</a>';
+                },
+            },
+        };
+
+        const markdownLink = '[link text](https://test.domain)';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownLink);
     });
 
     it('should be able to format a github codeblock (pasted as a table)', () => {

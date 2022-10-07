@@ -1228,6 +1228,36 @@ describe('components/advanced_create_post', () => {
                 items: [1],
                 types: ['text/html'],
                 getData: () => {
+                    return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted markdown table without headers', () => {
+        const wrapper = shallow(advancedCreatePost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
                     return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
                 },
             },
@@ -1237,6 +1267,36 @@ describe('components/advanced_create_post', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted hyperlink', () => {
+        const wrapper = shallow(advancedCreatePost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a href="https://test.domain">link text</a>';
+                },
+            },
+        };
+
+        const markdownLink = '[link text](https://test.domain)';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(markdownLink);
     });
 
     it('should preserve the original message after pasting a markdown table', () => {
