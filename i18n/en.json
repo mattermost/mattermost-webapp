@@ -3127,6 +3127,8 @@
   "device_icons.apple": "Apple Icon",
   "device_icons.linux": "Linux Icon",
   "device_icons.windows": "Windows Icon",
+  "directory.group.search": "Search for a group",
+  "directory.groups.count": "{value} user groups",
   "directory.people.count": "{value} people",
   "directory.people.search": "Search for a person",
   "discard_changes_modal.leave": "Yes, Discard",
