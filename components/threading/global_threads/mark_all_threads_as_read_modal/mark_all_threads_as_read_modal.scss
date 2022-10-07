@@ -15,6 +15,10 @@
         .GenericModal__header {
             margin: 0 auto;
         }
+
+        @media screen and (max-width: 640px){
+            box-shadow: none;
+        }
     }
 }
 
