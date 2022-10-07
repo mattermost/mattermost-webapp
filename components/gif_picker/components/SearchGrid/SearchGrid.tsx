@@ -2,18 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
-
-import {saveSearchScrollPosition} from 'mattermost-redux/actions/gifs';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator.tsx';
+import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import InfiniteScroll from 'components/gif_picker/components/InfiniteScroll';
 import SearchItem from 'components/gif_picker/components/SearchItem';
+
+import {GfycatAPIItem, GifsAppState, GifsResult} from '@mattermost/types/gifs';
 
 import './SearchGrid.scss';
 
@@ -22,34 +20,33 @@ const NUMBER_OF_COLUMNS_PORTRAIT = 2;
 const NUMBER_OF_COLUMNS_LANDSCAPE = 2;
 const WEBKIT_SCROLLBAR_WIDTH = 8;
 
-function mapStateToProps(state) {
-    return {
-        ...state.entities.gifs.cache,
-        ...state.entities.gifs.search,
-        appProps: state.entities.gifs.app,
-    };
+type Props = {
+    appProps: GifsAppState;
+    gifs: Record<string, GfycatAPIItem>;
+    resultsByTerm: Record<string, GifsResult>;
+    containerClassName?: string;
+    keyword: string; // searchText, tagName
+    handleItemClick: (gfyItem: GfycatAPIItem) => void;
+    onCategories?: () => void;
+    loadMore: () => void;
+    numberOfColumns?: number;
+    scrollPosition: number;
+    saveSearchScrollPosition: (scrollPosition: number) => void;
 }
 
-const mapDispatchToProps = ({
-    saveSearchScrollPosition,
-});
+type State = {
+    containerWidth: number | null;
+}
 
-export class SearchGrid extends PureComponent {
-    static propTypes = {
-        appProps: PropTypes.object,
-        gifs: PropTypes.object,
-        resultsByTerm: PropTypes.object,
-        containerClassName: PropTypes.string,
-        keyword: PropTypes.string, // searchText, tagName
-        handleItemClick: PropTypes.func,
-        onCategories: PropTypes.func,
-        loadMore: PropTypes.func,
-        numberOfColumns: PropTypes.number,
-        scrollPosition: PropTypes.number,
-        saveSearchScrollPosition: PropTypes.func,
-    }
+export default class SearchGrid extends PureComponent<Props, State> {
+    private scrollPosition: number;
+    private columnsHeights: number[];
+    private numberOfColumns!: number;
+    private padding: number;
+    private container?: HTMLElement | null;
+    private containerHeight?: number;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.state = {
             containerWidth: null,
@@ -70,16 +67,18 @@ export class SearchGrid extends PureComponent {
 
     componentDidMount() {
         this.container = document.getElementById('search-grid-container');
-        // eslint-disable-next-line react/no-did-mount-set-state
-        this.setState({
-            ...this.state,
-            containerWidth: this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH,
-        });
+        if (this.container) {
+            // eslint-disable-next-line react/no-did-mount-set-state
+            this.setState({
+                ...this.state,
+                containerWidth: this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH,
+            });
+        }
         window.addEventListener('resize', this.resizeHandler);
         window.addEventListener('scroll', this.scrollHandler);
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         if (prevProps.keyword !== this.props.keyword) {
             window.scrollTo(0, 0);
         }
@@ -103,7 +102,7 @@ export class SearchGrid extends PureComponent {
         }
     }
 
-    itemClickHandler = (gfyItem) => {
+    itemClickHandler = (gfyItem: GfycatAPIItem) => {
         const {keyword, handleItemClick} = this.props;
         this.props.saveSearchScrollPosition(this.scrollPosition);
 
@@ -124,7 +123,7 @@ export class SearchGrid extends PureComponent {
     }
 
     resizeHandler = () => {
-        if (this.state.containerWidth !== this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH) {
+        if (this.container && this.state.containerWidth !== this.container.offsetWidth - WEBKIT_SCROLLBAR_WIDTH) {
             this.setNumberOfColumns();
             this.setState({
                 ...this.state,
@@ -149,12 +148,13 @@ export class SearchGrid extends PureComponent {
         } = this.props;
 
         const {containerWidth} = this.state;
-        const {moreRemaining, items = [], isEmpty = items.length === 0, isFetching} = resultsByTerm[keyword] ? resultsByTerm[keyword] : {};
+        const {moreRemaining, items = [], isFetching} = resultsByTerm[keyword] ? resultsByTerm[keyword] : {} as Partial<GifsResult>;
+        const isEmpty = items.length === 0;
 
         /**
          * Columns 'left' values
          */
-        const columnWidth = parseInt(containerWidth / this.numberOfColumns, 10);
+        const columnWidth = containerWidth ? Math.floor(containerWidth / this.numberOfColumns) : 0;
         const leftPosition = Array(this.numberOfColumns).fill(0).map((item, index) => this.padding + ((index * columnWidth) - (index * (this.padding / 2))));
 
         this.columnsHeights = Array(this.numberOfColumns).fill(this.padding);
@@ -223,5 +223,3 @@ export class SearchGrid extends PureComponent {
         );
     }
 }
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchGrid);

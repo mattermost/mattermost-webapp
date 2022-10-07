@@ -3,7 +3,6 @@
 /* eslint-disable react/no-string-refs */
 
 import deepEqual from 'fast-deep-equal';
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -14,47 +13,45 @@ import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'u
 
 import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
 
-export default class ChannelNotificationsModal extends React.PureComponent {
-    static propTypes = {
+import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
+import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 
-        /**
-         * Function that is called when the modal has been hidden and should be removed
-         */
-        onExited: PropTypes.func.isRequired,
+import type {PropsFromRedux} from './index';
 
-        /**
-         * Object with info about current channel
-         */
-        channel: PropTypes.object.isRequired,
+type Props = PropsFromRedux & {
 
-        /**
-         * Object with info about current channel membership
-         */
-        channelMember: PropTypes.object.isRequired,
+    /**
+     * Function that is called when the modal has been hidden and should be removed
+     */
+    onExited: () => void;
 
-        /**
-         * Object with info about current user
-         */
-        currentUser: PropTypes.object.isRequired,
+    /**
+     * Object with info about current channel
+     */
+    channel: Channel;
 
-        /**
-         * Boolean whether server sends push notifications
-         */
-        sendPushNotifications: PropTypes.bool.isRequired,
+    /**
+     * Object with info about current user
+     */
+    currentUser: UserProfile;
+};
 
-        /*
-         * Object with redux action creators
-         */
-        actions: PropTypes.shape({
+export type ChannelMemberNotifyProps = Partial<ChannelNotifyProps> & Pick<UserNotifyProps, 'desktop_threads' | 'push_threads'>
 
-            /*
-             * Action creator to update channel notify props
-             */
-            updateChannelNotifyProps: PropTypes.func.isRequired,
-        }),
-    };
+type State = {
+    show: boolean;
+    activeSection: string;
+    serverError: string | null;
+    desktopNotifyLevel: ChannelNotifyProps['desktop'];
+    desktopThreadsNotifyLevel: UserNotifyProps['desktop_threads'];
+    markUnreadNotifyLevel: ChannelNotifyProps['mark_unread'];
+    pushNotifyLevel: ChannelNotifyProps['push'];
+    pushThreadsNotifyLevel: UserNotifyProps['push_threads'];
+    ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions'];
+};
 
-    constructor(props) {
+export default class ChannelNotificationsModal extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
         super(props);
 
         const channelNotifyProps = props.channelMember && props.channelMember.notify_props;
@@ -63,50 +60,46 @@ export default class ChannelNotificationsModal extends React.PureComponent {
             show: true,
             activeSection: NotificationSections.NONE,
             serverError: null,
-            ...this.getStateFromNotifyProps(channelNotifyProps, props.currentUser.notify_props),
+            ...this.getStateFromNotifyProps(props.currentUser.notify_props, channelNotifyProps),
         };
     }
 
-    componentDidUpdate(prevProps) {
+    componentDidUpdate(prevProps: Props) {
         const prevChannelNotifyProps = prevProps.channelMember && prevProps.channelMember.notify_props;
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
 
         if (!deepEqual(channelNotifyProps, prevChannelNotifyProps)) {
-            this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
+            this.resetStateFromNotifyProps(this.props.currentUser.notify_props, channelNotifyProps);
         }
     }
 
-    resetStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps) {
-        this.setState(this.getStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps));
+    resetStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: Partial<ChannelNotifyProps>) {
+        this.setState(this.getStateFromNotifyProps(currentUserNotifyProps, channelMemberNotifyProps));
     }
 
-    getStateFromNotifyProps(channelMemberNotifyProps, currentUserNotifyProps) {
-        let ignoreChannelMentionsDefault = IgnoreChannelMentions.OFF;
+    getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
+        let ignoreChannelMentionsDefault: ChannelNotifyProps['ignore_channel_mentions'] = IgnoreChannelMentions.OFF;
 
-        if (channelMemberNotifyProps.mark_unread === NotificationLevels.MENTION || (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false')) {
+        if (channelMemberNotifyProps?.mark_unread === NotificationLevels.MENTION || (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false')) {
             ignoreChannelMentionsDefault = IgnoreChannelMentions.ON;
         }
 
-        let ignoreChannelMentions = channelMemberNotifyProps.ignore_channel_mentions;
+        let ignoreChannelMentions = channelMemberNotifyProps?.ignore_channel_mentions;
         if (!ignoreChannelMentions || ignoreChannelMentions === IgnoreChannelMentions.DEFAULT) {
             ignoreChannelMentions = ignoreChannelMentionsDefault;
         }
 
         return {
-            desktopNotifyLevel: channelMemberNotifyProps.desktop || NotificationLevels.DEFAULT,
-            desktopThreadsNotifyLevel: channelMemberNotifyProps.desktop_threads || NotificationLevels.ALL,
-            markUnreadNotifyLevel: channelMemberNotifyProps.mark_unread || NotificationLevels.ALL,
-            pushNotifyLevel: channelMemberNotifyProps.push || NotificationLevels.DEFAULT,
-            pushThreadsNotifyLevel: channelMemberNotifyProps.push_threads || NotificationLevels.ALL,
+            desktopNotifyLevel: channelMemberNotifyProps?.desktop || NotificationLevels.DEFAULT,
+            desktopThreadsNotifyLevel: channelMemberNotifyProps?.desktop_threads || NotificationLevels.ALL,
+            markUnreadNotifyLevel: channelMemberNotifyProps?.mark_unread || NotificationLevels.ALL,
+            pushNotifyLevel: channelMemberNotifyProps?.push || NotificationLevels.DEFAULT,
+            pushThreadsNotifyLevel: channelMemberNotifyProps?.push_threads || NotificationLevels.ALL,
             ignoreChannelMentions,
         };
     }
 
-    handleHide = () => {
-        this.setState({
-            show: false,
-        });
-    }
+    handleHide = () => this.setState({show: false});
 
     handleExit = () => {
         this.updateSection(NotificationSections.NONE);
@@ -118,11 +111,11 @@ export default class ChannelNotificationsModal extends React.PureComponent {
 
         if (section === NotificationSections.NONE) {
             const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
-            this.resetStateFromNotifyProps(channelNotifyProps, this.props.currentUser.notify_props);
+            this.resetStateFromNotifyProps(this.props.currentUser.notify_props, channelNotifyProps);
         }
     }
 
-    handleUpdateChannelNotifyProps = async (props) => {
+    handleUpdateChannelNotifyProps = async (props: Partial<ChannelNotifyProps>) => {
         const {
             actions,
             channel,
@@ -138,12 +131,12 @@ export default class ChannelNotificationsModal extends React.PureComponent {
     }
 
     handleSubmitDesktopNotifyLevel = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props as ChannelMemberNotifyProps;
         const {desktopNotifyLevel, desktopThreadsNotifyLevel} = this.state;
 
         if (
-            channelNotifyProps.desktop === desktopNotifyLevel &&
-            channelNotifyProps.desktop_threads === desktopThreadsNotifyLevel
+            channelNotifyProps?.desktop === desktopNotifyLevel &&
+            channelNotifyProps?.desktop_threads === desktopThreadsNotifyLevel
         ) {
             this.updateSection(NotificationSections.NONE);
             return;
@@ -154,19 +147,15 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         this.handleUpdateChannelNotifyProps(props);
     }
 
-    handleUpdateDesktopNotifyLevel = (desktopNotifyLevel) => {
-        this.setState({desktopNotifyLevel});
-    }
+    handleUpdateDesktopNotifyLevel = (desktopNotifyLevel: ChannelNotifyProps['desktop']) => this.setState({desktopNotifyLevel});
 
-    handleUpdateDesktopThreadsNotifyLevel = (desktopThreadsNotifyLevel) => {
-        this.setState({desktopThreadsNotifyLevel});
-    }
+    handleUpdateDesktopThreadsNotifyLevel = (desktopThreadsNotifyLevel: UserNotifyProps['desktop_threads']) => this.setState({desktopThreadsNotifyLevel});
 
     handleSubmitMarkUnreadLevel = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {markUnreadNotifyLevel} = this.state;
 
-        if (channelNotifyProps.mark_unread === markUnreadNotifyLevel) {
+        if (channelNotifyProps?.mark_unread === markUnreadNotifyLevel) {
             this.updateSection(NotificationSections.NONE);
             return;
         }
@@ -175,17 +164,15 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         this.handleUpdateChannelNotifyProps(props);
     }
 
-    handleUpdateMarkUnreadLevel = (markUnreadNotifyLevel) => {
-        this.setState({markUnreadNotifyLevel});
-    }
+    handleUpdateMarkUnreadLevel = (markUnreadNotifyLevel: ChannelNotifyProps['mark_unread']) => this.setState({markUnreadNotifyLevel});
 
     handleSubmitPushNotificationLevel = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
+        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props as ChannelMemberNotifyProps;
         const {pushNotifyLevel, pushThreadsNotifyLevel} = this.state;
 
         if (
-            channelNotifyProps.push === pushNotifyLevel &&
-            channelNotifyProps.push_threads === pushThreadsNotifyLevel
+            channelNotifyProps?.push === pushNotifyLevel &&
+            channelNotifyProps?.push_threads === pushThreadsNotifyLevel
         ) {
             this.updateSection(NotificationSections.NONE);
             return;
@@ -195,23 +182,15 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         this.handleUpdateChannelNotifyProps(props);
     }
 
-    handleUpdatePushNotificationLevel = (pushNotifyLevel) => {
-        this.setState({pushNotifyLevel});
-    }
-
-    handleUpdatePushThreadsNotificationLevel = (pushThreadsNotifyLevel) => {
-        this.setState({pushThreadsNotifyLevel});
-    }
-
-    handleUpdateIgnoreChannelMentions = (ignoreChannelMentions) => {
-        this.setState({ignoreChannelMentions});
-    }
+    handleUpdatePushNotificationLevel = (pushNotifyLevel: ChannelNotifyProps['push']) => this.setState({pushNotifyLevel});
+    handleUpdatePushThreadsNotificationLevel = (pushThreadsNotifyLevel: UserNotifyProps['push_threads']) => this.setState({pushThreadsNotifyLevel});
+    handleUpdateIgnoreChannelMentions = (ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions']) => this.setState({ignoreChannelMentions});
 
     handleSubmitIgnoreChannelMentions = () => {
         const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
         const {ignoreChannelMentions} = this.state;
 
-        if (channelNotifyProps.ignore_channel_mentions === ignoreChannelMentions) {
+        if (channelNotifyProps?.ignore_channel_mentions === ignoreChannelMentions) {
             this.updateSection('');
             return;
         }
@@ -336,4 +315,3 @@ export default class ChannelNotificationsModal extends React.PureComponent {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

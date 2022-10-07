@@ -1,14 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 import {t} from 'utils/i18n';
 
-export default function Describe({section, isCollapsed, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}) {
+type Props = {
+    globalNotifyLevel?: string;
+    ignoreChannelMentions?: string;
+    memberNotifyLevel: string;
+    section: string;
+    isCollapsed?: boolean;
+}
+
+export default function Describe({section, isCollapsed, memberNotifyLevel, globalNotifyLevel, ignoreChannelMentions}: Props) {
     if (memberNotifyLevel === NotificationLevels.DEFAULT && globalNotifyLevel) {
         t('channel_notifications.levels.default');
         t('channel_notifications.levels.all');
@@ -99,11 +106,3 @@ export default function Describe({section, isCollapsed, memberNotifyLevel, globa
         />
     );
 }
-
-Describe.propTypes = {
-    globalNotifyLevel: PropTypes.string,
-    ignoreChannelMentions: PropTypes.string,
-    memberNotifyLevel: PropTypes.string.isRequired,
-    section: PropTypes.string.isRequired,
-    isCollapsed: PropTypes.bool,
-};

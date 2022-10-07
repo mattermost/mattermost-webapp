@@ -13,11 +13,13 @@ import {Preferences} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
 
+import Constants from 'utils/constants';
+
 import SidebarCategorySortingMenu from './sidebar_category_sorting_menu';
 
 function mapStateToProps() {
     return (state: GlobalState) => {
-        const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, 20);
+        const selectedDmNumber = getInt(state, Preferences.CATEGORY_SIDEBAR_SETTINGS, Preferences.LIMIT_VISIBLE_DMS_GMS, Constants.DEFAULT_DM_NUMBER);
 
         return {
             selectedDmNumber,
