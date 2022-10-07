@@ -489,14 +489,17 @@ async function initializeModuleFederation() {
             'mattermost-redux/store/reducer_registry': {
                 singleton: true,
                 eager: true,
+                import: false,
             },
             'stores/redux_store.jsx': {
                 singleton: true,
                 eager: true,
+                import: false,
             },
             'utils/browser_history': {
                 singleton: true,
                 eager: true,
+                import: false,
             },
         });
         moduleFederationPluginOptions.exposes = {
