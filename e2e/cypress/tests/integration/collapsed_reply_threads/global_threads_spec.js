@@ -376,7 +376,7 @@ describe('Collapsed Reply Threads', () => {
             // * Verify mark_all_threads_as_read_modal is open
             cy.get('#mark-all-threads-as-read-modal').should('exist');
 
-            // # Click cancel button
+            // # Click close button
             cy.get('button.close').click();
 
             // * Verify mark_all_threads_as_read_modal is closed
