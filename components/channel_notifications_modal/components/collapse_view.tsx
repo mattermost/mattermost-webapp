@@ -2,11 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import SettingItemMin from 'components/setting_item_min';
 
 import Describe from './describe';
-import SectionTitle from './section_title.jsx';
+import SectionTitle from './section_title';
 
 type Props = {
     ignoreChannelMentions?: string;
