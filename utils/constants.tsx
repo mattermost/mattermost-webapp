@@ -176,6 +176,15 @@ export const TrialPeriodDays = {
     TRIAL_0_DAYS: 0,
 };
 
+export const suitePluginIds = {
+    playbooks: 'playbooks',
+    focalboard: 'focalboard',
+    apps: 'com.mattermost.apps',
+    calls: 'com.mattermost.calls',
+    nps: 'com.mattermost.nps',
+    channelExport: 'com.mattermost.plugin-channel-export',
+};
+
 export const ActionTypes = keyMirror({
     SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,

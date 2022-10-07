@@ -12,7 +12,7 @@ import {getCurrentChannel, getMyCurrentChannelMembership} from 'mattermost-redux
 import {getActivePluginId} from 'selectors/rhs';
 
 import {PluginComponent} from 'types/store/plugins';
-import Constants from 'utils/constants';
+import Constants, {suitePluginIds} from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import PluginIcon from 'components/widgets/icons/plugin_icon';
@@ -100,7 +100,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
                 }}
             >
                 {content}
-                {component.pluginId === 'focalboard' && <NewChannelWithBoardTourTip/>}
+                {component.pluginId === suitePluginIds.focalboard && <NewChannelWithBoardTourTip/>}
             </div>
         </OverlayTrigger>
     );

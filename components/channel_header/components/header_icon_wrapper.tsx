@@ -13,7 +13,7 @@ import KeyboardShortcutSequence, {
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import {localizeMessage} from 'utils/utils';
-import {Constants} from 'utils/constants';
+import {Constants, suitePluginIds} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 type Props = {
@@ -163,7 +163,7 @@ const HeaderIconWrapper = (props: Props) => {
                         {iconComponent}
                     </button>
                 </OverlayTrigger>
-                {pluginId && pluginId === 'focalboard' &&
+                {pluginId && pluginId === suitePluginIds.focalboard &&
                     <NewChannelWithBoardTourTip
                         pulsatingDotPlacement={'start'}
                         pulsatingDotTranslate={{x: 0, y: -22}}
@@ -184,7 +184,7 @@ const HeaderIconWrapper = (props: Props) => {
                     {iconComponent}
                 </button>
             </div>
-            {pluginId && pluginId === 'focalboard' &&
+            {pluginId && pluginId === suitePluginIds.focalboard &&
                 <NewChannelWithBoardTourTip
                     pulsatingDotPlacement={'start'}
                     pulsatingDotTranslate={{x: 0, y: -22}}

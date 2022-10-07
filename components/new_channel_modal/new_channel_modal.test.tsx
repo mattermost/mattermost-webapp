@@ -12,7 +12,7 @@ import Input from 'components/widgets/inputs/input/input';
 import URLInput from 'components/widgets/inputs/url_input/url_input';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 
-import Constants from 'utils/constants';
+import Constants, {suitePluginIds} from 'utils/constants';
 import {cleanUpUrlable} from 'utils/url';
 import {GlobalState} from 'types/store';
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -106,6 +106,9 @@ describe('components/new_channel_modal', () => {
                         },
                     },
                 },
+            },
+            plugins: {
+                plugins: {focalboard: {id: suitePluginIds.focalboard}},
             },
         } as unknown as GlobalState;
     });

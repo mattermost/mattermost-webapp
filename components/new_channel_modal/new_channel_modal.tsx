@@ -9,7 +9,6 @@ import {Tooltip} from 'react-bootstrap';
 import classNames from 'classnames';
 
 import OverlayTrigger from 'components/overlay_trigger';
-
 import GenericModal from 'components/generic_modal';
 import Input from 'components/widgets/inputs/input/input';
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
@@ -21,12 +20,7 @@ import {createChannel} from 'mattermost-redux/actions/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {get as getPreference} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {switchToChannel} from 'actions/views/channel';
-import {closeModal} from 'actions/views/modals';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {ChannelType, Channel} from '@mattermost/types/channels';
-import {Board, BoardPatch, BoardTemplate} from '@mattermost/types/boards';
-import {ServerError} from '@mattermost/types/errors';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import Preferences from 'mattermost-redux/constants/preferences';
@@ -37,12 +31,20 @@ import {
     getBoardsTemplates,
     setNewChannelWithBoardPreference,
 } from 'mattermost-redux/actions/boards';
+
+import {switchToChannel} from 'actions/views/channel';
+import {closeModal} from 'actions/views/modals';
 import {sendGenericPostMessage} from 'actions/global_actions';
 
 import {GlobalState} from 'types/store';
-import Constants, {ItemStatus, ModalIdentifiers} from 'utils/constants';
+
+import Constants, {ItemStatus, ModalIdentifiers, suitePluginIds} from 'utils/constants';
 import {cleanUpUrlable, validateChannelUrl, getSiteURL} from 'utils/url';
 import {localizeMessage} from 'utils/utils';
+
+import {Board, BoardPatch, BoardTemplate} from '@mattermost/types/boards';
+import {ChannelType, Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
 
 import './new_channel_modal.scss';
 
@@ -109,6 +111,7 @@ const NewChannelModal = () => {
     const [boardTemplates, setBoardTemplates] = useState<BoardTemplate[]>([]);
     const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
     const EMPTY_BOARD = 'empty-board';
+    const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard).id === suitePluginIds.focalboard;
 
     const handleOnModalConfirm = async () => {
         if (!canCreate) {
@@ -447,7 +450,7 @@ const NewChannelModal = () => {
                             </span>
                         </div>
                     )}
-                    <div className='add-board-to-channel'>
+                    {focalboardEnabled && <div className='add-board-to-channel'>
                         <label>
                             <input
                                 type='checkbox'
@@ -460,7 +463,7 @@ const NewChannelModal = () => {
                             </span>
                         </label>
                         {newBoardInfoIcon()}
-                    </div>
+                    </div>}
                     {addBoard && (
                         <div className='new-channel-modal-board-template-selector'>
                             <MenuWrapper

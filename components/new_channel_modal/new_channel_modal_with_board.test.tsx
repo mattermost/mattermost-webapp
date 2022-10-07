@@ -14,7 +14,10 @@ import * as ChannelViewsActions from 'actions/views/channel';
 jest.mock('mattermost-redux/actions/channels');
 import mockStore from 'tests/test_store';
 
+import {suitePluginIds} from 'utils/constants';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+
+import {ClientPluginManifest} from '@mattermost/types/plugins';
 
 import NewChannelModal from './new_channel_modal';
 
@@ -153,6 +156,9 @@ describe('components/new_channel_modal', () => {
                     },
                 },
             },
+            plugins: {
+                plugins: {focalboard: {id: suitePluginIds.focalboard}},
+            },
         } as unknown as GlobalState;
     });
 
@@ -270,5 +276,18 @@ describe('components/new_channel_modal', () => {
             confirmButton.simulate('click');
         });
         expect(switchToChannelFn).toHaveBeenCalled();
+    });
+
+    test('if focalboard plugin is not enabled, the option to create a board should be hidden', async () => {
+        mockState.plugins.plugins.anyotherplugin = {} as ClientPluginManifest;
+        const storeNoPlugins = await mockStore(mockState);
+        const wrapper = mountWithIntl(
+            <Provider store={storeNoPlugins}>
+                <NewChannelModal/>
+            </Provider>,
+        );
+        const showTemplatesCheck = wrapper.find('.add-board-to-channel input');
+
+        expect(showTemplatesCheck).toHaveLength(1);
     });
 });
