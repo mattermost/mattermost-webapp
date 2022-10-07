@@ -267,7 +267,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => isValidChannelType(item.channel) && !item.deactivated).map((item) => {
+                    options: res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).map((item) => {
                         const {channel} = item;
                         return makeSelectedChannelOption(channel);
                     }),
@@ -294,7 +294,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              */
             const handleResults = async (res: ProviderResults) => {
                 callCount++;
-                await res.items.filter((item) => isValidChannelType(item.channel) && !item.deactivated).forEach((item) => {
+                await res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).forEach((item) => {
                     const {channel} = item;
 
                     if (options.findIndex((option) => option.value === channel.id) === -1) {

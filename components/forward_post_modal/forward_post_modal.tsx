@@ -52,7 +52,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const relativePermaLink = useSelector((state: GlobalState) => Utils.getPermalinkURL(state, currentTeam.id, post.id));
     const permaLink = `${getSiteURL()}${relativePermaLink}`;
 
-    const isPrivateConversation = channel.type !== General.OPEN_CHANNEL;
+    const isPrivateConversation = channel.type !== Constants.OPEN_CHANNEL;
 
     const [comment, setComment] = useState('');
     const [bodyHeight, setBodyHeight] = useState<number>(0);
