@@ -60,10 +60,10 @@ const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     />
 );
 
-const scrollbarStyles = `{
+const scrollbarStyles = {
     right: '5px',
-    background-color: 'rgba(var(--center-channel-color-rgb),0.32)',
-}`;
+    'background-color': 'rgba(var(--center-channel-color-rgb),0.32)'`,
+};
 
 interface NoResultsProps {
     variant: NoResultsVariant;
