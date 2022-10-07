@@ -17,9 +17,8 @@ import {PreferenceType} from './preferences';
 import {
     AdminRequestsStatuses, ChannelsRequestsStatuses,
     FilesRequestsStatuses, GeneralRequestsStatuses,
-    JobsRequestsStatuses, PostsRequestsStatuses,
-    RolesRequestsStatuses, TeamsRequestsStatuses,
-    UsersRequestsStatuses,
+    PostsRequestsStatuses, RolesRequestsStatuses,
+    TeamsRequestsStatuses, UsersRequestsStatuses,
 } from './requests';
 import {Role} from './roles';
 import {SchemesState} from './schemes';
