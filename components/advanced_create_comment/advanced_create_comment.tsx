@@ -511,14 +511,26 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             useLDAPGroupMentions,
             useCustomGroupMentions,
         } = this.props;
-        const draft = this.state.draft!;
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
         let mentions: string[] = [];
 
+        let draft = this.state.draft!;
         const specialMentions = specialMentionsInText(draft.message);
         const hasSpecialMentions = Object.values(specialMentions).includes(true);
+
+        if (this.state.isBroadcastThreadReply) {
+            draft = {
+                ...draft,
+                props: {
+                    ...draft.props,
+                    broadcasted_thread_reply: true,
+                },
+            };
+
+            this.props.onUpdateCommentDraft(draft);
+        }
 
         if (enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
             // Groups mentioned in users text
@@ -544,16 +556,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         if (!useLDAPGroupMentions && !useCustomGroupMentions && mentions.length > 0) {
-            const updatedDraft = {
-                ...draft,
-                props: {
-                    ...draft.props,
-                    disable_group_highlight: true,
-                },
-            };
+            draft.props.disable_group_highlight = true;
 
-            this.props.onUpdateCommentDraft(updatedDraft);
-            this.setState({draft: updatedDraft});
+            this.props.onUpdateCommentDraft(draft);
         }
 
         if (notificationsToChannel &&
@@ -573,51 +578,19 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         if (!useChannelMentions && hasSpecialMentions) {
-            const updatedDraft = {
-                ...draft,
-                props: {
-                    ...draft.props,
-                    mentionHighlightDisabled: true,
-                },
-            };
+            draft.props.mentionHighlightDisabled = true;
 
-            this.props.onUpdateCommentDraft(updatedDraft);
-            this.setState({draft: updatedDraft});
+            this.props.onUpdateCommentDraft(draft);
         }
 
-        if (this.state.isBroadcastThreadReply) {
-            const tDraft = this.state.draft!;
+        this.setState({draft}, async () => {
+            if (memberNotifyCount > 0) {
+                this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
+                return;
+            }
 
-            const updatedDraft = {
-                ...tDraft,
-                props: {
-                    ...tDraft.props,
-                    broadcasted_thread_reply: true,
-                },
-            };
-
-            this.props.onUpdateCommentDraft(updatedDraft);
-
-            // // TODO: This is a temporary change for development, will need to redo this entire function as
-            // // state is not being updated properly.
-            this.setState({draft: updatedDraft}, async () => {
-                if (memberNotifyCount > 0) {
-                    this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
-                    return;
-                }
-
-                await this.doSubmit(e);
-            });
-
-            return;
-        }
-
-        if (memberNotifyCount > 0) {
-            this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
-            return;
-        }
-
-        await this.doSubmit(e);
+            await this.doSubmit(e);
+        });
     }
 
     doSubmit = async (e?: React.FormEvent) => {
@@ -662,7 +635,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const options = {ignoreSlash};
 
         try {
-            this.props.onSubmit(draft, options);
+            await this.props.onSubmit(draft, options);
 
             this.setState({
                 postError: null,
@@ -682,7 +655,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             clearTimeout(this.saveDraftFrame);
         }
         this.setState({isBroadcastThreadReply: false});
-        this.setState({draft: {...this.props.draft, uploadsInProgress: [], props: {...draft.props, broadcasted_thread_reply: false}}});
+        this.setState({draft: {...this.props.draft, uploadsInProgress: []}});
         this.draftsForPost[this.props.rootId] = null;
     }
 
