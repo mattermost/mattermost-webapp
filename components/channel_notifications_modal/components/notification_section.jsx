@@ -6,7 +6,7 @@ import React from 'react';
 
 import {NotificationSections, NotificationLevels} from 'utils/constants';
 
-import CollapseView from './collapse_view.tsx';
+import CollapseView from './collapse_view';
 import ExpandView from './expand_view.jsx';
 
 export default class NotificationSection extends React.PureComponent {
