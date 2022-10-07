@@ -45,8 +45,9 @@ const PeopleList = ({
         return !hasNextPage || index < people.length;
     };
 
-    const Item = ({columnIndex, rowIndex, style}: GridChildComponentProps) => {
-        const index = (rowIndex * 4) + columnIndex;
+    const Item = ({columnIndex, rowIndex, style, data}: GridChildComponentProps) => {
+        const columnCount = Math.floor(data.width / 320);
+        const index = (rowIndex * columnCount) + columnIndex;
         if (isItemLoaded(index)) {
             const user = people[index] as UserProfile;
             if (!user) {
@@ -55,11 +56,10 @@ const PeopleList = ({
 
             return (
                 <div
-                    style={{
-                        ...style,
-                    }}
+                    style={style}
                     className='Grid__item'
                     key={user.id}
+                    id={user.id}
                 >
                     <ProfileCard
                         user={user}
@@ -83,17 +83,18 @@ const PeopleList = ({
                 <InfiniteLoader
                     ref={infiniteLoaderRef}
                     isItemLoaded={isItemLoaded}
-                    itemCount={itemCount}
+                    itemCount={1000}
                     loadMoreItems={loadMoreItems}
                 >
                     {({onItemsRendered, ref}) => {
                         const columnWidth = 320;
-                        const rowHeight = 365;
-                        const columnCount = width / columnWidth;
+                        const rowHeight = 320;
+                        const columnCount = Math.floor(width / columnWidth);
+
                         return (
                             <FixedSizeGrid
                                 ref={ref}
-                                itemData={people}
+                                itemData={{width}}
                                 className='Grid'
                                 width={width}
                                 height={height - 120}
@@ -101,7 +102,6 @@ const PeopleList = ({
                                 columnCount={columnCount}
                                 columnWidth={columnWidth}
                                 rowHeight={rowHeight}
-
                                 onItemsRendered={(gridData) => {
                                     const {visibleRowStartIndex, visibleRowStopIndex, visibleColumnStopIndex, overscanRowStartIndex, overscanRowStopIndex, overscanColumnStopIndex} = gridData;
 

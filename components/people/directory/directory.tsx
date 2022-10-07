@@ -42,13 +42,13 @@ const Directory = () => {
     useEffect(() => {
         setPage(0);
         setIsNextPageLoading(false);
-        dispatch(fetchProfiles(0, 15));
+        dispatch(fetchProfiles(0, 60));
     }, []);
 
     const loadMore = async () => {
         setIsNextPageLoading(true);
 
-        await dispatch(fetchProfiles(page + 1, 15));
+        await dispatch(fetchProfiles(page + 1, 60));
         setPage(page + 1);
 
         setIsNextPageLoading(false);
@@ -99,7 +99,7 @@ const Directory = () => {
             </header>
             <PeopleList
                 people={searchTerm ? searchPeople : people}
-                hasNextPage={people.length < 62}
+                hasNextPage={people.length < 102}
                 isNextPageLoading={isNextPageLoading}
                 searchTerms={searchTerm}
                 loadMore={loadMore}
