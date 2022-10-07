@@ -11,7 +11,7 @@ import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'u
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 
-import Describe from './describe.tsx';
+import Describe from './describe';
 import ExtraInfo from './extra_info.jsx';
 import SectionTitle from './section_title';
 
