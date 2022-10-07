@@ -35,6 +35,7 @@ export default class CodePreview extends React.PureComponent<Props, State> {
         this.state = {
             code: '',
             lang: '',
+            highlighted: '',
             loading: true,
             success: true,
         };
@@ -96,6 +97,7 @@ export default class CodePreview extends React.PureComponent<Props, State> {
         this.props.getContent?.(code);
         this.setState({
             code,
+            highlighted: await SyntaxHighlighting.highlight(this.state.lang, code),
             loading: false,
             success: true,
         });
@@ -129,8 +131,6 @@ export default class CodePreview extends React.PureComponent<Props, State> {
 
         const language = SyntaxHighlighting.getLanguageName(this.state.lang);
 
-        const highlighted = SyntaxHighlighting.highlight(this.state.lang, this.state.code);
-
         return (
             <div className='post-code code-preview'>
                 <span className='post-code__language'>
@@ -140,7 +140,7 @@ export default class CodePreview extends React.PureComponent<Props, State> {
                     <div className='post-code__line-numbers'>
                         {SyntaxHighlighting.renderLineNumbers(this.state.code)}
                     </div>
-                    <code dangerouslySetInnerHTML={{__html: highlighted}}/>
+                    <code dangerouslySetInnerHTML={{__html: this.state.highlighted}}/>
                 </div>
             </div>
         );

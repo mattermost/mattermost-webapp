@@ -1,137 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {LanguageFn} from 'highlight.js';
 import hlJS from 'highlight.js/lib/core';
-import oneC from 'highlight.js/lib/languages/1c';
-import actionscript from 'highlight.js/lib/languages/actionscript';
-import applescript from 'highlight.js/lib/languages/applescript';
-import bash from 'highlight.js/lib/languages/bash';
-import clojure from 'highlight.js/lib/languages/clojure';
-import coffeescript from 'highlight.js/lib/languages/coffeescript';
-import cpp from 'highlight.js/lib/languages/cpp';
-import csharp from 'highlight.js/lib/languages/csharp';
-import css from 'highlight.js/lib/languages/css';
-import d from 'highlight.js/lib/languages/d';
-import dart from 'highlight.js/lib/languages/dart';
-import delphi from 'highlight.js/lib/languages/delphi';
-import diff from 'highlight.js/lib/languages/diff';
-import django from 'highlight.js/lib/languages/django';
-import dockerfile from 'highlight.js/lib/languages/dockerfile';
-import elixir from 'highlight.js/lib/languages/elixir';
-import erlang from 'highlight.js/lib/languages/erlang';
-import fortran from 'highlight.js/lib/languages/fortran';
-import fsharp from 'highlight.js/lib/languages/fsharp';
-import gcode from 'highlight.js/lib/languages/gcode';
-import go from 'highlight.js/lib/languages/go';
-import groovy from 'highlight.js/lib/languages/groovy';
-import handlebars from 'highlight.js/lib/languages/handlebars';
-import haskell from 'highlight.js/lib/languages/haskell';
-import haxe from 'highlight.js/lib/languages/haxe';
-import java from 'highlight.js/lib/languages/java';
-import javascript from 'highlight.js/lib/languages/javascript';
-import json from 'highlight.js/lib/languages/json';
-import julia from 'highlight.js/lib/languages/julia';
-import kotlin from 'highlight.js/lib/languages/kotlin';
-import latex from 'highlight.js/lib/languages/latex';
-import less from 'highlight.js/lib/languages/less';
-import lisp from 'highlight.js/lib/languages/lisp';
-import lua from 'highlight.js/lib/languages/lua';
-import makefile from 'highlight.js/lib/languages/makefile';
-import markdown from 'highlight.js/lib/languages/markdown';
-import matlab from 'highlight.js/lib/languages/matlab';
-import objectivec from 'highlight.js/lib/languages/objectivec';
-import ocaml from 'highlight.js/lib/languages/ocaml';
-import perl from 'highlight.js/lib/languages/perl';
-import pgsql from 'highlight.js/lib/languages/pgsql';
-import php from 'highlight.js/lib/languages/php';
-import powershell from 'highlight.js/lib/languages/powershell';
-import puppet from 'highlight.js/lib/languages/puppet';
-import python from 'highlight.js/lib/languages/python';
-import r from 'highlight.js/lib/languages/r';
-import ruby from 'highlight.js/lib/languages/ruby';
-import rust from 'highlight.js/lib/languages/rust';
-import scala from 'highlight.js/lib/languages/scala';
-import scheme from 'highlight.js/lib/languages/scheme';
-import scss from 'highlight.js/lib/languages/scss';
-import smalltalk from 'highlight.js/lib/languages/smalltalk';
-import sql from 'highlight.js/lib/languages/sql';
-import stylus from 'highlight.js/lib/languages/stylus';
-import swift from 'highlight.js/lib/languages/swift';
-import plaintext from 'highlight.js/lib/languages/plaintext';
-import typescript from 'highlight.js/lib/languages/typescript';
-import vbnet from 'highlight.js/lib/languages/vbnet';
-import vbscript from 'highlight.js/lib/languages/vbscript';
-import verilog from 'highlight.js/lib/languages/verilog';
-import vhdl from 'highlight.js/lib/languages/vhdl';
-import xml from 'highlight.js/lib/languages/xml';
-import yaml from 'highlight.js/lib/languages/yaml';
 
-hlJS.registerLanguage('1c', oneC);
-hlJS.registerLanguage('actionscript', actionscript);
-hlJS.registerLanguage('applescript', applescript);
-hlJS.registerLanguage('bash', bash);
-hlJS.registerLanguage('clojure', clojure);
-hlJS.registerLanguage('coffeescript', coffeescript);
-hlJS.registerLanguage('cpp', cpp);
-hlJS.registerLanguage('csharp', csharp);
-hlJS.registerLanguage('css', css);
-hlJS.registerLanguage('d', d);
-hlJS.registerLanguage('dart', dart);
-hlJS.registerLanguage('delphi', delphi);
-hlJS.registerLanguage('diff', diff);
-hlJS.registerLanguage('django', django);
-hlJS.registerLanguage('dockerfile', dockerfile);
-hlJS.registerLanguage('elixir', elixir);
-hlJS.registerLanguage('erlang', erlang);
-hlJS.registerLanguage('fortran', fortran);
-hlJS.registerLanguage('fsharp', fsharp);
-hlJS.registerLanguage('gcode', gcode);
-hlJS.registerLanguage('go', go);
-hlJS.registerLanguage('groovy', groovy);
-hlJS.registerLanguage('handlebars', handlebars);
-hlJS.registerLanguage('haskell', haskell);
-hlJS.registerLanguage('haxe', haxe);
-hlJS.registerLanguage('java', java);
-hlJS.registerLanguage('javascript', javascript);
-hlJS.registerLanguage('json', json);
-hlJS.registerLanguage('julia', julia);
-hlJS.registerLanguage('kotlin', kotlin);
-hlJS.registerLanguage('latex', latex);
-hlJS.registerLanguage('less', less);
-hlJS.registerLanguage('lisp', lisp);
-hlJS.registerLanguage('lua', lua);
-hlJS.registerLanguage('makefile', makefile);
-hlJS.registerLanguage('markdown', markdown);
-hlJS.registerLanguage('matlab', matlab);
-hlJS.registerLanguage('objectivec', objectivec);
-hlJS.registerLanguage('ocaml', ocaml);
-hlJS.registerLanguage('perl', perl);
-hlJS.registerLanguage('pgsql', pgsql);
-hlJS.registerLanguage('php', php);
-hlJS.registerLanguage('plaintext', plaintext);
-hlJS.registerLanguage('powershell', powershell);
-hlJS.registerLanguage('puppet', puppet);
-hlJS.registerLanguage('python', python);
-hlJS.registerLanguage('r', r);
-hlJS.registerLanguage('ruby', ruby);
-hlJS.registerLanguage('rust', rust);
-hlJS.registerLanguage('scala', scala);
-hlJS.registerLanguage('scheme', scheme);
-hlJS.registerLanguage('scss', scss);
-hlJS.registerLanguage('smalltalk', smalltalk);
-hlJS.registerLanguage('sql', sql);
-hlJS.registerLanguage('stylus', stylus);
-hlJS.registerLanguage('swift', swift);
-hlJS.registerLanguage('typescript', typescript);
-hlJS.registerLanguage('vbnet', vbnet);
-hlJS.registerLanguage('vbscript', vbscript);
-hlJS.registerLanguage('verilog', verilog);
-hlJS.registerLanguage('vhdl', vhdl);
-hlJS.registerLanguage('xml', xml);
-hlJS.registerLanguage('yaml', yaml);
+import * as TextFormatting from 'utils/text_formatting';
 
 import Constants from './constants';
-import * as TextFormatting from './text_formatting';
 
 type LanguageObject = {
     [key: string]: {
@@ -143,11 +18,12 @@ type LanguageObject = {
 
 const HighlightedLanguages: LanguageObject = Constants.HighlightedLanguages;
 
-export function highlight(lang: string, code: string) {
+export async function highlight(lang: string, code: string) {
     const language = getLanguageFromNameOrAlias(lang);
 
     if (language) {
         try {
+            await registerLanguage(language);
             return hlJS.highlight(code, {language}).value;
         } catch (e) {
             // fall through if highlighting fails and handle below
@@ -203,4 +79,204 @@ function getLanguageFromNameOrAlias(name: string) {
         const aliases = HighlightedLanguages[key].aliases;
         return aliases && aliases.find((a) => a === langName);
     });
+}
+
+async function registerLanguage(languageName: string) {
+    let language: LanguageFn | undefined;
+    switch (languageName) {
+    case '1c':
+        language = (await import('highlight.js/lib/languages/1c')).default;
+        break;
+    case 'actionscript':
+        language = (await import('highlight.js/lib/languages/actionscript')).default;
+        break;
+    case 'applescript':
+        language = (await import('highlight.js/lib/languages/applescript')).default;
+        break;
+    case 'bash':
+        language = (await import('highlight.js/lib/languages/bash')).default;
+        break;
+    case 'clojure':
+        language = (await import('highlight.js/lib/languages/clojure')).default;
+        break;
+    case 'coffeescript':
+        language = (await import('highlight.js/lib/languages/coffeescript')).default;
+        break;
+    case 'cpp':
+        language = (await import('highlight.js/lib/languages/cpp')).default;
+        break;
+    case 'csharp':
+        language = (await import('highlight.js/lib/languages/csharp')).default;
+        break;
+    case 'css':
+        language = (await import('highlight.js/lib/languages/css')).default;
+        break;
+    case 'd':
+        language = (await import('highlight.js/lib/languages/d')).default;
+        break;
+    case 'dart':
+        language = (await import('highlight.js/lib/languages/dart')).default;
+        break;
+    case 'delphi':
+        language = (await import('highlight.js/lib/languages/delphi')).default;
+        break;
+    case 'diff':
+        language = (await import('highlight.js/lib/languages/diff')).default;
+        break;
+    case 'django':
+        language = (await import('highlight.js/lib/languages/django')).default;
+        break;
+    case 'dockerfile':
+        language = (await import('highlight.js/lib/languages/dockerfile')).default;
+        break;
+    case 'elixir':
+        language = (await import('highlight.js/lib/languages/elixir')).default;
+        break;
+    case 'erlang':
+        language = (await import('highlight.js/lib/languages/erlang')).default;
+        break;
+    case 'fortran':
+        language = (await import('highlight.js/lib/languages/fortran')).default;
+        break;
+    case 'fsharp':
+        language = (await import('highlight.js/lib/languages/fsharp')).default;
+        break;
+    case 'gcode':
+        language = (await import('highlight.js/lib/languages/gcode')).default;
+        break;
+    case 'go':
+        language = (await import('highlight.js/lib/languages/go')).default;
+        break;
+    case 'groovy':
+        language = (await import('highlight.js/lib/languages/groovy')).default;
+        break;
+    case 'handlebars':
+        language = (await import('highlight.js/lib/languages/handlebars')).default;
+        break;
+    case 'haskell':
+        language = (await import('highlight.js/lib/languages/haskell')).default;
+        break;
+    case 'haxe':
+        language = (await import('highlight.js/lib/languages/haxe')).default;
+        break;
+    case 'java':
+        language = (await import('highlight.js/lib/languages/java')).default;
+        break;
+    case 'javascript':
+        language = (await import('highlight.js/lib/languages/javascript')).default;
+        break;
+    case 'json':
+        language = (await import('highlight.js/lib/languages/json')).default;
+        break;
+    case 'julia':
+        language = (await import('highlight.js/lib/languages/julia')).default;
+        break;
+    case 'kotlin':
+        language = (await import('highlight.js/lib/languages/kotlin')).default;
+        break;
+    case 'latex':
+        language = (await import('highlight.js/lib/languages/latex')).default;
+        break;
+    case 'less':
+        language = (await import('highlight.js/lib/languages/less')).default;
+        break;
+    case 'lisp':
+        language = (await import('highlight.js/lib/languages/lisp')).default;
+        break;
+    case 'lua':
+        language = (await import('highlight.js/lib/languages/lua')).default;
+        break;
+    case 'makefile':
+        language = (await import('highlight.js/lib/languages/makefile')).default;
+        break;
+    case 'markdown':
+        language = (await import('highlight.js/lib/languages/markdown')).default;
+        break;
+    case 'matlab':
+        language = (await import('highlight.js/lib/languages/matlab')).default;
+        break;
+    case 'objectivec':
+        language = (await import('highlight.js/lib/languages/objectivec')).default;
+        break;
+    case 'ocaml':
+        language = (await import('highlight.js/lib/languages/ocaml')).default;
+        break;
+    case 'perl':
+        language = (await import('highlight.js/lib/languages/perl')).default;
+        break;
+    case 'pgsql':
+        language = (await import('highlight.js/lib/languages/pgsql')).default;
+        break;
+    case 'php':
+        language = (await import('highlight.js/lib/languages/php')).default;
+        break;
+    case 'plaintext':
+        language = (await import('highlight.js/lib/languages/plaintext')).default;
+        break;
+    case 'powershell':
+        language = (await import('highlight.js/lib/languages/powershell')).default;
+        break;
+    case 'puppet':
+        language = (await import('highlight.js/lib/languages/puppet')).default;
+        break;
+    case 'python':
+        language = (await import('highlight.js/lib/languages/python')).default;
+        break;
+    case 'r':
+        language = (await import('highlight.js/lib/languages/r')).default;
+        break;
+    case 'ruby':
+        language = (await import('highlight.js/lib/languages/ruby')).default;
+        break;
+    case 'rust':
+        language = (await import('highlight.js/lib/languages/rust')).default;
+        break;
+    case 'scala':
+        language = (await import('highlight.js/lib/languages/scala')).default;
+        break;
+    case 'scheme':
+        language = (await import('highlight.js/lib/languages/scheme')).default;
+        break;
+    case 'scss':
+        language = (await import('highlight.js/lib/languages/scss')).default;
+        break;
+    case 'smalltalk':
+        language = (await import('highlight.js/lib/languages/smalltalk')).default;
+        break;
+    case 'sql':
+        language = (await import('highlight.js/lib/languages/sql')).default;
+        break;
+    case 'stylus':
+        language = (await import('highlight.js/lib/languages/stylus')).default;
+        break;
+    case 'swift':
+        language = (await import('highlight.js/lib/languages/swift')).default;
+        break;
+    case 'typescript':
+        language = (await import('highlight.js/lib/languages/typescript')).default;
+        break;
+    case 'vbnet':
+        language = (await import('highlight.js/lib/languages/vbnet')).default;
+        break;
+    case 'vbscript':
+        language = (await import('highlight.js/lib/languages/vbscript')).default;
+        break;
+    case 'verilog':
+        language = (await import('highlight.js/lib/languages/verilog')).default;
+        break;
+    case 'vhdl':
+        language = (await import('highlight.js/lib/languages/vhdl')).default;
+        break;
+    case 'xml':
+        language = (await import('highlight.js/lib/languages/xml')).default;
+        break;
+    case 'yaml':
+        language = (await import('highlight.js/lib/languages/yaml')).default;
+        break;
+    }
+
+    if (!language) {
+        return;
+    }
+    hlJS.registerLanguage(languageName, language);
 }

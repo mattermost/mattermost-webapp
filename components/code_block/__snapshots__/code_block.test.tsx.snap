@@ -115,9 +115,9 @@ exports[`codeBlock should render html code block with proper indentation 1`] = `
         dangerouslySetInnerHTML={
           Object {
             "__html": "\`\`\`html
-<span class=\\"hljs-tag\\">&lt;<span class=\\"hljs-name\\">div</span> <span class=\\"hljs-attr\\">className</span>=<span class=\\"hljs-string\\">&#x27;myClass&#x27;</span>&gt;</span>
-  <span class=\\"hljs-tag\\">&lt;<span class=\\"hljs-name\\">a</span> <span class=\\"hljs-attr\\">href</span>=<span class=\\"hljs-string\\">&#x27;https://randomgibberishurl.com&#x27;</span>&gt;</span>ClickMe<span class=\\"hljs-tag\\">&lt;/<span class=\\"hljs-name\\">a</span>&gt;</span>
-<span class=\\"hljs-tag\\">&lt;/<span class=\\"hljs-name\\">div</span>&gt;</span>
+&lt;div className=&apos;myClass&apos;&gt;
+  &lt;a href=&apos;https://randomgibberishurl.com&apos;&gt;ClickMe&lt;/a&gt;
+&lt;/div&gt;
 \`\`\`
 ",
           }
@@ -242,11 +242,11 @@ const myFunction = () => {
       <code
         dangerouslySetInnerHTML={
           Object {
-            "__html": "<span class=\\"hljs-string\\">\`\`</span><span class=\\"hljs-string\\">\`typescript
+            "__html": "\`\`\`typescript
 const myFunction = () =&gt; {
-    console.log(&#x27;This is a meaningful function&#x27;);
+    console.log(&apos;This is a meaningful function&apos;);
 };
-\`</span><span class=\\"hljs-string\\">\`\`</span>
+\`\`\`
 ",
           }
         }
