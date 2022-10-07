@@ -368,8 +368,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with no plugin i
         text="Archive Channel"
       />
     </Connect(ChannelPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
     <Connect(LeaveChannel)
       channel={
         Object {
@@ -802,8 +800,6 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
         text="Archive Channel"
       />
     </Connect(ChannelPermissionGate)>
-  </MenuGroup>
-  <MenuGroup>
     <Connect(LeaveChannel)
       channel={
         Object {
