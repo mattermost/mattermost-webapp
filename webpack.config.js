@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-console, no-process-env */
+
 const childProcess = require('child_process');
 const http = require('http');
 const path = require('path');
@@ -19,14 +21,13 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const packageJson = require('./package.json');
 
-/* eslint-disable no-console */
-
-const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
+const NPM_TARGET = process.env.npm_lifecycle_event;
 
 const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
 const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
+const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process.env.VSCODE_CWD;
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
@@ -127,7 +128,7 @@ let publicPath = '/static/';
 
 // Allow overriding the publicPath in dev from the exported SiteURL.
 if (DEV) {
-    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || ''; //eslint-disable-line no-process-env
+    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || '';
     if (siteURL) {
         publicPath = path.join(new url.URL(siteURL).pathname, 'static') + '/';
     }
@@ -503,15 +504,15 @@ if (DEV) {
 const env = {};
 if (DEV) {
     env.PUBLIC_PATH = JSON.stringify(publicPath);
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
-    if (process.env.MM_LIVE_RELOAD) { //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
+    if (process.env.MM_LIVE_RELOAD) {
         config.plugins.push(new LiveReloadPlugin());
     }
 } else {
     env.NODE_ENV = JSON.stringify('production');
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
 }
 
 config.plugins.push(new webpack.DefinePlugin({
@@ -577,7 +578,7 @@ if (targetIsDevServer) {
 // not helpful.)
 // See https://reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html and
 // https://gist.github.com/bvaughn/25e6233aeb1b4f0cdb8d8366e54a3977
-if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
+if (process.env.PRODUCTION_PERF_DEBUG) {
     console.log('Enabling production performance debug settings'); //eslint-disable-line no-console
     config.resolve.alias['react-dom'] = 'react-dom/profiling';
     config.resolve.alias['schedule/tracing'] = 'schedule/tracing-profiling';
@@ -588,7 +589,7 @@ if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
     };
 }
 
-if (NPM_TARGET === 'check') {
+if (targetIsEslint) {
     // ESLint can't handle setting an async config, so just skip the async part
     module.exports = config;
 } else {

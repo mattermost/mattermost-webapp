@@ -334,12 +334,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil) (Beta)",
+                  "text": "Português (Brasil) (Alpha)",
                   "value": "pt-BR",
                 },
                 Object {
                   "order": 10,
-                  "text": "Română (Beta)",
+                  "text": "Română (Alpha)",
                   "value": "ro",
                 },
                 Object {
@@ -465,12 +465,12 @@ exports[`components/admin_console/SchemaAdminSettings should match snapshot with
                 },
                 Object {
                   "order": 9,
-                  "text": "Português (Brasil) (Beta)",
+                  "text": "Português (Brasil) (Alpha)",
                   "value": "pt-BR",
                 },
                 Object {
                   "order": 10,
-                  "text": "Română (Beta)",
+                  "text": "Română (Alpha)",
                   "value": "ro",
                 },
                 Object {
