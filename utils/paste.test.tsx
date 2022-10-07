@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {parseTable, getTable, formatMarkdownTableMessage, formatGithubCodePaste} from './paste';
+import {parseTable, getTable, formatMarkdownMessage, formatGithubCodePaste} from './paste';
 
 const validClipboardData: any = {
     items: [1],
@@ -38,17 +38,17 @@ describe('Paste.getTable', () => {
     });
 });
 
-describe('Paste.formatMarkdownTableMessage', () => {
+describe('Paste.formatMarkdownMessage', () => {
     const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
 
     test('returns a markdown table when valid html table provided', () => {
-        expect(formatMarkdownTableMessage(validTable)).toBe(markdownTable);
+        expect(formatMarkdownMessage(validClipboardData)).toBe(markdownTable);
     });
 
     test('returns a markdown table under a message when one is provided', () => {
         const testMessage = 'test message';
 
-        expect(formatMarkdownTableMessage(validTable, testMessage)).toBe(`${testMessage}\n\n${markdownTable}`);
+        expect(formatMarkdownMessage(validClipboardData, testMessage)).toBe(`${testMessage}\n\n${markdownTable}`);
     });
 });
 

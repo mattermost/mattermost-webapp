@@ -1,5 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+import TurndownService from 'turndown';
+import {tables} from 'turndown-plugin-gfm';
+
 import {splitMessageBasedOnCaretPosition, splitMessageBasedOnTextSelection} from 'utils/post_utils';
 
 type FormatCodeOptions = {
@@ -32,6 +35,15 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {
     return table;
 }
 
+export function getHasLinks(clipboardData: DataTransfer): boolean {
+    if (Array.from(clipboardData.types).indexOf('text/html') === -1) {
+        return false;
+    }
+
+    const html = clipboardData.getData('text/html');
+    return (/<a/i).test(html);
+}
+
 export function getPlainText(clipboardData: DataTransfer): string | boolean {
     if (Array.from(clipboardData.types).indexOf('text/plain') === -1) {
         return false;
@@ -58,7 +70,11 @@ function tableHeaders(row: HTMLTableRowElement): string[] {
     return Array.from(row.querySelectorAll('td, th')).map(columnText);
 }
 
-export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string, caretPosition?: number): string {
+function isHeaderlessTable(table: HTMLTableElement): boolean {
+    return table.querySelectorAll('th').length === 0;
+}
+
+function formatMarkdownTable(table: HTMLTableElement): string {
     const rows = Array.from(table.querySelectorAll('tr'));
 
     const headerRow = rows.shift();
@@ -71,13 +87,30 @@ export function formatMarkdownTableMessage(table: HTMLTableElement, message?: st
     }).join('\n');
 
     const formattedTable = `${header}${body}\n`;
+    return formattedTable;
+}
+
+export function formatMarkdownMessage(clipboardData: DataTransfer, message?: string, caretPosition?: number): string {
+    const html = clipboardData.getData('text/html');
+
+    const service = new TurndownService({emDelimiter: '*'});
+    service.use(tables);
+    let markdownFormattedMessage = service.turndown(html);
+
+    const table = getTable(clipboardData);
+
+    // need to do this as turndown plugin doesn't support headerless tables
+    if (table && isHeaderlessTable(table)) {
+        markdownFormattedMessage = formatMarkdownTable(table);
+    }
+
     if (!message) {
-        return formattedTable;
+        return markdownFormattedMessage;
     }
     if (typeof caretPosition === 'undefined') {
-        return `${message}\n\n${formattedTable}`;
+        return `${message}\n\n${markdownFormattedMessage}`;
     }
-    const newMessage = [message.slice(0, caretPosition), formattedTable, message.slice(caretPosition)];
+    const newMessage = [message.slice(0, caretPosition), markdownFormattedMessage, message.slice(caretPosition)];
     return newMessage.join('\n');
 }
 
