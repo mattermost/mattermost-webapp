@@ -360,7 +360,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 renderThumbHorizontal={renderThumbHorizontal}
                 renderThumbVertical={renderThumbVertical}
                 renderView={renderView}
-                style={...scrollbarStyles}
+                style={scrollbarStyles}
                 onScroll={handleScroll}
             >
                 <div
