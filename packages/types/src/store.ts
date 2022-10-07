@@ -80,7 +80,6 @@ export type GlobalState = {
         admin: AdminRequestsStatuses;
         files: FilesRequestsStatuses;
         roles: RolesRequestsStatuses;
-        jobs: JobsRequestsStatuses;
     };
     websocket: {
         connected: boolean;
