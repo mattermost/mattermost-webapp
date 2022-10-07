@@ -3864,6 +3864,7 @@
   "leave_team_modal.no": "No",
   "leave_team_modal.title": "Leave the team?",
   "leave_team_modal.yes": "Yes",
+  "legacy_mattermost_cloud_migration": "Your legacy plan will no longer be supported starting November 1, 2022. <a>Update your plan now.</a>",
   "licensingPage.infoBanner.startTrialTitle": "Free 30 day trial!",
   "link_preview.image_preview": "Show Image preview",
   "link_preview.remove_link_preview": "Remove link preview",
