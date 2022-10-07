@@ -56,11 +56,14 @@ const renderThumbHorizontal = (props: Record<string, unknown>): JSX.Element => (
 const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
-        right: 5px;
-        background-color: rgba(var(--center-channel-color-rgb),0.32);
         className='scrollbar--vertical'
     />
 );
+
+const scrollbarStyles = {
+    right: '5px',
+    background-color: 'rgba(var(--center-channel-color-rgb),0.32)',
+};
 
 interface NoResultsProps {
     variant: NoResultsVariant;
@@ -357,6 +360,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 renderThumbHorizontal={renderThumbHorizontal}
                 renderThumbVertical={renderThumbVertical}
                 renderView={renderView}
+                style={...scrollbarStyles}
                 onScroll={handleScroll}
             >
                 <div
