@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import * as Utils from 'utils/utils';
-import BackstageList from 'components/backstage/components/backstage_list.jsx';
+import BackstageList from 'components/backstage/components/backstage_list';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import {Team} from '@mattermost/types/teams';
