@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationSections} from 'utils/constants';
 
-import ExtraInfo from 'components/channel_notifications_modal/components/extra_info.tsx';
+import ExtraInfo from 'components/channel_notifications_modal/components/extra_info';
 
 describe('components/channel_notifications_modal/ExtraInfo', () => {
     const baseProps = {
