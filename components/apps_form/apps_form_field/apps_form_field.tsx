@@ -13,7 +13,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
-import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
+import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting_2'; //This file makes the app form resizable
 import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
