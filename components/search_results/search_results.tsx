@@ -56,6 +56,8 @@ const renderThumbHorizontal = (props: Record<string, unknown>): JSX.Element => (
 const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
+        right: 5px;
+        background-color: rgba(var(--center-channel-color-rgb),0.32);
         className='scrollbar--vertical'
     />
 );
