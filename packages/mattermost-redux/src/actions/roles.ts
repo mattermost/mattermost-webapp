@@ -5,7 +5,7 @@ import {RoleTypes} from 'mattermost-redux/action_types';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 
 import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
-import {Role} from 'mattermost-redux/types/roles';
+import {Role} from '@mattermost/types/roles';
 
 import {bindClientFunc} from './helpers';
 

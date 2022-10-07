@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Emoji} from 'mattermost-redux/types/emojis';
+
+import {formatWithRenderer} from './markdown';
+import MentionableRenderer from './markdown/mentionable_renderer';
 
 export const emoticonPatterns: { [key: string]: RegExp } = {
     slightly_smiling_face: /(^|\B)(:-?\))($|\B)/g, // :)
@@ -26,12 +28,13 @@ export const emoticonPatterns: { [key: string]: RegExp } = {
 export const EMOJI_PATTERN = /(:([a-zA-Z0-9_+-]+):)/g;
 
 export function matchEmoticons(text: string): RegExpMatchArray | null {
-    let emojis = text.match(EMOJI_PATTERN);
+    const markdownCleanedText = formatWithRenderer(text, new MentionableRenderer());
+    let emojis = markdownCleanedText.match(EMOJI_PATTERN);
 
     for (const name of Object.keys(emoticonPatterns)) {
         const pattern = emoticonPatterns[name];
 
-        const matches = text.match(pattern);
+        const matches = markdownCleanedText.match(pattern);
         if (matches) {
             if (emojis) {
                 emojis = emojis.concat(matches);
@@ -87,28 +90,5 @@ export function handleEmoticons(
 }
 
 export function renderEmoji(name: string, matchText: string): string {
-    return `<span data-emoticon="${name}">${matchText}</span>`;
-}
-
-// if an emoji
-// - has `skin_variations` then it uses the default skin (yellow)
-// - has `skins` it's first value is considered the skin version (it can contain more values)
-// - any other case it doesn't have variations or is a custom emoji.
-export function getSkin(emoji: Emoji): string | null {
-    if ('skin_variations' in emoji) {
-        return 'default';
-    }
-    if ('skins' in emoji) {
-        const skin = emoji?.skins?.[0] ?? '';
-
-        if (skin.length !== 0) {
-            return skin;
-        }
-    }
-    return null;
-}
-
-export function emojiMatchesSkin(emoji: Emoji, skin: string): boolean {
-    const emojiSkin = getSkin(emoji);
-    return !emojiSkin || emojiSkin === skin;
+    return `<span data-emoticon="${name.toLowerCase()}">${matchText.toLowerCase()}</span>`;
 }

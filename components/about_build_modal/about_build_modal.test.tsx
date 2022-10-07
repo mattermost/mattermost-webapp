@@ -4,8 +4,11 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
+import {Provider} from 'react-redux';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import mockStore from 'tests/test_store';
+
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 
 import AboutBuildModal from 'components/about_build_modal/about_build_modal';
 
@@ -41,6 +44,7 @@ describe('components/AboutBuildModal', () => {
         config = {
             BuildEnterpriseReady: 'true',
             Version: '3.6.0',
+            SchemaVersion: '77',
             BuildNumber: '3.6.2',
             SQLDriverName: 'Postgres',
             BuildHash: 'abcdef1234567890',
@@ -58,7 +62,7 @@ describe('components/AboutBuildModal', () => {
     test('should match snapshot for enterprise edition', () => {
         const wrapper = shallowAboutBuildModal({config, license});
         expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.2');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -71,7 +75,7 @@ describe('components/AboutBuildModal', () => {
 
         const wrapper = shallowAboutBuildModal({config: teamConfig, license: {}});
         expect(wrapper.find('#versionString').text()).toBe('\u00a03.6.2');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
         expect(wrapper).toMatchSnapshot();
     });
 
@@ -79,14 +83,18 @@ describe('components/AboutBuildModal', () => {
         if (license !== null) {
             license.Cloud = 'true';
         }
+        const store = mockStore();
+
         const wrapper = shallow(
-            <AboutBuildModalCloud
-                config={config}
-                license={license}
-                show={true}
-                onExited={jest.fn()}
-                doHide={jest.fn()}
-            />,
+            <Provider store={store}>
+                <AboutBuildModalCloud
+                    config={config}
+                    license={license}
+                    show={true}
+                    onExited={jest.fn()}
+                    doHide={jest.fn()}
+                />
+            </Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });
@@ -97,13 +105,14 @@ describe('components/AboutBuildModal', () => {
             BuildEnterpriseReady: 'false',
             BuildHashEnterprise: '',
             Version: '3.6.0',
+            SchemaVersion: '77',
             BuildNumber: 'dev',
         };
 
         const wrapper = shallowAboutBuildModal({config: sameBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#versionString').text()).toBe('\u00a0dev');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
     });
 
     test('should show ci if a ci build', () => {
@@ -112,13 +121,14 @@ describe('components/AboutBuildModal', () => {
             BuildEnterpriseReady: 'false',
             BuildHashEnterprise: '',
             Version: '3.6.0',
+            SchemaVersion: '77',
             BuildNumber: '123',
         };
 
         const wrapper = shallowAboutBuildModal({config: differentBuildConfig, license: {}});
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.find('#versionString').text()).toBe('\u00a0ci');
-        expect(wrapper.find('#dbversionString').text()).toBe('\u00a03.6.0');
+        expect(wrapper.find('#dbversionString').text()).toBe('\u00a077');
         expect(wrapper.find('#buildnumberString').text()).toBe('\u00a0123');
     });
 

@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import {FormattedMessage} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 import {DragDropContext, Droppable, DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
@@ -13,9 +13,9 @@ import debounce from 'lodash/debounce';
 import * as ChannelUtils from 'utils/channel_utils';
 
 import {General} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
+import {Team} from '@mattermost/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {DraggingState} from 'types/store';
@@ -27,6 +27,7 @@ import UnreadChannelIndicator from '../unread_channel_indicator';
 import UnreadChannels from '../unread_channels';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
+import ActivityAndInsightsLink from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
 
 export function renderView(props: any) {
     return (
@@ -59,6 +60,8 @@ export function renderThumbVertical(props: any) {
             className='scrollbar--vertical'
         />);
 }
+
+const scrollbarStyles: CSSProperties = {position: 'absolute'};
 
 type Props = {
     currentTeam: Team;
@@ -530,6 +533,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
             // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
             <>
+                <ActivityAndInsightsLink/>
                 <GlobalThreadsLink/>
                 <div
                     id='sidebar-left'
@@ -566,7 +570,7 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
                         renderTrackVertical={renderTrackVertical}
                         renderView={renderView}
                         onScroll={this.onScroll}
-                        style={{position: 'absolute'}}
+                        style={scrollbarStyles}
                     >
                         {channelList}
                     </Scrollbars>

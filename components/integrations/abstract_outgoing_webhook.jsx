@@ -6,8 +6,9 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {localizeMessage} from 'utils/utils.jsx';
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import {localizeMessage} from 'utils/utils';
+
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
@@ -475,7 +476,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                         values={{
                                             link: (
                                                 <a
-                                                    href='https://about.mattermost.com/default-allow-internal-connections-settings-documentation/'
+                                                    href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths'
                                                     target='_blank'
                                                     rel='noopener noreferrer'
                                                 >

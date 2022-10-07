@@ -8,8 +8,8 @@ import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
     checkDialogElementForError, checkIfErrorsMatchElements,
 } from 'mattermost-redux/utils/integration_utils';
-import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse, AppFormValue} from 'mattermost-redux/types/apps';
-import {DialogElement} from 'mattermost-redux/types/integrations';
+import {AppCallResponse, AppField, AppForm, AppFormValues, AppSelectOption, FormResponseData, AppLookupResponse, AppFormValue} from '@mattermost/types/apps';
+import {DialogElement} from '@mattermost/types/integrations';
 import {AppCallResponseTypes, AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import {DoAppCallResult} from 'types/apps';
@@ -19,7 +19,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import SuggestionList from 'components/suggestion/suggestion_list';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list';
 
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import {filterEmptyOptions} from 'utils/apps';
 import Markdown from 'components/markdown';
@@ -182,7 +182,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
         if (res.error) {
             const errorResponse = res.error;
-            const errorMessage = errorResponse.error;
+            const errorMessage = errorResponse.text;
             const hasErrors = this.updateErrors(elements, errorResponse.data?.errors, errorMessage);
             if (!hasErrors) {
                 this.handleHide(false);
@@ -218,7 +218,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
 
     performLookup = async (name: string, userInput: string): Promise<AppSelectOption[]> => {
         const intl = this.props.intl;
-        const field = this.props.form.fields.find((f) => f.name === name);
+        const field = this.props.form.fields?.find((f) => f.name === name);
         if (!field) {
             return [];
         }
@@ -226,7 +226,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
         const res = await this.props.actions.performLookupCall(field, this.state.values, userInput);
         if (res.error) {
             const errorResponse = res.error;
-            const errMsg = errorResponse.error || intl.formatMessage({
+            const errMsg = errorResponse.text || intl.formatMessage({
                 id: 'apps.error.unknown',
                 defaultMessage: 'Unknown error.',
             });
@@ -304,7 +304,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
     };
 
     onChange = (name: string, value: any) => {
-        const field = this.props.form.fields.find((f) => f.name === name);
+        const field = this.props.form.fields?.find((f) => f.name === name);
         if (!field) {
             return;
         }
@@ -317,7 +317,7 @@ export class AppsForm extends React.PureComponent<Props, State> {
                 this.setState({loading: false});
                 if (res.error) {
                     const errorResponse = res.error;
-                    const errorMsg = errorResponse.error;
+                    const errorMsg = errorResponse.text;
                     const errors = errorResponse.data?.errors;
                     const elements = fieldsAsElements(this.props.form.fields);
                     this.updateErrors(elements, errors, errorMsg);

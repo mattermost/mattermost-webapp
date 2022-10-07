@@ -4,7 +4,7 @@
 import React, {useMemo, memo} from 'react';
 import {useSelector} from 'react-redux';
 
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import {GlobalState} from 'types/store';
 import {getCurrentUserTimezone} from 'selectors/general';

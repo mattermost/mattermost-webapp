@@ -9,7 +9,7 @@ import configureStore from 'store';
 import {makeGetCustomStatus, getRecentCustomStatuses, isCustomStatusEnabled, showStatusDropdownPulsatingDot, showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
 
 import {TestHelper} from 'utils/test_helper';
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 jest.mock('mattermost-redux/selectors/entities/users');
 jest.mock('mattermost-redux/selectors/entities/general');

@@ -10,7 +10,7 @@ import {getCurrentTeamId, getCurrentRelativeTeamUrl} from 'mattermost-redux/sele
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
-import {getThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
@@ -24,6 +24,7 @@ import {
     showChannelFiles,
     closeRightHandSide,
     toggleRhsExpanded,
+    goBack,
 } from 'actions/views/rhs';
 import {getIsRhsExpanded} from 'selectors/rhs';
 import {CrtThreadPaneSteps, Preferences} from 'utils/constants';
@@ -43,6 +44,7 @@ function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
     const root = getPost(state, rootPostId);
     const currentUserId = getCurrentUserId(state);
     const tipStep = getInt(state, Preferences.CRT_THREAD_PANE_STEP, currentUserId);
+    const getThreadOrSynthetic = makeGetThreadOrSynthetic();
 
     if (root && collapsedThreads) {
         const thread = getThreadOrSynthetic(state, root);
@@ -80,6 +82,7 @@ const actions = {
     closeRightHandSide,
     toggleRhsExpanded,
     setThreadFollow,
+    goBack,
 };
 
 export default connect(mapStateToProps, actions)(RhsHeaderPost);

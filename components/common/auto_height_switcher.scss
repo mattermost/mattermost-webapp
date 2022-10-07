@@ -2,5 +2,9 @@
 // See LICENSE.txt for license information.
 
 .AutoHeight {
-    transition: height 250ms ease-in-out;
+    display: block;
+
+    > div {
+        display: block;
+    }
 }

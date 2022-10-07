@@ -155,7 +155,7 @@ exports[`components/error_page/ErrorMessage should match snapshot, oauth_missing
           "link": <ErrorLink
             defaultMessage="Troubleshooting forum"
             messageId="error.oauth_missing_code.forum.link"
-            url="https://forum.mattermost.org/c/trouble-shoot"
+            url="https://forum.mattermost.com/c/trouble-shoot"
           />,
         }
       }

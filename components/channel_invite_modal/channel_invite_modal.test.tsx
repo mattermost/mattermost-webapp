@@ -5,9 +5,11 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel} from 'mattermost-redux/types/channels';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {General} from 'mattermost-redux/constants';
+
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import {Value} from 'components/multiselect/multiselect';
 
@@ -51,8 +53,10 @@ describe('components/channel_invite_modal', () => {
     const baseProps = {
         channel,
         profilesNotInCurrentChannel: [],
+        profilesInCurrentChannel: [],
         profilesNotInCurrentTeam: [],
         userStatuses: {},
+        teammateNameDisplaySetting: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
         actions: {
             addUsersToChannel: jest.fn().mockImplementation(() => {
                 const error = {
@@ -62,10 +66,12 @@ describe('components/channel_invite_modal', () => {
                 return Promise.resolve({error});
             }),
             getProfilesNotInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
+            getProfilesInChannel: jest.fn().mockImplementation(() => Promise.resolve()),
             getTeamStats: jest.fn(),
             getUserStatuses: jest.fn().mockImplementation(() => Promise.resolve()),
             loadStatusesForProfilesList: jest.fn(),
             searchProfiles: jest.fn(),
+            closeModal: jest.fn(),
         },
         onExited: jest.fn(),
     };
@@ -75,6 +81,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
             />,
         );
@@ -86,6 +93,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 profilesNotInCurrentTeam={[]}
                 includeUsers={
                     {
@@ -117,6 +125,7 @@ describe('components/channel_invite_modal', () => {
             <ChannelInviteModal
                 {...baseProps}
                 profilesNotInCurrentChannel={users}
+                profilesInCurrentChannel={[]}
                 userStatuses={userStatuses}
             />,
         );
@@ -219,5 +228,37 @@ describe('components/channel_invite_modal', () => {
 
         wrapper.instance().search(' something ');
         expect(wrapper.state('term')).toEqual('something');
+    });
+
+    test('should send the invite as guest param through the link', () => {
+        const props = {
+            ...baseProps,
+            canInviteGuests: true,
+            emailInvitationsEnabled: true,
+        };
+        const wrapper = shallow<ChannelInviteModal>(
+            <ChannelInviteModal {...props}/>,
+        );
+
+        const invitationLink = wrapper.find('InviteModalLink');
+
+        expect(invitationLink).toHaveLength(1);
+
+        expect(invitationLink.prop('inviteAsGuest')).toBeTruthy();
+    });
+
+    test('should hide the invite as guest param when can not invite guests', () => {
+        const props = {
+            ...baseProps,
+            canInviteGuests: false,
+            emailInvitationsEnabled: false,
+        };
+        const wrapper = shallow<ChannelInviteModal>(
+            <ChannelInviteModal {...props}/>,
+        );
+
+        const invitationLink = wrapper.find('InviteModalLink');
+
+        expect(invitationLink).toHaveLength(0);
     });
 });

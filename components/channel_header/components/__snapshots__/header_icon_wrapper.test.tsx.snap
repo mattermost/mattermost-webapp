@@ -20,6 +20,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -56,6 +57,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -109,6 +111,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -146,6 +149,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -182,6 +186,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >
@@ -234,6 +239,7 @@ exports[`components/channel_header/components/HeaderIconWrapper should match sna
     trigger={
       Array [
         "hover",
+        "focus",
       ]
     }
   >

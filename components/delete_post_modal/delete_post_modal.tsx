@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import {matchPath} from 'react-router-dom';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import * as UserAgent from 'utils/user_agent';
 import {browserHistory} from 'utils/browser_history';

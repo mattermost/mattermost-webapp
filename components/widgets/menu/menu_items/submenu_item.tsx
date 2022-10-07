@@ -4,7 +4,7 @@
 import React, {CSSProperties} from 'react';
 import classNames from 'classnames';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {showMobileSubMenuModal} from 'actions/global_actions';
 
 import type {Menu} from 'types/store/plugins';

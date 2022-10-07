@@ -36,6 +36,7 @@ exports[`at mention suggestion Should display nick name of non signed in user 1`
           <img
             alt="user2 profile image"
             className="Avatar Avatar-sm"
+            onError={[Function]}
             src="/api/v4/users/userid2/image?_=0"
             tabIndex={0}
           />
@@ -141,6 +142,7 @@ exports[`at mention suggestion Should not display nick name of the signed in use
           <img
             alt="user profile image"
             className="Avatar Avatar-sm"
+            onError={[Function]}
             src="/api/v4/users/userid1/image?_=0"
             tabIndex={0}
           />

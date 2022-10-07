@@ -27,6 +27,7 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
           compactDisplay={false}
           fileInfo={
             Object {
+              "archived": false,
               "clientId": "",
               "create_at": 0,
               "delete_at": 0,
@@ -110,6 +111,7 @@ exports[`component/file_preview/file_progress_preview snapshot for percent value
           compactDisplay={false}
           fileInfo={
             Object {
+              "archived": false,
               "clientId": "",
               "create_at": 0,
               "delete_at": 0,

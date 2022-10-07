@@ -163,12 +163,28 @@ function resetTrackedSelectors() {
 }
 
 // getSortedTrackedSelectors returns an array, sorted by effectivness, containing mesaurement data on all tracked selectors.
-function getSortedTrackedSelectors() {
+export function getSortedTrackedSelectors() {
     let selectors = Object.values(trackedSelectors);
     // Filter out any selector not called
     selectors = selectors.filter(selector => selector.calls > 0);
     const selectorsData = selectors.map((selector) => ({name: selector.name, effectiveness: effectiveness(selector), recomputations: selector.recomputations, calls: selector.calls}));
-    selectorsData.sort((a, b) => a.effectiveness - b.effectiveness);
+    selectorsData.sort((a, b) => {
+        // Sort effectiveness ascending
+        if (a.effectiveness !== b.effectiveness) {
+            return a.effectiveness - b.effectiveness;
+        }
+
+        // And everything else descending
+        if (a.recomputations !== b.recomputations) {
+            return b.recomputations - a.recomputations;
+        }
+
+        if (a.calls !== b.calls) {
+            return b.calls - a.calls;
+        }
+
+        return a.name.localeCompare(b.name);
+    });
     return selectorsData;
 }
 

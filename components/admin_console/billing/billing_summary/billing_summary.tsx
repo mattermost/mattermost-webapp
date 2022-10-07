@@ -50,7 +50,7 @@ export const noBillingHistory = (
     </div>
 );
 
-export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => void) => (
+export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: (callerInfo: string) => void) => (
     <div className='UpgradeMattermostCloud'>
         <div className='UpgradeMattermostCloud__image'>
             <UpgradeSvg
@@ -72,18 +72,18 @@ export const upgradeFreeTierMattermostCloud = (onUpgradeMattermostCloud: () => v
         </div>
         <button
             type='button'
-            onClick={onUpgradeMattermostCloud}
+            onClick={() => onUpgradeMattermostCloud('billing_summary_legacy_free_tier_upgrade_button')}
             className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
                 id='admin.billing.subscription.upgradeMattermostCloud.upgradeButton'
-                defaultMessage='Subscribe Now'
+                defaultMessage='Upgrade Now'
             />
         </button>
     </div>
 );
 
-export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial: number) => (
+export const freeTrial = (onUpgradeMattermostCloud: (callerInfo: string) => void, daysLeftOnTrial: number) => (
     <div className='UpgradeMattermostCloud'>
         <div className='UpgradeMattermostCloud__image'>
             <UpgradeSvg
@@ -129,12 +129,12 @@ export const freeTrial = (onUpgradeMattermostCloud: () => void, daysLeftOnTrial:
         </div>
         <button
             type='button'
-            onClick={onUpgradeMattermostCloud}
+            onClick={() => onUpgradeMattermostCloud('billing_summary_free_trial_upgrade_button')}
             className='UpgradeMattermostCloud__upgradeButton'
         >
             <FormattedMessage
                 id='admin.billing.subscription.cloudTrial.subscribeButton'
-                defaultMessage='Subscribe Now'
+                defaultMessage='Upgrade Now'
             />
         </button>
     </div>

@@ -28,7 +28,8 @@ function selectedPostId(state = '', action: GenericAction) {
         return state;
     case ActionTypes.UPDATE_RHS_STATE:
         return '';
-
+    case ActionTypes.RHS_GO_BACK:
+        return '';
     case UserTypes.LOGOUT_SUCCESS:
         return '';
     default:
@@ -106,7 +107,12 @@ function selectedChannelId(state = '', action: GenericAction) {
     case ActionTypes.SELECT_POST_CARD:
         return action.channelId;
     case ActionTypes.UPDATE_RHS_STATE:
-        if (action.state === RHSStates.PIN || action.state === RHSStates.CHANNEL_FILES) {
+        if ([
+            RHSStates.PIN,
+            RHSStates.CHANNEL_FILES,
+            RHSStates.CHANNEL_INFO,
+            RHSStates.CHANNEL_MEMBERS,
+        ].includes(action.state)) {
             return action.channelId;
         }
         return '';
@@ -118,21 +124,39 @@ function selectedChannelId(state = '', action: GenericAction) {
     }
 }
 
-function previousRhsState(state: RhsState = null, action: GenericAction) {
+function previousRhsStates(state: any = [], action: GenericAction) {
     switch (action.type) {
     case ActionTypes.SELECT_POST:
         if (action.previousRhsState) {
-            return action.previousRhsState;
+            return [
+                ...state,
+                action.previousRhsState,
+            ];
         }
-        return null;
+        return [];
     case ActionTypes.SELECT_POST_CARD:
         if (action.previousRhsState) {
-            return action.previousRhsState;
+            return [
+                ...state,
+                action.previousRhsState,
+            ];
         }
-        return null;
-
+        return [];
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (action.previousRhsState) {
+            return [
+                ...state,
+                action.previousRhsState,
+            ];
+        }
+        return [];
+    case ActionTypes.RHS_GO_BACK:
+        // eslint-disable-next-line no-case-declarations
+        const newState = [...state];
+        newState.pop();
+        return newState;
     case UserTypes.LOGOUT_SUCCESS:
-        return null;
+        return [];
     default:
         return state;
     }
@@ -141,6 +165,8 @@ function previousRhsState(state: RhsState = null, action: GenericAction) {
 function rhsState(state: RhsState = null, action: GenericAction) {
     switch (action.type) {
     case ActionTypes.UPDATE_RHS_STATE:
+        return action.state;
+    case ActionTypes.RHS_GO_BACK:
         return action.state;
     case ActionTypes.SELECT_POST:
         return null;
@@ -324,13 +350,30 @@ function isMenuOpen(state = false, action: GenericAction) {
     }
 }
 
+function editChannelMembers(state = false, action: GenericAction) {
+    switch (action.type) {
+    case ActionTypes.SET_EDIT_CHANNEL_MEMBERS:
+        return action.active;
+    case ActionTypes.UPDATE_RHS_STATE:
+        if (!action.state) {
+            return false;
+        }
+        return state;
+
+    case UserTypes.LOGOUT_SUCCESS:
+        return false;
+    default:
+        return state;
+    }
+}
+
 export default combineReducers({
     selectedPostId,
     selectedPostFocussedAt,
     selectedPostCardId,
     selectedChannelId,
     highlightedPostId,
-    previousRhsState,
+    previousRhsStates,
     filesSearchExtFilter,
     rhsState,
     searchTerms,
@@ -342,4 +385,5 @@ export default combineReducers({
     isSidebarOpen,
     isSidebarExpanded,
     isMenuOpen,
+    editChannelMembers,
 });

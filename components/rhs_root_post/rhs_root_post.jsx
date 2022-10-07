@@ -6,12 +6,13 @@ import React, {createRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {Posts} from 'mattermost-redux/constants';
+import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import Constants, {Locations, A11yCustomEventTypes} from 'utils/constants';
+import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
+import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import OverlayTrigger from 'components/overlay_trigger';
@@ -26,13 +27,13 @@ import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
-import AutoHeightSwitcher from 'components/common/auto_height_switcher';
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -40,6 +41,7 @@ export default class RhsRootPost extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
+        colorizeUsernames: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
         isFlagged: PropTypes.bool.isRequired,
         previewCollapsed: PropTypes.string,
@@ -51,6 +53,7 @@ export default class RhsRootPost extends React.PureComponent {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+        isPostPriorityEnabled: PropTypes.bool.isRequired,
         handleCardClick: PropTypes.func.isRequired,
 
         /**
@@ -69,12 +72,25 @@ export default class RhsRootPost extends React.PureComponent {
              * Function to set or unset emoji picker for last message
              */
             emitShortcutReactToLastPostFrom: PropTypes.func,
+
+            /**
+             * Function to set viewed Actions Menu for first time
+             */
+            setActionsMenuInitialisationState: PropTypes.func,
         }),
         timestampProps: PropTypes.object,
         isBot: PropTypes.bool,
         collapsedThreadsEnabled: PropTypes.bool,
+        shouldShowActionsMenu: PropTypes.bool,
+
+        /**
+        * true when want to show the Actions Menu with pulsating dot for tutorial
+         */
+        showActionsMenuPulsatingDot: PropTypes.bool,
         oneClickReactionsEnabled: PropTypes.bool,
-        recentEmojis: PropTypes.arrayOf(Emoji),
+
+        // e.g. import {Emoji} from '@mattermost/types/emojis';
+        recentEmojis: PropTypes.arrayOf(PropTypes.object),
 
         isExpanded: PropTypes.bool,
 
@@ -94,9 +110,11 @@ export default class RhsRootPost extends React.PureComponent {
 
         this.state = {
             alt: false,
+            showActionsMenu: false,
+            showActionTip: false,
+            showDotMenu: false,
             showEmojiPicker: false,
             testStateObj: true,
-            dropdownOpened: false,
             fileDropdownOpened: false,
             hover: false,
             a11yActive: false,
@@ -198,12 +216,13 @@ export default class RhsRootPost extends React.PureComponent {
         );
     };
 
-    toggleEmojiPicker = () => {
-        const showEmojiPicker = !this.state.showEmojiPicker;
+    toggleEmojiPicker = (e) => {
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+        }
 
-        this.setState({
-            showEmojiPicker,
-        });
+        const showEmojiPicker = !this.state.showEmojiPicker;
+        this.setState({showEmojiPicker});
     };
 
     handleA11yActivateEvent = () => {
@@ -232,7 +251,11 @@ export default class RhsRootPost extends React.PureComponent {
             className += ' post--compact';
         }
 
-        if (this.state.dropdownOpened || this.state.fileDropdownOpened || this.state.showEmojiPicker) {
+        if (this.state.showDotMenu ||
+            this.state.showActionsMenu ||
+            this.state.showActionTip ||
+            this.state.fileDropdownOpened ||
+            this.state.showEmojiPicker) {
             className += ' post--hovered';
         }
 
@@ -277,16 +300,33 @@ export default class RhsRootPost extends React.PureComponent {
         }
     }
 
-    handleDropdownOpened = (isOpened) => {
-        this.setState({
-            dropdownOpened: isOpened,
-        });
+    handleActionsMenuOpened = (open) => {
+        if (this.props.showActionsMenuPulsatingDot) {
+            this.setState({showActionTip: true});
+            return;
+        }
+        this.setState({showActionsMenu: open});
     };
 
-    handleFileDropdownOpened = (isOpened) => {
-        this.setState({
-            fileDropdownOpened: isOpened,
-        });
+    handleDotMenuOpened = (open) => {
+        this.setState({showDotMenu: open});
+    };
+
+    handleActionsMenuTipOpened = () => {
+        this.setState({showActionTip: true});
+    };
+
+    handleActionsMenuGotItClick = () => {
+        this.props.actions.setActionsMenuInitialisationState?.(({[Preferences.ACTIONS_MENU_VIEWED]: true}));
+        this.setState({showActionTip: false});
+    };
+
+    handleTipDismissed = () => {
+        this.setState({showActionTip: false});
+    };
+
+    handleFileDropdownOpened = (open) => {
+        this.setState({fileDropdownOpened: open});
     };
 
     handlePostClick = (e) => {
@@ -319,6 +359,7 @@ export default class RhsRootPost extends React.PureComponent {
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
+        const colorize = this.props.compactDisplay && this.props.colorizeUsernames;
 
         const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
         let showRecentReacions;
@@ -374,9 +415,10 @@ export default class RhsRootPost extends React.PureComponent {
                     }
                     overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                     disablePopover={true}
+                    colorize={colorize}
                 />
             );
-        } else if (post.props && post.props.from_webhook) {
+        } else if (PostUtils.isFromWebhook(post)) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
@@ -385,6 +427,7 @@ export default class RhsRootPost extends React.PureComponent {
                         hideStatus={true}
                         overwriteName={post.props.override_username}
                         disablePopover={true}
+                        colorize={colorize}
                     />
                 );
             } else {
@@ -394,6 +437,7 @@ export default class RhsRootPost extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         disablePopover={true}
+                        colorize={colorize}
                     />
                 );
             }
@@ -407,21 +451,36 @@ export default class RhsRootPost extends React.PureComponent {
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
+                    colorize={colorize}
                 />
             );
         }
 
         const postClass = classNames('post__body--transition', {'post--edited': PostUtils.isEdited(this.props.post)});
 
+        const actionsMenu = (
+            <ActionsMenu
+                post={this.props.post}
+                location={Locations.RHS_ROOT}
+                handleDropdownOpened={this.handleActionsMenuOpened}
+                isMenuOpen={this.state.showActionsMenu}
+                showPulsatingDot={this.props.showActionsMenuPulsatingDot}
+                showTutorialTip={this.state.showActionTip}
+                handleOpenTip={this.handleActionsMenuTipOpened}
+                handleNextTip={this.handleActionsMenuGotItClick}
+                handleDismissTip={this.handleTipDismissed}
+            />
+        );
+
         const dotMenu = (
             <DotMenu
                 post={this.props.post}
                 location={Locations.RHS_ROOT}
                 isFlagged={this.props.isFlagged}
-                handleDropdownOpened={this.handleDropdownOpened}
+                handleDropdownOpened={this.handleDotMenuOpened}
                 handleAddReactionClick={this.toggleEmojiPicker}
                 commentCount={this.props.commentCount}
-                isMenuOpen={this.state.dropdownOpened}
+                isMenuOpen={this.state.showDotMenu}
                 isReadOnly={isReadOnly || channelIsArchived}
                 enableEmojiPicker={this.props.enableEmojiPicker}
             />
@@ -440,8 +499,7 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let dotMenuContainer;
-        if ((!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) &&
-            (this.state.hover || this.state.dropdownOpened || this.state.showEmojiPicker || this.state.a11yActive)) {
+        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
                     ref={this.dotMenuRef}
@@ -451,6 +509,7 @@ export default class RhsRootPost extends React.PureComponent {
                     {showRecentReacions}
                     {postReaction}
                     {postFlagIcon}
+                    {actionsMenu}
                     {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 </div>
             );
@@ -501,6 +560,11 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
+        let priority;
+        if (post.props?.priority && this.props.isPostPriorityEnabled) {
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+        }
+
         const message = (
             <MessageWithAdditionalContent
                 post={post}
@@ -510,6 +574,8 @@ export default class RhsRootPost extends React.PureComponent {
                 pluginPostTypes={this.props.pluginPostTypes}
             />
         );
+
+        const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
 
         return (
             <PostAriaLabelDiv
@@ -553,8 +619,9 @@ export default class RhsRootPost extends React.PureComponent {
                                 {botIndicator}
                                 {customStatus}
                             </div>
-                            <div className='col'>
+                            <div className='col d-flex align-items-center'>
                                 {this.renderPostTime(isEphemeral)}
+                                {priority}
                                 {postInfoIcon}
                             </div>
                             {!isPostBeingEdited && dotMenuContainer}
@@ -562,16 +629,16 @@ export default class RhsRootPost extends React.PureComponent {
                         <div className='post__body'>
                             <div className={postClass}>
                                 <AutoHeightSwitcher
-                                    showSlot={isPostBeingEdited ? 2 : 1}
+                                    showSlot={showSlot}
                                     shouldScrollIntoView={isPostBeingEdited}
                                     slot1={message}
                                     slot2={<EditPost/>}
+                                    onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                                 />
                             </div>
                             {fileAttachment}
                             <ReactionList
                                 post={post}
-                                isReadOnly={isReadOnly || channelIsArchived}
                             />
                         </div>
                     </div>

@@ -30,16 +30,10 @@ export const MenuItemActionImpl = ({
         data-testid={id}
         id={id}
         aria-label={ariaLabel}
-        className={
-            classNames([
-                'style--none',
-                {
-                    'MenuItem__with-help': extraText,
-                    [`${buttonClass}`]: buttonClass,
-                    MenuItem__dangerous: isDangerous,
-                },
-            ])
-        }
+        className={classNames('style--none', buttonClass, {
+            'MenuItem__with-help': extraText,
+            MenuItem__dangerous: isDangerous,
+        })}
         onClick={onClick}
     >
         {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}

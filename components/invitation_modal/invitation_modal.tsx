@@ -9,19 +9,18 @@ import {injectIntl, IntlShape} from 'react-intl';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {SubscriptionStats} from 'mattermost-redux/types/cloud';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
 import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
-import InviteView, {InviteState, defaultInviteState} from './invite_view';
+import InviteView, {InviteState, initializeInviteState} from './invite_view';
 import NoPermissionsView from './no_permissions_view';
 import {InviteType} from './invite_as';
 
@@ -50,6 +49,13 @@ export type Props = {
             users: UserProfile[],
             emails: string[]
         ) => Promise<{data: InviteResults}>;
+        sendMembersInvitesToChannels: (
+            teamId: string,
+            channels: Channel[],
+            users: UserProfile[],
+            emails: string[],
+            message: string,
+        ) => Promise<{data: InviteResults}>;
     };
     currentTeam: Team;
     currentChannel: Channel;
@@ -58,12 +64,13 @@ export type Props = {
     emailInvitationsEnabled: boolean;
     isAdmin: boolean;
     isCloud: boolean;
-    subscriptionStats?: SubscriptionStats | null;
-    cloudUserLimit: string;
     canAddUsers: boolean;
     canInviteGuests: boolean;
     intl: IntlShape;
     onExited: () => void;
+    channelToInvite?: Channel;
+    initialValue?: string;
+    inviteAsGuest?: boolean;
 }
 
 export const View = {
@@ -81,23 +88,28 @@ type State = {
     show: boolean;
 };
 
-const defaultState: State = deepFreeze({
-    view: View.INVITE,
-    termWithoutResults: null,
-    invite: defaultInviteState,
-    result: defaultResultState,
-    show: true,
-});
-
 export class InvitationModal extends React.PureComponent<Props, State> {
+    defaultState: State = deepFreeze({
+        view: View.INVITE,
+        termWithoutResults: null,
+        invite: initializeInviteState(this.props.initialValue || '', this.props.inviteAsGuest),
+        result: defaultResultState,
+        show: true,
+    });
     constructor(props: Props) {
         super(props);
 
+        const defaultStateChannels = this.defaultState.invite.inviteChannels.channels;
+
         this.state = {
-            ...defaultState,
+            ...this.defaultState,
             invite: {
-                ...defaultState.invite,
-                inviteType: (!props.canAddUsers && props.canInviteGuests) ? InviteType.GUEST : defaultState.invite.inviteType,
+                ...this.defaultState.invite,
+                inviteType: (!props.canAddUsers && props.canInviteGuests) ? InviteType.GUEST : this.defaultState.invite.inviteType,
+                inviteChannels: {
+                    ...this.defaultState.invite.inviteChannels,
+                    channels: props.channelToInvite ? [...defaultStateChannels, props.channelToInvite] : defaultStateChannels,
+                },
             },
         };
     }
@@ -162,8 +174,20 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         }
         let invites: InviteResults = {notSent: [], sent: []};
         if (inviteAs === InviteType.MEMBER) {
-            const result = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
-            invites = result.data;
+            if (this.props.channelToInvite) {
+                // this call is to invite as member but to (a) channel(s) directly
+                const result = await this.props.actions.sendMembersInvitesToChannels(
+                    this.props.currentTeam.id,
+                    this.state.invite.inviteChannels.channels,
+                    users,
+                    emails,
+                    this.state.invite.customMessage.open ? this.state.invite.customMessage.message : '',
+                );
+                invites = result.data;
+            } else {
+                const result = await this.props.actions.sendMembersInvites(this.props.currentTeam.id, users, emails);
+                invites = result.data;
+            }
         } else if (inviteAs === InviteType.GUEST) {
             const result = await this.props.actions.sendGuestsInvites(
                 this.props.currentTeam.id,
@@ -209,7 +233,7 @@ export class InvitationModal extends React.PureComponent<Props, State> {
         this.setState((state: State) => ({
             view: View.INVITE,
             invite: {
-                ...defaultInviteState,
+                ...initializeInviteState(),
                 inviteType: state.invite.inviteType,
                 customMessage: state.invite.customMessage,
                 inviteChannels: state.invite.inviteChannels,
@@ -351,11 +375,10 @@ export class InvitationModal extends React.PureComponent<Props, State> {
                 isCloud={this.props.isCloud}
                 canAddUsers={this.props.canAddUsers}
                 canInviteGuests={this.props.canInviteGuests}
-                subscriptionStats={this.props.subscriptionStats}
-                cloudUserLimit={this.props.cloudUserLimit}
                 headerClass='InvitationModal__header'
                 footerClass='InvitationModal__footer'
                 onClose={this.handleHide}
+                channelToInvite={this.props.channelToInvite}
                 {...this.state.invite}
             />
         );

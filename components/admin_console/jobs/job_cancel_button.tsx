@@ -5,7 +5,7 @@ import React, {useCallback} from 'react';
 
 import {useIntl} from 'react-intl';
 
-import {Job} from 'mattermost-redux/types/jobs';
+import {Job} from '@mattermost/types/jobs';
 
 import {JobStatuses} from 'utils/constants';
 

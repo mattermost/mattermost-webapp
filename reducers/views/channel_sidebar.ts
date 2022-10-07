@@ -6,7 +6,7 @@ import {combineReducers} from 'redux';
 import {ChannelCategoryTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import {removeItem} from 'mattermost-redux/utils/array_utils';
 

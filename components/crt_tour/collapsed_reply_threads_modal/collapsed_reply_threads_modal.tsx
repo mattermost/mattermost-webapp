@@ -5,9 +5,9 @@ import React, {useCallback, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 
+import crtInProductImg from 'images/crt-in-product.gif';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import crtBetaImg from 'images/crt-beta.gif';
 import {closeModal} from 'actions/views/modals';
 import GenericModal from 'components/generic_modal';
 import NextIcon from 'components/widgets/icons/fa_next_icon';
@@ -98,7 +98,7 @@ function CollapsedReplyThreadsModal(props: Props) {
                     />
                 </p>
                 <img
-                    src={crtBetaImg}
+                    src={crtInProductImg}
                     className='CollapsedReplyThreadsModal__img'
                 />
             </div>

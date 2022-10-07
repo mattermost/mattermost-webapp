@@ -8,11 +8,11 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {Permissions} from 'mattermost-redux/constants';
 
-import ToggleModalButtonRedux from 'components/toggle_modal_button_redux';
+import ToggleModalButton from 'components/toggle_modal_button';
 import InvitationModal from 'components/invitation_modal';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
@@ -35,25 +35,37 @@ export interface AddMembersButtonProps {
 }
 
 const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLimit, channel, setHeader, createBoard}: AddMembersButtonProps) => {
+    const currentTeamId = useSelector(getCurrentTeamId);
+
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
 
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
-    const currentTeamId = useSelector(getCurrentTeamId);
 
     return (
         <TeamPermissionGate
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            {inviteUsers && !isPrivate ? lessThanMaxFreeUsers(setHeader, createBoard) : moreThanMaxFreeUsers(channel, setHeader, createBoard)}
+            {inviteUsers && !isPrivate ? (
+                <LessThanMaxFreeUsers
+                    createBoard={createBoard}
+                    setHeader={setHeader}
+                />
+            ) : (
+                <MoreThanMaxFreeUsers
+                    channel={channel}
+                    createBoard={createBoard}
+                    setHeader={setHeader}
+                />
+            )}
         </TeamPermissionGate>
     );
 };
 
-const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.ReactNode) => {
+const LessThanMaxFreeUsers = ({setHeader, createBoard}: {setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
     const {formatMessage} = useIntl();
 
     return (
@@ -70,7 +82,7 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.Rea
                         id='intro_messages.inviteOthersToWorkspace.title'
                         defaultMessage='Let’s add some people to the workspace!'
                     />
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
                         className='intro-links color--link cursor--pointer'
@@ -85,14 +97,16 @@ const lessThanMaxFreeUsers = (setHeader: React.ReactNode, createBoard: React.Rea
                             id='intro_messages.inviteOthersToWorkspace.button'
                             defaultMessage='Invite others to the workspace'
                         />
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 </div>
             </div>
         </>
     );
 };
 
-const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, createBoard: React.ReactNode) => {
+const MoreThanMaxFreeUsers = ({channel, setHeader, createBoard}: {channel: Channel; setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
+    const {formatMessage} = useIntl();
+
     const modalId = channel.group_constrained ? ModalIdentifiers.ADD_GROUPS_TO_CHANNEL : ModalIdentifiers.CHANNEL_INVITE;
     const modal = channel.group_constrained ? AddGroupsToChannelModal : ChannelInviteModal;
     const channelIsArchived = channel.delete_at !== 0;
@@ -100,8 +114,6 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, crea
         return null;
     }
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
-
-    const {formatMessage} = useIntl();
 
     return (
         <div className='MoreThanMaxFreeUsersWrapper'>
@@ -111,7 +123,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, crea
                     teamId={channel.team_id}
                     permissions={[isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS]}
                 >
-                    <ToggleModalButtonRedux
+                    <ToggleModalButton
                         className='intro-links color--link'
                         modalId={modalId}
                         dialogType={modal}
@@ -136,7 +148,7 @@ const moreThanMaxFreeUsers = (channel: Channel, setHeader: React.ReactNode, crea
                                 id='intro_messages.inviteMembersToChannel.button'
                                 defaultMessage='Add members to this channel'
                             />}
-                    </ToggleModalButtonRedux>
+                    </ToggleModalButton>
                 </ChannelPermissionGate>
             </div>
             {createBoard}

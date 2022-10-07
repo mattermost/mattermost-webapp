@@ -4,7 +4,7 @@
 import React from 'react';
 
 type Props = {
-    onToggle: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void;
+    onToggle: () => void;
     toggled?: boolean;
     disabled?: boolean;
     onText?: React.ReactNode;

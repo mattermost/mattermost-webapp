@@ -24,13 +24,11 @@ type OwnProps = {
     groupId: string;
 }
 
-function makeMapStateToProps() {
-    return (state: GlobalState, props: OwnProps) => {
-        const group = getGroup(state, props.groupId);
+function mapStateToProps(state: GlobalState, props: OwnProps) {
+    const group = getGroup(state, props.groupId);
 
-        return {
-            group,
-        };
+    return {
+        group,
     };
 }
 
@@ -43,4 +41,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(AddUsersToGroupModal);
+export default connect(mapStateToProps, mapDispatchToProps)(AddUsersToGroupModal);

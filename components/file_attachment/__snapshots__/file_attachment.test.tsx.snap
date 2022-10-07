@@ -13,6 +13,7 @@ exports[`FileAttachment should match snapshot, after change from file to image 1
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -61,6 +62,7 @@ exports[`FileAttachment should match snapshot, after change from file to image 1
       canDownload={true}
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -100,6 +102,7 @@ exports[`FileAttachment should match snapshot, regular file 1`] = `
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -148,6 +151,7 @@ exports[`FileAttachment should match snapshot, regular file 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -184,24 +188,8 @@ exports[`FileAttachment should match snapshot, regular image 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <Connect(FileThumbnail)
-      fileInfo={
-        Object {
-          "clientId": "",
-          "create_at": 0,
-          "delete_at": 0,
-          "extension": "png",
-          "has_preview_image": true,
-          "height": 400,
-          "id": "thumbnail_id",
-          "mime_type": "",
-          "name": "test.png",
-          "size": 100,
-          "update_at": 0,
-          "user_id": "",
-          "width": 600,
-        }
-      }
+    <div
+      className="post-image__load"
     />
   </a>
   <div
@@ -235,6 +223,7 @@ exports[`FileAttachment should match snapshot, regular image 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -271,24 +260,8 @@ exports[`FileAttachment should match snapshot, small image 1`] = `
     href="#"
     onClick={[Function]}
   >
-    <Connect(FileThumbnail)
-      fileInfo={
-        Object {
-          "clientId": "",
-          "create_at": 0,
-          "delete_at": 0,
-          "extension": "png",
-          "has_preview_image": true,
-          "height": 16,
-          "id": "thumbnail_id",
-          "mime_type": "",
-          "name": "test.png",
-          "size": 100,
-          "update_at": 0,
-          "user_id": "",
-          "width": 16,
-        }
-      }
+    <div
+      className="post-image__load"
     />
   </a>
   <div
@@ -322,6 +295,7 @@ exports[`FileAttachment should match snapshot, small image 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -361,6 +335,7 @@ exports[`FileAttachment should match snapshot, svg image 1`] = `
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -409,6 +384,7 @@ exports[`FileAttachment should match snapshot, svg image 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -467,7 +443,7 @@ exports[`FileAttachment should match snapshot, when file is not loaded 1`] = `
         <span
           className="post-image__type"
         >
-          PDF
+          JPG
         </span>
         <span
           className="post-image__size"
@@ -480,13 +456,14 @@ exports[`FileAttachment should match snapshot, when file is not loaded 1`] = `
       canDownload={true}
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
-          "extension": "pdf",
+          "extension": "jpg",
           "has_preview_image": true,
           "height": 80,
-          "id": "thumbnail_id",
+          "id": "noLoad",
           "mime_type": "",
           "name": "test.pdf",
           "size": 100,
@@ -518,6 +495,7 @@ exports[`FileAttachment should match snapshot, with compact display 1`] = `
       compactDisplay={true}
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,
@@ -557,6 +535,7 @@ exports[`FileAttachment should match snapshot, without compact display and witho
     <Connect(FileThumbnail)
       fileInfo={
         Object {
+          "archived": false,
           "clientId": "",
           "create_at": 0,
           "delete_at": 0,

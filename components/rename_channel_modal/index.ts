@@ -8,9 +8,9 @@ import {createSelector} from 'reselect';
 
 import {patchChannel} from 'mattermost-redux/actions/channels';
 import {getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {getSiteURL} from 'utils/url';
 

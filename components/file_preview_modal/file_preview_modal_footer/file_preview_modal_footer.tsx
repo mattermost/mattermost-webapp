@@ -3,8 +3,8 @@
 
 import React, {memo} from 'react';
 
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post} from 'mattermost-redux/types/posts';
+import {FileInfo} from '@mattermost/types/files';
+import {Post} from '@mattermost/types/posts';
 
 import FilePreviewModalInfo from '../file_preview_modal_info/file_preview_modal_info';
 import FilePreviewModalMainActions from '../file_preview_modal_main_actions/file_preview_modal_main_actions';
@@ -22,6 +22,8 @@ interface Props {
     canDownloadFiles: boolean;
     isExternalFile: boolean;
     handleModalClose: () => void;
+    canCopyContent: boolean;
+    content: string;
 }
 
 const FilePreviewModalFooter: React.FC<Props> = ({post, ...actionProps}: Props) => {

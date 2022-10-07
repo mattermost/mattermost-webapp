@@ -4,10 +4,10 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {Value} from 'components/multiselect/multiselect';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import AddUserToGroupMultiSelect from './add_user_to_group_multiselect';
 

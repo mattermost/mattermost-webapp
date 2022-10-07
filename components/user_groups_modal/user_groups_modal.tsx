@@ -7,20 +7,20 @@ import {Modal} from 'react-bootstrap';
 
 import Constants from 'utils/constants';
 
-import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
-import * as Utils from 'utils/utils.jsx';
-import {Group, GroupSearachParams} from 'mattermost-redux/types/groups';
+import * as Utils from 'utils/utils';
+import {Group, GroupSearachParams} from '@mattermost/types/groups';
 
 import './user_groups_modal.scss';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 import {debounce} from 'mattermost-redux/actions/helpers';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import UserGroupsList from './user_groups_list';
 import UserGroupsModalHeader from './user_groups_modal_header';
+import ADLDAPUpsellBanner from './ad_ldap_upsell_banner';
 
 const GROUPS_PER_PAGE = 60;
 
@@ -225,6 +225,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                 aria-labelledby='userGroupsModalLabel'
                 id='userGroupsModal'
             >
+                <ADLDAPUpsellBanner/>
                 <UserGroupsModalHeader
                     onExited={this.props.onExited}
                     backButtonAction={this.props.backButtonAction}
@@ -236,7 +237,6 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                         /> :
                         <>
                             <div className='user-groups-search'>
-                                <FaSearchIcon/>
                                 <Input
                                     type='text'
                                     placeholder={Utils.localizeMessage('user_groups_modal.searchGroups', 'Search Groups')}
@@ -244,6 +244,7 @@ export default class UserGroupsModal extends React.PureComponent<Props, State> {
                                     value={this.props.searchTerm}
                                     data-testid='searchInput'
                                     className={'user-group-search-input'}
+                                    inputPrefix={<i className={'icon icon-magnify'}/>}
                                 />
                             </div>
                             <div className='more-modal__dropdown'>

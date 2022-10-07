@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
-import {TermsOfService} from 'mattermost-redux/types/terms_of_service';
+import {TermsOfService} from '@mattermost/types/terms_of_service';
 import {getTermsOfService, createTermsOfService} from 'mattermost-redux/actions/users';
 
 import CustomTermsOfServiceSettings from './custom_terms_of_service_settings';

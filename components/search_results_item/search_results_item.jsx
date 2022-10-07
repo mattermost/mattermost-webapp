@@ -8,6 +8,7 @@ import {FormattedMessage} from 'react-intl';
 import {Posts} from 'mattermost-redux/constants/index';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
+import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import FileAttachmentListContainer from 'components/file_attachment_list';
 import CommentIcon from 'components/common/comment_icon';
@@ -28,11 +29,11 @@ import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import EditPost from 'components/edit_post';
-import AutoHeightSwitcher from 'components/common/auto_height_switcher';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
-import Constants, {Locations} from 'utils/constants';
+import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 export default class SearchResultsItem extends React.PureComponent {
     static propTypes = {
@@ -84,6 +85,8 @@ export default class SearchResultsItem extends React.PureComponent {
         a11yIndex: PropTypes.number,
 
         isMobileView: PropTypes.bool.isRequired,
+
+        isPostPriorityEnabled: PropTypes.bool.isRequired,
 
         /**
         *  Function used for closing LHS
@@ -258,7 +261,7 @@ export default class SearchResultsItem extends React.PureComponent {
     }
 
     render() {
-        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS} = this.props;
+        const {post, channelIsArchived, teamDisplayName, canReply, isPostBeingEditedInRHS, isPostPriorityEnabled} = this.props;
         const channelName = this.getChannelName();
 
         let overrideUsername;
@@ -409,6 +412,7 @@ export default class SearchResultsItem extends React.PureComponent {
         }
 
         const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+        const showSlot = isPostBeingEditedInRHS ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
 
         return (
             <div
@@ -467,8 +471,13 @@ export default class SearchResultsItem extends React.PureComponent {
                                     />
                                     <BotBadge show={Boolean(post.props && post.props.from_webhook && !this.props.isBot)}/>
                                 </div>
-                                <div className='col'>
+                                <div className='col d-flex align-items-center'>
                                     {this.renderPostTime()}
+                                    {post.props?.priority && isPostPriorityEnabled && (
+                                        <span className='d-flex mr-2 ml-1'>
+                                            <PriorityLabel priority={post.props.priority}/>
+                                        </span>
+                                    )}
                                     {postInfoIcon}
                                 </div>
                                 {!isPostBeingEditedInRHS && rhsControls}
@@ -476,10 +485,11 @@ export default class SearchResultsItem extends React.PureComponent {
                             <div className='search-item-snippet post__body'>
                                 <div className={postClass}>
                                     <AutoHeightSwitcher
-                                        showSlot={isPostBeingEditedInRHS ? 2 : 1}
+                                        showSlot={showSlot}
                                         shouldScrollIntoView={isPostBeingEditedInRHS}
                                         slot1={message}
                                         slot2={<EditPost/>}
+                                        onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                                     />
                                 </div>
                                 {fileAttachment}

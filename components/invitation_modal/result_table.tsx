@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {imageURLForUser, getLongDisplayName} from 'utils/utils';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -126,7 +126,11 @@ export default function ResultTable(props: Props) {
                         }
 
                         let reason: React.ReactNode = invitation.reason;
-                        if (typeof invitation.reason !== 'string') {
+                        if (typeof invitation?.reason !== 'string' &&
+                                invitation.reason?.id &&
+                                    invitation.reason?.message &&
+                                        invitation.reason?.values
+                        ) {
                             reason = (
                                 <FormattedMessage
                                     id={invitation.reason.id}

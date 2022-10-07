@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import DayPickerInput from 'react-day-picker/DayPickerInput';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {UserStatus} from 'mattermost-redux/types/users';
+import {UserStatus} from '@mattermost/types/users';
 
 import GenericModal from 'components/generic_modal';
 
@@ -168,6 +168,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 handleConfirm={this.handleConfirm}
+                handleEnterKeyPress={this.handleConfirm}
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
             >

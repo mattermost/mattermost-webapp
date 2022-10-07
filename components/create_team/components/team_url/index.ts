@@ -7,14 +7,14 @@ import {connect} from 'react-redux';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
 import {checkIfTeamExists, createTeam} from 'mattermost-redux/actions/teams';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {Client4Error} from 'mattermost-redux/types/client4';
+import {Team} from '@mattermost/types/teams';
+import {ServerError} from '@mattermost/types/errors';
 
 import TeamUrl from './team_url';
 
 type Actions = {
     checkIfTeamExists: (teamName: string) => Promise<{exists: boolean}>;
-    createTeam: (team: Team) => Promise<{data: Team; error: Client4Error}>;
+    createTeam: (team: Team) => Promise<{data: Team; error: ServerError}>;
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

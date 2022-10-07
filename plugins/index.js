@@ -5,13 +5,19 @@ import regeneratorRuntime from 'regenerator-runtime';
 
 import {Client4} from 'mattermost-redux/client';
 
+import {Preferences} from 'mattermost-redux/constants';
+
+import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
+
 import store from 'stores/redux_store.jsx';
-import {ActionTypes} from 'utils/constants.jsx';
+import {ActionTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 import PluginRegistry from 'plugins/registry';
 import {unregisterAllPluginWebSocketEvents, unregisterPluginReconnectHandler} from 'actions/websocket_actions.jsx';
 import {unregisterPluginTranslationsSource} from 'actions/views/root';
 import {unregisterAdminConsolePlugin} from 'actions/admin_actions';
+import {trackPluginInitialization} from 'actions/telemetry_actions';
 
 import {removeWebappPlugin} from './actions';
 
@@ -42,9 +48,24 @@ function registerPlugin(id, plugin) {
 }
 window.registerPlugin = registerPlugin;
 
+function arePluginsEnabled(state) {
+    if (getConfig(state).PluginsEnabled !== 'true') {
+        return false;
+    }
+
+    if (
+        isPerformanceDebuggingEnabled(state) &&
+        getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_CLIENT_PLUGINS)
+    ) {
+        return false;
+    }
+
+    return true;
+}
+
 // initializePlugins queries the server for all enabled plugins and loads each in turn.
 export async function initializePlugins() {
-    if (store.getState().entities.general.config.PluginsEnabled !== 'true') {
+    if (!arePluginsEnabled(store.getState())) {
         return;
     }
 
@@ -63,6 +84,8 @@ export async function initializePlugins() {
             console.error(loadErr.message); //eslint-disable-line no-console
         });
     }));
+
+    trackPluginInitialization(data);
 }
 
 // getPlugins queries the server for all enabled plugins
@@ -93,6 +116,10 @@ const describePlugin = (manifest) => (
 // load, and then ensures the plugin has been initialized.
 export function loadPlugin(manifest) {
     return new Promise((resolve, reject) => {
+        if (!arePluginsEnabled(store.getState())) {
+            return;
+        }
+
         // Don't load it again if previously loaded
         const oldManifest = loadedPlugins[manifest.id];
         if (oldManifest && oldManifest.webapp.bundle_path === manifest.webapp.bundle_path) {
@@ -182,7 +209,7 @@ export function removePlugin(manifest) {
 // loadPluginsIfNecessary synchronizes the current state of loaded plugins with that of the server,
 // loading any newly added plugins and unloading any removed ones.
 export async function loadPluginsIfNecessary() {
-    if (store.getState().entities.general.config.PluginsEnabled !== 'true') {
+    if (!arePluginsEnabled(store.getState())) {
         return;
     }
 

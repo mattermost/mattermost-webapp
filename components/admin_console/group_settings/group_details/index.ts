@@ -24,7 +24,7 @@ import {
 } from 'mattermost-redux/selectors/entities/groups';
 import {getProfilesInGroup as selectProfilesInGroup} from 'mattermost-redux/selectors/entities/users';
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import GroupDetails, {Props} from './group_details';
 

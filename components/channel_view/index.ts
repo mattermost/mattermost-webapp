@@ -9,12 +9,9 @@ import {getCurrentChannel, getDirectTeammate} from 'mattermost-redux/selectors/e
 import {getMyChannelRoles} from 'mattermost-redux/selectors/entities/roles';
 import {getRoles} from 'mattermost-redux/selectors/entities/roles_helpers';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
-import {showNextSteps} from 'components/next_steps_view/steps';
 
-import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {setShowNextStepsView} from 'actions/views/next_steps';
+import {Action} from 'mattermost-redux/types/actions';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
-import {getUseCaseOnboarding} from 'mattermost-redux/selectors/entities/preferences';
 import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {goToLastViewedChannel} from 'actions/views/channel';
@@ -24,8 +21,7 @@ import {GlobalState} from 'types/store';
 import ChannelView from './channel_view';
 
 type Actions = {
-    goToLastViewedChannel: () => Promise<{data: boolean}>;
-    setShowNextStepsView: (x: boolean) => void;
+    goToLastViewedChannel: () => void;
 }
 
 function isDeactivatedChannel(state: GlobalState, channelId: string) {
@@ -51,8 +47,8 @@ function mapStateToProps(state: GlobalState) {
             for (const roleName of channelRoles) {
                 if (roles[roleName]) {
                     channelRolesLoading = false;
+                    break;
                 }
-                break;
             }
         }
     }
@@ -62,23 +58,19 @@ function mapStateToProps(state: GlobalState) {
         channelRolesLoading,
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
         focusedPostId: state.views.channel.focusedPostId,
-        showNextStepsEphemeral: state.views.nextSteps.show,
         enableOnboardingFlow,
-        showNextSteps: showNextSteps(state),
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
         isCloud: getLicense(state).Cloud === 'true',
         teamUrl: getCurrentRelativeTeamUrl(state),
         isFirstAdmin: isFirstAdmin(state),
-        useCaseOnboarding: getUseCaseOnboarding(state),
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
+function mapDispatchToProps(dispatch: Dispatch) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc|GenericAction>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             goToLastViewedChannel,
-            setShowNextStepsView,
         }, dispatch),
     };
 }

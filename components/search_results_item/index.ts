@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {getChannel, getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {isPostPriorityEnabled, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     getMyPreferences,
@@ -16,7 +16,7 @@ import {getCurrentTeam, getTeam, getTeamMemberships} from 'mattermost-redux/sele
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {isPostFlagged} from 'mattermost-redux/utils/post_utils';
 
@@ -32,11 +32,11 @@ import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
-import {getDisplayNameByUser} from 'utils/utils.jsx';
+import {getDisplayNameByUser} from 'utils/utils';
 
 import {General} from 'mattermost-redux/constants';
 
-import {RHSStates} from 'utils/constants.jsx';
+import {RHSStates} from 'utils/constants';
 import {getIsPostBeingEditedInRHS} from '../../selectors/posts';
 
 import SearchResultsItem from './search_results_item.jsx';
@@ -94,6 +94,7 @@ export function mapStateToProps() {
             replyCount: getReplyCount(state, post),
             canReply,
             isMobileView: getIsMobileView(state),
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

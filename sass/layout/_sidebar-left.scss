@@ -1095,17 +1095,11 @@ $sidebarOpacityAnimationDuration: 0.15s;
             line-height: 18px;
             text-align: justify;
             white-space: nowrap;
-
-            &.truncated {
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
         }
 
         &.expanded {
             animation-direction: normal;
             animation-duration: $sidebarOpacityAnimationDuration;
-            animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toOpaqueAnimation;
             animation-play-state: running;
@@ -1115,7 +1109,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
             height: 0 !important;
             animation-direction: normal;
             animation-duration: $sidebarOpacityAnimationDuration;
-            animation-fill-mode: forwards;
             animation-iteration-count: 1;
             animation-name: toTransparentAnimation;
             animation-play-state: running;
@@ -1254,6 +1247,13 @@ $sidebarOpacityAnimationDuration: 0.15s;
         display: flex;
         overflow: hidden;
         flex-grow: 1;
+    }
+
+    .SidebarChannelLinkLabel_wrapper > div.truncated {
+        display: block;
+        overflow: hidden;
+        width: 100%;
+        text-overflow: ellipsis;
     }
 
     .DirectChannel__profile-picture {

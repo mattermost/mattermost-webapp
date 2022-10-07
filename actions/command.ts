@@ -10,18 +10,18 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import type {CommandArgs} from 'mattermost-redux/types/integrations';
+import type {CommandArgs} from '@mattermost/types/integrations';
 
-import {AppCallResponseTypes, AppCallTypes} from 'mattermost-redux/constants/apps';
+import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {DoAppCallResult} from 'types/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
@@ -35,8 +35,13 @@ import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_short
 import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
+import MarketplaceModal from 'components/plugin_marketplace';
 
-import {doAppCall, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
+import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
+import {isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general';
+
+import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -109,6 +114,19 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         case '/settings':
             dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}}));
             return {data: true};
+        case '/marketplace':
+            // check if user has permissions to access the read plugins
+            if (!haveICurrentTeamPermission(state, Permissions.SYSCONSOLE_READ_PLUGINS)) {
+                return {error: {message: localizeMessage('marketplace_command.no_permission', 'You do not have the appropriate permissions to access the marketplace.')}};
+            }
+
+            // check config to see if marketplace is enabled
+            if (!isMarketplaceEnabled(state)) {
+                return {error: {message: localizeMessage('marketplace_command.disabled', 'The marketplace is disabled. Please contact your System Administrator for details.')}};
+            }
+
+            dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
+            return {data: true};
         case '/collapse':
         case '/expand':
             dispatch(PostActions.resetEmbedVisibility());
@@ -123,16 +141,16 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             const parser = new AppCommandParser({dispatch, getState: getGlobalState} as any, intlShim, args.channel_id, args.team_id, args.root_id);
             if (parser.isAppCommand(msg)) {
                 try {
-                    const {call, errorMessage} = await parser.composeCallFromCommand(msg);
-                    if (!call) {
+                    const {creq, errorMessage} = await parser.composeCommandSubmitCall(msg);
+                    if (!creq) {
                         return createErrorMessage(errorMessage!);
                     }
 
-                    const res = await dispatch(doAppCall(call, AppCallTypes.SUBMIT, intlShim)) as DoAppCallResult;
+                    const res = await dispatch(doAppSubmit(creq, intlShim)) as DoAppCallResult;
 
                     if (res.error) {
                         const errorResponse = res.error;
-                        return createErrorMessage(errorResponse.error || intlShim.formatMessage({
+                        return createErrorMessage(errorResponse.text || intlShim.formatMessage({
                             id: 'apps.error.unknown',
                             defaultMessage: 'Unknown error.',
                         }));
@@ -141,13 +159,13 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                     const callResp = res.data!;
                     switch (callResp.type) {
                     case AppCallResponseTypes.OK:
-                        if (callResp.markdown) {
-                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.markdown, args));
+                        if (callResp.text) {
+                            dispatch(postEphemeralCallResponseForCommandArgs(callResp, callResp.text, args));
                         }
                         return {data: true};
                     case AppCallResponseTypes.FORM:
                         if (callResp.form) {
-                            dispatch(openAppsModal(callResp.form, call));
+                            dispatch(openAppsModal(callResp.form, creq.context));
                         }
                         return {data: true};
                     case AppCallResponseTypes.NAVIGATE:
@@ -159,7 +177,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                             {type: callResp.type},
                         ));
                     }
-                } catch (err) {
+                } catch (err: any) {
                     return createErrorMessage(err.message || localizeMessage('apps.error.unknown', 'Unknown error.'));
                 }
             }

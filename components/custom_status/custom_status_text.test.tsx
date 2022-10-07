@@ -3,17 +3,17 @@
 import {mount} from 'enzyme';
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import * as CustomStatusSelectors from 'selectors/views/custom_status';
+
+import mockStore from 'tests/test_store';
 
 import CustomStatusText from './custom_status_text';
 
 jest.mock('selectors/views/custom_status');
 
 describe('components/custom_status/custom_status_text', () => {
-    const mockStore = configureStore();
     const store = mockStore({});
 
     it('should match snapshot', () => {
@@ -35,7 +35,7 @@ describe('components/custom_status/custom_status_text', () => {
     });
 
     it('should not render when EnableCustomStatus in config is false', () => {
-        (CustomStatusSelectors.isCustomStatusEnabled as jest.Mock).mockReturnValue(false);
+        (CustomStatusSelectors.isCustomStatusEnabled as any as jest.Mock).mockReturnValue(false);
         const wrapper = mount(<CustomStatusText/>, {wrappingComponent: Provider, wrappingComponentProps: {store}});
 
         expect(wrapper.isEmptyRender()).toBeTruthy();

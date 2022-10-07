@@ -8,12 +8,13 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import LocalStorageStore from 'stores/local_storage_store';
-
 import {Preferences} from 'utils/constants';
 import EmojiMap from 'utils/emoji_map';
+import {EmojiIndicesByAlias, Emojis} from 'utils/emoji';
 
-import type {GlobalState} from 'types/store';
+import {GlobalState} from 'types/store';
+import {RecentEmojiData} from '@mattermost/types/emojis';
+import {convertEmojiSkinTone} from 'utils/emoji_utils';
 
 export const getEmojiMap = createSelector(
     'getEmojiMap',
@@ -23,18 +24,67 @@ export const getEmojiMap = createSelector(
     },
 );
 
-export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) => state.views.emoji.shortcutReactToLastPostEmittedFrom;
+export const getShortcutReactToLastPostEmittedFrom = (state: GlobalState) =>
+    state.views.emoji.shortcutReactToLastPostEmittedFrom;
 
-export const getRecentEmojis = createSelector(
-    'getRecentEmojis',
-    (state: GlobalState) => LocalStorageStore.getRecentEmojis(getCurrentUserId(state)),
-    (recentEmojis) => {
+export const getRecentEmojisData = createSelector(
+    'getRecentEmojisData',
+    (state: GlobalState) => {
+        return get(
+            state,
+            Preferences.RECENT_EMOJIS,
+            getCurrentUserId(state),
+            '[]',
+        );
+    },
+    getUserSkinTone,
+    (recentEmojis: string, userSkinTone: string) => {
         if (!recentEmojis) {
             return [];
         }
 
-        const recentEmojisArray: string[] = JSON.parse(recentEmojis);
-        return recentEmojisArray;
+        const parsedEmojiData: RecentEmojiData[] = JSON.parse(recentEmojis);
+        return normalizeRecentEmojisData(parsedEmojiData, userSkinTone);
+    },
+);
+
+export function normalizeRecentEmojisData(data: RecentEmojiData[], userSkinTone: string) {
+    const usageCounts = new Map<string, number>();
+
+    for (const recentEmoji of data) {
+        const emojiIndex = EmojiIndicesByAlias.get(recentEmoji.name) ?? -1;
+        const systemEmoji = Emojis[emojiIndex];
+
+        let normalizedName;
+        if (systemEmoji) {
+            // This is a system emoji, so we may need to change its skin tone
+            normalizedName = convertEmojiSkinTone(systemEmoji, userSkinTone).short_name;
+        } else {
+            // This is a custom emoji, so its name will never change
+            normalizedName = recentEmoji.name;
+        }
+
+        // Dedupe and sum up the usage counts of any duplicated entries
+        const currentCount = usageCounts.get(normalizedName) ?? 0;
+        usageCounts.set(normalizedName, currentCount + recentEmoji.usageCount);
+    }
+
+    const normalizedData = [];
+    for (const [name, usageCount] of usageCounts.entries()) {
+        normalizedData.push({name, usageCount});
+    }
+
+    // Sort emojis by count in the ascending order, matching addRecentEmoji
+    normalizedData.sort((emojiA: RecentEmojiData, emojiB: RecentEmojiData) => emojiA.usageCount - emojiB.usageCount);
+
+    return normalizedData;
+}
+
+export const getRecentEmojisNames = createSelector(
+    'getRecentEmojisNames',
+    getRecentEmojisData,
+    (recentEmojisData: RecentEmojiData[]) => {
+        return recentEmojisData.map((emoji) => emoji.name);
     },
 );
 
@@ -50,12 +100,20 @@ export function isCustomEmojiEnabled(state: GlobalState) {
 export const getOneClickReactionEmojis = createSelector(
     'getOneClickReactionEmojis',
     getEmojiMap,
-    getRecentEmojis,
-    (emojiMap, recentEmojis) => {
+    getRecentEmojisNames,
+    (emojiMap, recentEmojis: string[]) => {
         if (recentEmojis.length === 0) {
             return [];
         }
 
-        return recentEmojis.map((recentEmoji) => emojiMap.get(recentEmoji)).filter(Boolean).slice(-3).reverse();
+        return (recentEmojis).
+            map((recentEmoji) => emojiMap.get(recentEmoji)).
+            filter(isDefined).
+            slice(-3).
+            reverse();
     },
 );
+
+function isDefined<T>(t: T | undefined): t is T {
+    return Boolean(t);
+}

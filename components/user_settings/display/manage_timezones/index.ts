@@ -7,8 +7,8 @@ import timezones from 'timezones.json';
 
 import {updateMe} from 'mattermost-redux/actions/users';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {GlobalState} from 'mattermost-redux/types/store';
+import {UserProfile} from '@mattermost/types/users';
+import {GlobalState} from '@mattermost/types/store';
 import {getTimezoneLabel} from 'mattermost-redux/selectors/entities/timezone';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
