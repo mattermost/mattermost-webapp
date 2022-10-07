@@ -4,13 +4,12 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider';
-
 import {AppField} from '@mattermost/types/apps';
 
 import TextSetting from 'components/widgets/settings/text_setting';
 
 import AutocompleteSelector from 'components/autocomplete_selector';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 import Markdown from 'components/markdown';

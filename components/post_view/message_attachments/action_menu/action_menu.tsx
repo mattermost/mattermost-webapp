@@ -3,12 +3,11 @@
 
 import React from 'react';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider';
-
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 import AutocompleteSelector from 'components/autocomplete_selector';

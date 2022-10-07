@@ -7,7 +7,6 @@ import GenericUserProvider from 'components/suggestion/generic_user_provider';
 
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';
-
 import {UserProfile} from '@mattermost/types/users';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
