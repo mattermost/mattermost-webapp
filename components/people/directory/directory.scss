@@ -36,5 +36,11 @@
 
     .Grid {
         overflow-x: hidden !important;
+
+        > div {
+            margin: auto;
+            position: relative;
+            display: block;
+        }
     }
 }
