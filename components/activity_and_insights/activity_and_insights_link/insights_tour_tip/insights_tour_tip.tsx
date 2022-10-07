@@ -22,8 +22,7 @@ import insightsPreview from 'images/Insights-Preview-Image.jpg';
 
 import {browserHistory} from 'utils/browser_history';
 
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
 
 const title = (
@@ -35,7 +34,7 @@ const title = (
 
 const screen = (
     <>
-        <FormattedMarkdownMessage
+        <FormattedMessage
             id='activityAndInsights.tutorialTip.description'
             defaultMessage='Check out the new Insights feature added to your workspace. See what content is most active, and learn how you and your teammates are using your workspace.'
         />
