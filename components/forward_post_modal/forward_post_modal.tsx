@@ -16,7 +16,6 @@ import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 
 import NotificationBox from 'components/notification_box';
 
-import {PostPreviewMetadata} from '@mattermost/types/posts';
 import {GlobalState} from 'types/store';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
@@ -26,6 +25,8 @@ import Constants from 'utils/constants';
 
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import GenericModal from 'components/generic_modal';
+
+import {PostPreviewMetadata} from '@mattermost/types/posts';
 import {getSiteURL} from '../../utils/url';
 import * as Utils from '../../utils/utils';
 
@@ -51,7 +52,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const relativePermaLink = useSelector((state: GlobalState) => Utils.getPermalinkURL(state, currentTeam.id, post.id));
     const permaLink = `${getSiteURL()}${relativePermaLink}`;
 
-    const isPrivateConversation = channel.type !== General.OPEN_CHANNEL;
+    const isPrivateConversation = channel.type !== Constants.OPEN_CHANNEL;
 
     const [comment, setComment] = useState('');
     const [bodyHeight, setBodyHeight] = useState<number>(0);
@@ -80,15 +81,17 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
     const canPostInSelectedChannel = useSelector(
         (state: GlobalState) => {
             const channelId = isPrivateConversation ? channel.id : selectedChannelId;
+            const isDMChannel = selectedChannel?.details?.type === Constants.DM_CHANNEL;
             const teamId = isPrivateConversation ? currentTeam.id : selectedChannel?.details?.team_id;
 
-            return Boolean(channelId) &&
-            haveIChannelPermission(
+            const hasChannelPermission = haveIChannelPermission(
                 state,
-                teamId || '',
+                teamId || currentTeam.id,
                 channelId,
                 Permissions.CREATE_POST,
             );
+
+            return Boolean(channelId) && (hasChannelPermission || isDMChannel);
         },
     );
 
