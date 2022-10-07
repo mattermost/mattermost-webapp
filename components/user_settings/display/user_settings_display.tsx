@@ -18,7 +18,7 @@ import {UserProfile, UserTimezone} from '@mattermost/types/users';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Constants from 'utils/constants';
-import {getBrowserTimezone} from 'utils/timezone.jsx';
+import {getBrowserTimezone} from 'utils/timezone';
 
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
