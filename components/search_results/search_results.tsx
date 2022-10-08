@@ -53,14 +53,14 @@ const renderView = (props: Record<string, unknown>): JSX.Element => (
 
 const renderThumbHorizontal = (props: Record<string, unknown>): JSX.Element => (
     <div
-        {...props,scrollbarStyles}
+        {scrollbarStyles,...props}
         className='scrollbar--horizontal'
     />
 );
 
 const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     <div
-        {...props,scrollbarStyles}
+        {scrollbarStyles,...props}
         className='scrollbar--vertical'
     />
 );
