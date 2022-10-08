@@ -9,6 +9,7 @@
 
 // Stage: @prod
 // Group: @enterprise @system_console @authentication @mfa
+import {set} from 'lodash';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -30,7 +31,7 @@ describe('Authentication', () => {
         });
 
         // # Create and login a newly created user as sysadmin
-        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+        cy.apiCreateCustomAdmin({hideAdminTrialModal: true, loginAfter: false}).then(({sysadmin}) => {
             mfaSysAdmin = sysadmin;
         });
     });
@@ -146,11 +147,10 @@ describe('Authentication', () => {
         cy.findByText('Remove MFA').should('not.exist');
 
         // # Done with that MFA stuff so we disable it all
-        cy.apiUpdateConfig({
-            ServiceSettings: {
-                EnableMultifactorAuthentication: false,
-                EnforceMultifactorAuthentication: false,
-            },
+        cy.apiGetConfig().then((config) => {
+            set(config, 'ServiceSettings.EnableMultifactorAuthentication', false);
+            set(config, 'ServiceSettings.EnableMultifactorAuthentication', false);
+            cy.apiUpdateConfig(config);
         });
     });
 });
