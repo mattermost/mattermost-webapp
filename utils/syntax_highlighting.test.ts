@@ -7,27 +7,20 @@ import javascript from 'highlight.js/lib/languages/javascript';
 
 import {highlight} from './syntax_highlighting';
 
-jest.mock('highlight.js/lib/core', () => {
-    const originalModule = jest.requireActual('highlight.js/lib/core');
-    return {
-        __esModule: true,
-        ...originalModule,
-        default: {
-            ...originalModule.default,
-            highlight: jest.fn(() => ({value: ''})),
-            registerLanguage: jest.fn(),
-        },
-    };
-});
+jest.mock('highlight.js/lib/core');
 
 describe('utils/syntax_highlighting.tsx', () => {
     it('should register full name language', async () => {
+        expect.assertions(1);
+
         await highlight('swift', '');
 
         expect(hlJS.registerLanguage).toHaveBeenCalledWith('swift', swift);
     });
 
     it('should register alias language', async () => {
+        expect.assertions(1);
+
         await highlight('js', '');
 
         expect(hlJS.registerLanguage).toHaveBeenCalledWith('javascript', javascript);
