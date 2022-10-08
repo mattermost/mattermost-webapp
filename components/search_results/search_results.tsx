@@ -39,6 +39,11 @@ import './search_results.scss';
 
 const GET_MORE_BUFFER = 30;
 
+const scrollbarStyles = {
+    right: '5px',
+    'background-color': 'rgba(var(--center-channel-color-rgb),0.32)',
+};
+
 const renderView = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
@@ -48,22 +53,17 @@ const renderView = (props: Record<string, unknown>): JSX.Element => (
 
 const renderThumbHorizontal = (props: Record<string, unknown>): JSX.Element => (
     <div
-        {...props}
+        {...props,scrollbarStyles}
         className='scrollbar--horizontal'
     />
 );
 
 const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     <div
-        {...props}
+        {...props,scrollbarStyles}
         className='scrollbar--vertical'
     />
 );
-
-const scrollbarStyles = {
-    right: '5px',
-    'background-color': 'rgba(var(--center-channel-color-rgb),0.32)',
-};
 
 interface NoResultsProps {
     variant: NoResultsVariant;
@@ -360,7 +360,6 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 renderThumbHorizontal={renderThumbHorizontal}
                 renderThumbVertical={renderThumbVertical}
                 renderView={renderView}
-                style={scrollbarStyles}
                 onScroll={handleScroll}
             >
                 <div
