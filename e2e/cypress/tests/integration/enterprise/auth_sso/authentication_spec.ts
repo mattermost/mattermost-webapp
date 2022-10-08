@@ -65,7 +65,6 @@ describe('Authentication', () => {
                 cy.findByText('The email you provided does not belong to an accepted domain. Please contact your administrator or sign up with a different email.').should('be.visible').and('exist');
             });
         });
-
     });
 
     it('MM-T1761 - Enable Open Server - Create link appears if email account creation is false and other signin methods are true', () => {
@@ -81,25 +80,25 @@ describe('Authentication', () => {
                 // * Assert that create account button is visible
                 cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
             });
-        })
+        });
     });
 
     it('MM-T1766 - Authentication - Email - Creation with email = true', () => {
         // # Enable open server and turn on user account creation and set restricted domain
         cy.apiGetConfig().then((config) => {
-           set(config, 'EmailSettings.EnableSignUpWithEmail', true);
-           set(config, 'TeamSettings.RestrictCreationToDomains', 'mattermost.com, test.com');
-           set(config, 'TeamSettings.EnableUserCreation', true);
-           set(config, 'TeamSettings.EnableOpenServer', true);
-           cy.apiUpdateConfig(config).then(() => {
-               cy.apiLogout();
+            set(config, 'EmailSettings.EnableSignUpWithEmail', true);
+            set(config, 'TeamSettings.RestrictCreationToDomains', 'mattermost.com, test.com');
+            set(config, 'TeamSettings.EnableUserCreation', true);
+            set(config, 'TeamSettings.EnableOpenServer', true);
+            cy.apiUpdateConfig(config).then(() => {
+                cy.apiLogout();
 
-               cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
+                cy.visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
 
-               // * Email and Password option exist
-               cy.findByText('Email address').should('exist').and('be.visible');
-               cy.findByPlaceholderText('Choose a Password').should('exist').and('be.visible');
-           });
+                // * Email and Password option exist
+                cy.findByText('Email address').should('exist').and('be.visible');
+                cy.findByPlaceholderText('Choose a Password').should('exist').and('be.visible');
+            });
         });
     });
 });
