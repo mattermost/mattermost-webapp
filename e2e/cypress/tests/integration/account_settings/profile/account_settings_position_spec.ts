@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @account_setting2
+// Group: @account_setting
 
 describe('Profile > Profile Settings > Position', () => {
     beforeEach(() => {

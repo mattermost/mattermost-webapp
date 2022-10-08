@@ -91,18 +91,18 @@ declare namespace Cypress {
 
         /**
          * Get a heading by its text using "cy.findByRole"
-         *
+         * @param {string} item - Text within heading
          * @example
          *   cy.uiGetHeading('General Settings');
          */
-        uiGetHeading(): Chainable;
+        uiGetHeading(item: string): Chainable;
 
         /**
          * Get a textbox by its text using "cy.findByRole"
-         *
+         * @param {string} item - Textbox label
          * @example
          *   cy.uiGetTextbox('Nickname');
          */
-        uiGetTextbox(): Chainable;
+        uiGetTextbox(item: string): Chainable;
     }
 }
