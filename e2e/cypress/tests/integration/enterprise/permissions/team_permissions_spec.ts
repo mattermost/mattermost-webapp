@@ -70,7 +70,7 @@ describe('Team Permissions', () => {
                 cy.apiAddUserToChannel(channel.id, testUser.id);
                 testPrivateCh = channel;
             });
-            cy.apiCreateUser().then(({user: newUser}) => {
+            cy.apiCreateUser({}).then(({user: newUser}) => {
                 otherUser = newUser;
                 cy.apiAddUserToTeam(testTeam.id, otherUser.id);
             });
