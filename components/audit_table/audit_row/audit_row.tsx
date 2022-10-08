@@ -79,8 +79,8 @@ export default function AuditRow({
     const ip = audit.ip_address;
     const sessionId = audit.session_id;
 
-    const user = useSelector((state: GlobalState) => getUser(state, audit.user_id));
-    const userId = user.email ?? audit.user_id;
+    const auditProfile = useSelector((state: GlobalState) => getUser(state, audit.user_id));
+    const userId = auditProfile ? auditProfile.email : audit.user_id;
     let uContent;
     if (showUserId) {
         uContent = <td className='word-break--all'>{userId}</td>;
