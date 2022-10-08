@@ -110,7 +110,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiGetUserByEmail(email: string): Chainable<UserProfile>;
+        apiGetUserByEmail(email: string): Chainable<{user: UserProfile}>;
 
         /**
          * Get users by usernames.

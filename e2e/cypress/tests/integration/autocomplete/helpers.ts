@@ -46,7 +46,7 @@ function createSearchData(prefix) {
         cy.apiLogin(sysadmin);
 
         // # Create new team for tests
-        return cy.apiCreateTeam('search', 'Search').then((team) => {
+        return cy.apiCreateTeam('search', 'Search').then(({team}) => {
             // # Create pool of users for tests
             Cypress._.forEach(users, (testUser) => {
                 cy.apiCreateUser({user: testUser}).then(({user}) => {

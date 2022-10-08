@@ -34,7 +34,7 @@ export function doTestUserChannelSection(prefix, testTeam, testUsers) {
     // # Create new channel and add user to channel
     const channelName = 'new-channel';
     cy.apiCreateChannel(testTeam.id, channelName, channelName).then(({channel}) => {
-        cy.apiGetUserByEmail(thor.email).then((user) => {
+        cy.apiGetUserByEmail(thor.email).then(({user}) => {
             cy.apiAddUserToChannel(channel.id, user.id);
         });
 
