@@ -17,7 +17,7 @@ declare namespace Cypress {
          *       // do something with the email data/content
          *   });
          */
-        getRecentEmail(options: {username: UserProfile['username'], email:UserProfile['email']}): Chainable;
+        getRecentEmail(options: {username: UserProfile['username']; email: UserProfile['email']}): Chainable;
 
     }
 }

@@ -26,7 +26,7 @@ describe('Profile > Profile Settings > Email', () => {
     before(() => {
         cy.apiGetConfig().then((config) => {
             set(config, 'EmailSettings.RequireEmailVerification', true);
-        })
+        });
 
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             testUser = user;
