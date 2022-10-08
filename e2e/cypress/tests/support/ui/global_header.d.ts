@@ -110,7 +110,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiOpenUserMenu();
          */
-        uiOpenUserMenu(option: string): Chainable;
+        uiOpenUserMenu(item?: string): Chainable;
 
         /**
          * Get search form container

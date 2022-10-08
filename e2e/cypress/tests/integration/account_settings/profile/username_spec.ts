@@ -116,7 +116,7 @@ describe('Settings > Sidebar > General > Edit', () => {
             // # Step 3
             // * Verify that we've logged in as the temp user
             cy.visit(offTopicUrl);
-            cy.uiOpenUserMenu('').findByText(`@${newTempUserName}`);
+            cy.uiOpenUserMenu().findByText(`@${newTempUserName}`);
             cy.uiGetSetStatusButton().click();
 
             // # Step 4
