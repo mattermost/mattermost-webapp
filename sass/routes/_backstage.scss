@@ -1,10 +1,10 @@
 .backstage-navbar {
-    grid-area: header;
     z-index: 100;
     height: $backstage-bar-height;
     padding: 10px 20px;
     border-bottom: 1px solid $light-gray;
     background: $white;
+    grid-area: header;
 }
 
 .backstage-navbar__back {
@@ -25,10 +25,10 @@
 }
 
 .backstage-body {
-    grid-area: center;
     overflow: auto;
     width: 100%;
     background-color: $bg--gray;
+    grid-area: center;
 }
 
 .backstage-content {

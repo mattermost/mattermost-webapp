@@ -4,9 +4,9 @@
     @media screen and (max-width: 768px) {
         display: none;
     }
+
     width: 400px;
     transition: width 0.25s 0s ease-in, z-index 0.25s 0s step-end;
-
 }
 
 .sidebar--right {
@@ -29,11 +29,7 @@
         }
 
         &.is-open {
-           transition: width 0.25s 0s ease-in, z-index 0.15s 0.1s step-start;
-        }
-        @media screen and (max-width: 1400px) {
-            grid-area: rhs / rhs / content / content;
-            width: 100%;
+            transition: width 0.25s 0s ease-in, z-index 0.15s 0.1s step-start;
         }
     }
 

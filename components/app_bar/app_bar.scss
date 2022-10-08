@@ -1,3 +1,6 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 $app-bar-icon-size: 24px;
 $app-bar-width: 48px;
 
@@ -6,6 +9,7 @@ $app-bar-width: 48px;
     @media (max-width: 768px) {
         display: none;
     }
+
     position: relative;
     width: $app-bar-width;
     background-color: var(--center-channel-bg);
