@@ -64,7 +64,7 @@ function setInitialPicture(user) {
 }
 
 function verifyProfilePictureDoesNotUpdateAfterCancel() {
-    let idOld;
+    let idOld: string;
 
     cy.visit('/');
 
