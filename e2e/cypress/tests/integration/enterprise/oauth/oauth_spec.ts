@@ -9,6 +9,7 @@
 
 // Stage: @prod
 // Group: @enterprise @integrations
+import {set} from 'lodash';
 
 import {getRandomId} from '../../../utils';
 import {checkboxesTitleToIdMap} from '../system_console/channel_moderation/constants';
@@ -35,15 +36,8 @@ describe('Integrations page', () => {
 
         // # Set ServiceSettings to expected values
         cy.apiGetConfig().then(({config}) => {
-            const newConfig = {
-                ...config,
-                ServiceSettings: {
-                    ...config.ServiceSettings,
-                    EnableOAuthServiceProvider: true,
-                },
-            };
-
-            cy.apiUpdateConfig(newConfig);
+            set(config, 'ServiceSettings.EnableOAuthServiceProvider', true);
+            cy.apiUpdateConfig(config);
         });
 
         cy.apiInitSetup().then(({team, user}) => {
