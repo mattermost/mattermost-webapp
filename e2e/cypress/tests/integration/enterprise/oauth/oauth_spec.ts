@@ -34,18 +34,23 @@ describe('Integrations page', () => {
         cy.requireWebhookServer();
 
         // # Set ServiceSettings to expected values
-        const newSettings = {
-            ServiceSettings: {
-                EnableOAuthServiceProvider: true,
-            },
-        };
-        cy.apiUpdateConfig(newSettings);
+        cy.apiGetConfig().then(({config}) => {
+            const newConfig = {
+                ...config,
+                ServiceSettings: {
+                    ...config.ServiceSettings,
+                    EnableOAuthServiceProvider: true,
+                },
+            };
+
+            cy.apiUpdateConfig(newConfig);
+        });
 
         cy.apiInitSetup().then(({team, user}) => {
             user1 = user;
             testChannelUrl1 = `/${team.name}/channels/town-square`;
 
-            cy.apiCreateUser().then(({user: otherUser}) => {
+            cy.apiCreateUser({}).then(({user: otherUser}) => {
                 user2 = otherUser;
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
@@ -107,7 +112,7 @@ describe('Integrations page', () => {
         cy.get('#doneButton').click();
 
         cy.get('@clientID').then((clientID) => {
-            cy.contains('.item-details', clientID).within(() => {
+            cy.contains('.item-details', clientID.text()).within(() => {
                 // * Copy button should exist for Client ID
                 cy.contains('.item-details__token', 'Client ID').within(() => {
                     cy.get('.fa-copy').should('exist');
@@ -183,7 +188,9 @@ describe('Integrations page', () => {
                     data: {
                         appID: clientID,
                         appSecret: clientSecret,
-                    }});
+                    },
+                    waitFor: null,
+                });
             });
         });
 
@@ -217,7 +224,9 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                }});
+                },
+                waitFor: null,
+            });
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -276,7 +285,9 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                }});
+                },
+                waitFor: null,
+            });
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -314,7 +325,9 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                }});
+                },
+                waitFor: null,
+            });
 
             // * The message should not be posted
             cy.findByText(message).should('not.exist');
@@ -349,7 +362,9 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                }});
+                },
+                waitFor: null,
+            });
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -390,7 +405,9 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                }});
+                },
+                waitFor: null,
+            });
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -411,7 +428,7 @@ describe('Integrations page', () => {
     });
 
     it('MM-T654 Successful reconnect with updated secret', () => {
-        cy.apiAdminLogin(user2);
+        cy.apiAdminLogin();
 
         // # Send new credentials
         cy.postIncomingWebhook({
@@ -419,7 +436,9 @@ describe('Integrations page', () => {
             data: {
                 appID: oauthClientID,
                 appSecret: oauthClientSecret,
-            }});
+            },
+            waitFor: null,
+        });
 
         // # Visit the webhook url to start the OAuth handshake
         cy.visit(`${webhookBaseUrl}/start_oauth`, {failOnStatusCode: false});
@@ -458,7 +477,9 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                }});
+                },
+                waitFor: null,
+            });
 
             // * The message should not be posted
             cy.findByText(message).should('not.exist');
