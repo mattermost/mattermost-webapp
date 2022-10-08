@@ -10,19 +10,23 @@
 // Stage: @prod
 // Group: @account_setting
 
+import {set} from 'lodash';
+
+import {UserProfile} from '@mattermost/types/lib/users';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {reUrl, getRandomId} from '../../../utils';
 
 describe('Profile > Profile Settings > Email', () => {
-    let siteName;
-    let testUser;
-    let otherUser;
-    let offTopicUrl;
+    let siteName: string;
+    let testUser: UserProfile;
+    let otherUser: UserProfile;
+    let offTopicUrl: string;
 
     before(() => {
-        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: true}}).then(({config}) => {
-            siteName = config.TeamSettings.SiteName;
-        });
+        cy.apiGetConfig().then((config) => {
+            set(config, 'EmailSettings.RequireEmailVerification', true);
+        })
 
         cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
             testUser = user;
@@ -30,7 +34,7 @@ describe('Profile > Profile Settings > Email', () => {
 
             cy.apiVerifyUserEmailById(testUser.id);
 
-            return cy.apiCreateUser();
+            return cy.apiCreateUser({});
         }).then(({user: user1}) => {
             otherUser = user1;
             cy.apiLogin(testUser);
