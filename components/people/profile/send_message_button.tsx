@@ -25,7 +25,6 @@ const SendMessage = styled(Link)`
 
     .icon {
         margin-right: 3px;
-        color: var(--center-channel-bg);
         font-size: 14.4px;
     }
 `;

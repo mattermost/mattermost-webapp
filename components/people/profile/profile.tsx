@@ -10,8 +10,6 @@ import styled from 'styled-components';
 
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 
-import CallButton from 'plugins/call_button';
-
 import './profile.scss';
 
 import {openModal} from 'actions/views/modals';
@@ -98,7 +96,6 @@ const Profile = () => {
                     ) : (
                         <>
                             <SendMessageButton user={user}/>
-                            <CallButton/>
                         </>
                     )}
                 />

@@ -235,7 +235,7 @@ const MaybeLink = ({children, className, to}: MaybeLinkProps) => {
         return (
             <Link
                 css={`
-                    color: var(--center-channel-text) !important;
+                    color: var(--center-channel-color) !important;
                     &:hover {
                         text-decoration: none;
                     }
