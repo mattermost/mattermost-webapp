@@ -6,14 +6,17 @@ import React from 'react';
 
 import {General} from 'mattermost-redux/constants';
 
-import ListItem from './list_item';
+import {OptionValue} from '../types';
+
+import ListItem, {Props} from './list_item';
 
 describe('ListItem', () => {
-    const baseProps = {
+    const baseProps: Props = {
         isMobileView: false,
         isSelected: false,
         add: jest.fn(),
         select: jest.fn(),
+        option: {} as OptionValue,
     };
 
     test('should match snapshot when rendering user', () => {
@@ -21,7 +24,7 @@ describe('ListItem', () => {
             id: 'user_id_1',
             username: 'username1',
             last_post_at: 0,
-        };
+        } as OptionValue;
 
         const wrapper = shallow(
             <ListItem
@@ -53,7 +56,7 @@ describe('ListItem', () => {
                     username: 'user3',
                 },
             ],
-        };
+        } as OptionValue;
 
         const wrapper = shallow(
             <ListItem

@@ -315,7 +315,6 @@ const AdminDefinition = {
         sectionTitleDefault: 'Billing & Account',
         isHidden: it.any(
             it.not(it.licensedForFeature('Cloud')),
-            it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
             it.not(it.userHasReadPermissionOnResource('billing')),
         ),
         subscription: {
