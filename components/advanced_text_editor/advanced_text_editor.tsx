@@ -1,11 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useCallback, useRef, useState} from 'react';
+import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
+
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
-import {useSelector} from 'react-redux';
 
 import {PostDraft} from 'types/store/draft';
 
@@ -22,16 +22,15 @@ import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload'
 import OverlayTrigger from 'components/overlay_trigger';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
-import * as Utils from 'utils/utils';
+import {localizeMessage, scrollbarWidth as getScrollbarWidth} from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
-
-import {getVoiceMessageOrigin} from 'selectors/views/textbox';
 
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
+
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
 
@@ -39,7 +38,7 @@ import TexteditorActions from './texteditor_actions';
 import FormattingBar from './formatting_bar';
 import ShowFormat from './show_formatting';
 import SendButton from './send_button';
-import VoiceButton from './voice_button';
+import VoiceMessageButton from './voice_message_button';
 import {IconContainer} from './formatting_bar/formatting_icon';
 import VoiceMessageAttachment from './voice_message_attachment';
 
@@ -100,6 +99,8 @@ type Props = {
     channelId: string;
     postId: string;
     textboxRef: React.RefObject<TextboxClass>;
+    voiceMessageClientId: string;
+    handleVoiceMessageUploadStart: (clientId: string, channelId: string) => void;
     isThreadView?: boolean;
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
@@ -156,13 +157,15 @@ const AdvanceTextEditor = ({
     fileUploadRef,
     prefillMessage,
     textboxRef,
+    voiceMessageClientId,
+    handleVoiceMessageUploadStart,
     isThreadView,
     additionalControls,
     labels,
 }: Props) => {
     const readOnlyChannel = !canPost;
     const {formatMessage} = useIntl();
-    const ariaLabelMessageInput = Utils.localizeMessage(
+    const ariaLabelMessageInput = localizeMessage(
         'accessibility.sections.centerFooter',
         'message input complimentary region',
     );
@@ -171,14 +174,23 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
-    const voiceMessageOrigin = useSelector(getVoiceMessageOrigin);
+    const [isVoiceMessageRecording, setIsVoiceMessageRecording] = useState(false);
+    const isVoiceMessageUploading = draft.postType === Constants.PostTypes.VOICE && draft.fileInfos.length === 0 && draft.uploadsInProgress.length > 0;
+    const isVoiceMessageAttached = draft.postType === Constants.PostTypes.VOICE && draft.uploadsInProgress.length === 0 && draft.fileInfos.length > 0;
+
+    // Remove voice message recording attachment when switching channels
+    useEffect(() => {
+        if (isVoiceMessageRecording && draft.fileInfos.length === 0) {
+            setIsVoiceMessageRecording(false);
+        }
+    }, [channelId, postId]);
 
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
 
         window.requestAnimationFrame(() => {
             if (textboxRef.current) {
-                setScrollbarWidth(Utils.scrollbarWidth(textboxRef.current.getInputBox()));
+                setScrollbarWidth(getScrollbarWidth(textboxRef.current.getInputBox()));
             }
         });
     };
@@ -186,6 +198,13 @@ const AdvanceTextEditor = ({
     const handleShowFormat = useCallback(() => {
         setShowPreview(!shouldShowPreview);
     }, [shouldShowPreview, setShowPreview]);
+
+    /** Function to unset the state of "isVoiceMessageRecording" in AdvancedTextEditor to false. */
+    const handleRemoveVoiceMessageRecording = useCallback(() => {
+        if (isVoiceMessageRecording) {
+            setIsVoiceMessageRecording(false);
+        }
+    }, [isVoiceMessageRecording]);
 
     let serverErrorJsx = null;
     if (serverError) {
@@ -200,22 +219,29 @@ const AdvanceTextEditor = ({
 
     let attachmentPreview = null;
 
-    const isVoicePreviewAttached = voiceMessageOrigin.location === Locations.CENTER || voiceMessageOrigin.location === Locations.RHS_COMMENT;
-    const isVoicePreviewAttachedInCurrentEditor = isVoicePreviewAttached && voiceMessageOrigin.location === location && voiceMessageOrigin.channelId === channelId;
-
-    if (isVoicePreviewAttachedInCurrentEditor) {
+    if (!readOnlyChannel && (isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached)) {
         attachmentPreview = (
             <div>
                 <VoiceMessageAttachment
+                    isRecording={isVoiceMessageRecording}
+                    isUploading={isVoiceMessageUploading}
+                    isAttached={isVoiceMessageAttached}
+                    isUploadFailed={Boolean(serverError)}
                     channelId={channelId}
                     rootId={postId}
-                    location={voiceMessageOrigin.location}
+                    onUploadStart={handleVoiceMessageUploadStart}
+                    uploadClientId={voiceMessageClientId}
+                    onUploadProgress={handleUploadProgress}
+                    uploadsProgress={uploadsProgressPercent}
+                    onUploadComplete={handleFileUploadComplete}
+                    uploadedAudioFile={draft.fileInfos?.[0] ?? undefined}
+                    onUploadError={handleUploadError}
+                    onRemoveRecording={handleRemoveVoiceMessageRecording}
+                    onRemoveDraft={removePreview}
                 />
             </div>
         );
-    }
-
-    if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0) && !isVoicePreviewAttachedInCurrentEditor) {
+    } else if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
             <div>
                 <FilePreview
@@ -250,7 +276,7 @@ const AdvanceTextEditor = ({
             rootId={postId}
             channelId={channelId}
             postType={postType}
-            disabled={isVoicePreviewAttachedInCurrentEditor}
+            disabled={isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
         />
     );
 
@@ -299,7 +325,7 @@ const AdvanceTextEditor = ({
                         onClick={toggleEmojiPicker}
                         type='button'
                         aria-label={emojiButtonAriaLabel}
-                        disabled={shouldShowPreview || isVoicePreviewAttachedInCurrentEditor}
+                        disabled={shouldShowPreview || isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
                         className={classNames({active: showEmojiPicker})}
                     >
                         <EmoticonHappyOutlineIcon
@@ -312,17 +338,24 @@ const AdvanceTextEditor = ({
         );
     }
 
-    const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length));
+    const hasDraftMessagesOrFileAttachments = message.trim().length !== 0 || draft.fileInfos.length !== 0 || draft.uploadsInProgress.length !== 0;
+
+    const voiceMessageButton = !readOnlyChannel && (location === Locations.CENTER || location === Locations.RHS_COMMENT) ? (
+        <VoiceMessageButton
+            disabled={readOnlyChannel || hasDraftMessagesOrFileAttachments || isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
+            onClick={() => setIsVoiceMessageRecording(true)}
+        />
+    ) : null;
+
+    const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length) || isVoiceMessageRecording || isVoiceMessageUploading);
     const sendButton = readOnlyChannel ? null : (
         <SendButton
-
-            // Add more states to disable send until upload is complete
-            disabled={disableSendButton || isVoicePreviewAttachedInCurrentEditor}
+            disabled={disableSendButton}
             handleSubmit={handleSubmit}
         />
     );
 
-    const showFormatJSX = disableSendButton || isVoicePreviewAttachedInCurrentEditor ? null : (
+    const showFormatJSX = disableSendButton ? null : (
         <ShowFormat
             onClick={handleShowFormat}
             active={shouldShowPreview}
@@ -346,12 +379,12 @@ const AdvanceTextEditor = ({
             {channelDisplayName: currentChannel.display_name},
         );
     } else if (readOnlyChannel) {
-        createMessage = Utils.localizeMessage(
+        createMessage = localizeMessage(
             'create_post.read_only',
             'This channel is read-only. Only members with permission can post here.',
         );
     } else {
-        createMessage = Utils.localizeMessage('create_comment.addComment', 'Reply to this thread...');
+        createMessage = localizeMessage('create_comment.addComment', 'Reply to this thread...');
     }
 
     const messageValue = readOnlyChannel ? '' : message;
@@ -392,7 +425,7 @@ const AdvanceTextEditor = ({
             getCurrentMessage={getCurrentValue}
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
-            disableControls={shouldShowPreview || isVoicePreviewAttachedInCurrentEditor}
+            disableControls={shouldShowPreview || isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
             additionalControls={additionalControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
@@ -400,14 +433,6 @@ const AdvanceTextEditor = ({
             location={location}
         />
     );
-
-    const voiceMessage = channelId && (location === Locations.CENTER || location === Locations.RHS_COMMENT) && !readOnlyChannel ? (
-        <VoiceButton
-            location={location}
-            currentChannelId={channelId}
-            disabled={isVoicePreviewAttached}
-        />
-    ) : null;
 
     return (
         <div
@@ -454,7 +479,7 @@ const AdvanceTextEditor = ({
                         id={textboxId}
                         ref={textboxRef!}
                         disabled={readOnlyChannel}
-                        hidden={isVoicePreviewAttachedInCurrentEditor}
+                        hidden={isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
                         characterLimit={maxPostSize}
                         preview={shouldShowPreview}
                         badConnection={badConnection}
@@ -472,7 +497,7 @@ const AdvanceTextEditor = ({
                     <TexteditorActions
                         placement='bottom'
                     >
-                        {voiceMessage}
+                        {voiceMessageButton}
                         {sendButton}
                     </TexteditorActions>
                 </div>

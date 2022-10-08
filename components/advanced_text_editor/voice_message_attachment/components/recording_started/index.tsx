@@ -11,7 +11,10 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {convertSecondsToMSS} from 'utils/datetime';
 
-import {AttachmentContainer, CancelButton, OkButton, Duration} from '../containers';
+import {AttachmentRootContainer,
+    CancelButton,
+    OkButton,
+    Duration} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
 
 interface Props {
     theme: Theme;
@@ -22,7 +25,7 @@ interface Props {
 
 const VoiceMessageRecordingStarted = forwardRef((props: Props, ref: React.Ref<HTMLCanvasElement>) => {
     return (
-        <AttachmentContainer
+        <AttachmentRootContainer
             icon={(
                 <MicrophoneIcon
                     size={24}
@@ -52,7 +55,7 @@ const VoiceMessageRecordingStarted = forwardRef((props: Props, ref: React.Ref<HT
                     color={props.theme.buttonColor}
                 />
             </OkButton>
-        </AttachmentContainer>
+        </AttachmentRootContainer>
     );
 });
 

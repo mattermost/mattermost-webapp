@@ -1,20 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useMemo, useRef, useState} from 'react';
+import React, {memo, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {createEncoder, WasmMediaEncoder} from 'wasm-media-encoders';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
-import Constants, {Locations} from 'utils/constants';
 import {generateId} from 'utils/utils';
 
 import {uploadFile} from 'actions/file_actions';
 
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
-import {FileUploadResponse} from '@mattermost/types/files';
+import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
+import {ServerError} from '@mattermost/types/errors';
 
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
@@ -30,16 +30,8 @@ declare global {
     }
 }
 
-enum VMStates {
-    RecordingStarted = 'RECORDING_STARTED',
-    RecordingFailed = 'RECORDING_FAILED',
-    UploadingStarted = 'UPLOADING_STARTED',
-    UploadingFailed = 'UPLOADING_FAILED',
-    UploadingCompleted = 'UPLOADING_COMPLETED',
-}
-
 const MP3MimeType = 'audio/mpeg';
-const MP3Extension = 'mp3';
+const MP3_EXT = 'mp3';
 const AUDIO_FILE_NAME_PREFIX = 'voice_message_';
 const FFT_SIZE = 32;
 const REDUCED_SAMPLE_SIZE = 9;
@@ -48,9 +40,21 @@ const MAX_SCALE_FREQUENCY_DATA = 255;
 const VISUALIZER_BAR_WIDTH = 5;
 
 interface Props {
+    isRecording: boolean;
+    isUploading: boolean;
+    isAttached: boolean;
+    isUploadFailed: boolean;
     channelId: Channel['id'];
     rootId: Post['id'];
-    location: string;
+    uploadedAudioFile?: FileInfo;
+    onUploadStart: (clientIds: string, channelId: Channel['id']) => void;
+    uploadClientId: string;
+    onUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
+    uploadsProgress: {[clientID: string]: FilePreviewInfo};
+    onUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
+    onUploadError: (err: string | ServerError, clientId?: string, channelId?: string) => void;
+    onRemoveRecording: () => void;
+    onRemoveDraft: (fileInfoId: FileInfo['id']) => void;
 }
 
 const VoiceMessageAttachment = (props: Props) => {
@@ -58,7 +62,7 @@ const VoiceMessageAttachment = (props: Props) => {
 
     const dispatch = useDispatch();
 
-    const [vmState, vmTransitionTo] = useState<VMStates>(VMStates.RecordingStarted);
+    const [isRecordingFailed, setIsRecordingFailed] = useState(false);
 
     const audioContextRef = useRef<AudioContext>();
     const audioAnalyzerRef = useRef<AnalyserNode>();
@@ -70,7 +74,6 @@ const VoiceMessageAttachment = (props: Props) => {
     const audioChunksRef = useRef<Uint8Array[]>([]);
 
     const [recordedAudio, setRecordedAudio] = useState<File | undefined>(undefined);
-    const [uploadedAudio, setUploadedAudio] = useState<string | undefined>(undefined);
 
     const visualizerRefreshRafId = useRef<ReturnType<AnimationFrameProvider['requestAnimationFrame']>>();
     const countdownTimerRafId = useRef<ReturnType<AnimationFrameProvider['requestAnimationFrame']>>();
@@ -78,12 +81,9 @@ const VoiceMessageAttachment = (props: Props) => {
     const visualizerCanvasRef = useRef<HTMLCanvasElement>(null);
 
     const xmlRequestRef = useRef<XMLHttpRequest>();
-    const [uploadProgress, setUploadProgress] = useState<number>(0);
 
     const [elapsedTime, setElapsedTimer] = useState<number>(0);
     const lastCountdownTime = useRef<number>((new Date()).getTime());
-
-    const generatedClientId = useMemo(() => generateId(), []);
 
     function drawOnVisualizerCanvas(amplitudePercentageArray: number[], visualizerCanvasContext: CanvasRenderingContext2D, canvasWidth: number, canvasHeight: number, spacing: number) {
         // We need to clear the canvas before drawing the new visualizer changes
@@ -201,9 +201,8 @@ const VoiceMessageAttachment = (props: Props) => {
             // create blob from audio chunks
             const audioBlob = new Blob(audioChunksRef.current, {type: MP3MimeType});
 
-            // const audioUrl = URL.createObjectURL(audioBlob);
-
-            const audioFile = new File([audioBlob], `${AUDIO_FILE_NAME_PREFIX}${generatedClientId}.${MP3Extension}`, {
+            const audioFileName = generateDateSpecificFileName(AUDIO_FILE_NAME_PREFIX, `.${MP3_EXT}`);
+            const audioFile = new File([audioBlob], audioFileName, {
                 type: MP3MimeType,
                 lastModified: Date.now(),
             });
@@ -272,47 +271,34 @@ const VoiceMessageAttachment = (props: Props) => {
             animateCountdownTimer();
         } catch (error) {
             console.log('Error in recording', error); // eslint-disable-line no-console
-            vmTransitionTo(VMStates.RecordingFailed);
+            setIsRecordingFailed(true);
         }
     }
 
-    function onRecordingUploadProgress(filePreviewInfo: FilePreviewInfo) {
-        if (filePreviewInfo && filePreviewInfo.percent && filePreviewInfo.percent <= 100 && filePreviewInfo.percent >= 0) {
-            vmTransitionTo(VMStates.UploadingStarted);
-            setUploadProgress(filePreviewInfo.percent);
+    function handleOnUploadComplete(data: FileUploadResponse, channelId: string, currentRootId: string) {
+        if (data) {
+            props.onUploadComplete(data.file_infos, data.client_ids, channelId, currentRootId);
         }
-    }
-
-    function onRecordingUploadSuccess(uploadedResponse: FileUploadResponse) {
-        console.log('uploadedResponse', uploadedResponse); // eslint-disable-line no-console
-
-        const fileId = uploadedResponse?.file_infos?.[0]?.id ?? '';
-        if (fileId) {
-            vmTransitionTo(VMStates.UploadingCompleted);
-            setUploadedAudio(uploadedResponse.file_infos[0].id);
-        }
-    }
-
-    function onRecordingUploadError() {
-        console.log('onRecordingUploadError'); // eslint-disable-line no-console
-        vmTransitionTo(VMStates.UploadingFailed);
     }
 
     function recordingUpload(recordedAudioFile: File) {
+        const clientId = generateId();
+
         const request = dispatch(uploadFile({
             file: recordedAudioFile,
             name: recordedAudioFile.name,
-            type: MP3Extension,
-            rootId: props.location === Locations.RHS_COMMENT ? props.rootId : '',
+            type: MP3_EXT,
+            rootId: props.rootId || '',
             channelId: props.channelId,
-            clientId: generatedClientId,
-            onProgress: onRecordingUploadProgress,
-            onSuccess: onRecordingUploadSuccess,
-            onError: onRecordingUploadError,
-        }));
+            clientId,
+            onProgress: props.onUploadProgress,
+            onSuccess: handleOnUploadComplete,
+            onError: props.onUploadError,
+        })) as unknown as XMLHttpRequest;
 
-        // Change "unknown" after we better type our actions
-        xmlRequestRef.current = request as unknown as XMLHttpRequest;
+        xmlRequestRef.current = request;
+
+        props.onUploadStart(clientId, props.channelId);
     }
 
     async function handleCompleteRecordingClicked() {
@@ -320,41 +306,24 @@ const VoiceMessageAttachment = (props: Props) => {
 
         const recordedAudioFile = recordingStop();
 
-        if (!recordedAudioFile) {
-            vmTransitionTo(VMStates.RecordingFailed);
-            return;
+        if (recordedAudioFile) {
+            props.onRemoveRecording();
+            recordingUpload(recordedAudioFile);
+        } else {
+            setIsRecordingFailed(true);
         }
-
-        recordingUpload(recordedAudioFile);
     }
 
     // We start the recording as soon as the component is mounted
     useEffect(() => {
-        recordingStart();
+        if (props.isRecording) {
+            recordingStart();
+        }
 
         return () => {
             recordingCleanup();
         };
-    }, []);
-
-    // Automatically stop recording after Max time
-    // useEffect(() => {
-    //     if (elapsedTime >= 30) {
-    //         handleCompleteRecordingClicked();
-    //     }
-    // }, [elapsedTime]);
-
-    function unmountVoiceMessageComponent() {
-        // We don't stop recording here as when the component is unmounted,
-        // the recording is stopped automatically along with necessary clean ups
-        dispatch({
-            type: Constants.ActionTypes.OPEN_VOICE_MESSAGE_AT,
-            data: {
-                location: '',
-                channelId: '',
-            },
-        });
-    }
+    }, [props.isRecording]);
 
     function handleUploadRetryClicked() {
         if (recordedAudio) {
@@ -362,59 +331,68 @@ const VoiceMessageAttachment = (props: Props) => {
         }
     }
 
-    function cancelUpload() {
+    function handleRemoveBeforeUpload() {
+        // TODO cancelling not working
         if (xmlRequestRef.current) {
             xmlRequestRef.current.abort();
         }
 
-        unmountVoiceMessageComponent();
+        props.onRemoveRecording();
+        props.onRemoveDraft(props.uploadClientId);
     }
 
-    if (vmState === VMStates.RecordingStarted) {
+    function handleRemoveAfterUpload() {
+        props.onRemoveRecording();
+        props.onRemoveDraft(props.uploadClientId);
+    }
+
+    if (props.isRecording) {
         return (
             <VoiceMessageRecordingStarted
                 ref={visualizerCanvasRef}
                 theme={theme}
                 elapsedTime={elapsedTime}
-                onCancel={unmountVoiceMessageComponent}
                 onComplete={handleCompleteRecordingClicked}
+                onCancel={props.onRemoveRecording}
             />
         );
     }
 
-    if (vmState === VMStates.RecordingFailed) {
+    if (isRecordingFailed) {
         return (
             <VoiceMessageRecordingFailed
-                onCancel={unmountVoiceMessageComponent}
+                onCancel={props.onRemoveRecording}
             />
         );
     }
 
-    if (vmState === VMStates.UploadingStarted) {
+    if (props.isUploading) {
+        const progress = props?.uploadsProgress?.[props.uploadClientId]?.percent ?? 0;
         return (
             <VoiceMessageUploadingStarted
                 theme={theme}
-                progress={uploadProgress}
-                onCancel={cancelUpload}
+                progress={progress}
+                onCancel={handleRemoveBeforeUpload}
             />
         );
     }
 
-    if (vmState === VMStates.UploadingFailed) {
+    if (props.isUploadFailed) {
         return (
             <VoiceMessageUploadingFailed
+                recordedAudio={recordedAudio}
                 onRetry={handleUploadRetryClicked}
-                onCancel={unmountVoiceMessageComponent}
+                onCancel={handleRemoveAfterUpload}
             />
         );
     }
 
-    if (vmState === VMStates.UploadingCompleted) {
+    if (props.isAttached) {
         return (
             <VoiceMessageUploadingCompleted
                 theme={theme}
-                src={uploadedAudio}
-                onCancel={unmountVoiceMessageComponent}
+                src={props.uploadedAudioFile?.id ?? ''}
+                onCancel={handleRemoveAfterUpload}
             />
         );
     }
@@ -422,4 +400,13 @@ const VoiceMessageAttachment = (props: Props) => {
     return null;
 };
 
-export default VoiceMessageAttachment;
+function generateDateSpecificFileName(prefix: string, ext: string) {
+    const now = new Date();
+    const hour = now.getHours().toString().padStart(2, '0');
+    const minute = now.getMinutes().toString().padStart(2, '0');
+    const name = prefix + now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + hour + '-' + minute + ext;
+
+    return name;
+}
+
+export default memo(VoiceMessageAttachment);

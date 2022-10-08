@@ -615,6 +615,7 @@ export class FileUpload extends PureComponent<Props, State> {
                         onClick={this.handleLocalFileUploaded}
                         multiple={multiple}
                         accept={accept}
+                        disabled={this.props.disabled}
                     />
                 </div>
             );
@@ -651,6 +652,7 @@ export class FileUpload extends PureComponent<Props, State> {
                         onClick={this.handleLocalFileUploaded}
                         multiple={multiple}
                         accept={accept}
+                        disabled={this.props.disabled}
                     />
                     <MenuWrapper>
                         <OverlayTrigger
@@ -693,6 +695,7 @@ export class FileUpload extends PureComponent<Props, State> {
                                     href='#'
                                     onClick={this.simulateInputClick}
                                     onTouchEnd={this.simulateInputClick}
+                                    disabled={this.props.disabled}
                                 >
                                     <span className='mr-2'>
                                         <i className='fa fa-laptop'/>

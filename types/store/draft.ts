@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {FileInfo} from '@mattermost/types/files';
+import {PostType} from '@mattermost/types/posts';
 
 export type PostDraft = {
     message: string;
@@ -9,4 +10,5 @@ export type PostDraft = {
     uploadsInProgress: string[];
     props?: any;
     caretPosition?: number;
+    postType?: PostType;
 };

@@ -3,52 +3,31 @@
 
 import React from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 
-import {MicrophoneIcon} from '@mattermost/compass-icons/components';
-
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
+import {MicrophoneOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {isVoiceMessagesEnabled} from 'selectors/views/textbox';
 
 import Constants from 'utils/constants';
 
-import {Channel} from '@mattermost/types/channels';
-
-import {IconContainer} from '../formatting_bar/formatting_icon';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+import {IconContainer} from 'components/advanced_text_editor/formatting_bar/formatting_icon';
 
 interface Props {
-    location: string;
-    currentChannelId: Channel['id'];
     disabled: boolean;
+    onClick: () => void;
 }
 
 const VoiceButton = (props: Props) => {
     const {formatMessage} = useIntl();
 
-    const voiceMessageEnabled = useSelector(isVoiceMessagesEnabled);
-    const dispatch = useDispatch();
+    const isVoiceMessagesFeatureEnabled = useSelector(isVoiceMessagesEnabled);
 
     const isVoiceRecordingBrowserSupported = navigator && navigator.mediaDevices !== undefined && navigator.mediaDevices.getUserMedia !== undefined;
 
-    function handleOnClick() {
-        if (isVoiceRecordingBrowserSupported) {
-            dispatch({
-                type: Constants.ActionTypes.OPEN_VOICE_MESSAGE_AT,
-                data: {
-                    location: props.location,
-                    channelId: props.currentChannelId,
-                },
-            });
-        }
-    }
-
-    if (!voiceMessageEnabled) {
-        return null;
-    }
-
-    if (!isVoiceRecordingBrowserSupported) {
+    if (!isVoiceMessagesFeatureEnabled || !isVoiceRecordingBrowserSupported) {
         return null;
     }
 
@@ -68,12 +47,11 @@ const VoiceButton = (props: Props) => {
             <IconContainer
                 id='PreviewInputTextButton'
                 type='button'
-                onClick={handleOnClick}
+                onClick={props.onClick}
                 disabled={props.disabled}
                 aria-label={formatMessage({id: 'advanceTextEditor.voiceMessageButton.tooltip', defaultMessage: 'Voice message'})}
             >
-                {/* Change to new icon */}
-                <MicrophoneIcon
+                <MicrophoneOutlineIcon
                     size={18}
                     color={'currentColor'}
                 />

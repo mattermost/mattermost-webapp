@@ -4,11 +4,18 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {CloseIcon, RefreshIcon} from '@mattermost/compass-icons/components';
+import {CloseIcon, MicrophoneIcon, RefreshIcon} from '@mattermost/compass-icons/components';
 
-import {AttachmentContainer, CancelButton, TextColumn, Title, Subtitle} from '../containers';
+import {
+    AttachmentRootContainer,
+    CancelButton,
+    TextColumn,
+    Title,
+    Subtitle,
+} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
 
 interface Props {
+    recordedAudio?: File;
     onRetry: () => void;
     onCancel: () => void;
 }
@@ -16,21 +23,34 @@ interface Props {
 const VoiceMessageRecordingFailed = (props: Props) => {
     const intl = useIntl();
 
-    const errorMessage = intl.formatMessage({
-        id: 'voiceMessage.uploadFailed',
-        defaultMessage: 'Upload failed. Click to retry.',
-    });
+    let errorMessage;
+    if (props.recordedAudio) {
+        errorMessage = intl.formatMessage({
+            id: 'voiceMessage.uploadFailed.retry',
+            defaultMessage: 'Upload failed. Click to retry.',
+        });
+    } else {
+        errorMessage = intl.formatMessage({
+            id: 'voiceMessage.uploadFailed.tryAgain',
+            defaultMessage: 'Upload failed. Please try again.',
+        });
+    }
 
     return (
-        <AttachmentContainer
-            icon={(
+        <AttachmentRootContainer
+            icon={props.recordedAudio ? (
                 <RefreshIcon
+                    size={24}
+                    color='#FFFFFF'
+                />
+            ) : (
+                <MicrophoneIcon
                     size={24}
                     color='#FFFFFF'
                 />
             )}
             iconDanger={true}
-            onIconClick={props.onRetry}
+            onIconClick={props.recordedAudio ? props.onRetry : undefined}
         >
             <TextColumn>
                 <Title>
@@ -48,7 +68,7 @@ const VoiceMessageRecordingFailed = (props: Props) => {
                     size={18}
                 />
             </CancelButton>
-        </AttachmentContainer>
+        </AttachmentRootContainer>
     );
 };
 

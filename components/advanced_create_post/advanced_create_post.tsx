@@ -245,6 +245,7 @@ type State = {
     showFormat: boolean;
     isFormattingBarHidden: boolean;
     showPostPriorityPicker: boolean;
+    voiceMessageClientId: string;
 };
 
 class AdvancedCreatePost extends React.PureComponent<Props, State> {
@@ -294,6 +295,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
             showPostPriorityPicker: false,
+            voiceMessageClientId: '',
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
@@ -874,6 +876,19 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.focusTextbox();
     }
 
+    handleVoiceMessageUploadStart = (clientId: string, channelId: Channel['id']) => {
+        const uploadsInProgress = [...this.props.draft.uploadsInProgress, clientId];
+        const draft = {
+            ...this.props.draft,
+            uploadsInProgress,
+            postType: Constants.PostTypes.VOICE,
+        };
+
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.setState({voiceMessageClientId: clientId});
+        this.draftsForChannel[channelId] = draft;
+    }
+
     handleUploadStart = (clientIds: string[], channelId: string) => {
         const uploadsInProgress = [...this.props.draft.uploadsInProgress, ...clientIds];
 
@@ -918,6 +933,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         this.draftsForChannel[channelId] = draft;
         this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.setState({voiceMessageClientId: ''});
     }
 
     handleUploadError = (err: string | ServerError, clientId?: string, channelId?: string) => {
@@ -927,7 +943,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         if (!channelId || !clientId) {
-            this.setState({serverError});
+            this.setState({serverError, voiceMessageClientId: ''});
             return;
         }
 
@@ -947,13 +963,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
         }
 
-        this.setState({serverError});
+        this.setState({serverError, voiceMessageClientId: ''});
     };
 
     removePreview = (id: string) => {
         let modifiedDraft = {} as PostDraft;
         const draft = {...this.props.draft};
         const channelId = this.props.currentChannel.id;
+
+        if (draft.postType === Constants.PostTypes.VOICE) {
+            draft.postType = undefined;
+            this.setState({voiceMessageClientId: ''});
+        }
 
         // Clear previous errors
         this.setState({serverError: null});
@@ -1474,6 +1495,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
+                    voiceMessageClientId={this.state.voiceMessageClientId}
+                    handleVoiceMessageUploadStart={this.handleVoiceMessageUploadStart}
                     labels={(
                         this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
                             <div className='AdvancedTextEditor__priority'>

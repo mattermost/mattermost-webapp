@@ -15,8 +15,7 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {convertSecondsToMSS} from 'utils/datetime';
 
 import {useAudioPlayer, AudioPlayerState} from 'components/common/hooks/useAudioPlayer';
-
-import {AttachmentContainer, CancelButton, Duration} from '../containers';
+import {AttachmentRootContainer, CancelButton, Duration} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
 
 interface Props {
     theme: Theme;
@@ -30,7 +29,7 @@ const VoiceMessageUploadCompleted = (props: Props) => {
     const progressValue = elapsed === 0 || duration === 0 ? 0 : Math.floor((elapsed / duration) * 100);
 
     return (
-        <AttachmentContainer
+        <AttachmentRootContainer
             icon={
                 playerState === AudioPlayerState.Playing ? (
                     <PauseIcon
@@ -59,10 +58,12 @@ const VoiceMessageUploadCompleted = (props: Props) => {
             <Duration>
                 {convertSecondsToMSS(elapsed)}
             </Duration>
-            <CancelButton onClick={props.onCancel}>
+            <CancelButton 
+            // onClick={props.onCancel}
+            >
                 <CloseIcon size={18}/>
             </CancelButton>
-        </AttachmentContainer>
+        </AttachmentRootContainer>
     );
 };
 

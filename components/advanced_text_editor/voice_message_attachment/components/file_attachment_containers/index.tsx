@@ -64,13 +64,13 @@ export const Subtitle = styled(TextOverFlowStopDiv)`
     line-height: 16px;
 `;
 
-interface AttachmentContainerProps extends HTMLProps<HTMLDivElement> {
+interface AttachmentRootContainerProps extends HTMLProps<HTMLDivElement> {
     icon: ReactNode;
     onIconClick?: () => void;
     iconDanger?: boolean;
 }
 
-const IconWrapper = styled.div<Pick<AttachmentContainerProps, 'iconDanger'>>`
+const IconWrapper = styled.div<Pick<AttachmentRootContainerProps, 'iconDanger'>>`
     width: 40px;
     background-color: ${(props) => (props.iconDanger ? 'var(--error-text)' : 'rgba(var(--button-bg-rgb), 0.12)')};
     height: 40px;
@@ -94,7 +94,7 @@ const ControlsColumn = styled.div`
     justify-content: space-between;
 `;
 
-export const AttachmentContainer = ({icon, onIconClick, iconDanger, children}: AttachmentContainerProps) => {
+export const AttachmentRootContainer = ({icon, onIconClick, iconDanger, children}: AttachmentRootContainerProps) => {
     return (
         <div className='file-preview__container'>
             <div className='file-preview post-image__column'>

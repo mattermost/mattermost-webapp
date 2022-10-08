@@ -9,7 +9,13 @@ import {MicrophoneIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
-import {AttachmentContainer, CancelButton, TextColumn, Title, Subtitle} from '../containers';
+import {
+    AttachmentRootContainer,
+    CancelButton,
+    TextColumn,
+    Title,
+    Subtitle,
+} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
 
 interface Props {
     theme: Theme;
@@ -21,7 +27,7 @@ const VoiceMessageUploadingStarted = (props: Props) => {
     const percentageUploaded = `(${props.progress}%)`;
 
     return (
-        <AttachmentContainer
+        <AttachmentRootContainer
             icon={(
                 <MicrophoneIcon
                     size={24}
@@ -54,7 +60,7 @@ const VoiceMessageUploadingStarted = (props: Props) => {
                 now={props.progress}
                 active={props.progress === 100}
             />
-        </AttachmentContainer>
+        </AttachmentRootContainer>
     );
 };
 

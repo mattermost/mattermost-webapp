@@ -6,7 +6,11 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {MicrophoneIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
-import {AttachmentContainer, CancelButton, TextColumn, Title, Subtitle} from '../containers';
+import {AttachmentRootContainer,
+    CancelButton,
+    TextColumn,
+    Title,
+    Subtitle} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
 
 interface Props {
     onCancel: () => void;
@@ -21,7 +25,7 @@ const VoiceMessageRecordingFailed = (props: Props) => {
     });
 
     return (
-        <AttachmentContainer
+        <AttachmentRootContainer
             icon={(
                 <MicrophoneIcon
                     size={24}
@@ -46,7 +50,7 @@ const VoiceMessageRecordingFailed = (props: Props) => {
                     size={18}
                 />
             </CancelButton>
-        </AttachmentContainer>
+        </AttachmentRootContainer>
     );
 };
 
