@@ -14,13 +14,13 @@
 // ***************************************************************
 
 declare namespace Cypress {
-  interface ApplicationWindow {
+    interface ApplicationWindow {
 
-    /**
+        /**
      * Reset all tracked selectors
      * @example
      *   win.resetTrackedSelectors();
      */
-    resetTrackedSelectors(): void;
-  }
+        resetTrackedSelectors(): void;
+    }
 }
