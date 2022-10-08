@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {isValidElementType} from 'react-is';
-import {intersection, isPlainObject, zipObject} from 'lodash';
 
 import {Reducer} from 'redux';
 
@@ -35,6 +34,8 @@ import {PluginComponent, PluginsState, ProductComponent} from 'types/store/plugi
 import {GlobalState} from 'types/store';
 import {FileInfo} from '@mattermost/types/files';
 import {ProductScope} from '@mattermost/types/products';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {reArg} from 'utils/func';
 
 const defaultShouldRender = () => true;
 
@@ -75,16 +76,6 @@ const standardizeRoute = (route: string) => {
     }
     return fixedRoute;
 };
-
-function reArg<T extends Record<string, unknown>, TResult>(keyOrder: Array<keyof T>, func: (args: T) => TResult) {
-    return (...args: [T] | any[]) => {
-        const isConfigObjectArg = args.length === 1 && isPlainObject(args[0]);
-        const objKeys = isConfigObjectArg && Object.keys(args[0]);
-        const keysMatch = objKeys && intersection(objKeys, keyOrder).length === objKeys.length;
-
-        return func(isConfigObjectArg && keysMatch ? args[0] : zipObject(keyOrder, args));
-    };
-}
 
 export default class PluginRegistry {
     id: string;
@@ -162,7 +153,7 @@ export default class PluginRegistry {
         tooltipText,
     }: {
         icon: ReactResolvable;
-        action: () => void;
+        action: PluginComponent['action'];
         dropdownText: ReactResolvable;
         tooltipText: ReactResolvable;
     }) => {
@@ -207,7 +198,7 @@ export default class PluginRegistry {
         tooltipText,
     }: {
         icon: ReactResolvable;
-        action: () => void;
+        action: PluginComponent['action'];
         tooltipText: ReactResolvable;
     }) => {
         const id = generateId();
@@ -254,7 +245,7 @@ export default class PluginRegistry {
     }: {
         button: ReactResolvable;
         dropdownButton: ReactResolvable;
-        action: () => void;
+        action: (currentChannel: Channel, myCurrentChannelMembership: ChannelMembership) => void;
     }) => {
         const id = generateId();
 
@@ -366,7 +357,7 @@ export default class PluginRegistry {
         mobileIcon,
     }: {
         text: ReactResolvable;
-        action: () => void;
+        action: PluginComponent['action'];
         mobileIcon: ReactResolvable;
     }) => {
         const id = generateId();
@@ -403,7 +394,7 @@ export default class PluginRegistry {
         shouldRender = defaultShouldRender,
     }: {
         text: ReactResolvable;
-        action: () => void;
+        action: PluginComponent['action'];
         shouldRender?: (state: GlobalState) => boolean;
     }) => {
         const id = generateId();
@@ -440,7 +431,7 @@ export default class PluginRegistry {
     }: {
         match: (fileInfo: FileInfo) => boolean;
         text: ReactResolvable;
-        action: () => void;
+        action: PluginComponent['action'];
     }) => {
         const id = generateId();
 
@@ -472,7 +463,7 @@ export default class PluginRegistry {
         action,
     }: {
         text: ReactResolvable;
-        action: () => void;
+        action: PluginComponent['action'];
     }) => {
         const id = generateId();
 
@@ -506,8 +497,8 @@ export default class PluginRegistry {
         filter,
     }: {
         text: ReactResolvable;
-        action: () => void;
-        filter: (...args: any) => boolean;
+        action: PluginComponent['action'];
+        filter: PluginComponent['filter'];
     }) => {
         const id = generateId();
 
@@ -532,7 +523,7 @@ export default class PluginRegistry {
     // - action - A function to trigger when component is clicked on
     // - filter - A function whether to apply the plugin into the post' dropdown menu
     //
-    // Returns an unique identifier for the root submenu, and a function to register submenu items.
+    // Returns a unique identifier for the root submenu, and a function to register submenu items.
     // At this time, only one level of nesting is allowed to avoid rendering issue in the RHS.
     registerPostDropdownSubMenuAction = reArg([
         'text',
@@ -544,17 +535,19 @@ export default class PluginRegistry {
         filter,
     }: {
         text: ReactResolvable;
-        action: (...args: any) => unknown;
-        filter: (...args: any) => boolean;
+        action: PluginComponent['action'];
+        filter: PluginComponent['filter'];
     }) => {
-        function registerMenuItem(
+        const id = generateId();
+
+        const registerMenuItem = (
             pluginId: string,
             id: string,
             parentMenuId: string | null,
             innerText: ReactResolvable,
-            innerAction: (...args: any) => unknown,
-            innerFilter: (...args: any) => boolean,
-        ) {
+            innerAction: PluginComponent['action'],
+            innerFilter: PluginComponent['filter'],
+        ) => {
             store.dispatch({
                 type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
                 name: 'PostDropdownMenu',
@@ -569,21 +562,21 @@ export default class PluginRegistry {
                 },
             });
 
-    type TInnerParams = [
-        innerText: ReactResolvable,
-        innerAction: (...args: any) => unknown,
-        innerFilter: (...args: any) => boolean,
-    ];
+            type TInnerParams = [
+                innerText: ReactResolvable,
+                innerAction: PluginComponent['action'],
+                innerFilter: PluginComponent['filter'],
+            ];
 
-    return function registerSubMenuItem(...args: TInnerParams) {
-        if (parentMenuId) {
-            throw new Error('Submenus are currently limited to a single level.');
-        }
+            return function registerSubMenuItem(...args: TInnerParams) {
+                if (parentMenuId) {
+                    throw new Error('Submenus are currently limited to a single level.');
+                }
 
-        return registerMenuItem(pluginId, generateId(), id, ...args);
-    };
-        }
-        const id = generateId();
+                return registerMenuItem(pluginId, generateId(), id, ...args);
+            };
+        };
+
         return {id, rootRegisterMenuItem: registerMenuItem(this.id, id, null, text, action, filter)};
     });
 
@@ -609,7 +602,7 @@ export default class PluginRegistry {
         text,
     }: {
         icon: ReactResolvable;
-        action: () => void;
+        action: PluginComponent['action'];
         text: ReactResolvable;
     }) => {
         const id = generateId();
@@ -1092,7 +1085,7 @@ export default class PluginRegistry {
         tooltipText: ReactResolvable;
         supportedProductIds: ProductScope;
     } & ({
-        action: () => void;
+        action: PluginComponent['action'];
         rhsComponent?: never;
         rhsTitle?: never;
     } | {
@@ -1103,20 +1096,6 @@ export default class PluginRegistry {
         const id = generateId();
 
         const registeredRhsComponent = rhsComponent && this.registerRightHandSidebarComponent({title: rhsTitle, component: rhsComponent});
-
-        console.log(registeredRhsComponent, {
-            id,
-            pluginId: this.id,
-            iconUrl,
-            tooltipText: resolveReactElement(tooltipText),
-            supportedProductIds,
-            ...registeredRhsComponent ? {
-                action: () => store.dispatch(registeredRhsComponent.toggleRHSPlugin),
-                rhsComponentId: registeredRhsComponent.id,
-            } : {
-                action,
-            },
-        });
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
