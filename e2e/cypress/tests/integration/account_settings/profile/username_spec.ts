@@ -10,14 +10,18 @@
 // Stage: @prod
 // Group: @account_setting
 
+import {Channel} from '@mattermost/types/lib/channels';
+import {Team} from '@mattermost/types/lib/teams';
+import {UserProfile} from '@mattermost/types/lib/users';
+
 import {getRandomId} from '../../../utils';
 
 describe('Settings > Sidebar > General > Edit', () => {
-    let testTeam;
-    let testUser;
-    let testChannel;
-    let otherUser;
-    let offTopicUrl;
+    let testTeam: Team;
+    let testUser: UserProfile;
+    let testChannel: Channel;
+    let otherUser: UserProfile;
+    let offTopicUrl: string;
 
     before(() => {
         // # Login as admin and visit off-topic
