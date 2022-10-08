@@ -4,7 +4,7 @@
 import {limitThresholds, LimitTypes} from 'utils/limits';
 import {FileSizes} from 'utils/file_utils';
 
-import useGetHighestThresholdCloudLimit, {LimitSummary} from './useGetHighestThresholdCloudLimit';
+import useGetMultiplesExceededCloudLimit, {LimitSummary} from './useGetMultiplesExceededCloudLimit';
 
 jest.mock('react', () => ({
     useMemo: (fn: () => LimitSummary) => fn(),
@@ -37,17 +37,19 @@ const zeroUsage = {
 describe('useGetHighestThresholdCloudLimit', () => {
     const messageHistoryLimit = 10000;
     const filesLimit = FileSizes.Gigabyte * 10;
-    const okMessageUsage = Math.floor((limitThresholds.warn / 100) * messageHistoryLimit) - 1;
-    const warnMessageUsage = Math.ceil((limitThresholds.warn / 100) * messageHistoryLimit) + 1;
+    const boardsLimit = 5;
+    const integrationsLimit = 5;
+    const exceededMessageUsage = Math.ceil((limitThresholds.exceeded / 100) * messageHistoryLimit) + 1;
+
     const tests = [
         {
-            label: 'reports no highest limit if there are no limits',
+            label: 'reports no limits surpassed',
             limits: {},
             usage: zeroUsage,
-            expected: false,
+            expected: [],
         },
         {
-            label: 'reports no highest limit if no limit exceeds the warn threshold',
+            label: 'reports messages limit surpasded',
             limits: {
                 messages: {
                     history: messageHistoryLimit,
@@ -57,33 +59,61 @@ describe('useGetHighestThresholdCloudLimit', () => {
                 ...zeroUsage,
                 messages: {
                     ...zeroUsage.messages,
-                    history: okMessageUsage,
+                    history: exceededMessageUsage,
                 },
             },
-            expected: false,
+            expected: [LimitTypes.messageHistory],
         },
         {
-            label: 'reports a highest limit if one exceeds a threshold',
+            label: 'reports files limit surpassed',
             limits: {
-                messages: {
-                    history: messageHistoryLimit,
+                files: {
+                    total_storage: filesLimit,
                 },
             },
             usage: {
                 ...zeroUsage,
-                messages: {
-                    ...zeroUsage.messages,
-                    history: warnMessageUsage,
+                files: {
+                    ...zeroUsage.files,
+                    totalStorage: FileSizes.Gigabyte * 2 * 10,
                 },
             },
-            expected: {
-                id: LimitTypes.messageHistory,
-                limit: messageHistoryLimit,
-                usage: warnMessageUsage,
-            },
+            expected: [LimitTypes.fileStorage],
         },
         {
-            label: 'messages beats files in tie',
+            label: 'reports boards limit surpassed',
+            limits: {
+                boards: {
+                    cards: boardsLimit,
+                },
+            },
+            usage: {
+                ...zeroUsage,
+                boards: {
+                    ...zeroUsage.boards,
+                    cards: boardsLimit + 1,
+                },
+            },
+            expected: [LimitTypes.boardsCards],
+        },
+        {
+            label: 'reports integrations limit surpassed',
+            limits: {
+                integrations: {
+                    enabled: integrationsLimit,
+                },
+            },
+            usage: {
+                ...zeroUsage,
+                integrations: {
+                    ...zeroUsage.integrations,
+                    enabled: integrationsLimit + 1,
+                },
+            },
+            expected: [LimitTypes.enabledIntegrations],
+        },
+        {
+            label: 'reports messages and files limit surpasded',
             limits: {
                 messages: {
                     history: messageHistoryLimit,
@@ -96,50 +126,20 @@ describe('useGetHighestThresholdCloudLimit', () => {
                 ...zeroUsage,
                 messages: {
                     ...zeroUsage.messages,
-                    history: messageHistoryLimit,
+                    history: exceededMessageUsage,
                 },
                 files: {
                     ...zeroUsage.files,
-                    totralStorage: filesLimit,
+                    totalStorage: FileSizes.Gigabyte * 2 * 10,
                 },
             },
-            expected: {
-                id: LimitTypes.messageHistory,
-                limit: messageHistoryLimit,
-                usage: messageHistoryLimit,
-            },
-        },
-        {
-            label: 'files beats messages if higher',
-            limits: {
-                messages: {
-                    history: messageHistoryLimit,
-                },
-                files: {
-                    total_storage: filesLimit,
-                },
-            },
-            usage: {
-                ...zeroUsage,
-                messages: {
-                    ...zeroUsage.messages,
-                    history: messageHistoryLimit,
-                },
-                files: {
-                    ...zeroUsage.files,
-                    totalStorage: filesLimit + FileSizes.Megabyte,
-                },
-            },
-            expected: {
-                id: LimitTypes.fileStorage,
-                limit: filesLimit,
-                usage: filesLimit + FileSizes.Megabyte,
-            },
+            expected: [LimitTypes.messageHistory, LimitTypes.fileStorage],
         },
     ];
+
     tests.forEach((t: typeof tests[0]) => {
         test(t.label, () => {
-            const actual = useGetHighestThresholdCloudLimit(t.usage, t.limits);
+            const actual = useGetMultiplesExceededCloudLimit(t.usage, t.limits);
             expect(t.expected).toEqual(actual);
         });
     });

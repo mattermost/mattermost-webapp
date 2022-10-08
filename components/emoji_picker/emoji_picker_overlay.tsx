@@ -1,17 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {Overlay} from 'react-bootstrap';
 import memoize from 'memoize-one';
 
-import {popOverOverlayPosition} from 'utils/position_utils.tsx';
+import {popOverOverlayPosition} from 'utils/position_utils';
 import {Constants} from 'utils/constants';
+
+import {Emoji} from '@mattermost/types/emojis';
 
 import EmojiPickerTabs from './emoji_picker_tabs.jsx';
 
-export default class EmojiPickerOverlay extends React.PureComponent {
+type Props = {
+    show: boolean;
+    container?: () => ReactNode | ReactNode;
+    target: () => ReactNode | ReactNode;
+    onEmojiClick: (emoji: Emoji) => void;
+    onGifClick?: (gif: string) => void;
+    onHide: () => void;
+    topOffset?: number;
+    rightOffset?: number;
+    leftOffset?: number;
+    spaceRequiredAbove?: number;
+    spaceRequiredBelow?: number;
+    enableGifPicker?: boolean;
+    defaultHorizontalPosition?: 'left' | 'right';
+}
+
+export default class EmojiPickerOverlay extends React.PureComponent<Props> {
     // An emoji picker in the center channel is contained within the post list, so it needs space
     // above for the channel header and below for the post textbox
     static CENTER_SPACE_REQUIRED_ABOVE = 476;
@@ -21,22 +38,6 @@ export default class EmojiPickerOverlay extends React.PureComponent {
     // the emoji picker itself
     static RHS_SPACE_REQUIRED_ABOVE = 420;
     static RHS_SPACE_REQUIRED_BELOW = 420;
-
-    static propTypes = {
-        show: PropTypes.bool.isRequired,
-        container: PropTypes.func,
-        target: PropTypes.func.isRequired,
-        onEmojiClick: PropTypes.func.isRequired,
-        onGifClick: PropTypes.func,
-        onHide: PropTypes.func.isRequired,
-        topOffset: PropTypes.number,
-        rightOffset: PropTypes.number,
-        leftOffset: PropTypes.number,
-        spaceRequiredAbove: PropTypes.number,
-        spaceRequiredBelow: PropTypes.number,
-        enableGifPicker: PropTypes.bool,
-        defaultHorizontalPosition: PropTypes.oneOf(['left', 'right']),
-    };
 
     // Reasonable defaults calculated from from the center channel
     static defaultProps = {

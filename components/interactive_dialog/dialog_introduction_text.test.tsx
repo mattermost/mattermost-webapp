@@ -6,7 +6,7 @@ import {mount} from 'enzyme';
 
 import EmojiMap from 'utils/emoji_map';
 
-import DialogIntroductionText from './dialog_introduction_text.jsx';
+import DialogIntroductionText from './dialog_introduction_text';
 
 describe('components/DialogIntroductionText', () => {
     const emojiMap = new EmojiMap(new Map());
