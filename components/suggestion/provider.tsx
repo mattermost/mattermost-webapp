@@ -10,10 +10,15 @@ export type ProviderResult = {
 
 export default class Provider {
     latestPrefix: string;
+
     latestComplete: boolean;
+
     disableDispatches: boolean;
+
     requestStarted: boolean;
+
     forceDispatch: boolean;
+
     constructor() {
         this.latestPrefix = '';
         this.latestComplete = true;
@@ -23,7 +28,7 @@ export default class Provider {
     }
 
     // eslint-disable-next-line
-    handlePretextChanged(pretext: string, callback: (res: ProviderResult) => void) { // eslint-disable-line no-unused-vars
+    handlePretextChanged(pretext: string, callback: (res: ProviderResult) => void) {
         // NO-OP for inherited classes to override
     }
 
