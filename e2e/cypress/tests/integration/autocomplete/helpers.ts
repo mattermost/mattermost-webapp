@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {AdminConfig} from '@mattermost/types/lib/config';
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
@@ -20,6 +22,13 @@ export {
     verifySuggestionAtPostTextbox,
 };
 
+type UserInfo = {
+    username: string;
+    firstName: string;
+    lastName: string;
+    nickname: string;
+};
+
 function createPrivateChannel(teamId, userToAdd = null) {
     // # Create a private channel as sysadmin
     return createChannel('P', teamId, userToAdd);
@@ -31,13 +40,13 @@ function createPublicChannel(teamId, userToAdd = null) {
 }
 
 function createSearchData(prefix) {
-    return cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+    return cy.apiCreateCustomAdmin({loginAfter: true, hideAdminTrialModal: true}).then(({sysadmin}) => {
         const users = getTestUsers(prefix);
 
         cy.apiLogin(sysadmin);
 
         // # Create new team for tests
-        return cy.apiCreateTeam('search', 'Search').then(({team}) => {
+        return cy.apiCreateTeam('search', 'Search').then((team) => {
             // # Create pool of users for tests
             Cypress._.forEach(users, (testUser) => {
                 cy.apiCreateUser({user: testUser}).then(({user}) => {
@@ -59,7 +68,7 @@ function enableElasticSearch() {
             EnableSearching: true,
             Sniff: false,
         },
-    });
+    } as AdminConfig);
 
     // # Navigate to the elastic search setting page
     cy.visit('/admin_console/environment/elasticsearch');
@@ -257,7 +266,7 @@ function createChannel(channelType, teamId, userToAdd = null) {
     }).then(({data: channel}) => {
         if (userToAdd) {
             // # Get user profile by email
-            return cy.apiGetUserByEmail(userToAdd.email).then(({user}) => {
+            return cy.apiGetUserByEmail(userToAdd.email).then((user) => {
                 // # Add user to team
                 cy.externalRequest({
                     user: getAdminAccount(),
@@ -278,7 +287,7 @@ function createChannel(channelType, teamId, userToAdd = null) {
     });
 }
 
-function generatePrefixedUser(user = {}, prefix) {
+function generatePrefixedUser(user: UserInfo, prefix) {
     return {
         username: withPrefix(user.username, prefix),
         password: 'passwd',
