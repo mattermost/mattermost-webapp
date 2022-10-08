@@ -10,18 +10,20 @@
 // Stage: @prod
 // Group: @account_setting
 
+import {UserProfile} from '@mattermost/types/lib/users';
+
 import {getRandomId} from '../../../utils';
 
 describe('Profile > Profile Settings> Full Name', () => {
-    let firstUser;
-    let secondUser;
+    let firstUser: UserProfile;
+    let secondUser: UserProfile;
     const firstName = 'This Is a Long Name';
     const lastName = 'That Should Truncate';
 
     before(() => {
         cy.apiInitSetup().then(({team, user, offTopicUrl}) => {
             firstUser = user;
-            cy.apiCreateUser().then(({user: user1}) => {
+            cy.apiCreateUser({}).then(({user: user1}) => {
                 secondUser = user1;
                 cy.apiAddUserToTeam(team.id, secondUser.id);
 
