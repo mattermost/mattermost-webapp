@@ -10,6 +10,9 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
+import {set} from 'lodash';
+import {UserProfile} from '@mattermost/types/lib/users';
+
 describe('Group Synced Team - Bot invitation flow', () => {
     let groupConstrainedTeam;
     let bot;
@@ -19,7 +22,10 @@ describe('Group Synced Team - Bot invitation flow', () => {
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // # Enable LDAP
-        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+        cy.apiGetConfig().then(({config}) => {
+            set(config, 'LdapSettings.Enable', true);
+            cy.apiUpdateConfig(config);
+        });
 
         // # Get the first group constrained team available on the server
         cy.apiGetAllTeams().then(({teams}) => {
@@ -43,7 +49,12 @@ describe('Group Synced Team - Bot invitation flow', () => {
 
         // # Logout sysadmin and login as an LDAP Group synced user
         cy.apiLogout();
-        cy.apiLogin({username: 'test.one', password: 'Password1'});
+
+        const user = {
+            username: 'test.one',
+            password: 'Password1',
+        } as UserProfile;
+        cy.apiLogin(user);
 
         // # Visit the group constrained team
         cy.visit(`/${groupConstrainedTeam.name}`);

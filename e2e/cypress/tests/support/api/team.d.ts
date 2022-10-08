@@ -111,7 +111,7 @@ declare namespace Cypress {
          *       // do something with teams
          *   });
          */
-        apiGetAllTeams(queryParams: Record<string, any>): Chainable<Team[]>;
+        apiGetAllTeams(queryParams?: Record<string, any>): Chainable<{teams: Team[]}>;
 
         /**
          * Get a list of teams that a user is on.

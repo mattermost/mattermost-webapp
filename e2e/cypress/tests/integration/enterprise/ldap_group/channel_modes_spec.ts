@@ -9,6 +9,7 @@
 
 // Stage: @prod
 // Group: @enterprise @ldap_group
+import {set} from 'lodash';
 
 describe('LDAP Group Sync - Test channel public/private toggle', () => {
     let testTeam;
@@ -18,7 +19,10 @@ describe('LDAP Group Sync - Test channel public/private toggle', () => {
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP and LDAP group sync
-        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
+        cy.apiGetConfig().then(({config}) => {
+            set(config, 'LdapSettings.Enable', true);
+            cy.apiUpdateConfig(config);
+        });
 
         // # Test LDAP configuration and server connection
         // # Synchronize user attributes
