@@ -266,7 +266,7 @@ function createChannel(channelType, teamId, userToAdd = null) {
     }).then(({data: channel}) => {
         if (userToAdd) {
             // # Get user profile by email
-            return cy.apiGetUserByEmail(userToAdd.email).then((user) => {
+            return cy.apiGetUserByEmail(userToAdd.email).then(({user}) => {
                 // # Add user to team
                 cy.externalRequest({
                     user: getAdminAccount(),
