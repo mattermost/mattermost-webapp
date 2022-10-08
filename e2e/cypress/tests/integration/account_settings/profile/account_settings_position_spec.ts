@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @account_setting
+// Group: @account_setting2
 
 describe('Profile > Profile Settings > Position', () => {
     beforeEach(() => {
@@ -59,7 +59,7 @@ describe('Profile > Profile Settings > Position', () => {
             maxPositionInput().should('not.exist');
 
             minPositionHeader().click();
-            maxPositionInput().invoke('val').then((val) => {
+            maxPositionInput().invoke('val').then((val: string) => {
                 // * Verify that the input value is 128 characters
                 expect(val.length).to.equal(128);
             });
