@@ -1901,6 +1901,7 @@ export const ConsolePages = {
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
     WEB_SERVER: '/admin_console/environment/web_server',
     PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
+    SMTP: '/admin_console/environment/smtp',
 };
 
 export const WindowSizes = {
