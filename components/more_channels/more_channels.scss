@@ -131,3 +131,20 @@
   line-height: 16px;
   }
 }
+
+#moreChannelsList {
+  .primary-message {
+    line-height: 28px;
+    color: var(--center-channel-text);
+  }
+
+  .secondary-message {
+    margin-bottom: 30px;
+  }
+
+  .primaryButton {
+    border-radius: 4px;
+    background-color: var(--denim-button-bg);
+    color: var(--button-color);
+}
+}

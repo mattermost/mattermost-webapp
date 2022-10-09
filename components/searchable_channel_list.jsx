@@ -230,7 +230,10 @@ export default class SearchableChannelList extends React.PureComponent {
                         <FormattedMessage
                             id='more_channels.noMore'
                             tagName='strong'
-                            defaultMessage='No more channels to join'
+                            defaultMessage='No results for {text}'
+                            values={{
+                                text: this.filter.current.value,
+                            }}
                         />
                     </h3>
                     {this.props.noResultsText}

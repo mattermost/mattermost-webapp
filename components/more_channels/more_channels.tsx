@@ -4,6 +4,8 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import classNames from 'classnames';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {Channel, ChannelMembership, ChannelStats} from '@mattermost/types/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
@@ -235,36 +237,38 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 <div className='form-group has-error'><label className='control-label'>{serverErrorState}</label></div>;
         }
 
-        const createNewChannelButton = (
-            <TeamPermissionGate
-                teamId={teamId}
-                permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
-            >
-                <button
-                    type='button'
-                    className='btn outlineButton'
-                    onClick={this.handleNewChannel}
+        const createNewChannelButton = (className: string, icon?: JSX.Element) => {
+            const buttonClassName = classNames('btn', className);
+            return (
+                <TeamPermissionGate
+                    teamId={teamId}
+                    permissions={[Permissions.CREATE_PUBLIC_CHANNEL]}
                 >
-                    <FormattedMessage
-                        id='more_channels.create'
-                        defaultMessage='Create New Channel'
-                    />
-                </button>
-            </TeamPermissionGate>
-        );
+                    <button
+                        type='button'
+                        className={buttonClassName}
+                        onClick={this.handleNewChannel}
+                    >
+                        {icon}
+                        <FormattedMessage
+                            id='more_channels.create'
+                            defaultMessage='Create New Channel'
+                        />
+                    </button>
+                </TeamPermissionGate>
+            );
+        };
 
         const createChannelHelpText = (
-            <TeamPermissionGate
-                teamId={teamId}
-                permissions={[Permissions.CREATE_PUBLIC_CHANNEL, Permissions.CREATE_PRIVATE_CHANNEL]}
-            >
+            <>
                 <p className='secondary-message'>
                     <FormattedMessage
-                        id='more_channels.createClick'
-                        defaultMessage="Click 'Create New Channel' to make a new one"
+                        id='more_channels.searchError'
+                        defaultMessage='Try searching different keywords, checking for typos or adjusting the filters.'
                     />
                 </p>
-            </TeamPermissionGate>
+                {createNewChannelButton('primaryButton', <i className='icon-plus'/>)}
+            </>
         );
 
         const body = this.state.loading ? <LoadingScreen/> : (
@@ -304,7 +308,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 id='moreChannelsModal'
                 aria-labelledby='moreChannelsModalLabel'
                 modalHeaderText={title}
-                headerButton={createNewChannelButton}
+                headerButton={createNewChannelButton('outlineButton')}
             >
                 {body}
             </GenericModal>
