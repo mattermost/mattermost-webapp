@@ -5,12 +5,16 @@ import React from 'react';
 import * as Utils from 'utils/utils';
 import AtMentionSuggestion from 'components/suggestion/at_mention_provider/at_mention_suggestion.jsx';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import {TestHelper} from 'utils/test_helper';
 
 jest.mock('components/custom_status/custom_status_emoji', () => () => <div/>);
 jest.spyOn(Utils, 'getFullName').mockReturnValue('a b');
 
 describe('at mention suggestion', () => {
+    const mockUser = TestHelper.getUserMock();
+
     const userid1 = {
+        ...mockUser,
         id: 'userid1',
         username: 'user',
         first_name: 'a',
@@ -20,6 +24,7 @@ describe('at mention suggestion', () => {
     };
 
     const userid2 = {
+        ...mockUser,
         id: 'userid2',
         username: 'user2',
         first_name: 'a',

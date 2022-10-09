@@ -68,16 +68,15 @@ function itemToName(item: Channel, currentUser: string): {icon: React.ReactEleme
 
 export default class SearchChannelSuggestion extends Suggestion {
     render(): JSX.Element {
-        const {item, isSelection, teammate, currentUser} = this.props;
+        const {isSelection, teammate, currentUser} = this.props;
+        const item = this.props.item as Channel;
 
         let className = 'suggestion-list__item';
         if (isSelection) {
             className += ' suggestion--selected';
         }
-        let nameObject = null;
-        if (currentUser) {
-            nameObject = itemToName(item, currentUser);
-        }
+
+        const nameObject = itemToName(item, currentUser as string);
         if (!nameObject) {
             return (<></>);
         }
