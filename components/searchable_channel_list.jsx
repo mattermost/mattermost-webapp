@@ -32,11 +32,7 @@ import Menu from './widgets/menu/menu';
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 // 1. todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
-// 2. todo sinan For channels that have been archived, The hover state again should be to view the channel, since they cannot join. You should change the joinHandle logic. For view make only View and not join
-// 4. todo sinan pass only one channel list which is channelsInCurrentTeam
 // 5. todo sinan change empty page with pictures etc.
-// 6. todo sinan add hide joined checkbox
-// 7. todo sinan When typing a channel name that matches one a user has already joined, we should show it as joined rather than not show it at all: try searching town
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};

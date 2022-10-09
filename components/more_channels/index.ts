@@ -29,11 +29,17 @@ const getArchivedOtherChannels = createSelector(
     (channels: Channel[]) => channels && channels.filter((c) => c.delete_at !== 0),
 );
 
+const getChannelsWithoutArchived = createSelector(
+    'getArchivedOtherChannels',
+    getChannelsInCurrentTeam,
+    (channels: Channel[]) => channels && channels.filter((c) => c.delete_at === 0),
+);
+
 function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state) || {};
 
     return {
-        channels: getChannelsInCurrentTeam(state) || [], // todo convert this to channels with joined with
+        channels: getChannelsWithoutArchived(state) || [],
         archivedChannels: getArchivedOtherChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,

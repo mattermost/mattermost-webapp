@@ -127,9 +127,13 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
 
     handleJoin = async (channel: Channel, done: () => void) => {
         const {actions, currentUserId, teamId, teamName} = this.props;
-        const result = await actions.joinChannel(currentUserId, teamId, channel.id);
+        let result;
 
-        if (result.error) {
+        if (!this.isMemberOfChannel(channel.id)) {
+            result = await actions.joinChannel(currentUserId, teamId, channel.id);
+        }
+
+        if (result?.error) {
             this.setState({serverError: result.error.message});
         } else {
             browserHistory.push(getRelativeChannelURL(teamName, channel.name));
