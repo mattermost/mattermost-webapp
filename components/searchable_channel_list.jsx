@@ -17,6 +17,7 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
+import MagnifyingGlassSVG from 'components/common/svg_images_components/magnifying_glass_svg';
 
 import BrowserStore from 'stores/browser_store';
 
@@ -32,7 +33,6 @@ import Menu from './widgets/menu/menu';
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 // 1. todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
-// 5. todo sinan change empty page with pictures etc.
 // 6. todo sinan write tests
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
@@ -226,6 +226,7 @@ export default class SearchableChannelList extends React.PureComponent {
         } else if (channels.length === 0) {
             listContent = (
                 <div className='no-channel-message'>
+                    <MagnifyingGlassSVG/>
                     <h3 className='primary-message'>
                         <FormattedMessage
                             id='more_channels.noMore'
