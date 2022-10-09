@@ -23,7 +23,7 @@ import ToastWrapper from './toast_wrapper';
 interface OwnProps {
     atLatestPost?: boolean;
     channelId: string;
-};
+}
 
 export function makeGetRootPosts() {
     return createSelector(
