@@ -3,8 +3,6 @@
 
 import React from 'react';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider';
-
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
@@ -12,6 +10,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';

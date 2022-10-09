@@ -5,9 +5,9 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
+import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
-import MenuActionProvider from 'components/suggestion/menu_action_provider';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
