@@ -81,6 +81,8 @@ describe('components/MoreChannels', () => {
         teamName: 'team_name',
         channelsRequestStarted: false,
         canShowArchivedChannels: true,
+        myChannelMemberships: {},
+        allChannelStats: {},
         actions: {
             getChannels: jest.fn(),
             getArchivedChannels: jest.fn(),
@@ -88,6 +90,7 @@ describe('components/MoreChannels', () => {
             searchMoreChannels: jest.fn(channelActions.searchMoreChannels),
             openModal: jest.fn(),
             closeModal: jest.fn(),
+            getChannelStats: jest.fn(),
         },
     };
 
@@ -98,7 +101,6 @@ describe('components/MoreChannels', () => {
 
         expect(wrapper).toMatchSnapshot();
         expect(wrapper.state('searchedChannels')).toEqual([]);
-        expect(wrapper.state('show')).toEqual(true);
         expect(wrapper.state('shouldShowArchivedChannels')).toEqual(false);
         expect(wrapper.state('search')).toEqual(false);
         expect(wrapper.state('serverError')).toBeNull();
@@ -107,16 +109,6 @@ describe('components/MoreChannels', () => {
         // on componentDidMount
         expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledTimes(1);
         expect(wrapper.instance().props.actions.getChannels).toHaveBeenCalledWith(wrapper.instance().props.teamId, 0, 100);
-    });
-
-    test('should match state on handleHide', () => {
-        const wrapper = shallow<MoreChannels>(
-            <MoreChannels {...baseProps}/>,
-        );
-        wrapper.setState({show: true});
-
-        wrapper.instance().handleHide();
-        expect(wrapper.state('show')).toEqual(false);
     });
 
     test('should call closeModal on handleExit', () => {
@@ -220,7 +212,6 @@ describe('components/MoreChannels', () => {
         process.nextTick(() => {
             expect(browserHistory.push).toHaveBeenCalledTimes(1);
             expect(callback).toHaveBeenCalledTimes(1);
-            expect(wrapper.state('show')).toEqual(false);
             done();
         });
     });
@@ -258,7 +249,7 @@ describe('components/MoreChannels', () => {
 
         jest.runOnlyPendingTimers();
         expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false);
+        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('fail', false, false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
@@ -285,7 +276,7 @@ describe('components/MoreChannels', () => {
 
         jest.runOnlyPendingTimers();
         expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false);
+        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', false, false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);
@@ -312,7 +303,7 @@ describe('components/MoreChannels', () => {
 
         jest.runOnlyPendingTimers();
         expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledTimes(1);
-        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true);
+        expect(wrapper.instance().props.actions.searchMoreChannels).toHaveBeenCalledWith('channel', true, false);
         process.nextTick(() => {
             expect(wrapper.state('search')).toEqual(true);
             expect(wrapper.state('searching')).toEqual(false);

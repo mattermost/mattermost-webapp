@@ -189,7 +189,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
     }
 
     isMemberOfChannel(channelId: string) {
-        return this.props.myChannelMemberships.hasOwnProperty(channelId);
+        return this.props.myChannelMemberships[channelId];
     }
 
     handleShowJoinedChannelsPreference = (shouldHideJoinedChannels: boolean) => {
@@ -281,9 +281,9 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     toggleArchivedChannels={this.toggleArchivedChannels}
                     shouldShowArchivedChannels={this.state.shouldShowArchivedChannels}
                     canShowArchivedChannels={this.props.canShowArchivedChannels}
-                    myChannelMemberships={this.props.myChannelMemberships} // todo sinan refactor to receive it directly from index
-                    allChannelStats={this.props.allChannelStats} // todo sinan refactor to receive it directly from index
-                    closeModal={this.props.actions.closeModal} // todo sinan refactor to receive it directly from index
+                    myChannelMemberships={this.props.myChannelMemberships}
+                    allChannelStats={this.props.allChannelStats}
+                    closeModal={this.props.actions.closeModal}
                     hideJoinedChannelsPreference={this.handleShowJoinedChannelsPreference}
                 />
                 {serverError}

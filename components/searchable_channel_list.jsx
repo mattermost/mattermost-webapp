@@ -33,6 +33,7 @@ const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
 // 1. todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
 // 5. todo sinan change empty page with pictures etc.
+// 6. todo sinan write tests
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
@@ -75,16 +76,15 @@ export default class SearchableChannelList extends React.PureComponent {
     }
 
     isMemberOfChannel(channelId) {
-        return this.props.myChannelMemberships.hasOwnProperty(channelId);
+        return this.props.myChannelMemberships[channelId];
     }
 
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
         let channelIcon;
-        const {shouldShowArchivedChannels} = this.props; // remove from props
 
         let memberCount = 0;
-        if (this.props.allChannelStats.hasOwnProperty(channel.id)) {
+        if (this.props.allChannelStats[channel.id]) {
             memberCount = this.props.allChannelStats[channel.id].member_count;
         }
 

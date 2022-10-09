@@ -817,8 +817,8 @@ export const StoragePrefixes = {
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
     INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
-    HIDE_JOINED_CHANNELS: 'hideJoinedChannels'
     DELINQUENCY: 'delinquency_',
+    HIDE_JOINED_CHANNELS: 'hideJoinedChannels',
 };
 
 export const LandingPreferenceTypes = {
