@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {AdminConfig} from '@mattermost/types/lib/config';
+
 import {getAdminAccount} from '../../../support/env';
 
 // ***************************************************************
@@ -44,7 +46,8 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 ExtendSessionLengthWithActivity: true,
                 SessionLengthWebInHours: 1,
             },
-        };
+        } as AdminConfig;
+
         cy.apiUpdateConfig(setting);
 
         // # Login as test user and go to town-square channel
@@ -54,9 +57,9 @@ describe('MM-T2575 Extend Session - Email Login', () => {
         // # Get active user sessions as baseline reference
         cy.dbGetActiveUserSessions({username: testUser.username}).then(({sessions: initialSessions}) => {
             // Post a message to a channel
-            cy.postMessage(Date.now());
+            cy.postMessage(`${Date.now()}`);
 
-            const expiredSession = parseDateTime(initialSessions[0].createat, 10) + 1;
+            const expiredSession = parseDateTime(initialSessions[0].createat) + 1;
 
             // # Update user with expired session
             cy.dbUpdateUserSession({
@@ -126,7 +129,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     ExtendSessionLengthWithActivity: true,
                     SessionLengthWebInHours: testCase.sessionLengthInHours,
                 },
-            };
+            } as AdminConfig;
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
@@ -138,7 +141,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 const initialSession = initialSessions[0];
 
                 // Post a message to a channel
-                cy.postMessage(Date.now());
+                cy.postMessage(`${Date.now()}`);
 
                 // Elapsed time of 0.9% or a bit below 1.00%
                 const elapsedBelowThreshold = parseDateTime(initialSession.expiresat) - (testCase.sessionLengthInHours * oneDay * 0.0004);
@@ -180,7 +183,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     ExtendSessionLengthWithActivity: true,
                     SessionLengthWebInHours: testCase.sessionLengthInHours,
                 },
-            };
+            } as AdminConfig;
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
@@ -192,7 +195,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 const initialSession = initialSessions[0];
 
                 // Post a message to a channel
-                cy.postMessage(Date.now());
+                cy.postMessage(`${Date.now()}`);
 
                 // Elapsed time of 1.1% or a bit above 1.00%
                 const elapsedAboveThreshold = parseDateTime(initialSession.expiresat) - (testCase.sessionLengthInHours * oneDay * 0.011);
@@ -227,7 +230,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
         });
     });
 
-    function parseDateTime(value) {
+    function parseDateTime(value: string) {
         return parseInt(value, 10);
     }
 });
