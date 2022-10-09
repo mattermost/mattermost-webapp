@@ -1,150 +1,153 @@
 @charset 'UTF-8';
 
 #moreChannelsModal {
-  .col-sm-12 {
-    padding: 0 32px;
-  }
-
-  .more-modal__dropdown {
-    padding: 0 32px;
-    min-height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 6px;
-
-    span {
-      color: rgba(var(--center-channel-text-rgb), 0.64);
-      font-size: 11px;
-      line-height: 16px;
+    .col-sm-12 {
+        padding: 0 32px;
     }
 
-    #channelCountLabel {
-      color: var(--center-channel-text);
-      font-size: 12px;
-      font-weight: 400;
-    }
-  }
+    .more-modal__dropdown {
+        display: flex;
+        min-height: 32px;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 32px;
+        margin-top: 10px;
+        margin-bottom: 6px;
 
-  .modal-body {
-    padding: 15px 0 0;
-    
-    .more-modal__row {
-      padding: 0 32px;
-      border-bottom: none;
-
-      .more-modal__details {
-        padding-left: 0px;
-
-        svg {
-          color: rgba(var(--center-channel-text-rgb), 0.56);
-          flex-shrink: 0;
+        span {
+            color: rgba(var(--center-channel-text-rgb), 0.64);
+            font-size: 11px;
+            line-height: 16px;
         }
 
-        .more-modal__name {
-          align-items: center;
-        }
-
-        #channelPurposeContainer {
-          display:flex;
-          align-items: center;
-          justify-content: flex-start;
-
-          .dot {
-            width: 3px;
-            height: 3px;
-            border-radius: 50%;
-            background-color: rgba(var(--center-channel-text-rgb), 0.56);
-            flex-shrink: 0;
-          }
-
-          .more-modal__description {
-            margin-left: 4px;
-          }
-
-          #membershipIndicatorContainer {
-            display: flex;
-            align-items: center;
-            
-            span, svg {
-              color: var(--online-indicator);
-            }
-          }
-
-          span {
-            color: rgba(var(--center-channel-text-rgb), 0.56);
+        #channelCountLabel {
+            color: var(--center-channel-text);
             font-size: 12px;
-            line-height: 12px;
-            opacity: 1;
-            margin: 0 4px;
-          }
-        }
-      }
-
-      .more-modal__actions {
-        .primaryButton {
-          display: none;
-          padding: 7px 16px;
-          border-radius: 4px;
-          background-color: var(--denim-button-bg);
-          color: var(--button-color);
-        }
-        .outlineButton {
-          display: none;
-          background-color: rgba(var(--center-channel-text-rgb), 0.08);
-        }
-      }
-    }
-
-    .more-modal__row:hover {
-      background-color: rgba(var(--center-channel-text-rgb), 0.08);
-
-      .more-modal__actions {
-          .primaryButton, .outlineButton {
-            display: inline-block;
-          }
+            font-weight: 400;
         }
     }
 
-    ::-webkit-scrollbar {
-      width: 4px;
+    .modal-body {
+        padding: 15px 0 0;
+
+        .more-modal__row {
+            padding: 0 32px;
+            border-bottom: none;
+
+            .more-modal__details {
+                padding-left: 0;
+
+                svg {
+                    flex-shrink: 0;
+                    color: rgba(var(--center-channel-text-rgb), 0.56);
+                }
+
+                .more-modal__name {
+                    align-items: center;
+                }
+
+                #channelPurposeContainer {
+                    display: flex;
+                    align-items: center;
+                    justify-content: flex-start;
+
+                    .dot {
+                        width: 3px;
+                        height: 3px;
+                        flex-shrink: 0;
+                        background-color: rgba(var(--center-channel-text-rgb), 0.56);
+                        border-radius: 50%;
+                    }
+
+                    .more-modal__description {
+                        margin-left: 4px;
+                    }
+
+                    #membershipIndicatorContainer {
+                        display: flex;
+                        align-items: center;
+
+                        span,
+                        svg {
+                            color: var(--online-indicator);
+                        }
+                    }
+
+                    span {
+                        margin: 0 4px;
+                        color: rgba(var(--center-channel-text-rgb), 0.56);
+                        font-size: 12px;
+                        line-height: 12px;
+                        opacity: 1;
+                    }
+                }
+            }
+
+            .more-modal__actions {
+                .primaryButton {
+                    display: none;
+                    padding: 7px 16px;
+                    background-color: var(--denim-button-bg);
+                    border-radius: 4px;
+                    color: var(--button-color);
+                }
+
+                .outlineButton {
+                    display: none;
+                    background-color: rgba(var(--center-channel-text-rgb), 0.08);
+                }
+            }
+        }
+
+        .more-modal__row:hover {
+            background-color: rgba(var(--center-channel-text-rgb), 0.08);
+
+            .more-modal__actions {
+                .primaryButton,
+                .outlineButton {
+                    display: inline-block;
+                }
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: none;
+        }
     }
 
-    ::-webkit-scrollbar-track {
-      background: none;
+    #searchChannelsTextbox {
+        height: 48px;
+        border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
     }
-  }
 
-  #searchChannelsTextbox {
-    height: 48px;
-    border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
-  }
-
-  .outlineButton {
-  background-color: var(--center-channel-bg);
-  border: 1px solid var(--denim-button-bg);
-  border-radius: 4px;
-  color: var(--denim-button-bg);
-  font-size: 12px;
-  font-weight: 600;
-  line-height: 16px;
-  }
+    .outlineButton {
+        border: 1px solid var(--denim-button-bg);
+        background-color: var(--center-channel-bg);
+        border-radius: 4px;
+        color: var(--denim-button-bg);
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 16px;
+    }
 }
 
 #moreChannelsList {
-  .primary-message {
-    line-height: 28px;
-    color: var(--center-channel-text);
-  }
+    .primary-message {
+        color: var(--center-channel-text);
+        line-height: 28px;
+    }
 
-  .secondary-message {
-    margin-bottom: 30px;
-  }
+    .secondary-message {
+        margin-bottom: 30px;
+    }
 
-  .primaryButton {
-    border-radius: 4px;
-    background-color: var(--denim-button-bg);
-    color: var(--button-color);
-}
+    .primaryButton {
+        background-color: var(--denim-button-bg);
+        border-radius: 4px;
+        color: var(--button-color);
+    }
 }

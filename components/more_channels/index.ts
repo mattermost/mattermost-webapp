@@ -23,16 +23,16 @@ import {GlobalState} from 'types/store';
 
 import MoreChannels from './more_channels';
 
+const getChannelsWithoutArchived = createSelector(
+    'getChannelsWithoutArchived',
+    getChannelsInCurrentTeam,
+    (channels: Channel[]) => channels && channels.filter((c) => c.delete_at === 0),
+);
+
 const getArchivedOtherChannels = createSelector(
     'getArchivedOtherChannels',
     getChannelsInCurrentTeam,
     (channels: Channel[]) => channels && channels.filter((c) => c.delete_at !== 0),
-);
-
-const getChannelsWithoutArchived = createSelector(
-    'getArchivedOtherChannels',
-    getChannelsInCurrentTeam,
-    (channels: Channel[]) => channels && channels.filter((c) => c.delete_at === 0),
 );
 
 function mapStateToProps(state: GlobalState) {
