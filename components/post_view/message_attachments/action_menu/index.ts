@@ -5,12 +5,12 @@ import {connect, ConnectedProps} from 'react-redux';
 
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
+import {PostAction} from '@mattermost/types/integration_actions';
+
 import {GlobalState} from 'types/store';
 import {autocompleteChannels} from 'actions/channel_actions';
 import {autocompleteUsers} from 'actions/user_actions';
 import {selectAttachmentMenuAction} from 'actions/views/posts';
-
-import {PostAction} from '@mattermost/types/integration_actions';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 

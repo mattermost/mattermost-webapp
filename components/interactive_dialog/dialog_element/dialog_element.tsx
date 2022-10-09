@@ -14,13 +14,10 @@ import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
-
-import Provider from 'components/suggestion/provider';
-
 import {ActionFunc} from 'mattermost-redux/types/actions';
-
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
+import Provider from 'components/suggestion/provider';
 
 import {ServerError} from '@mattermost/types/errors';
 
@@ -46,7 +43,7 @@ type Props = {
     onChange: (name: string, selected: string) => void;
     autoFocus?: boolean;
     actions: {
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void) => ActionFunc;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;
     };
 }

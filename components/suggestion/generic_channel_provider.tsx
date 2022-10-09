@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import React from 'react';
 
 import Provider from './provider.jsx';
 import Suggestion from './suggestion.jsx';
@@ -17,6 +18,7 @@ export type Results = {
 }
 
 type ResultsCallback = (results: Results) => void;
+type ChannelSearchFunc = (term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void) => ActionFunc;
 
 class ChannelSuggestion extends Suggestion {
     render() {
@@ -65,8 +67,8 @@ class ChannelSuggestion extends Suggestion {
 }
 
 export default class ChannelProvider extends Provider {
-    autocompleteChannels: any;
-    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc) {
+    autocompleteChannels: ChannelSearchFunc;
+    constructor(channelSearchFunc: ChannelSearchFunc) {
         super();
 
         this.autocompleteChannels = channelSearchFunc;

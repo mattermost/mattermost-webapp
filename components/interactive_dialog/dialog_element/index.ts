@@ -18,7 +18,7 @@ import {ServerError} from '@mattermost/types/errors';
 import DialogElement from './dialog_element';
 
 type Actions = {
-    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
+    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void) => ActionFunc;
     autocompleteUsers: (search: string) => Promise<UserProfile[]>;
 };
 

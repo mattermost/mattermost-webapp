@@ -3,15 +3,14 @@
 
 import React from 'react';
 
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+
 import MenuActionProvider from 'components/suggestion/menu_action_provider';
 import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import PostContext from 'components/post_view/post_context';
-
-import {Channel} from '@mattermost/types/channels';
-
-import {UserProfile} from '@mattermost/types/users';
 
 import {PostAction} from '@mattermost/types/integration_actions';
 import {ServerError} from '@mattermost/types/errors';
@@ -35,7 +34,7 @@ export type Props = {
         selectAttachmentMenuAction: (postId: any, actionId: any, cookie: any, dataSource: any, text: any, value: any) => (dispatch: any) => Promise<{
             data: boolean;
         }>;
-        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
+        autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error?: (err: ServerError) => void) => ActionFunc;
         autocompleteUsers: (search: string) => Promise<UserProfile[]>;
     };
 }
