@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect, ConnectedProps} from 'react-redux';
+import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 import {withRouter} from 'react-router-dom';
 
@@ -20,7 +20,7 @@ import {updateToastStatus} from 'actions/views/channel';
 
 import ToastWrapper from './toast_wrapper';
 
-export type OwnProps = {
+interface OwnProps {
     atLatestPost?: boolean;
     channelId: string;
 };
@@ -52,8 +52,8 @@ export function makeCountUnreadsBelow() {
         'makeCountUnreadsBelow',
         getAllPosts,
         getCurrentUserId,
-        (state: GlobalState, postIds?: string[] | null) => postIds,
-        (state: GlobalState, postIds: string[] | null | undefined, lastViewedBottom: number) => lastViewedBottom,
+        (state: GlobalState, postIds: string[]) => postIds,
+        (state: GlobalState, postIds, lastViewedBottom: number) => lastViewedBottom,
         isCollapsedThreadsEnabled,
         (allPosts, currentUserId, postIds, lastViewedBottom, isCollapsed) => {
             if (!postIds) {
@@ -92,7 +92,7 @@ function makeMapStateToProps() {
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId];
         const unreadScrollPosition = getUnreadScrollPositionPreference(state);
         if (!ownProps.atLatestPost) {
-            let postIds = getPostIdsInChannel(state, ownProps.channelId);
+            let postIds = getPostIdsInChannel(state, ownProps.channelId) || [];
             if (postIds) {
                 postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt});
             }
@@ -118,8 +118,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-const connector = connect(makeMapStateToProps, mapDispatchToProps);
-
-export type PropsFromRedux = ConnectedProps<typeof connector>;
-
-export default withRouter(connector(ToastWrapper));
+export default withRouter(connect(makeMapStateToProps, mapDispatchToProps)(ToastWrapper));

@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape, WrappedComponentProps} from 'react-intl';
 import {RouteComponentProps} from 'react-router-dom';
 
 import {Preferences} from 'mattermost-redux/constants';
@@ -18,15 +18,13 @@ import Timestamp, {RelativeRanges} from 'components/timestamp';
 import {SearchShortcut} from 'components/search_shortcut';
 import {HintToast} from 'components/hint-toast/hint_toast';
 
-import type {OwnProps, PropsFromRedux} from '.';
-
 const TOAST_TEXT_COLLAPSE_WIDTH = 500;
 
 const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
 ];
 
-export type Props = PropsFromRedux & OwnProps & WrappedComponentProps & RouteComponentProps<{team: string}> & {
+export type Props = WrappedComponentProps & RouteComponentProps<{team: string}> & {
     channelMarkedAsUnread?: boolean;
     postListIds: string[];
     latestPostTimeStamp?: number;
@@ -44,10 +42,22 @@ export type Props = PropsFromRedux & OwnProps & WrappedComponentProps & RouteCom
     onSearchHintDismiss: () => void;
     shouldStartFromBottomWhenUnread: boolean;
     isNewMessageLineReached: boolean;
+    rootPosts: Record<string, boolean>;
+    lastViewedAt: number;
+    newRecentMessagesCount: number;
+    unreadScrollPosition: string;
+    isCollapsedThreadsEnabled: boolean;
+    unreadCountInChannel: number;
+    atLatestPost?: boolean;
+    channelId: string;
+    intl: IntlShape;
+    actions: {
+        updateToastStatus: (status: boolean) => void;
+    };
 };
 
 type State = {
-    unreadCount?: number;
+    unreadCount: number;
     unreadCountInChannel: number;
     channelMarkedAsUnread?: boolean;
     lastViewedAt?: number;
@@ -67,11 +77,12 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
         super(props);
         this.state = {
             unreadCountInChannel: props.unreadCountInChannel,
+            unreadCount: 0,
         };
     }
 
-    static countNewMessages = (rootPosts: Record<string, boolean>, isCollapsedThreadsEnabled: boolean, postListIds?: string[]) => {
-        const mark = getNewMessageIndex(postListIds || []);
+    static countNewMessages = (rootPosts: Record<string, boolean>, isCollapsedThreadsEnabled: boolean, postListIds: string[] = []) => {
+        const mark = getNewMessageIndex(postListIds);
         if (mark <= 0) {
             return 0;
         }
@@ -103,7 +114,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
         }
 
         // show unread toast on mount when channel is not at bottom and unread count greater than 0
-        if (typeof showUnreadToast === 'undefined' && props.atBottom !== null && unreadCount) {
+        if (typeof showUnreadToast === 'undefined' && props.atBottom !== null) {
             showUnreadToast = unreadCount > 0 && !props.atBottom;
         }
 
@@ -122,7 +133,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
             showUnreadToast = true;
         }
 
-        if (!showUnreadToast && unreadCount && unreadCount > 0 && !props.atBottom && props.latestPostTimeStamp && (props.lastViewedBottom < props.latestPostTimeStamp)) {
+        if (!showUnreadToast && unreadCount > 0 && !props.atBottom && props.latestPostTimeStamp && (props.lastViewedBottom < props.latestPostTimeStamp)) {
             showNewMessagesToast = true;
         }
 
@@ -144,7 +155,6 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
             props.lastViewedAt &&
             props.lastViewedAt !== prevState.lastViewedAt &&
             props.shouldStartFromBottomWhenUnread &&
-            unreadCount &&
             unreadCount > 0 &&
             !props.isNewMessageLineReached
         ) {
@@ -376,7 +386,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
             showActions: !atLatestPost || (atLatestPost && !atBottom),
         };
 
-        if (showUnreadToast && unreadCount && unreadCount > 0) {
+        if (showUnreadToast && unreadCount > 0) {
             return (
                 <Toast {...unreadToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
@@ -394,7 +404,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
             jumpDirection: 'up' as const,
         };
 
-        if (showUnreadWithBottomStartToast && unreadCount && unreadCount > 0) {
+        if (showUnreadWithBottomStartToast && unreadCount > 0) {
             return (
                 <Toast {...unreadWithBottomStartToastProps}>
                     {this.newMessagesToastText(unreadCount, lastViewedAt)}
