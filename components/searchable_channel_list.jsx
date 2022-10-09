@@ -16,25 +16,27 @@ import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
+import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
+
+import BrowserStore from 'stores/browser_store';
 
 import {t} from 'utils/i18n';
 import * as UserAgent from 'utils/user_agent';
 import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
 import {isArchivedChannel} from 'utils/channel_utils';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 
 import MenuWrapper from './widgets/menu/menu_wrapper';
 import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-// todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
-// todo sinan For channels that have been archived, The hover state again should be to view the channel, since they cannot join. You should change the joinHandle logic. For view make only View and not join
-// todo sinan check next and prev buttons
-// todo sinan pass only one channel list which is channelsInCurrentTeam
-// todo sinan change empty page with pictures etc.
-// todo sinan add hide joined checkbox
-// todo sinan When typing a channel name that matches one a user has already joined, we should show it as joined rather than not show it at all: try searching town
+// 1. todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
+// 2. todo sinan For channels that have been archived, The hover state again should be to view the channel, since they cannot join. You should change the joinHandle logic. For view make only View and not join
+// 4. todo sinan pass only one channel list which is channelsInCurrentTeam
+// 5. todo sinan change empty page with pictures etc.
+// 6. todo sinan add hide joined checkbox
+// 7. todo sinan When typing a channel name that matches one a user has already joined, we should show it as joined rather than not show it at all: try searching town
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
@@ -49,6 +51,7 @@ export default class SearchableChannelList extends React.PureComponent {
             joiningChannel: '',
             page: 0,
             nextDisabled: false,
+            rememberChecked: BrowserStore.getItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false') === 'true',
         };
 
         this.filter = React.createRef();
@@ -107,9 +110,6 @@ export default class SearchableChannelList extends React.PureComponent {
                 <span className='dot'/>
             </div>
         ) : null;
-
-        console.log('purpose: ', channel.purpose)
-        console.log('purpose length: ', channel.purpose.length)
 
         const channelPurposeContainer = (
             <div id='channelPurposeContainer' >
@@ -189,11 +189,34 @@ export default class SearchableChannelList extends React.PureComponent {
             this.setState({page: 0});
         }
     }
+
     toggleArchivedChannelsOn = () => {
         this.props.toggleArchivedChannels(true);
     }
+
     toggleArchivedChannelsOff = () => {
         this.props.toggleArchivedChannels(false);
+    }
+
+    renderCheckboxIcon = () => {
+        if (this.state.rememberChecked) {
+            return (
+                <CheckboxCheckedIcon/>
+            );
+        }
+        return null;
+    };
+
+    handleChecked = () => {
+        // If it was checked, and now we're unchecking it, clear the preference
+        if (this.state.rememberChecked) {
+            BrowserStore.setItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false');
+            this.props.hideJoinedChannelsPreference(false);
+        } else {
+            BrowserStore.setItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'true');
+            this.props.hideJoinedChannelsPreference(true);
+        }
+        this.setState({rememberChecked: !this.state.rememberChecked});
     }
 
     render() {
@@ -317,6 +340,21 @@ export default class SearchableChannelList extends React.PureComponent {
             );
         }
 
+        const hideJoinedPreferenceCheckbox = (
+            <div className='d-flex align-items-center'>
+                <button
+                    className={`get-app__checkbox ${this.state.rememberChecked ? 'checked' : ''}`}
+                    onClick={this.handleChecked}
+                >
+                    {this.renderCheckboxIcon()}
+                </button>
+                <FormattedMessage
+                    id='more_channels.hide_joined'
+                    defaultMessage='Hide Joined'
+                />
+            </div>
+        );
+
         let channelCountLabel;
         if (channels.length === 0) {
             channelCountLabel = localizeMessage('more_channels.count_zero', '0 Channel');
@@ -332,6 +370,7 @@ export default class SearchableChannelList extends React.PureComponent {
             <div className='more-modal__dropdown'>
                 <span id='channelCountLabel'>{channelCountLabel}</span>
                 {channelDropdown}
+                {hideJoinedPreferenceCheckbox}
             </div>
         );
 
@@ -381,5 +420,6 @@ SearchableChannelList.propTypes = {
     myChannelMemberships: PropTypes.object.isRequired,
     allChannelStats: PropTypes.object.isRequired,
     closeModal: PropTypes.func.isRequired,
+    hideJoinedChannelsPreference: PropTypes.func.isRequired,
 };
 /* eslint-enable react/no-string-refs */

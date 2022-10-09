@@ -96,7 +96,7 @@ export function loadChannelsForCurrentUser(): ActionFunc {
     };
 }
 
-export function searchMoreChannels(term: string, showArchivedChannels: boolean): ActionFunc<Channel[], ServerError> {
+export function searchMoreChannels(term: string, showArchivedChannels: boolean, hideJoinedChannels: boolean): ActionFunc<Channel[], ServerError> {
     return async (dispatch, getState) => {
         const state = getState();
         const teamId = getCurrentTeamId(state);
@@ -108,9 +108,7 @@ export function searchMoreChannels(term: string, showArchivedChannels: boolean):
         const {data, error} = await dispatch(ChannelActions.searchChannels(teamId, term, showArchivedChannels));
         if (data) {
             const myMembers = getMyChannelMemberships(state);
-
-            // When searching public channels, only get channels user is not a member of
-            const channels = showArchivedChannels ? data : (data as Channel[]).filter((c) => !myMembers[c.id]);
+            const channels = hideJoinedChannels ? (data as Channel[]).filter((channel) => !myMembers[channel.id]) : data;
             return {data: channels};
         }
 

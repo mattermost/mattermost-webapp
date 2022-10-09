@@ -18,8 +18,10 @@ import LoadingScreen from 'components/loading_screen';
 
 import {ModalData} from 'types/actions';
 
+import BrowserStore from 'stores/browser_store';
+
 import {browserHistory} from 'utils/browser_history';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
 import './more_channels.scss';
@@ -32,7 +34,7 @@ type Actions = {
     getChannels: (teamId: string, page: number, perPage: number) => void;
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
     joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
-    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
+    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean, shouldHideJoinedChannels: boolean) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
     getChannelStats: (channelId: string) => void;
@@ -60,6 +62,7 @@ type State = {
     searching: boolean;
     searchTerm: string;
     loading: boolean;
+    shouldHideJoinedChannels: boolean;
 }
 
 export default class MoreChannels extends React.PureComponent<Props, State> {
@@ -78,6 +81,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             searching: false,
             searchTerm: '',
             loading: true,
+            shouldHideJoinedChannels: BrowserStore.getItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false') === 'true',
         };
     }
 
@@ -150,7 +154,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         const searchTimeoutId = window.setTimeout(
             async () => {
                 try {
-                    const {data} = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels);
+                    const {data} = await this.props.actions.searchMoreChannels(term, this.state.shouldShowArchivedChannels, this.state.shouldHideJoinedChannels);
                     if (searchTimeoutId !== this.searchTimeoutId) {
                         return;
                     }
@@ -180,6 +184,16 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         this.setState({shouldShowArchivedChannels});
     }
 
+    isMemberOfChannel(channelId: string) {
+        return this.props.myChannelMemberships.hasOwnProperty(channelId);
+    }
+
+    handleShowJoinedChannelsPreference = (shouldHideJoinedChannels: boolean) => {
+        // search again when switching channels to update search results
+        this.search(this.state.searchTerm);
+        this.setState({shouldHideJoinedChannels});
+    }
+
     render() {
         const {
             channels,
@@ -194,12 +208,19 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             serverError: serverErrorState,
             searching,
             shouldShowArchivedChannels,
+            shouldHideJoinedChannels,
         } = this.state;
 
         let activeChannels;
+        const otherChannelsWithoutJoined = channels.filter((channel) => !this.isMemberOfChannel(channel.id));
+        const archivedChannelsWithoutJoined = archivedChannels.filter((channel) => !this.isMemberOfChannel(channel.id));
 
-        if (shouldShowArchivedChannels) {
+        if (shouldShowArchivedChannels && shouldHideJoinedChannels) {
+            activeChannels = search ? searchedChannels : archivedChannelsWithoutJoined;
+        } else if (shouldShowArchivedChannels && !shouldHideJoinedChannels) {
             activeChannels = search ? searchedChannels : archivedChannels;
+        } else if (!shouldShowArchivedChannels && shouldHideJoinedChannels) {
+            activeChannels = search ? searchedChannels : otherChannelsWithoutJoined;
         } else {
             activeChannels = search ? searchedChannels : channels;
         }
@@ -259,6 +280,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     myChannelMemberships={this.props.myChannelMemberships} // todo sinan refactor to receive it directly from index
                     allChannelStats={this.props.allChannelStats} // todo sinan refactor to receive it directly from index
                     closeModal={this.props.actions.closeModal} // todo sinan refactor to receive it directly from index
+                    hideJoinedChannelsPreference={this.handleShowJoinedChannelsPreference}
                 />
                 {serverError}
             </React.Fragment>

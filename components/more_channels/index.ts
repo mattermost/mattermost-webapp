@@ -33,7 +33,7 @@ function mapStateToProps(state: GlobalState) {
     const team = getCurrentTeam(state) || {};
 
     return {
-        channels: getChannelsInCurrentTeam(state) || [],
+        channels: getChannelsInCurrentTeam(state) || [], // todo convert this to channels with joined with
         archivedChannels: getArchivedOtherChannels(state) || [],
         currentUserId: getCurrentUserId(state),
         teamId: team.id,
@@ -49,7 +49,7 @@ type Actions = {
     getChannels: (teamId: string, page: number, perPage: number) => void;
     getArchivedChannels: (teamId: string, page: number, channelsPerPage: number) => void;
     joinChannel: (currentUserId: string, teamId: string, channelId: string) => Promise<ActionResult>;
-    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean) => Promise<ActionResult>;
+    searchMoreChannels: (term: string, shouldShowArchivedChannels: boolean, shouldHideJoinedChannels: boolean) => Promise<ActionResult>;
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
     getChannelStats: (channelId: string) => void;
