@@ -131,7 +131,7 @@ export default class MarkdownImage extends React.PureComponent <Props, State> {
             this.props.postType === Constants.PostTypes.HEADER_CHANGE;
     }
 
-    componentDidUpdate(prevProps: any) {
+    componentDidUpdate(prevProps: Props) {
         this.onUpdated(prevProps.src);
     }
 
@@ -141,7 +141,7 @@ export default class MarkdownImage extends React.PureComponent <Props, State> {
         }
     }
 
-    handleImageLoaded = ({height, width}: any) => {
+    handleImageLoaded = ({height, width}: Record<string, number>): void => {
         this.setState({
             loaded: true,
         }, () => { // Call onImageLoaded prop only after state has already been set
