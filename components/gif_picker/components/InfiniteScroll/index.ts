@@ -2,36 +2,29 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import PropTypes from 'prop-types';
 
-export default class InfiniteScroll extends PureComponent {
-    static propTypes = {
-        children: PropTypes.array,
-        element: PropTypes.string,
-        hasMore: PropTypes.bool,
-        initialLoad: PropTypes.bool,
-        loader: PropTypes.object,
-        loadMore: PropTypes.func.isRequired,
-        pageStart: PropTypes.number,
-        threshold: PropTypes.number,
-        useWindow: PropTypes.bool,
-        isReverse: PropTypes.bool,
-        containerHeight: PropTypes.number,
-        scrollPosition: PropTypes.number,
-    }
+type Props = {
+    children: React.ReactNode;
+    element?: string;
+    hasMore?: boolean;
+    initialLoad?: boolean;
+    loader?: Record<string, unknown>;
+    loadMore: (loadMore: number) => void;
+    pageStart?: number;
+    threshold?: number;
+    useWindow?: boolean;
+    isReverse?: boolean;
+    containerHeight?: number;
+    scrollPosition?: number;
+    ref?: React.ReactNode;
+    className?: string;
+}
 
-    static defaultProps = {
-        element: 'div',
-        hasMore: false,
-        initialLoad: true,
-        pageStart: 0,
-        threshold: 250,
-        useWindow: true,
-        isReverse: false,
-        containerHeight: null,
-        scrollPosition: null,
-    }
-
+export default class InfiniteScroll extends PureComponent<Props> {
+    private pageLoaded: number | undefined;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    private scrollComponent: any;
+    private defaultLoader: Record<string, unknown> | undefined;
     componentDidMount() {
         this.pageLoaded = this.props.pageStart;
         this.attachScrollListener();
@@ -45,21 +38,28 @@ export default class InfiniteScroll extends PureComponent {
     render() {
         const {
             children,
-            element,
-            hasMore,
-            initialLoad, // eslint-disable-line no-unused-vars
+            element = 'div',
+            hasMore = false,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            initialLoad = true,
             loader,
-            loadMore, // eslint-disable-line no-unused-vars
-            pageStart, // eslint-disable-line no-unused-vars
-            threshold, // eslint-disable-line no-unused-vars
-            useWindow, // eslint-disable-line no-unused-vars
-            isReverse, // eslint-disable-line no-unused-vars
-            scrollPosition, // eslint-disable-line no-unused-vars
-            containerHeight,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            loadMore,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            pageStart = 0,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            threshold = 250,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            useWindow = true,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            isReverse = false,
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            scrollPosition = null,
+            containerHeight = null,
             ...props
         } = this.props;
 
-        props.ref = (node) => {
+        props.ref = (node: React.ReactNode) => {
             this.scrollComponent = node;
         };
 
@@ -68,7 +68,8 @@ export default class InfiniteScroll extends PureComponent {
         return React.createElement(element, elementProps, children, hasMore && (loader || this.defaultLoader));
     }
 
-    calculateTopPosition(el) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    calculateTopPosition = (el: { offsetTop?: any; offsetParent?: any }): any => {
         if (!el) {
             return 0;
         }
@@ -78,7 +79,7 @@ export default class InfiniteScroll extends PureComponent {
     setScrollPosition() {
         const {scrollPosition} = this.props;
         if (scrollPosition !== null) {
-            window.scrollTo(0, scrollPosition);
+            window.scrollTo(0, scrollPosition!);
         }
     }
 
@@ -88,7 +89,7 @@ export default class InfiniteScroll extends PureComponent {
 
         let offset;
         if (this.props.useWindow) {
-            var scrollTop = ('pageYOffset' in scrollEl) ? scrollEl.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
+            const scrollTop = ('pageYOffset' in scrollEl) ? scrollEl.pageYOffset : (document.documentElement || document.body.parentNode || document.body).scrollTop;
             if (this.props.isReverse) {
                 offset = scrollTop;
             } else {
@@ -105,7 +106,7 @@ export default class InfiniteScroll extends PureComponent {
 
             // Call loadMore after detachScrollListener to allow for non-async loadMore functions
             if (typeof this.props.loadMore === 'function') {
-                this.props.loadMore(this.pageLoaded += 1);
+                this.props.loadMore(this.pageLoaded! += 1);
             }
         }
     }
@@ -129,7 +130,7 @@ export default class InfiniteScroll extends PureComponent {
     }
 
     detachScrollListener() {
-        var scrollEl = window;
+        let scrollEl = window;
         if (this.props.useWindow === false) {
             scrollEl = this.scrollComponent.parentNode;
         }
@@ -143,7 +144,7 @@ export default class InfiniteScroll extends PureComponent {
     }
 
     // Set a defaut loader for all your `InfiniteScroll` components
-    setDefaultLoader(loader) {
+    setDefaultLoader(loader: Record<string, unknown> | undefined) {
         this.defaultLoader = loader;
     }
 }
