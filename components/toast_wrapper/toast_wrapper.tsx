@@ -86,11 +86,11 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
         if (mark <= 0) {
             return 0;
         }
-        let newMessages = postListIds?.slice(0, mark).filter((id) => !isIdNotPost(id));
+        let newMessages = postListIds.slice(0, mark).filter((id) => !isIdNotPost(id));
         if (isCollapsedThreadsEnabled) { // in collapsed mode we only count root posts
-            newMessages = newMessages?.filter((id) => rootPosts[id]);
+            newMessages = newMessages.filter((id) => rootPosts[id]);
         }
-        return newMessages?.length;
+        return newMessages.length;
     }
 
     static getDerivedStateFromProps(props: Props, prevState: State) {
