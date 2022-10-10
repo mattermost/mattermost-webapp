@@ -966,7 +966,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         if (!channelId || !clientId) {
-            this.setState({serverError, voiceMessageClientId: ''});
+            this.setState({serverError});
             return;
         }
 
@@ -986,7 +986,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
         }
 
-        this.setState({serverError, voiceMessageClientId: ''});
+        this.setState({serverError});
     };
 
     removePreview = (id: string) => {
@@ -995,7 +995,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const channelId = this.props.currentChannel.id;
 
         if (draft.postType === Constants.PostTypes.VOICE) {
-            draft.postType = undefined;
+            Reflect.deleteProperty(draft, 'postType');
             this.setState({voiceMessageClientId: ''});
         }
 
