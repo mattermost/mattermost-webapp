@@ -29,7 +29,3 @@ export function isVoiceMessagesEnabled(state: GlobalState): boolean {
 
     return (fileAttachmentsEnabled && voiceMessagesExperimentalEnabled && voiceMessageFeatureFlagEnabled);
 }
-
-export function getVoiceMessageOrigin(state: GlobalState) {
-    return state.views.textbox.voiceMessageOrigin;
-}

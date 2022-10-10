@@ -250,7 +250,6 @@ export const ActionTypes = keyMirror({
     SET_SHOW_PREVIEW_ON_CREATE_COMMENT: null,
     SET_SHOW_PREVIEW_ON_CREATE_POST: null,
     SET_SHOW_PREVIEW_ON_EDIT_CHANNEL_HEADER_MODAL: null,
-    OPEN_VOICE_MESSAGE_AT: null,
 
     TOGGLE_RHS_MENU: null,
     OPEN_RHS_MENU: null,
