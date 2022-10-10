@@ -9,7 +9,7 @@
 
 // Group: @custom_status
 
-import {set} from 'lodash';
+import set from 'lodash.set';
 
 describe('Custom Status - Verifying Where Custom Status Appears', () => {
     const customStatus = {
@@ -19,7 +19,7 @@ describe('Custom Status - Verifying Where Custom Status Appears', () => {
     let currentUser;
 
     before(() => {
-        cy.apiGetConfig().then((config) => {
+        cy.apiGetConfig().then(({config}) => {
             set(config, 'TeamSettings.EnableCustomUserStatuses', true);
             cy.apiUpdateConfig(config);
 
