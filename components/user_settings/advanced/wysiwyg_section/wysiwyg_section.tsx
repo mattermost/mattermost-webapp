@@ -38,7 +38,7 @@ type Props = {
     activeSection?: string;
     currentUserId: string;
     intl: IntlShape;
-    wysiwyg?: string;
+    wysiwygEnabled?: string;
     onUpdateSection: (section?: string) => void;
     renderOnOffLabel: (label: string) => ReactNode;
     actions: {
@@ -57,7 +57,7 @@ export class WysiwygSection extends React.PureComponent<Props, State> {
         super(props);
 
         this.state = {
-            wysiwygState: props.wysiwyg,
+            wysiwygState: props.wysiwygEnabled,
         };
     }
 
@@ -71,7 +71,7 @@ export class WysiwygSection extends React.PureComponent<Props, State> {
 
     public handleUpdateSection = (section?: string): void => {
         if (!section) {
-            this.setState({wysiwygState: this.props.wysiwyg});
+            this.setState({wysiwygState: this.props.wysiwygEnabled});
         }
 
         this.props.onUpdateSection(section);

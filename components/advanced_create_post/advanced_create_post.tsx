@@ -4,6 +4,7 @@
 /* eslint-disable max-lines */
 
 import {JSONContent} from '@tiptap/react';
+
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';

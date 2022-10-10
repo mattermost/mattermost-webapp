@@ -267,7 +267,7 @@ export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): bo
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
 
-export function getWysiwygPreference(state: GlobalState): boolean {
+export function getWysiwygPreference(state: GlobalState): 'true' | 'false' {
     return get(
         state,
         Preferences.CATEGORY_ADVANCED_SETTINGS,
@@ -283,6 +283,6 @@ export function isWysiwygAllowed(state: GlobalState): boolean {
 export function isWysiwygEnabled(state: GlobalState): boolean {
     const isAllowed = isWysiwygAllowed(state);
     const userPreference = getWysiwygPreference(state);
-    return isAllowed && userPreference;
+    return isAllowed && userPreference === 'true';
 }
 
