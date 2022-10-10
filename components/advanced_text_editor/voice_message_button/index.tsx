@@ -7,6 +7,10 @@ import {useSelector} from 'react-redux';
 
 import {MicrophoneOutlineIcon} from '@mattermost/compass-icons/components';
 
+import {Channel} from '@mattermost/types/channels';
+
+import {PostDraft} from 'types/store/draft';
+
 import {isVoiceMessagesEnabled} from 'selectors/views/textbox';
 
 import Constants from 'utils/constants';
@@ -16,8 +20,10 @@ import Tooltip from 'components/tooltip';
 import {IconContainer} from 'components/advanced_text_editor/formatting_bar/formatting_icon';
 
 interface Props {
+    channelId: Channel['id'];
+    draft: PostDraft;
     disabled: boolean;
-    onClick: () => void;
+    onClick: (channelId: Channel['id'], draft: PostDraft, postType?: PostDraft['postType']) => void;
 }
 
 const VoiceButton = (props: Props) => {
@@ -29,6 +35,12 @@ const VoiceButton = (props: Props) => {
 
     if (!isVoiceMessagesFeatureEnabled || !isVoiceRecordingBrowserSupported) {
         return null;
+    }
+
+    function handleOnClick() {
+        if (!props.disabled) {
+            props.onClick(props.channelId, props.draft, Constants.PostTypes.VOICE);
+        }
     }
 
     return (
@@ -47,7 +59,7 @@ const VoiceButton = (props: Props) => {
             <IconContainer
                 id='PreviewInputTextButton'
                 type='button'
-                onClick={props.onClick}
+                onClick={handleOnClick}
                 disabled={props.disabled}
                 aria-label={formatMessage({id: 'advanceTextEditor.voiceMessageButton.tooltip', defaultMessage: 'Voice message'})}
             >

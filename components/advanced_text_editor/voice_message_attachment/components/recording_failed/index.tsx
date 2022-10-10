@@ -6,11 +6,13 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import {MicrophoneIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
-import {AttachmentRootContainer,
+import {
+    AttachmentRootContainer,
     CancelButton,
     TextColumn,
     Title,
-    Subtitle} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
+    Subtitle,
+} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
 
 interface Props {
     onCancel: () => void;
@@ -21,7 +23,7 @@ const VoiceMessageRecordingFailed = (props: Props) => {
 
     const errorMessage = intl.formatMessage({
         id: 'voiceMessage.recordingFailed',
-        defaultMessage: 'Failed to start recording',
+        defaultMessage: 'Failed to record',
     });
 
     return (

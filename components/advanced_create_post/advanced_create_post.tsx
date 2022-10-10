@@ -29,6 +29,8 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
+    getVoiceMessageStateFromDraft,
+    VoiceMessageStates,
 } from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
@@ -343,6 +345,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         // Focus on textbox when returned from preview mode
         if (prevProps.shouldShowPreview && !this.props.shouldShowPreview) {
             this.focusTextbox();
+        }
+
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+            const previousChannelVoiceMessageState = getVoiceMessageStateFromDraft(prevProps.draft);
+            if (previousChannelVoiceMessageState === VoiceMessageStates.RECORDING) {
+                this.setDraftAsPostType(prevProps.currentChannel.id, prevProps.draft);
+            }
         }
     }
 
@@ -874,6 +883,19 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     handleFileUploadChange = () => {
         this.focusTextbox();
+    }
+
+    setDraftAsPostType = (channelId: Channel['id'], draft: PostDraft, postType?: PostDraft['postType']) => {
+        let updatedDraft: PostDraft = {...draft};
+
+        if (postType) {
+            updatedDraft = {...this.props.draft, postType: Constants.PostTypes.VOICE};
+        } else {
+            Reflect.deleteProperty(updatedDraft, 'postType');
+        }
+
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, updatedDraft);
+        this.draftsForChannel[channelId] = updatedDraft;
     }
 
     handleVoiceMessageUploadStart = (clientId: string, channelId: Channel['id']) => {
@@ -1497,6 +1519,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     textboxRef={this.textboxRef}
                     voiceMessageClientId={this.state.voiceMessageClientId}
                     handleVoiceMessageUploadStart={this.handleVoiceMessageUploadStart}
+                    setDraftAsPostType={this.setDraftAsPostType}
                     labels={(
                         this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
                             <div className='AdvancedTextEditor__priority'>

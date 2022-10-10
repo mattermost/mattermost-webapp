@@ -34,8 +34,9 @@ import {getEmojiMap} from 'selectors/emojis';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
+import {PostDraft} from 'types/store/draft';
 
-import Constants, {PostListRowListIds, Preferences} from 'utils/constants';
+import Constants, {PostListRowListIds, PostTypes, Preferences} from 'utils/constants';
 import {formatWithRenderer} from 'utils/markdown';
 import MentionableRenderer from 'utils/markdown/mentionable_renderer';
 import {allAtMentions} from 'utils/text_formatting';
@@ -704,4 +705,24 @@ export function getUserFromMentionName(usersByUsername: Record<string, UserProfi
     }
 
     return '';
+}
+
+export enum VoiceMessageStates {
+    IDLE = 'idle',
+    RECORDING = 'recording',
+    UPLOADING = 'uploading',
+    ATTACHED = 'attached',
+}
+
+export function getVoiceMessageStateFromDraft(draft: PostDraft): VoiceMessageStates {
+    if (draft.postType === PostTypes.VOICE) {
+        if (draft.uploadsInProgress.length !== 0 && draft.fileInfos.length === 0) {
+            return VoiceMessageStates.UPLOADING;
+        }
+        if (draft.uploadsInProgress.length === 0 && draft.fileInfos.length !== 0) {
+            return VoiceMessageStates.ATTACHED;
+        }
+        return VoiceMessageStates.RECORDING;
+    }
+    return VoiceMessageStates.IDLE;
 }

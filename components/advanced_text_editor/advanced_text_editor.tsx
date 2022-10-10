@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useCallback, useEffect, useRef, useState} from 'react';
+import React, {CSSProperties, useCallback, useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useIntl} from 'react-intl';
 
@@ -25,6 +25,7 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import {localizeMessage, scrollbarWidth as getScrollbarWidth} from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+import {getVoiceMessageStateFromDraft, VoiceMessageStates} from 'utils/post_utils';
 
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
@@ -104,6 +105,7 @@ type Props = {
     isThreadView?: boolean;
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
+    setDraftAsPostType: (channelId: Channel['id'], draft: PostDraft, postType?: PostDraft['postType']) => void;
 }
 
 const AdvanceTextEditor = ({
@@ -158,6 +160,7 @@ const AdvanceTextEditor = ({
     prefillMessage,
     textboxRef,
     voiceMessageClientId,
+    setDraftAsPostType,
     handleVoiceMessageUploadStart,
     isThreadView,
     additionalControls,
@@ -174,16 +177,7 @@ const AdvanceTextEditor = ({
     const [scrollbarWidth, setScrollbarWidth] = useState(0);
     const [renderScrollbar, setRenderScrollbar] = useState(false);
 
-    const [isVoiceMessageRecording, setIsVoiceMessageRecording] = useState(false);
-    const isVoiceMessageUploading = draft.postType === Constants.PostTypes.VOICE && draft.fileInfos.length === 0 && draft.uploadsInProgress.length > 0;
-    const isVoiceMessageAttached = draft.postType === Constants.PostTypes.VOICE && draft.uploadsInProgress.length === 0 && draft.fileInfos.length > 0;
-
-    // Remove voice message recording attachment when switching channels
-    useEffect(() => {
-        if (isVoiceMessageRecording && draft.fileInfos.length === 0) {
-            setIsVoiceMessageRecording(false);
-        }
-    }, [channelId, postId]);
+    const voiceMessageState = getVoiceMessageStateFromDraft(draft);
 
     const handleHeightChange = (height: number, maxHeight: number) => {
         setRenderScrollbar(height > maxHeight);
@@ -199,13 +193,6 @@ const AdvanceTextEditor = ({
         setShowPreview(!shouldShowPreview);
     }, [shouldShowPreview, setShowPreview]);
 
-    /** Function to unset the state of "isVoiceMessageRecording" in AdvancedTextEditor to false. */
-    const handleRemoveVoiceMessageRecording = useCallback(() => {
-        if (isVoiceMessageRecording) {
-            setIsVoiceMessageRecording(false);
-        }
-    }, [isVoiceMessageRecording]);
-
     let serverErrorJsx = null;
     if (serverError) {
         serverErrorJsx = (
@@ -219,24 +206,22 @@ const AdvanceTextEditor = ({
 
     let attachmentPreview = null;
 
-    if (!readOnlyChannel && (isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached)) {
+    if (!readOnlyChannel && draft.postType === Constants.PostTypes.VOICE) {
         attachmentPreview = (
             <div>
                 <VoiceMessageAttachment
-                    isRecording={isVoiceMessageRecording}
-                    isUploading={isVoiceMessageUploading}
-                    isAttached={isVoiceMessageAttached}
-                    isUploadFailed={Boolean(serverError)}
                     channelId={channelId}
                     rootId={postId}
+                    draft={draft}
+                    vmState={voiceMessageState}
+                    setDraftAsPostType={setDraftAsPostType}
+                    uploadingClientId={voiceMessageClientId}
+                    didUploadFail={Boolean(serverError)}
                     onUploadStart={handleVoiceMessageUploadStart}
-                    uploadClientId={voiceMessageClientId}
                     onUploadProgress={handleUploadProgress}
                     uploadsProgress={uploadsProgressPercent}
                     onUploadComplete={handleFileUploadComplete}
-                    uploadedAudioFile={draft.fileInfos?.[0] ?? undefined}
                     onUploadError={handleUploadError}
-                    onRemoveRecording={handleRemoveVoiceMessageRecording}
                     onRemoveDraft={removePreview}
                 />
             </div>
@@ -276,7 +261,7 @@ const AdvanceTextEditor = ({
             rootId={postId}
             channelId={channelId}
             postType={postType}
-            disabled={isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
+            disabled={draft.postType === Constants.PostTypes.VOICE}
         />
     );
 
@@ -325,7 +310,7 @@ const AdvanceTextEditor = ({
                         onClick={toggleEmojiPicker}
                         type='button'
                         aria-label={emojiButtonAriaLabel}
-                        disabled={shouldShowPreview || isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
+                        disabled={shouldShowPreview || draft.postType === Constants.PostTypes.VOICE}
                         className={classNames({active: showEmojiPicker})}
                     >
                         <EmoticonHappyOutlineIcon
@@ -342,20 +327,28 @@ const AdvanceTextEditor = ({
 
     const voiceMessageButton = !readOnlyChannel && (location === Locations.CENTER || location === Locations.RHS_COMMENT) ? (
         <VoiceMessageButton
-            disabled={readOnlyChannel || hasDraftMessagesOrFileAttachments || isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
-            onClick={() => setIsVoiceMessageRecording(true)}
+            channelId={channelId}
+            draft={draft}
+            disabled={readOnlyChannel ||
+                voiceMessageState === VoiceMessageStates.RECORDING ||
+                voiceMessageState === VoiceMessageStates.UPLOADING || voiceMessageState === VoiceMessageStates.ATTACHED ||
+                hasDraftMessagesOrFileAttachments}
+            onClick={setDraftAsPostType}
         />
     ) : null;
 
-    const disableSendButton = Boolean(readOnlyChannel || (!message.trim().length && !draft.fileInfos.length) || isVoiceMessageRecording || isVoiceMessageUploading);
+    const isSendButtonDisabled = readOnlyChannel ||
+        voiceMessageState === VoiceMessageStates.RECORDING || voiceMessageState === VoiceMessageStates.UPLOADING ||
+        !hasDraftMessagesOrFileAttachments;
+
     const sendButton = readOnlyChannel ? null : (
         <SendButton
-            disabled={disableSendButton}
+            disabled={isSendButtonDisabled}
             handleSubmit={handleSubmit}
         />
     );
 
-    const showFormatJSX = disableSendButton ? null : (
+    const showFormatJSX = isSendButtonDisabled || draft.postType === Constants.PostTypes.VOICE ? null : (
         <ShowFormat
             onClick={handleShowFormat}
             active={shouldShowPreview}
@@ -425,7 +418,7 @@ const AdvanceTextEditor = ({
             getCurrentMessage={getCurrentValue}
             getCurrentSelection={getCurrentSelection}
             isOpen={true}
-            disableControls={shouldShowPreview || isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
+            disableControls={shouldShowPreview || draft.postType === Constants.PostTypes.VOICE}
             additionalControls={additionalControls}
             extraControls={extraControls}
             toggleAdvanceTextEditor={toggleAdvanceTextEditor}
@@ -479,7 +472,7 @@ const AdvanceTextEditor = ({
                         id={textboxId}
                         ref={textboxRef!}
                         disabled={readOnlyChannel}
-                        hidden={isVoiceMessageRecording || isVoiceMessageUploading || isVoiceMessageAttached}
+                        hidden={draft.postType === Constants.PostTypes.VOICE}
                         characterLimit={maxPostSize}
                         preview={shouldShowPreview}
                         badConnection={badConnection}

@@ -125,3 +125,16 @@ export function getOrientationStyles(orientation: number) {
     } = exif2css(orientation);
     return {transform, transformOrigin};
 }
+
+/**
+ * @param prefix eg. "user_attachment"
+ * @param ext eg. ".png", ".jpg"
+ */
+export function generateDateSpecificFileName(prefix: string, ext: string) {
+    const now = new Date();
+    const hour = now.getHours().toString().padStart(2, '0');
+    const minute = now.getMinutes().toString().padStart(2, '0');
+    const name = prefix + now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + hour + '-' + minute + ext;
+
+    return name;
+}

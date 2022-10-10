@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {forwardRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
@@ -11,19 +11,60 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {convertSecondsToMSS} from 'utils/datetime';
 
-import {AttachmentRootContainer,
+import {useAudioRecorder} from 'components/common/hooks/useAudioRecorder';
+import {
+    AttachmentRootContainer,
     CancelButton,
     OkButton,
-    Duration} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
+    Duration,
+} from 'components/advanced_text_editor/voice_message_attachment/components/file_attachment_containers';
+import VoiceMessageRecordingFailed from 'components/advanced_text_editor/voice_message_attachment/components/recording_failed';
 
 interface Props {
     theme: Theme;
-    elapsedTime: number;
     onCancel: () => void;
-    onComplete: () => Promise<void>;
+    onComplete: (audioFile: File) => Promise<void>;
 }
 
-const VoiceMessageRecordingStarted = forwardRef((props: Props, ref: React.Ref<HTMLCanvasElement>) => {
+function VoiceMessageRecordingStarted(props: Props) {
+    const canvasElemRef = useRef<HTMLCanvasElement>(null);
+
+    const {startRecording, elapsedTime, stopRecording, cleanPostRecording, hasError} = useAudioRecorder({
+        canvasElemRef,
+        canvasBg: props.theme.centerChannelBg,
+        canvasBarColor: props.theme.buttonBg,
+        canvasBarWidth: 5,
+        audioAnalyzerFFTSize: 32,
+        minimumAmplitudePercentage: 14,
+        reducedSampleSize: 9,
+        audioFilePrefix: 'voice_message_',
+    });
+
+    useEffect(() => {
+        startRecording();
+
+        return () => {
+            cleanPostRecording(true);
+        };
+    }, []);
+
+    async function handleRecordingCancelled() {
+        await cleanPostRecording(true);
+        props.onCancel();
+    }
+
+    async function handleRecordingComplete() {
+        const audioFile = await stopRecording();
+
+        if (audioFile) {
+            props.onComplete(audioFile);
+        }
+    }
+
+    if (hasError) {
+        return <VoiceMessageRecordingFailed onCancel={handleRecordingCancelled}/>;
+    }
+
     return (
         <AttachmentRootContainer
             icon={(
@@ -34,7 +75,7 @@ const VoiceMessageRecordingStarted = forwardRef((props: Props, ref: React.Ref<HT
             )}
         >
             <VisualizerContainer>
-                <Canvas ref={ref}>
+                <Canvas ref={canvasElemRef}>
                     <FormattedMessage
                         id='voiceMessage.canvasFallback.recording'
                         defaultMessage='Recording started'
@@ -42,14 +83,12 @@ const VoiceMessageRecordingStarted = forwardRef((props: Props, ref: React.Ref<HT
                 </Canvas>
             </VisualizerContainer>
             <Duration>
-                {convertSecondsToMSS(props.elapsedTime)}
+                {convertSecondsToMSS(elapsedTime)}
             </Duration>
-            <CancelButton onClick={props.onCancel}>
-                <CloseIcon
-                    size={18}
-                />
+            <CancelButton onClick={handleRecordingCancelled}>
+                <CloseIcon size={18}/>
             </CancelButton>
-            <OkButton onClick={props.onComplete}>
+            <OkButton onClick={handleRecordingComplete}>
                 <CheckIcon
                     size={18}
                     color={props.theme.buttonColor}
@@ -57,7 +96,7 @@ const VoiceMessageRecordingStarted = forwardRef((props: Props, ref: React.Ref<HT
             </OkButton>
         </AttachmentRootContainer>
     );
-});
+}
 
 export const VisualizerContainer = styled.div`
     flex-grow: 1;
@@ -73,4 +112,3 @@ const Canvas = styled.canvas`
 `;
 
 export default VoiceMessageRecordingStarted;
-

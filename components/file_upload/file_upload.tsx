@@ -27,6 +27,7 @@ import {
     isUriDrop,
     localizeMessage,
 } from 'utils/utils';
+import {generateDateSpecificFileName} from 'utils/file_utils';
 
 import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
@@ -467,10 +468,6 @@ export class FileUpload extends PureComponent<Props, State> {
                     continue;
                 }
 
-                const now = new Date();
-                const hour = now.getHours().toString().padStart(2, '0');
-                const minute = now.getMinutes().toString().padStart(2, '0');
-
                 let ext = '';
                 if (file.name && file.name.includes('.')) {
                     ext = file.name.substr(file.name.lastIndexOf('.'));
@@ -478,7 +475,7 @@ export class FileUpload extends PureComponent<Props, State> {
                     ext = '.' + items[i].type.split('/')[1].toLowerCase();
                 }
 
-                const name = file.name || formatMessage(holders.pasted) + now.getFullYear() + '-' + (now.getMonth() + 1) + '-' + now.getDate() + ' ' + hour + '-' + minute + ext;
+                const name = file.name || generateDateSpecificFileName(formatMessage(holders.pasted), ext);
 
                 const newFile: File = new File([file], name, {type: file.type});
                 files.push(newFile);

@@ -883,6 +883,17 @@ export const VerifyEmailErrors = {
     FAILED_USER_STATE_GET: 'failed_get_user_state',
 };
 
+export const AudioFileExtensions = {
+    MP3: 'mp3',
+    WAV: 'wav',
+    OGG: 'ogg',
+    WMA: 'wma',
+    M4A: 'm4a',
+    AAC: 'aac',
+    FLAC: 'flac',
+    M4R: 'm4r',
+};
+
 export const FileTypes = {
     TEXT: 'text',
     IMAGE: 'image',
@@ -1303,7 +1314,7 @@ export const Constants = {
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf'],
     IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif', 'psd'],
-    AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
+    AUDIO_TYPES: [AudioFileExtensions.MP3, AudioFileExtensions.WAV, AudioFileExtensions.WMA, AudioFileExtensions.M4A, AudioFileExtensions.FLAC, AudioFileExtensions.AAC, AudioFileExtensions.OGG, AudioFileExtensions.M4R],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
     PRESENTATION_TYPES: ['ppt', 'pptx'],
     SPREADSHEET_TYPES: ['xlsx', 'csv'],
