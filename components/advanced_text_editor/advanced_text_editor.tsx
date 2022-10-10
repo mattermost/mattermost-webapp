@@ -31,6 +31,7 @@ import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
+import {Post} from '@mattermost/types/posts';
 
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
@@ -90,7 +91,7 @@ type Props = {
     hideEmojiPicker: () => void;
     toggleAdvanceTextEditor: () => void;
     handleUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    handleUploadError: (err: string | ServerError, clientId?: string, channelId?: string) => void;
+    handleUploadError: (err: string | ServerError, clientId?: string, channelId?: string, rootId?: string) => void;
     handleFileUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
     handleUploadStart: (clientIds: string[], channelId: string) => void;
     handleFileUploadChange: () => void;
@@ -101,11 +102,11 @@ type Props = {
     postId: string;
     textboxRef: React.RefObject<TextboxClass>;
     voiceMessageClientId: string;
-    handleVoiceMessageUploadStart: (clientId: string, channelId: string) => void;
+    handleVoiceMessageUploadStart: (clientId: string, channelOrRootId: Channel['id'] | Post['id']) => void;
     isThreadView?: boolean;
     additionalControls?: React.ReactNodeArray;
     labels?: React.ReactNode;
-    setDraftAsPostType: (channelId: Channel['id'], draft: PostDraft, postType?: PostDraft['postType']) => void;
+    setDraftAsPostType: (channelOrRootId: Channel['id'] | Post['id'], draft: PostDraft, postType?: PostDraft['postType']) => void;
 }
 
 const AdvanceTextEditor = ({
@@ -213,6 +214,7 @@ const AdvanceTextEditor = ({
                     channelId={channelId}
                     rootId={postId}
                     draft={draft}
+                    location={location}
                     vmState={voiceMessageState}
                     setDraftAsPostType={setDraftAsPostType}
                     uploadingClientId={voiceMessageClientId}
@@ -328,6 +330,8 @@ const AdvanceTextEditor = ({
     const voiceMessageButton = !readOnlyChannel && (location === Locations.CENTER || location === Locations.RHS_COMMENT) ? (
         <VoiceMessageButton
             channelId={channelId}
+            rootId={postId}
+            location={location}
             draft={draft}
             disabled={readOnlyChannel ||
                 voiceMessageState === VoiceMessageStates.RECORDING ||

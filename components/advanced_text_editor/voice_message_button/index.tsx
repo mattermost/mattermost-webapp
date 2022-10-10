@@ -8,12 +8,13 @@ import {useSelector} from 'react-redux';
 import {MicrophoneOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
 
 import {PostDraft} from 'types/store/draft';
 
 import {isVoiceMessagesEnabled} from 'selectors/views/textbox';
 
-import Constants from 'utils/constants';
+import Constants, {Locations} from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -21,9 +22,11 @@ import {IconContainer} from 'components/advanced_text_editor/formatting_bar/form
 
 interface Props {
     channelId: Channel['id'];
+    rootId: Post['id'];
+    location: string;
     draft: PostDraft;
     disabled: boolean;
-    onClick: (channelId: Channel['id'], draft: PostDraft, postType?: PostDraft['postType']) => void;
+    onClick: (channelOrRootId: Channel['id'] | Post['id'], draft: PostDraft, postType?: PostDraft['postType']) => void;
 }
 
 const VoiceButton = (props: Props) => {
@@ -39,7 +42,12 @@ const VoiceButton = (props: Props) => {
 
     function handleOnClick() {
         if (!props.disabled) {
-            props.onClick(props.channelId, props.draft, Constants.PostTypes.VOICE);
+            if (props.location === Locations.CENTER) {
+                props.onClick(props.channelId, props.draft, Constants.PostTypes.VOICE);
+            }
+            if (props.location === Locations.RHS_COMMENT) {
+                props.onClick(props.rootId, props.draft, Constants.PostTypes.VOICE);
+            }
         }
     }
 

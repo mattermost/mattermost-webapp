@@ -887,10 +887,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     setDraftAsPostType = (channelId: Channel['id'], draft: PostDraft, postType?: PostDraft['postType']) => {
-        let updatedDraft: PostDraft = {...draft};
+        const updatedDraft: PostDraft = {...draft};
 
         if (postType) {
-            updatedDraft = {...this.props.draft, postType: Constants.PostTypes.VOICE};
+            updatedDraft.postType = Constants.PostTypes.VOICE;
         } else {
             Reflect.deleteProperty(updatedDraft, 'postType');
         }
@@ -986,7 +986,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             }
         }
 
-        this.setState({serverError});
+        this.setState({serverError, voiceMessageClientId: ''});
     };
 
     removePreview = (id: string) => {

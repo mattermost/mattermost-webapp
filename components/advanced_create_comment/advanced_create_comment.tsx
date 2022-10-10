@@ -22,6 +22,8 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
+    getVoiceMessageStateFromDraft,
+    VoiceMessageStates,
 } from 'utils/post_utils';
 import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
@@ -31,6 +33,7 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import {PostDraft} from 'types/store/draft';
 import {Group} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {Emoji} from '@mattermost/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -196,6 +199,7 @@ type State = {
     serverError: (ServerError & {submittedMessage?: string}) | null;
     showFormat: boolean;
     isFormattingBarHidden: boolean;
+    voiceMessageClientId: string;
 };
 
 class AdvancedCreateComment extends React.PureComponent<Props, State> {
@@ -241,6 +245,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             serverError: null,
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
+            voiceMessageClientId: '',
         };
 
         this.textboxRef = React.createRef();
@@ -278,6 +283,15 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.focusTextboxIfNecessary);
         window.removeEventListener('beforeunload', this.saveDraft);
         this.saveDraft();
+
+        // Remove voice message recorder on thread/comment switch or another thread opened
+        // NOTE: We should not unmount the thread/comment component when another thread is opened. Something we should fix in the future.
+        if (this.props.rootId) {
+            const previousChannelVoiceMessageState = getVoiceMessageStateFromDraft(this.props.draft);
+            if (previousChannelVoiceMessageState === VoiceMessageStates.RECORDING) {
+                this.setDraftAsPostType(this.props.rootId, this.props.draft);
+            }
+        }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
@@ -918,6 +932,32 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.focusTextbox();
     }
 
+    setDraftAsPostType = (rootId: Post['id'], draft: PostDraft, postType?: PostDraft['postType']) => {
+        const updatedDraft: PostDraft = {...draft};
+
+        if (postType) {
+            updatedDraft.postType = Constants.PostTypes.VOICE;
+        } else {
+            Reflect.deleteProperty(updatedDraft, 'postType');
+        }
+
+        this.props.updateCommentDraftWithRootId(rootId, updatedDraft);
+        this.draftsForPost[rootId] = updatedDraft;
+    }
+
+    handleVoiceMessageUploadStart = (clientId: string, rootId: Post['id']) => {
+        const uploadsInProgress = [...this.props.draft.uploadsInProgress, clientId];
+        const draft = {
+            ...this.props.draft,
+            uploadsInProgress,
+            postType: Constants.PostTypes.VOICE,
+        };
+
+        this.props.updateCommentDraftWithRootId(rootId, draft);
+        this.setState({voiceMessageClientId: clientId});
+        this.draftsForPost[rootId] = draft;
+    }
+
     handleUploadStart = (clientIds: string[]) => {
         const draft = this.state.draft!;
         const uploadsInProgress = [...draft.uploadsInProgress, ...clientIds];
@@ -964,6 +1004,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
         }
+        this.setState({voiceMessageClientId: ''});
     }
 
     handleUploadError = (err: string | ServerError | null, clientId: string | number = -1, _?: string, rootId = '') => {
@@ -992,7 +1033,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             serverError = new Error(serverError);
         }
 
-        this.setState({serverError}, () => {
+        this.setState({serverError, voiceMessageClientId: ''}, () => {
             if (serverError && this.props.scrollToBottom) {
                 this.props.scrollToBottom();
             }
@@ -1003,6 +1044,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const draft = this.state.draft!;
         const fileInfos = [...draft.fileInfos];
         const uploadsInProgress = [...draft.uploadsInProgress];
+
+        if (draft.postType === Constants.PostTypes.VOICE) {
+            Reflect.deleteProperty(draft, 'postType');
+            this.setState({voiceMessageClientId: ''});
+        }
 
         // Clear previous errors
         this.handleUploadError(null);
@@ -1140,6 +1186,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     getFileUploadTarget={this.getFileUploadTarget}
                     fileUploadRef={this.fileUploadRef}
                     isThreadView={this.props.isThreadView}
+                    voiceMessageClientId={this.state.voiceMessageClientId}
+                    handleVoiceMessageUploadStart={this.handleVoiceMessageUploadStart}
+                    setDraftAsPostType={this.setDraftAsPostType}
                 />
             </form>
         );

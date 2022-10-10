@@ -10,7 +10,7 @@ import {uploadFile} from 'actions/file_actions';
 import {generateId} from 'utils/utils';
 import {VoiceMessageStates} from 'utils/post_utils';
 import {PostDraft} from 'types/store/draft';
-import {AudioFileExtensions} from 'utils/constants';
+import {AudioFileExtensions, Locations} from 'utils/constants';
 
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
@@ -33,15 +33,16 @@ interface Props {
     channelId: Channel['id'];
     rootId: Post['id'];
     draft: PostDraft;
+    location: string;
     vmState: VoiceMessageStates;
     didUploadFail: boolean;
     uploadingClientId: string;
-    setDraftAsPostType: (channelId: Channel['id'], draft: PostDraft) => void;
-    onUploadStart: (clientIds: string, channelId: Channel['id']) => void;
+    setDraftAsPostType: (channelOrRootId: Channel['id'] | Post['id'], draft: PostDraft) => void;
+    onUploadStart: (clientIds: string, channelOrRootId: Channel['id'] | Post['id']) => void;
     uploadProgress: number;
     onUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    onUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
-    onUploadError: (err: string | ServerError, clientId?: string, channelId?: string) => void;
+    onUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: Channel['id'], rootId?: Post['id']) => void;
+    onUploadError: (err: string | ServerError, clientId?: string, channelId?: Channel['id'], rootId?: Post['id']) => void;
     onRemoveDraft: (fileInfoIdOrClientId: FileInfo['id'] | string) => void;
 }
 
@@ -54,9 +55,9 @@ const VoiceMessageAttachment = (props: Props) => {
 
     const audioFileRef = useRef<File>();
 
-    function handleOnUploadComplete(data: FileUploadResponse | undefined, channelId: string, currentRootId: string) {
+    function handleOnUploadComplete(data: FileUploadResponse | undefined, channelId: string, rootId: string) {
         if (data) {
-            props.onUploadComplete(data.file_infos, data.client_ids, channelId, currentRootId);
+            props.onUploadComplete(data.file_infos, data.client_ids, channelId, rootId);
         }
     }
 
@@ -75,7 +76,12 @@ const VoiceMessageAttachment = (props: Props) => {
             onError: props.onUploadError,
         })) as unknown as XMLHttpRequest;
 
-        props.onUploadStart(clientId, props.channelId);
+        if (props.location === Locations.CENTER) {
+            props.onUploadStart(clientId, props.channelId);
+        }
+        if (props.location === Locations.RHS_COMMENT) {
+            props.onUploadStart(clientId, props.rootId);
+        }
     }
 
     function handleUploadRetryClicked() {
@@ -105,7 +111,12 @@ const VoiceMessageAttachment = (props: Props) => {
     }
 
     function handleCancelRecordingClicked() {
-        props.setDraftAsPostType(props.channelId, props.draft);
+        if (props.location === Locations.CENTER) {
+            props.setDraftAsPostType(props.channelId, props.draft);
+        }
+        if (props.location === Locations.RHS_COMMENT) {
+            props.setDraftAsPostType(props.rootId, props.draft);
+        }
     }
 
     if (props.vmState === VoiceMessageStates.RECORDING) {
