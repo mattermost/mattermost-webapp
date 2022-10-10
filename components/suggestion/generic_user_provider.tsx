@@ -19,8 +19,6 @@ import {UserAutocomplete, UserProfile} from './command_provider/app_command_pars
 type ProviderResults = {
     matchedPretext: string;
     terms: string[];
-
-    // The providers currently do not provide a clearly defined type and structure
     items: Array<Record<string, any>>;
     component?: React.ReactNode;
 }
