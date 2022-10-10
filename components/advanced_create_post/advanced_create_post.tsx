@@ -347,7 +347,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.focusTextbox();
         }
 
-        if (this.props.currentChannel.id !== prevProps.currentChannel.id) {
+        // Remove voice message recorder on channel/team switch
+        if (this.props.currentChannel.id !== prevProps.currentChannel.id || this.props.currentTeamId !== prevProps.currentTeamId) {
             const previousChannelVoiceMessageState = getVoiceMessageStateFromDraft(prevProps.draft);
             if (previousChannelVoiceMessageState === VoiceMessageStates.RECORDING) {
                 this.setDraftAsPostType(prevProps.currentChannel.id, prevProps.draft);

@@ -6,12 +6,11 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
+import {uploadFile} from 'actions/file_actions';
 import {generateId} from 'utils/utils';
 import {VoiceMessageStates} from 'utils/post_utils';
 import {PostDraft} from 'types/store/draft';
 import {AudioFileExtensions} from 'utils/constants';
-
-import {uploadFile} from 'actions/file_actions';
 
 import {Channel} from '@mattermost/types/channels';
 import {Post} from '@mattermost/types/posts';
@@ -19,11 +18,10 @@ import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
 
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-
-import VoiceMessageRecordingStarted from './components/recording_started';
-import VoiceMessageUploadingStarted from './components/upload_started';
-import VoiceMessageUploadingFailed from './components/upload_failed';
-import VoiceMessageUploadingCompleted from './components/upload_complete';
+import VoiceMessageRecordingStarted from 'components/advanced_text_editor/voice_message_attachment/components/recording_started';
+import VoiceMessageUploadingStarted from 'components/advanced_text_editor/voice_message_attachment/components/upload_started';
+import VoiceMessageUploadingFailed from 'components/advanced_text_editor/voice_message_attachment/components/upload_failed';
+import VoiceMessageUploadingCompleted from 'components/advanced_text_editor/voice_message_attachment/components/upload_complete';
 
 declare global {
     interface Window {
@@ -40,11 +38,11 @@ interface Props {
     uploadingClientId: string;
     setDraftAsPostType: (channelId: Channel['id'], draft: PostDraft) => void;
     onUploadStart: (clientIds: string, channelId: Channel['id']) => void;
+    uploadProgress: number;
     onUploadProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    uploadsProgress: {[clientID: string]: FilePreviewInfo};
     onUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: string, rootId?: string) => void;
     onUploadError: (err: string | ServerError, clientId?: string, channelId?: string) => void;
-    onRemoveDraft: (fileInfoId: FileInfo['id']) => void;
+    onRemoveDraft: (fileInfoIdOrClientId: FileInfo['id'] | string) => void;
 }
 
 const VoiceMessageAttachment = (props: Props) => {
@@ -56,7 +54,7 @@ const VoiceMessageAttachment = (props: Props) => {
 
     const audioFileRef = useRef<File>();
 
-    function handleOnUploadComplete(data: FileUploadResponse, channelId: string, currentRootId: string) {
+    function handleOnUploadComplete(data: FileUploadResponse | undefined, channelId: string, currentRootId: string) {
         if (data) {
             props.onUploadComplete(data.file_infos, data.client_ids, channelId, currentRootId);
         }
@@ -95,7 +93,10 @@ const VoiceMessageAttachment = (props: Props) => {
     }
 
     function handleRemoveAfterUpload() {
-        props.onRemoveDraft(props.uploadingClientId);
+        const audioFileId = props.draft?.fileInfos?.[0]?.id ?? '';
+        if (audioFileId) {
+            props.onRemoveDraft(audioFileId);
+        }
     }
 
     async function handleCompleteRecordingClicked(audioFile: File) {
@@ -118,12 +119,10 @@ const VoiceMessageAttachment = (props: Props) => {
     }
 
     if (props.vmState === VoiceMessageStates.UPLOADING) {
-        console.log('props.uploadingClientId', props.uploadingClientId, props.uploadsProgress);
-        const progress = props?.uploadsProgress?.[props.uploadingClientId]?.percent ?? 0;
         return (
             <VoiceMessageUploadingStarted
                 theme={theme}
-                progress={progress}
+                progress={props.uploadProgress}
                 onCancel={handleRemoveBeforeUpload}
             />
         );
@@ -140,10 +139,11 @@ const VoiceMessageAttachment = (props: Props) => {
     }
 
     if (props.vmState === VoiceMessageStates.ATTACHED) {
+        const src = props?.draft?.fileInfos?.[0]?.id ?? '';
         return (
             <VoiceMessageUploadingCompleted
                 theme={theme}
-                src={props.draft?.fileInfos?.[0]?.id ?? ''}
+                src={src}
                 onCancel={handleRemoveAfterUpload}
             />
         );

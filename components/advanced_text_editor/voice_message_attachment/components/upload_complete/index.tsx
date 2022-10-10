@@ -58,9 +58,7 @@ const VoiceMessageUploadCompleted = (props: Props) => {
             <Duration>
                 {convertSecondsToMSS(elapsed)}
             </Duration>
-            <CancelButton 
-            // onClick={props.onCancel}
-            >
+            <CancelButton onClick={props.onCancel}>
                 <CloseIcon size={18}/>
             </CancelButton>
         </AttachmentRootContainer>
