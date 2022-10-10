@@ -13,6 +13,7 @@
     "@emotion/css": "11.10.0",
     "@floating-ui/react-dom": "0.7.2",
     "@floating-ui/react-dom-interactions": "0.9.1",
+    "@guyplusplus/turndown-plugin-gfm": "1.0.7",
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "0.1.27",
     "@stripe/react-stripe-js": "1.6.0",
@@ -107,6 +108,7 @@
     "timezones.json": "1.6.1",
     "tinycolor2": "1.4.2",
     "turndown": "7.1.1",
+    "turndown-plugin-gfm": "1.0.2",
     "typescript": "4.3.4",
     "zen-observable": "0.8.15"
   },

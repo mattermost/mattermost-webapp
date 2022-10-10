@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {FormEvent, useCallback, useEffect, useRef} from 'react';
+import {SearchListIcon} from '@mattermost/compass-icons/components';
+import classNames from 'classnames';
+import React, {FormEvent, useCallback, useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 import {debounce} from 'lodash';
@@ -37,6 +39,7 @@ import {NewPostDraft} from 'types/store/draft';
 import SendButton from '../advanced_text_editor/send_button/send_button';
 
 import Toolbar from './toolbar';
+import {IconContainer} from './toolbar/toolbar_controls';
 import {htmlToMarkdown} from './utils/turndown';
 
 import CodeBlockComponent from './components/codeblockview';
@@ -51,6 +54,33 @@ const EditorContainer = styled.div`
     display: block;
     align-items: center;
     padding: 8px;
+
+    .markdown__table {
+        p:last-child {
+            margin-bottom: 0;
+        }
+
+        td.selectedCell {
+            position: relative;
+
+            &::after {
+                content: '';
+                position: absolute;
+                inset: 0 0 0 0;
+                background: rgba(var(--semantic-color-danger), 0.12);
+            }
+        }
+    }
+`;
+
+const DebugContainer = styled.div`
+    width: 100%;
+    height: auto;
+    background: rgba(VAR(--center-channel-color-rgb), 0.08);
+    padding: 12px;
+    margin: 12px 0 0;
+    border: 1px solid var(--button-bg);
+    border-radius: 4px;
 `;
 
 function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: JSONContent) => void] {
@@ -91,6 +121,7 @@ type Props = {
 
 export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
+    const [showMdDebugger, setShowMdDebugger] = useState(false);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
 
     const editor = useEditor({
@@ -99,10 +130,15 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
             Highlight,
             Typography,
             Code,
-            Table,
-            TableCell,
-            TableHeader,
+            Table.configure({
+                HTMLAttributes: {
+                    class: 'markdown__table',
+                },
+                allowTableNodeSelection: true,
+            }),
             TableRow,
+            TableHeader,
+            TableCell,
             Link.configure({
                 linkOnPaste: true,
                 openOnClick: false,
@@ -185,15 +221,33 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     );
 
     return (
-        <WysiwygContainer>
-            <EditorContainer>
-                <EditorContent editor={editor}/>
-            </EditorContainer>
-            <Toolbar
-                editor={editor}
-                location={Locations.CENTER}
-                rightControls={sendButton}
-            />
-        </WysiwygContainer>
+        <>
+            <WysiwygContainer>
+                <EditorContainer>
+                    <EditorContent editor={editor}/>
+                </EditorContainer>
+                <Toolbar
+                    editor={editor}
+                    location={Locations.CENTER}
+                    rightControls={sendButton}
+                    additionalControls={
+                        <IconContainer
+                            type='button'
+                            onClick={() => setShowMdDebugger((prev) => !prev)}
+                            className={classNames({active: showMdDebugger})}
+                        >
+                            <SearchListIcon
+                                color={'currentColor'}
+                                size={18}
+                            />
+                        </IconContainer>}
+                />
+            </WysiwygContainer>
+            {showMdDebugger && (
+                <DebugContainer>
+                    {htmlToMarkdown(editor.getHTML())}
+                </DebugContainer>
+            )}
+        </>
     );
 };

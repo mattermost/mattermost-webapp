@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 import TurndownService from 'turndown';
 
+const tables = require('@guyplusplus/turndown-plugin-gfm').tables;
+
 /**
  * Initialize Turndown with sensible defaults.
  */
@@ -121,6 +123,11 @@ turndownService.addRule('emoji', {
         return (node.firstChild as Element).getAttribute('alt') || '';
     },
 });
+
+/**
+ * use github flavored markdown for tables
+ */
+turndownService.use(tables);
 
 function htmlToMarkdown(html: string) {
     return turndownService.turndown(html);

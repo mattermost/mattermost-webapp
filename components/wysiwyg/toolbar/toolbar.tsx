@@ -114,7 +114,7 @@ interface ToolbarProps {
      * controls that enhance the message,
      * e.g: message priority picker
      */
-    additionalControls?: React.ReactNodeArray;
+    additionalControls?: React.ReactNode | React.ReactNode[];
 
     /**
      * controls shown aligned to the very right of the toolbar
