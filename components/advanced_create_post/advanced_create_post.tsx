@@ -709,6 +709,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.user_id = userId;
         post.create_at = time;
         post.metadata = {} as PostMetadata;
+
+        // Uncomment this line when server enables post type voice
+        // post.type = draft.postType === Constants.PostTypes.VOICE ? Constants.PostTypes.VOICE : ''; //
+
+        // temp fix
+        post.type = draft.postType === Constants.PostTypes.VOICE ? 'custom_voice' : '';
+
         post.props = {
             ...originalPost.props,
         };
@@ -887,16 +894,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     setDraftAsPostType = (channelId: Channel['id'], draft: PostDraft, postType?: PostDraft['postType']) => {
-        const updatedDraft: PostDraft = {...draft};
-
         if (postType) {
-            updatedDraft.postType = Constants.PostTypes.VOICE;
+            const updatedDraft: PostDraft = {...draft, postType: Constants.PostTypes.VOICE};
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, updatedDraft);
+            this.draftsForChannel[channelId] = updatedDraft;
         } else {
-            Reflect.deleteProperty(updatedDraft, 'postType');
+            this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, null);
+            this.draftsForChannel[channelId] = null;
         }
-
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, updatedDraft);
-        this.draftsForChannel[channelId] = updatedDraft;
     }
 
     handleVoiceMessageUploadStart = (clientId: string, channelId: Channel['id']) => {

@@ -36,10 +36,23 @@ export default function FileAttachmentList(props: Props) {
         fileCount,
         locale,
         isInPermalink,
+        post,
     } = props;
 
     const sortedFileInfos = useMemo(() => sortFileInfos(fileInfos ? [...fileInfos] : [], locale), [fileInfos, locale]);
-    if (fileInfos && fileInfos.length === 1 && !fileInfos[0].archived) {
+
+    if (post.type === 'custom_voice') {
+        return (
+            <div>
+                <audio controls={true}>
+                    <source
+                        src={`/api/v4/files/${fileInfos?.[0]?.id}`}
+                        type='audio/mp3'
+                    />
+                </audio>
+            </div>
+        );
+    } else if (fileInfos && fileInfos.length === 1 && !fileInfos[0].archived) {
         const fileType = getFileType(fileInfos[0].extension);
 
         if (fileType === FileTypes.IMAGE || (fileType === FileTypes.SVG && enableSVGs)) {
