@@ -36,9 +36,14 @@ export default class DoughnutChart extends React.PureComponent<Props> {
     }
 
     public initChart = (update?: boolean): void => {
+        if (typeof this.props.data === 'undefined') {
+            return;
+        }
+
         if (!this.canvasRef.current) {
             return;
         }
+
         const ctx = this.canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
         const dataCopy = JSON.parse(JSON.stringify(this.props.data));
 
@@ -51,7 +56,7 @@ export default class DoughnutChart extends React.PureComponent<Props> {
 
     public render(): JSX.Element {
         let content;
-        if (this.props.data == null) {
+        if (typeof this.props.data === 'undefined') {
             content = (
                 <FormattedMessage
                     id='analytics.chart.loading'
