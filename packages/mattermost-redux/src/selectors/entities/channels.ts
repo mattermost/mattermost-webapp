@@ -562,6 +562,7 @@ export function basicUnreadMeta(unreadStatus: BasicUnreadStatus): BasicUnreadMet
     };
 }
 
+// muted channel will not be counted towards unreads
 export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = createSelector(
     'getUnreadStatus',
     getAllChannels,
