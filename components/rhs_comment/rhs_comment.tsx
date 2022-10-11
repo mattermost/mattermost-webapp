@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, ReactNode, RefObject} from 'react';
+import React, {ReactNode, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -261,9 +261,9 @@ export default class RhsComment extends React.PureComponent<Props, State> {
         );
     };
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
-
         this.setState({
             showEmojiPicker,
         });
@@ -317,7 +317,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
 
     getDotMenuRef = () => this.dotMenuRef.current;
 
-    setHover = (e: MouseEvent<HTMLDivElement>) => {
+    setHover = (e: React.MouseEvent<HTMLDivElement>) => {
         this.setState({
             hover: true,
             alt: e.altKey,
@@ -349,7 +349,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
 
     handleA11yDeactivateEvent = () => this.setState({a11yActive: false});
 
-    handlePostClick = (e: MouseEvent<HTMLDivElement>) => {
+    handlePostClick = (e: React.MouseEvent<HTMLDivElement>) => {
         if (this.props.channelIsArchived) {
             return;
         }
@@ -417,7 +417,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                 />
             );
 
-            if (post.props && post.props.from_webhook) {
+            if (PostUtils.isFromWebhook(post)) {
                 const overwriteName = post.props.override_username && this.props.enablePostUsernameOverride ? post.props.override_username : undefined;
                 userProfile = (
                     <UserProfile

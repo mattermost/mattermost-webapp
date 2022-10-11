@@ -41,8 +41,8 @@ import {
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import mockStore from 'tests/test_store';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
-import {getBrowserUtcOffset} from 'utils/timezone.jsx';
 import {TestHelper} from 'utils/test_helper';
+import {getBrowserUtcOffset} from 'utils/timezone';
 
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
@@ -555,12 +555,6 @@ describe('rhs view actions', () => {
                         postId: '',
                         channelId: '',
                         timestamp: 0,
-                    },
-                    {
-                        type: 'TOGGLE_EDITING_POST',
-                        data: {
-                            show: false,
-                        },
                     },
                 ],
             }];
