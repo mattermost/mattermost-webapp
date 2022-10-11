@@ -18,7 +18,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 function demoteGuestUser(guestUser) {
     // # Demote user as guest user before each test
     cy.apiAdminLogin();
-    cy.apiGetUserByEmail(guestUser.email).then(({user}) => {
+    cy.apiGetUserByEmail(guestUser.email).then((user) => {
         if (user.roles !== 'system_guest') {
             cy.apiDemoteUserToGuest(guestUser.id);
         }
@@ -180,7 +180,7 @@ describe('Guest Account - Guest User Experience', () => {
         demoteGuestUser(guestUser);
 
         // # Create a new team
-        cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
+        cy.apiCreateTeam('test-team2', 'Test Team2').then((teamTwo) => {
             // # Add the guest user to this team
             cy.apiAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
                 // # Login as guest user

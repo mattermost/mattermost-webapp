@@ -41,7 +41,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then(({guest}) => {
+            cy.apiCreateGuestUser().then((guest) => {
                 guestUser = guest;
 
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
@@ -125,8 +125,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.get(`#sidebarItem_${testChannel.name}`).click({force: true});
 
         // # Issue a Request to Revoke All Sessions as SysAdmin
-        const baseUrl = Cypress.config('baseUrl');
-        cy.externalRequest({user: admin, method: 'post', baseUrl, path: `users/${guestUser.id}/sessions/revoke/all`}).then(() => {
+        cy.externalRequest({user: admin, method: 'post', path: `users/${guestUser.id}/sessions/revoke/all`}).then(() => {
             // # Initiate browser activity like visit on test channel
             cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 

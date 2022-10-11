@@ -37,7 +37,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then(({guest}) => {
+            cy.apiCreateGuestUser().then((guest) => {
                 guestUser = guest;
 
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {

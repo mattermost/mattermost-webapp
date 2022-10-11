@@ -40,10 +40,10 @@ describe('Guest Account - Guest User Badge and Popover', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then(({guest: guestUser}) => {
+            cy.apiCreateGuestUser().then((guestUser) => {
                 guest = guestUser;
                 cy.log(`Guest Id: ${guest.id}`);
-                cy.log(`Gurest Username ${guest.username}`);
+                cy.log(`Guest Username ${guest.username}`);
                 cy.apiAddUserToTeam(testTeam.id, guest.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, guest.id);
                 });

@@ -13,6 +13,8 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import dayjs from 'dayjs';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getAdminAccount} from '../../../support/env';
 
@@ -42,7 +44,7 @@ describe('Verify Guest User Identification in different screens', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then(({guest: guestUser}) => {
+            cy.apiCreateGuestUser().then((guestUser) => {
                 guest = guestUser;
                 cy.apiAddUserToTeam(testTeam.id, guest.id).then(() => {
                     cy.apiAddUserToChannel(testChannel.id, guest.id);
@@ -87,7 +89,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Get yesterdays date in UTC
-        const yesterdaysDate = Cypress.dayjs().subtract(1, 'days').valueOf();
+        const yesterdaysDate = dayjs().subtract(1, 'days').valueOf();
 
         // # Post a day old message
         cy.postMessageAs({sender: guest, message: 'Hello from yesterday', channelId: testChannel.id, createAt: yesterdaysDate}).
@@ -113,7 +115,8 @@ describe('Verify Guest User Identification in different screens', () => {
 
         // # Open RHS comment menu
         cy.get('@yesterdaysPost').then((postId) => {
-            cy.clickPostCommentIcon(postId);
+            // need to check the JS version in order to see how this works originally.
+            cy.clickPostCommentIcon(postId.toString());
 
             // * Verify Guest Badge in RHS
             cy.get(`#rhsPost_${postId}`).within(($el) => {

@@ -46,14 +46,11 @@ describe('Guest Account - Guest User Removal Experience', () => {
         // * Check if server has license for Guest Accounts
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        cy.apiInitSetup().then(({team}) => {
-            team1 = team;
-
+        cy.apiInitSetup().then(({team: team1}) => {
             // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
-                cy.apiCreateUser().then(({user}) => {
+            cy.apiCreateTeam('test-team2', 'Test Team2').then((team2) => {
+                cy.apiCreateUser().then((user) => {
                     guest = user;
-                    team2 = teamTwo;
                     cy.apiAddUserToTeam(team1.id, guest.id);
                     cy.apiAddUserToTeam(team2.id, guest.id).then(() => {
                         cy.apiLogin(guest);

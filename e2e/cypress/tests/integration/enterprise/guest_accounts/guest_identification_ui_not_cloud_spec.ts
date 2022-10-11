@@ -35,7 +35,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then(({guest: guestUser}) => {
+            cy.apiCreateGuestUser().then((guestUser) => {
                 guest = guestUser;
                 cy.apiAddUserToTeam(team.id, guest.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, guest.id);

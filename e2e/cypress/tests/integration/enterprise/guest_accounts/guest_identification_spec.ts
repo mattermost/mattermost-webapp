@@ -41,8 +41,8 @@ describe('Guest Accounts', () => {
         });
 
         // # Log in as a team admin.
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
+        cy.apiAdminLogin().then((adminUser) => {
+            sysadmin = adminUser;
         });
     });
 
