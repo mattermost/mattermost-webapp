@@ -331,6 +331,7 @@ export default class SystemUsersList extends React.PureComponent<Props, State> {
         return (
             <div>
                 <SearchableUserList
+                    actionUserProps={{}}
                     {...this.props}
                     renderCount={this.renderCount}
                     extraInfo={extraInfo}

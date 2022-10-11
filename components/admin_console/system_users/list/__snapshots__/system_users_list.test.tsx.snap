@@ -16,6 +16,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": false,
       }
     }
+    actionUserProps={Object {}}
     actions={
       Array [
         Object {
@@ -102,6 +103,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": false,
       }
     }
+    actionUserProps={Object {}}
     actions={
       Array [
         Object {
@@ -307,6 +309,7 @@ exports[`components/admin_console/system_users/list should match default snapsho
         "mfaEnabled": true,
       }
     }
+    actionUserProps={Object {}}
     actions={
       Array [
         Object {

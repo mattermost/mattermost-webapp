@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import UserList from './user_list.jsx';
+import UserList from './user_list';
 
 describe('components/UserList', () => {
     test('should match default snapshot', () => {

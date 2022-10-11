@@ -30,7 +30,7 @@ exports[`components/UserList should match default snapshot when there are users 
         "id": "id1",
       }
     }
-    userCount={-1}
+    userCount={0}
   />
   <Connect(UserListRow)
     actionProps={Object {}}
