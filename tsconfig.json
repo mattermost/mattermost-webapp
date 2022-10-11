@@ -21,6 +21,7 @@
     "experimentalDecorators": true,
     "jsx": "react",
     "baseUrl": ".",
+    "types": ["cypress"],
     "paths": {
         "@mattermost/client": ["packages/client/src"],
         "@mattermost/components": ["packages/components/src"],
