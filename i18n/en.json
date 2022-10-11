@@ -2860,7 +2860,7 @@
   "channel_members_rhs.search_bar.aria.cancel_search_button": "cancel members search",
   "channel_members_rhs.search_bar.placeholder": "Search members",
   "channel_modal.alreadyExist": "A channel with that URL already exists",
-  "channel_modal.board.newBoardCreated2": "**{user}** created the board [{board}]({boardUrl}) and linked it to this channel.",
+  "channel_modal.board.newBoardCreated": "**{user}** created the board [{board}]({boardUrl}) and linked it to this channel.",
   "channel_modal.cancel": "Cancel",
   "channel_modal.create_board.select_template": "Select board template",
   "channel_modal.create_board.select_template_placeholder": "Select a template",

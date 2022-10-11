@@ -157,7 +157,7 @@ describe('components/new_channel_modal', () => {
                 },
             },
             plugins: {
-                plugins: {focalboard: {id: suitePluginIds.focalboard}},
+                plugins: {focalboard: {id: suitePluginIds.focalboard, version: '7.2.1'}},
             },
         } as unknown as GlobalState;
     });
@@ -279,7 +279,9 @@ describe('components/new_channel_modal', () => {
     });
 
     test('if focalboard plugin is not enabled, the option to create a board should be hidden', async () => {
-        mockState.plugins.plugins.anyotherplugin = {} as ClientPluginManifest;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        mockState.plugins.plugins = {} as ClientPluginManifest;
         const storeNoPlugins = await mockStore(mockState);
         const wrapper = mountWithIntl(
             <Provider store={storeNoPlugins}>
@@ -288,6 +290,6 @@ describe('components/new_channel_modal', () => {
         );
         const showTemplatesCheck = wrapper.find('.add-board-to-channel input');
 
-        expect(showTemplatesCheck).toHaveLength(1);
+        expect(showTemplatesCheck).toHaveLength(0);
     });
 });

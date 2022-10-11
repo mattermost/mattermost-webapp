@@ -27,6 +27,13 @@ Cypress.Commands.add('uiCreateChannel', ({
 
     if (createBoard) {
         cy.get('#add-board-to-channel').should('be.visible');
+        cy.findByTestId('add-board-to-channel-check').then((el) => {
+            if (!el.hasClass('checked')) {
+                el.click();
+                cy.get('#input_select-board-template').should('be.visible').click();
+                cy.get('.SelectTemplateMenu .MenuItem:contains(Roadmap) button').should('be.visible').click();
+            }
+        });
     }
     cy.findByText('Create channel').click();
     cy.get('#new-channel-modal').should('not.exist');

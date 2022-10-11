@@ -106,12 +106,14 @@ const NewChannelModal = () => {
     const [serverError, setServerError] = useState('');
     const [selectedBoardTemplate, setSelectedBoardTemplate] = useState<BoardTemplate | null>(null);
 
-    // add boards
+    // create a board along with the channel
+    const BOARDS_API_ENABLED_VERSION = '7.2.1'; // 7.2.1 is the minimum required; it exposes the boards templates api
     const [addBoard, setAddBoard] = useState(false);
     const [boardTemplates, setBoardTemplates] = useState<BoardTemplate[]>([]);
     const newChannelWithBoardPulsatingDotState = useSelector((state: GlobalState) => getPreference(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, ''));
     const EMPTY_BOARD = 'empty-board';
-    const focalboardEnabled = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard).id === suitePluginIds.focalboard;
+    const focalboardPlugin = useSelector((state: GlobalState) => state.plugins.plugins?.focalboard);
+    const focalboardEnabled = focalboardPlugin?.id === suitePluginIds.focalboard && focalboardPlugin.version >= BOARDS_API_ENABLED_VERSION;
 
     const handleOnModalConfirm = async () => {
         if (!canCreate) {
@@ -197,7 +199,7 @@ const NewChannelModal = () => {
                 const boardUrl = `${getSiteURL()}/boards/team/${currentTeamId}/${newBoard.id}`;
                 const newBoardMsg = formatMessage(
                     {
-                        id: 'channel_modal.board.newBoardCreated2',
+                        id: 'channel_modal.board.newBoardCreated',
                         defaultMessage: '**{user}** created the board [{board}]({boardUrl}) and linked it to this channel.',
                     },
                     {
@@ -332,7 +334,7 @@ const NewChannelModal = () => {
             icon: '',
             description: 'Create an empty board.',
         } as BoardTemplate];
-        setBoardTemplates([...templates, ...emptyBoard]);
+        setBoardTemplates([...templates || [], ...emptyBoard]);
     };
 
     const newBoardInfoIcon = () => {
@@ -457,6 +459,7 @@ const NewChannelModal = () => {
                                 onChange={showNewBoardTemplateSelector}
                                 checked={addBoard}
                                 id={'add-board-to-channel'}
+                                data-testid='add-board-to-channel-check'
                             />
                             <span>
                                 {formatMessage({id: 'channel_modal.create_board.title', defaultMessage: 'Create a board for this channel'})}
@@ -492,13 +495,18 @@ const NewChannelModal = () => {
                                 >
                                     <Menu.Group>
                                         {boardTemplates?.map((boardTemplate: BoardTemplate) => {
+                                            let templateDescription = boardTemplate.description || ' ';
+                                            if (templateDescription !== ' ' && templateDescription.length > 70) {
+                                                templateDescription = boardTemplate.description.substring(0, 70) + '…';
+                                            }
+
                                             return (
                                                 <Menu.ItemAction
-                                                    id={boardTemplate.title.replace(' ', '_')}
+                                                    id={boardTemplate.title.trim().split(' ').join('_')}
                                                     onClick={() => setSelectedBoardTemplate(boardTemplate)}
                                                     icon={boardTemplate.icon || <i className='icon icon-product-boards'/>}
                                                     text={boardTemplate.title || ''}
-                                                    extraText={boardTemplate.description ? `${boardTemplate.description.length < 70 ? boardTemplate.description : boardTemplate.description.substring(0, 70) + '…'}` : ' '}
+                                                    extraText={templateDescription}
                                                     key={boardTemplate.id}
                                                 />
                                             );
