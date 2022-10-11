@@ -125,79 +125,90 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
                 },
                 maintainAspectRatio: false,
                 scales: {
-                    xAxes: [{
-                        gridLines: {
+                    xAxis: {
+                        grid: {
                             drawOnChartArea: false,
                         },
                         ticks: {
-                            callback(val, index) {
+                            callback(_, index) {
+                                const labels = getLabels;
+                                const value = labels[index];
+
                                 // Hide every 4th tick label for 28 day time frame
                                 if (timeFrame === TimeFrames.INSIGHTS_28_DAYS) {
-                                    return index % 4 === 0 ? val : '';
+                                    return index % 4 === 0 ? value : '';
                                 }
 
                                 if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
-                                    const labels = getLabels;
-
                                     if (labels.length > 8 && labels.length <= 12) {
-                                        return index % 2 === 0 ? val : '';
+                                        return index % 2 === 0 ? value : '';
                                     }
 
                                     if (labels.length > 12) {
-                                        return index % 4 === 0 ? val : '';
+                                        return index % 4 === 0 ? value : '';
                                     }
                                 }
-                                return val;
+                                return value;
                             },
-                            fontFamily: 'Open Sans',
-                            fontSize: 10,
-                            fontColor: changeOpacity(theme.centerChannelColor, 0.72),
-                        },
-                    }],
-                    yAxes: [{
-                        gridLines: {
-                            drawOnChartArea: true,
-                        },
-                        ticks: {
-                            maxTicksLimit: 5,
-                            beginAtZero: true,
-                            fontFamily: 'Open Sans',
-                            fontSize: 10,
-                            fontColor: changeOpacity(theme.centerChannelColor, 0.72),
-                        },
-                    }],
-                },
-                tooltips: {
-                    callbacks: {
-                        label(tooltipItem, data) {
-                            const index = tooltipItem.datasetIndex;
-                            if (typeof index !== 'undefined' && data.datasets && data.datasets[index]?.label) {
-                                const label = data.datasets[index].label || '';
-                                if (label.length > 16) {
-                                    return ` ${label.slice(0, 16)}...`;
-                                }
-                                return ` ${label}`;
-                            }
-                            return '';
-                        },
-                        title() {
-                            return '';
-                        },
-                        footer(tooltipItem) {
-                            return `${tooltipItem[0].value} messages`;
+                            font: {
+                                family: 'Open Sans',
+                                size: 10,
+                            },
+                            color: changeOpacity(theme.centerChannelColor, 0.72),
                         },
                     },
-                    bodyFontStyle: 'bold',
-                    bodyAlign: 'left',
-                    bodySpacing: 10,
-                    bodyFontFamily: 'Open Sans',
-                    footerFontSize: 11,
-                    footerAlign: 'center',
-                    footerSpacing: 10,
-                    footerFontStyle: 'normal',
-                    footerFontFamily: 'Open Sans',
-                    footerFontColor: 'rgba(255, 255, 255, .64)',
-                    multiKeyBackground: 'transparent',
+                    yAxis: {
+                        grid: {
+                            drawOnChartArea: true,
+                        },
+                        beginAtZero: true,
+                        ticks: {
+                            maxTicksLimit: 5,
+                            font: {
+                                family: 'Open Sans',
+                                size: 10,
+                            },
+                            color: changeOpacity(theme.centerChannelColor, 0.72),
+                        },
+                    },
+                },
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label(context) {
+                                const index = context.datasetIndex;
+                                if (typeof index !== 'undefined' && context.dataset && context.dataset?.label) {
+                                    const label = context.dataset?.label || '';
+                                    if (label.length > 16) {
+                                        return ` ${label.slice(0, 16)}...`;
+                                    }
+                                    return ` ${label}`;
+                                }
+                                return '';
+                            },
+                            title() {
+                                return '';
+                            },
+                            footer(tooltipItems) {
+                                return `${tooltipItems[0].parsed.y} messages`;
+                            },
+                        },
+                        bodyFont: {
+                            weight: 'bold',
+                            family: 'Open Sans',
+                        },
+                        bodyAlign: 'left',
+                        bodySpacing: 10,
+                        footerFont: {
+                            family: 'Open Sans',
+                            size: 11,
+                            style: 'normal',
+                        },
+                        footerAlign: 'center',
+                        footerSpacing: 10,
+                        footerColor: 'rgba(255, 255, 255, .64)',
+                        multiKeyBackground: 'transparent',
+                    },
                 },
             }}
             data={getGraphData}
