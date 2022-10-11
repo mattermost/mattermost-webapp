@@ -1,13 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {NotificationSections} from 'utils/constants';
 
-export default function ExtraInfo({section}) {
+type Props = {
+    section: string;
+}
+
+export default function ExtraInfo({section}: Props) {
     switch (section) {
     case NotificationSections.DESKTOP:
         return (
@@ -50,6 +53,3 @@ export default function ExtraInfo({section}) {
     }
 }
 
-ExtraInfo.propTypes = {
-    section: PropTypes.string.isRequired,
-};
