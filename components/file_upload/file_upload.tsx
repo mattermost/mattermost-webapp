@@ -489,7 +489,7 @@ export class FileUpload extends PureComponent<Props, State> {
     }
 
     keyUpload = (e: KeyboardEvent) => {
-        if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
+        if (cmdOrCtrlPressed(e) && !e.shiftKey && isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
 
             if (!this.props.canUploadFiles) {
