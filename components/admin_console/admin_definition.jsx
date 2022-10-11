@@ -5804,7 +5804,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-        }
+        },
     },
     integrations: {
         icon: (
