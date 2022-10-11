@@ -17,6 +17,7 @@ import {getFileMiniPreviewUrl} from 'mattermost-redux/utils/file_utils';
 
 const MIN_IMAGE_SIZE = 48;
 const MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS = 100;
+const MAX_IMAGE_HEIGHT = 350;
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
 // ensuring that the page is laid out correctly.
@@ -376,7 +377,7 @@ export default class SizeAwareImage extends React.PureComponent {
         let fallback;
 
         if (this.dimensionsAvailable(dimensions) && !this.state.loaded) {
-            const ratio = dimensions.height > 350 ? 350 / dimensions.height : 1;
+            const ratio = dimensions.height > MAX_IMAGE_HEIGHT ? MAX_IMAGE_HEIGHT / dimensions.height : 1;
             const height = dimensions.height * ratio;
             const width = dimensions.width * ratio;
 
