@@ -155,53 +155,59 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                 "mode": "point",
               },
               "maintainAspectRatio": false,
+              "plugins": Object {
+                "tooltip": Object {
+                  "bodyAlign": "left",
+                  "bodyFont": Object {
+                    "family": "Open Sans",
+                    "weight": "bold",
+                  },
+                  "bodySpacing": 10,
+                  "callbacks": Object {
+                    "footer": [Function],
+                    "label": [Function],
+                    "title": [Function],
+                  },
+                  "footerAlign": "center",
+                  "footerColor": "rgba(255, 255, 255, .64)",
+                  "footerFont": Object {
+                    "family": "Open Sans",
+                    "size": 11,
+                    "style": "normal",
+                  },
+                  "footerSpacing": 10,
+                  "multiKeyBackground": "transparent",
+                },
+              },
               "responsive": true,
               "scales": Object {
-                "xAxes": Array [
-                  Object {
-                    "gridLines": Object {
-                      "drawOnChartArea": false,
-                    },
-                    "ticks": Object {
-                      "callback": [Function],
-                      "fontColor": "rgba(63,67,80,0.72)",
-                      "fontFamily": "Open Sans",
-                      "fontSize": 10,
+                "xAxis": Object {
+                  "grid": Object {
+                    "drawOnChartArea": false,
+                  },
+                  "ticks": Object {
+                    "callback": [Function],
+                    "color": "rgba(63,67,80,0.72)",
+                    "font": Object {
+                      "family": "Open Sans",
+                      "size": 10,
                     },
                   },
-                ],
-                "yAxes": Array [
-                  Object {
-                    "gridLines": Object {
-                      "drawOnChartArea": true,
-                    },
-                    "ticks": Object {
-                      "beginAtZero": true,
-                      "fontColor": "rgba(63,67,80,0.72)",
-                      "fontFamily": "Open Sans",
-                      "fontSize": 10,
-                      "maxTicksLimit": 5,
-                    },
-                  },
-                ],
-              },
-              "tooltips": Object {
-                "bodyAlign": "left",
-                "bodyFontFamily": "Open Sans",
-                "bodyFontStyle": "bold",
-                "bodySpacing": 10,
-                "callbacks": Object {
-                  "footer": [Function],
-                  "label": [Function],
-                  "title": [Function],
                 },
-                "footerAlign": "center",
-                "footerFontColor": "rgba(255, 255, 255, .64)",
-                "footerFontFamily": "Open Sans",
-                "footerFontSize": 11,
-                "footerFontStyle": "normal",
-                "footerSpacing": 10,
-                "multiKeyBackground": "transparent",
+                "yAxis": Object {
+                  "beginAtZero": true,
+                  "grid": Object {
+                    "drawOnChartArea": true,
+                  },
+                  "ticks": Object {
+                    "color": "rgba(63,67,80,0.72)",
+                    "font": Object {
+                      "family": "Open Sans",
+                      "size": 10,
+                    },
+                    "maxTicksLimit": 5,
+                  },
+                },
               },
             }
           }

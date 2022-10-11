@@ -4,7 +4,8 @@
 import deepEqual from 'fast-deep-equal';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import Chart, {ChartData} from 'chart.js';
+import Chart from 'chart.js/auto';
+import {ChartData} from 'chart.js';
 
 type Props = {
     title: React.ReactNode;
@@ -40,9 +41,11 @@ export default class DoughnutChart extends React.PureComponent<Props> {
         }
         const ctx = this.canvasRef.current.getContext('2d') as CanvasRenderingContext2D;
         const dataCopy = JSON.parse(JSON.stringify(this.props.data));
-        this.chart = new Chart(ctx, {type: 'doughnut', data: dataCopy, options: {}});
-        if (update && this.chart) {
-            this.chart.update();
+
+        if (update) {
+            this.chart?.update();
+        } else {
+            this.chart = new Chart(ctx, {type: 'doughnut', data: dataCopy, options: {}});
         }
     }
 
