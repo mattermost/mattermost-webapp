@@ -13,15 +13,15 @@ export const DEFAULT_NUM_PER_PAGE = 50;
 type Props = {
     titleText: string;
     searchPlaceholderText: string;
-    titleBarButtonText: string;
+    titleBarButtonText?: string;
     numPerPage?: number;
     show: boolean;
-    titleBarButtonOnClick: () => void;
+    titleBarButtonOnClick?: () => void;
     loadItems: (page: number, searchTerm: string) => Promise<{
         items: Group[];
         totalCount: number;
     }>;
-    onHide: () => void;
+    onHide?: () => void;
     renderRow: (item: Group, listModal: ListModal) => JSX.Element;
 }
 
