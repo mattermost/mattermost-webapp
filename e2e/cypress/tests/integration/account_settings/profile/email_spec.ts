@@ -10,18 +10,15 @@
 // Stage: @prod
 // Group: @account_setting
 
-import {AdminConfig} from '@mattermost/types/lib/config';
-import {UserProfile} from '@mattermost/types/lib/users';
-
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {reUrl, getRandomId} from '../../../utils';
 
 describe('Profile > Profile Settings > Email', () => {
     let siteName;
-    let testUser: UserProfile;
+    let testUser: Cypress.UserProfile;
     let otherUser;
     let offTopicUrl;
-    let origConfig: AdminConfig;
+    let origConfig: Cypress.AdminConfig;
 
     before(() => {
         // Get config
@@ -152,7 +149,7 @@ describe('Profile > Profile Settings > Email', () => {
         // * Check that the email verification message is not showed.
         cy.get('.announcement-bar').should('not.exist');
 
-        cy.getRecentEmail(testUser).then((data) => {
+        cy.getRecentEmail({username, email}).then((data) => {
             // * Verify the subject
             expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
@@ -207,7 +204,7 @@ describe('Profile > Profile Settings > Email', () => {
         // # Wait for one second for the mail to be sent out.
         cy.wait(TIMEOUTS.ONE_SEC);
 
-        cy.getRecentEmail(testUser).then((data) => {
+        cy.getRecentEmail({username, email}).then((data) => {
             // * Verify the subject
             expect(data.subject).to.equal(`[${siteName}] Verify new email address`);
 
