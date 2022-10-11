@@ -67,6 +67,7 @@ const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
 const LazyTeamController = React.lazy(() => import('components/team_controller'));
+const LazyDelinquencyModalController = React.lazy(() => import('components/delinquency_modal'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -101,6 +102,7 @@ const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
 const TeamController = makeAsyncComponent('TeamController', LazyTeamController);
+const DelinquencyModalController = makeAsyncComponent('DelinquencyModalController', LazyDelinquencyModalController);
 
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
@@ -577,6 +579,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         <CloudEffects/>
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
+                        <DelinquencyModalController/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route

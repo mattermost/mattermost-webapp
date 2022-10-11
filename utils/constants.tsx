@@ -153,6 +153,7 @@ export const Preferences = {
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
+    DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -413,6 +414,8 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
+    CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
 };
 
 export const UserStatuses = {
@@ -814,6 +817,7 @@ export const StoragePrefixes = {
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
     INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
+    DELINQUENCY: 'delinquency_',
 };
 
 export const LandingPreferenceTypes = {
