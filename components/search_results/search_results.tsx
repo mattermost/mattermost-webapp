@@ -40,10 +40,10 @@ import './search_results.scss';
 const GET_MORE_BUFFER = 30;
 
 const scrollbarStyles = {
-    `position`: `relative`,
+    position: 'relative',
     right: '5px',
     'background-color': 'rgba(var(--center-channel-color-rgb),0.32)',
-};
+} as const;
 
 const renderView = (props: Record<string, unknown>): JSX.Element => (
     <div
