@@ -3,8 +3,9 @@
 
 import React from 'react';
 import {shallow, mount} from 'enzyme';
-import {ChartData} from 'chart.js';
-import { mountWithIntl } from 'tests/helpers/intl-test-helper';
+import {Chart, ChartData} from 'chart.js';
+
+import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import DoughnutChart from 'components/analytics/doughnut_chart';
 
