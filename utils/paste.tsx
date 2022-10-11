@@ -35,13 +35,8 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {
     return table;
 }
 
-export function getHasLinks(clipboardData: DataTransfer): boolean {
-    if (Array.from(clipboardData.types).indexOf('text/html') === -1) {
-        return false;
-    }
-
-    const html = clipboardData.getData('text/html');
-    return (/<a/i).test(html);
+export function hasHtmlLink(clipboardData: DataTransfer): boolean {
+    return Array.from(clipboardData.types).includes('text/html') && (/<a/i).test(clipboardData.getData('text/html'));
 }
 
 export function getPlainText(clipboardData: DataTransfer): string | boolean {
@@ -86,13 +81,13 @@ function formatMarkdownTable(table: HTMLTableElement): string {
         return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
     }).join('\n');
 
-    const formattedTable = `${header}${body}\n`;
-    return formattedTable;
+    return `${header}${body}\n`;
 }
 
 export function formatMarkdownMessage(clipboardData: DataTransfer, message?: string, caretPosition?: number): string {
     const html = clipboardData.getData('text/html');
 
+    //TODO@michel: Instantiate turndown service in a central file instead
     const service = new TurndownService({emDelimiter: '*'});
     service.use(tables);
     let markdownFormattedMessage = service.turndown(html);

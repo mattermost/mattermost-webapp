@@ -73,12 +73,14 @@ describe('components/AdvancedCreateComment', () => {
         openModal: jest.fn(),
     };
 
+    const emptyDraft = {
+        message: '',
+        uploadsInProgress: [],
+        fileInfos: [],
+    };
+
     test('should match snapshot, empty comment', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
+        const draft = emptyDraft;
         const enableAddButton = false;
         const ctrlSend = true;
         const props = {...baseProps, draft, enableAddButton, ctrlSend};
@@ -169,11 +171,7 @@ describe('components/AdvancedCreateComment', () => {
 
     test('should correctly update draft when handleEmojiClick is called', () => {
         const onUpdateCommentDraft = jest.fn();
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
+        const draft = emptyDraft;
         const enableAddButton = false;
         const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
@@ -1221,12 +1219,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow(
             <AdvancedCreateComment
@@ -1250,12 +1243,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow(
             <AdvancedCreateComment
@@ -1278,12 +1266,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted markdown table', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1326,12 +1309,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted markdown table without headers', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1374,12 +1352,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted hyperlink', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1422,12 +1395,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a github codeblock (pasted as a table)', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1473,12 +1441,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a github codeblock (pasted as a table) with with existing draft post', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}

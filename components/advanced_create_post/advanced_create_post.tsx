@@ -30,7 +30,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils';
-import {getTable, getHasLinks, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
@@ -847,7 +847,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         const {clipboardData} = e;
 
-        const hasLinks = getHasLinks(clipboardData);
+        const hasLinks = hasHtmlLink(clipboardData);
         let table = getTable(clipboardData);
         if (!table && !hasLinks) {
             return;

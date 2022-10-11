@@ -23,7 +23,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils';
-import {getTable, getHasLinks, formatMarkdownMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
+import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
@@ -362,7 +362,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         const {clipboardData} = e;
-        const hasLinks = getHasLinks(clipboardData);
+        const hasLinks = hasHtmlLink(clipboardData);
         let table = getTable(clipboardData);
         if (!table && !hasLinks) {
             return;

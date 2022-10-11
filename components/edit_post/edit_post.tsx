@@ -14,7 +14,7 @@ import {
     formatGithubCodePaste,
     formatMarkdownMessage,
     getTable,
-    getHasLinks,
+    hasHtmlLink,
     isGitHubCodeBlock,
 } from 'utils/paste';
 import {postMessageOnKeyPress, splitMessageBasedOnCaretPosition} from 'utils/post_utils';
@@ -158,7 +158,7 @@ const EditPost = ({editingPost, actions, canEditPost, config, channelId, draft, 
             return;
         }
 
-        const hasLinks = getHasLinks(clipboardData);
+        const hasLinks = hasHtmlLink(clipboardData);
         const table = getTable(clipboardData);
         if (!table && !hasLinks) {
             return;
