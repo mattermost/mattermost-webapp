@@ -6,6 +6,7 @@ import React from 'react';
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
@@ -20,8 +21,6 @@ import BoolSetting from 'components/widgets/settings/bool_setting';
 import Provider from 'components/suggestion/provider';
 
 import Markdown from 'components/markdown';
-
-import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import AppsFormSelectField from './apps_form_select_field';
 
