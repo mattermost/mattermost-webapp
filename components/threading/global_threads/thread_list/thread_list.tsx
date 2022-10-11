@@ -32,10 +32,9 @@ import CRTUnreadTutorialTip
 
 import {getIsMobileView} from 'selectors/views/browser';
 
-import MarkAllThreadsAsReadModal, {MarkAllThreadsAsReadModalProps} from '../mark_all_threads_as_read_modal';
-
 import {closeModal, openModal} from 'actions/views/modals';
 
+import MarkAllThreadsAsReadModal, {MarkAllThreadsAsReadModalProps} from '../mark_all_threads_as_read_modal';
 import VirtualizedThreadList from './virtualized_thread_list';
 
 export enum ThreadFilter {
