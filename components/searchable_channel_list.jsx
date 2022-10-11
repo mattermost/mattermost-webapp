@@ -32,8 +32,6 @@ import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-// 1. todo sinan check typescript migration PR. If it is converted transfer your changes to TS file
-// 6. todo sinan write tests
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};

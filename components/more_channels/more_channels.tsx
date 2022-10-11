@@ -69,6 +69,7 @@ type State = {
 
 export default class MoreChannels extends React.PureComponent<Props, State> {
     public searchTimeoutId: number;
+    activeChannels: Channel[] = [];
 
     constructor(props: Props) {
         super(props);
@@ -203,28 +204,35 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
     otherChannelsWithoutJoined = this.props.channels.filter((channel) => !this.isMemberOfChannel(channel.id));
     archivedChannelsWithoutJoined = this.props.archivedChannels.filter((channel) => !this.isMemberOfChannel(channel.id));
 
-    getActivechannels = () => {
-        if (this.state.shouldShowArchivedChannels && this.state.shouldHideJoinedChannels) {
-            return this.state.search ? this.state.searchedChannels : this.archivedChannelsWithoutJoined;
-        } else if (this.state.shouldShowArchivedChannels && !this.state.shouldHideJoinedChannels) {
-            return this.state.search ? this.state.searchedChannels : this.props.archivedChannels;
-        } else if (!this.state.shouldShowArchivedChannels && this.state.shouldHideJoinedChannels) {
-            return this.state.search ? this.state.searchedChannels : this.otherChannelsWithoutJoined;
-        }
-        return this.state.search ? this.state.searchedChannels : this.props.channels;
-    }
-
     render() {
         const {
+            channels,
+            archivedChannels,
             teamId,
             channelsRequestStarted,
         } = this.props;
 
         const {
             search,
+            searchedChannels,
             serverError: serverErrorState,
             searching,
+            shouldShowArchivedChannels,
+            shouldHideJoinedChannels,
         } = this.state;
+
+        const otherChannelsWithoutJoined = channels.filter((channel) => !this.isMemberOfChannel(channel.id));
+        const archivedChannelsWithoutJoined = archivedChannels.filter((channel) => !this.isMemberOfChannel(channel.id));
+
+        if (shouldShowArchivedChannels && shouldHideJoinedChannels) {
+            this.activeChannels = search ? searchedChannels : archivedChannelsWithoutJoined;
+        } else if (shouldShowArchivedChannels && !shouldHideJoinedChannels) {
+            this.activeChannels = search ? searchedChannels : archivedChannels;
+        } else if (!shouldShowArchivedChannels && shouldHideJoinedChannels) {
+            this.activeChannels = search ? searchedChannels : otherChannelsWithoutJoined;
+        } else {
+            this.activeChannels = search ? searchedChannels : channels;
+        }
 
         let serverError;
         if (serverErrorState) {
@@ -269,7 +277,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         const body = this.state.loading ? <LoadingScreen/> : (
             <React.Fragment>
                 <SearchableChannelList
-                    channels={this.getActivechannels()}
+                    channels={this.activeChannels}
                     channelsPerPage={CHANNELS_PER_PAGE}
                     nextPage={this.nextPage}
                     isSearch={search}

@@ -332,8 +332,6 @@ describe('components/MoreChannels', () => {
         );
 
         wrapper.setState({shouldHideJoinedChannels: true});
-        console.log('getChannelgetActivechannels: ', wrapper.instance().getActivechannels());
-        console.log('baseProps.channels: ', baseProps.channels);
-        expect(wrapper.instance().getActivechannels()[0].id).toEqual(baseProps.channels[0].id);
+        expect(wrapper.instance().activeChannels[0].id).toEqual(baseProps.channels[0].id);
     });
 });
