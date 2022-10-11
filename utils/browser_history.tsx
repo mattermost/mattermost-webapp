@@ -38,34 +38,18 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}}: P
 export const browserHistory = {
     ...b,
     push: (path: string | Record<string, string>, ...args: string[]) => {
-        if (typeof path === 'string') {
-            if (isDesktop) {
-                window.postMessage(
-                    {
-                        type: 'browser-history-push',
-                        message: {
-                            path,
-                        },
+        if (isDesktop) {
+            window.postMessage(
+                {
+                    type: 'browser-history-push',
+                    message: {
+                        path: typeof path === 'string' ? path : path.pathname,
                     },
-                    window.location.origin,
-                );
-            } else {
-                b.push(path, ...args);
-            }
-        } else if (typeof path === 'object') {
-            if (isDesktop) {
-                window.postMessage(
-                    {
-                        type: 'browser-history-push',
-                        message: {
-                            path: path.pathname,
-                        },
-                    },
-                    window.location.origin,
-                );
-            } else {
-                b.push(path, ...args);
-            }
+                },
+                window.location.origin,
+            );
+        } else {
+            b.push(path, ...args);
         }
     },
 };
