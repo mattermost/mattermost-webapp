@@ -133,9 +133,15 @@
         font-weight: 600;
         line-height: 16px;
     }
+
+    .filter-controls {
+        padding-bottom: 14px;
+    }
 }
 
 #moreChannelsList {
+    margin-right: 8px;
+
     .primary-message {
         margin-top: 8px;
         color: var(--center-channel-text);
