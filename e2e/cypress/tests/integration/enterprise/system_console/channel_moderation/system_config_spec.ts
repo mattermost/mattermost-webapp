@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
+import {UserProfile} from '@mattermost/types/users';
+
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 import {checkBoxes} from './constants';
@@ -21,9 +23,9 @@ import {
 } from './helpers';
 
 describe('Channel Moderation', () => {
-    let guestUser;
-    let testTeam;
-    let testChannel;
+    let guestUser: UserProfile;
+    let testTeam: { id: string };
+    let testChannel: { id: string; name: string; display_name: string };
 
     before(() => {
         // * Check if server has license

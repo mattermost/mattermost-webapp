@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
+import {UserProfile} from '@mattermost/types/users';
+
 import {checkboxesTitleToIdMap} from './constants';
 
 import {
@@ -21,10 +23,11 @@ import {
 } from './helpers';
 
 describe('MM-23102 - Channel Moderation - Create Posts', () => {
-    let regularUser;
-    let guestUser;
-    let testTeam;
-    let testChannel;
+    let regularUser: UserProfile;
+    let guestUser: UserProfile;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let testTeam: any;
+    let testChannel: { id: string; name: string; display_name: string };
 
     before(() => {
         // * Check if server has license

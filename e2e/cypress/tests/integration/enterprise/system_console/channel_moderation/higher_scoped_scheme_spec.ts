@@ -9,6 +9,8 @@
 
 // Group: @enterprise @system_console @channel_moderation
 
+import {UserProfile} from '@mattermost/types/users';
+
 import {getRandomId} from '../../../../utils';
 
 import {checkboxesTitleToIdMap} from './constants';
@@ -31,10 +33,11 @@ import {
 } from './helpers';
 
 describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
-    let regularUser;
-    let guestUser;
-    let testTeam;
-    let testChannel;
+    let regularUser: UserProfile;
+    let guestUser: UserProfile;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let testTeam: any;
+    let testChannel: { id: string; name: string; display_name: string };
 
     before(() => {
         // * Check if server has license
@@ -113,7 +116,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         // # Reset system scheme to default and create a new channel to ensure that this channels moderation settings have never been modified
         cy.apiAdminLogin();
         cy.apiCreateChannel(testTeam.id, 'never-modified', `Never Modified ${getRandomId()}`).then(({channel}) => {
-            goToPermissionsAndCreateTeamOverrideScheme(channel.name, testTeam);
+            goToPermissionsAndCreateTeamOverrideScheme(channel.name, testTeam.display_name);
             deleteOrEditTeamScheme(channel.name, 'edit');
             cy.findByTestId(checkboxesTitleToIdMap.ALL_USERS_MANAGE_PUBLIC_CHANNEL_MEMBERS).click();
             saveConfigForScheme(false);
@@ -262,7 +265,7 @@ describe('MM-23102 - Channel Moderation - Higher Scoped Scheme', () => {
         cy.findByTestId('post_textbox').should('be.disabled');
 
         cy.getLastPostId().then((postId) => {
-            cy.clickPostDotMenu(postId);
+            cy.clickPostDotMenu(postId, 'RHS_ROOT');
 
             // * As per test case, ensure edit and delete button show up
             cy.get(`#edit_post_${postId}`).should('exist');
