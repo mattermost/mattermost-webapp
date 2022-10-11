@@ -150,10 +150,6 @@ const ThreadList = ({
         return {data: true};
     }, [currentTeamId, data, unread, selectedThreadId]);
 
-    const handleCloseMarkAllAsReadModal = useCallback(() => {
-        dispatch(closeModal(ModalIdentifiers.MARK_ALL_THREADS_AS_READ));
-    }, []);
-
     const handleAllMarkedRead = useCallback(() => {
         trackEvent('crt', 'mark_all_threads_read');
         dispatch(markAllThreadsInTeamRead(currentUserId, currentTeamId));
@@ -163,6 +159,10 @@ const ThreadList = ({
     }, [currentTeamId, currentUserId, currentFilter]);
 
     const handleOpenMarkAllAsReadModal = useCallback(() => {
+        const handleCloseMarkAllAsReadModal = () => {
+            dispatch(closeModal(ModalIdentifiers.MARK_ALL_THREADS_AS_READ));
+        };
+
         const handleConfirm = () => {
             handleAllMarkedRead();
             handleCloseMarkAllAsReadModal();
@@ -178,7 +178,7 @@ const ThreadList = ({
             dialogType: MarkAllThreadsAsReadModal,
             dialogProps: modalProp,
         }));
-    }, [handleAllMarkedRead, handleCloseMarkAllAsReadModal]);
+    }, [handleAllMarkedRead]);
 
     return (
         <div
