@@ -34,6 +34,7 @@
 
     .threads {
         grid-area: list;
+        right: '5px';
 
         .no-results__wrapper {
             position: relative;
