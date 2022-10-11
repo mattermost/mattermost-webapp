@@ -4,6 +4,7 @@
 import React from 'react';
 import {shallow, mount} from 'enzyme';
 import {ChartData} from 'chart.js';
+import { mountWithIntl } from 'tests/helpers/intl-test-helper';
 
 import DoughnutChart from 'components/analytics/doughnut_chart';
 
@@ -24,9 +25,9 @@ describe('components/analytics/doughnut_chart.tsx', () => {
 
     test('should match snapshot, loaded without data', () => {
         const Chart = jest.requireMock('chart.js');
-        const data: ChartData = {};
+        const data: ChartData | undefined = undefined;
 
-        const wrapper = mount(
+        const wrapper = mountWithIntl(
             <DoughnutChart
                 title='Test'
                 height={400}
@@ -35,7 +36,7 @@ describe('components/analytics/doughnut_chart.tsx', () => {
             />,
         );
 
-        expect(Chart).toBeCalledWith(expect.anything(), {data, options: {}, type: 'doughnut'});
+        expect(Chart).not.toBeCalled();
         expect(wrapper).toMatchSnapshot();
     });
 
