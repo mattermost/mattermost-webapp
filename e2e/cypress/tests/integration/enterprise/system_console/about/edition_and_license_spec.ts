@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @enterprise @not_cloud @system_console @license_removal
 
+import {UserNotifyProps, UserTimezone} from '@mattermost/types/lib/users';
+
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {getAdminAccount} from '../../../../support/env';
 
@@ -17,10 +19,10 @@ import {promoteToChannelOrTeamAdmin} from '../channel_moderation/helpers.js';
 
 describe('System console', () => {
     const sysadmin = getAdminAccount();
-    let teamAdmin;
-    let regularUser;
-    let teamName;
-    let privateChannelName;
+    let teamAdmin: { id: string; create_at?: number; update_at?: number; delete_at?: number; username?: string; password?: string; auth_data?: string; auth_service?: string; email?: string; email_verified?: boolean; nickname?: string; first_name?: string; last_name?: string; position?: string; roles?: string; allow_marketing?: boolean; props?: Record<string, string>; notify_props?: UserNotifyProps; last_password_update?: number; last_picture_update?: number; failed_attempts?: number; locale?: string; timezone?: UserTimezone; mfa_active?: boolean; mfa_secret?: string; last_activity_at?: number; is_bot?: boolean; bot_description?: string; bot_last_icon_update?: number; terms_of_service_id?: string; terms_of_service_create_at?: number; remote_id?: string; status?: string };
+    let regularUser: { id: string; create_at?: number; update_at?: number; delete_at?: number; username?: string; password?: string; auth_data?: string; auth_service?: string; email?: string; email_verified?: boolean; nickname?: string; first_name?: string; last_name?: string; position?: string; roles?: string; allow_marketing?: boolean; props?: Record<string, string>; notify_props?: UserNotifyProps; last_password_update?: number; last_picture_update?: number; failed_attempts?: number; locale?: string; timezone?: UserTimezone; mfa_active?: boolean; mfa_secret?: string; last_activity_at?: number; is_bot?: boolean; bot_description?: string; bot_last_icon_update?: number; terms_of_service_id?: string; terms_of_service_create_at?: number; remote_id?: string; status?: string };
+    let teamName: string;
+    let privateChannelName: string;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -96,7 +98,8 @@ function setChannelPermission() {
     cy.findByTestId('saveSetting').click();
 }
 
-function verifyCreatePublicChannel(teamName, testUsers) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function verifyCreatePublicChannel(teamName: string, testUsers: Array<{ user: any; canCreate: boolean; isSysadmin: boolean } | { user: any; canCreate: boolean; isSysadmin?: undefined }>) {
     for (const testUser of testUsers) {
         const {user, canCreate, isSysadmin} = testUser;
 
@@ -117,7 +120,8 @@ function verifyCreatePublicChannel(teamName, testUsers) {
     }
 }
 
-function verifyRenamePrivateChannel(teamName, privateChannelName, testUsers) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function verifyRenamePrivateChannel(teamName: string, privateChannelName: string, testUsers: Array<{ user: any; canRename: boolean }>) {
     for (const testUser of testUsers) {
         const {user, canRename} = testUser;
 
@@ -130,7 +134,8 @@ function verifyRenamePrivateChannel(teamName, privateChannelName, testUsers) {
     }
 }
 
-function verifyUserChannelPermission(teamName, privateChannelName, sysadmin, teamAdmin, regularUser) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function verifyUserChannelPermission(teamName: string, privateChannelName: string, sysadmin: { username: string; password: string; email: string }, teamAdmin: any, regularUser: any) {
     // * Verify that system admin sees option to create public channels and team admins / members do not
     verifyCreatePublicChannel(teamName, [
         {user: sysadmin, canCreate: true, isSysadmin: true},
