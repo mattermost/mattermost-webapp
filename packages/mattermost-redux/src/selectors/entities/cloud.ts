@@ -3,7 +3,6 @@
 
 import {Limits, Subscription, Product, CloudCustomer} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
-import {LegacyFreeProductIds} from 'utils/constants';
 
 import {getLicense} from './general';
 
@@ -38,10 +37,6 @@ export function getSubscriptionProduct(state: GlobalState): Product | undefined 
     }
 
     return products[subscription.product_id];
-}
-
-export function checkSubscriptionIsLegacyFree(state: GlobalState): boolean {
-    return Boolean(LegacyFreeProductIds[getCloudSubscription(state)?.product_id || '']);
 }
 
 export function checkHadPriorTrial(state: GlobalState): boolean {

@@ -19,7 +19,6 @@ import {
     getSubscriptionProduct,
     getCloudSubscription as selectCloudSubscription,
     getCloudCustomer as selectCloudCustomer,
-    checkSubscriptionIsLegacyFree,
 } from 'mattermost-redux/selectors/entities/cloud';
 import {
     TrialPeriodDays,
@@ -40,14 +39,9 @@ import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
 import Limits from './limits';
 
-// keep verbiage until used in follow up work to avoid translations churn.
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import _ from './translations';
-
 import {
     creditCardExpiredBanner,
     paymentFailedBanner,
-    GrandfatheredPlanBanner,
 } from './billing_subscriptions';
 import LimitReachedBanner from './limit_reached_banner';
 
@@ -65,11 +59,9 @@ const BillingSubscriptions = () => {
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
     const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
     const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
-    const isLegacyFree = useSelector(checkSubscriptionIsLegacyFree);
     const trialEndDate = subscription?.trial_end_at || 0;
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
-    const [showGrandfatheredPlanBanner, setShowGrandfatheredPlanBanner] = useState(true);
 
     const query = useQuery();
     const actionQueryParam = query.get('action');
@@ -130,17 +122,6 @@ const BillingSubscriptions = () => {
         return null;
     }
 
-    const shouldShowGrandfatheredPlanBanner = () => {
-        // Give preference to the payment failed banner
-        return (
-            !shouldShowPaymentFailedBanner() &&
-            showGrandfatheredPlanBanner &&
-
-            // This banner is only for this specific grandfathered subscription type.
-            isLegacyFree
-        );
-    };
-
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
             <FormattedAdminHeader
@@ -153,13 +134,6 @@ const BillingSubscriptions = () => {
                         product={product}
                     />
                     {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
-                    {shouldShowGrandfatheredPlanBanner() && (
-                        <GrandfatheredPlanBanner
-                            setShowGrandfatheredPlanBanner={(value: boolean) =>
-                                setShowGrandfatheredPlanBanner(value)
-                            }
-                        />
-                    )}
                     {showCreditCardBanner &&
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
@@ -170,7 +144,6 @@ const BillingSubscriptions = () => {
                             subscriptionPlan={product?.sku}
                         />
                         <BillingSummary
-                            isLegacyFree={isLegacyFree}
                             isFreeTrial={isFreeTrial}
                             daysLeftOnTrial={daysLeftOnTrial}
                             onUpgradeMattermostCloud={onUpgradeMattermostCloud}
@@ -190,7 +163,6 @@ const BillingSubscriptions = () => {
                     <CancelSubscription
                         cancelAccountLink={cancelAccountLink}
                         isFreeTrial={isFreeTrial}
-                        isLegacyFree={isLegacyFree}
                     />
                 </div>
             </div>
