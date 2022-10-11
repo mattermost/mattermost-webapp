@@ -21,7 +21,7 @@ import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import VoiceMessageRecordingStarted from 'components/advanced_text_editor/voice_message_attachment/components/recording_started';
 import VoiceMessageUploadingStarted from 'components/advanced_text_editor/voice_message_attachment/components/upload_started';
 import VoiceMessageUploadingFailed from 'components/advanced_text_editor/voice_message_attachment/components/upload_failed';
-import VoiceMessageUploadingCompleted from 'components/advanced_text_editor/voice_message_attachment/components/upload_complete';
+import VoiceMessageAttachmentPlayer from 'components/voice_message_attachment_player';
 
 declare global {
     interface Window {
@@ -151,12 +151,14 @@ const VoiceMessageAttachment = (props: Props) => {
 
     if (props.vmState === VoiceMessageStates.ATTACHED) {
         const src = props?.draft?.fileInfos?.[0]?.id ?? '';
+
         return (
-            <VoiceMessageUploadingCompleted
-                theme={theme}
-                src={src}
-                onCancel={handleRemoveAfterUpload}
-            />
+            <div className='file-preview__container'>
+                <VoiceMessageAttachmentPlayer
+                    fileId={src}
+                    onCancel={handleRemoveAfterUpload}
+                />
+            </div>
         );
     }
 

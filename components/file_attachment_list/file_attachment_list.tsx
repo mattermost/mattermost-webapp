@@ -11,6 +11,7 @@ import {getFileType} from 'utils/utils';
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 import FilePreviewModal from 'components/file_preview_modal';
+import VoiceMessageAttachmentPlayer from 'components/voice_message_attachment_player';
 
 import type {OwnProps, PropsFromRedux} from './index';
 
@@ -41,16 +42,15 @@ export default function FileAttachmentList(props: Props) {
 
     const sortedFileInfos = useMemo(() => sortFileInfos(fileInfos ? [...fileInfos] : [], locale), [fileInfos, locale]);
 
+    // TODO : change later
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     if (post.type === 'custom_voice') {
         return (
-            <div>
-                <audio controls={true}>
-                    <source
-                        src={`/api/v4/files/${fileInfos?.[0]?.id}`}
-                        type='audio/mp3'
-                    />
-                </audio>
-            </div>
+            <VoiceMessageAttachmentPlayer
+                fileId={fileInfos?.[0]?.id ?? ''}
+                inPost={true}
+            />
         );
     } else if (fileInfos && fileInfos.length === 1 && !fileInfos[0].archived) {
         const fileType = getFileType(fileInfos[0].extension);

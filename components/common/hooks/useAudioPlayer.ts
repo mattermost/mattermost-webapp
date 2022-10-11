@@ -19,6 +19,8 @@ export function useAudioPlayer(src?: string) {
 
     // Add event listeners to audio element
     useEffect(() => {
+        let elapsedTimeRafId: number;
+
         function onEnded() {
             setPlayerState(AudioPlayerState.Stopped);
             audio.currentTime = 0;
@@ -32,7 +34,7 @@ export function useAudioPlayer(src?: string) {
         }
 
         function onTimeUpdate() {
-            requestAnimationFrame(() => {
+            elapsedTimeRafId = requestAnimationFrame(() => {
                 setElapsedTime(audio.currentTime);
             });
         }
@@ -45,6 +47,7 @@ export function useAudioPlayer(src?: string) {
             audio.removeEventListener('ended', onEnded);
             audio.removeEventListener('loadeddata', onLoadedData);
             audio.removeEventListener('timeupdate', onTimeUpdate);
+            cancelAnimationFrame(elapsedTimeRafId);
         };
     }, [audio]);
 
