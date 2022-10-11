@@ -3,17 +3,22 @@
 
 import {Editor} from '@tiptap/react';
 import classNames from 'classnames';
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import {times} from 'lodash';
+import React, {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled, {css} from 'styled-components';
 import {useFloating, offset} from '@floating-ui/react-dom';
 import {CSSTransition} from 'react-transition-group';
-import {CheckIcon, ChevronDownIcon} from '@mattermost/compass-icons/components';
+import {CheckIcon, ChevronDownIcon, TableLargeIcon} from '@mattermost/compass-icons/components';
 
 import ToolbarControl, {
     DropdownContainer,
     makeControlActiveAssertionMap,
-    makeControlHandlerMap, MAP_HEADING_MODE_TO_ARIA_LABEL, MAP_HEADING_MODE_TO_LABEL, MarkdownHeadingMode,
+    makeControlHandlerMap,
+    makeTableControlDefinitions,
+    MAP_HEADING_MODE_TO_ARIA_LABEL,
+    MAP_HEADING_MODE_TO_LABEL,
+    MarkdownHeadingMode,
     MarkdownHeadingModes,
 } from './toolbar_controls';
 
@@ -98,6 +103,10 @@ export const HeadingControlsContainer = styled.div`
     }
 `;
 
+const TableControlsContainer = styled(HeadingControlsContainer)`
+    flex-direction: row;
+`;
+
 interface ToolbarProps {
 
     /**
@@ -123,6 +132,7 @@ interface ToolbarProps {
     rightControls?: React.ReactNode | React.ReactNodeArray;
 }
 
+// TODO@michel: add more comments for understanding the flow of the component
 const Toolbar = (props: ToolbarProps): JSX.Element => {
     const {
         location,
@@ -151,6 +161,7 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
 
     useEffect(() => {
         const handleClickOutside: EventListener = (event) => {
+            event.stopPropagation();
             const {floatingRef, buttonRef} = getLatest();
             const target = event.composedPath?.()?.[0] || event.target;
             if (target instanceof Node) {
@@ -268,12 +279,170 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                         </React.Fragment>
                     );
                 })}
+                <TableControls editor={editor}/>
                 {additionalControls}
             </ToolSection>
             <ToolSection>
                 {rightControls}
             </ToolSection>
         </ToolbarContainer>
+    );
+};
+
+const MatrixWrapper = styled.div`
+    display: grid;
+    grid-gap: 4px;
+    grid-template-columns: repeat(5, min-content);
+    padding: 0 8px;
+`;
+
+type MatrixBoxProps = {
+    selected: boolean;
+}
+
+const MatrixBox = memo(styled.div<MatrixBoxProps>`
+    width: 18px;
+    height: 18px;
+    background: ${({selected}) => (selected ? 'rgba(var(--button-bg-rgb), 0.24)' : 'transparent')};
+    border: 2px solid rgba(var(--center-channel-color-rgb), 0.52);
+    border-radius: 4px;
+`);
+
+type MatrixSelection = {
+    cols: number;
+    rows: number;
+}
+
+type SelectionMatrixProps = {
+    onSelect: ({cols, rows}: MatrixSelection) => void;
+}
+
+const SelectionMatrix = ({onSelect}: SelectionMatrixProps) => {
+    const [selection, setSelection] = useState<MatrixSelection>({rows: 0, cols: 0});
+
+    return (
+        <MatrixWrapper>
+            {times(4, (row) => (
+                <React.Fragment key={`row_${row}`}>
+                    {times(5, (col) => {
+                        const actualRow = row + 1;
+                        const actualCol = col + 1;
+                        const isSelected = actualCol <= selection.cols && actualRow <= selection.rows;
+                        return (
+                            <MatrixBox
+                                key={`row_${row}-col_${col}`}
+                                selected={isSelected}
+                                onMouseOver={() => setSelection({cols: actualCol, rows: actualRow})}
+                                onClick={() => onSelect(selection)}
+                            />
+                        );
+                    })}
+                </React.Fragment>
+            ))}
+        </MatrixWrapper>
+    );
+};
+
+type TableControlProps = {
+    editor: Editor;
+}
+
+const TableControls = ({editor}: TableControlProps) => {
+    const [showTableControls, setShowTableControls] = useState(false);
+
+    const tableControls = makeTableControlDefinitions(editor);
+    const tableModeIsActive = editor.isActive('table');
+
+    // TODO@michel: move this to its own component (e.g. `Popover`)
+    const {x, y, reference, floating, strategy, update, refs: {reference: buttonRef, floating: floatingRef}} = useFloating<HTMLButtonElement>({
+        placement: 'top',
+        middleware: [offset({mainAxis: 4})],
+    });
+
+    // this little helper hook always returns the latest refs and does not mess with the floatingUI placement calculation
+    const getLatest = useGetLatest({
+        showTableControls,
+        buttonRef,
+        floatingRef,
+    });
+
+    const toggleTableControls = useCallback((event?) => {
+        event?.preventDefault();
+        setShowTableControls(!showTableControls);
+    }, [showTableControls]);
+
+    const tableControlsContainerStyles: React.CSSProperties = {
+        position: strategy,
+        top: y ?? 0,
+        left: x ?? 0,
+    };
+
+    useEffect(() => {
+        const handleClickOutside: EventListener = (event) => {
+            event.stopPropagation();
+            const {floatingRef, buttonRef} = getLatest();
+            const target = event.composedPath?.()?.[0] || event.target;
+            if (target instanceof Node) {
+                if (
+                    floatingRef !== null &&
+                    buttonRef !== null &&
+                    !floatingRef.current?.contains(target) &&
+                    !buttonRef.current?.contains(target)
+                ) {
+                    setShowTableControls(false);
+                }
+            }
+        };
+
+        document.addEventListener('mousedown', handleClickOutside);
+
+        return () => document.removeEventListener('mousedown', handleClickOutside);
+    }, [getLatest]);
+
+    const overlayContent = tableModeIsActive ? tableControls.map((control) => (
+        <ToolbarControl
+            key={control.mode}
+            mode={control.mode}
+            Icon={TableLargeIcon}
+            onClick={control.action}
+            ariaLabel={control.title}
+        />
+    )) : (
+        <SelectionMatrix
+            onSelect={(selection) => {
+                editor.chain().focus().insertTable({...selection, withHeaderRow: false}).run();
+                setShowTableControls(false);
+            }}
+        />
+    );
+
+    useEffect(() => {
+        update?.();
+    }, [showTableControls, update]);
+
+    return (
+        <>
+            <ToolbarControl
+                mode={tableControls[0].mode}
+                Icon={TableLargeIcon}
+                onClick={toggleTableControls}
+                isActive={showTableControls}
+                ariaLabel={'toggle table controls'}
+                ref={reference}
+            />
+            <CSSTransition
+                timeout={250}
+                classNames='scale'
+                in={showTableControls}
+            >
+                <TableControlsContainer
+                    ref={floating}
+                    style={tableControlsContainerStyles}
+                >
+                    {overlayContent}
+                </TableControlsContainer>
+            </CSSTransition>
+        </>
     );
 };
 

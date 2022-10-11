@@ -56,10 +56,13 @@ const EditorContainer = styled.div`
     padding: 8px;
 
     .markdown__table {
+        position: relative;
+
         p:last-child {
             margin-bottom: 0;
         }
 
+        &.ProseMirror-selectednode,
         td.selectedCell {
             position: relative;
 
@@ -69,6 +72,11 @@ const EditorContainer = styled.div`
                 inset: 0 0 0 0;
                 background: rgba(var(--semantic-color-danger), 0.12);
             }
+        }
+
+        td {
+            // this is to fix a bug with the cursor being hidden in empty cells
+            min-width: 28px;
         }
     }
 `;

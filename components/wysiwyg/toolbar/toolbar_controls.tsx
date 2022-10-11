@@ -2,7 +2,8 @@
 // See LICENSE.txt for license information.
 
 import {Editor} from '@tiptap/react';
-import React, {memo} from 'react';
+import classNames from 'classnames';
+import React, {ForwardedRef, forwardRef, memo} from 'react';
 import {MessageDescriptor, useIntl} from 'react-intl';
 import styled from 'styled-components';
 import {
@@ -120,13 +121,60 @@ export const MarkdownHeadingModes: MarkdownHeadingMode[] = ['p', 'h1', 'h2', 'h3
  */
 export const MarkdownModes: MarkdownMode[] = MarkdownLeafModes.concat(MarkdownBlockModes);
 
-type ToolbarControlProps = {
-    mode: MarkdownMode;
-    onClick?: () => void;
-    className?: string;
-    disabled?: boolean;
-    isActive?: boolean;
-}
+/**
+ * all tabel modifying control types
+ */
+export type TableControl = 'addTable' | 'removeTable' | 'addColBefore' | 'addColAfter' | 'deleteCol' | 'addRowAfter' | 'addRowBefore' | 'deleteRow';
+export type TableControlDefinition = {
+    mode: TableControl;
+    title: string;
+    show: boolean;
+    action: () => void;
+};
+export const makeTableControlDefinitions = (editor: Editor): TableControlDefinition[] => ([
+    {
+        mode: 'removeTable',
+        title: 'Delete Table',
+        show: editor.can().deleteTable(),
+        action: () => editor.chain().focus().deleteTable().run(),
+    },
+    {
+        mode: 'addColBefore',
+        title: 'Add Column Before',
+        show: editor.can().addColumnBefore(),
+        action: () => editor.chain().focus().addColumnBefore().run(),
+    },
+    {
+        mode: 'addColAfter',
+        title: 'Add Column After',
+        show: editor.can().addColumnAfter(),
+        action: () => editor.chain().focus().addColumnAfter().run(),
+    },
+    {
+        mode: 'deleteCol',
+        title: 'Delete Column',
+        show: editor.can().deleteColumn(),
+        action: () => editor.chain().focus().deleteColumn().run(),
+    },
+    {
+        mode: 'addRowBefore',
+        title: 'Add Row Before',
+        show: editor.can().addRowBefore(),
+        action: () => editor.chain().focus().addRowBefore().run(),
+    },
+    {
+        mode: 'addRowAfter',
+        title: 'Add Row After',
+        show: editor.can().addRowAfter(),
+        action: () => editor.chain().focus().addRowAfter().run(),
+    },
+    {
+        mode: 'deleteRow',
+        title: 'Delete Row',
+        show: editor.can().deleteRow(),
+        action: () => editor.chain().focus().deleteRow().run(),
+    },
+]);
 
 export const MAP_HEADING_MODE_TO_LABEL: Record<MarkdownHeadingMode, MessageDescriptor> = {
     p: {id: t('wysiwyg.tool.paragraph.label'), defaultMessage: 'Normal text'},
@@ -253,22 +301,32 @@ export const makeControlActiveAssertionMap = (editor: Editor): Record<ToolbarCon
     ol: () => editor.isActive('orderedList'),
 });
 
+type ToolbarControlProps = {
+    mode: MarkdownMode | string;
+    Icon?: React.FC<IconProps>;
+    onClick?: () => void;
+    className?: string;
+    ariaLabel?: string;
+    disabled?: boolean;
+    isActive?: boolean;
+}
+
 /**
  * by passing in the rest spread we guarantee that accessibility
  * properties like aria-label, etc. get added to the DOM
  */
-const ToolbarControl = ({mode, ...rest}: ToolbarControlProps): JSX.Element => {
+const ToolbarControl = forwardRef(({mode, Icon = MAP_MARKDOWN_MODE_TO_ICON[mode], isActive, ...rest}: ToolbarControlProps, ref: ForwardedRef<HTMLButtonElement>): JSX.Element => {
     const {formatMessage} = useIntl();
 
-    /* get the correct Icon from the IconMap */
-    const Icon = MAP_MARKDOWN_MODE_TO_ICON[mode];
-    const buttonAriaLabel = formatMessage(MAP_MARKDOWN_MODE_TO_ARIA_LABEL[mode]);
+    const buttonAriaLabel = rest.ariaLabel ?? formatMessage(MAP_MARKDOWN_MODE_TO_ARIA_LABEL[mode]);
 
     const bodyAction = (
         <IconContainer
             type='button'
             id={`FormattingControl_${mode}`}
             aria-label={buttonAriaLabel}
+            ref={ref}
+            className={classNames({active: isActive})}
             {...rest}
         >
             <Icon
@@ -278,8 +336,15 @@ const ToolbarControl = ({mode, ...rest}: ToolbarControlProps): JSX.Element => {
         </IconContainer>
     );
 
+    // TODO@michel: hack for now to get it working. Fix in a later iteration/cleanup!
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (!MarkdownModes.includes(mode)) {
+        return bodyAction;
+    }
+
     /* get the correct tooltip from the ShortcutsMap */
-    const shortcut = MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS[mode];
+    const shortcut = MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS[mode] || '';
     const tooltip = (
         <Tooltip id='upload-tooltip'>
             <KeyboardShortcutSequence
@@ -300,6 +365,6 @@ const ToolbarControl = ({mode, ...rest}: ToolbarControlProps): JSX.Element => {
             {bodyAction}
         </OverlayTrigger>
     );
-};
+});
 
 export default memo(ToolbarControl);
