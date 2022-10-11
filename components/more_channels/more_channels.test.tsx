@@ -67,7 +67,16 @@ describe('components/MoreChannels', () => {
     };
 
     const baseProps: Props = {
-        channels: [TestHelper.getChannelMock({})],
+        channels: [
+            TestHelper.getChannelMock({
+                id: 'channel-1',
+                name: 'channel-1',
+            }),
+            TestHelper.getChannelMock({
+                id: 'channel-2',
+                name: 'channel-2',
+            }),
+        ],
         archivedChannels: [TestHelper.getChannelMock({
             id: 'channel_id_2',
             team_id: 'channel_team_2',
@@ -81,7 +90,12 @@ describe('components/MoreChannels', () => {
         teamName: 'team_name',
         channelsRequestStarted: false,
         canShowArchivedChannels: true,
-        myChannelMemberships: {},
+        myChannelMemberships: {
+            'channel-2': TestHelper.getChannelMembershipMock({
+                channel_id: 'channel-2',
+                user_id: 'user-1',
+            }),
+        },
         allChannelStats: {},
         actions: {
             getChannels: jest.fn(),
@@ -310,5 +324,16 @@ describe('components/MoreChannels', () => {
             expect(wrapper.state('searchedChannels')).toEqual([searchResults.data[1]]);
             done();
         });
+    });
+
+    test('should hide joined channels from channels props when shouldHideJoinedChannels state is true', () => {
+        const wrapper = shallow<MoreChannels>(
+            <MoreChannels {...baseProps}/>,
+        );
+
+        wrapper.setState({shouldHideJoinedChannels: true});
+        console.log('getChannelgetActivechannels: ', wrapper.instance().getActivechannels());
+        console.log('baseProps.channels: ', baseProps.channels);
+        expect(wrapper.instance().getActivechannels()[0].id).toEqual(baseProps.channels[0].id);
     });
 });
