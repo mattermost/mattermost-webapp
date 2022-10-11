@@ -151,7 +151,7 @@ describe('components/MoreChannels', () => {
             <MoreChannels {...baseProps}/>,
         );
 
-        wrapper.setState({search: true, searching: true});
+        wrapper.setState({loading: false, search: true, searching: true});
         const searchList = wrapper.find(SearchableChannelList);
         expect(searchList.props().loading).toEqual(true);
     });

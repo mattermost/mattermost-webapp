@@ -11,13 +11,17 @@ describe('components/SearchableChannelList', () => {
         channels: [],
         isSearch: false,
         channelsPerPage: 10,
-        nextPage: () => {}, // eslint-disable-line no-empty-function
-        search: () => {}, // eslint-disable-line no-empty-function
-        handleJoin: () => {}, // eslint-disable-line no-empty-function
+        nextPage: jest.fn(),
+        search: jest.fn(),
+        handleJoin: jest.fn(),
         loading: true,
-        toggleArchivedChannels: () => {}, // eslint-disable-line no-empty-function
+        toggleArchivedChannels: jest.fn(),
         shouldShowArchivedChannels: false,
         canShowArchivedChannels: false,
+        myChannelMemberships: {},
+        allChannelStats: {},
+        closeModal: jest.fn(),
+        hideJoinedChannelsPreference: jest.fn(),
     };
 
     test('should match init snapshot', () => {

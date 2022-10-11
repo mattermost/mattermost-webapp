@@ -31,6 +31,27 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     </div>
   </div>
   <div
+    className="more-modal__dropdown"
+  >
+    <span
+      id="channelCountLabel"
+    >
+      0 Channel
+    </span>
+    <div
+      className="d-flex align-items-center"
+    >
+      <button
+        className="get-app__checkbox "
+        onClick={[Function]}
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Hide Joined"
+        id="more_channels.hide_joined"
+      />
+    </div>
+  </div>
+  <div
     className="more-modal__list"
     role="application"
   >
