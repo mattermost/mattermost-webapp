@@ -66,9 +66,11 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
             return;
         }
 
-        const delinquencyDate = new Date(
-            (subscription.delinquent_since || 0) * 1000,
-        );
+        if (subscription.delinquent_since == null) {
+            return;
+        }
+
+        const delinquencyDate = new Date(subscription.delinquent_since * 1000);
 
         const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
         const today = new Date();
