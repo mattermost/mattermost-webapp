@@ -62,7 +62,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLoginWithMFA(token);
          */
-        apiAdminLoginWithMFA(): Chainable<UserProfile>;
+        apiAdminLoginWithMFA(token: string): Chainable<UserProfile>;
 
         /**
          * Logout a user's active session from server via API.
@@ -205,7 +205,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateUser(options);
          */
-        apiCreateUser(options: Record<string, any>): Chainable<{user: UserProfile}>;
+        apiCreateUser(options?: Record<string, any>): Chainable<UserProfile>;
 
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
@@ -217,7 +217,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateGuestUser(options);
          */
-        apiCreateGuestUser(options: Record<string, any>): Chainable<UserProfile>;
+        apiCreateGuestUser(options?: Record<string, any>): Chainable<UserProfile>;
 
         /**
          * Revoke all active sessions for a user.

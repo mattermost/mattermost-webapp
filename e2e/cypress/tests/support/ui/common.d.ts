@@ -52,10 +52,12 @@ declare namespace Cypress {
         /**
          * Get a button by its text using "cy.findByRole"
          *
+         * @param {String} text - Button text
+         *
          * @example
          *   cy.uiGetButton('Save');
          */
-        uiGetButton(): Chainable;
+        uiGetButton(text: string): Chainable;
 
         /**
          * Get save button
