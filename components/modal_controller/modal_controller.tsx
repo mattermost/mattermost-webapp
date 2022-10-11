@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {createPortal} from 'react-dom';
 
 type Modal = {
     open: boolean;
@@ -64,6 +63,8 @@ export default class ModalController extends React.PureComponent<Props> {
             }
         }
 
-        return createPortal(modalOutput, document.getElementById('root-portal')!);
+        return (
+            <div>{modalOutput}</div>
+        );
     }
 }
