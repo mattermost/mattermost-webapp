@@ -8,9 +8,20 @@ import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 import {Post} from '@mattermost/types/posts';
 
+import * as selectorsTeams from 'mattermost-redux/selectors/entities/teams';
+
 import {TestHelper} from 'utils/test_helper';
 
 import RhsThread from './rhs_thread';
+
+const mockDispatch = jest.fn();
+let mockState: any;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
 
 describe('components/RhsThread', () => {
     const post: Post = TestHelper.getPostMock({
@@ -51,6 +62,7 @@ describe('components/RhsThread', () => {
     };
 
     test('should match snapshot', () => {
+        jest.spyOn(selectorsTeams, 'getCurrentTeam').mockReturnValue(TestHelper.getTeamMock());
         const wrapper = shallow(
             <RhsThread {...baseProps}/>,
         );
