@@ -182,9 +182,7 @@ describe('Integrations page', () => {
                     data: {
                         appID: clientID,
                         appSecret: clientSecret,
-                    },
-                    waitFor: null,
-                });
+                    }});
             });
         });
 
@@ -218,9 +216,7 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                },
-                waitFor: null,
-            });
+                }});
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -279,9 +275,7 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                },
-                waitFor: null,
-            });
+                }});
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -319,9 +313,7 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                },
-                waitFor: null,
-            });
+                }});
 
             // * The message should not be posted
             cy.findByText(message).should('not.exist');
@@ -356,9 +348,7 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                },
-                waitFor: null,
-            });
+                }});
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -399,9 +389,7 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                },
-                waitFor: null,
-            });
+                }});
 
             // * The message should be posted
             cy.findByText(message).should('exist');
@@ -430,9 +418,7 @@ describe('Integrations page', () => {
             data: {
                 appID: oauthClientID,
                 appSecret: oauthClientSecret,
-            },
-            waitFor: null,
-        });
+            }});
 
         // # Visit the webhook url to start the OAuth handshake
         cy.visit(`${webhookBaseUrl}/start_oauth`, {failOnStatusCode: false});
@@ -471,9 +457,7 @@ describe('Integrations page', () => {
                 data: {
                     channelId,
                     message,
-                },
-                waitFor: null,
-            });
+                }});
 
             // * The message should not be posted
             cy.findByText(message).should('not.exist');
