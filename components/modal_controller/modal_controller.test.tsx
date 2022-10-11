@@ -47,6 +47,11 @@ class TestModal extends React.PureComponent<TestModalProps, TestModalState> {
     }
 }
 
+jest.mock('react-dom', () => ({
+    ...jest.requireActual('react-dom'),
+    createPortal: (node: any) => node,
+}));
+
 describe('components/ModalController', () => {
     const modalId = 'test_modal';
 
@@ -68,7 +73,6 @@ describe('components/ModalController', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('div').first().html()).toBe('<div></div>');
         expect(document.getElementsByClassName('modal-dialog').length).toBeFalsy();
     });
 
@@ -89,13 +93,13 @@ describe('components/ModalController', () => {
 
         const store = mockStore(state);
 
-        mount(
+        const wrapper = mount(
             <Provider store={store}>
                 <ModalController/>
             </Provider>,
         );
 
-        expect(document.getElementsByClassName('modal-dialog').length).toBe(1);
+        expect(wrapper.find('.modal-dialog').length).toBe(1);
     });
 
     test('should pass onExited to modal to allow a modal to remove itself', () => {
