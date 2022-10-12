@@ -22,7 +22,7 @@ import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'matte
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
-import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
+import {measurePageLoadTelemetry, trackEvent, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
@@ -301,6 +301,8 @@ export default class Root extends React.PureComponent<Props, State> {
             BrowserStore.setLandingPageSeen(true);
         }
 
+        this.trackUTMCampain();
+
         Utils.applyTheme(this.props.theme);
     }
 
@@ -356,6 +358,23 @@ export default class Root extends React.PureComponent<Props, State> {
         }
 
         GlobalActions.redirectUserToDefaultTeam();
+    }
+
+    trackUTMCampain() {
+        const qs = new URLSearchParams(window.location.search);
+        if (qs.has('utm_source')) {
+            const utmSource = qs.get('utm_source');
+            const utmMedium = qs.get('utm_medium');
+            const utmCampaign = qs.get('utm_campaign');
+
+            trackEvent('onboarding', 'track_campain', {utm_source: utmSource, utm_medium: utmMedium, utm_campaign: utmCampaign});
+
+            qs.delete('utm_source');
+            qs.delete('utm_medium');
+            qs.delete('utm_campaign');
+
+            this.props.history.replace({search: qs.toString()});
+        }
     }
 
     initiateMeRequests = async () => {
