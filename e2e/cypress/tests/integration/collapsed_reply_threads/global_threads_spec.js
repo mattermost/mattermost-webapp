@@ -264,7 +264,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('MM-T4448 CRT - L16 - Use “Mark all as read” button', () => {
+    it('MM-T4448_1 CRT - L16 - Use “Mark all as read” button', () => {
         cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
 
         // # Thread footer should not exist
@@ -330,7 +330,7 @@ describe('Collapsed Reply Threads', () => {
         });
     });
 
-    it('MM-T4448 CRT - L16 - Cancel “Mark all as unread” modal', () => {
+    it('MM-T4448_2 CRT - L16 - Cancel “Mark all as unread” modal', () => {
         cy.uiWaitUntilMessagePostedIncludes(rootPost.data.message);
 
         // # Thread footer should not exist
