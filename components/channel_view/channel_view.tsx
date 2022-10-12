@@ -14,7 +14,7 @@ import AdvancedCreatePost from 'components/advanced_create_post';
 
 import type {PropsFromRedux} from './index';
 
-type Props = PropsFromRedux & RouteComponentProps<{
+export type Props = PropsFromRedux & RouteComponentProps<{
     postid?: string;
 }>;
 
@@ -94,7 +94,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
     }
 
     render() {
-        const {channelIsArchived} = this.props;
         let createPost;
         if (this.props.deactivatedChannel) {
             createPost = (
@@ -121,7 +120,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else if (channelIsArchived) {
+        } else if (this.props.channelIsArchived) {
             createPost = (
                 <div
                     className='post-create__container'

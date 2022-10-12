@@ -32,7 +32,6 @@ function mapStateToProps(state: GlobalState) {
     return {
         channelId: channel ? channel.id : '',
         deactivatedChannel: channel ? isDeactivatedChannel(state, channel.id) : false,
-        focusedPostId: state.views.channel.focusedPostId,
         enableOnboardingFlow,
         channelIsArchived: channel ? channel.delete_at !== 0 : false,
         viewArchivedChannels,
