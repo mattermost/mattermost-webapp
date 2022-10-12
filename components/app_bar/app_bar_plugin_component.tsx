@@ -27,8 +27,8 @@ enum ImageLoadState {
     ERROR = 'error',
 }
 
-export const isAppBarPluginComponent = (x: unknown): x is PluginComponent => {
-    return Boolean((x as PluginComponent)?.id && (x as PluginComponent)?.pluginId);
+export const isAppBarPluginComponent = (x: Record<string, any> | undefined): x is PluginComponent => {
+    return Boolean(x?.id && x?.pluginId);
 };
 
 const AppBarPluginComponent = (props: PluginComponentProps) => {
