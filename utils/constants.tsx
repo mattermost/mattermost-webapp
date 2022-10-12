@@ -1947,6 +1947,7 @@ t('suggestion.mention.special');
 t('suggestion.mention.groups');
 t('suggestion.search.public');
 t('suggestion.search.group');
+t('suggestion.commands');
 
 const {
     DONT_CLEAR,
