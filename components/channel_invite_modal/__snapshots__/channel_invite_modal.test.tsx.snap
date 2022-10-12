@@ -136,7 +136,14 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
       className="more-modal__name"
     >
       <span>
-        @undefined
+        <BotBadge
+          className=""
+          show={false}
+        />
+        <GuestBadge
+          className=""
+          show={false}
+        />
         <span
           className="light"
           style={
@@ -147,14 +154,6 @@ exports[`components/channel_invite_modal should match snapshot for channel_invit
           }
         />
       </span>
-      <BotBadge
-        className="badge-popoverlist"
-        show={false}
-      />
-      <GuestBadge
-        className="popoverlist"
-        show={false}
-      />
     </div>
   </div>
   <div

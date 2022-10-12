@@ -17,8 +17,6 @@ import {components, IndicatorProps, OptionProps, SingleValueProps, ValueType} fr
 
 import {Props as AsyncSelectProps} from 'react-select/src/Async';
 
-import {Channel} from '@mattermost/types/channels';
-
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyTeams, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
@@ -33,6 +31,8 @@ import SharedChannelIndicator from 'components/shared_channel_indicator';
 import SwitchChannelProvider from 'components/suggestion/switch_channel_provider';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import {Channel} from '@mattermost/types/channels';
 
 import {getBaseStyles} from './forward_post_channel_select_styles';
 
@@ -267,7 +267,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => isValidChannelType(item.channel)).map((item) => {
+                    options: res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).map((item) => {
                         const {channel} = item;
                         return makeSelectedChannelOption(channel);
                     }),
@@ -292,24 +292,19 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              *
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
-            const handleResults = (res: ProviderResults) => {
-                res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
+            const handleResults = async (res: ProviderResults) => {
+                callCount++;
+                await res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).forEach((item) => {
                     const {channel} = item;
 
-                    options.push(makeSelectedChannelOption(channel));
+                    if (options.findIndex((option) => option.value === channel.id) === -1) {
+                        options.push(makeSelectedChannelOption(channel));
+                    }
                 });
 
-                if (callCount === 1) {
-                    const filteredOptions = options.reduce((unique: ChannelOption[], o) => {
-                        if (!unique.some((obj) => obj.value === o.value)) {
-                            unique.push(o);
-                        }
-                        return unique;
-                    }, []);
-                    resolve(filteredOptions);
+                if (callCount === 2) {
+                    resolve(options);
                 }
-
-                callCount++;
             };
 
             provider.handlePretextChanged(inputValue, handleResults);
