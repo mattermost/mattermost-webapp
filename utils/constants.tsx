@@ -1948,6 +1948,7 @@ t('suggestion.mention.groups');
 t('suggestion.search.public');
 t('suggestion.search.group');
 t('suggestion.commands');
+t('suggestion.default');
 
 const {
     DONT_CLEAR,

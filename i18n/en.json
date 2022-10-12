@@ -4746,6 +4746,7 @@
   "suggestion_list.no_matches": "No items match __{value}__",
   "suggestion.archive": "Archived Channels",
   "suggestion.commands": "Commands",
+  "suggestion.default": "Suggestion",
   "suggestion.mention.all": "Notifies everyone in this channel",
   "suggestion.mention.channel": "Notifies everyone in this channel",
   "suggestion.mention.channels": "My Channels",
