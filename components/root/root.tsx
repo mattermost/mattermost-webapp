@@ -262,6 +262,9 @@ export default class Root extends React.PureComponent<Props, State> {
             });
         }
 
+        // This needs to be called as early as possible to ensure that a redirect won't remove the query string
+        this.trackUTMCampain();
+
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
         }
@@ -300,8 +303,6 @@ export default class Root extends React.PureComponent<Props, State> {
             this.props.history.push('/landing#' + this.props.location.pathname + this.props.location.search);
             BrowserStore.setLandingPageSeen(true);
         }
-
-        this.trackUTMCampain();
 
         Utils.applyTheme(this.props.theme);
     }
