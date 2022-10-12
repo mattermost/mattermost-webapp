@@ -4181,7 +4181,6 @@
   "onboardingTour.sendMessage.title": "Send messages",
   "password_form.change": "Change my password",
   "password_form.enter": "Enter a new password for your {siteName} account.",
-  "password_form.error": "Please enter at least {chars} characters.",
   "password_form.pwd": "Password",
   "password_form.title": "Password Reset",
   "password_send.checkInbox": "Please check your inbox.",
