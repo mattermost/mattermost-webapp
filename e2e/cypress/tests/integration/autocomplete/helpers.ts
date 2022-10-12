@@ -90,7 +90,7 @@ function enableElasticSearch() {
     cy.waitUntil(checkFirstRow, options);
 }
 
-function getTestUsers(prefix = ''): Record<string, SimpleUser & {email: string; password: string}> {
+function getTestUsers(prefix = ''): Record<string, SimpleUser> {
     if (Cypress.env('searchTestUsers')) {
         return JSON.parse(Cypress.env('searchTestUsers'));
     }
