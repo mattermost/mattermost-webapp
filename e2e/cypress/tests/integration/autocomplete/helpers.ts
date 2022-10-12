@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AdminConfig} from '@mattermost/types/lib/config';
-import {UserProfile} from '@mattermost/types/lib/users';
-
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
 
@@ -23,17 +20,19 @@ export {
     verifySuggestionAtPostTextbox,
 };
 
-function createPrivateChannel(teamId, userToAdd = null) {
+export type SimpleUser = Pick<Cypress.UserProfile, 'username' | 'first_name' | 'last_name' | 'nickname' | 'password' | 'email'>;
+
+function createPrivateChannel(teamId: string, userToAdd: Cypress.UserProfile = null) {
     // # Create a private channel as sysadmin
     return createChannel('P', teamId, userToAdd);
 }
 
-function createPublicChannel(teamId, userToAdd = null) {
+function createPublicChannel(teamId: string, userToAdd: Cypress.UserProfile = null) {
     // # Create a public channel as sysadmin
     return createChannel('O', teamId, userToAdd);
 }
 
-function createSearchData(prefix) {
+function createSearchData(prefix: string) {
     return cy.apiCreateCustomAdmin({loginAfter: true, hideAdminTrialModal: true}).then(({sysadmin}) => {
         const users = getTestUsers(prefix);
 
@@ -62,7 +61,7 @@ function enableElasticSearch() {
             EnableSearching: true,
             Sniff: false,
         },
-    } as AdminConfig);
+    } as Cypress.AdminConfig);
 
     // # Navigate to the elastic search setting page
     cy.visit('/admin_console/environment/elasticsearch');
@@ -91,7 +90,7 @@ function enableElasticSearch() {
     cy.waitUntil(checkFirstRow, options);
 }
 
-function getTestUsers(prefix = '') {
+function getTestUsers(prefix = ''): Record<string, SimpleUser & {email: string; password: string}> {
     if (Cypress.env('searchTestUsers')) {
         return JSON.parse(Cypress.env('searchTestUsers'));
     }
@@ -180,7 +179,7 @@ function getQuickChannelSwitcherInput() {
         clear();
 }
 
-function searchAndVerifyChannel(channel, shouldExist = true) {
+function searchAndVerifyChannel(channel: Cypress.Channel, shouldExist = true) {
     const name = channel.display_name;
     searchForChannel(name);
 
@@ -194,7 +193,7 @@ function searchAndVerifyChannel(channel, shouldExist = true) {
     }
 }
 
-function searchAndVerifyUser(user) {
+function searchAndVerifyUser(user: Cypress.UserProfile) {
     // # Start @ mentions autocomplete with username
     cy.uiGetPostTextBox().
         as('input').
@@ -208,7 +207,7 @@ function searchAndVerifyUser(user) {
     return cy.uiVerifyAtMentionSuggestion(user);
 }
 
-function searchForChannel(name) {
+function searchForChannel(name: string) {
     // # Open up channel switcher
     cy.typeCmdOrCtrl().type('k').wait(TIMEOUTS.ONE_SEC);
 
@@ -220,7 +219,7 @@ function searchForChannel(name) {
         type(name);
 }
 
-function startAtMention(string) {
+function startAtMention(string: string) {
     // # Get the expected input
     cy.get('@input').clear().type(string);
 
@@ -228,14 +227,14 @@ function startAtMention(string) {
     cy.get('#suggestionList').should('be.visible');
 }
 
-function verifySuggestionAtPostTextbox(...expectedUsers) {
+function verifySuggestionAtPostTextbox(...expectedUsers: Cypress.UserProfile[]) {
     expectedUsers.forEach((user) => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.uiVerifyAtMentionSuggestion(user);
     });
 }
 
-function verifySuggestionAtChannelSwitcher(...expectedUsers) {
+function verifySuggestionAtChannelSwitcher(...expectedUsers: Cypress.UserProfile[]) {
     expectedUsers.forEach((user) => {
         cy.findByTestId(user.username).
             should('be.visible').
@@ -243,7 +242,7 @@ function verifySuggestionAtChannelSwitcher(...expectedUsers) {
     });
 }
 
-function createChannel(channelType, teamId, userToAdd = null) {
+function createChannel(channelType: string, teamId: string, userToAdd: Cypress.UserProfile = null) {
     // # Create a channel as sysadmin
     return cy.externalRequest({
         user: getAdminAccount(),
@@ -281,7 +280,7 @@ function createChannel(channelType, teamId, userToAdd = null) {
     });
 }
 
-function generatePrefixedUser(user: Pick<UserProfile, 'username' | 'first_name' | 'last_name' | 'nickname'>, prefix) {
+function generatePrefixedUser(user: Omit<SimpleUser, 'password' | 'email'>, prefix: string) {
     return {
         username: withPrefix(user.username, prefix),
         password: 'passwd',
@@ -292,10 +291,10 @@ function generatePrefixedUser(user: Pick<UserProfile, 'username' | 'first_name' 
     };
 }
 
-function withPrefix(name, prefix) {
+function withPrefix(name: string, prefix: string) {
     return prefix + name;
 }
 
-function createEmail(name, prefix) {
+function createEmail(name: string, prefix: string) {
     return `${prefix}${name}@sample.mattermost.com`;
 }
