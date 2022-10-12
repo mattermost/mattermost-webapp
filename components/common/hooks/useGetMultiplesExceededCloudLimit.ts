@@ -6,13 +6,15 @@ import {useMemo} from 'react';
 import {CloudUsage, Limits} from '@mattermost/types/cloud';
 import {limitThresholds, LimitTypes} from 'utils/limits';
 
+type LimitsKeys = typeof LimitTypes[keyof typeof LimitTypes];
+
 interface MaybeLimitSummary {
-    id: typeof LimitTypes[keyof typeof LimitTypes];
+    id: LimitsKeys;
     limit: number | undefined;
     usage: number;
 }
 export interface LimitSummary {
-    id: typeof LimitTypes[keyof typeof LimitTypes];
+    id: LimitsKeys;
     limit: number;
     usage: number;
 }
@@ -26,13 +28,10 @@ function refineToDefined(...args: MaybeLimitSummary[]): LimitSummary[] {
     }, []);
 }
 
-// Hook used to tell if some limit status should be surfaced to the user
-// for further attention, for example for prompting the user to upgrade
-// from a free cloud instance to a paid cloud instance.
-export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limits: Limits): LimitSummary | false {
+export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, limits: Limits): LimitsKeys[] {
     return useMemo(() => {
         if (Object.keys(limits).length === 0) {
-            return false;
+            return [];
         }
         const maybeMessageHistoryLimit = limits.messages?.history;
         const messageHistoryUsage = usage.messages.history;
@@ -46,12 +45,7 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
         const maybeEnabledIntegrationsLimit = limits.integrations?.enabled;
         const enabledIntegrationsUsage = usage.integrations.enabled;
 
-        // Order matters for this array. The designs specify:
-        // > Show the plan limit that is the highest.
-        // > Otherwise if there is a tie,
-        // > default to showing Message History first,
-        // > File storage second,
-        // > and App limit third.
+        // Order matters for this array
         const highestLimit = refineToDefined(
             {
                 id: LimitTypes.messageHistory,
@@ -74,25 +68,14 @@ export default function useGetHighestThresholdCloudLimit(usage: CloudUsage, limi
                 usage: boardsCardsUsage,
             },
         ).
-            reduce((acc: LimitSummary | false, curr: LimitSummary) => {
-                if (!acc) {
-                    if (curr.limit && curr.limit > 0) {
-                        return curr;
-                    }
+            reduce((acc: LimitsKeys[], curr: LimitSummary) => {
+                if ((curr.usage / curr.limit) > (limitThresholds.exceeded / 100)) {
+                    acc.push(curr.id);
                     return acc;
                 }
-                if ((curr.usage / curr.limit) > (acc.usage / acc.limit)) {
-                    return curr;
-                }
                 return acc;
-            }, false);
+            }, [] as LimitsKeys[]);
 
-        // Either no limit category was defined (!highestLimit)
-        // or no limit meets the minimum threshold for needing attention
-        const noLimitNeedsAttention = !highestLimit || (highestLimit.usage / highestLimit.limit) < (limitThresholds.warn / 100);
-        if (noLimitNeedsAttention) {
-            return false;
-        }
         return highestLimit;
     }, [usage, limits]);
 }

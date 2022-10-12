@@ -1154,7 +1154,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}
-                    handleEmojiClose={this.hideEmojiPicker}
                     hideEmojiPicker={this.hideEmojiPicker}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
