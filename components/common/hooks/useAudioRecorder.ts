@@ -123,6 +123,17 @@ export function useAudioRecorder(props: Props) {
         });
     }
 
+    function handleOnAudioDataAvailable(event: AudioProcessingEvent) {
+        const leftChannelInputData = event.inputBuffer.getChannelData(0);
+        const rightChannelInputData = event.inputBuffer.getChannelData(1);
+
+        const mp3Data = audioEncoderRef.current?.encode([leftChannelInputData, rightChannelInputData]);
+
+        if (mp3Data) {
+            audioChunksRef.current.push(new Uint8Array(mp3Data));
+        }
+    }
+
     async function startRecording() {
         try {
             const audioStream = await navigator.mediaDevices.getUserMedia({
@@ -136,7 +147,10 @@ export function useAudioRecorder(props: Props) {
 
             const audioSourceNode = audioContext.createMediaStreamSource(audioStream);
 
-            // TODO change to use Audio Worklet instead.
+            // CHANGE LATER
+            // migrate to use Audio Worklet instead.
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
             const wasmFileURL = new URL('wasm-media-encoders/wasm/mp3', import.meta.url);
             audioEncoderRef.current = await createEncoder(MP3MimeType, wasmFileURL.href);
 
@@ -146,19 +160,11 @@ export function useAudioRecorder(props: Props) {
                 vbrQuality: 2,
             });
 
-            // TODO change createScriptProcessor as it is deprecated.
+            // CHANGE LATER
+            // migrate createScriptProcessor as it is deprecated.
             const scriptProcessorNode = audioContext.createScriptProcessor(4096, 2, 2);
 
-            scriptProcessorNode.onaudioprocess = (event) => {
-                const leftChannelInputData = event.inputBuffer.getChannelData(0);
-                const rightChannelInputData = event.inputBuffer.getChannelData(1);
-
-                const mp3Data = audioEncoderRef.current?.encode([leftChannelInputData, rightChannelInputData]);
-
-                if (mp3Data) {
-                    audioChunksRef.current.push(new Uint8Array(mp3Data));
-                }
-            };
+            scriptProcessorNode.onaudioprocess = handleOnAudioDataAvailable;
 
             audioSourceNode.connect(audioAnalyzer).connect(scriptProcessorNode);
 

@@ -72,7 +72,7 @@ exports[`component/file_preview/file_progress_preview should match snapshot 1`] 
     <ProgressBar
       active={false}
       bsClass="progress-bar"
-      className="post-image__progressBar"
+      className="attachments-progress-bar"
       isChild={false}
       max={100}
       min={0}

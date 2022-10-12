@@ -710,10 +710,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.create_at = time;
         post.metadata = {} as PostMetadata;
 
+        // CHANGE LATER
         // Uncomment this line when server enables post type voice
         // post.type = draft.postType === Constants.PostTypes.VOICE ? Constants.PostTypes.VOICE : ''; //
 
-        // temp fix
+        // CHANGE LATER
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         post.type = draft.postType === Constants.PostTypes.VOICE ? 'custom_voice' : '';
 
         post.props = {
