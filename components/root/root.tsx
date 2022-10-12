@@ -367,7 +367,11 @@ export default class Root extends React.PureComponent<Props, State> {
             const utmMedium = qs.get('utm_medium');
             const utmCampaign = qs.get('utm_campaign');
 
-            trackEvent('onboarding', 'track_campain', {utm_source: utmSource, utm_medium: utmMedium, utm_campaign: utmCampaign});
+            trackEvent('utm_params', 'utm_params', {
+                utm_source: utmSource,
+                utm_medium: utmMedium,
+                utm_campaign: utmCampaign,
+            });
 
             qs.delete('utm_source');
             qs.delete('utm_medium');
