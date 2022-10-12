@@ -363,23 +363,26 @@ export default class Root extends React.PureComponent<Props, State> {
 
     trackUTMCampaign() {
         const qs = new URLSearchParams(window.location.search);
-        if (qs.has('utm_source')) {
-            const utmSource = qs.get('utm_source');
-            const utmMedium = qs.get('utm_medium');
-            const utmCampaign = qs.get('utm_campaign');
 
-            trackEvent('utm_params', 'utm_params', {
-                utm_source: utmSource,
-                utm_medium: utmMedium,
-                utm_campaign: utmCampaign,
-            });
+        // list of key that we want to track
+        const keys = ['utm_source', 'utm_medium', 'utm_campaign'];
 
-            qs.delete('utm_source');
-            qs.delete('utm_medium');
-            qs.delete('utm_campaign');
+        const campaign = keys.reduce((acc, key) => {
+            if (qs.has(key)) {
+                const value = qs.get(key);
+                if (value) {
+                    acc[key] = value;
+                }
+                qs.delete(key);
+            }
+            return acc;
+        }, {} as Record<string, string>);
 
-            this.props.history.replace({search: qs.toString()});
+        if (Object.keys(campaign).length > 0) {
+            trackEvent('utm_params', 'utm_params', campaign);
         }
+
+        this.props.history.replace({search: qs.toString()});
     }
 
     initiateMeRequests = async () => {
