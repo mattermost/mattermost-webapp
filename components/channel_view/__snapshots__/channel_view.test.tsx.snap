@@ -11,7 +11,6 @@ exports[`components/channel_view Should match snapshot if channel is archived 1`
   <withRouter(Connect(injectIntl(ChannelHeader)))
     channelId="channelId"
     channelIsArchived={true}
-    channelRolesLoading={false}
     deactivatedChannel={false}
     enableOnboardingFlow={true}
     goToLastViewedChannel={[MockFunction]}
@@ -70,7 +69,6 @@ exports[`components/channel_view Should match snapshot if channel is deactivated
   <withRouter(Connect(injectIntl(ChannelHeader)))
     channelId="channelId"
     channelIsArchived={false}
-    channelRolesLoading={false}
     deactivatedChannel={true}
     enableOnboardingFlow={true}
     goToLastViewedChannel={[MockFunction]}
@@ -128,7 +126,6 @@ exports[`components/channel_view Should match snapshot with base props 1`] = `
   <withRouter(Connect(injectIntl(ChannelHeader)))
     channelId="channelId"
     channelIsArchived={false}
-    channelRolesLoading={false}
     deactivatedChannel={false}
     enableOnboardingFlow={true}
     goToLastViewedChannel={[MockFunction]}
