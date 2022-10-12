@@ -22,6 +22,7 @@ import {AppCommandParser} from './app_command_parser/app_command_parser';
 
 import {AutocompleteSuggestion, Channel, COMMAND_SUGGESTION_CHANNEL, COMMAND_SUGGESTION_USER, intlShim, UserProfile} from './app_command_parser/app_command_parser_dependencies';
 import {CommandSuggestion} from './command_provider';
+import Constants from 'utils/constants';
 
 type Props = {
     teamId: string;
@@ -75,16 +76,17 @@ export default class AppCommandProvider extends Provider {
                 switch (suggestion.type) {
                 case COMMAND_SUGGESTION_USER:
                     element.push(AtMentionSuggestion);
-                    return suggestion.item! as UserProfile;
+                    return {...suggestion.item! as UserProfile, type: COMMAND_SUGGESTION_USER};
                 case COMMAND_SUGGESTION_CHANNEL:
                     element.push(ChannelMentionSuggestion);
-                    return {channel: suggestion.item! as Channel};
+                    return {channel: suggestion.item! as Channel, type: COMMAND_SUGGESTION_CHANNEL};
                 default:
                     element.push(CommandSuggestion);
                     return {
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,
                         Suggestion: '/' + suggestion.Suggestion,
+                        type: Constants.Integrations.COMMAND,
                     };
                 }
             });

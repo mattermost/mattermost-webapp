@@ -1950,6 +1950,8 @@ t('suggestion.search.group');
 t('suggestion.commands');
 t('suggestion.default');
 t('suggestion.emoji');
+t('suggestion.user');
+t('suggestion.channel');
 
 const {
     DONT_CLEAR,
