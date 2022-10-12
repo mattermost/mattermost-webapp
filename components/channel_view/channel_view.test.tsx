@@ -16,8 +16,6 @@ describe('components/channel_view', () => {
             url: '/team/channel/channelId',
             params: {},
         } as Props['match'],
-        showTutorial: false,
-        isOnboardingHidden: true,
         enableOnboardingFlow: true,
         teamUrl: '/team',
         channelIsArchived: false,
