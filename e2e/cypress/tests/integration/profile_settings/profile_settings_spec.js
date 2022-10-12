@@ -35,7 +35,7 @@ describe('Profile Settings', () => {
         // # Clear the last name
         cy.get('#lastName').should('be.visible').clear();
 
-        // # Type a new first name
+        // # Type a new last name
         cy.get('#lastName').should('be.visible').type('newLastName');
 
         // # Click 'Cancel'
