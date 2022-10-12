@@ -1949,6 +1949,7 @@ t('suggestion.search.public');
 t('suggestion.search.group');
 t('suggestion.commands');
 t('suggestion.default');
+t('suggestion.emoji');
 
 const {
     DONT_CLEAR,
