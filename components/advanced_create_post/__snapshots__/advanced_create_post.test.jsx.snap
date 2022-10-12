@@ -44,7 +44,6 @@ exports[`components/advanced_create_post Show tutorial 1`] = `
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -127,7 +126,6 @@ exports[`components/advanced_create_post should match snapshot for center textbo
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -210,7 +208,6 @@ exports[`components/advanced_create_post should match snapshot when cannot post 
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -293,7 +290,6 @@ exports[`components/advanced_create_post should match snapshot when file upload 
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -376,7 +372,6 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -459,7 +454,6 @@ exports[`components/advanced_create_post should match snapshot, can post; previe
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -542,7 +536,6 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -625,7 +618,6 @@ exports[`components/advanced_create_post should match snapshot, cannot post; pre
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -708,7 +700,6 @@ exports[`components/advanced_create_post should match snapshot, init 1`] = `
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -844,7 +835,6 @@ exports[`components/advanced_create_post should match snapshot, post priority en
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -930,7 +920,6 @@ exports[`components/advanced_create_post should match snapshot, post priority en
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
