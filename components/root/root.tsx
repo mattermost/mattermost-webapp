@@ -263,7 +263,7 @@ export default class Root extends React.PureComponent<Props, State> {
         }
 
         // This needs to be called as early as possible to ensure that a redirect won't remove the query string
-        this.trackUTMCampain();
+        this.trackUTMCampaign();
 
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
@@ -361,7 +361,7 @@ export default class Root extends React.PureComponent<Props, State> {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
-    trackUTMCampain() {
+    trackUTMCampaign() {
         const qs = new URLSearchParams(window.location.search);
         if (qs.has('utm_source')) {
             const utmSource = qs.get('utm_source');
