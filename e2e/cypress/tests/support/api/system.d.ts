@@ -122,7 +122,7 @@ declare namespace Cypress {
          *       // do something with config
          *   });
          */
-        apiGetConfig(): Chainable<AdminConfig>;
+        apiGetConfig(): Chainable<{config: AdminConfig}>;
 
         /**
          * Get analytics.

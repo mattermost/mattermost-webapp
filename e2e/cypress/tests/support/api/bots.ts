@@ -8,7 +8,8 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/bots
 // *****************************************************************************
 
-Cypress.Commands.add('apiCreateBot', ({prefix, bot = createBotPatch(prefix)} = {}) => {
+type CypressResponseAny = Cypress.Response<any>
+function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable<{bot: any}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
@@ -24,9 +25,11 @@ Cypress.Commands.add('apiCreateBot', ({prefix, bot = createBotPatch(prefix)} = {
             },
         });
     });
-});
+};
 
-Cypress.Commands.add('apiGetBots', () => {
+Cypress.Commands.add('apiCreateBot', apiCreateBot);
+
+function apiGetBots(): Cypress.Chainable<{bots: CypressResponseAny['body']}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
@@ -35,7 +38,9 @@ Cypress.Commands.add('apiGetBots', () => {
         expect(response.status).to.equal(200);
         return cy.wrap({bots: response.body});
     });
-});
+};
+
+Cypress.Commands.add('apiGetBots', apiGetBots);
 
 export function createBotPatch(prefix = 'bot') {
     const randomId = getRandomId();
@@ -45,4 +50,13 @@ export function createBotPatch(prefix = 'bot') {
         display_name: `Test Bot ${randomId}`,
         description: `Test bot description ${randomId}`,
     };
+}
+
+declare global {
+    namespace Cypress {
+        interface Chainable {
+            apiCreateBot: typeof apiCreateBot;
+            apiGetBots: typeof apiGetBots;
+        }
+    }
 }
