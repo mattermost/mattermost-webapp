@@ -380,9 +380,8 @@ export default class Root extends React.PureComponent<Props, State> {
 
         if (Object.keys(campaign).length > 0) {
             trackEvent('utm_params', 'utm_params', campaign);
+            this.props.history.replace({search: qs.toString()});
         }
-
-        this.props.history.replace({search: qs.toString()});
     }
 
     initiateMeRequests = async () => {
