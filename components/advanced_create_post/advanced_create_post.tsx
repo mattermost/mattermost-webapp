@@ -320,6 +320,14 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (useLDAPGroupMentions) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
+
+        // If the draft is of type voice message, but has no recording then remove the voice message type draft on component mount.
+        if (this.props.currentChannel.id) {
+            const previousChannelVoiceMessageState = getVoiceMessageStateFromDraft(this.props.draft);
+            if (previousChannelVoiceMessageState === VoiceMessageStates.RECORDING) {
+                this.setDraftAsPostType(this.props.currentChannel.id, this.props.draft);
+            }
+        }
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {

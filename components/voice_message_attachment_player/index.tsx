@@ -61,7 +61,7 @@ function VoiceMessageAttachmentPlayer(props: Props) {
                     </div>
                 </div>
                 <div className='post-image__elapsed-time'>
-                    {playerState === AudioPlayerState.Playing ? convertSecondsToMSS(elapsed) : convertSecondsToMSS(duration)}
+                    {playerState === AudioPlayerState.Playing || playerState === AudioPlayerState.Paused ? convertSecondsToMSS(elapsed) : convertSecondsToMSS(duration)}
                 </div>
                 {props.inPost ? (
                     <button className='post-image__end-button'>

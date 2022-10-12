@@ -285,7 +285,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         this.saveDraft();
 
         // Remove voice message recorder on thread/comment switch or another thread opened
-        // NOTE: We should not unmount the thread/comment component when another thread is opened. Something we should fix in the future.
         if (this.props.rootId) {
             const previousChannelVoiceMessageState = getVoiceMessageStateFromDraft(this.props.draft);
             if (previousChannelVoiceMessageState === VoiceMessageStates.RECORDING) {
