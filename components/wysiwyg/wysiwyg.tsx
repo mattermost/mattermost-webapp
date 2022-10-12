@@ -1,28 +1,28 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {SearchListIcon} from '@mattermost/compass-icons/components';
-import classNames from 'classnames';
-import React, {FormEvent, useCallback, useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import React, {useCallback, useEffect, useRef} from 'react';
+import type {FormEvent} from 'react';
 import styled from 'styled-components';
+import {useDispatch, useSelector} from 'react-redux';
 import {debounce} from 'lodash';
 import type {DebouncedFunc} from 'lodash';
 
-import {Editor} from '@tiptap/core';
 import {
     EditorContent,
-    JSONContent,
     useEditor,
     ReactNodeViewRenderer as renderReactNodeView,
 } from '@tiptap/react';
+import type {JSONContent} from '@tiptap/react';
+import type {Editor} from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
-import Highlight from '@tiptap/extension-highlight';
+
 import Link from '@tiptap/extension-link';
 import Typography from '@tiptap/extension-typography';
 import CodeBlockLowlight from '@tiptap/extension-code-block-lowlight';
 import Code from '@tiptap/extension-code';
 
+// tiptap table extensions
 import Table from '@tiptap/extension-table';
 import TableCell from '@tiptap/extension-table-cell';
 import TableHeader from '@tiptap/extension-table-header';
@@ -31,17 +31,15 @@ import TableRow from '@tiptap/extension-table-row';
 // load all highlight.js languages
 import {lowlight} from 'lowlight';
 
-import {ActionTypes, Locations} from 'utils/constants';
+import {ActionTypes} from 'utils/constants';
 
-import {GlobalState} from 'types/store';
-import {NewPostDraft} from 'types/store/draft';
+import type {GlobalState} from 'types/store';
+import type {NewPostDraft} from 'types/store/draft';
 
-import SendButton from '../advanced_text_editor/send_button/send_button';
-
-import Toolbar from './toolbar';
-import {IconContainer} from './toolbar/toolbar_controls';
 import {htmlToMarkdown} from './utils/turndown';
 
+import Toolbar from './toolbar';
+import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
 
 const WysiwygContainer = styled.div`
@@ -79,16 +77,6 @@ const EditorContainer = styled.div`
             min-width: 28px;
         }
     }
-`;
-
-const DebugContainer = styled.div`
-    width: 100%;
-    height: auto;
-    background: rgba(VAR(--center-channel-color-rgb), 0.08);
-    padding: 12px;
-    margin: 12px 0 0;
-    border: 1px solid var(--button-bg);
-    border-radius: 4px;
 `;
 
 function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: JSONContent) => void] {
@@ -129,13 +117,11 @@ type Props = {
 
 export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
-    const [showMdDebugger, setShowMdDebugger] = useState(false);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
 
     const editor = useEditor({
         extensions: [
             StarterKit,
-            Highlight,
             Typography,
             Code,
             Table.configure({
@@ -195,7 +181,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
 
     // focus the editor on mount
     useEffect(() => {
-        editor?.chain().focus();
+        editor?.commands.focus();
     }, [editor]);
 
     // store the current value as draft when the editor gets destroyed
@@ -229,33 +215,14 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     );
 
     return (
-        <>
-            <WysiwygContainer>
-                <EditorContainer>
-                    <EditorContent editor={editor}/>
-                </EditorContainer>
-                <Toolbar
-                    editor={editor}
-                    location={Locations.CENTER}
-                    rightControls={sendButton}
-                    additionalControls={
-                        <IconContainer
-                            type='button'
-                            onClick={() => setShowMdDebugger((prev) => !prev)}
-                            className={classNames({active: showMdDebugger})}
-                        >
-                            <SearchListIcon
-                                color={'currentColor'}
-                                size={18}
-                            />
-                        </IconContainer>}
-                />
-            </WysiwygContainer>
-            {showMdDebugger && (
-                <DebugContainer>
-                    {htmlToMarkdown(editor.getHTML())}
-                </DebugContainer>
-            )}
-        </>
+        <WysiwygContainer>
+            <EditorContainer>
+                <EditorContent editor={editor}/>
+            </EditorContainer>
+            <Toolbar
+                editor={editor}
+                rightControls={sendButton}
+            />
+        </WysiwygContainer>
     );
 };

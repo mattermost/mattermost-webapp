@@ -16,3 +16,11 @@ export type IDMappedObjects<E extends {id: string}> = RelationOneToOne<E, E>;
 export type DeepPartial<T> = {
     [P in keyof T]?: DeepPartial<T[P]>;
 }
+
+// make all properties defined in K mandatory
+export type WithRequired<T, K extends keyof T> = T & {
+    [P in K]-?: T[P]
+}
+
+// make all properties defined in K optional
+export type WithOptional<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>

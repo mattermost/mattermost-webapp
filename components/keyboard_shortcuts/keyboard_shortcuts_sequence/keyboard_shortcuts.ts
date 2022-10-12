@@ -451,6 +451,96 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Bulleted List',
         },
     },
+    msgMarkdownTableControls: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.controls'),
+            defaultMessage: 'Show table controls',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.controls.mac'),
+            defaultMessage: 'Show table controls',
+        },
+    },
+    msgMarkdownTableAdd: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.add'),
+            defaultMessage: 'Add table',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.add.mac'),
+            defaultMessage: 'Add table',
+        },
+    },
+    msgMarkdownTableDelete: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.delete'),
+            defaultMessage: 'Delete table',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.delete.mac'),
+            defaultMessage: 'Delete table',
+        },
+    },
+    msgMarkdownColAddBefore: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.column.add.before'),
+            defaultMessage: 'Add column to the left',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.column.add.before.mac'),
+            defaultMessage: 'Add column to the left',
+        },
+    },
+    msgMarkdownColAddAfter: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.column.add.after'),
+            defaultMessage: 'Add column to the right',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.column.add.after.mac'),
+            defaultMessage: 'Add column to the right',
+        },
+    },
+    msgMarkdownColDelete: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.column.delete'),
+            defaultMessage: 'Delete column',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.column.delete.mac'),
+            defaultMessage: 'Delete column',
+        },
+    },
+    msgMarkdownRowAddBefore: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.row.add.before'),
+            defaultMessage: 'Add row above',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.row.add.before.mac'),
+            defaultMessage: 'Add row above',
+        },
+    },
+    msgMarkdownRowAddAfter: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.row.add.after'),
+            defaultMessage: 'Add row below',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.row.add.after.mac'),
+            defaultMessage: 'Add row below',
+        },
+    },
+    msgMarkdownRowDelete: {
+        default: {
+            id: t('shortcuts.msgs.markdown.table.row.delete'),
+            defaultMessage: 'Delete row',
+        },
+        mac: {
+            id: t('shortcuts.msgs.markdown.table.row.delete.mac'),
+            defaultMessage: 'Delete row',
+        },
+    },
     msgShowFormatting: {
         default: {
             id: t('shortcuts.msgs.markdown.formatting'),

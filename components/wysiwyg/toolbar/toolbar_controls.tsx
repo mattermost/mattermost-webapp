@@ -1,33 +1,82 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Editor} from '@tiptap/react';
-import classNames from 'classnames';
-import React, {ForwardedRef, forwardRef, memo} from 'react';
+import React, {forwardRef, memo} from 'react';
+import type {ForwardedRef} from 'react';
 import {MessageDescriptor, useIntl} from 'react-intl';
 import styled from 'styled-components';
-import {
-    FormatBoldIcon,
-    FormatItalicIcon,
-    LinkVariantIcon,
-    FormatStrikethroughVariantIcon,
-    CodeTagsIcon,
-    FormatQuoteOpenIcon,
-    FormatListBulletedIcon,
-    FormatListNumberedIcon,
-    CodeBlockIcon,
-} from '@mattermost/compass-icons/components';
+import classNames from 'classnames';
 import IconProps from '@mattermost/compass-icons/components/props';
 
-import KeyboardShortcutSequence, {
-    KeyboardShortcutDescriptor,
-    KEYBOARD_SHORTCUTS,
-} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
+import KeyboardShortcutSequence from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import type {KeyboardShortcutDescriptor} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import Constants from 'utils/constants';
-import {t} from 'utils/i18n';
+
+export type ToolDefinition<S extends string, T> = {
+    mode: S;
+    type: T;
+    icon: React.FC<IconProps>;
+    action: () => void;
+    isActive?: () => boolean;
+    show?: boolean;
+    labelDescriptor?: MessageDescriptor;
+    ariaLabelDescriptor?: MessageDescriptor;
+    shortcutDescriptor?: KeyboardShortcutDescriptor;
+};
+
+export const FloatingContainer = styled.div`
+    padding: 8px 0;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+    border-radius: 4px;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    background: var(--center-channel-bg);
+    z-index: -1;
+
+    transition: transform 250ms ease, opacity 250ms ease;
+    transform: scale(0);
+    opacity: 0;
+    display: flex;
+    flex-direction: column;
+
+    &.scale-enter {
+        transform: scale(0);
+        opacity: 0;
+        z-index: 20;
+    }
+
+    &.scale-enter-active {
+        transform: scale(1);
+        opacity: 1;
+        z-index: 20;
+    }
+
+    &.scale-enter-done {
+        transform: scale(1);
+        opacity: 1;
+        z-index: 20;
+    }
+
+    &.scale-exit {
+        transform: scale(1);
+        opacity: 1;
+        z-index: 20;
+    }
+
+    &.scale-exit-active {
+        transform: scale(0);
+        opacity: 0;
+        z-index: 20;
+    }
+
+    &.scale-exit-done {
+        transform: scale(0);
+        opacity: 0;
+        z-index: -1;
+    }
+`;
 
 export const IconContainer = styled.button`
     display: flex;
@@ -77,236 +126,15 @@ export const DropdownContainer = styled(IconContainer)`
     padding: 8px;
 `;
 
-export type MarkdownHeadingMode =
-    | 'p'
-    | 'h1'
-    | 'h2'
-    | 'h3'
-    | 'h4'
-    | 'h5'
-    | 'h6';
-
-export type MarkdownMarkMode =
-    | 'bold'
-    | 'italic'
-    | 'link'
-    | 'strike'
-    | 'code'
-
-export type MarkdownBlockMode =
-    | 'codeBlock'
-    | 'quote'
-    | 'ul'
-    | 'ol'
-
-export type MarkdownMode = MarkdownMarkMode | MarkdownBlockMode;
-
-/**
- * all modes that can apply to a whole block of text
- */
-export const MarkdownBlockModes: MarkdownMode[] = ['codeBlock', 'quote', 'ul', 'ol'];
-
-/**
- * all modes that can apply to a string
- */
-export const MarkdownLeafModes: MarkdownMode[] = ['bold', 'italic', 'strike', 'link', 'code'];
-
-/**
- * all modes that apply a heading style
- */
-export const MarkdownHeadingModes: MarkdownHeadingMode[] = ['p', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6'];
-
-/**
- * combined set of markdown modes
- */
-export const MarkdownModes: MarkdownMode[] = MarkdownLeafModes.concat(MarkdownBlockModes);
-
-/**
- * all tabel modifying control types
- */
-export type TableControl = 'addTable' | 'removeTable' | 'addColBefore' | 'addColAfter' | 'deleteCol' | 'addRowAfter' | 'addRowBefore' | 'deleteRow';
-export type TableControlDefinition = {
-    mode: TableControl;
-    title: string;
-    show: boolean;
-    action: () => void;
-};
-export const makeTableControlDefinitions = (editor: Editor): TableControlDefinition[] => ([
-    {
-        mode: 'removeTable',
-        title: 'Delete Table',
-        show: editor.can().deleteTable(),
-        action: () => editor.chain().focus().deleteTable().run(),
-    },
-    {
-        mode: 'addColBefore',
-        title: 'Add Column Before',
-        show: editor.can().addColumnBefore(),
-        action: () => editor.chain().focus().addColumnBefore().run(),
-    },
-    {
-        mode: 'addColAfter',
-        title: 'Add Column After',
-        show: editor.can().addColumnAfter(),
-        action: () => editor.chain().focus().addColumnAfter().run(),
-    },
-    {
-        mode: 'deleteCol',
-        title: 'Delete Column',
-        show: editor.can().deleteColumn(),
-        action: () => editor.chain().focus().deleteColumn().run(),
-    },
-    {
-        mode: 'addRowBefore',
-        title: 'Add Row Before',
-        show: editor.can().addRowBefore(),
-        action: () => editor.chain().focus().addRowBefore().run(),
-    },
-    {
-        mode: 'addRowAfter',
-        title: 'Add Row After',
-        show: editor.can().addRowAfter(),
-        action: () => editor.chain().focus().addRowAfter().run(),
-    },
-    {
-        mode: 'deleteRow',
-        title: 'Delete Row',
-        show: editor.can().deleteRow(),
-        action: () => editor.chain().focus().deleteRow().run(),
-    },
-]);
-
-export const MAP_HEADING_MODE_TO_LABEL: Record<MarkdownHeadingMode, MessageDescriptor> = {
-    p: {id: t('wysiwyg.tool.paragraph.label'), defaultMessage: 'Normal text'},
-    h1: {id: t('wysiwyg.tool.heading1.label'), defaultMessage: 'Heading 1'},
-    h2: {id: t('wysiwyg.tool.heading2.label'), defaultMessage: 'Heading 2'},
-    h3: {id: t('wysiwyg.tool.heading3.label'), defaultMessage: 'Heading 3'},
-    h4: {id: t('wysiwyg.tool.heading4.label'), defaultMessage: 'Heading 4'},
-    h5: {id: t('wysiwyg.tool.heading5.label'), defaultMessage: 'Heading 5'},
-    h6: {id: t('wysiwyg.tool.heading6.label'), defaultMessage: 'Heading 6'},
-};
-
-export const MAP_HEADING_MODE_TO_ARIA_LABEL: Record<MarkdownHeadingMode, MessageDescriptor> = {
-    p: {id: t('accessibility.button.paragraph'), defaultMessage: 'normal text'},
-    h1: {id: t('accessibility.button.heading1'), defaultMessage: 'heading 1'},
-    h2: {id: t('accessibility.button.heading2'), defaultMessage: 'heading 2'},
-    h3: {id: t('accessibility.button.heading3'), defaultMessage: 'heading 3'},
-    h4: {id: t('accessibility.button.heading4'), defaultMessage: 'heading 4'},
-    h5: {id: t('accessibility.button.heading5'), defaultMessage: 'heading 5'},
-    h6: {id: t('accessibility.button.heading6'), defaultMessage: 'heading 6'},
-};
-
-export const MAP_HEADING_MODE_TO_SHORTCUT: Record<MarkdownHeadingMode, KeyboardShortcutDescriptor> = {
-    p: KEYBOARD_SHORTCUTS.msgMarkdownH1,
-    h1: KEYBOARD_SHORTCUTS.msgMarkdownH1,
-    h2: KEYBOARD_SHORTCUTS.msgMarkdownH2,
-    h3: KEYBOARD_SHORTCUTS.msgMarkdownH3,
-    h4: KEYBOARD_SHORTCUTS.msgMarkdownH4,
-    h5: KEYBOARD_SHORTCUTS.msgMarkdownH5,
-    h6: KEYBOARD_SHORTCUTS.msgMarkdownH6,
-};
-
-const MAP_MARKDOWN_MODE_TO_ICON: Record<ToolbarControlProps['mode'], React.FC<IconProps>> = {
-    bold: FormatBoldIcon,
-    italic: FormatItalicIcon,
-    link: LinkVariantIcon,
-    strike: FormatStrikethroughVariantIcon,
-    code: CodeTagsIcon,
-    codeBlock: CodeBlockIcon,
-    quote: FormatQuoteOpenIcon,
-    ul: FormatListBulletedIcon,
-    ol: FormatListNumberedIcon,
-};
-
-const MAP_MARKDOWN_MODE_TO_ARIA_LABEL: Record<ToolbarControlProps['mode'], MessageDescriptor> = {
-    bold: {id: t('accessibility.button.bold'), defaultMessage: 'bold'},
-    italic: {id: t('accessibility.button.italic'), defaultMessage: 'italic'},
-    link: {id: t('accessibility.button.link'), defaultMessage: 'link'},
-    strike: {id: t('accessibility.button.strike'), defaultMessage: 'strike through'},
-    code: {id: t('accessibility.button.code'), defaultMessage: 'code'},
-    codeBlock: {id: t('accessibility.button.code_block'), defaultMessage: 'code block'},
-    quote: {id: t('accessibility.button.quote'), defaultMessage: 'quote'},
-    ul: {id: t('accessibility.button.bulleted_list'), defaultMessage: 'bulleted list'},
-    ol: {id: t('accessibility.button.numbered_list'), defaultMessage: 'numbered list'},
-};
-
-const MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS: Record<ToolbarControlProps['mode'], KeyboardShortcutDescriptor> = {
-    bold: KEYBOARD_SHORTCUTS.msgMarkdownBold,
-    italic: KEYBOARD_SHORTCUTS.msgMarkdownItalic,
-    link: KEYBOARD_SHORTCUTS.msgMarkdownLink,
-    strike: KEYBOARD_SHORTCUTS.msgMarkdownStrike,
-    code: KEYBOARD_SHORTCUTS.msgMarkdownCode,
-    codeBlock: KEYBOARD_SHORTCUTS.msgMarkdownCode,
-    quote: KEYBOARD_SHORTCUTS.msgMarkdownQuote,
-    ul: KEYBOARD_SHORTCUTS.msgMarkdownUl,
-    ol: KEYBOARD_SHORTCUTS.msgMarkdownOl,
-};
-
-function setLink(editor: Editor) {
-    const previousUrl = editor.getAttributes('link').href;
-    // eslint-disable-next-line no-alert
-    const url = window.prompt('URL', previousUrl);
-
-    // cancelled
-    if (url === null) {
-        return;
-    }
-
-    // empty
-    if (url === '') {
-        editor.chain().focus().extendMarkRange('link').unsetLink().run();
-
-        return;
-    }
-
-    // update link
-    editor.chain().focus().extendMarkRange('link').setLink({href: url}).run();
-}
-
-export const makeControlHandlerMap = (editor: Editor): Record<ToolbarControlProps['mode'] | MarkdownHeadingMode, () => void> => ({
-    bold: () => editor.chain().focus().toggleBold().run(),
-    italic: () => editor.chain().focus().toggleItalic().run(),
-    link: () => setLink(editor),
-    strike: () => editor.chain().focus().toggleStrike().run(),
-    code: () => editor.chain().focus().toggleCode().run(),
-    codeBlock: () => editor.chain().focus().toggleCodeBlock().run(),
-    p: () => editor.chain().focus().setParagraph().run(),
-    h1: () => editor.chain().focus().toggleHeading({level: 1}).run(),
-    h2: () => editor.chain().focus().toggleHeading({level: 2}).run(),
-    h3: () => editor.chain().focus().toggleHeading({level: 3}).run(),
-    h4: () => editor.chain().focus().toggleHeading({level: 4}).run(),
-    h5: () => editor.chain().focus().toggleHeading({level: 5}).run(),
-    h6: () => editor.chain().focus().toggleHeading({level: 6}).run(),
-    quote: () => editor.chain().focus().toggleBlockquote().run(),
-    ul: () => editor.chain().focus().toggleBulletList().run(),
-    ol: () => editor.chain().focus().toggleOrderedList().run(),
-});
-
-export const makeControlActiveAssertionMap = (editor: Editor): Record<ToolbarControlProps['mode'] | MarkdownHeadingMode, () => boolean> => ({
-    bold: () => editor.isActive('bold'),
-    italic: () => editor.isActive('italic'),
-    link: () => editor.isActive('link'),
-    strike: () => editor.isActive('strike'),
-    code: () => editor.isActive('code'),
-    codeBlock: () => editor.isActive('codeBlock'),
-    p: () => editor.isActive('paragraph'),
-    h1: () => editor.isActive('heading', {level: 1}),
-    h2: () => editor.isActive('heading', {level: 2}),
-    h3: () => editor.isActive('heading', {level: 3}),
-    h4: () => editor.isActive('heading', {level: 4}),
-    h5: () => editor.isActive('heading', {level: 5}),
-    h6: () => editor.isActive('heading', {level: 6}),
-    quote: () => editor.isActive('blockquote'),
-    ul: () => editor.isActive('bulletList'),
-    ol: () => editor.isActive('orderedList'),
-});
-
+// TODO: add generic type for the mode
 type ToolbarControlProps = {
-    mode: MarkdownMode | string;
-    Icon?: React.FC<IconProps>;
-    onClick?: () => void;
+    mode: string;
+    onClick: () => void;
+    Icon: React.FC<IconProps>;
+    label?: React.ReactNode;
     className?: string;
-    ariaLabel?: string;
+    ariaLabelDescriptor?: MessageDescriptor;
+    shortcutDescriptor?: KeyboardShortcutDescriptor;
     disabled?: boolean;
     isActive?: boolean;
 }
@@ -315,10 +143,10 @@ type ToolbarControlProps = {
  * by passing in the rest spread we guarantee that accessibility
  * properties like aria-label, etc. get added to the DOM
  */
-const ToolbarControl = forwardRef(({mode, Icon = MAP_MARKDOWN_MODE_TO_ICON[mode], isActive, ...rest}: ToolbarControlProps, ref: ForwardedRef<HTMLButtonElement>): JSX.Element => {
+const ToolbarControl = forwardRef(({mode, Icon, isActive, shortcutDescriptor, ariaLabelDescriptor, ...rest}: ToolbarControlProps, ref: ForwardedRef<HTMLButtonElement>): JSX.Element => {
     const {formatMessage} = useIntl();
 
-    const buttonAriaLabel = rest.ariaLabel ?? formatMessage(MAP_MARKDOWN_MODE_TO_ARIA_LABEL[mode]);
+    const buttonAriaLabel = ariaLabelDescriptor ? formatMessage(ariaLabelDescriptor) : '';
 
     const bodyAction = (
         <IconContainer
@@ -336,19 +164,16 @@ const ToolbarControl = forwardRef(({mode, Icon = MAP_MARKDOWN_MODE_TO_ICON[mode]
         </IconContainer>
     );
 
-    // TODO@michel: hack for now to get it working. Fix in a later iteration/cleanup!
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (!MarkdownModes.includes(mode)) {
+    // if no shortcut is provided return just the Actionbutton
+    if (!shortcutDescriptor) {
         return bodyAction;
     }
 
     /* get the correct tooltip from the ShortcutsMap */
-    const shortcut = MAP_MARKDOWN_MODE_TO_KEYBOARD_SHORTCUTS[mode] || '';
     const tooltip = (
         <Tooltip id='upload-tooltip'>
             <KeyboardShortcutSequence
-                shortcut={shortcut}
+                shortcut={shortcutDescriptor}
                 hoistDescription={true}
                 isInsideTooltip={true}
             />
