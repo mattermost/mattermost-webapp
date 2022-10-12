@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {AdminConfig} from '@mattermost/types/lib/config';
+import {UserProfile} from '@mattermost/types/lib/users';
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 import {getAdminAccount} from '../../support/env';
@@ -20,13 +21,6 @@ export {
     startAtMention,
     verifySuggestionAtChannelSwitcher,
     verifySuggestionAtPostTextbox,
-};
-
-type UserInfo = {
-    username: string;
-    firstName: string;
-    lastName: string;
-    nickname: string;
 };
 
 function createPrivateChannel(teamId, userToAdd = null) {
@@ -105,68 +99,68 @@ function getTestUsers(prefix = '') {
     return {
         ironman: generatePrefixedUser({
             username: 'ironman',
-            firstName: 'Tony',
-            lastName: 'Stark',
+            first_name: 'Tony',
+            last_name: 'Stark',
             nickname: 'protoncannon',
         }, prefix),
         hulk: generatePrefixedUser({
             username: 'hulk',
-            firstName: 'Bruce',
-            lastName: 'Banner',
+            first_name: 'Bruce',
+            last_name: 'Banner',
             nickname: 'gammaray',
         }, prefix),
         hawkeye: generatePrefixedUser({
             username: 'hawkeye',
-            firstName: 'Clint',
-            lastName: 'Barton',
+            first_name: 'Clint',
+            last_name: 'Barton',
             nickname: 'ronin',
         }, prefix),
         deadpool: generatePrefixedUser({
             username: 'deadpool',
-            firstName: 'Wade',
-            lastName: 'Wilson',
+            first_name: 'Wade',
+            last_name: 'Wilson',
             nickname: 'merc',
         }, prefix),
         captainamerica: generatePrefixedUser({
             username: 'captainamerica',
-            firstName: 'Steve',
-            lastName: 'Rogers',
+            first_name: 'Steve',
+            last_name: 'Rogers',
             nickname: 'professional',
         }, prefix),
         doctorstrange: generatePrefixedUser({
             username: 'doctorstrange',
-            firstName: 'Stephen',
-            lastName: 'Strange',
+            first_name: 'Stephen',
+            last_name: 'Strange',
             nickname: 'sorcerersupreme',
         }, prefix),
         thor: generatePrefixedUser({
             username: 'thor',
-            firstName: 'Thor',
-            lastName: 'Odinson',
+            first_name: 'Thor',
+            last_name: 'Odinson',
             nickname: 'mjolnir',
         }, prefix),
         loki: generatePrefixedUser({
             username: 'loki',
-            firstName: 'Loki',
-            lastName: 'Odinson',
+            first_name: 'Loki',
+            last_name: 'Odinson',
             nickname: 'trickster',
         }, prefix),
         dot: generatePrefixedUser({
             username: 'dot.dot',
-            firstName: 'z1First',
-            lastName: 'z1Last',
+            first_name: 'z1First',
+            last_name: 'z1Last',
             nickname: 'z1Nick',
         }, prefix),
         dash: generatePrefixedUser({
             username: 'dash-dash',
-            firstName: 'z2First',
-            lastName: 'z2Last',
+            first_name: 'z2First',
+            last_name: 'z2Last',
             nickname: 'z2Nick',
         }, prefix),
         underscore: generatePrefixedUser({
             username: 'under_score',
-            firstName: 'z3First',
-            lastName: 'z3Last',
+            first_name: 'z3First',
+            last_name: 'z3Last',
             nickname: 'z3Nick',
         }, prefix),
     };
@@ -287,12 +281,12 @@ function createChannel(channelType, teamId, userToAdd = null) {
     });
 }
 
-function generatePrefixedUser(user: UserInfo, prefix) {
+function generatePrefixedUser(user: Pick<UserProfile, 'username' | 'first_name' | 'last_name' | 'nickname'>, prefix) {
     return {
         username: withPrefix(user.username, prefix),
         password: 'passwd',
-        first_name: withPrefix(user.firstName, prefix),
-        last_name: withPrefix(user.lastName, prefix),
+        first_name: withPrefix(user.first_name, prefix),
+        last_name: withPrefix(user.last_name, prefix),
         email: createEmail(user.username, prefix),
         nickname: withPrefix(user.nickname, prefix),
     };
