@@ -72,7 +72,6 @@ describe('components/FileUpload', () => {
         rootId: 'root_id',
         pluginFileUploadMethods: [],
         pluginFilesWillUploadHooks: [],
-        isAdvancedTextEditorEnabled: true,
         actions: {
             uploadFile,
         },

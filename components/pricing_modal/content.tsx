@@ -5,7 +5,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
@@ -78,9 +78,15 @@ function Content(props: ContentProps) {
     }
 
     const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
+    const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
+        isDelinquencyModal: true,
+    });
     const openPurchaseModal = (callerInfo: string) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        if (subscription?.delinquent_since) {
+            openCloudDelinquencyModal({trackingLocation: telemetryInfo});
+        }
         openCloudPurchaseModal({trackingLocation: telemetryInfo});
     };
 
@@ -227,7 +233,15 @@ function Content(props: ContentProps) {
                                     bgColor='var(--center-channel-bg)'
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
-                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? <NotifyAdminCTA callerInfo='professional_plan_pricing_modal_card'/> : undefined}
+                        planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
+                            <NotifyAdminCTA
+                                preTrial={isPreTrial}
+                                notifyRequestData={{
+                                    required_feature: PaidFeatures.ALL_PROFESSIONAL_FEATURES,
+                                    required_plan: LicenseSkus.Professional,
+                                    trial_notification: isPreTrial}}
+                                callerInfo='professional_plan_pricing_modal_card'
+                            />) : undefined}
                         buttonDetails={{
                             action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
@@ -275,10 +289,13 @@ function Content(props: ContentProps) {
                                 />) : undefined}
                         planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
                             <NotifyAdminCTA
-                                callerInfo='enterprise_plan_pricing_modal_card'
                                 preTrial={isPreTrial}
-                            />
-                        ) : undefined}
+                                callerInfo='enterprise_plan_pricing_modal_card'
+                                notifyRequestData={{
+                                    required_feature: PaidFeatures.ALL_ENTERPRISE_FEATURES,
+                                    required_plan: LicenseSkus.Enterprise,
+                                    trial_notification: isPreTrial}}
+                            />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
                                 trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
@@ -315,14 +332,12 @@ function Content(props: ContentProps) {
                                 {title: formatMessage({id: 'pricing_modal.addons.premiumSupport', defaultMessage: 'Premium support'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.missionCritical', defaultMessage: 'Mission-critical 24x7'})},
                                 {title: '1hr-L1, 2hr-L2'},
-                                {title: formatMessage({id: 'pricing_modal.addons.licensing4', defaultMessage: 'Licensing for up to 4 standalone, non-production environments'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.USSupport', defaultMessage: 'U.S.- only based support'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDeployment', defaultMessage: 'Dedicated virtual secure cloud deployment (Cloud)'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedK8sCluster', defaultMessage: 'Dedicated Kubernetes cluster'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedDB', defaultMessage: 'Dedicated database'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys 99%'})},
                                 {title: formatMessage({id: 'pricing_modal.addons.uptimeGuarantee', defaultMessage: '99% uptime guarantee'})},
-                                {title: formatMessage({id: 'pricing_modal.addons.multiServerLicensing', defaultMessage: 'Multi-server licensing (Self-Hosted)'})},
                             ],
                         }}
                     />

@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
 
-import {GenericAction} from 'mattermost-redux/types/actions';
 import {PostAction} from '@mattermost/types/integration_actions';
 
 import {GlobalState} from 'types/store';
@@ -14,9 +12,10 @@ import {selectAttachmentMenuAction} from 'actions/views/posts';
 
 import ActionMenu from './action_menu';
 
-type OwnProps = {
+export type OwnProps = {
     postId: string;
     action: PostAction;
+    disabled?: boolean;
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
@@ -28,14 +27,14 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     };
 }
 
-function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
-    return {
-        actions: bindActionCreators({
-            selectAttachmentMenuAction,
-            autocompleteChannels,
-            autocompleteUsers,
-        }, dispatch),
-    };
-}
+const mapDispatchToProps = {
+    selectAttachmentMenuAction,
+    autocompleteChannels,
+    autocompleteUsers,
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(ActionMenu);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(ActionMenu);

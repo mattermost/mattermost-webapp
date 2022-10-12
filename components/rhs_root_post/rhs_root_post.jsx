@@ -27,6 +27,7 @@ import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
@@ -52,6 +53,7 @@ export default class RhsRootPost extends React.PureComponent {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+        isPostPriorityEnabled: PropTypes.bool.isRequired,
         handleCardClick: PropTypes.func.isRequired,
 
         /**
@@ -214,7 +216,11 @@ export default class RhsRootPost extends React.PureComponent {
         );
     };
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e) => {
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+        }
+
         const showEmojiPicker = !this.state.showEmojiPicker;
         this.setState({showEmojiPicker});
     };
@@ -412,7 +418,7 @@ export default class RhsRootPost extends React.PureComponent {
                     colorize={colorize}
                 />
             );
-        } else if (post.props && post.props.from_webhook) {
+        } else if (PostUtils.isFromWebhook(post)) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
@@ -554,6 +560,11 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
+        let priority;
+        if (post.props?.priority && this.props.isPostPriorityEnabled) {
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+        }
+
         const message = (
             <MessageWithAdditionalContent
                 post={post}
@@ -608,8 +619,9 @@ export default class RhsRootPost extends React.PureComponent {
                                 {botIndicator}
                                 {customStatus}
                             </div>
-                            <div className='col'>
+                            <div className='col d-flex align-items-center'>
                                 {this.renderPostTime(isEphemeral)}
+                                {priority}
                                 {postInfoIcon}
                             </div>
                             {!isPostBeingEdited && dotMenuContainer}

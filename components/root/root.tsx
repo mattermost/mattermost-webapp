@@ -65,6 +65,7 @@ const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
+const LazyDelinquencyModalController = React.lazy(() => import('components/delinquency_modal'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -98,6 +99,7 @@ const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
 const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
+const DelinquencyModalController = makeAsyncComponent('DelinquencyModalController', LazyDelinquencyModalController);
 
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
@@ -126,6 +128,7 @@ export type Actions = {
     migrateRecentEmojis: () => void;
     loadConfigAndMe: () => Promise<{data: boolean}>;
     registerCustomPostRenderer: (type: string, component: any, id: string) => Promise<ActionResult>;
+    initializeProducts: () => Promise<void[]>;
 }
 
 type Props = {
@@ -137,7 +140,7 @@ type Props = {
     permalinkRedirectTeamName: string;
     isCloud: boolean;
     actions: Actions;
-    plugins: PluginComponent[];
+    plugins?: PluginComponent[];
     products: ProductComponent[];
     showLaunchingWorkspace: boolean;
 } & RouteComponentProps
@@ -263,7 +266,10 @@ export default class Root extends React.PureComponent<Props, State> {
             this.props.history.push('/signup_user_complete');
         }
 
-        initializePlugins().then(() => {
+        Promise.all([
+            this.props.actions.initializeProducts(),
+            initializePlugins(),
+        ]).then(() => {
             if (this.mounted) {
                 // supports enzyme tests, set state if and only if
                 // the component is still mounted on screen
@@ -570,6 +576,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         <CloudEffects/>
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
+                        <DelinquencyModalController/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route
