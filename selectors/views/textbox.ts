@@ -24,7 +24,7 @@ export function isVoiceMessagesEnabled(state: GlobalState): boolean {
 
     const voiceMessageFeatureFlagEnabled = getFeatureFlagValue(state, 'VoiceMessages') === 'true';
 
-    // For testing
+    // CHANGE LATER
     return true;
 
     return (fileAttachmentsEnabled && voiceMessagesExperimentalEnabled && voiceMessageFeatureFlagEnabled);
