@@ -5,9 +5,9 @@
 import {fireEvent, screen, act} from '@testing-library/react';
 import React from 'react';
 import * as reactRedux from 'react-redux';
-import {createStore} from 'redux';
 
-import {renderWithIntl} from 'tests/react_testing_utils';
+import {renderWithIntlAndStore} from 'tests/react_testing_utils';
+import {TestHelper} from 'utils/test_helper';
 
 import {GatherIntent} from './gather_intent';
 import {GatherIntentModalProps} from './gather_intent_modal';
@@ -43,15 +43,23 @@ describe('components/gather_intent/gather_intent.tsx', () => {
         useDispatchMock.mockClear();
     });
 
-    const renderComponent = () => {
-        return renderWithIntl(
-            <reactRedux.Provider store={createStore(() => {})}>
-                <GatherIntent
-                    modalComponent={DummyModal}
-                    gatherIntentText={gatherIntentText}
-                    typeGatherIntent='firstSelfHostLicensePurchase'
-                />
-            </reactRedux.Provider>,
+    const initialState = {
+        entities: {
+            cloud: {
+                customer: TestHelper.getCloudCustomerMock(),
+            },
+        },
+    };
+
+    //Any because renderWithIntlAndStore doesn't have the store parameter typed as deep partial.
+    const renderComponent = ({store}: {store: any} = {store: initialState}) => {
+        return renderWithIntlAndStore(
+            <GatherIntent
+                modalComponent={DummyModal}
+                gatherIntentText={gatherIntentText}
+                typeGatherIntent='monthlySubscription'
+            />,
+            store,
         );
     };
 
@@ -100,6 +108,25 @@ describe('components/gather_intent/gather_intent.tsx', () => {
         });
 
         fireEvent.click(screen.getByText('Done'));
+        fireEvent.click(screen.getByText(gatherIntentText));
+
+        expect(screen.queryByText('Thanks for sharing feedback!')).toBeInTheDocument();
+    });
+
+    it('should render the submitted modal when the user has a feedback recorded', async () => {
+        useDispatchMock.mockReturnValue(jest.fn().mockImplementation(() => new Promise((resolve) => {
+            resolve({});
+        })));
+        const newState = JSON.parse(JSON.stringify(initialState));
+        newState.entities.cloud.customer = {
+            ...newState.entities.cloud.customer,
+            monthly_subscription_intent_wire_transfer: 'Dummy feedback',
+        };
+
+        renderComponent({
+            store: newState,
+        });
+
         fireEvent.click(screen.getByText(gatherIntentText));
 
         expect(screen.queryByText('Thanks for sharing feedback!')).toBeInTheDocument();

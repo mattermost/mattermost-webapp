@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {useState, useRef, useEffect} from 'react';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {Modal} from 'react-bootstrap';
 
 import './gather_intent.scss';
@@ -19,13 +19,17 @@ const isOtherUnchecked = (name: string, value: boolean): boolean => {
     return name === 'other' && value === false;
 };
 
+const isOtherChecked = (name: string, value: boolean): boolean => {
+    return name === 'other' && value === true;
+};
+
 const isEmptyInput = (value: undefined | string) => {
     return value == null || value.trim() === '';
 };
 
 const isFormEmpty = (formDataState: FormDataState) => {
     if (formDataState.other) {
-        return isEmptyInput(formDataState.otherPayment) && !formDataState.wire && !formDataState.ach;
+        return isEmptyInput(formDataState.otherPaymentOption) && !formDataState.wire && !formDataState.ach;
     }
 
     return Object.values(formDataState).every((value) => value === false || value == null);
@@ -36,8 +40,9 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
         ach: false,
         wire: false,
         other: false,
-        otherPayment: undefined,
+        otherPaymentOption: undefined,
     });
+    const intl = useIntl();
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -47,6 +52,8 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
     };
 
     const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        event.stopPropagation();
+        event.preventDefault();
         const {name, value} = event.target;
 
         setFormState((formDataState) => ({
@@ -54,7 +61,6 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
             [name]: value,
         }));
     };
-
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, checked} = event.target;
 
@@ -62,7 +68,15 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
             setFormState((formDataState) => ({
                 ...formDataState,
                 other: false,
-                otherPayment: undefined,
+                otherPaymentOption: undefined,
+            }));
+        }
+
+        if (isOtherChecked(name, checked)) {
+            setFormState((formDataState) => ({
+                ...formDataState,
+                other: true,
+                otherPaymentOption: '',
             }));
         }
 
@@ -176,13 +190,17 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                     </div>
                     {formState.other && <div className='Form-row'>
                         <textarea
-                            id='other-payment-method'
-                            name='otherPayment'
+                            id='other-payment-option'
+                            name='otherPaymentOption'
                             className='GatherIntentModal__body__textarea'
-                            value={formState.otherPayment}
+                            value={formState.otherPaymentOption}
                             onChange={handleTextAreaChange}
-                            placeholder={'Enter payment option here'}
+                            onClick={(e) => {
+                                console.log("ASD")
+                            }}
+                            placeholder={intl.formatMessage({id: 'payment_form.gather_wire_transfer_intent_modal.otherPaymentOptionPlaceholder', defaultMessage: 'Enter payment option here'})}
                             rows={2}
+                            maxLength={400}
                         />
                     </div>}
 
@@ -198,7 +216,7 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                     </FormattedMessage>}
                 <button
                     className={'GatherIntentModal__footer--secondary'}
-                    id={'stayOnFremium'}
+                    id={'cancelFeedback'}
                     onClick={onClose}
                     disabled={isSubmitting}
                 >
@@ -210,7 +228,7 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
 
                 <button
                     className={'GatherIntentModal__footer--primary'}
-                    id={'updanteBillingFromDeliquencyModal'}
+                    id={'submitFeedback'}
                     type='submit'
                     form='gather_intent_wire_transfer'
                     disabled={isFormEmpty(formState) || isSubmitting}

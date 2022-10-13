@@ -313,11 +313,6 @@ const AdminDefinition = {
         ),
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
-        isHidden: it.any(
-            it.not(it.licensedForFeature('Cloud')),
-            it.configIsFalse('ExperimentalSettings', 'CloudBilling'),
-            it.not(it.userHasReadPermissionOnResource('billing')),
-        ),
         subscription: {
             url: 'billing/subscription',
             title: t('admin.sidebar.subscription'),

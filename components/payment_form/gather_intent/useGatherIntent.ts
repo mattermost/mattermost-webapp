@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {useState} from 'react';
+import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {MetadataGatherWireTransferKeys, TypePurchases} from '@mattermost/types/cloud';
@@ -18,14 +18,14 @@ interface FormDateStateWithOtherPayment {
     wire: boolean;
     ach: boolean;
     other: true;
-    otherPayment: string;
+    otherPaymentOption: string;
 }
 
 interface FormDateStateWithoutOtherPayment {
     wire: boolean;
     ach: boolean;
     other: false;
-    otherPayment?: never;
+    otherPaymentOption?: never;
 }
 
 export const useGatherIntent = ({typeGatherIntent}: UseGatherIntentArgs) => {
@@ -38,22 +38,11 @@ export const useGatherIntent = ({typeGatherIntent}: UseGatherIntentArgs) => {
 
     const handleSaveFeedback = async (formData: FormDataState) => {
         setSubmittingFeedback(() => true);
-        const customerID = customer?.id || '';
-
-        if (customerID === '' || customer == null) {
-            return;
-        }
 
         const gatherIntentKey: MetadataGatherWireTransferKeys = `${TypePurchases[typeGatherIntent]}_intent_wire_transfer`;
-        const feedbackSaved = customer[gatherIntentKey];
-        let gatherIntentWireTransferFormatted = Object.entries(formData).map((entrie) => entrie.join(':')).join(',');
-
-        if (feedbackSaved !== '') {
-            gatherIntentWireTransferFormatted = [feedbackSaved, gatherIntentWireTransferFormatted].join(',');
-        }
 
         const {error} = await dispatch(updateCloudCustomer({
-            [gatherIntentKey]: gatherIntentWireTransferFormatted,
+            [gatherIntentKey]: JSON.stringify(formData),
         }));
 
         if (error == null) {
@@ -77,6 +66,12 @@ export const useGatherIntent = ({typeGatherIntent}: UseGatherIntentArgs) => {
     const handleCloseModal = () => {
         setShowModal(() => false);
     };
+
+    useEffect(() => {
+        if (customer != null) {
+            setFeedbackSave(() => Boolean(customer[`${TypePurchases[typeGatherIntent]}_intent_wire_transfer`]));
+        }
+    }, [customer, typeGatherIntent]);
 
     return {feedbackSaved, handleSaveFeedback, handleOpenModal, showModal, handleCloseModal, submittingFeedback, showError};
 };

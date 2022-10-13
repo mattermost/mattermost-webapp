@@ -17,6 +17,7 @@ import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+import {CloudCustomer} from '@mattermost/types/cloud';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -403,5 +404,43 @@ export class TestHelper {
             };
         });
         return preferences;
+    }
+
+    public static getCloudCustomerMock(override: Partial<CloudCustomer> = {}): CloudCustomer {
+        return {
+            id: '',
+            billing_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            company_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            payment_method: {
+                type: '',
+                last_four: '',
+                exp_month: 0,
+                exp_year: 0,
+                card_brand: '',
+                name: '',
+            },
+            name: '',
+            email: '',
+            contact_first_name: '',
+            contact_last_name: '',
+            create_at: new Date(Date.now()).getUTCDate(),
+            creator_id: '',
+            num_employees: 100,
+            ...override,
+        };
     }
 }

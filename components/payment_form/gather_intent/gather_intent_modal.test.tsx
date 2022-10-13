@@ -44,7 +44,7 @@ describe('components/gather_intent/gather_intent_modal.tsx', () => {
         renderComponent();
 
         fireEvent.click(screen.getByText('Other'));
-        fireEvent.change(screen.getByPlaceholderText('Enter payment option here'), '       \n\t');
+        fireEvent.change(screen.getByPlaceholderText('Enter payment option here'), {target: {value: '       \n\t'}});
 
         expect(screen.queryByText('Save')).toBeDisabled();
     });
@@ -78,14 +78,14 @@ describe('components/gather_intent/gather_intent_modal.tsx', () => {
         renderComponent();
 
         fireEvent.click(screen.getByText('Other'));
-        fireEvent.change(screen.getByPlaceholderText('Enter payment option here'), 'Test');
+        fireEvent.change(screen.getByPlaceholderText('Enter payment option here'), {target: {value: 'Test'}});
 
-        expect(screen.queryByText('Save')).not.toHaveAttribute('disabled');
+        expect(screen.queryByText('Save')).not.toBeDisabled();
     });
 
     it('should be able see the error mesasge if the server couldn\'t save the feedback', () => {
         renderComponent({
-            showError: true
+            showError: true,
         });
 
         expect(screen.getByText('Sorry, there was an error sending feedback. Please try again.')).toBeInTheDocument();
