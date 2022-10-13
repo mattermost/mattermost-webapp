@@ -3,8 +3,6 @@
 
 /* eslint-disable max-lines */
 
-import Constants from 'utils/constants';
-
 import {
     AppsTypes,
     AppCallRequest,
