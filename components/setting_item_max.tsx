@@ -78,7 +78,7 @@ export default class SettingItemMax extends React.PureComponent<Props> {
     }
 
     onKeyDown = (e: KeyboardEvent) => {
-        const target = e.target as any;
+        const target = e.target as HTMLElement;
         if (this.props.shiftEnter && isKeyPressed(e, Constants.KeyCodes.ENTER) && e.shiftKey) {
             return;
         }
