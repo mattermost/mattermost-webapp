@@ -1,0 +1,36 @@
+.map-location-name-tooltip {
+    .tooltip-inner {
+        width: 220px;
+        height: 100px;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.36);
+        margin-left: 55%;
+        background-color: var(--center-channel-bg);
+        color: var(--center-channel-color);
+        font-size: 14px;
+        font-weight: 700;
+
+        p {
+            display: flex;
+            margin-top: 5px;
+            margin-left: 10px;
+            text-align: left;
+
+            i {
+                font-size: 18px;
+
+                &::before {
+                    margin-left: 0 !important;
+                }
+            }
+        }
+
+        svg#map-pin {
+            position: absolute;
+            margin-left: -55%;
+        }
+    }
+
+    .tooltip-arrow {
+        display: none;
+    }
+}

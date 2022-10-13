@@ -4,6 +4,8 @@ import React from 'react';
 
 import {RawTimeZone, rawTimeZones} from '@vvo/tzdb';
 
+import {UserTimezone} from '@mattermost/types/users';
+
 import {findTimeZone} from './util';
 import {DEFAULT_TIME_ZONE_NAME} from './constant';
 import WorldMap from './world_map';
@@ -25,10 +27,14 @@ function findTimeZoneWithDefault(timeZoneName: string): RawTimeZone {
 
 export interface TimeZoneSelectMapProps {
     timeZoneName?: string;
+    userStatus: string;
+    userTimezone: UserTimezone;
 }
 
 const TimeZoneSelectMap = ({
     timeZoneName: givenTimeZoneName = DEFAULT_TIME_ZONE_NAME,
+    userStatus,
+    userTimezone,
 }: TimeZoneSelectMapProps) => {
     // Sanitize the initial timezone.
     const initialTimeZoneName = findTimeZoneWithDefault(givenTimeZoneName).name;
@@ -44,6 +50,8 @@ const TimeZoneSelectMap = ({
             <WorldMap
                 timeZoneName={timeZoneName}
                 onChange={handleTimeZoneChange}
+                userStatus={userStatus}
+                userTimezone={userTimezone}
             />
         </div>
     );

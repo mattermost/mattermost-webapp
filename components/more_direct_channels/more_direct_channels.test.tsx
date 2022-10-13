@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ComponentProps} from 'react';
 import {shallow} from 'enzyme';
-import {Modal} from 'react-bootstrap';
-import {noop as emptyFunction} from 'lodash';
 
 import MoreDirectChannels from 'components/more_direct_channels/more_direct_channels';
+import {UserProfile} from '@mattermost/types/users';
+import {TestHelper} from 'utils/test_helper';
 
 jest.useFakeTimers();
+const mockedUser = TestHelper.getUserMock();
+
 describe('components/MoreDirectChannels', () => {
-    const baseProps = {
+    const baseProps: ComponentProps<typeof MoreDirectChannels> = {
         currentUserId: 'current_user_id',
         currentTeamId: 'team_id',
         currentTeamName: 'team_name',
@@ -18,58 +20,52 @@ describe('components/MoreDirectChannels', () => {
         totalCount: 3,
         users: [
             {
+                ...mockedUser,
                 id: 'user_id_1',
-                label: 'user_id_1',
-                value: 'user_id_1',
                 delete_at: 0,
             },
             {
+                ...mockedUser,
                 id: 'user_id_2',
-                label: 'user_id_2',
-                value: 'user_id_2',
                 delete_at: 0,
             },
             {
+                ...mockedUser,
                 id: 'user_id_3',
-                label: 'user_id_3',
-                value: 'user_id_3',
                 delete_at: 0,
             },
         ],
-        recentDirectChannelUsers: [],
         currentChannelMembers: [
             {
+                ...mockedUser,
                 id: 'user_id_1',
-                label: 'user_id_1',
-                value: 'user_id_1',
             },
             {
+                ...mockedUser,
                 id: 'user_id_2',
-                label: 'user_id_2',
-                value: 'user_id_2',
             },
         ],
         isExistingChannel: false,
         restrictDirectMessage: 'any',
-        onModalDismissed: emptyFunction,
-        onExited: emptyFunction,
+        onModalDismissed: jest.fn(),
+        onExited: jest.fn(),
         actions: {
             getProfiles: jest.fn(() => {
-                return new Promise((resolve) => {
+                return new Promise<void>((resolve) => {
                     process.nextTick(() => resolve());
                 });
             }),
-            getProfilesInTeam: emptyFunction,
-            loadProfilesMissingStatus: emptyFunction,
-            searchProfiles: emptyFunction,
-            searchGroupChannels: emptyFunction,
-            setModalSearchTerm: emptyFunction,
-            loadStatusesForProfilesList: emptyFunction,
-            loadProfilesForGroupChannels: emptyFunction,
+            getProfilesInTeam: jest.fn().mockResolvedValue({data: true}),
+            loadProfilesMissingStatus: jest.fn().mockResolvedValue({data: true}),
+            searchProfiles: jest.fn().mockResolvedValue({data: true}),
+            searchGroupChannels: jest.fn().mockResolvedValue({data: true}),
+            setModalSearchTerm: jest.fn().mockResolvedValue({data: true}),
+            loadStatusesForProfilesList: jest.fn().mockResolvedValue({data: true}),
+            loadProfilesForGroupChannels: jest.fn().mockResolvedValue({data: true}),
             openDirectChannelToUserId: jest.fn().mockResolvedValue({data: {name: 'dm'}}),
             openGroupChannelToUserIds: jest.fn().mockResolvedValue({data: {name: 'group'}}),
-            getTotalUsersStats: jest.fn(() => {
-                return new Promise((resolve) => {
+            getTotalUsersStats: jest.fn().mockImplementation(() => {
+                return ((resolve: () => any) => {
                     process.nextTick(() => resolve());
                 });
             }),
@@ -84,9 +80,9 @@ describe('components/MoreDirectChannels', () => {
 
     test('should call for modal data on callback of modal onEntered', () => {
         const props = {...baseProps, actions: {...baseProps.actions, loadProfilesMissingStatus: jest.fn()}};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
 
-        wrapper.find(Modal).prop('onEntered')();
+        wrapper.instance().loadModalData();
 
         expect(props.actions.getProfiles).toHaveBeenCalledTimes(1);
         expect(props.actions.getTotalUsersStats).toHaveBeenCalledTimes(1);
@@ -112,7 +108,7 @@ describe('components/MoreDirectChannels', () => {
 
     test('should call actions.setModalSearchTerm and match state on handleHide', () => {
         const props = {...baseProps, actions: {...baseProps.actions, setModalSearchTerm: jest.fn()}};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
 
         wrapper.setState({show: true});
 
@@ -124,7 +120,7 @@ describe('components/MoreDirectChannels', () => {
 
     test('should match state on setUsersLoadingState', () => {
         const props = {...baseProps};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
 
         wrapper.setState({loadingUsers: true});
         wrapper.instance().setUsersLoadingState(false);
@@ -138,7 +134,7 @@ describe('components/MoreDirectChannels', () => {
     test('should call on search', () => {
         jest.useFakeTimers('modern');
         const props = {...baseProps, actions: {...baseProps.actions, setModalSearchTerm: jest.fn()}};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
         wrapper.instance().search('user_search');
         expect(props.actions.setModalSearchTerm).not.toBeCalled();
         jest.runAllTimers();
@@ -148,15 +144,17 @@ describe('components/MoreDirectChannels', () => {
 
     test('should match state on handleDelete', () => {
         const props = {...baseProps};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
 
         const user1 = {
+            ...mockedUser,
             id: 'user_id_1',
             label: 'user_id_1',
             value: 'user_id_1',
         };
 
         const user2 = {
+            ...mockedUser,
             id: 'user_id_1',
             label: 'user_id_1',
             value: 'user_id_1',
@@ -169,7 +167,7 @@ describe('components/MoreDirectChannels', () => {
 
     test('should not open a DM or GM if no user Ids', () => {
         const props = {...baseProps, currentChannelMembers: []};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
 
         wrapper.instance().handleSubmit();
         expect(wrapper.state('saving')).toEqual(false);
@@ -178,15 +176,14 @@ describe('components/MoreDirectChannels', () => {
 
     test('should open a DM', (done) => {
         jest.useFakeTimers('legacy');
-        const user = {
+        const user: UserProfile = {
+            ...mockedUser,
             id: 'user_id_1',
-            label: 'user_label_1',
-            value: 'user_value_1',
         };
         const props = {...baseProps, currentChannelMembers: [user]};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
         const handleHide = jest.fn();
-        const exitToChannel = null;
+        const exitToChannel = '';
 
         wrapper.instance().handleHide = handleHide;
         wrapper.instance().exitToChannel = exitToChannel;
@@ -204,9 +201,9 @@ describe('components/MoreDirectChannels', () => {
 
     test('should open a GM', (done) => {
         jest.useFakeTimers('legacy');
-        const wrapper = shallow(<MoreDirectChannels {...baseProps}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...baseProps}/>);
         const handleHide = jest.fn();
-        const exitToChannel = null;
+        const exitToChannel = '';
 
         wrapper.instance().handleHide = handleHide;
         wrapper.instance().exitToChannel = exitToChannel;
@@ -223,35 +220,30 @@ describe('components/MoreDirectChannels', () => {
     });
 
     test('should exclude deleted users if there is not direct channel between users', () => {
-        const users = [
+        const users: UserProfile[] = [
             {
+                ...mockedUser,
                 id: 'user_id_1',
-                label: 'user_id_1',
-                value: 'user_id_1',
                 delete_at: 0,
             },
             {
+                ...mockedUser,
                 id: 'user_id_2',
-                label: 'user_id_2',
-                value: 'user_id_2',
                 delete_at: 0,
             },
             {
+                ...mockedUser,
                 id: 'deleted_user_1',
-                label: 'deleted_user_id_1',
-                value: 'deleted_user_id_1',
                 delete_at: 1,
             },
             {
+                ...mockedUser,
                 id: 'deleted_user_2',
-                label: 'deleted_user_id_2',
-                value: 'deleted_user_id_2',
                 delete_at: 1,
             },
             {
+                ...mockedUser,
                 id: 'deleted_user_3',
-                label: 'deleted_user_id_3',
-                value: 'deleted_user_id_3',
                 delete_at: 1,
             },
         ];
@@ -260,9 +252,9 @@ describe('components/MoreDirectChannels', () => {
             {name: 'not_existent_user_1__current_user_id'},
             {name: 'current_user_id__deleted_user_2'},
         ];
-        const currentChannelMembers = [];
+        const currentChannelMembers: UserProfile[] = [];
         const props = {...baseProps, users, myDirectChannels, currentChannelMembers};
-        const wrapper = shallow(<MoreDirectChannels {...props}/>);
+        const wrapper = shallow<MoreDirectChannels>(<MoreDirectChannels {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 });

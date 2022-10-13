@@ -2,12 +2,23 @@
 // See LICENSE.txt for license information.
 import {geoPath} from 'd3';
 import * as GeoJSON from 'geojson';
-import React, {ReactElement} from 'react';
+import React, {ReactElement, useRef} from 'react';
 import * as topojson from 'topojson-client';
 import {Topology} from 'topojson-specification';
 
+import {Tooltip, Overlay} from 'react-bootstrap';
+
+// import OverlayTrigger from 'components/overlay_trigger';
+import StatusIcon from 'components/status_icon';
+import Timestamp from 'components/timestamp';
+
+import {UserTimezone} from '@mattermost/types/users';
+
 import timezoneTopoJson from './assets/timezones.json';
 import {findTimeZone} from './util';
+
+import './world_map.scss';
+import PinSvg from './assets/pin_svg';
 
 type PolygonFeature = GeoJSON.Feature<
 GeoJSON.Polygon,
@@ -36,12 +47,18 @@ interface WorldMapProps {
     /** Time zone name selected e.g. 'Asia/Tokyo' */
     timeZoneName: string;
 
+    /** User status - online - away - offline */
+    userStatus: string;
+
+    userTimezone: UserTimezone;
+
     /** Called when a timezone is selected. */
     onChange: (timeZoneName: string) => void;
 }
 
 const WorldMap = (props: WorldMapProps): ReactElement => {
     const pathGenerator = geoPath();
+    const refEl = useRef<any>(null);
     const timeZonePolygonFeatures = React.useMemo(
         createTimeZonePolygonFeatures,
         [],
@@ -74,20 +91,79 @@ const WorldMap = (props: WorldMapProps): ReactElement => {
         }
 
         const generatedPath = pathGenerator(d) || undefined;
-        const title = timeZone ? `${timeZone.countryName} / ${timeZone.mainCities[0]}` : '';
-        return (
-            <path
-                id={id}
-                key={id}
-                data-testid={id}
-                d={generatedPath}
-                opacity={opacity}
-                fill={fill}
-                strokeWidth={0.5}
-                stroke={stroke}
+
+        const tooltip = (
+            <Tooltip
+                id='mapLocationTooltip'
+                className='map-location-name-tooltip'
             >
-                <title>{title}</title>
-            </path>
+                <p className='location-name'>{'Location: '}{props.timeZoneName}</p>
+                <p className='location-user-status'>
+                    <StatusIcon status={props.userStatus}/>
+                    <span className='user-status-legend'>
+                        {props.userStatus}
+                    </span>
+                </p>
+                <p>
+                    <i className='icon-clock-outline'/>
+                    <Timestamp
+                        useRelative={false}
+                        useDate={false}
+                        userTimezone={props.userTimezone as UserTimezone | undefined}
+                        useTime={{
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            timeZoneName: 'short',
+                        }}
+                    />
+                </p>
+                <PinSvg
+                    width={20}
+                    height={32}
+                    id='map-pin'
+                />
+            </Tooltip>
+        );
+
+        if (selectedTimeZone && selectedTimeZone !== timeZone) {
+            const title = timeZone ? `${timeZone.countryName} / ${timeZone.mainCities[0]}` : '';
+            return (
+                <path
+                    id={id}
+                    key={id}
+                    data-testid={id}
+                    d={generatedPath}
+                    opacity={opacity}
+                    fill={fill}
+                    strokeWidth={0.5}
+                    stroke={stroke}
+                >
+                    <title>{title}</title>
+                </path>
+            );
+        }
+
+        return (
+            <>
+                <path
+                    id={id}
+                    data-testid={id}
+                    d={generatedPath}
+                    opacity={opacity}
+                    fill={fill}
+                    strokeWidth={0.5}
+                    stroke={stroke}
+                    ref={refEl}
+                />
+                <Overlay
+                    placement='top'
+                    key={id}
+                    show={true}
+                    target={refEl.current}
+                >
+                    {tooltip}
+                </Overlay>
+            </>
         );
     });
 

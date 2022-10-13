@@ -40,6 +40,13 @@ describe('components/ProfilePopover', () => {
             loadBot: jest.fn(),
         },
         isPeopleEnabled: false,
+        lastActivityTimestamp: 1632146562846,
+        enableLastActiveTime: true,
+        timestampUnits: [
+            'now',
+            'minute',
+            'hour',
+        ],
     };
 
     test('should match snapshot', () => {
@@ -160,6 +167,30 @@ describe('components/ProfilePopover', () => {
             ...baseProps,
             isCustomStatusExpired: true,
             customStatus,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with last active display', () => {
+        const props = {
+            ...baseProps,
+            status: 'offline',
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot with no last active display because it is disabled', () => {
+        const props = {
+            ...baseProps,
+            enableLastActiveTime: false,
         };
 
         const wrapper = shallowWithIntl(
