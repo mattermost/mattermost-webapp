@@ -10,24 +10,25 @@
 import {
     getPostTextboxInput,
     getQuickChannelSwitcherInput,
+    SimpleUser,
     startAtMention,
     verifySuggestionAtChannelSwitcher,
     verifySuggestionAtPostTextbox,
 } from './helpers';
 
-export function doTestPostextbox(mention, ...suggestion) {
+export function doTestPostextbox(mention: string, ...suggestion: Cypress.UserProfile[]) {
     getPostTextboxInput();
     startAtMention(mention);
     verifySuggestionAtPostTextbox(...suggestion);
 }
 
-export function doTestQuickChannelSwitcher(mention, ...suggestion) {
+export function doTestQuickChannelSwitcher(mention: string, ...suggestion: Cypress.UserProfile[]) {
     getQuickChannelSwitcherInput();
     startAtMention(mention);
     verifySuggestionAtChannelSwitcher(...suggestion);
 }
 
-export function doTestUserChannelSection(prefix, testTeam, testUsers) {
+export function doTestUserChannelSection(prefix: string, testTeam: Cypress.Team, testUsers: Record<string, SimpleUser>) {
     const thor = testUsers.thor;
     const loki = testUsers.loki;
 
@@ -48,13 +49,13 @@ export function doTestUserChannelSection(prefix, testTeam, testUsers) {
         type(`@${prefix}odinson`);
 
     // * Thor should be a channel member
-    cy.uiVerifyAtMentionInSuggestionList(thor, true);
+    cy.uiVerifyAtMentionInSuggestionList(thor as Cypress.UserProfile, true);
 
     // * Loki should NOT be a channel member
-    cy.uiVerifyAtMentionInSuggestionList(loki, false);
+    cy.uiVerifyAtMentionInSuggestionList(loki as Cypress.UserProfile, false);
 }
 
-export function doTestDMChannelSidebar(testUsers) {
+export function doTestDMChannelSidebar(testUsers: Record<string, SimpleUser>) {
     const thor = testUsers.thor;
 
     // # Open of the add direct message modal

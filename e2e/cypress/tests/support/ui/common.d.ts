@@ -55,7 +55,7 @@ declare namespace Cypress {
          * @example
          *   cy.uiGetButton('Save');
          */
-        uiGetButton(): Chainable;
+        uiGetButton(label: string): Chainable;
 
         /**
          * Get save button
