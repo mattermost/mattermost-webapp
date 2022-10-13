@@ -139,7 +139,7 @@ describe('Settings > Sidebar > General > Edit', () => {
         });
     });
 
-    it('MM-T2054 Username cannot start with dot, dash, or underscore -- KNOWN ISSUE: MM-41817', () => {
+    it('MM-T2054 Username cannot start with dot, dash, or underscore', () => {
         // # Edit the username field
         cy.get('#usernameEdit').click();
 
@@ -162,7 +162,7 @@ describe('Settings > Sidebar > General > Edit', () => {
         cy.uiClose();
     });
 
-    it('MM-T2055 Usernames that are reserved -- KNOWN ISSUE: MM-41817', () => {
+    it('MM-T2055 Usernames that are reserved', () => {
         // # Edit the username field
         cy.get('#usernameEdit').click();
 
@@ -186,7 +186,7 @@ describe('Settings > Sidebar > General > Edit', () => {
         cy.uiClose();
     });
 
-    it('MM-T2056 Username changes when viewed by other user -- KNOWN ISSUE: MM-41817', () => {
+    it('MM-T2056 Username changes when viewed by other user', () => {
         cy.apiLogin(testUser);
         cy.visit(offTopicUrl);
 
