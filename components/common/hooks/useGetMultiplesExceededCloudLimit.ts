@@ -42,9 +42,6 @@ export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, lim
         const maybeFileStorageLimit = limits.files?.total_storage;
         const fileStorageUsage = usage.files.totalStorage;
 
-        const maybeEnabledIntegrationsLimit = limits.integrations?.enabled;
-        const enabledIntegrationsUsage = usage.integrations.enabled;
-
         // Order matters for this array
         const highestLimit = refineToDefined(
             {
@@ -56,11 +53,6 @@ export default function useGetMultiplesExceededCloudLimit(usage: CloudUsage, lim
                 id: LimitTypes.fileStorage,
                 limit: maybeFileStorageLimit,
                 usage: fileStorageUsage,
-            },
-            {
-                id: LimitTypes.enabledIntegrations,
-                limit: maybeEnabledIntegrationsLimit,
-                usage: enabledIntegrationsUsage,
             },
             {
                 id: LimitTypes.boardsCards,

@@ -32,9 +32,6 @@ export const fallbackStarterLimits = {
     teams: {
         active: 1,
     },
-    integrations: {
-        enabled: 5,
-    },
     boards: {
         cards: 500,
         views: 5,
