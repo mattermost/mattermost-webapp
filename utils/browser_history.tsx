@@ -37,13 +37,13 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}}: P
 
 export const browserHistory = {
     ...b,
-    push: (path: string | Record<string, string>, ...args: string[]) => {
+    push: (path: string | { pathname: string }, ...args: string[]) => {
         if (isDesktop) {
             window.postMessage(
                 {
                     type: 'browser-history-push',
                     message: {
-                        path: typeof path === 'string' ? path : path.pathname,
+                        path: typeof path === 'object' ? path.pathname : path,
                     },
                 },
                 window.location.origin,
