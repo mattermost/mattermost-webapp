@@ -42,7 +42,7 @@ export function initializeProducts() {
         ];
 
         await Promise.all(products.map(async (product) => {
-            if (!REMOTE_MODULES[product.id]) {
+            if (!REMOTE_CONTAINERS[product.id]) {
                 console.log(`Product ${product.id} not found. Not loading it.`);
                 return;
             }

@@ -437,7 +437,7 @@ async function initializeModuleFederation() {
         });
     }
 
-    async function getRemoteModules() {
+    async function getRemoteContainers() {
         const products = [
             {name: 'focalboard', baseUrl: 'http://localhost:9006'},
         ];
@@ -467,7 +467,7 @@ async function initializeModuleFederation() {
         return {remotes, aliases};
     }
 
-    const {remotes, aliases} = await getRemoteModules();
+    const {remotes, aliases} = await getRemoteContainers();
 
     config.plugins.push(new ModuleFederationPlugin({
         name: 'mattermost-webapp',
@@ -503,7 +503,7 @@ async function initializeModuleFederation() {
     };
 
     config.plugins.push(new webpack.DefinePlugin({
-        REMOTE_MODULES: JSON.stringify(remotes),
+        REMOTE_CONTAINERS: JSON.stringify(remotes),
     }));
 }
 

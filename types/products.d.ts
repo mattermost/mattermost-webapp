@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-declare const REMOTE_MODULES: Record<string, string>;
+declare const REMOTE_CONTAINERS: Record<string, string>;
 
 declare module 'focalboard' {
     import type {ProductPlugin} from 'plugins/products';
