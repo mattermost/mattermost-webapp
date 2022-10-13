@@ -87,7 +87,6 @@ export default class AppCommandProvider extends Provider {
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,
                         Suggestion: '/' + suggestion.Suggestion,
-                        type: Constants.Integrations.COMMAND,
                     };
                 }
             });

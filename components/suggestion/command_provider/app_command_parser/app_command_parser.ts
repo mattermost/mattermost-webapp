@@ -1045,7 +1045,6 @@ export class AppCommandParser {
                     Description: binding.description || '',
                     Hint: binding.hint || '',
                     IconData: binding.icon || '',
-                    type: Constants.Integrations.COMMAND,
                 });
             }
         }
