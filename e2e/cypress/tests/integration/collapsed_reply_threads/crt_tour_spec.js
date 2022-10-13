@@ -61,13 +61,13 @@ describe('Collapsed Reply Threads', () => {
         // * Verify 1st tutorial tip points is present
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
             cy.findByText('Viewing a thread in the sidebar').should('be.visible');
-
-            // * Verify "Got it" button is present
-            cy.findByText('Got it').should('be.visible');
-
-            // # Click on "Got it" button
-            cy.findByText('Got it').click();
         });
+
+        // * Verify "Got it" button is present
+        cy.findByText('Got it').should('be.visible');
+
+        // # Click on "Got it" button
+        cy.findByText('Got it').click();
 
         // * Verify tutorial tip is dismissed
         cy.get('[data-testid="current_tutorial_tip"]').should('not.exist');
@@ -189,13 +189,13 @@ describe('Collapsed Reply Threads', () => {
         // * Verify 1st tutorial tip points is present
         cy.get('[data-testid="current_tutorial_tip"]').should('be.visible').within(() => {
             cy.findByText('Viewing a thread in the sidebar').should('be.visible');
-
-            // * Verify "Got it" button is present
-            cy.findByText('Got it').should('be.visible');
-
-            // # Click on "x" button to dismiss the tour point
-            cy.get('[data-testid="close_tutorial_tip"]').click();
         });
+
+        // * Verify "Got it" button is present
+        cy.findByText('Got it').should('be.visible');
+
+        // # Click on "x" button to dismiss the tour point
+        cy.get('[data-testid="close_tutorial_tip"]').click();
 
         // * Verify tutorial tip is dismissed
         cy.get('[data-testid="current_tutorial_tip"]').should('not.exist');

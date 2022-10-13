@@ -70,9 +70,9 @@ export function mapStateToProps(state: GlobalState, props: OwnProps) {
     });
     const guestAccountsEnabled = config.EnableGuestAccounts === 'true';
     const emailInvitationsEnabled = config.EnableEmailInvitations === 'true';
-    const isLicensed = license && license.IsLicensed === 'true';
+    const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const isGroupConstrained = Boolean(currentTeam.group_constrained);
-    const canInviteGuests = !isGroupConstrained && isLicensed && guestAccountsEnabled && haveICurrentTeamPermission(state, Permissions.INVITE_GUEST);
+    const canInviteGuests = !isGroupConstrained && isEnterpriseReady && guestAccountsEnabled && haveICurrentTeamPermission(state, Permissions.INVITE_GUEST);
     const isCloud = license.Cloud === 'true';
 
     const canAddUsers = haveICurrentTeamPermission(state, Permissions.ADD_USER_TO_TEAM);
