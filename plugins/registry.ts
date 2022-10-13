@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {isValidElementType} from 'react-is';
-
 import {Reducer} from 'redux';
 
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
@@ -18,7 +17,8 @@ import {
 import {showRHSPlugin, hideRHSPlugin, toggleRHSPlugin} from 'actions/views/rhs';
 
 import {
-    registerPluginTranslationsSource, TranslationPluginFunction,
+    registerPluginTranslationsSource,
+    TranslationPluginFunction,
 } from 'actions/views/root';
 
 import {
@@ -1059,11 +1059,12 @@ export default class PluginRegistry {
      * INTERNAL: Subject to change without notice.
      * Add an item to the App Bar.
      * @param {string} iconUrl resolvable URL to use as the button's icon.
-     * @param {function} action called when the button is clicked, passed the channel and channel member as arguments.
+     * @param {PluginComponent['action'] | undefined} action called when the button is clicked, passed the channel and channel member as arguments.
      * @param {React.ReactNode} tooltipText string or React element shown for tooltip appear on hover.
      * @param {null | string | Array<null | string>} supportedProductIds specifies one or multiple product identifier(s),
      * identifiers can either be the "real" product uuid, or a product's more commonly accessible plugin id, or '*' to match everything.
-     * @param {null | string} rhsComponentId specifies a corresponding RHS component id. REQUIRED when registering multiple app bar components.
+     * @param {PluginComponent | undefined} rhsComponent an optional corresponding RHS component. If provided, its toggler is automatically wired to the action.
+     * @param {ReactResolvable | undefined} rhsTitle the corresponding RHS component's title.
      * @returns {string} unique identifier
      */
     registerAppBarComponent = reArg([

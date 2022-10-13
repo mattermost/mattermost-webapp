@@ -165,7 +165,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             this.props.actions.setRhsExpanded(false);
         }
 
-        // close when changing teams, close when changing productsRHS UX
+        // close when changing teams, close when changing products
         if (
             this.props.teamId !== prevProps.teamId ||
             this.props.productId !== prevProps.productId
