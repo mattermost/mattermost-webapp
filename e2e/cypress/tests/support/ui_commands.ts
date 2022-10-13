@@ -605,7 +605,7 @@ declare global {
              * @example
              *  cy.uiPostMessageQuickly('Hello world')
              */
-            uiPostMessageQuickly(message: string): void;
+            uiPostMessageQuickly(message: string): Chainable<boolean>;
 
             /**
              * Clicks on a visible emoji in the emoji picker.
@@ -701,7 +701,7 @@ declare global {
              * @param {String} postId - Post ID
              * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
              */
-            clickPostDotMenu(postId: string, location: string): ChainableT<void>;
+            clickPostDotMenu(postId: string, location?: string): ChainableT<void>;
 
             /**
              * Click post reaction icon
@@ -716,7 +716,7 @@ declare global {
              * @param {String} postId - Post ID
              * @param {String} location - as 'CENTER', 'SEARCH'
              */
-            clickPostCommentIcon(postId: string, location: string): ChainableT<void>;
+            clickPostCommentIcon(postId: string, location?: string): ChainableT<void>;
 
             createNewTeam(teamName: string, teamURL: string): ChainableT<void>;
 
