@@ -11,11 +11,11 @@ import {Group} from '@mattermost/types/groups';
 export const DEFAULT_NUM_PER_PAGE = 50;
 
 type Props = {
-    titleText: string;
-    searchPlaceholderText: string;
+    titleText?: string;
+    searchPlaceholderText?: string;
     titleBarButtonText?: string;
     numPerPage?: number;
-    show: boolean;
+    show?: boolean;
     titleBarButtonOnClick?: () => void;
     loadItems: (page: number, searchTerm: string) => Promise<{
         items: Group[];
