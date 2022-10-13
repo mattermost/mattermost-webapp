@@ -2945,7 +2945,7 @@ const AdminDefinition = {
                         onConfigLoad: (configVal) => configVal / MEBIBYTE,
                         onConfigSave: (displayVal) => displayVal * MEBIBYTE,
                         isHidden: it.any(
-                            it.configIsFalse('FeatureFlags', 'EnableVoiceMessages'),
+                            it.configIsFalse('FeatureFlags', 'VoiceMessages'),
                         ),
                         isDisabled: it.any(
                             it.configIsFalse('ExperimentalSettings', 'EnableVoiceMessages'),
@@ -6907,7 +6907,7 @@ const AdminDefinition = {
                         help_text: t('admin.experimental.enableVoiceMessages.desc'),
                         help_text_default: 'When true, users can send voice messages.',
                         help_text_markdown: true,
-                        isHidden: it.configIsFalse('FeatureFlags', 'EnableVoiceMessages'),
+                        isHidden: it.configIsFalse('FeatureFlags', 'VoiceMessages'),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                             it.configIsFalse('FileSettings', 'EnableFileAttachments'),

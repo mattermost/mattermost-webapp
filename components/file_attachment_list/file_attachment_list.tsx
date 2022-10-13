@@ -5,7 +5,7 @@ import React, {useMemo} from 'react';
 
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
 
-import {FileTypes, ModalIdentifiers} from 'utils/constants';
+import Constants, {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {getFileType} from 'utils/utils';
 
 import FileAttachment from 'components/file_attachment';
@@ -42,10 +42,7 @@ export default function FileAttachmentList(props: Props) {
 
     const sortedFileInfos = useMemo(() => sortFileInfos(fileInfos ? [...fileInfos] : [], locale), [fileInfos, locale]);
 
-    // TODO : change later
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    if (post.type === 'custom_voice') {
+    if (post.type === Constants.PostTypes.VOICE && fileInfos.length === 1) {
         return (
             <VoiceMessageAttachmentPlayer
                 fileId={fileInfos?.[0]?.id ?? ''}

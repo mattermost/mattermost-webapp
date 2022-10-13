@@ -19,13 +19,10 @@ export function showPreviewOnEditChannelHeaderModal(state: GlobalState) {
 
 export function isVoiceMessagesEnabled(state: GlobalState): boolean {
     const config = getConfig(state);
+
     const fileAttachmentsEnabled = config.EnableFileAttachments === 'true';
-    const voiceMessagesExperimentalEnabled = config.ExperimentalVoiceMessages === 'true';
-
+    const voiceMessagesExperimentalEnabled = config.ExperimentalEnableVoiceMessages === 'true';
     const voiceMessageFeatureFlagEnabled = getFeatureFlagValue(state, 'VoiceMessages') === 'true';
-
-    // CHANGE LATER
-    return true;
 
     return (fileAttachmentsEnabled && voiceMessagesExperimentalEnabled && voiceMessageFeatureFlagEnabled);
 }
