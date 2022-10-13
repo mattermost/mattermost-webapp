@@ -55,8 +55,7 @@ describe('Integrations/Incoming Webhook', () => {
         });
 
         // # Type /collapse and press Enter
-        const collapseCommand = 'collapse';
-        cy.uiGetPostTextBox().type(`/${collapseCommand} {enter}`);
+        cy.uiGetPostTextBox().type(`/${'collapse'} {enter}`);
 
         // * Check that the post from the webhook has NOT collapsed (verify expanded post)
         cy.getNthPostId(-2).then((postId) => {
