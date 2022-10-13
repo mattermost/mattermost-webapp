@@ -2948,7 +2948,7 @@ export default class Client4 {
 
     getLogs = (logFilter: LogFilter) => {
         return this.doFetch<string[]>(
-            `${this.getBaseRoute()}/logs`,
+            `${this.getBaseRoute()}/logs/query`,
             {method: 'post', body: JSON.stringify(logFilter)},
         );
     };
