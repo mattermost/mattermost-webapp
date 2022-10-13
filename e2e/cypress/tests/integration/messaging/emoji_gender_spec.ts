@@ -20,8 +20,12 @@ describe('Messaging', () => {
     it('MM-T1539 Gendered emojis are rendered with the correct gender', () => {
         // # Post a man-gesturing-ok emoji
         cy.postMessage('🙆‍♂️');
-
         // # Assert posted emoji was rendered as man
-        cy.getLastPost().find('.emoticon').should('have.attr', 'title', ':man-gesturing-ok:');
+        cy.findByTitle(':man-gesturing-ok:').should('be.visible');
+
+        // # Post a man-gesturing-ok emoji
+        cy.postMessage('🙆‍♀️');
+        // # Assert posted emoji was rendered as man
+        cy.findByTitle(':woman-gesturing-ok:').should('be.visible');
     });
 });
