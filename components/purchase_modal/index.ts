@@ -8,7 +8,7 @@ import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getClientConfig} from 'mattermost-redux/actions/general';
-import {getCloudProducts, getCloudSubscription} from 'mattermost-redux/actions/cloud';
+import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
 import {Action} from 'mattermost-redux/types/actions';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
@@ -19,7 +19,7 @@ import {GlobalState} from 'types/store';
 import {BillingDetails} from 'types/cloud/sku';
 
 import {isModalOpen} from 'selectors/views/modals';
-import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType, getCloudDelinquentInvoices, isCloudDelinquencyGreaterThan90Days} from 'selectors/cloud';
 
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -32,17 +32,22 @@ const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => impor
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
 
+    const isDelinquencyModal = Boolean(state.entities.cloud.subscription?.delinquent_since);
+
     return {
         show: isModalOpen(state, ModalIdentifiers.CLOUD_PURCHASE),
         products: state.entities.cloud!.products,
         isDevMode: getConfig(state).EnableDeveloper === 'true',
         contactSupportLink: getCloudContactUsLink(state)(InquiryType.Technical),
+        invoices: getCloudDelinquentInvoices(state),
+        isCloudDelinquencyGreaterThan90Days: isCloudDelinquencyGreaterThan90Days(state),
         isFreeTrial: subscription?.is_free_trial === 'true',
         contactSalesLink: getCloudContactUsLink(state)(InquiryType.Sales),
         productId: subscription?.product_id,
         customer: state.entities.cloud.customer,
         currentTeam: getCurrentTeam(state),
         theme: getTheme(state),
+        isDelinquencyModal,
     };
 }
 type Actions = {
@@ -53,6 +58,7 @@ type Actions = {
     subscribeCloudSubscription: (productId: string) => Promise<boolean | null>;
     getClientConfig: () => void;
     getCloudSubscription: () => void;
+    getInvoices: () => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -65,6 +71,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
                 completeStripeAddPaymentMethod,
                 subscribeCloudSubscription,
                 getClientConfig,
+                getInvoices,
                 getCloudSubscription,
             },
             dispatch,

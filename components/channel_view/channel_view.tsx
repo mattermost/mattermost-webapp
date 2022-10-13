@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
-import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
@@ -30,7 +29,6 @@ type Props = {
     viewArchivedChannels: boolean;
     isCloud: boolean;
     isFirstAdmin: boolean;
-    isAdvancedTextEditorEnabled: boolean;
     actions: {
         goToLastViewedChannel: () => void;
     };
@@ -111,7 +109,6 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
     render() {
         const {channelIsArchived} = this.props;
-
         let createPost;
         if (this.props.deactivatedChannel) {
             createPost = (
@@ -165,29 +162,14 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 </div>
             );
         } else if (!this.props.channelRolesLoading) {
-            if (this.props.isAdvancedTextEditorEnabled) {
-                createPost = (
-                    <div
-                        className='post-create__container AdvancedTextEditor__ctr'
-                        id='post-create'
-                    >
-                        <AdvancedCreatePost
-                            getChannelView={this.getChannelView}
-                        />
-                    </div>
-                );
-            } else {
-                createPost = (
-                    <div
-                        className='post-create__container'
-                        id='post-create'
-                    >
-                        <CreatePost
-                            getChannelView={this.getChannelView}
-                        />
-                    </div>
-                );
-            }
+            createPost = (
+                <div
+                    className='post-create__container AdvancedTextEditor__ctr'
+                    id='post-create'
+                >
+                    <AdvancedCreatePost getChannelView={this.getChannelView}/>
+                </div>
+            );
         }
 
         const DeferredPostView = this.state.deferredPostView;
