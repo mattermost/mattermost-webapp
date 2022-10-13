@@ -61,8 +61,9 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     const getMessageInHistory = makeGetMessageInHistoryItem(Posts.MESSAGE_TYPES.COMMENT as 'comment');
 
     return () => (dispatch: DispatchFunc, getState: () => GlobalState) => {
-        const draft = getPostDraft(getState(), StoragePrefixes.COMMENT_DRAFT, rootId);
-        if (draft.message !== '' && draft.message !== getMessageInHistory(getState())) {
+        const state = getState();
+        const draft = getPostDraft(state, StoragePrefixes.COMMENT_DRAFT, rootId);
+        if (draft.message !== '' && draft.message !== getMessageInHistory(state)) {
             return {data: true};
         }
 
@@ -72,7 +73,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
             dispatch(moveHistoryIndexForward(Posts.MESSAGE_TYPES.COMMENT as 'comment'));
         }
 
-        const nextMessageInHistory = getMessageInHistory(getState());
+        const nextMessageInHistory = getMessageInHistory(state);
 
         dispatch(updateCommentDraft(rootId, {...draft, message: nextMessageInHistory}));
         return {data: true};
@@ -162,6 +163,7 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
 export function makeOnSubmit(channelId: string, rootId: string, latestPostId: string) {
     return (draft: PostDraft, options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const {message} = draft;
+        const state = getState();
 
         dispatch(addMessageIntoHistory(message));
 
@@ -169,7 +171,7 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
 
         const isReaction = Utils.REACTION_PATTERN.exec(message);
 
-        const emojis = getCustomEmojisByName(getState());
+        const emojis = getCustomEmojisByName(state);
         const emojiMap = new EmojiMap(emojis);
 
         if (isReaction && emojiMap.has(isReaction[2])) {
