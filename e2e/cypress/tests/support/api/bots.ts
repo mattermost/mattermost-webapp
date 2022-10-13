@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Bot} from 'mattermost-redux/types/bots';
+
 import {getRandomId} from '../../utils';
 
 // *****************************************************************************
@@ -8,8 +10,7 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/bots
 // *****************************************************************************
 
-type CypressResponseAny = Cypress.Response<any>
-function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable<{bot: any}> {
+function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable<{bot: Bot & {fullDisplayName: string}}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
@@ -25,11 +26,11 @@ function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable
             },
         });
     });
-};
+}
 
 Cypress.Commands.add('apiCreateBot', apiCreateBot);
 
-function apiGetBots(): Cypress.Chainable<{bots: CypressResponseAny['body']}> {
+function apiGetBots(): Cypress.Chainable<{bots: Bot[]}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
@@ -38,7 +39,7 @@ function apiGetBots(): Cypress.Chainable<{bots: CypressResponseAny['body']}> {
         expect(response.status).to.equal(200);
         return cy.wrap({bots: response.body});
     });
-};
+}
 
 Cypress.Commands.add('apiGetBots', apiGetBots);
 
@@ -53,6 +54,7 @@ export function createBotPatch(prefix = 'bot') {
 }
 
 declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
     namespace Cypress {
         interface Chainable {
             apiCreateBot: typeof apiCreateBot;

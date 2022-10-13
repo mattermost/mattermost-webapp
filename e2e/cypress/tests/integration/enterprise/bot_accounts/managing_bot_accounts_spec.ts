@@ -10,8 +10,9 @@
 // Stage: @prod
 // Group: @enterprise @bot_accounts
 
-import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {AdminConfig} from '@mattermost/types/lib/config';
+
+import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Managing bot accounts', () => {
     let botName: string;
@@ -30,12 +31,12 @@ describe('Managing bot accounts', () => {
                     ...origConfig.ServiceSettings,
                     EnableBotAccountCreation: true,
                 },
-            }
+            };
 
             cy.apiUpdateConfig(newConfig);
         });
 
-        cy.apiCreateBot({prefix:'bot'}).then(({bot}) => {
+        cy.apiCreateBot({prefix: 'bot'}).then(({bot}) => {
             botName = bot.username;
         });
     });
