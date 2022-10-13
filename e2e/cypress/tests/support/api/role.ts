@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Role} from '@mattermost/types/lib/roles';
 import xor from 'lodash.xor';
+import {ChainableT} from 'tests/types';
 
 // *****************************************************************************
 // Preferences
@@ -583,19 +585,20 @@ export const defaultRolesPermissions = {
     ],
 };
 
-Cypress.Commands.add('getRoleByName', (name) => {
-    return cy.request({
+const getRoleByName = (name: string): ChainableT<{role: Role}> => {
+    return cy.request<Role>({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/roles/name/${name}`,
         method: 'GET',
     }).then((response) => {
         expect(response.status).to.equal(200);
-        return cy.wrap({name: response.body});
+        return cy.wrap({role: response.body});
     });
-});
+};
+Cypress.Commands.add('getRoleByName', getRoleByName);
 
-Cypress.Commands.add('apiGetRolesByNames', (names) => {
-    return cy.request({
+const apiGetRolesByNames = (names?: string[]): ChainableT<{roles: Role[]}> => {
+    return cy.request<Role[]>({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/roles/names',
         method: 'POST',
@@ -604,10 +607,11 @@ Cypress.Commands.add('apiGetRolesByNames', (names) => {
         expect(response.status).to.equal(200);
         return cy.wrap({roles: response.body});
     });
-});
+};
+Cypress.Commands.add('apiGetRolesByNames', apiGetRolesByNames);
 
-Cypress.Commands.add('apiPatchRole', (roleID, patch) => {
-    return cy.request({
+const apiPatchRole = (roleID: string, patch: Record<string, any>): ChainableT<{role: Role}> => {
+    return cy.request<Role>({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `/api/v4/roles/${roleID}/patch`,
         method: 'PUT',
@@ -616,9 +620,10 @@ Cypress.Commands.add('apiPatchRole', (roleID, patch) => {
         expect(response.status).to.equal(200);
         return cy.wrap({role: response.body});
     });
-});
+};
+Cypress.Commands.add('apiPatchRole', apiPatchRole);
 
-Cypress.Commands.add('apiResetRoles', () => {
+const apiResetRoles = (): void => {
     cy.apiGetRolesByNames().then(({roles}) => {
         roles.forEach((role) => {
             const defaultPermissions = defaultRolesPermissions[role.name];
@@ -629,4 +634,61 @@ Cypress.Commands.add('apiResetRoles', () => {
             }
         });
     });
-});
+};
+Cypress.Commands.add('apiResetRoles', apiResetRoles);
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * Get a role from the provided role name.
+             * See https://api.mattermost.com/#tag/roles/operation/GetRoleByName
+             * @param {string} name - role name, e.g. 'system_user'
+             * @returns {Role} `out.role` as `Role`
+             *
+             * @example
+             *   cy.getRoleByName('system_user').then(({role}) => {
+             *       // do something with role
+             *   });
+             */
+            getRoleByName: typeof getRoleByName;
+
+            /**
+             * Get a list of roles by name.
+             * See https://api.mattermost.com/#tag/roles/paths/~1roles~1names/post
+             * @param {string[]} names - list of role names, e.g. ['system_user']
+             * @returns {Role[]} `out.roles` as list of `Role` objects
+             *
+             * @example
+             *   cy.apiGetRolesByNames(['system_user']).then(({roles}) => {
+             *       // do something with roles
+             *   });
+             */
+            apiGetRolesByNames: typeof apiGetRolesByNames;
+
+            /**
+             * Patch a role by ID.
+             * See https://api.mattermost.com/#tag/roles/paths/~1roles~1{role_id}~1patch/put
+             * @param {string} id - role ID
+             * @param {Permissions} patch.permissions - permissions
+             * @returns {Role} `out.role` as `Role`
+             *
+             * @example
+             *   cy.apiPatchRole('role_id', patch).then(({role}) => {
+             *       // do something with role
+             *   });
+             */
+            apiPatchRole: typeof apiPatchRole;
+
+            /**
+             * Reset roles to default values.
+             *
+             * @example
+             *   cy.apiResetRoles();
+             */
+            apiResetRoles: typeof apiResetRoles;
+        }
+    }
+}
