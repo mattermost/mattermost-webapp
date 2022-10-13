@@ -3,17 +3,17 @@
 
 import React from 'react';
 
-import {useIntl} from 'react-intl';
+import { useIntl } from 'react-intl';
 
-import {useDispatch, useSelector} from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
-import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
+import { getSubscriptionProduct } from 'mattermost-redux/selectors/entities/cloud';
 
-import {closeModal} from 'actions/views/modals';
+import { closeModal } from 'actions/views/modals';
 
-import {ModalIdentifiers, CloudProducts} from 'utils/constants';
-import {t, Message} from 'utils/i18n';
-import {fallbackStarterLimits, asGBString, LimitTypes} from 'utils/limits';
+import { ModalIdentifiers, CloudProducts } from 'utils/constants';
+import { t, Message } from 'utils/i18n';
+import { fallbackStarterLimits, asGBString, LimitTypes } from 'utils/limits';
 
 import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useGetUsage from 'components/common/hooks/useGetUsage';
@@ -36,7 +36,7 @@ export default function LHSNearingLimitsModal() {
             id: t('workspace_limits.modals.view_plans'),
             defaultMessage: 'View plans',
         },
-        onClick: () => openPricingModal({trackingLocation: 'cloud_usage_lhs_nearing_limit_modal'}),
+        onClick: () => openPricingModal({ trackingLocation: 'cloud_usage_lhs_nearing_limit_modal' }),
     };
     const secondaryAction = {
         message: {
@@ -58,12 +58,11 @@ export default function LHSNearingLimitsModal() {
 
     let description: Message = {
         id: t('workspace_limits.modals.informational.description.freeLimits'),
-        defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
+        defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, and {boards} board cards.',
         values: {
             planName: product?.name,
             messages: intl.formatNumber(limits?.messages?.history ?? fallbackStarterLimits.messages.history),
             storage: asGBString(limits?.files?.total_storage ?? fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-            integrations: limits?.integrations?.enabled ?? fallbackStarterLimits.integrations.enabled,
             boards: limits?.boards?.cards ?? fallbackStarterLimits.boards.cards,
         },
     };

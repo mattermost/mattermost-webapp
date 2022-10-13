@@ -1,21 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {useIntl} from 'react-intl';
-import {useDispatch, useSelector} from 'react-redux';
+import { useIntl } from 'react-intl';
+import { useDispatch, useSelector } from 'react-redux';
 import styled from 'styled-components';
 
-import {Product} from '@mattermost/types/cloud';
+import { Product } from '@mattermost/types/cloud';
 
-import {getCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
+import { getCloudProducts } from 'mattermost-redux/selectors/entities/cloud';
 
-import {openModal, closeModal} from 'actions/views/modals';
+import { openModal, closeModal } from 'actions/views/modals';
 import CloudUsageModal from 'components/cloud_usage_modal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 
-import {CloudProducts, ModalIdentifiers} from 'utils/constants';
-import {fallbackStarterLimits, asGBString, hasSomeLimits} from 'utils/limits';
-import {t} from 'utils/i18n';
+import { CloudProducts, ModalIdentifiers } from 'utils/constants';
+import { fallbackStarterLimits, asGBString, hasSomeLimits } from 'utils/limits';
+import { t } from 'utils/i18n';
 
 const Disclaimer = styled.div`
 margin-bottom: 8px;
@@ -54,12 +54,11 @@ function StarterDisclaimerCTA() {
                 },
                 description: {
                     id: t('workspace_limits.modals.informational.description.freeLimits'),
-                    defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
+                    defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, and {boards} board cards.',
                     values: {
                         planName: starterProductName,
                         messages: intl.formatNumber(fallbackStarterLimits.messages.history),
                         storage: asGBString(fallbackStarterLimits.files.totalStorage, intl.formatNumber),
-                        integrations: fallbackStarterLimits.integrations.enabled,
                         boards: fallbackStarterLimits.boards.cards,
                     },
                 },
@@ -86,9 +85,6 @@ function StarterDisclaimerCTA() {
                         cards: fallbackStarterLimits.boards.cards,
                         views: fallbackStarterLimits.boards.views,
                     },
-                    integrations: {
-                        enabled: fallbackStarterLimits.integrations.enabled,
-                    },
                 },
                 needsTheme: true,
             },
@@ -99,8 +95,8 @@ function StarterDisclaimerCTA() {
             id='starter_plan_data_restrictions_cta'
             onClick={openLimitsMiniModal}
         >
-            <i className='icon-alert-outline'/>
-            {intl.formatMessage({id: 'pricing_modal.planDisclaimer.free', defaultMessage: 'This plan has data restrictions.'})}
+            <i className='icon-alert-outline' />
+            {intl.formatMessage({ id: 'pricing_modal.planDisclaimer.free', defaultMessage: 'This plan has data restrictions.' })}
         </Disclaimer>);
 }
 

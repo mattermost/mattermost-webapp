@@ -2,19 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {useSelector} from 'react-redux';
-import {FormattedMessage} from 'react-intl';
+import { useSelector } from 'react-redux';
+import { FormattedMessage } from 'react-intl';
 
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {t, Message} from 'utils/i18n';
+import { getTheme } from 'mattermost-redux/selectors/entities/preferences';
+import { t, Message } from 'utils/i18n';
 import CloudUsageModal from 'components/cloud_usage_modal';
 import useGetMultiplesExceededCloudLimit from 'components/common/hooks/useGetMultiplesExceededCloudLimit';
-import {LimitTypes} from 'utils/limits';
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
-import {trackEvent} from 'actions/telemetry_actions';
+import { LimitTypes } from 'utils/limits';
+import { TELEMETRY_CATEGORIES } from 'utils/constants';
+import { trackEvent } from 'actions/telemetry_actions';
 
 import './delinquency_modal.scss';
 
@@ -33,7 +33,7 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
     noLimits: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_freemium'
-            defaultMessage='Cloud Free is restricted to 10,000 message history, 10GB file storage, 10 apps, and 500 board cards.'
+            defaultMessage='Cloud Free is restricted to 10,000 message history, 10GB file storage, and 500 board cards.'
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
@@ -42,14 +42,6 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_messages_surpassed'
             defaultMessage={'Some of your workspace\'s message history are no longer accessible. Upgrade to a paid plan and get unlimited access to your message history.'}
-        >
-            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
-        </FormattedMessage>
-    ),
-    [LimitTypes.enabledIntegrations]: (
-        <FormattedMessage
-            id='cloud_delinquency.modal.workspace_downgraded_integrations_surpassed'
-            defaultMessage='You have reached the limit of enabled integrations in your workspace. Upgrade to a paid plan to remove restrictions.'
         >
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
@@ -92,8 +84,8 @@ const getDescriptionKey = (limits: Array<ValueOf<typeof LimitTypes>>): Descripti
     return 'noLimits';
 };
 
-export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: FreemiumModalProps) => {
-    const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
+export const FreemiumModal = ({ onClose, onExited, planName, isAdminConsole }: FreemiumModalProps) => {
+    const openPurchaseModal = useOpenCloudPurchaseModal({ isDelinquencyModal: true });
     const [limits] = useGetLimits();
     const usage = useGetUsage();
     useSelector(getTheme);
@@ -107,7 +99,7 @@ export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: Fre
     const handleReactivate = () => {
         handleClose();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_re_activate_plan');
-        openPurchaseModal({trackingLocation: 'delinquency_modal_freemium_admin'});
+        openPurchaseModal({ trackingLocation: 'delinquency_modal_freemium_admin' });
     };
 
     const title: Message = {

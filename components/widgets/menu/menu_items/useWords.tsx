@@ -59,9 +59,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
     case LimitTypes.fileStorage:
         featureToNotifyOn = PaidFeatures.UNLIMITED_FILE_STORAGE;
         break;
-    case LimitTypes.enabledIntegrations:
-        featureToNotifyOn = PaidFeatures.UNLIMITED_INTEGRATIONS;
-        break;
     case LimitTypes.boardsCards:
         featureToNotifyOn = PaidFeatures.UNLIMITED_BOARD_CARDS;
         break;
@@ -164,38 +161,6 @@ export default function useWords(highestLimit: LimitSummary | false, isAdminUser
                 values,
             ),
             status: asGBString(highestLimit.usage, intl.formatNumber),
-        };
-    }
-    case LimitTypes.enabledIntegrations: {
-        let id = t('workspace_limits.menu_limit.warn.integrations_enabled');
-        let defaultMessage = 'You’re getting closer to the {limit} enabled integrations limit. <a>{callToAction}</a>';
-        values.limit = highestLimit.limit;
-        if (usageRatio >= limitThresholds.danger) {
-            id = t('workspace_limits.menu_limit.critical.integrations_enabled');
-            defaultMessage = 'You’re getting closer to the {limit} enabled integrations limit. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.reached) {
-            id = t('workspace_limits.menu_limit.reached.integrations_enabled');
-            defaultMessage = 'You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>';
-        }
-        if (usageRatio >= limitThresholds.exceeded) {
-            id = t('workspace_limits.menu_limit.over.integrations_enabled');
-            defaultMessage = 'You’ve reached the {limit} enabled integrations limit. You can’t enable additional integrations. Upgrade to remove this limit. <a>{callToAction}</a>';
-        }
-
-        return {
-            title: intl.formatMessage({
-                id: 'workspace_limits.menu_limit.integrations',
-                defaultMessage: 'Integrations limit',
-            }),
-            description: intl.formatMessage(
-                {
-                    id,
-                    defaultMessage,
-                },
-                values,
-            ),
-            status: highestLimit.usage,
         };
     }
     case LimitTypes.boardsCards: {
