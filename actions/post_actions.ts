@@ -278,12 +278,13 @@ export function markPostAsUnread(post: Post, location: string) {
 
 export function deleteAndRemovePost(post: Post) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
         const {error} = await dispatch(PostActions.deletePost(post));
         if (error) {
             return {error};
         }
 
-        if (post.id === getSelectedPostId(getState() as GlobalState)) {
+        if (post.id === getSelectedPostId(state as GlobalState)) {
             dispatch({
                 type: ActionTypes.SELECT_POST,
                 postId: '',
@@ -292,7 +293,7 @@ export function deleteAndRemovePost(post: Post) {
             });
         }
 
-        if (post.id === getSelectedPostCardId(getState() as GlobalState)) {
+        if (post.id === getSelectedPostCardId(state as GlobalState)) {
             dispatch({
                 type: ActionTypes.SELECT_POST_CARD,
                 postId: '',
