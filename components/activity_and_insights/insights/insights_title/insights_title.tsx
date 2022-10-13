@@ -3,9 +3,9 @@
 import React, {memo, useCallback} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {trackEvent} from 'actions/telemetry_actions';
-
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
+
+import {trackEvent} from 'actions/telemetry_actions';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -26,7 +26,7 @@ type Props = {
 const InsightsTitle = (props: Props) => {
     const {formatMessage} = useIntl();
 
-    const [isStarterFree, isFreeTrial] = useLicenseChecks(); 
+    const [isStarterFree, isFreeTrial] = useLicenseChecks();
 
     const title = useCallback(() => {
         if (props.filterType === InsightsScopes.TEAM) {
@@ -135,52 +135,52 @@ const InsightsTitle = (props: Props) => {
                             })}
                             messageAdminPostTrial={
                                 formatMessage(
-                                {
-                                    id: 'insights.accessModal.messageAdminPostTrial',
-                                    defaultMessage: 'To access your complete {insightsDoc} dashboard, including {teamInsights}, please upgrade your plan to Professional or Enterprise. For questions on upgrading your plan, please {contactSales} for support.',
-                                }, 
-                                {
-                                    insightsDoc: (
-                                        <a
-                                            onClick={openInsightsDoc}
-                                            href={'https://docs.mattermost.com/welcome/insights.html'}
-                                            rel='noopener noreferrer'
-                                            target='_blank'
-                                        >
-                                            <FormattedMessage
-                                                id='insights.accessModal.docsLink'
-                                                defaultMessage='Insights'
-                                            />
-                                        </a>
-                                    ),
-                                    teamInsights: (
-                                        <a
-                                            onClick={openTeamInsightsDoc}
-                                            href={'https://docs.mattermost.com/welcome/insights.html#team-insights'}
-                                            rel='noopener noreferrer'
-                                            target='_blank'
-                                        >
-                                            <FormattedMessage
-                                                id='insights.accessModal.teamDocsLink'
-                                                defaultMessage='Team Insights'
-                                            />
-                                        </a>
-                                    ),
-                                    contactSales: (
-                                        <a
-                                            onClick={openContactSales}
-                                            href={'https://mattermost.com/contact-sales/'}
-                                            rel='noopener noreferrer'
-                                            target='_blank'
-                                        >
-                                            <FormattedMessage
-                                                id='insights.accessModal.contactSales'
-                                                defaultMessage='contact our Sales team'
-                                            />
-                                        </a>
-                                    )
-                                }
-                            )}
+                                    {
+                                        id: 'insights.accessModal.messageAdminPostTrial',
+                                        defaultMessage: 'To access your complete {insightsDoc} dashboard, including {teamInsights}, please upgrade your plan to Professional or Enterprise. For questions on upgrading your plan, please {contactSales} for support.',
+                                    },
+                                    {
+                                        insightsDoc: (
+                                            <a
+                                                onClick={openInsightsDoc}
+                                                href={'https://docs.mattermost.com/welcome/insights.html'}
+                                                rel='noopener noreferrer'
+                                                target='_blank'
+                                            >
+                                                <FormattedMessage
+                                                    id='insights.accessModal.docsLink'
+                                                    defaultMessage='Insights'
+                                                />
+                                            </a>
+                                        ),
+                                        teamInsights: (
+                                            <a
+                                                onClick={openTeamInsightsDoc}
+                                                href={'https://docs.mattermost.com/welcome/insights.html#team-insights'}
+                                                rel='noopener noreferrer'
+                                                target='_blank'
+                                            >
+                                                <FormattedMessage
+                                                    id='insights.accessModal.teamDocsLink'
+                                                    defaultMessage='Team Insights'
+                                                />
+                                            </a>
+                                        ),
+                                        contactSales: (
+                                            <a
+                                                onClick={openContactSales}
+                                                href={'https://mattermost.com/contact-sales/'}
+                                                rel='noopener noreferrer'
+                                                target='_blank'
+                                            >
+                                                <FormattedMessage
+                                                    id='insights.accessModal.contactSales'
+                                                    defaultMessage='contact our Sales team'
+                                                />
+                                            </a>
+                                        ),
+                                    },
+                                )}
                             titleEndUser={formatMessage({
                                 id: 'insights.accessModal.titleEndUser',
                                 defaultMessage: 'Team insights are available in paid plans',

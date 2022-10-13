@@ -20,7 +20,7 @@ type RestrictedIndicatorProps = {
     titleAdminPreTrial?: string;
     messageAdminPreTrial?: string | React.ReactNode;
     titleAdminPostTrial?: string;
-    messageAdminPostTrial?: string | React.ReactNode
+    messageAdminPostTrial?: string | React.ReactNode;
     titleEndUser?: string;
     messageEndUser?: string;
     blocked?: boolean;

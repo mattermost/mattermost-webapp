@@ -37,7 +37,7 @@ export const MenuItemActionImpl = ({
             aria-label={ariaLabel}
             className={classNames('style--none', buttonClass, {
                 'MenuItem__with-help': extraText,
-                'MenuItem__with-sibling': sibling, 
+                'MenuItem__with-sibling': sibling,
                 disabled,
                 MenuItem__dangerous: isDangerous,
             })}
@@ -49,7 +49,7 @@ export const MenuItemActionImpl = ({
         </button>
         {sibling}
     </>
-    
+
 );
 
 const MenuItemAction = menuItem(MenuItemActionImpl);
