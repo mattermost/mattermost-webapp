@@ -6,21 +6,22 @@
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import SettingItemMax from 'components/setting_item_max';
+
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
 import Constants, {Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {isMac, localizeMessage} from 'utils/utils';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {UserProfile} from '@mattermost/types/users';
 import {PreferenceType} from '@mattermost/types/preferences';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
 
 import JoinLeaveSection from './join_leave_section';
 import PerformanceDebuggingSection from './performance_debugging_section';
@@ -149,7 +150,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             }
         });
 
-        this.handleSubmit(features);
+        this.handleSubmit(features).then();
     }
 
     handleSubmit = async (settings: string[]): Promise<void> => {
@@ -367,10 +368,9 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                             </div>
                         </fieldset>,
                     ]}
-                    setting={'formatting'}
-                    submit={this.handleSubmit}
+                    submit={this.handleSubmit.bind(this, ['formatting'])}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -449,10 +449,9 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                             </div>
                         </fieldset>,
                     ]}
-                    setting={Preferences.UNREAD_SCROLL_POSITION}
-                    submit={this.handleSubmit}
+                    submit={this.handleSubmit.bind(this, [Preferences.UNREAD_SCROLL_POSITION])}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -575,7 +574,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     inputs={inputs}
                     submit={this.handleSubmit.bind(this, ['send_on_ctrl_enter', 'code_block_ctrl_enter'])}
                     saving={this.state.isSaving}
-                    server_error={serverError}
+                    serverError={serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );
@@ -649,7 +648,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         inputs={inputs}
                         submit={this.saveEnabledFeatures}
                         saving={this.state.isSaving}
-                        server_error={serverError}
+                        serverError={serverError}
                         updateSection={this.handleUpdateSection}
                     />
                 );
@@ -700,7 +699,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                         setting={'deactivateAccount'}
                         submit={this.handleShowDeactivateAccountModal}
                         saving={this.state.isSaving}
-                        server_error={this.state.serverError}
+                        serverError={this.state.serverError}
                         updateSection={this.handleUpdateSection}
                     />
                 );
