@@ -52,8 +52,6 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
     };
 
     const handleTextAreaChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
-        event.stopPropagation();
-        event.preventDefault();
         const {name, value} = event.target;
 
         setFormState((formDataState) => ({
@@ -195,9 +193,6 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                             className='GatherIntentModal__body__textarea'
                             value={formState.otherPaymentOption}
                             onChange={handleTextAreaChange}
-                            onClick={(e) => {
-                                console.log("ASD")
-                            }}
                             placeholder={intl.formatMessage({id: 'payment_form.gather_wire_transfer_intent_modal.otherPaymentOptionPlaceholder', defaultMessage: 'Enter payment option here'})}
                             rows={2}
                             maxLength={400}
