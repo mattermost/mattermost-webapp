@@ -329,8 +329,18 @@ function applyBoldItalicMarkdown({selectionEnd, selectionStart, message, markdow
 
     // <prefix> <selection> <suffix>
     const prefix = message.slice(0, selectionStart);
-    const selection = message.slice(selectionStart, selectionEnd);
-    const suffix = message.slice(selectionEnd);
+    let selection = message.slice(selectionStart, selectionEnd);
+    let suffix = message.slice(selectionEnd);
+
+    let newValue: string;
+    let newStart = selectionStart;
+    let newEnd = selectionEnd;
+
+    if (selection.endsWith(' ')) {
+        selection = selection.slice(0, -1);
+        suffix = ` ${suffix}`;
+        newEnd -= 1;
+    }
 
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
     let isItalicFollowedByBold = false;
@@ -349,20 +359,16 @@ function applyBoldItalicMarkdown({selectionEnd, selectionStart, message, markdow
     // Does current selection have both of the markdown around it? i.e. ***haha***
     const hasItalicAndBold = prefix.endsWith(BOLD_MD + ITALIC_MD) && suffix.startsWith(BOLD_MD + ITALIC_MD);
 
-    let newValue: string;
-    let newStart: number;
-    let newEnd: number;
-
     if (hasItalicAndBold || (hasCurrentMarkdown && !isItalicFollowedByBold)) {
         // message already has the markdown; remove it
         newValue = prefix.slice(0, prefix.length - delimiter.length) + selection + suffix.slice(delimiter.length);
-        newStart = selectionStart - delimiter.length;
-        newEnd = selectionEnd - delimiter.length;
+        newStart -= delimiter.length;
+        newEnd -= delimiter.length;
     } else {
         // Add italic or bold markdown
         newValue = prefix + delimiter + selection + delimiter + suffix;
-        newStart = selectionStart + delimiter.length;
-        newEnd = selectionEnd + delimiter.length;
+        newStart += delimiter.length;
+        newEnd += delimiter.length;
     }
 
     return {
