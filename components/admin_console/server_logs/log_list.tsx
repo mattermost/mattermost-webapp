@@ -11,6 +11,7 @@ import {FilterOptions} from 'components/admin_console/filter/filter';
 import {LogFilter, LogLevelEnum, LogObject} from '@mattermost/types/admin';
 import {ChannelSearchOpts} from '@mattermost/types/channels';
 import './log_list.scss';
+import FullLogEventModal from '../full_log_event_modal';
 
 type Props = {
     loading: boolean;
@@ -21,7 +22,20 @@ type Props = {
     filters: LogFilter;
 };
 
-export default class LogList extends React.PureComponent<Props> {
+type State = {
+    modalLog: null | LogObject;
+    modalOpen: boolean;
+}
+
+export default class LogList extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            modalLog: null,
+            modalOpen: false,
+        };
+    }
     isSearching = (term: string, filters: ChannelSearchOpts) => {
         return term.length > 0 || Object.keys(filters).length > 0;
     }
@@ -166,8 +180,22 @@ export default class LogList extends React.PureComponent<Props> {
                         </button>
                     ),
                 },
-                onClick: () => {/* browserHistory.push(`/admin_console/user_management/channels/${channel.id}`) */},
+                onClick: () => this.showFullLogEvent(log),
             };
+        });
+    }
+
+    showFullLogEvent = (log: LogObject) => {
+        this.setState({
+            modalLog: log,
+            modalOpen: true,
+        });
+    }
+
+    hideModal = () => {
+        this.setState({
+            modalLog: null,
+            modalOpen: false,
         });
     }
 
@@ -310,6 +338,11 @@ export default class LogList extends React.PureComponent<Props> {
                     previousPage={() => {}}
                     filterProps={filterProps}
                     extraComponent={errorsButton}
+                />
+                <FullLogEventModal
+                    log={this.state.modalLog}
+                    show={this.state.modalOpen}
+                    onModalDismissed={this.hideModal}
                 />
             </div>
         );
