@@ -196,7 +196,6 @@ class DataGrid extends React.PureComponent<Props, State> {
     }
 
     private renderSearch(): JSX.Element | null {
-        console.log(this.props.extraComponent)
         if (this.props.onSearch) {
             return (
                 <DataGridSearch

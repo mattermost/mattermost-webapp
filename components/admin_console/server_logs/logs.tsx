@@ -6,8 +6,6 @@ import {FormattedMessage} from 'react-intl';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import LoadingScreen from 'components/loading_screen';
-
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
 import {LogFilter, LogLevels, LogObject, LogServerNames} from '@mattermost/types/admin';
@@ -59,7 +57,11 @@ export default class Logs extends React.PureComponent<Props, State> {
     }
 
     onSearchChange = (search: string) => {
-        this.setState({search});
+        this.setState({search}, () => this.reload());
+    }
+
+    onFiltersChange = ({dateFrom, dateTo, logLevels, serverNames}: LogFilter) => {
+        this.setState({dateFrom, dateTo, logLevels, serverNames}, () => this.reload());
     }
 
     render() {
@@ -92,14 +94,19 @@ export default class Logs extends React.PureComponent<Props, State> {
                                 />
                             </button>
                         </div>
-                        {this.state.loadingLogs ?
-                            <LoadingScreen/> :
-                            <LogList
-                                logs={this.props.logs}
-                                onSearchChange={this.onSearchChange}
-                                search={this.state.search}
-                            />
-                        }
+                        <LogList
+                            loading={this.state.loadingLogs}
+                            logs={this.props.logs}
+                            onSearchChange={this.onSearchChange}
+                            search={this.state.search}
+                            onFiltersChange={this.onFiltersChange}
+                            filters={{
+                                dateFrom: this.state.dateFrom,
+                                dateTo: this.state.dateTo,
+                                logLevels: this.state.logLevels,
+                                serverNames: this.state.serverNames,
+                            }}
+                        />
                     </div>
                 </div>
             </div>

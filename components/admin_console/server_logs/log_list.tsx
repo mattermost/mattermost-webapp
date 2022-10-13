@@ -8,32 +8,20 @@ import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_gri
 import DropdownInput from 'components/dropdown_input';
 import {FilterOptions} from 'components/admin_console/filter/filter';
 
-import {LogObject} from '@mattermost/types/admin';
+import {LogFilter, LogLevelEnum, LogObject} from '@mattermost/types/admin';
 import {ChannelSearchOpts} from '@mattermost/types/channels';
 import './log_list.scss';
 
 type Props = {
+    loading: boolean;
     logs: LogObject[];
+    onFiltersChange: (filters: LogFilter) => void;
     onSearchChange: (term: string) => void;
     search: string;
+    filters: LogFilter;
 };
 
-type State = {
-    loading: boolean;
-    term: string;
-    filters: FilterOptions;
-};
-
-export default class LogList extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            loading: false,
-            term: '',
-            filters: {},
-        };
-    }
-
+export default class LogList extends React.PureComponent<Props> {
     isSearching = (term: string, filters: ChannelSearchOpts) => {
         return term.length > 0 || Object.keys(filters).length > 0;
     }
@@ -102,13 +90,13 @@ export default class LogList extends React.PureComponent<Props, State> {
                 textAlign: 'left',
                 width: 2,
             },
-            
             {
                 field: 'worker',
                 fixed: true,
                 name: worker,
                 textAlign: 'left',
-            },{
+            },
+            {
                 field: 'caller',
                 fixed: true,
                 name: caller,
@@ -126,8 +114,6 @@ export default class LogList extends React.PureComponent<Props, State> {
     }
 
     getRows = (): Row[] => {
-        console.log(this.props.logs);
-
         return this.props.logs.map((log: LogObject) => {
             return {
                 cells: {
@@ -172,7 +158,6 @@ export default class LogList extends React.PureComponent<Props, State> {
                         <button
                             type='submit'
                             className='btn btn-inverted'
-                            // onClick={this.reload}
                         >
                             <FormattedMessage
                                 id='admin.logs.fullEvent'
@@ -187,7 +172,19 @@ export default class LogList extends React.PureComponent<Props, State> {
     }
 
     onFilter = (filterOptions: FilterOptions) => {
-        console.log({filterOptions});
+        const filters = {} as unknown as LogFilter;
+        const levelValues = filterOptions.levels.values;
+        if (levelValues.all.value) {
+            filters.logLevels = [];
+        } else {
+            filters.logLevels = Object.keys(levelValues).reduce<LogFilter['logLevels']>((acc, key) => {
+                if (levelValues[key].value) {
+                    acc.push(key as LogLevelEnum);
+                }
+                return acc;
+            }, []);
+        }
+        this.props.onFiltersChange(filters);
     }
 
     render = (): JSX.Element => {
@@ -211,20 +208,19 @@ export default class LogList extends React.PureComponent<Props, State> {
             <button
                 type='submit'
                 className='btn btn-dangerous'
-                // onClick={this.reload}
             >
                 <FormattedMessage
                     id='admin.logs.showErrors'
                     defaultMessage='Show last {n} errors'
                 />
             </button>
-        )
+        );
 
         const filterOptions: FilterOptions = {
             nodes: {
-                name: 'Nodes',
+                name: 'Node',
                 values: {
-                    node_ids: {
+                    node1: {
                         name: (
                             <FormattedMessage
                                 id='admin.logs.node1'
@@ -234,7 +230,7 @@ export default class LogList extends React.PureComponent<Props, State> {
                         value: 'node_1',
                     },
                 },
-                keys: ['node_ids'],
+                keys: ['node1'],
                 type: DropdownInput,
             },
             levels: {
@@ -254,6 +250,15 @@ export default class LogList extends React.PureComponent<Props, State> {
                             <FormattedMessage
                                 id='admin.logs.Error'
                                 defaultMessage='Error'
+                            />
+                        ),
+                        value: false,
+                    },
+                    warn: {
+                        name: (
+                            <FormattedMessage
+                                id='admin.logs.Warn'
+                                defaultMessage='Warn'
                             />
                         ),
                         value: false,
@@ -292,7 +297,7 @@ export default class LogList extends React.PureComponent<Props, State> {
                 <DataGrid
                     columns={columns}
                     rows={rows}
-                    loading={this.state.loading}
+                    loading={this.props.loading}
                     startCount={1}
                     endCount={logsCount}
                     total={logsCount}
