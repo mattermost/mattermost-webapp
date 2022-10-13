@@ -226,10 +226,6 @@ const state: GlobalState = {
                 cards: 0,
                 cardsLoaded: false,
             },
-            integrations: {
-                enabled: 0,
-                enabledLoaded: false,
-            },
         },
         insights: {
             topReactions: {},
