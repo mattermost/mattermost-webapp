@@ -38,6 +38,11 @@
             i {
                 color: rgba(var(--center-channel-color-rgb), 0.56);
             }
+
+            .RestrictedIndicator__icon-tooltip-container {
+                align-self: center;
+                padding: 1px 10px;
+            }
         }
 
         .react-select {
