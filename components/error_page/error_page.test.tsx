@@ -5,22 +5,44 @@ import React from 'react';
 import {screen} from '@testing-library/react';
 import {BrowserRouter} from 'react-router-dom';
 
-import {renderWithIntl} from 'tests/react_testing_utils';
+import {GlobalState} from '@mattermost/types/store';
+
+import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 
 import {ErrorPageTypes} from 'utils/constants';
+
+import {TestHelper} from 'utils/test_helper';
 
 import ErrorPage from './error_page';
 
 describe('ErrorPage', () => {
     it('displays cloud archived page correctly', () => {
-        renderWithIntl(
-            <BrowserRouter>
-                <ErrorPage
-                    location={{
-                        search: `?type=${ErrorPageTypes.CLOUD_ARCHIVED}`,
-                    }}
-                />
-            </BrowserRouter>,
+        renderWithIntlAndStore(
+            (
+                <BrowserRouter>
+                    <ErrorPage
+                        location={{
+                            search: `?type=${ErrorPageTypes.CLOUD_ARCHIVED}`,
+                        }}
+                    />
+                </BrowserRouter>
+            ),
+            {
+                entities: {
+                    cloud: {
+                        subscription: TestHelper.getSubscriptionMock({
+                            product_id: 'prod_a',
+
+                        }),
+                        products: {
+                            prod_a: TestHelper.getProductMock({
+                                id: 'prod_a',
+                                name: 'cloud plan',
+                            }),
+                        },
+                    },
+                },
+            } as unknown as GlobalState,
         );
 
         screen.getByText('Message Archived');

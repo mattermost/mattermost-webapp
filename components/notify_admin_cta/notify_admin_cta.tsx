@@ -3,10 +3,9 @@
 import React, {useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
-import {useSelector} from 'react-redux';
 
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {NotifyAdminRequest} from '@mattermost/types/cloud';
 import {trackEvent} from 'actions/telemetry_actions';
 
 const Span = styled.span`
@@ -17,7 +16,7 @@ font-weight: 600;
 line-height: 16px;
 `;
 
-const StyledA = styled.a`
+const Button = styled.button`
 border: none;
 background: none;
 color: var(--denim-button-bg);
@@ -25,7 +24,7 @@ text-decoration: none;
 display: inline;
 `;
 
-enum NotifyStatus {
+export enum NotifyStatus {
     NotStarted = 'NOT_STARTED',
     Started = 'STARTED',
     Success = 'SUCCESS',
@@ -48,10 +47,10 @@ type HookProps = {
 
 type Props = HookProps & {
     callerInfo: string;
+    notifyRequestData: NotifyAdminRequest;
 }
 
-export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void] {
-    const currentTeam = useSelector(getCurrentTeamId);
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps, reqData: NotifyAdminRequest): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void, NotifyStatus] {
     const [notifyStatus, setStatus] = useState(NotifyStatus.NotStarted);
     const {formatMessage} = useIntl();
 
@@ -75,10 +74,7 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         e.stopPropagation();
         try {
             setStatus(NotifyStatus.Started);
-            const req = {
-                current_team_id: currentTeam,
-            };
-            await Client4.notifyAdminToUpgrade(req);
+            await Client4.notifyAdmin(reqData);
             trackEvent('pricing', 'click_notify_admin_cta', {
                 callerInfo,
             });
@@ -92,11 +88,11 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         }
     };
 
-    return [btnText(notifyStatus), notifyFunc];
+    return [btnText(notifyStatus), notifyFunc, notifyStatus];
 }
 
 function NotifyAdminCTA(props: Props) {
-    const [status, notify] = useNotifyAdmin(props);
+    const [btnText, notify, status] = useNotifyAdmin(props, props.notifyRequestData);
     const {formatMessage} = useIntl();
     let title = formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '});
     if (props.preTrial) {
@@ -107,22 +103,24 @@ function NotifyAdminCTA(props: Props) {
         <>
             {props.ctaText ? (
                 <span>
-                    <StyledA
+                    <Button
                         id='notify_admin_cta'
                         onClick={(e) => notify(e, props.callerInfo)}
+                        disabled={status === NotifyStatus.AlreadyComplete}
                     >
-                        {status}
-                    </StyledA>
+                        {btnText}
+                    </Button>
                 </span>
             ) : (
-                <Span>
+                <Span id='notify_cta_container'>
                     {title}
-                    <StyledA
+                    <Button
                         id='notify_admin_cta'
                         onClick={(e) => notify(e, props.callerInfo)}
+                        disabled={status === NotifyStatus.AlreadyComplete}
                     >
-                        {status}
-                    </StyledA>
+                        {btnText}
+                    </Button>
                 </Span>
             )}
         </>);

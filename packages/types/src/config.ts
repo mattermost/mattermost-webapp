@@ -52,6 +52,7 @@ export type ClientConfig = {
     EnableCustomEmoji: string;
     EnableCustomGroups: string;
     EnableCustomUserStatuses: string;
+    EnableLastActiveTime: string;
     EnableTimedDND: string;
     EnableCustomTermsOfService: string;
     EnableDeveloper: string;
@@ -102,7 +103,6 @@ export type ClientConfig = {
     EnforceMultifactorAuthentication: string;
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
-    ExperimentalCloudBilling: string;
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
@@ -186,6 +186,7 @@ export type ClientConfig = {
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
     EnableComplianceExport: string;
+    PostPriority: string;
 };
 
 export type License = {
@@ -336,6 +337,7 @@ export type ServiceSettings = {
     LocalModeSocketLocation: string;
     CollapsedThreads: CollapsedThreads;
     ThreadAutoFollow: boolean;
+    PostPriority: boolean;
 };
 
 export type TeamSettings = {
@@ -360,6 +362,7 @@ export type TeamSettings = {
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
     ExperimentalDefaultChannels: string[];
+    EnableLastActiveTime: boolean;
 };
 
 export type ClientRequirements = {
@@ -669,7 +672,6 @@ export type ExperimentalSettings = {
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;
-    CloudBilling: boolean;
 };
 
 export type AnalyticsSettings = {

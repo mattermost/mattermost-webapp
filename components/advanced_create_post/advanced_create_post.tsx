@@ -4,6 +4,10 @@
 /* eslint-disable max-lines */
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
+
+import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
@@ -31,16 +35,21 @@ import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
+import Tooltip from 'components/tooltip';
+import OverlayTrigger from 'components/overlay_trigger';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
+import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
-import {Post, PostMetadata} from '@mattermost/types/posts';
+import {Post, PostMetadata, PostPriority} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import EmojiMap from 'utils/emoji_map';
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -54,11 +63,10 @@ import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
+import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
-
-const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
@@ -155,6 +163,8 @@ type Props = {
 
     isFormattingBarHidden: boolean;
 
+    isPostPriorityEnabled: boolean;
+
     actions: {
 
         //Set show preview for textbox
@@ -234,6 +244,7 @@ type State = {
     postError?: React.ReactNode;
     showFormat: boolean;
     isFormattingBarHidden: boolean;
+    showPostPriorityPicker: boolean;
 };
 
 class AdvancedCreatePost extends React.PureComponent<Props, State> {
@@ -250,6 +261,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private topDiv: React.RefObject<HTMLFormElement>;
     private textboxRef: React.RefObject<TextboxClass>;
     private fileUploadRef: React.RefObject<FileUploadClass>;
+    private postPriorityPickerRef: React.RefObject<HTMLButtonElement>;
 
     static getDerivedStateFromProps(props: Props, state: State): Partial<State> {
         let updatedState: Partial<State> = {
@@ -281,11 +293,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             serverError: null,
             showFormat: false,
             isFormattingBarHidden: props.isFormattingBarHidden,
+            showPostPriorityPicker: false,
         };
 
         this.topDiv = React.createRef<HTMLFormElement>();
         this.textboxRef = React.createRef<TextboxClass>();
         this.fileUploadRef = React.createRef<FileUploadClass>();
+        this.postPriorityPickerRef = React.createRef<HTMLButtonElement>();
     }
 
     componentDidMount() {
@@ -401,7 +415,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.setState({postError});
     }
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
+        e?.stopPropagation();
         this.setState({showEmojiPicker: !this.state.showEmojiPicker});
     }
 
@@ -432,6 +447,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const post = {} as Post;
         post.file_ids = [];
         post.message = message;
+        post.props = this.props.draft.props || {};
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -681,7 +697,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.user_id = userId;
         post.create_at = time;
         post.metadata = {} as PostMetadata;
-        post.props = {};
+        post.props = {
+            ...originalPost.props,
+        };
+
         if (!useChannelMentions && containsAtChannel(post.message, {checkAllMentions: true})) {
             post.props.mentionHighlightDisabled = true;
         }
@@ -813,7 +832,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        }, CreatePostDraftTimeoutMilliseconds);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -1029,19 +1048,51 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo =
-            (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
+
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlEnterKeyCombo = (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             ctrlOrMetaKeyPressed;
-        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
-        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
-        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
-        const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
+        const shiftAltCombo = !Utils.cmdOrCtrlPressed(e) && e.shiftKey && e.altKey;
+
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            return;
+        }
+
+        if (ctrlEnterKeyCombo) {
+            this.setShowPreview(false);
+            this.postMsgKeyPress(e);
+            return;
+        }
+
+        const {message} = this.state;
+
+        if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
+            this.textboxRef.current?.blur();
+        }
+
+        if (
+            !e.ctrlKey &&
+            !e.metaKey &&
+            !e.altKey &&
+            !e.shiftKey &&
+            Utils.isKeyPressed(e, KeyCodes.UP) &&
+            message === ''
+        ) {
+            e.preventDefault();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
+            }
+
+            this.editLastPost(e);
+        }
 
         const {
             selectionStart,
@@ -1049,47 +1100,110 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             value,
         } = e.target as TextboxElement;
 
-        // listen for line break key combo and insert new line character
-        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
-        } else if (ctrlEnterKeyCombo) {
-            this.postMsgKeyPress(e);
-        } else if (upKeyOnly && messageIsEmpty) {
+        if (ctrlKeyCombo) {
+            if (draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.UP)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.loadPrevMessage(e);
+            } else if (draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.loadNextMessage(e);
+            } else if (Utils.isKeyPressed(e, KeyCodes.B)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'bold',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.I)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'italic',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            }
+        } else if (ctrlAltCombo) {
+            if (Utils.isKeyPressed(e, KeyCodes.K)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'link',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.C)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'code',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.E)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.toggleEmojiPicker();
+            } else if (Utils.isKeyPressed(e, KeyCodes.T)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.toggleAdvanceTextEditor();
+            } else if (Utils.isKeyPressed(e, KeyCodes.P) && message.length) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.setShowPreview(!this.props.shouldShowPreview);
+            }
+        } else if (shiftAltCombo) {
+            if (Utils.isKeyPressed(e, KeyCodes.X)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'strike',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.SEVEN)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'ol',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.EIGHT)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'ul',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.NINE)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'quote',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            }
+        }
+        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
+
+        if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
             this.replyToLastPost(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.UP)) {
-            this.loadPrevMessage(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
-            this.loadNextMessage(e);
-        } else if (ctrlAltCombo && markdownLinkKey) {
-            this.applyMarkdown({
-                markdownMode: 'link',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
-            this.applyMarkdown({
-                markdownMode: 'bold',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
-            this.applyMarkdown({
-                markdownMode: 'italic',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
-            this.applyMarkdown({
-                markdownMode: 'strike',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             e.stopPropagation();
             e.preventDefault();
@@ -1260,6 +1374,38 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }]);
     }
 
+    handleRemovePriority = () => {
+        this.handlePostPriorityApply({priority: undefined});
+    }
+
+    handlePostPriorityApply = ({priority}: {priority?: PostPriority}) => {
+        const updatedDraft = {
+            ...this.props.draft,
+            props: {
+                ...this.props.draft.props,
+                priority,
+            },
+        };
+
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, updatedDraft);
+        this.focusTextbox();
+    };
+
+    handlePostPriorityHide = () => {
+        this.setState({
+            showPostPriorityPicker: false,
+        });
+        this.focusTextbox();
+    };
+
+    togglePostPriorityPicker = () => {
+        this.setState((prev) => ({
+            showPostPriorityPicker: !prev.showPostPriorityPicker,
+        }));
+    };
+
+    getPostPriorityPickerRef = () => this.postPriorityPickerRef.current;
+
     render() {
         let centerClass = '';
         if (!this.props.fullWidthTextBox) {
@@ -1316,7 +1462,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}
-                    handleEmojiClose={this.handleEmojiClose}
                     hideEmojiPicker={this.hideEmojiPicker}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
@@ -1328,6 +1473,86 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     fileUploadRef={this.fileUploadRef}
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
+                    labels={(
+                        this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
+                            <div className='AdvancedTextEditor__priority'>
+                                <PriorityLabel
+                                    size='xs'
+                                    priority={this.props.draft.props.priority}
+                                />
+                                <OverlayTrigger
+                                    placement='top'
+                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                    overlay={(
+                                        <Tooltip id='post-priority-picker-tooltip'>
+                                            <FormattedMessage
+                                                id={'post_priority.remove'}
+                                                defaultMessage={'Remove {priority} label'}
+                                                values={{priority: this.props.draft.props.priority}}
+                                            />
+                                        </Tooltip>
+                                    )}
+                                >
+                                    <button
+                                        type='button'
+                                        className='close'
+                                        onClick={this.handleRemovePriority}
+                                    >
+                                        <span aria-hidden='true'>{'×'}</span>
+                                        <span className='sr-only'>
+                                            <FormattedMessage
+                                                id={'post_priority.remove'}
+                                                defaultMessage={'Remove {priority} label'}
+                                                values={{priority: this.props.draft.props.priority}}
+                                            />
+                                        </span>
+                                    </button>
+                                </OverlayTrigger>
+                            </div>
+                        )
+                    )}
+                    additionalControls={[
+                        this.props.isPostPriorityEnabled ? (
+                            <React.Fragment key='PostPriorityPicker'>
+                                <PostPriorityPickerOverlay
+                                    priority={this.props.draft?.props?.priority}
+                                    show={this.state.showPostPriorityPicker}
+                                    target={this.getPostPriorityPickerRef}
+                                    onApply={this.handlePostPriorityApply}
+                                    onHide={this.handlePostPriorityHide}
+                                    defaultHorizontalPosition='left'
+                                />
+                                <OverlayTrigger
+                                    placement='top'
+                                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                                    trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+                                    overlay={this.state.showPostPriorityPicker ? <React.Fragment/> : (
+                                        <Tooltip id='post-priority-picker-tooltip'>
+                                            <KeyboardShortcutSequence
+                                                shortcut={KEYBOARD_SHORTCUTS.msgPostPriority}
+                                                hoistDescription={true}
+                                                isInsideTooltip={true}
+                                            />
+                                        </Tooltip>
+                                    )}
+                                >
+                                    <IconContainer
+                                        ref={this.postPriorityPickerRef}
+                                        className={classNames({control: true, active: this.state.showPostPriorityPicker})}
+                                        disabled={this.props.shouldShowPreview}
+                                        type='button'
+                                        onClick={this.togglePostPriorityPicker}
+                                    >
+                                        <AlertCircleOutlineIcon
+                                            size={18}
+                                            color='currentColor'
+                                        />
+                                    </IconContainer>
+                                </OverlayTrigger>
+                            </React.Fragment>
+                        ) : null,
+                    ]}
                 />
             </form>
         );
