@@ -8,6 +8,7 @@ import {getEmailUrl, splitEmailBodyText} from '../utils';
 * @param {string} username - username of the user
 * @param {string} username - email of the user
 */
+
 Cypress.Commands.add('getRecentEmail', ({username, email}) => {
     return cy.task('getRecentEmail', {username, email, mailUrl: getEmailUrl()}).then(({status, data}) => {
         expect(status).to.equal(200);
@@ -26,3 +27,24 @@ Cypress.Commands.add('getRecentEmail', ({username, email}) => {
         return cy.wrap({...data, body});
     });
 });
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * getRecentEmail is a task to get an email sent to a user
+             * from the email service provider
+             * @param options.username - username of the user
+             * @param options.email - email of the user
+             *
+             * @example
+             *   cy.getRecentEmail().then((data) => {
+             *       // do something with the email data/content
+             *   });
+             */
+            getRecentEmail(options: Pick<UserProfile, 'username' | 'email'>): Chainable;
+        }
+    }
+}

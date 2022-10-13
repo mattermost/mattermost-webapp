@@ -15,26 +15,39 @@ import {reUrl, getRandomId} from '../../../utils';
 
 describe('Profile > Profile Settings > Email', () => {
     let siteName;
-    let testUser;
+    let testUser: Cypress.UserProfile;
     let otherUser;
     let offTopicUrl;
+    let origConfig: Cypress.AdminConfig;
 
     before(() => {
-        cy.apiUpdateConfig({EmailSettings: {RequireEmailVerification: true}}).then(({config}) => {
-            siteName = config.TeamSettings.SiteName;
-        });
+        // Get config
+        cy.apiGetConfig().then(({config}) => {
+            origConfig = config;
+            const newConfig = {
+                ...origConfig,
+                EmailSettings: {
+                    ...origConfig.EmailSettings,
+                    RequireEmailVerification: true,
+                },
+            };
 
-        cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
-            testUser = user;
-            offTopicUrl = url;
+            cy.apiUpdateConfig(newConfig).then(({config}) => {
+                siteName = config.TeamSettings.SiteName;
+            });
 
-            cy.apiVerifyUserEmailById(testUser.id);
+            cy.apiInitSetup().then(({user, offTopicUrl: url}) => {
+                testUser = user;
+                offTopicUrl = url;
 
-            return cy.apiCreateUser();
-        }).then(({user: user1}) => {
-            otherUser = user1;
-            cy.apiLogin(testUser);
-            cy.visit(offTopicUrl);
+                cy.apiVerifyUserEmailById(testUser.id);
+
+                return cy.apiCreateUser({});
+            }).then(({user: user1}) => {
+                otherUser = user1;
+                cy.apiLogin(testUser);
+                cy.visit(offTopicUrl);
+            });
         });
     });
 
