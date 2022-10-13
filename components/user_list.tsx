@@ -83,7 +83,7 @@ export default class UserList extends React.PureComponent <Props> {
         if (users == null) {
             return <LoadingScreen/>;
         } else if (users.length > 0) {
-            content = users.map((user: {id: string}, index: number) => {
+            content = users.map((user: UserProfile, index: number) => {
                 return (
                     <RowComponentType
                         key={user.id}
