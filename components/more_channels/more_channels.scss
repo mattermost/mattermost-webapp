@@ -87,7 +87,7 @@
                 .primaryButton {
                     display: none;
                     padding: 7px 16px;
-                    background-color: var(--denim-button-bg);
+                    background-color: var(--button-bg);
                     border-radius: 4px;
                     color: var(--button-color);
                 }
@@ -119,19 +119,27 @@
         }
     }
 
+    .GenericModal__header {
+        width: 95%;
+    }
+
     #searchChannelsTextbox {
         height: 48px;
         border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
     }
 
     .outlineButton {
-        border: 1px solid var(--denim-button-bg);
+        border: 1px solid var(--button-bg);
         background-color: var(--center-channel-bg);
         border-radius: 4px;
-        color: var(--denim-button-bg);
+        color: var(--button-bg);
         font-size: 12px;
         font-weight: 600;
         line-height: 16px;
+    }
+
+    .outlineButton:hover {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
     }
 
     .filter-controls {
@@ -153,7 +161,7 @@
     }
 
     .primaryButton {
-        background-color: var(--denim-button-bg);
+        background-color: var(--button-bg);
         border-radius: 4px;
         color: var(--button-color);
     }
