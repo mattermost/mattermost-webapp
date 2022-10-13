@@ -27,5 +27,17 @@ declare namespace Cypress {
          *   cy.visit('url');
          */
         visit(url: string, options?: Partial<Cypress.VisitOptions>, duration?: number): Chainable;
+
+        /**
+         * Force types into a DOM element, regardless of actionability
+         * See Cypress Type Docs for reference: {@link https://docs.cypress.io/api/commands/type}
+         * @param text
+         * @param options
+         *
+         * @example
+         *  cy.get('selector').typeWithForce('text')
+         *
+         */
+        typeWithForce(text: string, options?: Record<string, unknown>): Chainable;
     }
 }
