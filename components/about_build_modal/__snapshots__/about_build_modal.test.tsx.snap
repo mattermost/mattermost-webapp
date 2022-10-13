@@ -1,175 +1,64 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/AboutBuildModal should match snapshot for cloud edition 1`] = `
-<Modal
-  animation={true}
-  aria-labelledby="aboutModalLabel"
-  autoFocus={true}
-  backdrop={true}
-  bsClass="modal"
-  dialogClassName="a11y__modal about-modal cloud"
-  dialogComponentClass={[Function]}
-  enforceFocus={true}
-  keyboard={true}
-  manager={
-    ModalManager {
-      "add": [Function],
-      "containers": Array [],
-      "data": Array [],
-      "handleContainerOverflow": true,
-      "hideSiblingNodes": true,
-      "isTopModal": [Function],
-      "modals": Array [],
-      "remove": [Function],
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
     }
   }
-  onExited={[MockFunction]}
-  onHide={[MockFunction]}
-  renderBackdrop={[Function]}
-  restoreFocus={true}
-  role="dialog"
-  show={true}
 >
-  <ModalHeader
-    bsClass="modal-header"
-    closeButton={true}
-    closeLabel="Close"
-  >
-    <ModalTitle
-      bsClass="modal-title"
-      componentClass="h1"
-      id="aboutModalLabel"
-    >
-      <MemoizedFormattedMessage
-        defaultMessage="About {appTitle}"
-        id="about.title"
-        values={
-          Object {
-            "appTitle": "Mattermost",
-          }
-        }
-      />
-    </ModalTitle>
-  </ModalHeader>
-  <ModalBody
-    bsClass="modal-body"
-    componentClass="div"
-  >
-    <div
-      className="about-modal__content"
-    >
-      <div
-        className="about-modal__logo"
-      >
-        <MattermostLogo />
-      </div>
-      <div>
-        <h3
-          className="about-modal__title"
-        >
-          <strong>
-            Mattermost
-             
-            <MemoizedFormattedMessage
-              defaultMessage="Cloud"
-              id="about.cloudEdition"
-            />
-          </strong>
-        </h3>
-        <p
-          className="subtitle"
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="High trust messaging for the enterprise"
-            id="about.enterpriseEditionSst"
-          />
-        </p>
-        <div
-          className="description"
-        >
-          <div>
-            <MemoizedFormattedMessage
-              defaultMessage="Mattermost Version:"
-              id="about.version"
-            />
-            <span
-              id="versionString"
-            >
-               3.6.2
-            </span>
-          </div>
-        </div>
-        <div
-          className="form-group"
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="Licensed to:"
-            id="about.licensed"
-          />
-           Mattermost Inc
-        </div>
-        <div
-          className="about-footer"
-        >
-          <MemoizedFormattedMessage
-            defaultMessage="Mattermost is made possible by the open source software used in our <linkServer>server</linkServer>, <linkDesktop>desktop</linkDesktop> and <linkMobile>mobile</linkMobile> apps."
-            id="about.notice"
-            values={
-              Object {
-                "linkDesktop": [Function],
-                "linkMobile": [Function],
-                "linkServer": [Function],
-              }
-            }
-          />
-          <div
-            className="copy-right"
-          >
-            <MemoizedFormattedMessage
-              defaultMessage="Copyright 2015 - {currentYear} Mattermost, Inc. All rights reserved"
-              id="about.copyright"
-              values={
-                Object {
-                  "currentYear": 2017,
-                }
-              }
-            />
-          </div>
-        </div>
-      </div>
-      <div />
-    </div>
-    <div
-      className="about-modal__hash"
-    >
-      <p>
-        <MemoizedFormattedMessage
-          defaultMessage="Build Hash:"
-          id="about.hash"
-        />
-        abcdef1234567890
-        <br />
-        <MemoizedFormattedMessage
-          defaultMessage="EE Build Hash:"
-          id="about.hashee"
-        />
-        0123456789abcdef
-        <br />
-        <MemoizedFormattedMessage
-          defaultMessage="Webapp Build Hash:"
-          id="about.hashwebapp"
-        />
-      </p>
-      <p>
-        <MemoizedFormattedMessage
-          defaultMessage="Build Date:"
-          id="about.date"
-        />
-        21 January 2017
-      </p>
-    </div>
-  </ModalBody>
-</Modal>
+  <AboutBuildModalCloud
+    config={
+      Object {
+        "BuildDate": "21 January 2017",
+        "BuildEnterpriseReady": "true",
+        "BuildHash": "abcdef1234567890",
+        "BuildHashEnterprise": "0123456789abcdef",
+        "BuildNumber": "3.6.2",
+        "PrivacyPolicyLink": "https://about.custom.com/privacy-policy/",
+        "SQLDriverName": "Postgres",
+        "SchemaVersion": "77",
+        "TermsOfServiceLink": "https://about.custom.com/default-terms/",
+        "Version": "3.6.0",
+      }
+    }
+    doHide={[MockFunction]}
+    license={
+      Object {
+        "Cloud": "true",
+        "Company": "Mattermost Inc",
+        "IsLicensed": "true",
+      }
+    }
+    onExited={[MockFunction]}
+    show={true}
+  />
+</ContextProvider>
 `;
 
 exports[`components/AboutBuildModal should match snapshot for enterprise edition 1`] = `

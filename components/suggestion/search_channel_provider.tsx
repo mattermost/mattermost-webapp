@@ -1,6 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ServerError} from '@mattermost/types/errors.js';
+import {ActionFunc} from 'mattermost-redux/types/actions.js';
+
 import {isDirectChannel, isGroupChannel, sortChannelsByTypeListAndDisplayName} from 'mattermost-redux/utils/channel_utils';
 
 import store from 'stores/redux_store.jsx';
@@ -11,9 +14,20 @@ import {getCurrentLocale} from 'selectors/i18n';
 import Provider from './provider.jsx';
 import SearchChannelSuggestion from './search_channel_suggestion';
 
+import {Channel} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
+
 const getState = store.getState;
 
-function itemToTerm(isAtSearch, item) {
+export type Results = {
+    matchedPretext: string;
+    terms: string[];
+    items: Channel[];
+    component: React.ElementType;
+}
+
+type ResultsCallback = (results: Results) => void;
+
+function itemToTerm(isAtSearch: boolean, item: { type: string; display_name: string; name: string }) {
     const prefix = isAtSearch ? '' : '@';
     if (item.type === Constants.DM_CHANNEL) {
         return prefix + item.display_name;
@@ -28,12 +42,13 @@ function itemToTerm(isAtSearch, item) {
 }
 
 export default class SearchChannelProvider extends Provider {
-    constructor(channelSearchFunc) {
+    autocompleteChannelsForSearch: any;
+    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc) {
         super();
         this.autocompleteChannelsForSearch = channelSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: ResultsCallback) {
         const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (captured) {
             let channelPrefix = captured[1];
@@ -46,14 +61,14 @@ export default class SearchChannelProvider extends Provider {
 
             this.autocompleteChannelsForSearch(
                 channelPrefix,
-                (data) => {
+                (data: Channel[]) => {
                     if (this.shouldCancelDispatch(channelPrefix)) {
                         return;
                     }
 
                     let channels = data;
                     if (isAtSearch) {
-                        channels = channels.filter((ch) => isDirectChannel(ch) || isGroupChannel(ch));
+                        channels = channels.filter((ch: Channel) => isDirectChannel(ch) || isGroupChannel(ch));
                     }
 
                     const locale = getCurrentLocale(getState());
