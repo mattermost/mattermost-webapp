@@ -46,6 +46,14 @@ const DescriptionMessages: Record<DescriptionStatusKey, JSX.Element> = {
             {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
         </FormattedMessage>
     ),
+    [LimitTypes.enabledIntegrations]: (
+        <FormattedMessage
+            id='cloud_delinquency.modal.workspace_downgraded_integrations_surpassed'
+            defaultMessage='You have reached the limit of enabled integrations in your workspace. Upgrade to a paid plan to remove restrictions.'
+        >
+            {(text) => <p className='DelinquencyModal__body__limits-information'>{text}</p>}
+        </FormattedMessage>
+    ),
     [LimitTypes.fileStorage]: (
         <FormattedMessage
             id='cloud_delinquency.modal.workspace_downgraded_storage_surpassed'

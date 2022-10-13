@@ -76,5 +76,6 @@ export const limitThresholds = Object.freeze({
 export const LimitTypes = {
     messageHistory: 'messageHistory',
     fileStorage: 'fileStorage',
+    enabledIntegrations: 'enabledIntegrations',
     boardsCards: 'boardsCards',
 } as const;
