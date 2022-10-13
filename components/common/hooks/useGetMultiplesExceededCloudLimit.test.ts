@@ -38,7 +38,6 @@ describe('useGetHighestThresholdCloudLimit', () => {
     const messageHistoryLimit = 10000;
     const filesLimit = FileSizes.Gigabyte * 10;
     const boardsLimit = 5;
-    const integrationsLimit = 5;
     const exceededMessageUsage = Math.ceil((limitThresholds.exceeded / 100) * messageHistoryLimit) + 1;
 
     const tests = [

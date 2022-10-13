@@ -33,9 +33,5 @@ export function makeEmptyUsage(): CloudUsage {
             cloudArchived: 0,
             teamsLoaded: true,
         },
-        integrations: {
-            enabled: 0,
-            enabledLoaded: true,
-        },
     };
 }
