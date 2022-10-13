@@ -18,8 +18,6 @@ import {ChannelMentionSuggestion} from '../channel_mention_provider';
 
 import {openAppsModal} from 'actions/apps';
 
-import Constants from 'utils/constants';
-
 import {AppCommandParser} from './app_command_parser/app_command_parser';
 
 import {AutocompleteSuggestion, Channel, COMMAND_SUGGESTION_CHANNEL, COMMAND_SUGGESTION_USER, intlShim, UserProfile} from './app_command_parser/app_command_parser_dependencies';
