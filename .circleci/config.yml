@@ -190,18 +190,10 @@ jobs:
           command: |
             curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz
 
-            # Unzip the server files
             tar xf server.tar.gz
-
-            # Remove the client directory and replace it with the one generated as part of this PR
             rm -rf mattermost/client
             tar xf mattermost-webapp.tar.gz
             mv client mattermost/client
-
-            # Re-extract the product files from the server
-            tar -xvf server.tar.gz mattermost/client/products
-
-            # Zip everything back up again
             tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
       - store_artifacts:
           path: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
