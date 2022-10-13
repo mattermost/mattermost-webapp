@@ -20,18 +20,20 @@ export {
     verifySuggestionAtPostTextbox,
 };
 
-function createPrivateChannel(teamId, userToAdd = null) {
+export type SimpleUser = Pick<Cypress.UserProfile, 'username' | 'first_name' | 'last_name' | 'nickname' | 'password' | 'email'>;
+
+function createPrivateChannel(teamId: string, userToAdd: Cypress.UserProfile = null) {
     // # Create a private channel as sysadmin
     return createChannel('P', teamId, userToAdd);
 }
 
-function createPublicChannel(teamId, userToAdd = null) {
+function createPublicChannel(teamId: string, userToAdd: Cypress.UserProfile = null) {
     // # Create a public channel as sysadmin
     return createChannel('O', teamId, userToAdd);
 }
 
-function createSearchData(prefix) {
-    return cy.apiCreateCustomAdmin().then(({sysadmin}) => {
+function createSearchData(prefix: string) {
+    return cy.apiCreateCustomAdmin({loginAfter: true, hideAdminTrialModal: true}).then(({sysadmin}) => {
         const users = getTestUsers(prefix);
 
         cy.apiLogin(sysadmin);
@@ -59,7 +61,7 @@ function enableElasticSearch() {
             EnableSearching: true,
             Sniff: false,
         },
-    });
+    } as Cypress.AdminConfig);
 
     // # Navigate to the elastic search setting page
     cy.visit('/admin_console/environment/elasticsearch');
@@ -88,7 +90,7 @@ function enableElasticSearch() {
     cy.waitUntil(checkFirstRow, options);
 }
 
-function getTestUsers(prefix = '') {
+function getTestUsers(prefix = ''): Record<string, SimpleUser> {
     if (Cypress.env('searchTestUsers')) {
         return JSON.parse(Cypress.env('searchTestUsers'));
     }
@@ -96,68 +98,68 @@ function getTestUsers(prefix = '') {
     return {
         ironman: generatePrefixedUser({
             username: 'ironman',
-            firstName: 'Tony',
-            lastName: 'Stark',
+            first_name: 'Tony',
+            last_name: 'Stark',
             nickname: 'protoncannon',
         }, prefix),
         hulk: generatePrefixedUser({
             username: 'hulk',
-            firstName: 'Bruce',
-            lastName: 'Banner',
+            first_name: 'Bruce',
+            last_name: 'Banner',
             nickname: 'gammaray',
         }, prefix),
         hawkeye: generatePrefixedUser({
             username: 'hawkeye',
-            firstName: 'Clint',
-            lastName: 'Barton',
+            first_name: 'Clint',
+            last_name: 'Barton',
             nickname: 'ronin',
         }, prefix),
         deadpool: generatePrefixedUser({
             username: 'deadpool',
-            firstName: 'Wade',
-            lastName: 'Wilson',
+            first_name: 'Wade',
+            last_name: 'Wilson',
             nickname: 'merc',
         }, prefix),
         captainamerica: generatePrefixedUser({
             username: 'captainamerica',
-            firstName: 'Steve',
-            lastName: 'Rogers',
+            first_name: 'Steve',
+            last_name: 'Rogers',
             nickname: 'professional',
         }, prefix),
         doctorstrange: generatePrefixedUser({
             username: 'doctorstrange',
-            firstName: 'Stephen',
-            lastName: 'Strange',
+            first_name: 'Stephen',
+            last_name: 'Strange',
             nickname: 'sorcerersupreme',
         }, prefix),
         thor: generatePrefixedUser({
             username: 'thor',
-            firstName: 'Thor',
-            lastName: 'Odinson',
+            first_name: 'Thor',
+            last_name: 'Odinson',
             nickname: 'mjolnir',
         }, prefix),
         loki: generatePrefixedUser({
             username: 'loki',
-            firstName: 'Loki',
-            lastName: 'Odinson',
+            first_name: 'Loki',
+            last_name: 'Odinson',
             nickname: 'trickster',
         }, prefix),
         dot: generatePrefixedUser({
             username: 'dot.dot',
-            firstName: 'z1First',
-            lastName: 'z1Last',
+            first_name: 'z1First',
+            last_name: 'z1Last',
             nickname: 'z1Nick',
         }, prefix),
         dash: generatePrefixedUser({
             username: 'dash-dash',
-            firstName: 'z2First',
-            lastName: 'z2Last',
+            first_name: 'z2First',
+            last_name: 'z2Last',
             nickname: 'z2Nick',
         }, prefix),
         underscore: generatePrefixedUser({
             username: 'under_score',
-            firstName: 'z3First',
-            lastName: 'z3Last',
+            first_name: 'z3First',
+            last_name: 'z3Last',
             nickname: 'z3Nick',
         }, prefix),
     };
@@ -177,7 +179,7 @@ function getQuickChannelSwitcherInput() {
         clear();
 }
 
-function searchAndVerifyChannel(channel, shouldExist = true) {
+function searchAndVerifyChannel(channel: Cypress.Channel, shouldExist = true) {
     const name = channel.display_name;
     searchForChannel(name);
 
@@ -191,7 +193,7 @@ function searchAndVerifyChannel(channel, shouldExist = true) {
     }
 }
 
-function searchAndVerifyUser(user) {
+function searchAndVerifyUser(user: Cypress.UserProfile) {
     // # Start @ mentions autocomplete with username
     cy.uiGetPostTextBox().
         as('input').
@@ -205,7 +207,7 @@ function searchAndVerifyUser(user) {
     return cy.uiVerifyAtMentionSuggestion(user);
 }
 
-function searchForChannel(name) {
+function searchForChannel(name: string) {
     // # Open up channel switcher
     cy.typeCmdOrCtrl().type('k').wait(TIMEOUTS.ONE_SEC);
 
@@ -217,7 +219,7 @@ function searchForChannel(name) {
         type(name);
 }
 
-function startAtMention(string) {
+function startAtMention(string: string) {
     // # Get the expected input
     cy.get('@input').clear().type(string);
 
@@ -225,14 +227,14 @@ function startAtMention(string) {
     cy.get('#suggestionList').should('be.visible');
 }
 
-function verifySuggestionAtPostTextbox(...expectedUsers) {
+function verifySuggestionAtPostTextbox(...expectedUsers: Cypress.UserProfile[]) {
     expectedUsers.forEach((user) => {
         cy.wait(TIMEOUTS.HALF_SEC);
         cy.uiVerifyAtMentionSuggestion(user);
     });
 }
 
-function verifySuggestionAtChannelSwitcher(...expectedUsers) {
+function verifySuggestionAtChannelSwitcher(...expectedUsers: Cypress.UserProfile[]) {
     expectedUsers.forEach((user) => {
         cy.findByTestId(user.username).
             should('be.visible').
@@ -240,7 +242,7 @@ function verifySuggestionAtChannelSwitcher(...expectedUsers) {
     });
 }
 
-function createChannel(channelType, teamId, userToAdd = null) {
+function createChannel(channelType: string, teamId: string, userToAdd: Cypress.UserProfile = null) {
     // # Create a channel as sysadmin
     return cy.externalRequest({
         user: getAdminAccount(),
@@ -278,21 +280,21 @@ function createChannel(channelType, teamId, userToAdd = null) {
     });
 }
 
-function generatePrefixedUser(user = {}, prefix) {
+function generatePrefixedUser(user: Omit<SimpleUser, 'password' | 'email'>, prefix: string) {
     return {
         username: withPrefix(user.username, prefix),
         password: 'passwd',
-        first_name: withPrefix(user.firstName, prefix),
-        last_name: withPrefix(user.lastName, prefix),
+        first_name: withPrefix(user.first_name, prefix),
+        last_name: withPrefix(user.last_name, prefix),
         email: createEmail(user.username, prefix),
         nickname: withPrefix(user.nickname, prefix),
     };
 }
 
-function withPrefix(name, prefix) {
+function withPrefix(name: string, prefix: string) {
     return prefix + name;
 }
 
-function createEmail(name, prefix) {
+function createEmail(name: string, prefix: string) {
     return `${prefix}${name}@sample.mattermost.com`;
 }
