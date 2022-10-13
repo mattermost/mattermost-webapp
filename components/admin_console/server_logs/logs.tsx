@@ -3,6 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {debounce} from 'lodash';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
@@ -22,6 +23,7 @@ type Props = {
 type State = {
     dateFrom: string;
     dateTo: string;
+    filteredLogs: LogObject[];
     loadingLogs: boolean;
     logLevels: LogLevels;
     search: string;
@@ -34,6 +36,7 @@ export default class Logs extends React.PureComponent<Props, State> {
         this.state = {
             dateFrom: '',
             dateTo: '',
+            filteredLogs: [],
             loadingLogs: true,
             logLevels: [],
             search: '',
@@ -57,8 +60,17 @@ export default class Logs extends React.PureComponent<Props, State> {
     }
 
     onSearchChange = (search: string) => {
-        this.setState({search}, () => this.reload());
+        this.setState({search}, () => this.performSearch());
     }
+
+    performSearch = debounce(() => {
+        const {search} = this.state;
+        const filteredLogs = this.props.logs.filter((log) => {
+            // to be improved
+            return `${log.caller}${log.msg}${log.worker}${log.worker}`.toLowerCase().includes(search.toLowerCase());
+        });
+        this.setState({filteredLogs});
+    }, 200);
 
     onFiltersChange = ({dateFrom, dateTo, logLevels, serverNames}: LogFilter) => {
         this.setState({dateFrom, dateTo, logLevels, serverNames}, () => this.reload());
@@ -96,7 +108,7 @@ export default class Logs extends React.PureComponent<Props, State> {
                         </div>
                         <LogList
                             loading={this.state.loadingLogs}
-                            logs={this.props.logs}
+                            logs={this.state.search ? this.state.filteredLogs : this.props.logs}
                             onSearchChange={this.onSearchChange}
                             search={this.state.search}
                             onFiltersChange={this.onFiltersChange}
