@@ -35,6 +35,7 @@ import SearchLimitsBanner from './search_limits_banner';
 import type {Props} from './types';
 
 import './search_results.scss';
+import PostComponent from 'components/new_post/post_component';
 
 const GET_MORE_BUFFER = 30;
 

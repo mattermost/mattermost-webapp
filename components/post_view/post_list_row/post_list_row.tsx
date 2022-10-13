@@ -30,6 +30,7 @@ export type PostListRowProps = {
     loadNewerPosts: () => void;
     togglePostMenu: (opened: boolean) => void;
     post: Post;
+    currentUserId: string;
 
     /**
      * To Check if the current post is last in the list
@@ -176,6 +177,7 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
 
         return (
             <PostComponent
+                currentUserId={this.props.currentUserId}
                 post={this.props.post}
                 {...postProps}
             />
