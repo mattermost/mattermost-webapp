@@ -440,7 +440,7 @@ async function initializeModuleFederation() {
 
     async function getRemoteContainers() {
         const products = [
-            {name: 'focalboard', baseUrl: 'http://localhost:9006'},
+            {name: 'boards', baseUrl: 'http://localhost:9006'},
         ];
 
         if (!DEV) {

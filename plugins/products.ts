@@ -33,10 +33,10 @@ export function initializeProducts() {
          */
         const products = [
             {
-                id: 'focalboard',
+                id: 'boards',
                 load: () => ({
-                    index: import('focalboard'),
-                    manifest: import('focalboard/manifest'),
+                    index: import('boards'),
+                    manifest: import('boards/manifest'),
                 }),
             },
         ];
