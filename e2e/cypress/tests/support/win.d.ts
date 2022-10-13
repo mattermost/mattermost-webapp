@@ -17,10 +17,10 @@ declare namespace Cypress {
     interface ApplicationWindow {
 
         /**
-     * Reset all tracked selectors
-     * @example
-     *   win.resetTrackedSelectors();
-     */
+         * Reset all tracked selectors
+         * @example
+         * win.resetTrackedSelectors();
+        */
         resetTrackedSelectors(): void;
     }
 }
