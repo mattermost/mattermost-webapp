@@ -48,6 +48,12 @@ body {
     border-radius: 2px;
 }
 
+.scrollbar--position {
+    position: relative;
+    right: 5px;
+    background-color: rgba(var(--center-channel-color-rgb),0.32);
+}
+
 .scrollbar--view {
     .browser--ie & {
         margin: 0 !important;
