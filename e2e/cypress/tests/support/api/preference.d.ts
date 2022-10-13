@@ -132,5 +132,21 @@ declare namespace Cypress {
          *   cy.apiSaveStartTrialModal('user-id', 'true');
          */
         apiSaveStartTrialModal(userId: string, value: string): Chainable<Response>;
+
+        /**
+         * Skip tutorial step of a user
+         * This API assume that the user is logged in and has cookie to access
+         * @param {string} userId - User ID
+         * @param {string} value - value of tutorial step, e.g. '999' (default, completed tutorial)
+         */
+        apiSaveSkipStepsPreference(userId: string, value: string): Chainable<Response<PreferenceType[]>>;
+
+        /**
+         * Saves tutorial step of a user
+         * This API assume that the user is logged in and has cookie to access
+         * @param {string} userId - User ID
+         * @param {string} value - value of tutorial step, e.g. '999' (default, completed tutorial)
+         */
+        apiSaveTutorialStep(userId: string, value?: string = '999'): Chainable<Response<PreferenceType[]>>;
     }
 }
