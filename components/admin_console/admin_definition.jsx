@@ -252,14 +252,15 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
     )(config, state, license, enterpriseReady, consoleAccess, cloud);
 };
 
-const getRestrictedIndicator = (displayBlocked = false) => ({
+const getRestrictedIndicator = (displayBlocked = false, minimumPlanRequiredForFeature = LicenseSkus.Professional) => ({
     value: (cloud) => (
         <RestrictedIndicator
             useModal={false}
             blocked={displayBlocked || !(cloud?.subscription?.is_free_trial === 'true')}
+            minimumPlanRequiredForFeature={minimumPlanRequiredForFeature}
             tooltipMessageBlocked={{
                 id: t('admin.sidebar.restricted_indicator.tooltip.message.blocked'),
-                defaultMessage: 'This is a professional feature, available with an upgrade or free {trialLength}-day trial',
+                defaultMessage: 'This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial',
             }}
         />
     ),
@@ -313,6 +314,10 @@ const AdminDefinition = {
         ),
         sectionTitle: t('admin.sidebar.billing'),
         sectionTitleDefault: 'Billing & Account',
+        isHidden: it.any(
+            it.not(it.licensedForFeature('Cloud')),
+            it.not(it.userHasReadPermissionOnResource('billing')),
+        ),
         subscription: {
             url: 'billing/subscription',
             title: t('admin.sidebar.subscription'),
@@ -556,7 +561,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         team_detail: {
             url: 'user_management/teams/:team_id',
@@ -694,7 +699,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
     },
     environment: {
@@ -6186,7 +6191,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         message_export: {
             url: 'compliance/export',
@@ -6243,7 +6248,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         audits: {
             url: 'compliance/monitoring',
@@ -6375,7 +6380,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
     },
     experimental: {
