@@ -279,30 +279,43 @@ const applyMarkdownToSelection = ({
     }
 
     // the part of the message that comes before the selection
-    const prefix = message.slice(0, selectionStart);
+    let prefix = message.slice(0, selectionStart);
 
     // the selected part of the message where the markdown needs to be added/removed
-    const selection = message.slice(selectionStart, selectionEnd);
+    let selection = message.slice(selectionStart, selectionEnd);
 
     // the part of the message that comes after the selection
-    const suffix = message.slice(selectionEnd);
+    let suffix = message.slice(selectionEnd);
 
     // Does the selection have current hotkey's markdown?
     const hasCurrentMarkdown = prefix.endsWith(delimiter) && suffix.startsWith(delimiter);
 
     let newValue: string;
-    let newStart: number;
-    let newEnd: number;
+    let newStart = selectionStart;
+    let newEnd = selectionEnd;
+
+    if (selection.endsWith(' ')) {
+        selection = selection.slice(0, -1);
+        suffix = ` ${suffix}`;
+        newEnd -= 1;
+    }
+
+    if (selection.startsWith(' ')) {
+        selection = selection.slice(1);
+        prefix = `${prefix} `;
+        newStart += 1;
+    }
+
     if (hasCurrentMarkdown) {
         // selection already has the markdown, so we remove it here
         newValue = prefix.slice(0, prefix.length - delimiter.length) + selection + suffix.slice(delimiter.length);
-        newStart = selectionStart - delimiter.length;
-        newEnd = selectionEnd - delimiter.length;
+        newStart -= delimiter.length;
+        newEnd -= delimiter.length;
     } else {
         // add markdown to the selection
         newValue = prefix + delimiter + selection + delimiter + suffix;
-        newStart = selectionStart + delimiter.length;
-        newEnd = selectionEnd + delimiter.length;
+        newStart += delimiter.length;
+        newEnd += delimiter.length;
     }
 
     return {
@@ -327,8 +340,7 @@ function applyBoldItalicMarkdown({selectionEnd, selectionStart, message, markdow
     const isForceItalic = markdownMode === 'italic';
     const isForceBold = markdownMode === 'bold';
 
-    // <prefix> <selection> <suffix>
-    const prefix = message.slice(0, selectionStart);
+    let prefix = message.slice(0, selectionStart);
     let selection = message.slice(selectionStart, selectionEnd);
     let suffix = message.slice(selectionEnd);
 
@@ -340,6 +352,12 @@ function applyBoldItalicMarkdown({selectionEnd, selectionStart, message, markdow
         selection = selection.slice(0, -1);
         suffix = ` ${suffix}`;
         newEnd -= 1;
+    }
+
+    if (selection.startsWith(' ')) {
+        selection = selection.slice(1);
+        prefix = `${prefix} `;
+        newStart += 1;
     }
 
     // Is it italic hot key on existing bold markdown? i.e. italic on **haha**
