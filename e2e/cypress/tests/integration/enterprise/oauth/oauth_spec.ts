@@ -14,11 +14,7 @@ import {set} from 'lodash';
 import {getRandomId} from '../../../utils';
 import {checkboxesTitleToIdMap} from '../system_console/channel_moderation/constants';
 
-import {
-    enablePermission,
-    goToSystemScheme,
-    saveConfigForScheme,
-} from '../system_console/channel_moderation/helpers';
+import {enablePermission, goToSystemScheme, saveConfigForScheme} from '../system_console/channel_moderation/helpers';
 
 describe('Integrations page', () => {
     const webhookBaseUrl = Cypress.env('webhookBaseUrl');
@@ -44,7 +40,7 @@ describe('Integrations page', () => {
             user1 = user;
             testChannelUrl1 = `/${team.name}/channels/town-square`;
 
-            cy.apiCreateUser({}).then(({user: otherUser}) => {
+            cy.apiCreateUser().then(({user: otherUser}) => {
                 user2 = otherUser;
                 cy.apiAddUserToTeam(team.id, user2.id);
             });
@@ -106,7 +102,8 @@ describe('Integrations page', () => {
         cy.get('#doneButton').click();
 
         cy.get('@clientID').then((clientID) => {
-            cy.contains('.item-details', clientID.text()).within(() => {
+            const cId = clientID as unknown as string;
+            cy.contains('.item-details', cId).within(() => {
                 // * Copy button should exist for Client ID
                 cy.contains('.item-details__token', 'Client ID').within(() => {
                     cy.get('.fa-copy').should('exist');
