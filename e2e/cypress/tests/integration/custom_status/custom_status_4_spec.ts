@@ -10,13 +10,18 @@
 // Stage: @prod
 // Group: @custom_status
 
+import set from 'lodash.set';
+
 describe('Custom Status - Recent Statuses', () => {
     before(() => {
-        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
+        cy.apiGetConfig().then(({config}) => {
+            set(config, 'TeamSettings.EnableCustomUserStatuses', true);
+            cy.apiUpdateConfig(config);
 
-        // # Login as test user and visit channel
-        cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
-            cy.visit(`/${team.name}/channels/${channel.name}`);
+            // # Login as test user and visit channel
+            cy.apiInitSetup({loginAfter: true}).then(({team, channel}) => {
+                cy.visit(`/${team.name}/channels/${channel.name}`);
+            });
         });
     });
 

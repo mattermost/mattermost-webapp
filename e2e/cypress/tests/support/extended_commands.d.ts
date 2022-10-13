@@ -29,15 +29,14 @@ declare namespace Cypress {
         visit(url: string, options?: Partial<Cypress.VisitOptions>, duration?: number): Chainable;
 
         /**
-         * Force types into a DOM element, regardless of actionability
-         * See Cypress Type Docs for reference: {@link https://docs.cypress.io/api/commands/type}
-         * @param text
-         * @param options
+         * types the given string with `TypeOption.force` set to true
+         *
+         * @param text - the string that should be force-typed
+         * @param [options] - optional TypeOptions object (`force` option is omitted because it is manually set on the command)
          *
          * @example
-         *  cy.get('selector').typeWithForce('text')
-         *
+         *   cy.get('#emailInput').typeWithForce('john.doe@example.com');
          */
-        typeWithForce(text: string, options?: Record<string, unknown>): Chainable;
+        typeWithForce(text: string, options?: Omit<Partial<TypeOptions>, 'force'>): Chainable;
     }
 }
