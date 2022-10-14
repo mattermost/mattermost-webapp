@@ -1,6 +1,7 @@
-import React from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
-import {AppBinding, AppContext} from '@mattermost/types/apps';
+import React from 'react';
 
 import Markdown from 'components/markdown';
 
@@ -12,8 +13,6 @@ import ListBlock from './list_block';
 import {CommonProps} from './common_props';
 
 export function AppBindingView(props: CommonProps) {
-    const {context} = props;
-
     const subviews = props.binding.bindings?.map((b, i) => {
         const subviewProps = {
             ...props,
@@ -47,7 +46,7 @@ export function AppBindingView(props: CommonProps) {
             );
         }
 
-        return <p key={i}>{'Unsupported binding type: ' + b.type}</p>;
+        return <p key={b.location || b.label}>{'Unsupported binding type: ' + b.type}</p>;
     });
 
     return (

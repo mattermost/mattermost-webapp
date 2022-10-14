@@ -102,7 +102,6 @@ const AppBarBinding = (props: BindingComponentProps) => {
         </Tooltip>
     );
 
-
     const isButtonActive = rhsBinding?.app_id === props.binding.app_id;
 
     return (
@@ -119,7 +118,7 @@ const AppBarBinding = (props: BindingComponentProps) => {
                 onClick={submitAppCall}
             >
                 <div className={'app-bar__icon-inner'}>
-                    // need to handle icon image errors
+                    {/* need to handle icon image errors */}
                     <img src={binding.icon}/>
                 </div>
             </div>

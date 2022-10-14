@@ -1,12 +1,18 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import React from 'react';
+
+import {useDispatch} from 'react-redux';
+
 import {handleBindingClick} from 'actions/apps';
 import {MenuItem} from 'components/channel_info_rhs/menu';
-import React from 'react';
-import {useDispatch} from 'react-redux';
+
 import {CommonProps} from './common_props';
 import Icon from './icon';
 
 export function AppBindingMenu(props: CommonProps) {
-    const menuItems = props.binding.bindings?.map((menuItem, i) => {
+    const menuItems = props.binding.bindings?.map((menuItem) => {
         return (
             <AppBindingMenuItem
                 {...props}
@@ -34,7 +40,12 @@ export function AppBindingMenuItem(props: CommonProps) {
 
     return (
         <MenuItem
-            icon={<Icon src={binding.icon}/>}
+            icon={
+                <Icon
+                    src={binding.icon}
+                    width={'24px'}
+                />
+            }
             text={props.binding.label}
             onClick={() => dispatch(handleBindingClick(binding, context, null))}
             opensSubpanel={true}

@@ -1,6 +1,11 @@
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import React from 'react';
+
 import AppsForm from 'components/apps_form';
 import {AppForm} from '@mattermost/types/apps';
-import React from 'react';
+
 import {CommonProps} from './common_props';
 
 export function AppBindingButton(props: CommonProps) {

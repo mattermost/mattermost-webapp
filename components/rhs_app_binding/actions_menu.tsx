@@ -1,17 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import classNames from 'classnames';
 
 import React, {useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {useDispatch} from 'react-redux';
-
 import {AppBinding} from '@mattermost/types/apps';
-import {handleBindingClick} from 'actions/apps';
 
-import {ActionsTutorialTip} from 'components/actions_menu/actions_menu_tutorial_tip';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import Menu from 'components/widgets/menu/menu';
@@ -21,20 +16,12 @@ import Constants from 'utils/constants';
 
 import {CommonProps} from './common_props';
 
-type Props = CommonProps & {
-    centerButton?: boolean;
-};
-
-export default function ActionsMenu(props: Props) {
+export default function ActionsMenu(props: CommonProps) {
     const [isMenuOpen, setMenuIsOpen] = useState(false);
     const [openUp, setOpenUp] = useState(false);
-    const buttonRef = useRef(null);
-
-    const dispatch = useDispatch();
+    const buttonRef = useRef<HTMLAnchorElement | null>(null);
 
     const handleDropdownOpened = (open: boolean) => {
-        // this.props.handleDropdownOpened?.(open);
-
         setMenuIsOpen(open);
 
         if (!open) {
@@ -90,16 +77,19 @@ export default function ActionsMenu(props: Props) {
 
     const tooltip = (
         <Tooltip id='copyButton'>
-            {props.binding.hint || <FormattedMessage
-                id={'the.id'}
-                defaultMessage={'Actions'}
-            />}
+            {props.binding.hint || (
+                <FormattedMessage
+                    id={'the.id'}
+                    defaultMessage={'Actions'}
+                />
+            )}
         </Tooltip>
     );
 
     return (
         <div
             onClick={(e) => e.stopPropagation()}
+            className='actions-container'
         >
             <MenuWrapper
                 open={isMenuOpen}

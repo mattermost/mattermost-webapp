@@ -1,0 +1,19 @@
+.app-bar-rhs-binding {
+    .list-block-item {
+        .actions-container {
+            .icon-dots-vertical {
+                display: none;
+            }
+        }
+
+        &:hover {
+            background: rgba(var(--center-channel-color-rgb), 0.08);
+
+            .actions-container {
+                .icon-dots-vertical {
+                    display: block;
+                }
+            }
+        }
+    }
+}

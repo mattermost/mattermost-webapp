@@ -1,5 +1,10 @@
-import AppsForm from 'components/apps_form';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
 import React from 'react';
+
+import AppsForm from 'components/apps_form';
+
 import {CommonProps} from './common_props';
 
 export function AppBindingForm(props: CommonProps) {
@@ -11,6 +16,7 @@ export function AppBindingForm(props: CommonProps) {
                 onExited={() => {
                     alert('exited');
                 }}
+
                 // context={props.context}
                 form={props.binding.form!}
             />

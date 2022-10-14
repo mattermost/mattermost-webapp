@@ -1,8 +1,9 @@
-import React from 'react';
-import {getCompassIconClassName} from 'utils/utils';
-import {CommonProps} from './common_props';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
 
-export default function Icon({src, width}: {src?: string; width: string;}) {
+import React from 'react';
+
+export default function Icon({src, width}: {src?: string; width: string}) {
     if (!src) {
         return null;
     }

@@ -7,19 +7,18 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 
-import {AppBinding, AppContext, AppForm} from '@mattermost/types/apps';
-import {DoAppCallResult, HandleBindingClick} from 'types/apps';
+import {AppBinding} from '@mattermost/types/apps';
+import {DoAppCallResult} from 'types/apps';
 
-import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel, postEphemeralCallResponseForPost} from 'actions/apps';
+import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
 import {getRhsAppBinding} from 'selectors/rhs';
 import {createCallContext} from 'utils/apps';
 
-import AppsForm from 'components/apps_form';
 import SearchResultsHeader from 'components/search_results_header';
-import Markdown from 'components/markdown';
-import {MenuItem} from 'components/channel_info_rhs/menu';
 
 import {AppBindingView} from './view';
+
+import './rhs_app_binding_styles.scss';
 
 export default function RhsAppBinding() {
     const binding = useSelector(getRhsAppBinding);
@@ -36,7 +35,7 @@ export default function RhsAppBinding() {
     return (
         <div
             id='rhsContainer'
-            className='sidebar-right__body'
+            className='sidebar-right__body app-bar-rhs-binding'
         >
             <SearchResultsHeader>
                 {binding?.label || ''}
@@ -63,26 +62,13 @@ export function RhsAppBindingInner(props: {binding: AppBinding}) {
     const handleBindingClickBound = async (binding: AppBinding) => {
         const res = await dispatch(handleBindingClick(binding, context, null)) as DoAppCallResult;
 
-        const request = binding.submit;
-
         if (res.error) {
-            const {
-                app_metadata,
-                ...response
-            } = res.error;
-            alert(JSON.stringify({response, request}, null, 2));
             return res.error;
         }
 
         const callResp = res.data!;
 
-        const {
-            app_metadata,
-            ...response
-        } = res.data!;
-        alert(JSON.stringify({response, request}, null, 2));
-
-        switch(callResp.type) {
+        switch (callResp.type) {
         case AppCallResponseTypes.FORM:
             dispatch(openAppsModal(callResp.form!, context));
             break;
@@ -92,7 +78,7 @@ export function RhsAppBindingInner(props: {binding: AppBinding}) {
         }
 
         return res.data;
-    }
+    };
 
     const childProps = {
         app_id: binding.app_id!,

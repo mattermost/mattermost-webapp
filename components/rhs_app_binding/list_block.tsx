@@ -1,12 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties, useState} from 'react';
-import {useDispatch} from 'react-redux';
-
-import {AppBinding} from '@mattermost/types/apps';
-
-import {handleBindingClick} from 'actions/apps';
+import React, {CSSProperties} from 'react';
 
 import ActionsMenu from './actions_menu';
 import {CommonProps} from './common_props';
@@ -30,25 +25,25 @@ export default function ListBlock(props: CommonProps) {
 }
 
 export function ListItem(props: CommonProps) {
-    const dispatch = useDispatch();
-
-    const choseAction = (b: AppBinding) => {
-
-    };
-
     let actionsMenu;
     const actions = props.binding.bindings?.find((b) => b.type === 'actions');
     if (actions) {
         const centerActionsButton = props.binding.bindings?.length === 1;
+        const style: CSSProperties = centerActionsButton ? {
+            position: 'absolute',
+            right: '5px',
+            display: 'flex',
+            alignItems: 'center',
+            height: '100%',
+        } : {
+            position: 'absolute',
+            right: '5px',
+            top: '10px',
+        };
+
         actionsMenu = (
             <div
-                style={{
-                    position: 'absolute',
-                    right: '5px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    height: '100%',
-                }}
+                style={style}
             >
                 <ActionsMenu
                     {...props}
@@ -63,24 +58,28 @@ export function ListItem(props: CommonProps) {
     if (props.binding.icon) {
         iconComponent = (
             <div style={{display: 'inline-block'}}>
-                <Icon
-                    width={'24px'}
-                    src={props.binding.icon}
-                />
+                <div>
+                    <Icon
+                        width={'24px'}
+                        src={props.binding.icon}
+                    />
+                </div>
             </div>
-        )
+        );
     }
 
-    const childBindings = props.binding.bindings?.filter((b) => b.type !== 'actions').map((b) => {
-        return (
-            <span
-                key={b.label}
-                style={styles.border}
-            >
-                {b.label}
-            </span>
-        );
-    });
+    const View = props.viewComponent;
+    const childBindings = (
+        <div>
+            {props.binding.bindings?.filter((b) => b.type !== 'actions').map((b) => (
+                <View
+                    {...props}
+                    key={b.label}
+                    binding={b}
+                />
+            ))}
+        </div>
+    );
 
     const title = (
         <h4>
@@ -102,10 +101,9 @@ export function ListItem(props: CommonProps) {
     );
 
     const listItemStyle: CSSProperties = {
-        ...styles.border,
         position: 'relative',
         minHeight: '65px',
-    }
+    };
 
     if (props.binding.submit) {
         listItemStyle.cursor = 'pointer';
@@ -114,6 +112,7 @@ export function ListItem(props: CommonProps) {
     return (
         <div
             style={listItemStyle}
+            className='list-block-item'
             onClick={() => {
                 if (props.binding.submit) {
                     props.handleBindingClick(props.binding);
@@ -123,13 +122,9 @@ export function ListItem(props: CommonProps) {
             {actionsMenu}
             {iconComponent}
             {textContent}
-            {childBindings}
+            <div>
+                {childBindings}
+            </div>
         </div>
     );
 }
-
-const styles = {
-    border: {
-        border: '1px solid',
-    },
-};
