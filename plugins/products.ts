@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Store} from 'redux';
+import {Dispatch, Store} from 'redux';
+
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {GetStateFunc} from 'mattermost-redux/types/actions';
 
 import store from 'stores/redux_store';
 
@@ -14,26 +17,20 @@ export abstract class ProductPlugin {
 
 export function initializeProducts() {
     /* eslint-disable no-console */
-    return async (/*dispatch, getState*/) => {
+    return async (dispatch: Dispatch, getState: GetStateFunc) => {
+        const config = getConfig(getState());
+
         /**
          * products contains a map of product IDs to a function that will load all of their parts. Calling that
          * function will return an object where each field is a Promise that will resolve to that module.
          *
-         * Note that these import paths must be statically defined or else they won't be found at runtime.
-         *
-         * Since this file doesn't use TypeScript yet, the type definition for it is:
-         *
-         * const products: Array<{
-         *     id: string;
-         *     load: () => {
-         *         index: Promise<{default: ProductPlugin}>;
-         *         manifest: Promise<{default: PluginManifest}>;
-         *     };
-         * }>;
+         * Note that these import paths must be statically defined or else they won't be found at runtime. They
+         * can't be constructed based on the name of a product at runtime.
          */
         const products = [
             {
                 id: 'boards',
+                featureFlagEnabled: config.FeatureFlagBoardsProduct === 'true',
                 load: () => ({
                     index: import('boards'),
                     manifest: import('boards/manifest'),
@@ -42,6 +39,11 @@ export function initializeProducts() {
         ];
 
         await Promise.all(products.map(async (product) => {
+            if ('featureFlagEnabled' in product && !product.featureFlagEnabled) {
+                console.log(`Feature flag for product ${product.id} not enabled. Not loading it.`);
+                return;
+            }
+
             if (!REMOTE_CONTAINERS[product.id]) {
                 console.log(`Product ${product.id} not found. Not loading it.`);
                 return;
