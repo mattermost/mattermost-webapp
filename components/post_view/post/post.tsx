@@ -405,8 +405,8 @@ export default class Post extends React.PureComponent<Props, State> {
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = checkIsMeMessage(post);
         const fromAutoResponder = PostUtils.fromAutoResponder(post);
-        const fromWebhook = post && post.props && post.props.from_webhook === 'true';
-        const fromBot = post && post.props && post.props.from_bot === 'true';
+        const fromWebhook = post && PostUtils.isFromWebhook(post);
+        const fromBot = post && PostUtils.isFromBot(post);
 
         let profilePic;
         const hideProfilePicture = this.hasSameRoot(this.props) && this.props.consecutivePostByUser && (!post.root_id && !hasReplies) && !fromBot;

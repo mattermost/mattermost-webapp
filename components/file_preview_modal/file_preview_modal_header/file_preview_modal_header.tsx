@@ -25,10 +25,12 @@ interface Props {
     showPublicLink?: boolean;
     enablePublicLink: boolean;
     canDownloadFiles: boolean;
+    canCopyContent: boolean;
     isExternalFile: boolean;
     handlePrev: () => void;
     handleNext: () => void;
     handleModalClose: () => void;
+    content: string;
 }
 
 const FilePreviewModalHeader: React.FC<Props> = ({post, totalFiles, fileIndex, ...actionProps}: Props) => {
