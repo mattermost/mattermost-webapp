@@ -13,14 +13,17 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import {Channel} from '@mattermost/types/lib/channels';
+import {Team} from '@mattermost/types/lib/teams';
+import {UserProfile} from '@mattermost/types/lib/users';
 
 import {createPrivateChannel} from '../elasticsearch_autocomplete/helpers';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Guest User Experience', () => {
-    let guestUser;
-    let privateChannel;
-    let testTeam;
+    let guestUser: UserProfile;
+    let privateChannel: Channel;
+    let testTeam: Team;
 
     before(() => {
         // * Check if server has license for Guest Accounts

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {UserProfile} from '@mattermost/types/lib/users';
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. #. Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -15,7 +17,7 @@
  */
 
 describe('Guest Accounts', () => {
-    let guestUser;
+    let guestUser: UserProfile;
 
     before(() => {
         cy.apiRequireLicenseForFeature('GuestAccounts');

@@ -10,11 +10,14 @@
 // Stage: @prod
 // Group: @enterprise @guest_account @not_cloud
 
+import {Channel} from '@mattermost/types/lib/channels';
+import {UserProfile} from '@mattermost/types/lib/users';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Verify Guest User Identification in different screens', () => {
-    let guest;
-    let testChannel;
+    let guest: UserProfile;
+    let testChannel: Channel;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();

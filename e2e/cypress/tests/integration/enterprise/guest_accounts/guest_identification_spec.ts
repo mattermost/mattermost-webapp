@@ -13,6 +13,9 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import {Channel} from '@mattermost/types/lib/channels';
+import {Team} from '@mattermost/types/lib/teams';
+import {UserProfile} from '@mattermost/types/lib/users';
 
 import authenticator from 'authenticator';
 
@@ -25,10 +28,10 @@ import {
 } from '../../../utils';
 
 describe('Guest Accounts', () => {
-    let sysadmin;
-    let testTeam;
-    let testChannel;
-    let adminMFASecret;
+    let sysadmin: UserProfile;
+    let testTeam: Team;
+    let testChannel: Channel;
+    let adminMFASecret: string;
     const username = 'g' + getRandomId(); // username has to start with a letter.
 
     before(() => {

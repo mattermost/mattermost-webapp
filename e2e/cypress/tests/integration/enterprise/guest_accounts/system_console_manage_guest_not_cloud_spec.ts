@@ -10,14 +10,18 @@
 // Stage: @prod
 // Group: @enterprise @guest_account @not_cloud
 
+import {Channel} from '@mattermost/types/lib/channels';
+import {Team} from '@mattermost/types/lib/teams';
+import {UserProfile} from '@mattermost/types/lib/users';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {verifyGuest} from './helpers';
 
 describe('Guest Account - Verify Manage Guest Users', () => {
-    let guestUser;
-    let testTeam;
-    let testChannel;
+    let guestUser: UserProfile;
+    let testTeam: Team;
+    let testChannel: Channel;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();

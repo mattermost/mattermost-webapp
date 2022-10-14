@@ -13,6 +13,9 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import {Team} from '@mattermost/types/lib/teams';
+import {UserProfile} from '@mattermost/types/lib/users';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 function removeUserFromAllChannels(verifyAlert, user) {
@@ -38,9 +41,9 @@ function removeUserFromAllChannels(verifyAlert, user) {
 }
 
 describe('Guest Account - Guest User Removal Experience', () => {
-    let team1;
-    let team2;
-    let guest;
+    let team1: Team;
+    let team2: Team;
+    let guest: UserProfile;
 
     before(() => {
         // * Check if server has license for Guest Accounts

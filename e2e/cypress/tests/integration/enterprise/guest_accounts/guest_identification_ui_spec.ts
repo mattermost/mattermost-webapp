@@ -13,6 +13,9 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import {Channel} from '@mattermost/types/lib/channels';
+import {Team} from '@mattermost/types/lib/teams';
+import {UserProfile} from '@mattermost/types/lib/users';
 import dayjs from 'dayjs';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -20,10 +23,10 @@ import {getAdminAccount} from '../../../support/env';
 
 describe('Verify Guest User Identification in different screens', () => {
     const admin = getAdminAccount();
-    let regularUser;
-    let guest;
-    let testTeam;
-    let testChannel;
+    let regularUser: UserProfile;
+    let guest: UserProfile;
+    let testTeam: Team;
+    let testChannel: Channel;
 
     before(() => {
         // * Check if server has license for Guest Accounts

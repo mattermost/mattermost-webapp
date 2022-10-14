@@ -13,14 +13,17 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import {Team} from '@mattermost/types/lib/teams';
+import {UserProfile} from 'mattermost-redux/types/users';
+
 import {getRandomId, stubClipboard} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Member Invitation Flow', () => {
     const sysadmin = getAdminAccount();
-    let testTeam;
-    let testUser;
+    let testTeam: Team;
+    let testUser: UserProfile;
 
     beforeEach(() => {
         // # Login as sysadmin

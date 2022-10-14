@@ -13,6 +13,8 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import {Team} from '@mattermost/types/lib/teams';
+
 import {getRandomId} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -24,7 +26,7 @@ import {
 } from './helpers';
 
 describe('Guest Account - Guest User Invitation Flow', () => {
-    let testTeam;
+    let testTeam: Team;
 
     before(() => {
         // * Check if server has license for Guest Accounts

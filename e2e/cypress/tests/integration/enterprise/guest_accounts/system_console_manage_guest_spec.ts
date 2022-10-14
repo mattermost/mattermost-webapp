@@ -13,6 +13,10 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+import {UserProfile} from '@mattermost/types/lib/users';
+import {Team} from '@mattermost/types/lib/teams';
+import {Channel} from '@mattermost/types/lib/channels';
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getRandomId} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
@@ -21,9 +25,9 @@ import {verifyGuest} from './helpers';
 
 describe('Guest Account - Verify Manage Guest Users', () => {
     const admin = getAdminAccount();
-    let guestUser;
-    let testTeam;
-    let testChannel;
+    let guestUser: UserProfile;
+    let testTeam: Team;
+    let testChannel: Channel;
 
     before(() => {
         // * Check if server has license for Guest Accounts
