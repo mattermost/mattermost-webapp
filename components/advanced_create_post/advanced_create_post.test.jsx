@@ -1263,7 +1263,7 @@ describe('components/advanced_create_post', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(markdownTable);
@@ -1322,8 +1322,8 @@ describe('components/advanced_create_post', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n\n';
-        const expectedMessage = `${message}\n${markdownTable}`;
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n\n';
+        const expectedMessage = `${message}\n\n${markdownTable}`;
 
         const mockTop = () => {
             return document.createElement('div');

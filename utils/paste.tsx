@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import TurndownService from 'turndown';
-import {tables} from 'turndown-plugin-gfm';
+import {tables} from '@guyplusplus/turndown-plugin-gfm';
 
 import {splitMessageBasedOnCaretPosition, splitMessageBasedOnTextSelection} from 'utils/post_utils';
 
@@ -54,34 +54,12 @@ export function isGitHubCodeBlock(tableClassName: string): boolean {
     return result;
 }
 
-function columnText(column: Element): string {
-    const noBreakSpace = '\u00A0';
-    const text = column.textContent == null ?
-        noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
-    return text;
-}
-
-function tableHeaders(row: HTMLTableRowElement): string[] {
-    return Array.from(row.querySelectorAll('td, th')).map(columnText);
-}
-
 function isHeaderlessTable(table: HTMLTableElement): boolean {
     return table.querySelectorAll('th').length === 0;
 }
 
-function formatMarkdownTable(table: HTMLTableElement): string {
-    const rows = Array.from(table.querySelectorAll('tr'));
-
-    const headerRow = rows.shift();
-    const headers = headerRow ? tableHeaders(headerRow) : [];
-    const spacers = headers.map(() => '---');
-    const header = `|${headers.join(' | ')}|\n|${spacers.join(' | ')}|\n`;
-
-    const body = rows.map((row) => {
-        return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
-    }).join('\n');
-
-    return `${header}${body}\n`;
+function isGoogleSheetsPaste(clipboardData: DataTransfer): boolean {
+    return clipboardData.types.includes('application/x-vnd.google-docs-embedded-grid_range_clip+wrapped');
 }
 
 export function formatMarkdownMessage(clipboardData: DataTransfer, message?: string, caretPosition?: number): string {
@@ -94,9 +72,14 @@ export function formatMarkdownMessage(clipboardData: DataTransfer, message?: str
 
     const table = getTable(clipboardData);
 
-    // need to do this as turndown plugin doesn't support headerless tables
     if (table && isHeaderlessTable(table)) {
-        markdownFormattedMessage = formatMarkdownTable(table);
+        markdownFormattedMessage += '\n';
+    }
+
+    if (isGoogleSheetsPaste(clipboardData)) {
+        // Removes an html comment that is kept
+        const firstLineRegex = /<.*>[\r\n]+/g;
+        markdownFormattedMessage = markdownFormattedMessage.replace(firstLineRegex, '');
     }
 
     if (!message) {
@@ -105,7 +88,7 @@ export function formatMarkdownMessage(clipboardData: DataTransfer, message?: str
     if (typeof caretPosition === 'undefined') {
         return `${message}\n\n${markdownFormattedMessage}`;
     }
-    const newMessage = [message.slice(0, caretPosition), markdownFormattedMessage, message.slice(caretPosition)];
+    const newMessage = [message.slice(0, caretPosition) + '\n', markdownFormattedMessage, message.slice(caretPosition)];
     return newMessage.join('\n');
 }
 

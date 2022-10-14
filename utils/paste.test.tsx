@@ -39,10 +39,10 @@ describe('Paste.getTable', () => {
 });
 
 describe('Paste.formatMarkdownMessage', () => {
-    const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+    const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
 
     test('returns a markdown table when valid html table provided', () => {
-        expect(formatMarkdownMessage(validClipboardData)).toBe(markdownTable);
+        expect(formatMarkdownMessage(validClipboardData)).toBe(`${markdownTable}\n`);
     });
 
     test('returns a markdown table when valid html table with headers provided', () => {
@@ -53,15 +53,14 @@ describe('Paste.formatMarkdownMessage', () => {
                 return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
             },
         };
-        const markdownHeadersTable = '| test | test |\n| --- | --- |\n| test | test |';
 
-        expect(formatMarkdownMessage(tableHeadersClipboardData)).toBe(markdownHeadersTable);
+        expect(formatMarkdownMessage(tableHeadersClipboardData)).toBe(markdownTable);
     });
 
     test('returns a markdown table under a message when one is provided', () => {
         const testMessage = 'test message';
 
-        expect(formatMarkdownMessage(validClipboardData, testMessage)).toBe(`${testMessage}\n\n${markdownTable}`);
+        expect(formatMarkdownMessage(validClipboardData, testMessage)).toBe(`${testMessage}\n\n${markdownTable}\n`);
     });
 
     test('returns a markdown formatted link when valid hyperlink provided', () => {

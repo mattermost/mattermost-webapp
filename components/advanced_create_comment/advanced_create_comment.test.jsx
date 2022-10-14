@@ -1345,7 +1345,7 @@ describe('components/AdvancedCreateComment', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);
