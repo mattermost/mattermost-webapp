@@ -755,54 +755,64 @@ export function isPostPriorityEnabled(state: GlobalState) {
     );
 }
 
-export const canWrangler = createSelector(
-    'canWrangler',
-    getConfig,
-    getCurrentUser,
-    (_state: GlobalState, channelType: Channel['type']) => channelType,
-    (_state: GlobalState, _channelType: Channel['type'], replyCount: number) => replyCount,
-    (config: Partial<ClientConfig>, user: UserProfile, channelType: Channel['type'], replyCount: number) => {
-        const {
-            WranglerPermittedWranglerUsers,
-            WranglerAllowedEmailDomain,
-            WranglerMoveThreadMaxCount,
-            WranglerMoveThreadFromPrivateChannelEnable,
-            WranglerMoveThreadFromDirectMessageChannelEnable,
-            WranglerMoveThreadFromGroupMessageChannelEnable,
-        } = config;
-        const permittedUsers = WranglerPermittedWranglerUsers?.split(',') || [];
-        const allowedDomains = WranglerAllowedEmailDomain?.split(',') || [];
+export function makeCanWrangler() {
+    return createSelector(
+        'makeCanWrangler',
+        getConfig,
+        getCurrentUser,
+        (_state: GlobalState, channelType: Channel['type']) => channelType,
+        (_state: GlobalState, _channelType: Channel['type'], replyCount: number) => replyCount,
+        (config: Partial<ClientConfig>, user: UserProfile, channelType: Channel['type'], replyCount: number) => {
+            const {
+                WranglerPermittedWranglerUsers,
+                WranglerAllowedEmailDomain,
+                WranglerMoveThreadMaxCount,
+                WranglerMoveThreadFromPrivateChannelEnable,
+                WranglerMoveThreadFromDirectMessageChannelEnable,
+                WranglerMoveThreadFromGroupMessageChannelEnable,
+            } = config;
 
-        if (permittedUsers?.length > 0) {
-            const roles = user.roles.split(' ');
-            const hasRole = roles.some((role) => permittedUsers.includes(role));
-            if (!hasRole) {
+            let permittedUsers: string[] = [];
+            if (WranglerPermittedWranglerUsers && WranglerPermittedWranglerUsers !== '') {
+                permittedUsers = WranglerPermittedWranglerUsers?.split(',');
+            }
+
+            let allowedEmailDomains: string[] = [];
+            if (WranglerAllowedEmailDomain && WranglerAllowedEmailDomain !== '') {
+                allowedEmailDomains = WranglerAllowedEmailDomain?.split(',') || [];
+            }
+
+            if (permittedUsers?.length > 0) {
+                const roles = user.roles.split(' ');
+                const hasRole = roles.some((role) => permittedUsers.includes(role));
+                if (!hasRole) {
+                    return false;
+                }
+            }
+
+            if (allowedEmailDomains?.length > 0) {
+                if (!user.email || !allowedEmailDomains.includes(user.email.split('@')[1])) {
+                    return false;
+                }
+            }
+
+            if (Number(WranglerMoveThreadMaxCount) < replyCount) {
                 return false;
             }
-        }
 
-        if (allowedDomains?.length > 0 && user.email) {
-            if (!allowedDomains.includes(user.email.split('@')[1])) {
+            if (channelType === 'P' && WranglerMoveThreadFromPrivateChannelEnable === 'false') {
                 return false;
             }
-        }
 
-        if (Number(WranglerMoveThreadMaxCount) < replyCount) {
-            return false;
-        }
+            if (channelType === 'D' && WranglerMoveThreadFromDirectMessageChannelEnable === 'false') {
+                return false;
+            }
 
-        if (channelType === 'P' && WranglerMoveThreadFromPrivateChannelEnable === 'false') {
-            return false;
-        }
+            if (channelType === 'G' && WranglerMoveThreadFromGroupMessageChannelEnable === 'false') {
+                return false;
+            }
 
-        if (channelType === 'D' && WranglerMoveThreadFromDirectMessageChannelEnable === 'false') {
-            return false;
-        }
-
-        if (channelType === 'G' && WranglerMoveThreadFromGroupMessageChannelEnable === 'false') {
-            return false;
-        }
-
-        return true;
-    },
-);
+            return true;
+        },
+    );
+}

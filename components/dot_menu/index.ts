@@ -10,7 +10,7 @@ import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId, getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
 import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
-import {getPost, canWrangler} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeCanWrangler} from 'mattermost-redux/selectors/entities/posts';
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
@@ -64,74 +64,78 @@ type Props = {
     location?: ComponentProps<typeof DotMenu>['location'];
 };
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
-    const {post} = ownProps;
+function makeMapStateToProps() {
+    const canWrangler = makeCanWrangler();
 
-    const license = getLicense(state);
-    const config = getConfig(state);
-    const userId = getCurrentUserId(state);
-    const channel = getChannel(state, post.channel_id);
-    const currentTeam = getCurrentTeam(state) || {};
-    const team = getTeam(state, channel.team_id);
-    const teamUrl = `${getSiteURL()}/${team?.name || currentTeam.name}`;
+    return (state: GlobalState, ownProps: Props) => {
+        const {post} = ownProps;
 
-    const systemMessage = isSystemMessage(post);
-    const collapsedThreads = isCollapsedThreadsEnabled(state);
+        const license = getLicense(state);
+        const config = getConfig(state);
+        const userId = getCurrentUserId(state);
+        const channel = getChannel(state, post.channel_id);
+        const currentTeam = getCurrentTeam(state) || {};
+        const team = getTeam(state, channel.team_id);
+        const teamUrl = `${getSiteURL()}/${team?.name || currentTeam.name}`;
 
-    const rootId = post.root_id || post.id;
-    let threadId = rootId;
-    let isFollowingThread = false;
-    let isMentionedInRootPost = false;
-    let threadReplyCount = 0;
+        const systemMessage = isSystemMessage(post);
+        const collapsedThreads = isCollapsedThreadsEnabled(state);
 
-    if (
-        collapsedThreads &&
-        rootId && !systemMessage &&
-        (
+        const rootId = post.root_id || post.id;
+        let threadId = rootId;
+        let isFollowingThread = false;
+        let isMentionedInRootPost = false;
+        let threadReplyCount = 0;
 
-            // default prop location would be CENTER
-            !ownProps.location ||
-            ownProps.location === Locations.RHS_ROOT ||
-            ownProps.location === Locations.RHS_COMMENT ||
-            ownProps.location === Locations.CENTER
-        )
-    ) {
-        const root = getPost(state, rootId);
-        const getThreadOrSynthetic = makeGetThreadOrSynthetic();
-        if (root) {
-            const thread = getThreadOrSynthetic(state, root);
-            threadReplyCount = thread.reply_count;
-            const currentUserMentionKeys = getCurrentUserMentionKeys(state);
-            const rootMessageMentionKeys = allAtMentions(root.message);
-            isFollowingThread = thread.is_following;
-            isMentionedInRootPost = thread.reply_count === 0 &&
-                matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
-            threadId = thread.id;
+        if (
+            collapsedThreads &&
+            rootId && !systemMessage &&
+            (
+
+                // default prop location would be CENTER
+                !ownProps.location ||
+                    ownProps.location === Locations.RHS_ROOT ||
+                    ownProps.location === Locations.RHS_COMMENT ||
+                    ownProps.location === Locations.CENTER
+            )
+        ) {
+            const root = getPost(state, rootId);
+            const getThreadOrSynthetic = makeGetThreadOrSynthetic();
+            if (root) {
+                const thread = getThreadOrSynthetic(state, root);
+                threadReplyCount = thread.reply_count;
+                const currentUserMentionKeys = getCurrentUserMentionKeys(state);
+                const rootMessageMentionKeys = allAtMentions(root.message);
+                isFollowingThread = thread.is_following;
+                isMentionedInRootPost = thread.reply_count === 0 &&
+                    matchUserMentionTriggersWithMessageMentions(currentUserMentionKeys, rootMessageMentionKeys);
+                threadId = thread.id;
+            }
         }
-    }
 
-    const showForwardPostNewLabel = getGlobalItem(state, Preferences.FORWARD_POST_VIEWED, true);
+        const showForwardPostNewLabel = getGlobalItem(state, Preferences.FORWARD_POST_VIEWED, true);
 
-    return {
-        channelIsArchived: isArchivedChannel(channel),
-        components: state.plugins.components,
-        postEditTimeLimit: config.PostEditTimeLimit,
-        isLicensed: license.IsLicensed === 'true',
-        teamId: getCurrentTeamId(state),
-        pluginMenuItems: state.plugins.components.PostDropdownMenu,
-        canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
-        canDelete: PostUtils.canDeletePost(state, post, channel),
-        teamUrl,
-        userId,
-        threadId,
-        isFollowingThread,
-        isMentionedInRootPost,
-        isCollapsedThreadsEnabled: collapsedThreads,
-        threadReplyCount,
-        isMobileView: getIsMobileView(state),
-        showForwardPostNewLabel,
-        canMove: canWrangler(state, channel.type, threadReplyCount),
-        ...ownProps,
+        return {
+            channelIsArchived: isArchivedChannel(channel),
+            components: state.plugins.components,
+            postEditTimeLimit: config.PostEditTimeLimit,
+            isLicensed: license.IsLicensed === 'true',
+            teamId: getCurrentTeamId(state),
+            pluginMenuItems: state.plugins.components.PostDropdownMenu,
+            canEdit: PostUtils.canEditPost(state, post, license, config, channel, userId),
+            canDelete: PostUtils.canDeletePost(state, post, channel),
+            teamUrl,
+            userId,
+            threadId,
+            isFollowingThread,
+            isMentionedInRootPost,
+            isCollapsedThreadsEnabled: collapsedThreads,
+            threadReplyCount,
+            isMobileView: getIsMobileView(state),
+            showForwardPostNewLabel,
+            canMove: canWrangler(state, channel.type, threadReplyCount),
+            ...ownProps,
+        };
     };
 }
 
@@ -163,4 +167,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DotMenu);
+export default connect(makeMapStateToProps, mapDispatchToProps)(DotMenu);

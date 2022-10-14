@@ -18,8 +18,6 @@ import NotificationBox from 'components/notification_box';
 
 import {GlobalState} from 'types/store';
 
-import {General} from 'mattermost-redux/constants';
-
 import Constants from 'utils/constants';
 
 import PostMessagePreview from 'components/post_view/post_message_preview';
@@ -30,9 +28,10 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
-import ForwardPostChannelSelect, {ChannelOption, makeSelectedChannelOption} from '../forward_post_modal/forward_post_channel_select';
+import ForwardPostChannelSelect, {ChannelOption} from '../forward_post_modal/forward_post_channel_select';
 
 import '../forward_post_modal/forward_post_modal.scss';
+import {ClientError} from '@mattermost/client';
 
 export type ActionProps = {
 
@@ -64,10 +63,8 @@ const getChannel = makeGetChannel();
 const MoveThreadModal = ({onExited, post, actions}: Props) => {
     const {formatMessage} = useIntl();
 
-    const channel = useSelector((state: GlobalState) => getChannel(state, {id: post.channel_id}));
+    const originalChannel = useSelector((state: GlobalState) => getChannel(state, {id: post.channel_id}));
     const currentTeam = useSelector(getCurrentTeam);
-
-    const isPrivateConversation = channel.type !== General.OPEN_CHANNEL;
 
     const [bodyHeight, setBodyHeight] = useState<number>(0);
     const [hasError, setHasError] = useState<boolean>(false);
@@ -115,9 +112,9 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
         post,
         post_id: post.id,
         team_name: currentTeam.name,
-        channel_display_name: channel.display_name,
-        channel_type: channel.type,
-        channel_id: channel.id,
+        channel_display_name: originalChannel.display_name,
+        channel_type: originalChannel.type,
+        channel_id: originalChannel.id,
     };
 
     const notificationText = (
@@ -138,26 +135,20 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
         />
     );
 
-    const handlePostError = (error: React.ReactNode) => {
-        setPostError(error);
+    const handlePostError = (error: ClientError) => {
+        setPostError(error.message);
         setHasError(true);
         setTimeout(() => setHasError(false), Constants.ANIMATION_TIMEOUT);
     };
 
     const handleSubmit = async () => {
-        if (postError) {
+        if (!selectedChannel) {
             return;
         }
 
-        const channelToMove = isPrivateConversation ? makeSelectedChannelOption(channel) : selectedChannel;
+        const channel = selectedChannel.details;
 
-        if (!channelToMove) {
-            return;
-        }
-
-        const channelId = channelToMove.details.id;
-
-        let result = await actions.moveThread(post.root_id || post.id, channelId);
+        let result = await actions.moveThread(post.root_id || post.id, channel.id);
 
         if (result.error) {
             handlePostError(result.error);
@@ -165,10 +156,10 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
         }
 
         if (
-            channelToMove.details.type === Constants.MENTION_MORE_CHANNELS &&
-            channelToMove.details.type === Constants.OPEN_CHANNEL
+            selectedChannel.type === Constants.MENTION_MORE_CHANNELS &&
+            selectedChannel.type === Constants.OPEN_CHANNEL
         ) {
-            result = await actions.joinChannelById(channelId);
+            result = await actions.joinChannelById(channel.id);
 
             if (result.error) {
                 handlePostError(result.error);
@@ -176,14 +167,11 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
             }
         }
 
-        // only switch channels when we are not in a private conversation
-        if (!isPrivateConversation) {
-            result = await actions.switchToChannel(channelToMove.details);
+        result = await actions.switchToChannel(channel);
 
-            if (result.error) {
-                handlePostError(result.error);
-                return;
-            }
+        if (result.error) {
+            handlePostError(result.error);
+            return;
         }
 
         onHide();
@@ -195,7 +183,7 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
 
     },
     {
-        channelName: channel.display_name,
+        channelName: originalChannel.display_name,
     });
 
     return (
