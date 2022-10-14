@@ -6,14 +6,13 @@
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
 import Constants, {Preferences} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {isMac, localizeMessage} from 'utils/utils';
 
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import ConfirmModal from 'components/confirm_modal';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
@@ -150,7 +149,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             }
         });
 
-        this.handleSubmit(features).then();
+        this.handleSubmit(features);
     }
 
     handleSubmit = async (settings: string[]): Promise<void> => {

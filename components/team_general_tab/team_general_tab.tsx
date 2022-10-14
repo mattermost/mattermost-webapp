@@ -5,12 +5,11 @@
 import React, {ChangeEvent, MouseEvent, ReactNode} from 'react';
 import {FormattedMessage, FormattedDate} from 'react-intl';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import Constants from 'utils/constants';
 import {imageURLForTeam, isMobile, localizeMessage, moveCursorToEnd} from 'utils/utils';
 import {t} from 'utils/i18n';
 
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import BackIcon from 'components/widgets/icons/fa_back_icon';

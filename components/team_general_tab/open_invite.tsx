@@ -4,9 +4,9 @@
 import React, {useCallback, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import SettingItemMax from 'components/setting_item_max';
-
 import type {ActionResult} from 'mattermost-redux/types/actions';
+
+import SettingItemMax from 'components/setting_item_max';
 
 import SettingItemMin from 'components/setting_item_min';
 
