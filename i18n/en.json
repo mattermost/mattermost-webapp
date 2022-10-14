@@ -4204,6 +4204,7 @@
   "payment_form.gather_wire_transfer_intent_modal.ach": "ACH",
   "payment_form.gather_wire_transfer_intent_modal.cancel": "Cancel",
   "payment_form.gather_wire_transfer_intent_modal.other": "Other",
+  "payment_form.gather_wire_transfer_intent_modal.otherPaymentOptionPlaceholder": "Enter payment option here",
   "payment_form.gather_wire_transfer_intent_modal.question": "Which payment options are you interested in using?",
   "payment_form.gather_wire_transfer_intent_modal.save": "Save",
   "payment_form.gather_wire_transfer_intent_modal.wire": "Wire",
