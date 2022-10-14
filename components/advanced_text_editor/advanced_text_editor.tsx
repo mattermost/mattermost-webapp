@@ -517,7 +517,7 @@ const AdvanceTextEditor = ({
                                 <ToggleFormattingBar
                                     onClick={toggleAdvanceTextEditor}
                                     active={showFormattingBar}
-                                    disabled={false}
+                                    disabled={shouldShowPreview}
                                 />
                                 <Separator/>
                                 {fileUploadJSX}
