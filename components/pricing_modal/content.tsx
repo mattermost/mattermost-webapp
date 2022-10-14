@@ -245,7 +245,7 @@ function Content(props: ContentProps) {
                         buttonDetails={{
                             action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
-                            disabled: false,
+                            disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         briefing={{

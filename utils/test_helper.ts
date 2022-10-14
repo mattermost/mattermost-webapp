@@ -470,7 +470,7 @@ export class TestHelper {
             email: '',
             contact_first_name: '',
             contact_last_name: '',
-            create_at: new Date(Date.now()).getUTCDate(),
+            create_at: 0,
             creator_id: '',
             num_employees: 100,
             ...override,
