@@ -1,10 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Dispatch, Store} from 'redux';
+import {Store} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
 import store from 'stores/redux_store';
 
@@ -17,7 +17,7 @@ export abstract class ProductPlugin {
 
 export function initializeProducts() {
     /* eslint-disable no-console */
-    return async (dispatch: Dispatch, getState: GetStateFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const config = getConfig(getState());
 
         /**
