@@ -1,7 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+export type ProviderResult = {
+    matchedPretext: string;
+    terms: string[];
+    items: Array<Record<string, any>>;
+    component?: React.ReactNode;
+}
+
 export default class Provider {
+    latestPrefix: string;
+    latestComplete: boolean;
+    disableDispatches: boolean;
+    requestStarted: boolean;
+    forceDispatch: boolean;
+
     constructor() {
         this.latestPrefix = '';
         this.latestComplete = true;
@@ -10,7 +23,7 @@ export default class Provider {
         this.forceDispatch = false;
     }
 
-    handlePretextChanged(pretext, callback) { // eslint-disable-line no-unused-vars
+    handlePretextChanged(pretext: string, callback: (res: ProviderResult) => void) {// eslint-disable-line @typescript-eslint/no-unused-vars
         // NO-OP for inherited classes to override
     }
 
@@ -18,13 +31,13 @@ export default class Provider {
         this.requestStarted = false;
     }
 
-    startNewRequest(prefix) {
+    startNewRequest(prefix: string) {
         this.latestPrefix = prefix;
         this.latestComplete = false;
         this.requestStarted = true;
     }
 
-    shouldCancelDispatch(prefix) {
+    shouldCancelDispatch(prefix: string) {
         if (this.forceDispatch) {
             return false;
         }

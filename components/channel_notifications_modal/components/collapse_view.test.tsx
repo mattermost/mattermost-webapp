@@ -6,14 +6,14 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels, NotificationSections} from 'utils/constants';
 
-import CollapseView from 'components/channel_notifications_modal/components/collapse_view.jsx';
+import CollapseView from 'components/channel_notifications_modal/components/collapse_view';
 
 describe('components/channel_notifications_modal/CollapseView', () => {
     const baseProps = {
         section: NotificationSections.DESKTOP,
         memberNotifyLevel: NotificationLevels.ALL,
         globalNotifyLevel: NotificationLevels.DEFAULT,
-        onExpandSection: () => {}, //eslint-disable-line no-empty-function
+        onExpandSection: jest.fn(),
     };
 
     test('should match snapshot, DESKTOP on collapsed view', () => {
@@ -34,7 +34,7 @@ describe('components/channel_notifications_modal/CollapseView', () => {
     });
 
     test('should match snapshot, MARK_UNREAD on collapsed view', () => {
-        const props = {...baseProps, section: NotificationSections.MARK_UNREAD, globalNotifyLevel: null};
+        const props = {...baseProps, section: NotificationSections.MARK_UNREAD};
         const wrapper = shallow(
             <CollapseView {...props}/>,
         );
