@@ -4,14 +4,15 @@
 import {shallow} from 'enzyme';
 import React from 'react';
 
-import {Posts} from 'mattermost-redux/constants';
-
 import {Locations} from 'utils/constants';
 import {browserHistory} from 'utils/browser_history';
 import SearchResultsItem from 'components/search_results_item/search_results_item';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
+
+import {PostState, PostType} from '@mattermost/types/posts';
+import CommentIcon from '../common/comment_icon';
 
 jest.mock('utils/browser_history', () => ({
     browserHistory: {
@@ -50,14 +51,23 @@ describe('components/SearchResultsItem', () => {
         pending_post_id: '',
         props: {},
         root_id: '',
-        type: '',
+        type: '' as PostType,
         update_at: 1502715372443,
         user_id: 'user_id',
+        hashtags: '',
+        reply_count: 0,
+        metadata: {
+            embeds: [],
+            emojis: [],
+            files: [],
+            images: {},
+            reactions: [],
+        },
     };
 
     const defaultProps = {
         channelId: 'channel_id',
-        channelName: 'channel_name',
+        channelDisplayName: 'channel_name',
         channelType: 'O',
         compactDisplay: true,
         post,
@@ -97,7 +107,7 @@ describe('components/SearchResultsItem', () => {
             post: {
                 ...post,
                 file_ids: ['id', 'id2'],
-                state: 'deleted',
+                state: 'DELETED' as PostState,
                 props: {
                     from_webhook: true,
                     override_username: 'overridden_username',
@@ -118,7 +128,7 @@ describe('components/SearchResultsItem', () => {
             post: {
                 ...post,
                 file_ids: ['id', 'id2'],
-                state: Posts.POST_DELETED,
+                state: 'DELETED' as PostState,
                 props: {
                     from_webhook: true,
                     override_username: 'overridden_username',
@@ -155,7 +165,7 @@ describe('components/SearchResultsItem', () => {
             <SearchResultsItem {...defaultProps}/>,
         );
 
-        const instance = wrapper.instance();
+        const instance = wrapper.instance() as SearchResultsItem;
         instance.handleDropdownOpened(false);
         expect(wrapper.state('dropdownOpened')).toBe(false);
         instance.handleDropdownOpened(true);
@@ -176,7 +186,7 @@ describe('components/SearchResultsItem', () => {
             <SearchResultsItem {...props}/>,
         );
 
-        wrapper.find('CommentIcon').prop('handleCommentClick')({preventDefault: jest.fn()});
+        wrapper.find(CommentIcon).prop('handleCommentClick')({preventDefault: jest.fn()} as unknown as React.MouseEvent);
         expect(selectPost).toHaveBeenCalledTimes(1);
         expect(selectPost).toHaveBeenLastCalledWith(post);
     });

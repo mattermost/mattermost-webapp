@@ -176,7 +176,7 @@ declare global {
              * @example
              *   cy.uiOpenTeamMenu();
              */
-            uiOpenTeamMenu(item: string): Chainable;
+            uiOpenTeamMenu(item?: string): Chainable;
 
             /**
              * Get LHS add channel button
