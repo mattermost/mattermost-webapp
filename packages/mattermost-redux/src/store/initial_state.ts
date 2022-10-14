@@ -32,6 +32,7 @@ const state: GlobalState = {
             statuses: {},
             stats: {},
             myUserAccessTokens: {},
+            lastActivity: {},
         },
         teams: {
             currentTeamId: '',
@@ -337,24 +338,6 @@ const state: GlobalState = {
                 error: null,
             },
             editRole: {
-                status: 'not_started',
-                error: null,
-            },
-        },
-        jobs: {
-            createJob: {
-                status: 'not_started',
-                error: null,
-            },
-            getJob: {
-                status: 'not_started',
-                error: null,
-            },
-            getJobs: {
-                status: 'not_started',
-                error: null,
-            },
-            cancelJob: {
                 status: 'not_started',
                 error: null,
             },
