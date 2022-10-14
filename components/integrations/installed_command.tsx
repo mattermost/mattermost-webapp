@@ -1,16 +1,57 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import CopyText from 'components/copy_text';
 
+import {Command} from '@mattermost/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+
 import DeleteIntegrationLink from './delete_integration_link';
 
-export function matchesFilter(command, filter) {
+type Props = {
+
+    /**
+     * The team data
+     */
+    team: Team;
+
+    /**
+     * Installed slash command to display
+     */
+    command: Command;
+
+    /**
+     * The function to call when Regenerate Token link is clicked
+     */
+    onRegenToken: (command: Command) => void ;
+
+    /**
+     * The function to call when Delete link is clicked
+     */
+    onDelete: (command: Command) => void ;
+
+    /**
+     * Set to filter command, comes from BackstageList
+     */
+    filter?: string;
+
+    /**
+     * The creator user data
+     */
+    creator: UserProfile;
+
+    /**
+     * Set to show edit link
+     */
+    canChange: boolean;
+}
+
+export function matchesFilter(command: Command, filter?: string) {
     if (!filter) {
         return true;
     }
@@ -20,46 +61,8 @@ export function matchesFilter(command, filter) {
         command.trigger.toLowerCase().indexOf(filter) !== -1;
 }
 
-export default class InstalledCommand extends React.PureComponent {
-    static propTypes = {
-
-        /**
-        * The team data
-        */
-        team: PropTypes.object.isRequired,
-
-        /**
-        * Installed slash command to display
-        */
-        command: PropTypes.object.isRequired,
-
-        /**
-        * The function to call when Regenerate Token link is clicked
-        */
-        onRegenToken: PropTypes.func.isRequired,
-
-        /**
-        * The function to call when Delete link is clicked
-        */
-        onDelete: PropTypes.func.isRequired,
-
-        /**
-        * Set to filter command, comes from BackstageList
-        */
-        filter: PropTypes.string,
-
-        /**
-        * The creator user data
-        */
-        creator: PropTypes.object.isRequired,
-
-        /**
-        * Set to show edit link
-        */
-        canChange: PropTypes.bool.isRequired,
-    }
-
-    handleRegenToken = (e) => {
+export default class InstalledCommand extends React.PureComponent<Props> {
+    handleRegenToken = (e: React.MouseEvent) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.command);

@@ -16,7 +16,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="desktop"
     />
   }
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 />
 `;
 
@@ -24,7 +24,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
 <Connect(SettingItemMin)
   describe={
     <Describe
-      globalNotifyLevel={null}
+      globalNotifyLevel="default"
       isCollapsed={true}
       memberNotifyLevel="all"
       section="markUnread"
@@ -36,7 +36,7 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="markUnread"
     />
   }
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 />
 `;
 
@@ -56,6 +56,6 @@ exports[`components/channel_notifications_modal/CollapseView should match snapsh
       section="push"
     />
   }
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 />
 `;
