@@ -86,6 +86,19 @@ describe('Settings > Sidebar > General', () => {
             // # Go to test channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
 
+            // # Go to Settings > Display
+            cy.uiOpenSettingsModal('Display');
+
+            // # Click Edit button beside Teammate Name Display
+            cy.get('#name_formatEdit').click();
+
+            // # Choose Show first and last name
+            cy.get('#name_formatFormatC').check();
+
+            // # Click Save button to save the settings
+            cy.uiSave();
+            cy.uiClose();
+
             // # Open channel menu and click 'Add Members'
             cy.uiOpenChannelMenu('Add Members');
 

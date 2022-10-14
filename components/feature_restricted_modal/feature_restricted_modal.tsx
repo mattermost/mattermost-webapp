@@ -17,7 +17,7 @@ import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import GenericModal from 'components/generic_modal';
-import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
+import {useNotifyAdmin, NotifyStatus} from 'components/notify_admin_cta/notify_admin_cta';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
@@ -68,7 +68,7 @@ const FeatureRestrictedModal = ({
     const isCloud = license?.Cloud === 'true';
     const openPricingModal = useOpenPricingModal();
 
-    const [notifyAdminStatus, notifyAdmin] = useNotifyAdmin({
+    const [notifyAdminBtnText, notifyAdmin, notifyRequestStatus] = useNotifyAdmin({
         ctaText: formatMessage({
             id: 'feature_restricted_modal.button.notify',
             defaultMessage: 'Notify Admin',
@@ -117,7 +117,7 @@ const FeatureRestrictedModal = ({
     // define what is the secondary button text and action, by default will be the View Plan button
     let secondaryBtnMsg = formatMessage({id: 'feature_restricted_modal.button.plans', defaultMessage: 'View plans'});
     if (!isSystemAdmin) {
-        secondaryBtnMsg = notifyAdminStatus as string;
+        secondaryBtnMsg = notifyAdminBtnText as string;
     }
     let secondaryBtnAction = handleViewPlansClick;
     if (customSecondaryButton) {
@@ -194,6 +194,7 @@ const FeatureRestrictedModal = ({
                         id='button-plans'
                         className='button-plans'
                         onClick={secondaryBtnAction}
+                        disabled={notifyRequestStatus === NotifyStatus.AlreadyComplete}
                     >
                         {secondaryBtnMsg}
                     </button>

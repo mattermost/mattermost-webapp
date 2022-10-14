@@ -4,11 +4,13 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import InstalledCommand from 'components/integrations/installed_command.jsx';
+import InstalledCommand from 'components/integrations/installed_command';
+
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/integrations/InstalledCommand', () => {
-    const team = {name: 'team_name'};
-    const command = {
+    const team = TestHelper.getTeamMock({name: 'team_name'});
+    const command = TestHelper.getCommandMock({
         id: 'r5tpgt4iepf45jt768jz84djic',
         display_name: 'display_name',
         description: 'description',
@@ -16,9 +18,9 @@ describe('components/integrations/InstalledCommand', () => {
         auto_complete: true,
         auto_complete_hint: 'auto_complete_hint',
         token: 'testToken',
-        create_at: '1499722850203',
-    };
-    const creator = {username: 'username'};
+        create_at: 1499722850203,
+    });
+    const creator = TestHelper.getUserMock({username: 'username'});
 
     const requiredProps = {
         team,
@@ -40,13 +42,13 @@ describe('components/integrations/InstalledCommand', () => {
     });
 
     test('should match snapshot, not autocomplete, no display_name/description/auto_complete_hint', () => {
-        const minCommand = {
+        const minCommand = TestHelper.getCommandMock({
             id: 'r5tpgt4iepf45jt768jz84djic',
             trigger: 'trigger',
             auto_complete: false,
             token: 'testToken',
-            create_at: '1499722850203',
-        };
+            create_at: 1499722850203,
+        });
         const props = {...requiredProps, command: minCommand};
 
         const wrapper = shallow(<InstalledCommand {...props}/>);
@@ -74,7 +76,7 @@ describe('components/integrations/InstalledCommand', () => {
         const canChange = true;
         const props = {...requiredProps, onDelete, canChange};
 
-        const wrapper = shallow(<InstalledCommand {...props}/>);
+        const wrapper = shallow<InstalledCommand>(<InstalledCommand {...props}/>);
         expect(wrapper).toMatchSnapshot();
 
         wrapper.instance().handleDelete();
