@@ -74,7 +74,6 @@ const Toolbar = (props: ToolbarProps): JSX.Element => {
                 <LeafModeControls editor={editor}/>
                 <Separator/>
                 <BlockModeControls editor={editor}/>
-                <Separator/>
                 <TableControls editor={editor}/>
                 {additionalControls && (
                     <>

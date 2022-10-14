@@ -21,6 +21,7 @@ export type ToolDefinition<S extends string, T> = {
     icon: React.FC<IconProps>;
     action: () => void;
     isActive?: () => boolean;
+    canDoAction?: () => boolean;
     show?: boolean;
     labelDescriptor?: MessageDescriptor;
     ariaLabelDescriptor?: MessageDescriptor;

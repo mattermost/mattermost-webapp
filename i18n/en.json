@@ -5462,5 +5462,13 @@
   "wysiwyg.tool.heading5.label": "Heading 5",
   "wysiwyg.tool.heading6.label": "Heading 6",
   "wysiwyg.tool.paragraph.label": "Normal Text",
+  "wysiwyg.tool.table.add": "Insert table",
+  "wysiwyg.tool.table.delete": "Delete table",
+  "wysiwyg.tool.table.column.add.after": "Add column to the left",
+  "wysiwyg.tool.table.column.add.before": "Add column to the right",
+  "wysiwyg.tool.table.column.delete": "Delete column",
+  "wysiwyg.tool.table.row.add.after": "Add row above",
+  "wysiwyg.tool.table.row.add.before": "Add row below",
+  "wysiwyg.tool.table.row.delete": "Delete row",
   "yourcomputer": "Your computer"
 }
