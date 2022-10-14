@@ -201,6 +201,28 @@ describe('components/delinquency_modal/delinquency_modal_controller', () => {
         expect(screen.queryByText('Your workspace has been downgraded')).not.toBeInTheDocument();
     });
 
+    it('Shouldn\'t show the modal if the subscription isn\'t in delinquency state', () => {
+        const state = JSON.parse(JSON.stringify(initialState));
+        state.entities.cloud.subscription = {
+            ...state.entities.cloud.subscription,
+            delinquent_since: null,
+        };
+
+        jest.useFakeTimers().setSystemTime(new Date('2022-12-20'));
+
+        const store = configureStore(state);
+
+        renderWithIntl(
+            <reactRedux.Provider store={store}>
+                <div id='root-portal'/>
+                <ModalController/>
+                <DelinquencyModalController/>
+            </reactRedux.Provider>,
+        );
+
+        expect(screen.queryByText('Your workspace has been downgraded')).not.toBeInTheDocument();
+    });
+
     it('Should show the modal if the user is an admin', () => {
         jest.useFakeTimers().setSystemTime(new Date('2022-08-17'));
 

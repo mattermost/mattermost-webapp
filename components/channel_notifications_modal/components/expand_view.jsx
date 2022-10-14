@@ -12,8 +12,8 @@ import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'u
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 
-import Describe from './describe.tsx';
-import ExtraInfo from './extra_info.jsx';
+import Describe from './describe';
+import ExtraInfo from './extra_info';
 import SectionTitle from './section_title';
 
 export default function ExpandView({
