@@ -31,16 +31,17 @@ function apiRequireServerDBToMatch(): ChainableT {
 }
 Cypress.Commands.add('apiRequireServerDBToMatch', apiRequireServerDBToMatch);
 
-/**
- * Gets active sessions of a user on a given username or user ID directly from the database
- * @param {String} username
- * @param {String} userId
- * @param {String} limit - maximum number of active sessions to return, e.g. 50 (default)
- * @returns {Object} user - user object
- * @returns {[Object]} sessions - an array of active sessions
- */
-function dbGetActiveUserSessions({username, userId, limit}): ChainableT<{user: Record<string, any>; sessions: Array<Record<string, any>>}> {
-    return cy.task('dbGetActiveUserSessions', {dbConfig, params: {username, userId, limit}}).then(({user, sessions, errorMessage}) => {
+interface GetActiveUserSessionsParam {
+    username: string;
+    userId?: string;
+    limit?: number;
+}
+interface GetActiveUserSessionsResult {
+    user: Cypress.UserProfile;
+    sessions: Array<Record<string, any>>;
+}
+function dbGetActiveUserSessions(params: GetActiveUserSessionsParam): ChainableT<GetActiveUserSessionsResult> {
+    return cy.task('dbGetActiveUserSessions', {dbConfig, params}).then(({user, sessions, errorMessage}) => {
         expect(errorMessage).to.be.undefined;
 
         return cy.wrap({user, sessions});
@@ -48,13 +49,14 @@ function dbGetActiveUserSessions({username, userId, limit}): ChainableT<{user: R
 }
 Cypress.Commands.add('dbGetActiveUserSessions', dbGetActiveUserSessions);
 
-/**
- * Gets user on a given username directly from the database
- * @param {String} username
- * @returns {Object} user - user object
- */
-function dbGetUser({username}): ChainableT<{user: Record<string, any>}> {
-    return cy.task('dbGetUser', {dbConfig, params: {username}}).then(({user, errorMessage, error}) => {
+interface GetUserParam {
+    username: string;
+}
+interface GetUserResult {
+    user: Cypress.UserProfile;
+}
+function dbGetUser(params: GetUserParam): ChainableT<GetUserResult> {
+    return cy.task('dbGetUser', {dbConfig, params}).then(({user, errorMessage, error}) => {
         verifyError(error, errorMessage);
 
         return cy.wrap({user});
@@ -62,13 +64,14 @@ function dbGetUser({username}): ChainableT<{user: Record<string, any>}> {
 }
 Cypress.Commands.add('dbGetUser', dbGetUser);
 
-/**
- * Gets session of a user on a given session ID directly from the database
- * @param {String} sessionId
- * @returns {Object} session
- */
-function dbGetUserSession({sessionId}): ChainableT<{session: Record<string, any>}> {
-    return cy.task('dbGetUserSession', {dbConfig, params: {sessionId}}).then(({session, errorMessage}) => {
+interface GetUserSessionParam {
+    sessionId: string;
+}
+interface GetUserSessionResult {
+    session: Record<string, any>;
+}
+function dbGetUserSession(params: GetUserSessionParam): ChainableT<GetUserSessionResult> {
+    return cy.task('dbGetUserSession', {dbConfig, params}).then(({session, errorMessage}) => {
         expect(errorMessage).to.be.undefined;
 
         return cy.wrap({session});
@@ -76,15 +79,16 @@ function dbGetUserSession({sessionId}): ChainableT<{session: Record<string, any>
 }
 Cypress.Commands.add('dbGetUserSession', dbGetUserSession);
 
-/**
- * Updates session of a user on a given user ID and session ID with fields to update directly from the database
- * @param {String} sessionId
- * @param {String} userId
- * @param {Object} fieldsToUpdate - will update all except session ID and user ID
- * @returns {Object} session
- */
-function dbUpdateUserSession({sessionId, userId, fieldsToUpdate}): ChainableT<{session: Record<string, any>}> {
-    return cy.task('dbUpdateUserSession', {dbConfig, params: {sessionId, userId, fieldsToUpdate}}).then(({session, errorMessage}) => {
+interface UpdateUserSessionParam {
+    sessionId: string;
+    userId: string;
+    fieldsToUpdate: Record<string, any>;
+}
+interface UpdateUserSessionResult {
+    session: Record<string, any>;
+}
+function dbUpdateUserSession(params: UpdateUserSessionParam): ChainableT<UpdateUserSessionResult> {
+    return cy.task('dbUpdateUserSession', {dbConfig, params}).then(({session, errorMessage}) => {
         expect(errorMessage).to.be.undefined;
 
         return cy.wrap({session});
@@ -109,7 +113,7 @@ declare global {
              * @example
              *   cy.apiRequireServerDBToMatch();
              */
-            apiRequireServerDBToMatch(): Chainable;
+            apiRequireServerDBToMatch: typeof apiRequireServerDBToMatch;
 
             /**
              * Gets active sessions of a user on a given username or user ID directly from the database
@@ -119,11 +123,7 @@ declare global {
              * @returns {Object} user - user object
              * @returns {[Object]} sessions - an array of active sessions
              */
-            dbGetActiveUserSessions(options: {
-                username: string;
-                userId?: string;
-                limit?: number;
-            }): Chainable<{user: Record<string, any>; sessions: Array<Record<string, any>>}>;
+            dbGetActiveUserSessions: typeof dbGetActiveUserSessions;
 
             /**
              * Gets user on a given username directly from the database
@@ -131,7 +131,7 @@ declare global {
              * @param {String} options.username
              * @returns {UserProfile} user - user object
              */
-            dbGetUser(options: {username: string}): Chainable<{user: Record<string, any>}>;
+            dbGetUser: typeof dbGetUser;
 
             /**
              * Gets session of a user on a given session ID directly from the database
@@ -139,7 +139,7 @@ declare global {
              * @param {String} options.sessionId
              * @returns {Session} session
              */
-            dbGetUserSession(options: {sessionId: string}): Chainable<{session: Record<string, any>}>;
+            dbGetUserSession: typeof dbGetUserSession;
 
             /**
              * Updates session of a user on a given user ID and session ID with fields to update directly from the database
@@ -149,11 +149,7 @@ declare global {
              * @param {Object} options.fieldsToUpdate - will update all except session ID and user ID
              * @returns {Session} session
              */
-            dbUpdateUserSession(options: {
-                sessionId: string;
-                userId: string;
-                fieldsToUpdate: Record<string, any>;
-            }): Chainable<{session: Record<string, any>}>;
+            dbUpdateUserSession: typeof dbUpdateUserSession;
         }
     }
 }

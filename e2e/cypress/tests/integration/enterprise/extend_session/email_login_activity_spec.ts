@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AdminConfig} from '@mattermost/types/lib/config';
-
 import {getAdminAccount} from '../../../support/env';
 
 // ***************************************************************
@@ -46,7 +44,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                 ExtendSessionLengthWithActivity: true,
                 SessionLengthWebInHours: 1,
             },
-        } as AdminConfig;
+        } as Cypress.AdminConfig;
 
         cy.apiUpdateConfig(setting);
 
@@ -129,7 +127,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     ExtendSessionLengthWithActivity: true,
                     SessionLengthWebInHours: testCase.sessionLengthInHours,
                 },
-            } as AdminConfig;
+            } as Cypress.AdminConfig;
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
@@ -183,7 +181,7 @@ describe('MM-T2575 Extend Session - Email Login', () => {
                     ExtendSessionLengthWithActivity: true,
                     SessionLengthWebInHours: testCase.sessionLengthInHours,
                 },
-            } as AdminConfig;
+            } as Cypress.AdminConfig;
             cy.apiUpdateConfig(setting);
 
             // # Login as test user and go to town-square channel
