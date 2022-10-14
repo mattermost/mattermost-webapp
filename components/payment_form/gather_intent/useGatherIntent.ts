@@ -69,7 +69,8 @@ export const useGatherIntent = ({typeGatherIntent}: UseGatherIntentArgs) => {
 
     useEffect(() => {
         if (customer != null) {
-            setFeedbackSave(() => Boolean(customer[`${TypePurchases[typeGatherIntent]}_intent_wire_transfer`]));
+            const gatherIntentKey: MetadataGatherWireTransferKeys = `${TypePurchases[typeGatherIntent]}_intent_wire_transfer`;
+            setFeedbackSave(Boolean(customer[gatherIntentKey]));
         }
     }, [customer, typeGatherIntent]);
 
