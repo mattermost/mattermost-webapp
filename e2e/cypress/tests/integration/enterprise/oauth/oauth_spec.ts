@@ -9,7 +9,8 @@
 
 // Stage: @prod
 // Group: @enterprise @integrations
-import {set} from 'lodash';
+
+import set from 'lodash.set';
 
 import {getRandomId} from '../../../utils';
 import {checkboxesTitleToIdMap} from '../system_console/channel_moderation/constants';
