@@ -156,8 +156,8 @@ const MoveThreadModal = ({onExited, post, actions}: Props) => {
         }
 
         if (
-            selectedChannel.type === Constants.MENTION_MORE_CHANNELS &&
-            selectedChannel.type === Constants.OPEN_CHANNEL
+            channel.type === Constants.MENTION_MORE_CHANNELS &&
+            channel.type === Constants.OPEN_CHANNEL
         ) {
             result = await actions.joinChannelById(channel.id);
 
