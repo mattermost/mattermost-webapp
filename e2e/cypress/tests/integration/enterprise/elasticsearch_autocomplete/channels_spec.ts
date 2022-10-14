@@ -55,7 +55,7 @@ describe('Autocomplete with Elasticsearch - Channel', () => {
         });
     });
 
-    it("MM-T2510_2 Private channel I don't belong to does not appear", () => {
+    it('MM-T2510_2 Private channel I don\'t belong to does not appear', () => {
         // # Create private channel, do not add new user to it (sets @privateChannel alias)
         createPrivateChannel(testTeam.id).then((channel) => {
             // # Go to off-topic channel to partially reload the page
