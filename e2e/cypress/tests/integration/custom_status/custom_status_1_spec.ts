@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @custom_status
 
-import set from 'lodash.set';
+import {set} from 'lodash';
 
 describe('Custom Status - CTAs for New Users', () => {
     before(() => {

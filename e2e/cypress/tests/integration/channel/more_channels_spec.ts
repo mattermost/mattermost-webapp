@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @channel
 
+import {User} from 'tests/support/env';
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 import {createPrivateChannel} from '../enterprise/elasticsearch_autocomplete/helpers';
@@ -224,7 +226,7 @@ describe('Channels', () => {
     });
 });
 
-function verifyMoreChannelsModalWithArchivedSelection(isEnabled, testUser, testTeam) {
+function verifyMoreChannelsModalWithArchivedSelection(isEnabled: boolean, testUser: User, testTeam: {name: string}) {
     // # Login as sysadmin and Update config to enable/disable viewing of archived channels
     cy.apiAdminLogin();
     cy.apiUpdateConfig({
@@ -243,7 +245,7 @@ function verifyMoreChannelsModalWithArchivedSelection(isEnabled, testUser, testT
     verifyMoreChannelsModal(isEnabled);
 }
 
-function verifyMoreChannelsModal(isEnabled) {
+function verifyMoreChannelsModal(isEnabled: boolean) {
     // # Go to LHS and click 'Browse Channels'
     cy.uiBrowseOrCreateChannel('Browse Channels').click();
 

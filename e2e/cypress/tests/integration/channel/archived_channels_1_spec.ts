@@ -59,13 +59,13 @@ describe('Leave an archived channel', () => {
 
         // # Search for the new post and jump to it from the search results
         cy.uiSearchPosts(otherPostText);
-        cy.get('@otherPostId').then((otherPostId) => cy.uiJumpToSearchResult(otherPostId));
+        cy.get<string>('@otherPostId').then((otherPostId: string) => cy.uiJumpToSearchResult(otherPostId));
 
         // # Search for a post in the archived channel
         cy.uiSearchPosts(archivedPostText);
 
         // # Open it in the RHS
-        cy.get('@archivedPostId').then((archivedPostId) => {
+        cy.get<string>('@archivedPostId').then((archivedPostId: string) => {
             cy.clickPostCommentIcon(archivedPostId, 'SEARCH');
 
             // * Verify that the RHS has switched from search results to the thread

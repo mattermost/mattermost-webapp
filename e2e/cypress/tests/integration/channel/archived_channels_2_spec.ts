@@ -10,6 +10,9 @@
 // Stage: @prod
 // Group: @channel
 
+import {Channel} from 'mattermost-redux/types/channels';
+import {ChainableT} from 'tests/types';
+
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
@@ -45,19 +48,30 @@ describe('Leave an archived channel', () => {
                 name: channelName,
                 team_id: testTeam.id,
                 type: 'P',
-            })).then(async (channel) => {
+                id: '',
+                create_at: 0,
+                update_at: 0,
+                delete_at: 0,
+                header: '',
+                purpose: '',
+                last_post_at: 0,
+                total_msg_count: 0,
+                extra_update_at: 0,
+                creator_id: '',
+                scheme_id: '',
+                group_constrained: false,
+            })).then((channel: Channel): ChainableT<Channel> => {
                 // # Then invite us to it
-                await client.addToChannel(testUser.id, channel.id);
-
-                cy.wrap(channel);
-            }).then((channel) => {
+                return cy.wrap(client.addToChannel(testUser.id, channel.id)).
+                    then(() => cy.wrap(channel));
+            }).then((channel: Channel): ChainableT<Channel> => {
                 // * Verify that the newly created channel is in the sidebar
                 cy.get(`#sidebarItem_${channel.name}`).should('be.visible');
 
-                cy.wrap(channel);
-            }).then(async (channel) => {
+                return cy.wrap(channel);
+            }).then((channel: Channel) => {
                 // # Then archive the channel
-                await client.deleteChannel(channel.id);
+                cy.wrap(client.deleteChannel(channel.id));
 
                 // * Verify that the channel is no longer in the sidebar and that the app hasn't crashed
                 cy.get(`#sidebarItem_${channel.name}`).should('not.exist');

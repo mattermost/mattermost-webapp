@@ -9,7 +9,7 @@
 
 // Group: @custom_status
 
-import set from 'lodash.set';
+import {set} from 'lodash';
 
 describe('Custom Status - Verifying Where Custom Status Appears', () => {
     const customStatus = {

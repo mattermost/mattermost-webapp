@@ -61,7 +61,7 @@ describe('Change Roles', () => {
                     return !(['manage_public_channel_members', 'manage_private_channel_members', 'manage_public_channel_properties', 'manage_private_channel_properties'].includes(permission));
                 });
 
-                if (permissions.length !== role.permissions) {
+                if (permissions.length !== role.permissions.length) {
                     cy.apiPatchRole(role.id, {permissions});
                 }
             });

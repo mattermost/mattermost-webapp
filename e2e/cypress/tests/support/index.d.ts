@@ -35,4 +35,5 @@ declare namespace Cypress {
     interface Chainable {
         tab: (options?: {shift?: boolean}) => Chainable<JQuery>;
     }
+    type DeepPartial = import('@mattermost/types/lib/utilities').DeepPartial;
 }
