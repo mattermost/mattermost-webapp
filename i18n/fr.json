@@ -239,6 +239,7 @@
   "admin.billing.company_info.title": "Informations sur l'entreprise",
   "admin.billing.company_info.zipcode": "Code postal",
   "admin.billing.company_info_display.companyDetails": "Informations sur la société",
+  "admin.billing.company_info_display.detailsProvided": "Nom et adresse de votre entreprise",
   "admin.billing.company_info_display.noCompanyInfo": "Il n'y a actuellement aucune information sur l'entreprise enregistrée dans votre compte.",
   "admin.billing.company_info_display.provideDetails": "Indiquez le nom et l'adresse de votre entreprise",
   "admin.billing.company_info_edit.cancel": "Annuler",

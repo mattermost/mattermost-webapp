@@ -88,7 +88,7 @@ const PeopleList = ({
                 >
                     {({onItemsRendered, ref}) => {
                         const columnWidth = 320;
-                        const rowHeight = 320;
+                        const rowHeight = 365;
                         const columnCount = Math.floor(width / columnWidth);
 
                         return (

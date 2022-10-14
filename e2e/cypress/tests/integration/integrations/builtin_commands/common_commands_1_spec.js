@@ -167,9 +167,16 @@ describe('Integrations', () => {
     });
 
     it('MM-T5100 /marketplace test', () => {
-        // # Post "/marketplace" as testUser
-        cy.postMessage('/marketplace ');
+        cy.apiAdminLogin();
 
-        cy.get('#modal_marketplace').should('be.visible');
+        cy.apiInitSetup().then(({team}) => {
+            // # Go to town square
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Post "/marketplace" as SystemAdmin
+            cy.postMessage('/marketplace ');
+
+            cy.get('#modal_marketplace').should('be.visible');
+        });
     });
 });
