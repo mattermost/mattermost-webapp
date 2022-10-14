@@ -2016,6 +2016,20 @@
                 line-height: 16px;
             }
         }
+
+        .view-thread-button {
+            padding-top: 5px;
+            padding-left: 0px;
+            color: rgba(var(--button-bg-rgb));
+
+            &:hover {
+                color: rgba(var(--button-bg-rgb));
+            }
+
+            .view-thread-icon {
+                color: rgba(var(--button-bg-rgb));
+            }
+        }
     }
 
     .Menu .MenuItem {

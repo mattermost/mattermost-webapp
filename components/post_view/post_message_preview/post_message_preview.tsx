@@ -1,14 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
+import {useDispatch} from 'react-redux';
+
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from '@mattermost/types/users';
+import {Post} from '@mattermost/types/posts';
 import Avatar from 'components/widgets/users/avatar';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
@@ -21,10 +24,13 @@ import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 
 import ReactionList from 'components/post_view/reaction_list';
+import Button from 'components/threading/common/button';
 
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 import {General} from 'mattermost-redux/constants';
+
+import {selectPost} from 'actions/views/rhs';
 
 import {OwnProps} from './index';
 
@@ -37,6 +43,7 @@ export type Props = OwnProps & {
     isEmbedVisible: boolean;
     compactDisplay: boolean;
     isPostPriorityEnabled: boolean;
+    isPermalink?: boolean;
     handleFileDropdownOpened?: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
@@ -44,7 +51,8 @@ export type Props = OwnProps & {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened, isPostPriorityEnabled} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened, isPostPriorityEnabled, isPermalink} = props;
+    const dispatch = useDispatch();
 
     const toggleEmbedVisibility = () => {
         if (previewPost) {
@@ -71,6 +79,12 @@ const PostMessagePreview = (props: Props) => {
 
         return defaultURL;
     };
+
+    const handleReply = useCallback((e) => {
+        e.stopPropagation();
+
+        dispatch(selectPost({id: previewPost?.root_id, channel_id: previewPost?.channel_id} as Post));
+    }, [dispatch, previewPost?.root_id, previewPost?.channel_id]);
 
     if (!previewPost) {
         return null;
@@ -157,9 +171,9 @@ const PostMessagePreview = (props: Props) => {
     ) : null;
 
     let reactionPreview;
-    if (previewPost.props?.broadcasted_thread_reply) {
+    if (previewPost.props?.broadcasted_thread_reply && !isPermalink) {
         reactionPreview = (
-            <div>
+            <div style={{paddingTop: 5}}>
                 <ReactionList post={previewPost}/>
             </div>
         );
@@ -172,42 +186,44 @@ const PostMessagePreview = (props: Props) => {
             preventClickAction={preventClickAction}
         >
             <div className='post-preview'>
-                <div className='post-preview__header'>
-                    <div className='col col__name'>
-                        <div className='post__img'>
-                            <span className='profile-icon'>
-                                {avatar}
-                            </span>
+                {(!previewPost.props?.broadcasted_thread_reply || isPermalink) &&
+                    <div className='post-preview__header'>
+                        <div className='col col__name'>
+                            <div className='post__img'>
+                                <span className='profile-icon'>
+                                    {avatar}
+                                </span>
+                            </div>
+                        </div>
+                        <div className={classNames('col col__name', 'permalink--username')}>
+                            <UserProfileComponent
+                                userId={user?.id}
+                                hasMention={true}
+                                disablePopover={true}
+                                overwriteName={previewPost.props?.override_username || ''}
+                            />
+                        </div>
+                        <div className='col d-flex align-items-center'>
+                            <Timestamp
+                                value={previewPost.create_at}
+                                units={[
+                                    'now',
+                                    'minute',
+                                    'hour',
+                                    'day',
+                                ]}
+                                useTime={false}
+                                day={'numeric'}
+                                className='post-preview__time'
+                            />
+                            {previewPost.props?.priority && isPostPriorityEnabled && (
+                                <span className='d-flex mr-2 ml-1'>
+                                    <PriorityLabel priority={previewPost.props.priority}/>
+                                </span>
+                            )}
                         </div>
                     </div>
-                    <div className={classNames('col col__name', 'permalink--username')}>
-                        <UserProfileComponent
-                            userId={user?.id}
-                            hasMention={true}
-                            disablePopover={true}
-                            overwriteName={previewPost.props?.override_username || ''}
-                        />
-                    </div>
-                    <div className='col d-flex align-items-center'>
-                        <Timestamp
-                            value={previewPost.create_at}
-                            units={[
-                                'now',
-                                'minute',
-                                'hour',
-                                'day',
-                            ]}
-                            useTime={false}
-                            day={'numeric'}
-                            className='post-preview__time'
-                        />
-                        {previewPost.props?.priority && isPostPriorityEnabled && (
-                            <span className='d-flex mr-2 ml-1'>
-                                <PriorityLabel priority={previewPost.props.priority}/>
-                            </span>
-                        )}
-                    </div>
-                </div>
+                }
                 <PostMessageView
                     post={previewPost}
                     overflowType='ellipsis'
@@ -216,6 +232,22 @@ const PostMessagePreview = (props: Props) => {
                 {urlPreview}
                 {fileAttachmentPreview}
                 {reactionPreview || previewFooter}
+                {previewPost.props?.broadcasted_thread_reply && !isPermalink &&
+                    <Button
+                        onClick={handleReply}
+                        className='view-thread-button'
+                        prepend={
+                            <span className='view-thread-icon'>
+                                <i className='icon-message-text-outline'/>
+                            </span>
+                        }
+                    >
+                        <FormattedMessage
+                            id='post_message_preview.view_thread_button'
+                            defaultMessage='View Thread'
+                        />
+                    </Button>
+                }
             </div>
         </PostAttachmentContainer>
     );

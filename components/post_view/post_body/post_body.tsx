@@ -216,6 +216,7 @@ export default class PostBody extends React.PureComponent<Props, State> {
                         previewPost={post}
                         handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                         previewFooterMessage={' '}
+                        preventClickAction={true}
                     />
                 </>
             );
@@ -239,7 +240,7 @@ export default class PostBody extends React.PureComponent<Props, State> {
                 this.props.pluginPostTypes.hasOwnProperty(post.props.type));
 
         let messageWithAdditionalContent;
-        if (this.props.post.state === Posts.POST_DELETED || hasPlugin) {
+        if (this.props.post.state === Posts.POST_DELETED || hasPlugin || post.props?.broadcasted_thread_reply) {
             messageWithAdditionalContent = messageWrapper;
         } else {
             messageWithAdditionalContent = (

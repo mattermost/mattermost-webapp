@@ -59,6 +59,7 @@ const PostAttachmentContainer = (props: Props) => {
                 'icon icon-menu-right',
                 'post-image',
                 'file-icon',
+                'Reaction',
             ];
 
             if (params && shouldFocusPostWithoutRedirect && crtEnabled && post && post.root_id) {
