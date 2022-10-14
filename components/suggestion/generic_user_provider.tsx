@@ -12,7 +12,7 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 
-import Provider from './provider.jsx';
+import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 import {UserAutocomplete, UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
 
