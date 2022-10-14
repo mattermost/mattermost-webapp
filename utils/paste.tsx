@@ -58,28 +58,18 @@ function isHeaderlessTable(table: HTMLTableElement): boolean {
     return table.querySelectorAll('th').length === 0;
 }
 
-function isGoogleSheetsPaste(clipboardData: DataTransfer): boolean {
-    return clipboardData.types.includes('application/x-vnd.google-docs-embedded-grid_range_clip+wrapped');
-}
-
 export function formatMarkdownMessage(clipboardData: DataTransfer, message?: string, caretPosition?: number): string {
     const html = clipboardData.getData('text/html');
 
     //TODO@michel: Instantiate turndown service in a central file instead
-    const service = new TurndownService({emDelimiter: '*'});
+    const service = new TurndownService({emDelimiter: '*'}).remove('style');
     service.use(tables);
-    let markdownFormattedMessage = service.turndown(html);
+    let markdownFormattedMessage = service.turndown(html).trim();
 
     const table = getTable(clipboardData);
 
     if (table && isHeaderlessTable(table)) {
         markdownFormattedMessage += '\n';
-    }
-
-    if (isGoogleSheetsPaste(clipboardData)) {
-        // Removes an html comment that is kept
-        const firstLineRegex = /<.*>[\r\n]+/g;
-        markdownFormattedMessage = markdownFormattedMessage.replace(firstLineRegex, '');
     }
 
     if (!message) {

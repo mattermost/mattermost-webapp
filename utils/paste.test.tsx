@@ -57,6 +57,18 @@ describe('Paste.formatMarkdownMessage', () => {
         expect(formatMarkdownMessage(tableHeadersClipboardData)).toBe(markdownTable);
     });
 
+    test('removes style contents and additional whitespace around tables', () => {
+        const styleClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<style><!--td {border: 1px solid #cccccc;}--></style>\n<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>\n';
+            },
+        };
+
+        expect(formatMarkdownMessage(styleClipboardData)).toBe(markdownTable);
+    });
+
     test('returns a markdown table under a message when one is provided', () => {
         const testMessage = 'test message';
 
