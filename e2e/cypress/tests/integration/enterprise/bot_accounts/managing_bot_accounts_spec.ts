@@ -10,31 +10,23 @@
 // Stage: @prod
 // Group: @enterprise @bot_accounts
 
-import {AdminConfig} from '@mattermost/types/lib/config';
-
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Managing bot accounts', () => {
     let botName: string;
-    let origConfig: AdminConfig;
 
     beforeEach(() => {
         cy.apiRequireLicenseForFeature('LDAP');
 
         cy.apiAdminLogin();
 
-        cy.apiGetConfig().then(({config}) => {
-            origConfig = config;
-            const newConfig = {
-                ...origConfig,
-                ServiceSettings: {
-                    ...origConfig.ServiceSettings,
-                    EnableBotAccountCreation: true,
-                },
-            };
+        const newSettings = {
+            ServiceSettings: {
+                EnableBotAccountCreation: true,
+            },
+        };
 
-            cy.apiUpdateConfig(newConfig);
-        });
+        cy.apiUpdateConfig(newSettings);
 
         cy.apiCreateBot({prefix: 'bot'}).then(({bot}) => {
             botName = bot.username;

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Bot} from 'mattermost-redux/types/bots';
-
 import {getRandomId} from '../../utils';
 
 // *****************************************************************************
@@ -10,7 +8,7 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/bots
 // *****************************************************************************
 
-function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable<{bot: Bot & {fullDisplayName: string}}> {
+function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable<{bot: Cypress.Bot & {fullDisplayName: string}}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
@@ -30,7 +28,7 @@ function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable
 
 Cypress.Commands.add('apiCreateBot', apiCreateBot);
 
-function apiGetBots(): Cypress.Chainable<{bots: Bot[]}> {
+function apiGetBots(): Cypress.Chainable<{bots: Cypress.Bot[]}> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
