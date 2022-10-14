@@ -7,28 +7,27 @@
         padding: 0;
         margin: 0 0 8px;
         font-size: 16px !important;
-        line-height: 24px !important;
         font-weight: 600 !important;
+        line-height: 24px !important;
     }
 
     &__button {
+        height: auto !important;
         padding: 0 !important;
         border: none !important;
         background: transparent !important;
-        height: auto !important;
-        padding: 0 !important;
-        font-size: 14px !important;
-        line-height: 20px !important;
-        font-weight: 400 !important;
         color: var(--button-bg) !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        line-height: 20px !important;
     }
 }
 
 .savedFeedback__text {
-    color: rgba(63, 67, 80, 1);
-    font-weight: 600;
-    font-size: 22px;
     align-self: center;
+    color: rgba(63, 67, 80, 1);
+    font-size: 22px;
+    font-weight: 600;
 }
 
 .GatherIntentModal {
@@ -42,9 +41,9 @@
         position: absolute;
         top: 50%;
         left: 50%;
+        min-width: 532px;
         margin: auto;
         transform: translate(-50%, -50%) !important;
-        min-width: 532px;
     }
 
     .modal-footer {
@@ -102,8 +101,8 @@
         margin-bottom: 24px;
 
         > svg {
-            height: 51px;
             width: 51px;
+            height: 51px;
             align-self: center;
             color: rgba(61, 184, 135, 1);
         }
@@ -114,17 +113,17 @@
 
         &__question {
             margin-bottom: 10px;
-            font-size: 14px;
             color: rgba(63, 67, 80, 1);
+            font-size: 14px;
             font-weight: 600;
         }
 
         &__option {
-            font-size: 14px;
-            color: rgba(63, 67, 80, 1);
-            font-weight: 400;
+            margin-top: 0;
             margin-bottom: 10px;
-            margin-top: 0px;
+            color: rgba(63, 67, 80, 1);
+            font-size: 14px;
+            font-weight: 400;
         }
 
         &__label {
@@ -134,19 +133,15 @@
         }
 
         &__checkbox {
-            vertical-align: middle;
             height: 28px;
+            vertical-align: middle;
         }
 
         &__textarea {
-            resize: none;
             width: 100%;
             border: solid 1px rgba(63, 67, 80, 0.16);
             border-radius: 4px;
-
-            &:focus {
-                outline: 6px solid red;
-            }
+            resize: none;
         }
     }
 
@@ -156,10 +151,10 @@
         gap: 8px;
 
         &__error {
-            font-size: 14px;
-            color: var(--error-text);
-            margin-right: auto !important;
             flex: 1;
+            margin-right: auto !important;
+            color: var(--error-text);
+            font-size: 14px;
             text-align: left;
         }
 
