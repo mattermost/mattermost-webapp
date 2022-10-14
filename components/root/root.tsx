@@ -22,7 +22,7 @@ import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'matte
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
-import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
+import {measurePageLoadTelemetry, trackEvent, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
@@ -264,6 +264,9 @@ export default class Root extends React.PureComponent<Props, State> {
             });
         }
 
+        // This needs to be called as early as possible to ensure that a redirect won't remove the query string
+        this.trackUTMCampaign();
+
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
         }
@@ -358,6 +361,29 @@ export default class Root extends React.PureComponent<Props, State> {
         }
 
         GlobalActions.redirectUserToDefaultTeam();
+    }
+
+    trackUTMCampaign() {
+        const qs = new URLSearchParams(window.location.search);
+
+        // list of key that we want to track
+        const keys = ['utm_source', 'utm_medium', 'utm_campaign'];
+
+        const campaign = keys.reduce((acc, key) => {
+            if (qs.has(key)) {
+                const value = qs.get(key);
+                if (value) {
+                    acc[key] = value;
+                }
+                qs.delete(key);
+            }
+            return acc;
+        }, {} as Record<string, string>);
+
+        if (Object.keys(campaign).length > 0) {
+            trackEvent('utm_params', 'utm_params', campaign);
+            this.props.history.replace({search: qs.toString()});
+        }
     }
 
     initiateMeRequests = async () => {
