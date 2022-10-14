@@ -21,6 +21,7 @@ describe('components/ConfigurationBar', () => {
             sendEmailNotifications: false,
         },
         dismissedExpiringLicense: false,
+        dismissedExpiredLicense: false,
         siteURL: '',
         totalUsers: 100,
         actions: {
