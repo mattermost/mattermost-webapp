@@ -66,8 +66,8 @@ export function getFilePreviewUrl(fileId: string): string {
     return `${Client4.getFileRoute(fileId)}/preview`;
 }
 
-export function getFileMiniPreviewUrl(fileInfo: FileInfo): string | undefined {
-    if (!fileInfo.mini_preview || !fileInfo.mime_type) {
+export function getFileMiniPreviewUrl(fileInfo?: FileInfo): string | undefined {
+    if (!fileInfo?.mini_preview || !fileInfo?.mime_type) {
         return undefined;
     }
     return `data:${fileInfo.mime_type};base64,${fileInfo.mini_preview}`;
