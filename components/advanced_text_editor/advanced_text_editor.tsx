@@ -6,10 +6,6 @@ import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {Emoji} from '@mattermost/types/emojis';
-import {FileInfo} from '@mattermost/types/files';
-import {ServerError} from '@mattermost/types/errors';
-import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
@@ -28,6 +24,11 @@ import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_
 import * as Utils from 'utils/utils';
 import {ApplyMarkdownOptions} from 'utils/markdown/apply_markdown';
 import Constants, {Locations} from 'utils/constants';
+
+import {Channel} from '@mattermost/types/channels';
+import {ServerError} from '@mattermost/types/errors';
+import {FileInfo} from '@mattermost/types/files';
+import {Emoji} from '@mattermost/types/emojis';
 import AutoHeightSwitcher from '../common/auto_height_switcher';
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
 import Tooltip from '../tooltip';
@@ -441,17 +442,16 @@ const AdvanceTextEditor = ({
             >
                 <div
                     id={'speak-'}
-                aria-live='assertive'
-                className='sr-only'
-            >
-                {
+                    aria-live='assertive'
+                    className='sr-only'
+                >
                     <FormattedMessage
                         id='channelView.login.successfull'
                         defaultMessage='Login Successfull'
                     />
-                }
-            </div>
-            <divclassName={'AdvancedTextEditor__body'}
+                </div>
+                <div
+                    className={'AdvancedTextEditor__body'}
                     disabled={readOnlyChannel}
                 >
                     <div
@@ -462,7 +462,7 @@ const AdvanceTextEditor = ({
                         aria-label={Utils.localizeMessage(
                             'channelView.login.successfull',
                             'Login Successfull',
-                        ) + ' ' +ariaLabelMessageInput}
+                        ) + ' ' + ariaLabelMessageInput}
                         tabIndex={-1}
                         className='AdvancedTextEditor__cell a11y__region'
                     >
