@@ -81,7 +81,7 @@ declare namespace Cypress {
          *       // do something with team
          *   });
          */
-        apiPatchTeam(teamId: string, patch: Team): Chainable<Team>;
+        apiPatchTeam(teamId: string, patch: Partial<Team>): Chainable<Team>;
 
         /**
          * Get a team based on provided name string.
