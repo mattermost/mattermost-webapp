@@ -25,6 +25,38 @@
             font-size: 12px;
             font-weight: 400;
         }
+
+        #menuWrapper {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding-left: 4px;
+
+            &:hover, 
+            &:focus {
+                background-color: rgba(var(--center-channel-text-rgb), 0.08);
+                border-radius: 4px;
+            }
+        }
+
+        #modalPreferenceContainer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            .get-app__checkbox {
+                border-width: 1px;
+            }
+            
+            .MenuWrapper--open {
+                background-color: rgba(var(--button-bg-rgb), 0.12);
+                border-radius: 4px;
+            }
+        }
+
+        #channelsMoreDropdown {
+            margin: 0 8px;
+        }
     }
 
     .modal-body {
@@ -126,6 +158,8 @@
     #searchChannelsTextbox {
         height: 48px;
         border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
+        font-size: 16px;
+        box-shadow: none;
     }
 
     .outlineButton {

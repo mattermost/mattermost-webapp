@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
+import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, ChevronDownIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
 
 import classNames from 'classnames';
 
@@ -277,6 +277,11 @@ export default class SearchableChannelList extends React.PureComponent {
         let input = (
             <div className='filter-row filter-row--full'>
                 <div className='col-sm-12'>
+                    {/* todo sinan move this inside input */}
+                    <div className='search__font-icon'>
+                        <i className='icon icon-magnify icon-16'/>
+                    </div>
+                    {/* todo sinan pass onclear */}
                     <QuickInput
                         id='searchChannelsTextbox'
                         ref={this.filter}
@@ -284,6 +289,7 @@ export default class SearchableChannelList extends React.PureComponent {
                         placeholder={{id: t('filtered_channels_list.search'), defaultMessage: 'Search channels'}}
                         inputComponent={LocalizedInput}
                         onInput={this.doSearch}
+                        clearable={true}
                     />
                 </div>
             </div>
@@ -314,13 +320,15 @@ export default class SearchableChannelList extends React.PureComponent {
         if (this.props.canShowArchivedChannels) {
             channelDropdown = (
                 <MenuWrapper id='channelsMoreDropdown'>
-                    <a>
-                        <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Show: Archived Channels') : localizeMessage('more_channels.show_public_channels', 'Show: Public Channels')}</span>
-                        <span className='caret'/>
+                    <a id='menuWrapper'>
+                        <span>{this.props.shouldShowArchivedChannels ? localizeMessage('more_channels.show_archived_channels', 'Channel Type: Archived') : localizeMessage('more_channels.show_public_channels', 'Channel Type: Public')}</span>
+                        <ChevronDownIcon
+                            color={'rgba(var(--center-channel-color-rgb), 0.64)'}
+                        />
                     </a>
                     <Menu
                         openLeft={false}
-                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')}
+                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')} // change the aria label
                     >
                         <Menu.ItemAction
                             id='channelsMoreDropdownPublic'
@@ -366,8 +374,10 @@ export default class SearchableChannelList extends React.PureComponent {
         const dropDownContainer = (
             <div className='more-modal__dropdown'>
                 <span id='channelCountLabel'>{channelCountLabel}</span>
-                {channelDropdown}
-                {hideJoinedPreferenceCheckbox}
+                <div id='modalPreferenceContainer'>
+                    {channelDropdown}
+                    {hideJoinedPreferenceCheckbox}
+                </div>
             </div>
         );
 
