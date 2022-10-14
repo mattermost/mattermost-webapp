@@ -7,7 +7,7 @@ import {
     MessageTextOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
-import React, {useRef} from 'react';
+import React, {useEffect, useRef} from 'react';
 
 import {useIntl} from 'react-intl';
 
@@ -16,8 +16,6 @@ import {useSelector} from 'react-redux';
 import {components, IndicatorProps, OptionProps, SingleValueProps, ValueType} from 'react-select';
 
 import {Props as AsyncSelectProps} from 'react-select/src/Async';
-
-import {Channel} from '@mattermost/types/channels';
 
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getMyTeams, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -34,18 +32,13 @@ import SwitchChannelProvider from 'components/suggestion/switch_channel_provider
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 
+import {ProviderResult} from 'components/suggestion/provider';
+
+import {Channel} from '@mattermost/types/channels';
+
 import {getBaseStyles} from './forward_post_channel_select_styles';
 
 const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<ChannelOption>>; // eslint-disable-line global-require
-
-type ProviderResults = {
-    matchedPretext: string;
-    terms: string[];
-
-    // The providers currently do not provide a clearly defined type and structure
-    items: Array<Record<string, any>>;
-    component?: React.ReactNode;
-}
 
 type ChannelTypeFromProvider = Channel & {
     userId?: string;
@@ -62,7 +55,7 @@ type GroupedOption = {
     options: ChannelOption[];
 }
 
-export const makeSelectedChannelOption = (channel: Channel) => ({
+export const makeSelectedChannelOption = (channel: Channel): ChannelOption => ({
     label: channel.display_name || channel.name,
     value: channel.id,
     details: channel,
@@ -252,6 +245,10 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
     const {formatMessage} = useIntl();
     const {current: provider} = useRef<SwitchChannelProvider>(new SwitchChannelProvider());
 
+    useEffect(() => {
+        provider.forceDispatch = true;
+    }, [provider]);
+
     const baseStyles = getBaseStyles(currentBodyHeight);
 
     const isValidChannelType = (channel: Channel) => validChannelTypes.includes(channel.type) && !channel.delete_at;
@@ -259,11 +256,11 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
     const getDefaultResults = () => {
         let options: GroupedOption[] = [];
 
-        const handleDefaultResults = (res: ProviderResults) => {
+        const handleDefaultResults = (res: ProviderResult) => {
             options = [
                 {
                     label: formatMessage({id: 'suggestion.mention.recent.channels', defaultMessage: 'Recent'}),
-                    options: res.items.filter((item) => isValidChannelType(item.channel)).map((item) => {
+                    options: res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).map((item) => {
                         const {channel} = item;
                         return makeSelectedChannelOption(channel);
                     }),
@@ -279,6 +276,7 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
 
     const handleInputChange = (inputValue: string) => {
         return new Promise<ChannelOption[]>((resolve) => {
+            let callCount = inputValue ? 0 : 1;
             const options: ChannelOption[] = [];
 
             /** we optimistically assume this callback gets invoked twice when we have a value to be passed into the provider.
@@ -287,21 +285,22 @@ function ForwardPostChannelSelect({onSelect, value, currentBodyHeight}: Props<Ch
              *
              * @see {@link components/suggestion/switch_channel_provider.jsx}
              */
-            let callCount = inputValue ? 1 : 0;
-            const handleResults = (res: ProviderResults) => {
+            const handleResults = async (res: ProviderResult) => {
                 callCount++;
-                res.items.filter((item) => isValidChannelType(item.channel)).forEach((item) => {
+                await res.items.filter((item) => item?.channel && isValidChannelType(item.channel) && !item.deactivated).forEach((item) => {
                     const {channel} = item;
 
-                    options.push(makeSelectedChannelOption(channel));
+                    if (options.findIndex((option) => option.value === channel.id) === -1) {
+                        options.push(makeSelectedChannelOption(channel));
+                    }
                 });
+
+                if (callCount === 2) {
+                    resolve(options);
+                }
             };
 
             provider.handlePretextChanged(inputValue, handleResults);
-            if (callCount === 2) {
-                // only resolvbe when the count reaches 2
-                resolve(options);
-            }
         });
     };
 

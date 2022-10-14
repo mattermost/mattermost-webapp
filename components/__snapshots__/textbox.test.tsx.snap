@@ -49,6 +49,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
           "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
@@ -63,6 +64,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -73,6 +75,7 @@ exports[`components/TextBox should match snapshot with additional, optional prop
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
@@ -154,6 +157,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
           "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
@@ -168,6 +172,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -178,6 +183,7 @@ exports[`components/TextBox should match snapshot with required props 1`] = `
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
@@ -245,6 +251,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
           "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
@@ -259,6 +266,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -269,6 +277,7 @@ exports[`components/TextBox should throw error when new property is too long 1`]
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,
@@ -336,6 +345,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
           "currentUserId": "currentUserId",
           "data": null,
           "disableDispatches": false,
+          "forceDispatch": false,
           "getProfilesInChannel": [Function],
           "lastCompletedWord": "",
           "lastPrefixWithNoResults": "",
@@ -350,6 +360,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         ChannelMentionProvider {
           "autocompleteChannels": [MockFunction],
           "disableDispatches": false,
+          "forceDispatch": false,
           "lastCompletedWord": "",
           "lastPrefixTrimmed": "",
           "lastPrefixWithNoResults": "",
@@ -360,6 +371,7 @@ exports[`components/TextBox should throw error when value is too long 1`] = `
         },
         EmoticonProvider {
           "disableDispatches": false,
+          "forceDispatch": false,
           "latestComplete": true,
           "latestPrefix": "",
           "requestStarted": false,

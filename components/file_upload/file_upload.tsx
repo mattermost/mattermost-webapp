@@ -160,8 +160,6 @@ export type Props = {
          */
         uploadFile: ({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) => XMLHttpRequest;
     };
-
-    isAdvancedTextEditorEnabled: boolean;
 };
 
 type State = {
@@ -493,7 +491,7 @@ export class FileUpload extends PureComponent<Props, State> {
     }
 
     keyUpload = (e: KeyboardEvent) => {
-        if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
+        if (cmdOrCtrlPressed(e) && !e.shiftKey && isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
 
             if (!this.props.canUploadFiles) {
@@ -592,10 +590,9 @@ export class FileUpload extends PureComponent<Props, State> {
                             type='button'
                             id='fileUploadButton'
                             aria-label={buttonAriaLabel}
-                            className={classNames('style--none', {
-                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                                'post-action': !this.props.isAdvancedTextEditorEnabled,
-                                disabled: uploadsRemaining <= 0})}
+                            className={classNames('style--none AdvancedTextEditor__action-button', {
+                                disabled: uploadsRemaining <= 0,
+                            })}
                             onClick={this.simulateInputClick}
                             onTouchEnd={this.simulateInputClick}
                         >
@@ -672,9 +669,7 @@ export class FileUpload extends PureComponent<Props, State> {
                                 type='button'
                                 id='fileUploadButton'
                                 aria-label={buttonAriaLabel}
-                                className={classNames('style--none', {
-                                    'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                                    'post-action': !this.props.isAdvancedTextEditorEnabled})}
+                                className='style--none AdvancedTextEditor__action-button'
                             >
                                 <PaperclipIcon
                                     size={18}
