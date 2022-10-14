@@ -48,7 +48,7 @@ describe('Guest Account - Guest User Experience', () => {
         demoteGuestUser(guestUser);
 
         // # Ceate a new team
-        cy.apiCreateTeam('test-team2', 'Test Team2').then((teamTwo) => {
+        cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
             // # Add the guest user to this team
             cy.apiAddUserToTeam(teamTwo.id, guestUser.id).then(() => {
                 // # Login as guest user
@@ -91,7 +91,7 @@ describe('Guest Account - Guest User Experience', () => {
 function demoteGuestUser(guestUser) {
     // # Demote user as guest user before each test
     cy.apiAdminLogin();
-    cy.apiGetUserByEmail(guestUser.email).then((user) => {
+    cy.apiGetUserByEmail(guestUser.email).then(({user}) => {
         if (user.roles !== 'system_guest') {
             cy.apiDemoteUserToGuest(guestUser.id);
         }

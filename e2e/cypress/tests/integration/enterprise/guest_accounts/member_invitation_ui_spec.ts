@@ -121,7 +121,7 @@ describe('Guest Account - Member Invitation Flow', () => {
     it('MM-T1325 Invite Members - Team Link - Existing User', () => {
         // # Login as sysadmin and create a new team
         cy.apiAdminLogin();
-        cy.apiCreateTeam('team', 'Team').then((team) => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Visit the team and wait for page to load and then logout.
             cy.visit(`/${team.name}/channels/town-square`);
             cy.uiGetPostTextBox().wait(TIMEOUTS.TWO_SEC);
@@ -210,7 +210,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         // # Login as sysadmin and create a new team
         cy.apiAdminLogin();
 
-        cy.apiCreateTeam('team', 'Team').then((team) => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Login as new user
             loginAsNewUser(team);
 
@@ -311,7 +311,7 @@ function verifyInvitationSuccess(user, team, successText) {
 
 function loginAsNewUser(team) {
     // # Login as new user and get the user id
-    cy.apiCreateUser().then((user) => {
+    cy.apiCreateUser().then(({user}) => {
         cy.apiAddUserToTeam(team.id, user.id);
 
         cy.apiLogin(user);

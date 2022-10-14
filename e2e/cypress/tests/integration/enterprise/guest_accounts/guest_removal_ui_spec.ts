@@ -48,8 +48,8 @@ describe('Guest Account - Guest User Removal Experience', () => {
 
         cy.apiInitSetup().then(({team: team1}) => {
             // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team2', 'Test Team2').then((team2) => {
-                cy.apiCreateUser().then((user) => {
+            cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: team2}) => {
+                cy.apiCreateUser().then(({user}) => {
                     guest = user;
                     cy.apiAddUserToTeam(team1.id, guest.id);
                     cy.apiAddUserToTeam(team2.id, guest.id).then(() => {

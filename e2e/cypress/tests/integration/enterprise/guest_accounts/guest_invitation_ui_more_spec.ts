@@ -47,7 +47,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-T1336 Invite Guests - Existing Team Member', () => {
-        cy.apiCreateUser().then((newUser) => {
+        cy.apiCreateUser().then(({user: newUser}) => {
             cy.apiAddUserToTeam(testTeam.id, newUser.id).then(() => {
                 // # Search and add an existing member by username who is part of the team
                 invitePeople(newUser.username, 1, newUser.username);
@@ -77,7 +77,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-T1338 Invite Guests - Existing Member not on the team', () => {
-        cy.apiCreateUser().then((regularUser) => {
+        cy.apiCreateUser().then(({user: regularUser}) => {
             // # Search and add an existing member by email who is not part of the team
             invitePeople(regularUser.email, 1, regularUser.username);
 
