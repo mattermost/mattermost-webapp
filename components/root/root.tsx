@@ -22,7 +22,7 @@ import {getCurrentUser, isCurrentUserSystemAdmin, checkIsFirstAdmin} from 'matte
 
 import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
-import {measurePageLoadTelemetry, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
+import {measurePageLoadTelemetry, trackEvent, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
@@ -43,7 +43,7 @@ import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
-import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
+import {EmojiIndicesByAlias} from 'utils/emoji';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import webSocketClient from 'client/web_websocket_client.jsx';
@@ -66,6 +66,7 @@ const LazyAuthorize = React.lazy(() => import('components/authorize'));
 const LazyCreateTeam = React.lazy(() => import('components/create_team'));
 const LazyMfa = React.lazy(() => import('components/mfa/mfa_controller'));
 const LazyPreparingWorkspace = React.lazy(() => import('components/preparing_workspace'));
+const LazyDelinquencyModalController = React.lazy(() => import('components/delinquency_modal'));
 
 import store from 'stores/redux_store.jsx';
 import {getSiteURL} from 'utils/url';
@@ -75,6 +76,7 @@ import TeamSidebar from 'components/team_sidebar';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {UserProfile} from '@mattermost/types/users';
+import WelcomePostRenderer from 'components/welcome_post_renderer';
 
 import {applyLuxonDefaults} from './effects';
 
@@ -99,6 +101,7 @@ const SelectTeam = makeAsyncComponent('SelectTeam', LazySelectTeam);
 const Authorize = makeAsyncComponent('Authorize', LazyAuthorize);
 const Mfa = makeAsyncComponent('Mfa', LazyMfa);
 const PreparingWorkspace = makeAsyncComponent('PreparingWorkspace', LazyPreparingWorkspace);
+const DelinquencyModalController = makeAsyncComponent('DelinquencyModalController', LazyDelinquencyModalController);
 
 type LoggedInRouteProps<T> = {
     component: React.ComponentType<T>;
@@ -261,6 +264,9 @@ export default class Root extends React.PureComponent<Props, State> {
             });
         }
 
+        // This needs to be called as early as possible to ensure that a redirect won't remove the query string
+        this.trackUTMCampaign();
+
         if (this.props.location.pathname === '/' && this.props.noAccounts) {
             this.props.history.push('/signup_user_complete');
         }
@@ -357,6 +363,29 @@ export default class Root extends React.PureComponent<Props, State> {
         GlobalActions.redirectUserToDefaultTeam();
     }
 
+    trackUTMCampaign() {
+        const qs = new URLSearchParams(window.location.search);
+
+        // list of key that we want to track
+        const keys = ['utm_source', 'utm_medium', 'utm_campaign'];
+
+        const campaign = keys.reduce((acc, key) => {
+            if (qs.has(key)) {
+                const value = qs.get(key);
+                if (value) {
+                    acc[key] = value;
+                }
+                qs.delete(key);
+            }
+            return acc;
+        }, {} as Record<string, string>);
+
+        if (Object.keys(campaign).length > 0) {
+            trackEvent('utm_params', 'utm_params', campaign);
+            this.props.history.replace({search: qs.toString()});
+        }
+    }
+
     initiateMeRequests = async () => {
         const {data: isMeLoaded} = await this.props.actions.loadConfigAndMe();
 
@@ -374,6 +403,7 @@ export default class Root extends React.PureComponent<Props, State> {
 
         // See figma design on issue https://mattermost.atlassian.net/browse/MM-43649
         this.props.actions.registerCustomPostRenderer('custom_up_notification', OpenPricingModalPost, 'upgrade_post_message_renderer');
+        this.props.actions.registerCustomPostRenderer('system_welcome_post', WelcomePostRenderer, 'welcome_post_renderer');
 
         if (this.desktopMediaQuery.addEventListener) {
             this.desktopMediaQuery.addEventListener('change', this.handleMediaQueryChangeEvent);
@@ -575,6 +605,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         <CloudEffects/>
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
+                        <DelinquencyModalController/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route
