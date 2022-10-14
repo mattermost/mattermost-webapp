@@ -178,13 +178,13 @@ describe('Channel members RHS', () => {
                         openChannelMembersRhs(testTeam, channel);
 
                         // * Ensure the member is visible
-                        cy.uiGetRHS().findByText(`@${testUser.username}`).should('be.visible');
+                        cy.uiGetRHS().findByText(`${testUser.username}`).should('be.visible');
 
                         // # Deactivate the user
                         cy.apiDeactivateUser(testUser.id);
 
                         // * Ensure the user is not visible anymore
-                        cy.uiGetRHS().findByText(`@${testUser.username}`).should('not.exist');
+                        cy.uiGetRHS().findByText(`${testUser.username}`).should('not.exist');
                     });
                 });
             });
@@ -233,7 +233,7 @@ describe('Channel members RHS', () => {
 
             // * Can see user with their roles, and change it
             cy.uiGetRHS().findByTestId(`memberline-${user.id}`).should('be.visible').within(() => {
-                cy.findByText(`@${user.username}`).should('be.visible');
+                cy.findByText(`${user.username}`).should('be.visible');
                 cy.findByText('Member').should('be.visible').click();
                 cy.findByText('Make Channel Admin').should('be.visible').click();
             });
