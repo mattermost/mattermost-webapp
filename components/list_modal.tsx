@@ -11,17 +11,71 @@ import {Group} from '@mattermost/types/groups';
 export const DEFAULT_NUM_PER_PAGE = 50;
 
 type Props = {
+
+    /**
+     * titleText (optional) a string to show at the top bar of the modal.
+     */
     titleText?: string;
+
+    /**
+     * searchPlaceholderText (optional) a string to show as a placeholder in the search input.
+     */
     searchPlaceholderText?: string;
+
+    /**
+     * titleBarButtonText (optional) a string representing a title bar button text.
+     */
     titleBarButtonText?: string;
+
+    /**
+     * numPerPage (optional) a number setting how many items per page should be displayed. Defaults to
+     * DEFAULT_NUM_PER_PAGE.
+     */
     numPerPage?: number;
+
+    /**
+     * show (optional) a boolean setting to hide the modal via props rather then unmounting it.
+     */
     show?: boolean;
+
+    /**
+     * titleBarButtonOnClick (optional) a func to handle title button bar clicks.
+     */
     titleBarButtonOnClick?: () => void;
+
+    /**
+     * loadItems is a function that receives the params (pageNumber, searchTerm) and should return an object
+     * with the shape {items: [], totalCount: 0}.
+     * items: an array of objects that are passed to each renderRow function.
+     * totalCount: an integer representing the total number of items as displayed in the pagination text.
+     *
+     * Example:
+     *     const loadItems = async (pageNumber, searchTerm) => {
+     *         const {data} = await loadFromServer(searchTerm, pageNumber, PER_PAGE);
+     *         return {
+     *             items: data.users,
+     *             totalCount: data.total,
+     *         };
+     *     };
+     */
     loadItems: (page: number, searchTerm: string) => Promise<{
         items: Group[];
         totalCount: number;
     }>;
+
+    /**
+     * onHide (optional) a function to be invoked when the modal is closed.
+     */
     onHide?: () => void;
+
+    /**
+     * renderRow is a function that receives the params (item, listModal) and should return JSX.
+     * item: an object as returned by each entry in the loadItems function's 'items' array.
+     * listModal: the instance of the ListModal component class.
+     *
+     * Example:
+     *     const renderRow = (item, listModal) => <div>{item.id}</div>;
+     */
     renderRow: (item: Group, listModal: ListModal) => JSX.Element;
 }
 
