@@ -5,11 +5,6 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {Team, TeamMembership} from '@mattermost/types/teams';
-import {Group} from '@mattermost/types/groups';
-import {UserProfile, UserStatus} from '@mattermost/types/users';
-
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions';
 import {reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
@@ -26,6 +21,11 @@ import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {UserProfile, UserStatus} from '@mattermost/types/users';
+import {Group} from '@mattermost/types/groups';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
 
 const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
@@ -139,9 +139,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     public componentDidMount() {
         startPeriodicStatusUpdates();
-        if (this.state.team) {
-            this.initTeam(this.state.team);
-        }
         this.fetchAllTeams();
 
         // Set up tracking for whether the window is active
@@ -278,6 +275,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         // for the current url.
         const team = props.teamsList ? props.teamsList.find((teamObj) => teamObj.name === props.match.params.team) : null;
         if (team) {
+            this.initTeam(team);
             return team;
         }
         return null;

@@ -13,7 +13,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import Avatar from 'components/widgets/users/avatar';
 
-import Provider from './provider.jsx';
+import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 
 class UserSuggestion extends Suggestion {
