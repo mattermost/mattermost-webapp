@@ -147,7 +147,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiPatchUser(userId: string, userData: UserProfile): Chainable<UserProfile>;
+        apiPatchUser(userId: string, userData: Partial<UserProfile>): Chainable<{user: UserProfile}>;
 
         /**
          * Convenient command to patch a current user.

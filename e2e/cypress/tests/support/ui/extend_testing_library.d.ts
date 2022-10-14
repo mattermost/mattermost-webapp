@@ -25,6 +25,6 @@ declare namespace Cypress {
          * @example
          *   cy.findByRoleExtended('button', 'Advanced').should('be.visible').click();
          */
-        findByRoleExtended(): Chainable;
+        findByRoleExtended(role: string, option: Record<string, string>): Chainable;
     }
 }
