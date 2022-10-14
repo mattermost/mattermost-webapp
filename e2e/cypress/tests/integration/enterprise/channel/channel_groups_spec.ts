@@ -31,7 +31,7 @@ describe('channel groups', () => {
         cy.apiUpdateConfig({LdapSettings: {Enable: true}, ServiceSettings: {EnableTutorial: false}});
 
         // # Create a new team and associate one group to the team
-        cy.apiCreateTeam('team', 'Team').then((team) => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
             testTeam = team;
             cy.apiLinkGroupTeam(groups[0].id, team.id);
 
