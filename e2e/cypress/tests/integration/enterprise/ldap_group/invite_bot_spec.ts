@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-import set from 'lodash.set';
-
 describe('Group Synced Team - Bot invitation flow', () => {
     let groupConstrainedTeam;
     let bot;
@@ -21,10 +19,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // # Enable LDAP
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'LdapSettings.Enable', true);
-            cy.apiUpdateConfig(config);
-        });
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Get the first group constrained team available on the server
         cy.apiGetAllTeams().then(({teams}) => {

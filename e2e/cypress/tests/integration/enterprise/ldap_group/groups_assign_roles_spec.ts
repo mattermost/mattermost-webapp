@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-import set from 'lodash.set';
-
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 // # Function to get all the teams associated to group and unlink them
@@ -56,10 +54,7 @@ describe('LDAP Group Sync', () => {
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'LdapSettings.Enable', true);
-            cy.apiUpdateConfig(config);
-        });
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         // # Test LDAP configuration and server connection
         // # Synchronize user attributes

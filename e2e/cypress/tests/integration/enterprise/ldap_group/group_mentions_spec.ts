@@ -9,8 +9,6 @@
 
 // Group: @enterprise @ldap_group
 
-import set from 'lodash.set';
-
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import users from '../../../fixtures/ldap_users.json';
 
@@ -133,10 +131,7 @@ describe('System Console', () => {
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // # Enable LDAP
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'LdapSettings.Enable', true);
-            cy.apiUpdateConfig(config);
-        });
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         cy.apiInitSetup().then(({team, user}) => {
             regularUser = user;

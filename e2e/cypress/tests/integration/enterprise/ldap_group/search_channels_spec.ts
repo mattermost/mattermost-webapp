@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-import set from 'lodash.set';
-
 import {getRandomId} from '../../../utils';
 
 describe('Search channels', () => {
@@ -23,10 +21,7 @@ describe('Search channels', () => {
         cy.apiRequireLicenseForFeature('LDAPGroups');
 
         // Enable LDAP
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'LdapSettings.Enable', true);
-            cy.apiUpdateConfig(config);
-        });
+        cy.apiUpdateConfig({LdapSettings: {Enable: true}});
 
         cy.apiInitSetup().then(({team}) => {
             testTeamId = team.id;
