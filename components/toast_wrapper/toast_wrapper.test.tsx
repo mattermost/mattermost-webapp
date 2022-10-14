@@ -562,7 +562,7 @@ describe('components/ToastWrapper', () => {
     });
 
     describe('Search hint toast', () => {
-        test('should should not be shown when unread toast should be shown', () => {
+        test('should not be shown when unread toast should be shown', () => {
             const props = {
                 ...baseProps,
                 unreadCountInChannel: 10,
