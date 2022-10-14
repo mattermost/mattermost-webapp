@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 
 import {Posts} from 'mattermost-redux/constants/index';
@@ -35,108 +34,116 @@ import Constants, {AppEvents, Locations} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
 import * as Utils from 'utils/utils';
 
-export default class SearchResultsItem extends React.PureComponent {
-    static propTypes = {
+import {Post} from '@mattermost/types/posts';
 
-        /**
-        *  Data used for rendering post
-        */
-        post: PropTypes.object,
+type Props = {
 
-        /**
-        * An array of strings in this post that were matched by the search
-        */
-        matches: PropTypes.array,
+    /**
+     *  Data used for rendering post
+     */
+    post: Post;
 
-        channelName: PropTypes.string,
-        channelType: PropTypes.string,
-        channelIsArchived: PropTypes.bool,
+    /**
+     * An array of strings in this post that were matched by the search
+     */
+    matches?: string[];
 
-        /**
-        *  Flag for determining result display setting
-        */
-        compactDisplay: PropTypes.bool,
+    channelDisplayName?: string;
+    channelType?: string;
+    channelIsArchived?: boolean;
 
-        /**
-        *  Flag for highlighting mentions
-        */
-        isMentionSearch: PropTypes.bool,
+    /**
+     *  Flag for determining result display setting
+     */
+    compactDisplay?: boolean;
 
-        /**
-        *  Flag for highlighting search term
-        */
-        term: PropTypes.string,
+    /**
+     *  Flag for highlighting mentions
+     */
+    isMentionSearch?: boolean;
 
-        /**
-        *  Flag for determining result flag state
-        */
-        isFlagged: PropTypes.bool.isRequired,
+    /**
+     *  Flag for highlighting search term
+     */
+    term?: string;
 
-        /**
-         * Whether post username overrides are to be respected.
-         */
-        enablePostUsernameOverride: PropTypes.bool.isRequired,
+    /**
+     *  Flag for determining result flag state
+     */
+    isFlagged: boolean;
 
-        /**
-         * Is the search results item from a bot.
-         */
-        isBot: PropTypes.bool.isRequired,
+    /**
+     * Whether post username overrides are to be respected.
+     */
+    enablePostUsernameOverride: boolean;
 
-        a11yIndex: PropTypes.number,
+    /**
+     * Is the search results item from a bot.
+     */
+    isBot: boolean;
 
-        isMobileView: PropTypes.bool.isRequired,
+    a11yIndex?: number;
 
-        isPostPriorityEnabled: PropTypes.bool.isRequired,
+    isMobileView: boolean;
 
-        /**
-        *  Function used for closing LHS
-        */
-        actions: PropTypes.shape({
-            closeRightHandSide: PropTypes.func.isRequired,
-            selectPost: PropTypes.func.isRequired,
-            selectPostCard: PropTypes.func.isRequired,
-            setRhsExpanded: PropTypes.func.isRequired,
-        }).isRequired,
+    isPostPriorityEnabled: boolean;
 
-        displayName: PropTypes.string.isRequired,
-
-        /**
-         * The number of replies in the same thread as this post
-         */
-        replyCount: PropTypes.number,
-
-        /**
-         * Is the search results item from the flagged posts list.
-         */
-        isFlaggedPosts: PropTypes.bool,
-
-        /**
-         * Is the search results item from the pinned posts list.
-         */
-        isPinnedPosts: PropTypes.bool,
-
-        /**
-         * is the current post being edited in RHS?
-         */
-        isPostBeingEditedInRHS: PropTypes.bool,
-
-        teamDisplayName: PropTypes.string,
-        teamName: PropTypes.string,
-
-        /**
-         * Is this a post that we can directly reply to?
-         */
-        canReply: PropTypes.bool,
-
-        isCollapsedThreadsEnabled: PropTypes.bool,
+    /**
+     *  Function used for closing LHS
+     */
+    actions: {
+        closeRightHandSide: () => void;
+        selectPost: (post: Post) => void;
+        selectPostCard: (post: Post) => void;
+        setRhsExpanded: (rhsExpanded: boolean) => void;
     };
 
+    displayName: string;
+
+    /**
+     * The number of replies in the same thread as this post
+     */
+    replyCount?: number;
+
+    /**
+     * Is the search results item from the flagged posts list.
+     */
+    isFlaggedPosts?: boolean;
+
+    /**
+     * Is the search results item from the pinned posts list.
+     */
+    isPinnedPosts?: boolean;
+
+    /**
+     * is the current post being edited in RHS?
+     */
+    isPostBeingEditedInRHS?: boolean;
+
+    teamDisplayName?: string;
+    teamName?: string;
+
+    /**
+     * Is this a post that we can directly reply to?
+     */
+    canReply?: boolean;
+
+    isCollapsedThreadsEnabled?: boolean;
+};
+
+type State = {
+    dropdownOpened: boolean;
+    fileDropdownOpened: boolean;
+    showPreview: boolean;
+}
+
+export default class SearchResultsItem extends React.PureComponent<Props, State> {
     static defaultProps = {
         isBot: false,
         channelIsArchived: false,
     };
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.state = {
@@ -146,12 +153,12 @@ export default class SearchResultsItem extends React.PureComponent {
         };
     }
 
-    handleFocusRHSClick = (e) => {
+    handleFocusRHSClick = (e: React.MouseEvent) => {
         e.preventDefault();
         this.props.actions.selectPost(this.props.post);
     };
 
-    handleJumpClick = (e) => {
+    handleJumpClick = (e: React.MouseEvent) => {
         e.preventDefault();
         if (this.props.isMobileView) {
             this.props.actions.closeRightHandSide();
@@ -161,7 +168,7 @@ export default class SearchResultsItem extends React.PureComponent {
         browserHistory.push(`/${this.props.teamName}/pl/${this.props.post.id}`);
     };
 
-    handleCardClick = (post) => {
+    handleCardClick = (post: Post) => {
         if (!post) {
             return;
         }
@@ -169,13 +176,13 @@ export default class SearchResultsItem extends React.PureComponent {
         this.props.actions.selectPostCard(post);
     }
 
-    handleDropdownOpened = (isOpened) => {
+    handleDropdownOpened = (isOpened: boolean) => {
         this.setState({
             dropdownOpened: isOpened,
         });
     };
 
-    handleFileDropdownOpened = (isOpened) => {
+    handleFileDropdownOpened = (isOpened: boolean) => {
         this.setState({
             fileDropdownOpened: isOpened,
         });
@@ -220,7 +227,8 @@ export default class SearchResultsItem extends React.PureComponent {
 
     getChannelName = () => {
         const {post, channelType, isCollapsedThreadsEnabled} = this.props;
-        let {channelName} = this.props;
+        const {channelDisplayName} = this.props;
+        let channelName: React.ReactNode = channelDisplayName;
 
         const isDirectMessage = channelType === Constants.DM_CHANNEL;
         const isPartOfThread = isCollapsedThreadsEnabled && (post.reply_count > 0 || post.is_following);
@@ -241,7 +249,7 @@ export default class SearchResultsItem extends React.PureComponent {
                     id='search_item.thread'
                     defaultMessage='Thread in {channel}'
                     values={{
-                        channel: channelName,
+                        channel: channelDisplayName,
                     }}
                 />
             );
@@ -364,7 +372,7 @@ export default class SearchResultsItem extends React.PureComponent {
                         isFlagged={this.props.isFlagged}
                         handleDropdownOpened={this.handleDropdownOpened}
                         isMenuOpen={this.state.dropdownOpened}
-                        isReadOnly={channelIsArchived || null}
+                        isReadOnly={channelIsArchived}
                     />
                     {flagContent}
                     {canReply && !hasCRTFooter &&

@@ -1,39 +1,48 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Role} from '@mattermost/types/roles';
 import {Permissions} from 'mattermost-redux/constants/index';
+
+const trueString = 'true';
+const falseString = 'false';
 
 const MAPPING = {
     enableTeamCreation: {
-        true: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: true}],
-        false: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}],
+        [trueString]: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: true}],
+        [falseString]: [{roleName: 'system_user', permission: Permissions.CREATE_TEAM, shouldHave: false}],
     },
 
     editOthersPosts: {
-        true: [
+        [trueString]: [
             {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
             {roleName: 'team_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
         ],
-        false: [
+        [falseString]: [
             {roleName: 'team_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: false},
             {roleName: 'system_admin', permission: Permissions.EDIT_OTHERS_POSTS, shouldHave: true},
         ],
     },
 
     enableOnlyAdminIntegrations: {
-        true: [
+        [trueString]: [
             {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: false},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: false},
             {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: false},
         ],
-        false: [
+        [falseString]: [
             {roleName: 'team_user', permission: Permissions.MANAGE_INCOMING_WEBHOOKS, shouldHave: true},
             {roleName: 'team_user', permission: Permissions.MANAGE_OUTGOING_WEBHOOKS, shouldHave: true},
             {roleName: 'team_user', permission: Permissions.MANAGE_SLASH_COMMANDS, shouldHave: true},
             {roleName: 'system_user', permission: Permissions.MANAGE_OAUTH, shouldHave: true},
         ],
     },
+};
+type MappingKeyTypes = 'enableTeamCreation' | 'editOthersPosts' | 'enableOnlyAdminIntegrations';
+type MappingValueTypes = {roleName: string;
+    permission: string;
+    shouldHave: boolean;
 };
 
 /**
@@ -43,8 +52,8 @@ const MAPPING = {
  * @param {object} roles same structure as returned by mattermost-redux `getRoles`.
  * @return {object} the updated roles (only) in the same structure as returned by mattermost-redux `getRoles`.
  */
-export function rolesFromMapping(mappingValues, roles) {
-    const rolesClone = JSON.parse(JSON.stringify(roles));
+export function rolesFromMapping(mappingValues: Record<string, any>, roles: Record<string, Role>): Record<string, Role> {
+    const rolesClone: Record<string, Role> = JSON.parse(JSON.stringify(roles));
 
     // Purge roles that aren't present in MAPPING, we don't care about them.
     purgeNonPertinentRoles(rolesClone);
@@ -52,7 +61,7 @@ export function rolesFromMapping(mappingValues, roles) {
     Object.keys(MAPPING).forEach((mappingKey) => {
         const value = mappingValues[mappingKey];
         if (value) {
-            mutateRolesBasedOnMapping(mappingKey, value, rolesClone);
+            mutateRolesBasedOnMapping(mappingKey as MappingKeyTypes, value, rolesClone);
         }
     });
 
@@ -77,7 +86,7 @@ export function rolesFromMapping(mappingValues, roles) {
  * @param {object} roles same structure as returned by mattermost-redux `getRoles`.
  * @return {string} the value that the roles/permissions assignment match in the mapping.
  */
-export function mappingValueFromRoles(key, roles) {
+export function mappingValueFromRoles(key: MappingKeyTypes, roles: Record<string, Role>): string {
     for (const o of mappingPartIterator(MAPPING[key], roles)) {
         if (o.allConditionsAreMet) {
             return o.value;
@@ -86,7 +95,7 @@ export function mappingValueFromRoles(key, roles) {
     throw new Error(`No matching mapping value found for key '${key}' with the given roles.`);
 }
 
-function purgeNonPertinentRoles(roles) {
+function purgeNonPertinentRoles(roles: Record<string, Role>) {
     const pertinentRoleNames = roleNamesInMapping();
 
     Object.keys(roles).forEach((key) => {
@@ -96,7 +105,7 @@ function purgeNonPertinentRoles(roles) {
     });
 }
 
-function mutateRolesBasedOnMapping(mappingKey, value, roles) {
+function mutateRolesBasedOnMapping(mappingKey: MappingKeyTypes, value: 'true' | 'false', roles: Record<string, Role>) {
     const roleRules = MAPPING[mappingKey][value];
 
     if (typeof roleRules === 'undefined') {
@@ -115,7 +124,7 @@ function mutateRolesBasedOnMapping(mappingKey, value, roles) {
 
 // Returns a set of the role names present in MAPPING.
 function roleNamesInMapping() {
-    let roleNames = [];
+    let roleNames: string[] = [];
 
     Object.values(MAPPING).forEach((v1) => {
         Object.values(v1).forEach((v2) => {
@@ -127,12 +136,12 @@ function roleNamesInMapping() {
     return [...new Set(roleNames.map((item) => item))];
 }
 
-function* mappingPartIterator(mappingPart, roles) {
+function* mappingPartIterator(mappingPart: Record<string, MappingValueTypes[]>, roles: Record<string, Role>) {
     for (const value in mappingPart) {
         if (mappingPart.hasOwnProperty(value)) {
             const roleRules = mappingPart[value];
 
-            const hasUnmetCondition = roleRules.some((item) => {
+            const hasUnmetCondition = roleRules.some((item: MappingValueTypes) => {
                 const role = roles[item.roleName];
                 return (item.shouldHave && !role.permissions.includes(item.permission)) || (!item.shouldHave && role.permissions.includes(item.permission));
             });
@@ -142,13 +151,13 @@ function* mappingPartIterator(mappingPart, roles) {
     }
 }
 
-function addPermissionToRole(permission, role) {
+function addPermissionToRole(permission: string, role: Role) {
     if (!role.permissions.includes(permission)) {
         role.permissions.push(permission);
     }
 }
 
-function removePermissionFromRole(permission, role) {
+function removePermissionFromRole(permission: string, role: Role) {
     const permissionIndex = role.permissions.indexOf(permission);
     if (permissionIndex !== -1) {
         role.permissions.splice(permissionIndex, 1);
