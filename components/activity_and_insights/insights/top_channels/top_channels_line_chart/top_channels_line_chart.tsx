@@ -118,6 +118,7 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
                 />
             }
             id='totalPostsPerChannel'
+            height={200}
             options={{
                 responsive: true,
                 hover: {
@@ -168,11 +169,15 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
                                 family: 'Open Sans',
                                 size: 10,
                             },
+                            precision: 0,
                             color: changeOpacity(theme.centerChannelColor, 0.72),
                         },
                     },
                 },
                 plugins: {
+                    legend: {
+                        display: false,
+                    },
                     tooltip: {
                         callbacks: {
                             label(context) {

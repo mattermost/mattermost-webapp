@@ -58,6 +58,7 @@ export default class LineChart extends React.PureComponent<Props> {
 
     public componentDidMount(): void {
         this.initChart();
+        window.addEventListener('resize', this.resizeChart);
     }
 
     public componentDidUpdate(prevProps: Props): void {
@@ -85,6 +86,13 @@ export default class LineChart extends React.PureComponent<Props> {
     public componentWillUnmount(): void {
         if (this.chart) {
             this.chart.destroy();
+        }
+        window.removeEventListener('resize', this.resizeChart);
+    }
+
+    private resizeChart = () => {
+        if (this.chart && this.canvasRef.current && this.chart.options.responsive) {
+            this.canvasRef.current.style.width = '100%';
         }
     }
 
