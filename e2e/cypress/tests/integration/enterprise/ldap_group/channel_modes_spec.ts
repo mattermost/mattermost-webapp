@@ -9,7 +9,7 @@
 
 // Stage: @prod
 // Group: @enterprise @ldap_group
-import {set} from 'lodash';
+import set from 'lodash.set';
 
 describe('LDAP Group Sync - Test channel public/private toggle', () => {
     let testTeam;

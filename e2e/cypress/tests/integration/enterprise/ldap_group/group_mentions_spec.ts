@@ -9,7 +9,7 @@
 
 // Group: @enterprise @ldap_group
 
-import {set} from 'lodash';
+import set from 'lodash.set';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import users from '../../../fixtures/ldap_users.json';

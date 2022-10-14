@@ -10,8 +10,7 @@
 // Stage: @prod
 // Group: @enterprise @ldap_group
 
-import {set} from 'lodash';
-import {UserProfile} from '@mattermost/types/lib/users';
+import set from 'lodash.set';
 
 describe('Group Synced Team - Bot invitation flow', () => {
     let groupConstrainedTeam;
@@ -53,7 +52,7 @@ describe('Group Synced Team - Bot invitation flow', () => {
         const user = {
             username: 'test.one',
             password: 'Password1',
-        } as UserProfile;
+        } as Cypress.UserProfile;
         cy.apiLogin(user);
 
         // # Visit the group constrained team
