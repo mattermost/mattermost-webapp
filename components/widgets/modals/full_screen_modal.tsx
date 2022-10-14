@@ -49,7 +49,10 @@ class FullScreenModal extends React.PureComponent<Props> {
 
     private handleKeypress = (e: KeyboardEvent) => {
         const currentActiveElement = document.activeElement;
-        if (e.key === 'Escape' && this.props.show && e.target && this.modal.current && this.modal.current.contains(currentActiveElement)) {
+        if (!this.props.overrideTargetEvent && e.key === 'Escape' && this.props.show && e.target && this.modal.current && this.modal.current.contains(currentActiveElement)) {
+            this.close();
+        }
+        if (this.props.overrideTargetEvent && e.key === 'Escape' && this.props.show) {
             this.close();
         }
     }
