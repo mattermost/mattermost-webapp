@@ -115,6 +115,7 @@ export type ClientConfig = {
     FileLevel: string;
     FeatureFlagGraphQL: string;
     FeatureFlagPlanUpgradeButtonText: string;
+    FeatureFlagVoiceMessages: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
