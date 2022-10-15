@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, ChevronDownIcon, GlobeIcon, LockIcon} from '@mattermost/compass-icons/components';
+import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, ChevronDownIcon, GlobeIcon, LockOutlineIcon} from '@mattermost/compass-icons/components';
 
 import classNames from 'classnames';
 
@@ -32,6 +32,8 @@ import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
+// todo sinan 1, 3, 5 (part of 2nd issue), 6, 9, 12
+// todo sinan fix channel count and replace with results
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
@@ -89,7 +91,7 @@ export default class SearchableChannelList extends React.PureComponent {
         if (isArchivedChannel(channel)) {
             channelIcon = <ArchiveOutlineIcon size={18}/>;
         } else if (isPrivateChannel(channel)) {
-            channelIcon = <LockIcon size={18}/>;
+            channelIcon = <LockOutlineIcon size={18}/>;
         } else {
             channelIcon = <GlobeIcon size={18}/>;
         }
@@ -115,15 +117,15 @@ export default class SearchableChannelList extends React.PureComponent {
             </div>
         );
 
-        const joinChannelButtonClass = classNames('btn', {
+        const joinViewChannelButtonClass = classNames('btn', {
             outlineButton: this.isMemberOfChannel(channel.id),
             primaryButton: !this.isMemberOfChannel(channel.id),
         });
 
-        const joinChannelButton = (
+        const joinViewChannelButton = (
             <button
                 onClick={this.handleJoin.bind(this, channel)}
-                className={joinChannelButtonClass}
+                className={joinViewChannelButtonClass}
                 disabled={this.state.joiningChannel}
             >
                 <LoadingWrapper
@@ -151,12 +153,12 @@ export default class SearchableChannelList extends React.PureComponent {
                         className='style--none more-modal__name'
                     >
                         {channelIcon}
-                        {channel.display_name}
+                        <span id='channelName'>{channel.display_name}</span>
                     </button>
                     {channelPurposeContainer}
                 </div>
                 <div className='more-modal__actions'>
-                    {joinChannelButton}
+                    {joinViewChannelButton}
                 </div>
             </div>
         );
