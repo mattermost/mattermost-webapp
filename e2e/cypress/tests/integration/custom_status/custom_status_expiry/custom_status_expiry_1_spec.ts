@@ -28,7 +28,7 @@ describe('MM-T4063 Custom status expiry', () => {
     };
 
     const waitingTime = 30; //minutes
-    let expiresAt = new Date();
+    let expiresAt = Cypress.dayjs();
     const expiryTimeFormat = 'h:mm A';
     it('MM-T4063_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown

@@ -28,7 +28,7 @@ describe('MM-T4064 Status expiry visibility', () => {
     };
 
     const waitingTime = 60; //minutes
-    let expiresAt = new Date();
+    let expiresAt = Cypress.dayjs();
     const expiryTimeFormat = 'h:mm A';
     it('MM-T4064_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown

@@ -36,4 +36,8 @@ declare namespace Cypress {
     interface Chainable {
         tab: (options?: {shift?: boolean}) => Chainable<JQuery>;
     }
+    import dayjs from 'dayjs';
+    interface Cypress {
+        dayjs: dayjs.Dayjs;
+    }
 }
