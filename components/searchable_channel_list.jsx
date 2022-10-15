@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, ChevronDownIcon, GlobeIcon, LockOutlineIcon} from '@mattermost/compass-icons/components';
+import {AccountOutlineIcon, ArchiveOutlineIcon, CheckIcon, ChevronDownIcon, GlobeIcon, LockOutlineIcon, MagnifyIcon} from '@mattermost/compass-icons/components';
 
 import classNames from 'classnames';
 
@@ -32,8 +32,8 @@ import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-// todo sinan 1, 3, 5 (part of 2nd issue), 12
-// todo sinan fix channel count and replace with results
+// todo sinan 1, 5 (part of 2nd issue), 12
+// todo sinan doesnt search private channels try with 3
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
@@ -49,6 +49,7 @@ export default class SearchableChannelList extends React.PureComponent {
             page: 0,
             nextDisabled: false,
             rememberChecked: BrowserStore.getItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false') === 'true',
+            channelName: '',
         };
 
         this.filter = React.createRef();
@@ -179,11 +180,20 @@ export default class SearchableChannelList extends React.PureComponent {
     }
 
     doSearch = () => {
-        const term = this.filter.current.value;
-        this.props.search(term);
-        if (term === '') {
+        this.props.search(this.state.channelName);
+        if (this.state.channelName === '') {
             this.setState({page: 0});
         }
+    }
+
+    handleChange = (e) => {
+        if (e.target) {
+            this.setState({channelName: e.target.value}, () => this.doSearch());
+        }
+    }
+
+    handleClear = () => {
+        this.setState({channelName: ''}, () => this.doSearch());
     }
 
     toggleArchivedChannelsOn = () => {
@@ -229,14 +239,14 @@ export default class SearchableChannelList extends React.PureComponent {
             />
         );
 
-        if (this.filter.current !== null && this.filter.current.value.length > 0) {
+        if (this.state.channelName.length > 0) {
             emptyStateMessage = (
                 <FormattedMessage
                     id='more_channels.noMore'
                     tagName='strong'
                     defaultMessage='No results for {text}'
                     values={{
-                        text: this.filter.current.value,
+                        text: this.state.channelName,
                     }}
                 />
             );
@@ -292,22 +302,23 @@ export default class SearchableChannelList extends React.PureComponent {
 
         let input = (
             <div className='filter-row filter-row--full'>
-                <div className='col-sm-12'>
-                    {/* todo sinan move this inside input */}
-                    <div className='search__font-icon'>
-                        <i className='icon icon-magnify icon-16'/>
-                    </div>
-                    {/* todo sinan pass onclear */}
-                    <QuickInput
-                        id='searchChannelsTextbox'
-                        ref={this.filter}
-                        className='form-control filter-textbox'
-                        placeholder={{id: t('filtered_channels_list.search'), defaultMessage: 'Search channels'}}
-                        inputComponent={LocalizedInput}
-                        onInput={this.doSearch}
-                        clearable={true}
-                    />
-                </div>
+                <span
+                    id='searchIcon'
+                    aria-hidden='true'
+                >
+                    <MagnifyIcon size={18}/>
+                </span>
+                <QuickInput
+                    id='searchChannelsTextbox'
+                    ref={this.filter}
+                    className='form-control filter-textbox'
+                    placeholder={{id: t('filtered_channels_list.search'), defaultMessage: 'Search channels'}}
+                    inputComponent={LocalizedInput}
+                    onInput={this.handleChange}
+                    clearable={true}
+                    onClear={this.handleClear}
+                    value={this.state.channelName}
+                />
             </div>
         );
 
@@ -321,7 +332,10 @@ export default class SearchableChannelList extends React.PureComponent {
                             className='form-control filter-textbox'
                             placeholder={{id: t('filtered_channels_list.search'), defaultMessage: 'Search channels'}}
                             inputComponent={LocalizedInput}
-                            onInput={this.doSearch}
+                            onInput={this.handleChange}
+                            clearable={true}
+                            onClear={this.handleClear}
+                            value={this.state.channelName}
                         />
                     </div>
                     <div className='create_button'>

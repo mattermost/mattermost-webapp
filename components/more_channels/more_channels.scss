@@ -2,8 +2,33 @@
 
 // todo sinan try to remove some duplicate codes
 #moreChannelsModal {
-    .col-sm-12 {
+    .filter-row--full {
         padding: 0 32px;
+
+        .input-clear {
+            top: 16px;
+            right: 48px;
+        }
+
+        #searchIcon {
+            position: absolute;
+            top: 14px;
+            left: 38px;
+            color: rgba(var(--center-channel-color-rgb), 0.64);
+            pointer-events: none;
+        }
+
+        #searchChannelsTextbox {
+            height: 48px;
+            padding-left: 28px;
+            border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+            box-shadow: none;
+            font-size: 16px;
+
+            &::placeholder {
+                color: var(--center-channel-color);
+            }
+        }
     }
 
     .more-modal__dropdown {
@@ -179,13 +204,6 @@
         .close {
             top: 22px;
         }
-    }
-
-    #searchChannelsTextbox {
-        height: 48px;
-        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
-        box-shadow: none;
-        font-size: 16px;
     }
 
     .outlineButton {
