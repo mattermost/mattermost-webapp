@@ -112,6 +112,7 @@ export type ClientConfig = {
     ExperimentalPrimaryTeam: string;
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
+    ExperimentalEnableVoiceMessages: string;
     FileLevel: string;
     FeatureFlagGraphQL: string;
     FeatureFlagPlanUpgradeButtonText: string;
@@ -140,6 +141,7 @@ export type ClientConfig = {
     LockTeammateNameDisplay: string;
     ManagedResourcePaths: string;
     MaxFileSize: string;
+    MaxVoiceMessagesFileSize: number;
     MaxPostSize: string;
     MaxNotificationsPerChannel: string;
     MinimumHashtagLength: string;
@@ -440,6 +442,7 @@ export type FileSettings = {
     EnableMobileUpload: boolean;
     EnableMobileDownload: boolean;
     MaxFileSize: number;
+    MaxVoiceMessagesFileSize: number;
     DriverName: string;
     Directory: string;
     EnablePublicLink: boolean;
@@ -673,6 +676,7 @@ export type ExperimentalSettings = {
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;
+    EnableVoiceMessages: boolean;
 };
 
 export type AnalyticsSettings = {
