@@ -28,7 +28,8 @@ describe('Managing bot accounts', () => {
 
         cy.apiUpdateConfig(newSettings);
 
-        cy.apiCreateBot({prefix: 'bot'}).then(({bot}) => {
+        // # Create a test bot
+        cy.apiCreateBot().then(({bot}) => {
             botName = bot.username;
         });
     });

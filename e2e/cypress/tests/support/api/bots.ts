@@ -8,7 +8,8 @@ import {getRandomId} from '../../utils';
 // https://api.mattermost.com/#tag/bots
 // *****************************************************************************
 
-function apiCreateBot({prefix, bot = createBotPatch(prefix)}): Cypress.Chainable<{bot: Cypress.Bot & {fullDisplayName: string}}> {
+function apiCreateBot(arg: {prefix?: string} = {}): Cypress.Chainable<{bot: Cypress.Bot & {fullDisplayName: string}}> {
+    const bot = createBotPatch(arg.prefix);
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: '/api/v4/bots',
