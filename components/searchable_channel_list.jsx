@@ -32,7 +32,7 @@ import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-// todo sinan 1, 3, 5 (part of 2nd issue), 9, 12
+// todo sinan 1, 3, 5 (part of 2nd issue), 12
 // todo sinan fix channel count and replace with results
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
@@ -221,6 +221,27 @@ export default class SearchableChannelList extends React.PureComponent {
         let nextButton;
         let previousButton;
 
+        let emptyStateMessage = (
+            <FormattedMessage
+                id={this.props.shouldShowArchivedChannels ? t('more_channels.noArchived') : t('more_channels.noPublic')}
+                tagName='strong'
+                defaultMessage={this.props.shouldShowArchivedChannels ? 'No archived channels' : 'No public channels'}
+            />
+        );
+
+        if (this.filter.current !== null && this.filter.current.value.length > 0) {
+            emptyStateMessage = (
+                <FormattedMessage
+                    id='more_channels.noMore'
+                    tagName='strong'
+                    defaultMessage='No results for {text}'
+                    values={{
+                        text: this.filter.current.value,
+                    }}
+                />
+            );
+        }
+
         if (this.props.loading && channels.length === 0) {
             listContent = <LoadingScreen/>;
         } else if (channels.length === 0) {
@@ -228,14 +249,7 @@ export default class SearchableChannelList extends React.PureComponent {
                 <div className='no-channel-message'>
                     <MagnifyingGlassSVG/>
                     <h3 className='primary-message'>
-                        <FormattedMessage
-                            id='more_channels.noMore'
-                            tagName='strong'
-                            defaultMessage='No results for {text}'
-                            values={{
-                                text: this.filter.current.value,
-                            }}
-                        />
+                        {emptyStateMessage}
                     </h3>
                     {this.props.noResultsText}
                 </div>
@@ -377,13 +391,13 @@ export default class SearchableChannelList extends React.PureComponent {
 
         let channelCountLabel;
         if (channels.length === 0) {
-            channelCountLabel = localizeMessage('more_channels.count_zero', '0 Channel');
+            channelCountLabel = localizeMessage('more_channels.count_zero', '0 Results');
         } else if (channels.length === 1) {
-            channelCountLabel = localizeMessage('more_channels.count_one', '1 Channel');
+            channelCountLabel = localizeMessage('more_channels.count_one', '1 Result');
         } else if (channels.length > 1) {
-            channelCountLabel = localizeAndFormatMessage('more_channels.count', '0 Channel', {count: channels.length});
+            channelCountLabel = localizeAndFormatMessage(t('more_channels.count'), '0 Results', {count: channels.length});
         } else {
-            channelCountLabel = localizeMessage('more_channels.count_zero', '0 Channel');
+            channelCountLabel = localizeMessage('more_channels.count_zero', '0 Results');
         }
 
         const dropDownContainer = (
