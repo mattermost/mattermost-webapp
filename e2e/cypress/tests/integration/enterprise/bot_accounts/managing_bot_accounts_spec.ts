@@ -20,6 +20,7 @@ describe('Managing bot accounts', () => {
 
         cy.apiAdminLogin();
 
+        // # Set ServiceSettings to expected values
         const newSettings = {
             ServiceSettings: {
                 EnableBotAccountCreation: true,
