@@ -10,7 +10,7 @@ import styled from 'styled-components';
 import Icon, {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
 export interface ProductMenuItemProps {
-    destination: string;
+    destination?: string;
     icon: TIconGlyph;
     text: React.ReactNode;
     active: boolean;
@@ -59,7 +59,7 @@ const MenuItemTextContainer = styled.div`
 
 const ProductMenuItem = ({icon, destination, text, active, onClick, tourTip, id}: ProductMenuItemProps): JSX.Element => (
     <MenuItem
-        to={destination}
+        to={destination || ''}
         onClick={onClick}
         id={id}
     >

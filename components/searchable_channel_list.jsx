@@ -32,7 +32,7 @@ import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-// todo sinan 1, 3, 5 (part of 2nd issue), 6, 9, 12
+// todo sinan 1, 3, 5 (part of 2nd issue), 9, 12
 // todo sinan fix channel count and replace with results
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
@@ -318,8 +318,15 @@ export default class SearchableChannelList extends React.PureComponent {
         }
 
         let channelDropdown;
+        let checkIcon;
 
         if (this.props.canShowArchivedChannels) {
+            checkIcon = (
+                <CheckIcon
+                    size={18}
+                    color={'var(--button-bg)'}
+                />
+            );
             channelDropdown = (
                 <MenuWrapper id='channelsMoreDropdown'>
                     <a id='menuWrapper'>
@@ -330,17 +337,23 @@ export default class SearchableChannelList extends React.PureComponent {
                     </a>
                     <Menu
                         openLeft={false}
-                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')} // change the aria label
+                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')} // todo sinan change the aria label
                     >
-                        <Menu.ItemAction
-                            id='channelsMoreDropdownPublic'
-                            onClick={this.toggleArchivedChannelsOff}
-                            text={localizeMessage('suggestion.search.public', 'Public Channels')}
-                        />
+                        <div id='modalPreferenceContainer'>
+                            <Menu.ItemAction
+                                id='channelsMoreDropdownPublic'
+                                onClick={this.toggleArchivedChannelsOff}
+                                icon={<GlobeIcon size={16}/>}
+                                text={localizeMessage('suggestion.search.public', 'Public Channels')}
+                                rightDecorator={this.props.shouldShowArchivedChannels ? null : checkIcon}
+                            />
+                        </div>
                         <Menu.ItemAction
                             id='channelsMoreDropdownArchived'
                             onClick={this.toggleArchivedChannelsOn}
+                            icon={<ArchiveOutlineIcon size={16}/>}
                             text={localizeMessage('suggestion.archive', 'Archived Channels')}
+                            rightDecorator={this.props.shouldShowArchivedChannels ? checkIcon : null}
                         />
                     </Menu>
                 </MenuWrapper>

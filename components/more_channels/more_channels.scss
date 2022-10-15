@@ -21,6 +21,23 @@
             line-height: 16px;
         }
 
+        .MenuItem__primary-text {
+            width: 100%;
+            color: var(--center-channel-color);
+            font-size: 14px;
+            font-weight: 400;
+            line-height: 20px;
+
+            svg {
+                margin-left: auto;
+            }
+        }
+
+        .Menu__content {
+            border-color: rgba(var(--center-channel-color-rgb), 0.16);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        }
+
         #channelCountLabel {
             color: var(--center-channel-color);
             font-size: 12px;
