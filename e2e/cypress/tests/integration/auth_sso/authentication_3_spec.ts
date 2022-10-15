@@ -17,8 +17,8 @@ describe('Authentication', () => {
     });
 
     after(() => {
-        cy.apiAdminLogin({failOnStatusCode: false});
-        cy.apiUpdateConfig();
+        cy.apiAdminLogin();
+        cy.apiUpdateConfig({});
     });
 
     const testCases = [
