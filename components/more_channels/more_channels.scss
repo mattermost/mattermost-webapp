@@ -15,13 +15,13 @@
         margin-bottom: 6px;
 
         span {
-            color: rgba(var(--center-channel-text-rgb), 0.64);
+            color: rgba(var(--center-channel-color-rgb), 0.64);
             font-size: 11px;
             line-height: 16px;
         }
 
         #channelCountLabel {
-            color: var(--center-channel-text);
+            color: var(--center-channel-color);
             font-size: 12px;
             font-weight: 400;
         }
@@ -34,7 +34,7 @@
 
             &:hover, 
             &:focus {
-                background-color: rgba(var(--center-channel-text-rgb), 0.08);
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
                 border-radius: 4px;
             }
         }
@@ -48,7 +48,7 @@
                 border-width: 1px;
             }
             
-            .MenuWrapper--open {
+            .MenuWrapper--open { // fix hover when open
                 background-color: rgba(var(--button-bg-rgb), 0.12);
                 border-radius: 4px;
             }
@@ -71,7 +71,7 @@
 
                 svg {
                     flex-shrink: 0;
-                    color: rgba(var(--center-channel-text-rgb), 0.56);
+                    color: rgba(var(--center-channel-color-rgb), 0.56);
                 }
 
                 .more-modal__name {
@@ -87,7 +87,7 @@
                         width: 3px;
                         height: 3px;
                         flex-shrink: 0;
-                        background-color: rgba(var(--center-channel-text-rgb), 0.56);
+                        background-color: rgba(var(--center-channel-color-rgb), 0.56);
                         border-radius: 50%;
                     }
 
@@ -107,7 +107,7 @@
 
                     span {
                         margin: 0 4px;
-                        color: rgba(var(--center-channel-text-rgb), 0.56);
+                        color: rgba(var(--center-channel-color-rgb), 0.56);
                         font-size: 12px;
                         line-height: 12px;
                         opacity: 1;
@@ -126,13 +126,13 @@
 
                 .outlineButton {
                     display: none;
-                    background-color: rgba(var(--center-channel-text-rgb), 0.08);
+                    background-color: rgba(var(--center-channel-color-rgb), 0.08);
                 }
             }
         }
 
         .more-modal__row:hover {
-            background-color: rgba(var(--center-channel-text-rgb), 0.08);
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
 
             .more-modal__actions {
                 .primaryButton,
@@ -157,7 +157,7 @@
 
     #searchChannelsTextbox {
         height: 48px;
-        border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         font-size: 16px;
         box-shadow: none;
     }
@@ -186,7 +186,7 @@
 
     .primary-message {
         margin-top: 8px;
-        color: var(--center-channel-text);
+        color: var(--center-channel-color);
         line-height: 28px;
     }
 
