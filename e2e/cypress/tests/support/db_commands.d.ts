@@ -52,7 +52,7 @@ declare namespace Cypress {
          * @param {String} options.username
          * @returns {UserProfile} user - user object
          */
-        dbGetUser(options: Record<string, string>): Chainable<{user: Record<string,any>&{mfasecret: any}}>;
+        dbGetUser(options: Record<string, string>): Chainable<{user: Record<string, any>&{mfasecret: any}}>;
 
         /**
          * Gets session of a user on a given session ID directly from the database
