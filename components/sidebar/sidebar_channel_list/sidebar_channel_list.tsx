@@ -72,6 +72,7 @@ type Props = {
     displayedChannels: Channel[];
     newCategoryIds: string[];
     draggingState: DraggingState;
+    getCurrentRelativeTeamUrl: string;
     multiSelectedChannelIds: string[];
     showUnreadsCategory: boolean;
     collapsedThreads: boolean;
@@ -85,7 +86,7 @@ type Props = {
         moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
-        switchToGlobalThreads: () => void;
+        switchToGlobalThreads: (teamUrl: string) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
@@ -297,7 +298,8 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
     navigateByChannelId = (id: string) => {
         if (this.props.collapsedThreads && id === '') {
-            this.props.actions.switchToGlobalThreads();
+            const teamUrl = this.props.getCurrentRelativeTeamUrl;
+            this.props.actions.switchToGlobalThreads(teamUrl);
         } else {
             this.props.actions.switchToChannelById(id);
         }

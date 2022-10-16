@@ -91,6 +91,7 @@ describe('SidebarChannelList', () => {
         multiSelectedChannelIds: [],
         isUnreadFilterEnabled: false,
         draggingState: {},
+        getCurrentRelativeTeamUrl: '/test',
         categoryCollapsedState: {},
         handleOpenMoreDirectChannelsModal: jest.fn(),
         onDragStart: jest.fn(),
