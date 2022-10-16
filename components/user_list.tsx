@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -16,10 +15,10 @@ import {TeamMembership} from '@mattermost/types/teams';
 import UserListRow from './user_list_row';
 
 type Props = {
-    rowComponentType: React.ComponentType<any>;
+    rowComponentType?: React.ComponentType<any>;
     length?: number;
-    actions: ReactNode[];
-    actionUserProps: {
+    actions?: ReactNode[];
+    actionUserProps?: {
         [userId: string]: {
             channel?: Channel;
             teamMember: TeamMembership;
@@ -27,8 +26,8 @@ type Props = {
         };
     };
     isDisabled?: boolean;
-    users: UserProfile[] | null;
-    extraInfo: {[key: string]: Array<string | JSX.Element>};
+    users?: UserProfile[] | null;
+    extraInfo?: {[key: string]: Array<string | JSX.Element>};
     actionProps?: {
         mfaEnabled: boolean;
         enableUserAccessTokens: boolean;
@@ -38,23 +37,11 @@ type Props = {
         doManageTeams: (user: UserProfile) => void;
         doManageRoles: (user: UserProfile) => void;
         doManageTokens: (user: UserProfile) => void;
-        isDisabled: boolean | undefined;
+        isDisabled?: boolean;
     };
 }
 
 export default class UserList extends React.PureComponent <Props> {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        extraInfo: PropTypes.object,
-        actions: PropTypes.arrayOf(PropTypes.node),
-        actionProps: PropTypes.object,
-        actionUserProps: PropTypes.object,
-        isDisabled: PropTypes.bool,
-
-        // the type of user list row to render
-        rowComponentType: PropTypes.object,
-    }
-
     static defaultProps = {
         users: [],
         extraInfo: {},
@@ -82,16 +69,18 @@ export default class UserList extends React.PureComponent <Props> {
         let content;
         if (users == null) {
             return <LoadingScreen/>;
-        } else if (users.length > 0) {
+        } else if (users.length > 0 && RowComponentType && this.props.actionProps) {
             content = users.map((user: UserProfile, index: number) => {
+                const {actionUserProps, extraInfo} = this.props;
+                const userId = user.id;
                 return (
                     <RowComponentType
                         key={user.id}
                         user={user}
-                        extraInfo={this.props.extraInfo[user.id]}
+                        extraInfo={extraInfo ? extraInfo[userId] : {}}
                         actions={this.props.actions}
                         actionProps={this.props.actionProps}
-                        actionUserProps={this.props.actionUserProps[user.id]}
+                        actionUserProps={actionUserProps ? actionUserProps[userId] : {}}
                         index={index}
                         totalUsers={users.length}
                         userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
