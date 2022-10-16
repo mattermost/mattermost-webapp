@@ -154,6 +154,7 @@ export const Preferences = {
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
+    DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -414,6 +415,9 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
+    DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
+    CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
 };
 
 export const UserStatuses = {
@@ -815,6 +819,7 @@ export const StoragePrefixes = {
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
     INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
+    DELINQUENCY: 'delinquency_',
 };
 
 export const LandingPreferenceTypes = {
@@ -909,7 +914,7 @@ export const IgnoreChannelMentions = {
     ON: 'on',
     OFF: 'off',
     DEFAULT: 'default',
-};
+} as const;
 
 export const NotificationSections = {
     IGNORE_CHANNEL_MENTIONS: 'ignoreChannelMentions',
@@ -1427,6 +1432,7 @@ export const Constants = {
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
     THREADS: 'threads',
+    INSIGHTS: 'insights',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
@@ -1873,6 +1879,7 @@ export const Constants = {
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
+    DEFAULT_DM_NUMBER: 40,
 };
 
 export const ValidationErrors = {

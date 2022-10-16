@@ -10,13 +10,15 @@ import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
 import {Timezone} from 'timezones.json';
 
+import {ActionResult} from 'mattermost-redux/types/actions';
+
 import {PreferenceType} from '@mattermost/types/preferences';
 import {UserProfile, UserTimezone} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import Constants from 'utils/constants';
-import {getBrowserTimezone} from 'utils/timezone.jsx';
+import {getBrowserTimezone} from 'utils/timezone';
 
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
@@ -43,6 +45,7 @@ function getDisplayStateFromProps(props: Props) {
         collapsedReplyThreads: props.collapsedReplyThreads,
         linkPreviewDisplay: props.linkPreviewDisplay,
         autoplayGifAndEmojis: props.autoplayGifAndEmojis,
+        lastActiveDisplay: props.lastActiveDisplay.toString(),
         oneClickReactionsOnPosts: props.oneClickReactionsOnPosts,
         clickToReply: props.clickToReply,
     };
@@ -86,6 +89,7 @@ type SectionProps ={
         values?: Record<string, React.ReactNode | PrimitiveType | FormatXMLElementFn<React.ReactNode, React.ReactNode>>;
     };
     disabled?: boolean;
+    onSubmit?: () => void;
 }
 
 type Props = {
@@ -122,9 +126,12 @@ type Props = {
     oneClickReactionsOnPosts: string;
     emojiPickerEnabled: boolean;
     timezoneLabel: string;
+    lastActiveDisplay: boolean;
+    lastActiveTimeEnabled: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
         autoUpdateTimezone: (deviceTimezone: string) => void;
+        updateMe: (user: UserProfile) => Promise<ActionResult>;
     };
 }
 
@@ -141,6 +148,7 @@ type State = {
     collapsedReplyThreads: string;
     linkPreviewDisplay: string;
     autoplayGifAndEmojis: string;
+    lastActiveDisplay: string;
     oneClickReactionsOnPosts: string;
     clickToReply: string;
     handleSubmit?: () => void;
@@ -200,6 +208,35 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             trackEvent('settings', 'user_settings_update', props);
         }
     }
+
+    submitLastActive = () => {
+        const {user, actions} = this.props;
+        const {lastActiveDisplay} = this.state;
+
+        const updatedUser = {
+            ...user,
+            props: {
+                ...user.props,
+                show_last_active: lastActiveDisplay,
+            },
+        };
+
+        actions.updateMe(updatedUser).
+            then((res) => {
+                if ('data' in res) {
+                    this.props.updateSection('');
+                } else if ('error' in res) {
+                    const {error} = res;
+                    let serverError;
+                    if (error instanceof Error) {
+                        serverError = error.message;
+                    } else {
+                        serverError = error as string;
+                    }
+                    this.setState({serverError, isSaving: false});
+                }
+            });
+    };
 
     handleSubmit = async () => {
         const userId = this.props.user.id;
@@ -329,6 +366,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         this.setState({collapsedReplyThreads});
     }
 
+    handleLastActiveRadio(lastActiveDisplay: string) {
+        this.setState({lastActiveDisplay});
+    }
+
     handleLinkPreviewRadio(linkPreviewDisplay: string) {
         this.setState({linkPreviewDisplay});
     }
@@ -370,9 +411,10 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
             thirdOption,
             description,
             disabled,
+            onSubmit,
         } = props;
         let extraInfo = null;
-        let submit: (() => Promise<void>) | null = this.handleSubmit;
+        let submit: (() => Promise<void>) | (() => void) | null = onSubmit || this.handleSubmit;
 
         const firstMessage = (
             <FormattedMessage
@@ -710,6 +752,40 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                 message: 'By selecting on, Gifs and animated custom emojis will be playable automatically and appear as static otherwise.',
             },
         });
+
+        let lastActiveSection = null;
+
+        if (this.props.lastActiveTimeEnabled) {
+            lastActiveSection = this.createSection({
+                section: 'lastactive',
+                display: 'lastActiveDisplay',
+                value: this.state.lastActiveDisplay,
+                defaultDisplay: 'true',
+                title: {
+                    id: t('user.settings.display.lastActiveDisplay'),
+                    message: 'Share last active time',
+                },
+                firstOption: {
+                    value: 'true',
+                    radionButtonText: {
+                        id: t('user.settings.display.lastActiveOn'),
+                        message: 'On',
+                    },
+                },
+                secondOption: {
+                    value: 'false',
+                    radionButtonText: {
+                        id: t('user.settings.display.lastActiveOff'),
+                        message: 'Off',
+                    },
+                },
+                description: {
+                    id: t('user.settings.display.lastActiveDesc'),
+                    message: 'When enabled, other users will see when you were last active.',
+                },
+                onSubmit: this.submitLastActive,
+            });
+        }
 
         const clockSection = this.createSection({
             section: 'clock',
@@ -1112,6 +1188,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     {clockSection}
                     {teammateNameDisplaySection}
                     {availabilityStatusOnPostsSection}
+                    {lastActiveSection}
                     {timezoneSelection}
                     {linkPreviewSection}
                     {gifAutoPlaySection}

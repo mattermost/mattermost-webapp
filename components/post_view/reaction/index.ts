@@ -23,7 +23,7 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import {addReaction} from 'actions/post_actions';
 
-import * as Emoji from 'utils/emoji.jsx';
+import * as Emoji from 'utils/emoji';
 
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'utils/constants';
