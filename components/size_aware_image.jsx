@@ -220,7 +220,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     onClick={this.handleImageClick}
                 >
                     <GIFPlayer
-                        propogation={true}
+                        propagation={true}
                         gif={src}
                     />
                 </div>

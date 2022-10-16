@@ -9,7 +9,8 @@ const preload = (src: string, callback: (img: HTMLImageElement) => void) => {
     const img = new Image();
     if (typeof callback === 'function') {
         img.onload = () => callback(img);
-        img.setAttribute('crossOrigin', 'anonymous');
+
+        // img.setAttribute('crossOrigin', 'anonymous');
     }
     img.src = src;
 };
@@ -23,6 +24,7 @@ const firstGifFrameUrl = (img: HTMLImageElement) => {
     canvas.height = img.height;
     const ctx = canvas.getContext('2d');
     ctx?.drawImage(img, 0, 0);
+    console.log('props canvas', img, canvas.toDataURL());
     return canvas.toDataURL();
 };
 
@@ -31,17 +33,17 @@ type Props = {
     still: string;
     playing: boolean;
     toggle: () => void;
-    propogation?: boolean
+    propagation?: boolean;
     playButton?: boolean;
 }
 
-function GifPlayer({gif, still, playing, toggle, propogation, playButton}: Props) {
+function GifPlayer({gif, still, playing, toggle, propagation, playButton}: Props) {
     return (
         <div
             className={classNames('gif_player', {playing})}
-            onClick={propogation ? undefined : toggle}
+            onClick={propagation ? undefined : toggle}
         >
-            <div className={playButton ?  'play_button' : ''}/>
+            <div className={playButton ? 'play_button' : ''}/>
             <img
                 src={playing ? (gif || still) : (still || gif)}
             />
@@ -53,7 +55,7 @@ type GifCTRProps = {
     gif: string;
     still?: string;
     autoPlay: boolean;
-    propogation?: boolean;
+    propagation?: boolean;
     playButton?: boolean;
 }
 
@@ -63,7 +65,7 @@ function GifPlayerContainer(props: GifCTRProps) {
 
     useEffect(() => {
         preload(props.gif, (img) => {
-            console.log('props gif');
+            console.log('props gif', props.gif);
             const actualStill = firstGifFrameUrl(img);
             if (actualStill) {
                 setActualStill(actualStill);
@@ -82,7 +84,7 @@ function GifPlayerContainer(props: GifCTRProps) {
             still={actualStill!}
             playing={playing}
             toggle={toggle}
-            propogation={props.propogation}
+            propagation={props.propagation}
             playButton={props.playButton}
         />
     );

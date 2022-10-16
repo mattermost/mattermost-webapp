@@ -6,8 +6,10 @@ import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
-import {Emoji} from '@mattermost/types/emojis';
+
 import GIFPlayer from 'components/gif_player';
+
+import {Emoji} from '@mattermost/types/emojis';
 
 type Props = {
     emoji: Emoji;
@@ -32,36 +34,34 @@ const EmojiItem = ({emoji, onItemClick, order, autoplayGifAndEmojis}: Props) => 
             className={classNames(itemClassName, 'post-menu__emoticon')}
             onClick={handleClick}
         >
-            {autoplayGifAndEmojis === 'true' ?
-                (
-                    <button
-                        id={`recent_reaction_${order}`}
-                        data-testid={itemClassName + '_emoji'}
-                        className='emoticon--post-menu'
-                        style={{backgroundImage: `url(${getEmojiImageUrl(emoji)})`, backgroundColor: 'transparent'}}
-                        aria-label={formatMessage(
-                            {
-                                id: 'emoji_picker_item.emoji_aria_label',
-                                defaultMessage: '{emojiName} emoji',
-                            },
-                            {
-                                emojiName: (emojiName).replace(/_/g, ' '),
-                            },
-                        )}
+            {autoplayGifAndEmojis === 'true' ? (
+                <button
+                    id={`recent_reaction_${order}`}
+                    data-testid={itemClassName + '_emoji'}
+                    className='emoticon--post-menu'
+                    style={{backgroundImage: `url(${getEmojiImageUrl(emoji)})`, backgroundColor: 'transparent'}}
+                    aria-label={formatMessage(
+                        {
+                            id: 'emoji_picker_item.emoji_aria_label',
+                            defaultMessage: '{emojiName} emoji',
+                        },
+                        {
+                            emojiName: (emojiName).replace(/_/g, ' '),
+                        },
+                    )}
+                />
+            ) : (
+                <div
+                    onClick={handleClick}
+                    className='emoticon--post-menu'
+                >
+                    <GIFPlayer
+                        gif={getEmojiImageUrl(emoji)}
+                        propagation={true}
+                        autoPlay={false}
                     />
-                ) :
-                (
-                    <div
-                        onClick={handleClick}
-                        className='emoticon--post-menu'
-                    >
-                        <GIFPlayer
-                            gif={getEmojiImageUrl(emoji)}
-                            propogation={true}
-                            autoPlay={false}
-                        />
-                    </div>
-                )}
+                </div>
+            )}
 
         </div>
     );

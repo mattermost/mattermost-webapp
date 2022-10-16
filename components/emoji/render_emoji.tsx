@@ -73,7 +73,7 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
                 ...emojiStyle}}
         >
             <GIFPlayer
-                propogation={true}
+                propagation={true}
                 gif={emojiImageUrl}
                 autoPlay={false}
             />
