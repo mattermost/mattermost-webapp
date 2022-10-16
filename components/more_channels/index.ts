@@ -15,6 +15,8 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getChannels, getArchivedChannels, joinChannel, getChannelStats} from 'mattermost-redux/actions/channels';
 import {getChannelsInCurrentTeam, getMyChannelMemberships, getAllChannelStats} from 'mattermost-redux/selectors/entities/channels';
 
+import {Constants} from 'utils/constants';
+
 import {searchMoreChannels} from 'actions/channel_actions';
 import {openModal, closeModal} from 'actions/views/modals';
 
@@ -26,7 +28,7 @@ import MoreChannels from './more_channels';
 const getChannelsWithoutArchived = createSelector(
     'getChannelsWithoutArchived',
     getChannelsInCurrentTeam,
-    (channels: Channel[]) => channels && channels.filter((c) => c.delete_at === 0),
+    (channels: Channel[]) => channels && channels.filter((c) => c.delete_at === 0 && c.type !== Constants.PRIVATE_CHANNEL),
 );
 
 const getArchivedOtherChannels = createSelector(
