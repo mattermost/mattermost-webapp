@@ -13,7 +13,6 @@ import Permissions from 'mattermost-redux/constants/permissions';
 import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
-import SearchableChannelList from './searchable_channel_list';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import GenericModal from 'components/generic_modal';
 import LoadingScreen from 'components/loading_screen';
@@ -25,6 +24,8 @@ import BrowserStore from 'stores/browser_store';
 import {browserHistory} from 'utils/browser_history';
 import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
+
+import SearchableChannelList from './searchable_channel_list';
 
 import './more_channels.scss';
 

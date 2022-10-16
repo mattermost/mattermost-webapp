@@ -31,7 +31,6 @@ import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-// todo sinan 1, 5 (part of 2nd issue), 12
 // todo sinan doesnt search private channels try with 3
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
@@ -272,7 +271,7 @@ export default class SearchableChannelList extends React.PureComponent {
             if (channelsToDisplay.length >= this.props.channelsPerPage && pageEnd < this.props.channels.length) {
                 nextButton = (
                     <button
-                        className='btn btn-link filter-control filter-control__next outlineButton'
+                        className='btn filter-control filter-control__next outlineButton'
                         onClick={this.nextPage}
                         disabled={this.state.nextDisabled}
                     >
@@ -287,7 +286,7 @@ export default class SearchableChannelList extends React.PureComponent {
             if (this.state.page > 0) {
                 previousButton = (
                     <button
-                        className='btn btn-link filter-control filter-control__prev outlineButton'
+                        className='btn filter-control filter-control__prev outlineButton'
                         onClick={this.previousPage}
                     >
                         <FormattedMessage
@@ -299,7 +298,7 @@ export default class SearchableChannelList extends React.PureComponent {
             }
         }
 
-        let input = (
+        const input = (
             <div className='filter-row filter-row--full'>
                 <span
                     id='searchIcon'
@@ -320,29 +319,6 @@ export default class SearchableChannelList extends React.PureComponent {
                 />
             </div>
         );
-
-        if (this.props.createChannelButton) {
-            input = (
-                <div className='channel_search'>
-                    <div className='search_input'>
-                        <QuickInput
-                            id='searchChannelsTextbox'
-                            ref={this.filter}
-                            className='form-control filter-textbox'
-                            placeholder={{id: t('filtered_channels_list.search'), defaultMessage: 'Search channels'}}
-                            inputComponent={LocalizedInput}
-                            onInput={this.handleChange}
-                            clearable={true}
-                            onClear={this.handleClear}
-                            value={this.state.channelName}
-                        />
-                    </div>
-                    <div className='create_button'>
-                        {this.props.createChannelButton}
-                    </div>
-                </div>
-            );
-        }
 
         let channelDropdown;
         let checkIcon;
@@ -462,7 +438,6 @@ SearchableChannelList.propTypes = {
     handleJoin: PropTypes.func.isRequired,
     noResultsText: PropTypes.object,
     loading: PropTypes.bool,
-    createChannelButton: PropTypes.element,
     toggleArchivedChannels: PropTypes.func.isRequired,
     shouldShowArchivedChannels: PropTypes.bool.isRequired,
     canShowArchivedChannels: PropTypes.bool.isRequired,
