@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SearchableChannelList from 'components/searchable_channel_list.jsx';
+import SearchableChannelList from './searchable_channel_list.jsx';
 
 describe('components/SearchableChannelList', () => {
     const baseProps = {

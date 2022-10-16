@@ -18,6 +18,8 @@ import QuickInput from 'components/quick_input';
 import LocalizedInput from 'components/localized_input/localized_input';
 import CheckboxCheckedIcon from 'components/widgets/icons/checkbox_checked_icon';
 import MagnifyingGlassSVG from 'components/common/svg_images_components/magnifying_glass_svg';
+import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Menu from 'components/widgets/menu/menu';
 
 import BrowserStore from 'stores/browser_store';
 
@@ -26,9 +28,6 @@ import * as UserAgent from 'utils/user_agent';
 import {localizeMessage, localizeAndFormatMessage} from 'utils/utils';
 import {isArchivedChannel} from 'utils/channel_utils';
 import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
-
-import MenuWrapper from './widgets/menu/menu_wrapper';
-import Menu from './widgets/menu/menu';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 

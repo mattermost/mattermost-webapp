@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import MoreChannels, {Props} from 'components/more_channels/more_channels';
-import SearchableChannelList from 'components/searchable_channel_list.jsx';
+import SearchableChannelList from 'components/more_channels/searchable_channel_list.jsx';
 import {TestHelper} from 'utils/test_helper';
 
 jest.mock('utils/browser_history', () => {
