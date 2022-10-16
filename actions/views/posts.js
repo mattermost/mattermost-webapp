@@ -32,9 +32,8 @@ export function editPost(post) {
     };
 }
 
-export function forwardPost(post, channel, message = '') {
-    return async (dispatch, getState) => {
-        const state = getState();
+export function forwardPost(post, channel, state, message = '') {
+    return async (dispatch) => {
         const channelId = channel.id;
 
         const currentUserId = getCurrentUserId(state);

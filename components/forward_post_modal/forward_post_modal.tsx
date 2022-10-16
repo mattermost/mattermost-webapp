@@ -30,6 +30,8 @@ import {PostPreviewMetadata} from '@mattermost/types/posts';
 import {getSiteURL} from '../../utils/url';
 import * as Utils from '../../utils/utils';
 
+import store from 'stores/redux_store';
+
 import ForwardPostChannelSelect, {ChannelOption, makeSelectedChannelOption} from './forward_post_channel_select';
 import ForwardPostCommentInput from './forward_post_comment_input';
 
@@ -188,6 +190,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             return Promise.resolve();
         }
 
+        const state = store.getState();
         const {type, userId} = channelToForward.details;
 
         return Promise.resolve().then(() => {
@@ -203,6 +206,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
             return actions.forwardPost(
                 post,
                 channelToForward.details,
+                state,
                 comment,
             );
         }).then(() => {

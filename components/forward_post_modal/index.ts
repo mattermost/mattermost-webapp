@@ -14,6 +14,8 @@ import {joinChannelById, switchToChannel} from 'actions/views/channel';
 import {forwardPost} from 'actions/views/posts';
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 
+import {GlobalState} from 'types/store';
+
 import ForwardPostModal from './forward_post_modal';
 
 export type PropsFromRedux = ConnectedProps<typeof connector>;
@@ -30,7 +32,7 @@ export type ActionProps = {
     openDirectChannelToUserId: (userId: string) => Promise<ActionResult>;
 
     // action called to forward the post with an optional comment
-    forwardPost: (post: Post, channelId: Channel, message?: string) => Promise<ActionResult>;
+    forwardPost: (post: Post, channelId: Channel, state: GlobalState, message?: string) => Promise<ActionResult>;
 }
 
 export type OwnProps = {
