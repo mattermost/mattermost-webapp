@@ -8,7 +8,7 @@ import {GlobalState} from 'types/store/index.js';
 
 import {Post} from '@mattermost/types/posts.js';
 
-import {FileInfo} from '@mattermost/types/files.js';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files.js';
 
 import {ActionResult, GetStateFunc, DispatchFunc} from 'mattermost-redux/types/actions.js';
 
@@ -64,6 +64,8 @@ import {canUploadFiles} from 'utils/file_utils';
 import {OnboardingTourSteps, TutorialTourName, OnboardingTourStepsForGuestUsers} from 'components/tours';
 
 import {PreferenceType} from '@mattermost/types/preferences';
+
+import {cancelUploadingFile} from 'actions/file_actions';
 
 import AdvancedCreatePost from './advanced_create_post';
 
@@ -145,9 +147,9 @@ function makeMapStateToProps() {
     };
 }
 
-function onSubmitPost(post: Post, fileInfos: FileInfo[]) {
+function onSubmitPost(post: Post, fileInfos: FileInfo[], filePreviewInfos: FilePreviewInfo[]) {
     return (dispatch: Dispatch) => {
-        dispatch(createPost(post, fileInfos) as any);
+        dispatch(createPost(post, fileInfos, filePreviewInfos) as any);
     };
 }
 
@@ -157,7 +159,7 @@ type Actions = {
     moveHistoryIndexBack: (index: string) => Promise<void>;
     moveHistoryIndexForward: (index: string) => Promise<void>;
     addReaction: (postId: string, emojiName: string) => void;
-    onSubmitPost: (post: Post, fileInfos: FileInfo[]) => void;
+    onSubmitPost: (post: Post, fileInfos: FileInfo[], filePreviewInfos: FilePreviewInfo[]) => void;
     removeReaction: (postId: string, emojiName: string) => void;
     clearDraftUploads: () => void;
     runMessageWillBePostedHooks: (originalPost: Post) => ActionResult;
@@ -174,6 +176,7 @@ type Actions = {
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
     searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
+    cancelUploadingFile: (clientId: string) => void;
 }
 
 function setDraft(key: string, value: PostDraft, draftChannelId: string, save = false) {
@@ -230,6 +233,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             getChannelMemberCountsByGroup,
             savePreferences,
             searchAssociatedGroupsForReference,
+            cancelUploadingFile,
         }, dispatch),
     };
 }

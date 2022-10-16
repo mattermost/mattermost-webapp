@@ -51,6 +51,9 @@ import {Emoji} from '@mattermost/types/emojis';
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
 
+import {FilePreviewInfo} from '@mattermost/types/files';
+import {isPostUploadingFile} from 'mattermost-redux/utils/post_utils';
+
 export type Props = {
     post: Post;
     teamId: string;
@@ -116,10 +119,11 @@ export type Props = {
     isCardOpen?: boolean;
     shouldShowDotMenu: boolean;
     tourTipsEnabled: boolean;
+    filePreviews: FilePreviewInfo[];
 };
 
 const PostComponent = (props: Props): JSX.Element => {
-    const {post, togglePostMenu} = props;
+    const {post, filePreviews, togglePostMenu} = props;
 
     const isSearchResultItem = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0);
     const isRHS = props.location === Locations.RHS_ROOT || props.location === Locations.RHS_COMMENT || props.location === Locations.SEARCH;
@@ -596,7 +600,7 @@ const PostComponent = (props: Props): JSX.Element => {
                                 slot2={<EditPost/>}
                                 onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
                             />
-                            {post.file_ids && post.file_ids.length > 0 &&
+                            {post.file_ids && post.file_ids.length > 0 && filePreviews.length > 0 &&
                             <FileAttachmentListContainer
                                 post={post}
                                 compactDisplay={props.compactDisplay}

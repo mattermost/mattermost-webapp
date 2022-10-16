@@ -49,6 +49,9 @@ import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {getEmojiMap} from 'selectors/emojis';
 import {canUploadFiles} from 'utils/file_utils';
 
+import {cancelUploadingFile} from 'actions/file_actions';
+import {FilePreviewInfo} from '@mattermost/types/files';
+
 import AdvancedCreateComment from './advanced_create_comment';
 
 type OwnProps = {
@@ -132,7 +135,7 @@ type Actions = {
     clearCommentDraftUploads: () => void;
     onUpdateCommentDraft: (draft?: PostDraft, save?: boolean) => void;
     updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
-    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
+    onSubmit: (draft: PostDraft, filePreviewInfos: FilePreviewInfo[], options: {ignoreSlash: boolean}) => void;
     onResetHistoryIndex: () => void;
     onMoveHistoryIndexBack: () => void;
     onMoveHistoryIndexForward: () => void;
@@ -145,6 +148,7 @@ type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
     searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
+    cancelUploadingFile: (clientId: string) => void;
 };
 
 function makeMapDispatchToProps() {
@@ -152,6 +156,7 @@ function makeMapDispatchToProps() {
     let updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
     let onSubmit: (
         draft: PostDraft,
+        filePreviewInfos: FilePreviewInfo[],
         options: {ignoreSlash: boolean},
     ) => (dispatch: DispatchFunc, getState: () => GlobalState) => Promise<ActionResult | ActionResult[]> | ActionResult;
     let onMoveHistoryIndexBack: () => (
@@ -213,6 +218,7 @@ function makeMapDispatchToProps() {
                 openModal,
                 savePreferences,
                 searchAssociatedGroupsForReference,
+                cancelUploadingFile,
             },
             dispatch,
         );

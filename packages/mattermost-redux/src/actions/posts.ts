@@ -26,6 +26,7 @@ import {Post, PostList, PostAcknowledgement} from '@mattermost/types/posts';
 import {GlobalState} from '@mattermost/types/store';
 import {ChannelUnread} from '@mattermost/types/channels';
 import {FetchPaginatedThreadOptions} from '@mattermost/types/client4';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
 
 import {getProfilesByIds, getProfilesByUsernames, getStatusesByIds} from './users';
 import {
@@ -165,14 +166,14 @@ export function getPost(postId: string) {
     };
 }
 
-export function createPost(post: Post, files: any[] = []) {
+export function createPost(post: Post, files: any[] = [], filePreviews: FilePreviewInfo[] = []) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const currentUserId = state.entities.users.currentUserId;
 
         const timestamp = Date.now();
         const pendingPostId = post.pending_post_id || `${currentUserId}:${timestamp}`;
-        let actions: AnyAction[] = [];
+        const actions: AnyAction[] = [];
 
         if (Selectors.isPostIdSending(state, pendingPostId)) {
             return {data: true};
@@ -184,6 +185,7 @@ export function createPost(post: Post, files: any[] = []) {
             create_at: timestamp,
             update_at: timestamp,
             reply_count: 0,
+            file_client_ids: filePreviews.map((f) => f.clientId),
         };
 
         if (post.root_id) {
@@ -215,6 +217,14 @@ export function createPost(post: Post, files: any[] = []) {
             });
         }
 
+        if (filePreviews.length !== 0) {
+            actions.push({
+                type: FileTypes.RECEIVED_FILE_PREVIEWS,
+                pendingPostId,
+                data: filePreviews,
+            });
+        }
+
         const crtEnabled = isCollapsedThreadsEnabled(getState());
         actions.push({
             type: PostTypes.RECEIVED_NEW_POST,
@@ -227,65 +237,78 @@ export function createPost(post: Post, files: any[] = []) {
 
         dispatch(batchActions(actions, 'BATCH_CREATE_POST_INIT'));
 
-        (async function createPostWrapper() {
-            try {
-                const created = await Client4.createPost({...newPost, create_at: 0});
+        if (filePreviews.length === 0) {
+            await dispatch(storePost(newPost, files));
+        }
 
-                actions = [
-                    receivedPost(created, crtEnabled),
-                    {
-                        type: PostTypes.CREATE_POST_SUCCESS,
+        return {data: true};
+    };
+}
+
+export function storePost(post: Post, files: FileInfo[]) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const crtEnabled = isCollapsedThreadsEnabled(getState());
+        try {
+            const created = await Client4.createPost({...post/* TODO: , create_at: 0*/});
+
+            const actions: AnyAction[] = [
+                receivedPost(created, crtEnabled),
+                {
+                    type: PostTypes.CREATE_POST_SUCCESS,
+                },
+                {
+                    type: ChannelTypes.INCREMENT_TOTAL_MSG_COUNT,
+                    data: {
+                        channelId: post.channel_id,
+                        amount: 1,
+                        amountRoot: created.root_id === '' ? 1 : 0,
                     },
-                    {
-                        type: ChannelTypes.INCREMENT_TOTAL_MSG_COUNT,
-                        data: {
-                            channelId: newPost.channel_id,
-                            amount: 1,
-                            amountRoot: created.root_id === '' ? 1 : 0,
-                        },
+                },
+                {
+                    type: ChannelTypes.DECREMENT_UNREAD_MSG_COUNT,
+                    data: {
+                        channelId: post.channel_id,
+                        amount: 1,
+                        amountRoot: created.root_id === '' ? 1 : 0,
                     },
-                    {
-                        type: ChannelTypes.DECREMENT_UNREAD_MSG_COUNT,
-                        data: {
-                            channelId: newPost.channel_id,
-                            amount: 1,
-                            amountRoot: created.root_id === '' ? 1 : 0,
-                        },
-                    },
-                ];
+                },
+                {
+                    type: FileTypes.REMOVE_FILE_PREVIEWS,
+                    pendingPostId: post.pending_post_id,
+                },
+            ];
 
-                if (files) {
-                    actions.push({
-                        type: FileTypes.RECEIVED_FILES_FOR_POST,
-                        postId: created.id,
-                        data: files,
-                    });
-                }
-
-                dispatch(batchActions(actions, 'BATCH_CREATE_POST'));
-            } catch (error) {
-                const data = {
-                    ...newPost,
-                    id: pendingPostId,
-                    failed: true,
-                    update_at: Date.now(),
-                };
-                actions = [{type: PostTypes.CREATE_POST_FAILURE, error}];
-
-                // If the failure was because: the root post was deleted or
-                // TownSquareIsReadOnly=true then remove the post
-                if (error.server_error_id === 'api.post.create_post.root_id.app_error' ||
-                    error.server_error_id === 'api.post.create_post.town_square_read_only' ||
-                    error.server_error_id === 'plugin.message_will_be_posted.dismiss_post'
-                ) {
-                    actions.push(removePost(data) as any);
-                } else {
-                    actions.push(receivedPost(data, crtEnabled));
-                }
-
-                dispatch(batchActions(actions, 'BATCH_CREATE_POST_FAILED'));
+            if (files) {
+                actions.push({
+                    type: FileTypes.RECEIVED_FILES_FOR_POST,
+                    postId: created.id,
+                    data: files,
+                });
             }
-        }());
+
+            dispatch(batchActions(actions, 'BATCH_CREATE_POST'));
+        } catch (error) {
+            const data = {
+                ...post,
+                id: post.pending_post_id,
+                failed: true,
+                update_at: Date.now(),
+            };
+            const actions: AnyAction[] = [{type: PostTypes.CREATE_POST_FAILURE, error}];
+
+            // If the failure was because: the root post was deleted or
+            // TownSquareIsReadOnly=true then remove the post
+            if (error.server_error_id === 'api.post.create_post.root_id.app_error' ||
+                error.server_error_id === 'api.post.create_post.town_square_read_only' ||
+                error.server_error_id === 'plugin.message_will_be_posted.dismiss_post'
+            ) {
+                actions.push(removePost(data) as any);
+            } else {
+                actions.push(receivedPost(data, crtEnabled));
+            }
+
+            dispatch(batchActions(actions, 'BATCH_CREATE_POST_FAILED'));
+        }
 
         return {data: true};
     };

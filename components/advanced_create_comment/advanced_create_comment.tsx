@@ -32,11 +32,10 @@ import PostDeletedModal from 'components/post_deleted_modal';
 import {PostDraft} from 'types/store/draft';
 import {Group, GroupSource} from '@mattermost/types/groups';
 import {ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
 import {Emoji} from '@mattermost/types/emojis';
 import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from '@mattermost/types/errors';
-import {FileInfo} from '@mattermost/types/files';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
 import EmojiMap from 'utils/emoji_map';
 import {
     applyMarkdown,
@@ -107,7 +106,7 @@ type Props = {
     updateCommentDraftWithRootId: (rootID: string, draft: PostDraft, save?: boolean) => void;
 
     // Called when submitting the comment
-    onSubmit: (draft: PostDraft, options: {ignoreSlash: boolean}) => void;
+    onSubmit: (draft: PostDraft, filePreviewInfos: FilePreviewInfo[], options: {ignoreSlash: boolean}) => void;
 
     // Called when resetting comment message history index
     onResetHistoryIndex: () => void;
@@ -182,6 +181,8 @@ type Props = {
     emojiMap: EmojiMap;
     isFormattingBarHidden: boolean;
     searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
+
+    cancelUploadingFile: (clientId: string) => void;
 }
 
 type State = {
@@ -690,7 +691,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const options = {ignoreSlash};
 
         try {
-            await this.props.onSubmit(draft, options);
+            await this.props.onSubmit(draft, Object.values(this.state.uploadsProgressPercent), options);
 
             this.setState({
                 postError: null,
@@ -1024,13 +1025,21 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     handleUploadProgress = (filePreviewInfo: FilePreviewInfo) => {
-        const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [filePreviewInfo.clientId]: filePreviewInfo};
-        this.setState({uploadsProgressPercent});
+        if (this.props.draft.uploadsInProgress.includes(filePreviewInfo.clientId)) {
+            const uploadsProgressPercent = {...this.state.uploadsProgressPercent, [filePreviewInfo.clientId]: filePreviewInfo};
+            this.setState({uploadsProgressPercent});
+        }
     }
 
     handleFileUploadComplete = (fileInfos: FileInfo[], clientIds: string[], _: string, rootId?: string) => {
         const draft = this.draftsForPost[rootId!]!;
+
+        if (!draft || !draft.uploadsInProgress.some((clientId) => clientIds.includes(clientId))) {
+            return;
+        }
+
         const uploadsInProgress = [...draft.uploadsInProgress];
+        const uploadsProgressPercent = {...this.state.uploadsProgressPercent};
         const newFileInfos = sortFileInfos([...draft.fileInfos, ...fileInfos], this.props.locale);
 
         // remove each finished file from uploads
@@ -1039,6 +1048,11 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
+            }
+
+            const clientId = Object.keys(uploadsProgressPercent).find((clientId) => clientId === clientIds[i]);
+            if (clientId) {
+                Reflect.deleteProperty(uploadsProgressPercent, clientId);
             }
         }
 
@@ -1049,7 +1063,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         };
         this.handleDraftChange(modifiedDraft, rootId!, true, true);
         if (this.props.rootId === rootId) {
-            this.setState({draft: modifiedDraft});
+            this.setState({draft: modifiedDraft, uploadsProgressPercent});
         }
     }
 
@@ -1103,7 +1117,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 uploadsInProgress.splice(index, 1);
 
                 if (this.fileUploadRef.current) {
-                    this.fileUploadRef.current.cancelUpload(id);
+                    this.props.cancelUploadingFile(id);
                 }
             }
         } else {

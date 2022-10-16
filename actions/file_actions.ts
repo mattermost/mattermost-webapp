@@ -3,7 +3,7 @@
 
 import {batchActions} from 'redux-batched-actions';
 
-import {FileInfo} from '@mattermost/types/files';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
 
 import {FileTypes} from 'mattermost-redux/action_types';
@@ -11,9 +11,10 @@ import {getLogErrorAction} from 'mattermost-redux/actions/errors';
 import {forceLogoutIfNecessary} from 'mattermost-redux/actions/helpers';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {Client4} from 'mattermost-redux/client';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
 
 import {localizeMessage} from 'utils/utils';
+
+import {storePendingPosts} from './post_actions';
 
 export interface UploadFile {
     file: File;
@@ -23,7 +24,7 @@ export interface UploadFile {
     channelId: string;
     clientId: string;
     onProgress: (filePreviewInfo: FilePreviewInfo) => void;
-    onSuccess: (data: any, channelId: string, rootId: string) => void;
+    onSuccess: (fileInfos: FileInfo[], channelId: string, rootId: string) => void;
     onError: (err: string | ServerError, clientId: string, channelId: string, rootId: string) => void;
 }
 
@@ -59,6 +60,10 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
                     percent,
                     type,
                 } as FilePreviewInfo;
+                dispatch({
+                    type: FileTypes.UPDATE_FILE_UPLOAD_PROGRESS,
+                    data: filePreviewInfo,
+                });
                 onProgress(filePreviewInfo);
             };
         }
@@ -86,7 +91,9 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
                         },
                     ]));
 
-                    onSuccess(response, channelId, rootId);
+                    dispatch(storePendingPosts());
+
+                    onSuccess(data, channelId, rootId);
                 }
             };
         }
@@ -127,6 +134,21 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
 
         xhr.send(formData);
 
+        dispatch({
+            type: FileTypes.START_UPLOADING_FILE,
+            clientId,
+            data: xhr,
+        });
+
         return xhr;
+    };
+}
+
+export function cancelUploadingFile(clientId: string) {
+    return (dispatch: DispatchFunc) => {
+        dispatch({
+            type: FileTypes.UPLOAD_FILES_CANCEL,
+            clientId,
+        });
     };
 }

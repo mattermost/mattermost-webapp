@@ -176,7 +176,7 @@ describe('components/FileUpload', () => {
 
         const instance = wrapper.instance() as FileUploadClass;
 
-        instance.fileUploadSuccess(data, 'channel_id', 'root_id');
+        instance.fileUploadSuccess(data.file_infos, 'channel_id', 'root_id');
 
         expect(baseProps.onFileUpload).toHaveBeenCalledTimes(1);
         expect(baseProps.onFileUpload).toHaveBeenCalledWith(data.file_infos, data.client_ids, 'channel_id', 'root_id');

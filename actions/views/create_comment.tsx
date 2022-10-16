@@ -32,9 +32,10 @@ import {getPostDraft} from 'selectors/rhs';
 
 import * as Utils from 'utils/utils';
 import {Constants, StoragePrefixes} from 'utils/constants';
-import type {PostDraft} from 'types/store/draft';
-import type {GlobalState} from 'types/store';
-import type {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {PostDraft} from 'types/store/draft';
+import {GlobalState} from 'types/store';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {FilePreviewInfo} from '@mattermost/types/files';
 
 export function clearCommentDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.COMMENT_DRAFT, (_key: string, draft: PostDraft) => {
@@ -75,7 +76,7 @@ export function makeOnMoveHistoryIndex(rootId: string, direction: number) {
     };
 }
 
-export function submitPost(channelId: string, rootId: string, draft: PostDraft) {
+export function submitPost(channelId: string, rootId: string, draft: PostDraft, filePreviewInfos: FilePreviewInfo[] = []) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
 
@@ -102,7 +103,7 @@ export function submitPost(channelId: string, rootId: string, draft: PostDraft) 
 
         post = hookResult.data;
 
-        return dispatch(PostActions.createPost(post, draft.fileInfos));
+        return dispatch(PostActions.createPost(post, draft.fileInfos, filePreviewInfos));
     };
 }
 
@@ -156,7 +157,7 @@ export function submitCommand(channelId: string, rootId: string, draft: PostDraf
 }
 
 export function makeOnSubmit(channelId: string, rootId: string, latestPostId: string) {
-    return (draft: PostDraft, options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
+    return (draft: PostDraft, filePreviewInfos: FilePreviewInfo[], options: {ignoreSlash?: boolean} = {}) => async (dispatch: DispatchFunc, getState: () => GlobalState) => {
         const {message} = draft;
 
         dispatch(addMessageIntoHistory(message));
@@ -179,7 +180,7 @@ export function makeOnSubmit(channelId: string, rootId: string, latestPostId: st
                 throw err;
             }
         } else {
-            dispatch(submitPost(channelId, rootId, draft));
+            dispatch(submitPost(channelId, rootId, draft, filePreviewInfos));
         }
         return {data: true};
     };

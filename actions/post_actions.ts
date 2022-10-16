@@ -3,7 +3,7 @@
 
 import {Post} from '@mattermost/types/posts';
 import {GroupChannel} from '@mattermost/types/groups';
-import {FileInfo} from '@mattermost/types/files';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
 
 import {SearchTypes} from 'mattermost-redux/action_types';
 import {getMyChannelMember} from 'mattermost-redux/actions/channels';
@@ -97,7 +97,7 @@ export function unflagPost(postId: string) {
     };
 }
 
-export function createPost(post: Post, files: FileInfo[]) {
+export function createPost(post: Post, files: FileInfo[], filePreviews: FilePreviewInfo[] = []) {
     return async (dispatch: DispatchFunc) => {
         // parse message and emit emoji event
         const emojis = matchEmoticons(post.message);
@@ -112,7 +112,7 @@ export function createPost(post: Post, files: FileInfo[]) {
         if (UserAgent.isIosClassic()) {
             result = await dispatch(PostActions.createPostImmediately(post, files));
         } else {
-            result = await dispatch(PostActions.createPost(post, files));
+            result = await dispatch(PostActions.createPost(post, files, filePreviews));
         }
 
         if (post.root_id) {
@@ -122,6 +122,37 @@ export function createPost(post: Post, files: FileInfo[]) {
         }
 
         return result;
+    };
+}
+
+export function storePendingPosts() {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        await Promise.all(Object.entries(state.entities.files.filePreviews).map(async (entry) => {
+            const pendingPostId = entry[0];
+            let pendingPost = state.entities.posts.posts[pendingPostId];
+            if (!pendingPost) {
+                return;
+            }
+            const filePreviewInfos = entry[1];
+            if (!filePreviewInfos || filePreviewInfos.length === 0) {
+                return;
+            }
+            const clientIds = filePreviewInfos.map((f) => f.clientId);
+            const files = Object.values(state.entities.files.files).filter((f) => clientIds.includes(f.clientId));
+            if (filePreviewInfos.length !== files.length) {
+                return;
+            }
+            pendingPost = {
+                ...pendingPost,
+                id: '',
+                file_ids: files.map((f) => f.id),
+            };
+
+            await dispatch(PostActions.storePost(pendingPost, files));
+        }));
+
+        return {data: true};
     };
 }
 

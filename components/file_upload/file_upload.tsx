@@ -6,8 +6,6 @@ import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-int
 import classNames from 'classnames';
 import {PaperclipIcon} from '@mattermost/compass-icons/components';
 
-import {FilePreviewInfo} from '../file_preview/file_preview';
-
 import dragster from 'utils/dragster';
 import Constants from 'utils/constants';
 import DelayedAction from 'utils/delayed_action';
@@ -28,7 +26,7 @@ import {
     isTextDroppableEvent,
 } from 'utils/utils';
 
-import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
 import {ServerError} from '@mattermost/types/errors';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -163,7 +161,6 @@ export type Props = {
 };
 
 type State = {
-    requests: Record<string, XMLHttpRequest>;
     menuOpen: boolean;
 };
 
@@ -179,7 +176,6 @@ export class FileUpload extends PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
         this.state = {
-            requests: {},
             menuOpen: false,
         };
         this.fileInput = React.createRef();
@@ -205,15 +201,9 @@ export class FileUpload extends PureComponent<Props, State> {
         this.unbindDragsterEvents?.();
     }
 
-    fileUploadSuccess = (data: FileUploadResponse, channelId: string, currentRootId: string) => {
+    fileUploadSuccess = (data: FileInfo[], channelId: string, currentRootId: string) => {
         if (data) {
-            this.props.onFileUpload(data.file_infos, data.client_ids, channelId, currentRootId);
-
-            const requests = Object.assign({}, this.state.requests);
-            for (let j = 0; j < data.client_ids.length; j++) {
-                Reflect.deleteProperty(requests, data.client_ids[j]);
-            }
-            this.setState({requests});
+            this.props.onFileUpload(data, data.map((fileInfo) => fileInfo.clientId), channelId, currentRootId);
         }
     }
 
@@ -273,7 +263,7 @@ export class FileUpload extends PureComponent<Props, State> {
             // generate a unique id that can be used by other components to refer back to this upload
             const clientId = generateId();
 
-            const request = this.props.actions.uploadFile({
+            this.props.actions.uploadFile({
                 file: sortedFiles[i],
                 name: sortedFiles[i].name,
                 type: sortedFiles[i].type,
@@ -285,7 +275,6 @@ export class FileUpload extends PureComponent<Props, State> {
                 onError: this.fileUploadFail,
             });
 
-            this.setState({requests: {...this.state.requests, [clientId]: request}});
             clientIds.push(clientId);
 
             numUploads += 1;
@@ -530,18 +519,6 @@ export class FileUpload extends PureComponent<Props, State> {
                 this.fileInput.current?.focus();
                 this.fileInput.current?.click();
             }
-        }
-    }
-
-    cancelUpload = (clientId: string) => {
-        const requests = Object.assign({}, this.state.requests);
-        const request = requests[clientId];
-
-        if (request) {
-            request.abort();
-
-            Reflect.deleteProperty(requests, clientId);
-            this.setState({requests});
         }
     }
 

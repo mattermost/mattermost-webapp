@@ -126,6 +126,7 @@ const state: GlobalState = {
             files: {},
             filesFromSearch: {},
             fileIdsByPostId: {},
+            filePreviews: {},
         },
         emojis: {
             customEmoji: {},
