@@ -10,7 +10,7 @@ import GifPlayer from './gif_player.jsx';
 const preload = (src, callback) => {
     var img = new Image();
     if (typeof callback === 'function') {
-        // console.log('true')
+        console.log(src)
         img.onload = () => callback(img);
         img.setAttribute('crossorigin', 'Anonymous');
     }
@@ -105,7 +105,7 @@ class GifPlayerContainer extends React.Component {
     }
 
     render() {
-    // extract these props but pass down the rest
+        // extract these props but pass down the rest
         const {actualGif, actualStill, playing} = this.state;
         return (
             <GifPlayer
