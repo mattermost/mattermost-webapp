@@ -1,6 +1,5 @@
 @charset 'UTF-8';
 
-// todo sinan try to remove some duplicate codes
 #moreChannelsModal {
     .modal-content {
         min-height: 600px;
@@ -78,19 +77,6 @@
             font-weight: 400;
         }
 
-        #menuWrapper {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding-left: 4px;
-
-            &:hover,
-            &:focus {
-                background-color: rgba(var(--center-channel-color-rgb), 0.08);
-                border-radius: 4px;
-            }
-        }
-
         #modalPreferenceContainer {
             display: flex;
             align-items: center;
@@ -100,14 +86,30 @@
                 border-width: 1px;
             }
 
-            .MenuWrapper--open { // todo sinan fix hover when open
-                background-color: rgba(var(--button-bg-rgb), 0.12);
+            #channelsMoreDropdown {
+                margin: 0 8px;
+            }
+
+            #menuWrapper {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding-left: 4px;
+            }
+
+            .MenuWrapper:hover {
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
                 border-radius: 4px;
             }
-        }
 
-        #channelsMoreDropdown {
-            margin: 0 8px;
+            .MenuWrapper--open {
+                background-color: rgba(var(--button-bg-rgb), 0.12);
+                border-radius: 4px;
+
+                &:hover {
+                    background-color: rgba(var(--button-bg-rgb), 0.12);
+                }
+            }
         }
     }
 
@@ -244,9 +246,6 @@
 }
 
 #moreChannelsList {
-    // todo sinan The hover state's background for each row doesn' t seem to go full-width on the right edge.
-    margin-right: 8px;
-
     .primary-message {
         margin-top: 8px;
         color: var(--center-channel-color);

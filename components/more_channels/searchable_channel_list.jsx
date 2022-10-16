@@ -340,7 +340,7 @@ export default class SearchableChannelList extends React.PureComponent {
                     </a>
                     <Menu
                         openLeft={false}
-                        ariaLabel={localizeMessage('team_members_dropdown.menuAriaLabel', 'Change the role of a team member')} // todo sinan change the aria label
+                        ariaLabel={localizeMessage('more_channels.title', 'Browse channels')}
                     >
                         <div id='modalPreferenceContainer'>
                             <Menu.ItemAction
