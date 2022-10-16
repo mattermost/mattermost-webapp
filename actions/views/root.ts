@@ -4,7 +4,7 @@
 import {Client4} from 'mattermost-redux/client';
 import {getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {loadMe, loadMeREST} from 'mattermost-redux/actions/users';
-import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
 
 import {getCurrentLocale, getTranslations} from 'selectors/i18n';
@@ -40,10 +40,9 @@ export function loadConfigAndMe() {
     };
 }
 
-export function registerPluginTranslationsSource(pluginId: string, sourceFunction: TranslationPluginFunction) {
+export function registerPluginTranslationsSource(pluginId: string, sourceFunction: TranslationPluginFunction, state: GlobalState) {
     pluginTranslationSources[pluginId] = sourceFunction;
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
+    return (dispatch: DispatchFunc) => {
         const locale = getCurrentLocale(state);
         const immutableTranslations = getTranslations(state, locale);
         const translations = {};

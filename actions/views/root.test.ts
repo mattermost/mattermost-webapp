@@ -6,6 +6,7 @@ import * as Actions from 'actions/views/root';
 import * as i18nSelectors from 'selectors/i18n';
 
 import mockStore from 'tests/test_store';
+import {GlobalState} from 'types/store';
 
 jest.mock('mattermost-redux/actions/general', () => {
     const original = jest.requireActual('mattermost-redux/actions/general');
@@ -60,21 +61,23 @@ describe('root view actions', () => {
     describe('registerPluginTranslationsSource', () => {
         test('Should not dispatch action when getTranslation is empty', () => {
             const testStore = mockStore({});
+            const mockState = {} as GlobalState;
 
             jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue(undefined as any);
             jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
 
-            testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn()));
+            testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn(), mockState));
             expect(testStore.getActions()).toEqual([]);
         });
 
         test('Should dispatch action when getTranslation is not empty', () => {
             const testStore = mockStore({});
+            const mockState = {} as GlobalState;
 
             jest.spyOn(i18nSelectors, 'getTranslations').mockReturnValue({});
             jest.spyOn(i18nSelectors, 'getCurrentLocale').mockReturnValue('en');
 
-            testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn()));
+            testStore.dispatch(Actions.registerPluginTranslationsSource('plugin_id', jest.fn(), mockState));
             expect(testStore.getActions()).toEqual([{
                 data: {
                     locale: 'en',

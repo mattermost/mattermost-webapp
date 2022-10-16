@@ -653,7 +653,8 @@ export default class PluginRegistry {
     }
 
     registerTranslations(getTranslationsForLocale) {
-        store.dispatch(registerPluginTranslationsSource(this.id, getTranslationsForLocale));
+        const state = store.getState();
+        store.dispatch(registerPluginTranslationsSource(this.id, getTranslationsForLocale, state));
     }
 
     // Register a admin console definitions override function
