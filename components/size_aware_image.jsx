@@ -8,7 +8,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {DownloadOutlineIcon, LinkVariantIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
-import GIFPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index';
+import GIFPlayer from 'components/gif_player';
 
 import {localizeMessage, copyToClipboard} from 'utils/utils';
 import {t} from 'utils/i18n';
@@ -220,7 +220,7 @@ export default class SizeAwareImage extends React.PureComponent {
                     onClick={this.handleImageClick}
                 >
                     <GIFPlayer
-                        stopPropagation={true}
+                        propogation={true}
                         gif={src}
                     />
                 </div>

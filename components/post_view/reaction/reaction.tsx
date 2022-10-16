@@ -11,7 +11,7 @@ import Tooltip from 'components/tooltip';
 
 import * as Utils from 'utils/utils';
 
-import GIFPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index';
+import GIFPlayer from 'components/gif_player';
 
 import ReactionTooltip from './reaction_tooltip';
 import './reaction.scss';
@@ -255,6 +255,7 @@ export default class Reaction extends React.PureComponent<Props, State> {
                                     className='Reaction__emoji emoticon'
                                 >
                                     <GIFPlayer
+                                        autoPlay={false}
                                         gif={this.props.emojiImageUrl}
                                         playButton={false}
                                     />

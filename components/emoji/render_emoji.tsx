@@ -7,7 +7,7 @@ import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {GlobalState} from 'types/store';
-import GIFPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index';
+import GIFPlayer from 'components/gif_player';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {Preferences} from 'utils/constants';
 
@@ -73,8 +73,9 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
                 ...emojiStyle}}
         >
             <GIFPlayer
-                stopPropagation={true}
+                propogation={true}
                 gif={emojiImageUrl}
+                autoPlay={false}
             />
         </div>);
 };

@@ -7,7 +7,7 @@ import classNames from 'classnames';
 
 import {getEmojiImageUrl, isSystemEmoji} from 'mattermost-redux/utils/emoji_utils';
 import {Emoji} from '@mattermost/types/emojis';
-import EmojiPlayer from 'components/post_view/post_attachment_opengraph/gif_player_index';
+import GIFPlayer from 'components/gif_player';
 
 type Props = {
     emoji: Emoji;
@@ -55,9 +55,10 @@ const EmojiItem = ({emoji, onItemClick, order, autoplayGifAndEmojis}: Props) => 
                         onClick={handleClick}
                         className='emoticon--post-menu'
                     >
-                        <EmojiPlayer
+                        <GIFPlayer
                             gif={getEmojiImageUrl(emoji)}
-                            stopPropagation={true}
+                            propogation={true}
+                            autoPlay={false}
                         />
                     </div>
                 )}
