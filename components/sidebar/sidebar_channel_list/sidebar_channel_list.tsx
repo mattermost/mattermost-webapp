@@ -18,7 +18,7 @@ import {ChannelCategory} from '@mattermost/types/channel_categories';
 import {Team} from '@mattermost/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {DraggingState} from 'types/store';
+import {DraggingState, GlobalState} from 'types/store';
 import {Constants, DraggingStates, DraggingStateTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
@@ -28,6 +28,7 @@ import UnreadChannels from '../unread_channels';
 
 import GlobalThreadsLink from 'components/threading/global_threads_link';
 import ActivityAndInsightsLink from 'components/activity_and_insights/activity_and_insights_link/activity_and_insights_link';
+import store from 'stores/redux_store';
 
 export function renderView(props: any) {
     return (
@@ -72,7 +73,6 @@ type Props = {
     displayedChannels: Channel[];
     newCategoryIds: string[];
     draggingState: DraggingState;
-    getCurrentRelativeTeamUrl: string;
     multiSelectedChannelIds: string[];
     showUnreadsCategory: boolean;
     collapsedThreads: boolean;
@@ -86,7 +86,7 @@ type Props = {
         moveChannelsInSidebar: (categoryId: string, targetIndex: number, draggableChannelId: string) => void;
         moveCategory: (teamId: string, categoryId: string, newIndex: number) => void;
         switchToChannelById: (channelId: string) => void;
-        switchToGlobalThreads: (teamUrl: string) => void;
+        switchToGlobalThreads: (state: GlobalState) => void;
         close: () => void;
         setDraggingState: (data: DraggingState) => void;
         stopDragging: () => void;
@@ -298,8 +298,8 @@ export default class SidebarChannelList extends React.PureComponent<Props, State
 
     navigateByChannelId = (id: string) => {
         if (this.props.collapsedThreads && id === '') {
-            const teamUrl = this.props.getCurrentRelativeTeamUrl;
-            this.props.actions.switchToGlobalThreads(teamUrl);
+            const state = store.getState();
+            this.props.actions.switchToGlobalThreads(state);
         } else {
             this.props.actions.switchToChannelById(id);
         }

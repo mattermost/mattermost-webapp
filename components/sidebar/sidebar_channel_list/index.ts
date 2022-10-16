@@ -8,7 +8,7 @@ import {moveCategory} from 'mattermost-redux/actions/channel_categories';
 import {getCurrentChannelId, getUnreadChannelIds} from 'mattermost-redux/selectors/entities/channels';
 import {shouldShowUnreadsCategory, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
-import {getCurrentRelativeTeamUrl, getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {switchToChannelById} from 'actions/views/channel';
@@ -48,7 +48,6 @@ function mapStateToProps(state: GlobalState) {
         unreadChannelIds: getUnreadChannelIds(state),
         displayedChannels: getDisplayedChannels(state),
         draggingState: getDraggingState(state),
-        getCurrentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
         newCategoryIds: state.views.channelSidebar.newCategoryIds,
         multiSelectedChannelIds: state.views.channelSidebar.multiSelectedChannelIds,
         showUnreadsCategory: shouldShowUnreadsCategory(state),

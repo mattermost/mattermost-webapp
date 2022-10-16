@@ -3,6 +3,10 @@
 
 import {batchActions} from 'redux-batched-actions';
 
+import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+
+import {GlobalState} from 'types/store';
+
 import {browserHistory} from 'utils/browser_history';
 
 import {ActionTypes, Threads} from 'utils/constants';
@@ -37,7 +41,8 @@ export function manuallyMarkThreadAsUnread(threadId: string, lastViewedAt: numbe
     ]);
 }
 
-export function switchToGlobalThreads(teamUrl: string) {
+export function switchToGlobalThreads(state: GlobalState) {
+    const teamUrl = getCurrentRelativeTeamUrl(state);
     browserHistory.push(`${teamUrl}/threads`);
 
     return {data: true};
