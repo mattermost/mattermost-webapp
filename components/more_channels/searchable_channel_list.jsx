@@ -31,7 +31,6 @@ import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 
 const NEXT_BUTTON_TIMEOUT_MILLISECONDS = 500;
 
-// todo sinan doesnt search private channels try with 3
 export default class SearchableChannelList extends React.PureComponent {
     static getDerivedStateFromProps(props, state) {
         return {isSearch: props.isSearch, page: props.isSearch && !state.isSearch ? 0 : state.page};
