@@ -1045,7 +1045,7 @@ export class AppCommandParser {
                     Description: binding.description || '',
                     Hint: binding.hint || '',
                     IconData: binding.icon || '',
-                    type: Constants.Integrations.COMMAND_SUGGESTION_DEFAULT,
+                    type: Constants.Integrations.COMMAND,
                 });
             }
         }
@@ -1587,7 +1587,7 @@ export class AppCommandParser {
                     Description: b.description || '',
                     Hint: b.hint || '',
                     IconData: b.icon || '',
-                    type: Constants.Integrations.COMMAND_SUGGESTION_DEFAULT,
+                    type: Constants.Integrations.COMMAND,
                 });
             }
         });

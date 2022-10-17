@@ -10,6 +10,8 @@ import globalStore from 'stores/redux_store';
 import Provider from '../provider';
 import {GlobalState} from 'types/store';
 
+import {Constants} from 'utils/constants';
+
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 
 import AtMentionSuggestion from '../at_mention_provider/at_mention_suggestion';
@@ -85,6 +87,7 @@ export default class AppCommandProvider extends Provider {
                         ...suggestion,
                         Complete: '/' + suggestion.Complete,
                         Suggestion: '/' + suggestion.Suggestion,
+                        type: Constants.Integrations.COMMAND,
                     };
                 }
             });

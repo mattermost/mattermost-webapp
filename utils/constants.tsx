@@ -1780,7 +1780,6 @@ export const Constants = {
         COMMAND_SUGGESTION_ERROR: 'error',
         COMMAND_SUGGESTION_CHANNEL: 'channel',
         COMMAND_SUGGESTION_USER: 'user',
-        COMMAND_SUGGESTION_DEFAULT: 'default',
     },
     FeatureTogglePrefix: 'feature_enabled_',
     PRE_RELEASE_FEATURES: {
@@ -1948,7 +1947,7 @@ t('suggestion.mention.special');
 t('suggestion.mention.groups');
 t('suggestion.search.public');
 t('suggestion.search.group');
-t('suggestion.default');
+t('suggestion.commands');
 t('suggestion.emoji');
 t('suggestion.user');
 t('suggestion.channel');

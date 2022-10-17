@@ -515,7 +515,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Issue hint',
                     IconData: 'Issue icon',
                     Description: 'Interact with Jira issues',
-                    type: 'default',
+                    type: 'commands',
                 },
             ]);
         });
@@ -529,7 +529,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Issue hint',
                     IconData: 'Issue icon',
                     Description: 'Interact with Jira issues',
-                    type: 'default',
+                    type: 'commands',
                 },
             ]);
         });
@@ -543,7 +543,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Issue hint',
                     IconData: 'Issue icon',
                     Description: 'Interact with Jira issues',
-                    type: 'default',
+                    type: 'commands',
                 },
             ]);
         });
@@ -557,7 +557,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Issue hint',
                     IconData: 'Issue icon',
                     Description: 'Interact with Jira issues',
-                    type: 'default',
+                    type: 'commands',
                 },
             ]);
         });
@@ -571,7 +571,7 @@ describe('AppCommandParser', () => {
                     Hint: '',
                     IconData: '',
                     Description: 'View details of a Jira issue',
-                    type: 'default',
+                    type: 'commands',
                 },
                 {
                     Suggestion: 'create',
@@ -579,7 +579,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Create hint',
                     IconData: 'Create icon',
                     Description: 'Create a new Jira issue',
-                    type: 'default',
+                    type: 'commands',
                 },
                 {
                     Suggestion: 'rest',
@@ -587,7 +587,7 @@ describe('AppCommandParser', () => {
                     Hint: 'rest hint',
                     IconData: 'rest icon',
                     Description: 'rest description',
-                    type: 'default',
+                    type: 'commands',
                 },
             ]);
         });
@@ -601,7 +601,7 @@ describe('AppCommandParser', () => {
                     Hint: '',
                     IconData: '',
                     Description: 'View details of a Jira issue',
-                    type: 'default',
+                    type: 'commands',
                 },
                 {
                     Suggestion: 'create',
@@ -609,7 +609,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Create hint',
                     IconData: 'Create icon',
                     Description: 'Create a new Jira issue',
-                    type: 'default',
+                    type: 'commands',
                 },
                 {
                     Suggestion: 'rest',
@@ -617,7 +617,7 @@ describe('AppCommandParser', () => {
                     Hint: 'rest hint',
                     IconData: 'rest icon',
                     Description: 'rest description',
-                    type: 'default',
+                    type: 'commands',
                 },
 
             ]);
@@ -632,7 +632,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Create hint',
                     IconData: 'Create icon',
                     Description: 'Create a new Jira issue',
-                    type: 'default',
+                    type: 'commands',
                 },
             ]);
         });
@@ -646,7 +646,7 @@ describe('AppCommandParser', () => {
                     Hint: 'Create hint',
                     IconData: 'Create icon',
                     Description: 'Create a new Jira issue',
-                    type: 'default',
+                    type: 'commands',
                 },
             ]);
         });
