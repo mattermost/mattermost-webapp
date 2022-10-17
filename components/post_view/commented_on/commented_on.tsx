@@ -20,6 +20,7 @@ type Props = {
     parentPostUser?: UserProfileType;
     onCommentClick?: React.EventHandler<React.MouseEvent>;
     post: Post;
+    isBroadcastReply?: boolean;
 }
 
 export default class CommentedOn extends PureComponent<Props> {
@@ -73,8 +74,8 @@ export default class CommentedOn extends PureComponent<Props> {
             >
                 <span>
                     <FormattedMessage
-                        id='post_body.commentedOn'
-                        defaultMessage="Commented on {name}'s message: "
+                        id={this.props.isBroadcastReply ? 'post_body.repliedTo' : 'post_body.commentedOn'}
+                        defaultMessage={this.props.isBroadcastReply ? 'Replied to {name}\'s thread: ' : 'Commented on {name}\'s message: '}
                         values={{
                             name: <a className='theme user_name'>{parentUserProfile}</a>,
                         }}

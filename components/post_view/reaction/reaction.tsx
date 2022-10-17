@@ -128,7 +128,9 @@ export default class Reaction extends React.PureComponent<Props, State> {
         }
     }
 
-    handleClick = (): void => {
+    handleClick = (e: React.MouseEvent): void => {
+        e.stopPropagation();
+
         // only proceed if user has permission to react
         // and we are not animating
         if (

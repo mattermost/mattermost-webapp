@@ -23,7 +23,6 @@ import PostMessageView from 'components/post_view/post_message_view';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
-import RepliedTo from 'components/post_view/replied_to';
 import {Channel} from '@mattermost/types/channels';
 import {Team} from '@mattermost/types/teams';
 
@@ -145,25 +144,19 @@ export default class PostBody extends React.PureComponent<Props, State> {
         let comment;
         let postClass = '';
         const isEphemeral = Utils.isPostEphemeral(post);
+        const isBroadcastReply = this.props.isCRTEnabled && post.props?.broadcasted_thread_reply;
 
-        let repliedTo;
-
-        if (this.props.isCRTEnabled && post.props?.broadcasted_thread_reply && parentPost && parentPostUser && post.type !== Constants.PostTypes.EPHEMERAL) {
-            repliedTo = (
-                <RepliedTo
-                    post={parentPost}
-                    parentPostUser={parentPostUser}
-                    onCommentClick={this.props.handleCommentClick}
-                />
-            );
-        } else if (!this.props.isCRTEnabled && this.props.isFirstReply && parentPost && parentPostUser && post.type !== Constants.PostTypes.EPHEMERAL) {
-            comment = (
-                <CommentedOn
-                    post={parentPost}
-                    parentPostUser={parentPostUser}
-                    onCommentClick={this.props.handleCommentClick}
-                />
-            );
+        if (parentPost && parentPostUser && post.type !== Constants.PostTypes.EPHEMERAL) {
+            if ((!this.props.isCRTEnabled && this.props.isFirstReply) || isBroadcastReply) {
+                comment = (
+                    <CommentedOn
+                        post={parentPost}
+                        parentPostUser={parentPostUser}
+                        onCommentClick={this.props.handleCommentClick}
+                        isBroadcastReply={isBroadcastReply}
+                    />
+                );
+            }
         }
 
         let failedOptions;
@@ -216,7 +209,8 @@ export default class PostBody extends React.PureComponent<Props, State> {
                         previewPost={post}
                         handleFileDropdownOpened={this.props.handleFileDropdownOpened}
                         previewFooterMessage={' '}
-                        preventClickAction={true}
+                        preventClickAction={false}
+                        parentPost={parentPost}
                     />
                 </>
             );
@@ -265,7 +259,7 @@ export default class PostBody extends React.PureComponent<Props, State> {
 
         return (
             <>
-                {comment || repliedTo}
+                {comment}
                 <div
                     id={`${post.id}_message`}
                     className={`post__body ${mentionHighlightClass} ${ephemeralPostClass} ${postClass}`}

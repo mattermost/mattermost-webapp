@@ -44,6 +44,7 @@ export type Props = OwnProps & {
     compactDisplay: boolean;
     isPostPriorityEnabled: boolean;
     isPermalink?: boolean;
+    parentPost?: Post;
     handleFileDropdownOpened?: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
@@ -51,7 +52,7 @@ export type Props = OwnProps & {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened, isPostPriorityEnabled, isPermalink} = props;
+    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened, isPostPriorityEnabled, isPermalink, parentPost} = props;
     const dispatch = useDispatch();
 
     const toggleEmbedVisibility = () => {
@@ -80,11 +81,12 @@ const PostMessagePreview = (props: Props) => {
         return defaultURL;
     };
 
-    const handleReply = useCallback((e) => {
+    const viewThread = useCallback(async (e) => {
         e.stopPropagation();
-
-        dispatch(selectPost({id: previewPost?.root_id, channel_id: previewPost?.channel_id} as Post));
-    }, [dispatch, previewPost?.root_id, previewPost?.channel_id]);
+        if (parentPost) {
+            await dispatch(selectPost(parentPost));
+        }
+    }, [dispatch, parentPost]);
 
     if (!previewPost) {
         return null;
@@ -183,6 +185,7 @@ const PostMessagePreview = (props: Props) => {
         <PostAttachmentContainer
             className='permalink'
             link={`${teamUrl}/pl/${metadata.post_id}`}
+            selectedPost={previewPost.props?.broadcasted_thread_reply ? previewPost : null}
             preventClickAction={preventClickAction}
         >
             <div className='post-preview'>
@@ -234,7 +237,7 @@ const PostMessagePreview = (props: Props) => {
                 {reactionPreview || previewFooter}
                 {previewPost.props?.broadcasted_thread_reply && !isPermalink &&
                     <Button
-                        onClick={handleReply}
+                        onClick={viewThread}
                         className='view-thread-button'
                         prepend={
                             <span className='view-thread-icon'>
