@@ -9,6 +9,10 @@ import classNames from 'classnames';
 
 import {useDispatch} from 'react-redux';
 
+import {MessageTextOutlineIcon} from '@mattermost/compass-icons/components';
+
+import ViewThreadButton from 'components/threading/common/view_thread_button';
+
 import UserProfileComponent from 'components/user_profile';
 import {UserProfile} from '@mattermost/types/users';
 import {Post} from '@mattermost/types/posts';
@@ -24,7 +28,6 @@ import FileAttachmentListContainer from 'components/file_attachment_list';
 import PostAttachmentOpenGraph from 'components/post_view/post_attachment_opengraph';
 
 import ReactionList from 'components/post_view/reaction_list';
-import Button from 'components/threading/common/button';
 
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
@@ -175,17 +178,22 @@ const PostMessagePreview = (props: Props) => {
     let reactionPreview;
     if (previewPost.props?.broadcasted_thread_reply && !isPermalink) {
         reactionPreview = (
-            <div style={{paddingTop: 5}}>
+            <div className='post__reactions'>
                 <ReactionList post={previewPost}/>
             </div>
         );
+    }
+
+    let newerReplies = false;
+    if (parentPost && parentPost.last_reply_at && (parentPost?.last_reply_at > previewPost.create_at)) {
+        newerReplies = true;
     }
 
     return (
         <PostAttachmentContainer
             className='permalink'
             link={`${teamUrl}/pl/${metadata.post_id}`}
-            selectedPost={previewPost.props?.broadcasted_thread_reply ? previewPost : null}
+            selectedPost={previewPost.props?.broadcasted_thread_reply && !isPermalink ? previewPost : null}
             preventClickAction={preventClickAction}
         >
             <div className='post-preview'>
@@ -236,20 +244,21 @@ const PostMessagePreview = (props: Props) => {
                 {fileAttachmentPreview}
                 {reactionPreview || previewFooter}
                 {previewPost.props?.broadcasted_thread_reply && !isPermalink &&
-                    <Button
+                    <ViewThreadButton
                         onClick={viewThread}
-                        className='view-thread-button'
                         prepend={
-                            <span className='view-thread-icon'>
-                                <i className='icon-message-text-outline'/>
-                            </span>
+                            <div className='ViewThreadButton_icon'>
+                                <MessageTextOutlineIcon
+                                    size={18}
+                                />
+                            </div>
                         }
                     >
                         <FormattedMessage
-                            id='post_message_preview.view_thread_button'
-                            defaultMessage='View Thread'
+                            id={newerReplies ? 'post_message_preview.view_newer_replies_button' : 'post_message_preview.view_thread_button'}
+                            defaultMessage={newerReplies ? 'View newer replies' : 'View Thread'}
                         />
-                    </Button>
+                    </ViewThreadButton>
                 }
             </div>
         </PostAttachmentContainer>

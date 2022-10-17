@@ -176,6 +176,7 @@ exports[`PostBodyAdditionalContent with a permalinklink Render permalink preview
   </span>
   <Connect(PostMessagePreview)
     handleFileDropdownOpened={[MockFunction]}
+    isPermalink={true}
     metadata={
       Object {
         "channel_display_name": "channel1",

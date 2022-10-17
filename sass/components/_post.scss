@@ -1997,6 +1997,10 @@
             margin: 12px 12px 0 0;
         }
 
+        .post__reactions {
+            padding-top: 5px;
+        }
+
         .post__preview-footer {
             display: block;
             padding-top: 8px;
@@ -2014,20 +2018,6 @@
                 display: inline-block;
                 font-size: 12px;
                 line-height: 16px;
-            }
-        }
-
-        .view-thread-button {
-            padding-top: 5px;
-            padding-left: 0px;
-            color: rgba(var(--button-bg-rgb));
-
-            &:hover {
-                color: rgba(var(--button-bg-rgb));
-            }
-
-            .view-thread-icon {
-                color: rgba(var(--button-bg-rgb));
             }
         }
     }

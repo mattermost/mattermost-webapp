@@ -1,0 +1,51 @@
+
+.ViewThreadButton {
+    position: relative;
+    padding: 5px 10px;
+    border-radius: 4px;
+    color: rgba(var(--button-bg-rgb));
+    font-family: Open Sans;
+    font-style: normal;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    margin-top: 5px;
+    margin-left: -10px;
+
+    &:hover {
+        text-decoration: none;
+        background: rgba(var(--button-bg-rgb), 0.08);
+    }
+
+    &:disabled {
+        opacity: 32%;
+    }
+
+    &.ViewThreadButton___large {
+        font-size: 14px;
+
+        &.ViewThreadButton___icon {
+            width: 32px;
+            height: 32px;
+            padding: 7px 0;
+            font-size: 18px;
+            line-height: 18px;
+        }
+    }
+
+    .ViewThreadButton_prepended {
+        margin-right: 0.25em;
+        display: inline-block;
+        vertical-align: middle;
+
+    }
+
+    .ViewThreadButton_icon {
+        display: flex;
+    }
+
+    .ViewThreadButton_label {
+        display: inline-block;
+        max-width: 100%;
+    }
+}
