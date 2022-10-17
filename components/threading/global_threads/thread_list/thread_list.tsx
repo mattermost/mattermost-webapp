@@ -5,6 +5,7 @@ import React, {memo, useCallback, PropsWithChildren, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {isEmpty} from 'lodash';
+
 import * as Utils from 'utils/utils';
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
