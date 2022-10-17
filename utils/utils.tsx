@@ -29,7 +29,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {getBool, getTeammateNameDisplaySetting, Theme} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool, getTeammateNameDisplaySetting, Theme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
@@ -40,6 +40,7 @@ import {
     getTeam,
     getTeamByName,
     getTeamMemberships,
+    isTeamSameWithCurrentTeam,
 } from 'mattermost-redux/selectors/entities/teams';
 
 import {addUserToTeam} from 'actions/team_actions';
@@ -68,6 +69,8 @@ import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
 import {TextboxElement} from '../components/textbox';
+
+import {focusPost} from 'components/permalink_view/actions';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1485,8 +1488,12 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
 
             const state = store.getState();
             const user = getCurrentUser(state);
+            const match = isChannelOrPermalink(linkAttribute.value);
+            const crtEnabled = isCollapsedThreadsEnabled(state);
+
+            let isReply = false;
+
             if (isSystemAdmin(user.roles)) {
-                const match = isChannelOrPermalink(linkAttribute.value);
                 if (match) {
                     // Get team by name
                     const {teamName} = match;
@@ -1514,6 +1521,8 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
                                 post = postData;
                             }
                             if (post) {
+                                isReply = Boolean(post.root_id);
+
                                 channel = getChannel(state, post.channel_id);
                                 if (!channel) {
                                     const {data: channelData} = await store.dispatch(getChannelAction(post.channel_id));
@@ -1550,7 +1559,12 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
             }
 
             e.stopPropagation();
-            browserHistory.push(linkAttribute.value);
+
+            if (match && match.type === 'permalink' && isTeamSameWithCurrentTeam(state, match.teamName) && isReply && crtEnabled) {
+                focusPost(match.postId ?? '', linkAttribute.value, user.id, {skipRedirectReplyPermalink: true})(store.dispatch, store.getState);
+            } else {
+                browserHistory.push(linkAttribute.value);
+            }
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();

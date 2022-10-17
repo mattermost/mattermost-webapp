@@ -337,16 +337,13 @@ h6.markdown__heading {
 }
 
 .post__body {
-    .post-message__text-container {
-        .post-message__text {
-            hr {
-                height: 1px;
-                padding: 0;
-                border: 0 none;
-                margin: 15px 0 16px;
-                background-color: rgba(var(--center-channel-text-rgb), 0.24);
-            }
-        }
+    hr {
+        height: 4px;
+        padding: 0;
+        border: 0 none;
+        margin: 15px 0 16px;
+        background-color: #e7e7e7;
+        opacity: 0.2;
     }
 
     .codespan__pre-wrap {

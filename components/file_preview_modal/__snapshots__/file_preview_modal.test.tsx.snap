@@ -58,9 +58,7 @@ exports[`components/FilePreviewModal should fall back to default preview if plug
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -193,9 +191,7 @@ exports[`components/FilePreviewModal should match snapshot 1`] = `
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -328,9 +324,7 @@ exports[`components/FilePreviewModal should match snapshot for external file 1`]
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -463,9 +457,7 @@ exports[`components/FilePreviewModal should match snapshot when plugin overrides
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -640,9 +632,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded 1`] = `
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -791,9 +781,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded and showing f
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -942,9 +930,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={true}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -1028,7 +1014,6 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .js file
               }
             }
             fileUrl="/api/v4/files/file_id"
-            getContent={[Function]}
           />
         </div>
       </div>
@@ -1095,9 +1080,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .m4a fil
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -1246,9 +1229,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with .mov fil
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -1397,9 +1378,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with footer 1
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -1548,9 +1527,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with image 1`
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
@@ -1699,9 +1676,7 @@ exports[`components/FilePreviewModal should match snapshot, loaded with other fi
           id="viewImageModalLabel"
         >
           <Memo(FilePreviewModalHeader)
-            canCopyContent={false}
             canDownloadFiles={true}
-            content=""
             enablePublicLink={true}
             fileIndex={0}
             fileInfo={
