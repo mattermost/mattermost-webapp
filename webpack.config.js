@@ -134,8 +134,6 @@ if (DEV) {
     }
 }
 
-const isDesktopApp = true;
-
 var config = {
     entry: ['./root.tsx', 'root.html'],
     output: {
@@ -489,6 +487,7 @@ async function initializeModuleFederation() {
 
             // Other containers will be forced to use the exact versions of shared modules that the web app provides.
             makeSingletonSharedModules([
+                'history',
                 'react',
                 'react-bootstrap',
                 'react-dom',
@@ -499,40 +498,17 @@ async function initializeModuleFederation() {
         ],
     };
 
-    if (isDesktopApp) {
-        moduleFederationPluginOptions.shared.push({
-            history: {
-                singleton: true,
-                eager: true,
-                requiredVersion: packageJson.dependencies.history,
-            },
-            'mattermost-redux/store/reducer_registry': {
-                singleton: true,
-                eager: true,
-                import: false,
-            },
-            'stores/redux_store.jsx': {
-                singleton: true,
-                eager: true,
-                import: false,
-            },
-            'utils/browser_history': {
-                singleton: true,
-                eager: true,
-                import: false,
-            },
-        });
-        moduleFederationPluginOptions.exposes = {
-            './root': 'components/root',
-            './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
-            './styles': 'sass/styles.scss',
-            './reducerRegistry': './packages/mattermost-redux/src/store/reducer_registry',
-            './store': './store',
-            './websocket': 'client/web_websocket_client.jsx',
-        };
-        moduleFederationPluginOptions.filename = 'remoteEntry.js';
-        moduleFederationPluginOptions.name = 'mattermost_webapp';
-    }
+    // Desktop specific code for remote module loading
+    moduleFederationPluginOptions.exposes = {
+        './root': 'components/root',
+        './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
+        './store': 'stores/redux_store.jsx',
+        './styles': 'sass/styles.scss',
+        './registry': 'registry',
+        './websocket': 'client/web_websocket_client.jsx',
+    };
+    moduleFederationPluginOptions.filename = 'remoteEntry.js';
+    moduleFederationPluginOptions.name = 'mattermost_webapp';
 
     config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 
