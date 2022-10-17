@@ -23,6 +23,7 @@ type Props = {
     previousPostId: string;
     teamId: string;
     timestampProps?: Partial<TimestampProps>;
+    id?: string;
 }
 
 function Reply({
@@ -31,6 +32,7 @@ function Reply({
     isLastPost,
     onCardClick,
     post,
+    id,
     previewCollapsed,
     previewEnabled,
     previousPostId,
@@ -49,6 +51,7 @@ function Reply({
             currentUserId={currentUserId}
             handleCardClick={onCardClick}
             isLastPost={isLastPost}
+            postId={id}
             post={post}
             previewCollapsed={previewCollapsed}
             previewEnabled={previewEnabled}

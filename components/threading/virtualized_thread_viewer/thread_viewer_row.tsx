@@ -41,7 +41,6 @@ function ThreadViewerRow({
     previousPostId,
     teamId,
     timestampProps,
-    lastPost,
 }: Props) {
     switch (true) {
     case PostListUtils.isDateLine(listId): {
@@ -60,7 +59,7 @@ function ThreadViewerRow({
     case isRootPost:
         return (
             <PostComponent
-                post={lastPost}
+                postId={listId}
                 currentUserId={currentUserId}
                 isLastPost={isLastPost}
                 handleCardClick={onCardClick}
@@ -90,7 +89,6 @@ function ThreadViewerRow({
                 previousPostId={previousPostId}
                 teamId={teamId}
                 timestampProps={timestampProps}
-                post={lastPost}
             />
         );
     }

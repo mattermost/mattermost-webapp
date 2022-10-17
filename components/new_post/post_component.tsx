@@ -31,9 +31,12 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
+import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content/post_body_additional_content';
+import PostMessageContainer from 'components/post_view/post_message_view';
 
 export type Props = {
     post: Post;
@@ -58,6 +61,12 @@ export type Props = {
     togglePostMenu?: (opened: boolean) => void;
     a11yIndex?: number;
     isBot: boolean;
+    hasReplies?: boolean;
+    isFirstReply?: boolean;
+    previousPostIsComment?: boolean;
+    matches?: string[];
+    term?: string;
+    isMentionSearch?: boolean;
     actions: {
         markPostAsUnread: (post: Post, location: string) => void;
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
@@ -68,6 +77,7 @@ export type Props = {
     timestampProps?: Partial<TimestampProps>;
     shouldHighlight?: boolean;
     isPostBeingEdited?: boolean;
+    isCollapsedThreadsEnabled?: boolean;
     isMobileView: boolean;
 };
 
@@ -76,8 +86,16 @@ const PostComponent = (props: Props): JSX.Element => {
     const postHeaderRef = useRef<HTMLDivElement>(null);
     const [hover, setHover] = useState(false);
     const [a11yActive, setA11y] = useState(false);
+    const [dropdownOpened, setDropdownOpened] = useState(false);
     const [fileDropdownOpened, setFileDropdownOpened] = useState(false);
+    const [fadeOutHighlight, setFadeOutHighlight] = useState(false);
     const [alt, setAlt] = useState(false);
+
+    if (props.shouldHighlight) {
+        setTimeout(() => {
+            setFadeOutHighlight(true);
+        }, Constants.PERMALINK_FADEOUT);
+    }
 
     useEffect(() => {
         if (postRef.current) {
@@ -100,18 +118,40 @@ const PostComponent = (props: Props): JSX.Element => {
         }
     }, [hover]);
 
+    const hasSameRoot = (props: Props) => {
+        const post = props.post;
+
+        if (props.isFirstReply) {
+            return false;
+        } else if (!post.root_id && !props.previousPostIsComment && props.isConsecutivePost) {
+            return true;
+        } else if (post.root_id) {
+            return true;
+        }
+
+        return false;
+    }
+
     const getClassName = (post: Post, isSystemMessage: boolean, isMeMessage: boolean) => {
         const hovered =
-            fileDropdownOpened;
-        return classNames('a11y__section post post--thread same--root post--comment', {
-            'post--highlight': props.shouldHighlight,
+            fileDropdownOpened || dropdownOpened || a11yActive || isPostBeingEdited;
+        return classNames('a11y__section post', {
+            'post--highlight': props.shouldHighlight && !fadeOutHighlight,
+            'same--root': hasSameRoot(props),
+            'post--bot': PostUtils.isFromBot(post),
+            'post--pinned-or-flagged-highlight': props.shouldHighlight && (post.is_pinned || props.isFlagged),
             'post--editing': props.isPostBeingEdited,
             'current--user': props.currentUserId === post.user_id,
             'post--system': isSystemMessage || isMeMessage,
+            'post--root': props.hasReplies,
+            'post--comment': post.root_id && post.root_id.length > 0,
             'post--compact': props.compactDisplay,
             'post--hovered': hovered,
             'same--user': props.isConsecutivePost,
             'cursor--pointer': alt && !props.channelIsArchived,
+            'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
+            'post--comment same--root': PostUtils.fromAutoResponder(post),
+            'post--pinned-or-flagged': post.is_pinned || props.isFlagged,
         });
     };
 
@@ -127,6 +167,7 @@ const PostComponent = (props: Props): JSX.Element => {
         if (props.togglePostMenu) {
             props.togglePostMenu(opened);
         }
+        setDropdownOpened(opened);
     };
 
     const setsHover = (e: MouseEvent<HTMLDivElement>) => {
@@ -174,6 +215,14 @@ const PostComponent = (props: Props): JSX.Element => {
         props.actions.selectPost(post);
     };
 
+    const handleActionsMenuInitialisationState = () => {
+        if (props.isMentionSearch || props.matches!.length > 0 || props.term!.length > 0) {
+            return;
+        }
+
+        props.actions.setActionsMenuInitialisationState;
+    }
+
     const {
         post,
         isPostBeingEdited,
@@ -205,7 +254,25 @@ const PostComponent = (props: Props): JSX.Element => {
         );
     }
 
-    const message = (
+    const message = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0) ? ( 
+        <PostBodyAdditionalContent
+            post={post}
+            options={{
+                searchTerm: props.term,
+                searchMatches: props.matches,
+            }}
+        >
+            <PostMessageContainer
+                post={post}
+                options={{
+                    searchTerm: props.term,
+                    searchMatches: props.matches,
+                    mentionHighlight: props.isMentionSearch,
+                }}
+                isRHS={true}
+            />
+        </PostBodyAdditionalContent>
+    ) : (
         <MessageWithAdditionalContent
             post={post}
             previewCollapsed={props.previewCollapsed}
@@ -216,6 +283,7 @@ const PostComponent = (props: Props): JSX.Element => {
     );
 
     const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
+    const threadFooter = props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
 
     return (
         <PostAriaLabelDiv
@@ -296,7 +364,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         {!isPostBeingEdited &&
                             <PostOptions
                                 {...props}
-                                setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
+                                setActionsMenuInitialisationState={handleActionsMenuInitialisationState}
                                 handleDropdownOpened={handleDropdownOpened}
                                 handleCommentClick={handleCommentClick}
                                 hover={hover}
@@ -323,6 +391,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         <ReactionList
                             post={post}
                         />
+                        {threadFooter}
                     </div>
                 </div>
             </div>

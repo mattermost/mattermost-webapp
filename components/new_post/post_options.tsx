@@ -48,6 +48,7 @@ const PostOptions = (props: Props): JSX.Element => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showDotMenu, setShowDotMenu] = useState(false);
     const [showActionsMenu, setShowActionsMenu] = useState(false);
+    const [showOptionsMenuWithoutHover, setShowOptionsMenuWithoutHover] = useState(false);
     const [showActionTip, setShowActionTip] = useState(false);
 
     const {
@@ -108,20 +109,24 @@ const PostOptions = (props: Props): JSX.Element => {
     const isEphemeral = isPostEphemeral(post);
     const isSystemMessage = PostUtils.isSystemMessage(post);
 
-    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
+    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip || showOptionsMenuWithoutHover;
 
     const showCommentIcon = !isSystemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply);
+    const commentIconExtraClass = isMobileView ? '' : 'pull-right';
+
     let commentIcon;
     if (showCommentIcon) {
         commentIcon = (
             <CommentIcon
                 handleCommentClick={props.handleCommentClick}
                 postId={post.id}
+                extraClass={commentIconExtraClass}
             />
         );
     }
 
     const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
+
     let showRecentReactions: ReactNode;
     if (showRecentlyUsedReactions) {
         showRecentReactions = (
@@ -132,6 +137,21 @@ const PostOptions = (props: Props): JSX.Element => {
                 emojis={props.recentEmojis}
                 getDotMenuRef={getDotMenuRef}
                 size={props.isExpanded ? 3 : 1}
+            />
+        );
+    }
+
+    const showReactionIcon = !isSystemMessage && !isReadOnly && !isEphemeral && !post.failed && props.enableEmojiPicker;
+    let postReaction;
+    if (showReactionIcon) {
+        postReaction = (
+            <PostReaction
+                channelId={post.channel_id}
+                postId={post.id}
+                teamId={props.teamId}
+                getDotMenuRef={getDotMenuRef}
+                showEmojiPicker={showEmojiPicker}
+                toggleEmojiPicker={toggleEmojiPicker}
             />
         );
     }
@@ -196,16 +216,7 @@ const PostOptions = (props: Props): JSX.Element => {
             >
                 {!collapsedThreadsEnabled && !showRecentlyUsedReactions && dotMenu}
                 {showRecentReactions}
-                {!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && props.enableEmojiPicker && !channelIsArchived &&
-                <PostReaction
-                    channelId={post.channel_id}
-                    postId={post.id}
-                    teamId={props.teamId}
-                    getDotMenuRef={getDotMenuRef}
-                    location={Locations.RHS_COMMENT}
-                    showEmojiPicker={showEmojiPicker}
-                    toggleEmojiPicker={toggleEmojiPicker}
-                />}
+                {postReaction}
                 {flagIcon}
                 {actionsMenu}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}

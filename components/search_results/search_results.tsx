@@ -35,7 +35,7 @@ import SearchLimitsBanner from './search_limits_banner';
 import type {Props} from './types';
 
 import './search_results.scss';
-import PostComponent from 'components/new_post/post_component';
+import PostComponent from 'components/new_post';
 
 const GET_MORE_BUFFER = 30;
 
@@ -286,8 +286,8 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                         term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={props.isMentionSearch}
                         a11yIndex={index}
-                        isFlaggedPosts={props.isFlaggedPosts}
-                        isPinnedPosts={props.isPinnedPosts}
+                        isFlagged={props.isFlaggedPosts}
+                        isPinned={props.isPinnedPosts}
                     />
                 );
             }

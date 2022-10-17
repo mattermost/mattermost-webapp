@@ -7,10 +7,11 @@ import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
+    getBool,
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -40,12 +41,28 @@ import { isThreadOpen } from 'selectors/views/threads';
 
 interface OwnProps {
     post: Post;
-    previousPostId: string;
+    previousPostId?: string;
+    postId?: string;
     teamId: string;
 }
 
+function isFirstReply(post: Post, previousPost?: Post | null): boolean {
+    if (post.root_id) {
+        if (previousPost) {
+            // Returns true as long as the previous post is part of a different thread
+            return post.root_id !== previousPost.id && post.root_id !== previousPost.root_id;
+        }
+
+        // The previous post is not a real post
+        return true;
+    }
+
+    // This post is not a reply
+    return false;
+}
+
 function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
-    const post = ownProps.post;
+    const post = ownProps.post || getPost(state, ownProps.postId);
     const previousPost = ownProps.previousPostId && getPost(state, ownProps.previousPostId);
 
     let consecutivePost = false;
@@ -67,14 +84,17 @@ function removePostAndCloseRHS(post: ExtendedPost) {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const post = ownProps.post || getPost(state, ownProps.postId);
+
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const teamId = ownProps.teamId || getCurrentTeamId(state);
-    const channel = state.entities.channels.channels[ownProps.post.channel_id];
+    const channel = state.entities.channels.channels[post.channel_id];
     const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
+    const getReplyCount = makeGetCommentCountForPost();
 
-    const user = getUser(state, ownProps.post.user_id);
+    const user = getUser(state, post.user_id);
     const isBot = Boolean(user && user.is_bot);
     const highlightedPostId = getHighlightedPostId(state);
     const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
@@ -85,29 +105,61 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         emojis = getOneClickReactionEmojis(state);
     }
 
+    let previousPost = null;
+    if (ownProps.previousPostId) {
+        previousPost = getPost(state, ownProps.previousPostId);
+    }
+
+    let previousPostIsComment = false;
+
+    if (previousPost && !post.props.priority) {
+        previousPostIsComment = Boolean(previousPost.root_id);
+    }
+
+    const previewCollapsed = get(
+        state,
+        Preferences.CATEGORY_DISPLAY_SETTINGS,
+        Preferences.COLLAPSE_DISPLAY,
+        Preferences.COLLAPSE_DISPLAY_DEFAULT,
+    );
+
+    const previewEnabled = getBool(
+        state,
+        Preferences.CATEGORY_DISPLAY_SETTINGS,
+        Preferences.LINK_PREVIEW_DISPLAY,
+        Preferences.LINK_PREVIEW_DISPLAY_DEFAULT === 'true',
+    );
+
     return {
         enableEmojiPicker,
         enablePostUsernameOverride,
-        isEmbedVisible: isEmbedVisible(state, ownProps.post.id),
+        isEmbedVisible: isEmbedVisible(state, post.id),
         isReadOnly: false,
         teamId,
+        isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
+        hasReplies: getReplyCount(state, post) > 0,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: isArchivedChannel(channel),
         isConsecutivePost: isConsecutivePost(state, ownProps),
-        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, ownProps.post.id, null) != null,
+        previousPostIsComment,
+        isFlagged: get(state, Preferences.CATEGORY_FLAGGED_POST, post.id, null) != null,
         compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
         colorizeUsernames: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.COLORIZE_USERNAMES, Preferences.COLORIZE_USERNAMES_DEFAULT) === 'true',
-        shouldShowActionsMenu: shouldShowActionsMenu(state, ownProps.post),
+        shouldShowActionsMenu: shouldShowActionsMenu(state, post),
         showActionsMenuPulsatingDot,
         shortcutReactToLastPostEmittedFrom,
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        shouldHighlight: highlightedPostId === ownProps.post.id,
+        shouldHighlight: highlightedPostId === post.id,
         oneClickReactionsEnabled,
         recentEmojis: emojis,
+        isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
         isExpanded: state.views.rhs.isSidebarExpanded,
-        isPostBeingEdited: getIsPostBeingEditedInRHS(state, ownProps.post.id),
+        isPostBeingEdited: getIsPostBeingEditedInRHS(state, post.id),
         isMobileView: getIsMobileView(state),
+        previewCollapsed, 
+        previewEnabled,
+        post,
     };
 }
 
