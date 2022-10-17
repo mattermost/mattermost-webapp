@@ -2957,6 +2957,8 @@
   "claim.oauth_to_email.pwdNotMatch": "Passwords do not match.",
   "claim.oauth_to_email.switchTo": "Switch {type} to Email and Password",
   "claim.oauth_to_email.title": "Switch {type} Account to Email",
+  "cloud_archived.error.access": "Permalink belongs to a message that has been archived because of {planName} limits. Upgrade to access message again.",
+  "cloud_archived.error.title": "Message Archived",
   "cloud_billing_history_modal.title": "Invoice(s)",
   "cloud_delinquency.banner.buttonText": "Update billing now",
   "cloud_delinquency.banner.title": "Update your billing information now to keep paid features.",

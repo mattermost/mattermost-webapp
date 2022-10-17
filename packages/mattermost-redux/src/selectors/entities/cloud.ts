@@ -14,7 +14,6 @@ export function getCloudLimits(state: GlobalState): Limits {
 export function getCloudSubscription(state: GlobalState): Subscription | undefined {
     return state.entities.cloud.subscription;
 }
-
 export function getCloudCustomer(state: GlobalState): CloudCustomer | undefined {
     return state.entities.cloud.customer;
 }
@@ -38,6 +37,10 @@ export function getSubscriptionProduct(state: GlobalState): Product | undefined 
     }
 
     return products[subscription.product_id];
+}
+
+export function getSubscriptionProductName(state: GlobalState): string {
+    return getSubscriptionProduct(state)?.name || '';
 }
 
 export function checkSubscriptionIsLegacyFree(state: GlobalState): boolean {
