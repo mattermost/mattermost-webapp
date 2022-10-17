@@ -505,7 +505,6 @@ async function initializeModuleFederation() {
         './store': 'stores/redux_store.jsx',
         './styles': 'sass/styles.scss',
         './registry': 'registry',
-        './websocket': 'client/web_websocket_client.jsx',
     };
     moduleFederationPluginOptions.filename = 'remoteEntry.js';
     moduleFederationPluginOptions.name = 'mattermost_webapp';
