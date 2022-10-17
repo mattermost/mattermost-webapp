@@ -201,16 +201,6 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         }
     }, [isMobileView, searchTerms]);
 
-    useEffect((): void => {
-        if (!isMobileView && indexChangedViaKeyPress) {
-            // Scroll to to the highlighted item
-            const highlightedElement = document.querySelector('.search-hint__suggestions-list__option.highlighted,.recent-searches__suggestions-list__item.highlighted');
-            if (highlightedElement) {
-                highlightedElement.scrollIntoView({behavior: 'smooth', block: 'center'});
-            }
-        }
-    }, [isMobileView, indexChangedViaKeyPress, highlightedSearchItemIndex]);
-
     // handle cloding of rhs-flyout
     const handleClose = (): void => actions.closeRightHandSide();
 
@@ -506,6 +496,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
                     onOptionSelected={handleAddSearchTerm}
                     onMouseDown={handleSearchHintSelection}
                     highlightedIndex={highlightedSearchItemIndex}
+                    highlightedIndexChangedViaKeyPress={indexChangedViaKeyPress}
                     onOptionHover={setHoverHintIndex}
                     onSearchTypeSelected={handleOnSearchTypeSelected}
                     onElementBlur={handleDropdownBlur}

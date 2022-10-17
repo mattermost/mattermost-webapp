@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect, useRef} from 'react';
 import {useSelector} from 'react-redux';
 
 import {FormattedMessage, MessageDescriptor} from 'react-intl';
@@ -24,6 +24,7 @@ type Props = {
     onMouseDown?: () => void | undefined;
     options: SearchTerm[];
     highlightedIndex?: number;
+    highlightedIndexChangedViaKeyPress?: boolean;
     onOptionHover?: (index: number) => void;
     onSearchTypeSelected?: (searchType: 'files' | 'messages') => void;
     onElementBlur?: () => void;
@@ -39,8 +40,28 @@ const SearchHint = (props: Props): JSX.Element => {
             props.onOptionHover(optionIndex);
         }
     };
+
+    const buttons = useRef<HTMLDivElement>(null);
+    const searchHintList = useRef<HTMLUListElement>(null);
+    const recentSearchesList = useRef<HTMLUListElement>(null);
+
     const config = useSelector(getConfig);
     const isFileAttachmentEnabled = isFileAttachmentsEnabled(config);
+
+    useEffect(() => {
+        if (!props.highlightedIndexChangedViaKeyPress) {
+            return;
+        }
+        const selectableItems = [
+            ...(buttons.current?.children || []),
+            ...(searchHintList.current?.children || []),
+            ...(recentSearchesList.current?.children || [])];
+        const highlightedIndex = props.highlightedIndex || -1;
+        const highlightedItem = selectableItems[highlightedIndex];
+        if (highlightedItem) {
+            highlightedItem.scrollIntoView({behavior: 'smooth', block: 'center'});
+        }
+    }, [props.highlightedIndex, props.highlightedIndexChangedViaKeyPress]);
 
     if (props.onSearchTypeSelected) {
         if (!props.searchType) {
@@ -55,7 +76,10 @@ const SearchHint = (props: Props): JSX.Element => {
                             defaultMessage='What are you searching for?'
                         />
                     </div>
-                    <div className='button-container'>
+                    <div
+                        ref={buttons}
+                        className='button-container'
+                    >
                         <button
                             className={classNames({highlighted: props.highlightedIndex === 0})}
                             onClick={() => props.onSearchTypeSelected && props.onSearchTypeSelected('messages')}
@@ -114,6 +138,7 @@ const SearchHint = (props: Props): JSX.Element => {
                 </h4>
             }
             <ul
+                ref={searchHintList}
                 role='list'
                 className='search-hint__suggestions-list'
                 onMouseDown={props.onMouseDown}
@@ -146,6 +171,7 @@ const SearchHint = (props: Props): JSX.Element => {
                     />
                 </h4>
                 <ul
+                    ref={recentSearchesList}
                     role='list'
                     className='recent-searches__suggestions-list'
                 >
