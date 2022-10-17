@@ -343,9 +343,9 @@ describe('components/PermalinkView', () => {
                             },
                             order: ['postid1', 'replypostid1']},
                     },
+                    {type: 'MOCK_SELECT_POST_AND_HIGHLIGHT', args: [{id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'}]},
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['channelid1']},
-                    {type: 'MOCK_SELECT_POST_AND_HIGHLIGHT', args: [{id: 'replypostid1', message: 'some message', channel_id: 'channelid1', root_id: 'postid1'}]},
                 ]);
                 expect(browserHistory.replace).not.toBeCalled();
             });
