@@ -110,8 +110,8 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             expect(wrapper.matchesElement(
                 <TextSetting
                     {...baseTextSettingProps}
-                    resizable = {true}
-                    type = 'input'
+                    resizable={true}
+                    type='input'
                 />,
             )).toEqual(true);
         });
