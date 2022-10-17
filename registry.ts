@@ -1,15 +1,14 @@
-const components = {};
+const modules: Record<string, unknown> = {};
 
-export const getComponent = (name: string) => {
-    console.log('the components', components);
-    return components[name];
+export const getModule = (name: string) => {
+    return modules[name];
 }
 
-export const setComponent = (name: string, component: any) => {
-    if (components[name]) {
+export const setModule = (name: string, component: unknown) => {
+    if (modules[name]) {
         return false;
     }
 
-    components[name] = component;
+    modules[name] = component;
     return true;
 }

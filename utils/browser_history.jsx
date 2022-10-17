@@ -6,7 +6,7 @@ import {createBrowserHistory} from 'history';
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
 import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 
-import {getComponent, setComponent} from 'registry';
+import {getModule, setModule} from 'registry';
 
 const b = createBrowserHistory({basename: window.basename});
 const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '5.0.0');
@@ -27,7 +27,7 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = 
     }
 });
 
-setComponent('utils/browser_history', {
+setModule('utils/browser_history', {
     ...b,
     push: (path, ...args) => {
         if (isDesktop) {
@@ -45,4 +45,4 @@ setComponent('utils/browser_history', {
         }
     },
 });
-export const browserHistory = getComponent('utils/browser_history');
+export const browserHistory = getModule('utils/browser_history');
