@@ -103,7 +103,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                     {...baseDialogTextProps}
                     field={{
                         ...textField,
-                        subtype: 'textarea'
+                        subtype: 'textarea',
                     }}
                 />,
             );
@@ -111,7 +111,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                 <TextSetting
                     {...baseTextSettingProps}
                     resizable = {true}
-                    type='input'
+                    type = 'input'
                 />,
             )).toEqual(true);
         });
