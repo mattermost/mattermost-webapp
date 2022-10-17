@@ -5,8 +5,6 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
 
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -15,21 +13,17 @@ import {GlobalState} from '@mattermost/types/store';
 import {autocompleteChannels} from 'actions/channel_actions';
 import {autocompleteUsers} from 'actions/user_actions';
 
-import AppsFormField from './apps_form_field';
+import AppsFormField, {Props} from './apps_form_field';
 
 function mapStateToProps(state: GlobalState) {
     return {
         teammateNameDisplay: getTeammateNameDisplaySetting(state),
     };
 }
-type Actions = {
-    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
-    autocompleteUsers: (search: string) => Promise<UserProfile[]>;
-};
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Actions>({
+        actions: bindActionCreators<ActionCreatorsMapObject<ActionFunc>, Props['actions']>({
             autocompleteChannels,
             autocompleteUsers,
         }, dispatch),

@@ -86,7 +86,7 @@ describe('Channel Info RHS', () => {
         ensureRHSIsOpenOnChannelInfo(testChannel);
     });
 
-    it('MM-44435 - should be able to open RHS, visit the system console and come back without issues', () => {
+    it('MM-44435 - should be able to open RHS, visit the system console and come back without issues -- KNOWN ISSUE: MM-47226', () => {
         // # Go to test channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 

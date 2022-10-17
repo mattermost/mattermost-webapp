@@ -12,15 +12,9 @@ import {
 } from 'mattermost-redux/selectors/entities/threads';
 import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getThreadCounts} from 'mattermost-redux/actions/threads';
-
 import {t} from 'utils/i18n';
-
-import {isUnreadFilterEnabled} from 'selectors/views/channel_sidebar';
-
 import {trackEvent} from 'actions/telemetry_actions';
-
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
-
 import {GlobalState} from 'types/store';
 import {isAnyModalOpen} from 'selectors/views/modals';
 import Constants, {
@@ -53,7 +47,6 @@ const GlobalThreadsLink = () => {
     const {currentTeamId, currentUserId} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
-    const unreadsOnly = useSelector(isUnreadFilterEnabled);
     const someUnreadThreads = counts?.total_unread_threads;
     const appHaveOpenModal = useSelector(isAnyModalOpen);
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId, CrtTutorialSteps.WELCOME_POPOVER));
@@ -77,8 +70,8 @@ const GlobalThreadsLink = () => {
         }
     }, [currentUserId, currentTeamId, isFeatureEnabled]);
 
-    if (!isFeatureEnabled || (unreadsOnly && !inGlobalThreads && !someUnreadThreads)) {
-        // hide link if feature disabled or filtering unreads and there are no unread threads
+    if (!isFeatureEnabled) {
+        // hide link if feature disabled
         return null;
     }
 
