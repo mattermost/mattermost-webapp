@@ -11,7 +11,7 @@ import {Team} from '@mattermost/types/teams';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 import {browserHistory} from 'utils/browser_history';

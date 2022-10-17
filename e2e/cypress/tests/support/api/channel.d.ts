@@ -103,7 +103,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiPatchChannel('channel-id', {name: 'new-name', display_name: 'New Display Name'});
          */
-        apiPatchChannel(channelId: string, channel: Channel): Chainable<{channel: Channel}>;
+        apiPatchChannel(channelId: string, channel: Partial<Channel>): Chainable<{channel: Channel}>;
 
         /**
          * Updates channel's privacy allowing changing a channel from Public to Private and back.
