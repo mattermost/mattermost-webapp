@@ -5,7 +5,7 @@ import {createSelector} from 'reselect';
 
 import {General, Preferences} from 'mattermost-redux/constants';
 
-import {getConfig, getFeatureFlagValue, getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getFeatureFlagValue, getLicense, isClientDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
@@ -268,5 +268,5 @@ export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): bo
 }
 
 export function isPostFormattingEnabled(state: GlobalState): boolean {
-    return getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.NAME_ENABLE_POST_FORMATTING, true);
+    return isClientDebuggingEnabled(state) && getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.NAME_ENABLE_POST_FORMATTING, true);
 }
