@@ -69,7 +69,8 @@ describe('LDAP Group Sync', () => {
             if (el.text().includes('Edit')) {
                 cy.get('#developers_edit').then((buttonEl) => {
                     // # Get the Group ID and remove all the teams and channels currently attached to it then click the button
-                    const groupId = buttonEl[0].href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
+                    const anchorElement = buttonEl[0] as HTMLAnchorElement;
+                    const groupId = anchorElement.href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
                     getTeamsAssociatedToGroupAndUnlink(groupId);
                     getChannelsAssociatedToGroupAndUnlink(groupId);
                     cy.get('#developers_edit').click();
@@ -82,7 +83,8 @@ describe('LDAP Group Sync', () => {
 
                 // # Get the Group ID and remove all the teams and channels currently attached to it then click the button
                 cy.get('#developers_configure').then((buttonEl) => {
-                    const groupId = buttonEl[0].href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
+                    const anchorElement = buttonEl[0] as HTMLAnchorElement;
+                    const groupId = anchorElement.href.match(/\/(?:.(?!\/))+$/)[0].substring(1);
                     getTeamsAssociatedToGroupAndUnlink(groupId);
                     getChannelsAssociatedToGroupAndUnlink(groupId);
                     cy.get('#developers_configure').click();
@@ -110,7 +112,8 @@ describe('LDAP Group Sync', () => {
 
         cy.get('#team_and_channel_membership_table').then((el) => {
             // * Ensure that the text in the roles column is Member as default text for each row
-            const name = el[0].rows[1].cells[0].innerText;
+            const table = el[0] as HTMLTableElement;
+            const name = table.rows[1].cells[0].innerText;
             cy.findByTestId(`${name}_current_role`).scrollIntoView().should('contain.text', 'Member');
 
             // # Change the option to the admin roles (Channel Admin/Team Admin) for each row

@@ -42,7 +42,7 @@ import 'plugins/export.js';
 import Pluggable from 'plugins/pluggable';
 import BrowserStore from 'stores/browser_store';
 import Constants, {StoragePrefixes, WindowSizes} from 'utils/constants';
-import {EmojiIndicesByAlias} from 'utils/emoji.jsx';
+import {EmojiIndicesByAlias} from 'utils/emoji';
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';
 import webSocketClient from 'client/web_websocket_client.jsx';

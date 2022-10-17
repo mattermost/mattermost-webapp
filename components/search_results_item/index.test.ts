@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {General} from 'mattermost-redux/constants';
-import {mapStateToProps} from 'components/search_results_item';
+import {mapStateToProps, OwnProps} from 'components/search_results_item';
 
 import {RHSStates, WindowSizes} from 'utils/constants';
+
+import {GlobalState} from '../../types/store';
+import {TestHelper} from '../../utils/test_helper';
 
 describe('components/SearchResultsItem/WithStore', () => {
     const team = {
@@ -25,20 +28,21 @@ describe('components/SearchResultsItem/WithStore', () => {
         username: 'username',
         is_bot: false,
     };
-    const channel = {
+    const channel = TestHelper.getChannelMock({
         id: 'channel_id_open',
         type: General.OPEN_CHANNEL,
         team_id: team.id,
         name: 'open channel',
         display_name: 'open channel',
-    };
+    });
 
-    const dmChannel = {
+    const dmChannel = TestHelper.getChannelMock({
         id: 'channel_id_dm',
         type: General.DM_CHANNEL,
+        team_id: team.id,
         name: `${currentUserID}__${user.id}`,
         display_name: `${currentUserID}__${user.id}`,
-    };
+    });
 
     const post = {
         channel_id: channel.id,
@@ -109,7 +113,7 @@ describe('components/SearchResultsItem/WithStore', () => {
                 editingPost: {},
             },
         },
-    };
+    } as unknown as GlobalState;
 
     const defaultProps = {
         compactDisplay: true,
@@ -120,7 +124,7 @@ describe('components/SearchResultsItem/WithStore', () => {
         isBusy: false,
         status: 'hello',
         directTeammate: '',
-    };
+    } as unknown as OwnProps;
 
     const mstp = mapStateToProps();
 
@@ -142,7 +146,7 @@ describe('components/SearchResultsItem/WithStore', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
         let newProps = mstp(state, defaultProps);
         expect(newProps.teamName).toBe(team.name);
         expect(newProps.teamDisplayName).toBe(team.display_name);
@@ -182,7 +186,7 @@ describe('components/SearchResultsItem/WithStore', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
 
         const props = {
             ...defaultProps,
@@ -236,7 +240,7 @@ describe('components/SearchResultsItem/WithStore', () => {
                     rhsState: RHSStates.PIN,
                 },
             },
-        };
+        } as GlobalState;
         let newProps = mstp(state, defaultProps);
         expect(newProps.teamDisplayName).toBe('');
 
@@ -274,7 +278,7 @@ describe('components/SearchResultsItem/WithStore', () => {
                     },
                 },
             },
-        };
+        } as GlobalState;
         let newProps = mstp(state, defaultProps);
         expect(newProps.canReply).toBe(true);
 
@@ -313,7 +317,7 @@ describe('components/SearchResultsItem/WithStore', () => {
                     currentTeamId: otherTeam.id,
                 },
             },
-        };
+        } as GlobalState;
         let newProps = mstp(state, defaultProps);
         expect(newProps.canReply).toBe(false);
 

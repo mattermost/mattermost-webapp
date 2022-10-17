@@ -836,6 +836,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    CLOUD_ARCHIVED: 'cloud_archived',
 };
 
 export const JobTypes = {
@@ -1431,7 +1432,6 @@ export const Constants = {
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
     THREADS: 'threads',
-    INSIGHTS: 'insights',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
