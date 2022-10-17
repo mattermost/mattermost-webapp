@@ -652,8 +652,6 @@
         overflow: hidden;
         height: 100%;
         margin-right: 5px;
-        scrollbar-color: var(--center-channel-color-32) #ffffff00;
-        scrollbar-width: thin;
 
         .dropdown-menu {
             &.bottom {
@@ -2238,6 +2236,8 @@
 
 .post-list__dynamic {
     overflow-x: hidden;
+    scrollbar-color: var(--center-channel-color-32) #fff0;
+    scrollbar-width: thin;
 
     .emoji-picker--active & {
         pointer-events: none;
