@@ -1091,6 +1091,7 @@ describe('myMembers', () => {
                 [channelId]: {
                     ...TestHelper.fakeChannelMember(userId, channelId),
                     last_viewed_at: 20000,
+                    last_update_at: 10000,
                     msg_count: 10,
                 },
             });
@@ -1098,6 +1099,7 @@ describe('myMembers', () => {
             const channelMember = {
                 ...TestHelper.fakeChannelMember(userId, channelId),
                 last_viewed_at: 10000,
+                last_update_at: 10000,
                 msg_count: 15,
             };
 
@@ -1160,6 +1162,7 @@ describe('myMembers', () => {
                 [channelId]: {
                     ...TestHelper.fakeChannelMember(userId, channelId),
                     last_viewed_at: 20000,
+                    last_update_at: 10000,
                     msg_count: 10,
                 },
             });
@@ -1167,6 +1170,7 @@ describe('myMembers', () => {
             const channelMember = {
                 ...TestHelper.fakeChannelMember(userId, channelId),
                 last_viewed_at: 10000,
+                last_update_at: 10000,
                 msg_count: 15,
             };
 
