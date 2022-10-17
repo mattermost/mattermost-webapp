@@ -326,8 +326,11 @@ function recentSearches(state: Record<string, Search[]> = {}, action: GenericAct
     const {data, type} = action;
 
     switch (type) {
-    case SearchTypes.RECENT_SEARCHES_SUCCESS: {
+    case SearchTypes.RECENT_SEARCHES: {
         return data;
+    }
+    case UserTypes.LOGOUT_SUCCESS: {
+        return [];
     }
     default:
         return state;

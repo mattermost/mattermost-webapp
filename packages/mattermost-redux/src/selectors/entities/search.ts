@@ -28,27 +28,34 @@ export const getAllUserMentionKeys: (state: GlobalState) => UserMentionKey[] = c
     },
 );
 
-export function recentSearches(state: GlobalState): SearchParams[] {
-    const recentSearches = state.entities.search.recentSearches;
-    const channels = state.entities.channels.channels;
-    const userProfiles = state.entities.users.profiles;
-    if (!recentSearches) {
-        return [];
-    }
-    return recentSearches.map((searchParams) =>
-        ({
-            ...searchParams,
-            in_channels: searchParams?.in_channels?.
-                map((channelId) => channels[channelId as unknown as string] || null).
-                filter((e) => e !== null),
-            excluded_channels: searchParams?.excluded_channels?.
-                map((channelId) => channels[channelId as unknown as string] || null).
-                filter((e) => e !== null),
-            from_users: searchParams?.from_users?.
-                map((userId) => userProfiles[userId as unknown as string] || null).
-                filter((e) => e !== null),
-            excluded_users: searchParams?.excluded_users?.
-                map((userId) => userProfiles[userId as unknown as string] || null).
-                filter((e) => e !== null),
-        }));
-}
+export const selectRecentSearches: (state: GlobalState) => SearchParams[] =
+    createSelector(
+        'selectRecentSearches',
+        (state: GlobalState) => state.entities.search.recentSearches,
+        (state: GlobalState) => state.entities.channels.channels,
+        (state: GlobalState) => state.entities.users.profiles,
+        (recentSearches, channels, userProfiles) => {
+            if (!recentSearches) {
+                return [];
+            }
+            return recentSearches.map((searchParams) => ({
+                ...searchParams,
+                in_channels: searchParams?.in_channels?.
+                    map(
+                        (channelId) => channels[channelId as unknown as string],
+                    ).
+                    filter(Boolean),
+                excluded_channels: searchParams?.excluded_channels?.
+                    map(
+                        (channelId) => channels[channelId as unknown as string],
+                    ).
+                    filter(Boolean),
+                from_users: searchParams?.from_users?.
+                    map((userId) => userProfiles[userId as unknown as string]).
+                    filter(Boolean),
+                excluded_users: searchParams?.excluded_users?.
+                    map((userId) => userProfiles[userId as unknown as string]).
+                    filter(Boolean),
+            }));
+        },
+    );

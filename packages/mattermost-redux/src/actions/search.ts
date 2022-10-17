@@ -19,7 +19,7 @@ import {SearchParameter} from '@mattermost/types/search';
 import {getChannelAndMyMember, getChannelMembers} from './channels';
 import {logError} from './errors';
 import {receivedFiles} from './files';
-import {forceLogoutIfNecessary} from './helpers';
+import {bindClientFunc, forceLogoutIfNecessary} from './helpers';
 import {getProfilesAndStatusesForPosts, receivedPosts} from './posts';
 
 const WEBAPP_SEARCH_PER_PAGE = 20;
@@ -300,28 +300,10 @@ export function removeSearchTerms(teamId: string, terms: string): ActionFunc {
 }
 
 export function getRecentSearches(): ActionFunc {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch({type: SearchTypes.RECENT_SEARCHES_REQUEST});
-        let recentSearches;
-        try {
-            const recentSearchesRequest = Client4.getRecentSearches();
-
-            recentSearches = await recentSearchesRequest;
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch({type: SearchTypes.RECENT_SEARCHES_FAILURE, error});
-            return {error};
-        }
-
-        dispatch(
-            {
-                type: SearchTypes.RECENT_SEARCHES_SUCCESS,
-                data: recentSearches,
-
-            });
-
-        return {data: recentSearches};
-    };
+    return bindClientFunc({
+        clientFunc: Client4.getRecentSearches,
+        onSuccess: SearchTypes.RECENT_SEARCHES,
+    });
 }
 
 export default {
