@@ -233,7 +233,6 @@
 
             .post-list__content {
                 display: table-cell;
-                margin-right: 5px;
                 height: unset;
                 padding: 14px 0 7px;
                 vertical-align: bottom;
@@ -652,6 +651,7 @@
     .post-list__content {
         overflow: hidden;
         height: 100%;
+        margin-right: 5px;
 
         .dropdown-menu {
             &.bottom {
