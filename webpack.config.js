@@ -525,15 +525,14 @@ if (!targetIsStats) {
     config.stats = MYSTATS;
 }
 
-config.devtool = 'source-map';
 if (DEV) {
     // Development mode configuration
     config.mode = 'development';
-    //config.devtool = 'eval-cheap-module-source-map';
+    config.devtool = 'eval-cheap-module-source-map';
 } else {
     // Production mode configuration
     config.mode = 'production';
-    
+    config.devtool = 'source-map';
 }
 
 const env = {};
