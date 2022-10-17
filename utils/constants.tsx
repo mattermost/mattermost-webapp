@@ -925,7 +925,6 @@ export const NotificationSections = {
 
 export const AdvancedSections = {
     CONTROL_SEND: 'advancedCtrlSend',
-    FORMATTING: 'formatting',
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
     PERFORMANCE_DEBUGGING: 'performanceDebugging',

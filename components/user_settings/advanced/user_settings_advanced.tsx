@@ -31,7 +31,6 @@ type Settings = {
     [key: string]: string | undefined;
     send_on_ctrl_enter: Props['sendOnCtrlEnter'];
     code_block_ctrl_enter: Props['codeBlockOnCtrlEnter'];
-    formatting: Props['formatting'];
     join_leave: Props['joinLeave'];
 };
 
@@ -40,7 +39,6 @@ export type Props = {
     advancedSettingsCategory: PreferenceType[];
     sendOnCtrlEnter: string;
     codeBlockOnCtrlEnter: string;
-    formatting: string;
     joinLeave: string;
     unreadScrollPosition: string;
     updateSection: (section?: string) => void;
@@ -79,7 +77,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         const settings: Settings = {
             send_on_ctrl_enter: this.props.sendOnCtrlEnter,
             code_block_ctrl_enter: this.props.codeBlockOnCtrlEnter,
-            formatting: this.props.formatting,
             join_leave: this.props.joinLeave,
             [Preferences.UNREAD_SCROLL_POSITION]: this.props.unreadScrollPosition,
         };
@@ -309,88 +306,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
         );
     }
 
-    renderFormattingSection = () => {
-        if (this.props.activeSection === 'formatting') {
-            return (
-                <SettingItemMax
-                    title={
-                        <FormattedMessage
-                            id='user.settings.advance.formattingTitle'
-                            defaultMessage='Enable Post Formatting'
-                        />
-                    }
-                    inputs={[
-                        <fieldset key='formattingSetting'>
-                            <legend className='form-legend hidden-label'>
-                                <FormattedMessage
-                                    id='user.settings.advance.formattingTitle'
-                                    defaultMessage='Enable Post Formatting'
-                                />
-                            </legend>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='postFormattingOn'
-                                        type='radio'
-                                        name='formatting'
-                                        checked={this.state.settings.formatting !== 'false'}
-                                        onChange={this.updateSetting.bind(this, 'formatting', 'true')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.advance.on'
-                                        defaultMessage='On'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div className='radio'>
-                                <label>
-                                    <input
-                                        id='postFormattingOff'
-                                        type='radio'
-                                        name='formatting'
-                                        checked={this.state.settings.formatting === 'false'}
-                                        onChange={this.updateSetting.bind(this, 'formatting', 'false')}
-                                    />
-                                    <FormattedMessage
-                                        id='user.settings.advance.off'
-                                        defaultMessage='Off'
-                                    />
-                                </label>
-                                <br/>
-                            </div>
-                            <div className='mt-5'>
-                                <FormattedMessage
-                                    id='user.settings.advance.formattingDesc'
-                                    defaultMessage='If enabled, posts will be formatted to create links, show emoji, style the text, and add line breaks. By default, this setting is enabled.'
-                                />
-                            </div>
-                        </fieldset>,
-                    ]}
-                    setting={'formatting'}
-                    submit={this.handleSubmit}
-                    saving={this.state.isSaving}
-                    server_error={this.state.serverError}
-                    updateSection={this.handleUpdateSection}
-                />
-            );
-        }
-
-        return (
-            <SettingItemMin
-                title={
-                    <FormattedMessage
-                        id='user.settings.advance.formattingTitle'
-                        defaultMessage='Enable Post Formatting'
-                    />
-                }
-                describe={this.renderOnOffLabel(this.state.settings.formatting)}
-                section={'formatting'}
-                updateSection={this.handleUpdateSection}
-            />
-        );
-    }
-
     renderUnreadScrollPositionSection = () => {
         if (this.props.activeSection === Preferences.UNREAD_SCROLL_POSITION) {
             return (
@@ -590,12 +505,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     updateSection={this.handleUpdateSection}
                 />
             );
-        }
-
-        const formattingSection = this.renderFormattingSection();
-        let formattingSectionDivider = null;
-        if (formattingSection) {
-            formattingSectionDivider = <div className='divider-light'/>;
         }
 
         let previewFeaturesSection;
@@ -800,9 +709,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     </h3>
                     <div className='divider-dark first'/>
                     {ctrlSendSection}
-                    {formattingSectionDivider}
-                    {formattingSection}
-                    <div className='divider-light'/>
                     <JoinLeaveSection
                         activeSection={this.props.activeSection}
                         onUpdateSection={this.handleUpdateSection}
@@ -810,7 +716,6 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     />
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}
-                    {formattingSectionDivider}
                     <ClientDebuggingSection
                         activeSection={this.props.activeSection}
                         onUpdateSection={this.handleUpdateSection}

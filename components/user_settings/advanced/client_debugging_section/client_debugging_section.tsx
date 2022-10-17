@@ -41,6 +41,9 @@ export default function ClientDebuggingSection(props: Props) {
 function PerformanceDebuggingSectionCollapsed(props: Props) {
     let settingsEnabled = 0;
 
+    if (!props.enablePostFormatting) {
+        settingsEnabled += 1;
+    }
     if (props.disableClientPlugins) {
         settingsEnabled += 1;
     }
@@ -88,6 +91,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
     const [disableClientPlugins, setDisableClientPlugins] = useState(props.disableClientPlugins);
     const [disableTelemetry, setDisableTelemetry] = useState(props.disableTelemetry);
     const [disableTypingMessages, setDisableTypingMessages] = useState(props.disableTypingMessages);
+    const [enablePostFormatting, setEnablePostFormatting] = useState(props.enablePostFormatting);
 
     const handleSubmit = useCallback(() => {
         const preferences = [];
@@ -116,6 +120,14 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
                 value: disableTypingMessages.toString(),
             });
         }
+        if (enablePostFormatting !== props.enablePostFormatting) {
+            preferences.push({
+                user_id: props.currentUserId,
+                category: Preferences.CATEGORY_ADVANCED_SETTINGS,
+                name: Preferences.NAME_ENABLE_POST_FORMATTING,
+                value: enablePostFormatting.toString(),
+            });
+        }
 
         if (preferences.length !== 0) {
             props.savePreferences(props.currentUserId, preferences);
@@ -129,6 +141,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
         disableClientPlugins,
         disableTelemetry,
         disableTypingMessages,
+        enablePostFormatting,
     ]);
 
     return (
@@ -141,6 +154,21 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
             }
             inputs={[
                 <fieldset key='settings'>
+                    <div className='checkbox'>
+                        <label>
+                            <input
+                                type='checkbox'
+                                checked={!enablePostFormatting}
+                                onChange={(e) => {
+                                    setEnablePostFormatting(!e.target.checked);
+                                }}
+                            />
+                            <FormattedMessage
+                                id='user.settings.advance.performance.formatting'
+                                defaultMessage='Disable Post Formatting'
+                            />
+                        </label>
+                    </div>
                     <div className='checkbox'>
                         <label>
                             <input

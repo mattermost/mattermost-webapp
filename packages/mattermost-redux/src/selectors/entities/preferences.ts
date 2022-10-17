@@ -266,3 +266,7 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
+
+export function isPostFormattingEnabled(state: GlobalState): boolean {
+    return getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.NAME_ENABLE_POST_FORMATTING, true);
+}

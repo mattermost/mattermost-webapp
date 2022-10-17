@@ -3,8 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {Preferences} from 'mattermost-redux/constants';
-import {getTheme, getBool} from 'mattermost-redux/selectors/entities/preferences';
+import {getTheme, isPostFormattingEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 
 import {getIsRhsExpanded, getIsRhsOpen} from 'selectors/rhs';
@@ -15,7 +14,7 @@ import PostMessageView from './post_message_view';
 
 function mapStateToProps(state: GlobalState) {
     return {
-        enableFormatting: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'formatting', true),
+        enableFormatting: isPostFormattingEnabled(state),
         isRHSExpanded: getIsRhsExpanded(state),
         isRHSOpen: getIsRhsOpen(state),
         pluginPostTypes: state.plugins.postTypes,
