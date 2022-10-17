@@ -13,7 +13,7 @@ import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
 
 import BroadcastThreadReply from 'components/crt_broadcast_thread_reply';
-import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay.jsx';
+import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
 import MsgTyping from 'components/msg_typing';
