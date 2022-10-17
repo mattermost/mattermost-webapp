@@ -49,7 +49,13 @@ function focusRootPost(post: Post, channel: Channel) {
 
 function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: string, option: Option) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        await dispatch(getPostThread(post.root_id));
+        const {data} = await dispatch(getPostThread(post.root_id));
+
+        if (data.first_inaccessible_post_time) {
+            browserHistory.replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
+            return {data: false};
+        }
+
         const state = getState() as GlobalState;
 
         const team = getTeam(state, channel.team_id || teamId);
@@ -85,6 +91,11 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string, 
 
         if (!data) {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+            return;
+        }
+
+        if (data.first_inaccessible_post_time) {
+            browserHistory.replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
             return;
         }
 
@@ -152,7 +163,10 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string, 
         const post = data.posts[postId];
 
         if (isCollapsed && isComment(post)) {
-            dispatch(focusReplyPost(post, channel, teamId, returnTo, option));
+            const {data} = await dispatch(focusReplyPost(post, channel, teamId, returnTo, option));
+            if (!data) {
+                return;
+            }
         } else {
             dispatch(focusRootPost(post, channel));
         }
