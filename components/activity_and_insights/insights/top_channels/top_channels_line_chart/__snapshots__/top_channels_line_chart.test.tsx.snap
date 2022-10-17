@@ -115,6 +115,7 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                   "pointBackgroundColor": "#1c58d9",
                   "pointBorderColor": "transparent",
                   "pointRadius": 0,
+                  "tension": 0.4,
                 },
                 Object {
                   "backgroundColor": "transparent",
@@ -135,6 +136,7 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                   "pointBackgroundColor": "#3db887",
                   "pointBorderColor": "transparent",
                   "pointRadius": 0,
+                  "tension": 0.4,
                 },
               ],
               "labels": Array [
@@ -148,6 +150,7 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
               ],
             }
           }
+          height={200}
           id="totalPostsPerChannel"
           options={
             Object {
@@ -155,7 +158,11 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                 "mode": "point",
               },
               "maintainAspectRatio": false,
+              "onHover": [Function],
               "plugins": Object {
+                "legend": Object {
+                  "display": false,
+                },
                 "tooltip": Object {
                   "bodyAlign": "left",
                   "bodyFont": Object {
@@ -206,6 +213,7 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                       "size": 10,
                     },
                     "maxTicksLimit": 5,
+                    "precision": 0,
                   },
                 },
               },
@@ -252,6 +260,7 @@ exports[`components/activity_and_insights/insights/top_channels should match sna
                     ]
                   }
                   data-testid="totalPostsPerChannel"
+                  height={200}
                 />
               </div>
             </div>
