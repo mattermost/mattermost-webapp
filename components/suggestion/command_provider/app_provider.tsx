@@ -77,10 +77,10 @@ export default class AppCommandProvider extends Provider {
                 switch (suggestion.type) {
                 case COMMAND_SUGGESTION_USER:
                     element.push(AtMentionSuggestion);
-                    return {...suggestion.item! as UserProfile, type: COMMAND_SUGGESTION_USER};
+                    return {...suggestion.item! as UserProfile, type: Constants.Integrations.COMMAND};
                 case COMMAND_SUGGESTION_CHANNEL:
                     element.push(ChannelMentionSuggestion);
-                    return {channel: suggestion.item! as Channel, type: COMMAND_SUGGESTION_CHANNEL};
+                    return {channel: suggestion.item! as Channel, type: Constants.Integrations.COMMAND};
                 default:
                     element.push(CommandSuggestion);
                     return {
