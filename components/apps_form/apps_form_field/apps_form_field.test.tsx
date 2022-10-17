@@ -97,6 +97,25 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
             )).toEqual(true);
         });
 
+        it('subtype textarea', () => {
+            const wrapper = shallow(
+                <AppsFormField
+                    {...baseDialogTextProps}
+                    field={{
+                        ...textField,
+                        subtype: 'textarea'
+                    }}
+                />,
+            );
+            expect(wrapper.matchesElement(
+                <TextSetting
+                    {...baseTextSettingProps}
+                    resizable = {true}
+                    type='input'
+                />,
+            )).toEqual(true);
+        });
+
         it('subtype email', () => {
             const wrapper = shallow(
                 <AppsFormField

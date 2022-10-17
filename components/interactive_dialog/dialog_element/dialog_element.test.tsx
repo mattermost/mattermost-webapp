@@ -33,6 +33,22 @@ describe('components/interactive_dialog/DialogElement', () => {
             </React.Fragment>
         ),
     };
+    it('subtype textarea', () => {
+        const wrapper = shallow(
+            <DialogElement
+                {...baseDialogProps}
+                subtype='textarea'
+            />,
+        );
+        expect(wrapper.matchesElement(
+            <TextSetting
+                {...baseTextSettingProps}
+                resizable = {true}
+                type='input'
+            />,
+        )).toEqual(true);
+    });
+
     it('subtype blank', () => {
         const wrapper = shallow(
             <DialogElement
