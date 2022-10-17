@@ -52,6 +52,7 @@ export type Product = {
     sku: string;
     billing_scheme: string;
     recurring_interval: string;
+    CrossSellsTo: string;
 };
 
 export type AddOn = {
