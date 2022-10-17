@@ -9,8 +9,6 @@
 
 // Group: @enterprise @system_console @channel_moderation
 
-import {UserProfile} from '@mattermost/types/users';
-
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {getRandomId} from '../../../../utils';
 import {getAdminAccount} from '../../../../support/env';
@@ -30,11 +28,10 @@ import {
 } from './helpers';
 
 describe('MM-23102 - Channel Moderation - Post Reactions', () => {
-    let regularUser: UserProfile;
-    let guestUser: UserProfile;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let testTeam: any;
-    let testChannel: { id: string; name: string; display_name: string };
+    let regularUser: Cypress.UserProfile;
+    let guestUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     const admin = getAdminAccount();
 

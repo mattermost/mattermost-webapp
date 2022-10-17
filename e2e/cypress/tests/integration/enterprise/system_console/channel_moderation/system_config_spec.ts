@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
-import {UserProfile} from '@mattermost/types/users';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
@@ -23,9 +22,9 @@ import {
 } from './helpers';
 
 describe('Channel Moderation', () => {
-    let guestUser: UserProfile;
-    let testTeam: { id: string };
-    let testChannel: { id: string; name: string; display_name: string };
+    let guestUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         // * Check if server has license
