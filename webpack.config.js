@@ -487,7 +487,6 @@ async function initializeModuleFederation() {
 
             // Other containers will be forced to use the exact versions of shared modules that the web app provides.
             makeSingletonSharedModules([
-                'history',
                 'react',
                 'react-bootstrap',
                 'react-dom',
