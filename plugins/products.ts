@@ -51,24 +51,42 @@ export function initializeProducts() {
 
             console.log(`Loading product ${product.id}...`);
 
+            // Start loading the product
+            let imports;
             try {
-                // Start loading the product
-                const imports = product.load();
+                imports = product.load();
+            } catch (e) {
+                console.error(`Error loading ${product.id}`, e);
+                return;
+            }
 
-                // Wait for the individual parts to load
-                const index = await imports.index;
+            // Wait for the individual parts to load
+            let index;
+            try {
+                index = await imports.index;
+            } catch (e) {
+                console.error(`Error loading index for ${product.id}`, e);
+                return;
+            }
 
-                // const manifest = await imports.manifest;
-                // const actualIndex = index.default;
-                // const actualManifest = manifest.default;
+            // let manifest;
+            // try {
+            //     manifest = await imports.manifest;
+            // } catch (e) {
+            //     console.error(`Error loading manifest for ${product.id}`, e);
+            //     return;
+            // }
 
-                // Initialize the previously loaded data
-                console.log(`Initializing product ${product.id}...`);
+            // Initialize the previously loaded data
+            console.log(`Initializing product ${product.id}...`);
+
+            try {
                 initializeProduct(product.id, index.default);
-                console.log(`Product ${product.id} initialized!`);
             } catch (e) {
                 console.error(`Error loading and initializing product ${product.id}`, e);
             }
+
+            console.log(`Product ${product.id} initialized!`);
         }));
 
         return {data: true};
