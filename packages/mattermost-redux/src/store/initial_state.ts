@@ -207,6 +207,7 @@ const state: GlobalState = {
                 limits: {},
                 limitsLoaded: false,
             },
+            errors: {},
         },
         usage: {
             files: {

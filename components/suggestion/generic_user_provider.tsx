@@ -14,6 +14,14 @@ import Avatar from 'components/widgets/users/avatar';
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
+import {UserAutocomplete, UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies.js';
+
+type ProviderResults = {
+    matchedPretext: string;
+    terms: string[];
+    items: Array<Record<string, any>>;
+    component?: React.ReactNode;
+}
 
 class UserSuggestion extends Suggestion {
     render() {
@@ -64,11 +72,12 @@ class UserSuggestion extends Suggestion {
 }
 
 export default class UserProvider extends Provider {
-    constructor(searchUsersFunc) {
+    autocompleteUsers: (text: string) => Promise<UserAutocomplete>;
+    constructor(searchUsersFunc: (username: string) => Promise<UserAutocomplete>) {
         super();
         this.autocompleteUsers = searchUsersFunc;
     }
-    async handlePretextChanged(pretext, resultsCallback) {
+    async handlePretextChanged(pretext: string, resultsCallback: (res: ProviderResults) => void) {
         const normalizedPretext = pretext.toLowerCase();
         this.startNewRequest(normalizedPretext);
 
@@ -82,7 +91,7 @@ export default class UserProvider extends Provider {
 
         resultsCallback({
             matchedPretext: normalizedPretext,
-            terms: users.map((user) => user.username),
+            terms: users.map((user: UserProfile) => user.username),
             items: users,
             component: UserSuggestion,
         });
