@@ -11,7 +11,7 @@ import {Client4} from 'mattermost-redux/client';
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {AutocompleteSuggestion, CommandArgs} from '@mattermost/types/integrations';
 
-import globalStore from 'stores/redux_store.jsx';
+import globalStore from 'stores/redux_store';
 
 import * as UserAgent from 'utils/user_agent';
 import * as Utils from 'utils/utils';

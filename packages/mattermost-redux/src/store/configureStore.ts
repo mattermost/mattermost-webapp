@@ -10,10 +10,11 @@ import {
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 
-import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 import {GlobalState} from '@mattermost/types/store';
 
 import serviceReducers from '../reducers';
+
+import reducerRegistry from './reducer_registry';
 
 import {createReducer} from './helpers';
 import initialState from './initial_state';
