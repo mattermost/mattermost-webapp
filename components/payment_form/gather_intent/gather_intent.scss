@@ -34,8 +34,8 @@
     .modal-content {
         max-width: 512px;
         max-height: 465px;
-        border-radius: 12px;
         background: var(--center-channel-bg);
+        border-radius: 12px;
     }
 
     .modal-dialog {
@@ -141,8 +141,8 @@
         &__textarea {
             width: 100%;
             border: solid 1px rgba(63, 67, 80, 0.16);
-            border-radius: 4px;
             background: rgb(var(--center-channel-bg-rgb));
+            border-radius: 4px;
             resize: none;
         }
     }
