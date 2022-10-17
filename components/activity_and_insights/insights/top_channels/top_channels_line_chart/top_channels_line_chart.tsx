@@ -18,6 +18,7 @@ import {Preferences} from 'mattermost-redux/constants';
 import LineChart from 'components/analytics/line_chart';
 
 import './../../../activity_and_insights.scss';
+import { ChartEvent } from 'chart.js';
 
 type Props = {
     topChannels: TopChannel[];
@@ -99,6 +100,7 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
                     label: topChannels[i].display_name,
                     data: data.values[topChannels[i].id],
                     hitRadius: 10,
+                    tension: 0.4,
                 });
             }
         }
@@ -123,6 +125,11 @@ const TopChannelsLineChart = ({topChannels, timeFrame, channelLineChartData, tim
                 responsive: true,
                 hover: {
                     mode: 'point',
+                },
+                onHover: (e, activeElements) => {
+                    if (e.native && e.native.target) {
+                        (e.native.target as HTMLElement).style.cursor = activeElements?.length > 0 ? 'pointer' : 'auto';
+                    }
                 },
                 maintainAspectRatio: false,
                 scales: {
