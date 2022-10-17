@@ -100,7 +100,7 @@ declare namespace Cypress {
          * @param {string} userId - User ID
          * @param {string} value - value of tutorial step, e.g. '999' (default, completed tutorial)
          */
-        apiSaveTutorialStep(userId: string, value: string): Chainable<Response>;
+        apiSaveTutorialStep(userId: string, value?: string = '999'): Chainable<Response<PreferenceType[]>>;
 
         /**
          * Save cloud trial banner preference.
@@ -147,13 +147,5 @@ declare namespace Cypress {
          * @param {string} value - value of tutorial step, e.g. '999' (default, completed tutorial)
          */
         apiSaveSkipStepsPreference(userId: string, value: string): Chainable<Response<PreferenceType[]>>;
-
-        /**
-         * Saves tutorial step of a user
-         * This API assume that the user is logged in and has cookie to access
-         * @param {string} userId - User ID
-         * @param {string} value - value of tutorial step, e.g. '999' (default, completed tutorial)
-         */
-        apiSaveTutorialStep(userId: string, value?: string = '999'): Chainable<Response<PreferenceType[]>>;
     }
 }
