@@ -67,7 +67,7 @@ const apiLoginWithMFA = (user: User, token: string): ChainableT<UserProfileResul
 };
 Cypress.Commands.add('apiLoginWithMFA', apiLoginWithMFA);
 
-const apiAdminLogin = (requestOptions = {}) => {
+const apiAdminLogin = (requestOptions = {}): ChainableT<any> => {
     const admin = getAdminAccount();
 
     // First, login with username
@@ -88,6 +88,8 @@ const apiAdminLogin = (requestOptions = {}) => {
 
         return resp;
     });
+
+    return cy;
 };
 Cypress.Commands.add('apiAdminLogin', apiAdminLogin);
 
