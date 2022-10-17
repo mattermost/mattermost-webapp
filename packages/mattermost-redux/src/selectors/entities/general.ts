@@ -102,7 +102,7 @@ export function getFirstAdminSetupComplete(state: GlobalState): boolean {
     return state.entities.general.firstAdminCompleteSetup;
 }
 
-export function isPerformanceDebuggingEnabled(state: GlobalState): boolean {
+export function isClientDebuggingEnabled(state: GlobalState): boolean {
     return state.entities.general.config.EnableClientPerformanceDebugging === 'true';
 }
 

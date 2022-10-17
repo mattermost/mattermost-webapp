@@ -11,7 +11,7 @@ import {
 } from 'mattermost-redux/actions/channels';
 import {logout, loadMe, loadMeREST} from 'mattermost-redux/actions/users';
 import {Preferences} from 'mattermost-redux/constants';
-import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, isClientDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId, getMyTeams, getTeam, getMyTeamMember, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getBool, isCollapsedThreadsEnabled, isGraphQLEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -213,8 +213,8 @@ export function emitLocalUserTypingEvent(channelId: string, parentPostId: string
         const config = getConfig(state);
 
         if (
-            isPerformanceDebuggingEnabled(state) &&
-            getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
+            isClientDebuggingEnabled(state) &&
+            getBool(state, Preferences.CATEGORY_CLIENT_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
         ) {
             return {data: false};
         }

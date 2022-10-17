@@ -7,7 +7,7 @@ import {Client4} from 'mattermost-redux/client';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, isClientDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
@@ -54,8 +54,8 @@ function arePluginsEnabled(state) {
     }
 
     if (
-        isPerformanceDebuggingEnabled(state) &&
-        getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_CLIENT_PLUGINS)
+        isClientDebuggingEnabled(state) &&
+        getBool(state, Preferences.CATEGORY_CLIENT_DEBUGGING, Preferences.NAME_DISABLE_CLIENT_PLUGINS)
     ) {
         return false;
     }

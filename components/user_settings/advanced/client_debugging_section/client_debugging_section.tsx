@@ -18,7 +18,7 @@ type Props = PropsFromRedux & {
     onUpdateSection: (section?: string) => void;
 };
 
-export default function PerformanceDebuggingSection(props: Props) {
+export default function ClientDebuggingSection(props: Props) {
     if (!props.performanceDebuggingEnabled) {
         return null;
     }
@@ -74,7 +74,7 @@ function PerformanceDebuggingSectionCollapsed(props: Props) {
             title={
                 <FormattedMessage
                     id='user.settings.advance.performance.title'
-                    defaultMessage='Performance Debugging'
+                    defaultMessage='Debugging'
                 />
             }
             describe={description}
@@ -95,7 +95,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
         if (disableClientPlugins !== props.disableClientPlugins) {
             preferences.push({
                 user_id: props.currentUserId,
-                category: Preferences.CATEGORY_PERFORMANCE_DEBUGGING,
+                category: Preferences.CATEGORY_CLIENT_DEBUGGING,
                 name: Preferences.NAME_DISABLE_CLIENT_PLUGINS,
                 value: disableClientPlugins.toString(),
             });
@@ -103,7 +103,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
         if (disableTelemetry !== props.disableTelemetry) {
             preferences.push({
                 user_id: props.currentUserId,
-                category: Preferences.CATEGORY_PERFORMANCE_DEBUGGING,
+                category: Preferences.CATEGORY_CLIENT_DEBUGGING,
                 name: Preferences.NAME_DISABLE_TELEMETRY,
                 value: disableTelemetry.toString(),
             });
@@ -111,7 +111,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
         if (disableTypingMessages !== props.disableTypingMessages) {
             preferences.push({
                 user_id: props.currentUserId,
-                category: Preferences.CATEGORY_PERFORMANCE_DEBUGGING,
+                category: Preferences.CATEGORY_CLIENT_DEBUGGING,
                 name: Preferences.NAME_DISABLE_TYPING_MESSAGES,
                 value: disableTypingMessages.toString(),
             });
@@ -136,7 +136,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
             title={
                 <FormattedMessage
                     id='user.settings.advance.performance.title'
-                    defaultMessage='Performance Debugging'
+                    defaultMessage='Debugging'
                 />
             }
             inputs={[
@@ -189,7 +189,7 @@ function PerformanceDebuggingSectionExpanded(props: Props) {
                     <div className='mt-5'>
                         <FormattedMessage
                             id='user.settings.advance.performance.info1'
-                            defaultMessage="You may enable these settings temporarily to help isolate performance issues while debugging. We don't recommend leaving these settings enabled for an extended period of time as they can negatively impact your user experience."
+                            defaultMessage="You may enable these settings temporarily to help isolate issues while debugging. We don't recommend leaving these settings enabled for an extended period of time as they can negatively impact your user experience."
                         />
                         <br/>
                         <br/>

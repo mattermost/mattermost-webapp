@@ -23,7 +23,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import JoinLeaveSection from './join_leave_section';
-import PerformanceDebuggingSection from './performance_debugging_section';
+import ClientDebuggingSection from './client_debugging_section';
 
 const PreReleaseFeatures = Constants.PRE_RELEASE_FEATURES;
 
@@ -811,7 +811,7 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
                     {previewFeaturesSectionDivider}
                     {previewFeaturesSection}
                     {formattingSectionDivider}
-                    <PerformanceDebuggingSection
+                    <ClientDebuggingSection
                         activeSection={this.props.activeSection}
                         onUpdateSection={this.handleUpdateSection}
                     />

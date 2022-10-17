@@ -7,7 +7,7 @@ import {getMissingProfilesByIds, getStatusesByIds} from 'mattermost-redux/action
 
 import {General, Preferences, WebsocketEvents} from 'mattermost-redux/constants';
 
-import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, isClientDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
 
@@ -24,8 +24,8 @@ export function userStartedTyping(userId: string, channelId: string, rootId: str
         const state = getState();
 
         if (
-            isPerformanceDebuggingEnabled(state) &&
-            getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
+            isClientDebuggingEnabled(state) &&
+            getBool(state, Preferences.CATEGORY_CLIENT_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
         ) {
             return;
         }

@@ -5,7 +5,7 @@ import {getSortedTrackedSelectors} from 'reselect';
 
 import {Client4} from 'mattermost-redux/client';
 import {Preferences} from 'mattermost-redux/constants';
-import {getConfig, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, isClientDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
 import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 
 import store from 'stores/redux_store.jsx';
@@ -33,8 +33,8 @@ export function shouldTrackPerformance(state = store.getState()) {
 export function trackEvent(category, event, props) {
     const state = store.getState();
     if (
-        isPerformanceDebuggingEnabled(state) &&
-        getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY)
+        isClientDebuggingEnabled(state) &&
+        getBool(state, Preferences.CATEGORY_CLIENT_DEBUGGING, Preferences.NAME_DISABLE_TELEMETRY)
     ) {
         return;
     }
