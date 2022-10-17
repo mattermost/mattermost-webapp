@@ -37,7 +37,7 @@ type Props = {
         value: string;
     }>;
     value?: string | boolean;
-    onChange: (name: string, selected: string) => void;
+    onChange: (name: string, selected?: string) => void;
     autoFocus?: boolean;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<void>;
@@ -46,13 +46,13 @@ type Props = {
 }
 
 type State = {
-    value: string;
+    value?: string;
 }
 
 type Selected = {
-    id: string;
-    username: string;
-    display_name: string;
+    id?: string;
+    username?: string;
+    display_name?: string;
     value: string;
     text: string;
 }

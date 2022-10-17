@@ -51,7 +51,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
     });
 
     test('check snapshot with value prop and changing focus', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AutocompleteSelector>(
             <AutocompleteSelector
                 providers={[]}
                 label='some label'
@@ -135,7 +135,7 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
 
     test('onSelected', () => {
         const onSelected = jest.fn();
-        const wrapper = shallow(
+        const wrapper = shallow<AutocompleteSelector>(
             <AutocompleteSelector
                 label='some label'
                 value='some value'

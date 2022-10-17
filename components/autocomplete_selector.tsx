@@ -1,30 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list';
 
-import {AppSelectOption} from '@mattermost/types/apps';
-
 import ModalSuggestionList from './suggestion/modal_suggestion_list';
-import {Channel} from './suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
-import UserProfile from './user_profile/user_profile';
 import Provider from './suggestion/provider';
 
-type Select = {
-    id: string;
-    username: string;
-    display_name: string;
+type Selected = {
+    id?: string;
+    username?: string;
+    display_name?: string;
     value: string;
     text: string;
 }
-type Selected = AppSelectOption & UserProfile & Channel & Select;
+
+// type Selected = AppSelectOption & UserProfile & Channel & Select;
 
 type Props = {
-    onSelected: (selected: Selected) => void;
+    onSelected?: (selected: Selected) => void;
     value: string;
     providers: Provider[];
     placeholder?: string ;
@@ -44,26 +40,10 @@ type Props = {
 type State = {
     target?: {value: string};
     focused?: boolean;
-    input: string;
+    input?: string;
 }
 
 export default class AutocompleteSelector extends React.PureComponent <Props, State> {
-    static propTypes = {
-        providers: PropTypes.array.isRequired,
-        value: PropTypes.string.isRequired,
-        onSelected: PropTypes.func,
-        label: PropTypes.node,
-        labelClassName: PropTypes.string,
-        inputClassName: PropTypes.string,
-        helpText: PropTypes.node,
-        placeholder: PropTypes.string,
-        footer: PropTypes.node,
-        disabled: PropTypes.bool,
-        toggleFocus: PropTypes.func,
-        listComponent: PropTypes.elementType,
-        listPosition: PropTypes.string,
-    };
-
     static defaultProps = {
         value: '',
         id: '',
