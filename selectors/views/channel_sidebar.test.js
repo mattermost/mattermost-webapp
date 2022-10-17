@@ -2,9 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Preferences} from 'mattermost-redux/constants';
-
 import mergeObjects from 'mattermost-redux/test/merge_objects';
-
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 import {TestHelper} from 'utils/test_helper';
