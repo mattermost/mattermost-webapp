@@ -469,7 +469,7 @@ async function initializeModuleFederation() {
 
     const {remotes, aliases} = await getRemoteModules();
 
-    config.plugins.push(new ModuleFederationPlugin({
+    const moduleFederationPluginOptions = {
         name: 'mattermost-webapp',
         remotes,
         shared: [
@@ -495,7 +495,20 @@ async function initializeModuleFederation() {
                 'react-router-dom',
             ]),
         ],
-    }));
+    };
+
+    // Desktop specific code for remote module loading
+    moduleFederationPluginOptions.exposes = {
+        './root': 'components/root',
+        './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
+        './store': 'stores/redux_store.jsx',
+        './styles': 'sass/styles.scss',
+        './registry': 'registry',
+    };
+    moduleFederationPluginOptions.filename = 'remoteEntry.js';
+    moduleFederationPluginOptions.name = 'mattermost_webapp';
+
+    config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 
     config.resolve.alias = {
         ...config.resolve.alias,
