@@ -177,7 +177,7 @@ export default class DialogElement extends React.PureComponent<Props, State> {
                     placeholder={placeholder}
                     helpText={helpTextContent}
                     onChange={onChange}
-                    resizable={true}
+                    resizable={false}
                 />
             );
         } else if (type === 'select') {
