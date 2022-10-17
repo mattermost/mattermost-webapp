@@ -5136,6 +5136,7 @@
   "user.settings.import_theme.submit": "Submit",
   "user.settings.import_theme.submitError": "Invalid format, please try copying and pasting in again.",
   "user.settings.languages.change": "Change interface language",
+  "user.settings.languages.dropdown.arialabel": "Dropdown selector to change the interface language",
   "user.settings.languages.promote1": "Select which language Mattermost displays in the user interface.",
   "user.settings.languages.promote2": "Would you like to help with translations? Join the <link>Mattermost Translation Server</link> to contribute.",
   "user.settings.mfa.add": "Add MFA to Account",
