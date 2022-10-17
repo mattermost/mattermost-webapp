@@ -44,7 +44,7 @@ describe('components/interactive_dialog/DialogElement', () => {
             <TextSetting
                 {...baseTextSettingProps}
                 resizable = {true}
-                type='input'
+                type = 'input'
             />,
         )).toEqual(true);
     });
