@@ -132,15 +132,11 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         onToggle={handleMenuToggle}
                         className='SidebarHeaderMenuWrapper test-team-header'
                     >
-                        <SidebarHeading >
-                            <div
-                                className='title'
-                                tabIndex={0}
-                            >{currentTeam.display_name}</div>
-                            <i
-                                tabIndex={0}
-                                className='icon icon-chevron-down'
-                            />
+                        <SidebarHeading>
+                            <button className='style--none header'>
+                                <span className='title'>{currentTeam.display_name}</span>
+                                <i className='icon icon-chevron-down'/>
+                            </button>
                         </SidebarHeading>
                         <MainMenu
                             id='sidebarDropdownMenu'

@@ -45,7 +45,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     &.dragging {
         z-index: 14;
 
-        & + div {
+        &+div {
             cursor: no-drop !important;
         }
 
@@ -338,6 +338,12 @@ $sidebarOpacityAnimationDuration: 0.15s;
         outline-style: none;
     }
 
+    .header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
     .SidebarHeaderMenuWrapper {
         padding-left: 5px;
         background: transparent;
@@ -505,7 +511,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             z-index: unset !important;
         }
 
-        .scrollbar--view ~ div {
+        .scrollbar--view~div {
             z-index: 2;
 
             div {
@@ -557,7 +563,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             border-radius: 4px;
             opacity: 1;
 
-            > i {
+            >i {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
                 font-size: 18px;
                 line-height: 16px;
@@ -571,7 +577,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
             }
 
             &.animating {
-                transition-duration: 0.15s; /* collapse animation speed */
+                transition-duration: 0.15s;
+                /* collapse animation speed */
                 transition-property: height, padding, color, opacity;
                 transition-timing-function: ease-out;
             }
@@ -610,11 +617,11 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
 
         .SidebarChannelGroupHeader_groupButton.a11y--focused {
-            & + .SidebarMenu .SidebarMenu_menuButton {
+            &+.SidebarMenu .SidebarMenu_menuButton {
                 opacity: 1;
             }
 
-            & + .SidebarChannelGroupHeader_sortButton {
+            &+.SidebarChannelGroupHeader_sortButton {
                 opacity: 1;
             }
         }
@@ -672,6 +679,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
 
         &.muted {
+
             .icon-chevron-down,
             .SidebarChannelGroupHeader_text {
                 opacity: 0.4;
@@ -800,7 +808,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
                 visibility: hidden;
             }
 
-            + .SidebarChannelGroupHeader_text {
+            +.SidebarChannelGroupHeader_text {
                 padding-left: 0;
             }
         }
@@ -810,12 +818,12 @@ $sidebarOpacityAnimationDuration: 0.15s;
         padding-left: 0;
     }
 
-    button.SidebarChannelGroupHeader_groupButton > div {
+    button.SidebarChannelGroupHeader_groupButton>div {
         // This overrides react-beautiful-dnd's grab cursor
         cursor: pointer;
     }
 
-    .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+    .SidebarChannelGroup.menuIsOpen~.SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         background-color: inherit !important;
 
         .SidebarCategory_newLabel {
@@ -852,8 +860,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
     .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
-        > div:not(.SidebarCategory_newLabel),
-        > i {
+        >div:not(.SidebarCategory_newLabel),
+        >i {
             color: var(--sidebar-text);
         }
     }
@@ -867,7 +875,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         width: 208px;
     }
 
-    .SidebarChannelGroup .SidebarChannelGroupHeader > i {
+    .SidebarChannelGroup .SidebarChannelGroupHeader>i {
         font-size: 12px;
     }
 
@@ -998,7 +1006,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
     .SidebarChannel {
         display: flex;
         overflow: hidden;
-        height: 32px; /* height required for transition animation */
+        height: 32px;
+        /* height required for transition animation */
         align-items: center;
 
         /* border: solid 2px transparent; */
@@ -1077,7 +1086,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             border-radius: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
 
-            > span {
+            >span {
                 color: var(--center-channel-bg);
                 font-size: 12px;
                 font-weight: 600;
@@ -1085,7 +1094,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             }
         }
 
-        > span {
+        >span {
             flex-grow: 1;
         }
 
@@ -1121,7 +1130,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
     /* fade out collapsing list item */
     .SidebarChannel.animating .SidebarLink {
-        transition-duration: 0.15s; /* speed should match collapse animation speed */
+        transition-duration: 0.15s;
+        /* speed should match collapse animation speed */
         transition-property: color;
         transition-timing-function: ease-out;
     }
@@ -1145,8 +1155,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
 
         &.muted {
+
             div.SidebarChannelLinkLabel_wrapper,
-            > i,
+            >i,
             .status.status--group,
             .badge,
             .status-wrapper {
@@ -1230,26 +1241,26 @@ $sidebarOpacityAnimationDuration: 0.15s;
     }
 
     .SidebarChannel.unread .SidebarChannelLinkLabel,
-    .SidebarChannel.unread .SidebarLink > i,
+    .SidebarChannel.unread .SidebarLink>i,
     .SidebarChannel.unread .SidebarLink:hover .SidebarChannelLinkLabel {
         color: var(--sidebar-unread-text);
         font-weight: 600;
     }
 
-    .SidebarChannel .SidebarLink > i {
+    .SidebarChannel .SidebarLink>i {
         display: flex;
         margin: 0 6px 0 -2px;
         font-size: 18px;
     }
 
     .SidebarChannelLinkLabel_wrapper,
-    .SidebarChannelLinkLabel_wrapper > div {
+    .SidebarChannelLinkLabel_wrapper>div {
         display: flex;
         overflow: hidden;
         flex-grow: 1;
     }
 
-    .SidebarChannelLinkLabel_wrapper > div.truncated {
+    .SidebarChannelLinkLabel_wrapper>div.truncated {
         display: block;
         overflow: hidden;
         width: 100%;
@@ -1281,14 +1292,16 @@ $sidebarOpacityAnimationDuration: 0.15s;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: auto;
-        transition: transform 0.15s ease-out; /* should match collapse animation speed */
+        transition: transform 0.15s ease-out;
+        /* should match collapse animation speed */
     }
 
     .icon-rotate-minus-90 {
         -webkit-transform: rotate(-90deg);
         -ms-transform: rotate(-90deg);
         transform: rotate(-90deg);
-        transition: transform 0.15s ease-out; /* should match collapse animation speed */
+        transition: transform 0.15s ease-out;
+        /* should match collapse animation speed */
     }
 
     :root .icon-rotate-180 {
@@ -1317,7 +1330,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         color: var(--dnd-indicator);
     }
 
-    + .inner-wrap #app-content {
+    +.inner-wrap #app-content {
         margin-left: 240px;
     }
 }
@@ -1326,7 +1339,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     #SidebarContainer {
         left: 65px;
 
-        + .inner-wrap #app-content {
+        +.inner-wrap #app-content {
             margin-left: 305px;
         }
     }
@@ -1360,15 +1373,17 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
 // Manual override of the global menu (and items) styling for the sidebar dropdown menu
 #sidebarDropdownMenu .MenuItem {
-    > button,
-    > div,
-    > a {
+
+    >button,
+    >div,
+    >a {
         padding: 0 32px 0 24px;
     }
 }
 
 // global header style adjustments
 @media screen and (min-width: 769px) {
+
     // adjust height of sidebar to account for global header
     #SidebarContainer {
         height: calc(100% - 40px);
