@@ -32,6 +32,8 @@ const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
 
+const boardsDevServerUrl = process.env.MM_BOARDS_DEV_SERVER_URL ?? 'http://localhost:9006';
+
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
@@ -394,8 +396,7 @@ function generateCSP() {
         // react-hot-loader and development source maps require eval
         csp += ' \'unsafe-eval\'';
 
-        // Focalboard runs on http://localhost:9006
-        csp += ' http://localhost:9006';
+        csp += ' ' + boardsDevServerUrl;
     }
 
     return csp;
@@ -440,7 +441,7 @@ async function initializeModuleFederation() {
 
     async function getRemoteContainers() {
         const products = [
-            {name: 'boards', baseUrl: 'http://localhost:9006'},
+            {name: 'boards', baseUrl: boardsDevServerUrl},
         ];
 
         if (!DEV) {
