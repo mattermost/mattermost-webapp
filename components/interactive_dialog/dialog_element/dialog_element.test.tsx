@@ -43,8 +43,8 @@ describe('components/interactive_dialog/DialogElement', () => {
         expect(wrapper.matchesElement(
             <TextSetting
                 {...baseTextSettingProps}
-                resizable = {true}
-                type = 'input'
+                resizable={true}
+                type='input'
             />,
         )).toEqual(true);
     });
