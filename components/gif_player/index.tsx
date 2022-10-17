@@ -9,8 +9,6 @@ const preload = (src: string, callback: (img: HTMLImageElement) => void) => {
     const img = new Image();
     if (typeof callback === 'function') {
         img.onload = () => callback(img);
-
-        // img.setAttribute('crossOrigin', 'anonymous');
     }
     img.src = src;
 };
@@ -24,13 +22,12 @@ const firstGifFrameUrl = (img: HTMLImageElement) => {
     canvas.height = img.height;
     const ctx = canvas.getContext('2d');
     ctx?.drawImage(img, 0, 0);
-    console.log('props canvas', img, canvas.toDataURL());
     return canvas.toDataURL();
 };
 
 type Props = {
     gif: string;
-    still: string;
+    still?: string;
     playing: boolean;
     toggle: () => void;
     propagation?: boolean;
@@ -65,7 +62,6 @@ function GifPlayerContainer(props: GifCTRProps) {
 
     useEffect(() => {
         preload(props.gif, (img) => {
-            console.log('props gif', props.gif);
             const actualStill = firstGifFrameUrl(img);
             if (actualStill) {
                 setActualStill(actualStill);

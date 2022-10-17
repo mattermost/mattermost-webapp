@@ -22,10 +22,10 @@ import Constants, {PostTypes} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
 import {makeUrlSafe} from 'utils/url';
 
-import {getNearestPoint} from './get_nearest_point';
-
-import './post_attachment_opengraph.scss';
 import GIFPlayer from 'components/gif_player';
+
+import {getNearestPoint} from './get_nearest_point';
+import './post_attachment_opengraph.scss';
 
 const DIMENSIONS_NEAREST_POINT_IMAGE = {
     height: 80,
