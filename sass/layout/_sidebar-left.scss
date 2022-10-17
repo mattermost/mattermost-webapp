@@ -45,7 +45,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     &.dragging {
         z-index: 14;
 
-        &+div {
+        & + div {
             cursor: no-drop !important;
         }
 
@@ -511,7 +511,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             z-index: unset !important;
         }
 
-        .scrollbar--view~div {
+        .scrollbar--view ~ div {
             z-index: 2;
 
             div {
@@ -578,6 +578,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
             &.animating {
                 transition-duration: 0.15s;
+
                 /* collapse animation speed */
                 transition-property: height, padding, color, opacity;
                 transition-timing-function: ease-out;
@@ -617,11 +618,11 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
 
         .SidebarChannelGroupHeader_groupButton.a11y--focused {
-            &+.SidebarMenu .SidebarMenu_menuButton {
+            & + .SidebarMenu .SidebarMenu_menuButton {
                 opacity: 1;
             }
 
-            &+.SidebarChannelGroupHeader_sortButton {
+            & + .SidebarChannelGroupHeader_sortButton {
                 opacity: 1;
             }
         }
@@ -679,7 +680,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
 
         &.muted {
-
             .icon-chevron-down,
             .SidebarChannelGroupHeader_text {
                 opacity: 0.4;
@@ -818,12 +818,12 @@ $sidebarOpacityAnimationDuration: 0.15s;
         padding-left: 0;
     }
 
-    button.SidebarChannelGroupHeader_groupButton>div {
+    button.SidebarChannelGroupHeader_groupButton > div {
         // This overrides react-beautiful-dnd's grab cursor
         cursor: pointer;
     }
 
-    .SidebarChannelGroup.menuIsOpen~.SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
+    .SidebarChannelGroup.menuIsOpen ~ .SidebarChannelGroup .SidebarChannelGroupHeader_groupButton {
         background-color: inherit !important;
 
         .SidebarCategory_newLabel {
@@ -875,7 +875,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         width: 208px;
     }
 
-    .SidebarChannelGroup .SidebarChannelGroupHeader>i {
+    .SidebarChannelGroup .SidebarChannelGroupHeader > i {
         font-size: 12px;
     }
 
@@ -1007,6 +1007,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         display: flex;
         overflow: hidden;
         height: 32px;
+
         /* height required for transition animation */
         align-items: center;
 
@@ -1131,6 +1132,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     /* fade out collapsing list item */
     .SidebarChannel.animating .SidebarLink {
         transition-duration: 0.15s;
+
         /* speed should match collapse animation speed */
         transition-property: color;
         transition-timing-function: ease-out;
@@ -1155,7 +1157,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
         }
 
         &.muted {
-
             div.SidebarChannelLinkLabel_wrapper,
             >i,
             .status.status--group,
@@ -1241,26 +1242,26 @@ $sidebarOpacityAnimationDuration: 0.15s;
     }
 
     .SidebarChannel.unread .SidebarChannelLinkLabel,
-    .SidebarChannel.unread .SidebarLink>i,
+    .SidebarChannel.unread .SidebarLink > i,
     .SidebarChannel.unread .SidebarLink:hover .SidebarChannelLinkLabel {
         color: var(--sidebar-unread-text);
         font-weight: 600;
     }
 
-    .SidebarChannel .SidebarLink>i {
+    .SidebarChannel .SidebarLink > i {
         display: flex;
         margin: 0 6px 0 -2px;
         font-size: 18px;
     }
 
     .SidebarChannelLinkLabel_wrapper,
-    .SidebarChannelLinkLabel_wrapper>div {
+    .SidebarChannelLinkLabel_wrapper > div {
         display: flex;
         overflow: hidden;
         flex-grow: 1;
     }
 
-    .SidebarChannelLinkLabel_wrapper>div.truncated {
+    .SidebarChannelLinkLabel_wrapper > div.truncated {
         display: block;
         overflow: hidden;
         width: 100%;
@@ -1293,6 +1294,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: auto;
         transition: transform 0.15s ease-out;
+
         /* should match collapse animation speed */
     }
 
@@ -1301,6 +1303,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         -ms-transform: rotate(-90deg);
         transform: rotate(-90deg);
         transition: transform 0.15s ease-out;
+
         /* should match collapse animation speed */
     }
 
@@ -1373,7 +1376,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
 // Manual override of the global menu (and items) styling for the sidebar dropdown menu
 #sidebarDropdownMenu .MenuItem {
-
     >button,
     >div,
     >a {
