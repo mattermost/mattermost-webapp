@@ -28,6 +28,8 @@ import {t} from 'utils/i18n';
 import {Post} from '@mattermost/types/posts';
 import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
 
+import PostComponent from 'components/new_post';
+
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
 import SearchLimitsBanner from './search_limits_banner';
@@ -35,7 +37,6 @@ import SearchLimitsBanner from './search_limits_banner';
 import type {Props} from './types';
 
 import './search_results.scss';
-import PostComponent from 'components/new_post';
 
 const GET_MORE_BUFFER = 30;
 

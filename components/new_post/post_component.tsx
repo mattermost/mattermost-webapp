@@ -33,10 +33,12 @@ import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content/post_body_additional_content';
+
+import PostMessageContainer from 'components/post_view/post_message_view';
+
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content/post_body_additional_content';
-import PostMessageContainer from 'components/post_view/post_message_view';
 
 export type Props = {
     post: Post;
@@ -130,7 +132,7 @@ const PostComponent = (props: Props): JSX.Element => {
         }
 
         return false;
-    }
+    };
 
     const getClassName = (post: Post, isSystemMessage: boolean, isMeMessage: boolean) => {
         const hovered =
@@ -215,14 +217,6 @@ const PostComponent = (props: Props): JSX.Element => {
         props.actions.selectPost(post);
     };
 
-    const handleActionsMenuInitialisationState = () => {
-        if (props.isMentionSearch || props.matches!.length > 0 || props.term!.length > 0) {
-            return;
-        }
-
-        props.actions.setActionsMenuInitialisationState;
-    }
-
     const {
         post,
         isPostBeingEdited,
@@ -254,7 +248,7 @@ const PostComponent = (props: Props): JSX.Element => {
         );
     }
 
-    const message = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0) ? ( 
+    const message = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0) ? (
         <PostBodyAdditionalContent
             post={post}
             options={{
@@ -364,7 +358,7 @@ const PostComponent = (props: Props): JSX.Element => {
                         {!isPostBeingEdited &&
                             <PostOptions
                                 {...props}
-                                setActionsMenuInitialisationState={handleActionsMenuInitialisationState}
+                                setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
                                 handleDropdownOpened={handleDropdownOpened}
                                 handleCommentClick={handleCommentClick}
                                 hover={hover}

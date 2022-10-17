@@ -34,10 +34,11 @@ import {isArchivedChannel} from 'utils/channel_utils';
 import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
 import {Preferences} from 'utils/constants';
 
+import {ExtendedPost, removePost} from 'mattermost-redux/actions/posts';
+import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {isThreadOpen} from 'selectors/views/threads';
+
 import PostComponent from './post_component';
-import { ExtendedPost, removePost } from 'mattermost-redux/actions/posts';
-import { DispatchFunc, GetStateFunc } from 'mattermost-redux/types/actions';
-import { isThreadOpen } from 'selectors/views/threads';
 
 interface OwnProps {
     post: Post;
@@ -157,7 +158,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isExpanded: state.views.rhs.isSidebarExpanded,
         isPostBeingEdited: getIsPostBeingEditedInRHS(state, post.id),
         isMobileView: getIsMobileView(state),
-        previewCollapsed, 
+        previewCollapsed,
         previewEnabled,
         post,
     };
