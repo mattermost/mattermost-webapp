@@ -14,6 +14,8 @@ import ProfilePopover from 'components/profile_popover';
 import {popOverOverlayPosition} from 'utils/position_utils';
 import {getUserFromMentionName} from 'utils/post_utils';
 
+import AtMentionGroup from 'components/at_mention/at_mention_group';
+
 const spaceRequiredForPopOver = 300;
 
 type Props = {
@@ -81,7 +83,9 @@ export default class AtMention extends React.PureComponent<Props, State> {
         if (!this.props.disableGroupHighlight && !user) {
             const group = this.getGroupFromMentionName();
             if (group.allow_reference) {
-                return <span className='group-mention-link'>{'@' + group.name}</span>;
+                return (<span>
+                    <AtMentionGroup group={group}/>
+                </span>);
             }
         }
 
