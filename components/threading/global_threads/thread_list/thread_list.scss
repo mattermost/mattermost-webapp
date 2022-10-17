@@ -34,9 +34,9 @@
 
     .threads {
         margin-right: 5px;
+        grid-area: list;
         scrollbar-color: var(--center-channel-color-32) #fff0;
         scrollbar-width: thin;
-        grid-area: list;
 
         .no-results__wrapper {
             position: relative;
