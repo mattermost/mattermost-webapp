@@ -2,6 +2,8 @@
 // See LICENSE.txt for license information.
 import React, {ReactNode, useRef, useState} from 'react';
 
+import {FormattedMessage} from 'react-intl';
+
 import {Posts, Preferences} from 'mattermost-redux/constants/index';
 import {isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
@@ -29,6 +31,7 @@ type Props = {
     channelIsArchived?: boolean;
     setActionsMenuInitialisationState: (initializationState: Record<string, boolean>) => void;
     handleCommentClick?: (e: React.MouseEvent) => void;
+    handleJumpClick?: (e: React.MouseEvent) => void;
     handleDropdownOpened?: (e: boolean) => void;
     collapsedThreadsEnabled?: boolean;
     shouldShowActionsMenu?: boolean;
@@ -41,6 +44,9 @@ type Props = {
     a11yActive?: boolean;
     hasReplies?: boolean;
     isFirstReply?: boolean;
+    isSearchResultsItem?: boolean;
+    canReply?: boolean;
+    replyCount?: number;
 };
 
 const PostOptions = (props: Props): JSX.Element => {
@@ -111,7 +117,7 @@ const PostOptions = (props: Props): JSX.Element => {
 
     const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip || showOptionsMenuWithoutHover;
 
-    const showCommentIcon = !isSystemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply);
+    const showCommentIcon = !isSystemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply);
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
 
     let commentIcon;
@@ -121,6 +127,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 handleCommentClick={props.handleCommentClick}
                 postId={post.id}
                 extraClass={commentIconExtraClass}
+                commentCount={props.replyCount}
             />
         );
     }
@@ -221,6 +228,18 @@ const PostOptions = (props: Props): JSX.Element => {
                 {actionsMenu}
                 {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 {commentIcon}
+                {props.isSearchResultsItem &&
+                    <a
+                        href='#'
+                        onClick={props.handleJumpClick}
+                        className='search-item__jump'
+                    >
+                        <FormattedMessage
+                            id='search_item.jump'
+                            defaultMessage='Jump'
+                        />
+                    </a>
+                }
             </div>
         );
     }

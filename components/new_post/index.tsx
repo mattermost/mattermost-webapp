@@ -14,29 +14,31 @@ import {
     getBool,
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeam, getCurrentTeamId, getTeam, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
-import {closeRightHandSide, selectPost} from 'actions/views/rhs';
+import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch} from 'actions/views/rhs';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
 import {getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis} from 'selectors/emojis';
 import {getIsPostBeingEditedInRHS, isEmbedVisible} from 'selectors/posts';
-import {getHighlightedPostId} from 'selectors/rhs';
+import {getHighlightedPostId, getRhsState} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
 
 import {isArchivedChannel} from 'utils/channel_utils';
 import {areConsecutivePostsBySameUser, shouldShowActionsMenu} from 'utils/post_utils';
-import {Preferences} from 'utils/constants';
+import {Preferences, RHSStates} from 'utils/constants';
 
 import {ExtendedPost, removePost} from 'mattermost-redux/actions/posts';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {isThreadOpen} from 'selectors/views/threads';
+
+import {General} from 'mattermost-redux/constants';
 
 import PostComponent from './post_component';
 
@@ -86,7 +88,6 @@ function removePostAndCloseRHS(post: ExtendedPost) {
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const post = ownProps.post || getPost(state, ownProps.postId);
-
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
@@ -117,6 +118,25 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         previousPostIsComment = Boolean(previousPost.root_id);
     }
 
+    const currentTeam = getCurrentTeam(state);
+    let teamName = currentTeam.name;
+    let teamDisplayName = '';
+
+    const memberships = getTeamMemberships(state);
+    const isDMorGM = channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL;
+    const rhsState = getRhsState(state);
+    if (
+        rhsState !== RHSStates.PIN && // Not show in pinned posts since they are all for the same channel
+        !isDMorGM && // Not show for DM or GMs since they don't belong to a team
+        memberships && Object.values(memberships).length > 1 // Not show if the user only belongs to one team
+    ) {
+        const team = getTeam(state, channel.team_id);
+        teamDisplayName = team?.display_name;
+        teamName = team?.name || currentTeam.name;
+    }
+
+    const canReply = isDMorGM || (channel.team_id === currentTeam.id);
+
     const previewCollapsed = get(
         state,
         Preferences.CATEGORY_DISPLAY_SETTINGS,
@@ -139,6 +159,8 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         teamId,
         isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
         hasReplies: getReplyCount(state, post) > 0,
+        replyCount: getReplyCount(state, post),
+        canReply,
         pluginPostTypes: state.plugins.postTypes,
         channelIsArchived: isArchivedChannel(channel),
         isConsecutivePost: isConsecutivePost(state, ownProps),
@@ -161,6 +183,10 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         previewCollapsed,
         previewEnabled,
         post,
+        channelName: channel.display_name,
+        channelType: channel.type,
+        teamDisplayName,
+        teamName,
     };
 }
 
@@ -172,6 +198,8 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             setActionsMenuInitialisationState,
             selectPost,
             removePost: removePostAndCloseRHS,
+            closeRightHandSide,
+            selectPostCard: selectPostCardFromRightHandSideSearch,
         }, dispatch),
     };
 }

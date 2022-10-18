@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {MouseEvent, useEffect, useRef, useState} from 'react';
+import React, {MouseEvent, useCallback, useEffect, useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
@@ -18,6 +18,7 @@ import {Emoji} from '@mattermost/types/emojis';
 import {PostPluginComponent} from 'types/store/plugins';
 
 import FileAttachmentListContainer from 'components/file_attachment_list';
+import DateSeparator from 'components/post_view/date_separator';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import PostProfilePicture from 'components/post_profile_picture';
@@ -27,15 +28,16 @@ import PostTime from 'components/post_view/post_time';
 import ReactionList from 'components/post_view/reaction_list';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
-
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content/post_body_additional_content';
-
 import PostMessageContainer from 'components/post_view/post_message_view';
+import * as Utils from 'utils/utils';
+import {browserHistory} from 'utils/browser_history';
 
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
@@ -61,6 +63,11 @@ export type Props = {
     recentEmojis: Emoji[];
     handleCardClick?: (post: Post) => void;
     togglePostMenu?: (opened: boolean) => void;
+    channelName?: string;
+    displayName: string;
+    teamDisplayName?: string;
+    teamName?: string;
+    channelType?: string;
     a11yIndex?: number;
     isBot: boolean;
     hasReplies?: boolean;
@@ -75,15 +82,21 @@ export type Props = {
         setActionsMenuInitialisationState: (viewed: Record<string, boolean>) => void;
         selectPost: (post: Post) => void;
         removePost: (post: Post) => void;
+        closeRightHandSide: () => void;
+        selectPostCard: (post: Post) => void;
+        setRhsExpanded: (rhsExpanded: boolean) => void;
     };
     timestampProps?: Partial<TimestampProps>;
     shouldHighlight?: boolean;
     isPostBeingEdited?: boolean;
     isCollapsedThreadsEnabled?: boolean;
     isMobileView: boolean;
+    canReply?: boolean;
+    replyCount?: number;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
+    const isSearchResultItem = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0);
     const postRef = useRef<HTMLDivElement>(null);
     const postHeaderRef = useRef<HTMLDivElement>(null);
     const [hover, setHover] = useState(false);
@@ -118,7 +131,7 @@ const PostComponent = (props: Props): JSX.Element => {
             postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
             postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
         }
-    }, [hover]);
+    }, []);
 
     const hasSameRoot = (props: Props) => {
         const post = props.post;
@@ -134,7 +147,52 @@ const PostComponent = (props: Props): JSX.Element => {
         return false;
     };
 
-    const getClassName = (post: Post, isSystemMessage: boolean, isMeMessage: boolean) => {
+    const getChannelName = () => {
+        const {post, channelType, isCollapsedThreadsEnabled, channelName} = props;
+        let name: React.ReactNode = channelName;
+
+        const isDirectMessage = channelType === Constants.DM_CHANNEL;
+        const isPartOfThread = isCollapsedThreadsEnabled && (post.reply_count > 0 || post.is_following);
+
+        if (isDirectMessage && isPartOfThread) {
+            name = (
+                <FormattedMessage
+                    id='search_item.thread_direct'
+                    defaultMessage='Thread in Direct Message with {username}'
+                    values={{
+                        username: props.displayName,
+                    }}
+                />
+            );
+        } else if (isPartOfThread) {
+            name = (
+                <FormattedMessage
+                    id='search_item.thread'
+                    defaultMessage='Thread in {channel}'
+                    values={{
+                        channel: channelName,
+                    }}
+                />
+            );
+        } else if (isDirectMessage) {
+            name = (
+                <FormattedMessage
+                    id='search_item.direct'
+                    defaultMessage='Direct Message (with {username})'
+                    values={{
+                        username: props.displayName,
+                    }}
+                />
+            );
+        }
+
+        return name;
+    };
+
+    const getClassName = () => {
+        const post = props.post;
+        const isSystemMessage = PostUtils.isSystemMessage(post);
+        const isMeMessage = checkIsMeMessage(post);
         const hovered =
             fileDropdownOpened || dropdownOpened || a11yActive || isPostBeingEdited;
         return classNames('a11y__section post', {
@@ -145,7 +203,7 @@ const PostComponent = (props: Props): JSX.Element => {
             'post--editing': props.isPostBeingEdited,
             'current--user': props.currentUserId === post.user_id,
             'post--system': isSystemMessage || isMeMessage,
-            'post--root': props.hasReplies,
+            'post--root': props.hasReplies && !(post.root_id && post.root_id.length > 0),
             'post--comment': post.root_id && post.root_id.length > 0,
             'post--compact': props.compactDisplay,
             'post--hovered': hovered,
@@ -163,22 +221,22 @@ const PostComponent = (props: Props): JSX.Element => {
         }
     };
 
-    const handleFileDropdownOpened = (open: boolean) => setFileDropdownOpened(open);
+    const handleFileDropdownOpened = useCallback((open: boolean) => setFileDropdownOpened(open), []);
 
-    const handleDropdownOpened = (opened: boolean) => {
+    const handleDropdownOpened = useCallback((opened: boolean) => {
         if (props.togglePostMenu) {
             props.togglePostMenu(opened);
         }
         setDropdownOpened(opened);
-    };
+    }, []);
 
-    const setsHover = (e: MouseEvent<HTMLDivElement>) => {
+    const handleMouseOver = (e: MouseEvent<HTMLDivElement>) => {
         setHover(true);
         setAlt(e.altKey);
         addKeyboardListeners();
     };
 
-    const unsetHover = () => {
+    const handleMouseLeave = () => {
         setHover(false);
         setAlt(false);
         removeKeyboardListeners();
@@ -208,14 +266,24 @@ const PostComponent = (props: Props): JSX.Element => {
         }
     };
 
-    const handleCommentClick = (e: React.MouseEvent) => {
+    const handleJumpClick = (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (props.isMobileView) {
+            props.actions.closeRightHandSide();
+        }
+
+        props.actions.setRhsExpanded(false);
+        browserHistory.push(`/${props.teamName}/pl/${props.post.id}`);
+    };
+
+    const handleCommentClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
 
         if (!post) {
             return;
         }
         props.actions.selectPost(post);
-    };
+    }, []);
 
     const {
         post,
@@ -223,7 +291,6 @@ const PostComponent = (props: Props): JSX.Element => {
     } = props;
 
     const isSystemMessage = PostUtils.isSystemMessage(post);
-    const isMeMessage = checkIsMeMessage(post);
     const postClass = classNames('post__body', {'post--edited': PostUtils.isEdited(props.post)});
 
     let visibleMessage = null;
@@ -248,7 +315,7 @@ const PostComponent = (props: Props): JSX.Element => {
         );
     }
 
-    const message = (props.matches && props.matches.length > 0) || props.isMentionSearch || (props.term && props.term.length > 0) ? (
+    const message = isSearchResultItem ? (
         <PostBodyAdditionalContent
             post={post}
             options={{
@@ -278,55 +345,84 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
     const threadFooter = props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
-
+    const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+    const channelDisplayName = getChannelName();
     return (
-        <PostAriaLabelDiv
-            ref={postRef}
-            role='listitem'
-            id={'rhsPost_' + post.id}
-            tabIndex={-1}
-            post={post}
-            className={getClassName(post, isSystemMessage, isMeMessage)}
-            onClick={handlePostClick}
-            onMouseOver={setsHover}
-            onMouseLeave={unsetHover}
-            data-a11y-sort-order={props.a11yIndex}
+        <div
+            className={isSearchResultItem ? 'search-item__container' : ''}
         >
-            <PostPreHeader
-                isFlagged={props.isFlagged}
-                isPinned={post.is_pinned}
-                channelId={post.channel_id}
-            />
-            <div
-                role='application'
-                className='post__content'
+            {isSearchResultItem && <DateSeparator date={currentPostDay}/>}
+            <PostAriaLabelDiv
+                ref={postRef}
+                role='listitem'
+                id={'rhsPost_' + post.id}
+                tabIndex={-1}
+                post={post}
+                className={getClassName()}
+                onClick={handlePostClick}
+                onMouseOver={handleMouseOver}
+                onMouseLeave={handleMouseLeave}
+                data-a11y-sort-order={props.a11yIndex}
             >
-                <div className='post__img'>
-                    <PostProfilePicture
-                        compactDisplay={props.compactDisplay}
-                        isBusy={props.isBusy}
-                        isRHS={true}
-                        post={post}
-                        userId={post.user_id}
-                    />
-                </div>
-                <div>
+                {isSearchResultItem &&
                     <div
-                        className='post__header'
-                        ref={postHeaderRef}
+                        className='search-channel__name__container'
+                        aria-hidden='true'
                     >
-                        <PostUserProfile {...props}/>
-                        <div className='col'>
-                            {
-                                <PostTime
-                                    isPermalink={!(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post))}
-                                    eventTime={post.create_at}
-                                    postId={post.id}
-                                    location={Locations.RHS_COMMENT}
-                                    timestampProps={{...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined}}
-                                />
-                            }
-                            {post.props && post.props.card &&
+                        <span className='search-channel__name'>
+                            {channelDisplayName}
+                        </span>
+                        {props.channelIsArchived &&
+                        <span className='search-channel__archived'>
+                            <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color'/>
+                            <FormattedMessage
+                                id='search_item.channelArchived'
+                                defaultMessage='Archived'
+                            />
+                        </span>
+                        }
+                        {Boolean(props.teamDisplayName) &&
+                        <span className='search-team__name'>
+                            {props.teamDisplayName}
+                        </span>
+                        }
+                    </div>
+                }
+                <PostPreHeader
+                    isFlagged={props.isFlagged}
+                    isPinned={post.is_pinned}
+                    channelId={post.channel_id}
+                />
+                <div
+                    role='application'
+                    className='post__content'
+                >
+                    <div className='post__img'>
+                        <PostProfilePicture
+                            compactDisplay={props.compactDisplay}
+                            isBusy={props.isBusy}
+                            isRHS={true}
+                            post={post}
+                            userId={post.user_id}
+                        />
+                    </div>
+                    <div>
+                        <div
+                            className='post__header'
+                            ref={postHeaderRef}
+                        >
+                            <PostUserProfile {...props}/>
+                            <div className='col'>
+                                {
+                                    <PostTime
+                                        isPermalink={!(Posts.POST_DELETED === post.state || isPostPendingOrFailed(post))}
+                                        eventTime={post.create_at}
+                                        postId={post.id}
+                                        location={Locations.RHS_COMMENT}
+                                        timestampProps={{...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined}}
+                                    />
+                                }
+                                {post.props && post.props.card &&
                                 <OverlayTrigger
                                     delayShow={Constants.OVERLAY_TIME_DELAY}
                                     placement='top'
@@ -352,10 +448,10 @@ const PostComponent = (props: Props): JSX.Element => {
                                         />
                                     </button>
                                 </OverlayTrigger>
-                            }
-                            {visibleMessage}
-                        </div>
-                        {!isPostBeingEdited &&
+                                }
+                                {visibleMessage}
+                            </div>
+                            {!isPostBeingEdited &&
                             <PostOptions
                                 {...props}
                                 setActionsMenuInitialisationState={props.actions.setActionsMenuInitialisationState}
@@ -363,33 +459,36 @@ const PostComponent = (props: Props): JSX.Element => {
                                 handleCommentClick={handleCommentClick}
                                 hover={hover}
                                 removePost={props.actions.removePost}
+                                isSearchResultsItem={Boolean(isSearchResultItem)}
+                                handleJumpClick={handleJumpClick}
                             />
-                        }
-                    </div>
-                    <div className={postClass} >
-                        {post.failed && <FailedPostOptions post={props.post}/>}
-                        <AutoHeightSwitcher
-                            showSlot={showSlot}
-                            shouldScrollIntoView={isPostBeingEdited}
-                            slot1={message}
-                            slot2={<EditPost/>}
-                            onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
-                        />
-                        {post.file_ids && post.file_ids.length > 0 &&
-                        <FileAttachmentListContainer
-                            post={post}
-                            compactDisplay={props.compactDisplay}
-                            handleFileDropdownOpened={handleFileDropdownOpened}
-                        />
-                        }
-                        <ReactionList
-                            post={post}
-                        />
-                        {threadFooter}
+                            }
+                        </div>
+                        <div className={postClass} >
+                            {post.failed && <FailedPostOptions post={props.post}/>}
+                            <AutoHeightSwitcher
+                                showSlot={showSlot}
+                                shouldScrollIntoView={isPostBeingEdited}
+                                slot1={message}
+                                slot2={<EditPost/>}
+                                onTransitionEnd={() => document.dispatchEvent(new Event(AppEvents.FOCUS_EDIT_TEXTBOX))}
+                            />
+                            {post.file_ids && post.file_ids.length > 0 &&
+                            <FileAttachmentListContainer
+                                post={post}
+                                compactDisplay={props.compactDisplay}
+                                handleFileDropdownOpened={handleFileDropdownOpened}
+                            />
+                            }
+                            <ReactionList
+                                post={post}
+                            />
+                            {threadFooter}
+                        </div>
                     </div>
                 </div>
-            </div>
-        </PostAriaLabelDiv>
+            </PostAriaLabelDiv>
+        </div>
     );
 };
 
