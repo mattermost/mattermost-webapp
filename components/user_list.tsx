@@ -7,7 +7,6 @@ import {FormattedMessage} from 'react-intl';
 import LoadingScreen from 'components/loading_screen';
 
 import {UserProfile} from '@mattermost/types/users';
-
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {TeamMembership} from '@mattermost/types/teams';
 
