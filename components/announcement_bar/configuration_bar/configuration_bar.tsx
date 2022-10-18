@@ -6,7 +6,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {daysToLicenseExpire, isLicenseExpired, isLicenseExpiring, isLicensePastGracePeriod, isTrialLicense} from 'utils/license_utils';
-import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes} from 'utils/constants';
+import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferences, ConfigurationBanners, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {t} from 'utils/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
@@ -16,7 +16,12 @@ import alertIcon from 'images/icons/round-white-info-icon.svg';
 
 import warningIcon from 'images/icons/warning-icon.svg';
 
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
 import {ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
@@ -35,9 +40,13 @@ type Props = {
     dismissedNumberOfPostsWarnMetricStatus?: boolean;
     dismissedNumberOfPostsWarnMetricStatusAck?: boolean;
     siteURL: string;
+    currentUserId: string;
     warnMetricsStatus?: Record<string, WarnMetricStatus>;
     actions: {
         dismissNotice: (notice: string) => void;
+        savePreferences: (userId: string, preferences: PreferenceType[]) => (dispatch: DispatchFunc) => Promise<{
+            data: boolean;
+        }>;
     };
 };
 
@@ -47,7 +56,17 @@ const ConfigurationAnnouncementBar = (props: Props) => {
     };
 
     const dismissExpiredLicense = () => {
-        props.actions.dismissNotice(AnnouncementBarMessages.LICENSE_EXPIRED);
+        trackEvent(
+            TELEMETRY_CATEGORIES.SELF_HOSTED_LICENSE_EXPIRED,
+            'dismissed_license_expired_banner',
+        );
+
+        props.actions.savePreferences(props.currentUserId, [{
+            category: Preferences.CONFIGURATION_BANNERS,
+            user_id: props.currentUserId,
+            name: ConfigurationBanners.LICENSE_EXPIRED,
+            value: 'true',
+        }]);
     };
 
     const dismissExpiringTrialLicense = () => {

@@ -26,7 +26,9 @@ describe('components/ConfigurationBar', () => {
         totalUsers: 100,
         actions: {
             dismissNotice: jest.fn(),
+            savePreferences: jest.fn(),
         },
+        currentUserId: 'user-id',
     };
 
     test('should match snapshot, expired, in grace period', () => {
