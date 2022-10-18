@@ -81,7 +81,7 @@ export default class UserList extends React.PureComponent <Props> {
                         actionUserProps={actionUserProps?.[userId]}
                         index={index}
                         totalUsers={users.length}
-                        userCount={(index >= 0 && index) ? index : -1}
+                        userCount={index >= 0 ? index : -1}
                         isDisabled={this.props.isDisabled}
                     />
                 );

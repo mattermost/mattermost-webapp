@@ -38,7 +38,7 @@ type Props = {
         doManageTokens: (user: UserProfile) => void;
         isDisabled: boolean | undefined;
     };
-    actionUserProps: {
+    actionUserProps?: {
         [userId: string]: {
             channel?: Channel;
             teamMember: TeamMembership;
