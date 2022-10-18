@@ -6,11 +6,12 @@ import React from 'react';
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
-import GenericUserProvider from 'components/suggestion/generic_user_provider.jsx';
+import GenericUserProvider from 'components/suggestion/generic_user_provider';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
@@ -39,7 +40,7 @@ export interface Props {
     performLookup: (name: string, userInput: string) => Promise<AppSelectOption[]>;
     actions: {
         autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => (dispatch: any, getState: any) => Promise<void>;
-        autocompleteUsers: (search: string) => Promise<UserProfile[]>;
+        autocompleteUsers: (search: string) => Promise<UserAutocomplete>;
     };
 }
 

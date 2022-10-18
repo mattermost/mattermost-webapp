@@ -718,15 +718,19 @@ export function flagPost(postId: string) {
 async function getPaginatedPostThread(rootId: string, options: FetchPaginatedThreadOptions, prevList?: PostList): Promise<PostList> {
     // since there are no complicated things inside (functions, Maps, Sets, etc.) we
     // can use the JSON approach to deep-copy the object
-    const list = prevList ? JSON.parse(JSON.stringify(prevList)) : {
+    const list: PostList = prevList ? JSON.parse(JSON.stringify(prevList)) : {
         order: [rootId],
         posts: {},
         prev_post_id: '',
         next_post_id: '',
+        first_inaccessible_post_time: 0,
     };
 
     const result = await Client4.getPaginatedPostThread(rootId, options);
 
+    if (result.first_inaccessible_post_time) {
+        list.first_inaccessible_post_time = list.first_inaccessible_post_time ? Math.min(result.first_inaccessible_post_time, list.first_inaccessible_post_time) : result.first_inaccessible_post_time;
+    }
     list.order.push(...result.order.slice(1));
     list.posts = Object.assign(list.posts, result.posts);
 

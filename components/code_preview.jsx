@@ -74,7 +74,6 @@ export default class CodePreview extends React.PureComponent {
         if (data.nodeName === '#document') {
             code = new XMLSerializer().serializeToString(data);
         }
-        this.props.getContent(code);
         this.setState({
             code,
             loading: false,
@@ -131,5 +130,4 @@ export default class CodePreview extends React.PureComponent {
 CodePreview.propTypes = {
     fileInfo: PropTypes.object.isRequired,
     fileUrl: PropTypes.string.isRequired,
-    getContent: PropTypes.func.isRequired,
 };
