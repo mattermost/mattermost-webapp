@@ -41,13 +41,14 @@ describe('Guest Accounts', () => {
         });
 
         // # Log in as a team admin.
-        cy.apiAdminLogin().then((adminUser) => {
-            sysadmin = adminUser;
+        cy.apiAdminLogin().then(({user}) => {
+            sysadmin = user;
         });
     });
 
     after(() => {
         // # Login back as admin.
+        // cy.log("############################" + adminMFASecret)
         const token = authenticator.generateToken(adminMFASecret);
         cy.apiAdminLoginWithMFA(token);
 

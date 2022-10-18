@@ -51,7 +51,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLogin();
          */
-        apiAdminLogin(): Chainable<UserProfile>;
+        apiAdminLogin(): Chainable<{user: UserProfile}>;
 
         /**
          * Login as admin via API.
@@ -210,7 +210,7 @@ declare namespace Cypress {
             prefix?: string;
             bypassTutorial?: boolean;
             showOnboarding?: boolean;
-        }): Chainable<{ user: UserProfile }>;
+        }): Chainable<{user: UserProfile}>;
 
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
@@ -338,10 +338,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAccessToken('user-id', 'token for cypress tests');
          */
-        apiAccessToken(
-            userId: string,
-            description: string
-        ): Chainable<UserAccessToken>;
+        apiAccessToken(userId: string, description: string): Chainable<UserAccessToken>;
 
         /**
          * Revoke a user access token

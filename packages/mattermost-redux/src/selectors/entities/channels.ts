@@ -700,11 +700,6 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
                 continue;
             }
 
-            // if channel is muted, we skip its count
-            if (isChannelMuted(channelMembership)) {
-                continue;
-            }
-
             // We skip DMs and GMs in counting since they are accesible through Direct messages across teams
             if (channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL) {
                 continue;
