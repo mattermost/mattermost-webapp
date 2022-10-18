@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @cws @cloud_only @cloud_trial
+// Group: @cloud_only @cloud_trial
 
 import {getRandomLetter} from '../../../../utils/index';
 

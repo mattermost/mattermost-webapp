@@ -7,7 +7,7 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Group: @cws @cloud_only @cloud_trial
+// Group: @need_fixing @cloud_only @cloud_trial
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
