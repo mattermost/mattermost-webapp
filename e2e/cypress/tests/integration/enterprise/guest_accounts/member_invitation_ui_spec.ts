@@ -13,8 +13,6 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {Team} from '@mattermost/types/lib/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
 
 import {getRandomId, stubClipboard} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
@@ -22,8 +20,8 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Member Invitation Flow', () => {
     const sysadmin = getAdminAccount();
-    let testTeam: Team;
-    let testUser: UserProfile;
+    let testTeam: Cypress.Team;
+    let testUser: Cypress.UserProfile;
 
     beforeEach(() => {
         // # Login as sysadmin
@@ -158,7 +156,7 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-T1326 Verify Invite Members - Existing Team Member', () => {
-        cy.apiCreateTeam('team', 'Team').then((team) => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Login as new user
             loginAsNewUser(team);
 
@@ -171,7 +169,7 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-T1328 Invite Members - Existing Member not on the team', () => {
-        cy.apiCreateTeam('team', 'Team').then((team) => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Login as new user
             loginAsNewUser(team);
 
@@ -184,7 +182,7 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-T1329 Invite Members - Invite People - Existing Guest not on the team', () => {
-        cy.apiCreateTeam('team', 'Team').then((team) => {
+        cy.apiCreateTeam('team', 'Team').then(({team}) => {
             // # Login as new user
             loginAsNewUser(team);
 

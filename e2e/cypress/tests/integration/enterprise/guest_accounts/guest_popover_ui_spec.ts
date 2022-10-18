@@ -13,17 +13,14 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {Channel} from '@mattermost/types/lib/channels';
-import {Team} from '@mattermost/types/lib/teams';
-import {UserProfile} from '@mattermost/types/lib/users';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Guest User Badge and Popover', () => {
-    let regularUser: UserProfile;
-    let guest: UserProfile;
-    let testTeam: Team;
-    let testChannel: Channel;
+    let regularUser: Cypress.UserProfile;
+    let guestUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -44,12 +41,12 @@ describe('Guest Account - Guest User Badge and Popover', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then((guestUser) => {
-                guest = guestUser;
-                cy.log(`Guest Id: ${guest.id}`);
-                cy.log(`Guest Username ${guest.username}`);
-                cy.apiAddUserToTeam(testTeam.id, guest.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, guest.id);
+            cy.apiCreateGuestUser({}).then(({guest}) => {
+                guestUser = guest;
+                cy.log(`Guest Id: ${guestUser.id}`);
+                cy.log(`Guest Username ${guestUser.username}`);
+                cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
             });
 
@@ -61,7 +58,7 @@ describe('Guest Account - Guest User Badge and Popover', () => {
 
     it('MM-T1371 User profile popover shows guest badge', () => {
         // # Post a day old message
-        cy.postMessageAs({sender: guest, message: 'Hello from yesterday', channelId: testChannel.id}).
+        cy.postMessageAs({sender: guestUser, message: 'Hello from yesterday', channelId: testChannel.id}).
             its('id').
             should('exist').
             as('yesterdaysPost');

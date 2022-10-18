@@ -17,6 +17,7 @@
 
 declare namespace Cypress {
     interface Chainable {
+
         /**
          * Login to server via API.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
@@ -40,10 +41,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
          */
-        apiLoginWithMFA(
-            user: UserProfile,
-            token: string
-        ): Chainable<UserProfile>;
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Login as admin via API.
@@ -64,7 +62,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLoginWithMFA(token);
          */
-        apiAdminLoginWithMFA(token: string): Chainable<UserProfile>;
+        apiAdminLoginWithMFA(token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Logout a user's active session from server via API.
@@ -112,7 +110,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiGetUserByEmail(email: string): Chainable<{ user: UserProfile }>;
+        apiGetUserByEmail(email: string): Chainable<{user: UserProfile}>;
 
         /**
          * Get users by usernames.
@@ -149,10 +147,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiPatchUser(
-            userId: string,
-            userData: UserProfile
-        ): Chainable<UserProfile>;
+        apiPatchUser(userId: string, userData: UserProfile): Chainable<{user: UserProfile}>;
 
         /**
          * Convenient command to patch a current user.
@@ -197,10 +192,7 @@ declare namespace Cypress {
          *
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(options: {
-            loginAfter: boolean;
-            hideAdminTrialModal: boolean;
-        }): Chainable<{ sysadmin: UserProfile }>;
+        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal: boolean}): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
@@ -230,9 +222,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateGuestUser(options);
          */
-        apiCreateGuestUser(
-            options?: Record<string, any>
-        ): Chainable<UserProfile>;
+        apiCreateGuestUser(options: Record<string, any>): Chainable<{guest: UserProfile}>;
 
         /**
          * Revoke all active sessions for a user.
@@ -271,9 +261,7 @@ declare namespace Cypress {
          *       // do something with users
          *   });
          */
-        apiGetUsersNotInTeam(
-            queryParams: Record<string, any>
-        ): Chainable<UserProfile[]>;
+        apiGetUsersNotInTeam(queryParams: Record<string, any>): Chainable<UserProfile[]>;
 
         /**
          * Reactivate a user account.
@@ -340,11 +328,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiActivateUserMFA('user-id', activate: false);
          */
-        apiActivateUserMFA(
-            userId: string,
-            activate: boolean,
-            token: string
-        ): Chainable<Response>;
+        apiActivateUserMFA(userId: string, activate: boolean, token: string): Chainable<Response>;
 
         /**
          * Create a user access token
@@ -378,12 +362,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiUpdateUserAuth('user-id', 'auth-data', 'password', 'auth-service');
          */
-        apiUpdateUserAuth(
-            userId: string,
-            authData: string,
-            password: string,
-            authService: string
-        ): Chainable<Response>;
+        apiUpdateUserAuth(userId: string, authData: string, password: string, authService: string): Chainable<Response>;
 
         /**
          * Get total count of users in the system

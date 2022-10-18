@@ -13,9 +13,6 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {Channel} from '@mattermost/types/lib/channels';
-import {Team} from '@mattermost/types/lib/teams';
-import {UserProfile} from '@mattermost/types/lib/users';
 import dayjs from 'dayjs';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -23,10 +20,10 @@ import {getAdminAccount} from '../../../support/env';
 
 describe('Verify Guest User Identification in different screens', () => {
     const admin = getAdminAccount();
-    let regularUser: UserProfile;
-    let guest: UserProfile;
-    let testTeam: Team;
-    let testChannel: Channel;
+    let regularUser: Cypress.UserProfile;
+    let guestUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -47,10 +44,10 @@ describe('Verify Guest User Identification in different screens', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then((guestUser) => {
-                guest = guestUser;
-                cy.apiAddUserToTeam(testTeam.id, guest.id).then(() => {
-                    cy.apiAddUserToChannel(testChannel.id, guest.id);
+            cy.apiCreateGuestUser({}).then(({guest}) => {
+                guestUser = guest;
+                cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {
+                    cy.apiAddUserToChannel(testChannel.id, guestUser.id);
                 });
             });
 
@@ -64,7 +61,7 @@ describe('Verify Guest User Identification in different screens', () => {
         // # Open Channel Members RHS
         cy.get('#channelHeaderDropdownIcon').click();
         cy.get('#channelManageMembers').click().wait(TIMEOUTS.HALF_SEC);
-        cy.uiGetRHS().findByTestId(`memberline-${guest.id}`).within(($el) => {
+        cy.uiGetRHS().findByTestId(`memberline-${guestUser.id}`).within(($el) => {
             cy.wrap($el).get('.Badge__box').should('be.visible').should('have.text', 'GUEST');
         });
     });
@@ -77,7 +74,7 @@ describe('Verify Guest User Identification in different screens', () => {
             cy.wrap($el).findAllByTestId('userListItemDetails').each(($elChild) => {
                 cy.wrap($elChild).invoke('text').then((username) => {
                     // * Verify Guest Badge in Channel Members List
-                    if (username === guest.username) {
+                    if (username === guestUser.username) {
                         cy.wrap($elChild).find('.Badge').should('be.visible').and('have.text', 'GUEST');
                     }
                 });
@@ -95,7 +92,7 @@ describe('Verify Guest User Identification in different screens', () => {
         const yesterdaysDate = dayjs().subtract(1, 'days').valueOf();
 
         // # Post a day old message
-        cy.postMessageAs({sender: guest, message: 'Hello from yesterday', channelId: testChannel.id, createAt: yesterdaysDate}).
+        cy.postMessageAs({sender: guestUser, message: 'Hello from yesterday', channelId: testChannel.id, createAt: yesterdaysDate}).
             its('id').
             should('exist').
             as('yesterdaysPost');
@@ -118,7 +115,6 @@ describe('Verify Guest User Identification in different screens', () => {
 
         // # Open RHS comment menu
         cy.get('@yesterdaysPost').then((postId) => {
-            // need to check the JS version in order to see how this works originally.
             cy.clickPostCommentIcon(postId.toString());
 
             // * Verify Guest Badge in RHS
@@ -136,11 +132,11 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.uiOpenFindChannels();
 
         // # Type the guest user name on Channel switcher input
-        cy.findByRole('textbox', {name: 'quick switch input'}).type(guest.username).wait(TIMEOUTS.HALF_SEC);
+        cy.findByRole('textbox', {name: 'quick switch input'}).type(guestUser.username).wait(TIMEOUTS.HALF_SEC);
 
         // * Verify if Guest badge is displayed for the guest user in the Switch Channel Dialog
         cy.get('#suggestionList').should('be.visible');
-        cy.findByTestId(guest.username).within(($el) => {
+        cy.findByTestId(guestUser.username).within(($el) => {
             cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
         });
 
@@ -153,7 +149,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
         // # Search for the Guest User
-        cy.focused().type(guest.username, {force: true}).wait(TIMEOUTS.HALF_SEC);
+        cy.focused().type(guestUser.username, {force: true}).wait(TIMEOUTS.HALF_SEC);
         cy.get('#multiSelectList').should('be.visible').within(($el) => {
             // * Verify if Guest badge is displayed in the DM Search
             cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
@@ -169,7 +165,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
         cy.findByRole('textbox', {name: 'Search for people'}).
             should('have.focused').
-            typeWithForce(guest.username).
+            typeWithForce(guestUser.username).
             wait(TIMEOUTS.ONE_SEC).
             typeWithForce('{enter}');
         cy.uiGetButton('Go').click().wait(TIMEOUTS.HALF_SEC);
@@ -185,7 +181,7 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
         cy.findByRole('textbox', {name: 'Search for people'}).
             should('have.focused').
-            typeWithForce(guest.username).
+            typeWithForce(guestUser.username).
             wait(TIMEOUTS.ONE_SEC).
             typeWithForce('{enter}');
         cy.findByRole('textbox', {name: 'Search for people'}).
@@ -204,11 +200,11 @@ describe('Verify Guest User Identification in different screens', () => {
 
     it('Verify Guest Badge in @mentions Autocomplete', () => {
         // # Start a draft in Channel containing "@user"
-        cy.uiGetPostTextBox().type(`@${guest.username}`);
+        cy.uiGetPostTextBox().type(`@${guestUser.username}`);
 
         // * Verify Guest Badge is displayed at mention auto-complete
         cy.get('#suggestionList').should('be.visible');
-        cy.findByTestId(`mentionSuggestion_${guest.username}`).within(($el) => {
+        cy.findByTestId(`mentionSuggestion_${guestUser.username}`).within(($el) => {
             cy.wrap($el).find('.Badge').should('be.visible').and('have.text', 'GUEST');
         });
     });
@@ -219,7 +215,7 @@ describe('Verify Guest User Identification in different screens', () => {
 
         // * Verify Guest Badge is not displayed at Search auto-complete
         cy.get('#search-autocomplete__popover').should('be.visible');
-        cy.contains('.suggestion-list__item', guest.username).scrollIntoView().should('be.visible').within(($el) => {
+        cy.contains('.suggestion-list__item', guestUser.username).scrollIntoView().should('be.visible').within(($el) => {
             cy.wrap($el).find('.Badge').should('not.exist');
         });
 

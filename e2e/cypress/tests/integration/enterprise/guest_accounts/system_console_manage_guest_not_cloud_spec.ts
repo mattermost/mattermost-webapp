@@ -10,18 +10,14 @@
 // Stage: @prod
 // Group: @enterprise @guest_account @not_cloud
 
-import {Channel} from '@mattermost/types/lib/channels';
-import {Team} from '@mattermost/types/lib/teams';
-import {UserProfile} from '@mattermost/types/lib/users';
-
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 import {verifyGuest} from './helpers';
 
 describe('Guest Account - Verify Manage Guest Users', () => {
-    let guestUser: UserProfile;
-    let testTeam: Team;
-    let testChannel: Channel;
+    let guestUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -41,7 +37,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then((guest) => {
+            cy.apiCreateGuestUser({}).then(({guest}) => {
                 guestUser = guest;
 
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {

@@ -13,9 +13,6 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
-import {UserProfile} from '@mattermost/types/lib/users';
-import {Team} from '@mattermost/types/lib/teams';
-import {Channel} from '@mattermost/types/lib/channels';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getRandomId} from '../../../utils';
@@ -25,9 +22,9 @@ import {verifyGuest} from './helpers';
 
 describe('Guest Account - Verify Manage Guest Users', () => {
     const admin = getAdminAccount();
-    let guestUser: UserProfile;
-    let testTeam: Team;
-    let testChannel: Channel;
+    let guestUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -45,7 +42,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then((guest) => {
+            cy.apiCreateGuestUser({}).then(({guest}) => {
                 guestUser = guest;
 
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {

@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Team} from '@mattermost/types/lib/teams';
-
 export function changeGuestFeatureSettings(featureFlag = true, emailInvitation = true, whitelistedDomains = '') {
     // # Update Guest Accounts, Email Invitations, and Whitelisted Domains
     cy.apiUpdateConfig({
@@ -44,7 +42,7 @@ export function invitePeople(typeText: string, resultsCount: number, verifyText:
     }
 }
 
-export function verifyInvitationError(user: string, team: Team, errorText: string, verifyGuestBadge = false) {
+export function verifyInvitationError(user: string, team: Cypress.Team, errorText: string, verifyGuestBadge = false) {
     // * Verify the content and error message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
         cy.get('h1').should('have.text', `Guests invited to ${team.display_name}`);
@@ -66,7 +64,7 @@ export function verifyInvitationError(user: string, team: Team, errorText: strin
     cy.get('.InvitationModal').should('not.exist');
 }
 
-export function verifyInvitationSuccess(user: string, team: Team, successText: string, verifyGuestBadge = false) {
+export function verifyInvitationSuccess(user: string, team: Cypress.Team, successText: string, verifyGuestBadge = false) {
     // * Verify the content and success message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
         cy.get('h1').should('have.text', `Guests invited to ${team.display_name}`);

@@ -15,11 +15,7 @@ declare namespace Cypress {
          * @example
          *   cy.reload();
          */
-        reload(
-            forceReload: boolean,
-            options?: Partial<Loggable & Timeoutable>,
-            duration?: number
-        ): Chainable;
+        reload(forceReload: boolean, options?: Partial<Loggable & Timeoutable>, duration?: number): Chainable;
 
         /**
          * Visit the given url, same as cy.visit but extended with explicit wait to allow page to load freely
@@ -30,11 +26,7 @@ declare namespace Cypress {
          * @example
          *   cy.visit('url');
          */
-        visit(
-            url: string,
-            options?: Partial<Cypress.VisitOptions>,
-            duration?: number
-        ): Chainable;
+        visit(url: string, options?: Partial<Cypress.VisitOptions>, duration?: number): Chainable;
 
         /**
          * types the given string with `TypeOption.force` set to true
