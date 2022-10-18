@@ -24,7 +24,6 @@ export async function matchSnapshot(testInfo: TestInfo, testArgs: TestArgs, appl
 
     // This name is used to easily identify the screenshot when viewing from third-party service provider.
     const name = `[${testInfo.project.name}, ${testArgs.viewport.width}px] > ${testInfo.file} > ${testInfo.title}`;
-    console.log(name)
 
     if (testConfig.percyEnabled) {
         // Visual test with Percy
