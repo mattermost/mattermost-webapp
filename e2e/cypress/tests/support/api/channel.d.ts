@@ -27,7 +27,7 @@ declare namespace Cypress {
          * @param {String} type - 'O' for a public channel (default), 'P' for a private channel
          * @param {String} purpose - A short description of the purpose of the channel
          * @param {String} header - Markdown-formatted text to display in the header of the channel
-         * @param {Boolean} unique - if true (default), it will create with unique/random channel name.
+         * @param {Boolean} [unique=true] - if true (default), it will create with unique/random channel name.
          * @returns {Channel} `out.channel` as `Channel`
          *
          * @example
@@ -41,7 +41,8 @@ declare namespace Cypress {
             displayName: string,
             type?: string,
             purpose?: string,
-            header?: string
+            header?: string,
+            unique: boolean = true
         ): Chainable<{channel: Channel}>;
 
         /**
