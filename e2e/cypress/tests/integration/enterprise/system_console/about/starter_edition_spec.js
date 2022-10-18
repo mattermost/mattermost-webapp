@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @enterprise @not_cloud @system_console @license_removal
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 describe('System console', () => {
     before(() => {
         // * Ensure we are on self-hosted Starter edition
@@ -21,7 +23,7 @@ describe('System console', () => {
         cy.visit('/admin_console/about/license');
 
         // *Validate View plans button exits
-        cy.get('.StarterLeftPanel').get('#starter_edition_view_plans').contains('View plans');
+        cy.get('.StarterLeftPanel').get('#starter_edition_view_plans').contains('View plans').wait(TIMEOUTS.TWO_SEC);
 
         // # Click View plans
         cy.get('.StarterLeftPanel').get('#starter_edition_view_plans').click();

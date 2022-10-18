@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @incoming_webhook
 
+import * as TIMEOUTS from '../../../fixtures/timeouts';
+
 describe('Incoming webhook', () => {
     let testTeam;
     let testChannel;
@@ -146,7 +148,7 @@ describe('Incoming webhook', () => {
 
         cy.getLastPost().within(() => {
             cy.get('.post-message__text').within(() => {
-                cy.get('.mention--highlight').eq(0).should('have.text', '@here');
+                cy.get('.mention--highlight').eq(0).should('have.text', '@here').wait(TIMEOUTS.TWO_SEC);
                 cy.get('.mention--highlight').eq(1).should('have.text', '@channel');
             });
         });
