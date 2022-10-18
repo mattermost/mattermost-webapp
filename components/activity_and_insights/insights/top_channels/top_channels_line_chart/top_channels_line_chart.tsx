@@ -18,7 +18,6 @@ import {Preferences} from 'mattermost-redux/constants';
 import LineChart from 'components/analytics/line_chart';
 
 import './../../../activity_and_insights.scss';
-import { ChartEvent } from 'chart.js';
 
 type Props = {
     topChannels: TopChannel[];
