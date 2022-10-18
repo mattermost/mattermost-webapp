@@ -3,7 +3,7 @@
         "test": "PW_SNAPSHOT_ENABLE=true playwright test",
         "lint": "eslint . --ext .js,.ts",
         "applitools": "APPLITOOLS_API_KEY=$APPLITOOLS_API_KEY PW_APPLITOOLS_ENABLE=true playwright test --project=chrome",
-        "percy": "PERCY_TOKEN=$PERCY_TOKEN PW_PERCY_ENABLE=true percy exec -- playwright test --project=chrome",
+        "percy": "PERCY_TOKEN=$PERCY_TOKEN PW_PERCY_ENABLE=true percy exec -- playwright test --project=chrome --project=iphone --project=ipad",
         "prettier": "prettier --write ."
     },
     "devDependencies": {
