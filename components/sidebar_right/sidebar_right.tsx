@@ -180,6 +180,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         if (
             this.sidebarRight.current && e.target &&
             !this.sidebarRight.current.contains(e.target as Element) &&
+            !document.getElementById('global-header')?.contains(e.target as Element) &&
+            !document.querySelector('.app-bar')?.contains(e.target as Element) &&
             this.props.isOpen &&
             this.props.isExpanded
         ) {
