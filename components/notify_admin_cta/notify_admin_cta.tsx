@@ -15,7 +15,7 @@ font-weight: 600;
 line-height: 16px;
 `;
 
-const StyledA = styled.a`
+const Button = styled.button`
 border: none;
 background: none;
 color: var(--denim-button-bg);
@@ -41,7 +41,9 @@ type Props = HookProps & {
     notifyRequestData: NotifyAdminRequest;
 }
 
-export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps, reqData: NotifyAdminRequest): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void] {
+type ValueOf<T> = T[keyof T]
+
+export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props: HookProps, reqData: NotifyAdminRequest): [React.ReactNode, (e: React.MouseEvent<T, MouseEvent>, callerInfo: string) => void, ValueOf<typeof NotifyStatus>] {
     const {btnText: btnFormaText, notifyAdmin, notifyStatus} = useGetNotifyAdmin({});
     const {formatMessage} = useIntl();
 
@@ -72,11 +74,11 @@ export function useNotifyAdmin<T = HTMLAnchorElement | HTMLButtonElement>(props:
         });
     };
 
-    return [btnText(notifyStatus), notifyFunc];
+    return [btnText(notifyStatus), notifyFunc, notifyStatus];
 }
 
 function NotifyAdminCTA(props: Props) {
-    const [status, notify] = useNotifyAdmin(props, props.notifyRequestData);
+    const [btnText, notify, status] = useNotifyAdmin(props, props.notifyRequestData);
     const {formatMessage} = useIntl();
     let title = formatMessage({id: 'pricing_modal.wantToUpgrade', defaultMessage: 'Want to upgrade? '});
     if (props.preTrial) {
@@ -87,22 +89,24 @@ function NotifyAdminCTA(props: Props) {
         <>
             {props.ctaText ? (
                 <span>
-                    <StyledA
+                    <Button
                         id='notify_admin_cta'
                         onClick={(e) => notify(e, props.callerInfo)}
+                        disabled={status === NotifyStatus.AlreadyComplete}
                     >
-                        {status}
-                    </StyledA>
+                        {btnText}
+                    </Button>
                 </span>
             ) : (
                 <Span id='notify_cta_container'>
                     {title}
-                    <StyledA
+                    <Button
                         id='notify_admin_cta'
                         onClick={(e) => notify(e, props.callerInfo)}
+                        disabled={status === NotifyStatus.AlreadyComplete}
                     >
-                        {status}
-                    </StyledA>
+                        {btnText}
+                    </Button>
                 </Span>
             )}
         </>);

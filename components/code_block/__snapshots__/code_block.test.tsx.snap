@@ -9,13 +9,13 @@ exports[`codeBlock should render html code block with proper indentation 1`] = `
   >
     <CopyButton
       afterCopyText="Copied"
+      beforeCopyText="Copy code block"
       content="\`\`\`html
 <div className='myClass'>
   <a href='https://randomgibberishurl.com'>ClickMe</a>
 </div>
 \`\`\`
 "
-      placement="top"
     />
     <span
       className="post-code__language"
@@ -137,13 +137,13 @@ exports[`codeBlock should render typescript code block 1`] = `
   >
     <CopyButton
       afterCopyText="Copied"
+      beforeCopyText="Copy code block"
       content="\`\`\`typescript
 const myFunction = () => {
     console.log('This is a meaningful function');
 };
 \`\`\`
 "
-      placement="top"
     />
     <span
       className="post-code__language"
@@ -265,12 +265,12 @@ exports[`codeBlock should render unknown language 1`] = `
   >
     <CopyButton
       afterCopyText="Copied"
+      beforeCopyText="Copy code block"
       content="\`\`\`unknownLanguage
 this is my unknown language
 it shouldn't highlight, it's just garbage
 \`\`\`
 "
-      placement="top"
     />
   </div>
   <RootPortal>

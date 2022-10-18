@@ -27,6 +27,10 @@ import {GlobalState} from 'types/store';
 
 let privateChannelJoinPromptVisible = false;
 
+type Option = {
+    skipRedirectReplyPermalink: boolean;
+}
+
 function focusRootPost(post: Post, channel: Channel) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const postURL = getPostURL(getState() as GlobalState, post);
@@ -43,22 +47,31 @@ function focusRootPost(post: Post, channel: Channel) {
     };
 }
 
-function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: string) {
+function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: string, option: Option) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        await dispatch(getPostThread(post.root_id));
+        const {data} = await dispatch(getPostThread(post.root_id));
+
+        if (data.first_inaccessible_post_time) {
+            browserHistory.replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
+            return {data: false};
+        }
+
         const state = getState() as GlobalState;
 
         const team = getTeam(state, channel.team_id || teamId);
         const currentChannel = getCurrentChannel(state);
+
         const sameTeam = currentChannel && currentChannel.team_id === team.id;
+
+        const {skipRedirectReplyPermalink} = option;
 
         if (!sameTeam) {
             dispatch(selectChannel(channel.id));
         }
 
-        if (sameTeam && returnTo) {
+        if (sameTeam && returnTo && !skipRedirectReplyPermalink) {
             browserHistory.replace(returnTo);
-        } else {
+        } else if (!sameTeam || !skipRedirectReplyPermalink) {
             const postURL = getPostURL(state, post);
             browserHistory.replace(postURL);
         }
@@ -68,7 +81,7 @@ function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: 
     };
 }
 
-export function focusPost(postId: string, returnTo = '', currentUserId: string) {
+export function focusPost(postId: string, returnTo = '', currentUserId: string, option: Option = {skipRedirectReplyPermalink: false}) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         // Ignore if prompt is still visible
         if (privateChannelJoinPromptVisible) {
@@ -78,6 +91,11 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string) 
 
         if (!data) {
             browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+            return;
+        }
+
+        if (data.first_inaccessible_post_time) {
+            browserHistory.replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
             return;
         }
 
@@ -145,7 +163,10 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string) 
         const post = data.posts[postId];
 
         if (isCollapsed && isComment(post)) {
-            dispatch(focusReplyPost(post, channel, teamId, returnTo));
+            const {data} = await dispatch(focusReplyPost(post, channel, teamId, returnTo, option));
+            if (!data) {
+                return;
+            }
         } else {
             dispatch(focusRootPost(post, channel));
         }

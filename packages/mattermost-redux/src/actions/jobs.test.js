@@ -8,7 +8,6 @@ import nock from 'nock';
 import * as Actions from 'mattermost-redux/actions/jobs';
 import {Client4} from 'mattermost-redux/client';
 
-import {RequestStatus} from '../constants';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
 
@@ -46,11 +45,6 @@ describe('Actions.Jobs', () => {
         await Actions.createJob(job)(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.jobs.createJob;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('createJob request failed');
-        }
-
         const jobs = state.entities.jobs.jobs;
         assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
     });
@@ -69,11 +63,6 @@ describe('Actions.Jobs', () => {
         await Actions.getJob('six4h67ja7ntdkek6g13dp3wka')(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.jobs.getJob;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getJob request failed');
-        }
-
         const jobs = state.entities.jobs.jobs;
         assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
     });
@@ -86,10 +75,8 @@ describe('Actions.Jobs', () => {
         await Actions.cancelJob('six4h67ja7ntdkek6g13dp3wka')(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.jobs.cancelJob;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('cancelJob request failed');
-        }
+        const jobs = state.entities.jobs.jobs;
+        assert.ok(!jobs.six4h67ja7ntdkek6g13dp3wka);
     });
 
     it('getJobs', async () => {
@@ -107,11 +94,6 @@ describe('Actions.Jobs', () => {
         await Actions.getJobs()(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.jobs.getJobs;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getJobs request failed');
-        }
-
         const jobs = state.entities.jobs.jobs;
         assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
     });
@@ -131,10 +113,6 @@ describe('Actions.Jobs', () => {
         await Actions.getJobsByType('data_retention')(store.dispatch, store.getState);
 
         const state = store.getState();
-        const request = state.requests.jobs.getJobs;
-        if (request.status === RequestStatus.FAILURE) {
-            throw new Error('getJobsByType request failed');
-        }
 
         const jobs = state.entities.jobs.jobs;
         assert.ok(jobs.six4h67ja7ntdkek6g13dp3wka);
