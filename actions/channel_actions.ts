@@ -7,6 +7,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership, ServerChannel} from '@mattermost/types/channels';
 import {Team} from '@mattermost/types/teams';
 import {ServerError} from '@mattermost/types/errors';
+import {Role} from '@mattermost/types/roles';
 
 import {Client4} from 'mattermost-redux/client';
 import {ChannelTypes, PreferenceTypes, RoleTypes} from 'mattermost-redux/action_types';
@@ -206,7 +207,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
 
         let channels: ServerChannel[] = [];
         let channelMembers: ChannelMembership[] = [];
-        let roles = [];
+        let roles: Role[] = [];
         try {
             const {data: channelsAndChannelMembers} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getChannelsAndChannelMembersQueryString(teamId));
 
@@ -244,7 +245,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
             const channelMembersFirstPage = transformToReceivedChannelMembersReducerPayload(channelsAndChannelMembers.channelMembers, currentUserId);
             channelMembers = [...channelMembersFirstPage];
 
-            roles = channelsAndChannelMembers.channelMembers.map((channelMembership) => channelMembership.roles);
+            roles = channelsAndChannelMembers.channelMembers.flatMap((channelMembership) => channelMembership.roles);
 
             if (channelsAndChannelMembers && channelsAndChannelMembers.channelMembers && channelsAndChannelMembers.channelMembers.length === CHANNEL_MEMBERS_MAX_PER_PAGE) {
                 let channelMemberCursor = channelsAndChannelMembers.channelMembers[CHANNEL_MEMBERS_MAX_PER_PAGE - 1].cursor;
@@ -263,7 +264,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
                         const channelMembersPerPageData = channelMembersPerPageResponse.data.channelMembers;
                         channelMembersPerPageDataLength = channelMembersPerPageData.length;
 
-                        const rolesInChannelMembersPerPage = channelMembersPerPageData.map((channelMembership) => channelMembership.roles);
+                        const rolesInChannelMembersPerPage = channelMembersPerPageData.flatMap((channelMembership) => channelMembership.roles);
                         roles = [...roles, ...rolesInChannelMembersPerPage];
 
                         channelMemberCursor = channelMembersPerPageData[channelMembersPerPageDataLength - 1].cursor;
