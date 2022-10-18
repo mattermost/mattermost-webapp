@@ -17,6 +17,7 @@ import ModalController from 'components/modal_controller';
 import SchemaAdminSettings from 'components/admin_console/schema_admin_settings';
 import DiscardChangesModal from 'components/discard_changes_modal';
 import BackstageNavbar from 'components/backstage/components/backstage_navbar';
+import DelinquencyModal from 'components/delinquency_modal';
 
 import AdminSidebar from './admin_sidebar';
 import Highlight from './highlight';
@@ -241,6 +242,7 @@ export default class AdminConsole extends React.PureComponent<Props, State> {
                 <BackstageNavbar
                     team={this.props.team}
                 />
+                <DelinquencyModal/>
                 <SystemNotice/>
                 <AdminSidebar onFilterChange={this.onFilterChange}/>
                 <div className='admin-console'>

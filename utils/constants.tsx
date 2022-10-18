@@ -153,6 +153,8 @@ export const Preferences = {
     HIDE_POST_FILE_UPGRADE_WARNING: 'hide_post_file_upgrade_warning',
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
+    DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
+    NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -413,6 +415,9 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
+    DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
+    CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
 };
 
 export const UserStatuses = {
@@ -463,6 +468,7 @@ export const PaidFeatures = {
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
+    UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
 };
 
 export enum LicenseSkus {
@@ -472,6 +478,11 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
 }
+
+export const CloudProductToSku = {
+    [CloudProducts.PROFESSIONAL]: LicenseSkus.Professional,
+    [CloudProducts.ENTERPRISE]: LicenseSkus.Enterprise,
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -814,6 +825,7 @@ export const StoragePrefixes = {
     LANDING_PREFERENCE: '__landing-preference__',
     CHANNEL_CATEGORY_COLLAPSED: 'channelCategoryCollapsed_',
     INLINE_IMAGE_VISIBLE: 'isInlineImageVisible_',
+    DELINQUENCY: 'delinquency_',
 };
 
 export const LandingPreferenceTypes = {
@@ -831,6 +843,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    CLOUD_ARCHIVED: 'cloud_archived',
 };
 
 export const JobTypes = {
@@ -908,7 +921,7 @@ export const IgnoreChannelMentions = {
     ON: 'on',
     OFF: 'off',
     DEFAULT: 'default',
-};
+} as const;
 
 export const NotificationSections = {
     IGNORE_CHANNEL_MENTIONS: 'ignoreChannelMentions',
@@ -1872,6 +1885,7 @@ export const Constants = {
     TRIAL_MODAL_AUTO_SHOWN: 'trial_modal_auto_shown',
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
+    DEFAULT_DM_NUMBER: 40,
 };
 
 export const ValidationErrors = {
