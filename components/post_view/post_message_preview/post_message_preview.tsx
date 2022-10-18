@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useMemo} from 'react';
+import React, {useCallback} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 
 import {MessageTextOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -33,11 +33,7 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 import {General} from 'mattermost-redux/constants';
 
-import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
-
 import {selectPost} from 'actions/views/rhs';
-
-import {GlobalState} from 'types/store';
 
 import {OwnProps} from './index';
 
@@ -52,6 +48,7 @@ export type Props = OwnProps & {
     isPostPriorityEnabled: boolean;
     isPermalink?: boolean;
     parentPost?: Post;
+    lastReplyAt: number;
     handleFileDropdownOpened?: (open: boolean) => void;
     actions: {
         toggleEmbedVisibility: (id: string) => void;
@@ -73,6 +70,7 @@ const PostMessagePreview = (props: Props) => {
         isPostPriorityEnabled,
         isPermalink,
         parentPost,
+        lastReplyAt,
     } = props;
     const dispatch = useDispatch();
 
@@ -116,9 +114,6 @@ const PostMessagePreview = (props: Props) => {
         },
         [dispatch, parentPost],
     );
-
-    const getThreadOrSynthetic = useMemo(makeGetThreadOrSynthetic, [parentPost?.id]);
-    const lastReplyAt = useSelector((state: GlobalState) => getThreadOrSynthetic(state, parentPost!))?.last_reply_at;
 
     if (!previewPost) {
         return null;

@@ -25,17 +25,22 @@ import {Preferences} from 'utils/constants';
 
 import {General} from 'mattermost-redux/constants';
 
+import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+
 import PostMessagePreview from './post_message_preview';
 
 export type OwnProps = {
     metadata: PostPreviewMetadata;
     previewPost?: Post;
+    parentPost?: Post;
+    isPermalink?: boolean;
     preventClickAction?: boolean;
     previewFooterMessage?: string;
 }
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
+    const getThreadOrSynthetic = makeGetThreadOrSynthetic();
 
     return (state: GlobalState, ownProps: OwnProps) => {
         const config = getConfig(state);
@@ -44,6 +49,7 @@ function makeMapStateToProps() {
         let embedVisible = false;
         let channelDisplayName = ownProps.metadata.channel_display_name;
         const previewPost = getPost(state, ownProps.metadata.post_id) || ownProps.previewPost;
+        let lastReplyAt = 0;
 
         if (previewPost && previewPost.user_id) {
             user = getUser(state, previewPost.user_id);
@@ -56,6 +62,10 @@ function makeMapStateToProps() {
             channelDisplayName = getChannel(state, {id: ownProps.metadata.channel_id}).display_name;
         }
 
+        if (ownProps.parentPost && !ownProps.isPermalink) {
+            lastReplyAt = getThreadOrSynthetic(state, ownProps.parentPost).last_reply_at;
+        }
+
         return {
             currentTeamUrl,
             channelDisplayName,
@@ -66,6 +76,7 @@ function makeMapStateToProps() {
             isEmbedVisible: embedVisible,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
             isPostPriorityEnabled: isPostPriorityEnabled(state),
+            lastReplyAt,
         };
     };
 }
