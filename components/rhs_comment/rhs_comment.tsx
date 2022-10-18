@@ -54,8 +54,6 @@ type Props = {
     isFlagged: boolean;
     isBusy?: boolean;
     removePost: (post: Post) => void;
-    previewCollapsed: string;
-    previewEnabled: boolean;
     isEmbedVisible?: boolean;
     enableEmojiPicker: boolean;
     enablePostUsernameOverride: boolean;
