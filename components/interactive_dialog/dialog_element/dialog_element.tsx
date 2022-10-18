@@ -49,7 +49,7 @@ type State = {
     value?: string;
 }
 
-type Selected = {
+export type Selected = {
     id?: string;
     username?: string;
     display_name?: string;

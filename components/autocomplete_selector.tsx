@@ -1,23 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {RefObject} from 'react';
 
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list';
 
 import ModalSuggestionList from './suggestion/modal_suggestion_list';
 import Provider from './suggestion/provider';
-
-type Selected = {
-    id?: string;
-    username?: string;
-    display_name?: string;
-    value: string;
-    text: string;
-}
-
-// type Selected = AppSelectOption & UserProfile & Channel & Select;
+import {Selected} from './interactive_dialog/dialog_element/dialog_element';
 
 type Props = {
     onSelected?: (selected: Selected) => void;
@@ -32,11 +23,10 @@ type Props = {
     disabled?: boolean;
     listComponent: typeof ModalSuggestionList | typeof SuggestionList;
     listPosition: string;
-    input?: string;
     toggleFocus?: ((opened: boolean) => void) | null;
     id: string;
-    setSuggestionRef?: (selected: Selected) => Promise<void>;
 }
+
 type State = {
     target?: {value: string};
     focused?: boolean;
@@ -62,7 +52,7 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
         };
     }
 
-    onChange = (e: State) => {
+    onChange = (e: {target: {value: string}}) => {
         if (!e || !e.target) {
             return;
         }
@@ -73,27 +63,20 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
     handleSelected = (selected: Selected) => {
         this.setState({input: ''});
 
-        if (this.props.onSelected) {
-            this.props.onSelected(selected);
-        }
+        this.props.onSelected?.(selected);
 
         requestAnimationFrame(() => {
-            if (this.suggestionRef) {
-                this.suggestionRef.current?.blur();
-            }
+            this.suggestionRef?.current?.blur();
         });
     }
 
-    setSuggestionRef = (ref: React.RefObject<HTMLDivElement>) => {
+    setSuggestionRef = (ref: RefObject<HTMLDivElement>) => {
         this.suggestionRef = ref;
     }
 
     onFocus = () => {
         this.setState({focused: true});
-
-        if (this.props.toggleFocus) {
-            this.props.toggleFocus(true);
-        }
+        this.props.toggleFocus?.(true);
     }
 
     onBlur = () => {
