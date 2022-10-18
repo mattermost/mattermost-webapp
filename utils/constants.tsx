@@ -154,6 +154,7 @@ export const Preferences = {
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
+    NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -467,6 +468,7 @@ export const PaidFeatures = {
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
+    UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
 };
 
 export enum LicenseSkus {
@@ -476,6 +478,11 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
 }
+
+export const CloudProductToSku = {
+    [CloudProducts.PROFESSIONAL]: LicenseSkus.Professional,
+    [CloudProducts.ENTERPRISE]: LicenseSkus.Enterprise,
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
