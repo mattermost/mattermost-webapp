@@ -207,8 +207,8 @@ export type ProductComponent = {
     showAppBar: boolean;
 
     /**
-     * When `true`, {@link mainComponent} will be wrapped in a container with `grid-area: center` applied automatically.
-     * When `false`, {@link mainComponent} will not be wrapped and must define its own `grid-area`,
+     * When `true`, {@link ProductComponent.mainComponent} will be wrapped in a container with `grid-area: center` applied automatically.
+     * When `false`, {@link ProductComponent.mainComponent} will not be wrapped and must define its own `grid-area`,
      * or return multiple elements with their own `grid-area`s respectively.
      * @default true
      */
