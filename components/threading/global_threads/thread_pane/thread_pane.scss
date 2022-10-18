@@ -7,8 +7,6 @@
         'header'
         'pane';
     grid-template-rows: 56px 1fr;
-    scrollbar-color: var(--center-channel-color-32) #fff0;
-    scrollbar-width: thin;
 
     .Header {
         display: flex;
