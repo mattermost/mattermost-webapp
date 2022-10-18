@@ -154,6 +154,7 @@ export const Preferences = {
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
+    NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -414,6 +415,7 @@ export const ModalIdentifiers = {
     CLOUD_INVOICE_PREVIEW: 'cloud_invoice_preview',
     BILLING_HISTORY: 'billing_history',
     SUM_OF_MEMBERS_MODAL: 'sum_of_members_modal',
+    MARK_ALL_THREADS_AS_READ: 'mark_all_threads_as_read_modal',
     DELINQUENCY_MODAL_DOWNGRADE: 'delinquency_modal_downgrade',
     CLOUD_LIMITS_DOWNGRADE: 'cloud_limits_downgrade',
 };
@@ -466,6 +468,7 @@ export const PaidFeatures = {
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
+    UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
 };
 
 export enum LicenseSkus {
@@ -475,6 +478,11 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
 }
+
+export const CloudProductToSku = {
+    [CloudProducts.PROFESSIONAL]: LicenseSkus.Professional,
+    [CloudProducts.ENTERPRISE]: LicenseSkus.Enterprise,
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -835,6 +843,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    CLOUD_ARCHIVED: 'cloud_archived',
 };
 
 export const JobTypes = {
@@ -1430,7 +1439,6 @@ export const Constants = {
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
     THREADS: 'threads',
-    INSIGHTS: 'insights',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,

@@ -2568,7 +2568,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
     const dmChannel = {id: 'dmChannel', name: 'user1__user2', team_id: '', delete_at: 0, type: General.DM_CHANNEL};
     const gmChannel = {id: 'gmChannel', name: 'gmChannel', team_id: 'team1', delete_at: 0, type: General.GM_CHANNEL};
 
-    test('should should unread and mentions correctly for channels across teams', () => {
+    test('should unread and mentions correctly for channels across teams', () => {
         const myMemberA = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
         const myMemberB = {mention_count: 5, msg_count: 7, notify_props: {mark_unread: 'all'}};
         const dmMember = {mention_count: 2, msg_count: 3, notify_props: {mark_unread: 'all'}};
@@ -2756,7 +2756,7 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         expect(teamUnreadStatus[1].get('team2')).toBe(2);
     });
 
-    test('should not have mention count of muted channel and have its unread status', () => {
+    test('should only have mention count of muted channel and not have its unread status', () => {
         const myMemberA = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
         const myMemberB = {mention_count: 0, msg_count: 5, notify_props: {mark_unread: 'mention'}};
         const myMemberC = {mention_count: 3, msg_count: 5, notify_props: {mark_unread: 'mention'}};
@@ -2809,10 +2809,10 @@ describe('Selectors.Channels.getUnreadStatus', () => {
         const teamUnreadStatus = Selectors.getTeamsUnreadStatuses(state);
 
         expect(teamUnreadStatus[0].has('team1')).toBe(false);
-        expect(teamUnreadStatus[0].has('team2')).toBe(false);
+        expect(teamUnreadStatus[0].has('team2')).toBe(true);
 
         expect(teamUnreadStatus[1].get('team1')).toBe(undefined);
-        expect(teamUnreadStatus[1].get('team2')).toBe(undefined);
+        expect(teamUnreadStatus[1].get('team2')).toBe(3);
     });
 });
 
