@@ -5,8 +5,6 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
-import UserList from 'components/user_list';
-
 import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {TeamMembership} from '@mattermost/types/teams';
