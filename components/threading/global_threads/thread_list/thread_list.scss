@@ -30,6 +30,16 @@
             height: 100%;
             align-items: center;
         }
+
+        .right-anchor {
+            .Button {
+                padding: 4px 0;
+
+                &:disabled {
+                    cursor: not-allowed;
+                }
+            }
+        }
     }
 
     .threads {
