@@ -1,13 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
+import React, {useCallback, useMemo} from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
 import classNames from 'classnames';
 
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {MessageTextOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -33,7 +33,11 @@ import MattermostLogo from 'components/widgets/icons/mattermost_logo';
 import {Constants} from 'utils/constants';
 import {General} from 'mattermost-redux/constants';
 
+import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
+
 import {selectPost} from 'actions/views/rhs';
+
+import {GlobalState} from 'types/store';
 
 import {OwnProps} from './index';
 
@@ -55,7 +59,21 @@ export type Props = OwnProps & {
 };
 
 const PostMessagePreview = (props: Props) => {
-    const {currentTeamUrl, channelDisplayName, user, previewPost, metadata, isEmbedVisible, compactDisplay, preventClickAction, previewFooterMessage, handleFileDropdownOpened, isPostPriorityEnabled, isPermalink, parentPost} = props;
+    const {
+        currentTeamUrl,
+        channelDisplayName,
+        user,
+        previewPost,
+        metadata,
+        isEmbedVisible,
+        compactDisplay,
+        preventClickAction,
+        previewFooterMessage,
+        handleFileDropdownOpened,
+        isPostPriorityEnabled,
+        isPermalink,
+        parentPost,
+    } = props;
     const dispatch = useDispatch();
 
     const toggleEmbedVisibility = () => {
@@ -74,7 +92,12 @@ const PostMessagePreview = (props: Props) => {
             useUserIcon = postProps.use_user_icon;
         }
 
-        if (!fromAutoResponder && fromWebhook && !useUserIcon && enablePostIconOverride) {
+        if (
+            !fromAutoResponder &&
+            fromWebhook &&
+            !useUserIcon &&
+            enablePostIconOverride
+        ) {
             if (postIconOverrideURL && postIconOverrideURL !== '') {
                 return PostUtils.getImageSrc(postIconOverrideURL, hasImageProxy);
             }
@@ -84,17 +107,24 @@ const PostMessagePreview = (props: Props) => {
         return defaultURL;
     };
 
-    const viewThread = useCallback(async (e) => {
-        e.stopPropagation();
-        if (parentPost) {
-            await dispatch(selectPost(parentPost));
-        }
-    }, [dispatch, parentPost]);
+    const viewThread = useCallback(
+        async (e) => {
+            e.stopPropagation();
+            if (parentPost) {
+                await dispatch(selectPost(parentPost));
+            }
+        },
+        [dispatch, parentPost],
+    );
+
+    const getThreadOrSynthetic = useMemo(makeGetThreadOrSynthetic, [parentPost?.id]);
+    const lastReplyAt = useSelector((state: GlobalState) => getThreadOrSynthetic(state, parentPost!))?.last_reply_at;
 
     if (!previewPost) {
         return null;
     }
 
+    const hasNewReplies = lastReplyAt && lastReplyAt > previewPost.create_at;
     const isBot = Boolean(user && user.is_bot);
     const isSystemMessage = PostUtils.isSystemMessage(previewPost);
     const fromWebhook = PostUtils.isFromWebhook(previewPost);
@@ -110,7 +140,7 @@ const PostMessagePreview = (props: Props) => {
         />
     );
     if (isSystemMessage && !fromWebhook && !isBot) {
-        avatar = (<MattermostLogo className='icon'/>);
+        avatar = <MattermostLogo className='icon'/>;
     } else if (user?.id) {
         avatar = (
             <Avatar
@@ -124,7 +154,10 @@ const PostMessagePreview = (props: Props) => {
 
     let fileAttachmentPreview = null;
 
-    if (((previewPost.file_ids && previewPost.file_ids.length > 0) || (previewPost.filenames && previewPost.filenames.length > 0))) {
+    if (
+        (previewPost.file_ids && previewPost.file_ids.length > 0) ||
+        (previewPost.filenames && previewPost.filenames.length > 0)
+    ) {
         fileAttachmentPreview = (
             <FileAttachmentListContainer
                 post={previewPost}
@@ -182,11 +215,6 @@ const PostMessagePreview = (props: Props) => {
                 <ReactionList post={previewPost}/>
             </div>
         );
-    }
-
-    let newerReplies = false;
-    if (parentPost && parentPost.last_reply_at && (parentPost?.last_reply_at > previewPost.create_at)) {
-        newerReplies = true;
     }
 
     return (
@@ -248,15 +276,13 @@ const PostMessagePreview = (props: Props) => {
                         onClick={viewThread}
                         prepend={
                             <div className='ViewThreadButton_icon'>
-                                <MessageTextOutlineIcon
-                                    size={18}
-                                />
+                                <MessageTextOutlineIcon size={18}/>
                             </div>
                         }
                     >
                         <FormattedMessage
-                            id={newerReplies ? 'post_message_preview.view_newer_replies_button' : 'post_message_preview.view_thread_button'}
-                            defaultMessage={newerReplies ? 'View newer replies' : 'View Thread'}
+                            id={hasNewReplies ? 'post_message_preview.view_newer_replies_button' : 'post_message_preview.view_thread_button'}
+                            defaultMessage={hasNewReplies ? 'View newer replies' : 'View Thread'}
                         />
                     </ViewThreadButton>
                 }
