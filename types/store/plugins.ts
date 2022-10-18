@@ -207,7 +207,9 @@ export type ProductComponent = {
     showAppBar: boolean;
 
     /**
-     * Wrap or flatten in root grid layout to make use of predefined grid areas.
+     * When `true`, {@link mainComponent} will be wrapped in a container with `grid-area: center` applied automatically.
+     * When `false`, {@link mainComponent} will not be wrapped and must define its own `grid-area`,
+     * or return multiple elements with their own `grid-area`s respectively.
      * @default true
      */
     wrapped: boolean;
