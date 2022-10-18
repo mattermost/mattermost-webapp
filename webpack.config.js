@@ -506,7 +506,7 @@ async function initializeModuleFederation() {
         './styles': 'sass/styles.scss',
         './registry': 'registry',
     };
-    moduleFederationPluginOptions.filename = 'remoteEntry.js';
+    moduleFederationPluginOptions.filename = 'remote_entry.js';
     moduleFederationPluginOptions.name = 'mattermost_webapp';
 
     config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
