@@ -81,6 +81,6 @@ declare namespace Cypress {
          * @example
          *   cy.uiOpenChannelMenu();
          */
-        uiOpenChannelMenu(): Chainable;
+        uiOpenChannelMenu(menu?: string): Chainable;
     }
 }

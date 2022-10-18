@@ -22,8 +22,6 @@ describe('components/file_preview_modal/file_preview_modal_footer/FilePreviewMod
         isExternalFile: false,
         onGetPublicLink: jest.fn(),
         handleModalClose: jest.fn(),
-        content: '',
-        canCopyContent: false,
     };
 
     test('should match snapshot the desktop view', () => {

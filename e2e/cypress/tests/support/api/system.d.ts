@@ -97,7 +97,7 @@ declare namespace Cypress {
          *       // do something with config
          *   });
          */
-        apiUpdateConfig(newConfig: AdminConfig): Chainable<AdminConfig>;
+        apiUpdateConfig(newConfig: DeepPartial<AdminConfig>): Chainable<{config: AdminConfig}>;
 
         /**
          * Reload the configuration file to pick up on any changes made to it.
