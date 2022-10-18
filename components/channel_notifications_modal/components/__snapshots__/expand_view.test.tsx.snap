@@ -129,7 +129,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationUnmute"
                 name="channelNotificationMute"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="mention"
               />
@@ -149,7 +149,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={true}
                 id="channelNotificationMute"
                 name="channelNotificationMute"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="all"
               />
@@ -173,13 +173,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title={
     <SectionTitle
       section="markUnread"
     />
   }
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 />
 `;
 
