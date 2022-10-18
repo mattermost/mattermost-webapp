@@ -1240,7 +1240,6 @@ export const ZoomSettings = {
 };
 
 export const Constants = {
-    TEST_ID_COUNT: -1,
     SettingsTypes,
     JobTypes,
     Preferences,
