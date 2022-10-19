@@ -3,8 +3,6 @@
 import React, {memo, useCallback} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
-
 import {trackEvent} from 'actions/telemetry_actions';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';

@@ -5,25 +5,12 @@ import {Provider} from 'react-redux';
 
 import {BrowserRouter} from 'react-router-dom';
 
-import {act, screen} from '@testing-library/react';
-
-import {ReactWrapper} from 'enzyme';
+import {screen} from '@testing-library/react';
 
 import mockStore from 'tests/test_store';
 import {renderWithIntl} from 'tests/react_testing_utils';
 
 import InsightsTitle from './insights_title';
-
-const actImmediate = (wrapper: ReactWrapper) =>
-    act(
-        () =>
-            new Promise<void>((resolve) => {
-                setImmediate(() => {
-                    wrapper.update();
-                    resolve();
-                });
-            }),
-    );
 
 describe('components/activity_and_insights/insights/insights_title', () => {
     const props = {
@@ -58,7 +45,7 @@ describe('components/activity_and_insights/insights/insights_title', () => {
             },
             cloud: {
                 subscription: {},
-            }
+            },
         },
     };
 
