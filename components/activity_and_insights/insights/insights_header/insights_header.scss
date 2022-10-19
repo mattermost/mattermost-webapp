@@ -23,10 +23,10 @@
             line-height: 24px;
 
             i.icon {
-                height: 16px;
                 width: 16px;
+                height: 16px;
 
-                &:before {
+                &::before {
                     margin: 0;
                 }
             }
@@ -45,11 +45,11 @@
 
         .MenuItem {
             i.icon {
-                color: rgba(var(--center-channel-color-rgb), 0.56);
-                height: 16px;
                 width: 16px;
+                height: 16px;
+                color: rgba(var(--center-channel-color-rgb), 0.56);
 
-                &:before {
+                &::before {
                     margin: 0;
                 }
             }
