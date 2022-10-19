@@ -16,7 +16,7 @@ export default class SearchDateProvider extends Provider {
 
             this.startNewRequest(datePrefix);
 
-            const dates: Array<{label: string;date: string}> = Object.assign([], [{label: 'Selected Date', date: datePrefix}]);
+            const dates: DateItem[] = Object.assign([], [{label: 'Selected Date', date: datePrefix}]);
             const terms = dates.map((date) => date.date);
 
             resultsCallback({
