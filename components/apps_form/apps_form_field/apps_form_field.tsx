@@ -159,7 +159,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     placeholder={placeholder}
                     helpText={helpTextContent}
                     onChange={onChange}
-                    resizable={false}
+                    resizable={true}
                 />
             );
         }
