@@ -13,10 +13,8 @@ import ProductBranding from './product_branding';
 
 describe('components/ProductBranding', () => {
     test('should show correct icon glyph when we are on Channels', () => {
-        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
-        spyProduct.mockReturnValue('Channels');
-        const products = jest.spyOn(productUtils, 'useProducts');
-        products.mockReturnValue([]);
+        const currentProductSpy = jest.spyOn(productUtils, 'useCurrentProduct');
+        currentProductSpy.mockReturnValue(null);
 
         const wrapper = shallow(
             <ProductBranding/>,
@@ -27,14 +25,8 @@ describe('components/ProductBranding', () => {
     });
 
     test('should show correct icon glyph when we are on Playbooks', () => {
-        const products = jest.spyOn(productUtils, 'useProducts');
-        products.mockReturnValue([
-            TestHelper.makeProduct(TopLevelProducts.BOARDS),
-            TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
-        ]);
-
-        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
-        spyProduct.mockReturnValue('Playbooks');
+        const currentProductSpy = jest.spyOn(productUtils, 'useCurrentProduct');
+        currentProductSpy.mockReturnValue(TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS));
         const wrapper = shallow(
             <ProductBranding/>,
         );
@@ -44,14 +36,9 @@ describe('components/ProductBranding', () => {
     });
 
     test('should show correct icon glyph when we are on Boards', () => {
-        const products = jest.spyOn(productUtils, 'useProducts');
-        products.mockReturnValue([
-            TestHelper.makeProduct(TopLevelProducts.BOARDS),
-            TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
-        ]);
+        const currentProductSpy = jest.spyOn(productUtils, 'useCurrentProduct');
+        currentProductSpy.mockReturnValue(TestHelper.makeProduct(TopLevelProducts.BOARDS));
 
-        const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
-        spyProduct.mockReturnValue('Boards');
         const wrapper = shallow(
             <ProductBranding/>,
         );
