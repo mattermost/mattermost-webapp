@@ -9,7 +9,7 @@ import {removePost} from 'mattermost-redux/actions/posts';
 
 import {Post} from '@mattermost/types/posts';
 
-import PostComponent from 'components/new_post';
+import PostComponent from 'components/post';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
 type Props = {

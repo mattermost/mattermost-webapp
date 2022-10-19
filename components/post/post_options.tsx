@@ -54,7 +54,6 @@ const PostOptions = (props: Props): JSX.Element => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showDotMenu, setShowDotMenu] = useState(false);
     const [showActionsMenu, setShowActionsMenu] = useState(false);
-    const [showOptionsMenuWithoutHover, setShowOptionsMenuWithoutHover] = useState(false);
     const [showActionTip, setShowActionTip] = useState(false);
 
     const {
@@ -115,7 +114,7 @@ const PostOptions = (props: Props): JSX.Element => {
     const isEphemeral = isPostEphemeral(post);
     const isSystemMessage = PostUtils.isSystemMessage(post);
 
-    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip || showOptionsMenuWithoutHover;
+    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
 
     const showCommentIcon = !isSystemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply);
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';

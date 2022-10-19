@@ -19,7 +19,7 @@ import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
 import {isIdNotPost} from 'utils/post_utils';
 import {PostListRowListIds, Locations} from 'utils/constants';
 import CenterMessageLock from 'components/center_message_lock';
-import PostComponent from 'components/new_post';
+import PostComponent from 'components/post';
 
 export type PostListRowProps = {
     listId: string;

@@ -28,7 +28,7 @@ import {t} from 'utils/i18n';
 import {Post} from '@mattermost/types/posts';
 import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
 
-import PostComponent from 'components/new_post';
+import PostComponent from 'components/post';
 
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
