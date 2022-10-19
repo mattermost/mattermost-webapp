@@ -12,7 +12,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import BackstageList from 'components/backstage/components/backstage_list';
-import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.jsx';
+import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.js';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import Constants from 'utils/constants';
