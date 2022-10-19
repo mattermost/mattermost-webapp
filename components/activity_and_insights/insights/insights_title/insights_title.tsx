@@ -62,10 +62,7 @@ const InsightsTitle = (props: Props) => {
             <button className='insights-title'>
                 {title()}
                 <span className='icon'>
-                    <Icon
-                        size={16}
-                        glyph={'chevron-down'}
-                    />
+                    <i className='icon icon-chevron-down'/>
                 </span>
             </button>
             <Menu
@@ -76,10 +73,9 @@ const InsightsTitle = (props: Props) => {
                     buttonClass='insights-filter-btn'
                     onClick={props.setFilterTypeMy}
                     icon={
-                        <Icon
-                            size={16}
-                            glyph={'account-outline'}
-                        />
+                        <span className='icon'>
+                            <i className='icon icon-account-outline'/>
+                        </span>
                     }
                     text={Utils.localizeMessage('insights.filter.myInsights', 'My insights')}
                 />
@@ -88,10 +84,9 @@ const InsightsTitle = (props: Props) => {
                     buttonClass={'insights-filter-btn'}
                     onClick={props.setFilterTypeTeam}
                     icon={
-                        <Icon
-                            size={16}
-                            glyph={'account-multiple-outline'}
-                        />
+                        <span className='icon'>
+                            <i className='icon icon-account-multiple-outline'/>
+                        </span>
                     }
                     text={Utils.localizeMessage('insights.filter.teamInsights', 'Team insights')}
                     disabled={isStarterFree}
