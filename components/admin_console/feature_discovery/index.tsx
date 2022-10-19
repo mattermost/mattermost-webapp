@@ -38,7 +38,7 @@ function mapStateToProps(state: GlobalState) {
         isCloudTrial,
         isSubscriptionLoaded: subscription !== undefined && subscription !== null,
         hadPrevCloudTrial: hasPriorTrial,
-        isPaidSubscription: isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isCloudTrial,
+        isPaidSubscription: isCloud && license?.SkuShortName !== LicenseSkus.Free && !isCloudTrial,
         contactSalesLink,
     };
 }

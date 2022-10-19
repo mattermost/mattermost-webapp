@@ -35,7 +35,7 @@ function mapStateToProps(state: GlobalState) {
         subscription,
         customer,
         isLegacyFree: checkSubscriptionIsLegacyFree(state),
-        isStarterFree: subscriptionProduct?.sku === CloudProducts.STARTER,
+        isStarterFree: subscriptionProduct?.sku === CloudProducts.FREE,
     };
 }
 

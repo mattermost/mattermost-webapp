@@ -115,7 +115,7 @@ e2e-test: node_modules
 	@if [ $(shell docker ps -a | grep -ci mattermost-mysql-e2e) -eq 0 ]; then \
 		echo starting mattermost-mysql-e2e; \
 		docker run --name mattermost-mysql-e2e -p 35476:3306 -e MYSQL_ROOT_PASSWORD=mostest \
-		-e MYSQL_USER=mmuser -e MYSQL_PASSWORD=mostest -e MYSQL_DATABASE=mattermost_test -d mysql:5.7 > /dev/null; \
+		-e MYSQL_USER=mmuser -e MYSQL_PASSWORD=mostest -e MYSQL_DATABASE=mattermost_test -d mysql:8.0 > /dev/null; \
 	elif [ $(shell docker ps | grep -ci mattermost-mysql-e2e) -eq 0 ]; then \
 		echo restarting mattermost-mysql-e2e; \
 		docker start mattermost-mysql-e2e > /dev/null; \

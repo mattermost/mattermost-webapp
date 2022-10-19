@@ -70,7 +70,7 @@ function FileLimitStickyBanner() {
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const isCloud = useSelector(isCurrentLicenseCloud);
     const product = useSelector(selectSubscriptionProduct);
-    const isStarter = product?.sku === CloudProducts.STARTER;
+    const isStarter = product?.sku === CloudProducts.FREE;
 
     const snoozePreferenceVal = useSelector((state: GlobalState) => selectPreference(state, Preferences.CLOUD_USER_EPHEMERAL_INFO, 'file_limit_banner_snooze'));
 

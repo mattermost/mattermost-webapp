@@ -30,7 +30,7 @@ export function openExternalPricingLink() {
 }
 
 export function isCloudFreePlan(product: Product | undefined, limits: Limits): boolean {
-    return product?.sku === CloudProducts.STARTER && hasSomeLimits(limits);
+    return product?.sku === CloudProducts.FREE && hasSomeLimits(limits);
 }
 
 export const FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS = 30;

@@ -51,7 +51,7 @@ describe('components/delinquency_modal/delinquency_modal_controller', () => {
                 products: {
                     test_prod_1: {
                         id: 'test_prod_1',
-                        sku: CloudProducts.STARTER,
+                        sku: CloudProducts.FREE,
                         price_per_seat: 0,
                         name: 'testProd1',
                     },

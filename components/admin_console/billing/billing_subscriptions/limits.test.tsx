@@ -54,13 +54,13 @@ function setupStore(setupOptions: SetupOptions) {
                     limits: setupOptions.isEnterprise ? {} : freeLimits,
                 },
                 subscription: {
-                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_starter',
+                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_free',
                 } as Subscription,
                 products: {
-                    prod_starter: {
-                        id: 'prod_starter',
-                        name: 'Cloud Starter',
-                        sku: CloudProducts.STARTER,
+                    prod_free: {
+                        id: 'prod_free',
+                        name: 'Cloud Free',
+                        sku: CloudProducts.FREE,
                     } as Product,
                     prod_enterprise: {
                         id: 'prod_enterprise',

@@ -64,10 +64,10 @@ function Content(props: ContentProps) {
         return product.sku === CloudProducts.PROFESSIONAL;
     }));
     const starterProduct = Object.values(products || {}).find(((product) => {
-        return product.sku === CloudProducts.STARTER;
+        return product.sku === CloudProducts.FREE;
     }));
 
-    const isStarter = product?.sku === CloudProducts.STARTER;
+    const isStarter = product?.sku === CloudProducts.FREE;
     const isProfessional = product?.sku === CloudProducts.PROFESSIONAL;
 
     const isPreTrial = subscription?.trial_end_at === 0;
@@ -173,9 +173,9 @@ function Content(props: ContentProps) {
                 </div>
                 <div className='PricingModal__body'>
                     <Card
-                        id='starter'
+                        id='free'
                         topColor='#339970'
-                        plan='Starter'
+                        plan='Free'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.starter', defaultMessage: 'Increased productivity for small teams'})}
                         price='$0'
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}

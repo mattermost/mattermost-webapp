@@ -134,7 +134,7 @@ type State = {
  *
  * @param products  Record<string, Product> | undefined - the list of current cloud products
  * @param productId String - a valid product id used to find a particular product in the dictionary
- * @param productSku String - the sku value of the product of type either cloud-starter | cloud-professional | cloud-enterprise
+ * @param productSku String - the sku value of the product of type either cloud-free | cloud-professional | cloud-enterprise
  * @returns Product
  */
 function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string): Product | null {

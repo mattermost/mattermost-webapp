@@ -127,7 +127,7 @@ const Completed = (props: Props): JSX.Element => {
     const isCloud = license?.Cloud === 'true';
     const isFreeTrial = subscription?.is_free_trial === 'true';
     const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
-    const isPaidSubscription = isCloud && license?.SkuShortName !== LicenseSkus.Starter && !isFreeTrial;
+    const isPaidSubscription = isCloud && license?.SkuShortName !== LicenseSkus.Free && !isFreeTrial;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
     // also check that the user is a system admin (this after the onboarding task list is shown to all users)

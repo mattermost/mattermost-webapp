@@ -53,7 +53,7 @@ function renderFeatureList(props: FeatureListProps, deep?: boolean) {
 describe('components/admin_console/billing/plan_details/feature_list', () => {
     test('should match snapshot when running FREE tier', () => {
         const wrapper = renderFeatureList({
-            subscriptionPlan: CloudProducts.STARTER,
+            subscriptionPlan: CloudProducts.FREE,
             isLegacyFree: false,
         });
         expect(wrapper).toMatchSnapshot();
@@ -74,9 +74,9 @@ describe('components/admin_console/billing/plan_details/feature_list', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when running paid tier and starter', () => {
+    test('should match snapshot when running paid tier and free', () => {
         const wrapper = renderFeatureList({
-            subscriptionPlan: CloudProducts.STARTER,
+            subscriptionPlan: CloudProducts.FREE,
             isLegacyFree: false,
         });
         expect(wrapper).toMatchSnapshot();
@@ -89,7 +89,7 @@ describe('components/admin_console/billing/plan_details/feature_list', () => {
         }, true);
 
         const wrapperStarter = renderFeatureList({
-            subscriptionPlan: CloudProducts.STARTER,
+            subscriptionPlan: CloudProducts.FREE,
             isLegacyFree: false,
         }, true);
 

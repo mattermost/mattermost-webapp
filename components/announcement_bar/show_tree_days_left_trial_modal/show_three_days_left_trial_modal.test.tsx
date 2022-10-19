@@ -56,7 +56,7 @@ describe('components/sidebar/show_three_days_left_trial_modal', () => {
                     products: {
                         test_prod_1: {
                             id: 'test_prod_1',
-                            sku: CloudProducts.STARTER,
+                            sku: CloudProducts.FREE,
                             price_per_seat: 0,
                         },
                         test_prod_2: {

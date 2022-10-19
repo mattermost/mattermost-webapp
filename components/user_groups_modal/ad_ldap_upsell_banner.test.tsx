@@ -212,7 +212,7 @@ describe('component/user_groups_modal/ad_ldap_upsell_banner', () => {
             products: {
                 prod_starter: {
                     id: 'prod_starter',
-                    sku: CloudProducts.STARTER,
+                    sku: CloudProducts.FREE,
                 },
             },
         };

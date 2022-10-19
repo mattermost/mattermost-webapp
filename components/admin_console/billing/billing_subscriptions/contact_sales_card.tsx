@@ -71,7 +71,7 @@ const ContactSalesCard = (props: Props) => {
         );
     } else {
         switch (subscriptionPlan) {
-        case CloudProducts.STARTER:
+        case CloudProducts.FREE:
             title = (
                 <FormattedMessage
                     id='admin.billing.subscription.privateCloudCard.cloudFree.title'

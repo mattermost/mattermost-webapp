@@ -42,14 +42,14 @@ describe('components/global/PlanUpgradeButton', () => {
                 products: {
                     test_prod_1: {
                         id: 'test_prod_1',
-                        sku: CloudProducts.STARTER,
+                        sku: CloudProducts.FREE,
                         price_per_seat: 0,
                     },
                 },
             },
         },
     };
-    it('should show Upgrade button in global header for admin users, cloud starter subscription', () => {
+    it('should show Upgrade button in global header for admin users, cloud free subscription', () => {
         const state = {
             ...initialState,
         };

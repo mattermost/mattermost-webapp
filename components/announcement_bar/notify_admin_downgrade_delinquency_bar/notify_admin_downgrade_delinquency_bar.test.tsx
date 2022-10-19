@@ -67,7 +67,7 @@ describe('components/announcement_bar/notify_admin_downgrade_delinquency_bar', (
                 products: {
                     test_prod_1: {
                         id: 'test_prod_1',
-                        sku: CloudProducts.STARTER,
+                        sku: CloudProducts.FREE,
                         price_per_seat: 0,
                     },
                     test_prod_2: {

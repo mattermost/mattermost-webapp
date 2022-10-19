@@ -264,7 +264,7 @@ const getRestrictedIndicator = (displayBlocked = false, minimumPlanRequiredForFe
             }}
         />
     ),
-    shouldDisplay: (license, subscriptionProduct) => displayBlocked || (isCloudLicense(license) && subscriptionProduct?.sku === CloudProducts.STARTER),
+    shouldDisplay: (license, subscriptionProduct) => displayBlocked || (isCloudLicense(license) && subscriptionProduct?.sku === CloudProducts.FREE),
 });
 
 const AdminDefinition = {
@@ -3128,7 +3128,7 @@ const AdminDefinition = {
                         placeholder_default: 'E.g.: "corp.mattermost.com, mattermost.com"',
                         isHidden: it.any(
                             it.not(it.licensed),
-                            it.licensedForSku('starter'),
+                            it.licensedForSku('free'),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
                     },
@@ -4813,7 +4813,7 @@ const AdminDefinition = {
             isHidden: it.any(
                 it.any(
                     it.not(it.licensed),
-                    it.licensedForSku('starter'),
+                    it.licensedForSku('free'),
                 ),
                 it.all(
                     it.licensedForFeature('OpenId'),
@@ -6447,7 +6447,7 @@ const AdminDefinition = {
                         help_text_markdown: false,
                         isHidden: it.any( // documented as E20 and higher, but only E10 in the code
                             it.not(it.licensed),
-                            it.licensedForSku('starter'),
+                            it.licensedForSku('free'),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -6652,7 +6652,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.not(it.licensed),
-                            it.licensedForSku('starter'),
+                            it.licensedForSku('free'),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },
@@ -6666,7 +6666,7 @@ const AdminDefinition = {
                         help_text_markdown: true,
                         isHidden: it.any(
                             it.not(it.licensed),
-                            it.licensedForSku('starter'),
+                            it.licensedForSku('free'),
                         ),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
@@ -6710,7 +6710,7 @@ const AdminDefinition = {
                         ],
                         isHidden: it.any(
                             it.not(it.licensed),
-                            it.licensedForSku('starter'),
+                            it.licensedForSku('free'),
                         ),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.EXPERIMENTAL.FEATURES)),
                     },

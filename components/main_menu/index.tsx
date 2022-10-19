@@ -62,7 +62,7 @@ function mapStateToProps(state: GlobalState) {
     const subscriptionProduct = getSubscriptionProduct(state);
 
     const isCloud = isCloudLicense(license);
-    const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
+    const isStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.FREE;
     const isFreeTrial = isCloud && subscription?.is_free_trial === 'true';
 
     return {
