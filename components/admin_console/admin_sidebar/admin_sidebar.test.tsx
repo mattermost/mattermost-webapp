@@ -92,6 +92,7 @@ describe('components/AdminSidebar', () => {
                 limitsLoaded: false,
                 limits: {},
             },
+            errors: {},
         },
         showTaskList: false,
     };
