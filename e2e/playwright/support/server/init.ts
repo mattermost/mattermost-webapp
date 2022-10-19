@@ -54,6 +54,7 @@ export async function initSetup({
         };
     } catch (err) {
         // log an error for debugging
+        // eslint-disable-next-line no-console
         console.log(err);
     }
 }
