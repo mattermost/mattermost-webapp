@@ -53,7 +53,7 @@ function StarterDisclaimerCTA() {
                     },
                 },
                 description: {
-                    id: t('workspace_limits.modals.informational.description.starterLimits'),
+                    id: t('workspace_limits.modals.informational.description.freeLimits'),
                     defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
                     values: {
                         planName: starterProductName,
@@ -100,7 +100,7 @@ function StarterDisclaimerCTA() {
             onClick={openLimitsMiniModal}
         >
             <i className='icon-alert-outline'/>
-            {intl.formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
+            {intl.formatMessage({id: 'pricing_modal.planDisclaimer.free', defaultMessage: 'This plan has data restrictions.'})}
         </Disclaimer>);
 }
 
