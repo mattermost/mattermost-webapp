@@ -78,7 +78,7 @@ import type {
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
-import {BoardsUsageResponse} from '@mattermost/types/boards';
+import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -3501,6 +3501,34 @@ export default class Client4 {
         return this.doFetch<BoardsUsageResponse>(
             `/plugins/${suitePluginIds.focalboard}/api/v2/limits`,
             {method: 'get'},
+        );
+    }
+
+    getBoardsTemplates = (teamId = '0') => {
+        return this.doFetch<BoardTemplate[]>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/teams/${teamId}/templates`,
+            {method: 'get'},
+        );
+    }
+
+    createBoard = (board: Board) => {
+        return this.doFetch<CreateBoardResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards`,
+            {method: 'POST', body: JSON.stringify({...board})},
+        );
+    }
+
+    createBoardFromTemplate = (boardTemplateId: string, teamId: string) => {
+        return this.doFetch<CreateBoardResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards/${boardTemplateId}/duplicate?asTemplate=false&toTeam=${teamId}`,
+            {method: 'POST'},
+        );
+    }
+
+    patchBoard = (newBoardId: string, boardPatch: BoardPatch) => {
+        return this.doFetch<Board>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards/${newBoardId}`,
+            {method: 'PATCH', body: JSON.stringify({...boardPatch})},
         );
     }
 

@@ -17,7 +17,7 @@ import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
-import {Invoice, Subscription} from '@mattermost/types/cloud';
+import {Invoice, Product, Subscription} from '@mattermost/types/cloud';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -435,6 +435,20 @@ export class TestHelper {
             subscription_id: '',
             line_items: [],
             current_product_name: '',
+            ...override,
+        };
+    }
+    public static getProductMock(override: Partial<Product>): Product {
+        return {
+            id: '',
+            name: '',
+            description: '',
+            price_per_seat: 0,
+            add_ons: [],
+            product_family: '',
+            sku: '',
+            billing_scheme: '',
+            recurring_interval: '',
             ...override,
         };
     }
