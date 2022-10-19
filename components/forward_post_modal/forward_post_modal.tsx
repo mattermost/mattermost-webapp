@@ -295,6 +295,7 @@ const ForwardPostModal = ({onExited, post, actions}: Props) => {
                             handleFileDropdownOpened={noop}
                             preventClickAction={true}
                             previewFooterMessage={postPreviewFooterMessage}
+                            isPermalink={true}
                         />
                     </div>
                     {postError && (

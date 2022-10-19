@@ -30,12 +30,12 @@ export type PostType = 'system_add_remove' |
 'system_generic' |
 '';
 
-export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
+export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink' | 'parent_post';
 
 export type PostEmbed = {
     type: PostEmbedType;
     url: string;
-    data?: OpenGraphMetadata | PostPreviewMetadata;
+    data?: OpenGraphMetadata | PostPreviewMetadata | Post;
 };
 
 export type PostImage = {

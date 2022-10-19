@@ -328,6 +328,11 @@ function handlePostReceived(nextState: any, post: Post, nestedPermalinkLevel?: n
                         currentState[post.id] = removeUnneededMetadata(post);
                     }
                 }
+            } else if (embed.type === 'parent_post' && embed.data) {
+                const parentPost = (embed.data as Post);
+                if (parentPost && parentPost.id) {
+                    currentState[parentPost.id] = parentPost;
+                }
             }
         });
 
