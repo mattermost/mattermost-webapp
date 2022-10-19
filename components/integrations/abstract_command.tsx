@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -18,57 +17,42 @@ import {t} from 'utils/i18n';
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
 
-export default class AbstractCommand extends React.PureComponent {
-    static propTypes = {
+type Command = {
+    display_name?: string;
+    description?: string;
+    trigger: string;
+    url: string;
+    method?: typeof REQUEST_POST | typeof REQUEST_GET;
+    username?: string;
+    icon_url?: string;
+    auto_complete?: boolean;
+    auto_complete_hint?: string;
+    auto_complete_desc?: string;
+    saving?: boolean;
+    clientError?: string | null;
+}
 
-        /**
-        * The current team
-        */
-        team: PropTypes.object.isRequired,
+type Props = {
+    team: {id: number ; name: string};
+    header: {id: number ; defaultMessage: string};
+    footer: {id: number ; defaultMessage: string};
+    loading: {id: string ; defaultMessage: string};
+    renderExtra: JSX.Element;
+    serverError: string;
+    initialCommand: Command;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    action: (command: Command) => any;
+}
 
-        /**
-        * The header text to render, has id and defaultMessage
-        */
-        header: PropTypes.object.isRequired,
-
-        /**
-        * The footer text to render, has id and defaultMessage
-        */
-        footer: PropTypes.object.isRequired,
-
-        /**
-        * The spinner loading text to render, has id and defaultMessage
-        */
-        loading: PropTypes.object.isRequired,
-
-        /**
-         * Any extra component/node to render
-         */
-        renderExtra: PropTypes.node.isRequired,
-
-        /**
-        * The server error text after a failed action
-        */
-        serverError: PropTypes.string.isRequired,
-
-        /**
-        * The Command used to set the initial state
-        */
-        initialCommand: PropTypes.object,
-
-        /**
-        * The async function to run when the action button is pressed
-        */
-        action: PropTypes.func.isRequired,
-    }
-
-    constructor(props) {
+export default class AbstractCommand extends React.PureComponent<Props> {
+    state: Command;
+    constructor(props: Props) {
         super(props);
 
         this.state = this.getStateFromCommand(this.props.initialCommand || {});
     }
 
-    getStateFromCommand = (command) => {
+    getStateFromCommand = (command: Props['initialCommand']) => {
         return {
             displayName: command.display_name || '',
             description: command.description || '',
@@ -85,7 +69,7 @@ export default class AbstractCommand extends React.PureComponent {
         };
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: {preventDefault: () => void}) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -103,20 +87,22 @@ export default class AbstractCommand extends React.PureComponent {
         }
 
         const command = {
-            display_name: this.state.displayName,
+            display_name: this.state.display_name,
             description: this.state.description,
             trigger: triggerWord,
             url: this.state.url.trim(),
             method: this.state.method,
             username: this.state.username,
-            icon_url: this.state.iconUrl,
-            auto_complete: this.state.autocomplete,
+            icon_url: this.state.icon_url,
+            auto_complete: this.state.auto_complete,
             team_id: this.props.team.id,
+            auto_complete_desc: '',
+            auto_complete_hint: '',
         };
 
         if (command.auto_complete) {
-            command.auto_complete_desc = this.state.autocompleteDescription;
-            command.auto_complete_hint = this.state.autocompleteHint;
+            command.auto_complete_desc = this.state.auto_complete_desc || '';
+            command.auto_complete_hint = this.state.auto_complete_hint || '';
         }
 
         if (!command.trigger) {
@@ -196,61 +182,61 @@ export default class AbstractCommand extends React.PureComponent {
         this.props.action(command).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e) => {
+    updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e) => {
+    updateDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateTrigger = (e) => {
+    updateTrigger = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             trigger: e.target.value,
         });
     }
 
-    updateUrl = (e) => {
+    updateUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             url: e.target.value,
         });
     }
 
-    updateMethod = (e) => {
+    updateMethod = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({
             method: e.target.value,
         });
     }
 
-    updateUsername = (e) => {
+    updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconUrl = (e) => {
+    updateIconUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             iconUrl: e.target.value,
         });
     }
 
-    updateAutocomplete = (e) => {
+    updateAutocomplete = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             autocomplete: e.target.checked,
         });
     }
 
-    updateAutocompleteHint = (e) => {
+    updateAutocompleteHint = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             autocompleteHint: e.target.value,
         });
     }
 
-    updateAutocompleteDescription = (e) => {
+    updateAutocompleteDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
             autocompleteDescription: e.target.value,
         });
@@ -276,7 +262,7 @@ export default class AbstractCommand extends React.PureComponent {
                         <LocalizedInput
                             id='autocompleteHint'
                             type='text'
-                            maxLength='1024'
+                            maxLength={1024}
                             className='form-control'
                             value={this.state.autocompleteHint}
                             onChange={this.updateAutocompleteHint}
@@ -307,7 +293,7 @@ export default class AbstractCommand extends React.PureComponent {
                         <LocalizedInput
                             id='description'
                             type='text'
-                            maxLength='128'
+                            maxLength={128}
                             className='form-control'
                             value={this.state.autocompleteDescription}
                             onChange={this.updateAutocompleteDescription}
@@ -357,7 +343,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 <input
                                     id='displayName'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength={64}
                                     className='form-control'
                                     value={this.state.displayName}
                                     onChange={this.updateDisplayName}
@@ -384,7 +370,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 <input
                                     id='description'
                                     type='text'
-                                    maxLength='128'
+                                    maxLength={128}
                                     className='form-control'
                                     value={this.state.description}
                                     onChange={this.updateDescription}
@@ -465,7 +451,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 <LocalizedInput
                                     id='url'
                                     type='text'
-                                    maxLength='1024'
+                                    maxLength={1024}
                                     className='form-control'
                                     value={this.state.url}
                                     onChange={this.updateUrl}
@@ -525,7 +511,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 <LocalizedInput
                                     id='username'
                                     type='text'
-                                    maxLength='64'
+                                    maxLength={64}
                                     className='form-control'
                                     value={this.state.username}
                                     onChange={this.updateUsername}
@@ -553,7 +539,7 @@ export default class AbstractCommand extends React.PureComponent {
                                 <LocalizedInput
                                     id='iconUrl'
                                     type='text'
-                                    maxLength='1024'
+                                    maxLength={1024}
                                     className='form-control'
                                     value={this.state.iconUrl}
                                     onChange={this.updateIconUrl}
