@@ -22,8 +22,6 @@ interface Props {
     canDownloadFiles: boolean;
     isExternalFile: boolean;
     handleModalClose: () => void;
-    canCopyContent: boolean;
-    content: string;
 }
 
 const FilePreviewModalFooter: React.FC<Props> = ({post, ...actionProps}: Props) => {

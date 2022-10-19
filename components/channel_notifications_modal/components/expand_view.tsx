@@ -11,9 +11,10 @@ import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'u
 
 import SettingItemMax from 'components/setting_item_max.jsx';
 
-import Describe from './describe.jsx';
-import ExtraInfo from './extra_info.jsx';
-import SectionTitle from './section_title.jsx';
+import Describe from './describe';
+import ExtraInfo from './extra_info';
+import SectionTitle from './section_title';
+
 type Props = {
     ignoreChannelMentions?: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;

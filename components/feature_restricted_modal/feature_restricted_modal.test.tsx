@@ -84,6 +84,7 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper.find('.FeatureRestrictedModal__buttons').hasClass('single')).toEqual(true);
         expect(wrapper.find('.button-plans').length).toEqual(1);
         expect(wrapper.find('CloudStartTrialButton').length).toEqual(0);
+        expect(wrapper.find('StartTrialBtn').length).toEqual(0);
     });
 
     test('should show with end user post trial', () => {
@@ -94,10 +95,26 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper.find('.FeatureRestrictedModal__buttons').hasClass('single')).toEqual(true);
         expect(wrapper.find('.button-plans').length).toEqual(1);
         expect(wrapper.find('CloudStartTrialButton').length).toEqual(0);
+        expect(wrapper.find('StartTrialBtn').length).toEqual(0);
     });
 
-    test('should show with system admin pre trial', () => {
+    test('should show with system admin pre trial for self hosted', () => {
         mockState.entities.users.profiles.user1.roles = 'system_admin';
+
+        const wrapper = shallow(<FeatureRestrictedModal {...defaultProps}/>);
+
+        expect(wrapper.find('.FeatureRestrictedModal__description').text()).toEqual(defaultProps.messageAdminPreTrial);
+        expect(wrapper.find('.FeatureRestrictedModal__terms').length).toEqual(1);
+        expect(wrapper.find('.FeatureRestrictedModal__buttons').hasClass('single')).toEqual(false);
+        expect(wrapper.find('.button-plans').length).toEqual(1);
+        expect(wrapper.find('StartTrialBtn').length).toEqual(1);
+    });
+
+    test('should show with system admin pre trial for cloud', () => {
+        mockState.entities.users.profiles.user1.roles = 'system_admin';
+        mockState.entities.general.license = {
+            Cloud: 'true',
+        };
 
         const wrapper = shallow(<FeatureRestrictedModal {...defaultProps}/>);
 
