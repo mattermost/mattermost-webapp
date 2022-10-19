@@ -10,6 +10,7 @@ import {useCurrentProduct, useCurrentProductId, inScope} from 'utils/products';
 
 import {getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 import {getAppBarPluginComponents, getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
+import {suitePluginIds} from 'utils/constants';
 
 import AppBarPluginComponent, {isAppBarPluginComponent} from './app_bar_plugin_component';
 import AppBarBinding, {isAppBinding} from './app_bar_binding';
@@ -31,7 +32,7 @@ export default function AppBar() {
         return null;
     }
 
-    const coreProductsPluginIds = ['focalboard', 'playbooks'];
+    const coreProductsPluginIds = [suitePluginIds.focalboard, suitePluginIds.playbooks];
 
     const [coreProductComponents, pluginComponents] = partition(appBarPluginComponents, ({pluginId}) => {
         return coreProductsPluginIds.includes(pluginId);

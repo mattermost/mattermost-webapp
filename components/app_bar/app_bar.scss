@@ -42,7 +42,7 @@ $app-bar-width: 48px;
             }
 
             .app-bar__icon-inner,
-            span {
+            span:not(.pulsating_dot) {
                 box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
 
                 &:hover {
@@ -52,7 +52,7 @@ $app-bar-width: 48px;
         }
 
         .app-bar__icon-inner,
-        span {
+        span:not(.pulsating_dot) {
             display: block;
             overflow: hidden;
             width: $app-bar-icon-size;
@@ -70,7 +70,7 @@ $app-bar-width: 48px;
             }
         }
 
-        span {
+        span:not(.pulsating_dot) {
             padding: 2px;
             background-color: white;
             fill: var(--button-bg);
