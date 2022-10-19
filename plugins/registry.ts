@@ -30,7 +30,7 @@ import {
 import store from 'stores/redux_store.jsx';
 import {ActionTypes} from 'utils/constants';
 import {generateId} from 'utils/utils';
-import {PluginComponent, PluginsState, ProductComponent} from 'types/store/plugins';
+import {PluginComponent, PluginsState, ProductComponent, NeedsTeamComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 import {FileInfo} from '@mattermost/types/files';
 import {ProductScope} from '@mattermost/types/products';
@@ -39,8 +39,8 @@ import {reArg} from 'utils/func';
 
 const defaultShouldRender = () => true;
 
-type DPluginComponentProp = {component: PluginComponent};
-function dispatchPluginComponentAction(name: keyof PluginsState['components'], pluginId: string, component: PluginComponent, id = generateId()) {
+type DPluginComponentProp = {component: PluginComponent['component']};
+function dispatchPluginComponentAction(name: keyof PluginsState['components'], pluginId: string, component: PluginComponent['component'], id = generateId()) {
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
         name,
@@ -844,7 +844,7 @@ export default class PluginRegistry {
         options: {showTitle} = {showTitle: false},
     }: {
         key: string;
-        component: PluginComponent;
+        component: PluginComponent['component'];
         options?: {showTitle: boolean};
     }) => {
         store.dispatch(registerAdminConsoleCustomSetting(this.id, key, component, {showTitle}));
@@ -865,7 +865,7 @@ export default class PluginRegistry {
     // - showRHSPlugin: the action to dispatch that will open the RHS.
     // - hideRHSPlugin: the action to dispatch that will close the RHS
     // - toggleRHSPlugin: the action to dispatch that will toggle the RHS
-    registerRightHandSidebarComponent = reArg(['component', 'title'], ({component, title}: {component: PluginComponent; title: ReactResolvable}) => {
+    registerRightHandSidebarComponent = reArg(['component', 'title'], ({component, title}: {component: PluginComponent['component']; title: ReactResolvable}) => {
         const id = generateId();
 
         store.dispatch({
@@ -896,7 +896,7 @@ export default class PluginRegistry {
         component,
     }: {
         route: string;
-        component: PluginComponent;
+        component: NeedsTeamComponent['component'];
     }) => {
         const id = generateId();
         let fixedRoute = standardizeRoute(route);
@@ -916,12 +916,14 @@ export default class PluginRegistry {
         return id;
     });
 
-    // Register a component to be displayed at a custom route under /plug/:pluginId
-    // Accepts the following:
-    // - route - The route to be displayed at.
-    // - component - A react component to display.
-    // Returns:
-    // - id: a unique identifier
+    /**
+     * Register a component to be displayed at a custom route under /plug/:pluginId
+     * Accepts the following:
+     * - route - The route to be displayed at.
+     * - component - A react component to display.
+     * @remarks you must specify a `grid-area` (recommended: `grid-area: center`) for `component` using CSS in order to be placed properly in the root layout
+     * @returns a unique identifier
+     */
     registerCustomRoute = reArg([
         'route',
         'component',
@@ -930,7 +932,7 @@ export default class PluginRegistry {
         component,
     }: {
         route: string;
-        component: PluginComponent;
+        component: PluginComponent['component'];
     }) => {
         const id = generateId();
         let fixedRoute = standardizeRoute(route);
@@ -1063,7 +1065,7 @@ export default class PluginRegistry {
      * @param {React.ReactNode} tooltipText string or React element shown for tooltip appear on hover.
      * @param {null | string | Array<null | string>} supportedProductIds specifies one or multiple product identifier(s),
      * identifiers can either be the "real" product uuid, or a product's more commonly accessible plugin id, or '*' to match everything.
-     * @param {PluginComponent | undefined} rhsComponent an optional corresponding RHS component. If provided, its toggler is automatically wired to the action.
+     * @param {PluginComponent['component'] | undefined} rhsComponent an optional corresponding RHS component. If provided, its toggler is automatically wired to the action.
      * @param {ReactResolvable | undefined} rhsTitle the corresponding RHS component's title.
      * @returns {string} unique identifier
      */
