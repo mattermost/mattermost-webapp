@@ -4,7 +4,9 @@
 import Provider from './provider.jsx';
 import SearchDateSuggestion from './search_date_suggestion';
 
-type ResultsCallback = (results: {matchedPretext: string;terms: string[];items: Array<{label: string; date: string}>;component: typeof SearchDateSuggestion}) => void;
+type DateItem = {label: string; date: string};
+
+type ResultsCallback = (results: {matchedPretext: string; terms: string[]; items: DateItem[]; component: typeof SearchDateSuggestion}) => void;
 
 export default class SearchDateProvider extends Provider {
     handlePretextChanged(pretext: string, resultsCallback: ResultsCallback) {
