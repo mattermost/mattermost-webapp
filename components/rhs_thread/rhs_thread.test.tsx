@@ -8,8 +8,6 @@ import {Channel} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 import {Post} from '@mattermost/types/posts';
 
-import * as selectorsTeams from 'mattermost-redux/selectors/entities/teams';
-
 import {TestHelper} from 'utils/test_helper';
 
 import RhsThread from './rhs_thread';
@@ -49,6 +47,8 @@ describe('components/RhsThread', () => {
 
     const directTeammate: UserProfile = TestHelper.getUserMock();
 
+    const currentTeam = TestHelper.getTeamMock();
+
     const baseProps = {
         posts: [post],
         selected: post,
@@ -59,10 +59,10 @@ describe('components/RhsThread', () => {
         socketConnectionStatus: true,
         actions,
         directTeammate,
+        currentTeam,
     };
 
     test('should match snapshot', () => {
-        jest.spyOn(selectorsTeams, 'getCurrentTeam').mockReturnValue(TestHelper.getTeamMock());
         const wrapper = shallow(
             <RhsThread {...baseProps}/>,
         );

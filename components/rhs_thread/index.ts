@@ -18,7 +18,6 @@ function makeMapStateToProps() {
 
     return function mapStateToProps(state: GlobalState) {
         const selected = getSelectedPost(state);
-
         const channel = getSelectedChannel(state);
         const currentTeam = getCurrentTeam(state);
         let posts: Post[] = [];
