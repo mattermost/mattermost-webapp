@@ -178,12 +178,12 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
 
     handleClickOutside = (e: MouseEvent) => {
         if (
-            this.sidebarRight.current && e.target &&
-            !this.sidebarRight.current.contains(e.target as Element) &&
-            !document.getElementById('global-header')?.contains(e.target as Element) &&
-            !document.querySelector('.app-bar')?.contains(e.target as Element) &&
-            this.props.isOpen &&
-            this.props.isExpanded
+            (this.props.isOpen && this.props.isExpanded) && // can be collapsed
+            e.target && // has target
+            document.getElementById('root')?.contains(e.target as Element) &&//  within Root
+            !this.sidebarRight.current?.contains(e.target as Element) && // not within RHS
+            !document.getElementById('global-header')?.contains(e.target as Element) && // not within Global Header
+            !document.querySelector('.app-bar')?.contains(e.target as Element) // not within App Bar
         ) {
             this.props.actions.setRhsExpanded(false);
         }
