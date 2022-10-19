@@ -178,6 +178,15 @@ export const TrialPeriodDays = {
     TRIAL_0_DAYS: 0,
 };
 
+export const suitePluginIds = {
+    playbooks: 'playbooks',
+    focalboard: 'focalboard',
+    apps: 'com.mattermost.apps',
+    calls: 'com.mattermost.calls',
+    nps: 'com.mattermost.nps',
+    channelExport: 'com.mattermost.plugin-channel-export',
+};
+
 export const ActionTypes = keyMirror({
     SET_PRODUCT_SWITCHER_OPEN: null,
     RECEIVED_FOCUSED_POST: null,
@@ -721,6 +730,7 @@ export const PostTypes = {
     PURPOSE_CHANGE: 'system_purpose_change' as const,
     CHANNEL_DELETED: 'system_channel_deleted' as const,
     CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
+    SYSTEM_GENERIC: 'system_generic' as const,
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
     EPHEMERAL: 'system_ephemeral' as const,
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
