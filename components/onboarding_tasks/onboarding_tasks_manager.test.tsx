@@ -21,6 +21,7 @@ const WrapperComponent = (): JSX.Element => {
 describe('onboarding tasks manager', () => {
     const user1 = 'user1';
     const user2 = 'user2';
+    const user3 = 'user3';
 
     const initialState = {
         entities: {
@@ -40,6 +41,7 @@ describe('onboarding tasks manager', () => {
                 profiles: {
                     [user1]: {id: user1, username: user1, roles: 'system_admin'},
                     [user2]: {id: user2, username: user2, roles: 'system_user'},
+                    [user3]: {id: user3, username: user3, roles: 'system_guest'},
                 },
             },
             roles: {},
@@ -76,5 +78,20 @@ describe('onboarding tasks manager', () => {
         // verify visit_system_console and start_trial were removed
         expect(wrapper.findWhere((node) => node.key() === 'visit_system_console')).toHaveLength(0);
         expect(wrapper.findWhere((node) => node.key() === 'start_trial')).toHaveLength(0);
+    });
+
+    it('Removes invite people task item when user is GUEST user', () => {
+        const endUserState = {...initialState, entities: {...initialState.entities, users: {...initialState.entities.users, currentUserId: user3}}};
+        const store = configureStore(endUserState);
+
+        const wrapper = mount(
+            <Provider store={store}>
+                <WrapperComponent/>
+            </Provider>,
+        );
+        expect(wrapper.find('li')).toHaveLength(3);
+
+        // verify visit_system_console and start_trial were removed
+        expect(wrapper.findWhere((node) => node.key() === 'invite_people')).toHaveLength(0);
     });
 });
