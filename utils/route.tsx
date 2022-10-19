@@ -30,7 +30,6 @@ export function checkIfMFARequired(
     path: string,
 ): boolean {
     if (
-        license.MFA === 'true' &&
         config.EnableMultifactorAuthentication === 'true' &&
         config.EnforceMultifactorAuthentication === 'true' &&
         mfaPaths.indexOf(path) === -1

@@ -3299,7 +3299,6 @@ const AdminDefinition = {
                                 </a>
                             ),
                         },
-                        isHidden: it.not(it.licensedForFeature('MFA')),
                         isDisabled: it.any(
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.MFA)),
                             it.stateIsFalse('ServiceSettings.EnableMultifactorAuthentication'),
