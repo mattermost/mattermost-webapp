@@ -36,9 +36,7 @@ exports[`components/file_preview_modal/file_preview_modal_footer/FilePreviewModa
     showFileName={false}
   />
   <Memo(FilePreviewModalMainActions)
-    canCopyContent={false}
     canDownloadFiles={true}
-    content=""
     enablePublicLink={false}
     fileIndex={1}
     fileInfo={
@@ -110,9 +108,7 @@ exports[`components/file_preview_modal/file_preview_modal_footer/FilePreviewModa
     showFileName={false}
   />
   <Memo(FilePreviewModalMainActions)
-    canCopyContent={false}
     canDownloadFiles={true}
-    content=""
     enablePublicLink={false}
     fileIndex={1}
     fileInfo={

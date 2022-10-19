@@ -17,7 +17,8 @@ import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import GenericModal from 'components/generic_modal';
-import {useNotifyAdmin, NotifyStatus} from 'components/notify_admin_cta/notify_admin_cta';
+import {NotifyStatus} from 'components/common/hooks/useGetNotifyAdmin';
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
 import {closeModal} from 'actions/views/modals';
 import {isModalOpen} from 'selectors/views/modals';
