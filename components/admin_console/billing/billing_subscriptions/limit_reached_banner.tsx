@@ -27,7 +27,7 @@ import AlertBanner from 'components/alert_banner';
 import './limit_reached_banner.scss';
 
 interface Props {
-    product: Product;
+    product?: Product;
 }
 
 const LimitReachedBanner = (props: Props) => {
@@ -40,7 +40,7 @@ const LimitReachedBanner = (props: Props) => {
     const openPurchaseModal = useOpenCloudPurchaseModal({});
     const openPricingModal = useOpenPricingModal();
     const saveBool = useSaveBool();
-    if (hasDismissedBanner || !someLimitExceeded || (props.product?.sku !== CloudProducts.STARTER && props.product?.sku !== CloudProducts.PROFESSIONAL)) {
+    if (hasDismissedBanner || !someLimitExceeded || !props.product || (props.product.sku !== CloudProducts.STARTER && props.product.sku !== CloudProducts.PROFESSIONAL)) {
         return null;
     }
 

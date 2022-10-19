@@ -35,6 +35,7 @@ describe('components/AdminConsole', () => {
                 limits: {},
                 limitsLoaded: false,
             },
+            errors: {},
         },
         buildEnterpriseReady: true,
         match: {
