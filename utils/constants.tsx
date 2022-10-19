@@ -138,6 +138,9 @@ export const Preferences = {
     RECENT_EMOJIS: 'recent_emojis',
     ONBOARDING: 'onboarding',
     ADVANCED_TEXT_EDITOR: 'advanced_text_editor',
+
+    USE_CASE: 'use_case',
+    CONFIGURATION_BANNERS: 'configuration_banners',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -602,6 +605,10 @@ export const CloudBanners = {
     UPGRADE_FROM_TRIAL: 'upgrade_from_trial',
 };
 
+export const ConfigurationBanners = {
+    LICENSE_EXPIRED: 'license_expired',
+};
+
 export const AdvancedTextEditor = {
     COMMENT: 'comment',
     POST: 'post',
@@ -617,6 +624,7 @@ export const TELEMETRY_CATEGORIES = {
     SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
+    SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
 };
