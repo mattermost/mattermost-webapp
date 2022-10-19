@@ -32,7 +32,7 @@ npm run test
 In this directory at `mattermost-webapp/e2e/playwright`, run docker container
 
 ```
-docker run -it --rm -v "$(pwd):/e2e-playwright/" --ipc=host mcr.microsoft.com/playwright:v1.25.0-focal /bin/bash
+docker run -it --rm -v "$(pwd):/e2e-playwright/" --ipc=host mcr.microsoft.com/playwright:v1.27.0-focal /bin/bash
 ```
 
 #### 2. Inside the docker container

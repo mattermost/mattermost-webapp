@@ -28,6 +28,8 @@ export function mapFeatureIdToTranslation(id: string, formatMessage: Function): 
         return formatMessage({id: 'webapp.mattermost.feature.all_professional', defaultMessage: 'All Professional features'});
     case PaidFeatures.ALL_ENTERPRISE_FEATURES:
         return formatMessage({id: 'webapp.mattermost.feature.all_enterprise', defaultMessage: 'All Enterprise features'});
+    case PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE:
+        return formatMessage({id: 'webapp.mattermost.feature.upgrade_downgraded_workspace', defaultMessage: 'Revert the workspace to a paid plan'});
     default:
         return '';
     }

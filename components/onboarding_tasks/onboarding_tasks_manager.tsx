@@ -23,7 +23,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
@@ -104,6 +104,7 @@ export const useTasksList = () => {
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
     const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
+    const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const isUserFirstAdmin = useSelector(isFirstAdmin);
 
     // Cloud conditions
@@ -138,6 +139,11 @@ export const useTasksList = () => {
     // explore other tools tour is only shown to subsequent admins and end users
     if (isUserFirstAdmin || (!pluginsList.playbooks && !pluginsList.focalboard)) {
         delete list.EXPLORE_OTHER_TOOLS;
+    }
+
+    // invite other users is hidden for guest users
+    if (isGuestUser) {
+        delete list.INVITE_PEOPLE;
     }
 
     return Object.values(list);
