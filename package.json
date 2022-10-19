@@ -15,6 +15,7 @@
     "@guyplusplus/turndown-plugin-gfm": "1.0.7",
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "0.1.28",
+    "@mui/base": "5.0.0-alpha.102",
     "@stripe/react-stripe-js": "1.6.0",
     "@stripe/stripe-js": "1.20.3",
     "@tippyjs/react": "4.2.6",
