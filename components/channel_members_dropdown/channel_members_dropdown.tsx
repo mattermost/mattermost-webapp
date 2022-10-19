@@ -131,10 +131,6 @@ export default function ChannelMembersDropdown({
     const isDefaultChannel = channel.name === Constants.DEFAULT_CHANNEL;
     const currentRole = renderRole(isChannelAdmin, isGuest);
 
-    if (user.id === currentUserId) {
-        return null;
-    }
-
     if (user.remote_id) {
         const sharedTooltip = (
             <Tooltip id='sharedTooltip'>
@@ -167,6 +163,9 @@ export default function ChannelMembersDropdown({
     const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
     const canMakeUserChannelAdmin = canChangeMemberRoles && isMember;
     const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
+    const removeFromChannelText = user.id === currentUserId ?
+        Utils.localizeMessage('channel_members_dropdown.leave_channel', 'Leave Channel') :
+        Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel');
 
     if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
         const removeMenu = (
@@ -174,7 +173,7 @@ export default function ChannelMembersDropdown({
                 data-testid='removeFromChannel'
                 show={canRemoveUserFromChannel}
                 onClick={handleRemoveFromChannel}
-                text={Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel')}
+                text={removeFromChannelText}
             />
         );
         const makeAdminMenu = (
