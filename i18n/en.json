@@ -3322,7 +3322,7 @@
   "forward_post_modal.preview.footer_message": "Originally posted in ~{channel}",
   "forward_post_modal.preview.title": "Message preview",
   "forward_post_modal.title": "Forward message",
-  "free.banner.downgraded": "",
+  "free.banner.downgraded": "Your workspace now has restrictions and some data has been archived",
   "free.professional_feature.back": "Back",
   "free.professional_feature.professional": "Professional feature",
   "free.professional_feature.try_free": "Professional feature- try it out free",
