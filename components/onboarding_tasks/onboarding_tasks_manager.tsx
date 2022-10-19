@@ -44,31 +44,31 @@ const getCategory = makeGetCategory();
 const taskLabels = {
     [OnboardingTasksName.CHANNELS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_learn_async_collaboration'
-            defaultMessage='🗺️ Learn about async collaboration'
+            id='onboardingTask.checklist.task_learn_more_about_messaging'
+            defaultMessage='🔀 Learn about messaging'
         />
     ),
     [OnboardingTasksName.BOARDS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.plan_sprint_with_boards'
-            defaultMessage='👋 Plan a sprint with Kanban-style boards OR Collaborate on projects with your team'
+            id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
+            defaultMessage='🎯 Plan a sprint with Kanban-style boards'
         />),
     [OnboardingTasksName.PLAYBOOKS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.resolve_incidents_faster_with_playbooks'
-            defaultMessage='🍩 Resolve incidents faster with playbooks OR Simplify your team’s processes with a playbook'
+            id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
+            defaultMessage='🐛 Resolve incidents faster with playbooks'
         />
     ),
     [OnboardingTasksName.INVITE_PEOPLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_invite_people'
-            defaultMessage='✔️ Enhance your Mattermost experience. Invite your team to check out our developer platform'
+            id='onboardingTask.checklist.task_invite_people_to_team'
+            defaultMessage='👋 Enhance your Mattermost experience. Invite your team to check out our developer platform'
         />
     ),
     [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_complete_profile_with_picture'
-            defaultMessage='🎯 Make yourself known with a profile picture'
+            id='onboardingTask.checklist.task_complete_your_profile_with_picture'
+            defaultMessage='📷 Make yourself known with a profile picture'
         />
     ),
     [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
@@ -79,20 +79,20 @@ const taskLabels = {
     ),
     [OnboardingTasksName.DOWNLOAD_APP]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_download_apps'
-            defaultMessage='📅 Download the Desktop and Mobile Apps'
+            id='onboardingTask.checklist.task_download_mm_apps'
+            defaultMessage='📱 Download the Desktop and Mobile Apps'
         />
     ),
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_system_console_configure'
-            defaultMessage='🎯 Make System Admins happy with a configurable Mattermost server'
+            id='onboardingTask.checklist.task_system_console_complete_configuration'
+            defaultMessage='🥰️ Make System Admins happy with a configurable Mattermost server'
         />
     ),
     [OnboardingTasksName.START_TRIAL]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_start_trial_explore'
-            defaultMessage='⛰️ Explore how Enterprise-level high-security features make Mattermost a better option'
+            id='onboardingTask.checklist.task_start_enterprise_trial_explore'
+            defaultMessage='🏢 Explore how Enterprise-level high-security features make Mattermost a better option'
         />
     ),
 };
