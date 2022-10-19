@@ -276,6 +276,12 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
             if (this.props.onUsersLoad) {
                 this.props.onUsersLoad(options);
             }
+            const optionWithLabel = options.forEach((option) => {
+                option.label = option.username;
+            });
+            return new Promise((resolve) => {
+                resolve(optionWithLabel);
+            });
         };
         const result = this.props.usersLoader(this.props.inputValue, customCallback);
         if (result && result.then) {
