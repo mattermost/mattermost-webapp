@@ -6,25 +6,12 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {localizeMessage} from 'utils/utils';
-
+import {OutgoingWebhook} from '@mattermost/types/integrations';
 import BackstageHeader from 'components/backstage/components/backstage_header';
 import ChannelSelect from 'components/channel_select';
 import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 
-type Hook = {
-    displayName?: string;
-    description?: string;
-    contentType?: string;
-    channelId?: string;
-    triggerWords?: string;
-    triggerWhen?: number;
-    callbackUrls?: string;
-    username?: string;
-    iconURL?: string;
-    saving?: boolean;
-    clientError?: string | null;
-}
 type Props = {
     team: {id: string ; name: string};
     header: {id: string ; defaultMessage: string};
@@ -32,49 +19,52 @@ type Props = {
     loading: {id: string ; defaultMessage: string};
     renderExtra: JSX.Element | string;
     serverError: string;
-    initialHook: Hook;
-    action: (hook: Hook) => Promise<void>;
+    initialHook: Partial<OutgoingWebhook>;
+    action: (hook: OutgoingWebhook) => Promise<void>;
     enablePostUsernameOverride: boolean;
     enablePostIconOverride: boolean;
 }
 
-export default class AbstractOutgoingWebhook extends React.PureComponent<Props> {
-    state: Hook;
+type State= Partial<OutgoingWebhook> & {
+    saving: boolean;
+    clientError: null | JSX.Element | string;
+}
+
+export default class AbstractOutgoingWebhook extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
-
         this.state = this.getStateFromHook(this.props.initialHook || {});
     }
 
     getStateFromHook = (hook: Props['initialHook']) => {
         let triggerWords = '';
-        if (hook.triggerWords) {
+        if (hook.trigger_words) {
             let i = 0;
-            for (i = 0; i < hook.triggerWords.length; i++) {
-                triggerWords += hook.triggerWords[i] + '\n';
+            for (i = 0; i < hook.trigger_words.length; i++) {
+                triggerWords += hook.trigger_words[i] + '\n';
             }
         }
 
         let callbackUrls = '';
-        if (hook.callbackUrls) {
+        if (hook.callback_urls) {
             let i = 0;
-            for (i = 0; i < hook.callbackUrls.length; i++) {
-                callbackUrls += hook.callbackUrls[i] + '\n';
+            for (i = 0; i < hook.callback_urls.length; i++) {
+                callbackUrls += hook.callback_urls[i] + '\n';
             }
         }
 
         return {
-            displayName: hook.displayName || '',
+            displayName: hook.display_name || '',
             description: hook.description || '',
-            contentType: hook.contentType || 'application/x-www-form-urlencoded',
-            channelId: hook.channelId || '',
+            contentType: hook.content_type || 'application/x-www-form-urlencoded',
+            channelId: hook.channel_id || '',
             triggerWords,
-            triggerWhen: hook.triggerWhen || 0,
+            triggerWhen: hook.trigger_when || 0,
             callbackUrls,
             saving: false,
             clientError: null,
             username: hook.username || '',
-            iconURL: hook.iconURL || '',
+            iconURL: hook.icon_url || '',
         };
     }
 
@@ -91,8 +81,8 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
         });
 
         const triggerWords = [];
-        if (this.state.triggerWords) {
-            for (let triggerWord of this.state.triggerWords.split('\n')) {
+        if (this.state.trigger_words) {
+            for (let triggerWord of this.state.trigger_words.split('\n')) {
                 triggerWord = triggerWord.trim();
 
                 if (triggerWord.length > 0) {
@@ -101,7 +91,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
             }
         }
 
-        if (!this.state.channelId && triggerWords.length === 0) {
+        if (!this.state.channel_id && triggerWords.length === 0) {
             this.setState({
                 saving: false,
                 clientError: (
@@ -116,8 +106,8 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
         }
 
         const callbackUrls: string[] = [];
-        if (this.state.callbackUrls !== undefined) {
-            for (let callbackUrl of this.state.callbackUrls.split('\n')) {
+        if (this.state.callback_urls !== undefined) {
+            for (let callbackUrl of this.state.callback_urls.split('\n')) {
                 callbackUrl = callbackUrl.trim();
 
                 if (callbackUrl.length > 0) {
@@ -141,15 +131,22 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
         }
         const hook = {
             team_id: this.props.team.id,
-            channelId: this.state.channelId,
-            triggerWords: this.state.triggerWords,
-            triggerWhen: (this.state.triggerWhen, 10),
-            callbackUrls: this.state.callbackUrls,
-            displayName: this.state.displayName,
-            contentType: this.state.contentType,
+            channel_id: this.state.channel_id,
+            trigger_words: this.state.trigger_words,
+            trigger_when: (this.state.trigger_when, 10),
+            callback_urls: this.state.callback_urls,
+            display_name: this.state.display_name,
+            content_type: this.state.content_type,
             description: this.state.description,
             username: this.state.username,
-            iconURL: this.state.iconURL,
+            icon_url: this.state.icon_url,
+            id: '',
+            token: '',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            creator_id: '',
+
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
@@ -157,7 +154,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
 
     updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            displayName: e.target.value,
+            display_name: e.target.value,
         });
     }
 
@@ -169,31 +166,31 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
 
     updateContentType = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({
-            contentType: e.target.value,
+            content_type: e.target.value,
         });
     }
 
     updateChannelId = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({
-            channelId: e.target.value,
+            channel_id: e.target.value,
         });
     }
 
     updateTriggerWords = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({
-            triggerWords: e.target.value,
+            trigger_words: e.target.value,
         });
     }
 
     updateTriggerWhen = (e: React.ChangeEvent<HTMLSelectElement>) => {
         this.setState({
-            triggerWhen: e.target.value,
+            trigger_when: e.target.value,
         });
     }
 
     updateCallbackUrls = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({
-            callbackUrls: e.target.value,
+            callback_urls: e.target.value,
         });
     }
 
@@ -205,7 +202,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
 
     updateIconURL = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            iconURL: e.target.value,
+            icon_url: e.target.value,
         });
     }
 
@@ -252,7 +249,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
                                     type='text'
                                     maxLength={64}
                                     className='form-control'
-                                    value={this.state.displayName}
+                                    value={this.state.display_name}
                                     onChange={this.updateDisplayName}
                                 />
                                 <div className='form__help'>
@@ -303,7 +300,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
                             <div className='col-md-5 col-sm-8'>
                                 <select
                                     className='form-control'
-                                    value={this.state.contentType}
+                                    value={this.state.content_type}
                                     onChange={this.updateContentType}
                                 >
                                     <option
@@ -350,7 +347,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
                             <div className='col-md-5 col-sm-8'>
                                 <ChannelSelect
                                     id='channelId'
-                                    value={this.state.channelId}
+                                    value={this.state.channel_id}
                                     onChange={this.updateChannelId}
                                     selectOpen={true}
                                 />
@@ -378,7 +375,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
                                     rows={3}
                                     maxLength={1000}
                                     className='form-control'
-                                    value={this.state.triggerWords}
+                                    value={this.state.trigger_words}
                                     onChange={this.updateTriggerWords}
                                 />
                                 <div className='form__help'>
@@ -402,7 +399,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
                             <div className='col-md-5 col-sm-8'>
                                 <select
                                     className='form-control'
-                                    value={this.state.triggerWhen}
+                                    value={this.state.trigger_when}
                                     onChange={this.updateTriggerWhen}
                                 >
                                     <option
@@ -440,7 +437,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
                                     rows={3}
                                     maxLength={1000}
                                     className='form-control'
-                                    value={this.state.callbackUrls}
+                                    value={this.state.callback_urls}
                                     onChange={this.updateCallbackUrls}
                                 />
                                 <div className='form__help'>
@@ -511,7 +508,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
                                         type='text'
                                         maxLength={1024}
                                         className='form-control'
-                                        value={this.state.iconURL}
+                                        value={this.state.icon_url}
                                         onChange={this.updateIconURL}
                                     />
                                     <div className='form__help'>
