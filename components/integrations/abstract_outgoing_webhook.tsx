@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -24,7 +24,6 @@ type Props = {
     enablePostUsernameOverride: boolean;
     enablePostIconOverride: boolean;
 }
-
 type State= Partial<OutgoingWebhook> & {
     saving: boolean;
     clientError: null | JSX.Element | string;
@@ -68,8 +67,8 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         };
     }
 
-    handleSubmit = (e: {preventDefault: () => void}) => {
-        e.preventDefault();
+    handleSubmit = (e?: React.MouseEvent) => {
+        e?.preventDefault();
 
         if (this.state.saving) {
             return;
@@ -106,29 +105,28 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         }
 
         const callbackUrls: string[] = [];
-        if (this.state.callback_urls !== undefined) {
-            for (let callbackUrl of this.state.callback_urls.split('\n')) {
-                callbackUrl = callbackUrl.trim();
+        for (let callbackUrl of this.state.callback_urls.split('\n')) {
+            callbackUrl = callbackUrl.trim();
 
-                if (callbackUrl.length > 0) {
-                    callbackUrls.push(callbackUrl);
-                }
-            }
-
-            if (callbackUrls.length === 0) {
-                this.setState({
-                    saving: false,
-                    clientError: (
-                        <FormattedMessage
-                            id='add_outgoing_webhook.callbackUrlsRequired'
-                            defaultMessage='One or more callback URLs are required'
-                        />
-                    ),
-                });
-
-                return;
+            if (callbackUrl.length > 0) {
+                callbackUrls.push(callbackUrl);
             }
         }
+
+        if (callbackUrls.length === 0) {
+            this.setState({
+                saving: false,
+                clientError: (
+                    <FormattedMessage
+                        id='add_outgoing_webhook.callbackUrlsRequired'
+                        defaultMessage='One or more callback URLs are required'
+                    />
+                ),
+            });
+
+            return;
+        }
+        
         const hook = {
             team_id: this.props.team.id,
             channel_id: this.state.channel_id,
@@ -152,55 +150,55 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         this.props.action(hook).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateDisplayName = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             display_name: e.target.value,
         });
     }
 
-    updateDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateDescription = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateContentType = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    updateContentType = (e: ChangeEvent<HTMLSelectElement>) => {
         this.setState({
             content_type: e.target.value,
         });
     }
 
-    updateChannelId = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    updateChannelId = (e: ChangeEvent<HTMLSelectElement>) => {
         this.setState({
             channel_id: e.target.value,
         });
     }
 
-    updateTriggerWords = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    updateTriggerWords = (e: ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({
             trigger_words: e.target.value,
         });
     }
 
-    updateTriggerWhen = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    updateTriggerWhen = (e: ChangeEvent<HTMLSelectElement>) => {
         this.setState({
             trigger_when: e.target.value,
         });
     }
 
-    updateCallbackUrls = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    updateCallbackUrls = (e: ChangeEvent<HTMLTextAreaElement>) => {
         this.setState({
             callback_urls: e.target.value,
         });
     }
 
-    updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateUsername = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconURL = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateIconURL = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             icon_url: e.target.value,
         });
@@ -231,7 +229,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
                 <div className='backstage-form'>
                     <form
                         className='form-horizontal'
-                        onSubmit={this.handleSubmit}
+                        onSubmit={() => this.handleSubmit()}
                     >
                         <div className='form-group'>
                             <label
