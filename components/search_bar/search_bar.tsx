@@ -7,7 +7,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
-
 import SuggestionDate from 'components/suggestion/suggestion_date';
 import SearchSuggestionList from 'components/suggestion/search_suggestion_list.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box';
