@@ -40,7 +40,7 @@ const limits = {
 const products = {
     prod_1: {
         id: 'prod_1',
-        sku: CloudProducts.FREE,
+        sku: CloudProducts.STARTER,
         price_per_seat: 0,
         name: 'Cloud Free',
     },

@@ -62,7 +62,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
         }
 
         // Don't show this banner for professional or enterprise installations
-        if (subscriptionProduct?.sku !== CloudProducts.FREE) {
+        if (subscriptionProduct?.sku !== CloudProducts.STARTER) {
             return false;
         }
 

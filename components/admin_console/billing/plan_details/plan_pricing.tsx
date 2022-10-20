@@ -64,7 +64,7 @@ const PlanPricing = ({
         );
     }
 
-    if (product.sku === CloudProducts.FREE) {
+    if (product.sku === CloudProducts.STARTER) {
         return null;
     }
 

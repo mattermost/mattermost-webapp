@@ -54,7 +54,7 @@ export default function InviteAs(props: Props) {
     const isSystemAdmin = useSelector(isCurrentUserSystemAdmin);
     const config = useSelector(getConfig);
 
-    const isCloudStarter = subscriptionProduct?.sku === CloudProducts.FREE;
+    const isCloudStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
     const isEnterpriseReady = config.BuildEnterpriseReady === 'true';
     const isSelfHostedStarter = isEnterpriseReady && license.IsLicensed === 'false';
     const isStarter = isCloudStarter || isSelfHostedStarter;

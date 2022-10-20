@@ -40,7 +40,7 @@ function simulateSubscription(subscription, currentStorageUsageBytes, planLimit)
         body: [
             {
                 id: 'prod_1',
-                sku: 'cloud-free',
+                sku: 'cloud-starter',
                 price_per_seat: 0,
                 name: 'Cloud Free',
             },

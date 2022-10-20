@@ -450,7 +450,7 @@ export const CloudProducts = {
     // and paid cloud starter (legacy cloud starter).
     // Where differentiation is needed, check whether any limits are applied.
     // If none are applied, it must be legacy cloud starter.
-    FREE: 'cloud-free',
+    STARTER: 'cloud-starter',
     PROFESSIONAL: 'cloud-professional',
     ENTERPRISE: 'cloud-enterprise',
     LEGACY: 'cloud-legacy',
@@ -475,7 +475,6 @@ export enum LicenseSkus {
     E10 = 'E10',
     E20 = 'E20',
     Starter = 'starter',
-    Free = 'free',
     Professional = 'professional',
     Enterprise = 'enterprise',
 }

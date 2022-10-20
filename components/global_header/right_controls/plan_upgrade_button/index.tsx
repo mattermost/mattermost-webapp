@@ -62,7 +62,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
 
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
 
-    const isCloudFree = product?.sku === CloudProducts.FREE;
+    const isCloudFree = product?.sku === CloudProducts.STARTER;
 
     const isSelfHostedEnterpriseTrial = !isCloud && license.IsTrial === 'true';
     const isSelfHostedStarter = license.IsLicensed === 'false';

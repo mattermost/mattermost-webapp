@@ -50,7 +50,7 @@ const Limits = (props: Props): JSX.Element | null => {
     let title: React.ReactNode = null;
     let description: React.ReactNode = null;
     let currentUsage: React.ReactNode = null;
-    if (subscriptionProduct.sku === CloudProducts.FREE) {
+    if (subscriptionProduct.sku === CloudProducts.STARTER) {
         title = (
             <FormattedMessage
                 id='workspace_limits.upgrade'
@@ -240,7 +240,7 @@ const Limits = (props: Props): JSX.Element | null => {
             </div>}
             {currentUsage}
             <div className={actionsClassname}>
-                {subscriptionProduct.sku === CloudProducts.FREE && (
+                {subscriptionProduct.sku === CloudProducts.STARTER && (
                     <>
                         <button
                             onClick={() => openPricingModal({trackingLocation: 'billing_subscriptions_limits_dashboard'})}

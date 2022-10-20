@@ -203,7 +203,7 @@ const FeatureList = (props: FeatureListProps) => {
             features = featuresCloudProfessional;
             break;
 
-        case CloudProducts.FREE:
+        case CloudProducts.STARTER:
             features = hasSomeLimits(limits) ? featuresCloudStarter : featuresCloudStarterLegacy;
             break;
         case CloudProducts.ENTERPRISE:

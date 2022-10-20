@@ -42,7 +42,7 @@ describe('components/global/PlanUpgradeButton', () => {
                 products: {
                     test_prod_1: {
                         id: 'test_prod_1',
-                        sku: CloudProducts.FREE,
+                        sku: CloudProducts.STARTER,
                         price_per_seat: 0,
                     },
                 },

@@ -264,7 +264,7 @@ const getRestrictedIndicator = (displayBlocked = false, minimumPlanRequiredForFe
             }}
         />
     ),
-    shouldDisplay: (license, subscriptionProduct) => displayBlocked || (isCloudLicense(license) && subscriptionProduct?.sku === CloudProducts.FREE),
+    shouldDisplay: (license, subscriptionProduct) => displayBlocked || (isCloudLicense(license) && subscriptionProduct?.sku === CloudProducts.STARTER),
 });
 
 const AdminDefinition = {

@@ -97,19 +97,19 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                        SkuShortName: CloudProducts.FREE,
+                        SkuShortName: CloudProducts.STARTER,
                     },
                 },
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
                         trial_end_at: 0,
-                        sku: CloudProducts.FREE,
-                        product_id: 'cloud-free-id',
+                        sku: CloudProducts.STARTER,
+                        product_id: 'cloud-starter-id',
                     },
                     products: {
-                        'cloud-free-id': {
-                            sku: CloudProducts.FREE,
+                        'cloud-starter-id': {
+                            sku: CloudProducts.STARTER,
                         },
                     },
                 },
@@ -150,19 +150,19 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                        SkuShortName: CloudProducts.FREE,
+                        SkuShortName: CloudProducts.STARTER,
                     },
                 },
                 cloud: {
                     subscription: {
                         is_free_trial: 'false',
                         trial_end_at: 100000,
-                        sku: CloudProducts.FREE,
-                        product_id: 'cloud-free-id',
+                        sku: CloudProducts.STARTER,
+                        product_id: 'cloud-starter-id',
                     },
                     products: {
-                        'cloud-free-id': {
-                            sku: CloudProducts.FREE,
+                        'cloud-starter-id': {
+                            sku: CloudProducts.STARTER,
                         },
                     },
                 },
@@ -281,7 +281,7 @@ describe('components/cloud_start_trial_btn/cloud_start_trial_btn', () => {
                     license: {
                         IsLicensed: 'true',
                         Cloud: 'true',
-                        SkuShortName: CloudProducts.FREE,
+                        SkuShortName: CloudProducts.STARTER,
                     },
                 },
                 cloud: {

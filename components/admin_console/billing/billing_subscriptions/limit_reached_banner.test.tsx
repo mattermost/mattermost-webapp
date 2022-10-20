@@ -65,7 +65,7 @@ const base = {
     recurring_interval: '',
 };
 
-const free = {...base, sku: CloudProducts.FREE};
+const free = {...base, sku: CloudProducts.STARTER};
 const professional = {...base, sku: CloudProducts.PROFESSIONAL};
 const enterprise = {...base, sku: CloudProducts.ENTERPRISE};
 

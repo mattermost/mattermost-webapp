@@ -295,7 +295,7 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                     prod_free: {
                         id: 'prod_free',
                         name: 'Cloud Free',
-                        sku: CloudProducts.FREE,
+                        sku: CloudProducts.STARTER,
                         price_per_seat: 0,
                         product_family: 'cloud',
                         description: '',

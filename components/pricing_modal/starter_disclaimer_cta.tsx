@@ -33,7 +33,7 @@ function StarterDisclaimerCTA() {
     const dispatch = useDispatch();
     const [limits] = useGetLimits();
     const products = useSelector(getCloudProducts);
-    const starterProductName = Object.values(products || {})?.find((product: Product) => product?.sku === CloudProducts.FREE)?.name || 'Cloud Free';
+    const starterProductName = Object.values(products || {})?.find((product: Product) => product?.sku === CloudProducts.STARTER)?.name || 'Cloud Free';
 
     if (!hasSomeLimits(limits)) {
         return null;

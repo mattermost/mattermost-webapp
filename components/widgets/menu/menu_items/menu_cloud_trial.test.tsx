@@ -189,7 +189,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     products: {
                         prod_starter: {
                             id: 'prod_starter',
-                            sku: CloudProducts.FREE,
+                            sku: CloudProducts.STARTER,
                         },
                     },
                     limits,
@@ -228,7 +228,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     products: {
                         prod_starter: {
                             id: 'prod_starter',
-                            sku: CloudProducts.FREE,
+                            sku: CloudProducts.STARTER,
                         },
                     },
                     limits,
@@ -261,7 +261,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     products: {
                         prod_starter: {
                             id: 'prod_starter',
-                            sku: CloudProducts.FREE,
+                            sku: CloudProducts.STARTER,
                         },
                     },
                     limits,
@@ -300,7 +300,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     products: {
                         prod_starter: {
                             id: 'prod_starter',
-                            sku: CloudProducts.FREE,
+                            sku: CloudProducts.STARTER,
                         },
                     },
                     limits,
@@ -339,7 +339,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     products: {
                         prod_starter: {
                             id: 'prod_starter',
-                            sku: CloudProducts.FREE,
+                            sku: CloudProducts.STARTER,
                         },
                     },
                     limits,
@@ -378,7 +378,7 @@ describe('components/widgets/menu/menu_items/menu_cloud_trial', () => {
                     products: {
                         prod_starter: {
                             id: 'prod_starter',
-                            sku: CloudProducts.FREE,
+                            sku: CloudProducts.STARTER,
                         },
                     },
                     limits,

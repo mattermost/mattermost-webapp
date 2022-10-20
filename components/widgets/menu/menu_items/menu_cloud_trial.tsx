@@ -61,7 +61,7 @@ const MenuCloudTrial = ({id}: Props): JSX.Element | null => {
         return null;
     }
 
-    const isStarter = subscriptionProduct?.sku === CloudProducts.FREE;
+    const isStarter = subscriptionProduct?.sku === CloudProducts.STARTER;
 
     if (someLimitNeedsAttention || (!isStarter && !isFreeTrial)) {
         return null;

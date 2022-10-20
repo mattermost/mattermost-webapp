@@ -34,8 +34,8 @@ const BillingSummary = ({isLegacyFree, isFreeTrial, daysLeftOnTrial, onUpgradeMa
 
     const isPreTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at === 0;
     const hasPriorTrial = useSelector(checkHadPriorTrial);
-    const showTryEnterprise = product?.sku === CloudProducts.FREE && isPreTrial;
-    const showUpgradeProfessional = product?.sku === CloudProducts.FREE && hasPriorTrial;
+    const showTryEnterprise = product?.sku === CloudProducts.STARTER && isPreTrial;
+    const showUpgradeProfessional = product?.sku === CloudProducts.STARTER && hasPriorTrial;
 
     const isLegacyFreeUnpaid = isLegacyFree && !subscription?.is_legacy_cloud_paid_tier;
 

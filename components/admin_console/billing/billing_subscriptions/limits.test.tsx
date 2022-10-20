@@ -60,7 +60,7 @@ function setupStore(setupOptions: SetupOptions) {
                     prod_free: {
                         id: 'prod_free',
                         name: 'Cloud Free',
-                        sku: CloudProducts.FREE,
+                        sku: CloudProducts.STARTER,
                     } as Product,
                     prod_enterprise: {
                         id: 'prod_enterprise',

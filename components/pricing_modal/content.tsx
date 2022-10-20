@@ -64,10 +64,10 @@ function Content(props: ContentProps) {
         return product.sku === CloudProducts.PROFESSIONAL;
     }));
     const starterProduct = Object.values(products || {}).find(((product) => {
-        return product.sku === CloudProducts.FREE;
+        return product.sku === CloudProducts.STARTER;
     }));
 
-    const isStarter = product?.sku === CloudProducts.FREE;
+    const isStarter = product?.sku === CloudProducts.STARTER;
     const isProfessional = product?.sku === CloudProducts.PROFESSIONAL;
 
     const isPreTrial = subscription?.trial_end_at === 0;

@@ -40,7 +40,7 @@ const LimitReachedBanner = (props: Props) => {
     const openPurchaseModal = useOpenCloudPurchaseModal({});
     const openPricingModal = useOpenPricingModal();
     const saveBool = useSaveBool();
-    if (hasDismissedBanner || !someLimitExceeded || !props.product || (props.product.sku !== CloudProducts.FREE && props.product.sku !== CloudProducts.PROFESSIONAL)) {
+    if (hasDismissedBanner || !someLimitExceeded || !props.product || (props.product.sku !== CloudProducts.STARTER && props.product.sku !== CloudProducts.PROFESSIONAL)) {
         return null;
     }
 

@@ -31,7 +31,7 @@ function simulateSubscription() {
         [
             {
                 id: 'prod_LSBESgGXq9KlLj',
-                sku: 'cloud-free',
+                sku: 'cloud-starter',
                 price_per_seat: 0,
                 name: 'Cloud Free',
             },

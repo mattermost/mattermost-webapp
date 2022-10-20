@@ -50,7 +50,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile__Cloud', () => {
                 products: {
                     test_prod_1: {
                         id: 'test_prod_1',
-                        sku: CloudProducts.FREE,
+                        sku: CloudProducts.STARTER,
                         price_per_seat: 0,
                     },
                 },
@@ -247,7 +247,7 @@ describe('admin_console/team_channel_settings/team/TeamProfile', () => {
                 products: {
                     test_prod_1: {
                         id: 'test_prod_1',
-                        sku: CloudProducts.FREE,
+                        sku: CloudProducts.STARTER,
                         price_per_seat: 0,
                     },
                 },
