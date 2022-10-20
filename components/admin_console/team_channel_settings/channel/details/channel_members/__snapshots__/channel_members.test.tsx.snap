@@ -37,6 +37,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(ChannelInviteModal)",
           "type": [Function],
         }
       }
@@ -342,6 +343,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
+          "displayName": "Connect(ChannelInviteModal)",
           "type": [Function],
         }
       }

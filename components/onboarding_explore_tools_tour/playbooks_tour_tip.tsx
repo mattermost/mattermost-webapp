@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {useMeasurePunchouts} from '@mattermost/components';
 
 import PlaybooksImg from 'images/playbooks_tour_tip.svg';
 

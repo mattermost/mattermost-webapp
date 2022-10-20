@@ -10,6 +10,13 @@ export type CloudState = {
         limitsLoaded: boolean;
         limits: Limits;
     };
+    errors: {
+        subscription?: true;
+        products?: true;
+        customer?: true;
+        invoices?: true;
+        limits?: true;
+    };
 }
 
 export type Subscription = SubscriptionBase & {
