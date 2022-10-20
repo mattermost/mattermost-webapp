@@ -18,7 +18,7 @@ import {
 describe('Channel Settings', () => {
     let testTeam: Cypress.Team;
     before(() => {
-        cy.apiInitSetup().then(({team, user}) => {
+        cy.apiInitSetup({promoteNewUserAsAdmin: true}).then(({team, user}) => {
             testTeam = team;
             cy.apiCreateChannel(testTeam.id, 'channel', 'Private Channel', 'P').then(({channel}) => {
                 cy.apiAddUserToChannel(channel.id, user.id);
