@@ -18,14 +18,14 @@ type PickerStyle = {
     top: number;
     bottom: number;
     left?: number;
-    right: number;
+    right?: number;
 }
 
 export interface Props {
     style?: PickerStyle;
-    rightOffset: number;
-    topOffset: number;
-    leftOffset: number;
+    rightOffset?: number;
+    topOffset?: number;
+    leftOffset?: number;
     placement?: ('top' | 'bottom' | 'left' | 'right');
     customEmojis?: Emoji[];
     onEmojiClose: () => void;
@@ -38,6 +38,7 @@ type State = {
     emojiTabVisible: boolean;
     filter: string;
 }
+
 export default class EmojiPickerTabs extends PureComponent<Props, State> {
     static defaultProps = {
         rightOffset: 0,
@@ -82,15 +83,21 @@ export default class EmojiPickerTabs extends PureComponent<Props, State> {
                 pickerStyle = {
                     top: this.props.style.top,
                     bottom: this.props.style.bottom,
-                    right: this.props.rightOffset,
+                    right: this.props?.rightOffset,
                 };
             } else {
                 pickerStyle = {...this.props.style};
             }
 
-            pickerStyle.top = pickerStyle.top ? pickerStyle.top + this.props.topOffset : this.props.topOffset;
+            let offset = 0;
+            if (pickerStyle.top) {
+                offset = pickerStyle.top + (this.props.topOffset || 0);
+            } else {
+                offset = (this.props.topOffset || 0);
+            }
+            pickerStyle.top = offset;
 
-            if (pickerStyle.left) {
+            if (pickerStyle.left && this.props.leftOffset) {
                 pickerStyle.left += this.props.leftOffset;
             }
         }
