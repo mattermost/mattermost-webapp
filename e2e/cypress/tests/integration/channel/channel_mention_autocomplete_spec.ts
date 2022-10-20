@@ -13,11 +13,11 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Channel', () => {
-    let testTeam;
-    let ownChannel;
-    let otherChannel;
-    let testUser;
-    let offTopicUrl;
+    let testTeam: Cypress.Team;
+    let ownChannel: Cypress.Channel;
+    let otherChannel: Cypress.Channel;
+    let testUser: Cypress.UserProfile;
+    let offTopicUrl: string;
 
     const myChannelsDividerText = 'My Channels';
     const otherChannelsDividerText = 'Other Channels';

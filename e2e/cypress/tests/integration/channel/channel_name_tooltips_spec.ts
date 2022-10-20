@@ -14,7 +14,7 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 
 const timestamp = Date.now();
 
-function verifyChannel(channel, verifyExistence = true) {
+function verifyChannel(channel: Cypress.Channel, verifyExistence = true) {
     // # Wait for Channel to be created
     cy.wait(TIMEOUTS.HALF_SEC);
 
@@ -35,9 +35,9 @@ function verifyChannel(channel, verifyExistence = true) {
 }
 
 describe('channel name tooltips', () => {
-    let loggedUser;
-    let longUser;
-    let testTeam;
+    let loggedUser: Cypress.UserProfile;
+    let longUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();

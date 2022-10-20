@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @channel
 
-import {getAdminAccount} from '../../support/env';
+import {getAdminAccount, User} from '../../support/env';
 
 describe('View Members modal', () => {
     const sysadmin = getAdminAccount();
@@ -37,15 +37,15 @@ describe('View Members modal', () => {
     });
 });
 
-const demoteToMember = (user, sysadmin) => {
+const demoteToMember = (user: Cypress.UserProfile, sysadmin: User) => {
     cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
 
-const promoteToSysAdmin = (user, sysadmin) => {
+const promoteToSysAdmin = (user: Cypress.UserProfile, sysadmin: User) => {
     cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
 };
 
-function verifyMemberDropdownAction(hasActionItem) {
+function verifyMemberDropdownAction(hasActionItem: boolean) {
     // # Click member count to open member rhs
     cy.get('#member_rhs').click();
 

@@ -11,8 +11,8 @@
 // Group: @channel
 
 describe('Channels', () => {
-    let testUser;
-    let testTeam;
+    let testUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
@@ -128,7 +128,7 @@ const saveConfigChannel = () => {
     }));
 };
 
-const enablePermission = (permissionCheckBoxTestId) => {
+const enablePermission = (permissionCheckBoxTestId: string) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (!el.hasClass('checked')) {
             el.click();
@@ -136,7 +136,7 @@ const enablePermission = (permissionCheckBoxTestId) => {
     });
 };
 
-const removePermission = (permissionCheckBoxTestId) => {
+const removePermission = (permissionCheckBoxTestId: string) => {
     cy.findByTestId(permissionCheckBoxTestId).then((el) => {
         if (el.hasClass('checked')) {
             el.click();

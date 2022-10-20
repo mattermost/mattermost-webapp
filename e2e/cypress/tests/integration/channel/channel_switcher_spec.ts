@@ -11,9 +11,9 @@
 // Group: @channel @smoke
 
 describe('Channel Switcher', () => {
-    let testTeam;
-    let testChannelName;
-    let offTopicUrl;
+    let testTeam: Cypress.Team;
+    let testChannelName: string;
+    let offTopicUrl: string;
     const channelNamePrefix = 'aswitchchannel';
     const channelDisplayNamePrefix = 'ASwitchChannel';
 

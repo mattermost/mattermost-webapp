@@ -10,15 +10,12 @@
 // Stage: @prod
 // Group: @channel
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {ChainableT} from 'tests/types';
-
 import {getAdminAccount} from '../../support/env';
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
-    let testTeam;
-    let testUser;
+    let testTeam: Cypress.Team;
+    let testUser: Cypress.UserProfile;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -43,35 +40,24 @@ describe('Leave an archived channel', () => {
         cy.makeClient({user: getAdminAccount()}).then((client) => {
             // # Have another user create a private channel
             const channelName = `channel${getRandomId()}`;
-            cy.wrap(client.createChannel({
-                display_name: channelName,
-                name: channelName,
-                team_id: testTeam.id,
-                type: 'P',
-                id: '',
-                create_at: 0,
-                update_at: 0,
-                delete_at: 0,
-                header: '',
-                purpose: '',
-                last_post_at: 0,
-                total_msg_count: 0,
-                extra_update_at: 0,
-                creator_id: '',
-                scheme_id: '',
-                group_constrained: false,
-            })).then((channel: Channel): ChainableT<Channel> => {
+            cy.apiCreateChannel(
+                testTeam.id,
+                channelName,
+                channelName,
+                'P',
+            ).then(({channel}) => {
                 // # Then invite us to it
-                return cy.wrap(client.addToChannel(testUser.id, channel.id)).
-                    then(() => cy.wrap(channel));
-            }).then((channel: Channel): ChainableT<Channel> => {
+                cy.wrap(client.addToChannel(testUser.id, channel.id));
+
+                return cy.wrap(channel);
+            }).then((channel) => {
                 // * Verify that the newly created channel is in the sidebar
                 cy.get(`#sidebarItem_${channel.name}`).should('be.visible');
 
                 return cy.wrap(channel);
-            }).then((channel: Channel) => {
+            }).then(async (channel) => {
                 // # Then archive the channel
-                cy.wrap(client.deleteChannel(channel.id));
+                await client.deleteChannel(channel.id);
 
                 // * Verify that the channel is no longer in the sidebar and that the app hasn't crashed
                 cy.get(`#sidebarItem_${channel.name}`).should('not.exist');

@@ -17,10 +17,10 @@ import * as TIMEOUTS from '../../fixtures/timeouts';
 import {createPrivateChannel} from '../enterprise/elasticsearch_autocomplete/helpers';
 
 describe('Channels', () => {
-    let testUser;
-    let otherUser;
-    let testTeam;
-    let testChannel;
+    let testUser: Cypress.UserProfile;
+    let otherUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
@@ -149,9 +149,9 @@ describe('Channels', () => {
                 ExperimentalViewArchivedChannels: true,
             },
         });
-        let newChannel;
-        let testArchivedChannel;
-        let testPrivateArchivedChannel;
+        let newChannel: Cypress.Channel;
+        let testArchivedChannel: Cypress.Channel;
+        let testPrivateArchivedChannel: Cypress.Channel;
 
         cy.apiCreateTeam('team', 'Test NoMember').then(({team}) => {
             cy.apiCreateChannel(team.id, 'not-archived-channel', 'Not Archived Channel').then(({channel}) => {

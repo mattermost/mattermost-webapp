@@ -13,8 +13,8 @@
 import {getRandomId} from '../../utils';
 
 describe('Leave an archived channel', () => {
-    let testTeam;
-    let offTopicUrl;
+    let testTeam: Cypress.Team;
+    let offTopicUrl: string;
 
     before(() => {
         cy.apiUpdateConfig({
@@ -111,8 +111,8 @@ describe('Leave an archived channel', () => {
     });
 
     it('MM-T1699 - Browse Channels for all channel types shows archived channels option', () => {
-        let archivedPrivateChannel;
-        let archivedPublicChannel;
+        let archivedPrivateChannel: Cypress.Channel;
+        let archivedPublicChannel: Cypress.Channel;
 
         // # Create private channel
         cy.uiCreateChannel({isPrivate: true, isNewSidebar: true}).as('channel').then((channel) => {
@@ -158,8 +158,8 @@ describe('Leave an archived channel', () => {
     });
 
     it('MM-T1700 - All archived public channels are shown Important', () => {
-        let archivedPublicChannel1;
-        let archivedPublicChannel2;
+        let archivedPublicChannel1: Cypress.Channel;
+        let archivedPublicChannel2: Cypress.Channel;
 
         // # Create public channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {
@@ -211,8 +211,8 @@ describe('Leave an archived channel', () => {
     });
 
     it('MM-T1701 - Only Private channels you are a member of are displayed', () => {
-        let archivedPrivateChannel1;
-        let archivedPrivateChannel2;
+        let archivedPrivateChannel1: Cypress.Channel;
+        let archivedPrivateChannel2: Cypress.Channel;
 
         // # Create private channel
         cy.uiCreateChannel({isPrivate: true, isNewSidebar: true}).as('channel').then((channel) => {
@@ -265,7 +265,7 @@ describe('Leave an archived channel', () => {
     });
 
     it('MM-T1703 - User can open archived channels', () => {
-        let archivedChannel;
+        let archivedChannel: Cypress.Channel;
 
         // # Create a public channel
         cy.apiCreateChannel(testTeam.id, 'channel', 'channel').then(({channel}) => {

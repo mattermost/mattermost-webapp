@@ -11,10 +11,10 @@
 // Group: @channel
 
 describe('Channel routing', () => {
-    let testUser;
-    let otherUser1;
-    let otherUser2;
-    let testTeam;
+    let testUser: Cypress.UserProfile;
+    let otherUser1: Cypress.UserProfile;
+    let otherUser2: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {

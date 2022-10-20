@@ -138,7 +138,7 @@ function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): Ch
 
 Cypress.Commands.add('apiCreateWebhook', apiCreateWebhook);
 
-function apiGetTeam(teamId: string): ChainableT<any> {
+function apiGetTeam(teamId: string): ChainableT<Cypress.Response<Cypress.Team>> {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
         url: `api/v4/teams/${teamId}`,

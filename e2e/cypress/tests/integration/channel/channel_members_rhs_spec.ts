@@ -12,7 +12,7 @@ const {generateRandomUser} = require('../../support/api/user');
 // Stage: @prod
 // Group: @channel @rhs @channel_members
 
-function openChannelMembersRhs(testTeam, testChannel) {
+function openChannelMembersRhs(testTeam: Cypress.Team, testChannel: Cypress.Channel) {
     // # Go to test channel
     cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
@@ -24,10 +24,10 @@ function openChannelMembersRhs(testTeam, testChannel) {
 }
 
 describe('Channel members RHS', () => {
-    let testTeam;
-    let testChannel;
-    let admin;
-    let user;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
+    let admin: Cypress.UserProfile;
+    let user: Cypress.UserProfile;
 
     before(() => {
         cy.apiInitSetup({promoteNewUserAsAdmin: true}).then(({team, user: newAdmin}) => {
@@ -320,7 +320,7 @@ describe('Channel members RHS', () => {
     });
 });
 
-function ensureChannelMembersRHSExists(testChannel) {
+function ensureChannelMembersRHSExists(testChannel: Cypress.Channel) {
     cy.get('#rhsContainer').then((rhsContainer) => {
         cy.wrap(rhsContainer).findByText('Members').should('be.visible');
         cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');

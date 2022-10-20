@@ -9,13 +9,13 @@
 
 // Group: @channel
 
-import {getAdminAccount} from '../../support/env';
+import {getAdminAccount, User} from '../../support/env';
 
-const demoteToMember = (user, admin) => {
+const demoteToMember = (user: Cypress.UserProfile, admin: User) => {
     cy.externalRequest({user: admin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user'}});
 };
 
-const demoteToChannelMember = (user, channelId, admin) => {
+const demoteToChannelMember = (user: Cypress.UserProfile, channelId: string, admin: User) => {
     cy.externalRequest({
         user: admin,
         method: 'put',
@@ -27,7 +27,7 @@ const demoteToChannelMember = (user, channelId, admin) => {
     });
 };
 
-const promoteToChannelAdmin = (user, channelId, admin) => {
+const promoteToChannelAdmin = (user: Cypress.UserProfile, channelId: string, admin: User) => {
     cy.externalRequest({
         user: admin,
         method: 'put',
@@ -41,8 +41,8 @@ const promoteToChannelAdmin = (user, channelId, admin) => {
 
 describe('Change Roles', () => {
     const admin = getAdminAccount();
-    let testUser;
-    let testChannelId;
+    let testUser: Cypress.UserProfile;
+    let testChannelId: string;
 
     beforeEach(() => {
         // # Login as test user and visit test channel

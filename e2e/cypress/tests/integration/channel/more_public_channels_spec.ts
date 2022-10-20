@@ -10,15 +10,15 @@
 // Stage: @prod
 // Group: @channel
 
-function verifyNoChannelToJoinMessage(isVisible) {
+function verifyNoChannelToJoinMessage(isVisible: boolean) {
     cy.findByText('No more channels to join').should(isVisible ? 'be.visible' : 'not.exist');
     cy.findByText('Click \'Create New Channel\' to make a new one').should(isVisible ? 'be.visible' : 'not.exist');
 }
 
 describe('more public channels', () => {
-    let testUser;
-    let otherUser;
-    let testTeam;
+    let testUser: Cypress.UserProfile;
+    let otherUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {

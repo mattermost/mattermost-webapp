@@ -13,14 +13,14 @@
 import {stubClipboard} from '../../utils';
 
 describe('Channel Info RHS', () => {
-    let testTeam;
-    let testChannel;
-    let groupChannel;
-    let directChannel;
-    let directUser;
-    let admin;
-    let user;
-    const otherUsers = [];
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
+    let groupChannel: Cypress.Channel;
+    let directChannel: Cypress.Channel;
+    let directUser: Cypress.UserProfile;
+    let admin: Cypress.UserProfile;
+    let user: Cypress.UserProfile;
+    const otherUsers: Cypress.UserProfile[] = [];
 
     before(() => {
         cy.apiInitSetup({promoteNewUserAsAdmin: true}).then(({team, user: newAdmin}) => {
@@ -477,7 +477,7 @@ describe('Channel Info RHS', () => {
     });
 });
 
-function ensureRHSIsOpenOnChannelInfo(testChannel) {
+function ensureRHSIsOpenOnChannelInfo(testChannel: Cypress.Channel) {
     cy.get('#rhsContainer').then((rhsContainer) => {
         cy.wrap(rhsContainer).findByText('Info').should('be.visible');
         cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');

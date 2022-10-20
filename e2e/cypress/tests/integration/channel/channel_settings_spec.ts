@@ -16,7 +16,7 @@ import {
 } from '../../support/assertions';
 
 describe('Channel Settings', () => {
-    let testTeam;
+    let testTeam: Cypress.Team;
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
             testTeam = team;

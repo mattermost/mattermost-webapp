@@ -22,9 +22,9 @@ function verifyChannelWasProperlyClosed(channelName) {
 }
 
 describe('Close direct messages', () => {
-    let testUser;
-    let otherUser;
-    let testTeam;
+    let testUser: Cypress.UserProfile;
+    let otherUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -54,7 +54,7 @@ describe('Close direct messages', () => {
         });
     });
 
-    function createAndVisitDMChannel(userIds) {
+    function createAndVisitDMChannel(userIds: string[]) {
         return cy.apiCreateDirectChannel(userIds).then(({channel}) => {
             // # Visit the new channel
             cy.visit(`/${testTeam.name}/channels/${channel.name}`);
@@ -68,10 +68,10 @@ describe('Close direct messages', () => {
 });
 
 describe('Close group messages', () => {
-    let testUser;
-    let otherUser1;
-    let otherUser2;
-    let testTeam;
+    let testUser: Cypress.UserProfile;
+    let otherUser1: Cypress.UserProfile;
+    let otherUser2: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
 
     before(() => {
         cy.apiAdminLogin();

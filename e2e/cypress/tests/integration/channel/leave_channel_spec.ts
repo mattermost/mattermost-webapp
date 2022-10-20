@@ -13,9 +13,9 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Leave channel', () => {
-    let testTeam;
-    let testUser;
-    let testChannel;
+    let testTeam: Cypress.Team;
+    let testUser: Cypress.UserProfile;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         cy.apiUpdateConfig({
