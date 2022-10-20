@@ -225,9 +225,7 @@ describe('components/channel_members_dropdown', () => {
     test('should match snapshot when user is current user', () => {
         const props = {
             ...baseProps,
-            user: {
-                id: 'current-user-id',
-            } as UserProfile,
+            currentUserId: 'user-1',
         };
         const wrapper = shallow(
             <ChannelMembersDropdown {...props}/>,
