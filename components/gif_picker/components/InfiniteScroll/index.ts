@@ -21,6 +21,15 @@ type Props = {
 }
 
 export default class InfiniteScroll extends PureComponent<Props> {
+    static defaultProps = {
+        element: 'div',
+        hasMore: false,
+        initialLoad: true,
+        pageStart: 0,
+        threshold: 250,
+        useWindow: true,
+        isReverse: false,
+    };
     private pageLoaded: number | undefined;
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     private scrollComponent: any;
@@ -38,24 +47,10 @@ export default class InfiniteScroll extends PureComponent<Props> {
     render() {
         const {
             children,
-            element = 'div',
-            hasMore = false,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            initialLoad = true,
+            element,
+            hasMore,
             loader,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            loadMore,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            pageStart = 0,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            threshold = 250,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            useWindow = true,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            isReverse = false,
-            // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            scrollPosition = null,
-            containerHeight = null,
+            containerHeight,
             ...props
         } = this.props;
 
@@ -65,7 +60,7 @@ export default class InfiniteScroll extends PureComponent<Props> {
 
         const elementProps = containerHeight ? {...props, style: {height: containerHeight}} : props;
 
-        return React.createElement(element, elementProps, children, hasMore && (loader || this.defaultLoader));
+        return React.createElement(element!, elementProps, children, hasMore && (loader || this.defaultLoader));
     }
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -78,8 +73,8 @@ export default class InfiniteScroll extends PureComponent<Props> {
 
     setScrollPosition() {
         const {scrollPosition} = this.props;
-        if (scrollPosition !== null) {
-            window.scrollTo(0, scrollPosition!);
+        if (scrollPosition) {
+            window.scrollTo(0, scrollPosition);
         }
     }
 
@@ -103,11 +98,6 @@ export default class InfiniteScroll extends PureComponent<Props> {
 
         if (offset < Number(this.props.threshold)) {
             this.detachScrollListener();
-
-            // Call loadMore after detachScrollListener to allow for non-async loadMore functions
-            if (typeof this.props.loadMore === 'function') {
-                this.props.loadMore(this.pageLoaded! += 1);
-            }
         }
     }
 
