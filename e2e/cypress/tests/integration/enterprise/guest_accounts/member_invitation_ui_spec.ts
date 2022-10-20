@@ -13,14 +13,15 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+
 import {getRandomId, stubClipboard} from '../../../utils';
 import {getAdminAccount} from '../../../support/env';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Member Invitation Flow', () => {
     const sysadmin = getAdminAccount();
-    let testTeam;
-    let testUser;
+    let testTeam: Cypress.Team;
+    let testUser: Cypress.UserProfile;
 
     beforeEach(() => {
         // # Login as sysadmin

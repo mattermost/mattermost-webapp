@@ -13,6 +13,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 function demoteGuestUser(guestUser) {
@@ -26,7 +27,7 @@ function demoteGuestUser(guestUser) {
 }
 
 describe('Guest Account - Guest User Experience', () => {
-    let guestUser;
+    let guestUser: Cypress.UserProfile;
 
     before(() => {
         // * Check if server has license for Guest Accounts
