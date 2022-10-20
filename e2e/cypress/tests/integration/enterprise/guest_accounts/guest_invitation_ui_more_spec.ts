@@ -13,6 +13,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+
 import {getRandomId} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
@@ -24,7 +25,7 @@ import {
 } from './helpers';
 
 describe('Guest Account - Guest User Invitation Flow', () => {
-    let testTeam;
+    let testTeam: Cypress.Team;
 
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -59,7 +60,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
     });
 
     it('MM-T1337 Invite Guests - Existing Team Guest', () => {
-        cy.apiCreateGuestUser().then(({guest}) => {
+        cy.apiCreateGuestUser({}).then(({guest}) => {
             cy.apiAddUserToTeam(testTeam.id, guest.id).then(() => {
                 // # Search and add an existing guest by first name, who is part of the team but not channel
                 invitePeople(guest.first_name, 1, guest.username, 'Off-Topic');
@@ -88,7 +89,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
 
     it('MM-T1339 Invite Guests - Existing Guest not on the team', () => {
         // # Search and add an existing guest by email, who is not part of the team
-        cy.apiCreateGuestUser().then(({guest}) => {
+        cy.apiCreateGuestUser({}).then(({guest}) => {
             invitePeople(guest.email, 1, guest.username);
 
             verifyInvitationSuccess(guest.username, testTeam, 'This guest has been added to the team and channel.', true);
@@ -121,7 +122,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         verifyInvitationError(email, testTeam, expectedError);
 
         // # From System Console try to update email of guest user
-        cy.apiCreateGuestUser().then(({guest}) => {
+        cy.apiCreateGuestUser({}).then(({guest}) => {
             // # Navigate to System Console Users listing page
             cy.visit('/admin_console/user_management/users');
 

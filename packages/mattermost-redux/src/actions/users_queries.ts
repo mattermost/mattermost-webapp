@@ -7,6 +7,8 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import {Role} from '@mattermost/types/roles';
 import {Team} from '@mattermost/types/teams';
 
+import {convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
+
 const currentUserInfoQueryString = `
 query gqlWebCurrentUserInfo {
     config
@@ -98,11 +100,7 @@ export type CurrentUserInfoQueryResponseType = {
     };
 };
 
-export function convertRolesNamesArrayToString(roles: Role[]): string {
-    return roles.map((role) => role.name!).join(' ') ?? '';
-}
-
-export function transformToRecievedRolesReducerPayload(
+export function transformToReceivedUserAndTeamRolesReducerPayload(
     userRoles: CurrentUserInfoQueryResponseType['data']['user']['roles'],
     teamMembers: CurrentUserInfoQueryResponseType['data']['teamMembers']): Role[] {
     let roles: Role[] = [...userRoles];

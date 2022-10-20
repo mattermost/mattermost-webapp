@@ -14,7 +14,7 @@ export function changeGuestFeatureSettings(featureFlag = true, emailInvitation =
     });
 }
 
-export function invitePeople(typeText, resultsCount, verifyText, channelName = 'Town Square', clickInvite = true) {
+export function invitePeople(typeText: string, resultsCount: number, verifyText: string, channelName = 'Town Square', clickInvite = true) {
     // # Open team menu and click 'Invite People'
     cy.uiOpenTeamMenu('Invite People');
 
@@ -42,7 +42,7 @@ export function invitePeople(typeText, resultsCount, verifyText, channelName = '
     }
 }
 
-export function verifyInvitationError(user, team, errorText, verifyGuestBadge = false) {
+export function verifyInvitationError(user: string, team: Cypress.Team, errorText: string, verifyGuestBadge = false) {
     // * Verify the content and error message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
         cy.get('h1').should('have.text', `Guests invited to ${team.display_name}`);
@@ -64,7 +64,7 @@ export function verifyInvitationError(user, team, errorText, verifyGuestBadge = 
     cy.get('.InvitationModal').should('not.exist');
 }
 
-export function verifyInvitationSuccess(user, team, successText, verifyGuestBadge = false) {
+export function verifyInvitationSuccess(user: string, team: Cypress.Team, successText: string, verifyGuestBadge = false) {
     // * Verify the content and success message in the Invitation Modal
     cy.findByTestId('invitationModal').within(() => {
         cy.get('h1').should('have.text', `Guests invited to ${team.display_name}`);

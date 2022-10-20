@@ -11,6 +11,7 @@ export default async function openApplitoolsEyes(name: string, testArgs: TestArg
 
     if (!testArgs.isMobile && testArgs.browserName === 'chromium' && testConfig.applitoolsEnabled) {
         if (!process.env.APPLITOOLS_API_KEY) {
+            // eslint-disable-next-line no-console
             console.error('Error: API key is missing! Please set using: "export APPLITOOLS_API_KEY=<change_me>"');
         }
         const runner = new ClassicRunner();
