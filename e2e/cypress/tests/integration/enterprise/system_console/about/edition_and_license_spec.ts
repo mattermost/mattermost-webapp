@@ -97,7 +97,7 @@ function setChannelPermission() {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function verifyCreatePublicChannel(teamName: string, testUsers: Array<{ user: any; canCreate: boolean; isSysadmin: boolean } | { user: any; canCreate: boolean; isSysadmin?: undefined }>) {
+function verifyCreatePublicChannel(teamName: Cypress.Team['name'], testUsers: Array<{ user: any; canCreate: boolean; isSysadmin: boolean } | { user: any; canCreate: boolean; isSysadmin?: undefined }>) {
     for (const testUser of testUsers) {
         const {user, canCreate, isSysadmin} = testUser;
 
@@ -119,7 +119,7 @@ function verifyCreatePublicChannel(teamName: string, testUsers: Array<{ user: an
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function verifyRenamePrivateChannel(teamName: string, privateChannelName: string, testUsers: Array<{ user: any; canRename: boolean }>) {
+function verifyRenamePrivateChannel(teamName: Cypress.Team['name'], privateChannelName: Cypress.Channel['name'], testUsers: Array<{ user: any; canRename: boolean }>) {
     for (const testUser of testUsers) {
         const {user, canRename} = testUser;
 
@@ -132,8 +132,7 @@ function verifyRenamePrivateChannel(teamName: string, privateChannelName: string
     }
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-function verifyUserChannelPermission(teamName: string, privateChannelName: string, sysadmin: { username: string; password: string; email: string }, teamAdmin: any, regularUser: any) {
+function verifyUserChannelPermission(teamName: Cypress.Team['name'], privateChannelName: Cypress.Channel['name'], sysadmin: { username: string; password: string; email: string }, teamAdmin: Cypress.Team, regularUser: Cypress.UserProfile) {
     // * Verify that system admin sees option to create public channels and team admins / members do not
     verifyCreatePublicChannel(teamName, [
         {user: sysadmin, canCreate: true, isSysadmin: true},
