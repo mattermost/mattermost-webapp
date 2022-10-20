@@ -10,7 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @system_console @channel_moderation
 
-
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
 import {checkBoxes} from './constants';
