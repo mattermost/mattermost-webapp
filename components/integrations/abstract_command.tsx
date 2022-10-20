@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
+import {Command} from '@mattermost/types/integrations';
 import BackstageHeader from 'components/backstage/components/backstage_header';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -17,34 +18,24 @@ import {t} from 'utils/i18n';
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
 
-type Command = {
-    display_name?: string;
-    description?: string;
-    trigger: string;
-    url: string;
-    method?: typeof REQUEST_POST | typeof REQUEST_GET;
-    username?: string;
-    icon_url?: string;
-    auto_complete?: boolean;
-    auto_complete_hint?: string;
-    auto_complete_desc?: string;
-    saving?: boolean;
-    clientError?: string | null;
-}
-
 type Props = {
-    team: {id: number ; name: string};
-    header: {id: number ; defaultMessage: string};
-    footer: {id: number ; defaultMessage: string};
+    team: {id: string ; name: string};
+    header: {id: string ; defaultMessage: string};
+    footer: {id: string ; defaultMessage: string};
     loading: {id: string ; defaultMessage: string};
     renderExtra: JSX.Element;
     serverError: string;
-    initialCommand: Command;
+    initialCommand: Partial<Command>;
     action: (command: Command) => Promise<void>;
 }
 
-export default class AbstractCommand extends React.PureComponent<Props> {
-    state: Command;
+type State= Partial<Command> & {
+    saving: boolean;
+    clientError: null | JSX.Element | string;
+    trigger: string;
+}
+
+export default class AbstractCommand extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
 
@@ -68,7 +59,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
         };
     }
 
-    handleSubmit = (e: {preventDefault: () => void}) => {
+    handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         if (this.state.saving) {
@@ -97,6 +88,12 @@ export default class AbstractCommand extends React.PureComponent<Props> {
             team_id: this.props.team.id,
             auto_complete_desc: '',
             auto_complete_hint: '',
+            token: '',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            id: '',
+            creator_id: '',
         };
 
         if (command.auto_complete) {
@@ -183,7 +180,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
 
     updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            displayName: e.target.value,
+            display_name: e.target.value,
         });
     }
 
@@ -219,19 +216,19 @@ export default class AbstractCommand extends React.PureComponent<Props> {
 
     updateIconUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            iconUrl: e.target.value,
+            icon_url: e.target.value,
         });
     }
 
     updateAutocomplete = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            autocomplete: e.target.checked,
+            auto_complete: e.target.checked,
         });
     }
 
     updateAutocompleteHint = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            autocompleteHint: e.target.value,
+            auto_complete_hint: e.target.value,
         });
     }
 
