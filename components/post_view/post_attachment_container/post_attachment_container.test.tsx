@@ -15,7 +15,6 @@ describe('PostAttachmentContainer', () => {
         children: <p>{'some children'}</p>,
         className: 'permalink',
         link: '/test/pl/1',
-        selectedPost: null,
     };
 
     const initialState = {

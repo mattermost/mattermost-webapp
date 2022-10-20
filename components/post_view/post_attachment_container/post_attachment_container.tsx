@@ -7,9 +7,6 @@ import {matchPath, useHistory} from 'react-router-dom';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Post} from '@mattermost/types/posts';
-import {selectPostAndHighlight} from 'actions/views/rhs';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {isTeamSameWithCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {focusPost} from 'components/permalink_view/actions';
@@ -22,7 +19,6 @@ export type Props = {
     children?: JSX.Element;
     preventClickAction?: boolean;
     link: string;
-    selectedPost: Post | null;
 };
 
 type LinkParams = {
@@ -36,16 +32,10 @@ const getTeamAndPostIdFromLink = (link: string) => {
 };
 
 const PostAttachmentContainer = (props: Props) => {
-    const {children, className, link, preventClickAction, selectedPost} = props;
+    const {children, className, link, preventClickAction} = props;
     const history = useHistory();
 
     const dispatch = useDispatch();
-
-    const viewThreadandHighlight = useCallback(async () => {
-        if (selectedPost) {
-            await dispatch(selectPostAndHighlight(selectedPost));
-        }
-    }, [dispatch, selectedPost]);
 
     const params = getTeamAndPostIdFromLink(link);
     const currentUserId = useSelector(getCurrentUserId);
@@ -76,14 +66,10 @@ const PostAttachmentContainer = (props: Props) => {
                 return;
             }
             if (!classNames.some((className) => e.target.className.includes(className)) && e.target.id !== 'image-name-text') {
-                if (selectedPost) {
-                    viewThreadandHighlight();
-                } else {
-                    history.push(link);
-                }
+                history.push(link);
             }
         }
-    }, [className, params, shouldFocusPostWithoutRedirect, crtEnabled, post, dispatch, link, currentUserId, selectedPost, viewThreadandHighlight, history]);
+    }, [className, params, shouldFocusPostWithoutRedirect, crtEnabled, post, dispatch, link, currentUserId, history]);
     return (
         <div
             className={`attachment attachment--${className}`}

@@ -216,7 +216,6 @@ const PostMessagePreview = (props: Props) => {
         <PostAttachmentContainer
             className='permalink'
             link={`${teamUrl}/pl/${metadata.post_id}`}
-            selectedPost={previewPost.props?.broadcasted_thread_reply && !isPermalink ? previewPost : null}
             preventClickAction={preventClickAction}
         >
             <div className='post-preview'>
