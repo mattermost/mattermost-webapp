@@ -23,7 +23,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
         overlay={
           <Tooltip
             bsClass="tooltip"
-            id="pluginTooltip-the_component_id"
+            id="pluginTooltip-app-bar-icon-playbooks"
             placement="right"
           >
             <span>
@@ -45,7 +45,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
           overlay={
             <OverlayWrapper
               bsClass="tooltip"
-              id="pluginTooltip-the_component_id"
+              id="pluginTooltip-app-bar-icon-playbooks"
               intl={null}
               placement="right"
             >
@@ -64,7 +64,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
         >
           <div
             className="app-bar__icon"
-            id="the_component_id"
+            id="app-bar-icon-playbooks"
             onBlur={[Function]}
             onClick={[Function]}
             onFocus={[Function]}

@@ -8,6 +8,7 @@ import {Placement} from 'tippy.js';
 import classNames from 'classnames';
 
 import {PunchOutCoordsHeightAndWidth} from '../common/hooks/useMeasurePunchouts';
+import {useClickOutsideRef} from '../common/hooks/useClickOutsideRef';
 
 import 'tippy.js/dist/tippy.css';
 import 'tippy.js/themes/light-border.css';
@@ -39,6 +40,7 @@ type Props = {
     width?: string | number;
     zIndex?: number;
     className?: string;
+    showBackdrop?: boolean;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
@@ -82,6 +84,7 @@ export const TourTip = ({
     showOptOut = true,
     width = 352,
     zIndex = 999,
+    showBackdrop = true,
 }: Props) => {
     const triggerRef = useRef(null);
     const onJump = (event: React.MouseEvent, jumpToStep: number) => {
@@ -89,6 +92,12 @@ export const TourTip = ({
             handleJump(event, jumpToStep);
         }
     };
+
+    useClickOutsideRef(triggerRef, (e: any) => {
+        if (!showBackdrop && handleDismiss) {
+            handleDismiss(e);
+        }
+    });
 
     // This needs to be changed if root-portal node isn't available to maybe body
     const rootPortal = document.getElementById('root-portal');
@@ -120,13 +129,17 @@ export const TourTip = ({
 
     const content = (
         <>
-            <div className='tour-tip__header'>
+            <div
+                className='tour-tip__header'
+                data-testid={'current_tutorial_tip'}
+            >
                 <h4 className='tour-tip__header__title'>
                     {title}
                 </h4>
                 <button
                     className='tour-tip__header__close'
                     onClick={handleDismiss}
+                    data-testid={'close_tutorial_tip'}
                 >
                     <i className='icon icon-close'/>
                 </button>
@@ -191,6 +204,7 @@ export const TourTip = ({
     return (
         <>
             <div
+                id='tipButton'
                 ref={triggerRef}
                 onClick={handleOpen}
                 className='tour-tip__pulsating-dot-ctr'
@@ -201,14 +215,16 @@ export const TourTip = ({
             >
                 <PulsatingDot/>
             </div>
-            <TourTipBackdrop
-                show={show}
-                onDismiss={handleDismiss}
-                onPunchOut={handlePunchOut}
-                interactivePunchOut={interactivePunchOut}
-                overlayPunchOut={overlayPunchOut}
-                appendTo={rootPortal!}
-            />
+            {showBackdrop &&
+                <TourTipBackdrop
+                    show={show}
+                    onDismiss={handleDismiss}
+                    onPunchOut={handlePunchOut}
+                    interactivePunchOut={interactivePunchOut}
+                    overlayPunchOut={overlayPunchOut}
+                    appendTo={rootPortal!}
+                />
+            }
             {show && (
                 <Tippy
                     showOnCreate={show}

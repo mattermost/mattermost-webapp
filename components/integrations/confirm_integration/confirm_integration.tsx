@@ -14,7 +14,7 @@ import {Command, IncomingWebhook, OAuthApp, OutgoingWebhook} from '@mattermost/t
 import {IDMappedObjects} from '@mattermost/types/utilities';
 
 import CopyText from 'components/copy_text';
-import BackstageHeader from 'components/backstage/components/backstage_header.jsx';
+import BackstageHeader from 'components/backstage/components/backstage_header';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import {Bot} from '@mattermost/types/bots';
 
