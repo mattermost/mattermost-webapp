@@ -18,9 +18,9 @@ import {createPrivateChannel} from '../elasticsearch_autocomplete/helpers';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Guest Account - Guest User Experience', () => {
-    let guestUser;
-    let privateChannel;
-    let testTeam;
+    let guestUser: Cypress.UserProfile;
+    let privateChannel: Cypress.Channel;
+    let testTeam: Cypress.Team;
 
     before(() => {
         // * Check if server has license for Guest Accounts

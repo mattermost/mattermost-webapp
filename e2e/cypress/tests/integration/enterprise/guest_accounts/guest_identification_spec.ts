@@ -25,10 +25,10 @@ import {
 } from '../../../utils';
 
 describe('Guest Accounts', () => {
-    let sysadmin;
-    let testTeam;
-    let testChannel;
-    let adminMFASecret;
+    let sysadmin: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
+    let adminMFASecret: string;
     const username = 'g' + getRandomId(); // username has to start with a letter.
 
     before(() => {
@@ -41,13 +41,14 @@ describe('Guest Accounts', () => {
         });
 
         // # Log in as a team admin.
-        cy.apiAdminLogin().then((res) => {
-            sysadmin = res.user;
+        cy.apiAdminLogin().then(({user}) => {
+            sysadmin = user;
         });
     });
 
     after(() => {
         // # Login back as admin.
+        // cy.log("############################" + adminMFASecret)
         const token = authenticator.generateToken(adminMFASecret);
         cy.apiAdminLoginWithMFA(token);
 
@@ -94,7 +95,7 @@ describe('Guest Accounts', () => {
         // # Click "Save".
         cy.get('#saveSetting').scrollIntoView().click();
 
-        const guestEmail = `${username}@sample.mattermost.com`;
+        const email = `${username}@sample.mattermost.com`;
 
         // # From the main page, invite a Guest user and click on the Join Team in the email sent to the guest user.
         cy.visit(`/${testTeam.name}/channels/town-square`);
@@ -105,11 +106,11 @@ describe('Guest Accounts', () => {
 
         // # Type guest user e-mail address.
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
-            cy.get('input').typeWithForce(guestEmail + '{enter}');
+            cy.get('input').typeWithForce(email + '{enter}');
         });
         cy.get('.users-emails-input__menu').
             children().should('have.length', 1).
-            eq(0).should('contain', `Invite ${guestEmail} as a guest`).click();
+            eq(0).should('contain', `Invite ${email} as a guest`).click();
 
         // # Search and add to a Channel.
         cy.get('.channels-input__control').should('be.visible').within(() => {
@@ -123,13 +124,13 @@ describe('Guest Accounts', () => {
         cy.findByTestId('confirm-done').should('be.visible').click();
 
         // # Get invitation link.
-        cy.getRecentEmail({username, email: guestEmail}).then((data) => {
+        cy.getRecentEmail({username, email}).then((data) => {
             const {body: actualEmailBody, subject} = data;
 
             // # Verify that the email subject is about joining.
             expect(subject).to.contain(`${sysadmin.username} invited you to join the team ${testTeam.display_name} as a guest`);
 
-            const expectedEmailBody = getJoinEmailTemplate(sysadmin.username, guestEmail, testTeam, true);
+            const expectedEmailBody = getJoinEmailTemplate(sysadmin.username, email, testTeam, true);
             verifyEmailBody(expectedEmailBody, actualEmailBody);
 
             // # Extract invitation link from the invitation e-mail.
