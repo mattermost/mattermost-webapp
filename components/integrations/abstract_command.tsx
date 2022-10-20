@@ -40,8 +40,7 @@ type Props = {
     renderExtra: JSX.Element;
     serverError: string;
     initialCommand: Command;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    action: (command: Command) => any;
+    action: (command: Command) => Promise<void>;
 }
 
 export default class AbstractCommand extends React.PureComponent<Props> {
@@ -246,7 +245,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
         let autocompleteHint = null;
         let autocompleteDescription = null;
 
-        if (this.state.autocomplete) {
+        if (this.state.auto_complete) {
             autocompleteHint = (
                 <div className='form-group'>
                     <label
@@ -264,7 +263,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
                             type='text'
                             maxLength={1024}
                             className='form-control'
-                            value={this.state.autocompleteHint}
+                            value={this.state.auto_complete_hint}
                             onChange={this.updateAutocompleteHint}
                             placeholder={{id: t('add_command.autocompleteHint.placeholder'), defaultMessage: 'Example: [Patient Name]'}}
                         />
@@ -295,7 +294,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
                             type='text'
                             maxLength={128}
                             className='form-control'
-                            value={this.state.autocompleteDescription}
+                            value={this.state.auto_complete_desc}
                             onChange={this.updateAutocompleteDescription}
                             placeholder={{id: t('add_command.autocompleteDescription.placeholder'), defaultMessage: 'Example: "Returns search results for patient records"'}}
                         />
@@ -345,7 +344,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
                                     type='text'
                                     maxLength={64}
                                     className='form-control'
-                                    value={this.state.displayName}
+                                    value={this.state.display_name}
                                     onChange={this.updateDisplayName}
                                 />
                                 <div className='form__help'>
@@ -541,7 +540,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
                                     type='text'
                                     maxLength={1024}
                                     className='form-control'
-                                    value={this.state.iconUrl}
+                                    value={this.state.icon_url}
                                     onChange={this.updateIconUrl}
                                     placeholder={{id: t('add_command.iconUrl.placeholder'), defaultMessage: 'https://www.example.com/myicon.png'}}
                                 />
@@ -567,7 +566,7 @@ export default class AbstractCommand extends React.PureComponent<Props> {
                                 <input
                                     id='autocomplete'
                                     type='checkbox'
-                                    checked={this.state.autocomplete}
+                                    checked={this.state.auto_complete}
                                     onChange={this.updateAutocomplete}
                                 />
                                 <div className='form__help'>
