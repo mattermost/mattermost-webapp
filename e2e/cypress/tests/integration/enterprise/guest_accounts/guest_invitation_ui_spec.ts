@@ -13,6 +13,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+
 import {getRandomId} from '../../../utils';
 
 import {
@@ -22,8 +23,8 @@ import {
 } from './helpers';
 
 describe('Guest Account - Guest User Invitation Flow', () => {
-    let testTeam;
-    let newUser;
+    let testTeam: Cypress.Team;
+    let newUser: Cypress.UserProfile;
 
     before(() => {
         // * Check if server has license for Guest Accounts

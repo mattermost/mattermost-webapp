@@ -13,6 +13,7 @@ export type ChannelsRequestsStatuses = {
     myChannels: RequestStatusType;
     createChannel: RequestStatusType;
     updateChannel: RequestStatusType;
+    getChannelsMembersCategories: RequestStatusType;
 };
 
 export type GeneralRequestsStatuses = {

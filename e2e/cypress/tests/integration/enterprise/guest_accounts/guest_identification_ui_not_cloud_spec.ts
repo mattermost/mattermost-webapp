@@ -13,8 +13,8 @@
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Verify Guest User Identification in different screens', () => {
-    let guest;
-    let testChannel;
+    let guestUser: Cypress.UserProfile;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -35,8 +35,8 @@ describe('Verify Guest User Identification in different screens', () => {
         cy.apiInitSetup().then(({team, channel, user}) => {
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then(({guest: guestUser}) => {
-                guest = guestUser;
+            cy.apiCreateGuestUser({}).then(({guest}) => {
+                guestUser = guest;
                 cy.apiAddUserToTeam(team.id, guest.id).then(() => {
                     cy.apiAddUserToChannel(channel.id, guest.id);
                 });
@@ -55,7 +55,7 @@ describe('Verify Guest User Identification in different screens', () => {
         });
 
         // # Deactivate Guest user
-        cy.externalActivateUser(guest.id, false).wait(TIMEOUTS.FIVE_SEC);
+        cy.externalActivateUser(guestUser.id, false).wait(TIMEOUTS.FIVE_SEC);
 
         // # Switch channels away and back to reload the header
         cy.get('.SidebarChannel:contains(Town Square)').click();
