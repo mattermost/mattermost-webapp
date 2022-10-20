@@ -3,7 +3,7 @@
 
 import {ChainableT} from 'tests/types';
 
-const uiSearchPosts = (searchTerm: string): ChainableT<any> => {
+const uiSearchPosts = (searchTerm: string): ChainableT<Cypress.cy> => {
     // # Enter the search terms and hit enter to start the search
     cy.get('#searchBox').clear().type(searchTerm).type('{enter}');
 
@@ -14,7 +14,7 @@ const uiSearchPosts = (searchTerm: string): ChainableT<any> => {
 };
 Cypress.Commands.add('uiSearchPosts', uiSearchPosts);
 
-const uiJumpToSearchResult = (postId: string): ChainableT<any> => {
+const uiJumpToSearchResult = (postId: string): ChainableT<Cypress.cy> => {
     // # Find the post in the search results and click Jump
     cy.get(`#searchResult_${postId}`).contains('a', 'Jump').click();
 
