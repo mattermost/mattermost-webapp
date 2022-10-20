@@ -59,8 +59,8 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
         };
     }
 
-    handleSubmit = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
+    handleSubmit = (e?: React.MouseEvent) => {
+        e?.preventDefault();
 
         if (this.state.saving) {
             return;
@@ -323,7 +323,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                 <div className='backstage-form'>
                     <form
                         className='form-horizontal'
-                        onSubmit={this.handleSubmit}
+                        onSubmit={() => this.handleSubmit()}
                     >
                         <div className='form-group'>
                             <label
