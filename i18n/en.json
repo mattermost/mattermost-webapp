@@ -821,6 +821,7 @@
   "admin.environment.smtp.smtpAuth.description": "When true, SMTP Authentication is enabled.",
   "admin.environment.smtp.smtpAuth.title": "Enable SMTP Authentication:",
   "admin.environment.smtp.smtpFail": "Connection unsuccessful: {error}",
+  "admin.environment.smtp.smtpFailure": "SMTP is not configured in System Console. Can be configured <a>here</a>.",
   "admin.environment.smtp.smtpPassword.description": "Obtain this credential from administrator setting up your email server.",
   "admin.environment.smtp.smtpPassword.placeholder": "Ex: \"yourpassword\", \"jcuS8PuvcpGhpgHhlcpT1Mx42pnqMxQY\"",
   "admin.environment.smtp.smtpPassword.title": "SMTP Server Password:",
