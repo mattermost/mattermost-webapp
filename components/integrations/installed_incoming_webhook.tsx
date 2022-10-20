@@ -11,18 +11,11 @@ import CopyText from 'components/copy_text';
 
 import {IncomingWebhook} from '@mattermost/types/integrations';
 
+import {Team} from '@mattermost/types/teams';
+
+import {Channel} from '@mattermost/types/channels';
+
 import DeleteIntegrationLink from './delete_integration_link';
-
-type Channel = {
-    id: string;
-    name: string;
-    display_name?: string;
-}
-
-type Team = {
-    id: string;
-    name: string;
-}
 
 export function matchesFilter(incomingWebhook: IncomingWebhook, channel: Channel, filter: string) {
     if (!filter) {
@@ -63,8 +56,8 @@ type Props = {
     /**
      * Data used for showing created by details
      */
-    creator?: {
-        username?: string;
+    creator: {
+        username: string;
     };
 
     /**
@@ -180,7 +173,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
                                 id='installed_integrations.creation'
                                 defaultMessage='Created by {creator} on {createAt, date, full}'
                                 values={{
-                                    creator: this.props?.creator?.username,
+                                    creator: this.props.creator.username,
                                     createAt: incomingWebhook.create_at,
                                 }}
                             />
