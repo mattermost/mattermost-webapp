@@ -197,6 +197,15 @@ exports[`components/channel_members_dropdown should match snapshot opening dropd
 </MenuWrapper>
 `;
 
+exports[`components/channel_members_dropdown should match snapshot when user is current user 1`] = `
+<div>
+  <MemoizedFormattedMessage
+    defaultMessage="Channel Admin"
+    id="channel_members_dropdown.channel_admin"
+  />
+</div>
+`;
+
 exports[`components/channel_members_dropdown should match snapshot with role change possible 1`] = `
 <MenuWrapper
   animationComponent={[Function]}

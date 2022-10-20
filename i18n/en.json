@@ -2846,6 +2846,7 @@
   "channel_members_dropdown.channel_guest": "Channel Guest",
   "channel_members_dropdown.channel_member": "Channel Member",
   "channel_members_dropdown.channel_members": "Channel Members",
+  "channel_members_dropdown.leave_channel": "Leave Channel",
   "channel_members_dropdown.make_channel_admin": "Make Channel Admin",
   "channel_members_dropdown.make_channel_admins": "Make Channel Admins",
   "channel_members_dropdown.make_channel_member": "Make Channel Member",

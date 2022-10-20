@@ -166,11 +166,12 @@ export default function ChannelMembersDropdown({
     const removeFromChannelText = user.id === currentUserId ?
         Utils.localizeMessage('channel_members_dropdown.leave_channel', 'Leave Channel') :
         Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel');
+    const removeFromChannelTestId = user.id === currentUserId ? 'leaveChannel' : 'removeFromChannel';
 
     if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
         const removeMenu = (
             <Menu.ItemAction
-                data-testid='removeFromChannel'
+                data-testid={removeFromChannelTestId}
                 show={canRemoveUserFromChannel}
                 onClick={handleRemoveFromChannel}
                 text={removeFromChannelText}
@@ -231,7 +232,4 @@ export default function ChannelMembersDropdown({
             {currentRole}
         </div>
     );
-
-    return <div/>;
 }
-

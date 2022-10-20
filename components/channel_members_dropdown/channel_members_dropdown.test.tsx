@@ -221,4 +221,48 @@ describe('components/channel_members_dropdown', () => {
         );
         expect(wrapper).toMatchSnapshot();
     });
+
+    test('should match snapshot when user is current user', () => {
+        const props = {
+            ...baseProps,
+            user: {
+                id: 'current-user-id',
+            } as UserProfile,
+        };
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('current user should be able to remove themselves from a channel', () => {
+        const removeMock = jest.fn().mockImplementation(() => {
+            const myPromise = new Promise<ActionResult>((resolve) => {
+                setTimeout(() => {
+                    resolve({data: {}});
+                }, 3000);
+            });
+            return myPromise;
+        });
+
+        const props = {
+            ...baseProps,
+            currentUserId: 'user-1',
+            channel: {
+                ...baseProps.channel,
+                group_constrained: false,
+            },
+            actions: {
+                ...baseProps.actions,
+                removeChannelMember: removeMock,
+            },
+        };
+        const wrapper = shallow(
+            <ChannelMembersDropdown {...props}/>,
+        );
+
+        expect(wrapper.find('[data-testid="leaveChannel"]').exists()).toBe(true);
+        wrapper.find('[data-testid="leaveChannel"]').simulate('click');
+        expect(removeMock).toHaveBeenCalledTimes(1);
+    });
 });
