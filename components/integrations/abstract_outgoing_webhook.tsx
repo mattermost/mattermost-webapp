@@ -13,28 +13,27 @@ import FormError from 'components/form_error';
 import SpinnerButton from 'components/spinner_button';
 
 type Hook = {
-    displayName: string;
-    description: string;
-    contentType: string;
-    channelId: string;
-    triggerWords: string;
-    triggerWhen: number;
-    callbackUrls: string;
-    username: string;
-    iconURL: string;
+    displayName?: string;
+    description?: string;
+    contentType?: string;
+    channelId?: string;
+    triggerWords?: string;
+    triggerWhen?: number;
+    callbackUrls?: string;
+    username?: string;
+    iconURL?: string;
     saving?: boolean;
     clientError?: string | null;
 }
 type Props = {
-    team: {id: number ; name: string};
-    header: {id: number ; defaultMessage: string};
-    footer: {id: number ; defaultMessage: string};
+    team: {id: string ; name: string};
+    header: {id: string ; defaultMessage: string};
+    footer: {id: string ; defaultMessage: string};
     loading: {id: string ; defaultMessage: string};
-    renderExtra: JSX.Element;
+    renderExtra: JSX.Element | string;
     serverError: string;
     initialHook: Hook;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    action: (hook: Hook) => any;
+    action: (hook: Hook) => Promise<void>;
     enablePostUsernameOverride: boolean;
     enablePostIconOverride: boolean;
 }
@@ -116,29 +115,30 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props> 
             return;
         }
 
-        const callbackUrls = [];
-        for (let callbackUrl of this.state.callbackUrls.split('\n')) {
-            callbackUrl = callbackUrl.trim();
+        const callbackUrls: string[] = [];
+        if (this.state.callbackUrls !== undefined) {
+            for (let callbackUrl of this.state.callbackUrls.split('\n')) {
+                callbackUrl = callbackUrl.trim();
 
-            if (callbackUrl.length > 0) {
-                callbackUrls.push(callbackUrl);
+                if (callbackUrl.length > 0) {
+                    callbackUrls.push(callbackUrl);
+                }
+            }
+
+            if (callbackUrls.length === 0) {
+                this.setState({
+                    saving: false,
+                    clientError: (
+                        <FormattedMessage
+                            id='add_outgoing_webhook.callbackUrlsRequired'
+                            defaultMessage='One or more callback URLs are required'
+                        />
+                    ),
+                });
+
+                return;
             }
         }
-
-        if (callbackUrls.length === 0) {
-            this.setState({
-                saving: false,
-                clientError: (
-                    <FormattedMessage
-                        id='add_outgoing_webhook.callbackUrlsRequired'
-                        defaultMessage='One or more callback URLs are required'
-                    />
-                ),
-            });
-
-            return;
-        }
-
         const hook = {
             team_id: this.props.team.id,
             channelId: this.state.channelId,
