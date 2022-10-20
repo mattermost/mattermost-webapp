@@ -34,7 +34,7 @@ exports[`components/admin_console/billing/plan_details/feature_list should match
 >
   <FeatureList
     isLegacyFree={false}
-    subscriptionPlan="cloud-free"
+    subscriptionPlan="cloud-starter"
   />
 </ContextProvider>
 `;
@@ -112,7 +112,7 @@ exports[`components/admin_console/billing/plan_details/feature_list should match
 >
   <FeatureList
     isLegacyFree={false}
-    subscriptionPlan="cloud-free"
+    subscriptionPlan="cloud-starter"
   />
 </ContextProvider>
 `;
