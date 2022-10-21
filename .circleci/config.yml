@@ -16,6 +16,7 @@ orbs:
           - run: |
               git clone --depth=1 --no-single-branch << parameters.repo >>
               git checkout << parameters.branch >> || git checkout main || git checkout master
+              echo $(basename << parameters.repo >> .git)
               cd $(basename << parameters.repo >> .git)
               echo "Using commit $(git rev-parse HEAD) on branch $(git rev-parse --abbrev-ref HEAD) of $(basename $PWD)"
     jobs:
