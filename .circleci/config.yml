@@ -13,12 +13,11 @@ orbs:
             type: string
             default: master
         steps:
-          - run:
-              command: |
-                git clone --depth=1 --no-single-branch << parameters.repo >>
-                git checkout << parameters.branch >> || git checkout main || git checkout master
-                cd $(basename << parameters.repo >> .git)
-                echo "Using commit $(git rev-parse HEAD) on branch $(git rev-parse --abbrev-ref HEAD) of $(basename $PWD)"
+          - run: |
+              git clone --depth=1 --no-single-branch << parameters.repo >>
+              git checkout << parameters.branch >> || git checkout main || git checkout master
+              cd $(basename << parameters.repo >> .git)
+              echo "Using commit $(git rev-parse HEAD) on branch $(git rev-parse --abbrev-ref HEAD) of $(basename $PWD)"
     jobs:
       checkout-repos:
         working_directory: /mnt/ramdisk/
@@ -58,14 +57,12 @@ orbs:
         steps:
           - attach_workspace:
               at: /mnt/ramdisk
-          - run:
-              command: |
-                cd mattermost-server
-                make setup-go-work
-          - run:
-              command: |
-                cd focalboard
-                EXCLUDE_ENTERPRISE=TRUE make templates-archive
+          - run: |
+              cd mattermost-server
+              make setup-go-work
+          - run: |
+              cd focalboard
+              EXCLUDE_ENTERPRISE=TRUE make templates-archive
           - persist_to_workspace:
               root: /mnt/ramdisk
               paths:
@@ -92,11 +89,10 @@ orbs:
         steps:
           - attach_workspace:
               at: /mnt/ramdisk
-          - run:
-              command: |
-                make prebuild
-                cd mattermost-plugin/webapp
-                npm run build:product
+          - run: |
+              make prebuild
+              cd mattermost-plugin/webapp
+              npm run build:product
           - persist_to_workspace:
               root: /mnt/ramdisk
               paths:
@@ -109,11 +105,10 @@ orbs:
         steps:
           - attach_workspace:
               at: /mnt/ramdisk
-          - run:
-              command: |
-                make config-reset
-                make build-cmd BUILD_NUMBER='${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}'
-                make package BUILD_NUMBER='${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}'
+          - run: |
+              make config-reset
+              make build-cmd BUILD_NUMBER='${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}'
+              make package BUILD_NUMBER='${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}'
           - store_artifacts:
               path: /mnt/ramdisk/mattermost-server/dist/mattermost-team-linux-amd64.tar.gz
           - store_artifacts:
