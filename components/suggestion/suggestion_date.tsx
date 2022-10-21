@@ -5,15 +5,18 @@ import React from 'react';
 
 import Popover from 'components/widgets/popover';
 
-type SuggestionItem ={key: string;
+type SuggestionItem = {
+    key: string;
     ref: string;
     item: SuggestionItem;
     term: string;
     matchedPretext: string;
     isSelection: boolean;
-    onClick: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;}
+    onClick: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;
+}
 
-type Props = {onCompleteWord: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;
+type Props = {
+    onCompleteWord: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;
     matchedPretext: string[];
     items: SuggestionItem[];
     terms: string[];
