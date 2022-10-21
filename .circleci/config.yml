@@ -22,23 +22,27 @@ orbs:
     jobs:
       checkout-repos:
         working_directory: /mnt/ramdisk/
+        resource_class: large
+        docker:
+          - image: cimg/go:1.18
         parameters:
           branch:
             type: string
             default: master
         steps:
-          - mattermost-builder/checkout:
-            repo: https://github.com/mattermost/mattermost-server.git
-            branch: << parameters.branch >>
-          - mattermost-builder/checkout:
-            repo: https://github.com/mattermost/mattermost-webapp.git
-            branch: << parameters.branch >>
-          - mattermost-builder/checkout:
-            repo: https://github.com/mattermost/focalboard.git
-            branch: << parameters.branch >>
-          - mattermost-builder/checkout:
-            repo: https://github.com/mattermost/mattermost-plugin-playbooks.git
-            branch: << parameters.branch >>
+          - run: echo foo
+          - checkout:
+              repo: https://github.com/mattermost/mattermost-server.git
+              branch: << parameters.branch >>
+          - checkout:
+              repo: https://github.com/mattermost/mattermost-webapp.git
+              branch: << parameters.branch >>
+          - checkout:
+              repo: https://github.com/mattermost/focalboard.git
+              branch: << parameters.branch >>
+          - checkout:
+              repo: https://github.com/mattermost/mattermost-plugin-playbooks.git
+              branch: << parameters.branch >>
           - persist_to_workspace:
               root: /mnt/ramdisk
               paths:
@@ -77,9 +81,9 @@ orbs:
               at: /mnt/ramdisk
           - run: make dist
           - persist_to_workspace:
-            root: /mnt/ramdisk
-            paths:
-              - mattermost-webapp
+              root: /mnt/ramdisk
+              paths:
+                - mattermost-webapp
       build-boards-product:
         working_directory: /mnt/ramdisk/focalboard
         docker:
@@ -94,9 +98,9 @@ orbs:
                 cd mattermost-plugin/webapp
                 npm run build:product
           - persist_to_workspace:
-            root: /mnt/ramdisk
-            paths:
-              - focalboard/mattermost-plugin/webapp/dist
+              root: /mnt/ramdisk
+              paths:
+                - focalboard/mattermost-plugin/webapp/dist
       build-server:
         working_directory: /mnt/ramdisk/mattermost-server
         docker:
@@ -124,14 +128,14 @@ orbs:
               root: /mnt/ramdisk
               paths:
                 - mattermost-server/dist
-      upload-artifacts:
-        working_directory: /mnt/ramdisk/mattermost-server
-        steps:
-          - run: echo TODO
-      build-docker:
-        working_directory: /mnt/ramdisk/mattermost-server
-        steps:
-          - run: echo TODO
+      # upload-artifacts:
+      #   working_directory: /mnt/ramdisk/mattermost-server
+      #   steps:
+      #     - run: echo TODO
+      # build-docker:
+      #   working_directory: /mnt/ramdisk/mattermost-server
+      #   steps:
+      #     - run: echo TODO
 
 executors:
   default:
@@ -359,17 +363,15 @@ workflows:
   version: 2
   untagged-build:
     jobs:
-      checkout-and-setup:
-        jobs:
-          - mattermost-builder/checkout-repos
-          - mattermost-builder/setup-multi-product-repositories
-      build-webapp:
-        jobs: mattermost-builder/build-webapp
-      build-boards-product:
-        jobs: mattermost-builder/build-boards-product
-        requires: mattermost-builder/setup-multi-product-repositories
-      build-server:
-        jobs: mattermost-builder/build-server
-        requires:
-          - build-webapp
-          - build-boards-product
+      - mattermost-builder/checkout-repos
+      - mattermost-builder/setup-multi-product-repositories
+      - mattermost-builder/build-webapp:
+          requires:
+            - mattermost-builder/checkout-repos
+      - mattermost-builder/build-boards-product:
+          requires:
+            - mattermost-builder/setup-multi-product-repositories
+      - mattermost-builder/build-server:
+          requires:
+            - mattermost-builder/build-webapp
+            - mattermost-builder/build-boards-product
