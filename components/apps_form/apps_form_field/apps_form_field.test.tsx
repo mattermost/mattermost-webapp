@@ -111,7 +111,7 @@ describe('components/apps_form/apps_form_field/AppsFormField', () => {
                 <TextSetting
                     {...baseTextSettingProps}
                     resizable={true}
-                    type='input'
+                    type='textarea'
                 />,
             )).toEqual(true);
         });
