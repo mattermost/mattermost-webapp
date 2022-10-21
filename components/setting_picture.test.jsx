@@ -4,11 +4,11 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-import SettingPicture from 'components/setting_picture.jsx';
+import SettingPicture from 'components/setting_picture.tsx';
+import {FormattedMessage} from 'react-intl';
 
 const helpText = (
-    <FormattedMarkdownMessage
+    <FormattedMessage
         id={'setting_picture.help.profile'}
         defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
         values={{max: 52428800}}

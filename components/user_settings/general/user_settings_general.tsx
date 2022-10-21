@@ -15,7 +15,7 @@ import {t} from 'utils/i18n';
 import LocalizedIcon from 'components/localized_icon';
 import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import SettingPicture from 'components/setting_picture.jsx';
+import SettingPicture from 'components/setting_picture';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
 
@@ -1281,7 +1281,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
-                    updateSection={(e: MouseEvent) => {
+                    updateSection={(e: React.MouseEvent) => {
                         this.updateSection('');
                         e.preventDefault();
                     }}

@@ -1,8 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React, {Component} from 'react';
+import React, {Component, ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as FileUtils from 'utils/file_utils';
@@ -15,35 +14,48 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
-export default class SettingPicture extends Component {
+type Props = {
+    clientError?: ReactNode;
+    serverError?: ReactNode;
+    src?: string | null;
+    defaultImageSrc?: string;
+    file?: File | null;
+    loadingPicture?: boolean;
+    submitActive?: boolean;
+    onRemove?: () => void;
+    onSetDefault?: (() => Promise<void>) | null;
+    onSubmit?: (() => void) | null;
+    title?: string;
+    onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    updateSection: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    imageContext?: string;
+    maxFileSize?: number;
+    helpText?: object;
+}
+
+type State = {
+    image: string | null;
+    removeSrc: boolean;
+    setDefaultSrc: boolean;
+    orientationStyles?: React.CSSProperties;
+}
+
+export default class SettingPicture extends Component<Props, State> {
     static defaultProps = {
         imageContext: 'profile',
     };
-    static propTypes = {
-        clientError: PropTypes.string,
-        serverError: PropTypes.string,
-        src: PropTypes.string,
-        defaultImageSrc: PropTypes.string,
-        file: PropTypes.object,
-        loadingPicture: PropTypes.bool,
-        submitActive: PropTypes.bool,
-        onRemove: PropTypes.func,
-        onSetDefault: PropTypes.func,
-        onSubmit: PropTypes.func,
-        title: PropTypes.string,
-        onFileChange: PropTypes.func,
-        updateSection: PropTypes.func,
-        imageContext: PropTypes.string,
-        maxFileSize: PropTypes.number,
-        helpText: PropTypes.object,
-    };
+    private readonly settingList: React.RefObject<HTMLDivElement>;
+    private readonly selectInput: React.RefObject<HTMLInputElement>;
+    private readonly confirmButton: React.RefObject<HTMLButtonElement>;
+    private previewBlob: string | null;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.settingList = React.createRef();
         this.selectInput = React.createRef();
         this.confirmButton = React.createRef();
+        this.previewBlob = null;
 
         this.state = {
             image: null,
@@ -53,7 +65,7 @@ export default class SettingPicture extends Component {
     }
 
     focusFirstElement() {
-        if (this.settingList.current) {
+        if (this.settingList && this.settingList.current) {
             this.settingList.current.focus();
         }
     }
@@ -66,8 +78,8 @@ export default class SettingPicture extends Component {
         }
     }
 
-    componentDidUpdate(prevProps) {
-        if (prevProps.file !== this.props.file) {
+    componentDidUpdate(prevProps: Props) {
+        if (prevProps.file !== this.props.file && this.props.file) {
             this.setPicture(this.props.file);
         }
     }
@@ -82,7 +94,7 @@ export default class SettingPicture extends Component {
         }
     }
 
-    handleCancel = (e) => {
+    handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.updateSection(e);
     }
@@ -93,49 +105,51 @@ export default class SettingPicture extends Component {
         }
     }
 
-    handleSave = (e) => {
+    handleSave = (e: React.MouseEvent) => {
         e.preventDefault();
         if (this.props.loadingPicture) {
             return;
         }
-        if (this.state.removeSrc) {
+        if (this.state.removeSrc && this.props.onRemove) {
             this.props.onRemove();
-        } else if (this.state.setDefaultSrc) {
+        } else if (this.state.setDefaultSrc && this.props.onSetDefault) {
             this.props.onSetDefault();
-        } else {
+        } else if (this.props.onSubmit) {
             this.props.onSubmit();
         }
     }
 
-    handleRemoveSrc = (e) => {
+    handleRemoveSrc = (e: React.MouseEvent) => {
         e.preventDefault();
         this.setState({removeSrc: true});
         this.focusFirstElement();
     }
 
-    handleSetDefaultSrc = (e) => {
+    handleSetDefaultSrc = (e: React.MouseEvent) => {
         e.preventDefault();
         this.setState({setDefaultSrc: true});
         this.focusFirstElement();
     }
 
-    handleFileChange = (e) => {
+    handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.onFileChange(e);
     }
 
     handleInputFile = () => {
-        this.selectInput.current.value = '';
-        this.selectInput.current.click();
+        if (this.selectInput && this.selectInput.current) {
+            this.selectInput.current.value = '';
+            this.selectInput.current.click();
+        }
     }
 
-    setPicture = (file) => {
+    setPicture = (file: File) => {
         if (file) {
             this.previewBlob = URL.createObjectURL(file);
 
-            var reader = new FileReader();
+            const reader = new FileReader();
             reader.onload = (e) => {
-                const orientation = FileUtils.getExifOrientation(e.target.result);
+                const orientation = FileUtils.getExifOrientation(e.target!.result! as ArrayBuffer);
                 const orientationStyles = FileUtils.getOrientationStyles(orientation);
 
                 this.setState({
@@ -282,7 +296,7 @@ export default class SettingPicture extends Component {
                         onChange={this.handleFileChange}
                         disabled={this.props.loadingPicture}
                         aria-hidden={true}
-                        tabIndex='-1'
+                        tabIndex={-1}
                     />
                     <button
                         data-testid='inputSettingPictureButton'
@@ -297,7 +311,7 @@ export default class SettingPicture extends Component {
                         />
                     </button>
                     <button
-                        tabIndex={disableSaveButtonFocus ? '-1' : '0'}
+                        tabIndex={disableSaveButtonFocus ? -1 : 0}
                         data-testid='saveSettingPicture'
                         disabled={disableSaveButtonFocus}
                         ref={this.confirmButton}
@@ -327,7 +341,7 @@ export default class SettingPicture extends Component {
                     <div
                         className='setting-list'
                         ref={this.settingList}
-                        tabIndex='-1'
+                        tabIndex={-1}
                         aria-label={this.props.title}
                         aria-describedby='setting-picture__helptext'
                     >
@@ -350,7 +364,6 @@ export default class SettingPicture extends Component {
                             <button
                                 data-testid='cancelSettingPicture'
                                 className='btn btn-link btn-sm theme'
-                                href='#'
                                 onClick={this.handleCancel}
                                 aria-label={localizeMessage('setting_picture.cancel', 'Cancel')}
                             >
