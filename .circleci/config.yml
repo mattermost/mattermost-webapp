@@ -3,6 +3,130 @@ version: 2.1
 orbs:
   aws-s3: circleci/aws-s3@1.0.11
   owasp: entur/owasp@0.0.10
+  mattermost-builder:
+    commands:
+      checkout:
+        parameters:
+          repo:
+            type: string
+          branch:
+            type: string
+            default: master
+        steps:
+          - run: |
+            git clone --depth=1 --no-single-branch << parameters.repo >>
+            git checkout << parameters.branch >> || git checkout main || git checkout master
+            cd $(basename << parameters.repo >> .git)
+            echo "Using commit $(git rev-parse HEAD) on branch $(git rev-parse --abbrev-ref HEAD) of $(basename $PWD)"
+    jobs:
+      checkout-repos:
+        working_directory: /mnt/ramdisk/
+        parameters:
+          branch:
+            type: string
+            default: master
+        steps:
+          - mattermost-builder/checkout:
+            repo: https://github.com/mattermost/mattermost-server.git
+            branch: << parameters.branch >>
+          - mattermost-builder/checkout:
+            repo: https://github.com/mattermost/mattermost-webapp.git
+            branch: << parameters.branch >>
+          - mattermost-builder/checkout:
+            repo: https://github.com/mattermost/focalboard.git
+            branch: << parameters.branch >>
+          - mattermost-builder/checkout:
+            repo: https://github.com/mattermost/mattermost-plugin-playbooks.git
+            branch: << parameters.branch >>
+          - persist_to_workspace:
+              root: /mnt/ramdisk
+              paths:
+                - mattermost-server
+                - mattermost-webapp
+                - focalboard
+                - mattermost-plugin-playbooks
+      setup-multi-product-repositories:
+        working_directory: /mnt/ramdisk
+        docker:
+          - image: cimg/go:1.18
+        resource_class: large
+        steps:
+          - attach_workspace:
+              at: /mnt/ramdisk
+          - run: |
+              cd mattermost-server
+              make setup-go-work
+          - run: |
+              cd focalboard
+              EXCLUDE_ENTERPRISE=TRUE make templates-archive
+          - persist_to_workspace:
+              root: /mnt/ramdisk
+              paths:
+                - mattermost-server
+                - focalboard
+      build-webapp:
+        working_directory: /mnt/ramdisk/mattermost-webapp
+        docker:
+          - image: mattermost/mattermost-build-webapp:20220802_node-16.10.0@sha256:3272aa759f10c2ef1719ed08cc82ddb07224bec5be86f09800c72f5e2a623c3d
+        resource_class: xlarge
+        steps:
+          - attach_workspace:
+              at: /mnt/ramdisk
+          - run: make dist
+          - persist_to_workspace:
+            root: /mnt/ramdisk
+            paths:
+              - mattermost-webapp
+      build-boards-product:
+        working_directory: /mnt/ramdisk/focalboard
+        docker:
+          - image: cimg/go:1.18-node
+        resource_class: large
+        steps:
+          - attach_workspace:
+              at: /mnt/ramdisk
+          - run: |
+              make prebuild
+              cd mattermost-plugin/webapp
+              npm run build:product
+          - persist_to_workspace:
+            root: /mnt/ramdisk
+            paths:
+              - focalboard/mattermost-plugin/webapp/dist
+      build-server:
+        working_directory: /mnt/ramdisk/mattermost-server
+        docker:
+          - image: mattermost/mattermost-build-server:20220415_golang-1.18.1
+        resource_class: xlarge
+        steps:
+          - attach_workspace:
+              at: /mnt/ramdisk
+          - run:
+              make config-reset
+              make build-cmd BUILD_NUMBER='${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}'
+              make package BUILD_NUMBER='${CIRCLE_BRANCH}-${CIRCLE_BUILD_NUM}'
+          - store_artifacts:
+              path: /mnt/ramdisk/mattermost-server/dist/mattermost-team-linux-amd64.tar.gz
+          - store_artifacts:
+              path: /mnt/ramdisk/mattermost-server/dist/mattermost-team-osx-amd64.tar.gz
+          - store_artifacts:
+              path: /mnt/ramdisk/mattermost-server/dist/mattermost-team-linux-arm64.tar.gz
+          - store_artifacts:
+              path: /mnt/ramdisk/mattermost-server/dist/mattermost-team-osx-arm64.tar.gz
+          - store_artifacts:
+              path: /mnt/ramdisk/mattermost-server/dist/mattermost-team-windows-amd64.zip
+          - persist_to_workspace:
+              root: /mnt/ramdisk
+              paths:
+                - mattermost-server/dist
+      upload-artifacts:
+        working_directory: /mnt/ramdisk/mattermost-server
+        steps:
+          - run: echo TODO
+      build-docker:
+        working_directory: /mnt/ramdisk/mattermost-server
+        steps:
+          - run: echo TODO
 
 executors:
   default:
@@ -230,39 +354,53 @@ workflows:
   version: 2
   untagged-build:
     jobs:
-      - install
+      # - install
       # Disabling check-deps since the new version is not on bintray and all builds will fail
       #       # we've are on top of this, and it's going to be temporary.
       # - check-deps:
       #     context: sast-webhook
       #     requires:
       #       - install
-      - lint:
-          requires:
-            - install
-      - i18n-check:
-          requires:
-            - install
-      - type-check:
-          requires:
-            - install
-      - build:
-          requires:
-            - install
-      - upload-s3:
-          context: mattermost-ci-pr-builds-s3
-          requires:
-            - build
-      - prepare-docker-build:
-          context: mattermost-ci-pr-builds-s3
-          requires:
-            - upload-s3
-      - build-docker:
-          context: matterbuild-docker
-          requires:
-            - prepare-docker-build
-      - test:
-          requires:
-            - type-check
-            - i18n-check
-            - lint
+      # - lint:
+      #     requires:
+      #       - install
+      # - i18n-check:
+      #     requires:
+      #       - install
+      # - type-check:
+      #     requires:
+      #       - install
+      # - build:
+      #     requires:
+      #       - install
+      # - upload-s3:
+      #     context: mattermost-ci-pr-builds-s3
+      #     requires:
+      #       - build
+      # - prepare-docker-build:
+      #     context: mattermost-ci-pr-builds-s3
+      #     requires:
+      #       - upload-s3
+      # - build-docker:
+      #     context: matterbuild-docker
+      #     requires:
+      #       - prepare-docker-build
+      # - test:
+      #     requires:
+      #       - type-check
+      #       - i18n-check
+      #       - lint
+      checkout-and-setup:
+        jobs:
+          - mattermost-builder/checkout-repos
+          - mattermost-builder/setup-multi-product-repositories
+      build-webapp:
+        jobs: mattermost-builder/build-webapp
+      build-boards-product:
+        jobs: mattermost-builder/build-boards-product
+        requires: mattermost-builder/setup-multi-product-repositories
+      build-server:
+        jobs: mattermost-builder/build-server
+        requires:
+          - build-webapp
+          - build-boards-product
