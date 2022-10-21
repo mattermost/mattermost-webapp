@@ -22,7 +22,7 @@ import SaveButton from 'components/save_button';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 import {GlobalState} from 'types/store';
 import {CloudLinks} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import './payment_info_edit.scss';
 import AlertBanner from 'components/alert_banner';
@@ -66,7 +66,7 @@ const PaymentInfoEdit: React.FC = () => {
         const success = await setPaymentMethod();
 
         if (success) {
-            browserHistory.push('/admin_console/billing/payment_info');
+            getHistory().push('/admin_console/billing/payment_info');
         } else {
             setIsServerError(true);
         }

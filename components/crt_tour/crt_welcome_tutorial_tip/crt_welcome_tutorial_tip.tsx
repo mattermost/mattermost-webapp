@@ -11,7 +11,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 import {close as closeLhs} from 'actions/views/lhs';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 type Props = {
     autoTour: boolean;
@@ -22,7 +22,7 @@ const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const nextUrl = `${teamUrl}/threads`;
     const onNextNavigateTo = () => {
-        browserHistory.push(nextUrl);
+        getHistory().push(nextUrl);
         dispatch(closeLhs());
     };
 

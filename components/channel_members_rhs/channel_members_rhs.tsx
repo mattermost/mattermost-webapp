@@ -13,7 +13,7 @@ import Constants, {ModalIdentifiers} from 'utils/constants';
 import MoreDirectChannels from 'components/more_direct_channels';
 import ChannelInviteModal from 'components/channel_invite_modal';
 import {ModalData} from 'types/actions';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import {ProfilesInChannelSortBy} from 'mattermost-redux/actions/users';
 
@@ -202,7 +202,7 @@ export default function ChannelMembersRHS({
         await actions.openDirectChannelToUserId(user.id);
 
         // ... qnd then redirect to it
-        browserHistory.push(teamUrl + '/messages/@' + user.username);
+        getHistory().push(teamUrl + '/messages/@' + user.username);
 
         await actions.closeRightHandSide();
     };

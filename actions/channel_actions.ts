@@ -35,7 +35,7 @@ import {
     getChannelMembersQueryString,
 } from 'actions/channel_queries';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Constants, Preferences, NotificationLevels} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
 
@@ -85,7 +85,7 @@ export function openGroupChannelToUserIds(userIds: Array<UserProfile['id']>): Ac
         const result = await dispatch(ChannelActions.createGroupChannel(userIds));
 
         if (result.error) {
-            browserHistory.push(getCurrentTeamUrl(getState()));
+            getHistory().push(getCurrentTeamUrl(getState()));
         }
 
         return result;

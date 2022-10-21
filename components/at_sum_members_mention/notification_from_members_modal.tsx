@@ -20,7 +20,7 @@ import {closeModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -87,7 +87,7 @@ function NotificationFromMembersModal(props: Props) {
         await dispatch(openDirectChannelToUserId(user.id));
 
         // ... and then redirect to it
-        browserHistory.push(teamUrl + '/messages/@' + user.username);
+        getHistory().push(teamUrl + '/messages/@' + user.username);
     };
 
     const handleOnClose = () => {

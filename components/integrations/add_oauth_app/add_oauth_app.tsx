@@ -8,7 +8,7 @@ import {Team} from '@mattermost/types/teams.js';
 
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 import AbstractOAuthApp from '../abstract_oauth_app.jsx';
 
@@ -40,7 +40,7 @@ const AddOAuthApp = ({team, actions}: Props): JSX.Element => {
 
         const {data, error} = await actions.addOAuthApp(app);
         if (data) {
-            browserHistory.push(`/${team.name}/integrations/confirm?type=oauth2-apps&id=${data.id}`);
+            getHistory().push(`/${team.name}/integrations/confirm?type=oauth2-apps&id=${data.id}`);
             return;
         }
 

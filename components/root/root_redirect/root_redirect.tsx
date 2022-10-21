@@ -5,7 +5,7 @@ import React, {useEffect} from 'react';
 import {Redirect} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 export type Props = {
     isElegibleForFirstAdmingOnboarding: boolean;
@@ -24,7 +24,7 @@ export default function RootRedirect(props: Props) {
                 props.actions.getFirstAdminSetupComplete().then((firstAdminCompletedSignup) => {
                     // root.tsx ensures admin profiles are eventually loaded
                     if (firstAdminCompletedSignup.data === false && props.isFirstAdmin) {
-                        browserHistory.push('/preparing-workspace');
+                        getHistory().push('/preparing-workspace');
                     } else {
                         GlobalActions.redirectUserToDefaultTeam();
                     }

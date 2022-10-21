@@ -17,7 +17,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Avatars from 'components/widgets/users/avatars';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import './../../../activity_and_insights.scss';
 
@@ -50,7 +50,7 @@ const TopBoardsTable = (props: Props) => {
     const goToBoard = useCallback((board: TopBoard) => {
         props.closeModal();
         trackEvent('insights', 'open_board_from_top_boards_modal');
-        browserHistory.push(`/boards/team/${currentTeamId}/${board.boardID}`);
+        getHistory().push(`/boards/team/${currentTeamId}/${board.boardID}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {

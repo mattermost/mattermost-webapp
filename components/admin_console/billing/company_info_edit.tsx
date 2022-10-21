@@ -14,7 +14,7 @@ import StateSelector from 'components/payment_form/state_selector';
 import Input from 'components/widgets/inputs/input/input';
 import SaveButton from 'components/save_button';
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {COUNTRIES} from 'utils/countries';
 import * as Utils from 'utils/utils';
 
@@ -102,7 +102,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         }
 
         setIsSaving(false);
-        browserHistory.push('/admin_console/billing/company_info');
+        getHistory().push('/admin_console/billing/company_info');
     };
 
     const billingAddressDisplay = (

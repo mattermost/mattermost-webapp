@@ -5,7 +5,7 @@ import React, {useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Constants, ErrorPageTypes} from 'utils/constants';
 import {getSiteURL} from 'utils/url';
 
@@ -42,7 +42,7 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
 
     const handleKeyPress = (e: KeyboardEvent) => {
         if (e.key === 'Enter') {
-            browserHistory.push('/' + team.name + '/integrations/' + type);
+            getHistory().push('/' + team.name + '/integrations/' + type);
         }
     };
 
@@ -303,7 +303,7 @@ const ConfirmIntegration = ({team, location, commands, oauthApps, incomingHooks,
             </p>
         );
     } else {
-        browserHistory.replace(`/error?type=${ErrorPageTypes.PAGE_NOT_FOUND}`);
+        getHistory().replace(`/error?type=${ErrorPageTypes.PAGE_NOT_FOUND}`);
         return null;
     }
 

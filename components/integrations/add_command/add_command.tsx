@@ -8,7 +8,7 @@ import {Team} from '@mattermost/types/teams.js';
 
 import {ActionResult} from 'mattermost-redux/types/actions.js';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 
 import AbstractCommand from '../abstract_command.jsx';
@@ -41,7 +41,7 @@ const AddCommand = ({team, actions}: Props) => {
 
         const {data, error} = await actions.addCommand(command);
         if (data) {
-            browserHistory.push(`/${team.name}/integrations/commands/confirm?type=commands&id=${data.id}`);
+            getHistory().push(`/${team.name}/integrations/commands/confirm?type=commands&id=${data.id}`);
             return;
         }
 

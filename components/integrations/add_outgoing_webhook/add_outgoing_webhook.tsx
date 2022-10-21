@@ -3,7 +3,7 @@
 
 import React, {useState} from 'react';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook.jsx';
@@ -51,7 +51,7 @@ const AddOutgoingWebhook = ({team, actions, enablePostUsernameOverride, enablePo
 
         const {data, error} = await actions.createOutgoingHook(hook);
         if (data) {
-            browserHistory.push(`/${team.name}/integrations/confirm?type=outgoing_webhooks&id=${data.id}`);
+            getHistory().push(`/${team.name}/integrations/confirm?type=outgoing_webhooks&id=${data.id}`);
             return;
         }
 

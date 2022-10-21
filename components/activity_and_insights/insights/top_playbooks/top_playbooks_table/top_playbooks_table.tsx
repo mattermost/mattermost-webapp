@@ -17,7 +17,7 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Timestamp from 'components/timestamp';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import './../../../activity_and_insights.scss';
 
@@ -64,7 +64,7 @@ const TopPlaybooksTable = (props: Props) => {
     const goToPlaybook = useCallback((playbook: TopPlaybook) => {
         props.closeModal();
         trackEvent('insights', 'open_playbook_from_top_playbooks_modal');
-        browserHistory.push(`/playbooks/playbooks/${playbook.playbook_id}`);
+        getHistory().push(`/playbooks/playbooks/${playbook.playbook_id}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {

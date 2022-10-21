@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
 import {ServerError} from '@mattermost/types/errors';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import LocalizedInput from 'components/localized_input/localized_input';
 
@@ -36,7 +36,7 @@ const PasswordResetForm = ({location, siteName, actions}: Props) => {
         }
         const {data, error} = await actions.resetUserPassword(token, password);
         if (data) {
-            browserHistory.push('/login?extra=' + Constants.PASSWORD_CHANGE);
+            getHistory().push('/login?extra=' + Constants.PASSWORD_CHANGE);
             setError(null);
         } else if (error) {
             setError(error.message);

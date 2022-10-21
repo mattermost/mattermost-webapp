@@ -15,7 +15,7 @@ import {LeastActiveChannel, TimeFrame} from '@mattermost/types/insights';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import Constants, {InsightsScopes} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import Avatars from 'components/widgets/users/avatars';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
@@ -65,7 +65,7 @@ const LeastActiveChannelsTable = (props: Props) => {
     const goToChannel = useCallback((channel: LeastActiveChannel) => {
         props.closeModal();
         trackEvent('insights', 'open_channel_from_least_active_channels_modal');
-        browserHistory.push(`${currentTeamUrl}/channels/${channel.name}`);
+        getHistory().push(`${currentTeamUrl}/channels/${channel.name}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {

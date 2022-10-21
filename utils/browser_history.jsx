@@ -25,7 +25,7 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = 
     }
 });
 
-export const browserHistory = {
+const browserHistory = {
     ...b,
     push: (path, ...args) => {
         if (isDesktop) {
@@ -43,3 +43,7 @@ export const browserHistory = {
         }
     },
 };
+
+export function getHistory() {
+    return browserHistory;
+}

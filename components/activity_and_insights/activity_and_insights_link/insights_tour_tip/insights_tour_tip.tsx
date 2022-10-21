@@ -20,7 +20,7 @@ import {GlobalState} from 'types/store';
 
 import insightsPreview from 'images/Insights-Preview-Image.jpg';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
@@ -78,7 +78,7 @@ const InsightsTourTip = () => {
     const handleNext = useCallback(() => {
         dispatch(setInsightsInitialisationState({[Preferences.INSIGHTS_VIEWED]: true}));
         setTipOpened(false);
-        browserHistory.push(nextUrl);
+        getHistory().push(nextUrl);
     }, []);
 
     const handleOpen = useCallback((e: React.MouseEvent) => {

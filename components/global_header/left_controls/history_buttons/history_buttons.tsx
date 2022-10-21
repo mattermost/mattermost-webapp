@@ -7,7 +7,7 @@ import IconButton from '@mattermost/compass-components/components/icon-button';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import * as Utils from 'utils/utils';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
@@ -42,7 +42,7 @@ const HistoryButtons = (): JSX.Element => {
     );
     const goBack = () => {
         trackEvent('ui', 'ui_history_back');
-        browserHistory.goBack();
+        getHistory().goBack();
         window.postMessage(
             {
                 type: 'history-button',
@@ -53,7 +53,7 @@ const HistoryButtons = (): JSX.Element => {
 
     const goForward = () => {
         trackEvent('ui', 'ui_history_forward');
-        browserHistory.goForward();
+        getHistory().goForward();
         window.postMessage(
             {
                 type: 'history-button',
