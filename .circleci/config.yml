@@ -360,6 +360,8 @@ workflows:
     jobs:
       - mattermost-builder/checkout-repos
       - mattermost-builder/setup-multi-product-repositories
+          requires:
+            - mattermost-builder/checkout-repos
       - mattermost-builder/build-webapp:
           requires:
             - mattermost-builder/checkout-repos
