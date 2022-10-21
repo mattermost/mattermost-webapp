@@ -7,7 +7,7 @@ import {batchActions} from 'redux-batched-actions';
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from '@mattermost/types/users';
+import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus, UserProfilesWithTotalCount} from '@mattermost/types/users';
 import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes, RoleTypes} from 'mattermost-redux/action_types';
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
@@ -214,10 +214,19 @@ export function getFilteredUsersStats(options: GetFilteredUsersStatsOpts = {}): 
 export function getProfiles(page = 0, perPage: number = General.PROFILE_CHUNK_SIZE, options: any = {}): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {currentUserId} = getState().entities.users;
-        let profiles: UserProfile[];
+        let response: UserProfile[] | UserProfilesWithTotalCount;
+        let profiles: UserProfile[] = [];
 
         try {
-            profiles = await Client4.getProfiles(page, perPage, options);
+            response = await Client4.getProfiles(page, perPage, options);
+            if (options.include_total_count) {
+                response = response as UserProfilesWithTotalCount;
+                profiles = response.users;
+            } else {
+                response = response as UserProfile[];
+                profiles = response;
+            }
+
             removeUserFromList(currentUserId, profiles);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
@@ -230,7 +239,7 @@ export function getProfiles(page = 0, perPage: number = General.PROFILE_CHUNK_SI
             data: profiles,
         });
 
-        return {data: profiles};
+        return {data: response};
     };
 }
 

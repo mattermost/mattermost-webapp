@@ -22,10 +22,12 @@ import PeopleList from './people_list';
 import './directory.scss';
 
 const Directory = () => {
-    const [searchTerm, setSearchTerm] = useState('');
-    const [searchPeople, setSearchPeople] = useState([]);
     const dispatch = useDispatch();
 
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchPeople, setSearchPeople] = useState([]);
+
+    const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(0);
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
 
@@ -39,11 +41,17 @@ const Directory = () => {
         doSearch(searchTerm);
     }, [searchTerm]);
 
-    useEffect(() => {
+    const initialLoad = useCallback(async () => {
         setPage(0);
         setIsNextPageLoading(false);
-        dispatch(fetchProfiles(0, 60));
+        const {data: response} = await dispatch(fetchProfiles(0, 60, {include_total_count: true, exclude_bots: true})) as ActionResult;
+
+        if (response.total_count) {
+            setTotalCount(response.total_count);
+        }
     }, []);
+
+    useEffect(() => {initialLoad()}, [initialLoad]);
 
     const loadMore = async () => {
         setIsNextPageLoading(true);
@@ -79,7 +87,7 @@ const Directory = () => {
                         <FormattedMessage
                             defaultMessage={'{value} people'}
                             id={'directory.people.count'}
-                            values={{value: (searchTerm ? searchPeople : people)?.length}}
+                            values={{value: (searchTerm ? searchPeople.length : totalCount)}}
                         />
                     </span>
                 </div>
@@ -97,7 +105,7 @@ const Directory = () => {
             </header>
             <PeopleList
                 people={searchTerm ? searchPeople : people}
-                hasNextPage={people.length < 102}
+                hasNextPage={people.length < totalCount}
                 isNextPageLoading={isNextPageLoading}
                 searchTerms={searchTerm}
                 loadMore={loadMore}

@@ -104,6 +104,7 @@ import {
     UserStatus,
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
+    UserProfilesWithTotalCount,
 } from '@mattermost/types/users';
 import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
@@ -780,7 +781,7 @@ export default class Client4 {
     };
 
     getProfiles = (page = 0, perPage = PER_PAGE_DEFAULT, options: Record<string, any> = {}) => {
-        return this.doFetch<UserProfile[]>(
+        return this.doFetch<UserProfile[] | UserProfilesWithTotalCount>(
             `${this.getUsersRoute()}${buildQueryString({page, per_page: perPage, ...options})}`,
             {method: 'get'},
         );

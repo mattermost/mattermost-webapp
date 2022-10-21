@@ -140,3 +140,8 @@ export type GetFilteredUsersStatsOpts = {
 export type AuthChangeResponse = {
     follow_link: string;
 };
+
+export type UserProfilesWithTotalCount = {
+    users: UserProfile[];
+    total_count: number;
+};
