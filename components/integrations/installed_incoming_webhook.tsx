@@ -10,9 +10,7 @@ import {getSiteURL} from 'utils/url';
 import CopyText from 'components/copy_text';
 
 import {IncomingWebhook} from '@mattermost/types/integrations';
-
 import {Team} from '@mattermost/types/teams';
-
 import {Channel} from '@mattermost/types/channels';
 
 import DeleteIntegrationLink from './delete_integration_link';
