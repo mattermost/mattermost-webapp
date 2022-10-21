@@ -470,7 +470,7 @@ async function initializeModuleFederation() {
     const {remotes, aliases} = await getRemoteModules();
 
     const moduleFederationPluginOptions = {
-        name: 'mattermost-webapp',
+        name: 'mattermost_webapp',
         remotes,
         shared: [
 
@@ -507,7 +507,6 @@ async function initializeModuleFederation() {
         './registry': 'registry',
     };
     moduleFederationPluginOptions.filename = 'remote_entry.js';
-    moduleFederationPluginOptions.name = 'mattermost_webapp';
 
     config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 
