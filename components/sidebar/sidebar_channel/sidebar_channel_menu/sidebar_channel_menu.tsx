@@ -17,6 +17,7 @@ import {ModalData} from 'types/actions';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {copyToClipboard} from 'utils/utils';
+import MMenu from './menu';
 
 type Props = {
     channel: Channel;
@@ -266,18 +267,19 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
         } = this.props;
 
         return (
-            <SidebarMenu
-                id={`SidebarChannelMenu-${channel.id}`}
-                ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-                isMenuOpen={isMenuOpen}
-                onOpenDirectionChange={this.handleOpenDirectionChange}
-                onToggleMenu={this.onToggleMenu}
-                tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
-                tabIndex={isCollapsed ? -1 : 0}
-            >
-                {isMenuOpen && this.renderDropdownItems()}
-            </SidebarMenu>
+            // <SidebarMenu
+            //     id={`SidebarChannelMenu-${channel.id}`}
+            //     ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+            //     buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+            //     isMenuOpen={isMenuOpen}
+            //     onOpenDirectionChange={this.handleOpenDirectionChange}
+            //     onToggleMenu={this.onToggleMenu}
+            //     tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
+            //     tabIndex={isCollapsed ? -1 : 0}
+            // >
+            //     {isMenuOpen && this.renderDropdownItems()}
+            // </SidebarMenu>
+            <MMenu />
         );
     }
 }
