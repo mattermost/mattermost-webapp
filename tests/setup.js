@@ -6,6 +6,7 @@ import {configure} from 'enzyme';
 
 import '@testing-library/jest-dom';
 
+import './browser_history_mock';
 import './redux-persist_mock';
 import './react-intl_mock';
 import './react-tippy_mock';

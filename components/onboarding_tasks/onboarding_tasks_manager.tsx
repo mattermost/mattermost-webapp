@@ -26,7 +26,7 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {
     openInvitationsModal,
     setShowOnboardingCompleteProfileTour,
@@ -231,13 +231,13 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.BOARDS_TOUR: {
-            browserHistory.push('/boards');
+            getHistory().push('/boards');
             localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
         case OnboardingTasksName.PLAYBOOKS_TOUR: {
-            browserHistory.push('/playbooks/start');
+            getHistory().push('/playbooks/start');
             localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
