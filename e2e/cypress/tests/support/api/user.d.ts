@@ -41,7 +41,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
          */
-        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>;
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Login as admin via API.
@@ -51,7 +51,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLogin();
          */
-        apiAdminLogin(): Chainable<UserProfile>;
+        apiAdminLogin(): Chainable<{user: UserProfile}>;
 
         /**
          * Login as admin via API.
@@ -62,7 +62,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLoginWithMFA(token);
          */
-        apiAdminLoginWithMFA(): Chainable<UserProfile>;
+        apiAdminLoginWithMFA(token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Logout a user's active session from server via API.
@@ -147,7 +147,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiPatchUser(userId: string, userData: UserProfile): Chainable<UserProfile>;
+        apiPatchUser(userId: string, userData: UserProfile): Chainable<{user: UserProfile}>;
 
         /**
          * Convenient command to patch a current user.
@@ -222,7 +222,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiCreateGuestUser(options);
          */
-        apiCreateGuestUser(options: Record<string, any>): Chainable<UserProfile>;
+        apiCreateGuestUser(options: Record<string, any>): Chainable<{guest: UserProfile}>;
 
         /**
          * Revoke all active sessions for a user.
@@ -307,16 +307,16 @@ declare namespace Cypress {
         apiPromoteGuestToUser(userId: string): Chainable<UserProfile>;
 
         /**
-        * Verifies a user's email via userId without having to go to the user's email inbox.
-        * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
-        * @param {string} userId - User ID
-        * @returns {UserProfile} out.user: `UserProfile` object
-        *
-        * @example
-        *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
-        *       // do something with user
-        *   });
-        */
+         * Verifies a user's email via userId without having to go to the user's email inbox.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
+         * @param {string} userId - User ID
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
+         *       // do something with user
+         *   });
+         */
         apiVerifyUserEmailById(userId: string): Chainable<UserProfile>;
 
         /**
