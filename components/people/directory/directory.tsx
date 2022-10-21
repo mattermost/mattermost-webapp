@@ -51,7 +51,9 @@ const Directory = () => {
         }
     }, []);
 
-    useEffect(() => {initialLoad()}, [initialLoad]);
+    useEffect(() => {
+        initialLoad();
+    }, [initialLoad]);
 
     const loadMore = async () => {
         setIsNextPageLoading(true);
