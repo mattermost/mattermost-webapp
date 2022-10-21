@@ -358,7 +358,8 @@ workflows:
   version: 2
   untagged-build:
     jobs:
-      - mattermost-builder/checkout-repos
+      - mattermost-builder/checkout-repos:
+          branch: $CIRCLE_BRANCH
       - mattermost-builder/setup-multi-product-repositories:
           requires:
             - mattermost-builder/checkout-repos
