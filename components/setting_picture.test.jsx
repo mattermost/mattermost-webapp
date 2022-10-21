@@ -4,8 +4,9 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import SettingPicture from 'components/setting_picture.tsx';
 import {FormattedMessage} from 'react-intl';
+
+import SettingPicture from 'components/setting_picture.tsx';
 
 const helpText = (
     <FormattedMessage

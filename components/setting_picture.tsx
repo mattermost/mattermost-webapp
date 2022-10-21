@@ -30,7 +30,7 @@ type Props = {
     updateSection: (e: React.MouseEvent<HTMLButtonElement>) => void;
     imageContext?: string;
     maxFileSize?: number;
-    helpText?: object;
+    helpText?: any;
 }
 
 type State = {
