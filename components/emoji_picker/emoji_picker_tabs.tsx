@@ -14,20 +14,12 @@ import {Emoji} from '@mattermost/types/emojis';
 
 const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker')));
 
-type PickerStyle = {
-    top: number;
-    bottom: number;
-    left?: number;
-    right?: number;
-}
-
 export interface Props {
-    style?: PickerStyle;
+    style?: React.CSSProperties;
     rightOffset?: number;
     topOffset?: number;
     leftOffset?: number;
     placement?: ('top' | 'bottom' | 'left' | 'right');
-    customEmojis?: Emoji[];
     onEmojiClose: () => void;
     onEmojiClick: (emoji: Emoji) => void;
     onGifClick?: (gif: string) => void;
@@ -91,14 +83,14 @@ export default class EmojiPickerTabs extends PureComponent<Props, State> {
 
             let offset = 0;
             if (pickerStyle.top) {
-                offset = pickerStyle.top + (this.props.topOffset || 0);
+                offset = (this.props.topOffset || 0) + (pickerStyle.top as number);
             } else {
                 offset = (this.props.topOffset || 0);
             }
             pickerStyle.top = offset;
 
             if (pickerStyle.left && this.props.leftOffset) {
-                pickerStyle.left += this.props.leftOffset;
+                (pickerStyle.left as number) += this.props.leftOffset;
             }
         }
 
