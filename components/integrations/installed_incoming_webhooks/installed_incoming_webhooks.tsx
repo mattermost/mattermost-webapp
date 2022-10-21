@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook.js';
+import InstalledIncomingWebhook, {matchesFilter} from 'components/integrations/installed_incoming_webhook';
 
 import {Team} from '@mattermost/types/teams';
 import {Channel} from '@mattermost/types/channels';
