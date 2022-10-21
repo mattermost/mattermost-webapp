@@ -44,6 +44,11 @@ const browserHistory = {
     },
 };
 
+/**
+ * Returns the current history object.
+ *
+ * If you're calling this from within a React component, consider using the useHistory hook from react-router-dom.
+ */
 export function getHistory() {
     return browserHistory;
 }
