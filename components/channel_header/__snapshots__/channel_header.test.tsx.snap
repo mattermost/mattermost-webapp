@@ -282,6 +282,7 @@ exports[`components/ChannelHeader should match snapshot with last active display
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
@@ -575,6 +576,7 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user_id",
         }
       }
