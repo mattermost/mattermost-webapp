@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch, compose} from 'redux';
 
 import {withRouter, RouteComponentProps} from 'react-router-dom';
 
-import {ComponentType, memo} from 'react';
+import {memo} from 'react';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -74,7 +74,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default compose<ComponentType>(
+export default compose<SidebarRight>(
     withRouter,
     connect(mapStateToProps, mapDispatchToProps),
     memo,
