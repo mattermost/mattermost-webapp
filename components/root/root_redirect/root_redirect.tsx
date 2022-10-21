@@ -2,8 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {Redirect} from 'react-router-dom';
-import {useHistory} from 'react-router-dom';
+import {Redirect, useHistory} from 'react-router-dom';
 
 import * as GlobalActions from 'actions/global_actions';
 
