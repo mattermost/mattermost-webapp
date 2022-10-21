@@ -354,42 +354,6 @@ workflows:
   version: 2
   untagged-build:
     jobs:
-      # - install
-      # Disabling check-deps since the new version is not on bintray and all builds will fail
-      #       # we've are on top of this, and it's going to be temporary.
-      # - check-deps:
-      #     context: sast-webhook
-      #     requires:
-      #       - install
-      # - lint:
-      #     requires:
-      #       - install
-      # - i18n-check:
-      #     requires:
-      #       - install
-      # - type-check:
-      #     requires:
-      #       - install
-      # - build:
-      #     requires:
-      #       - install
-      # - upload-s3:
-      #     context: mattermost-ci-pr-builds-s3
-      #     requires:
-      #       - build
-      # - prepare-docker-build:
-      #     context: mattermost-ci-pr-builds-s3
-      #     requires:
-      #       - upload-s3
-      # - build-docker:
-      #     context: matterbuild-docker
-      #     requires:
-      #       - prepare-docker-build
-      # - test:
-      #     requires:
-      #       - type-check
-      #       - i18n-check
-      #       - lint
       checkout-and-setup:
         jobs:
           - mattermost-builder/checkout-repos
