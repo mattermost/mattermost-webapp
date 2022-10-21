@@ -14,6 +14,8 @@ import {Client4} from 'mattermost-redux/client';
 
 import {localizeMessage} from 'utils/utils';
 
+import {postRemoved, storePost} from 'mattermost-redux/actions/posts';
+
 import {storePendingPosts} from './post_actions';
 
 export interface UploadFile {
@@ -145,10 +147,32 @@ export function uploadFile({file, name, type, rootId, channelId, clientId, onPro
 }
 
 export function cancelUploadingFile(clientId: string) {
-    return (dispatch: DispatchFunc) => {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const pendingPostEntry = Object.entries(state.entities.files.filePreviews).find((entry) => entry[1].some((filePreview) => filePreview.clientId === clientId));
+        if (!pendingPostEntry) {
+            return;
+        }
+        const pendingPostId = pendingPostEntry[0];
+
         dispatch({
             type: FileTypes.UPLOAD_FILES_CANCEL,
             clientId,
         });
+
+        if (pendingPostEntry[1].length !== 1) {
+            return;
+        }
+
+        const pendingPost = Object.values(state.entities.posts.posts).find((post) => post.pending_post_id === pendingPostId);
+        if (!pendingPost) {
+            return;
+        }
+
+        if (pendingPost.message.length === 0) {
+            await dispatch(postRemoved(pendingPost));
+        } else {
+            await dispatch(storePost(pendingPost, []));
+        }
     };
 }

@@ -249,7 +249,7 @@ export function storePost(post: Post, files: FileInfo[]) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const crtEnabled = isCollapsedThreadsEnabled(getState());
         try {
-            const created = await Client4.createPost({...post/* TODO: , create_at: 0*/});
+            const created = await Client4.createPost({...post, id: ''});
 
             const actions: AnyAction[] = [
                 receivedPost(created, crtEnabled),
