@@ -11,31 +11,32 @@
 // Group: @channel
 
 describe('Channel routing', () => {
-    let testTeam;
+    let testTeam: Cypress.Team;
 
     before(() => {
         cy.apiInitSetup().then(({team}) => {
             testTeam = team;
         });
 
-        cy.apiCreateCustomAdmin().then(({sysadmin}) => {
-            cy.apiLogin(sysadmin);
-            cy.visit(`/${testTeam.name}/channels/town-square`);
-        });
-
-        cy.apiUpdateConfig({
-            PluginSettings: {
-                Enable: true,
-                EnableMarketplace: true,
-                EnableRemoteMarketplace: true,
-                MarketplaceURL: 'https://api.integrations.mattermost.com',
-                PluginStates: {
-                    focalboard: {
-                        Enable: true,
+        cy.apiEnablePluginById('focalboard').
+            then(() => cy.apiUpdateConfig({
+                PluginSettings: {
+                    Enable: true,
+                    EnableMarketplace: true,
+                    EnableRemoteMarketplace: true,
+                    MarketplaceURL: 'https://api.integrations.mattermost.com',
+                    PluginStates: {
+                        Focalboard: {
+                            Enable: true,
+                        },
                     },
                 },
-            },
-        });
+            })).
+            then(() => cy.apiCreateCustomAdmin()).
+            then(({sysadmin}) => {
+                cy.apiLogin(sysadmin);
+                cy.visit(`/${testTeam.name}/channels/town-square`);
+            });
     });
 
     it('MM-T5141 Channel URL validation for spaces between characters', () => {
