@@ -26,6 +26,22 @@ function getPlugin(plugins, pluginId, version) {
     });
 }
 
+Cypress.Commands.add('apiInstallPluginFromMarkteplace', (id, version = null) => {
+    return cy.request({
+        headers: {'X-Requested-With': 'XMLHttpRequest'},
+        url: '/api/v4/plugins/marketplace',
+        body: {id, version},
+        method: 'POST',
+        timeout: TIMEOUTS.TWO_MIN,
+        failOnStatusCode: false,
+    }).then((response) => {
+        expect(response.status).to.equal(201);
+
+        cy.wait(TIMEOUTS.THREE_SEC);
+        return cy.wrap({plugin: response.body});
+    });
+});
+
 Cypress.Commands.add('apiGetPluginStatus', (pluginId, version) => {
     return cy.apiGetAllPlugins().then(({plugins}) => {
         const active = getPlugin(plugins.active, pluginId, version);

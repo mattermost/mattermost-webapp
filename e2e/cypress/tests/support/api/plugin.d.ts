@@ -87,6 +87,19 @@ declare namespace Cypress {
         apiUploadAndEnablePlugin(pluginTestInfo: PluginTestInfo): Chainable<Response>;
 
         /**
+         * Install plugin from marketplace.
+         * See https://api.mattermost.com/#tag/plugins/operation/InstallMarketplacePlugin
+         * @param {string} pluginDownloadUrl - URL used to download the plugin
+         * @returns {PluginManifest} `out.plugin` as `PluginManifest`
+         *
+         * @example
+         *   cy.apiInstallPluginFromMarkteplace('focalboard').then(({plugin}) => {
+         *       // do something with plugin
+         *   });
+         */
+        apiInstallPluginFromMarkteplace(pluginId: string, version: string = null): Chainable<{plugin: PluginManifest}>;
+
+        /**
          * Install plugin from url.
          * See https://api.mattermost.com/#tag/plugins/paths/~1plugins~1install_from_url/post
          * @param {string} pluginDownloadUrl - URL used to download the plugin
@@ -98,7 +111,7 @@ declare namespace Cypress {
          *       // do something with plugin
          *   });
          */
-        apiInstallPluginFromUrl(pluginDownloadUrl: string, force: string): Chainable<PluginManifest>;
+        apiInstallPluginFromUrl(pluginDownloadUrl: string, force: boolean = true): Chainable<PluginManifest>;
 
         /**
          * Enable plugin.
