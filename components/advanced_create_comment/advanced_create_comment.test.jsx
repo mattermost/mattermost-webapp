@@ -74,6 +74,7 @@ describe('components/AdvancedCreateComment', () => {
         useLDAPGroupMentions: true,
         useCustomGroupMentions: true,
         openModal: jest.fn(),
+        cancelUploadingFile: jest.fn()
     };
 
     const emptyDraft = {
