@@ -549,7 +549,7 @@ describe('components/AdvancedCreateComment', () => {
             message: '/fakecommand other text',
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
-        }, {ignoreSlash: false});
+        }, [], {ignoreSlash: false});
 
         wrapper.instance().handleChange({
             target: {value: 'some valid text'},
@@ -561,7 +561,7 @@ describe('components/AdvancedCreateComment', () => {
             message: 'some valid text',
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
-        }, {ignoreSlash: false});
+        }, [], {ignoreSlash: false});
     });
 
     test('should scroll to bottom when uploadsInProgress increase', () => {
@@ -969,7 +969,7 @@ describe('components/AdvancedCreateComment', () => {
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
                 fileInfos: [{}, {}, {}],
-            }, {ignoreSlash: false});
+            }, [], {ignoreSlash: false});
             expect(preventDefault).toHaveBeenCalled();
 
             wrapper.setProps({onSubmit});
@@ -979,7 +979,7 @@ describe('components/AdvancedCreateComment', () => {
                 message: '/fakecommand other text',
                 uploadsInProgress: [],
                 fileInfos: [{}, {}, {}],
-            }, {ignoreSlash: true});
+            }, [], {ignoreSlash: true});
             expect(wrapper.find('[id="postServerError"]').exists()).toBe(false);
         });
 

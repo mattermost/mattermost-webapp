@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Post} from '@mattermost/types/posts';
-import {FileInfo} from '@mattermost/types/files';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
 
 import {GlobalState} from 'types/store';
 import {ChannelTypes, SearchTypes} from 'mattermost-redux/action_types';
@@ -343,6 +343,7 @@ describe('Actions.Posts', () => {
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message'} as Post;
             const newReply = {id: 'reply_post_id', channel_id: 'current_channel_id', message: 'new message', root_id: 'new_post_id'} as Post;
             const files: FileInfo[] = [];
+            const filePreviews: FilePreviewInfo[] = [];
 
             const immediateExpectedState = [{
                 args: [newPost, files],
@@ -358,7 +359,7 @@ describe('Actions.Posts', () => {
             const finalExpectedState = [
                 ...immediateExpectedState,
                 {
-                    args: [newReply, files],
+                    args: [newReply, files, filePreviews],
                     type: 'MOCK_CREATE_POST',
                 }, {
                     args: ['comment_draft_new_post_id', null],
@@ -366,7 +367,7 @@ describe('Actions.Posts', () => {
                 },
             ];
 
-            await testStore.dispatch(Actions.createPost(newReply, files));
+            await testStore.dispatch(Actions.createPost(newReply, files, filePreviews));
             expect(testStore.getActions()).toEqual(finalExpectedState);
         });
 
@@ -374,12 +375,13 @@ describe('Actions.Posts', () => {
             const testStore = mockStore(initialState);
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :+1:'} as Post;
             const files: FileInfo[] = [];
+            const filePreviews: FilePreviewInfo[] = [];
 
             const immediateExpectedState = [{
                 args: ['+1'],
                 type: 'MOCK_ADD_RECENT_EMOJI',
             }, {
-                args: [newPost, files],
+                args: [newPost, files, filePreviews],
                 type: 'MOCK_CREATE_POST',
             }, {
                 args: ['draft_current_channel_id', null],
@@ -394,12 +396,13 @@ describe('Actions.Posts', () => {
             const testStore = mockStore(initialState);
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :cake:'} as Post;
             const files: FileInfo[] = [];
+            const filePreviews: FilePreviewInfo[] = [];
 
             const immediateExpectedState = [{
                 args: ['cake'],
                 type: 'MOCK_ADD_RECENT_EMOJI',
             }, {
-                args: [newPost, files],
+                args: [newPost, files, filePreviews],
                 type: 'MOCK_CREATE_POST',
             }, {
                 args: ['draft_current_channel_id', null],
@@ -414,6 +417,7 @@ describe('Actions.Posts', () => {
             const testStore = mockStore(initialState);
             const newPost = {id: 'new_post_id', channel_id: 'current_channel_id', message: 'new message :cake: :+1:'} as Post;
             const files: FileInfo[] = [];
+            const filePreviews: FilePreviewInfo[] = [];
 
             const immediateExpectedState = [{
                 args: ['cake'],
@@ -422,7 +426,7 @@ describe('Actions.Posts', () => {
                 args: ['+1'],
                 type: 'MOCK_ADD_RECENT_EMOJI',
             }, {
-                args: [newPost, files],
+                args: [newPost, files, filePreviews],
                 type: 'MOCK_CREATE_POST',
             }, {
                 args: ['draft_current_channel_id', null],

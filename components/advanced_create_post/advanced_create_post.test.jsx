@@ -867,14 +867,14 @@ describe('components/advanced_create_post', () => {
         instance.draftsForChannel[currentChannelProp.id] = uploadsInProgressDraft;
 
         wrapper.setProps({draft: uploadsInProgressDraft});
-        const fileInfos = {
-            id: 'a',
-        };
+        const fileInfos = [{
+            clientId: 'a',
+        }];
         const expectedDraft = {
             ...draftProp,
             fileInfos: [
                 ...draftProp.fileInfos,
-                fileInfos,
+                fileInfos[0],
             ],
         };
 
@@ -1217,6 +1217,7 @@ describe('components/advanced_create_post', () => {
                 message: '/fakecommand some text',
             }),
             expect.anything(),
+            expect.anything(),
         );
     });
 
@@ -1256,6 +1257,7 @@ describe('components/advanced_create_post', () => {
             expect.objectContaining({
                 message: 'some valid text',
             }),
+            expect.anything(),
             expect.anything(),
         );
     });
