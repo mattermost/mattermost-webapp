@@ -164,7 +164,7 @@ export default function ChannelMembersDropdown({
     const canMakeUserChannelAdmin = canChangeMemberRoles && isMember;
     const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
     const removeFromChannelText = user.id === currentUserId ?
-        Utils.localizeMessage('channel_members_dropdown.leave_channel', 'Leave Channel') :
+        Utils.localizeMessage('channel_header.leave', 'Leave Channel') :
         Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel');
     const removeFromChannelTestId = user.id === currentUserId ? 'leaveChannel' : 'removeFromChannel';
 
