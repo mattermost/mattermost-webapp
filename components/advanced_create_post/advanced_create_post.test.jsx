@@ -1654,4 +1654,73 @@ describe('components/advanced_create_post', () => {
 
         expect(wrapper).toMatchSnapshot();
     });
+
+    it('should be able to send post which is uploading file without message', async () => {
+        const clientId = 'clientId';
+        const onSubmitPost = jest.fn();
+        const wrapper = shallow(advancedCreatePost({
+            actions: {
+                ...actionsProp,
+                onSubmitPost,
+            },
+            draft: {
+                ...draftProp,
+                uploadsInProgress: [clientId],
+            },
+        }));
+
+        const uploadsProgressPercent = {
+            [clientId]: {},
+        };
+        wrapper.setState({
+            message: '',
+            uploadsProgressPercent,
+        });
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmitPost).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: '',
+            }),
+            [],
+            Object.values(uploadsProgressPercent),
+        );
+
+        expect(wrapper.state().uploadsProgressPercent).toStrictEqual({});
+    });
+
+    it('should call cancelUploadingFile when draft has no corresponding fileInfo', () => {
+        const id = 'a';
+        const cancelUploadingFile = jest.fn();
+        const wrapper = shallow(
+            advancedCreatePost({
+                actions: {
+                    ...actionsProp,
+                    cancelUploadingFile,
+                },
+                draft: {
+                    ...draftProp,
+                    uploadsInProgress: [id],
+                },
+            }),
+        );
+
+        wrapper.instance().removePreview(id);
+        expect(cancelUploadingFile).toHaveBeenCalled();
+    });
+
+    it("should ignore already submitted file's progoress", () => {
+        const wrapper = shallow(
+            advancedCreatePost(),
+        );
+
+        const uploadsProgressPercent = ['a'];
+        wrapper.setState({
+            uploadsProgressPercent,
+        });
+
+        wrapper.instance().handleUploadProgress({clientId: 'b'});
+        expect(wrapper.state().uploadsProgressPercent).toStrictEqual(uploadsProgressPercent);
+    });
 });

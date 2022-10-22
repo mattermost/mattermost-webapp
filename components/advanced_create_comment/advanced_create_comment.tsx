@@ -1116,9 +1116,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             if (index !== -1) {
                 uploadsInProgress.splice(index, 1);
 
-                if (this.fileUploadRef.current) {
-                    this.props.cancelUploadingFile(id);
-                }
+                this.props.cancelUploadingFile(id);
             }
         } else {
             fileInfos.splice(index, 1);
@@ -1171,7 +1169,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         if (draft) {
             const message = draft.message ? draft.message.trim() : '';
             const fileInfos = draft.fileInfos ? draft.fileInfos : [];
-            if (message.trim().length !== 0 || fileInfos.length !== 0) {
+            const uploadsInProgress = draft.uploadsInProgress ? draft.uploadsInProgress : [];
+            if (message.trim().length !== 0 || fileInfos.length !== 0 || uploadsInProgress.length !== 0) {
                 return true;
             }
         }

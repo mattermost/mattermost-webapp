@@ -9,7 +9,9 @@ import {TestHelper} from 'utils/test_helper';
 import FileAttachment from 'components/file_attachment';
 import SingleImageView from 'components/single_image_view';
 
-import {FilePreviewInfo} from '@mattermost/types/files';
+import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
+
+import FilePreview from 'components/file_preview';
 
 import FileAttachmentList from './file_attachment_list';
 
@@ -118,5 +120,25 @@ describe('FileAttachmentList', () => {
 
         expect(wrapper.find(SingleImageView).exists()).toBe(false);
         expect(wrapper.find(FileAttachment).exists()).toBe(true);
+    });
+
+    test('should render FilePreview', () => {
+        const filePreviews: FileInfo[] = [
+            TestHelper.getFileInfoMock({
+                clientId: 'a',
+            }),
+        ];
+        const props = {
+            ...baseProps,
+            filePreviews,
+        };
+        const wrapper = shallow(
+            <FileAttachmentList {...props}/>,
+        );
+
+        expect(wrapper.find(FilePreview)).toHaveLength(1);
+        expect(wrapper.find(FilePreview).first().props().uploadsInProgress).toStrictEqual(['a']);
+
+        expect(wrapper.find(FileAttachment).last().props().fileInfo.id).toBe('file_id_3');
     });
 });

@@ -359,7 +359,7 @@ describe('components/AdvancedCreateComment', () => {
         const fileInfos = [{id: '1', name: 'aaa', create_at: 100}, {id: '2', name: 'bbb', create_at: 200}];
         const draft = {
             message: 'Test message',
-            uploadsInProgress: [1, 2, 3],
+            uploadsInProgress: ['1', '2', '3'],
             fileInfos,
         };
         const props = {...baseProps, updateCommentDraftWithRootId, draft};
@@ -369,7 +369,12 @@ describe('components/AdvancedCreateComment', () => {
         );
 
         const instance = wrapper.instance();
-        wrapper.setState({draft});
+        wrapper.setState({
+            draft,
+            uploadsProgressPercent: {
+                3: {},
+            },
+        });
         instance.draftsForPost[props.rootId] = draft;
 
         const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
@@ -380,11 +385,12 @@ describe('components/AdvancedCreateComment', () => {
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
-            expect.objectContaining({uploadsInProgress: [1, 2], fileInfos: expectedNewFileInfos}),
+            expect.objectContaining({uploadsInProgress: ['1', '2'], fileInfos: expectedNewFileInfos}),
         );
 
-        expect(wrapper.state().draft.uploadsInProgress).toEqual([1, 2]);
+        expect(wrapper.state().draft.uploadsInProgress).toEqual(['1', '2']);
         expect(wrapper.state().draft.fileInfos).toEqual(expectedNewFileInfos);
+        expect(wrapper.state().uploadsProgressPercent).toStrictEqual({});
     });
 
     test('should open PostDeletedModal when createPostErrorId === api.post.create_post.root_id.app_error', () => {
@@ -1636,5 +1642,80 @@ describe('components/AdvancedCreateComment', () => {
 
         instance.handleKeyDown(commentEscapeKey);
         expect(blur).toHaveBeenCalledTimes(1);
+    });
+
+    it('should be able to send post which is uploading file without message', async () => {
+        const clientId = 'clientId';
+        const onSubmit = jest.fn();
+        const props = {
+            ...baseProps,
+            onSubmit,
+        };
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...props}
+            />,
+        );
+
+        const uploadsProgressPercent = {
+            [clientId]: {},
+        };
+        wrapper.setState({
+            uploadsProgressPercent,
+            draft: {
+                message: '',
+                uploadsInProgress: [clientId],
+            },
+        });
+
+        await wrapper.instance().handleSubmit({preventDefault: jest.fn()});
+
+        expect(onSubmit).toHaveBeenCalledWith(
+            expect.objectContaining({
+                message: '',
+            }),
+            Object.values(uploadsProgressPercent),
+            expect.anything(),
+        );
+
+        expect(wrapper.state().uploadsProgressPercent).toStrictEqual({});
+    });
+
+    it('should call cancelUploadingFile when draft has no corresponding fileInfo', () => {
+        const id = 'a';
+        const cancelUploadingFile = jest.fn();
+        const props = {
+            ...baseProps,
+            cancelUploadingFile,
+        };
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...props}
+            />,
+        );
+        wrapper.setState({
+            draft: {
+                message: '',
+                fileInfos: [],
+                uploadsInProgress: [id],
+            },
+        });
+
+        wrapper.instance().removePreview(id);
+        expect(cancelUploadingFile).toHaveBeenCalled();
+    });
+
+    it("should ignore already submitted file's progoress", () => {
+        const wrapper = shallow(
+            <AdvancedCreateComment {...baseProps}/>,
+        );
+
+        const uploadsProgressPercent = ['a'];
+        wrapper.setState({
+            uploadsProgressPercent,
+        });
+
+        wrapper.instance().handleUploadProgress({clientId: 'b'});
+        expect(wrapper.state().uploadsProgressPercent).toStrictEqual(uploadsProgressPercent);
     });
 });
