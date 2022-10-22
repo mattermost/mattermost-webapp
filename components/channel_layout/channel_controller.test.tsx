@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {render} from '@testing-library/react';
 
-import {getClassnamesForBody} from './channel_controller';
+import ChannelController, {getClassnamesForBody} from './channel_controller';
 
 jest.mock('components/announcement_bar', () => () => <div/>);
 jest.mock('components/system_notice', () => () => <div/>);
@@ -31,5 +32,26 @@ describe('components/channel_layout/ChannelController', () => {
     test('Should have os--mac class on body for MacIntel or MacPPC', () => {
         expect(getClassnamesForBody('MacIntel')).toEqual(['app__body', 'channel-view', 'os--mac']);
         expect(getClassnamesForBody('MacPPC')).toEqual(['app__body', 'channel-view', 'os--mac']);
+    });
+
+    test('Should add .app-bar-enabled class when app bar is enabled', () => {
+        const {container} = render(
+            <ChannelController
+                fetchingChannels={false}
+                shouldShowAppBar={true}
+            />,
+        );
+        expect(container.getElementsByClassName('app-bar-enabled')).toHaveLength(1);
+    });
+
+    test('Should not add .app-bar-enabled class when app bar is disabled', () => {
+        const {container} = render(
+            <ChannelController
+                fetchingChannels={false}
+                shouldShowAppBar={false}
+            />,
+        );
+
+        expect(container.getElementsByClassName('app-bar-enabled')).toHaveLength(0);
     });
 });

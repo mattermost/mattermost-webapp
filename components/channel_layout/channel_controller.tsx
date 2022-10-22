@@ -2,13 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
 import classNames from 'classnames';
-
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {RequestStatus} from 'mattermost-redux/constants';
-
-import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 
 import AnnouncementBarController from 'components/announcement_bar';
 import SystemNotice from 'components/system_notice';
@@ -24,23 +18,16 @@ import ProductNoticesModal from 'components/product_notices_modal';
 
 import Pluggable from 'plugins/pluggable';
 
-import {shouldShowAppBar} from 'selectors/plugins';
-
-import {GlobalState} from 'types/store';
-
-import {Constants} from 'utils/constants';
 import {isInternetExplorer, isEdge} from 'utils/user_agent';
+
+interface Props {
+    shouldShowAppBar: boolean;
+    fetchingChannels: boolean;
+}
 
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
-export default function ChannelController() {
-    const dispatch = useDispatch<DispatchFunc>();
-
-    const shouldRenderCenterChannel = useSelector((state: GlobalState) =>
-        state.requests.channels.getChannelsMembersCategories.status === RequestStatus.SUCCESS);
-
-    const isAppBarEnabled = useSelector(shouldShowAppBar);
-
+export default function ChannelController({shouldShowAppBar, fetchingChannels}: Props) {
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
@@ -48,16 +35,6 @@ export default function ChannelController() {
 
         return () => {
             document.body.classList.remove(...BODY_CLASS_FOR_CHANNEL);
-        };
-    }, []);
-
-    useEffect(() => {
-        const loadStatusesIntervalId = setInterval(() => {
-            dispatch(loadStatusesForChannelAndSidebar());
-        }, Constants.STATUS_INTERVAL);
-
-        return () => {
-            clearInterval(loadStatusesIntervalId);
         };
     }, []);
 
@@ -70,11 +47,11 @@ export default function ChannelController() {
             <SystemNotice/>
             <FaviconTitleHandler/>
             <ProductNoticesModal/>
-            <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': isAppBarEnabled})}>
+            <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': shouldShowAppBar})}>
                 <SidebarRight/>
                 <SidebarRightMenu/>
                 <Sidebar/>
-                {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen/>}
+                {fetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
                 <Pluggable pluggableName='Root'/>
                 <ResetStatusModal/>
             </div>
