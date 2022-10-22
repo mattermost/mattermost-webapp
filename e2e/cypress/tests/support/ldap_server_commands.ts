@@ -1,17 +1,32 @@
+import { ChainableT } from 'tests/types';
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {getRandomId} from '../utils';
+import { User } from './ui_commands';
 
 const ldapTmpFolder = 'ldap_tmp';
 
-Cypress.Commands.add('modifyLDAPUsers', (filename) => {
+function modifyLDAPUsers(filename: string) {
     cy.exec(`ldapmodify -x -D "cn=admin,dc=mm,dc=test,dc=com" -w mostest -H ldap://${Cypress.env('ldapServer')}:${Cypress.env('ldapPort')} -f tests/fixtures/${filename} -c`, {failOnNonZeroExit: false});
-});
+}
+Cypress.Commands.add('modifyLDAPUsers', modifyLDAPUsers);
 
 Cypress.Commands.add('resetLDAPUsers', () => {
     cy.modifyLDAPUsers('ldap-reset-data.ldif');
 });
+
+interface LDAPUserArg {
+    prefix: string;
+    username: string;
+    password: string;
+    email: string;
+    firstname: string;
+    lastname: string;
+    ldapfirstname: string;
+    ldaplastname: string;
+    keycloakId: string;
+}
 
 Cypress.Commands.add('createLDAPUser', ({prefix = 'ldap', user} = {}) => {
     const ldapUser = user || generateLDAPUser(prefix);
@@ -38,7 +53,7 @@ Cypress.Commands.add('updateLDAPUser', (user) => {
     });
 });
 
-Cypress.Commands.add('ldapAdd', (filePath) => {
+function ldapAdd(filePath: string) {
     const {host, bindDn, password} = getLDAPCredentials();
 
     return cy.exec(
@@ -47,9 +62,10 @@ Cypress.Commands.add('ldapAdd', (filePath) => {
     ).then(({code, stdout, stderr}) => {
         cy.log(`ldapadd code: ${code}, stdout: ${stdout}, stderr: ${stderr}`);
     });
-});
+}
+Cypress.Commands.add('ldapAdd', ldapAdd);
 
-Cypress.Commands.add('ldapModify', (filePath) => {
+function ldapModify(filePath: string) {
     const {host, bindDn, password} = getLDAPCredentials();
 
     return cy.exec(
@@ -58,7 +74,8 @@ Cypress.Commands.add('ldapModify', (filePath) => {
     ).then(({code, stdout, stderr}) => {
         cy.log(`ldapmodify code: ${code}, stdout: ${stdout}, stderr: ${stderr}`);
     });
-});
+}
+Cypress.Commands.add('ldapModify', ldapModify);
 
 function getLDAPCredentials() {
     const host = `ldap://${Cypress.env('ldapServer')}:${Cypress.env('ldapPort')}`;
@@ -84,7 +101,7 @@ export function generateLDAPUser(prefix = 'ldap') {
     };
 }
 
-function generateContent(user = {}, isUpdate = false) {
+function generateContent(user: LDAPUserArg, isUpdate = false) {
     let deleteContent = '';
     if (isUpdate) {
         deleteContent = `dn: uid=${user.username},ou=e2etest,dc=mm,dc=test,dc=com
@@ -109,4 +126,49 @@ uid: ${user.username}
 mail: ${user.email}
 userPassword: Password1
 `;
+}
+
+declare global {
+    // eslint-disable-next-line @typescript-eslint/no-namespace
+    namespace Cypress {
+        interface Chainable {
+
+            /**
+             * modify LDAP users
+             * @param {string} filename
+             * @returns void
+             */
+            modifyLDAPUsers: typeof modifyLDAPUsers;
+
+            /**
+             * reset LDAP users
+             * @returns void
+             */
+            resetLDAPUsers(): void;
+
+            ldapAdd: typeof ldapAdd;
+            ldapModify: typeof ldapModify;
+
+            /**
+             * update LDAP users
+             * @param {string} prefix
+             * @param {LDAPUserArg} user
+             * @returns ChainableT<any>
+             */
+             createLDAPUser({prefix: string, user: LDAPUserArg}): ChainableT<any>;
+
+            /**
+             * update LDAP users
+             * @param {LDAPUserArg} user
+             * @returns ChainableT<any>
+             */
+             updateLDAPUser(user: LDAPUserArg): ChainableT<any>;
+
+            /**
+             * add LDAP users
+             * @returns Chainable
+             */
+             addLDAPUsers(): Chainable;
+        }
+    }
 }

@@ -25,7 +25,7 @@ describe('AD / LDAP', () => {
     let testTeamId;
 
     before(() => {
-        cy.createLDAPUser().then((user) => {
+        (cy as any).createLDAPUser().then((user) => {
             samlLdapUser = user;
         });
 
@@ -33,7 +33,7 @@ describe('AD / LDAP', () => {
         cy.apiRequireLicenseForFeature('LDAP', 'SAML');
 
         // # Create new LDAP user
-        cy.createLDAPUser().then((user) => {
+        (cy as any).createLDAPUser().then((user) => {
             samlLdapUser = user;
         });
 
@@ -51,7 +51,7 @@ describe('AD / LDAP', () => {
             cy.apiUploadSAMLIDPCert('keycloak.crt');
 
             // # Create Keycloak user and login for the first time
-            cy.keycloakCreateUsers([samlLdapUser, nonLDAPUser]);
+            cy.keycloakCreateUser({samlLdapUser, nonLDAPUser});
 
             cy.doKeycloakLogin(samlLdapUser);
 
@@ -69,10 +69,10 @@ describe('AD / LDAP', () => {
 
         // # Run LDAP Sync
         const admin = getAdminAccount();
-        cy.runLdapSync(admin);
+        cy.runLdapSync(admin as any);
 
         // # REgister as LDAP user
-        cy.createLDAPUser({user: nonLDAPUser});
+        (cy as any).createLDAPUser({user: nonLDAPUser});
 
         // # Add user to team
         cy.apiAdminLogin();

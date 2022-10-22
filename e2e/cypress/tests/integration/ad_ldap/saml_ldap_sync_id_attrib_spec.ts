@@ -27,7 +27,7 @@ describe('AD / LDAP', () => {
         cy.apiRequireLicenseForFeature('LDAP', 'SAML');
 
         // # Create new LDAP user
-        cy.createLDAPUser().then((user) => {
+        (cy as any).createLDAPUser().then((user) => {
             samlLdapUser = user;
         });
 
@@ -45,7 +45,7 @@ describe('AD / LDAP', () => {
             cy.apiUploadSAMLIDPCert('keycloak.crt');
 
             // # Create Keycloak user and login for the first time
-            cy.keycloakCreateUsers([samlLdapUser]);
+            cy.keycloakCreateUser(samlLdapUser);
             cy.doKeycloakLogin(samlLdapUser);
 
             // # Wait for the UI to be ready which indicates SAML registration is complete
@@ -72,13 +72,13 @@ describe('AD / LDAP', () => {
         const randomId = getRandomId();
         const newFirstName = `Firstname${randomId}`;
         const newLastName = `Lastname${randomId}`;
-        cy.updateLDAPUser({
+        (cy as any).updateLDAPUser({
             ...samlLdapUser,
             firstname: newFirstName,
             lastname: newLastName,
         });
         const admin = getAdminAccount();
-        cy.runLdapSync(admin);
+        cy.runLdapSync(admin as any);
 
         // # Reload the page
         cy.reload();
