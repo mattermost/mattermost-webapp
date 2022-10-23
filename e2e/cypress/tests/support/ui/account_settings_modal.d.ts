@@ -27,7 +27,7 @@ declare namespace Cypress {
          *       // Do something here
          *   });
          */
-        uiOpenProfileModal(section?: string): Chainable;
+        uiOpenProfileModal(section?: string): Chainable<void>;
 
         /**
          * Close the account settings modal given that the modal itself is opened.
