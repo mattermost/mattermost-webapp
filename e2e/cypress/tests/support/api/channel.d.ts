@@ -41,7 +41,8 @@ declare namespace Cypress {
             displayName: string,
             type?: string,
             purpose?: string,
-            header?: string
+            header?: string,
+            unique?: boolean,
         ): Chainable<{channel: Channel}>;
 
         /**
