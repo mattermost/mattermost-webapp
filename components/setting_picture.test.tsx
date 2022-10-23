@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {shallow} from 'enzyme';
 
 import {FormattedMessage} from 'react-intl';
 
-import SettingPicture from 'components/setting_picture.tsx';
+import SettingPicture from 'components/setting_picture';
 
-const helpText = (
+const helpText: ReactNode = (
     <FormattedMessage
         id={'setting_picture.help.profile'}
         defaultMessage='Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}'
@@ -31,6 +31,10 @@ describe('components/SettingItemMin', () => {
         helpText: {helpText},
     };
 
+    // const mockFile = {type: 'image/jpeg', size: 1024};
+    const mockFile = new File([new Blob()], 'image.jpeg', {
+        type: 'image/jpeg',
+    });
     test('should match snapshot, profile picture on source', () => {
         const wrapper = shallow(
             <SettingPicture {...baseProps}/>,
@@ -40,7 +44,7 @@ describe('components/SettingItemMin', () => {
     });
 
     test('should match snapshot, profile picture on file', () => {
-        const props = {...baseProps, file: {file: {}}, src: ''};
+        const props = {...baseProps, file: mockFile, src: ''};
         const wrapper = shallow(
             <SettingPicture {...props}/>,
         );
@@ -67,7 +71,7 @@ describe('components/SettingItemMin', () => {
     });
 
     test('should match snapshot, team icon on file', () => {
-        const props = {...baseProps, onRemove: jest.fn(), imageContext: 'team', file: {file: {}}, src: ''};
+        const props = {...baseProps, onRemove: jest.fn(), imageContext: 'team', file: mockFile, src: ''};
         const wrapper = shallow(
             <SettingPicture {...props}/>,
         );
@@ -105,9 +109,10 @@ describe('components/SettingItemMin', () => {
             <SettingPicture {...props}/>,
         );
         wrapper.setState({removeSrc: true});
-        const evt = {preventDefault: jest.fn()};
+        const instance = wrapper.instance() as SettingPicture;
+        const evt = {preventDefault: jest.fn()} as unknown as React.MouseEvent<HTMLButtonElement>;
 
-        wrapper.instance().handleCancel(evt);
+        instance.handleCancel(evt);
         expect(props.updateSection).toHaveBeenCalledTimes(1);
         expect(props.updateSection).toHaveBeenCalledWith(evt);
 
@@ -121,9 +126,10 @@ describe('components/SettingItemMin', () => {
             <SettingPicture {...props}/>,
         );
         wrapper.setState({removeSrc: true});
-        const evt = {preventDefault: jest.fn()};
+        const instance = wrapper.instance() as SettingPicture;
+        const evt = {preventDefault: jest.fn()} as unknown as React.MouseEvent;
 
-        wrapper.instance().handleSave(evt);
+        instance.handleSave(evt);
         expect(props.onRemove).toHaveBeenCalledTimes(1);
     });
 
@@ -133,9 +139,10 @@ describe('components/SettingItemMin', () => {
             <SettingPicture {...props}/>,
         );
         wrapper.setState({setDefaultSrc: true});
-        const evt = {preventDefault: jest.fn()};
+        const instance = wrapper.instance() as SettingPicture;
+        const evt = {preventDefault: jest.fn()} as unknown as React.MouseEvent;
 
-        wrapper.instance().handleSave(evt);
+        instance.handleSave(evt);
         expect(props.onSetDefault).toHaveBeenCalledTimes(1);
     });
 
@@ -145,9 +152,10 @@ describe('components/SettingItemMin', () => {
             <SettingPicture {...props}/>,
         );
         wrapper.setState({removeSrc: false});
-        const evt = {preventDefault: jest.fn()};
 
-        wrapper.instance().handleSave(evt);
+        const instance = wrapper.instance() as SettingPicture;
+        const evt = {preventDefault: jest.fn()} as unknown as React.MouseEvent;
+        instance.handleSave(evt);
         expect(props.onSubmit).toHaveBeenCalledTimes(1);
 
         wrapper.update();
@@ -160,8 +168,9 @@ describe('components/SettingItemMin', () => {
             <SettingPicture {...props}/>,
         );
         wrapper.setState({removeSrc: false});
-        const evt = {preventDefault: jest.fn()};
-        wrapper.instance().handleRemoveSrc(evt);
+        const instance = wrapper.instance() as SettingPicture;
+        const evt = {preventDefault: jest.fn()} as unknown as React.MouseEvent;
+        instance.handleRemoveSrc(evt);
         wrapper.update();
         expect(wrapper.state('removeSrc')).toEqual(true);
     });
@@ -172,9 +181,10 @@ describe('components/SettingItemMin', () => {
             <SettingPicture {...props}/>,
         );
         wrapper.setState({removeSrc: true});
-        const evt = {preventDefault: jest.fn()};
+        const instance = wrapper.instance() as SettingPicture;
+        const evt = {preventDefault: jest.fn()} as unknown as React.ChangeEvent<HTMLInputElement>;
 
-        wrapper.instance().handleFileChange(evt);
+        instance.handleFileChange(evt);
         expect(props.onFileChange).toHaveBeenCalledTimes(1);
         expect(props.onFileChange).toHaveBeenCalledWith(evt);
 
