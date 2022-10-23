@@ -3,6 +3,10 @@
 
 /* eslint-disable camelcase, no-console */
 
+const fs = require('fs');
+
+const path = require('path');
+
 const express = require('express');
 const axios = require('axios');
 var ClientOAuth2 = require('client-oauth2');
@@ -34,6 +38,14 @@ server.post('/send_oauth_credentials', postSendOauthCredentials);
 server.get('/start_oauth', getStartOAuth);
 server.get('/complete_oauth', getCompleteOauth);
 server.post('/post_oauth_message', postOAuthMessage);
+const webhookIcon = 'webhook_override_icon.png';
+server.get('/' + webhookIcon, (req, res) => {
+    res.writeHead(200, {'Content-Type': 'image/png'});
+    fs.readFile(path.join(__dirname, 'tests/fixtures/' + webhookIcon),
+        (err, content) => {
+            res.end(content);
+        });
+});
 
 server.listen(port, () => console.log(`Webhook test server listening on port ${port}!`));
 
@@ -56,6 +68,7 @@ function ping(req, res) {
             'GET /start_oauth',
             'GET /complete_oauth',
             'POST /post_oauth_message',
+            'GET /' + webhookIcon,
         ],
     });
 }
@@ -307,3 +320,4 @@ function postOutgoingWebhook(req, res) {
     };
     res.status(200).send(response);
 }
+
