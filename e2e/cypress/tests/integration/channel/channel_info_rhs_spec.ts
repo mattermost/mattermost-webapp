@@ -102,6 +102,8 @@ describe('Channel Info RHS', () => {
         // # ...and leave it
         cy.get('.backstage-navbar__back').click();
 
+        cy.get('#channel-info-btn').click();
+
         // * RHS Container shoud exist again
         ensureRHSIsOpenOnChannelInfo(testChannel);
     });
