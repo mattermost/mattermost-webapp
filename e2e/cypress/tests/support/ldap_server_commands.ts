@@ -1,9 +1,9 @@
-import { ChainableT } from 'tests/types';
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ChainableT} from 'tests/types';
+
 import {getRandomId} from '../utils';
-import { User } from './ui_commands';
 
 const ldapTmpFolder = 'ldap_tmp';
 
@@ -155,20 +155,20 @@ declare global {
              * @param {LDAPUserArg} user
              * @returns ChainableT<any>
              */
-             createLDAPUser({prefix: string, user: LDAPUserArg}): ChainableT<any>;
+            createLDAPUser({prefix: string, user: LDAPUserArg}): ChainableT<any>;
 
             /**
              * update LDAP users
              * @param {LDAPUserArg} user
              * @returns ChainableT<any>
              */
-             updateLDAPUser(user: LDAPUserArg): ChainableT<any>;
+            updateLDAPUser(user: LDAPUserArg): ChainableT<any>;
 
             /**
              * add LDAP users
              * @returns Chainable
              */
-             addLDAPUsers(): Chainable;
+            addLDAPUsers(): Chainable;
         }
     }
 }
