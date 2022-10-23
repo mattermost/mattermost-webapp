@@ -28,7 +28,7 @@ describe('components/SettingItemMin', () => {
         onFileChange: () => {}, // eslint-disable-line no-empty-function
         updateSection: () => {}, // eslint-disable-line no-empty-function
         maxFileSize: 209715200,
-        helpText: {helpText},
+        helpText,
     };
 
     // const mockFile = {type: 'image/jpeg', size: 1024};
