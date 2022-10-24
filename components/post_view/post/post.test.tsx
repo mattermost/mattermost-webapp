@@ -223,4 +223,19 @@ describe('Post', () => {
 
         expect(wrapper.find(ThreadFooter).exists()).toBe(false);
     });
+
+    test('should not display as comment when post is a broadcasted thread reply with CRT enabled', () => {
+        const props = {
+            ...baseProps,
+            isCollapsedThreadsEnabled: true,
+            post: {id: 'post1', root_id: 'root_id_post1', is_pinned: false, props: {broadcasted_thread_reply: true}} as unknown as UserActivityPost,
+        };
+
+        const wrapper = shallow(
+            <Post {...props}/>,
+        );
+
+        expect(wrapper.find(PostAriaLabelDiv).hasClass('post--comment')).toBe(false);
+        expect(wrapper).toMatchSnapshot();
+    });
 });
