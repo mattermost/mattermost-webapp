@@ -2,19 +2,19 @@
 .ViewThreadButton {
     position: relative;
     padding: 5px 10px;
+    border: none;
+    margin-top: 5px;
+    margin-left: -10px;
+    background: transparent;
     border-radius: 4px;
     color: rgba(var(--button-bg-rgb));
     font-family: Open Sans;
     font-style: normal;
     font-weight: 600;
-    border: none;
-    background: transparent;
-    margin-top: 5px;
-    margin-left: -10px;
 
     &:hover {
-        text-decoration: none;
         background: rgba(var(--button-bg-rgb), 0.08);
+        text-decoration: none;
     }
 
     &:disabled {
@@ -34,10 +34,9 @@
     }
 
     .ViewThreadButton_prepended {
-        margin-right: 0.25em;
         display: inline-block;
+        margin-right: 0.25em;
         vertical-align: middle;
-
     }
 
     .ViewThreadButton_icon {
