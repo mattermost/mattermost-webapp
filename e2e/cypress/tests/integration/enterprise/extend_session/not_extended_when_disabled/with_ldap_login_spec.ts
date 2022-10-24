@@ -10,8 +10,6 @@
 // Stage: @prod
 // Group: @enterprise @not_cloud @extend_session @ldap
 
-import ldapUsers from '../../../../fixtures/ldap_users.json';
-
 import {verifyExtendedSession, verifyNotExtendedSession} from './helpers';
 
 describe('Extended Session Length', () => {
@@ -19,6 +17,7 @@ describe('Extended Session Length', () => {
     const setting = {
         ServiceSettings: {
             SessionLengthWebInHours: sessionLengthInHours,
+            ExtendSessionLengthWithActivity: false,
         },
     };
     let testLdapUser;
@@ -31,8 +30,7 @@ describe('Extended Session Length', () => {
         // * Server database should match with the DB client and config at "cypress.json"
         cy.apiRequireServerDBToMatch();
 
-        const ldapUser = ldapUsers['test-1'];
-        cy.apiSyncLDAPUser({ldapUser}).then((user) => {
+        cy.apiSyncLDAPUser().then((user) => {
             testLdapUser = user;
         });
 

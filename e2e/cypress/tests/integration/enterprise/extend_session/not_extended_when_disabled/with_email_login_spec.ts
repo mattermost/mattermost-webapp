@@ -17,6 +17,7 @@ describe('Extended Session Length', () => {
     const setting = {
         ServiceSettings: {
             SessionLengthWebInHours: sessionLengthInHours,
+            ExtendSessionLengthWithActivity: false,
         },
     };
     let emailUser;
