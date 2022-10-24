@@ -13,6 +13,7 @@ describe('components/post_view/CommentedOn', () => {
     const baseProps = {
         displayName: 'user_displayName',
         enablePostUsernameOverride: false,
+        isBroadcastReply: false,
         onCommentClick: jest.fn(),
         post: {
             id: 'post_id',
@@ -180,5 +181,18 @@ describe('components/post_view/CommentedOn', () => {
     test('Should trigger search with override_username', () => {
         const wrapper = shallow(<CommentedOn {...baseProps}/>);
         wrapper.setProps({enablePostUsernameOverride: true});
+    });
+
+    describe('broadcasted thread replies', () => {
+        test('should match snapshots when post is a broadcasted thread reply', () => {
+            const props = {
+                ...baseProps,
+                isBroadcastThreadReply: true,
+            };
+
+            const wrapper = shallow(<CommentedOn {...props}/>);
+
+            expect(wrapper).toMatchSnapshot();
+        });
     });
 });
