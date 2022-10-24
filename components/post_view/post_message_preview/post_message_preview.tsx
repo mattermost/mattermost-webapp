@@ -9,8 +9,6 @@ import classNames from 'classnames';
 
 import {useDispatch} from 'react-redux';
 
-import {MessageTextOutlineIcon} from '@mattermost/compass-icons/components';
-
 import ViewThreadButton from 'components/threading/common/view_thread_button';
 
 import UserProfileComponent from 'components/user_profile';
@@ -119,7 +117,7 @@ const PostMessagePreview = (props: Props) => {
         return null;
     }
 
-    const hasNewReplies = lastReplyAt && lastReplyAt > previewPost.create_at;
+    const hasNewReplies = lastReplyAt ? lastReplyAt > previewPost.create_at : false;
     const isBot = Boolean(user && user.is_bot);
     const isSystemMessage = PostUtils.isSystemMessage(previewPost);
     const fromWebhook = PostUtils.isFromWebhook(previewPost);
@@ -267,18 +265,9 @@ const PostMessagePreview = (props: Props) => {
                 {reactionPreview || previewFooter}
                 {previewPost.props?.broadcasted_thread_reply && !isPermalink &&
                     <ViewThreadButton
+                        hasNewReplies={hasNewReplies}
                         onClick={viewThread}
-                        prepend={
-                            <div className='ViewThreadButton_icon'>
-                                <MessageTextOutlineIcon size={18}/>
-                            </div>
-                        }
-                    >
-                        <FormattedMessage
-                            id={hasNewReplies ? 'post_message_preview.view_newer_replies_button' : 'post_message_preview.view_thread_button'}
-                            defaultMessage={hasNewReplies ? 'View newer replies' : 'View Thread'}
-                        />
-                    </ViewThreadButton>
+                    />
                 }
             </div>
         </PostAttachmentContainer>
