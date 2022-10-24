@@ -61,7 +61,7 @@ function makeMapStateToProps(initialState: GlobalState, initialProps: OwnProps) 
             profilesInCurrentChannel = getProfilesInCurrentChannel(state) as UserProfileValue[];
             profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state) as UserProfileValue[];
         }
-        const profilesFromRecentDMs = getRecentProfilesFromDMs(state) as UserProfileValue[];
+        const profilesFromRecentDMs = getRecentProfilesFromDMs(state);
         const config = getConfig(state);
         const license = getLicense(state);
 

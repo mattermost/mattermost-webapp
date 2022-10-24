@@ -1385,9 +1385,9 @@ export const getRecentProfilesFromDMs: (state: GlobalState) => UserProfile[] = c
         if (!allChannels || !users) {
             return [];
         }
-        const recentChannelIds = Object.entries(memberships).sort(([, aMembership], [, bMembership]) => {
+        const recentChannelIds = Object.values(memberships).sort((aMembership, bMembership) => {
             return bMembership.last_viewed_at - aMembership.last_viewed_at;
-        }).map(([cId]) => cId);
+        }).map((membership) => membership.channel_id);
         const groupChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.GM_CHANNEL);
         const dmChannels = Object.values(allChannels).filter((channel: Channel) => channel.type === General.DM_CHANNEL);
 
@@ -1395,12 +1395,10 @@ export const getRecentProfilesFromDMs: (state: GlobalState) => UserProfile[] = c
 
         dmChannels.forEach((channel) => {
             if (channel.name) {
-                const members = channel.name.split('__');
-                if (members.length === 2) {
-                    const userProfile = Object.values(users).find(((user) => user.id === members.find((uid) => uid !== currentUser.id)));
-                    if (userProfile) {
-                        userProfilesByChannel[channel.id] = [userProfile];
-                    }
+                const otherUserId = getUserIdFromChannelName(currentUser.id, channel.name);
+                const userProfile = users[otherUserId];
+                if (userProfile) {
+                    userProfilesByChannel[channel.id] = [userProfile];
                 }
             }
         });
@@ -1410,23 +1408,16 @@ export const getRecentProfilesFromDMs: (state: GlobalState) => UserProfile[] = c
                 const memberUsernames = channel.display_name.split(',').map((username) => username.trim()).filter((username) => username !== currentUser.username);
                 const memberProfiles = Object.values(users).filter((profile) => {
                     return memberUsernames.includes(profile.username);
-                }).sort((a, b) => {
-                    if (a.username > b.username) {
-                        return 1;
-                    } else if (b.username > a.username) {
-                        return -1;
-                    }
-                    return 0;
                 });
                 userProfilesByChannel[channel.id] = memberProfiles;
             }
         });
-        const sortedUserProfiles: UserProfile[] = [];
+        const sortedUserProfiles: Set<UserProfile> = new Set<UserProfile>();
         recentChannelIds.forEach((cid: string) => {
             if (userProfilesByChannel[cid]) {
-                sortedUserProfiles.push(...userProfilesByChannel[cid]);
+                userProfilesByChannel[cid].forEach((user) => sortedUserProfiles.add(user));
             }
         });
-        return sortedUserProfiles.filter((user, index, profiles) => profiles.indexOf(user) === index);
+        return [...sortedUserProfiles];
     },
 );
