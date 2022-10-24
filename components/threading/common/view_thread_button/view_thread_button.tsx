@@ -4,9 +4,11 @@
 import React, {memo, ButtonHTMLAttributes} from 'react';
 import classNames from 'classnames';
 
-import {FormattedMessage} from 'react-intl';
+import {useIntl} from 'react-intl';
 
 import {MessageTextOutlineIcon} from '@mattermost/compass-icons/components';
+
+import {t} from 'utils/i18n';
 
 import './view_thread_button.scss';
 
@@ -20,6 +22,7 @@ function ViewThreadButton({
     hasNewReplies,
     ...attrs
 }: Props & Attrs) {
+    const {formatMessage} = useIntl();
     return (
         <button
             {...attrs}
@@ -32,10 +35,13 @@ function ViewThreadButton({
                 </div>
             </span>
             <span className='ViewThreadButton_label'>
-                <FormattedMessage
-                    id={hasNewReplies ? 'post_message_preview.view_newer_replies_button' : 'post_message_preview.view_thread_button'}
-                    defaultMessage={hasNewReplies ? 'View newer replies' : 'View thread'}
-                />
+                {formatMessage(hasNewReplies ? {
+                    id: t('post_message_preview.view_newer_replies_button'),
+                    defaultMessage: 'View newer replies',
+                } : {
+                    id: t('post_message_preview.view_thread_button'),
+                    defaultMessage: 'View thread',
+                })}
             </span>
         </button>
     );
