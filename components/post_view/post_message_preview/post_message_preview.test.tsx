@@ -5,11 +5,15 @@ import {shallow} from 'enzyme';
 
 import React from 'react';
 
+import {Provider} from 'react-redux';
+
 import {ChannelType} from '@mattermost/types/channels';
 import {Post, PostEmbed} from '@mattermost/types/posts';
 import {UserProfile} from '@mattermost/types/users';
 
 import {General} from 'mattermost-redux/constants';
+
+import mockStore from 'tests/test_store';
 
 import PostMessagePreview, {Props} from './post_message_preview';
 
@@ -17,6 +21,22 @@ describe('PostMessagePreview', () => {
     const previewPost = {
         id: 'post_id',
         message: 'post message',
+        metadata: {},
+    } as Post;
+
+    const broadcastedPost = {
+        id: 'broadcasted_post_id',
+        message: 'broadcasted post message',
+        metadata: {},
+        props: {
+            broadcasted_thread_reply: true,
+        },
+        create_at: 1000,
+    } as unknown as Post;
+
+    const parentPost = {
+        id: 'parent_post_id',
+        message: 'parent post message',
         metadata: {},
     } as Post;
 
@@ -41,6 +61,8 @@ describe('PostMessagePreview', () => {
         compactDisplay: false,
         currentTeamUrl: 'team1',
         channelDisplayName: 'channel name',
+        isPermalink: true,
+        lastReplyAt: 0,
         handleFileDropdownOpened: jest.fn(),
         actions: {
             toggleEmbedVisibility: jest.fn(),
@@ -48,24 +70,86 @@ describe('PostMessagePreview', () => {
         isPostPriorityEnabled: false,
     };
 
-    test('should render correctly', () => {
-        const wrapper = shallow(<PostMessagePreview {...baseProps}/>);
+    const initialState = {
+        entities: {
+            teams: {
+                currentTeamId: 'team_id1',
+                teams: {
+                    team_id1: {
+                        id: 'team_id1',
+                        name: 'team1',
+                    },
+                },
+            },
+            channels: {
+                channels: {
+                    channel1: {
+                        id: 'channel1',
+                        team_id: 'team_id1',
+                        name: 'channel1',
+                    },
+                },
+                myMembers: {},
+            },
+            general: {
+                config: {},
+            },
+            users: {
+                currentUserId: 'current_user_id',
+                profiles: {
+                    current_user_id: {
+                        id: 'current_user_id',
+                    },
+                    user1: {
+                        id: 'user1',
+                    },
+                },
+            },
+            preferences: {
+                myPreferences: {},
+            },
+            groups: {
+                groups: {},
+                myGroups: [],
+            },
+            emojis: {
+                customEmoji: {},
+            },
+        },
+    };
 
-        expect(wrapper).toMatchSnapshot();
-    });
+    test('should render correctly', async () => {
+        const store = await mockStore(initialState);
 
-    test('should render without preview', () => {
         const wrapper = shallow(
-            <PostMessagePreview
-                {...baseProps}
-                previewPost={undefined}
-            />,
+            <Provider store={store}>
+                <PostMessagePreview
+                    {...baseProps}
+                />
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not render bot icon', () => {
+    test('should render without preview', async () => {
+        const store = await mockStore(initialState);
+
+        const wrapper = shallow(
+            <Provider store={store}>
+                <PostMessagePreview
+                    {...baseProps}
+                    previewPost={undefined}
+                />
+            </Provider>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not render bot icon', async () => {
+        const store = await mockStore(initialState);
+
         const postProps = {
             override_icon_url: 'https://fakeicon.com/image.jpg',
             use_user_icon: 'false',
@@ -81,16 +165,21 @@ describe('PostMessagePreview', () => {
             ...baseProps,
             previewPost: postPreview,
         };
+
         const wrapper = shallow(
-            <PostMessagePreview
-                {...props}
-            />,
+            <Provider store={store}>
+                <PostMessagePreview
+                    {...props}
+                />
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should render bot icon', () => {
+    test('should render bot icon', async () => {
+        const store = await mockStore(initialState);
+
         const postProps = {
             override_icon_url: 'https://fakeicon.com/image.jpg',
             use_user_icon: false,
@@ -108,9 +197,11 @@ describe('PostMessagePreview', () => {
             enablePostIconOverride: true,
         };
         const wrapper = shallow(
-            <PostMessagePreview
-                {...props}
-            />,
+            <Provider store={store}>
+                <PostMessagePreview
+                    {...props}
+                />
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -129,7 +220,9 @@ describe('PostMessagePreview', () => {
             url: 'https://example.com',
         } as PostEmbed;
 
-        test('should render opengraph preview', () => {
+        test('should render opengraph preview', async () => {
+            const store = await mockStore(initialState);
+
             const postPreview = {
                 ...previewPost,
                 metadata: {
@@ -142,12 +235,20 @@ describe('PostMessagePreview', () => {
                 previewPost: postPreview,
             };
 
-            const wrapper = shallow(<PostMessagePreview {...props}/>);
+            const wrapper = shallow(
+                <Provider store={store}>
+                    <PostMessagePreview
+                        {...props}
+                    />
+                </Provider>,
+            );
 
             expect(wrapper).toMatchSnapshot();
         });
 
-        test('should render file preview', () => {
+        test('should render file preview', async () => {
+            const store = await mockStore(initialState);
+
             const postPreview = {
                 ...previewPost,
                 ...files,
@@ -158,7 +259,13 @@ describe('PostMessagePreview', () => {
                 previewPost: postPreview,
             };
 
-            const wrapper = shallow(<PostMessagePreview {...props}/>);
+            const wrapper = shallow(
+                <Provider store={store}>
+                    <PostMessagePreview
+                        {...props}
+                    />
+                </Provider>,
+            );
 
             expect(wrapper).toMatchSnapshot();
         });
@@ -167,7 +274,9 @@ describe('PostMessagePreview', () => {
     describe('direct and group messages', () => {
         const channelTypes = [General.DM_CHANNEL, General.GM_CHANNEL] as ChannelType[];
 
-        test.each(channelTypes)('should render preview for %s message', (type) => {
+        test.each(channelTypes)('should render preview for %s message', async (type) => {
+            const store = await mockStore(initialState);
+
             const metadata = {
                 ...baseProps.metadata,
                 team_name: '',
@@ -181,9 +290,34 @@ describe('PostMessagePreview', () => {
             };
 
             const wrapper = shallow(
-                <PostMessagePreview
-                    {...props}
-                />,
+                <Provider store={store}>
+                    <PostMessagePreview
+                        {...props}
+                    />
+                </Provider>,
+            );
+
+            expect(wrapper).toMatchSnapshot();
+        });
+    });
+
+    describe('broadcasted thread replies', () => {
+        test('should render broadcasted thread reply correctly', async () => {
+            const store = await mockStore(initialState);
+
+            const props = {
+                ...baseProps,
+                parentPost,
+                previewPost: broadcastedPost,
+                isPermalink: false,
+            };
+
+            const wrapper = shallow(
+                <Provider store={store}>
+                    <PostMessagePreview
+                        {...props}
+                    />
+                </Provider>,
             );
 
             expect(wrapper).toMatchSnapshot();

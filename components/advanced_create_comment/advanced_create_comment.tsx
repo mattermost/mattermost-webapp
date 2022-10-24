@@ -513,17 +513,17 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             useLDAPGroupMentions,
             useCustomGroupMentions,
         } = this.props;
+        const draft = this.state.draft!;
         const notificationsToChannel = enableConfirmNotificationsToChannel && useChannelMentions;
         let memberNotifyCount = 0;
         let channelTimezoneCount = 0;
         let mentions: string[] = [];
 
-        let draft = this.state.draft!;
         const specialMentions = specialMentionsInText(draft.message);
         const hasSpecialMentions = Object.values(specialMentions).includes(true);
 
         if (this.state.isBroadcastThreadReply) {
-            draft = {
+            const updatedDraft = {
                 ...draft,
                 props: {
                     ...draft.props,
@@ -532,6 +532,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             };
 
             this.props.onUpdateCommentDraft(draft);
+            this.setState({draft: updatedDraft});
         }
 
         if (enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
@@ -558,9 +559,16 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         if (!useLDAPGroupMentions && !useCustomGroupMentions && mentions.length > 0) {
-            draft.props.disable_group_highlight = true;
+            const updatedDraft = {
+                ...draft,
+                props: {
+                    ...draft.props,
+                    disable_group_highlight: true,
+                },
+            };
 
-            this.props.onUpdateCommentDraft(draft);
+            this.props.onUpdateCommentDraft(updatedDraft);
+            this.setState({draft: updatedDraft});
         }
 
         if (notificationsToChannel &&
@@ -580,19 +588,24 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         if (!useChannelMentions && hasSpecialMentions) {
-            draft.props.mentionHighlightDisabled = true;
+            const updatedDraft = {
+                ...draft,
+                props: {
+                    ...draft.props,
+                    mentionHighlightDisabled: true,
+                },
+            };
 
-            this.props.onUpdateCommentDraft(draft);
+            this.props.onUpdateCommentDraft(updatedDraft);
+            this.setState({draft: updatedDraft});
         }
 
-        this.setState({draft}, async () => {
-            if (memberNotifyCount > 0) {
-                this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
-                return;
-            }
+        if (memberNotifyCount > 0) {
+            this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
+            return;
+        }
 
-            await this.doSubmit(e);
-        });
+        await this.doSubmit(e);
     }
 
     doSubmit = async (e?: React.FormEvent) => {

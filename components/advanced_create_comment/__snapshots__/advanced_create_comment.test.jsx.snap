@@ -51,7 +51,7 @@ exports[`components/AdvancedCreateComment should match snapshot when cannot post
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isBroadcastThreadReply={false}
-    isCRTEnabled={false}
+    isCRTEnabled={true}
     isFormattingBarHidden={false}
     location="RHS_COMMENT"
     maxPostSize={4000}
@@ -121,7 +121,7 @@ exports[`components/AdvancedCreateComment should match snapshot, comment with me
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isBroadcastThreadReply={false}
-    isCRTEnabled={false}
+    isCRTEnabled={true}
     isFormattingBarHidden={false}
     location="RHS_COMMENT"
     maxPostSize={4000}
@@ -198,7 +198,7 @@ exports[`components/AdvancedCreateComment should match snapshot, emoji picker di
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isBroadcastThreadReply={false}
-    isCRTEnabled={false}
+    isCRTEnabled={true}
     isFormattingBarHidden={false}
     location="RHS_COMMENT"
     maxPostSize={4000}
@@ -268,7 +268,7 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isBroadcastThreadReply={false}
-    isCRTEnabled={false}
+    isCRTEnabled={true}
     isFormattingBarHidden={false}
     location="RHS_COMMENT"
     maxPostSize={4000}
@@ -345,7 +345,7 @@ exports[`components/AdvancedCreateComment should match snapshot, non-empty messa
     handleUploadStart={[Function]}
     hideEmojiPicker={[Function]}
     isBroadcastThreadReply={false}
-    isCRTEnabled={false}
+    isCRTEnabled={true}
     isFormattingBarHidden={false}
     location="RHS_COMMENT"
     maxPostSize={4000}

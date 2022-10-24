@@ -16,6 +16,7 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 import {getPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 
 import {isEmbedVisible} from 'selectors/posts';
 
@@ -24,8 +25,6 @@ import {toggleEmbedVisibility} from 'actions/post_actions';
 import {Preferences} from 'utils/constants';
 
 import {General} from 'mattermost-redux/constants';
-
-import {makeGetThreadOrSynthetic} from 'mattermost-redux/selectors/entities/threads';
 
 import PostMessagePreview from './post_message_preview';
 

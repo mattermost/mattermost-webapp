@@ -71,7 +71,7 @@ describe('components/AdvancedCreateComment', () => {
         useLDAPGroupMentions: true,
         useCustomGroupMentions: true,
         openModal: jest.fn(),
-        isCRTEnabled: false,
+        isCRTEnabled: true,
     };
 
     const emptyDraft = {
@@ -1031,6 +1031,52 @@ describe('components/AdvancedCreateComment', () => {
             wrapper.instance().handleSubmit({preventDefault});
             expect(onSubmit).toHaveBeenCalled();
             expect(wrapper.state('draft').props).toBe(undefined);
+        });
+
+        describe('broadcast thread replies', () => {
+            it('should set broadcasted_thread_reply when user has enabled broadcast thread replies for the comment', async () => {
+                const props = {
+                    ...baseProps,
+                    draft: {
+                        message: 'Test message',
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                };
+
+                const wrapper = shallow(
+                    <AdvancedCreateComment {...props}/>,
+                );
+
+                wrapper.setState({isBroadcastThreadReply: true});
+
+                wrapper.instance().handleSubmit({preventDefault});
+                expect(onSubmit).toHaveBeenCalled();
+                expect(wrapper.state('draft').props).toHaveProperty('broadcasted_thread_reply', true);
+            });
+
+            it('should not set broadcasted_thread_reply when user has enabled broadcast thread replies for the comment', async () => {
+                const props = {
+                    ...baseProps,
+                    draft: {
+                        message: 'Test message',
+                        uploadsInProgress: [],
+                        fileInfos: [{}, {}, {}],
+                    },
+                    onSubmit,
+                };
+
+                const wrapper = shallow(
+                    <AdvancedCreateComment {...props}/>,
+                );
+
+                wrapper.setState({isBroadcastThreadReply: false});
+
+                wrapper.instance().handleSubmit({preventDefault});
+                expect(onSubmit).toHaveBeenCalled();
+                expect(wrapper.state('draft').props).toBe(undefined);
+            });
         });
     });
 
