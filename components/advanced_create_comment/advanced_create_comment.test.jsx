@@ -492,6 +492,7 @@ describe('components/AdvancedCreateComment', () => {
 
         const draft = {
             message: '/fakecommand other text',
+            props: {},
             uploadsInProgress: [1, 2, 3],
             fileInfos: [{}, {}, {}],
         };
@@ -505,6 +506,7 @@ describe('components/AdvancedCreateComment', () => {
 
         expect(onSubmit).toHaveBeenCalledWith({
             message: '/fakecommand other text',
+            props: {},
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
         }, {ignoreSlash: false});
@@ -517,6 +519,7 @@ describe('components/AdvancedCreateComment', () => {
 
         expect(onSubmit).toHaveBeenCalledWith({
             message: 'some valid text',
+            props: {},
             uploadsInProgress: [],
             fileInfos: [{}, {}, {}],
         }, {ignoreSlash: false});
@@ -911,6 +914,7 @@ describe('components/AdvancedCreateComment', () => {
                 ...baseProps,
                 draft: {
                     message: '/fakecommand other text',
+                    props: {},
                     uploadsInProgress: [],
                     fileInfos: [{}, {}, {}],
                 },
@@ -925,6 +929,7 @@ describe('components/AdvancedCreateComment', () => {
 
             expect(onSubmitWithError).toHaveBeenCalledWith({
                 message: '/fakecommand other text',
+                props: {},
                 uploadsInProgress: [],
                 fileInfos: [{}, {}, {}],
             }, {ignoreSlash: false});
@@ -935,6 +940,7 @@ describe('components/AdvancedCreateComment', () => {
 
             expect(onSubmit).toHaveBeenCalledWith({
                 message: '/fakecommand other text',
+                props: {},
                 uploadsInProgress: [],
                 fileInfos: [{}, {}, {}],
             }, {ignoreSlash: true});
@@ -950,6 +956,7 @@ describe('components/AdvancedCreateComment', () => {
                 ...baseProps,
                 draft: {
                     message: '/fakecommand other text',
+                    props: {},
                     uploadsInProgress: [],
                     fileInfos: [{}, {}, {}],
                 },
@@ -996,6 +1003,7 @@ describe('components/AdvancedCreateComment', () => {
                     enableConfirmNotificationsToChannel: false,
                     draft: {
                         message: `Test message @${mention}`,
+                        props: {},
                         uploadsInProgress: [],
                         fileInfos: [{}, {}, {}],
                     },
@@ -1008,7 +1016,7 @@ describe('components/AdvancedCreateComment', () => {
 
                 wrapper.instance().handleSubmit({preventDefault});
                 expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props).toBe(undefined);
+                expect(wrapper.state('draft').props).toStrictEqual({});
             });
         });
 
@@ -1018,6 +1026,7 @@ describe('components/AdvancedCreateComment', () => {
                 useChannelMentions: false,
                 draft: {
                     message: 'Test message',
+                    props: {},
                     uploadsInProgress: [],
                     fileInfos: [{}, {}, {}],
                 },
@@ -1030,7 +1039,7 @@ describe('components/AdvancedCreateComment', () => {
 
             wrapper.instance().handleSubmit({preventDefault});
             expect(onSubmit).toHaveBeenCalled();
-            expect(wrapper.state('draft').props).toBe(undefined);
+            expect(wrapper.state('draft').props).toStrictEqual({});
         });
 
         describe('broadcast thread replies', () => {
@@ -1039,6 +1048,7 @@ describe('components/AdvancedCreateComment', () => {
                     ...baseProps,
                     draft: {
                         message: 'Test message',
+                        props: {},
                         uploadsInProgress: [],
                         fileInfos: [{}, {}, {}],
                     },
@@ -1075,7 +1085,7 @@ describe('components/AdvancedCreateComment', () => {
 
                 wrapper.instance().handleSubmit({preventDefault});
                 expect(onSubmit).toHaveBeenCalled();
-                expect(wrapper.state('draft').props).toBe(undefined);
+                expect(wrapper.state('draft').props).toStrictEqual({});
             });
         });
     });

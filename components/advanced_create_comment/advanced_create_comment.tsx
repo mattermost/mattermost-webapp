@@ -522,6 +522,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const specialMentions = specialMentionsInText(draft.message);
         const hasSpecialMentions = Object.values(specialMentions).includes(true);
 
+        const postProps: any = {};
+
         if (this.state.isBroadcastThreadReply) {
             const updatedDraft = {
                 ...draft,
@@ -531,8 +533,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                 },
             };
 
-            this.props.onUpdateCommentDraft(draft);
-            this.setState({draft: updatedDraft});
+            this.props.onUpdateCommentDraft(updatedDraft);
+            postProps.broadcasted_thread_reply = true;
         }
 
         if (enableConfirmNotificationsToChannel && !hasSpecialMentions && (useLDAPGroupMentions || useCustomGroupMentions)) {
@@ -568,7 +570,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             };
 
             this.props.onUpdateCommentDraft(updatedDraft);
-            this.setState({draft: updatedDraft});
+            postProps.disable_group_highlight = true;
         }
 
         if (notificationsToChannel &&
@@ -597,15 +599,25 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             };
 
             this.props.onUpdateCommentDraft(updatedDraft);
-            this.setState({draft: updatedDraft});
+            postProps.mentionHighlightDisabled = true;
         }
 
-        if (memberNotifyCount > 0) {
-            this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
-            return;
-        }
+        const finalDraft = {
+            ...draft,
+            props: {
+                ...draft.props,
+                ...postProps,
+            },
+        };
 
-        await this.doSubmit(e);
+        this.setState({draft: finalDraft}, async () => {
+            if (memberNotifyCount > 0) {
+                this.showNotifyAllModal(mentions, channelTimezoneCount, memberNotifyCount);
+                return;
+            }
+
+            await this.doSubmit(e);
+        });
     }
 
     doSubmit = async (e?: React.FormEvent) => {
