@@ -30,6 +30,29 @@
                 .people-search-input {
                     width: 300px;
                 }
+
+                .Input_container {
+                    width: auto;
+                }
+                .FilterList {
+                    padding-left: 24px;
+
+                    .TeamFilterDropdown {
+                        .TeamFilterDropdownButton {
+                            border: none;
+                            color: rgba(var(--center-channel-color-rgb), 0.64);
+    
+                            &:hover {
+                                border: none;
+                            }
+    
+                            .TeamFilterDropdownButton_icon {
+                                border-left: none;
+                            }
+                        }
+                    }
+                }
+                
             }
         }
 

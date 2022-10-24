@@ -20,6 +20,8 @@ import Input from 'components/widgets/inputs/input/input';
 import PeopleList from './people_list';
 
 import './directory.scss';
+import TeamFilterDropdown from 'components/admin_console/filter/team_filter_dropdown';
+import { FilterValues } from 'components/admin_console/filter/filter';
 
 const Directory = () => {
     const dispatch = useDispatch();
@@ -81,6 +83,19 @@ const Directory = () => {
         setIsNextPageLoading(false);
     }, Constants.SEARCH_TIMEOUT_MILLISECONDS, false, () => {});
 
+    const updateValues = async (values: FilterValues, optionKey: string) => {
+        const options = {
+            ...this.state.options,
+            [optionKey]: {
+                ...this.state.options[optionKey],
+                values: {
+                    ...values,
+                },
+            },
+        };
+        // this.setState({options, optionsModified: true});
+    }
+
     return (
         <div className='people-directory'>
             <header className={classNames('header directory-header')}>
@@ -102,6 +117,25 @@ const Directory = () => {
                         data-testid='searchInput'
                         className={'people-search-input'}
                         inputPrefix={<i className={'icon icon-magnify'}/>}
+                    />
+                    <TeamFilterDropdown
+                        option={{
+                            name: '',
+                            values: {
+                                team_ids: {
+                                    name: (
+                                        <FormattedMessage
+                                            id='admin.team_settings.title'
+                                            defaultMessage='Teams'
+                                        />
+                                    ),
+                                    value: [],
+                                },
+                            },
+                            keys: ['team_ids'],
+                        }}
+                        optionKey='team'
+                        updateValues={updateValues}
                     />
                 </div>
             </header>
