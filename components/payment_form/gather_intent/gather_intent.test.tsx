@@ -120,7 +120,7 @@ describe('components/gather_intent/gather_intent.tsx', () => {
         const newState = JSON.parse(JSON.stringify(initialState));
         newState.entities.cloud.customer = {
             ...newState.entities.cloud.customer,
-            monthly_subscription_intent_wire_transfer: 'Dummy feedback',
+            monthly_subscription_alt_payment_method: 'Dummy feedback',
         };
 
         renderComponent({

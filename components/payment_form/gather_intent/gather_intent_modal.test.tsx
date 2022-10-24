@@ -6,6 +6,7 @@ import {fireEvent, screen} from '@testing-library/react';
 import React from 'react';
 
 import {renderWithIntl} from 'tests/react_testing_utils';
+import {withIntl} from 'tests/helpers/intl-test-helper';
 
 import {GatherIntentModal, GatherIntentModalProps} from './gather_intent_modal';
 
@@ -81,13 +82,5 @@ describe('components/gather_intent/gather_intent_modal.tsx', () => {
         fireEvent.change(screen.getByPlaceholderText('Enter payment option here'), {target: {value: 'Test'}});
 
         expect(screen.queryByText('Save')).not.toBeDisabled();
-    });
-
-    it('should be able see the error mesasge if the server couldn\'t save the feedback', () => {
-        renderComponent({
-            showError: true,
-        });
-
-        expect(screen.getByText('Sorry, there was an error sending feedback. Please try again.')).toBeInTheDocument();
     });
 });
