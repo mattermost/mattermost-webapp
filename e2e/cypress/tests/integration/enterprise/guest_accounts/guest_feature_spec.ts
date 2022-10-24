@@ -15,12 +15,12 @@
  */
 
 describe('Guest Accounts', () => {
-    let guestUser;
+    let guestUser: Cypress.UserProfile;
 
     before(() => {
         cy.apiRequireLicenseForFeature('GuestAccounts');
 
-        cy.apiCreateGuestUser().then(({guest}) => {
+        cy.apiCreateGuestUser({}).then(({guest}) => {
             guestUser = guest;
         });
     });
@@ -35,7 +35,7 @@ describe('Guest Accounts', () => {
         // # Click "Save".
         cy.get('#saveSetting').then((btn) => {
             if (btn.is(':enabled')) {
-                btn.on('click');
+                btn.on('click', () => {});
 
                 cy.waitUntil(() => cy.get('#saveSetting').then((el) => {
                     return el[0].innerText === 'Save';

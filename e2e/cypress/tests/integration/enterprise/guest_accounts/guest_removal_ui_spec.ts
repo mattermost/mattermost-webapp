@@ -13,6 +13,7 @@
 /**
  * Note: This test requires Enterprise license to be uploaded
  */
+
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 function removeUserFromAllChannels(verifyAlert, user) {
@@ -38,9 +39,9 @@ function removeUserFromAllChannels(verifyAlert, user) {
 }
 
 describe('Guest Account - Guest User Removal Experience', () => {
-    let team1;
-    let team2;
-    let guest;
+    let team1: Cypress.Team;
+    let team2: Cypress.Team;
+    let guest: Cypress.UserProfile;
 
     before(() => {
         // * Check if server has license for Guest Accounts
@@ -50,10 +51,10 @@ describe('Guest Account - Guest User Removal Experience', () => {
             team1 = team;
 
             // # Create new team and visit its URL
-            cy.apiCreateTeam('test-team2', 'Test Team2').then(({team: teamTwo}) => {
+            cy.apiCreateTeam('test-team2', 'Test Team2').then(({team}) => {
+                team2 = team;
                 cy.apiCreateUser().then(({user}) => {
                     guest = user;
-                    team2 = teamTwo;
                     cy.apiAddUserToTeam(team1.id, guest.id);
                     cy.apiAddUserToTeam(team2.id, guest.id).then(() => {
                         cy.apiLogin(guest);
