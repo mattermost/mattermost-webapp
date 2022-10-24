@@ -14,42 +14,38 @@ export type Props = {
 const PostAttachmentContainer = (props: Props) => {
     const {children, className, link, preventClickAction} = props;
     const history = useHistory();
+    const handleOnClick = useCallback(
+        (e) => {
+            const {tagName} = e.target;
+            e.stopPropagation();
+            const elements = ['A', 'IMG', 'BUTTON', 'I'];
 
-    const dispatch = useDispatch();
-
-    const params = getTeamAndPostIdFromLink(link);
-    const currentUserId = useSelector(getCurrentUserId);
-    const shouldFocusPostWithoutRedirect = useSelector((state: GlobalState) => isTeamSameWithCurrentTeam(state, params?.teamName ?? ''));
-    const post = useSelector((state: GlobalState) => getPost(state, params?.postId ?? ''));
-    const crtEnabled = useSelector(isCollapsedThreadsEnabled);
-
-    const handleOnClick = useCallback((e) => {
-        const {tagName} = e.target;
-        e.stopPropagation();
-        const elements = ['A', 'IMG', 'BUTTON', 'I'];
-
-        if (
-            !elements.includes(tagName) &&
+            if (
+                !elements.includes(tagName) &&
                 e.target.getAttribute('role') !== 'button' &&
                 e.target.className !== `attachment attachment--${className}`
-        ) {
-            const classNames = [
-                'icon icon-menu-down',
-                'icon icon-menu-right',
-                'post-image',
-                'file-icon',
-                'Reaction',
-            ];
+            ) {
+                const classNames = [
+                    'icon icon-menu-down',
+                    'icon icon-menu-right',
+                    'post-image',
+                    'file-icon',
+                    'Reaction',
+                ];
 
-            if (params && shouldFocusPostWithoutRedirect && crtEnabled && post && post.root_id) {
-                dispatch(focusPost(params.postId, link, currentUserId, {skipRedirectReplyPermalink: true}));
-                return;
+                if (
+                    !classNames.some((className) =>
+                        e.target.className.includes(className),
+                    ) &&
+                    e.target.id !== 'image-name-text'
+                ) {
+                    history.push(link);
+                }
             }
-            if (!classNames.some((className) => e.target.className.includes(className)) && e.target.id !== 'image-name-text') {
-                history.push(link);
-            }
-        }
-    }, [className, params, shouldFocusPostWithoutRedirect, crtEnabled, post, dispatch, link, currentUserId, history]);
+        },
+        [className, history, link],
+    );
+
     return (
         <div
             className={`attachment attachment--${className}`}

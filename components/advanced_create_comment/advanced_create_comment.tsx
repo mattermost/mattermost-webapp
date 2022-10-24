@@ -47,6 +47,7 @@ import {TextboxClass, TextboxElement} from '../textbox';
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 
 const KeyCodes = Constants.KeyCodes;
+
 type Props = {
 
     // The channel for which this comment is a part of
