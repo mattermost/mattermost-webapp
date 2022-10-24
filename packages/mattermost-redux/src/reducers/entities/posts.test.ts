@@ -861,7 +861,7 @@ describe('postsInChannel', () => {
         });
     });
 
-    describe.only('receiving a single post', () => {
+    describe('receiving a single post', () => {
         it('should do nothing for a non-broadcasted reply-post and CRT is ON', () => {
             const state = deepFreeze({
                 channel1: [],
