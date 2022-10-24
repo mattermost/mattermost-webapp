@@ -1,9 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import React, {useState, useRef, useEffect} from 'react';
+import React, {useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {Modal} from 'react-bootstrap';
+
+import warningIcon from 'images/icons/warning-icon.svg';
 
 import './gather_intent.scss';
 import {FormDataState} from './useGatherIntent';
@@ -86,7 +88,7 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
 
     return (
         <>
-            <Modal.Header className='GatherIntentModal__header '>
+            <Modal.Header className='AltPaymentsModal__header '>
                 <FormattedMessage
                     id={'payment_form.gather_wire_transfer_intent_title'}
                     defaultMessage='Alternate Payment Options'
@@ -115,11 +117,11 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                         id='payment_form.gather_wire_transfer_intent_modal.question'
                         defaultMessage='Which payment options are you interested in using?'
                     >
-                        {(text) => <p className='GatherIntentModal__body__question'>{text}</p>}
+                        {(text) => <p className='AltPaymentsModal__body__question'>{text}</p>}
                     </FormattedMessage>
-                    <div className='Form-checkbox GatherIntentModal__body__option'>
+                    <div className='Form-checkbox AltPaymentsModal__body__option'>
                         <input
-                            className='GatherIntentModal__body__checkbox'
+                            className='AltPaymentsModal__body__checkbox'
                             id='wire'
                             name='wire'
                             type='checkbox'
@@ -132,7 +134,7 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                         >
                             {(text) => (
                                 <label
-                                    className='GatherIntentModal__body__label'
+                                    className='AltPaymentsModal__body__label'
                                     htmlFor='wire'
                                 >
                                     {text}
@@ -140,9 +142,9 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                             }
                         </FormattedMessage>
                     </div>
-                    <div className='GatherIntentModal__body__option'>
+                    <div className='AltPaymentsModal__body__option'>
                         <input
-                            className='GatherIntentModal__body__checkbox'
+                            className='AltPaymentsModal__body__checkbox'
                             id='ach'
                             name='ach'
                             type='checkbox'
@@ -155,7 +157,7 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                         >
                             {(text) => (
                                 <label
-                                    className='GatherIntentModal__body__label'
+                                    className='AltPaymentsModal__body__label'
                                     htmlFor='ach'
                                 >
                                     {text}
@@ -163,9 +165,9 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                             }
                         </FormattedMessage>
                     </div>
-                    <div className='Form-checkbox GatherIntentModal__body__option'>
+                    <div className='AltPaymentsModal__body__option'>
                         <input
-                            className='GatherIntentModal__body__checkbox'
+                            className='AltPaymentsModal__body__checkbox'
                             id='other'
                             name='other'
                             type='checkbox'
@@ -178,7 +180,7 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                         >
                             {(text) => (
                                 <label
-                                    className='GatherIntentModal__body__label'
+                                    className='AltPaymentsModal__body__label'
                                     htmlFor='other'
                                 >
                                     {text}
@@ -186,11 +188,11 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                             }
                         </FormattedMessage>
                     </div>
-                    {formState.other && <div className='Form-row'>
+                    {formState.other && <div className='AltPaymentsModal__body__option'>
                         <textarea
                             id='other-payment-option'
                             name='otherPaymentOption'
-                            className='GatherIntentModal__body__textarea'
+                            className='AltPaymentsModal__body__textarea'
                             value={formState.otherPaymentOption}
                             onChange={handleTextAreaChange}
                             placeholder={intl.formatMessage({id: 'payment_form.gather_wire_transfer_intent_modal.otherPaymentOptionPlaceholder', defaultMessage: 'Enter payment option here'})}
@@ -198,19 +200,28 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                             maxLength={400}
                         />
                     </div>}
+                    {showError &&
+                    <div className='AltPaymentsModal__body__error'>
+                        <div>
+                            <img
+                                className='AltPaymentsModal__body__error__icon'
+                                alt=''
+                                src={warningIcon}
+                            />
+                        </div>
+                        <FormattedMessage
+                            id='gather_intent.error_feedback'
+                            defaultMessage='Sorry, there was an error sending feedback. Please try again.'
+                        >
+                            {(text) => <span className='AltPaymentsModal__body__error__text'>{text}</span>}
+                        </FormattedMessage>
+                    </div>}
 
                 </form>
             </Modal.Body>
-            <Modal.Footer className={'GatherIntentModal__footer '}>
-                {showError &&
-                    <FormattedMessage
-                        id='gather_intent.error_feedback'
-                        defaultMessage='Sorry, there was an error sending feedback. Please try again.'
-                    >
-                        {(text) => <span className='GatherIntentModal__footer__error'>{text}</span>}
-                    </FormattedMessage>}
+            <Modal.Footer className={'AltPaymentsModal__footer '}>
                 <button
-                    className={'GatherIntentModal__footer--secondary'}
+                    className={'AltPaymentsModal__footer--secondary'}
                     id={'cancelFeedback'}
                     onClick={onClose}
                     disabled={isSubmitting}
@@ -222,7 +233,7 @@ export const GatherIntentModal = ({onClose, onSave, isSubmitting, showError}: Ga
                 </button>
 
                 <button
-                    className={'GatherIntentModal__footer--primary'}
+                    className={'AltPaymentsModal__footer--primary'}
                     id={'submitFeedback'}
                     type='submit'
                     form='gather_intent_wire_transfer'

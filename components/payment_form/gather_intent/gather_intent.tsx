@@ -50,13 +50,13 @@ export const GatherIntent = ({gatherIntentText, typeGatherIntent, modalComponent
             </button>
             {showModal &&
                 <Modal
-                    className='GatherIntentModal'
+                    className='AltPaymentsModal'
                     dialogClassName='a11y__modal'
                     show={showModal}
                     onHide={handleCloseModal}
                     onExited={handleCloseModal}
                     role='dialog'
-                    id='GatherIntentModal'
+                    id='AltPaymentsModal'
                     aria-modal='true'
                 >
                     {!feedbackSaved &&

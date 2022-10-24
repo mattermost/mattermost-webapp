@@ -72,12 +72,12 @@ export type AddOn = {
 
 export const TypePurchases = {
     firstSelfHostLicensePurchase: 'first_purchase',
-    renewalSelfHost: 'renewal_self_hosted',
+    renewalSelfHost: 'renewal_self',
     monthlySubscription: 'monthly_subscription',
     annualSubscription: 'annual_subscription',
 } as const;
 
-export type MetadataGatherWireTransferKeys = `${ValueOf<typeof TypePurchases>}_intent_wire_transfer`
+export type MetadataGatherWireTransferKeys = `${ValueOf<typeof TypePurchases>}_alt_payment_method`
 
 export type CustomerMetadataGatherWireTransfer = Partial<Record<MetadataGatherWireTransferKeys, string>>
 

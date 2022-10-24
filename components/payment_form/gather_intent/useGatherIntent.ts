@@ -39,7 +39,7 @@ export const useGatherIntent = ({typeGatherIntent}: UseGatherIntentArgs) => {
     const handleSaveFeedback = async (formData: FormDataState) => {
         setSubmittingFeedback(() => true);
 
-        const gatherIntentKey: MetadataGatherWireTransferKeys = `${TypePurchases[typeGatherIntent]}_intent_wire_transfer`;
+        const gatherIntentKey: MetadataGatherWireTransferKeys = `${TypePurchases[typeGatherIntent]}_alt_payment_method`;
 
         const {error} = await dispatch(updateCloudCustomer({
             [gatherIntentKey]: JSON.stringify(formData),
@@ -69,7 +69,7 @@ export const useGatherIntent = ({typeGatherIntent}: UseGatherIntentArgs) => {
 
     useEffect(() => {
         if (customer != null) {
-            const gatherIntentKey: MetadataGatherWireTransferKeys = `${TypePurchases[typeGatherIntent]}_intent_wire_transfer`;
+            const gatherIntentKey: MetadataGatherWireTransferKeys = `${TypePurchases[typeGatherIntent]}_alt_payment_method`;
             setFeedbackSave(Boolean(customer[gatherIntentKey]));
         }
     }, [customer, typeGatherIntent]);

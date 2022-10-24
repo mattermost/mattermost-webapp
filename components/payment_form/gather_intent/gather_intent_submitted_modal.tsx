@@ -15,7 +15,7 @@ export interface GatherIntentModalProps {
 export const GatherIntentSubmittedModal = ({onClose}: GatherIntentModalProps) => {
     return (
         <>
-            <Modal.Header className='GatherIntentModal__header '>
+            <Modal.Header className='AltPaymentsModal__header '>
                 <button
                     id='closeIcon'
                     className='icon icon-close'
@@ -24,8 +24,8 @@ export const GatherIntentSubmittedModal = ({onClose}: GatherIntentModalProps) =>
                     onClick={onClose}
                 />
             </Modal.Header>
-            <Modal.Body className='GatherIntentModal__body'>
-                <div className='GatherIntentModal__submitted-icon-container'>
+            <Modal.Body className='AltPaymentsModal__body'>
+                <div className='AltPaymentsModal__submitted-icon-container'>
                     <CheckCircleIcon/>
                 </div>
                 <FormattedMessage
@@ -35,9 +35,9 @@ export const GatherIntentSubmittedModal = ({onClose}: GatherIntentModalProps) =>
                     {(text) => <span className='savedFeedback__text'>{text}</span>}
                 </FormattedMessage>
             </Modal.Body>
-            <Modal.Footer className={'GatherIntentModal__footer '}>
+            <Modal.Footer className={'AltPaymentsModal__footer '}>
                 <button
-                    className={'GatherIntentModal__footer--primary'}
+                    className={'AltPaymentsModal__footer--primary'}
                     id={'feedbackSubmitedDone'}
                     type='button'
                     onClick={onClose}
