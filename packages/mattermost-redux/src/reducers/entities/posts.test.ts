@@ -52,6 +52,28 @@ describe('posts', () => {
                 });
             });
 
+            it('should add a new parent post when received post is a broadcasted_thread_reply', () => {
+                const state = deepFreeze({
+                    post1: {id: 'post1'},
+                    post2: {id: 'post2', metadata: {embeds: [{type: 'parent_post', data: {id: 'post1'}}]}},
+                });
+
+                const nextState = reducers.handlePosts(state, {
+                    type: actionType,
+                    data: {id: 'post3', metadata: {embeds: [{type: 'parent_post', data: {id: 'post4'}}]}},
+                });
+
+                expect(nextState).not.toEqual(state);
+                expect(nextState.post1).toEqual(state.post1);
+                expect(nextState.post2).toEqual(state.post2);
+                expect(nextState).toEqual({
+                    post1: {id: 'post1'},
+                    post2: {id: 'post2', metadata: {embeds: [{type: 'parent_post', data: {id: 'post1'}}]}},
+                    post3: {id: 'post3', metadata: {embeds: [{type: 'parent_post', data: {id: 'post4'}}]}},
+                    post4: {id: 'post4'},
+                });
+            });
+
             it('should add a new permalink post and remove stored nested permalink data', () => {
                 const state = deepFreeze({
                     post1: {id: 'post1'},
@@ -656,7 +678,7 @@ describe('postsInChannel', () => {
             expect(nextState).toEqual({});
         });
 
-        it('should do nothing when a reply-post comes and CRT is ON', () => {
+        it('should do nothing when a non-broadcasted reply-post comes and CRT is ON', () => {
             const state = deepFreeze({
                 channel1: [],
             });
@@ -670,6 +692,25 @@ describe('postsInChannel', () => {
             expect(nextState).toBe(state);
             expect(nextState).toEqual({
                 channel1: [],
+            });
+        });
+
+        it('should store the new post when a broadcasted reply-post comes and CRT is ON', () => {
+            const state = deepFreeze({
+                channel1: [],
+            });
+
+            const nextState = reducers.postsInChannel(state, {
+                type: PostTypes.RECEIVED_NEW_POST,
+                data: {id: 'post1', channel_id: 'channel1', root_id: 'parent1', props: {broadcasted_thread_reply: true}},
+                features: {crtEnabled: true},
+            }, {}, {});
+
+            expect(nextState).not.toBe(state);
+            expect(nextState).toEqual({
+                channel1: [
+                    {order: ['post1'], recent: true},
+                ],
             });
         });
 
@@ -820,7 +861,45 @@ describe('postsInChannel', () => {
         });
     });
 
-    describe('receiving a single post', () => {
+    describe.only('receiving a single post', () => {
+        it('should do nothing for a non-broadcasted reply-post and CRT is ON', () => {
+            const state = deepFreeze({
+                channel1: [],
+            });
+
+            const nextState = reducers.postsInChannel(state, {
+                type: PostTypes.RECEIVED_POST,
+                data: {id: 'post3', channel_id: 'channel1', pending_post_id: 'pending'},
+                features: {crtEnabled: true},
+            }, {}, {});
+
+            expect(nextState).toBe(state);
+            expect(nextState).toEqual({
+                channel1: [],
+            });
+        });
+
+        it('should replace a previously pending broadcasted reply-post when CRT is ON', () => {
+            const state = deepFreeze({
+                channel1: [
+                    {order: ['post1', 'pending', 'post2'], recent: true},
+                ],
+            });
+
+            const nextState = reducers.postsInChannel(state, {
+                type: PostTypes.RECEIVED_POST,
+                data: {id: 'post3', channel_id: 'channel1', pending_post_id: 'pending', props: {broadcasted_thread_reply: true}},
+                features: {crtEnabled: true},
+            }, {}, {});
+
+            expect(nextState).not.toBe(state);
+            expect(nextState).toEqual({
+                channel1: [
+                    {order: ['post1', 'post3', 'post2'], recent: true},
+                ],
+            });
+        });
+
         it('should replace a previously pending post', () => {
             const state = deepFreeze({
                 channel1: [
