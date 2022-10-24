@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {UserProfile} from '@mattermost/types/users';
@@ -15,6 +15,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import ConfirmModal from 'components/confirm_modal';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
@@ -52,8 +53,12 @@ export default function ChannelMembersDropdown({
     guestLabel,
     actions,
 }: Props) {
-    const [removing, setRemoving] = React.useState(false);
-    const [serverError, setServerError] = React.useState<string | null>(null);
+    const [removing, setRemoving] = useState(false);
+    const [serverError, setServerError] = useState<string | null>(null);
+    const [showRemoveFromChannelConfirmModal, setShowRemoveFromChannelConfirmModal] = useState(false);
+
+    const showConfirmModal = useCallback(() => setShowRemoveFromChannelConfirmModal(true), []);
+    const hideConfirmModal = useCallback(() => setShowRemoveFromChannelConfirmModal(false), []);
 
     const handleRemoveFromChannel = async () => {
         if (removing) {
@@ -163,18 +168,20 @@ export default function ChannelMembersDropdown({
     const canMakeUserChannelMember = canChangeMemberRoles && isChannelAdmin;
     const canMakeUserChannelAdmin = canChangeMemberRoles && isMember;
     const canRemoveUserFromChannel = canRemoveMember && (!channel.group_constrained || user.is_bot) && (!isDefaultChannel || isGuest);
-    const removeFromChannelText = user.id === currentUserId ?
-        Utils.localizeMessage('channel_header.leave', 'Leave Channel') :
-        Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel');
+    const removeFromChannelText = user.id === currentUserId ? Utils.localizeMessage('channel_header.leave', 'Leave Channel') : Utils.localizeMessage('channel_members_dropdown.remove_from_channel', 'Remove from Channel');
     const removeFromChannelTestId = user.id === currentUserId ? 'leaveChannel' : 'removeFromChannel';
+    const removeFromChannelComfirmModalMessage = user.id === currentUserId ?
+        Utils.localizeMessage('channel_header.leaveConfirm', 'Are you sure you want to leave the channel?') :
+        Utils.localizeMessage('channel_members_dropdown.remove_from_channelConfirm', 'Are you sure you want to remove the user from the channel?');
 
     if (canMakeUserChannelMember || canMakeUserChannelAdmin || canRemoveUserFromChannel) {
         const removeMenu = (
             <Menu.ItemAction
                 data-testid={removeFromChannelTestId}
                 show={canRemoveUserFromChannel}
-                onClick={handleRemoveFromChannel}
+                onClick={showConfirmModal}
                 text={removeFromChannelText}
+                isDangerous={true}
             />
         );
         const makeAdminMenu = (
@@ -194,30 +201,40 @@ export default function ChannelMembersDropdown({
             />
         );
         return (
-            <MenuWrapper>
-                <button
-                    className='dropdown-toggle theme color--link style--none'
-                    type='button'
-                >
-                    <span className='sr-only'>{user.username}</span>
-                    <span>{currentRole} </span>
-                    <DropdownIcon/>
-                </button>
-                <Menu
-                    openLeft={true}
-                    openUp={totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
-                    ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member')}
-                >
-                    {canMakeUserChannelMember ? makeMemberMenu : null}
-                    {canMakeUserChannelAdmin ? makeAdminMenu : null}
-                    {canRemoveUserFromChannel ? removeMenu : null}
-                    {serverError && (
-                        <div className='has-error'>
-                            <label className='has-error control-label'>{serverError}</label>
-                        </div>
-                    )}
-                </Menu>
-            </MenuWrapper>
+            <>
+                <ConfirmModal
+                    show={showRemoveFromChannelConfirmModal}
+                    title={removeFromChannelText}
+                    confirmButtonText={Utils.localizeMessage('generic_modal.confirm', 'Confirm')}
+                    message={removeFromChannelComfirmModalMessage}
+                    onConfirm={handleRemoveFromChannel}
+                    onCancel={hideConfirmModal}
+                />
+                <MenuWrapper>
+                    <button
+                        className='dropdown-toggle theme color--link style--none'
+                        type='button'
+                    >
+                        <span className='sr-only'>{user.username}</span>
+                        <span>{currentRole} </span>
+                        <DropdownIcon/>
+                    </button>
+                    <Menu
+                        openLeft={true}
+                        openUp={totalUsers > ROWS_FROM_BOTTOM_TO_OPEN_UP && totalUsers - index <= ROWS_FROM_BOTTOM_TO_OPEN_UP}
+                        ariaLabel={Utils.localizeMessage('channel_members_dropdown.menuAriaLabel', 'Change the role of channel member')}
+                    >
+                        {canMakeUserChannelMember ? makeMemberMenu : null}
+                        {canMakeUserChannelAdmin ? makeAdminMenu : null}
+                        {canRemoveUserFromChannel ? removeMenu : null}
+                        {serverError && (
+                            <div className='has-error'>
+                                <label className='has-error control-label'>{serverError}</label>
+                            </div>
+                        )}
+                    </Menu>
+                </MenuWrapper>
+            </>
         );
     }
 
