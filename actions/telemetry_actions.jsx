@@ -41,10 +41,9 @@ export function trackEvent(category, event, props) {
 
     Client4.trackEvent(category, event, props);
 
-    // !!! Only for testing purposes in cloud test env - Will be set back before merge !!!
-    if (props) {
+    if (isDevMode() && category === 'performance' && props) {
         // eslint-disable-next-line no-console
-        console.log(category + ' - ' + event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
+        console.log(event + ' - ' + Object.entries(props).map(([key, value]) => `${key}: ${value}`).join(', '));
     }
 }
 
