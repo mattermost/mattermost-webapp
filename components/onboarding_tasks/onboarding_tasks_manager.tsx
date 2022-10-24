@@ -61,14 +61,14 @@ const taskLabels = {
     ),
     [OnboardingTasksName.INVITE_PEOPLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_invite_people_to_team'
-            defaultMessage='👋 Enhance your Mattermost experience. Invite your team to check out our developer platform'
+            id='onboardingTask.checklist.task_invite_team_members'
+            defaultMessage='👋 Invite team members to the workspace'
         />
     ),
     [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_complete_your_profile_with_picture'
-            defaultMessage='📷 Make yourself known with a profile picture'
+            id='onboardingTask.checklist.task_complete_your_profile'
+            defaultMessage='📷 Complete your profile'
         />
     ),
     [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
@@ -85,14 +85,14 @@ const taskLabels = {
     ),
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_system_console_complete_configuration'
-            defaultMessage='🥰️ Make System Admins happy with a configurable Mattermost server'
+            id='onboardingTask.checklist.task_visit_system_console'
+            defaultMessage='🥰️ Visit the System Console to configure your workspace'
         />
     ),
     [OnboardingTasksName.START_TRIAL]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_start_enterprise_trial_explore'
-            defaultMessage='🏢 Explore how Enterprise-level high-security features make Mattermost a better option'
+            id='onboardingTask.checklist.task_start_enterprise_trial'
+            defaultMessage='🏢 Learn more about Enterprise-level high-security features'
         />
     ),
 };
