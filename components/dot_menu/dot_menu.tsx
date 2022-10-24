@@ -6,8 +6,6 @@ import classNames from 'classnames';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import Permissions from 'mattermost-redux/constants/permissions';
-import {Post} from '@mattermost/types/posts';
-import {UserThread} from '@mattermost/types/threads';
 
 import {Locations, ModalIdentifiers, Constants, TELEMETRY_LABELS, Preferences} from 'utils/constants';
 import DeletePostModal from 'components/delete_post_modal';
@@ -22,6 +20,9 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
+
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 
 import ForwardPostModal from '../forward_post_modal';
 import MoveThreadModal from '../move_thread_modal';
@@ -61,6 +62,7 @@ type Props = {
     teamUrl?: string; // TechDebt: Made non-mandatory while converting to typescript
     isMobileView: boolean;
     showForwardPostNewLabel: boolean;
+    canMove: boolean;
 
     /**
      * Components for overriding provided by plugins
@@ -296,6 +298,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
 
     handleMoveThreadMenuItemActivated = (e: ChangeEvent): void => {
         e.preventDefault();
+        if (!this.props.canMove) {
+            return;
+        }
 
         trackDotMenuEvent(e, TELEMETRY_LABELS.MOVE_THREAD);
         const moveThreadModalData = {
@@ -622,9 +627,9 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                     />
                     <Menu.ItemAction
                         id={`move_thread_${this.props.post.id}`}
-                        show={!isSystemMessage}
+                        show={!isSystemMessage && this.props.canMove}
                         text={Utils.localizeMessage('post_info.move_thread', 'Move Thread')}
-                        icon={Utils.getMenuItemIcon('icon-message-move-outline')}
+                        icon={Utils.getMenuItemIcon('icon-message-arrow-right-outline')}
                         rightDecorator={<ShortcutKey shortcutKey='W'/>}
                         onClick={this.handleMoveThreadMenuItemActivated}
                     />

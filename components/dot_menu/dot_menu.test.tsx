@@ -49,6 +49,7 @@ describe('components/dot_menu/DotMenu', () => {
         threadReplyCount: 0,
         userId: 'user_id_1',
         showForwardPostNewLabel: false,
+        canMove: false,
     };
 
     test('should match snapshot, on Center', () => {
@@ -74,6 +75,18 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             canEdit: true,
             canDelete: true,
+        };
+        const wrapper = shallowWithIntl(
+            <DotMenu {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, canMove', () => {
+        const props = {
+            ...baseProps,
+            canMove: true,
         };
         const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,

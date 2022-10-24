@@ -188,6 +188,12 @@ export type ClientConfig = {
     EnableAppBar: string;
     EnableComplianceExport: string;
     PostPriority: string;
+    WranglerPermittedWranglerUsers: string;
+    WranglerAllowedEmailDomain: string;
+    WranglerMoveThreadMaxCount: string;
+    WranglerMoveThreadFromPrivateChannelEnable: string;
+    WranglerMoveThreadFromDirectMessageChannelEnable: string;
+    WranglerMoveThreadFromGroupMessageChannelEnable: string;
 };
 
 export type License = {
@@ -780,6 +786,16 @@ export type ImageProxySettings = {
 
 export type FeatureFlags = Record<string, string>;
 
+export type WranglerSettings = {
+    PermittedWranglerUsers: string[];
+    AllowedEmailDomain: string[];
+    MoveThreadMaxCount: number;
+    MoveThreadToAnotherTeamEnable: boolean;
+    MoveThreadFromPrivateChannelEnable: boolean;
+    MoveThreadFromDirectMessageChannelEnable: boolean;
+    MoveThreadFromGroupMessageChannelEnable: boolean;
+};
+
 export type AdminConfig = {
     ServiceSettings: ServiceSettings;
     TeamSettings: TeamSettings;
@@ -819,6 +835,7 @@ export type AdminConfig = {
     GuestAccountsSettings: GuestAccountsSettings;
     ImageProxySettings: ImageProxySettings;
     FeatureFlags: FeatureFlags;
+    WranglerSettings: WranglerSettings;
 };
 
 export type EnvironmentConfigSettings<T> = {

@@ -10,6 +10,7 @@ import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences'
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
+import {ClientConfig} from '@mattermost/types/config';
 import {Channel} from '@mattermost/types/channels';
 import {
     MessageHistory,
@@ -751,5 +752,67 @@ export function isPostPriorityEnabled(state: GlobalState) {
     return (
         getFeatureFlagValue(state, 'PostPriority') === 'true' &&
         getConfig(state).PostPriority === 'true'
+    );
+}
+
+export function makeCanWrangler() {
+    return createSelector(
+        'makeCanWrangler',
+        getConfig,
+        getCurrentUser,
+        (_state: GlobalState, channelType: Channel['type']) => channelType,
+        (_state: GlobalState, _channelType: Channel['type'], replyCount: number) => replyCount,
+        (config: Partial<ClientConfig>, user: UserProfile, channelType: Channel['type'], replyCount: number) => {
+            const {
+                WranglerPermittedWranglerUsers,
+                WranglerAllowedEmailDomain,
+                WranglerMoveThreadMaxCount,
+                WranglerMoveThreadFromPrivateChannelEnable,
+                WranglerMoveThreadFromDirectMessageChannelEnable,
+                WranglerMoveThreadFromGroupMessageChannelEnable,
+            } = config;
+
+            let permittedUsers: string[] = [];
+            if (WranglerPermittedWranglerUsers && WranglerPermittedWranglerUsers !== '') {
+                permittedUsers = WranglerPermittedWranglerUsers?.split(',');
+            }
+
+            let allowedEmailDomains: string[] = [];
+            if (WranglerAllowedEmailDomain && WranglerAllowedEmailDomain !== '') {
+                allowedEmailDomains = WranglerAllowedEmailDomain?.split(',') || [];
+            }
+
+            if (permittedUsers?.length > 0) {
+                const roles = user.roles.split(' ');
+                const hasRole = roles.some((role) => permittedUsers.includes(role));
+                if (!hasRole) {
+                    return false;
+                }
+            }
+
+            if (allowedEmailDomains?.length > 0) {
+                if (!user.email || !allowedEmailDomains.includes(user.email.split('@')[1])) {
+                    return false;
+                }
+            }
+
+            if (Number(WranglerMoveThreadMaxCount) < replyCount) {
+                return false;
+            }
+
+            if (channelType === 'P' && WranglerMoveThreadFromPrivateChannelEnable === 'false') {
+                return false;
+            }
+
+            if (channelType === 'D' && WranglerMoveThreadFromDirectMessageChannelEnable === 'false') {
+                return false;
+            }
+
+            if (channelType === 'G' && WranglerMoveThreadFromGroupMessageChannelEnable === 'false') {
+                return false;
+            }
+
+            return true;
+        },
     );
 }
