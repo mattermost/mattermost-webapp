@@ -2,33 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback} from 'react';
-
-import {matchPath, useHistory} from 'react-router-dom';
-
-import {useDispatch, useSelector} from 'react-redux';
-
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {isTeamSameWithCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {focusPost} from 'components/permalink_view/actions';
-import {GlobalState} from 'types/store';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
-import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {useHistory} from 'react-router-dom';
 
 export type Props = {
     className?: string;
     children?: JSX.Element;
     preventClickAction?: boolean;
     link: string;
-};
-
-type LinkParams = {
-    postId: string;
-    teamName: string;
-}
-
-const getTeamAndPostIdFromLink = (link: string) => {
-    const match = matchPath<LinkParams>(link, {path: '/:teamName/pl/:postId'});
-    return match?.params;
 };
 
 const PostAttachmentContainer = (props: Props) => {

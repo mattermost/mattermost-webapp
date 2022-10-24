@@ -79,7 +79,7 @@
     "react-window": "1.8.7",
     "react-window-infinite-loader": "1.0.8",
     "rebound": "0.1.0",
-    "redux": "4.1.0",
+    "redux": "4.2.0",
     "redux-batched-actions": "0.5.0",
     "redux-persist": "6.0.0",
     "redux-thunk": "2.3.0",
