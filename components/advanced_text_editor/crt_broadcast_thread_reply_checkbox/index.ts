@@ -7,7 +7,7 @@ import {GlobalState} from 'types/store';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import BroadcastThreadReply from './crt_broadcast_thread_reply';
+import CRTBroadcastThreadReplyCheckbox from './crt_broadcast_thread_reply';
 
 type OwnProps = {
     channelId: string;
@@ -25,4 +25,4 @@ function makeMapStateToProps() {
     };
 }
 
-export default connect(makeMapStateToProps)(BroadcastThreadReply);
+export default connect(makeMapStateToProps)(CRTBroadcastThreadReplyCheckbox);

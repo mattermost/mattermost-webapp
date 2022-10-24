@@ -15,7 +15,7 @@ type Props = {
     handleBroadcastThreadReply: () => void;
 }
 
-export default function BroadcastThreadReply(props: Props) {
+export default function CRTBroadcastThreadReplyCheckbox(props: Props) {
     const {channelName, isBroadcastThreadReply, handleBroadcastThreadReply} = props;
 
     const tooltip = (

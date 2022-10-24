@@ -12,7 +12,7 @@ import {ServerError} from '@mattermost/types/errors';
 import {Channel} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
 
-import BroadcastThreadReply from 'components/crt_broadcast_thread_reply';
+import CRTBroadcastThreadReplyCheckbox from 'components/advanced_text_editor/crt_broadcast_thread_reply_checkbox';
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
 import FilePreview from 'components/file_preview';
 import FileUpload from 'components/file_upload';
@@ -469,7 +469,7 @@ const AdvanceTextEditor = ({
             </div>
             {location === Locations.RHS_COMMENT && isCRTEnabled &&
                 handleBroadcastThreadReply && isBroadcastThreadReply !== undefined &&
-                    <BroadcastThreadReply
+                    <CRTBroadcastThreadReplyCheckbox
                         channelId={channelId}
                         isBroadcastThreadReply={isBroadcastThreadReply}
                         handleBroadcastThreadReply={handleBroadcastThreadReply}
