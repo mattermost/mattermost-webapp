@@ -1,0 +1,51 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/AdvancedTextEditor/CRTBroadcastThreadReplyCheckbox should render broadcast thread reply checkbox 1`] = `
+<div
+  className="checkbox text-left mb-0"
+>
+  <OverlayTrigger
+    defaultOverlayShown={false}
+    delayShow={400}
+    overlay={
+      <Tooltip
+        bsClass="tooltip"
+        id="broadcast-thread-reply"
+        placement="right"
+      >
+        <Memo(MemoizedFormattedMessage)
+          defaultMessage="Select this if you want your reply to be visible in the channel as well"
+          id="rhs_thread.broadcast.tooltip"
+        />
+      </Tooltip>
+    }
+    placement="top"
+    shouldUpdatePosition={true}
+    trigger={
+      Array [
+        "hover",
+        "focus",
+      ]
+    }
+  >
+    <label>
+      <input
+        checked={true}
+        onChange={[Function]}
+        type="checkbox"
+      />
+      <MemoizedFormattedMessage
+        defaultMessage="Also send to {channel}"
+        id="rhs_thread.broadcast.channel"
+        values={
+          Object {
+            "channel": <b>
+              ~channel_name
+            </b>,
+          }
+        }
+      />
+    </label>
+  </OverlayTrigger>
+</div>
+`;

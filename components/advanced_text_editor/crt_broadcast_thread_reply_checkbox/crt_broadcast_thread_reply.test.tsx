@@ -6,4 +6,16 @@ import {shallow} from 'enzyme';
 
 import CRTBroadcastThreadReplyCheckbox from './crt_broadcast_thread_reply';
 
-describe('components/CRTBroadcastThreadReplyCheckbox', () => {});
+describe('components/AdvancedTextEditor/CRTBroadcastThreadReplyCheckbox', () => {
+    const baseProps = {
+        channelName: 'channel_name',
+        isBroadcastThreadReply: true,
+        handleBroadcastThreadReply: jest.fn(),
+    };
+
+    test('should render broadcast thread reply checkbox', () => {
+        const wrapper = shallow(<CRTBroadcastThreadReplyCheckbox {...baseProps}/>);
+
+        expect(wrapper).toMatchSnapshot();
+    });
+});
