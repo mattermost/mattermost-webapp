@@ -9,7 +9,7 @@ type Props = {
     channelName: string;
 }
 
-export default function RhsCommentBroadcast(props: Props) {
+export default function RhsCommentBroadcastedHeader(props: Props) {
     const {channelName} = props;
 
     const arrowRightIcon = (

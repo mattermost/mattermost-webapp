@@ -7,7 +7,7 @@ import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 
 import {GlobalState} from 'types/store';
 
-import RhsCommentBroadcast from './rhs_comment_broadcast';
+import RhsCommentBroadcastedHeader from './rhs_comment_broadcasted_header';
 
 type Props = {
     channelId: string;
@@ -21,4 +21,4 @@ function mapStateToProps(state: GlobalState, ownProps: Props) {
     };
 }
 
-export default connect(mapStateToProps)(RhsCommentBroadcast);
+export default connect(mapStateToProps)(RhsCommentBroadcastedHeader);

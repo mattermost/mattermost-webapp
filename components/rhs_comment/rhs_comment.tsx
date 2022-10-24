@@ -43,7 +43,7 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
-import RhsCommentBroadcast from 'components/rhs_comment_broadcast';
+import RhsCommentBroadcastedHeader from 'components/rhs_comment/rhs_comment_broadcasted_header';
 
 type Props = {
     post: Post;
@@ -716,7 +716,7 @@ export default class RhsComment extends React.PureComponent<Props, State> {
                         </div>
                         <div>
                             {post.props?.broadcasted_thread_reply &&
-                                <RhsCommentBroadcast
+                                <RhsCommentBroadcastedHeader
                                     channelId={post.channel_id}
                                 />}
                             <div className={postClass} >

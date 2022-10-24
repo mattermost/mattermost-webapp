@@ -9,6 +9,7 @@ import {Posts} from 'mattermost-redux/constants';
 import RhsComment from 'components/rhs_comment/rhs_comment';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
+import RhsCommentBroadcastedHeader from 'components/rhs_comment/rhs_comment_broadcasted_header';
 
 import {Locations} from 'utils/constants';
 import {isSystemMessage} from 'utils/post_utils';
@@ -264,5 +265,27 @@ describe('components/RhsComment', () => {
         expect(children).toBeTruthy();
         expect(children).toBeTruthy();
         expect(children.props.id).toEqual('post_info.message.visible');
+    });
+
+    test('should display RHSCommentBroadcast when comment is a broadcasted thread reply', () => {
+        const props = {
+            ...baseProps,
+            post: {
+                ...baseProps.post,
+                props: {
+                    broadcasted_thread_reply: true,
+                },
+            },
+        };
+
+        const wrapper = shallow(
+            <RhsComment {...props}/>,
+        );
+
+        const broadcastCommentHeader = wrapper.find(RhsCommentBroadcastedHeader);
+
+        expect(broadcastCommentHeader).toHaveLength(1);
+        expect(broadcastCommentHeader.prop('channelId')).toBe(props.post.channel_id);
+        expect(wrapper).toMatchSnapshot();
     });
 });

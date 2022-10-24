@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/RhsComment/RhsCommentBroadcastedHeader should render broadcast thread reply checkbox 1`] = `
+<div
+  className="post__link broadcast--reply"
+  data-testid="post-link"
+>
+  <div
+    className="broadcast-arrow-icon"
+  >
+    <ArrowRightBoldOutlineIcon
+      color="rgba(var(--center-channel-text-rgb), 0.48)"
+      data-testid="arrow-right-icon"
+      size={18}
+    />
+    <b>
+      <MemoizedFormattedMessage
+        defaultMessage="Also sent to ~{channel}"
+        id="rhs_comment.broadcast.channel"
+        values={
+          Object {
+            "channel": "~channel_name",
+          }
+        }
+      />
+    </b>
+  </div>
+</div>
+`;
