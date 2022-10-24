@@ -6,7 +6,7 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
+import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon, ProductsIcon} from '@mattermost/compass-icons/components';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
@@ -252,14 +252,15 @@ const usesLegacyOauth = (config, state, license, enterpriseReady, consoleAccess,
     )(config, state, license, enterpriseReady, consoleAccess, cloud);
 };
 
-const getRestrictedIndicator = (displayBlocked = false) => ({
+const getRestrictedIndicator = (displayBlocked = false, minimumPlanRequiredForFeature = LicenseSkus.Professional) => ({
     value: (cloud) => (
         <RestrictedIndicator
             useModal={false}
             blocked={displayBlocked || !(cloud?.subscription?.is_free_trial === 'true')}
+            minimumPlanRequiredForFeature={minimumPlanRequiredForFeature}
             tooltipMessageBlocked={{
                 id: t('admin.sidebar.restricted_indicator.tooltip.message.blocked'),
-                defaultMessage: 'This is a professional feature, available with an upgrade or free {trialLength}-day trial',
+                defaultMessage: 'This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial',
             }}
         />
     ),
@@ -560,7 +561,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         team_detail: {
             url: 'user_management/teams/:team_id',
@@ -698,7 +699,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
     },
     environment: {
@@ -5768,6 +5769,43 @@ const AdminDefinition = {
             },
         },
     },
+    products: {
+        icon: (
+            <ProductsIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
+        sectionTitle: t('admin.sidebar.products'),
+        sectionTitleDefault: 'Products',
+        isHidden: it.any(
+            it.configIsFalse('FeatureFlags', 'BoardsProduct'),
+            it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.PRODUCTS)),
+        ),
+        boards: {
+            url: 'products/boards',
+            title: t('admin.sidebar.boards'),
+            title_default: 'Boards',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+            schema: {
+                id: 'BoardsSettings',
+                name: t('admin.site.boards'),
+                name_default: 'Boards',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ProductSettings.EnablePublicSharedBoards',
+                        label: t('admin.customization.enablePublicSharedBoardsTitle'),
+                        label_default: 'Enable Public Shared Boards:',
+                        help_text: t('admin.customization.enablePublicSharedBoardsDesc'),
+                        help_text_default: 'This allows board editors to share boards that can be accessed by anyone with the link.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+                    },
+                ],
+            },
+        },
+    },
     integrations: {
         icon: (
             <SitemapIcon
@@ -6190,7 +6228,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         message_export: {
             url: 'compliance/export',
@@ -6247,7 +6285,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
         audits: {
             url: 'compliance/monitoring',
@@ -6379,7 +6417,7 @@ const AdminDefinition = {
                     },
                 ],
             },
-            restrictedIndicator: getRestrictedIndicator(true),
+            restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
         },
     },
     experimental: {

@@ -16,5 +16,5 @@ Cypress.Commands.overwrite('visit', (originalFn, url, options, duration = TIMEOU
 });
 
 Cypress.Commands.add('typeWithForce', {prevSubject: true}, (subject, text, options = {}) => {
-    cy.get(subject).type(text, {force: true, options});
+    cy.get(subject).type(text, {force: true, ...options});
 });
