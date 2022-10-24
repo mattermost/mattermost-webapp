@@ -29,6 +29,8 @@ import {
 
 import {GlobalState} from 'types/store';
 
+import {suitePluginIds} from 'utils/constants';
+
 import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
 
 import ProductBranding from './product_branding';
@@ -108,12 +110,12 @@ const ProductMenu = (): JSX.Element => {
         let tourTip;
 
         // focalboard
-        if (product.pluginId === 'focalboard' && showBoardsTour) {
+        if (product.pluginId === suitePluginIds.focalboard && showBoardsTour) {
             tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
         }
 
         // playbooks
-        if (product.pluginId === 'playbooks' && showPlaybooksTour) {
+        if (product.pluginId === suitePluginIds.playbooks && showPlaybooksTour) {
             tourTip = (<PlaybooksTourTip singleTip={!focalboard}/>);
         }
 

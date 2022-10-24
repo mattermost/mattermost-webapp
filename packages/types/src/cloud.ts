@@ -10,6 +10,13 @@ export type CloudState = {
         limitsLoaded: boolean;
         limits: Limits;
     };
+    errors: {
+        subscription?: true;
+        products?: true;
+        customer?: true;
+        invoices?: true;
+        limits?: true;
+    };
 }
 
 export type Subscription = SubscriptionBase & {
@@ -52,6 +59,7 @@ export type Product = {
     sku: string;
     billing_scheme: string;
     recurring_interval: string;
+    cross_sells_to: string;
 };
 
 export type AddOn = {

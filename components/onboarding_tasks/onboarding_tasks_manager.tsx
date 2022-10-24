@@ -23,7 +23,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
 import {browserHistory} from 'utils/browser_history';
@@ -44,55 +44,55 @@ const getCategory = makeGetCategory();
 const taskLabels = {
     [OnboardingTasksName.CHANNELS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_channels_tour'
-            defaultMessage='Take a tour of channels'
+            id='onboardingTask.checklist.task_learn_more_about_messaging'
+            defaultMessage='🔀 Learn about messaging'
         />
     ),
     [OnboardingTasksName.BOARDS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_boards_tour'
-            defaultMessage='Manage tasks with your first board'
+            id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
+            defaultMessage='🎯 Plan a sprint with Kanban-style boards'
         />),
     [OnboardingTasksName.PLAYBOOKS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_playbooks_tour'
-            defaultMessage='Explore workflows with your first Playbook'
+            id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
+            defaultMessage='🐛 Resolve incidents faster with playbooks'
         />
     ),
     [OnboardingTasksName.INVITE_PEOPLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_invite'
-            defaultMessage='Invite team members to the workspace'
+            id='onboardingTask.checklist.task_invite_team_members'
+            defaultMessage='👋 Invite team members to the workspace'
         />
     ),
     [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_complete_profile'
-            defaultMessage='Complete your profile'
+            id='onboardingTask.checklist.task_complete_your_profile'
+            defaultMessage='📷 Complete your profile'
         />
     ),
     [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
         <FormattedMessage
             id='onboardingTask.checklist.explore_other_tools'
-            defaultMessage='Explore other tools in the platform'
+            defaultMessage='⛰️ Explore other tools in the platform'
         />
     ),
     [OnboardingTasksName.DOWNLOAD_APP]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_download_apps'
-            defaultMessage='Download the Desktop and Mobile Apps'
+            id='onboardingTask.checklist.task_download_mm_apps'
+            defaultMessage='📱 Download the Desktop and Mobile Apps'
         />
     ),
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_system_console'
-            defaultMessage='Visit the System Console to configure your workspace'
+            id='onboardingTask.checklist.task_visit_system_console'
+            defaultMessage='🥰️ Visit the System Console to configure your workspace'
         />
     ),
     [OnboardingTasksName.START_TRIAL]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_start_trial'
-            defaultMessage='Learn more about Enterprise-level high-security features'
+            id='onboardingTask.checklist.task_start_enterprise_trial'
+            defaultMessage='🏢 Learn more about Enterprise-level high-security features'
         />
     ),
 };
@@ -104,6 +104,7 @@ export const useTasksList = () => {
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
     const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
+    const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const isUserFirstAdmin = useSelector(isFirstAdmin);
 
     // Cloud conditions
@@ -138,6 +139,11 @@ export const useTasksList = () => {
     // explore other tools tour is only shown to subsequent admins and end users
     if (isUserFirstAdmin || (!pluginsList.playbooks && !pluginsList.focalboard)) {
         delete list.EXPLORE_OTHER_TOOLS;
+    }
+
+    // invite other users is hidden for guest users
+    if (isGuestUser) {
+        delete list.INVITE_PEOPLE;
     }
 
     return Object.values(list);
