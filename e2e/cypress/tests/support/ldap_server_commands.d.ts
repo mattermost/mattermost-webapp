@@ -23,5 +23,14 @@ declare namespace Cypress {
         * @returns {string} - access token
         */
         addLDAPUsers(): Chainable;
+
+        /**
+        * createLDAPUser
+        * @param {object} options
+        * @param {string} options.prefix
+        * @param {object} options.user - an user object
+        * @returns {object} LDAP user object.
+        */
+        createLDAPUser(): Chainable;
     }
 }

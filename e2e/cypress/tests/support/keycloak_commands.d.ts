@@ -135,6 +135,15 @@ declare namespace Cypress {
         keycloakCreateUser(user: any): Chainable;
 
         /**
+        * keycloakCreateUser is a command that creates a keycloak users.
+        * @param {User[]} user - an array of user objects
+        *
+        * @example
+        *   cy.keycloakCreateUsers([{firstName: 'test', lastName: 'test', email: 'test', username: 'test', enabled: true}]);
+        */
+        keycloakCreateUsers(user: any[]): Chainable;
+
+        /**
         * keycloakSuspendUser is a command that suspends a user (enabled=false)
         * @param {string} userEmail - email of keycloak user
         *
