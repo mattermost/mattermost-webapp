@@ -26,6 +26,7 @@ import {UserProfile, UserStatus} from '@mattermost/types/users';
 import {Group} from '@mattermost/types/groups';
 import {Team, TeamMembership} from '@mattermost/types/teams';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {NeedsTeamComponent} from 'types/store/plugins';
 
 const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
@@ -74,9 +75,8 @@ type Props = {
     };
     teamsList: Team[];
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
-    plugins?: any;
+    plugins?: NeedsTeamComponent[];
     selectedThreadId: string | null;
-    shouldShowAppBar: boolean;
     isCustomGroupsEnabled: boolean;
 }
 
@@ -315,7 +315,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     path={'/:team/emoji'}
                     component={BackstageController}
                 />
-                {this.props.plugins?.map((plugin: any) => (
+                {this.props.plugins?.map((plugin) => (
                     <Route
                         key={plugin.id}
                         path={'/:team/' + plugin.route}
@@ -323,6 +323,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                             <Pluggable
                                 pluggableName={'NeedsTeamComponent'}
                                 pluggableId={plugin.id}
+                                css={{gridArea: 'center'}}
                             />
                         )}
                     />
@@ -330,7 +331,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
-                            shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}
