@@ -3842,6 +3842,13 @@ export default class Client4 {
         );
     };
 
+    bootstrapSelfHostedSignup = () => {
+        return this.doFetch<void>(
+            `${this.getCloudRoute()}/self-hosted-bootstrap`,
+             {method: 'post'},
+        );
+    };
+
     createPaymentMethod = async () => {
         return this.doFetch(
             `${this.getCloudRoute()}/payment`,

@@ -10,6 +10,7 @@ import {
     OnboardingTourSteps,
     useShowOnboardingTutorialStep,
 } from 'components/onboarding_tour';
+import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
 import StatusDropdown from 'components/status_dropdown';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
@@ -36,11 +37,19 @@ export type Props = {
 const RightControls = ({productId = null}: Props): JSX.Element => {
     const showCustomizeTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CUSTOMIZE_EXPERIENCE);
 
+    const openSelfHostedPurchaseModal =  useOpenSelfHostedPurchaseModal({});
     return (
         <RightControlsContainer
             id={'RightControlsContainer'}
         >
             <PlanUpgradeButton/>
+            <button
+                onClick={() => {
+                    openSelfHostedPurchaseModal({})
+                }}
+            >
+        {'paid self hosted'}
+            </button>
             {productId === null ? (
                 <>
                     <AtMentionsButton/>
