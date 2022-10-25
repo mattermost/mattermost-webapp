@@ -171,6 +171,7 @@
     "eslint-plugin-no-only-tests": "2.6.0",
     "eslint-plugin-react": "7.24.0",
     "eslint-plugin-react-hooks": "4.3.0",
+    "external-remotes-plugin": "1.0.0",
     "file-loader": "6.2.0",
     "form-data": "4.0.0",
     "html-loader": "2.1.2",
