@@ -533,10 +533,15 @@ function membersInChannel(state: RelationOneToOne<Channel, Record<string, Channe
     case ChannelTypes.RECEIVED_CHANNEL_MEMBER: {
         const member = action.data;
         const members = {...(state[member.channel_id] || {})};
-        members[member.user_id] = member;
+        if (member.last_update_at > members[member.user_id]?.last_update_at) {
+            members[member.user_id] = member;
+            return {
+                ...state,
+                [member.channel_id]: members,
+            };
+        }
         return {
             ...state,
-            [member.channel_id]: members,
         };
     }
     case ChannelTypes.RECEIVED_MY_CHANNEL_MEMBERS:
