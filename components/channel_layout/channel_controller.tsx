@@ -2,14 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
-
-import Pluggable from 'plugins/pluggable';
-
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {RequestStatus} from 'mattermost-redux/constants';
-
-import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
+import classNames from 'classnames';
 
 import ResetStatusModal from 'components/reset_status_modal';
 import Sidebar from 'components/sidebar';
@@ -18,19 +11,17 @@ import LoadingScreen from 'components/loading_screen';
 import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
 
-import {GlobalState} from 'types/store';
+import Pluggable from 'plugins/pluggable';
 
-import {Constants} from 'utils/constants';
 import {isInternetExplorer, isEdge} from 'utils/user_agent';
+
+interface Props {
+    fetchingChannels: boolean;
+}
 
 const BODY_CLASS_FOR_CHANNEL = ['app__body', 'channel-view'];
 
-export default function ChannelController() {
-    const dispatch = useDispatch<DispatchFunc>();
-
-    const shouldRenderCenterChannel = useSelector((state: GlobalState) =>
-        state.requests.channels.getChannelsMembersCategories.status === RequestStatus.SUCCESS);
-
+export default function ChannelController({fetchingChannels}: Props) {
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
         const platform = window.navigator.platform;
@@ -38,16 +29,6 @@ export default function ChannelController() {
 
         return () => {
             document.body.classList.remove(...BODY_CLASS_FOR_CHANNEL);
-        };
-    }, []);
-
-    useEffect(() => {
-        const loadStatusesIntervalId = setInterval(() => {
-            dispatch(loadStatusesForChannelAndSidebar());
-        }, Constants.STATUS_INTERVAL);
-
-        return () => {
-            clearInterval(loadStatusesIntervalId);
         };
     }, []);
 
@@ -60,13 +41,14 @@ export default function ChannelController() {
             >
                 <FaviconTitleHandler/>
                 <ProductNoticesModal/>
-                <div className='container-fluid channel-view-inner'>
-                    {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen/>}
+                <div className={classNames('container-fluid channel-view-inner')}>
+                    {fetchingChannels ? <LoadingScreen/> : <CenterChannel/>}
                     <Pluggable pluggableName='Root'/>
                     <ResetStatusModal/>
                 </div>
             </div>
         </>
+
     );
 }
 
