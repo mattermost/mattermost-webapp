@@ -209,8 +209,8 @@ describe('Forward Message', () => {
         // * Assert RHS is open
         cy.get('#rhsContainer').should('be.visible');
 
-        // # Visit global threads
-        cy.uiClickSidebarItem('insights');
+        // # Visit global insights
+        cy.uiGetSidebarItem('insights').click({force: true});
 
         // # Click on ... button of reply post
         cy.clickPostDotMenu(replyPost.id, 'RHS_COMMENT');
