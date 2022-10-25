@@ -24,7 +24,10 @@ const FileUploadOverlay: React.FC<Props> = (props: Props) => {
     }
 
     return (
-        <div className={overlayClass} id="file-overlay">
+        <div 
+            className={overlayClass} 
+            id='file-overlay'
+        >
             <div className='overlay__indent'>
                 <div className='overlay__circle'>
                     <img
