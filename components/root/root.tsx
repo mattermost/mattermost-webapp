@@ -186,7 +186,7 @@ export default class Root extends React.PureComponent<Props, State> {
         });
 
         document.addEventListener('dragover', (e) => {
-            if (!document.body.classList.contains('focalboard-body')) {
+            if (!Utils.isTextDroppableEvent(e) && !document.body.classList.contains('focalboard-body')) {
                 e.preventDefault();
                 e.stopPropagation();
             }
