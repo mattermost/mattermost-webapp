@@ -129,7 +129,7 @@ exports[`components/RhsComment should display RHSCommentBroadcast when comment i
         </div>
       </div>
       <div>
-        <Connect(RhsCommentBroadcast)
+        <Connect(RhsCommentBroadcastedHeader)
           channelId="channel_id"
         />
         <div
