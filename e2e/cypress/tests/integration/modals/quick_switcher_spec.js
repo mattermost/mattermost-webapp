@@ -48,11 +48,10 @@ describe('Quick switcher', () => {
     beforeEach(() => {
         // # Login as test user
         cy.apiLogin(testUser);
+        cy.visit(`/${testTeam.name}/channels/town-square`);
     });
 
     it('MM-T3447_1 Should add recent user on top of results', () => {
-        cy.visit(`/${testTeam.name}/channels/town-square`);
-
         // # Type either cmd+K / ctrl+K depending on OS
         cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 
@@ -68,7 +67,6 @@ describe('Quick switcher', () => {
 
         // # Search with the term a
         cy.focused().type('a').wait(TIMEOUTS.HALF_SEC);
-        cy.get('body').type('{downarrow}');
 
         // * Should have recently interacted DM on top
         cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
@@ -86,7 +84,6 @@ describe('Quick switcher', () => {
 
         // # Search with the term a
         cy.focused().type('a').wait(TIMEOUTS.HALF_SEC);
-        cy.get('body').type('{downarrow}');
 
         // * Should have recently interacted DM on top
         cy.get('.suggestion--selected').should('exist').and('contain.text', thirdUser.username);
@@ -100,7 +97,6 @@ describe('Quick switcher', () => {
 
         cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
         cy.focused().type('a').wait(TIMEOUTS.HALF_SEC);
-        cy.get('body').type('{downarrow}');
 
         // * Should have recently interacted DM on top
         cy.get('.suggestion--selected').should('exist').and('contain.text', secondUser.username);
