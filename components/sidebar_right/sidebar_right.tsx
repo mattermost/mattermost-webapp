@@ -194,7 +194,10 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         if (this.sidebarRight.current) {
             transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
         }
-        const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
+        const hasTransition =
+            Boolean(transitionInfo) &&
+            transitionInfo !== 'all 0s ease 0s' &&
+            transitionInfo !== 'none 0s ease 0s';
 
         if (this.sidebarRight.current && hasTransition) {
             this.setState({isOpened: this.props.isOpen});
