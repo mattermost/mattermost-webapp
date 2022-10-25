@@ -3253,17 +3253,10 @@ describe('Selectors.Channels.getRecentProfilesFromDMs', () => {
                 },
             },
         });
-        expect(Selectors.getRecentProfilesFromDMs(testState)).toEqual([
-            user2,
-            ...([user3, user4].sort((a, b) => {
-                if (a.username > b.username) {
-                    return 1;
-                } else if (b.username > a.username) {
-                    return -1;
-                }
-                return 0;
-            })),
-            user1,
+        expect(Selectors.getRecentProfilesFromDMs(testState).map((user) => user.username)).toEqual([
+            user2.username,
+            ...[user3.username, user4.username].sort(),
+            user1.username,
         ]);
     });
 });

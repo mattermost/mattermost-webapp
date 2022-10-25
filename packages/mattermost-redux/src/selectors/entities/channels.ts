@@ -1405,11 +1405,13 @@ export const getRecentProfilesFromDMs: (state: GlobalState) => UserProfile[] = c
 
         groupChannels.forEach((channel) => {
             if (channel.display_name) {
-                const memberUsernames = channel.display_name.split(',').map((username) => username.trim()).filter((username) => username !== currentUser.username);
-                const memberProfiles = Object.values(users).filter((profile) => {
-                    return memberUsernames.includes(profile.username);
+                const memberUsernames = channel.display_name.split(',').map((username) => username.trim()).filter((username) => username !== currentUser.username).sort();
+                const memberProfiles = memberUsernames.map((username) => {
+                    return Object.values(users).find((profile) => profile.username === username);
                 });
-                userProfilesByChannel[channel.id] = memberProfiles;
+                if (memberProfiles) {
+                    userProfilesByChannel[channel.id] = memberProfiles as UserProfile[];
+                }
             }
         });
         const sortedUserProfiles: Set<UserProfile> = new Set<UserProfile>();
