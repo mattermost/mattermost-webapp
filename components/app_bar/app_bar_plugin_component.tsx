@@ -12,10 +12,12 @@ import {getCurrentChannel, getMyCurrentChannelMembership} from 'mattermost-redux
 import {getActivePluginId} from 'selectors/rhs';
 
 import {PluginComponent} from 'types/store/plugins';
-import Constants from 'utils/constants';
+import Constants, {suitePluginIds} from 'utils/constants';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import PluginIcon from 'components/widgets/icons/plugin_icon';
+
+import NewChannelWithBoardTourTip from './new_channel_with_board_tour_tip';
 
 type PluginComponentProps = {
     component: PluginComponent;
@@ -48,7 +50,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
         setImageLoadState(ImageLoadState.ERROR);
     };
 
-    const buttonId = component.id;
+    const buttonId = `app-bar-icon-${component.pluginId}`;
     const tooltipText = component.tooltipText || component.dropdownText || component.pluginId;
     const tooltip = (
         <Tooltip id={'pluginTooltip-' + buttonId}>
@@ -98,6 +100,7 @@ const AppBarPluginComponent = (props: PluginComponentProps) => {
                 }}
             >
                 {content}
+                {component.pluginId === suitePluginIds.focalboard && <NewChannelWithBoardTourTip/>}
             </div>
         </OverlayTrigger>
     );
