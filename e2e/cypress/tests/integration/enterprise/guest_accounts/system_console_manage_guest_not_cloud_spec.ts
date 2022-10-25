@@ -15,9 +15,9 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {verifyGuest} from './helpers';
 
 describe('Guest Account - Verify Manage Guest Users', () => {
-    let guestUser;
-    let testTeam;
-    let testChannel;
+    let guestUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -37,7 +37,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
             testTeam = team;
             testChannel = channel;
 
-            cy.apiCreateGuestUser().then(({guest}) => {
+            cy.apiCreateGuestUser({}).then(({guest}) => {
                 guestUser = guest;
 
                 cy.apiAddUserToTeam(testTeam.id, guestUser.id).then(() => {

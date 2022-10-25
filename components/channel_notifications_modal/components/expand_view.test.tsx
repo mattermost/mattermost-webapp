@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {NotificationLevels, NotificationSections} from 'utils/constants';
 
-import ExpandView from 'components/channel_notifications_modal/components/expand_view.jsx';
+import ExpandView from 'components/channel_notifications_modal/components/expand_view';
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux'),
@@ -20,10 +20,10 @@ describe('components/channel_notifications_modal/ExpandView', () => {
         memberThreadsNotifyLevel: NotificationLevels.ALL,
         globalNotifyLevel: NotificationLevels.DEFAULT,
         serverError: '',
-        onChange: () => {}, //eslint-disable-line no-empty-function
-        onChangeThreads: () => {}, //eslint-disable-line no-empty-function
-        onCollapseSection: () => {}, //eslint-disable-line no-empty-function
-        onSubmit: () => {}, //eslint-disable-line no-empty-function
+        onChange: jest.fn(),
+        onChangeThreads: jest.fn(),
+        onCollapseSection: jest.fn(),
+        onSubmit: jest.fn(),
     };
 
     test('should match snapshot, DESKTOP on expanded view', () => {
@@ -44,7 +44,7 @@ describe('components/channel_notifications_modal/ExpandView', () => {
     });
 
     test('should match snapshot, MARK_UNREAD on expanded view', () => {
-        const props = {...baseProps, section: NotificationSections.MARK_UNREAD, globalNotifyLevel: null};
+        const props = {...baseProps, section: NotificationSections.MARK_UNREAD};
         const wrapper = shallow(
             <ExpandView {...props}/>,
         );

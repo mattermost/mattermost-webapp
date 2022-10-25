@@ -18,7 +18,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationGlobalDefault"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="default"
               />
@@ -39,7 +39,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={true}
                 id="channelNotificationAllActivity"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="all"
               />
@@ -59,7 +59,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationMentions"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="mention"
               />
@@ -77,7 +77,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationNever"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="none"
               />
@@ -101,13 +101,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title={
     <SectionTitle
       section="desktop"
     />
   }
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 />
 `;
 
@@ -129,7 +129,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationUnmute"
                 name="channelNotificationMute"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="mention"
               />
@@ -149,7 +149,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={true}
                 id="channelNotificationMute"
                 name="channelNotificationMute"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="all"
               />
@@ -173,13 +173,13 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title={
     <SectionTitle
       section="markUnread"
     />
   }
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 />
 `;
 
@@ -201,7 +201,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationGlobalDefault"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="default"
               />
@@ -222,7 +222,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={true}
                 id="channelNotificationAllActivity"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="all"
               />
@@ -242,7 +242,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationMentions"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="mention"
               />
@@ -260,7 +260,7 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
                 checked={false}
                 id="channelNotificationNever"
                 name="channelDesktopNotifications"
-                onChange={[Function]}
+                onChange={[MockFunction]}
                 type="radio"
                 value="none"
               />
@@ -284,12 +284,12 @@ exports[`components/channel_notifications_modal/ExpandView should match snapshot
   saving={false}
   section=""
   server_error=""
-  submit={[Function]}
+  submit={[MockFunction]}
   title={
     <SectionTitle
       section="push"
     />
   }
-  updateSection={[Function]}
+  updateSection={[MockFunction]}
 />
 `;

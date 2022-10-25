@@ -190,7 +190,7 @@ export default class FeatureDiscovery extends React.PureComponent<Props, State> 
                             'Try free for {trialLength} days',
                             {trialLength: FREEMIUM_TO_ENTERPRISE_TRIAL_LENGTH_DAYS},
                         )}
-                        telemetryId={'start_cloud_trial_feature_discovery'}
+                        telemetryId={`start_cloud_trial_from_${this.props.featureName}`}
                         extraClass='btn btn-primary'
                     />
                 );

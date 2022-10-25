@@ -1,16 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import CopyText from 'components/copy_text';
 
+import {OutgoingWebhook} from '@mattermost/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+
 import DeleteIntegrationLink from './delete_integration_link';
 
-export function matchesFilter(outgoingWebhook, channel, filter) {
+export function matchesFilter(outgoingWebhook: OutgoingWebhook, channel: Channel, filter: string) {
     if (!filter) {
         return true;
     }
@@ -45,51 +49,19 @@ export function matchesFilter(outgoingWebhook, channel, filter) {
     return false;
 }
 
-export default class InstalledOutgoingWebhook extends React.PureComponent {
-    static propTypes = {
+type Props = {
+    outgoingWebhook: OutgoingWebhook;
+    onRegenToken: (outgoingWebhook: OutgoingWebhook) => void;
+    onDelete: (outgoingWebhook: OutgoingWebhook) => void;
+    team: Team;
+    creator: UserProfile;
+    channel: Channel;
+    canChange: boolean;
+    filter?: string;
+}
 
-        /**
-        * Data used for showing webhook details
-        */
-        outgoingWebhook: PropTypes.object.isRequired,
-
-        /**
-        * Function used for webhook token regeneration
-        */
-        onRegenToken: PropTypes.func.isRequired,
-
-        /**
-        * Function to call when webhook delete button is pressed
-        */
-        onDelete: PropTypes.func.isRequired,
-
-        /**
-        * String used for filtering webhook item
-        */
-        filter: PropTypes.string,
-
-        /**
-        * Data used for showing created by details
-        */
-        creator: PropTypes.object.isRequired,
-
-        /**
-        *  Set to show available actions on webhook
-        */
-        canChange: PropTypes.bool.isRequired,
-
-        /**
-        *  Data used in routing of webhook for modifications
-        */
-        team: PropTypes.object.isRequired,
-
-        /**
-        *  Data used for filtering of webhooks based in filter prop
-        */
-        channel: PropTypes.object,
-    }
-
-    handleRegenToken = (e) => {
+export default class InstalledOutgoingWebhook extends React.PureComponent<Props> {
+    handleRegenToken = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
         e.preventDefault();
 
         this.props.onRegenToken(this.props.outgoingWebhook);
@@ -99,7 +71,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         this.props.onDelete(this.props.outgoingWebhook);
     }
 
-    makeDisplayName(outgoingWebhook, channel) {
+    makeDisplayName(outgoingWebhook: OutgoingWebhook, channel: Channel) {
         if (outgoingWebhook.display_name) {
             return outgoingWebhook.display_name;
         } else if (channel) {
