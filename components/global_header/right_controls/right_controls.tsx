@@ -12,6 +12,8 @@ import {
 } from 'components/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
 
+import UserGuideDropdown from '../center_controls/user_guide_dropdown';
+
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
@@ -55,6 +57,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                     pluggableId={productId}
                 />
             )}
+            {productId === null ? '' : <UserGuideDropdown/>}
             <StatusDropdown/>
         </RightControlsContainer>
     );
