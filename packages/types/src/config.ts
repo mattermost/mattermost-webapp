@@ -114,7 +114,6 @@ export type ClientConfig = {
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
     FeatureFlagGraphQL: string;
-    FeatureFlagPlanUpgradeButtonText: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;

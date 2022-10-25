@@ -54,12 +54,6 @@ const PlanUpgradeButton = (): JSX.Element | null => {
     const config = useSelector(getConfig);
     const license = useSelector(getLicense);
 
-    const buttonTextFeatureFlag = config?.FeatureFlagPlanUpgradeButtonText;
-    let btnText = formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'});
-    if (isCloud && buttonTextFeatureFlag === 'view_plans') {
-        btnText = formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'});
-    }
-
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
 
     const isStarter = product?.sku === CloudProducts.STARTER;
@@ -104,7 +98,7 @@ const PlanUpgradeButton = (): JSX.Element | null => {
                 id='UpgradeButton'
                 onClick={() => openPricingModal({trackingLocation: 'global_header_plan_upgrade_button'})}
             >
-                {btnText}
+                {formatMessage({id: 'pricing_modal.btn.viewPlans', defaultMessage: 'View plans'})}
             </UpgradeButton>
         </OverlayTrigger>);
 };
