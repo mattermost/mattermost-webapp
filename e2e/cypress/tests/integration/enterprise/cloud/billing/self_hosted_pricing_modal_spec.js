@@ -46,7 +46,7 @@ describe('Self hosted Pricing modal', () => {
 
     it('should show Upgrade button in global header for admin users on starter plan', () => {
         // * Check that Upgrade button does not show
-        cy.get('#UpgradeButton').should('exist').contains('Upgrade');
+        cy.get('#UpgradeButton').should('exist').contains('View plans');
 
         // * Check for Upgrade button tooltip
         cy.get('#UpgradeButton').trigger('mouseover').then(() => {
@@ -98,7 +98,7 @@ describe('Self hosted Pricing modal', () => {
         // * Check that professional upgrade button is available
         cy.get('#pricingModal').should('be.visible');
         cy.get('#professional').should('be.visible');
-        cy.get('#professional_action').should('not.be.disabled').contains('Upgrade');
+        cy.get('#professional_action').should('not.be.disabled').contains('View plans');
 
         // * Check that enteprise trial button is available
         cy.get('#pricingModal').should('be.visible');
@@ -129,7 +129,7 @@ describe('Self hosted Pricing modal', () => {
         // * Check that professional upgrade button is available
         cy.get('#pricingModal').should('be.visible');
         cy.get('#professional').should('be.visible');
-        cy.get('#professional_action').should('not.be.disabled').contains('Upgrade');
+        cy.get('#professional_action').should('not.be.disabled').contains('View plans');
 
         // * Check that contact sales button is now showing and not trial button
         cy.get('#pricingModal').should('be.visible');
@@ -162,7 +162,7 @@ describe('Self hosted Pricing modal', () => {
         // * Check that professional upgrade button is available
         cy.get('#pricingModal').should('be.visible');
         cy.get('#professional').should('be.visible');
-        cy.get('#professional_action').should('not.be.disabled').contains('Upgrade');
+        cy.get('#professional_action').should('not.be.disabled').contains('View plans');
 
         // * Check that contact sales button is now showing and not trial button
         cy.get('#pricingModal').should('be.visible');
