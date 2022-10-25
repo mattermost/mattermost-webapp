@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {connect} from 'react-redux';
-import {bindActionCreators, Dispatch, compose} from 'redux';
+import {bindActionCreators, Dispatch} from 'redux';
 
 import {withRouter, RouteComponentProps} from 'react-router-dom';
 
@@ -74,8 +74,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default compose<SidebarRight>(
-    withRouter,
-    connect(mapStateToProps, mapDispatchToProps),
-    memo,
-)(SidebarRight);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(memo(SidebarRight)));
