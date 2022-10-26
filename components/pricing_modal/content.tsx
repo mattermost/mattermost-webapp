@@ -60,11 +60,22 @@ function Content(props: ContentProps) {
     const product = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
 
+    const findProductBySku = (sku: string) => {
+        return Object.values(products || {}).find(((product) => {
+            return product.sku === sku;
+        }));
+    }
+
+    const findProductByID = (id: string) => {
+        return Object.values(products || {}).find(((product) => {
+            return product.id === id;
+        }));
+    }
+
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const professionalProduct = Object.values(products || {}).find(((product) => {
-        return product.sku === CloudProducts.PROFESSIONAL;
-    }));
+    const professionalProduct = findProductBySku(CloudProducts.PROFESSIONAL);
+
     const starterProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;
     }));
@@ -142,6 +153,7 @@ function Content(props: ContentProps) {
     ];
 
     const [isMonthly, setIsMonthly] = useState(true);
+    const [professionalPrice, setProfessionalPrice] = useState(10);
 
     const options = [
         {
@@ -153,15 +165,33 @@ function Content(props: ContentProps) {
             value: "Monthly",
         }
      ];
+
+    // generalized getPrice function that can work for both Professional and Enterprise
+    const getPrice = (defaultPrice: number, newIsMonthly: boolean, productSku: string) => {
+        if (productSku === "") {
+            return defaultPrice;
+        }
+        const monthlyProduct = findProductBySku(productSku);
+        if (!monthlyProduct) {
+            return defaultPrice
+        }
+
+        if (newIsMonthly) {
+            return monthlyProduct.price_per_seat;
+        } 
+
+        const yearlyProduct = findProductByID(monthlyProduct.cross_sells_to);
+        return yearlyProduct ? yearlyProduct.price_per_seat : defaultPrice;
+    }
      
      const onChange = (newValue: any) => {
-        setIsMonthly(!isMonthly)
-         console.log(newValue);
+        setIsMonthly(!isMonthly);
+        // The isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state (ie. UI shows monthly selected but the isMonthly variable is still false at this point)
+        setProfessionalPrice(getPrice(5, !isMonthly, CloudProducts.PROFESSIONAL)); 
      };
      
-     const initialSelectedIndex = options.findIndex(({value}) => value === "Monthly");
-     
-
+    const initialSelectedIndex = options.findIndex(({value}) => value === "Monthly");
+    
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -267,7 +297,7 @@ function Content(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
+                        price={`$${professionalPrice}`}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                         planLabel={
                             isProfessional ? (
