@@ -283,12 +283,9 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     onShortcutKeyDown = (e: KeyboardEvent) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-            const sidebar = document.getElementById('sidebar-right');
-            if (sidebar && sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
-                const replyTextbox = document.getElementById('reply_textbox');
-                if (replyTextbox) {
-                    replyTextbox.focus();
-                }
+            const replyTextbox = document.querySelector<HTMLElement>('#sidebar-right.is-open.expanded #reply_textbox');
+            if (replyTextbox) {
+                replyTextbox.focus();
             } else {
                 const postTextbox = document.getElementById('post_textbox');
                 if (postTextbox) {
