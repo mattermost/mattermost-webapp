@@ -3,7 +3,7 @@
 exports[`components/FileUploadOverlay should match snapshot when file upload is showing with no overlay type 1`] = `
 <div
   className="file-overlay hidden"
-  id="file-overlay"
+  id="file-upload-overlay"
 >
   <div
     className="overlay__indent"
@@ -45,7 +45,7 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
 exports[`components/FileUploadOverlay should match snapshot when file upload is showing with overlay type of center 1`] = `
 <div
   className="file-overlay hidden center-file-overlay"
-  id="file-overlay"
+  id="file-upload-overlay"
 >
   <div
     className="overlay__indent"
@@ -87,7 +87,7 @@ exports[`components/FileUploadOverlay should match snapshot when file upload is 
 exports[`components/FileUploadOverlay should match snapshot when file upload is showing with overlay type of right 1`] = `
 <div
   className="file-overlay hidden right-file-overlay"
-  id="file-overlay"
+  id="file-upload-overlay"
 >
   <div
     className="overlay__indent"
