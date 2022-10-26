@@ -94,7 +94,7 @@ exports[`components/feature_discovery FeatureDiscovery should match snapshot whe
     <CloudStartTrialButton
       extraClass="btn btn-primary"
       message="Try free for 30 days"
-      telemetryId="start_cloud_trial_feature_discovery"
+      telemetryId="start_cloud_trial_from_test"
     />
     <a
       className="btn btn-secondary"

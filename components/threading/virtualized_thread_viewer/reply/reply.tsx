@@ -12,14 +12,14 @@ import {Post} from '@mattermost/types/posts';
 import PostComponent from 'components/new_post';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
+import {Post} from '@mattermost/types/posts';
+
 type Props = {
     a11yIndex: number;
     currentUserId: string;
     isLastPost: boolean;
     onCardClick: (post: Post) => void;
     post: Post;
-    previewCollapsed: string;
-    previewEnabled: boolean;
     previousPostId: string;
     teamId: string;
     timestampProps?: Partial<TimestampProps>;
@@ -53,8 +53,6 @@ function Reply({
             isLastPost={isLastPost}
             postId={id}
             post={post}
-            previewCollapsed={previewCollapsed}
-            previewEnabled={previewEnabled}
             previousPostId={previousPostId}
             removePost={handleRemovePost}
             teamId={teamId}
