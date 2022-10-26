@@ -27,10 +27,6 @@ import {GlobalState} from 'types/store';
 
 let privateChannelJoinPromptVisible = false;
 
-type Option = {
-    skipRedirectReplyPermalink: boolean;
-}
-
 function focusRootPost(post: Post, channel: Channel) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const postURL = getPostURL(getState() as GlobalState, post);
@@ -47,7 +43,7 @@ function focusRootPost(post: Post, channel: Channel) {
     };
 }
 
-function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: string, option: Option) {
+function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const {data} = await dispatch(getPostThread(post.root_id));
 
@@ -60,18 +56,15 @@ function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: 
 
         const team = getTeam(state, channel.team_id || teamId);
         const currentChannel = getCurrentChannel(state);
-
         const sameTeam = currentChannel && currentChannel.team_id === team.id;
-
-        const {skipRedirectReplyPermalink} = option;
 
         if (!sameTeam) {
             dispatch(selectChannel(channel.id));
         }
 
-        if (sameTeam && returnTo && !skipRedirectReplyPermalink) {
+        if (sameTeam && returnTo) {
             browserHistory.replace(returnTo);
-        } else if (!sameTeam || !skipRedirectReplyPermalink) {
+        } else {
             const postURL = getPostURL(state, post);
             browserHistory.replace(postURL);
         }
@@ -81,7 +74,7 @@ function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: 
     };
 }
 
-export function focusPost(postId: string, returnTo = '', currentUserId: string, option: Option = {skipRedirectReplyPermalink: false}) {
+export function focusPost(postId: string, returnTo = '', currentUserId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         // Ignore if prompt is still visible
         if (privateChannelJoinPromptVisible) {
@@ -163,7 +156,7 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string, 
         const post = data.posts[postId];
 
         if (isCollapsed && isComment(post)) {
-            const {data} = await dispatch(focusReplyPost(post, channel, teamId, returnTo, option));
+            const {data} = await dispatch(focusReplyPost(post, channel, teamId, returnTo));
             if (!data) {
                 return;
             }

@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import React, {ReactNode} from 'react';
+import {FormattedMessage, injectIntl} from 'react-intl';
 
 import {Constants} from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -17,15 +17,25 @@ import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import StatusIcon from 'components/status_icon';
 
-export default class AtMentionSuggestion extends Suggestion {
-    render() {
-        const isSelection = this.props.isSelection;
-        const item = this.props.item;
+import {UserProfile} from '../command_provider/app_command_parser/app_command_parser_dependencies.js';
 
-        let itemname;
-        let description;
-        let icon;
-        let customStatus;
+interface Item extends UserProfile {
+    display_name: string;
+    name: string;
+    isCurrentUser: boolean;
+    type: string;
+}
+
+class AtMentionSuggestion extends Suggestion {
+    render() {
+        const {intl} = this.props;
+        const isSelection: boolean = this.props.isSelection;
+        const item: Item = this.props.item;
+
+        let itemname: string;
+        let description: ReactNode;
+        let icon: JSX.Element;
+        let customStatus: ReactNode;
         if (item.username === 'all') {
             itemname = 'all';
             description = (
@@ -37,19 +47,12 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
             );
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else if (item.username === 'channel') {
             itemname = 'channel';
@@ -62,19 +65,12 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
             );
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else if (item.username === 'here') {
             itemname = 'here';
@@ -87,37 +83,23 @@ export default class AtMentionSuggestion extends Suggestion {
                 </span>
             );
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else if (item.type === Constants.MENTION_GROUPS) {
             itemname = item.name;
             description = `- ${item.display_name}`;
             icon = (
-                <FormattedMessage
-                    id='generic_icons.member'
-                    defaultMessage='Member Icon'
-                >
-                    {(title) => (
-                        <span className='suggestion-list__icon suggestion-list__icon--large'>
-                            <i
-                                className='icon icon-account-multiple-outline'
-                                title={title}
-                            />
-                        </span>
-                    )}
-                </FormattedMessage>
+                <span className='suggestion-list__icon suggestion-list__icon--large'>
+                    <i
+                        className='icon icon-account-multiple-outline'
+                        title={intl.formatMessage({id: 'generic_icons.member', defaultMessage: 'Member Icon'})}
+                    />
+                </span>
             );
         } else {
             itemname = item.username;
@@ -221,3 +203,5 @@ export default class AtMentionSuggestion extends Suggestion {
         );
     }
 }
+
+export default injectIntl(AtMentionSuggestion);
