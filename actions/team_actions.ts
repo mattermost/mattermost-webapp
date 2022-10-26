@@ -15,7 +15,7 @@ import {selectTeam} from 'mattermost-redux/actions/teams';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Preferences} from 'utils/constants';
 
 export function removeUserFromTeamAndGetStats(teamId: Team['id'], userId: UserProfile['id']): ActionFunc {
@@ -96,7 +96,7 @@ export function switchTeam(url: string, team?: Team) {
         if (team) {
             dispatch(selectTeam(team));
         } else {
-            browserHistory.push(url);
+            getHistory().push(url);
         }
     };
 }

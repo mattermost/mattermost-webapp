@@ -37,7 +37,7 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}}: P
     }
 });
 
-setModule('utils/browser_history', {
+const browserHistory = {
     ...b,
     push: (path: string | { pathname: string }, ...args: string[]) => {
         if (isDesktop) {
@@ -54,5 +54,13 @@ setModule('utils/browser_history', {
             b.push(path, ...args);
         }
     },
-});
-export const browserHistory = getModule<History>('utils/browser_history');
+};
+
+/**
+ * Returns the current history object.
+ *
+ * If you're calling this from within a React component, consider using the useHistory hook from react-router-dom.
+ */
+export function getHistory() {
+    return getModule<History>('utils/browser_history') ?? browserHistory;
+}

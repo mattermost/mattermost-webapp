@@ -7,7 +7,7 @@ import {shallow} from 'enzyme';
 import {IncomingWebhook} from '@mattermost/types/integrations';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import EditIncomingWebhook from 'components/integrations/edit_incoming_webhook/edit_incoming_webhook';
 import {TestHelper} from '../../../utils/test_helper';
 
@@ -109,7 +109,6 @@ describe('components/integrations/EditIncomingWebhook', () => {
     test('should have called submitHook when editIncomingHook is initiated (with data)', async () => {
         const newUpdateIncomingHook = jest.fn().mockReturnValue({data: 'data'});
         const newActions = {...actions, updateIncomingHook: newUpdateIncomingHook};
-        browserHistory.push = jest.fn();
         const asyncHook = {...hook};
         const props = {...requiredProps, actions: newActions, hook};
         const wrapper = shallow<EditIncomingWebhook>(<EditIncomingWebhook {...props}/>);
@@ -121,6 +120,6 @@ describe('components/integrations/EditIncomingWebhook', () => {
         expect(newUpdateIncomingHook).toHaveBeenCalledTimes(1);
         expect(newUpdateIncomingHook).toBeCalledWith(asyncHook);
         expect(wrapper.state('serverError')).toEqual('');
-        expect(browserHistory.push).toHaveBeenCalledWith(`/${requiredProps.team.name}/integrations/incoming_webhooks`);
+        expect(getHistory().push).toHaveBeenCalledWith(`/${requiredProps.team.name}/integrations/incoming_webhooks`);
     });
 });
