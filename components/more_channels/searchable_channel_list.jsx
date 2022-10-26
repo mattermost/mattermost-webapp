@@ -60,7 +60,8 @@ export default class SearchableChannelList extends React.PureComponent {
         }
     }
 
-    handleJoin = (channel) => {
+    handleJoin = (channel, e) => {
+        e.stopPropagation();
         this.setState({joiningChannel: channel.id});
         this.props.handleJoin(
             channel,
@@ -122,7 +123,7 @@ export default class SearchableChannelList extends React.PureComponent {
 
         const joinViewChannelButton = (
             <button
-                onClick={() => this.handleJoin(channel)}
+                onClick={(e) => this.handleJoin(channel, e)}
                 className={joinViewChannelButtonClass}
                 disabled={this.state.joiningChannel}
             >
@@ -143,7 +144,7 @@ export default class SearchableChannelList extends React.PureComponent {
                 className='more-modal__row'
                 key={channel.id}
                 id={`ChannelRow-${channel.name}`}
-                onClick={() => this.handleJoin(channel)}
+                onClick={(e) => this.handleJoin(channel, e)}
             >
                 <div className='more-modal__details'>
                     <div
