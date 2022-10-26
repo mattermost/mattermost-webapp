@@ -12,6 +12,13 @@ import {
 } from 'components/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
 
+import {GlobalState} from 'types/store';
+
+import {useLocation} from 'react-router-dom';
+import {useSelector} from 'react-redux';
+
+import {getCurrentProduct} from 'selectors/products';
+
 import UserGuideDropdown from '../center_controls/user_guide_dropdown';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
@@ -37,6 +44,8 @@ export type Props = {
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
     const showCustomizeTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CUSTOMIZE_EXPERIENCE);
+    const {pathname} = useLocation();
+    const currentProduct = useSelector((state: GlobalState) => getCurrentProduct(state.plugins.components.Product, pathname));
 
     return (
         <RightControlsContainer
@@ -57,7 +66,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                     pluggableId={productId}
                 />
             )}
-            {productId === null ? '' : <UserGuideDropdown/>}
+            {currentProduct?.pluginId === 'playbooks' ? <UserGuideDropdown/> : ''}
             <StatusDropdown/>
         </RightControlsContainer>
     );
