@@ -103,6 +103,7 @@ describe('Quick switcher', () => {
         cy.get('body').typeWithForce('{esc}');
     });
 
+    // backend with invalid response?
     it('MM-T3447_3 Should match interacted users even with a partial match', () => {
         cy.uiGetPostTextBox().cmdOrCtrlShortcut('K');
 

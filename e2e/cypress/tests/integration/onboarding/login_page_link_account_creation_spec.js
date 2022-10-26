@@ -94,7 +94,7 @@ describe('Onboarding', () => {
         cy.uiGetLHSHeader().findByText(testTeam.display_name);
 
         // * Check that 'Town Square' is currently being selected
-        cy.get('.active').within(() => {
+        cy.get('.SidebarChannel.active').within(() => {
             cy.get('#sidebarItem_town-square').should('exist');
         });
 
