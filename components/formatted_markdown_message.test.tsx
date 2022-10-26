@@ -33,8 +33,8 @@ describe('components/FormattedMarkdownMessage', () => {
             id: 'test.bar',
             defaultMessage: '',
             values: {
-                b: (...content) => `<b>${content}</b>`,
-                script: (...content) => `<script>${content}</script>`,
+                b: (...content: string[]) => `<b>${content}</b>`,
+                script: (...content: string[]) => `<script>${content}</script>`,
             },
         };
         const wrapper = mount(wrapProvider(<FormattedMarkdownMessage {...props}/>));
@@ -67,7 +67,7 @@ describe('components/FormattedMarkdownMessage', () => {
     });
 });
 
-export function wrapProvider(el) {
+export function wrapProvider(el: JSX.Element) {
     const enTranslationData = {
         'test.foo': '**bold** *italic* [link](https://mattermost.com/) <br/> [link target blank](!https://mattermost.com/)',
         'test.bar': '<b>hello</b> <script>var malicious = true;</script> world!',

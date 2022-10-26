@@ -608,7 +608,7 @@ const defaultServerConfig: AdminConfig = {
                 Enable: true,
             },
             focalboard: {
-                Enable: true,
+                Enable: false,
             },
             playbooks: {
                 Enable: true,
@@ -667,7 +667,7 @@ const defaultServerConfig: AdminConfig = {
         InsightsEnabled: true,
         CommandPalette: false,
         PostForwarding: true,
-        BoardsProduct: false,
+        BoardsProduct: true,
         PlanUpgradeButtonText: 'upgrade',
     },
     ImportSettings: {

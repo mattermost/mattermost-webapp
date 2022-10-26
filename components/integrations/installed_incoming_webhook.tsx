@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -10,9 +9,13 @@ import {getSiteURL} from 'utils/url';
 
 import CopyText from 'components/copy_text';
 
+import {IncomingWebhook} from '@mattermost/types/integrations';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
+
 import DeleteIntegrationLink from './delete_integration_link';
 
-export function matchesFilter(incomingWebhook, channel, filter) {
+export function matchesFilter(incomingWebhook: IncomingWebhook, channel: Channel, filter: string) {
     if (!filter) {
         return true;
     }
@@ -31,45 +34,47 @@ export function matchesFilter(incomingWebhook, channel, filter) {
     return false;
 }
 
-export default class InstalledIncomingWebhook extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-        * Data used for showing webhook details
-        */
-        incomingWebhook: PropTypes.object.isRequired,
+    /**
+     * Data used for showing webhook details
+     */
+    incomingWebhook: IncomingWebhook;
 
-        /**
-        * Function to call when webhook delete button is pressed
-        */
-        onDelete: PropTypes.func.isRequired,
+    /**
+     * Function to call when webhook delete button is pressed
+     */
+    onDelete: (incomingWebhook: IncomingWebhook) => void;
 
-        /**
-        * String used for filtering webhook item
-        */
-        filter: PropTypes.string,
+    /**
+     * String used for filtering webhook item
+     */
+    filter?: string;
 
-        /**
-        * Data used for showing created by details
-        */
-        creator: PropTypes.object.isRequired,
+    /**
+     * Data used for showing created by details
+     */
+    creator: {
+        username: string;
+    };
 
-        /**
-        *  Set to show available actions on webhook
-        */
-        canChange: PropTypes.bool.isRequired,
+    /**
+     *  Set to show available actions on webhook
+     */
+    canChange: boolean;
 
-        /**
-        *  Data used in routing of webhook for modifications
-        */
-        team: PropTypes.object.isRequired,
+    /**
+     *  Data used in routing of webhook for modifications
+     */
+    team: Team;
 
-        /**
-        *  Data used for filtering of webhook based on filter prop
-        */
-        channel: PropTypes.object,
-    }
+    /**
+     *  Data used for filtering of webhook based on filter prop
+     */
+    channel: Channel;
+}
 
+export default class InstalledIncomingWebhook extends React.PureComponent<Props> {
     handleDelete = () => {
         this.props.onDelete(this.props.incomingWebhook);
     }
