@@ -7,6 +7,7 @@
 
 div.flexcontainer{
     display: flex;
+    min-height: 120px;
 }
 
 div.alert-option{
@@ -14,7 +15,23 @@ div.alert-option{
 }
 
 div.toggle-monthly-yearly{
-    flex: 2;
+    width: 161px;
+}
+
+div.save-text-div{
+    flex: 1;
+}
+
+p.save-text {
+    margin-top: 51px;
+    margin-right: 12px;
+    text-align: right;
+    color: var(--denim-status-online);
+    font-family: 'Metropolis';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 18px;
 }
 
 div.react-switch-selector-option-selected {

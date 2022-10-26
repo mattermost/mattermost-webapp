@@ -181,8 +181,11 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className="flexcontainer">
+                    <div className="save-text-div">
+                        <p className="save-text">{formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}</p>
+                    </div>
                     <div className="toggle-monthly-yearly">
-                        <div style={{width: 162, height: 32, margin: 'auto'}}>
+                        <div style={{width: 162, height: 32, margin: '44px auto'}}>
                             <SwitchSelector
                                 onChange={onChange}
                                 options={options}
@@ -193,7 +196,7 @@ function Content(props: ContentProps) {
                                 selectedBackgroundColor={'rgba(var(--denim-button-bg-rgb), 0.08)'}
                                 wrapperBorderRadius={40}
                                 optionBorderRadius={40}
-                        />
+                            />
                         </div>
                     </div>
                     <div className='alert-option'>
