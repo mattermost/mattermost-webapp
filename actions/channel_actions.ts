@@ -19,7 +19,7 @@ import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded, loadProfilesForSidebar} from 'actions/user_actions';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Constants, Preferences, NotificationLevels} from 'utils/constants';
 import {getDirectChannelName} from 'utils/utils';
 
@@ -69,7 +69,7 @@ export function openGroupChannelToUserIds(userIds: Array<UserProfile['id']>): Ac
         const result = await dispatch(ChannelActions.createGroupChannel(userIds));
 
         if (result.error) {
-            browserHistory.push(getCurrentTeamUrl(getState()));
+            getHistory().push(getCurrentTeamUrl(getState()));
         }
 
         return result;

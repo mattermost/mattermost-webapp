@@ -19,9 +19,7 @@ import LoadingScreen from 'components/loading_screen';
 
 import {ModalData} from 'types/actions';
 
-import BrowserStore from 'stores/browser_store';
-
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {ModalIdentifiers, StoragePrefixes} from 'utils/constants';
 import {getRelativeChannelURL} from 'utils/url';
 
@@ -140,7 +138,8 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
         if (result?.error) {
             this.setState({serverError: result.error.message});
         } else {
-            browserHistory.push(getRelativeChannelURL(teamName, channel.name));
+            getHistory().push(getRelativeChannelURL(teamName, channel.name));
+            this.handleHide();
         }
 
         if (done) {
