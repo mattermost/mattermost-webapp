@@ -12,6 +12,8 @@ import Permissions from 'mattermost-redux/constants/permissions';
 
 import {RelationOneToOne} from '@mattermost/types/utilities';
 
+import BrowserStore from 'stores/browser_store';
+
 import NewChannelModal from 'components/new_channel_modal/new_channel_modal';
 import TeamPermissionGate from 'components/permissions_gates/team_permission_gate';
 import GenericModal from 'components/generic_modal';
@@ -139,7 +141,6 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             this.setState({serverError: result.error.message});
         } else {
             getHistory().push(getRelativeChannelURL(teamName, channel.name));
-            this.handleHide();
         }
 
         if (done) {
