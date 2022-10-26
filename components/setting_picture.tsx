@@ -112,8 +112,8 @@ export default class SettingPicture extends Component<Props, State> {
             this.props.onRemove?.();
         } else if (this.state.setDefaultSrc) {
             this.props.onSetDefault?.();
-        } else if (this.props.onSubmit) {
-            this.props.onSubmit();
+        } else {
+            this.props.onSubmit?.();
         }
     }
 
