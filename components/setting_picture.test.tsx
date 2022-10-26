@@ -25,8 +25,8 @@ describe('components/SettingItemMin', () => {
         submitActive: false,
         onSubmit: () => {}, // eslint-disable-line no-empty-function
         title: 'Profile Picture',
-        onFileChange: () => {}, // eslint-disable-line no-empty-function
-        updateSection: () => {}, // eslint-disable-line no-empty-function
+        onFileChange: jest.fn(),
+        updateSection: jest.fn(),
         maxFileSize: 209715200,
         helpText,
     };
