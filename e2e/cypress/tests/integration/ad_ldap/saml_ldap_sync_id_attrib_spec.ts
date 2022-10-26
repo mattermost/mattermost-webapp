@@ -27,7 +27,7 @@ describe('AD / LDAP', () => {
         cy.apiRequireLicenseForFeature('LDAP', 'SAML');
 
         // # Create new LDAP user
-        (cy as any).createLDAPUser().then((user) => {
+        cy.createLDAPUser({prefix:'ldap', user: {}}).then((user) => {
             samlLdapUser = user;
         });
 

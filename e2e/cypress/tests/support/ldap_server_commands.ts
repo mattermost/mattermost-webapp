@@ -153,9 +153,9 @@ declare global {
              * update LDAP users
              * @param {string} prefix
              * @param {LDAPUserArg} user
-             * @returns ChainableT<any>
+             * @returns ChainableT<JQuery>
              */
-            createLDAPUser({prefix: string, user: LDAPUserArg}): ChainableT<any>;
+            createLDAPUser({prefix: string, user: LDAPUserArg}): ChainableT<JQuery>;
 
             /**
              * update LDAP users
