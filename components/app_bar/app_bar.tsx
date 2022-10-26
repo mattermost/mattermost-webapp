@@ -8,6 +8,7 @@ import {getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
 
 import {getAppBarPluginComponents, getChannelHeaderPluginComponents, shouldShowAppBar} from 'selectors/plugins';
 import {PluginComponent} from 'types/store/plugins';
+import {suitePluginIds} from 'utils/constants';
 
 import AppBarPluginComponent from './app_bar_plugin_component';
 import AppBarBinding from './app_bar_binding';
@@ -25,7 +26,7 @@ export default function AppBar() {
         return null;
     }
 
-    const coreProductsIds = ['focalboard', 'playbooks'];
+    const coreProductsIds = [suitePluginIds.focalboard, suitePluginIds.playbooks];
 
     // The type guard in the filter (which removes all undefined elements) is needed for
     // Typescript to correctly type coreProducts.

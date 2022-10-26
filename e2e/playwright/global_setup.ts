@@ -88,6 +88,7 @@ async function sysadminSetup(client: Client, user: UserProfile) {
                 baseCount++;
             }
 
+            // eslint-disable-next-line no-console
             console.log(
                 `Added ${
                     usersLimit - totalUsersCount
@@ -103,6 +104,7 @@ async function sysadminSetup(client: Client, user: UserProfile) {
     productsAsPlugin.forEach(async (pluginId) => {
         const isInstalled = pluginStatus.some((plugin) => plugin.plugin_id === pluginId);
         if (!isInstalled) {
+            // eslint-disable-next-line no-console
             console.log(`${pluginId} is not installed. Related visual test will fail.`);
             return;
         }
@@ -112,8 +114,10 @@ async function sysadminSetup(client: Client, user: UserProfile) {
             const isInactive = plugins.inactive.some((plugin) => plugin.id === pluginId);
             if (isInstalled && isInactive) {
                 await client.enablePlugin(pluginId);
+                // eslint-disable-next-line no-console
                 console.log(`${pluginId} has been activated.`);
             } else {
+                // eslint-disable-next-line no-console
                 console.log(`${pluginId} is not active. Related visual test will fail.`);
             }
         }
@@ -144,6 +148,7 @@ async function sysadminSetup(client: Client, user: UserProfile) {
         ).toBe(true);
 
         clusterInfo.forEach((info) =>
+            // eslint-disable-next-line no-console
             console.log(`hostname: ${info.hostname}, version: ${info.version}, config_hash: ${info.config_hash}`)
         );
     }

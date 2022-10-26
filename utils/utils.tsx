@@ -20,7 +20,7 @@ import {
 import {getPost as getPostAction} from 'mattermost-redux/actions/posts';
 import {getTeamByName as getTeamByNameAction} from 'mattermost-redux/actions/teams';
 import {Client4} from 'mattermost-redux/client';
-import {Posts, Preferences} from 'mattermost-redux/constants';
+import {Posts, Preferences, General} from 'mattermost-redux/constants';
 import {
     getChannel,
     getChannelsNameMapInTeam,
@@ -30,7 +30,7 @@ import {
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 import {getBool, getTeammateNameDisplaySetting, Theme, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getCurrentUser, getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 import {blendColors, changeOpacity} from 'mattermost-redux/utils/theme_utils';
 import {displayUsername, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {
@@ -1315,6 +1315,17 @@ export function isUriDrop(dataTransfer: DataTransfer) {
     return false; // we don't care about others, they handle as we want it
 }
 
+export function isTextTransfer(dataTransfer: DataTransfer) {
+    return ['text/plain', 'text/unicode', 'Text'].some((type) => dataTransfer.types.includes(type));
+}
+
+export function isTextDroppableEvent(e: Event) {
+    return (e instanceof DragEvent) &&
+           (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement) &&
+           e.dataTransfer !== null &&
+           isTextTransfer(e.dataTransfer);
+}
+
 export function clearFileInput(elm: HTMLInputElement) {
     // clear file input for all modern browsers
     try {
@@ -1827,4 +1838,37 @@ export function numberToFixedDynamic(num: number, places: number): string {
         return str;
     }
     return str.slice(0, indexToExclude);
+}
+
+const TrackFlowRoles: Record<string, string> = {
+    fa: Constants.FIRST_ADMIN_ROLE,
+    sa: General.SYSTEM_ADMIN_ROLE,
+    su: General.SYSTEM_USER_ROLE,
+};
+
+export function getTrackFlowRole() {
+    const state = store.getState();
+    let trackFlowRole = 'su';
+
+    if (isFirstAdmin(state)) {
+        trackFlowRole = 'fa';
+    } else if (isSystemAdmin(getCurrentUser(state).roles)) {
+        trackFlowRole = 'sa';
+    }
+
+    return trackFlowRole;
+}
+
+export function getRoleForTrackFlow() {
+    const startedByRole = TrackFlowRoles[getTrackFlowRole()];
+
+    return {started_by_role: startedByRole};
+}
+
+export function getRoleFromTrackFlow() {
+    const params = new URLSearchParams(window.location.search);
+    const sbr = params.get('sbr') ?? '';
+    const startedByRole = TrackFlowRoles[sbr] ?? '';
+
+    return {started_by_role: startedByRole};
 }

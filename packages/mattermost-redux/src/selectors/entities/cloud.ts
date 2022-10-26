@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Limits, Subscription, Product, CloudCustomer} from '@mattermost/types/cloud';
+import {Limits, Subscription, Product, CloudCustomer, CloudState} from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
 import {LegacyFreeProductIds} from 'utils/constants';
 
@@ -24,6 +24,14 @@ export function getCloudProducts(state: GlobalState): Record<string, Product> | 
 
 export function getCloudLimitsLoaded(state: GlobalState): boolean {
     return state.entities.cloud.limits.limitsLoaded;
+}
+
+export function getCloudErrors(state: GlobalState): CloudState['errors'] {
+    return state.entities.cloud.errors;
+}
+
+export function getCloudInvoices(state: GlobalState): CloudState['invoices'] {
+    return state.entities.cloud.invoices;
 }
 
 export function getSubscriptionProduct(state: GlobalState): Product | undefined {

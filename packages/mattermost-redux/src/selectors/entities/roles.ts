@@ -176,10 +176,10 @@ export function haveITeamPermission(state: GlobalState, teamId: string, permissi
     );
 }
 
-export function haveIGroupPermission(state: GlobalState, groupID: string, permission: string) {
+export function haveIGroupPermission(state: GlobalState, groupID: string, permission: string): boolean {
     return (
         getMySystemPermissions(state).has(permission) ||
-        getMyPermissionsByGroup(state)[groupID]?.has(permission)
+        (getMyPermissionsByGroup(state)[groupID] ? getMyPermissionsByGroup(state)[groupID].has(permission) : false)
     );
 }
 

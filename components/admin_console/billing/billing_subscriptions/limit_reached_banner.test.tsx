@@ -63,6 +63,7 @@ const base = {
     product_family: '',
     billing_scheme: '',
     recurring_interval: '',
+    cross_sells_to: '',
 };
 
 const starter = {...base, sku: CloudProducts.STARTER};
