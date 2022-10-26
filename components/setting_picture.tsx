@@ -79,7 +79,7 @@ export default class SettingPicture extends Component<Props, State> {
     }
 
     componentDidUpdate(prevProps: Props) {
-        if (prevProps.file !== this.props.file && this.props.file) {
+        if (this.props.file && prevProps.file !== this.props.file) {
             this.setPicture(this.props.file);
         }
     }
