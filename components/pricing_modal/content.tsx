@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -34,6 +34,8 @@ import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
+
+import SwitchSelector from "react-switch-selector";
 
 import './content.scss';
 
@@ -139,6 +141,27 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
 
+    const [isMonthly, setIsMonthly] = useState(true);
+
+    const options = [
+        {
+            label: <div style={{margin: "10px 16px", color: isMonthly ? 'var(--center-channel-text)' : 'var(--denim-button-bg)'}}>Yearly</div>,
+            value: "Yearly",
+        },
+        {
+            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--denim-button-bg)' : 'var(--center-channel-text)'}}>Monthly</p>,
+            value: "Monthly",
+        }
+     ];
+     
+     const onChange = (newValue: any) => {
+        setIsMonthly(!isMonthly)
+         console.log(newValue);
+     };
+     
+     const initialSelectedIndex = options.findIndex(({value}) => value === "Monthly");
+     
+
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -157,20 +180,38 @@ function Content(props: ContentProps) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <div className='alert-option'>
-                    <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
-                    <a
-                        onClick={() =>
-                            trackEvent(
-                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                'click_looking_to_self_host',
-                            )
-                        }
-                        href={CloudLinks.DEPLOYMENT_OPTIONS}
-                        rel='noopener noreferrer'
-                        target='_blank'
-                    >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+                <div className="flexcontainer">
+                    <div className="toggle-monthly-yearly">
+                        <div style={{width: 162, height: 32, margin: 'auto'}}>
+                            <SwitchSelector
+                                onChange={onChange}
+                                options={options}
+                                initialSelectedIndex={initialSelectedIndex}
+                                backgroundColor={"#FFFFFF"}
+                                border={"solid 1px rgba(var(--title-color-indigo-500-rgb), 0.4)"}
+                                selectionIndicatorMargin={0}
+                                selectedBackgroundColor={'rgba(var(--denim-button-bg-rgb), 0.08)'}
+                                wrapperBorderRadius={40}
+                                optionBorderRadius={40}
+                        />
+                        </div>
+                    </div>
+                    <div className='alert-option'>
+                        <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
+                        <a
+                            onClick={() =>
+                                trackEvent(
+                                    TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                    'click_looking_to_self_host',
+                                )
+                            }
+                            href={CloudLinks.DEPLOYMENT_OPTIONS}
+                            rel='noopener noreferrer'
+                            target='_blank'
+                        >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a> 
+                    </div>
                 </div>
+               
                 <div className='PricingModal__body'>
                     <Card
                         id='starter'

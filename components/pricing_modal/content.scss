@@ -4,3 +4,19 @@
     flex-direction: column;
     justify-content: center;
 }
+
+div.flexcontainer{
+    display: flex;
+}
+
+div.alert-option{
+    flex: 1;
+}
+
+div.toggle-monthly-yearly{
+    flex: 2;
+}
+
+div.react-switch-selector-option-selected {
+    border: "5px solid #000000" !important
+}
