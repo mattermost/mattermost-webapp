@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
@@ -19,6 +19,7 @@ type Actions = {
 };
 
 type Props = {
+    intl: IntlShape;
     user: UserProfile;
     locale: string;
     updateSection: (section: string) => void;
@@ -38,7 +39,7 @@ type State = {
     selectedOption: SelectedOption;
 };
 
-export default class ManageLanguage extends React.PureComponent<Props, State> {
+export class ManageLanguage extends React.PureComponent<Props, State> {
     reactSelectContainer: React.RefObject<HTMLDivElement>;
     constructor(props: Props) {
         super(props);
@@ -150,6 +151,7 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
     };
 
     render() {
+        const {intl} = this.props;
         let serverError;
         if (this.state.serverError) {
             serverError = (
@@ -180,11 +182,13 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
                 zIndex: 9999,
             }),
         };
+        const interfaceLanguageLabelAria = intl.formatMessage({id: 'user.settings.languages.dropdown.arialabel', defaultMessage: 'Dropdown selector to change the interface language'});
 
         const input = (
             <div key='changeLanguage'>
                 <br/>
                 <label
+                    aria-label={interfaceLanguageLabelAria}
                     className='control-label'
                     id='changeInterfaceLanguageLabel'
                 >
@@ -242,3 +246,4 @@ export default class ManageLanguage extends React.PureComponent<Props, State> {
         );
     }
 }
+export default injectIntl(ManageLanguage);
