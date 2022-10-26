@@ -14,8 +14,6 @@ import {showNewChannelWithBoardPulsatingDot} from 'selectors/plugins';
 
 import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 
-import './new_channel_with_board_tour_tip.scss';
-
 type Props = {
     pulsatingDotPlacement?: Omit<Placement, 'auto'| 'auto-end'>;
     pulsatingDotTranslate?: {x: number; y: number};
@@ -84,8 +82,6 @@ const NewChannelWithBoardTourTip = ({
             handleOpen={handleOpen}
             handlePrevious={handleDismiss}
             offset={[-30, 5]}
-            className={'new-channel-with-board-tip'}
-            showBackdrop={false}
             pulsatingDotTranslate={pulsatingDotTranslate}
         />
     );
