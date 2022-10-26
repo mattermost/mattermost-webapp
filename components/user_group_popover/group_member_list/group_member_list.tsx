@@ -5,6 +5,7 @@ import styled, {css} from 'styled-components';
 import AutoSizer from 'react-virtualized-auto-sizer';
 import {VariableSizeList, ListChildComponentProps} from 'react-window';
 import InfiniteLoader from 'react-window-infinite-loader';
+import {useHistory} from 'react-router-dom';
 import {useIntl} from 'react-intl';
 
 import {SendIcon} from '@mattermost/compass-icons/components';
@@ -13,7 +14,6 @@ import {UserProfile} from '@mattermost/types/users';
 import {Group} from '@mattermost/types/groups';
 import {ServerError} from '@mattermost/types/errors';
 
-import {browserHistory} from 'utils/browser_history';
 import * as Utils from 'utils/utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
@@ -86,6 +86,8 @@ const GroupMemberList = (props: Props) => {
         showUserOverlay,
     } = props;
 
+    const history = useHistory();
+
     const {formatMessage} = useIntl();
 
     const [nextPage, setNextPage] = useState(Math.floor(users.length / USERS_PER_PAGE));
@@ -127,7 +129,7 @@ const GroupMemberList = (props: Props) => {
                 actions.closeRightHandSide();
                 setIsDMLoading(undefined);
                 hide?.();
-                browserHistory.push(`${teamUrl}/messages/@${user.username}`);
+                history.push(`${teamUrl}/messages/@${user.username}`);
             }
         });
     };
