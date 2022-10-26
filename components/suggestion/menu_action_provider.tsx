@@ -32,6 +32,7 @@ class MenuActionSuggestion extends Suggestion {
 
 export default class MenuActionProvider extends Provider {
     private options: Array<Record<string, any>>;
+
     constructor(options: Array<Record<string, any>>) {
         super();
         this.options = options;
