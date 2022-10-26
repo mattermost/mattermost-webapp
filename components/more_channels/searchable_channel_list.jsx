@@ -122,7 +122,7 @@ export default class SearchableChannelList extends React.PureComponent {
 
         const joinViewChannelButton = (
             <button
-                onClick={this.handleJoin(channel)}
+                onClick={() => this.handleJoin(channel)}
                 className={joinViewChannelButtonClass}
                 disabled={this.state.joiningChannel}
             >
@@ -143,17 +143,16 @@ export default class SearchableChannelList extends React.PureComponent {
                 className='more-modal__row'
                 key={channel.id}
                 id={`ChannelRow-${channel.name}`}
-                onClick={this.handleJoin(channel)}
+                onClick={() => this.handleJoin(channel)}
             >
                 <div className='more-modal__details'>
-                    <button
-                        onClick={this.handleJoin.bind(this, channel)}
+                    <div
                         aria-label={ariaLabel}
                         className='style--none more-modal__name'
                     >
                         {channelIcon}
                         <span id='channelName'>{channel.display_name}</span>
-                    </button>
+                    </div>
                     {channelPurposeContainer}
                 </div>
                 <div className='more-modal__actions'>
