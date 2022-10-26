@@ -516,11 +516,10 @@ async function initializeModuleFederation() {
 
     // Desktop specific code for remote module loading
     moduleFederationPluginOptions.exposes = {
-        './root': 'components/root',
-        './crtWatcher': 'components/threading/channel_threads/posts_channel_reset_watcher',
+        './app': 'components/app.jsx',
         './store': 'stores/redux_store.jsx',
         './styles': 'sass/styles.scss',
-        './registry': 'registry',
+        './registry': 'moduleRegistry',
     };
     moduleFederationPluginOptions.filename = 'remote_entry.js';
 
