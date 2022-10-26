@@ -53,9 +53,8 @@ const AtMentionGroup = (props: Props) => {
 
         if (targetBounds) {
             const approximatePopoverHeight = Math.min(
-                Math.max(
-                    (getViewportSize().h * VIEWPORT_SCALE_FACTOR) + HEADER_HEIGHT_ESTIMATE,
-                    getListHeight(group.member_count) + HEADER_HEIGHT_ESTIMATE),
+                (getViewportSize().h * VIEWPORT_SCALE_FACTOR) + HEADER_HEIGHT_ESTIMATE,
+                getListHeight(group.member_count) + HEADER_HEIGHT_ESTIMATE,
                 MAX_LIST_HEIGHT,
             );
             const placement = popOverOverlayPosition(targetBounds, window.innerHeight, approximatePopoverHeight);
