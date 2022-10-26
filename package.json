@@ -12,12 +12,14 @@
   "dependencies": {
     "@floating-ui/react-dom": "0.7.2",
     "@floating-ui/react-dom-interactions": "0.9.1",
+    "@guyplusplus/turndown-plugin-gfm": "1.0.7",
     "@mattermost/compass-components": "^0.2.12",
     "@mattermost/compass-icons": "0.1.28",
     "@stripe/react-stripe-js": "1.6.0",
     "@stripe/stripe-js": "1.20.3",
     "@tippyjs/react": "4.2.6",
     "@types/color-hash": "1.0.2",
+    "@types/turndown": "5.0.1",
     "bootstrap": "3.4.1",
     "buffer": "6.0.3",
     "chart.js": "2.9.4",
@@ -92,6 +94,7 @@
     "styled-components": "5.3.5",
     "timezones.json": "1.6.1",
     "tinycolor2": "1.4.2",
+    "turndown": "7.1.1",
     "typescript": "4.3.4",
     "zen-observable": "0.8.15"
   },
