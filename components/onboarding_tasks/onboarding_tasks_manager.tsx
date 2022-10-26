@@ -4,7 +4,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import {matchPath, useLocation} from 'react-router-dom';
+import {matchPath, useHistory, useLocation} from 'react-router-dom';
 
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
@@ -26,7 +26,6 @@ import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
 import {
     openInvitationsModal,
     setShowOnboardingCompleteProfileTour,
@@ -199,9 +198,11 @@ export const useHandleOnBoardingTaskData = () => {
 
 export const useHandleOnBoardingTaskTrigger = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const {pathname} = useLocation();
+
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
-    const {pathname} = useLocation();
     const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
     const inChannels = matchPath(pathname, {path: '/:team/channels/:chanelId'}) != null;
 
@@ -231,13 +232,13 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.BOARDS_TOUR: {
-            browserHistory.push('/boards');
+            history.push('/boards');
             localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
         case OnboardingTasksName.PLAYBOOKS_TOUR: {
-            browserHistory.push('/playbooks/start');
+            history.push('/playbooks/start');
             localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;

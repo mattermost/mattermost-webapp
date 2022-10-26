@@ -9,7 +9,17 @@ import {isDesktopApp, getDesktopVersion} from 'utils/user_agent';
 const b = createBrowserHistory({basename: window.basename});
 const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '5.0.0');
 
-window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = {}) => {
+type Data = {
+    type?: string;
+    message?: Record<string, string>;
+}
+
+type Params = {
+    origin?: string;
+    data?: Data;
+}
+
+window.addEventListener('message', ({origin, data: {type, message = {}} = {}}: Params = {}) => {
     if (origin !== window.location.origin) {
         return;
     }
@@ -25,15 +35,15 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = 
     }
 });
 
-export const browserHistory = {
+const browserHistory = {
     ...b,
-    push: (path, ...args) => {
+    push: (path: string | { pathname: string }, ...args: string[]) => {
         if (isDesktop) {
             window.postMessage(
                 {
                     type: 'browser-history-push',
                     message: {
-                        path: path.pathname || path,
+                        path: typeof path === 'object' ? path.pathname : path,
                     },
                 },
                 window.location.origin,
@@ -43,3 +53,12 @@ export const browserHistory = {
         }
     },
 };
+
+/**
+ * Returns the current history object.
+ *
+ * If you're calling this from within a React component, consider using the useHistory hook from react-router-dom.
+ */
+export function getHistory() {
+    return browserHistory;
+}
