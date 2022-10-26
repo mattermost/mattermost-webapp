@@ -21,6 +21,7 @@ export type ChannelsQueryResponseType = {
             team: Team;
         } & Cursor>;
     };
+    errors?: unknown;
 };
 
 export type ChannelMembersQueryResponseType = {
@@ -30,13 +31,15 @@ export type ChannelMembersQueryResponseType = {
             roles: Role[];
         } & Cursor>;
     };
+    errors?: unknown;
 };
 
 export type ChannelsAndChannelMembersQueryResponseType = {
     data: {
         channels: ChannelsQueryResponseType['data']['channels'];
         channelMembers: ChannelMembersQueryResponseType['data']['channelMembers'];
-    };
+    } | null;
+    errors?: unknown;
 }
 
 const channelsFragment = `
@@ -70,36 +73,35 @@ const channelsFragment = `
 const channelMembersFragment = `
     fragment channelMembersFragment on ChannelMember {
         cursor
-          channel {
+        channel {
             id
-          }
-          roles {
+        }
+        roles {
             id
             name
             permissions
-          }
-          last_viewed_at: lastViewedAt
-          msg_count: msgCount
-          msg_count_root: msgCountRoot
-          mention_count: mentionCount
-          mention_count_root: mentionCountRoot
-          notify_props: notifyProps
-          last_update_at: lastUpdateAt
-          scheme_admin: schemeAdmin
-          scheme_user: schemeUser
+        }
+        last_viewed_at: lastViewedAt
+        msg_count: msgCount
+        msg_count_root: msgCountRoot
+        mention_count: mentionCount
+        mention_count_root: mentionCountRoot
+        notify_props: notifyProps
+        last_update_at: lastUpdateAt
+        scheme_admin: schemeAdmin
+        scheme_user: schemeUser
     }
 `;
 
 const channelsAndChannelMembersQueryString = `
     query gqlWebChannelsAndChannelMembers($teamId: String!, $maxChannelsPerPage: Int!, $maxChannelMembersPerPage: Int!) {
         channels(userId: "me", teamId: $teamId, first: $maxChannelsPerPage) {
-          ...channelsFragment
+            ...channelsFragment
         }
         channelMembers(userId: "me", teamId: $teamId, first: $maxChannelMembersPerPage) {
-          ...channelMembersFragment
+            ...channelMembersFragment
         }
-      }
-
+    }
     ${channelsFragment}
     ${channelMembersFragment}
 `;
@@ -120,13 +122,12 @@ export function getChannelsAndChannelMembersQueryString(teamId: Team['id'] = '')
 }
 
 const channelsQueryString = `
-query gqlWebChannels($teamId: String!, $maxChannelsPerPage: Int!, $cursor: String!) {
-    channels(userId: "me", teamId: $teamId, first: $maxChannelsPerPage, after: $cursor) {
-        ...channelsFragment
+    query gqlWebChannels($teamId: String!, $maxChannelsPerPage: Int!, $cursor: String!) {
+        channels(userId: "me", teamId: $teamId, first: $maxChannelsPerPage, after: $cursor) {
+            ...channelsFragment
+        }
     }
-  }
-
-  ${channelsFragment}
+    ${channelsFragment}
 `;
 
 /**
@@ -146,12 +147,12 @@ export function getChannelsQueryString(cursor = '', teamId: Team['id'] = '') {
 }
 
 const channelMembersQueryString = `
-query gqlWebChannelMembers($teamId: String!, $maxChannelMembersPerPage: Int!, $cursor: String!) {
-    channelMembers(userId: "me", teamId: $teamId, first: $maxChannelMembersPerPage, after: $cursor) {
-        ...channelMembersFragment
+    query gqlWebChannelMembers($teamId: String!, $maxChannelMembersPerPage: Int!, $cursor: String!) {
+        channelMembers(userId: "me", teamId: $teamId, first: $maxChannelMembersPerPage, after: $cursor) {
+            ...channelMembersFragment
+        }
     }
     ${channelMembersFragment}
-  }
 `;
 
 /**
@@ -163,9 +164,9 @@ export function getChannelMembersQueryString(cursor = '', teamId: Team['id'] = '
         query: channelMembersQueryString,
         operationName: 'gqlWebChannelMembers',
         variables: {
+            teamId,
             maxChannelMembersPerPage: CHANNEL_MEMBERS_MAX_PER_PAGE,
             cursor,
-            teamId,
         },
     });
 }

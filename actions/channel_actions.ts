@@ -205,76 +205,80 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
         const state = getState();
         const currentUserId = getCurrentUserId(state);
 
-        let channels: ServerChannel[] = [];
-        let channelMembers: ChannelMembership[] = [];
+        let channelsResponse: ChannelsQueryResponseType['data']['channels'] = [];
+        let channelMembersResponse: ChannelMembersQueryResponseType['data']['channelMembers'] = [];
         let roles: Role[] = [];
-        try {
-            const {data: channelsAndChannelMembers} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getChannelsAndChannelMembersQueryString(teamId));
 
-            if ('errors' in channelsAndChannelMembers || !channelsAndChannelMembers) {
-                throw new Error('No data returned from channels and channel members query');
+        try {
+            const {data: channelsAndChannelMembers, errors} = await Client4.fetchWithGraphQL<ChannelsAndChannelMembersQueryResponseType>(getChannelsAndChannelMembersQueryString(teamId));
+
+            if (errors || !channelsAndChannelMembers) {
+                throw new Error('Error returned in fetching channels and channel members of first page');
             }
 
-            const channelsFirstPage = transformToReceivedChannelsReducerPayload(channelsAndChannelMembers.channels);
-            channels = [...channelsFirstPage];
+            // First page of channels and channel members
+            channelsResponse = [...channelsAndChannelMembers.channels];
+            channelMembersResponse = [...channelsAndChannelMembers.channelMembers];
 
-            if (channelsAndChannelMembers && channelsAndChannelMembers.channels && channelsAndChannelMembers.channels.length === CHANNELS_MAX_PER_PAGE) {
-                // cursor at the end of first page
-                let channelsCursor = channelsAndChannelMembers.channels[CHANNELS_MAX_PER_PAGE - 1].cursor;
+            if (channelsResponse && channelsResponse.length === CHANNELS_MAX_PER_PAGE) {
                 let channelsPerPageDataLength;
+                let channelsCursor = channelsResponse[CHANNELS_MAX_PER_PAGE - 1].cursor;
 
                 do {
-                    const channelsPerPageResponse = await Client4.fetchWithGraphQL<ChannelsQueryResponseType>(getChannelsQueryString(channelsCursor, teamId)); // eslint-disable-line no-await-in-loop
+                    const {data: channelsPerPageResponse, errors} = await Client4.fetchWithGraphQL<ChannelsQueryResponseType>(getChannelsQueryString(channelsCursor, teamId)); // eslint-disable-line no-await-in-loop
 
-                    // No more channels to fetch
-                    if ('errors' in channelsPerPageResponse || !channelsPerPageResponse.data) {
+                    if (errors) {
+                        break;
+                    } else if (!channelsPerPageResponse) {
+                        break;
+                    } else if (channelsPerPageResponse && channelsPerPageResponse.channels && channelsPerPageResponse.channels.length === 0) {
                         break;
                     } else {
-                        const channelsPerPage = transformToReceivedChannelsReducerPayload(channelsPerPageResponse.data.channels);
-                        channels = [...channels, ...channelsPerPage];
+                        channelsResponse = [...channelsResponse, ...channelsPerPageResponse.channels];
 
-                        const channelsPerPageData = channelsPerPageResponse.data.channels;
-                        channelsPerPageDataLength = channelsPerPageData.length;
-
-                        // cursor at the end of the page
-                        channelsCursor = channelsPerPageData[channelsPerPageDataLength - 1].cursor;
+                        channelsPerPageDataLength = channelsPerPageResponse.channels.length;
+                        channelsCursor = channelsPerPageResponse.channels[channelsPerPageDataLength - 1].cursor;
                     }
                 } while (channelsPerPageDataLength === CHANNELS_MAX_PER_PAGE);
             }
 
-            const channelMembersFirstPage = transformToReceivedChannelMembersReducerPayload(channelsAndChannelMembers.channelMembers, currentUserId);
-            channelMembers = [...channelMembersFirstPage];
-
-            roles = channelsAndChannelMembers.channelMembers.flatMap((channelMembership) => channelMembership.roles);
-
-            if (channelsAndChannelMembers && channelsAndChannelMembers.channelMembers && channelsAndChannelMembers.channelMembers.length === CHANNEL_MEMBERS_MAX_PER_PAGE) {
-                let channelMemberCursor = channelsAndChannelMembers.channelMembers[CHANNEL_MEMBERS_MAX_PER_PAGE - 1].cursor;
+            if (channelMembersResponse && channelMembersResponse.length === CHANNEL_MEMBERS_MAX_PER_PAGE) {
                 let channelMembersPerPageDataLength;
+                let channelMemberCursor = channelMembersResponse[CHANNEL_MEMBERS_MAX_PER_PAGE - 1].cursor;
 
                 do {
-                    const channelMembersPerPageResponse = await Client4.fetchWithGraphQL<ChannelMembersQueryResponseType>(getChannelMembersQueryString(channelMemberCursor, teamId)); // eslint-disable-line no-await-in-loop
+                    const {data: channelMembersPerPageResponse, errors} = await Client4.fetchWithGraphQL<ChannelMembersQueryResponseType>(getChannelMembersQueryString(channelMemberCursor, teamId)); // eslint-disable-line no-await-in-loop
 
-                    // no more channel members in next page
-                    if ('errors' in channelMembersPerPageResponse || !channelMembersPerPageResponse.data) {
+                    if (errors) {
+                        break;
+                    } else if (!channelMembersPerPageResponse) {
+                        break;
+                    } else if (channelMembersPerPageResponse && channelMembersPerPageResponse.channelMembers && channelMembersPerPageResponse.channelMembers.length === 0) {
                         break;
                     } else {
-                        const channelMembersPerPage = transformToReceivedChannelMembersReducerPayload(channelMembersPerPageResponse.data.channelMembers, currentUserId);
-                        channelMembers = [...channelMembers, ...channelMembersPerPage];
+                        channelMembersResponse = [...channelMembersResponse, ...channelMembersPerPageResponse.channelMembers];
 
-                        const channelMembersPerPageData = channelMembersPerPageResponse.data.channelMembers;
-                        channelMembersPerPageDataLength = channelMembersPerPageData.length;
-
-                        const rolesInChannelMembersPerPage = channelMembersPerPageData.flatMap((channelMembership) => channelMembership.roles);
-                        roles = [...roles, ...rolesInChannelMembersPerPage];
-
-                        channelMemberCursor = channelMembersPerPageData[channelMembersPerPageDataLength - 1].cursor;
+                        channelMembersPerPageDataLength = channelMembersPerPageResponse.channelMembers.length;
+                        channelMemberCursor = channelMembersPerPageResponse.channelMembers[channelMembersPerPageDataLength - 1].cursor;
                     }
                 } while (channelMembersPerPageDataLength === CHANNEL_MEMBERS_MAX_PER_PAGE);
             }
+
+            if (channelMembersResponse && channelMembersResponse.length > 0) {
+                channelMembersResponse.forEach((channelMembers) => {
+                    channelMembers.roles.forEach((role) => {
+                        roles = [...roles, role];
+                    });
+                });
+            }
         } catch (error) {
+            console.log('error in fetchChannelsAndMembers', error); // eslint-disable-line no-console
             dispatch(logError(error as ServerError));
             return {error: error as ServerError};
         }
+
+        const channels = transformToReceivedChannelsReducerPayload(channelsResponse);
+        const channelMembers = transformToReceivedChannelMembersReducerPayload(channelMembersResponse, currentUserId);
 
         const actions = [];
         if (teamId.length > 0) {
@@ -305,6 +309,6 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
 
         await dispatch(batchActions(actions));
 
-        return {data: {channels, channelMembers}};
+        return {data: {channels, channelMembers, roles}};
     };
 }

@@ -1,10 +1,30 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import * as Actions from 'actions/channel_actions';
-import {loadProfilesForSidebar} from 'actions/user_actions';
+import nock from 'nock';
 
+import {
+    searchMoreChannels,
+    addUsersToChannel,
+    openDirectChannelToUserId,
+    openGroupChannelToUserIds,
+    loadChannelsForCurrentUser, fetchChannelsAndMembers,
+} from 'actions/channel_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions';
+import {
+    CHANNELS_MAX_PER_PAGE,
+    CHANNEL_MEMBERS_MAX_PER_PAGE,
+} from 'actions/channel_queries';
+
+import {Channel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {Role} from '@mattermost/types/roles';
+
+import {Client4} from 'mattermost-redux/client';
+import TestHelper from 'packages/mattermost-redux/test/test_helper';
 import mockStore from 'tests/test_store';
+import configureStore from 'store';
 
 const initialState = {
     entities: {
@@ -131,7 +151,7 @@ describe('Actions.Channel', () => {
             args: ['team-id'],
         }];
 
-        await testStore.dispatch(Actions.loadChannelsForCurrentUser());
+        await testStore.dispatch(loadChannelsForCurrentUser());
         expect(testStore.getActions()).toEqual(expectedActions);
         expect(loadProfilesForSidebar).toHaveBeenCalledTimes(1);
     });
@@ -150,7 +170,7 @@ describe('Actions.Channel', () => {
             }],
         }];
 
-        await testStore.dispatch(Actions.searchMoreChannels('', false));
+        await testStore.dispatch(searchMoreChannels('', false));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
@@ -167,7 +187,7 @@ describe('Actions.Channel', () => {
             userIds: ['testuserid'],
         };
 
-        await testStore.dispatch(Actions.addUsersToChannel(fakeData.channel, fakeData.userIds));
+        await testStore.dispatch(addUsersToChannel(fakeData.channel, fakeData.userIds));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
@@ -183,7 +203,7 @@ describe('Actions.Channel', () => {
             userId: 'testid',
         };
 
-        await testStore.dispatch(Actions.openDirectChannelToUserId(fakeData.userId));
+        await testStore.dispatch(openDirectChannelToUserId(fakeData.userId));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
 
@@ -241,7 +261,7 @@ describe('Actions.Channel', () => {
             userId: 'existingId',
         };
 
-        await testStore.dispatch(Actions.openDirectChannelToUserId(fakeData.userId));
+        await testStore.dispatch(openDirectChannelToUserId(fakeData.userId));
 
         const doneActions = testStore.getActions();
         expect(doneActions).toEqual(expectedActions);
@@ -260,7 +280,205 @@ describe('Actions.Channel', () => {
             userIds: ['testuserid1', 'testuserid2'],
         };
 
-        await testStore.dispatch(Actions.openGroupChannelToUserIds(fakeData.userIds));
+        await testStore.dispatch(openGroupChannelToUserIds(fakeData.userIds));
         expect(testStore.getActions()).toEqual(expectedActions);
     });
+
+    describe('fetchChannelsAndMembers', () => {
+        beforeAll(() => {
+            TestHelper.initBasic(Client4);
+        });
+
+        afterEach(() => {
+            nock.cleanAll();
+        });
+
+        afterAll(() => {
+            TestHelper.tearDown();
+        });
+
+        test('should throws error when response errors out', async () => {
+            const store = configureStore();
+
+            nock(Client4.getGraphQLUrl()).
+                post('').reply(400, {
+                    data: null,
+                    errors: [{message: 'some error'}],
+                });
+
+            const result = await store.dispatch(fetchChannelsAndMembers());
+
+            expect(Object.keys(result)).toEqual(['error']);
+        });
+
+        test('should throws error when response is empty', async () => {
+            const store = configureStore();
+
+            nock(Client4.getGraphQLUrl()).
+                post('').reply(200, {
+                    data: null,
+                });
+
+            const result = await store.dispatch(fetchChannelsAndMembers());
+
+            expect(Object.keys(result)).toEqual(['error']);
+        });
+
+        test('should return correct channels, channel members and roles when under max limit', async () => {
+            const store = configureStore();
+
+            const channel1 = fakeChannelWithId('team1');
+            const channel2 = fakeChannelWithId('team2');
+            const role1 = TestHelper.basicRoles?.system_admin as Role;
+            const role2 = TestHelper.basicRoles?.system_user as Role;
+            const channelMember1 = fakeChannelMember('user1', channel1.id, [role1, role2]);
+            const channelMember2 = fakeChannelMember('user1', channel2.id, [role1]);
+
+            nock(Client4.getGraphQLUrl()).
+                post('').
+                reply(200, {
+                    data: {
+                        channels: [channel1, channel2],
+                        channelMembers: [channelMember1, channelMember2],
+                    },
+                });
+
+            const result = await store.dispatch(fetchChannelsAndMembers());
+
+            expect(result.data.channels.length).toEqual(2);
+            expect(result.data.channels[0].id).toEqual(channel1.id);
+            expect(result.data.channels[1].id).toEqual(channel2.id);
+            expect(result.data.channelMembers.length).toEqual(2);
+            expect(result.data.channelMembers[0].channel_id).toEqual(channelMember1.channel_id);
+            expect(result.data.channelMembers[1].channel_id).toEqual(channelMember2.channel_id);
+            expect(result.data.roles.length).toEqual(3);
+            expect(result.data.roles).toEqual([role1, role2, role1]);
+        });
+
+        test('should return correct channels, channel members and roles at a count exactly at max limit', async () => {
+            const store = configureStore();
+
+            const role1 = TestHelper.basicRoles?.system_admin as Role;
+            const role2 = TestHelper.basicRoles?.system_user as Role;
+
+            const channelsP1 = [];
+            const channelMembersP1 = [];
+
+            for (let i = 1; i <= CHANNELS_MAX_PER_PAGE; i++) {
+                const channel = fakeChannelWithId(`team${i}`);
+                channelsP1.push(channel);
+            }
+
+            for (let i = 1; i <= CHANNEL_MEMBERS_MAX_PER_PAGE; i++) {
+                channelMembersP1.push(fakeChannelMember('user1', `channel${i}`, [role1, role2]));
+            }
+
+            nock(Client4.getGraphQLUrl()).
+                post('').
+                reply(200, {
+                    data: {
+                        channels: [...channelsP1],
+                        channelMembers: [...channelMembersP1],
+                    },
+                });
+
+            nock(Client4.getGraphQLUrl()).
+                post('').
+                reply(200, {
+                    data: {
+                        channels: [], // no second page of channels
+                    },
+                });
+            nock(Client4.getGraphQLUrl()).
+                post('').
+                reply(200, {
+                    data: {
+                        channelMembers: [], // no second page of channel members
+                    },
+                });
+
+            const result = await store.dispatch(fetchChannelsAndMembers());
+            expect(result.data.channels.length).toEqual(CHANNELS_MAX_PER_PAGE);
+            expect(result.data.channelMembers.length).toEqual(CHANNEL_MEMBERS_MAX_PER_PAGE);
+        });
+
+        test('should return correct channels, channel members and roles at a count more tha max limit', async () => {
+            const store = configureStore();
+
+            const role1 = TestHelper.basicRoles?.system_admin as Role;
+            const role2 = TestHelper.basicRoles?.system_user as Role;
+
+            const channelsP1 = [];
+            const channelMembersP1 = [];
+            for (let i = 1; i <= CHANNELS_MAX_PER_PAGE; i++) {
+                const channel = fakeChannelWithId(`team${i}`);
+                channelsP1.push(channel);
+            }
+            for (let i = 1; i <= CHANNEL_MEMBERS_MAX_PER_PAGE; i++) {
+                const random0or1 = Math.round(Math.random());
+                channelMembersP1.push(fakeChannelMember('user1', `channel${i}`, random0or1 === 0 ? [role1, role2] : [role2]));
+            }
+
+            const countOfP2Channels = 5;
+            const countOfP2ChannelMembers = 6;
+
+            const channelsP2 = [];
+            const channelMembersP2 = [];
+            for (let i = CHANNELS_MAX_PER_PAGE + 1; i <= CHANNELS_MAX_PER_PAGE + countOfP2Channels; i++) {
+                const channel = fakeChannelWithId(`team${i}`);
+                channelsP2.push(channel);
+            }
+            for (let i = CHANNEL_MEMBERS_MAX_PER_PAGE + 1; i <= CHANNEL_MEMBERS_MAX_PER_PAGE + countOfP2ChannelMembers; i++) {
+                const random0or1 = Math.round(Math.random());
+                channelMembersP2.push(fakeChannelMember('user1', `channel${i}`, random0or1 === 0 ? [role1, role2] : [role2]));
+            }
+
+            nock(Client4.getGraphQLUrl()).
+                post('').
+                reply(200, {
+                    data: {
+                        channels: [...channelsP1],
+                        channelMembers: [...channelMembersP1],
+                    },
+                });
+
+            nock(Client4.getGraphQLUrl()).
+                post('').
+                reply(200, {
+                    data: {
+                        channels: [...channelsP2],
+                    },
+                });
+            nock(Client4.getGraphQLUrl()).
+                post('').
+                reply(200, {
+                    data: {
+                        channelMembers: [...channelMembersP2],
+                    },
+                });
+
+            const result = await store.dispatch(fetchChannelsAndMembers());
+            expect(result.data.channels.length).toEqual(CHANNELS_MAX_PER_PAGE + countOfP2Channels);
+            expect(result.data.channelMembers.length).toEqual(CHANNEL_MEMBERS_MAX_PER_PAGE + countOfP2ChannelMembers);
+        });
+
+        function fakeChannelWithId(teamId: Team['id']) {
+            return Object.assign(TestHelper.fakeChannelWithId(teamId), {
+                team: {id: teamId},
+            });
+        }
+
+        function fakeChannelMember(userId: UserProfile['id'], channelId: Channel['id'], roles: Role[] = []) {
+            return Object.assign(TestHelper.fakeChannelMember(userId, channelId), {
+                channel: {
+                    id: channelId,
+                },
+                user: {
+                    id: userId,
+                },
+                roles: [...roles],
+            });
+        }
+    });
 });
+
