@@ -2937,13 +2937,11 @@ const AdminDefinition = {
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_NUMBER,
-                        key: 'FileSettings.MaxVoiceMessagesFileSize',
-                        label: t('admin.customization.maxVoiceMessageFileSizeTitle'),
-                        label_default: 'Voice message max size:',
-                        help_text: t('admin.customization.maxVoiceMessageFileSizeDesc'),
-                        help_text_default: 'Maximum file size for voice messages in megabytes. Caution: this number must be lower or equal to your server maximum file size.',
-                        onConfigLoad: (configVal) => configVal / MEBIBYTE,
-                        onConfigSave: (displayVal) => displayVal * MEBIBYTE,
+                        key: 'FileSettings.MaxVoiceMessagesDuration',
+                        label: t('admin.customization.maxVoiceMessageDurationTitle'),
+                        label_default: 'Voice message maximum duration:',
+                        help_text: t('admin.customization.maxVoiceMessageDurationDesc'),
+                        help_text_default: 'Maximum duration for voice messages in seconds. Set this to 0 to disable voice message duration limit.',
                         isHidden: it.any(
                             it.configIsFalse('FeatureFlags', 'VoiceMessages'),
                         ),

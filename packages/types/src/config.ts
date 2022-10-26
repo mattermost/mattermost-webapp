@@ -441,7 +441,7 @@ export type FileSettings = {
     EnableMobileUpload: boolean;
     EnableMobileDownload: boolean;
     MaxFileSize: number;
-    MaxVoiceMessagesFileSize: number;
+    MaxVoiceMessagesDuration: number;
     DriverName: string;
     Directory: string;
     EnablePublicLink: boolean;
