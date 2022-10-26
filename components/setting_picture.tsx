@@ -135,7 +135,7 @@ export default class SettingPicture extends Component<Props, State> {
     }
 
     handleInputFile = () => {
-        if (this.selectInput && this.selectInput.current) {
+        if (this.selectInput.current) {
             this.selectInput.current.value = '';
             this.selectInput.current.click();
         }
