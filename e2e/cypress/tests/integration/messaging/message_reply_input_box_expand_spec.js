@@ -27,8 +27,8 @@ describe('Messaging', () => {
         const maxReplyCount = 15;
         const halfViewportHeight = Cypress.config('viewportHeight') / 2;
         const padding = 8;
-        const postCreateContainerDefaultHeight = 188;
-        const replyTextBoxDefaultHeight = 100;
+        const postCreateContainerDefaultHeight = 123;
+        const replyTextBoxDefaultHeight = 188;
         const postCreateContainerClassName = 'post-create__container';
         const replyTextBoxId = 'reply_textbox';
         let newLinesCount;
