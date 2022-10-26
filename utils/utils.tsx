@@ -45,7 +45,7 @@ import {
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
@@ -68,9 +68,10 @@ import {Channel} from '@mattermost/types/channels';
 import {ClientConfig} from '@mattermost/types/config';
 
 import {GlobalState} from '@mattermost/types/store';
-import {TextboxElement} from '../components/textbox';
 
 import {focusPost} from 'components/permalink_view/actions';
+
+import {TextboxElement} from '../components/textbox';
 
 import {joinPrivateChannelPrompt} from './channel_utils';
 
@@ -1574,12 +1575,12 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
             if (match && match.type === 'permalink' && isTeamSameWithCurrentTeam(state, match.teamName) && isReply && crtEnabled) {
                 focusPost(match.postId ?? '', linkAttribute.value, user.id, {skipRedirectReplyPermalink: true})(store.dispatch, store.getState);
             } else {
-                browserHistory.push(linkAttribute.value);
+                getHistory().push(linkAttribute.value);
             }
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
-        browserHistory.push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
+        getHistory().push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
     }
 }
 

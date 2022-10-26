@@ -4,7 +4,7 @@ import {getCurrentTeamId, getTeam} from 'mattermost-redux/selectors/entities/tea
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import InvitationModal from 'components/invitation_modal';
 import LocalStorageStore from 'stores/local_storage_store';
 import {ActionTypes, Constants, ModalIdentifiers} from 'utils/constants';
@@ -20,7 +20,7 @@ export function switchToChannels() {
         const team = getTeam(state, teamId || '');
         const channelName = getFirstChannelName(state) || Constants.DEFAULT_CHANNEL;
 
-        browserHistory.push(`/${team.name}/channels/${channelName}`);
+        getHistory().push(`/${team.name}/channels/${channelName}`);
         return {data: true};
     };
 }

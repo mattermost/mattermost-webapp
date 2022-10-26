@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as Selectors from 'selectors/storage';
 import * as Actions from 'actions/storage';
 import store from 'stores/redux_store.jsx';
@@ -94,7 +94,7 @@ class BrowserStoreClass {
             sessionStorage.removeItem('__testSession__');
         } catch (e) {
             // Session storage not usable, website is unusable
-            browserHistory.push('/error?type=' + ErrorPageTypes.LOCAL_STORAGE);
+            getHistory().push('/error?type=' + ErrorPageTypes.LOCAL_STORAGE);
         }
 
         this.hasCheckedLocalStorage = true;
