@@ -2880,7 +2880,7 @@ const AdminDefinition = {
                         label: t('admin.service.maxVoiceMessageDurationTitle'),
                         label_default: 'Max voice message duration:',
                         help_text: t('admin.service.maxVoiceMessageDurationDesc'),
-                        help_text_default: 'Maximum duration for voice messages in seconds. Set this to 0 to disable voice message duration limit.',
+                        help_text_default: 'Configure the maximum duration for voice messages in seconds. When set to "0", voice messages are not limited in duration.',
                         isHidden: it.any(
                             it.configIsFalse('FeatureFlags', 'VoiceMessages'),
                         ),

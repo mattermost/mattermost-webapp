@@ -2103,7 +2103,7 @@
   "admin.service.listenExample": "E.g.: \":8065\"",
   "admin.service.managedResourcePaths": "Managed Resource Paths:",
   "admin.service.managedResourcePathsDescription": "A comma-separated list of paths on the Mattermost server that are managed by another service. See <link>here</link> for more information.",
-  "admin.service.maxVoiceMessageDurationDesc": "Maximum duration for voice messages in seconds. Set this to 0 to disable voice message duration limit.",
+  "admin.service.maxVoiceMessageDurationDesc": "Configure the maximum duration for voice messages in seconds. When set to \"0\", voice messages are not limited in duration.",
   "admin.service.maxVoiceMessageDurationTitle": "Max voice message duration:",
   "admin.service.mfaDesc": "When true, users with AD/LDAP or email login can add multi-factor authentication to their account using Google Authenticator.",
   "admin.service.mfaTitle": "Enable Multi-factor Authentication:",
