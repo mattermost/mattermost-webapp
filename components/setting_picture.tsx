@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {Component, ReactNode} from 'react';
+import React, {ChangeEvent, Component, MouseEvent, ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as FileUtils from 'utils/file_utils';
@@ -26,8 +26,8 @@ type Props = {
     onSetDefault?: (() => Promise<void>) | null;
     onSubmit?: (() => void) | null;
     title?: string;
-    onFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    updateSection: (e: React.MouseEvent<HTMLButtonElement>) => void;
+    onFileChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+    updateSection?: (e: MouseEvent<HTMLButtonElement>) => void;
     imageContext?: string;
     maxFileSize?: number;
     helpText?: ReactNode;
@@ -94,7 +94,7 @@ export default class SettingPicture extends Component<Props, State> {
 
     handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
-        this.props.updateSection(e);
+        this.props.updateSection?.(e);
     }
 
     handleFileSelected = () => {
@@ -103,7 +103,7 @@ export default class SettingPicture extends Component<Props, State> {
         }
     }
 
-    handleSave = (e: React.MouseEvent) => {
+    handleSave = (e: MouseEvent) => {
         e.preventDefault();
         if (this.props.loadingPicture) {
             return;
@@ -117,21 +117,21 @@ export default class SettingPicture extends Component<Props, State> {
         }
     }
 
-    handleRemoveSrc = (e: React.MouseEvent) => {
+    handleRemoveSrc = (e: MouseEvent) => {
         e.preventDefault();
         this.setState({removeSrc: true});
         this.focusFirstElement();
     }
 
-    handleSetDefaultSrc = (e: React.MouseEvent) => {
+    handleSetDefaultSrc = (e: MouseEvent) => {
         e.preventDefault();
         this.setState({setDefaultSrc: true});
         this.focusFirstElement();
     }
 
-    handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
-        this.props.onFileChange(e);
+        this.props.onFileChange?.(e);
     }
 
     handleInputFile = () => {

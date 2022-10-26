@@ -23,7 +23,7 @@ describe('components/SettingItemMin', () => {
         src: 'http://localhost:8065/api/v4/users/src_id',
         loadingPicture: false,
         submitActive: false,
-        onSubmit: () => {}, // eslint-disable-line no-empty-function
+        onSubmit: jest.fn(),
         title: 'Profile Picture',
         onFileChange: jest.fn(),
         updateSection: jest.fn(),
@@ -31,7 +31,6 @@ describe('components/SettingItemMin', () => {
         helpText,
     };
 
-    // const mockFile = {type: 'image/jpeg', size: 1024};
     const mockFile = new File([new Blob()], 'image.jpeg', {
         type: 'image/jpeg',
     });
