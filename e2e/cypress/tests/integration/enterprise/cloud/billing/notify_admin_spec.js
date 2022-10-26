@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @cloud_only @cloud_trial @cloud_todo_fix
+// Group: @cloud_only @cloud_trial
 
 import {getAdminAccount} from '../../../../support/env';
 

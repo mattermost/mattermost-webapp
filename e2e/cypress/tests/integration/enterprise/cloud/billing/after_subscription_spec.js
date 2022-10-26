@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @cloud_only @cloud_trial @cloud_todo_fix
+// Group: @cloud_only @cloud_trial
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import billing from '../../../../fixtures/client_billing.json';
