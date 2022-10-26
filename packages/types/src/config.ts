@@ -186,7 +186,7 @@ export type ClientConfig = {
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
-    ExperimentalEnableVoiceMessages: string;
+    EnableVoiceMessages: string;
     EnableComplianceExport: string;
     PostPriority: string;
 };
@@ -340,6 +340,8 @@ export type ServiceSettings = {
     CollapsedThreads: CollapsedThreads;
     ThreadAutoFollow: boolean;
     PostPriority: boolean;
+    EnableVoiceMessage: boolean;
+    MaxVoiceMessagesDuration: number;
 };
 
 export type TeamSettings = {
@@ -441,7 +443,6 @@ export type FileSettings = {
     EnableMobileUpload: boolean;
     EnableMobileDownload: boolean;
     MaxFileSize: number;
-    MaxVoiceMessagesDuration: number;
     DriverName: string;
     Directory: string;
     EnablePublicLink: boolean;

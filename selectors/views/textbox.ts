@@ -21,8 +21,8 @@ export function isVoiceMessagesEnabled(state: GlobalState): boolean {
     const config = getConfig(state);
 
     const fileAttachmentsEnabled = config.EnableFileAttachments === 'true';
-    const voiceMessagesExperimentalEnabled = config.ExperimentalEnableVoiceMessages === 'true';
     const voiceMessageFeatureFlagEnabled = getFeatureFlagValue(state, 'VoiceMessages') === 'true';
+    const voiceMessagesEnabled = config.EnableVoiceMessages === 'true';
 
-    return (fileAttachmentsEnabled && voiceMessagesExperimentalEnabled && voiceMessageFeatureFlagEnabled);
+    return (fileAttachmentsEnabled && voiceMessagesEnabled && voiceMessageFeatureFlagEnabled);
 }
