@@ -11,7 +11,17 @@ import {getModule, setModule} from 'registry';
 const b = createBrowserHistory({basename: window.basename});
 const isDesktop = isDesktopApp() && isServerVersionGreaterThanOrEqualTo(getDesktopVersion(), '5.0.0');
 
-window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = {}) => {
+type Data = {
+    type?: string;
+    message?: Record<string, string>;
+}
+
+type Params = {
+    origin?: string;
+    data?: Data;
+}
+
+window.addEventListener('message', ({origin, data: {type, message = {}} = {}}: Params = {}) => {
     if (origin !== window.location.origin) {
         return;
     }
@@ -29,13 +39,13 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}} = 
 
 setModule('utils/browser_history', {
     ...b,
-    push: (path, ...args) => {
+    push: (path: string | { pathname: string }, ...args: string[]) => {
         if (isDesktop) {
             window.postMessage(
                 {
                     type: 'browser-history-push',
                     message: {
-                        path: path.pathname || path,
+                        path: typeof path === 'object' ? path.pathname : path,
                     },
                 },
                 window.location.origin,
