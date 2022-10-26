@@ -121,7 +121,7 @@ const UserGroupPopover = (props: Props) => {
             {...props}
             id='user-group-popover'
         >
-            <Body>
+            <Body role='complementary'>
                 <Header>
                     <Heading>
                         <Title

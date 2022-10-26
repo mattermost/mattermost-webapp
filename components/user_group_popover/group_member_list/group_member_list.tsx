@@ -151,19 +151,17 @@ const GroupMemberList = (props: Props) => {
         if (isUserLoaded(index)) {
             const user = users[index];
             const name = displayUsername(user, nameDisplaySetting);
+
             return (
                 <UserListItem
+                    className='group-member-list_item'
                     first={index === 0}
                     last={index === group.member_count - 1}
                     style={style}
                     key={user.id}
                     role='listitem'
                 >
-                    <User
-                        tabIndex={0}
-                        role='button'
-                        onClick={() => showUserOverlay(user)}
-                    >
+                    <UserButton onClick={() => showUserOverlay(user)}>
                         <Avatar
                             username={user.username}
                             size={'sm'}
@@ -172,6 +170,9 @@ const GroupMemberList = (props: Props) => {
                             tabIndex={-1}
                         />
                         <Username className='overflow--ellipsis text-nowrap'>{name}</Username>
+                        <Gap className='group-member-list_gap'/>
+                    </UserButton>
+                    <DMContainer className='group-member-list_dm-button'>
                         <SimpleTooltip
                             id={`name-${user.id}`}
                             content={formatMessage({id: 'group_member_list.sendMessageTooltip', defaultMessage: 'Send message'})}
@@ -186,7 +187,7 @@ const GroupMemberList = (props: Props) => {
                                 <SendIcon/>
                             </DMButton>
                         </SimpleTooltip>
-                    </User>
+                    </DMContainer>
                 </UserListItem>
             );
         }
@@ -256,6 +257,7 @@ const UserList = styled.div`
     margin: 0;
     border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     box-sizing: content-box;
+    position: relative;
 `;
 
 const UserListItem = styled.div<{first?: boolean; last?: boolean}>`
@@ -266,6 +268,63 @@ const UserListItem = styled.div<{first?: boolean; last?: boolean}>`
     ${(props) => props.last && css `
         margin-bottom: ${MARGIN}px;
     `}
+
+    &:hover {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+
+    .group-member-list_gap,
+    .group-member-list_dm-button {
+        display: none;
+    }
+
+    &:hover .group-member-list_gap,
+    &:focus-within .group-member-list_gap {
+        display: initial;
+    }
+
+    &:hover .group-member-list_dm-button,
+    &:focus-within .group-member-list_dm-button {
+        display: flex;
+    }
+`;
+
+const UserButton = styled.button`
+    display: flex;
+    width: 100%;
+    padding: 8px 20px;
+    border: none;
+    background: unset;
+    text-align: unset;
+`;
+
+// A gap to make space for the DM button to be positioned on
+const Gap = styled.span`
+    width: 24px;
+    flex: 0 0 auto;
+    margin-left: 4px;
+`;
+
+const Username = styled.span`
+    padding-left: 12px;
+    flex: 1 1 auto;
+`;
+
+const DMContainer = styled.div`
+    height: 100%;
+    position: absolute;
+    right: 20px;
+    top: 0;
+    align-items: center;
+`;
+
+const DMButton = styled.button`
+    width: 24px;
+    height: 24px;
+
+    svg {
+        width: 16px;
+    }
 `;
 
 const LoadingItem = styled.div`
@@ -288,43 +347,6 @@ const NoResultsItem = styled.div`
     align-self: stretch;
     overflow-y: scroll;
     overflow-y: overlay;
-`;
-
-const User = styled.div`
-    display: flex;
-    padding: 8px 20px;
-
-    &:hover {
-        background: rgba(var(--center-channel-color-rgb), 0.08);
-    }
-
-    button {
-        display: none;
-    }
-
-    &:hover button {
-        display: initial;
-    }
-
-    &:focus-within button {
-        display: initial;
-    }
-`;
-
-const Username = styled.span`
-    padding-left: 12px;
-    flex: 1 1 auto;
-`;
-
-const DMButton = styled.button`
-    width: 24px;
-    height: 24px;
-    flex: 0 0 auto;
-    margin-left: 4px;
-
-    svg {
-        width: 16px;
-    }
 `;
 
 export default React.memo(GroupMemberList);
