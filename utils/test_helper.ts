@@ -449,6 +449,7 @@ export class TestHelper {
             sku: '',
             billing_scheme: '',
             recurring_interval: '',
+            cross_sells_to: '',
             ...override,
         };
     }

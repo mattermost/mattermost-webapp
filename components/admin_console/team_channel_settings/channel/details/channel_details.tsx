@@ -19,7 +19,7 @@ import ConfirmModal from 'components/confirm_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
@@ -396,7 +396,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: false, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
                 actions.setNavigationBlocked(saveNeeded);
                 if (!saveNeeded) {
-                    browserHistory.push('/admin_console/user_management/channels');
+                    getHistory().push('/admin_console/user_management/channels');
                 }
             });
             return;
@@ -599,7 +599,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
             if (!saveNeeded && !serverError) {
-                browserHistory.push('/admin_console/user_management/channels');
+                getHistory().push('/admin_console/user_management/channels');
             }
         });
     };

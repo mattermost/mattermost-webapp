@@ -3,7 +3,7 @@
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-export function createArchivedChannel(channelOptions, messages, memberUsernames) {
+export function createArchivedChannel(channelOptions, messages, memberUsernames?) {
     return cy.uiCreateChannel(channelOptions).then((newChannel) => {
         if (memberUsernames) {
             cy.uiAddUsersToCurrentChannel(memberUsernames);
