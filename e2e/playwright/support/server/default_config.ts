@@ -259,7 +259,7 @@ const defaultServerConfig: AdminConfig = {
         EnableMobileUpload: true,
         EnableMobileDownload: true,
         MaxFileSize: 104857600,
-        MaxVoiceMessagesDuration: 0,
+        MaxVoiceMessagesDuration: 5*60, // 5min
         MaxImageResolution: 33177600,
         MaxImageDecoderConcurrency: -1,
         DriverName: 'local',
