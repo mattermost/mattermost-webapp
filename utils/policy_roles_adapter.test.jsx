@@ -78,10 +78,10 @@ describe('PolicyRolesAdapter', () => {
 
     describe('PolicyRolesAdapter.rolesFromMapping', () => {
         test('unknown value throws an exception', () => {
+            const consoleSpy = jest.spyOn(console, 'error').mockImplementation(() => {});
             policies.enableTeamCreation = 'sometimesmaybe';
-            expect(() => {
-                rolesFromMapping(policies, roles);
-            }).toThrowError(/not present in mapping/i);
+            rolesFromMapping(policies, roles);
+            expect(consoleSpy).toHaveBeenCalled();
         });
 
         // // That way you can pass in the whole state if you want.
@@ -130,6 +130,31 @@ describe('PolicyRolesAdapter', () => {
                 value = mappingValueFromRoles('enableTeamCreation', roles);
                 expect(value).toEqual('false');
             });
+        });
+    });
+
+    describe('editOthersPosts', () => {
+        test('Returns the expected policy value for a editOthersPosts policy', () => {
+            addPermissionToRole(
+                Permissions.EDIT_OTHERS_POSTS,
+                roles.system_admin,
+            );
+            addPermissionToRole(Permissions.EDIT_OTHERS_POSTS, roles.team_admin);
+
+            let value = mappingValueFromRoles('editOthersPosts', roles);
+            expect(value).toEqual('true');
+
+            removePermissionFromRole(
+                Permissions.EDIT_OTHERS_POSTS,
+                roles.system_admin,
+            );
+            removePermissionFromRole(
+                Permissions.EDIT_OTHERS_POSTS,
+                roles.team_admin,
+            );
+
+            value = mappingValueFromRoles('editOthersPosts', roles);
+            expect(value).toEqual('false');
         });
     });
 });
