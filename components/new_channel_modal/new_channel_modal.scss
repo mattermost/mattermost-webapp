@@ -78,8 +78,9 @@
 
             label {
                 display: flex;
-                color: var(--center-channel-text);
+                color: var(--center-channel-color);
                 font-weight: 400;
+                cursor: pointer;
 
                 input[type=checkbox] {
                     margin-top: 0 !important;
