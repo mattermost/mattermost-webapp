@@ -64,7 +64,12 @@ Cypress.Commands.add('cmdOrCtrlShortcut', {prevSubject: true}, cmdOrCtrlShortcut
 
 function postMessage(message: string): ChainableT<any> {
     cy.get('#postListContent').should('be.visible');
-    return postMessageAndWait('#post_textbox', message);
+    return postMessageAndWait(
+        '#post_textbox',
+        message,
+        false,
+        '#create_post [data-testid="SendMessageButton"]',
+    );
 }
 Cypress.Commands.add('postMessage', postMessage);
 
@@ -84,7 +89,12 @@ Cypress.Commands.add('uiPostMessageQuickly', (message) => {
     });
 });
 
-function postMessageAndWait(textboxSelector: string, message: string, isComment = false) {
+function postMessageAndWait(
+    textboxSelector: string,
+    message: string,
+    isComment = false,
+    sendTextButtonSelector: string = null,
+) {
     // Add explicit wait to let the page load freely since `cy.get` seemed to block
     // some operation which caused to prolong complete page loading.
     cy.wait(TIMEOUTS.HALF_SEC);
@@ -105,6 +115,17 @@ function postMessageAndWait(textboxSelector: string, message: string, isComment 
             cy.get(textboxSelector).type('{enter}').wait(TIMEOUTS.HALF_SEC);
         }
     });
+
+    cy.log(sendTextButtonSelector);
+    if (sendTextButtonSelector !== null) {
+        cy.get(sendTextButtonSelector).should('exist');
+        cy.get(sendTextButtonSelector).then((el) => {
+            if (!el.is(':disabled')) {
+                cy.wrap(el).click().wait(TIMEOUTS.HALF_SEC);
+            }
+        });
+    }
+
     return cy.waitUntil(() => {
         return cy.get(textboxSelector).then((el) => {
             return el[0].textContent === '';
