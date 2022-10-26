@@ -65,9 +65,7 @@ export default class SettingPicture extends Component<Props, State> {
     }
 
     focusFirstElement() {
-        if (this.settingList && this.settingList.current) {
-            this.settingList.current.focus();
-        }
+        this.settingList.current?.focus();
     }
 
     componentDidMount() {
