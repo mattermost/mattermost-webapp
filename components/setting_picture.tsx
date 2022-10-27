@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent, Component, MouseEvent, ReactNode} from 'react';
+import React, {ChangeEvent, Component, createRef, CSSProperties, MouseEvent, ReactNode, RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import * as FileUtils from 'utils/file_utils';
@@ -37,24 +37,24 @@ type State = {
     image: string | null;
     removeSrc: boolean;
     setDefaultSrc: boolean;
-    orientationStyles?: React.CSSProperties;
+    orientationStyles?: CSSProperties;
 }
 
 export default class SettingPicture extends Component<Props, State> {
     static defaultProps = {
         imageContext: 'profile',
     };
-    private readonly settingList: React.RefObject<HTMLDivElement>;
-    private readonly selectInput: React.RefObject<HTMLInputElement>;
-    private readonly confirmButton: React.RefObject<HTMLButtonElement>;
+    private readonly settingList: RefObject<HTMLDivElement>;
+    private readonly selectInput: RefObject<HTMLInputElement>;
+    private readonly confirmButton: RefObject<HTMLButtonElement>;
     private previewBlob: string | null;
 
     constructor(props: Props) {
         super(props);
 
-        this.settingList = React.createRef();
-        this.selectInput = React.createRef();
-        this.confirmButton = React.createRef();
+        this.settingList = createRef();
+        this.selectInput = createRef();
+        this.confirmButton = createRef();
         this.previewBlob = null;
 
         this.state = {
@@ -92,7 +92,7 @@ export default class SettingPicture extends Component<Props, State> {
         }
     }
 
-    handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    handleCancel = (e: MouseEvent<HTMLButtonElement>) => {
         this.setState({removeSrc: false, setDefaultSrc: false});
         this.props.updateSection?.(e);
     }
