@@ -83,7 +83,7 @@ exports[`components/integrations/InstalledIncomingWebhook should match snapshot 
           values={
             Object {
               "createAt": 1502455422406,
-              "creator": undefined,
+              "creator": "creator",
             }
           }
         />

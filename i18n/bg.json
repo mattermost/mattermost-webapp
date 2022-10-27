@@ -3594,7 +3594,6 @@
   "passwordRequirements": "Изисквания за парола:",
   "password_form.change": "Промяна на паролата ми",
   "password_form.enter": "Въведете нова парола за вашия {siteName} профил.",
-  "password_form.error": "Моля, въведете поне {chars} знака.",
   "password_form.pwd": "Парола",
   "password_form.title": "Нулиране на парола",
   "password_send.checkInbox": "Моля, проверете входящата си поща.",

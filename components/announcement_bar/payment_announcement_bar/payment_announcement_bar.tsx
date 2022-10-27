@@ -7,7 +7,7 @@ import {isEmpty} from 'lodash';
 
 import {CloudCustomer, Subscription} from '@mattermost/types/cloud';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
 import {AnnouncementBarTypes} from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -66,7 +66,7 @@ class PaymentAnnouncementBar extends React.PureComponent<Props> {
     }
 
     updatePaymentInfo = () => {
-        browserHistory.push('/admin_console/billing/payment_info');
+        getHistory().push('/admin_console/billing/payment_info');
     }
 
     render() {

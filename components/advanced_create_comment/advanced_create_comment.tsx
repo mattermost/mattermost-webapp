@@ -14,7 +14,6 @@ import * as GlobalActions from 'actions/global_actions';
 import Constants, {AdvancedTextEditor, Locations, ModalIdentifiers, Preferences} from 'utils/constants';
 import {PreferenceType} from '@mattermost/types/preferences';
 import * as UserAgent from 'utils/user_agent';
-import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
 import {
     specialMentionsInText,
@@ -738,7 +737,10 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
         const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const lastMessageReactionKeyCombo = ctrlOrMetaKeyPressed && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.BACK_SLASH);
-        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
+
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
+        const shiftAltCombo = !Utils.cmdOrCtrlPressed(e) && e.shiftKey && e.altKey;
 
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
@@ -753,7 +755,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (
             (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
-            Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+            Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             (e.ctrlKey || e.metaKey)
         ) {
             this.setShowPreview(false);
@@ -764,7 +766,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const draft = this.state.draft!;
         const {message} = draft;
 
-        if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+        if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
             this.textboxRef.current?.blur();
         }
 
@@ -773,7 +775,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             !e.metaKey &&
             !e.altKey &&
             !e.shiftKey &&
-            Utils.isKeyPressed(e, Constants.KeyCodes.UP) &&
+            Utils.isKeyPressed(e, KeyCodes.UP) &&
             message === ''
         ) {
             e.preventDefault();
@@ -787,9 +789,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             }
         }
 
-        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
-        const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
-
         const {
             selectionStart,
             selectionEnd,
@@ -797,13 +796,14 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         } = e.target as TextboxElement;
 
         if (ctrlKeyCombo) {
-            if (Utils.isKeyPressed(e, Constants.KeyCodes.UP)) {
+            if (Utils.isKeyPressed(e, KeyCodes.UP)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexBack();
-            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN)) {
+            } else if (Utils.isKeyPressed(e, KeyCodes.DOWN)) {
                 e.preventDefault();
                 this.props.onMoveHistoryIndexForward();
-            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.B)) {
+            } else if (Utils.isKeyPressed(e, KeyCodes.B)) {
+                e.stopPropagation();
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'bold',
@@ -811,7 +811,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     selectionEnd,
                     message: value,
                 });
-            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I)) {
+            } else if (Utils.isKeyPressed(e, KeyCodes.I)) {
+                e.stopPropagation();
                 e.preventDefault();
                 this.applyMarkdown({
                     markdownMode: 'italic',
@@ -820,32 +821,73 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     message: value,
                 });
             }
-        } else if (
-            ctrlAltCombo &&
-            Utils.isKeyPressed(e, Constants.KeyCodes.K)
-        ) {
-            e.preventDefault();
-            this.applyMarkdown({
-                markdownMode: 'link',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
-            this.applyMarkdown({
-                markdownMode: 'strike',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
-            e.stopPropagation();
-            e.preventDefault();
-            this.toggleEmojiPicker();
-        } else if (((isMac() && ctrlShiftCombo) || (!isMac() && ctrlAltCombo)) && Utils.isKeyPressed(e, KeyCodes.P) && draft.message.length) {
-            this.setShowPreview(!this.props.shouldShowPreview);
-        } else if (ctrlAltCombo && Utils.isKeyPressed(e, KeyCodes.T)) {
-            this.toggleAdvanceTextEditor();
+        } else if (ctrlAltCombo) {
+            if (Utils.isKeyPressed(e, KeyCodes.K)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'link',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.C)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'code',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.E)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.toggleEmojiPicker();
+            } else if (Utils.isKeyPressed(e, KeyCodes.T)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.toggleAdvanceTextEditor();
+            } else if (Utils.isKeyPressed(e, KeyCodes.P) && draft.message.length) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.setShowPreview(!this.props.shouldShowPreview);
+            }
+        } else if (shiftAltCombo) {
+            if (Utils.isKeyPressed(e, KeyCodes.X)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'strike',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.SEVEN)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'ol',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.EIGHT)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'ul',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.NINE)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'quote',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            }
         }
 
         if (lastMessageReactionKeyCombo) {

@@ -21,7 +21,7 @@ import {GlobalState} from 'types/store';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import {browserHistory} from './browser_history';
+import {getHistory} from './browser_history';
 
 import {cleanUpUrlable} from './url';
 
@@ -93,10 +93,10 @@ export function joinPrivateChannelPrompt(team: Team, channel: Channel, handleOnC
                             if (LocalStorageStore.getTeamIdJoinedOnLoad() === team.id) {
                                 await dispatch(removeUserFromTeam(team.id, getCurrentUserId(state)));
                                 dispatch({type: TeamTypes.LEAVE_TEAM, data: team});
-                                browserHistory.replace('/');
+                                getHistory().replace('/');
                             } else {
                                 const redirectChannelName = getRedirectChannelNameForTeam(state, team.id);
-                                browserHistory.replace(`/${team.name}/channels/${redirectChannelName}`);
+                                getHistory().replace(`/${team.name}/channels/${redirectChannelName}`);
                             }
                         }
                         LocalStorageStore.setTeamIdJoinedOnLoad(null);
