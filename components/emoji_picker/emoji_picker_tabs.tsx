@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {PureComponent} from 'react';
+import React, {CSSProperties, PureComponent} from 'react';
 import {Tab, Tabs} from 'react-bootstrap';
 
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -15,7 +15,7 @@ import {Emoji} from '@mattermost/types/emojis';
 const GifPicker = makeAsyncComponent('GifPicker', React.lazy(() => import('components/gif_picker/gif_picker')));
 
 export interface Props {
-    style?: React.CSSProperties;
+    style?: CSSProperties;
     rightOffset?: number;
     topOffset?: number;
     leftOffset?: number;
