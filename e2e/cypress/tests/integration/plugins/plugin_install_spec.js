@@ -67,10 +67,6 @@ describe('Plugins Management', () => {
         cy.findByTestId(demoPlugin.id).scrollIntoView().should('be.visible').within(() => {
             // # Enable plugin
             cy.findByText('Enable').should('be.visible').click();
-
-            // * Verify enabling state
-            cy.findByText('Enabling...').should('be.visible');
-            cy.findByText('This plugin is starting.').should('be.visible');
         });
 
         // * Verify enabled state
