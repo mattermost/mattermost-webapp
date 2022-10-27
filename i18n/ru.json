@@ -3912,7 +3912,6 @@
   "passwordRequirements": "Требования к паролю:",
   "password_form.change": "Изменить пароль",
   "password_form.enter": "Введите новый пароль для аккаунта на {siteName}.",
-  "password_form.error": "Пожалуйста, введите как минимум {chars} символов.",
   "password_form.pwd": "Пароль",
   "password_form.title": "Сброс пароля",
   "password_send.checkInbox": "Проверьте свой почтовый ящик.",
