@@ -2182,4 +2182,9 @@ export const DataSearchTypes = {
     MESSAGES_SEARCH_TYPE: 'messages',
 };
 
+export const OverActiveUserLimits = {
+    MIN: 0.05,
+    MAX: 0.1,
+} as const;
+
 export default Constants;
