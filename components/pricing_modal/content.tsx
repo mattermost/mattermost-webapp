@@ -154,7 +154,7 @@ function Content(props: ContentProps) {
 
     const [isMonthly, setIsMonthly] = useState(true);
     const [professionalPrice, setProfessionalPrice] = useState(10);
-    const [toggleClassName, setToggleClassName] = useState('toggle-border');
+    const [toggleBorderClassName, setToggleBorderClassName] = useState('toggle-border');
 
     const options = [
         {
@@ -185,13 +185,13 @@ function Content(props: ContentProps) {
         return yearlyProduct ? yearlyProduct.price_per_seat : defaultPrice;
     }
 
-    // let toggleClassName = "toggle-border";
+    // let toggleBorderClassName = "toggle-border";
      
     const onChange = (newValue: any) => {
         if (isMonthly) {
-            setToggleClassName("toggle-border move-left")
+            setToggleBorderClassName("toggle-border move-left")
         } else {
-            setToggleClassName("toggle-border move-right")
+            setToggleBorderClassName("toggle-border move-right")
         }
 
         setIsMonthly(!isMonthly);
@@ -226,7 +226,7 @@ function Content(props: ContentProps) {
                         </p>
                     </div>
                     <div className="toggle-monthly-yearly-container">
-                        <div className={toggleClassName} style={{width: 88, height: 32, border: '1px solid var(--denim-button-bg)', borderRadius: '40px', marginTop: '44px', marginLeft: '80px'}}></div>
+                        <div className={toggleBorderClassName} style={{width: 80, height: 32, border: '1px solid var(--denim-button-bg)', borderRadius: '40px', marginTop: '44px', marginLeft: '80px'}}></div>
                         <div className="toggle-monthly-yearly" style={{width: 161, height: 32, margin: '44px auto'}}>
                             <SwitchSelector
                                 onChange={onChange}
