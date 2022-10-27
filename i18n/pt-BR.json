@@ -3307,7 +3307,6 @@
   "passwordRequirements": "Requerimentos de Senha:",
   "password_form.change": "Alterar minha senha",
   "password_form.enter": "Entre a nova senha para o sua conta {siteName}.",
-  "password_form.error": "Por favor, insira pelo menos {chars} caracteres.",
   "password_form.pwd": "Senha",
   "password_form.title": "Redefinir Senha",
   "password_send.checkInbox": "Por favor verifique sua caixa de entrada.",

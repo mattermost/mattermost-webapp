@@ -113,6 +113,7 @@ export type ClientConfig = {
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
+    FeatureFlagBoardsProduct: string;
     FeatureFlagGraphQL: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;

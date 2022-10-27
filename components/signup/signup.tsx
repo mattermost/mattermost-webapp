@@ -50,7 +50,7 @@ import PasswordInput from 'components/widgets/inputs/password_input/password_inp
 import SaveButton from 'components/save_button';
 
 import {Constants, ItemStatus, ValidationErrors} from 'utils/constants';
-import {isValidUsername, isValidPassword, getPasswordConfig} from 'utils/utils';
+import {isValidUsername, isValidPassword, getPasswordConfig, getRoleFromTrackFlow} from 'utils/utils';
 
 import './signup.scss';
 
@@ -281,7 +281,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     useEffect(() => {
         dispatch(removeGlobalItem('team'));
-        trackEvent('signup', 'signup_user_01_welcome');
+        trackEvent('signup', 'signup_user_01_welcome', getRoleFromTrackFlow());
 
         onWindowResize();
 
@@ -401,7 +401,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
     };
 
     const handleSignupSuccess = async (user: UserProfile, data: UserProfile) => {
-        trackEvent('signup', 'signup_user_02_complete');
+        trackEvent('signup', 'signup_user_02_complete', getRoleFromTrackFlow());
 
         if (reminderInterval) {
             trackEvent('signup', `signup_from_reminder_${reminderInterval}`, {user: user.id});
@@ -512,7 +512,7 @@ const Signup = ({onCustomizeHeader}: SignupProps) => {
 
     const handleSubmit = async (e: React.MouseEvent | React.KeyboardEvent) => {
         e.preventDefault();
-        trackEvent('signup_email', 'click_create_account');
+        trackEvent('signup_email', 'click_create_account', getRoleFromTrackFlow());
         setIsWaiting(true);
 
         if (isUserValid()) {

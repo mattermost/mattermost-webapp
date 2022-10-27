@@ -74,6 +74,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
     const postProps = props.post.props as Partial<CustomPostProps>;
     const requestFeatures = postProps?.requested_features;
     const wasTrialRequest = postProps?.trial;
+    const isDowngradeNotification = (featureId: string) => featureId === PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE;
 
     const customMessageBody = [];
     const getUserIdsForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => requests.map((request: FeatureRequest) => request.user_id);
@@ -130,7 +131,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
 
     if (requestFeatures) {
         for (const featureId of Object.keys(requestFeatures)) {
-            const title = (
+            let title = (
                 <div id={`${featureId}-title`.replaceAll('.', '_')}>
                     <span>
                         <b>
@@ -144,7 +145,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                         />
                     </span>
                 </div>);
-            const subTitle = (
+            let subTitle = (
                 <ul id={`${featureId}-subtitle`.replaceAll('.', '_')}>
                     <li>
                         <Markdown
@@ -156,6 +157,29 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                         />
                     </li>
                 </ul>);
+
+            if (isDowngradeNotification(featureId)) {
+                title = (
+                    <div id={`${featureId}-title`.replaceAll('.', '_')}>
+                        <span>
+                            <b>
+                                {mapFeatureIdToTranslation(featureId, formatMessage)}
+                            </b>
+                        </span>
+                    </div>);
+                subTitle = (
+                    <ul id={`${featureId}-subtitle`.replaceAll('.', '_')}>
+                        <li>
+                            <Markdown
+                                postId={props.post.id}
+                                message={formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.downgradeNotfication', defaultMessage: '{userRequests} requested to revert the workspace to a paid plan'}, {userRequests: renderUsersThatRequestedFeature(requestFeatures[featureId])})}
+                                options={markDownOptions}
+                                userIds={getUserIdsForUsersThatRequestedFeature(requestFeatures[featureId])}
+                                messageMetadata={{requestedFeature: featureId}}
+                            />
+                        </li>
+                    </ul>);
+            }
 
             const featureMessage = (
                 <div style={messageStyle}>
