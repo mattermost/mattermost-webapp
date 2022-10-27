@@ -2832,6 +2832,7 @@
   "channel_info_rhs.edit_link": "Edycja",
   "channel_info_rhs.header.title": "Informacje",
   "channel_info_rhs.menu.files": "Pliki",
+  "channel_info_rhs.menu.files.filter":"Filtr",
   "channel_info_rhs.menu.members": "Członkowie",
   "channel_info_rhs.menu.notification_preferences": "Ustawienia Powiadomień",
   "channel_info_rhs.menu.pinned": "Przypięte Wiadomości",

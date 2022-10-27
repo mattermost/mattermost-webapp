@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Tooltip from 'components/tooltip';
+import OverlayTrigger from 'components/overlay_trigger';
 
 import {SearchFilterType} from '../search/types';
 
@@ -16,13 +19,32 @@ type Props = {
 };
 
 export default function FilesFilterMenu(props: Props): JSX.Element {
+    const toolTip = (
+        <Tooltip
+            id='files-filter-tooltip'
+            className='hidden-xs'
+        >
+        <FormattedMessage
+            id='channel_info_rhs.menu.files.filter'
+            defaultMessage='Filter'
+            />
+        </Tooltip>
+    )
     return (
         <div className='FilesFilterMenu'>
             <MenuWrapper>
+                <OverlayTrigger
+                    className='hidden-xs'
+                    delayShow={500}
+                    placement='top'
+                    overlay={toolTip}
+                    rootClose={true}
+                >
                 <span className='action-icon dots-icon'>
                     {props.selectedFilter !== 'all' && <i className='icon-dot'/>}
                     <i className='icon icon-filter-variant'/>
                 </span>
+                </OverlayTrigger>
                 <Menu
                     ariaLabel={'file menu'}
                     openLeft={true}
