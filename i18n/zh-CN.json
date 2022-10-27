@@ -3604,7 +3604,6 @@
   "passwordRequirements": "密码要求：",
   "password_form.change": "修改我的密码",
   "password_form.enter": "输入您的 {siteName} 账户新密码。",
-  "password_form.error": "请输入至少{chars}个字符。",
   "password_form.pwd": "密码",
   "password_form.title": "密码重置",
   "password_send.checkInbox": "请检查您的收件箱。",
