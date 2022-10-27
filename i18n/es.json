@@ -3570,7 +3570,6 @@
   "passwordRequirements": "Requisitos de la Contraseña:",
   "password_form.change": "Cambiar mi contraseña",
   "password_form.enter": "Ingresa una nueva contraseña para tu cuenta en {siteName}.",
-  "password_form.error": "Por favor ingresa al menos {chars} caracteres.",
   "password_form.pwd": "Contraseña",
   "password_form.title": "Restablecer Contraseña",
   "password_send.checkInbox": "Por favor revisa tu bandeja de entrada.",
