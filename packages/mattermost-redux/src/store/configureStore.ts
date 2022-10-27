@@ -3,7 +3,7 @@
 
 import {
     applyMiddleware,
-    createStore,
+    legacy_createStore,
     Reducer,
     Store,
 } from 'redux';
@@ -49,7 +49,7 @@ export default function configureStore<S extends GlobalState>({
 
     const baseReducer = createReducer(serviceReducers, appReducers);
 
-    const store = createStore(
+    const store = legacy_createStore(
         baseReducer,
         baseState,
         middleware,
