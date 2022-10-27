@@ -3890,7 +3890,6 @@
   "passwordRequirements": "Pré-requis du mot de passe :",
   "password_form.change": "Modifier mon mot de passe",
   "password_form.enter": "Veuillez spécifier un nouveau mot de passe pour votre compte {siteName}.",
-  "password_form.error": "Veuillez spécifier au moins {chars} caractères.",
   "password_form.pwd": "Mot de passe",
   "password_form.title": "Réinitialisation du mot de passe",
   "password_send.checkInbox": "Veuillez vérifier votre boîte de réception.",
