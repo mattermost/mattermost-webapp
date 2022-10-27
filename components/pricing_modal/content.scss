@@ -14,8 +14,37 @@ div.alert-option{
     flex: 1;
 }
 
-div.toggle-monthly-yearly{
+div.toggle-monthly-yearly-container{
+    display: grid;
     width: 161px;
+}
+
+div.toggle-monthly-yearly, div.toggle-border {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+@keyframes moveLeft {
+    from {right: 0px;}
+    to {right: 80px;}
+}
+
+@keyframes moveRight {
+    from {right: 80px;}
+    to {right: 0px;}
+}
+
+div.move-left {
+    position: relative;
+    animation-name: moveLeft;
+    animation-duration: 0.2s;  
+    animation-fill-mode: forwards;
+}
+div.move-right {
+    position: relative;
+    animation-name: moveRight;
+    animation-duration: 0.2s;  
+    animation-fill-mode: forwards;
 }
 
 div.save-text-div{
@@ -34,6 +63,7 @@ p.save-text {
     line-height: 18px;
 }
 
-div.react-switch-selector-option-selected {
-    border: "5px solid #000000" !important
+.react-switch-selector-option {
+    // width: 88px !important;
+    height: 32px !important;
 }

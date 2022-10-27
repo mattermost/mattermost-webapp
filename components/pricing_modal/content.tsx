@@ -154,6 +154,7 @@ function Content(props: ContentProps) {
 
     const [isMonthly, setIsMonthly] = useState(true);
     const [professionalPrice, setProfessionalPrice] = useState(10);
+    const [toggleClassName, setToggleClassName] = useState('toggle-border');
 
     const options = [
         {
@@ -183,8 +184,16 @@ function Content(props: ContentProps) {
         const yearlyProduct = findProductByID(monthlyProduct.cross_sells_to);
         return yearlyProduct ? yearlyProduct.price_per_seat : defaultPrice;
     }
+
+    // let toggleClassName = "toggle-border";
      
-     const onChange = (newValue: any) => {
+    const onChange = (newValue: any) => {
+        if (isMonthly) {
+            setToggleClassName("toggle-border move-left")
+        } else {
+            setToggleClassName("toggle-border move-right")
+        }
+
         setIsMonthly(!isMonthly);
         // The isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state (ie. UI shows monthly selected but the isMonthly variable is still false at this point)
         setProfessionalPrice(getPrice(5, !isMonthly, CloudProducts.PROFESSIONAL)); 
@@ -212,15 +221,18 @@ function Content(props: ContentProps) {
             <Modal.Body>
                 <div className="flexcontainer">
                     <div className="save-text-div">
-                        <p className="save-text">{formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}</p>
+                        <p className="save-text">
+                            {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
+                        </p>
                     </div>
-                    <div className="toggle-monthly-yearly">
-                        <div style={{width: 162, height: 32, margin: '44px auto'}}>
+                    <div className="toggle-monthly-yearly-container">
+                        <div className={toggleClassName} style={{width: 88, height: 32, border: '1px solid var(--denim-button-bg)', borderRadius: '40px', marginTop: '44px', marginLeft: '80px'}}></div>
+                        <div className="toggle-monthly-yearly" style={{width: 161, height: 32, margin: '44px auto'}}>
                             <SwitchSelector
                                 onChange={onChange}
                                 options={options}
                                 initialSelectedIndex={initialSelectedIndex}
-                                backgroundColor={"#FFFFFF"}
+                                backgroundColor={"border: 1px solid red"}
                                 border={"solid 1px rgba(var(--title-color-indigo-500-rgb), 0.4)"}
                                 selectionIndicatorMargin={0}
                                 selectedBackgroundColor={'rgba(var(--denim-button-bg-rgb), 0.08)'}
