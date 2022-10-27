@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useState, useMemo, useEffect, useCallback, ComponentProps} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
+import {useHistory} from 'react-router-dom';
 
 import classNames from 'classnames';
 
@@ -16,8 +18,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Timestamp from 'components/timestamp';
-
-import {browserHistory} from 'utils/browser_history';
 
 import './../../../activity_and_insights.scss';
 
@@ -42,6 +42,8 @@ const TIME_SPEC: Partial<ComponentProps<typeof Timestamp>> = {
 };
 
 const TopPlaybooksTable = (props: Props) => {
+    const history = useHistory();
+
     const [loading, setLoading] = useState(false);
     const [topPlaybooks, setTopPlaybooks] = useState([] as TopPlaybook[]);
 
@@ -64,7 +66,7 @@ const TopPlaybooksTable = (props: Props) => {
     const goToPlaybook = useCallback((playbook: TopPlaybook) => {
         props.closeModal();
         trackEvent('insights', 'open_playbook_from_top_playbooks_modal');
-        browserHistory.push(`/playbooks/playbooks/${playbook.playbook_id}`);
+        history.push(`/playbooks/playbooks/${playbook.playbook_id}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {

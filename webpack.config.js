@@ -9,6 +9,7 @@ const path = require('path');
 
 const url = require('url');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExternalTemplateRemotesPlugin = require('external-remotes-plugin');
 const webpack = require('webpack');
 const {ModuleFederationPlugin} = require('webpack').container;
 const nodeExternals = require('webpack-node-externals');
@@ -30,6 +31,8 @@ const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
 const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process.env.VSCODE_CWD;
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
+
+const boardsDevServerUrl = process.env.MM_BOARDS_DEV_SERVER_URL ?? 'http://localhost:9006';
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
@@ -393,8 +396,7 @@ function generateCSP() {
         // react-hot-loader and development source maps require eval
         csp += ' \'unsafe-eval\'';
 
-        // Focalboard runs on http://localhost:9006
-        csp += ' http://localhost:9006';
+        csp += ' ' + boardsDevServerUrl;
     }
 
     return csp;
@@ -437,11 +439,25 @@ async function initializeModuleFederation() {
         });
     }
 
-    async function getRemoteModules() {
+    async function getRemoteContainers() {
         const products = [
-            {name: 'focalboard', baseUrl: 'http://localhost:9006'},
+            {name: 'boards', baseUrl: boardsDevServerUrl},
         ];
 
+        if (!DEV) {
+            // For production, hardcode the URLs of product containers to be based on the web app URL
+            const remotes = {};
+            for (const product of products) {
+                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
+            }
+
+            return {
+                remotes,
+                aliases: {},
+            };
+        }
+
+        // For development, identify which product dev servers are available
         const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
 
         const remotes = {};
@@ -467,7 +483,7 @@ async function initializeModuleFederation() {
         return {remotes, aliases};
     }
 
-    const {remotes, aliases} = await getRemoteModules();
+    const {remotes, aliases} = await getRemoteContainers();
 
     config.plugins.push(new ModuleFederationPlugin({
         name: 'mattermost-webapp',
@@ -497,13 +513,16 @@ async function initializeModuleFederation() {
         ],
     }));
 
+    // Add this plugin to perform the substitution of window.basename when loading remote containers
+    config.plugins.push(new ExternalTemplateRemotesPlugin());
+
     config.resolve.alias = {
         ...config.resolve.alias,
         ...aliases,
     };
 
     config.plugins.push(new webpack.DefinePlugin({
-        REMOTE_MODULES: JSON.stringify(remotes),
+        REMOTE_CONTAINERS: JSON.stringify(remotes),
     }));
 }
 

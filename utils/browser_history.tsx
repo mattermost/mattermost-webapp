@@ -35,7 +35,7 @@ window.addEventListener('message', ({origin, data: {type, message = {}} = {}}: P
     }
 });
 
-export const browserHistory = {
+const browserHistory = {
     ...b,
     push: (path: string | { pathname: string }, ...args: string[]) => {
         if (isDesktop) {
@@ -53,3 +53,12 @@ export const browserHistory = {
         }
     },
 };
+
+/**
+ * Returns the current history object.
+ *
+ * If you're calling this from within a React component, consider using the useHistory hook from react-router-dom.
+ */
+export function getHistory() {
+    return browserHistory;
+}

@@ -94,7 +94,7 @@ import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
 import {updateThreadLastOpened} from 'actions/views/threads';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {loadChannelsForCurrentUser} from 'actions/channel_actions';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
@@ -599,7 +599,7 @@ export function handleChannelUpdatedEvent(msg) {
 
         const state = doGetState();
         if (channel.id === getCurrentChannelId(state)) {
-            browserHistory.replace(`${getCurrentRelativeTeamUrl(state)}/channels/${channel.name}`);
+            getHistory().replace(`${getCurrentRelativeTeamUrl(state)}/channels/${channel.name}`);
         }
     };
 }
@@ -917,9 +917,9 @@ function handleDeleteTeamEvent(msg) {
                 dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
                 const globalState = getState();
                 const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
-                browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
+                getHistory().push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
             } else {
-                browserHistory.push('/');
+                getHistory().push('/');
             }
         }
     }
@@ -1175,7 +1175,7 @@ function handleChannelDeletedEvent(msg) {
         const teamUrl = getCurrentRelativeTeamUrl(state);
         const currentTeamId = getCurrentTeamId(state);
         const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
-        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
+        getHistory().push(teamUrl + '/channels/' + redirectChannel);
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});

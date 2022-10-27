@@ -10,6 +10,8 @@
 // Stage: @prod
 // Group: @custom_status
 
+import dayjs from 'dayjs';
+
 describe('MM-T4064 Status expiry visibility', () => {
     before(() => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
@@ -28,7 +30,7 @@ describe('MM-T4064 Status expiry visibility', () => {
     };
 
     const waitingTime = 60; //minutes
-    let expiresAt = new Date();
+    let expiresAt = dayjs();
     const expiryTimeFormat = 'h:mm A';
     it('MM-T4064_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown
@@ -75,7 +77,7 @@ describe('MM-T4064 Status expiry visibility', () => {
         cy.get('#custom_status_modal').should('not.exist');
 
         // # Setting the time at which the custom status should be expired
-        expiresAt = Cypress.dayjs().add(waitingTime, 'minute');
+        expiresAt = dayjs().add(waitingTime, 'minute');
 
         // * Status should be set and the emoji should be visible in the sidebar header
         cy.uiGetProfileHeader().

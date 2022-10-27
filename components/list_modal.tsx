@@ -1,87 +1,100 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
 import LoadingScreen from 'components/loading_screen';
+import {Group} from '@mattermost/types/groups';
 
 export const DEFAULT_NUM_PER_PAGE = 50;
 
-export default class ListModal extends React.PureComponent {
-    static propTypes = {
+type Props = {
 
-        /**
-         * loadItems is a function that receives the params (pageNumber, searchTerm) and should return an object
-         * with the shape {items: [], totalCount: 0}.
-         * items: an array of objects that are passed to each renderRow function.
-         * totalCount: an integer representing the total number of items as displayed in the pagination text.
-         *
-         * Example:
-         *     const loadItems = async (pageNumber, searchTerm) => {
-         *         const {data} = await loadFromServer(searchTerm, pageNumber, PER_PAGE);
-         *         return {
-         *             items: data.users,
-         *             totalCount: data.total,
-         *         };
-         *     };
-         */
-        loadItems: PropTypes.func.isRequired,
+    /**
+     * titleText (optional) a string to show at the top bar of the modal.
+     */
+    titleText?: string;
 
-        /**
-         * renderRow is a function that receives the params (item, listModal) and should return JSX.
-         * item: an object as returned by each entry in the loadItems function's 'items' array.
-         * listModal: the instance of the ListModal component class.
-         *
-         * Example:
-         *     const renderRow = (item, listModal) => <div>{item.id}</div>;
-         */
-        renderRow: PropTypes.func.isRequired,
+    /**
+     * searchPlaceholderText (optional) a string to show as a placeholder in the search input.
+     */
+    searchPlaceholderText?: string;
 
-        /**
-         * onHide (optional) a function to be invoked when the modal is closed.
-         */
-        onHide: PropTypes.func,
+    /**
+     * titleBarButtonText (optional) a string representing a title bar button text.
+     */
+    titleBarButtonText?: string;
 
-        /**
-         * titleText (optional) a string to show at the top bar of the modal.
-         */
-        titleText: PropTypes.string,
+    /**
+     * numPerPage (optional) a number setting how many items per page should be displayed. Defaults to
+     * DEFAULT_NUM_PER_PAGE.
+     */
+    numPerPage?: number;
 
-        /**
-         * searchPlaceholderText (optional) a string to show as a placeholder in the search input.
-         */
-        searchPlaceholderText: PropTypes.string,
+    /**
+     * show (optional) a boolean setting to hide the modal via props rather then unmounting it.
+     */
+    show?: boolean;
 
-        /**
-         * titleBarButtonText (optional) a string representing a title bar button text.
-         */
-        titleBarButtonText: PropTypes.string,
+    /**
+     * titleBarButtonOnClick (optional) a func to handle title button bar clicks.
+     */
+    titleBarButtonOnClick?: () => void;
 
-        /**
-         * titleBarButtonOnClick (optional) a func to handle title button bar clicks.
-         */
-        titleBarButtonOnClick: PropTypes.func,
+    /**
+     * loadItems is a function that receives the params (pageNumber, searchTerm) and should return an object
+     * with the shape {items: [], totalCount: 0}.
+     * items: an array of objects that are passed to each renderRow function.
+     * totalCount: an integer representing the total number of items as displayed in the pagination text.
+     *
+     * Example:
+     *     const loadItems = async (pageNumber, searchTerm) => {
+     *         const {data} = await loadFromServer(searchTerm, pageNumber, PER_PAGE);
+     *         return {
+     *             items: data.users,
+     *             totalCount: data.total,
+     *         };
+     *     };
+     */
+    loadItems: (page: number, searchTerm: string) => Promise<{
+        items: Group[];
+        totalCount: number;
+    }>;
 
-        /**
-         * numPerPage (optional) a number setting how many items per page should be displayed. Defaults to
-         * DEFAULT_NUM_PER_PAGE.
-         */
-        numPerPage: PropTypes.number,
+    /**
+     * onHide (optional) a function to be invoked when the modal is closed.
+     */
+    onHide?: () => void;
 
-        /**
-         * show (optional) a boolean setting to hide the modal via props rather then unmounting it.
-         */
-        show: PropTypes.bool,
-    };
+    /**
+     * renderRow is a function that receives the params (item, listModal) and should return JSX.
+     * item: an object as returned by each entry in the loadItems function's 'items' array.
+     * listModal: the instance of the ListModal component class.
+     *
+     * Example:
+     *     const renderRow = (item, listModal) => <div>{item.id}</div>;
+     */
+    renderRow: (item: Group, listModal: ListModal) => JSX.Element;
+}
 
+type State = {
+    show: boolean;
+    page: number;
+    items: Group[];
+    totalCount: number;
+    loading: boolean;
+    searchTerm: string;
+}
+
+export default class ListModal extends React.PureComponent<Props, State> {
     static defaultProps = {
         show: true,
     };
+    numPerPage: number;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
 
         this.numPerPage = props.numPerPage || DEFAULT_NUM_PER_PAGE;
@@ -137,13 +150,13 @@ export default class ListModal extends React.PureComponent {
         this.onPageChange(prevPage);
     }
 
-    onPageChange = async (page) => {
+    onPageChange = async (page: number) => {
         this.setState({loading: true});
         const result = await this.props.loadItems(page, this.state.searchTerm);
         this.setState({page, items: result.items, loading: false});
     }
 
-    onSearchInput = async (event) => {
+    onSearchInput = async (event: React.ChangeEvent<HTMLInputElement>) => {
         const {target} = event;
         const searchTerm = target.value;
         this.setState({loading: true, searchTerm});
@@ -234,7 +247,7 @@ export default class ListModal extends React.PureComponent {
                                         defaultMessage='Previous'
                                     />
                                 </button>}
-                                {(this.state.items.length >= this.props.numPerPage) && endCount !== this.state.totalCount &&
+                                {this.props.numPerPage && (this.state.items.length >= this.props.numPerPage) && endCount !== this.state.totalCount &&
                                 <button
                                     onClick={this.onNext}
                                     className='btn btn-link filter-control filter-control__next'
