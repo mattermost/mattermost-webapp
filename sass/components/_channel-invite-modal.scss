@@ -94,10 +94,10 @@
     }
 
     .react-select__control.react-select-auto {
-        min-height: 48px;
-        padding: 3px 0;
-        max-height: 125px;
         overflow: auto;
+        min-height: 48px;
+        max-height: 125px;
+        padding: 3px 0;
     }
 
     .loading-screen {
