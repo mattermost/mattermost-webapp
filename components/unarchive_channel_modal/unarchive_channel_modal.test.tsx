@@ -5,8 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
-import {browserHistory} from 'utils/browser_history';
-
 import {TestHelper} from 'utils/test_helper';
 
 import UnarchiveChannelModal from './unarchive_channel_modal';
@@ -59,7 +57,6 @@ describe('components/unarchive_channel_modal', () => {
     });
 
     test('should have called actions.unarchiveChannel when handleUnarchive is called', () => {
-        browserHistory.push = jest.fn();
         const actions = {unarchiveChannel: jest.fn()};
         const props = {...baseProps, actions};
         const wrapper = shallow<UnarchiveChannelModal>(

@@ -27,6 +27,7 @@ export type PostType = 'system_add_remove' |
 'system_remove_from_channel' |
 'system_combined_user_activity' |
 'system_fake_parent_deleted' |
+'system_generic' |
 '';
 
 export type PostEmbedType = 'image' | 'link' | 'message_attachment' | 'opengraph' | 'permalink';
@@ -73,7 +74,7 @@ export type Post = {
     metadata: PostMetadata;
     failed?: boolean;
     user_activity_posts?: Post[];
-    state?: 'DELETED';
+    state?: PostState;
     filenames?: string[];
     last_reply_at?: number;
     participants?: any; //Array<UserProfile | UserProfile['id']>;
@@ -81,6 +82,8 @@ export type Post = {
     is_following?: boolean;
     exists?: boolean;
 };
+
+export type PostState = 'DELETED';
 
 export enum PostPriority {
     URGENT = 'urgent',

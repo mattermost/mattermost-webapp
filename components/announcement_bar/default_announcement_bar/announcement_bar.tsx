@@ -28,7 +28,7 @@ type Props = {
     handleClose?: (e?: any) => void;
     showModal?: boolean;
     announcementBarCount?: number;
-    onButtonClick?: () => void;
+    onButtonClick?: (e?: any) => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;

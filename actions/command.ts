@@ -24,7 +24,7 @@ import {isUrlSafe, getSiteURL} from 'utils/url';
 import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
@@ -42,6 +42,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general';
 
 import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
+import {trackEvent} from './telemetry_actions';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -58,6 +59,18 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trimEnd();
         } else {
             msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
+        }
+
+        // Add track event for certain slash commands
+        const commandsWithTelemetry = [
+            {command: '/help', telemetry: 'slash-command-help'},
+            {command: '/marketplace', telemetry: 'slash-command-marketplace'},
+        ];
+        for (const command of commandsWithTelemetry) {
+            if (msg.startsWith(command.command)) {
+                trackEvent('slash-commands', command.telemetry);
+                break;
+            }
         }
 
         switch (cmd) {
@@ -100,7 +113,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                 const currentTeamId = getCurrentTeamId(state);
                 const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
                 const teamUrl = getCurrentRelativeTeamUrl(state);
-                browserHistory.push(`${teamUrl}/channels/${redirectChannel}`);
+                getHistory().push(`${teamUrl}/channels/${redirectChannel}`);
 
                 dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
                 if (isFavoriteChannel(state, channel.id)) {
@@ -203,9 +216,9 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
         if (hasGotoLocation) {
             if (data.goto_location.startsWith('/')) {
-                browserHistory.push(data.goto_location);
+                getHistory().push(data.goto_location);
             } else if (data.goto_location.startsWith(getSiteURL())) {
-                browserHistory.push(data.goto_location.substr(getSiteURL().length));
+                getHistory().push(data.goto_location.substr(getSiteURL().length));
             } else {
                 window.open(data.goto_location);
             }
