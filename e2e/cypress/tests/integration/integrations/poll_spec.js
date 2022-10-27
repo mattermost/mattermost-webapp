@@ -136,14 +136,18 @@ describe('/poll', () => {
             cy.findByText('Yes').click();
         });
         cy.apiLogout();
+
         cy.apiLogin(user2);
         cy.visit(testChannelUrl);
+        cy.get('.post-list__dynamic').scrollTo('bottom');
         cy.uiGetPostBody().within(() => {
             cy.findByText('Yes').click();
         });
         cy.apiLogout();
+
         cy.apiLogin(user1);
         cy.visit(testChannelUrl);
+
         cy.uiGetPostBody().within(() => {
             // # Click "End Poll"
             cy.findByText('End Poll').click();
