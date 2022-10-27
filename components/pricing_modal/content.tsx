@@ -158,7 +158,7 @@ function Content(props: ContentProps) {
 
     const options = [
         {
-            label: <div style={{margin: "10px 16px", color: isMonthly ? 'var(--center-channel-text)' : 'var(--denim-button-bg)'}}>Yearly</div>,
+            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--center-channel-text)' : 'var(--denim-button-bg)'}}>Yearly</p>,
             value: "Yearly",
         },
         {
@@ -184,10 +184,8 @@ function Content(props: ContentProps) {
         const yearlyProduct = findProductByID(monthlyProduct.cross_sells_to);
         return yearlyProduct ? yearlyProduct.price_per_seat : defaultPrice;
     }
-
-    // let toggleBorderClassName = "toggle-border";
      
-    const onChange = (newValue: any) => {
+    const onToggleChange = () => {
         if (isMonthly) {
             setToggleBorderClassName("toggle-border move-left")
         } else {
@@ -226,10 +224,10 @@ function Content(props: ContentProps) {
                         </p>
                     </div>
                     <div className="toggle-monthly-yearly-container">
-                        <div className={toggleBorderClassName} style={{width: 80, height: 32, border: '1px solid var(--denim-button-bg)', borderRadius: '40px', marginTop: '44px', marginLeft: '80px'}}></div>
-                        <div className="toggle-monthly-yearly" style={{width: 161, height: 32, margin: '44px auto'}}>
+                        <div className={toggleBorderClassName}></div>
+                        <div className="toggle-monthly-yearly">
                             <SwitchSelector
-                                onChange={onChange}
+                                onChange={onToggleChange}
                                 options={options}
                                 initialSelectedIndex={initialSelectedIndex}
                                 backgroundColor={"border: 1px solid red"}

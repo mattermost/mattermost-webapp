@@ -24,6 +24,21 @@ div.toggle-monthly-yearly, div.toggle-border {
     grid-row: 1;
 }
 
+div.toggle-monthly-yearly {
+    width: 161px;
+    height: 32px;
+    margin: 44px auto;
+}
+
+div.toggle-border {
+    width: 80px;
+    height: 32px;
+    border: 1px solid var(--denim-button-bg);
+    border-radius: 40px;
+    margin-top: 44px;
+    margin-left: 80px;
+}
+
 @keyframes moveLeft {
     from {right: 0px;}
     to {right: 80px;}
