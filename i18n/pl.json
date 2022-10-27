@@ -4024,7 +4024,7 @@
   "multiselect.createGroup": "Utwórz grupę",
   "multiselect.creating": "Tworzenie...",
   "multiselect.go": "Przejdź",
-  "multiselect.list.notFound": "Nie znaleziono nic pasującego do **{searchQuery}**",
+  "multiselect.list.notFound": "{searchQuery}Nie znaleziono nic pasującego do <b>{searchQuery}</b>",
   "multiselect.loading": "Ładowanie...",
   "multiselect.numGroupsRemaining": "Użyj ↑↓ by przeglądać, ↵ aby wybrać. Możesz dodać jeszcze {num, number} więcej {num, plural, one {gupę} other {grupy}}. ",
   "multiselect.numMembers": "{memberOptions, number} z {totalCount, number} użytkowników",
