@@ -339,15 +339,16 @@ export default class TeamDetails extends React.PureComponent<Props, State> {
     addUsersToAdd = (users: UserProfile[]) => {
         let {usersToRemoveCount} = this.state;
         const {usersToAdd, usersToRemove} = this.state;
+        const usersToAddCopy = cloneDeep(usersToAdd);
         users.forEach((user) => {
             if (usersToRemove[user.id]?.id === user.id) {
                 delete usersToRemove[user.id];
                 usersToRemoveCount -= 1;
             } else {
-                usersToAdd[user.id] = user;
+                usersToAddCopy[user.id] = user;
             }
         });
-        this.setState({usersToAdd: {...usersToAdd}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
+        this.setState({usersToAdd: {...usersToAddCopy}, usersToRemove: {...usersToRemove}, usersToRemoveCount, saveNeeded: true});
         this.props.actions.setNavigationBlocked(true);
     }
 
