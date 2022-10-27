@@ -167,7 +167,7 @@ function Content(props: ContentProps) {
         }
      ];
 
-    // generalized getPrice function that can work for both Professional and Enterprise
+    // generalized getPrice function that can work for both Professional and Enterprise.
     const getPrice = (defaultPrice: number, newIsMonthly: boolean, productSku: string) => {
         if (productSku === "") {
             return defaultPrice;
@@ -186,16 +186,22 @@ function Content(props: ContentProps) {
     }
      
     const onToggleChange = () => {
+        setIsMonthly(!isMonthly);
+
+        // isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state 
+        // (ie. UI shows monthly selected but the isMonthly variable is still false at this point)
+
+        // controls the animation of the toggle border
         if (isMonthly) {
-            setToggleBorderClassName("toggle-border move-left")
+            setToggleBorderClassName("toggle-border move-left");
+            trackEvent('cloud_pricing', 'click_yearly_toggle');
         } else {
-            setToggleBorderClassName("toggle-border move-right")
+            setToggleBorderClassName("toggle-border move-right");
         }
 
-        setIsMonthly(!isMonthly);
-        // The isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state (ie. UI shows monthly selected but the isMonthly variable is still false at this point)
+        // update the displayed price
         setProfessionalPrice(getPrice(5, !isMonthly, CloudProducts.PROFESSIONAL)); 
-     };
+    };
      
     const initialSelectedIndex = options.findIndex(({value}) => value === "Monthly");
     
