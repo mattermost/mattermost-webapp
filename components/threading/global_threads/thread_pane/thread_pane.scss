@@ -2,7 +2,6 @@
 .ThreadPane {
     display: grid;
     overflow: hidden;
-    margin-right: 5px;
     grid-template-areas:
         'header'
         'pane';

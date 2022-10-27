@@ -48,9 +48,15 @@ body {
     border-radius: 2px;
 }
 
-.scrollbar--position {
-    position: relative;
-    right: 5px;
+.scrollbar--vertical--RHS {
+    top: 2px;
+    right: 2px;
+    bottom: 2px;
+    margin-right: 3px;
+    border-radius: 3px;
+}
+
+.scrollbar--thumb--RHS {
     background-color: rgba(var(--center-channel-color-rgb), 0.32);
 }
 

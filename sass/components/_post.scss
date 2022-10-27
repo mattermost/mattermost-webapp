@@ -399,6 +399,8 @@
         padding: 13px 0 12px 16px;
         cursor: auto;
         resize: none;
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
 
         &:not(.custom-textarea--emoji-picker) {
             padding-right: 40px;
