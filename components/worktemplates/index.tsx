@@ -2,20 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React, {useState} from 'react';
+import classnames from 'classnames';
+import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
-import classnames from 'classnames';
 
-import {closeModal as closeModalAction} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
-import LocalizedIcon from 'components/localized_icon';
 import {Visibility, WorkTemplate} from '@mattermost/types/worktemplates';
+import {closeModal as closeModalAction} from 'actions/views/modals';
+import LocalizedIcon from 'components/localized_icon';
+import {ModalIdentifiers} from 'utils/constants';
 
-import GenericModal from './components/modal';
-import Menu from './components/menu';
-import Preview from './components/preview';
 import Customize from './components/customize';
-import { useIntl } from 'react-intl';
+import Menu from './components/menu';
+import GenericModal from './components/modal';
+import Preview from './components/preview';
 
 const BackIconInHeader = styled(LocalizedIcon)`
     font-size: 24px;
