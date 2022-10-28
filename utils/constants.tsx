@@ -154,6 +154,8 @@ export const Preferences = {
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
+    CONFIGURATION_BANNERS: 'configuration_banners',
+    NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -175,6 +177,15 @@ export const TrialPeriodDays = {
     TRIAL_2_DAYS: 2,
     TRIAL_1_DAY: 1,
     TRIAL_0_DAYS: 0,
+};
+
+export const suitePluginIds = {
+    playbooks: 'playbooks',
+    focalboard: 'focalboard',
+    apps: 'com.mattermost.apps',
+    calls: 'com.mattermost.calls',
+    nps: 'com.mattermost.nps',
+    channelExport: 'com.mattermost.plugin-channel-export',
 };
 
 export const ActionTypes = keyMirror({
@@ -467,6 +478,7 @@ export const PaidFeatures = {
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
+    UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
 };
 
 export enum LicenseSkus {
@@ -476,6 +488,11 @@ export enum LicenseSkus {
     Professional = 'professional',
     Enterprise = 'enterprise',
 }
+
+export const CloudProductToSku = {
+    [CloudProducts.PROFESSIONAL]: LicenseSkus.Professional,
+    [CloudProducts.ENTERPRISE]: LicenseSkus.Enterprise,
+};
 
 export const A11yClassNames = {
     REGION: 'a11y__region',
@@ -658,6 +675,10 @@ export const CloudBanners = {
     THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
 };
 
+export const ConfigurationBanners = {
+    LICENSE_EXPIRED: 'license_expired',
+};
+
 export const AdvancedTextEditor = {
     COMMENT: 'comment',
     POST: 'post',
@@ -677,6 +698,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
+    SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
 };
@@ -714,6 +736,7 @@ export const PostTypes = {
     PURPOSE_CHANGE: 'system_purpose_change' as const,
     CHANNEL_DELETED: 'system_channel_deleted' as const,
     CHANNEL_UNARCHIVED: 'system_channel_restored' as const,
+    SYSTEM_GENERIC: 'system_generic' as const,
     FAKE_PARENT_DELETED: 'system_fake_parent_deleted' as const,
     EPHEMERAL: 'system_ephemeral' as const,
     EPHEMERAL_ADD_TO_CHANNEL: 'system_ephemeral_add_to_channel' as const,
@@ -836,6 +859,7 @@ export const ErrorPageTypes = {
     PERMALINK_NOT_FOUND: 'permalink_not_found',
     TEAM_NOT_FOUND: 'team_not_found',
     CHANNEL_NOT_FOUND: 'channel_not_found',
+    CLOUD_ARCHIVED: 'cloud_archived',
 };
 
 export const JobTypes = {
@@ -1879,6 +1903,7 @@ export const Constants = {
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
     DEFAULT_DM_NUMBER: 40,
+    FIRST_ADMIN_ROLE: 'first_admin',
 };
 
 export const ValidationErrors = {
@@ -1902,6 +1927,7 @@ export const ConsolePages = {
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
     WEB_SERVER: '/admin_console/environment/web_server',
     PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
+    SMTP: '/admin_console/environment/smtp',
 };
 
 export const WindowSizes = {

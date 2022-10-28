@@ -17,16 +17,10 @@ import mockStore from 'tests/test_store';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {ErrorPageTypes} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import {focusPost} from 'components/permalink_view/actions';
 import PermalinkView from 'components/permalink_view/permalink_view';
-
-jest.mock('utils/browser_history', () => ({
-    browserHistory: {
-        replace: jest.fn(),
-    },
-}));
 
 jest.mock('actions/channel_actions', () => ({
     loadChannelsForCurrentUser: jest.fn(() => {
@@ -178,7 +172,7 @@ describe('components/PermalinkView', () => {
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {dmpostid1: {id: 'dmpostid1', message: 'some message', channel_id: 'dmchannelid'}}, order: ['dmpostid1']}},
                 ]);
-                expect(browserHistory.replace).toHaveBeenCalledWith(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=`);
+                expect(getHistory().replace).toHaveBeenCalledWith(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=`);
             });
 
             test('should redirect to error page for GM channel not a member of', async () => {
@@ -189,7 +183,7 @@ describe('components/PermalinkView', () => {
                 expect(testStore.getActions()).toEqual([
                     {type: 'MOCK_GET_POST_THREAD', data: {posts: {gmpostid1: {id: 'gmpostid1', message: 'some message', channel_id: 'gmchannelid'}}, order: ['gmpostid1']}},
                 ]);
-                expect(browserHistory.replace).toHaveBeenCalledWith(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=`);
+                expect(getHistory().replace).toHaveBeenCalledWith(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=`);
             });
 
             test('should redirect to DM link with postId for permalink', async () => {
@@ -237,7 +231,7 @@ describe('components/PermalinkView', () => {
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['dmchannelid']},
                 ]);
 
-                expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/messages/@otherUser/dmpostid1');
+                expect(getHistory().replace).toHaveBeenCalledWith('/currentteam/messages/@otherUser/dmpostid1');
                 Date.now = dateNowOrig;
                 TestHelper.tearDown();
             });
@@ -267,7 +261,7 @@ describe('components/PermalinkView', () => {
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['gmchannelid']},
                 ]);
-                expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/messages/gmchannel/gmpostid1');
+                expect(getHistory().replace).toHaveBeenCalledWith('/currentteam/messages/gmchannel/gmpostid1');
             });
 
             test('should redirect to channel link with postId for permalink', async () => {
@@ -282,7 +276,7 @@ describe('components/PermalinkView', () => {
                     {type: 'MOCK_LOAD_CHANNELS_FOR_CURRENT_USER'},
                     {type: 'MOCK_GET_CHANNEL_STATS', args: ['channelid1']},
                 ]);
-                expect(browserHistory.replace).toHaveBeenCalledWith('/currentteam/channels/channel1/postid1');
+                expect(getHistory().replace).toHaveBeenCalledWith('/currentteam/channels/channel1/postid1');
             });
         });
     });

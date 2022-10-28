@@ -1,5 +1,6 @@
 .new-channel-modal {
-    .new-channel-modal-name-input {
+    .new-channel-modal-name-input,
+    .select-board-template-input {
         height: 34px !important;
         border: 0 !important;
         border-radius: 0 !important;
@@ -69,6 +70,98 @@
                 }
             }
         }
+
+        .add-board-to-channel {
+            display: flex;
+            height: 24px;
+            margin-top: 24px;
+
+            label {
+                display: flex;
+                color: var(--center-channel-text);
+                font-weight: 400;
+
+                input[type=checkbox] {
+                    margin-top: 0 !important;
+                    -moz-appearance: none;
+                    -webkit-appearance: none;
+                    -o-appearance: none;
+                    content: none;
+                    outline: none;
+                }
+
+                input[type=checkbox]::before {
+                    display: block;
+                    width: 15px;
+                    height: 15px;
+                    border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
+                    margin-right: 7px;
+                    background: var(--center-channel-bg);
+                    border-radius: 2px;
+                    color: transparent !important;
+                    content: "\f00c";
+                    font-family: "FontAwesome";
+                    font-size: 12px;
+                }
+
+                input[type=checkbox]:checked::before {
+                    background: var(--button-bg);
+                    color: var(--center-channel-bg) !important;
+                }
+
+                span {
+                    margin-top: -3px;
+                }
+            }
+
+            i {
+                margin-top: -3px;
+                margin-left: 3px;
+                font-size: 18px;
+            }
+        }
+
+        .new-channel-modal-board-template-selector {
+            margin-top: 16px;
+
+            .Menu {
+                position: fixed;
+                z-index: 10000;
+                width: calc(100% - 64px);
+
+                .dropdown-menu {
+                    position: absolute;
+                    width: 100%;
+                    max-width: none;
+                    max-height: 192px;
+                    overflow-y: auto;
+                }
+            }
+
+            .icon-chevron-down {
+                position: absolute;
+                z-index: 3;
+                top: 12px;
+                right: 10px;
+                opacity: 0.7;
+            }
+        }
+    }
+}
+
+#new-channel-with-board-tooltip {
+    span {
+        display: block;
+        width: 100%;
+        text-align: left !important;
+    }
+
+    .title {
+        font-weight: 800;
+    }
+
+    .description {
+        font-weight: 500;
     }
 }
 

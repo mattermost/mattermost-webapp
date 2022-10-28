@@ -21,11 +21,14 @@ describe('components/ConfigurationBar', () => {
             sendEmailNotifications: false,
         },
         dismissedExpiringLicense: false,
+        dismissedExpiredLicense: false,
         siteURL: '',
         totalUsers: 100,
         actions: {
             dismissNotice: jest.fn(),
+            savePreferences: jest.fn(),
         },
+        currentUserId: 'user-id',
     };
 
     test('should match snapshot, expired, in grace period', () => {

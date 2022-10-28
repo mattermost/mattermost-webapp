@@ -9,7 +9,7 @@ import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
 import {ChannelWithTeamData, ChannelSearchOpts} from '@mattermost/types/channels';
 import {debounce} from 'mattermost-redux/actions/helpers';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {Constants} from 'utils/constants';
@@ -242,7 +242,7 @@ export default class ChannelList extends React.PureComponent<ChannelListProps, C
                         </span>
                     ),
                 },
-                onClick: () => browserHistory.push(`/admin_console/user_management/channels/${channel.id}`),
+                onClick: () => getHistory().push(`/admin_console/user_management/channels/${channel.id}`),
             };
         });
     }
