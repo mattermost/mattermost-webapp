@@ -161,15 +161,15 @@ const renderLicenseValues = (activeUsers: number, seatsPurchased: number) => ({l
                 <span
                     className={classNames({
                         legend: true,
-                        'legend--warning-over-seats-purchased': isBetween5PercerntAnd10PercentPurchasedSeats,
-                        'legend--over-seats-purchased': isOver10PercerntPurchasedSeats,
+                        'legend--warning-overage-purchased': isBetween5PercerntAnd10PercentPurchasedSeats,
+                        'legend--overage-purchased': isOver10PercerntPurchasedSeats,
                     })}
                 >{legend}</span>
                 <span
                     className={classNames({
                         value: true,
-                        'value--warning-over-seats-purchased': isBetween5PercerntAnd10PercentPurchasedSeats,
-                        'value--over-seats-purchased': isOver10PercerntPurchasedSeats,
+                        'value--warning-overage-purchased': isBetween5PercerntAnd10PercentPurchasedSeats,
+                        'value--overage-purchased': isOver10PercerntPurchasedSeats,
                     })}
                 >{value}</span>
             </div>
