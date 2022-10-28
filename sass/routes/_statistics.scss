@@ -3,7 +3,7 @@
 .grid-statistics {
     display: grid;
     gap: 15px;
-    grid-template-columns: repeat(auto-fill, minmax(218px, 1fr) );
+    grid-template-columns: repeat(auto-fill, minmax(218px, 1fr));
 
     &__card {
         min-height: 1px;
@@ -13,25 +13,25 @@
 .team_statistics {
     &--warning {
         // Adding the !important because this class has less preference in some html elements
-        font-weight: 600 !important;
         color: var(--warning-text) !important;
+        font-weight: 600 !important;
     }
 
     &--error {
         // Adding the !important because this class has less preference in some html elements
-        font-weight: 600 !important;
         color: var(--error-text) !important;
+        font-weight: 600 !important;
     }
 
     &__message {
         display: flex;
         align-items: center;
         justify-content: center;
-        gap: 7px;
         font-family: 'Open Sans';
         font-size: 12px;
-        line-height: 16px;
         font-weight: 600;
+        gap: 7px;
+        line-height: 16px;
 
         &__text {
             color: var(--error-text);
