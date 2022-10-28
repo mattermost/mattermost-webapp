@@ -24,7 +24,7 @@ export default class StatisticCount extends React.PureComponent<Props> {
         );
 
         return (
-            <div className='col-lg-3 col-md-4 col-sm-6'>
+            <div className='grid-statistics__card'>
                 <div
                     className={classNames({
                         'total-count': true,

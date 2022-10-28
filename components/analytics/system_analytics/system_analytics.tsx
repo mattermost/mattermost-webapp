@@ -257,7 +257,7 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
             );
 
             advancedStats = (
-                <div>
+                <>
                     <StatisticCount
                         id='websocketConns'
                         title={
@@ -291,7 +291,7 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                         icon='fa-terminal'
                         count={this.getStatValue(stats[StatTypes.TOTAL_READ_DB_CONNECTIONS])}
                     />
-                </div>
+                </>
             );
 
             const channelTypeData = formatChannelDoughtnutData(stats[StatTypes.TOTAL_PUBLIC_CHANNELS], stats[StatTypes.TOTAL_PRIVATE_GROUPS]);
@@ -422,7 +422,7 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
 
         // Extract plugin stats that should be displayed and pass them to widget
         const pluginSiteStats = (
-            <div>
+            <>
                 {Object.entries(this.state.pluginSiteStats).map(([key, stat]) =>
                     (
                         <StatisticCount
@@ -434,64 +434,64 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                         />
                     ),
                 )}
-            </div>
+            </>
         );
 
         let firstRow;
         let secondRow;
         if (isLicensed && skippedIntensiveQueries) {
             firstRow = (
-                <div>
+                <>
                     {userCount}
                     {seatsPurchased}
                     {teamCount}
                     {channelCount}
-                </div>
+                </>
             );
 
             secondRow = (
-                <div>
+                <>
                     {sessionCount}
                     {commandCount}
                     {incomingCount}
                     {outgoingCount}
-                </div>
+                </>
             );
         } else if (isLicensed && !skippedIntensiveQueries) {
             firstRow = (
-                <div>
+                <>
                     {userCount}
                     {seatsPurchased}
                     {teamCount}
                     {channelCount}
-                </div>
+                </>
             );
 
             secondRow = (
-                <div>
+                <>
                     {postCount}
                     {sessionCount}
                     {commandCount}
                     {incomingCount}
                     {outgoingCount}
-                </div>
+                </>
             );
         } else if (!isLicensed) {
             firstRow = (
-                <div>
+                <>
                     {userCount}
                     {teamCount}
                     {channelCount}
                     {postCount}
-                </div>
+                </>
             );
         }
 
         const thirdRow = (
-            <div>
+            <>
                 {dailyActiveUsers}
                 {monthlyActiveUsers}
-            </div>
+            </>
         );
 
         return (
@@ -503,7 +503,7 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         {banner}
-                        <div className='row'>
+                        <div className='grid-statistics'>
                             {firstRow}
                             {secondRow}
                             {thirdRow}

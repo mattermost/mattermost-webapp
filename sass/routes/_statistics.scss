@@ -1,5 +1,15 @@
 @charset 'UTF-8';
 
+.grid-statistics {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(218px, 1fr) );
+
+    &__card {
+        min-height: 1px;
+    }
+}
+
 .team_statistics {
     &--warning {
         // Adding the !important because this class has less preference in some html elements
