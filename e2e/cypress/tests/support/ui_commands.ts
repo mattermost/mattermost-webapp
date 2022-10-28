@@ -116,7 +116,6 @@ function postMessageAndWait(
         }
     });
 
-    cy.log(sendTextButtonSelector);
     if (sendTextButtonSelector !== null) {
         cy.get(sendTextButtonSelector).should('exist');
         cy.get(sendTextButtonSelector).then((el) => {
