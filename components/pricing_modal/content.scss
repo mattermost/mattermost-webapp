@@ -5,32 +5,31 @@
     justify-content: center;
 }
 
-div.flexcontainer{
+div.flexcontainer {
     display: flex;
     min-height: 120px;
 }
 
-div.alert-option{
+div.alert-option-container {
     flex: 1;
 }
 
-div.save-text-div{
+div.alert-option {
+    padding-left: 50%;
+}
+
+div.save-text-div {
     flex: 1;
 }
 
 p.save-text {
     margin-top: 51px;
     margin-right: 12px;
-    text-align: right;
     color: var(--denim-status-online);
     font-family: 'Metropolis';
+    font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    font-size: 14px;
     line-height: 18px;
-}
-
-.react-switch-selector-option {
-    // width: 88px !important;
-    height: 32px !important;
+    text-align: right;
 }
