@@ -56,12 +56,25 @@ div.move-right {
     animation-name: moveRight;
 }
 
+p.text {
+    top: 7px;
+    left: 90px;
+    width: 56px;
+    height: 18px;
+    margin: 7px 16px 0;
+    font-family: 'Metropolis';
+    font-size: 14px;
+    font-style: normal;
+}
+
 p.text-selected {
-    margin: 10px 16px;
     color: var(--denim-button-bg);
+    font-weight: 600;
+    line-height: 18px;
 }
 
 p.text-unselected {
-    margin: 10px 16px;
     color: var(--center-channel-text);
+    font-weight: 500;
+    line-height: 17px;
 }

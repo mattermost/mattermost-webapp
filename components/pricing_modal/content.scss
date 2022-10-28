@@ -10,8 +10,12 @@ div.flexcontainer {
     min-height: 120px;
 }
 
-div.alert-option {
+div.alert-option-container {
     flex: 1;
+}
+
+div.alert-option {
+    padding-left: 65%;
 }
 
 div.save-text-div {

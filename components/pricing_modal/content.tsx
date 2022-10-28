@@ -195,19 +195,21 @@ function Content(props: ContentProps) {
                         </p>
                     </div>
                     <YearlyMonthlyToggle updatePrice={updateProfessionalPrice}/>
-                    <div className='alert-option'>
-                        <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
-                        <a
-                            onClick={() =>
-                                trackEvent(
-                                    TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                    'click_looking_to_self_host',
-                                )
-                            }
-                            href={CloudLinks.DEPLOYMENT_OPTIONS}
-                            rel='noopener noreferrer'
-                            target='_blank'
-                        >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+                    <div className='alert-option-container'>
+                        <div className='alert-option'>
+                            <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
+                            <a
+                                onClick={() =>
+                                    trackEvent(
+                                        TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                        'click_looking_to_self_host',
+                                    )
+                                }
+                                href={CloudLinks.DEPLOYMENT_OPTIONS}
+                                rel='noopener noreferrer'
+                                target='_blank'
+                            >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+                        </div>
                     </div>
                 </div>
 

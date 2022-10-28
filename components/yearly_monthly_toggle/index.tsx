@@ -19,11 +19,11 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
 
     const options = [
         {
-            label: <p className={isMonthly ? 'text-unselected' : 'text-selected'}>{'Yearly'}</p>,
+            label: <p className={isMonthly ? 'text text-unselected' : 'text text-selected'}>{'Yearly'}</p>,
             value: 'Yearly',
         },
         {
-            label: <p className={isMonthly ? 'text-selected' : 'text-unselected'}>{'Monthly'}</p>,
+            label: <p className={isMonthly ? 'text text-selected' : 'text text-unselected'}>{'Monthly'}</p>,
             value: 'Monthly',
         },
     ];
