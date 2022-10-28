@@ -290,9 +290,7 @@ describe('Channel Info RHS', () => {
                 cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Members').should('be.visible').click();
 
                 // * Ensure we see the members
-                cy.uiGetRHS().within(() => {
-                    cy.contains('sysadmin').should('be.visible');
-                });
+                cy.uiGetRHS().contains('sysadmin').should('be.visible');
                 cy.uiGetRHS().findByText(`${admin.username}`).should('be.visible');
 
                 // # Click the Back Icon
