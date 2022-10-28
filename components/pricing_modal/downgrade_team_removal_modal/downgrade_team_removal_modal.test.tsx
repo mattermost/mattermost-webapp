@@ -268,7 +268,7 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                 subscription: {
                     is_free_trial: 'false',
                     trial_end_at: 0,
-                    product_id: 'prod_starter',
+                    product_id: 'prod_free',
                 },
                 limits: {
                     limitsLoaded: true,
@@ -292,9 +292,9 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                     },
                 },
                 products: {
-                    prod_starter: {
-                        id: 'prod_starter',
-                        name: 'Cloud Starter',
+                    prod_free: {
+                        id: 'prod_free',
+                        name: 'Cloud Free',
                         sku: CloudProducts.STARTER,
                         price_per_seat: 0,
                         product_family: 'cloud',
@@ -327,8 +327,8 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
         renderWithIntl(
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
-                    product_id={'prod_starter'}
-                    starterProduct={state.entities.cloud.products.prod_starter}
+                    product_id={'prod_free'}
+                    starterProduct={state.entities.cloud.products.prod_free}
                 />
             </redux.Provider>,
         );
@@ -341,8 +341,8 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
         renderWithIntl(
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
-                    product_id={'prod_starter'}
-                    starterProduct={state.entities.cloud.products.prod_starter}
+                    product_id={'prod_free'}
+                    starterProduct={state.entities.cloud.products.prod_free}
                 />
             </redux.Provider>,
         );
@@ -356,8 +356,8 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
         renderWithIntl(
             <redux.Provider store={store}>
                 <DowngradeTeamRemovalModal
-                    product_id={'prod_starter'}
-                    starterProduct={state.entities.cloud.products.prod_starter}
+                    product_id={'prod_free'}
+                    starterProduct={state.entities.cloud.products.prod_free}
                 />
             </redux.Provider>,
         );
