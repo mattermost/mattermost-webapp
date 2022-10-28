@@ -4164,7 +4164,7 @@
   "onboardingTask.checklist.disclaimer": "By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement,</linkEvaluation> <linkPrivacy>privacy policy,</linkPrivacy> and receiving product emails.",
   "onboardingTask.checklist.dismiss_link": "No thanks, I’ll figure it out myself",
   "onboardingTask.checklist.downloads": "Now that you’re all set up, <link>download our apps.</link>",
-  "onboardingTask.checklist.explore_other_tools": "Explore other tools in the platform",
+  "onboardingTask.checklist.explore_other_tools_in_platform": "⛰️ Explore other tools in the platform",
   "onboardingTask.checklist.higher_security_features": "Interested in our higher-security features?",
   "onboardingTask.checklist.main_subtitle": "Let's get up and running.",
   "onboardingTask.checklist.plan_sprint_with_kanban_style_boards": "🎯 Plan a sprint with Kanban-style boards",
