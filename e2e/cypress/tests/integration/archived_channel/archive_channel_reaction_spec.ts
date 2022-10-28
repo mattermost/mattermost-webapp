@@ -35,7 +35,7 @@ describe('Archived channels', () => {
         // # Get the last post for reference of ID
         cy.getLastPostId().then((postId) => {
             // # Click on post dot menu so we can check for reaction icon
-            cy.clickPostDotMenu();
+            cy.clickPostDotMenu(postId);
 
             // * Reaction icon should be visible as channel is not archived
             cy.wait(TIMEOUTS.HALF_SEC).get(`#CENTER_reaction_${postId}`).should('be.visible');
