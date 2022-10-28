@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
@@ -40,6 +40,8 @@ import PlanLabel from 'components/common/plan_label';
 import {ModalData} from 'types/actions';
 import {Team} from '@mattermost/types/teams';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
+import SwitchSelector from "react-switch-selector";
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -179,6 +181,25 @@ function Card(props: CardProps) {
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
         window.open(CloudLinks.BILLING_DOCS, '_blank');
     };
+    const [isMonthly, setIsMonthly] = useState(true);
+    const [toggleBorderClassName, setToggleBorderClassName] = useState('toggle-border');
+
+    const options = [
+        {
+            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--center-channel-text)' : 'var(--denim-button-bg)'}}>Yearly</p>,
+            value: "Yearly",
+        },
+        {
+            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--denim-button-bg)' : 'var(--center-channel-text)'}}>Monthly</p>,
+            value: "Monthly",
+        }
+    ];
+
+    const onToggleChange = () => {
+        setIsMonthly(!isMonthly);
+    };
+     
+    const initialSelectedIndex = options.findIndex(({value}) => value === "Monthly");
     return (
         <div className='PlanCard'>
             {props.planLabel && props.planLabel}
@@ -187,6 +208,19 @@ function Card(props: CardProps) {
                 style={{backgroundColor: props.topColor}}
             />
             <div className='bottom'>
+                <div className="toggle-monthly-yearly">
+                    <SwitchSelector
+                        onChange={onToggleChange}
+                        options={options}
+                        initialSelectedIndex={initialSelectedIndex}
+                        backgroundColor={"border: 1px solid red"}
+                        border={"solid 1px rgba(var(--title-color-indigo-500-rgb), 0.4)"}
+                        selectionIndicatorMargin={0}
+                        selectedBackgroundColor={'rgba(var(--denim-button-bg-rgb), 0.08)'}
+                        wrapperBorderRadius={40}
+                        optionBorderRadius={40}
+                    />
+                </div>
                 <div className='plan_price_rate_section'>
                     <h4>{props.plan}</h4>
                     <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
