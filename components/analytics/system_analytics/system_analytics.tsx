@@ -332,10 +332,12 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
             );
         }
 
+        const isCloud = this.props.license.Cloud === 'true';
         const userCount = (
             <ActivatedUserCard
-                activatedUsers={210000}
+                activatedUsers={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
                 seatsPurchased={parseInt(this.props.license.Users, 10)}
+                isCloud={isCloud}
             />
         );
 
@@ -437,39 +439,15 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
             </>
         );
 
-        let firstRow;
-        let secondRow;
-        if (isLicensed && skippedIntensiveQueries) {
-            firstRow = (
+        let systemCards;
+        if (isLicensed) {
+            systemCards = (
                 <>
                     {userCount}
-                    {seatsPurchased}
+                    {isCloud ? null : seatsPurchased}
                     {teamCount}
                     {channelCount}
-                </>
-            );
-
-            secondRow = (
-                <>
-                    {sessionCount}
-                    {commandCount}
-                    {incomingCount}
-                    {outgoingCount}
-                </>
-            );
-        } else if (isLicensed && !skippedIntensiveQueries) {
-            firstRow = (
-                <>
-                    {userCount}
-                    {seatsPurchased}
-                    {teamCount}
-                    {channelCount}
-                </>
-            );
-
-            secondRow = (
-                <>
-                    {postCount}
+                    {skippedIntensiveQueries ? null : postCount}
                     {sessionCount}
                     {commandCount}
                     {incomingCount}
@@ -477,22 +455,16 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 </>
             );
         } else if (!isLicensed) {
-            firstRow = (
+            systemCards = (
                 <>
                     {userCount}
+                    {isCloud ? null : seatsPurchased}
                     {teamCount}
                     {channelCount}
                     {postCount}
                 </>
             );
         }
-
-        const thirdRow = (
-            <>
-                {dailyActiveUsers}
-                {monthlyActiveUsers}
-            </>
-        );
 
         return (
             <div className='wrapper--fixed team_statistics'>
@@ -504,9 +476,9 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                     <div className='admin-console__content'>
                         {banner}
                         <div className='grid-statistics'>
-                            {firstRow}
-                            {secondRow}
-                            {thirdRow}
+                            {systemCards}
+                            {dailyActiveUsers}
+                            {monthlyActiveUsers}
                             {advancedStats}
                             {pluginSiteStats}
                         </div>

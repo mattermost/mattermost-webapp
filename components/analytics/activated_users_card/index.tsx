@@ -14,18 +14,19 @@ import {calculateOverageUserActivated} from 'utils/overage_team';
 type ActivatedUserCardProps = {
     seatsPurchased: number;
     activatedUsers: number | undefined;
+    isCloud: boolean;
 }
 
-export const ActivatedUserCard = ({activatedUsers, seatsPurchased}: ActivatedUserCardProps) => {
+export const ActivatedUserCard = ({activatedUsers, seatsPurchased, isCloud}: ActivatedUserCardProps) => {
     const {isBetween5PercerntAnd10PercentPurchasedSeats, isOver10PercerntPurchasedSeats} = calculateOverageUserActivated({seatsPurchased, activeUsers: activatedUsers || 0});
-    const showOverageWarning = isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats;
+    const showOverageWarning = !isCloud && (isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats);
 
     let activeUserStatus: 'warning' | 'error' | undefined;
-    if (isBetween5PercerntAnd10PercentPurchasedSeats) {
+    if (!isCloud && isBetween5PercerntAnd10PercentPurchasedSeats) {
         activeUserStatus = 'warning';
     }
 
-    if (isOver10PercerntPurchasedSeats) {
+    if (!isCloud && isOver10PercerntPurchasedSeats) {
         activeUserStatus = 'error';
     }
 
