@@ -453,4 +453,42 @@ export class TestHelper {
             ...override,
         };
     }
+
+    public static getCloudCustomerMock(override: Partial<CloudCustomer> = {}): CloudCustomer {
+        return {
+            id: '',
+            billing_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            company_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            payment_method: {
+                type: '',
+                last_four: '',
+                exp_month: 0,
+                exp_year: 0,
+                card_brand: '',
+                name: '',
+            },
+            name: '',
+            email: '',
+            contact_first_name: '',
+            contact_last_name: '',
+            create_at: 0,
+            creator_id: '',
+            num_employees: 100,
+            ...override,
+        };
+    }
 }
