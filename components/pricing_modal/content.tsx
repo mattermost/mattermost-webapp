@@ -28,14 +28,13 @@ import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
-
-import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
 import './content.scss';
 
@@ -64,13 +63,13 @@ function Content(props: ContentProps) {
         return Object.values(products || {}).find(((product) => {
             return product.sku === sku;
         }));
-    }
+    };
 
     const findProductByID = (id: string) => {
         return Object.values(products || {}).find(((product) => {
             return product.id === id;
         }));
-    }
+    };
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
@@ -156,21 +155,20 @@ function Content(props: ContentProps) {
     const [professionalPrice, setProfessionalPrice] = useState(10);
 
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        if (!monthlyProfessionalProduct) return;
-        
+        if (!monthlyProfessionalProduct) {
+            return;
+        }
+
         // Monthly subscription price
         if (newIsMonthly) {
             setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
-            return
-        } 
-
-        // Yearly subscription price
-        const yearlyProduct = findProductByID(monthlyProfessionalProduct.cross_sells_to);
-        if (yearlyProduct) {
-            setProfessionalPrice(yearlyProduct.price_per_seat);
-            return
+        } else { // Yearly subscription price
+            const yearlyProduct = findProductByID(monthlyProfessionalProduct.cross_sells_to);
+            if (yearlyProduct) {
+                setProfessionalPrice(yearlyProduct.price_per_seat);
+            }
         }
-    }
+    };
 
     return (
         <div className='Content'>
@@ -190,13 +188,13 @@ function Content(props: ContentProps) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <div className="flexcontainer">
-                    <div className="save-text-div">
-                        <p className="save-text">
+                <div className='flexcontainer'>
+                    <div className='save-text-div'>
+                        <p className='save-text'>
                             {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
                         </p>
                     </div>
-                    <YearlyMonthlyToggle updatePrice={updateProfessionalPrice} />
+                    <YearlyMonthlyToggle updatePrice={updateProfessionalPrice}/>
                     <div className='alert-option'>
                         <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
                         <a
@@ -209,10 +207,10 @@ function Content(props: ContentProps) {
                             href={CloudLinks.DEPLOYMENT_OPTIONS}
                             rel='noopener noreferrer'
                             target='_blank'
-                        >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a> 
+                        >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
                     </div>
                 </div>
-               
+
                 <div className='PricingModal__body'>
                     <Card
                         id='starter'
