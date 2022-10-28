@@ -27,6 +27,7 @@ import cloud from './cloud';
 import usage from './usage';
 import threads from './threads';
 import insights from './insights';
+import worktemplates from './worktemplates';
 
 export default combineReducers({
     general,
@@ -53,4 +54,5 @@ export default combineReducers({
     cloud,
     insights,
     usage,
+    worktemplates,
 });

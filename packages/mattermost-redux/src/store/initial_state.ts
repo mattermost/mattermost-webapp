@@ -236,6 +236,10 @@ const state: GlobalState = {
             topReactions: {},
             myTopReactions: {},
         },
+        worktemplates: {
+            categories: [],
+            templatesInCategory: {},
+        },
     },
     errors: [],
     requests: {
