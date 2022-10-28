@@ -46,7 +46,7 @@ describe('Self hosted Pricing modal', () => {
 
     it('should show Upgrade button in global header for admin users on starter plan', () => {
         // * Check that Upgrade button does not show
-        cy.get('#UpgradeButton').should('exist').contains('Upgrade');
+        cy.get('#UpgradeButton').should('exist').contains('View plans');
 
         // * Check for Upgrade button tooltip
         cy.get('#UpgradeButton').trigger('mouseover').then(() => {

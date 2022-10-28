@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ValueOf} from './utilities';
+
 export type CloudState = {
     subscription?: Subscription;
     products?: Record<string, Product>;
@@ -59,6 +61,7 @@ export type Product = {
     sku: string;
     billing_scheme: string;
     recurring_interval: string;
+    cross_sells_to: string;
 };
 
 export type AddOn = {
@@ -67,6 +70,17 @@ export type AddOn = {
     display_name: string;
     price_per_seat: number;
 };
+
+export const TypePurchases = {
+    firstSelfHostLicensePurchase: 'first_purchase',
+    renewalSelfHost: 'renewal_self',
+    monthlySubscription: 'monthly_subscription',
+    annualSubscription: 'annual_subscription',
+} as const;
+
+export type MetadataGatherWireTransferKeys = `${ValueOf<typeof TypePurchases>}_alt_payment_method`
+
+export type CustomerMetadataGatherWireTransfer = Partial<Record<MetadataGatherWireTransferKeys, string>>
 
 // Customer model represents a customer on the system.
 export type CloudCustomer = {
@@ -81,7 +95,7 @@ export type CloudCustomer = {
     billing_address: Address;
     company_address: Address;
     payment_method: PaymentMethod;
-}
+} & CustomerMetadataGatherWireTransfer
 
 // CustomerPatch model represents a customer patch on the system.
 export type CloudCustomerPatch = {
@@ -90,7 +104,7 @@ export type CloudCustomerPatch = {
     num_employees?: number;
     contact_first_name?: string;
     contact_last_name?: string;
-}
+} & CustomerMetadataGatherWireTransfer
 
 // Address model represents a customer's address.
 export type Address = {

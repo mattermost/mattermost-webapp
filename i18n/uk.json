@@ -2280,7 +2280,6 @@
   "passwordRequirements": "Вимоги до пароля:",
   "password_form.change": "Змінити пароль",
   "password_form.enter": "Введіть новий пароль для вашого облікового запису {siteName}.",
-  "password_form.error": "Будь-ласка, введіть щонайменше {chars} символів.",
   "password_form.pwd": "Пароль",
   "password_form.title": "Скидання пароля",
   "password_send.checkInbox": "Перевірте вашу поштову скриньку.",

@@ -10,7 +10,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
@@ -131,7 +131,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                 }
             });
         } else {
-            browserHistory.push('/' + selected.name);
+            getHistory().push('/' + selected.name);
             this.onHide();
         }
     };

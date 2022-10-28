@@ -179,6 +179,7 @@ exports[`components/marketplace/ MarketplaceModal should render with error banne
   <injectIntl(FullScreenModal)
     ariaLabel="Marketplace"
     onClose={[Function]}
+    overrideTargetEvent={true}
     show={true}
   >
     <div
@@ -277,6 +278,7 @@ exports[`components/marketplace/ MarketplaceModal should render with no plugins 
   <injectIntl(FullScreenModal)
     ariaLabel="Marketplace"
     onClose={[Function]}
+    overrideTargetEvent={true}
     show={true}
   >
     <div
@@ -357,6 +359,7 @@ exports[`components/marketplace/ MarketplaceModal should render with plugins ins
   <injectIntl(FullScreenModal)
     ariaLabel="Marketplace"
     onClose={[Function]}
+    overrideTargetEvent={true}
     show={true}
   >
     <div
