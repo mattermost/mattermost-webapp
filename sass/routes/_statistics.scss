@@ -1,6 +1,42 @@
 @charset 'UTF-8';
 
 .team_statistics {
+    &--warning {
+        // Adding the !important because this class has less preference in some html elements
+        font-weight: 600 !important;
+        color: var(--warning-text) !important;
+    }
+
+    &--error {
+        // Adding the !important because this class has less preference in some html elements
+        font-weight: 600 !important;
+        color: var(--error-text) !important;
+    }
+
+    &__message {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 7px;
+        font-family: 'Open Sans';
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 600;
+
+        &__text {
+            color: var(--error-text);
+            font-size: 14px;
+        }
+
+        &__icon {
+            display: inline-flex;
+            width: 14px;
+            height: 14px;
+            flex-grow: 0;
+            align-items: center;
+        }
+    }
+
     .total-count {
         width: 100%;
         border: 1px solid $light-gray;
@@ -8,6 +44,10 @@
         background: $white;
         border-radius: 3px;
         text-align: center;
+
+        &--has-message {
+            margin-bottom: 0;
+        }
 
         .title {
             padding: 7px 10px;

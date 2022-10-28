@@ -5,11 +5,13 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {AnalyticsRow, PluginAnalyticsRow, IndexedPluginAnalyticsRow} from '@mattermost/types/admin';
+import {ClientLicense} from '@mattermost/types/config';
 
 import * as AdminActions from 'actions/admin_actions.jsx';
 import Constants from 'utils/constants';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import {ActivatedUserCard} from 'components/analytics/activated_users_card';
 
 import {GlobalState} from 'types/store';
 
@@ -30,6 +32,7 @@ const StatTypes = Constants.StatTypes;
 type Props = {
     isLicensed: boolean;
     stats?: Record<string, number | AnalyticsRow[]>;
+    license: ClientLicense;
     pluginStatHandlers: GlobalState['plugins']['siteStatsHandlers'];
 }
 
@@ -330,16 +333,23 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
         }
 
         const userCount = (
+            <ActivatedUserCard
+                activatedUsers={210000}
+                seatsPurchased={parseInt(this.props.license.Users, 10)}
+            />
+        );
+
+        const seatsPurchased = (
             <StatisticCount
-                id='totalActiveUsers'
+                id='seatPurchased'
                 title={
                     <FormattedMessage
-                        id='analytics.system.totalUsers'
-                        defaultMessage='Total Active Users'
+                        id='analytics.system.seatsPurchased'
+                        defaultMessage='Total paid users'
                     />
                 }
-                icon='fa-user'
-                count={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
+                icon='fa-users'
+                count={parseInt(this.props.license.Users, 10)}
             />
         );
 
@@ -433,14 +443,15 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
             firstRow = (
                 <div>
                     {userCount}
+                    {seatsPurchased}
                     {teamCount}
                     {channelCount}
-                    {sessionCount}
                 </div>
             );
 
             secondRow = (
                 <div>
+                    {sessionCount}
                     {commandCount}
                     {incomingCount}
                     {outgoingCount}
@@ -450,14 +461,15 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
             firstRow = (
                 <div>
                     {userCount}
+                    {seatsPurchased}
                     {teamCount}
                     {channelCount}
-                    {postCount}
                 </div>
             );
 
             secondRow = (
                 <div>
+                    {postCount}
                     {sessionCount}
                     {commandCount}
                     {incomingCount}

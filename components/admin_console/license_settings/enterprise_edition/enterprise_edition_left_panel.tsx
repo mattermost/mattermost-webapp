@@ -10,7 +10,8 @@ import {ClientLicense} from '@mattermost/types/config';
 import {Client4} from 'mattermost-redux/client';
 
 import {getRemainingDaysFromFutureTimestamp, toTitleCase} from 'utils/utils';
-import {FileTypes, LicenseSkus, OverActiveUserLimits} from 'utils/constants';
+import {FileTypes, LicenseSkus} from 'utils/constants';
+import {calculateOverageUserActivated} from 'utils/overage_team';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -149,10 +150,7 @@ type LegendValues = 'START DATE:' | 'EXPIRES:' | 'USERS:' | 'ACTIVE USERS:' | 'E
 
 const renderLicenseValues = (activeUsers: number, seatsPurchased: number) => ({legend, value}: {legend: LegendValues; value: string | JSX.Element | null}, index: number): React.ReactNode => {
     if (legend === 'ACTIVE USERS:') {
-        const minimumOverSeats = Math.ceil(seatsPurchased * OverActiveUserLimits.MIN) + seatsPurchased;
-        const maximumOverSeats = Math.ceil(seatsPurchased * OverActiveUserLimits.MAX) + seatsPurchased;
-        const isBetween5PercerntAnd10PercentPurchasedSeats = minimumOverSeats <= activeUsers && activeUsers < maximumOverSeats;
-        const isOver10PercerntPurchasedSeats = maximumOverSeats <= activeUsers;
+        const {isBetween5PercerntAnd10PercentPurchasedSeats, isOver10PercerntPurchasedSeats} = calculateOverageUserActivated({activeUsers, seatsPurchased});
         return (
             <div
                 className='item-element'
