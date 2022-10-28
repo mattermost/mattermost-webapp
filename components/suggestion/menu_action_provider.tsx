@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {ProviderResults} from './generic_user_provider';
+
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 
@@ -29,12 +31,14 @@ class MenuActionSuggestion extends Suggestion {
 }
 
 export default class MenuActionProvider extends Provider {
-    constructor(options) {
+    private options: Array<Record<string, any>>;
+
+    constructor(options: Array<Record<string, any>>) {
         super();
         this.options = options;
     }
 
-    handlePretextChanged(prefix, resultsCallback) {
+    handlePretextChanged(prefix: string, resultsCallback: (res: ProviderResults) => void) {
         if (prefix.length === 0) {
             this.displayAllOptions(resultsCallback);
             return true;
@@ -48,7 +52,7 @@ export default class MenuActionProvider extends Provider {
         return false;
     }
 
-    async displayAllOptions(resultsCallback) {
+    async displayAllOptions(resultsCallback: (res: ProviderResults) => void) {
         const terms = this.options.map((option) => option.text);
 
         resultsCallback({
@@ -59,7 +63,7 @@ export default class MenuActionProvider extends Provider {
         });
     }
 
-    async filterOptions(prefix, resultsCallback) {
+    async filterOptions(prefix: string, resultsCallback: (res: ProviderResults) => void) {
         const filteredOptions = this.options.filter((option) => option.text.toLowerCase().indexOf(prefix.toLowerCase()) >= 0);
         const terms = filteredOptions.map((option) => option.text);
 

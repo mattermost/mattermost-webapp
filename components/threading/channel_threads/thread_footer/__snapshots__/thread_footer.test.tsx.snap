@@ -89,6 +89,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
+                hide={[Function]}
                 src="/api/v4/users/5/image?_=0"
                 userId="5"
               />
@@ -102,6 +103,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               overlay={
                 <OverlayWrapper
                   className="user-profile-popover"
+                  hide={[Function]}
                   intl={
                     Object {
                       "defaultFormats": Object {},
@@ -299,6 +301,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
+                hide={[Function]}
                 src="/api/v4/users/4/image?_=0"
                 userId="4"
               />
@@ -312,6 +315,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               overlay={
                 <OverlayWrapper
                   className="user-profile-popover"
+                  hide={[Function]}
                   intl={
                     Object {
                       "defaultFormats": Object {},
@@ -509,6 +513,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
+                hide={[Function]}
                 src="/api/v4/users/3/image?_=0"
                 userId="3"
               />
@@ -522,6 +527,7 @@ exports[`components/threading/channel_threads/thread_footer should report total 
               overlay={
                 <OverlayWrapper
                   className="user-profile-popover"
+                  hide={[Function]}
                   intl={
                     Object {
                       "defaultFormats": Object {},
@@ -1190,6 +1196,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
+                hide={[Function]}
                 src="/api/v4/users/5/image?_=0"
                 userId="5"
               />
@@ -1203,6 +1210,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               overlay={
                 <OverlayWrapper
                   className="user-profile-popover"
+                  hide={[Function]}
                   intl={
                     Object {
                       "defaultFormats": Object {},
@@ -1400,6 +1408,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
+                hide={[Function]}
                 src="/api/v4/users/4/image?_=0"
                 userId="4"
               />
@@ -1413,6 +1422,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               overlay={
                 <OverlayWrapper
                   className="user-profile-popover"
+                  hide={[Function]}
                   intl={
                     Object {
                       "defaultFormats": Object {},
@@ -1610,6 +1620,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
             overlay={
               <Memo(Connect(injectIntl(ProfilePopover)))
                 className="user-profile-popover"
+                hide={[Function]}
                 src="/api/v4/users/3/image?_=0"
                 userId="3"
               />
@@ -1623,6 +1634,7 @@ exports[`components/threading/channel_threads/thread_footer should show unread i
               overlay={
                 <OverlayWrapper
                   className="user-profile-popover"
+                  hide={[Function]}
                   intl={
                     Object {
                       "defaultFormats": Object {},

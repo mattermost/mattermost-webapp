@@ -18,7 +18,7 @@ import {loadChannelsForCurrentUser} from 'actions/channel_actions';
 import {loadNewDMIfNeeded, loadNewGMIfNeeded} from 'actions/user_actions';
 import {selectPostAndHighlight} from 'actions/views/rhs';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {joinPrivateChannelPrompt} from 'utils/channel_utils';
 import {ActionTypes, Constants, ErrorPageTypes} from 'utils/constants';
 import {isSystemAdmin} from 'mattermost-redux/utils/user_utils';
@@ -38,7 +38,7 @@ function focusRootPost(post: Post, channel: Channel) {
             channelId: channel.id,
         });
 
-        browserHistory.replace(postURL);
+        getHistory().replace(postURL);
         return {data: true};
     };
 }
@@ -48,7 +48,7 @@ function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: 
         const {data} = await dispatch(getPostThread(post.root_id));
 
         if (data.first_inaccessible_post_time) {
-            browserHistory.replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
+            getHistory().replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
             return {data: false};
         }
 
@@ -63,10 +63,10 @@ function focusReplyPost(post: Post, channel: Channel, teamId: string, returnTo: 
         }
 
         if (sameTeam && returnTo) {
-            browserHistory.replace(returnTo);
+            getHistory().replace(returnTo);
         } else {
             const postURL = getPostURL(state, post);
-            browserHistory.replace(postURL);
+            getHistory().replace(postURL);
         }
 
         dispatch(selectPostAndHighlight(post));
@@ -83,12 +83,12 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string) 
         const {data} = await dispatch(getPostThread(postId));
 
         if (!data) {
-            browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+            getHistory().replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
             return;
         }
 
         if (data.first_inaccessible_post_time) {
-            browserHistory.replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
+            getHistory().replace(`/error?type=${ErrorPageTypes.CLOUD_ARCHIVED}&returnTo=${returnTo}`);
             return;
         }
 
@@ -104,7 +104,7 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string) 
             const {data: channelData} = await dispatch(getChannel(channelId));
 
             if (!channelData) {
-                browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+                getHistory().replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
                 return;
             }
 
@@ -116,7 +116,7 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string) 
         if (!myMember) {
             // If it's a DM or GM channel and we don't have a channel member for it already, user is not a member
             if (channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL) {
-                browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+                getHistory().replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
                 return;
             }
 
@@ -141,7 +141,7 @@ export function focusPost(postId: string, returnTo = '', currentUserId: string) 
         }
 
         if (channel.team_id && channel.team_id !== teamId) {
-            browserHistory.replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
+            getHistory().replace(`/error?type=${ErrorPageTypes.PERMALINK_NOT_FOUND}&returnTo=${returnTo}`);
             return;
         }
 

@@ -8,14 +8,23 @@ import {Posts} from 'mattermost-redux/constants';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageView from 'components/post_view/post_message_view';
 
-export default function MessageWithAdditionalContent({post, previewCollapsed, previewEnabled, isEmbedVisible, pluginPostTypes}) {
-    const hasPlugin = post.type && pluginPostTypes.hasOwnProperty(post.type);
+import {PluginsState} from 'types/store/plugins';
+
+import {Post} from '@mattermost/types/posts';
+
+type Props = {
+    post: Post;
+    isEmbedVisible?: boolean;
+    pluginPostTypes?: PluginsState['postTypes'];
+}
+
+export default function MessageWithAdditionalContent({post, isEmbedVisible, pluginPostTypes}: Props) {
+    const hasPlugin = post.type && pluginPostTypes?.hasOwnProperty(post.type);
     let msg;
     const messageWrapper = (
         <PostMessageView
             post={post}
             isRHS={true}
-            hasMention={true}
         />
     );
     if (post.state === Posts.POST_DELETED || hasPlugin) {
@@ -24,8 +33,6 @@ export default function MessageWithAdditionalContent({post, previewCollapsed, pr
         msg = (
             <PostBodyAdditionalContent
                 post={post}
-                previewCollapsed={previewCollapsed}
-                previewEnabled={previewEnabled}
                 isEmbedVisible={isEmbedVisible}
             >
                 {messageWrapper}

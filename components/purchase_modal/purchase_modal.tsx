@@ -706,6 +706,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         }}
                         ref={this.modal}
                         ariaLabelledBy='purchase_modal_title'
+                        overrideTargetEvent={false}
                     >
                         <div className='PurchaseModal'>
                             {this.state.processing ? (

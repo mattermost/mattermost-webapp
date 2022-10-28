@@ -37,6 +37,11 @@ describe('FileUtils', () => {
         assert.deepEqual(FileUtils.getFilePreviewUrl('id2'), 'localhost/api/v4/files/id2/preview');
     });
 
+    it('getFileMiniPreviewUrl', () => {
+        assert.deepEqual(FileUtils.getFileMiniPreviewUrl({}), undefined);
+        assert.deepEqual(FileUtils.getFileMiniPreviewUrl({mime_type: 'mime_type', mini_preview: 'mini_preview'}), 'data:mime_type;base64,mini_preview');
+    });
+
     it('sortFileInfos', () => {
         const testCases = [
             {inputFileInfos: [{name: 'aaa', create_at: 100}, {name: 'bbb', create_at: 200}], outputFileInfos: [{name: 'aaa', create_at: 100}, {name: 'bbb', create_at: 200}]},

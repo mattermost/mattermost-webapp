@@ -692,31 +692,31 @@ declare global {
             /**
              * Click save icon by post ID or to most recent post (if post ID is not provided)
              * @param {String} postId - Post ID
-             * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+             * @param {String} [location] - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
              */
-            clickPostSaveIcon(postId: string, location: string): ChainableT<void>;
+            clickPostSaveIcon(postId: string, location?: string): ChainableT<void>;
 
             /**
              * Click dot menu by post ID or to most recent post (if post ID is not provided)
-             * @param {String} postId - Post ID
-             * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
+             * @param {String} [postId] - Post ID
+             * @param {String} [location] - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT', 'SEARCH'
              */
-            clickPostDotMenu(postId: string, location: string): ChainableT<void>;
+            clickPostDotMenu(postId?: string, location?: string): ChainableT<void>;
 
             /**
              * Click post reaction icon
              * @param {String} postId - Post ID
-             * @param {String} location - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
+             * @param {String} [location] - as 'CENTER', 'RHS_ROOT', 'RHS_COMMENT'
              */
-            clickPostReactionIcon(postId: string, location: string): ChainableT<void>;
+            clickPostReactionIcon(postId: string, location?: string): ChainableT<void>;
 
             /**
              * Click comment icon by post ID or to most recent post (if post ID is not provided)
              * This open up the RHS
              * @param {String} postId - Post ID
-             * @param {String} location - as 'CENTER', 'SEARCH'
+             * @param {String} [location] - as 'CENTER', 'SEARCH'
              */
-            clickPostCommentIcon(postId?: string, location?: string): ChainableT<void>;
+            clickPostCommentIcon(postId: string, location?: string): ChainableT<void>;
 
             createNewTeam(teamName: string, teamURL: string): ChainableT<void>;
 

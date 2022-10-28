@@ -3,6 +3,9 @@
 
 import React from 'react';
 
+import {Channel} from '@mattermost/types/channels.js';
+import {ActionResult} from 'mattermost-redux/types/actions.js';
+
 import {getMyChannels, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/channels';
 
 import {sortChannelsByTypeAndDisplayName} from 'mattermost-redux/utils/channel_utils';
@@ -13,6 +16,21 @@ import {Constants} from 'utils/constants';
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
+
+export type Results = {
+    matchedPretext: string;
+    terms: string[];
+    items: WrappedChannels[];
+    component: React.ElementType;
+}
+
+type ResultsCallback = (results: Results) => void;
+
+type WrappedChannels = {
+    type: string;
+    channel?: Channel;
+    loading?: boolean;
+}
 
 export class ChannelMentionSuggestion extends Suggestion {
     render() {
@@ -65,7 +83,12 @@ export class ChannelMentionSuggestion extends Suggestion {
 }
 
 export default class ChannelMentionProvider extends Provider {
-    constructor(channelSearchFunc) {
+    lastPrefixTrimmed: string;
+    lastPrefixWithNoResults: string;
+    lastCompletedWord: string;
+    triggerCharacter: string;
+    autocompleteChannels: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<ActionResult>;
+    constructor(channelSearchFunc: (term: string, success: (channels: Channel[]) => void, error: () => void) => Promise<ActionResult>) {
         super();
 
         this.lastPrefixTrimmed = '';
@@ -76,7 +99,7 @@ export default class ChannelMentionProvider extends Provider {
         this.autocompleteChannels = channelSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultCallback) {
+    handlePretextChanged(pretext: string, resultCallback: ResultsCallback) {
         this.resetRequest();
 
         const captured = (/\B(~([^~\r\n]*))$/i).exec(pretext.toLowerCase());
@@ -116,20 +139,20 @@ export default class ChannelMentionProvider extends Provider {
         this.startNewRequest(prefix);
 
         const words = prefix.toLowerCase().split(/\s+/);
-        const wrappedChannelIds = {};
-        var wrappedChannels = [];
+        const wrappedChannelIds: Record<string, boolean> = {};
+        let wrappedChannels: WrappedChannels[] = [];
         getMyChannels(store.getState()).forEach((item) => {
             if (item.type !== 'O' || item.delete_at > 0) {
                 return;
             }
             const nameWords = item.name.toLowerCase().split(/\s+/).concat(item.display_name.toLowerCase().split(/\s+/));
-            var matched = true;
-            for (var j = 0; matched && j < words.length; j++) {
+            let matched = true;
+            for (let j = 0; matched && j < words.length; j++) {
                 if (!words[j]) {
                     continue;
                 }
-                var wordMatched = false;
-                for (var i = 0; i < nameWords.length; i++) {
+                let wordMatched = false;
+                for (let i = 0; i < nameWords.length; i++) {
                     if (nameWords[i].startsWith(words[j])) {
                         wordMatched = true;
                         break;
@@ -153,9 +176,9 @@ export default class ChannelMentionProvider extends Provider {
             //
             // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
             //
-            return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
+            return sortChannelsByTypeAndDisplayName('en', a.channel as Channel, b.channel as Channel);
         });
-        const channelMentions = wrappedChannels.map((item) => '~' + item.channel.name);
+        const channelMentions = wrappedChannels.map((item) => '~' + item.channel?.name);
         resultCallback({
             terms: channelMentions.concat([' ']),
             items: wrappedChannels.concat([{
@@ -166,7 +189,7 @@ export default class ChannelMentionProvider extends Provider {
             matchedPretext: captured[1],
         });
 
-        const handleChannels = (channels, withError) => {
+        const handleChannels = (channels: Channel[], withError: boolean) => {
             if (prefix !== this.latestPrefix || this.shouldCancelDispatch(prefix)) {
                 return;
             }
@@ -178,7 +201,7 @@ export default class ChannelMentionProvider extends Provider {
             }
 
             // Wrap channels in an outer object to avoid overwriting the 'type' property.
-            const wrappedMoreChannels = [];
+            const wrappedMoreChannels: WrappedChannels[] = [];
             channels.forEach((item) => {
                 if (item.delete_at > 0 && !myMembers[item.id]) {
                     return;
@@ -199,7 +222,7 @@ export default class ChannelMentionProvider extends Provider {
 
                 if (!myMembers[item.id] && wrappedChannelIds[item.id]) {
                     delete wrappedChannelIds[item.id];
-                    const idx = wrappedChannels.map((el) => el.channel.id).indexOf(item.id);
+                    const idx = wrappedChannels.map((el) => el.channel?.id).indexOf(item.id);
                     if (idx >= 0) {
                         wrappedChannels.splice(idx, 1);
                     }
@@ -215,11 +238,11 @@ export default class ChannelMentionProvider extends Provider {
                 //
                 // MM-12677 When this is migrated this needs to be fixed to pull the user's locale
                 //
-                return sortChannelsByTypeAndDisplayName('en', a.channel, b.channel);
+                return sortChannelsByTypeAndDisplayName('en', a.channel as Channel, b.channel as Channel);
             });
 
             const wrapped = wrappedChannels.concat(wrappedMoreChannels);
-            const mentions = wrapped.map((item) => '~' + item.channel.name);
+            const mentions = wrapped.map((item) => '~' + item.channel?.name);
 
             resultCallback({
                 matchedPretext: captured[1],
@@ -231,14 +254,14 @@ export default class ChannelMentionProvider extends Provider {
 
         this.autocompleteChannels(
             prefix,
-            (channels) => handleChannels(channels, false),
+            (channels: Channel[]) => handleChannels(channels, false),
             () => handleChannels([], true),
         );
 
         return true;
     }
 
-    handleCompleteWord(term) {
+    handleCompleteWord(term: string) {
         this.lastCompletedWord = term;
         this.lastPrefixWithNoResults = '';
     }

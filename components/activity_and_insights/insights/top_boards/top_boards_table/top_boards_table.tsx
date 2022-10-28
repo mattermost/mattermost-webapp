@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useState, useMemo, useEffect, useCallback} from 'react';
 import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
+import {useHistory} from 'react-router-dom';
 
 import classNames from 'classnames';
 
@@ -17,8 +19,6 @@ import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import Avatars from 'components/widgets/users/avatars';
 
-import {browserHistory} from 'utils/browser_history';
-
 import './../../../activity_and_insights.scss';
 
 type Props = {
@@ -28,6 +28,8 @@ type Props = {
 }
 
 const TopBoardsTable = (props: Props) => {
+    const history = useHistory();
+
     const [loading, setLoading] = useState(true);
     const [topBoards, setTopBoards] = useState([] as TopBoard[]);
 
@@ -50,7 +52,7 @@ const TopBoardsTable = (props: Props) => {
     const goToBoard = useCallback((board: TopBoard) => {
         props.closeModal();
         trackEvent('insights', 'open_board_from_top_boards_modal');
-        browserHistory.push(`/boards/team/${currentTeamId}/${board.boardID}`);
+        history.push(`/boards/team/${currentTeamId}/${board.boardID}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
