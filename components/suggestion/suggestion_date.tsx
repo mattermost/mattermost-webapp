@@ -1,20 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
 import React from 'react';
 
 import Popover from 'components/widgets/popover';
 
-export default class SuggestionDate extends React.PureComponent {
-    static propTypes = {
-        onCompleteWord: PropTypes.func.isRequired,
-        items: PropTypes.array.isRequired,
-        terms: PropTypes.array.isRequired,
-        components: PropTypes.array.isRequired,
-        matchedPretext: PropTypes.array.isRequired,
-    };
+type SuggestionItem = {
+    key: string;
+    ref: string;
+    item: SuggestionItem;
+    term: string;
+    matchedPretext: string;
+    isSelection: boolean;
+    onClick: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;
+}
 
+type Props = {
+    onCompleteWord: (term: string, matchedPretext: string[], e?: React.MouseEvent<HTMLDivElement>) => boolean;
+    matchedPretext: string[];
+    items: SuggestionItem[];
+    terms: string[];
+    components: Array<React.ComponentType<SuggestionItem>>;
+}
+
+export default class SuggestionDate extends React.PureComponent<Props> {
     render() {
         if (this.props.items.length === 0) {
             return null;

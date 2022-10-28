@@ -10,7 +10,9 @@
 // Stage: @prod
 // Group: @custom_status
 
-describe('MM-T4066 Setting manual status clear time more than 7 days away', () => {
+import dayjs from 'dayjs';
+
+describe('MM-T4065 Setting manual status clear time less than 7 days away', () => {
     before(() => {
         cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
 
@@ -29,10 +31,11 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         duration: '30 minutes',
     };
 
-    const today = Cypress.dayjs();
-    const dateToBeSelected = today.add(8, 'd');
+    const today = dayjs();
+    const dateToBeSelected = today.add(3, 'd');
     const months = dateToBeSelected.get('month') - today.get('month');
-    it('MM-T4066_1 should open status dropdown', () => {
+
+    it('MM-T4065_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown
         cy.get('.MenuWrapper .status-wrapper').click();
 
@@ -40,7 +43,7 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         cy.get('#statusDropdownMenu').should('exist');
     });
 
-    it('MM-T4066_2 Custom status modal opens with 5 default statuses listed', () => {
+    it('MM-T4065_2 Custom status modal opens with 5 default statuses listed', () => {
         // # Open custom status modal
         cy.get('#statusDropdownMenu li#status-menu-custom-status').click();
         cy.get('#custom_status_modal').should('exist');
@@ -49,7 +52,7 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         defaultCustomStatuses.map((statusText) => cy.get('#custom_status_modal .statusSuggestion__content').contains('span', statusText));
     });
 
-    it('MM-T4066_3 Correct custom status is selected with the correct emoji and correct duration', () => {
+    it('MM-T4065_3 Correct custom status is selected with the correct emoji and correct duration', () => {
         // * Default emoji is currently visible in the custom status input
         cy.get('#custom_status_modal .StatusModal__emoji-button span').should('have.class', 'icon--emoji');
 
@@ -69,7 +72,7 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         cy.get('#custom_status_modal .expiry-wrapper .expiry-value').should('have.text', customStatus.duration);
     });
 
-    it('MM-T4066_4 Clear after dropdown opens with all default durations listed', () => {
+    it('MM-T4065_4 Clear after dropdown opens with all default durations listed', () => {
         // * Check that the expiry menu is not openclick on the menu to open it
         cy.get('#custom_status_modal .statusExpiry__menu #statusExpiryMenu').should('not.exist');
 
@@ -83,7 +86,7 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         defaultDurations.map((duration, index) => cy.get(`#custom_status_modal #statusExpiryMenu li#expiry_menu_item_${index}`).should('have.text', duration));
     });
 
-    it('MM-T4066_5 should show date/time input on selecting Choose date and time', () => {
+    it('MM-T4065_5 should show date/time input on selecting Choose date and time', () => {
         // * Check that the date and time input are not present
         cy.get('#custom_status_modal .dateTime').should('not.exist');
 
@@ -94,7 +97,7 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         cy.get('#custom_status_modal .dateTime').should('exist');
     });
 
-    it('MM-T4066_6 should show selected date in the date input field', () => {
+    it('MM-T4065_6 should show selected date in the date input field', () => {
         // # Click on DayPicker input field
         cy.get('.DayPickerInput input').click();
 
@@ -111,7 +114,22 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         cy.get('.DayPickerInput input').should('have.value', dateToBeSelected.format('YYYY-MM-DD'));
     });
 
-    it('MM-T4066_7 should set custom status when click on Set Status', () => {
+    it('MM-T4065_7 should show selected time in the time input field', () => {
+        // * Check that the timepicker menu is not present and click to open it
+        cy.get('#custom_status_modal .dateTime__time-menu #expiryTimeMenu').should('not.exist');
+        cy.get('#custom_status_modal .dateTime__time-menu').click();
+
+        // * Check that the time picker menu is present
+        cy.get('#custom_status_modal .dateTime__time-menu #expiryTimeMenu').should('exist');
+
+        // # Choose the last item in the time picker menu
+        cy.get('#custom_status_modal .dateTime__time-menu #expiryTimeMenu li').last().click();
+
+        // * Check that the time input contains the correct time
+        cy.get('.dateTime__time-menu .dateTime__input time').should('have.text', '11:30 PM');
+    });
+
+    it('MM-T4065_8 should set custom status when click on Set Status', () => {
         // # Click on the Set Status button
         cy.get('#custom_status_modal .GenericModal__button.confirm').click();
 
@@ -124,7 +142,7 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
             should('have.attr', 'data-emoticon', customStatus.emoji);
     });
 
-    it('MM-T4066_8 should show the set custom status with expiry when status dropdown is opened', () => {
+    it('MM-T4065_9 should show the set custom status with expiry when status dropdown is opened', () => {
         // # Click on the sidebar header to open status dropdown
         cy.get('.MenuWrapper .status-wrapper').click();
 
@@ -136,6 +154,6 @@ describe('MM-T4066 Setting manual status clear time more than 7 days away', () =
         cy.get('.status-dropdown-menu .custom_status__row span.emoticon').invoke('attr', 'data-emoticon').should('contain', customStatus.emoji);
 
         // * Correct clear time should be displayed in the status dropdown
-        cy.get('.status-dropdown-menu .custom_status__expiry time').should('have.text', dateToBeSelected.format('MMM DD'));
+        cy.get('.status-dropdown-menu .custom_status__expiry time').should('have.text', dateToBeSelected.format('dddd'));
     });
 });
