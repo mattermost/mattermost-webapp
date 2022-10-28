@@ -122,9 +122,8 @@ const ProductMenu = (): JSX.Element => {
         }
 
         return (
-            <PluggableErrorBoundary>
+            <PluggableErrorBoundary key={product.id}>
                 <ProductMenuItem
-                    key={product.id}
                     destination={product.switcherLinkURL}
                     icon={product.switcherIcon}
                     text={product.switcherText}

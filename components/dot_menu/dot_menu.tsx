@@ -21,7 +21,6 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import DotsHorizontalIcon from 'components/widgets/icons/dots_horizontal';
 import {ModalData} from 'types/actions';
-import {PluginComponent} from 'types/store/plugins';
 import ForwardPostModal from '../forward_post_modal';
 import Badge from '../widgets/badges/badge';
 

@@ -265,7 +265,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                             href='#'
                             className='d-flex align-items-center'
                             onClick={() => this.fireActionAndClose(plug.action!)}
-                            >
+                        >
                             <span className='d-flex align-items-center overflow--ellipsis'>{plug.icon}</span>
                             <span>{plug.dropdownText}</span>
                         </a>

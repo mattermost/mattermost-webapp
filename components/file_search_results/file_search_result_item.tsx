@@ -63,10 +63,9 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
         const {fileInfo} = this.props;
         const pluginItems = this.props.pluginMenuItems?.filter((item) => item?.match(fileInfo)).map((item) => {
             return (
-                <PluggableErrorBoundary>
+                <PluggableErrorBoundary key={item.id}>
                     <Menu.ItemAction
                         id={item.id + '_pluginmenuitem'}
-                        key={item.id + '_pluginmenuitem'}
                         onClick={() => item.action?.(fileInfo)}
                         text={item.text}
                     />

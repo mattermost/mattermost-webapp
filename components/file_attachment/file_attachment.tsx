@@ -202,10 +202,9 @@ export default function FileAttachment(props: Props) {
 
         const pluginItems = pluginMenuItems?.filter((item) => item?.match(fileInfo)).map((item) => {
             return (
-                <PluggableErrorBoundary>
+                <PluggableErrorBoundary key={item.id}>
                     <Menu.ItemAction
                         id={item.id + '_pluginmenuitem'}
-                        key={item.id + '_pluginmenuitem'}
                         onClick={() => item?.action(fileInfo)}
                         text={item.text}
                     />

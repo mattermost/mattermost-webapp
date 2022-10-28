@@ -86,10 +86,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
 
         const pluginItems = this.props.pluginMenuItems.map((item) => {
             return (
-                <PluggableErrorBoundary>
+                <PluggableErrorBoundary key={item.id}>
                     <Menu.ItemAction
                         id={item.id + '_pluginmenuitem'}
-                        key={item.id + '_pluginmenuitem'}
                         onClick={() => {
                             if (item.action) {
                                 item.action(this.props.channel.id);

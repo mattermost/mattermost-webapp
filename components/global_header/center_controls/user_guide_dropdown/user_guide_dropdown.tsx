@@ -65,10 +65,9 @@ class UserGuideDropdown extends React.PureComponent<Props, State> {
 
         const pluginItems = pluginMenuItems?.map((item) => {
             return (
-                <PluggableErrorBoundary>
+                <PluggableErrorBoundary key={item.id}>
                     <Menu.ItemAction
                         id={item.id + '_pluginmenuitem'}
-                        key={item.id + '_pluginmenuitem'}
                         onClick={item.action}
                         text={item.text}
                     />

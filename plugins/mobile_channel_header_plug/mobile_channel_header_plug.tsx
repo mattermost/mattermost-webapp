@@ -99,7 +99,7 @@ class MobileChannelHeaderPlug extends React.PureComponent<Props> {
                             role='menuitem'
                             href='#'
                             onClick={onClick}
-                            >
+                        >
                             {plug.dropdownText}
                         </a>
                     </PluggableErrorBoundary>

@@ -658,7 +658,7 @@ export class FileUpload extends PureComponent<Props, State> {
                         <PluggableErrorBoundary>
                             <a href='#'>
                                 <span className='mr-2'>
-                                        {item.icon}
+                                    {item.icon}
                                 </span>
                                 {item.text}
                             </a>

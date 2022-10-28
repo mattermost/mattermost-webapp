@@ -140,10 +140,9 @@ export class MainMenu extends React.PureComponent<Props> {
         }
 
         const pluginItems = this.props.pluginMenuItems?.map((item) => (
-            <PluggableErrorBoundary>
+            <PluggableErrorBoundary key={item.id}>
                 <Menu.ItemAction
                     id={item.id + '_pluginmenuitem'}
-                    key={item.id + '_pluginmenuitem'}
                     onClick={() => {
                         if (item.action) {
                             item.action();
