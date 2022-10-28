@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {useState} from 'react';
+import React, {Fragment, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -36,6 +36,8 @@ import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
+import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import './content.scss';
 
 type ContentProps = {
@@ -70,6 +72,8 @@ function Content(props: ContentProps) {
             return product.id === id;
         }));
     };
+
+    const annualSubscriptionEnabled = useSelector(isAnnualSubscriptionEnabled);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
@@ -189,12 +193,17 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='flexcontainer'>
-                    <div className='save-text-div'>
-                        <p className='save-text'>
-                            {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
-                        </p>
-                    </div>
-                    <YearlyMonthlyToggle updatePrice={updateProfessionalPrice}/>
+                    {annualSubscriptionEnabled && 
+                        // Fragment can be eventually removed when annualSubscription featureFlag is removed
+                        <Fragment> 
+                            <div className='save-text-div'>
+                                <p className='save-text'>
+                                    {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
+                                </p>
+                            </div>
+                            <YearlyMonthlyToggle updatePrice={updateProfessionalPrice}/>
+                        </Fragment>
+                    }
                     <div className='alert-option-container'>
                         <div className='alert-option'>
                             <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
