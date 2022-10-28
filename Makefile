@@ -45,8 +45,13 @@ node_modules: package.json package-lock.json
 
 ifeq ($(CI),false)
 	npm install
+	@echo Install Playwright and its dependencies
+	cd e2e/playwright && npm install
 else
 	npm ci
+
+	@echo Install Playwright and its dependencies
+	cd e2e/playwright && npm ci
 endif
 
 	touch $@

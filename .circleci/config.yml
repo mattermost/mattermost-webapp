@@ -23,6 +23,7 @@ aliases:
         - ~/mattermost/mattermost-webapp/packages/components/dist
         - ~/mattermost/mattermost-webapp/packages/components/node_modules
         - ~/mattermost/mattermost-webapp/packages/types/lib
+        - ~/mattermost/mattermost-webapp/e2e/playwright/node_modules
 
 jobs:
   install:
