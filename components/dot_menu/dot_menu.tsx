@@ -360,7 +360,6 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
     }
 
     onShortcutKeyDown = (e: KeyboardEvent): void => {
-        e.preventDefault();
         if (!this.isKeyboardEvent(e)) {
             return;
         }
