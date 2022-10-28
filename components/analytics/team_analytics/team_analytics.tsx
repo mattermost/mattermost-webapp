@@ -15,7 +15,6 @@ import LoadingScreen from 'components/loading_screen';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import * as AdminActions from 'actions/admin_actions';
-import BrowserStore from 'stores/browser_store';
 import {StatTypes} from 'utils/constants';
 import Banner from 'components/admin_console/banner';
 import LineChart from 'components/analytics/line_chart';
@@ -60,6 +59,11 @@ type Props = {
         getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => Promise<{
             data?: UserProfile[];
         }>;
+
+        /*
+         * Function to set a key-value pair in the local storage
+         */
+        setGlobalItem: (name: string, value: string) => void;
     };
 };
 
@@ -132,7 +136,7 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
             team,
         });
 
-        BrowserStore.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
+        this.props.actions.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
     }
 
     public render(): JSX.Element {

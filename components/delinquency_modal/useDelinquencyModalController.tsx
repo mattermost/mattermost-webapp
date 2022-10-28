@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-
+import {setItem} from 'actions/storage';
 import {getCloudProducts} from 'mattermost-redux/actions/cloud';
 import {Subscription} from '@mattermost/types/cloud';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
@@ -12,6 +12,7 @@ import {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {ModalData} from 'types/actions';
 
 import DelinquencyModal from './delinquency_modal';
+import { makeGetItem } from 'selectors/storage';
 
 const SESSION_MODAL_ITEM = `${StoragePrefixes.DELINQUENCY}hide_downgrade_modal`;
 
@@ -30,6 +31,7 @@ type UseDelinquencyModalController = {
 export const useDelinquencyModalController = (props: UseDelinquencyModalController) => {
     const {isCloud, userIsAdmin, subscription, actions, delinquencyModalPreferencesConfirmed} = props;
     const product = useSelector(getSubscriptionProduct);
+    const sessionModalItem = useSelector(makeGetItem(SESSION_MODAL_ITEM, ''));
     const dispatch = useDispatch();
     const [showModal, setShowModal] = useState(false);
     const {openModal} = actions;
@@ -37,7 +39,7 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
 
     const handleOnExit = () => {
         setShowModal(() => false);
-        BrowserStore.setItem(SESSION_MODAL_ITEM, 'true');
+        dispatch(setItem(SESSION_MODAL_ITEM, 'true'));
     };
 
     useEffect(() => {
@@ -60,7 +62,7 @@ export const useDelinquencyModalController = (props: UseDelinquencyModalControll
             return;
         }
 
-        const isClosed = Boolean(BrowserStore.getItem(SESSION_MODAL_ITEM, '')) === true;
+        const isClosed = Boolean(sessionModalItem) === true;
 
         if (isClosed) {
             return;

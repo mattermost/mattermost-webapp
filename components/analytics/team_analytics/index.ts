@@ -12,16 +12,17 @@ import {getTeamsList} from 'mattermost-redux/selectors/entities/teams';
 
 import {GlobalState} from 'types/store';
 
-import BrowserStore from 'stores/browser_store';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import TeamAnalytics from './team_analytics';
+import { setGlobalItem } from 'actions/storage';
+import { makeGetGlobalItem } from 'selectors/storage';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
 function mapStateToProps(state: GlobalState) {
     const teams = getTeamsList(state);
-    const teamId = BrowserStore.getGlobalItem(LAST_ANALYTICS_TEAM, null);
+    const teamId = makeGetGlobalItem(LAST_ANALYTICS_TEAM, null)(state);
     const initialTeam = state.entities.teams.teams[teamId] || (teams.length > 0 ? teams[0] : null);
 
     return {
@@ -35,6 +36,7 @@ function mapStateToProps(state: GlobalState) {
 type Actions = {
     getTeams: (page?: number, perPage?: number, includeTotalCount?: boolean, excludePolicyConstrained?: boolean) => void;
     getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => Promise<ActionResult>;
+    setGlobalItem: (name: string, value: string) => void;
 }
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
@@ -42,6 +44,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             getTeams,
             getProfilesInTeam,
+            setGlobalItem
         }, dispatch),
     };
 }
