@@ -35,7 +35,7 @@ import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
-import SwitchSelector from "react-switch-selector";
+import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
 import './content.scss';
 
@@ -74,7 +74,7 @@ function Content(props: ContentProps) {
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const professionalProduct = findProductBySku(CloudProducts.PROFESSIONAL);
+    const monthlyProfessionalProduct = findProductBySku(CloudProducts.PROFESSIONAL);
 
     const starterProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;
@@ -152,59 +152,26 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
 
-    const [isMonthly, setIsMonthly] = useState(true);
+    // Default professional price
     const [professionalPrice, setProfessionalPrice] = useState(10);
-    const [toggleBorderClassName, setToggleBorderClassName] = useState('toggle-border');
 
-    const options = [
-        {
-            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--center-channel-text)' : 'var(--denim-button-bg)'}}>Yearly</p>,
-            value: "Yearly",
-        },
-        {
-            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--denim-button-bg)' : 'var(--center-channel-text)'}}>Monthly</p>,
-            value: "Monthly",
-        }
-     ];
-
-    // generalized getPrice function that can work for both Professional and Enterprise.
-    const getPrice = (defaultPrice: number, newIsMonthly: boolean, productSku: string) => {
-        if (productSku === "") {
-            return defaultPrice;
-        }
-        const monthlyProduct = findProductBySku(productSku);
-        if (!monthlyProduct) {
-            return defaultPrice
-        }
-
+    const updateProfessionalPrice = (newIsMonthly: boolean) => {
+        if (!monthlyProfessionalProduct) return;
+        
+        // Monthly subscription price
         if (newIsMonthly) {
-            return monthlyProduct.price_per_seat;
+            setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+            return
         } 
 
-        const yearlyProduct = findProductByID(monthlyProduct.cross_sells_to);
-        return yearlyProduct ? yearlyProduct.price_per_seat : defaultPrice;
-    }
-     
-    const onToggleChange = () => {
-        setIsMonthly(!isMonthly);
-
-        // isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state 
-        // (ie. UI shows monthly selected but the isMonthly variable is still false at this point)
-
-        // controls the animation of the toggle border
-        if (isMonthly) {
-            setToggleBorderClassName("toggle-border move-left");
-            trackEvent('cloud_pricing', 'click_yearly_toggle');
-        } else {
-            setToggleBorderClassName("toggle-border move-right");
+        // Yearly subscription price
+        const yearlyProduct = findProductByID(monthlyProfessionalProduct.cross_sells_to);
+        if (yearlyProduct) {
+            setProfessionalPrice(yearlyProduct.price_per_seat);
+            return
         }
+    }
 
-        // update the displayed price
-        setProfessionalPrice(getPrice(5, !isMonthly, CloudProducts.PROFESSIONAL)); 
-    };
-     
-    const initialSelectedIndex = options.findIndex(({value}) => value === "Monthly");
-    
     return (
         <div className='Content'>
             <Modal.Header className='PricingModal__header'>
@@ -229,22 +196,7 @@ function Content(props: ContentProps) {
                             {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
                         </p>
                     </div>
-                    <div className="toggle-monthly-yearly-container">
-                        <div className={toggleBorderClassName}></div>
-                        <div className="toggle-monthly-yearly">
-                            <SwitchSelector
-                                onChange={onToggleChange}
-                                options={options}
-                                initialSelectedIndex={initialSelectedIndex}
-                                backgroundColor={"border: 1px solid red"}
-                                border={"solid 1px rgba(var(--title-color-indigo-500-rgb), 0.4)"}
-                                selectionIndicatorMargin={0}
-                                selectedBackgroundColor={'rgba(var(--denim-button-bg-rgb), 0.08)'}
-                                wrapperBorderRadius={40}
-                                optionBorderRadius={40}
-                            />
-                        </div>
-                    </div>
+                    <YearlyMonthlyToggle updatePrice={updateProfessionalPrice} />
                     <div className='alert-option'>
                         <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
                         <a
