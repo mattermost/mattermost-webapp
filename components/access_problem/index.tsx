@@ -16,17 +16,13 @@ const AccessProblem = () => {
         trackEvent('signup', 'click_login_no_account__closed_server');
     }, []);
     return (
-        <div className='AccessProblem'>
-            <div className='AccessProblem__container'>
-                <div className='AccessProblem__body'>
-                    <AccessProblemSVG/>
-                    <div className='AccessProblem__title'>
-                        {formatMessage({id: 'login.contact_admin.title'})}
-                    </div>
-                    <div className='AccessProblem__description'>
-                        {formatMessage({id: 'login.contact_admin.detail'})}
-                    </div>
-                </div>
+        <div className='AccessProblem__body'>
+            <AccessProblemSVG/>
+            <div className='AccessProblem__title'>
+                {formatMessage({id: 'login.contact_admin.title'})}
+            </div>
+            <div className='AccessProblem__description'>
+                {formatMessage({id: 'login.contact_admin.detail'})}
             </div>
         </div>
     );

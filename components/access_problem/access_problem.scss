@@ -3,43 +3,38 @@
     justify-content: space-between;
 }
 
-.AccessProblem__container {
-    margin: 0 auto;
-    width: auto;
-    max-width: 640px;
-    display: flex;
-    justify-content: center;
-}
+.AccessProblem {
+    &__body {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
 
-.AccessProblem__body {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
+    &__title {
+        display: flex;
+        align-items: center;
+        margin: 32px 0 16px 0;
+        color: var(--portal-denim);
+        font-family: 'Metropolis';
+        font-size: 22px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 28px;
+        text-align: center;
+    }
 
-.AccessProblem__title {
-    font-family: 'Metropolis';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 22px;
-    line-height: 28px;
-    color: var(--portal-denim);
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 32px 0 16px 0;
-}
-
-.AccessProblem__description {
-    font-family: 'Open Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-    color: var(--portal-denim);
-    display: flex;
-    align-items: center;
-    text-align: center;
-    padding: 0 40px;
+    &__description {
+        display: flex;
+        max-width: 640px;
+        align-items: center;
+        padding: 0 40px;
+        color: var(--portal-denim);
+        font-family: 'Open Sans';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 20px;
+        text-align: center;
+    }
 }

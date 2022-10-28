@@ -9,7 +9,7 @@ import './alternate_link.scss';
 
 type AlternateLinkProps = {
     className?: string;
-    onClick?: any;
+    onClick?: () => void;
     alternateMessage?: string;
     alternateLinkPath?: string;
     alternateLinkLabel?: string;
@@ -21,7 +21,10 @@ const AlternateLink = ({className, onClick = () => {}, alternateMessage, alterna
     }
 
     return (
-        <div className={classNames('alternate-link', className)}>
+        <div
+            className={classNames('alternate-link', className)}
+            data-testid='alternate-link'
+        >
             {alternateMessage && (
                 <span className='alternate-link__message'>
                     {alternateMessage}

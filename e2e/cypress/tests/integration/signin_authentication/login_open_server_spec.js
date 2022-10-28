@@ -12,15 +12,15 @@
 
 import {FixedCloudConfig} from '../../utils/constants';
 
-describe('Login page', () => {
+describe('Login page with open server', () => {
     let config;
     let testUser;
-
     before(() => {
         // Disable other auth options
         const newSettings = {
             Office365Settings: {Enable: false},
             LdapSettings: {Enable: false},
+            TeamSettings: {EnableOpenServer: true},
         };
         cy.apiUpdateConfig(newSettings).then((data) => {
             ({config} = data);
@@ -63,8 +63,7 @@ describe('Login page', () => {
         cy.findByText('Forgot your password?').should('exist').and('be.visible').should('have.attr', 'href', '/reset_password');
 
         // * Verify create an account link is present
-        cy.findByText('Don\'t have an account?').should('exist').and('be.visible');
-        cy.findByText('Create an account').should('exist').and('be.visible').should('have.attr', 'href', '/signup_user_complete');
+        cy.findByText('Don\'t have an account?').should('exist').and('be.visible').should('have.attr', 'href', '/signup_user_complete');
 
         // # Move inside of footer section
         cy.get('.hfroute-footer').should('exist').and('be.visible').within(() => {
@@ -99,7 +98,7 @@ describe('Login page', () => {
         });
     });
 
-    it('MM-T3306_3 Should disable Log in button when empty email/username and password field', () => {
+    it('MM-T3306_3 Should keep enable Log in button when empty email/username and password field', () => {
         // # Clear email/username field
         cy.findByPlaceholderText('Email or Username').clear();
 
@@ -110,7 +109,7 @@ describe('Login page', () => {
         cy.get('#saveSetting').should('not.be.disabled');
     });
 
-    it('MM-T3306_4 Should disable Log in button when empty email/username field', () => {
+    it('MM-T3306_4 Should keep enable Log in button when empty email/username field', () => {
         // # Clear email/username field
         cy.findByPlaceholderText('Email or Username').clear();
 
@@ -121,7 +120,7 @@ describe('Login page', () => {
         cy.get('#saveSetting').should('not.be.disabled');
     });
 
-    it('MM-T3306_5 Should disable Log in button when empty password field', () => {
+    it('MM-T3306_5 Should keep enable Log in button when empty password field', () => {
         // # Enter any email/username in the email field
         cy.findByPlaceholderText('Email or Username').clear().type('sampleusername');
 
