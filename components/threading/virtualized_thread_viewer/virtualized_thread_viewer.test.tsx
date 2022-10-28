@@ -12,6 +12,8 @@ import {UserProfile} from '@mattermost/types/users';
 
 import VirtualizedThreadViewer from './virtualized_thread_viewer';
 
+jest.mock('components/advanced_text_editor/voice_message_attachment', () => () => <div/>);
+
 describe('components/threading/VirtualizedThreadViewer', () => {
     const post: Post = TestHelper.getPostMock({
         channel_id: 'channel_id',

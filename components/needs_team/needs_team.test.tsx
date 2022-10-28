@@ -32,6 +32,8 @@ jest.mock('utils/utils', () => ({
     makeIsEligibleForClick: jest.fn(),
 }));
 
+jest.mock('components/advanced_text_editor/voice_message_attachment', () => () => <div/>);
+
 describe('components/needs_team', () => {
     const history = {
         push: jest.fn(),

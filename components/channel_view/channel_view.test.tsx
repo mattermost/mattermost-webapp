@@ -6,6 +6,8 @@ import {shallow} from 'enzyme';
 
 import ChannelView, {Props} from './channel_view';
 
+jest.mock('components/advanced_text_editor/voice_message_attachment', () => () => <div/>);
+
 describe('components/channel_view', () => {
     const baseProps: Props = {
         channelId: 'channelId',

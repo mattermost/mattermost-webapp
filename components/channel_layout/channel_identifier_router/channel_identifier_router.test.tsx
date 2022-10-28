@@ -10,6 +10,8 @@ import ChannelIdentifierRouter from './channel_identifier_router';
 
 jest.useFakeTimers('legacy');
 
+jest.mock('components/advanced_text_editor/voice_message_attachment', () => () => <div/>);
+
 describe('components/channel_layout/CenterChannel', () => {
     const baseProps = {
 

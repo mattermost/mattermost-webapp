@@ -29,6 +29,8 @@ jest.mock('actions/post_actions', () => ({
     }),
 }));
 
+jest.mock('components/advanced_text_editor/voice_message_attachment', () => () => <div/>);
+
 const currentTeamIdProp = 'r7rws4y7ppgszym3pdd5kaibfa';
 const currentUserIdProp = 'zaktnt8bpbgu8mb6ez9k64r7sa';
 const showTutorialTipProp = false;

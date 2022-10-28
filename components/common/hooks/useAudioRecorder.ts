@@ -149,8 +149,6 @@ export function useAudioRecorder(props: Props) {
 
             // CHANGE LATER
             // migrate to use Audio Worklet instead.
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
             const wasmFileURL = new URL('wasm-media-encoders/wasm/mp3', import.meta.url);
             audioEncoderRef.current = await createEncoder(MP3MimeType, wasmFileURL.href);
 

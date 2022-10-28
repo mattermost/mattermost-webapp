@@ -12,6 +12,8 @@ import Constants, {ModalIdentifiers} from 'utils/constants';
 import AdvancedCreateComment from 'components/advanced_create_comment/advanced_create_comment';
 import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 
+jest.mock('components/advanced_text_editor/voice_message_attachment', () => () => <div/>);
+
 describe('components/AdvancedCreateComment', () => {
     jest.useFakeTimers();
     beforeEach(() => {

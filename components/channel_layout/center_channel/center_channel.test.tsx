@@ -8,6 +8,8 @@ import CenterChannel from './center_channel';
 
 import type {OwnProps} from './index';
 
+jest.mock('components/advanced_text_editor/voice_message_attachment', () => () => <div/>);
+
 describe('components/channel_layout/CenterChannel', () => {
     const props = {
         location: {
