@@ -34,7 +34,7 @@ import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 import {Props as TimestampProps} from 'components/timestamp/timestamp';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content/post_body_additional_content';
+import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import * as Utils from 'utils/utils';
 import {browserHistory} from 'utils/browser_history';
@@ -76,6 +76,7 @@ export type Props = {
     matches?: string[];
     term?: string;
     isMentionSearch?: boolean;
+    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string;
     actions: {
         markPostAsUnread: (post: Post, location: string) => void;
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
@@ -262,7 +263,7 @@ const PostComponent = (props: Props): JSX.Element => {
         }
 
         if (e.altKey) {
-            props.actions.markPostAsUnread(props.post, 'RHS_COMMENT');
+            props.actions.markPostAsUnread(props.post, props.location);
         }
     };
 
@@ -336,8 +337,6 @@ const PostComponent = (props: Props): JSX.Element => {
     ) : (
         <MessageWithAdditionalContent
             post={post}
-            previewCollapsed={props.previewCollapsed}
-            previewEnabled={props.previewEnabled}
             isEmbedVisible={props.isEmbedVisible}
             pluginPostTypes={props.pluginPostTypes}
         />

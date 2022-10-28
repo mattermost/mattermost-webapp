@@ -15,11 +15,11 @@ import {
     isCollapsedThreadsEnabled,
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeam, getCurrentTeamId, getTeam, getTeamMemberships} from 'mattermost-redux/selectors/entities/teams';
-import {getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {Emoji} from '@mattermost/types/emojis';
 import {Post} from '@mattermost/types/posts';
-import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch} from 'actions/views/rhs';
+import {closeRightHandSide, selectPost, selectPostCardFromRightHandSideSearch, setRhsExpanded} from 'actions/views/rhs';
 
 import {markPostAsUnread, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 
@@ -40,13 +40,16 @@ import {isThreadOpen} from 'selectors/views/threads';
 
 import {General} from 'mattermost-redux/constants';
 
+import {getDisplayNameByUser} from 'utils/utils';
+import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
+
 import PostComponent from './post_component';
 
 interface OwnProps {
     post: Post;
     previousPostId?: string;
     postId?: string;
-    teamId: string;
+    teamId?: string;
 }
 
 function isFirstReply(post: Post, previousPost?: Post | null): boolean {
@@ -65,7 +68,12 @@ function isFirstReply(post: Post, previousPost?: Post | null): boolean {
 }
 
 function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
-    const post = ownProps.post || getPost(state, ownProps.postId);
+    let post;
+    if (ownProps.postId) {
+        post = getPost(state, ownProps?.postId);
+    } else {
+        post = ownProps.post;
+    }
     const previousPost = ownProps.previousPostId && getPost(state, ownProps.previousPostId);
 
     let consecutivePost = false;
@@ -87,7 +95,12 @@ function removePostAndCloseRHS(post: ExtendedPost) {
 }
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const post = ownProps.post || getPost(state, ownProps.postId);
+    let post;
+    if (ownProps.postId) {
+        post = getPost(state, ownProps?.postId);
+    } else {
+        post = ownProps.post;
+    }
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
@@ -136,6 +149,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     }
 
     const canReply = isDMorGM || (channel.team_id === currentTeam.id);
+    const directTeammate = getDirectTeammate(state, channel.id);
 
     const previewCollapsed = get(
         state,
@@ -157,6 +171,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         isEmbedVisible: isEmbedVisible(state, post.id),
         isReadOnly: false,
         teamId,
+        currentUserId: getCurrentUserId(state),
         isFirstReply: previousPost ? isFirstReply(post, previousPost) : false,
         hasReplies: getReplyCount(state, post) > 0,
         replyCount: getReplyCount(state, post),
@@ -186,6 +201,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         channelName: channel.display_name,
         channelType: channel.type,
         teamDisplayName,
+        displayName: getDisplayNameByUser(state, directTeammate),
         teamName,
     };
 }
@@ -197,6 +213,7 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             emitShortcutReactToLastPostFrom,
             setActionsMenuInitialisationState,
             selectPost,
+            setRhsExpanded,
             removePost: removePostAndCloseRHS,
             closeRightHandSide,
             selectPostCard: selectPostCardFromRightHandSideSearch,

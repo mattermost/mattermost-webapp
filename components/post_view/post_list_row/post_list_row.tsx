@@ -177,8 +177,8 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
 
         return (
             <PostComponent
-                currentUserId={this.props.currentUserId}
                 post={this.props.post}
+                location={Locations.CENTER}
                 {...postProps}
             />
         );

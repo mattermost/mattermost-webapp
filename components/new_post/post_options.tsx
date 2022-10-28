@@ -47,6 +47,7 @@ type Props = {
     isSearchResultsItem?: boolean;
     canReply?: boolean;
     replyCount?: number;
+    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string;
 };
 
 const PostOptions = (props: Props): JSX.Element => {
@@ -87,7 +88,7 @@ const PostOptions = (props: Props): JSX.Element => {
     };
 
     const handleDotMenuOpened = (open: boolean) => {
-        setShowDotMenu(true);
+        setShowDotMenu(open);
         props.handleDropdownOpened!(open || showEmojiPicker);
     };
 
@@ -191,7 +192,7 @@ const PostOptions = (props: Props): JSX.Element => {
         const actionsMenu = showActionsMenuIcon && (
             <ActionsMenu
                 post={post}
-                location={Locations.RHS_COMMENT}
+                location={props.location}
                 handleDropdownOpened={handleActionsMenuOpened}
                 isMenuOpen={showActionsMenu}
                 showPulsatingDot={showActionsMenuPulsatingDot}
@@ -204,7 +205,7 @@ const PostOptions = (props: Props): JSX.Element => {
         const dotMenu = (
             <DotMenu
                 post={props.post}
-                location={Locations.RHS_COMMENT}
+                location={props.location}
                 isFlagged={props.isFlagged}
                 handleDropdownOpened={handleDotMenuOpened}
                 handleCommentClick={props.handleCommentClick}
