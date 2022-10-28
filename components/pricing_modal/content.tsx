@@ -30,13 +30,13 @@ import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 
+import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
-
-import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import './content.scss';
 
@@ -193,9 +193,10 @@ function Content(props: ContentProps) {
             </Modal.Header>
             <Modal.Body>
                 <div className='flexcontainer'>
-                    {annualSubscriptionEnabled && 
+                    {annualSubscriptionEnabled &&
+
                         // Fragment can be eventually removed when annualSubscription featureFlag is removed
-                        <Fragment> 
+                        <Fragment>
                             <div className='save-text-div'>
                                 <p className='save-text'>
                                     {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}

@@ -37,10 +37,11 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
         // controls the animation of the toggle border
         if (isMonthly) {
             setToggleBorderClassName('toggle-border move-left');
-            trackEvent('cloud_pricing', 'click_yearly_toggle');
         } else {
             setToggleBorderClassName('toggle-border move-right');
         }
+
+        trackEvent('cloud_pricing', 'click_yearly_toggle');
 
         // update the displayed price
         updatePrice(!isMonthly);
