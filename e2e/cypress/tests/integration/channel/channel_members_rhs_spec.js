@@ -178,7 +178,7 @@ describe('Channel members RHS', () => {
                         openChannelMembersRhs(testTeam, channel);
 
                         // * Ensure the member is visible
-                        cy.uiGetRHS().contains(`${testUser[1].username}`).should('be.visible');
+                        cy.uiGetRHS().contains(`${testUser.username}`).should('be.visible');
 
                         // # Deactivate the user
                         cy.apiDeactivateUser(testUser.id);
