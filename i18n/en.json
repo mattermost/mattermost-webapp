@@ -3936,6 +3936,8 @@
   "login.username": "Username",
   "login.userNotFound": "We couldn't find an account matching your login credentials.",
   "login.verified": " Email Verified",
+  "login.contact_admin.title": "Contact your workspace admin",
+  "login.contact_admin.detail": "To access your team's workspace, contact your workspace admin. If you've been invited already, check your email inbox for a Mattermost workspace invite.",
   "manage_channel_groups_modal.search_placeholder": "Search groups",
   "manage_team_groups_modal.search_placeholder": "Search groups",
   "mark_all_threads_as_read_modal.cancel": "Cancel",

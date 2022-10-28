@@ -1,0 +1,45 @@
+.header-footer-route .header-footer-route-container {
+    display: flex;
+    justify-content: space-between;
+}
+
+.AccessProblem__container {
+    margin: 0 auto;
+    width: auto;
+    max-width: 640px;
+    display: flex;
+    justify-content: center;
+}
+
+.AccessProblem__body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.AccessProblem__title {
+    font-family: 'Metropolis';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 28px;
+    color: var(--portal-denim);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin: 32px 0 16px 0;
+}
+
+.AccessProblem__description {
+    font-family: 'Open Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+    color: var(--portal-denim);
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding: 0 40px;
+}
