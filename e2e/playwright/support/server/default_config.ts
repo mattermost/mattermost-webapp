@@ -674,7 +674,6 @@ const defaultServerConfig: AdminConfig = {
         InsightsEnabled: true,
         CommandPalette: false,
         BoardsProduct: false,
-        PlanUpgradeButtonText: 'upgrade',
         SendWelcomePost: true,
         PostPriority: false,
         PeopleProduct: false,
