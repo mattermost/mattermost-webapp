@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import path from 'path';
+import {expect} from '@playwright/test';
 
-import {PreferenceType} from '@mattermost/types/lib/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
-import testConfig from '@test.config';
+import testConfig from '@e2e-test.config';
 
 import {makeClient} from '.';
 import {getOnPremServerConfig} from './default_config';
@@ -15,7 +16,7 @@ import {createRandomUser} from './user';
 export async function initSetup({
     userPrefix = 'user',
     teamPrefix = {name: 'team', displayName: 'Team'},
-    withDefaultProfileImage = false,
+    withDefaultProfileImage = true,
 } = {}) {
     try {
         const {adminClient, adminUser} = await getAdminClient();
@@ -25,7 +26,7 @@ export async function initSetup({
         const team = await adminClient.createTeam(createRandomTeam(teamPrefix.name, teamPrefix.displayName));
 
         const randomUser = createRandomUser(userPrefix);
-        const user = await adminClient.createUser(randomUser);
+        const user = await adminClient.createUserX(randomUser);
         user.password = randomUser.password;
 
         await adminClient.addToTeam(team.id, user.id);
@@ -56,6 +57,8 @@ export async function initSetup({
         // log an error for debugging
         // eslint-disable-next-line no-console
         console.log(err);
+        expect(err, 'Should not throw an error').toBeFalsy();
+        throw err;
     }
 }
 
@@ -72,6 +75,6 @@ export async function getAdminClient() {
     return {adminClient, adminUser, err};
 }
 
-function getUrl(teamName, channelName) {
+function getUrl(teamName: string, channelName: string) {
     return `/${teamName}/channels/${channelName}`;
 }

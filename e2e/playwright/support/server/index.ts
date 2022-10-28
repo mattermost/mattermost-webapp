@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '@mattermost/types/lib/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import testConfig from '@test.config';
+import testConfig from '@e2e-test.config';
 
 import {createRandomChannel} from './channel';
 import Client from './client';
@@ -13,45 +13,40 @@ import {createRandomTeam} from './team';
 import {createRandomUser, getDefaultAdminUser} from './user';
 
 type UserRequest = {
-    username?: string;
+    username: string;
     email?: string;
     password: string;
 };
 
-const clients = {};
-
-export async function makeClient(
-    userRequest?: UserRequest,
-    useCache = true
-): Promise<{
-    client?: Client;
+type ClientCache = {
+    client: Client;
     user?: UserProfile;
-    err?: string;
-}> {
-    try {
-        const client = new Client();
-        client.setUrl(testConfig.baseURL);
+    err?: any;
+};
 
-        if (!userRequest) {
-            return {client};
-        }
+const clients: Record<string, ClientCache> = {};
 
-        const cacheKey = userRequest.username + userRequest.password;
-        if (useCache && clients[cacheKey] != null) {
-            return clients[cacheKey];
-        }
+export async function makeClient(userRequest?: UserRequest, useCache = true): Promise<ClientCache> {
+    const client = new Client();
+    client.setUrl(testConfig.baseURL);
 
-        const {data} = await client.login(userRequest.username, userRequest.password);
-        const user = {...data, password: userRequest.password};
-
-        if (useCache) {
-            clients[cacheKey] = {client, user};
-        }
-
-        return {client, user};
-    } catch (err) {
-        return {err};
+    if (!userRequest) {
+        return {client};
     }
+
+    const cacheKey = userRequest.username + userRequest.password;
+    if (useCache && clients[cacheKey] != null) {
+        return clients[cacheKey];
+    }
+
+    const userProfile = await client.login(userRequest.username, userRequest.password);
+    const user = {...userProfile, password: userRequest.password};
+
+    if (useCache) {
+        clients[cacheKey] = {client, user};
+    }
+
+    return {client, user};
 }
 
 export {

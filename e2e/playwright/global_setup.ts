@@ -2,12 +2,11 @@
 // See LICENSE.txt for license information.
 
 import {expect} from '@playwright/test';
-import {UserProfile} from '@mattermost/types/lib/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {
     Client,
     createRandomTeam,
-    createRandomUser,
     getAdminClient,
     getDefaultAdminUser,
     getOnPremServerConfig,
@@ -23,7 +22,7 @@ async function globalSetup() {
     if (!adminClient) {
         const {client} = await makeClient();
         const defaultAdmin = getDefaultAdminUser();
-        await client.createUser(defaultAdmin);
+        await client.createUserX(defaultAdmin);
 
         ({client: adminClient, user: adminUser} = await makeClient(defaultAdmin));
     }
@@ -31,7 +30,7 @@ async function globalSetup() {
     await sysadminSetup(adminClient, adminUser);
 }
 
-async function sysadminSetup(client: Client, user: UserProfile) {
+async function sysadminSetup(client: Client, user?: UserProfile) {
     // Ensure admin's email is verified.
     if (!user) {
         await client.verifyUserEmail(client.token);
@@ -62,39 +61,6 @@ async function sysadminSetup(client: Client, user: UserProfile) {
                 })
                 .map((channel) => client.deleteChannel(channel.id))
         );
-    }
-
-    // Test only according to users limit requirement.
-    const clientConfig = await client.getClientConfigOld();
-    let usersLimit = parseInt(clientConfig.ExperimentalCloudUserLimit || '10', 10);
-    if (usersLimit === 0) {
-        usersLimit = 10;
-    }
-    const {total_users_count: totalUsersCount} = await client.getTotalUsersStats();
-    if (testConfig.lessThanCloudUserLimit) {
-        if (totalUsersCount > usersLimit) {
-            // Do not proceed testing if not meeting the requirement.
-            // Especially important for Growth spike cases.
-            throw `Error: Testing cannot proceed. It requires users to be less than the limit. lessThanCloudUserLimit: ${testConfig.lessThanCloudUserLimit}, Total users count: ${totalUsersCount}, Users limit: ${usersLimit}`;
-        }
-    } else {
-        // Increase the number of users if below users limit.
-        if (totalUsersCount < usersLimit) {
-            let baseCount = totalUsersCount;
-            while (baseCount < usersLimit) {
-                const randomUser = createRandomUser();
-                await client.createUser(randomUser);
-
-                baseCount++;
-            }
-
-            // eslint-disable-next-line no-console
-            console.log(
-                `Added ${
-                    usersLimit - totalUsersCount
-                } users to satisfy test that requires total users more than users limit.`
-            );
-        }
     }
 
     // Ensure all products as plugin are installed and active.
