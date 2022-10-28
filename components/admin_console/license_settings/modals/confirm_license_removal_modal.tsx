@@ -71,7 +71,7 @@ const ConfirmLicenseRemovalModal: React.FC<Props> = (props: Props): JSX.Element 
                     <div className='subtitle'>
                         <FormattedMessage
                             id='admin.license.confirm-license-removal.subtitle'
-                            defaultMessage='Removing the license will downgrade your server from Enterprise to Starter. You may lose information. '
+                            defaultMessage='Removing the license will downgrade your server from Enterprise to Free. You may lose information. '
                         />
                     </div>
                 </div>

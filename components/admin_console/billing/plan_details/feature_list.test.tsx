@@ -74,7 +74,7 @@ describe('components/admin_console/billing/plan_details/feature_list', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when running paid tier and starter', () => {
+    test('should match snapshot when running paid tier and free', () => {
         const wrapper = renderFeatureList({
             subscriptionPlan: CloudProducts.STARTER,
             isLegacyFree: false,
