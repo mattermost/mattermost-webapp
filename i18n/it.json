@@ -3031,7 +3031,6 @@
   "passwordRequirements": "Requisiti della password:",
   "password_form.change": "Cambia la password",
   "password_form.enter": "Inserisci una nuova password per il tuo account {siteName}.",
-  "password_form.error": "Inserisci almeno {chars} caratteri.",
   "password_form.pwd": "Password",
   "password_form.title": "Reimposta Password",
   "password_send.checkInbox": "Per favore controlla la posta in arrivo.",

@@ -10,7 +10,7 @@ import classNames from 'classnames';
 import {PluginRedux} from '@mattermost/types/plugins';
 
 import {generateIndex, Index} from 'utils/admin_console_index';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {localizeMessage} from 'utils/utils';
 
 import AdminSidebarCategory from 'components/admin_console/admin_sidebar/admin_sidebar_category';
@@ -120,12 +120,12 @@ class AdminSidebar extends React.PureComponent<Props, State> {
             return;
         }
 
-        const validSection = sections.indexOf(browserHistory.location.pathname.replace('/admin_console/', '')) !== -1;
+        const validSection = sections.indexOf(getHistory().location.pathname.replace('/admin_console/', '')) !== -1;
         if (!validSection) {
             const visibleSections = this.visibleSections();
             for (const section of sections) {
                 if (visibleSections.has(section)) {
-                    browserHistory.replace('/admin_console/' + section);
+                    getHistory().replace('/admin_console/' + section);
                     break;
                 }
             }
