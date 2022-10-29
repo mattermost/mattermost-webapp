@@ -99,6 +99,19 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <Icon
+          glyph="application-cog"
+          size={16}
+        />
+      }
+      id="work-template"
+      modalId="worktemplate"
+      show={true}
+      text="Work Templates"
+    />
     <MenuItemLink
       icon={
         <Icon
@@ -305,6 +318,19 @@ exports[`components/global/product_switcher_menu should match snapshot with most
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <Icon
+          glyph="application-cog"
+          size={16}
+        />
+      }
+      id="work-template"
+      modalId="worktemplate"
+      show={true}
+      text="Work Templates"
+    />
     <MenuItemLink
       icon={
         <Icon
@@ -634,6 +660,19 @@ exports[`components/global/product_switcher_menu should show integrations should
         to="/admin_console"
       />
     </Connect(SystemPermissionGate)>
+    <MenuItemToggleModalRedux
+      dialogType={[Function]}
+      icon={
+        <Icon
+          glyph="application-cog"
+          size={16}
+        />
+      }
+      id="work-template"
+      modalId="worktemplate"
+      show={true}
+      text="Work Templates"
+    />
     <MenuItemLink
       icon={
         <Icon
