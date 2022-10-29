@@ -777,3 +777,31 @@
 .small-image__container--min-width {
     width: 48px;
 }
+
+.large-image__container {
+    display: flex;
+    min-width: 100px;
+    max-width: calc(100% - 5px);
+    min-height: 350px;
+    max-height: inherit;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
+    margin: 5px 2px;
+    background: var(--center-channel-bg);
+    border-radius: 4px;
+
+    &:hover {
+        z-index: 2;
+        box-shadow: 0 2px 5px 0 rgba($black, 0.1), 0 2px 5px 0 rgba($black, 0.1);
+        transition: all 0.1s linear;
+    }
+
+    &:hover .image-preview-utility-buttons-container {
+        display: inline-block;
+    }
+}
+
+.large-image__container--max-width {
+    width: 350px;
+}

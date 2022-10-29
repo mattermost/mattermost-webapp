@@ -70,7 +70,7 @@ export default class SizeAwareImage extends React.PureComponent {
         handleSmallImageContainer: PropTypes.bool,
 
         /*
-         * Enables the logic of cropping large images to fit within container div
+         * Enables the logic of scaling large images to fit within container div
          */
         handleLargeImageContainer: PropTypes.bool,
 
@@ -196,6 +196,13 @@ export default class SizeAwareImage extends React.PureComponent {
             ariaLabelImage += ` ${fileInfo.name}`.toLowerCase();
         }
 
+        let imgClassName = this.props.className;
+        if (this.handleLargeImageContainer && this.state.isLargeImage) {
+            imgClassName += 'large-image--inside-container';
+        } else if (this.handleSmallImageContainer && this.state.isSmallImage) {
+            imgClassName += 'small-image-inside-container';
+        }
+
         const image = (
             <img
                 {...props}
@@ -204,11 +211,7 @@ export default class SizeAwareImage extends React.PureComponent {
                 onClick={this.handleImageClick}
                 onKeyDown={this.onEnterKeyDown}
                 className={
-                    this.props.className +
-                    (this.props.handleSmallImageContainer &&
-                        this.state.isSmallImage ? ' small-image--inside-container' : '') +
-                    (this.props.handleLargeImageContainer &&
-                        this.state.isLargeImage ? ' large-image--inside-container' : '')
+                    imgClassName
                 }
                 src={src}
                 onError={this.handleError}
@@ -395,8 +398,8 @@ export default class SizeAwareImage extends React.PureComponent {
                         {image}
                     </div>
                     <span
-                        className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--large-image', {
-                            'image-preview-utility-buttons-container--large-image-no-copy-button': !enablePublicLink,
+                        className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image', {
+                            'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink,
                         })}
                         style={leftStyle}
                     >
