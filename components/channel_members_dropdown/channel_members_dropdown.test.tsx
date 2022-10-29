@@ -8,6 +8,13 @@ import ChannelMembersDropdown from 'components/channel_members_dropdown/channel_
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
+import {mockDispatch} from 'packages/mattermost-redux/test/test_store';
+import {ModalIdentifiers} from 'utils/constants';
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useDispatch: () => mockDispatch,
+}));
 
 describe('components/channel_members_dropdown', () => {
     const user = {
@@ -54,6 +61,7 @@ describe('components/channel_members_dropdown', () => {
             getChannelStats: jest.fn(),
             updateChannelMemberSchemeRoles: jest.fn(),
             getChannelMember: jest.fn(),
+            openModal: jest.fn(),
         },
     };
 
@@ -233,7 +241,7 @@ describe('components/channel_members_dropdown', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('current user should be able to remove themselves from a channel', () => {
+    test('should open a confirmation modal when current user tries to remove themselves from a channel', () => {
         const removeMock = jest.fn().mockImplementation(() => {
             const myPromise = new Promise<ActionResult>((resolve) => {
                 setTimeout(() => {
@@ -261,6 +269,14 @@ describe('components/channel_members_dropdown', () => {
 
         expect(wrapper.find('[data-testid="leaveChannel"]').exists()).toBe(true);
         wrapper.find('[data-testid="leaveChannel"]').simulate('click');
-        expect(removeMock).toHaveBeenCalledTimes(1);
+
+        expect(removeMock).not.toHaveBeenCalled();
+        expect(props.actions.openModal).toHaveBeenCalledWith(
+            expect.objectContaining({
+                modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
+                dialogProps: expect.objectContaining({
+                    channel: expect.objectContaining({id: props.channel.id}),
+                }),
+            }));
     });
 });

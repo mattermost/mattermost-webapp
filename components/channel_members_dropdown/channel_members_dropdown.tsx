@@ -15,7 +15,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import {Constants, ModalIdentifiers} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
-import {openModal} from 'actions/views/modals';
+import {ModalData} from 'types/actions';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 import Menu from 'components/widgets/menu/menu';
@@ -43,6 +43,7 @@ interface Props {
         updateChannelMemberSchemeRoles: (channelId: string, userId: string, isSchemeUser: boolean, isSchemeAdmin: boolean) => Promise<ActionResult>;
         removeChannelMember: (channelId: string, userId: string) => Promise<ActionResult>;
         getChannelMember: (channelId: string, userId: string) => void;
+        openModal: <P>(modalData: ModalData<P>) => void;
     };
 }
 
@@ -70,12 +71,16 @@ export default function ChannelMembersDropdown({
         }
 
         if (user.id === currentUserId) {
-            dispatch(openModal({
+            setRemoving(true);
+            dispatch(actions.openModal({
                 modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
                 dialogType: LeaveChannelModal,
                 dialogProps: {
                     channel,
-                    callback: () => actions.getChannelStats(channel.id),
+                    callback: () => {
+                        actions.getChannelStats(channel.id);
+                        setRemoving(false);
+                    },
                 },
             }));
         } else {
