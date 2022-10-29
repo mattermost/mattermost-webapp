@@ -6,9 +6,9 @@ import React from 'react';
 
 import {ChannelType} from '@mattermost/types/channels';
 
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal';
+import LeaveChannelModal from 'components/leave_channel_modal/leave_channel_modal';
 
-describe('components/LeavePrivateChannelModal', () => {
+describe('components/LeaveChannelModal', () => {
     const channels = {
         'channel-1': {
             id: 'channel-1',
@@ -73,7 +73,7 @@ describe('components/LeavePrivateChannelModal', () => {
         };
 
         const wrapper = shallow(
-            <LeavePrivateChannelModal {...props}/>,
+            <LeaveChannelModal {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -93,8 +93,8 @@ describe('components/LeavePrivateChannelModal', () => {
             },
             onExited: jest.fn(),
         };
-        const wrapper = shallow<LeavePrivateChannelModal>(
-            <LeavePrivateChannelModal
+        const wrapper = shallow<LeaveChannelModal>(
+            <LeaveChannelModal
                 {...props}
             />,
         );

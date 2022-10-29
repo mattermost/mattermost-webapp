@@ -22,7 +22,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
+import LeaveChannelModal from 'components/leave_channel_modal';
 
 const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
 
@@ -72,7 +72,7 @@ export default function ChannelMembersDropdown({
         if (user.id === currentUserId) {
             dispatch(openModal({
                 modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL,
-                dialogType: LeavePrivateChannelModal,
+                dialogType: LeaveChannelModal,
                 dialogProps: {
                     channel,
                     callback: () => actions.getChannelStats(channel.id),
