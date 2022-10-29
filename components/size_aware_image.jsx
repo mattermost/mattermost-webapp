@@ -15,6 +15,7 @@ import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
 
 const MIN_IMAGE_SIZE = 48;
+const MAX_IMAGE_SIZE = 350;
 const MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS = 100;
 
 // SizeAwareImage is a component used for rendering images where the dimensions of the image are important for
@@ -68,6 +69,11 @@ export default class SizeAwareImage extends React.PureComponent {
          */
         handleSmallImageContainer: PropTypes.bool,
 
+        /*
+         * Enables the logic of cropping large images to fit within container div
+         */
+        handleLargeImageContainer: PropTypes.bool,
+
         /**
          * Enables copy URL functionality through a button on image hover.
          */
@@ -86,6 +92,8 @@ export default class SizeAwareImage extends React.PureComponent {
         this.state = {
             loaded: false,
             isSmallImage: this.dimensionsAvailable(dimensions) ? this.isSmallImage(
+                dimensions.width, dimensions.height) : false,
+            isLargeImage: this.dimensionsAvailable(dimensions) ? this.isLargeImage(
                 dimensions.width, dimensions.height) : false,
             linkCopiedRecently: false,
             linkCopyInProgress: false,
@@ -110,14 +118,20 @@ export default class SizeAwareImage extends React.PureComponent {
         return width < MIN_IMAGE_SIZE || height < MIN_IMAGE_SIZE;
     }
 
+    isLargeImage = (width, height) => {
+        return width > MAX_IMAGE_SIZE || height > MAX_IMAGE_SIZE;
+    }
+
     handleLoad = (event) => {
         if (this.mounted) {
             const image = event.target;
             const isSmallImage = this.isSmallImage(image.naturalWidth, image.naturalHeight);
+            const isLargeImage = this.isLargeImage(image.naturalWidth, image.naturalHeight);
             this.setState({
                 loaded: true,
                 error: false,
                 isSmallImage,
+                isLargeImage,
                 imageWidth: image.naturalWidth,
             }, () => { // Call onImageLoaded prop only after state has already been set
                 if (this.props.onImageLoaded && image.naturalHeight) {
@@ -172,6 +186,7 @@ export default class SizeAwareImage extends React.PureComponent {
         Reflect.deleteProperty(props, 'onImageLoadFail');
         Reflect.deleteProperty(props, 'dimensions');
         Reflect.deleteProperty(props, 'handleSmallImageContainer');
+        Reflect.deleteProperty(props, 'handleLargeImageContainer');
         Reflect.deleteProperty(props, 'enablePublicLink');
         Reflect.deleteProperty(props, 'onClick');
         Reflect.deleteProperty(props, 'getFilePublicLink');
@@ -191,7 +206,10 @@ export default class SizeAwareImage extends React.PureComponent {
                 className={
                     this.props.className +
                     (this.props.handleSmallImageContainer &&
-                        this.state.isSmallImage ? ' small-image--inside-container' : '')}
+                        this.state.isSmallImage ? ' small-image--inside-container' : '') +
+                    (this.props.handleLargeImageContainer &&
+                        this.state.isLargeImage ? ' large-image--inside-container' : '')
+                }
                 src={src}
                 onError={this.handleError}
                 onLoad={this.handleLoad}
@@ -328,6 +346,57 @@ export default class SizeAwareImage extends React.PureComponent {
                     <span
                         className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--small-image', {
                             'image-preview-utility-buttons-container--small-image-no-copy-button': !enablePublicLink,
+                        })}
+                        style={leftStyle}
+                    >
+                        {enablePublicLink && copyLink}
+                        {download}
+                    </span>
+                </div>
+            );
+        }
+
+        if (this.props.handleLargeImageContainer && this.state.isLargeImage) {
+            let className = 'large-image__container cursor--pointer a11y--active';
+            if (this.state.imageHeight > MAX_IMAGE_SIZE) {
+                className += ' large-image__container--max-height';
+            }
+
+            // 175 is the offset on a 350px wide image, for every pixel added to the width of the image, it's added to the left offset to buttons
+            const wideImageButtonsOffset = (175 + this.state.imageWidth) - MAX_IMAGE_SIZE;
+
+            /**
+             * creation of left offset for 2 nested cases
+             *  - if a small image with larger width
+             *  - if copy link button is enabled
+             */
+            const modifierCopyButton = enablePublicLink ? 0 : 8;
+
+            // decrease modifier if imageWidth > 100
+            const modifierLargerWidth = this.state.imageWidth > MIN_IMAGE_SIZE_FOR_INTERNAL_BUTTONS ? 40 : 0;
+
+            // since there is a max-width constraint on images, a max-left clause follows.
+            const leftStyle = this.state.imageWidth > MAX_IMAGE_SIZE ? {
+                left: `min(${wideImageButtonsOffset + (modifierCopyButton - modifierLargerWidth)}px, calc(100% - ${31 - (modifierCopyButton - modifierLargerWidth)}px)`,
+            } : {};
+
+            const wideLargeImageStyle = this.state.imageWidth > MAX_IMAGE_SIZE ? {
+                width: MAX_IMAGE_SIZE + 2, // 2px to account for the border
+            } : {};
+            return (
+                <div
+                    className='large-image-utility-buttons-wrapper'
+                >
+                    <div
+                        onClick={this.handleImageClick}
+                        className={classNames(className)}
+                        style={wideLargeImageStyle}
+                    >
+                        {image}
+                    </div>
+                    <span
+                        className={classNames('image-preview-utility-buttons-container', 'image-preview-utility-buttons-container--large-image', {
+                            'image-preview-utility-buttons-container--large-image-no-copy-button': !enablePublicLink,
                         })}
                         style={leftStyle}
                     >
