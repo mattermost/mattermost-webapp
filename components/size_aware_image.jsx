@@ -383,17 +383,17 @@ export default class SizeAwareImage extends React.PureComponent {
                 left: `min(${wideImageButtonsOffset + (modifierCopyButton - modifierLargerWidth)}px, calc(100% - ${31 - (modifierCopyButton - modifierLargerWidth)}px)`,
             } : {};
 
-            const wideLargeImageStyle = this.state.imageWidth > MAX_IMAGE_SIZE ? {
-                width: MAX_IMAGE_SIZE + 2, // 2px to account for the border
+            const tallLargeImageStyle = this.state.imageHeight > MAX_IMAGE_SIZE ? {
+                height: MAX_IMAGE_SIZE + 2, // 2px to account for the border
             } : {};
             return (
                 <div
-                    className='large-image-utility-buttons-wrapper'
+                    className='small-image-utility-buttons-wrapper'
                 >
                     <div
                         onClick={this.handleImageClick}
                         className={classNames(className)}
-                        style={wideLargeImageStyle}
+                        style={tallLargeImageStyle}
                     >
                         {image}
                     </div>

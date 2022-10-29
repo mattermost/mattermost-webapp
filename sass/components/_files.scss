@@ -780,10 +780,10 @@
 
 .large-image__container {
     display: flex;
-    min-width: 100px;
+    min-width: 48px;
     max-width: calc(100% - 5px);
-    min-height: 350px;
-    max-height: inherit;
+    min-height: 48px;
+    max-height: 350px;
     align-items: center;
     justify-content: center;
     border: 1px solid rgba(var(--center-channel-color-rgb), 0.32);
@@ -802,6 +802,6 @@
     }
 }
 
-.large-image__container--max-width {
-    width: 350px;
+.large-image__container--max-height {
+    height: 350px;
 }
