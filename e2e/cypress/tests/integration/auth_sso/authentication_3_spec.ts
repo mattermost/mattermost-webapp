@@ -17,8 +17,8 @@ describe('Authentication', () => {
     });
 
     after(() => {
-      cy.apiAdminLogin({failOnStatusCode: false});
-      cy.apiUpdateConfig({} as Cypress.AdminConfig);
+        cy.apiAdminLogin({failOnStatusCode: false});
+        cy.apiUpdateConfig({});
     });
 
     const testCases = [
