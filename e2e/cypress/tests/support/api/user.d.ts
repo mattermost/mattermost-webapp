@@ -52,7 +52,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLogin();
          */
-        apiAdminLogin(requestOptions?: Object): Chainable<UserProfile>;
+        apiAdminLogin(requestOptions?: Record<string, any>): Chainable<UserProfile>;
 
         /**
          * Login as admin via API.
