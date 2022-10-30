@@ -16,7 +16,7 @@ describe('Account Settings', () => {
 
     before(() => {
         // # Login as new user and visit off-topic
-        cy.apiInitSetup({prefix: 'other', loginAfter: true}).then(({offTopicUrl, user, team}) => {
+        cy.apiInitSetup({userPrefix: 'other', loginAfter: true}).then(({offTopicUrl, user, team}) => {
             cy.visit(offTopicUrl);
             offTopic = offTopicUrl;
             testUser = user;
