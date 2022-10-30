@@ -16,11 +16,6 @@ describe('Authentication', () => {
         cy.apiAdminLogin();
     });
 
-    after(() => {
-        cy.apiAdminLogin({failOnStatusCode: false});
-        cy.apiUpdateConfig();
-    });
-
     const testCases = [
         {
             title: 'MM-T1767 - Email signin false Username signin true',
@@ -57,7 +52,7 @@ describe('Authentication', () => {
             cy.visit('/login');
 
             // # Remove autofocus from login input
-            cy.focused().tab();
+            cy.focused().blur();
 
             let expectedPlaceholderText;
             if (signinWithEmail && signinWithUsername) {
