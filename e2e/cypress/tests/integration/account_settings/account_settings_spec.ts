@@ -10,9 +10,9 @@
 // Group: @account_settings
 
 describe('Account Settings', () => {
-    let testUser;
-    let testTeam;
-    let offTopic;
+    let testUser: Cypress.UserProfile;
+    let testTeam: Cypress.Team;
+    let offTopic: string;
 
     before(() => {
         // # Login as new user and visit off-topic
