@@ -20,25 +20,32 @@ async function watchAll(useRunner) {
 
     commands.unshift({command: 'npm:run:webapp', name: 'webapp', prefixColor: 'cyan'});
 
-    let outputStream = process.stdout;
+    let runner;
     if (useRunner) {
-        outputStream = makeRunner(commands);
+        runner = makeRunner(commands);
     }
 
     if (!useRunner) {
         console.log(chalk.inverse.bold('Watching web app and all subpackages...') + '\n');
     }
 
-    const {result} = concurrently(
+    const {result, commands: runningCommands} = concurrently(
         commands,
         {
             killOthers: 'failure',
-            outputStream,
+            outputStream: runner?.getOutputStream(),
         },
     );
+
+    runner?.addCloseListener(() => {
+        for (const command of runningCommands) {
+            command.kill('SIGINT');
+        }
+    });
+
     await result;
 }
 
-const useRunner = process.argv[2] === '--runner';
+const useRunner = process.argv[2] === '--runner' || process.env.MM_USE_WEBAPP_RUNNER;
 
 watchAll(useRunner);
