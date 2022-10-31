@@ -228,7 +228,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
                     const {data: channelsPerPageResponse, errors} = await Client4.fetchWithGraphQL<ChannelsQueryResponseType>(getChannelsQueryString(channelsCursor, teamId)); // eslint-disable-line no-await-in-loop
 
                     if (errors) {
-                        break;
+                        throw new Error('Error returned in fetching channels of next page');
                     } else if (!channelsPerPageResponse) {
                         break;
                     } else if (channelsPerPageResponse && channelsPerPageResponse.channels && channelsPerPageResponse.channels.length === 0) {
@@ -250,7 +250,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
                     const {data: channelMembersPerPageResponse, errors} = await Client4.fetchWithGraphQL<ChannelMembersQueryResponseType>(getChannelMembersQueryString(channelMemberCursor, teamId)); // eslint-disable-line no-await-in-loop
 
                     if (errors) {
-                        break;
+                        throw new Error('Error returned in fetching channel members of next page');
                     } else if (!channelMembersPerPageResponse) {
                         break;
                     } else if (channelMembersPerPageResponse && channelMembersPerPageResponse.channelMembers && channelMembersPerPageResponse.channelMembers.length === 0) {
@@ -263,18 +263,17 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
                     }
                 } while (channelMembersPerPageDataLength === CHANNEL_MEMBERS_MAX_PER_PAGE);
             }
-
-            if (channelMembersResponse && channelMembersResponse.length > 0) {
-                channelMembersResponse.forEach((channelMembers) => {
-                    channelMembers.roles.forEach((role) => {
-                        roles = [...roles, role];
-                    });
-                });
-            }
         } catch (error) {
-            console.log('error in fetchChannelsAndMembers', error); // eslint-disable-line no-console
-            dispatch(logError(error as ServerError));
+            dispatch(logError(error as ServerError, true, true));
             return {error: error as ServerError};
+        }
+
+        if (channelMembersResponse && channelMembersResponse.length > 0) {
+            channelMembersResponse.forEach((channelMembers) => {
+                channelMembers.roles.forEach((role) => {
+                    roles = [...roles, role];
+                });
+            });
         }
 
         const channels = transformToReceivedChannelsReducerPayload(channelsResponse);
