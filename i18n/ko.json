@@ -2926,7 +2926,7 @@
   "post_info.unread": "안 읽음 표시",
   "post_message_view.edited": "(수정됨)",
   "post_pre_header.pinned": "공지사항",
-  "postlist.toast.newMessages": "{count, number} new {count, plural, one {message} other {messages}",
+  "postlist.toast.newMessages": "{count, number} new {count, plural, one {message} other {messages}}",
   "postlist.toast.newMessagesSince": "{count, number} new {count, plural, one {message} other {messages}} since {date} at {time}",
   "postlist.toast.scrollToBottom": "최근 메시지로 이동",
   "postlist.toast.scrollToLatest": "최근 메세지로 이동",
