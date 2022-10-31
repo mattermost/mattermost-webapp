@@ -856,7 +856,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         e.preventDefault();
 
-        let message = this.state.message;
+        const message = this.state.message;
         if (table && isGitHubCodeBlock(table.className)) {
             const selectionStart = (e.target as any).selectionStart;
             const selectionEnd = (e.target as any).selectionEnd;
@@ -867,9 +867,21 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const originalSize = message.length;
-        message = formatMarkdownMessage(clipboardData, message.trim(), this.state.caretPosition);
-        const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
-        this.setMessageAndCaretPostion(message, newCaretPosition);
+        const formattedMessage = formatMarkdownMessage(clipboardData, message.trim(), this.state.caretPosition);
+        const newCaretPosition = formattedMessage.length - (originalSize - this.state.caretPosition);
+        this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
+        this.handlePostPasteDraft(formattedMessage);
+    }
+
+    handlePostPasteDraft = (message: string) => {
+        const draft = {
+            ...this.props.draft,
+            message,
+        };
+
+        const channelId = this.props.currentChannel.id;
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.draftsForChannel[channelId] = draft;
     }
 
     handleFileUploadChange = () => {
