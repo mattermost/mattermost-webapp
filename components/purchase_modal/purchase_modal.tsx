@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState} from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
@@ -37,11 +37,10 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import PricingModal from 'components/pricing_modal';
 import PlanLabel from 'components/common/plan_label';
+import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
 import {ModalData} from 'types/actions';
 import {Team} from '@mattermost/types/teams';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
-
-import SwitchSelector from "react-switch-selector";
 
 import PaymentForm from '../payment_form/payment_form';
 
@@ -50,7 +49,6 @@ import ProcessPaymentSetup from './process_payment_setup';
 import 'components/payment_form/payment_form.scss';
 
 import './purchase.scss';
-
 let stripePromise: Promise<Stripe | null>;
 
 enum ButtonCustomiserClasses {
@@ -79,8 +77,10 @@ type CardProps = {
     price: string;
     rate?: string;
     buttonDetails: ButtonDetails;
-    planBriefing: JSX.Element;
+    planBriefing?: JSX.Element;
     planLabel?: JSX.Element;
+    annualSubscription: boolean;
+    updatePrice: (isMonthly: boolean) => void;
 }
 
 type Props = {
@@ -98,6 +98,7 @@ type Props = {
     isDelinquencyModal?: boolean;
     invoices?: Invoice[];
     isCloudDelinquencyGreaterThan90Days: boolean;
+    annualSubscription: boolean;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -130,6 +131,7 @@ type State = {
     selectedProduct: Product | null | undefined;
     isUpgradeFromTrial: boolean;
     buttonClickedInfo: string;
+    selectedProductPrice: string | null | undefined;
 }
 
 /**
@@ -181,77 +183,97 @@ function Card(props: CardProps) {
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
         window.open(CloudLinks.BILLING_DOCS, '_blank');
     };
-    const [isMonthly, setIsMonthly] = useState(true);
-    const [toggleBorderClassName, setToggleBorderClassName] = useState('toggle-border');
 
-    const options = [
-        {
-            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--center-channel-text)' : 'var(--denim-button-bg)'}}>Yearly</p>,
-            value: "Yearly",
-        },
-        {
-            label: <p style={{margin: "10px 16px", color: isMonthly ? 'var(--denim-button-bg)' : 'var(--center-channel-text)'}}>Monthly</p>,
-            value: "Monthly",
-        }
-    ];
-
-    const onToggleChange = () => {
-        setIsMonthly(!isMonthly);
-    };
-     
-    const initialSelectedIndex = options.findIndex(({value}) => value === "Monthly");
-    return (
-        <div className='PlanCard'>
-            {props.planLabel && props.planLabel}
-            <div
-                className='top'
-                style={{backgroundColor: props.topColor}}
-            />
-            <div className='bottom'>
-                <div className="toggle-monthly-yearly">
-                    <SwitchSelector
-                        onChange={onToggleChange}
-                        options={options}
-                        initialSelectedIndex={initialSelectedIndex}
-                        backgroundColor={"border: 1px solid red"}
-                        border={"solid 1px rgba(var(--title-color-indigo-500-rgb), 0.4)"}
-                        selectionIndicatorMargin={0}
-                        selectedBackgroundColor={'rgba(var(--denim-button-bg-rgb), 0.08)'}
-                        wrapperBorderRadius={40}
-                        optionBorderRadius={40}
-                    />
-                </div>
-                <div className='plan_price_rate_section'>
-                    <h4>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
-                    <p>{props.rate}</p>
-                </div>
-                {props.planBriefing}
-                <div>
-                    <button
-                        className={'plan_action_btn ' + props.buttonDetails.customClass}
-                        disabled={props.buttonDetails.disabled}
-                        onClick={props.buttonDetails.action}
-                    >{props.buttonDetails.text}</button>
-                </div>
-                <div className='plan_billing_cycle'>
+    const monthlyPlan = <div className='PlanCard'>
+        {props.planLabel && props.planLabel}
+        <div
+            className='top'
+            style={{backgroundColor: props.topColor}}
+        />
+        <div className='bottom'>
+            <div className='plan_price_rate_section'>
+                <h4>{props.plan}</h4>
+                <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
+                <p>{props.rate}</p>
+            </div>
+            {props.planBriefing}
+            <div>
+                <button
+                    className={'plan_action_btn ' + props.buttonDetails.customClass}
+                    disabled={props.buttonDetails.disabled}
+                    onClick={props.buttonDetails.action}
+                >{props.buttonDetails.text}</button>
+            </div>
+            <div className='plan_billing_cycle'>
+                <FormattedMessage
+                    defaultMessage={
+                        'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                    }
+                    id={'admin.billing.subscription.freeTrialDisclaimer'}
+                />
+                <a
+                    onClick={seeHowBillingWorks}
+                >
                     <FormattedMessage
-                        defaultMessage={
-                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                        }
-                        id={'admin.billing.subscription.freeTrialDisclaimer'}
+                        defaultMessage={'See how billing works.'}
+                        id={'admin.billing.subscription.howItWorks'}
                     />
-                    <a
-                        onClick={seeHowBillingWorks}
-                    >
-                        <FormattedMessage
-                            defaultMessage={'See how billing works.'}
-                            id={'admin.billing.subscription.howItWorks'}
-                        />
-                    </a>
-                </div>
+                </a>
             </div>
         </div>
+    </div>;
+
+    const monthlyYearlyPlan = <div className='PlanCard'>
+        <div className='bottom'>
+            <div className='save_text'>
+                <FormattedMessage
+                    defaultMessage={'Save 20% with Yearly.'}
+                    id={'pricing_modal.saveWithYearly'}
+                />
+            </div>
+            <YearlyMonthlyToggle updatePrice={props.updatePrice} isPurchases={true}/>
+            {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
+            <div className='plan_price_rate_section' style={{height: '125px'}}>
+                <h4 className='plan_name'>{props.plan}</h4>
+                <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{props.price}</h1>
+                <p className='plan_text'>{props.rate}</p>
+            </div>
+            {props.planBriefing}
+            <div className={props.annualSubscription ? 'enable_annual_sub' : ''}>
+                <button
+                    className={'plan_action_btn ' + props.buttonDetails.customClass}
+                    disabled={props.buttonDetails.disabled}
+                    onClick={props.buttonDetails.action}
+                >{props.buttonDetails.text}</button>
+            </div>
+            <div className='plan_billing_cycle'>
+                <FormattedMessage
+                    defaultMessage={'Payment begins: {beginDate}. '}
+                    id={'admin.billing.subscription.paymentBegins'}
+                    values={{
+                        beginDate: getNextBillingDate(),
+                    }}
+                />
+                <FormattedMessage
+                    defaultMessage={
+                        'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                    }
+                    id={'admin.billing.subscription.freeTrialDisclaimer'}
+                />
+                <a
+                    onClick={seeHowBillingWorks}
+                >
+                    <FormattedMessage
+                        defaultMessage={'See how billing works.'}
+                        id={'admin.billing.subscription.howItWorks'}
+                    />
+                </a>
+            </div>
+        </div>
+    </div>;
+
+    return (
+        props.annualSubscription ? monthlyYearlyPlan : monthlyPlan
     );
 }
 
@@ -342,7 +364,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             selectedProduct: getSelectedProduct(props.products, props.productId),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-
+            selectedProductPrice: getSelectedProduct(props.products, props.productId)?.price_per_seat.toString(),
         };
     }
 
@@ -353,6 +375,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
                 selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
+                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId)?.price_per_seat.toString(),
             });
         }
 
@@ -594,8 +617,28 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
         const showPlanLabel =
                     this.state.selectedProduct?.sku ===
-                    CloudProducts.PROFESSIONAL;
+                    CloudProducts.PROFESSIONAL && !this.props.annualSubscription;
         const {formatMessage} = this.props.intl;
+
+        const findProductByID = (id: string) => {
+            return Object.values(this.props.products || {}).find(((product) => {
+                return product.id === id;
+            }));
+        };
+
+        const updateProfessionalPrice = (newIsMonthly: boolean) => {
+            if (!this.state.selectedProduct) {
+                return;
+            }
+
+            const crossSellsToProduct = findProductByID(this.state.selectedProduct.cross_sells_to);
+            if (crossSellsToProduct) {
+                this.setState({
+                    selectedProduct: crossSellsToProduct,
+                    selectedProductPrice: crossSellsToProduct.price_per_seat.toString()
+                });
+            }
+        };
 
         return (
             <>
@@ -609,9 +652,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     plan={this.getPlanNameFromProductName(
                         this.state.selectedProduct ? this.state.selectedProduct.name : '',
                     )}
-                    price={`$${this.state.selectedProduct?.price_per_seat?.toString()}`}
+                    price={`$${this.state.selectedProductPrice}`}
                     rate='/user/month'
-                    planBriefing={this.paymentFooterText()}
+                    planBriefing={this.props.annualSubscription ? undefined : this.paymentFooterText()}
                     buttonDetails={{
                         action: this.handleSubmitClick,
                         text: 'Upgrade',
@@ -624,20 +667,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             this.state.selectedProduct?.billing_scheme ===
                                 BillingSchemes.SALES_SERVE,
                     }}
-                    planLabel={
-                        showPlanLabel ? (
-                            <PlanLabel
-                                text={formatMessage({
-                                    id: 'pricing_modal.planLabel.mostPopular',
-                                    defaultMessage: 'MOST POPULAR',
-                                })}
-                                bgColor='var(--title-color-indigo-500)'
-                                color='var(--button-color)'
-                                firstSvg={<StarMarkSvg/>}
-                                secondSvg={<StarMarkSvg/>}
-                            />
-                        ) : undefined
-                    }
+                    planLabel={undefined}
+                    annualSubscription={this.props.annualSubscription}
+                    updatePrice={updateProfessionalPrice}
                 />
             </>
         );

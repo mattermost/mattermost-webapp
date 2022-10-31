@@ -11,11 +11,13 @@ import './index.scss';
 
 interface Props {
     updatePrice: (isMonthly: boolean) => void;
+    isPurchases: boolean;
 }
 
-function YearlyMonthlyToggle({updatePrice}: Props) {
+function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
     const [isMonthly, setIsMonthly] = useState(true);
-    const [toggleBorderClassName, setToggleBorderClassName] = useState('toggle-border');
+    const initialToggleBorder = isPurchases ? 'toggle-border-purchases' : 'toggle-border'
+    const [toggleBorderClassName, setToggleBorderClassName] = useState(initialToggleBorder);
 
     const options = [
         {
@@ -36,9 +38,9 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
 
         // controls the animation of the toggle border
         if (isMonthly) {
-            setToggleBorderClassName('toggle-border move-left');
+            setToggleBorderClassName(initialToggleBorder + ' move-left');
         } else {
-            setToggleBorderClassName('toggle-border move-right');
+            setToggleBorderClassName(initialToggleBorder + ' move-right');
         }
 
         trackEvent('cloud_pricing', 'click_yearly_toggle');
@@ -52,7 +54,7 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
     return (
         <div className='toggle-monthly-yearly-container'>
             <div className={toggleBorderClassName}/>
-            <div className='toggle-monthly-yearly'>
+            <div className={isPurchases ? 'toggle-monthly-yearly-purchases' : 'toggle-monthly-yearly'}>
                 <SwitchSelector
                     onChange={onToggleChange}
                     options={options}

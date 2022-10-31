@@ -207,7 +207,7 @@
 
                 .bottom {
                     &:not(.delinquency) {
-                        height: 363px;
+                        height: 390px;
                     }
 
                     padding-right: 24px;
@@ -215,6 +215,21 @@
                     border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
                     background-color: var(--center-channel-bg);
                     border-radius: 0 0 4px 4px;
+
+                    .enable_annual_sub {
+                        margin-top: 16px
+                    }
+
+                    .save_text {
+                        margin: 20px auto 10px;
+                        color: var(--denim-status-online);
+                        font-family: 'Metropolis';
+                        font-size: 14px;
+                        font-style: normal;
+                        font-weight: 600;
+                        line-height: 18px;
+                        text-align: center;
+                    }
 
                     .plan_action_btn {
                         width: 100%;
@@ -335,6 +350,11 @@
                             line-height: 30px;
                         }
 
+                        h4.plan_name {
+                            margin-top: 16px;
+                            margin-bottom: 0;
+                        }
+
                         h1 {
                             color: var(--center-channel-color);
                             font-family: 'Metropolis';
@@ -342,6 +362,7 @@
                             font-style: normal;
                             font-weight: 700;
                             line-height: 60px;
+                            margin: 0;
                         }
 
                         .enterprise_price {
@@ -354,6 +375,9 @@
                             font-size: 18px;
                             font-style: normal;
                             line-height: 20px;
+                        }
+                        p.plan_text {
+                            margin-bottom: 0;
                         }
                     }
 

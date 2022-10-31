@@ -1,6 +1,7 @@
 div.toggle-monthly-yearly-container {
     display: grid;
     width: 161px;
+    margin: auto;
 }
 
 div.toggle-monthly-yearly,
@@ -13,6 +14,12 @@ div.toggle-monthly-yearly {
     width: 161px;
     height: 32px;
     margin: 44px auto;
+}
+
+div.toggle-monthly-yearly-purchases {
+    width: 161px;
+    height: 32px;
+    margin: auto;
 }
 
 div.toggle-border {
