@@ -29,7 +29,7 @@ type Props = {
     action: (command: Command) => Promise<void>;
 }
 
-type State= Partial<Command> & {
+type State= {
     saving: boolean;
     clientError: null | JSX.Element | string;
     trigger: string;
@@ -212,9 +212,12 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
     }
 
     updateMethod = (e: ChangeEvent<HTMLSelectElement>) => {
-        this.setState({
-            method: e.target.value,
-        });
+        const methodValue = e.target.value;
+        if (methodValue === 'P' || methodValue === 'G' || methodValue === '') {
+            this.setState({
+                method: methodValue,
+            });
+        }
     }
 
     updateUsername = (e: ChangeEvent<HTMLInputElement>) => {
