@@ -139,28 +139,13 @@ const BillingSubscriptions = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-<<<<<<< HEAD
-                    <LimitReachedBanner
-                        product={product}
-                    />
-                    {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
-                    {showCreditCardBanner &&
-=======
                     {errorLoadingData && <CloudFetchError/>}
                     {!errorLoadingData && <>
                         <LimitReachedBanner
                             product={product}
                         />
                         {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
-                        {shouldShowGrandfatheredPlanBanner() && (
-                            <GrandfatheredPlanBanner
-                                setShowGrandfatheredPlanBanner={(value: boolean) =>
-                                    setShowGrandfatheredPlanBanner(value)
-                                }
-                            />
-                        )}
                         {showCreditCardBanner &&
->>>>>>> 1383b1a44a617c6573a3557199388a36485d9c83
                         isCardExpired &&
                         creditCardExpiredBanner(setShowCreditCardBanner)}
                         {isFreeTrial && <CloudTrialBanner trialEndDate={trialEndDate}/>}
@@ -170,7 +155,6 @@ const BillingSubscriptions = () => {
                                 subscriptionPlan={product?.sku}
                             />
                             <BillingSummary
-                                isLegacyFree={isLegacyFree}
                                 isFreeTrial={isFreeTrial}
                                 daysLeftOnTrial={daysLeftOnTrial}
                                 onUpgradeMattermostCloud={onUpgradeMattermostCloud}
@@ -190,35 +174,8 @@ const BillingSubscriptions = () => {
                         <CancelSubscription
                             cancelAccountLink={cancelAccountLink}
                             isFreeTrial={isFreeTrial}
-<<<<<<< HEAD
-                            subscriptionPlan={product?.sku}
-                        />
-                        <BillingSummary
-                            isFreeTrial={isFreeTrial}
-                            daysLeftOnTrial={daysLeftOnTrial}
-                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
-                        />
-                    </div>
-                    {hasSomeLimits(cloudLimits) && !isFreeTrial ? (
-                        <Limits/>
-                    ) : (
-                        <ContactSalesCard
-                            contactSalesLink={contactSalesLink}
-                            isFreeTrial={isFreeTrial}
-                            trialQuestionsLink={trialQuestionsLink}
-                            subscriptionPlan={product?.sku}
-                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
-                        />
-                    )}
-                    <CancelSubscription
-                        cancelAccountLink={cancelAccountLink}
-                        isFreeTrial={isFreeTrial}
-                    />
-=======
-                            isLegacyFree={isLegacyFree}
                         />
                     </>}
->>>>>>> 1383b1a44a617c6573a3557199388a36485d9c83
                 </div>
             </div>
         </div>
