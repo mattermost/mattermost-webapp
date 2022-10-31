@@ -3598,7 +3598,7 @@
   "insights.accessModal.docsLink": "Insights",
   "insights.accessModal.messageAdminPostTrial": "To access your complete {insightsDoc} dashboard, including {teamInsights}, please upgrade your plan to Professional or Enterprise. For questions on upgrading your plan, please {contactSales} for support.",
   "insights.accessModal.messageAdminPreTrial": "Use {teamInsights} with one of our paid plans. Get the full experience of Enterprise when you start a free, {trialLength} day trial.",
-  "insights.accessModal.messageEndUser": "To access your complete Insights dashboard, including Team Insights, please notify your Admin to upgrade your plan to Professional or Enterprise.",
+  "insights.accessModal.messageEndUser": "To access your complete {insightsDoc} dashboard, including {teamInsights}, please notify your Admin to upgrade your plan to Professional or Enterprise. For questions on upgrading your plan, please {contactSales} for support.",
   "insights.accessModal.teamDocsLink": "Team Insights",
   "insights.accessModal.titleAdminPostTrial": "Upgrade to access team insights",
   "insights.accessModal.titleAdminPreTrial": "Try team insights with a free trial",
