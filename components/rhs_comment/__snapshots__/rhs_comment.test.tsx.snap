@@ -172,8 +172,6 @@ exports[`components/RhsComment should display RHSCommentBroadcast when comment i
                     "user_id": "user_id",
                   }
                 }
-                previewCollapsed=""
-                previewEnabled={false}
               />
             }
             slot2={<Memo(Connect(EditPost)) />}
@@ -340,77 +338,79 @@ exports[`components/RhsComment should match snapshot 1`] = `
           />
         </div>
       </div>
-      <div
-        className="post__body post--edited"
-      >
-        <AutoHeightSwitcher
-          onTransitionEnd={[Function]}
-          shouldScrollIntoView={false}
-          showSlot={1}
-          slot1={
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "hashtags": "",
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "metadata": Object {
-                    "embeds": Array [],
-                    "emojis": Array [],
-                    "files": Array [],
-                    "images": Object {},
-                    "reactions": Array [],
-                  },
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "reply_count": 0,
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+      <div>
+        <div
+          className="post__body post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            shouldScrollIntoView={false}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "hashtags": "",
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "metadata": Object {
+                      "embeds": Array [],
+                      "emojis": Array [],
+                      "files": Array [],
+                      "images": Object {},
+                      "reactions": Array [],
+                    },
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "reply_count": 0,
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-            />
-          }
-          slot2={<Memo(Connect(EditPost)) />}
-        />
-        <Connect(ReactionList)
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "hashtags": "",
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+              />
             }
-          }
-        />
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+          <Connect(ReactionList)
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "hashtags": "",
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "reply_count": 0,
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -596,77 +596,79 @@ exports[`components/RhsComment should match snapshot hovered 1`] = `
           />
         </div>
       </div>
-      <div
-        className="post__body post--edited"
-      >
-        <AutoHeightSwitcher
-          onTransitionEnd={[Function]}
-          shouldScrollIntoView={false}
-          showSlot={1}
-          slot1={
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "hashtags": "",
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "metadata": Object {
-                    "embeds": Array [],
-                    "emojis": Array [],
-                    "files": Array [],
-                    "images": Object {},
-                    "reactions": Array [],
-                  },
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "reply_count": 0,
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+      <div>
+        <div
+          className="post__body post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            shouldScrollIntoView={false}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "hashtags": "",
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "metadata": Object {
+                      "embeds": Array [],
+                      "emojis": Array [],
+                      "files": Array [],
+                      "images": Object {},
+                      "reactions": Array [],
+                    },
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "reply_count": 0,
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-            />
-          }
-          slot2={<Memo(Connect(EditPost)) />}
-        />
-        <Connect(ReactionList)
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "hashtags": "",
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+              />
             }
-          }
-        />
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+          <Connect(ReactionList)
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "hashtags": "",
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "reply_count": 0,
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -810,79 +812,81 @@ exports[`components/RhsComment should match snapshot hovered on deleted post 1`]
           </button>
         </div>
       </div>
-      <div
-        className="post__body post--edited"
-      >
-        <AutoHeightSwitcher
-          onTransitionEnd={[Function]}
-          shouldScrollIntoView={false}
-          showSlot={1}
-          slot1={
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "hashtags": "",
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "metadata": Object {
-                    "embeds": Array [],
-                    "emojis": Array [],
-                    "files": Array [],
-                    "images": Object {},
-                    "reactions": Array [],
-                  },
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "reply_count": 0,
-                  "root_id": "",
-                  "state": "DELETED",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+      <div>
+        <div
+          className="post__body post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            shouldScrollIntoView={false}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "hashtags": "",
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "metadata": Object {
+                      "embeds": Array [],
+                      "emojis": Array [],
+                      "files": Array [],
+                      "images": Object {},
+                      "reactions": Array [],
+                    },
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "reply_count": 0,
+                    "root_id": "",
+                    "state": "DELETED",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-            />
-          }
-          slot2={<Memo(Connect(EditPost)) />}
-        />
-        <Connect(ReactionList)
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "hashtags": "",
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "state": "DELETED",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+              />
             }
-          }
-        />
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+          <Connect(ReactionList)
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "hashtags": "",
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "reply_count": 0,
+                "root_id": "",
+                "state": "DELETED",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -1063,77 +1067,79 @@ exports[`components/RhsComment should match snapshot mobile 1`] = `
           />
         </div>
       </div>
-      <div
-        className="post__body post--edited"
-      >
-        <AutoHeightSwitcher
-          onTransitionEnd={[Function]}
-          shouldScrollIntoView={false}
-          showSlot={1}
-          slot1={
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "hashtags": "",
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "metadata": Object {
-                    "embeds": Array [],
-                    "emojis": Array [],
-                    "files": Array [],
-                    "images": Object {},
-                    "reactions": Array [],
-                  },
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "reply_count": 0,
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+      <div>
+        <div
+          className="post__body post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            shouldScrollIntoView={false}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "hashtags": "",
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "metadata": Object {
+                      "embeds": Array [],
+                      "emojis": Array [],
+                      "files": Array [],
+                      "images": Object {},
+                      "reactions": Array [],
+                    },
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "reply_count": 0,
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-            />
-          }
-          slot2={<Memo(Connect(EditPost)) />}
-        />
-        <Connect(ReactionList)
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "hashtags": "",
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+              />
             }
-          }
-        />
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+          <Connect(ReactionList)
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "hashtags": "",
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "reply_count": 0,
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -1264,77 +1270,79 @@ exports[`components/RhsComment should match snapshot on CRT enabled 1`] = `
           />
         </div>
       </div>
-      <div
-        className="post__body post--edited"
-      >
-        <AutoHeightSwitcher
-          onTransitionEnd={[Function]}
-          shouldScrollIntoView={false}
-          showSlot={1}
-          slot1={
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "hashtags": "",
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "metadata": Object {
-                    "embeds": Array [],
-                    "emojis": Array [],
-                    "files": Array [],
-                    "images": Object {},
-                    "reactions": Array [],
-                  },
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "reply_count": 0,
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+      <div>
+        <div
+          className="post__body post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            shouldScrollIntoView={false}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "hashtags": "",
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "metadata": Object {
+                      "embeds": Array [],
+                      "emojis": Array [],
+                      "files": Array [],
+                      "images": Object {},
+                      "reactions": Array [],
+                    },
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "reply_count": 0,
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-            />
-          }
-          slot2={<Memo(Connect(EditPost)) />}
-        />
-        <Connect(ReactionList)
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "hashtags": "",
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+              />
             }
-          }
-        />
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+          <Connect(ReactionList)
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "hashtags": "",
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "reply_count": 0,
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -1465,77 +1473,79 @@ exports[`components/RhsComment should match snapshot when being edited 1`] = `
           />
         </div>
       </div>
-      <div
-        className="post__body post--edited"
-      >
-        <AutoHeightSwitcher
-          onTransitionEnd={[Function]}
-          shouldScrollIntoView={true}
-          showSlot={2}
-          slot1={
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "hashtags": "",
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "metadata": Object {
-                    "embeds": Array [],
-                    "emojis": Array [],
-                    "files": Array [],
-                    "images": Object {},
-                    "reactions": Array [],
-                  },
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "reply_count": 0,
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+      <div>
+        <div
+          className="post__body post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            shouldScrollIntoView={true}
+            showSlot={2}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "hashtags": "",
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "metadata": Object {
+                      "embeds": Array [],
+                      "emojis": Array [],
+                      "files": Array [],
+                      "images": Object {},
+                      "reactions": Array [],
+                    },
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "reply_count": 0,
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-            />
-          }
-          slot2={<Memo(Connect(EditPost)) />}
-        />
-        <Connect(ReactionList)
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "hashtags": "",
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+              />
             }
-          }
-        />
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+          <Connect(ReactionList)
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "hashtags": "",
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "reply_count": 0,
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   </div>
@@ -1666,77 +1676,79 @@ exports[`components/RhsComment should match snapshot when highlighted 1`] = `
           />
         </div>
       </div>
-      <div
-        className="post__body post--edited"
-      >
-        <AutoHeightSwitcher
-          onTransitionEnd={[Function]}
-          shouldScrollIntoView={false}
-          showSlot={1}
-          slot1={
-            <MessageWithAdditionalContent
-              isEmbedVisible={false}
-              pluginPostTypes={Object {}}
-              post={
-                Object {
-                  "channel_id": "channel_id",
-                  "create_at": 1502715365009,
-                  "delete_at": 0,
-                  "edit_at": 1502715372443,
-                  "hashtags": "",
-                  "id": "id",
-                  "is_pinned": false,
-                  "message": "post message",
-                  "metadata": Object {
-                    "embeds": Array [],
-                    "emojis": Array [],
-                    "files": Array [],
-                    "images": Object {},
-                    "reactions": Array [],
-                  },
-                  "original_id": "",
-                  "pending_post_id": "",
-                  "props": Object {},
-                  "reply_count": 0,
-                  "root_id": "",
-                  "type": "",
-                  "update_at": 1502715372443,
-                  "user_id": "user_id",
+      <div>
+        <div
+          className="post__body post--edited"
+        >
+          <AutoHeightSwitcher
+            onTransitionEnd={[Function]}
+            shouldScrollIntoView={false}
+            showSlot={1}
+            slot1={
+              <MessageWithAdditionalContent
+                isEmbedVisible={false}
+                pluginPostTypes={Object {}}
+                post={
+                  Object {
+                    "channel_id": "channel_id",
+                    "create_at": 1502715365009,
+                    "delete_at": 0,
+                    "edit_at": 1502715372443,
+                    "hashtags": "",
+                    "id": "id",
+                    "is_pinned": false,
+                    "message": "post message",
+                    "metadata": Object {
+                      "embeds": Array [],
+                      "emojis": Array [],
+                      "files": Array [],
+                      "images": Object {},
+                      "reactions": Array [],
+                    },
+                    "original_id": "",
+                    "pending_post_id": "",
+                    "props": Object {},
+                    "reply_count": 0,
+                    "root_id": "",
+                    "type": "",
+                    "update_at": 1502715372443,
+                    "user_id": "user_id",
+                  }
                 }
-              }
-            />
-          }
-          slot2={<Memo(Connect(EditPost)) />}
-        />
-        <Connect(ReactionList)
-          post={
-            Object {
-              "channel_id": "channel_id",
-              "create_at": 1502715365009,
-              "delete_at": 0,
-              "edit_at": 1502715372443,
-              "hashtags": "",
-              "id": "id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "type": "",
-              "update_at": 1502715372443,
-              "user_id": "user_id",
+              />
             }
-          }
-        />
+            slot2={<Memo(Connect(EditPost)) />}
+          />
+          <Connect(ReactionList)
+            post={
+              Object {
+                "channel_id": "channel_id",
+                "create_at": 1502715365009,
+                "delete_at": 0,
+                "edit_at": 1502715372443,
+                "hashtags": "",
+                "id": "id",
+                "is_pinned": false,
+                "message": "post message",
+                "metadata": Object {
+                  "embeds": Array [],
+                  "emojis": Array [],
+                  "files": Array [],
+                  "images": Object {},
+                  "reactions": Array [],
+                },
+                "original_id": "",
+                "pending_post_id": "",
+                "props": Object {},
+                "reply_count": 0,
+                "root_id": "",
+                "type": "",
+                "update_at": 1502715372443,
+                "user_id": "user_id",
+              }
+            }
+          />
+        </div>
       </div>
     </div>
   </div>
