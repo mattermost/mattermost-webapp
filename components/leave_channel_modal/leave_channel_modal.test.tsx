@@ -7,6 +7,7 @@ import React from 'react';
 import {ChannelType} from '@mattermost/types/channels';
 
 import LeaveChannelModal from 'components/leave_channel_modal/leave_channel_modal';
+import ConfirmModal from 'components/confirm_modal';
 
 describe('components/LeaveChannelModal', () => {
     const channels = {
@@ -79,7 +80,7 @@ describe('components/LeaveChannelModal', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should fail to leave channel', (done) => {
+    test('should fail to leave channel', () => {
         const props = {
             channel: channels['channel-1'],
             actions: {
@@ -92,20 +93,16 @@ describe('components/LeaveChannelModal', () => {
                 }),
             },
             onExited: jest.fn(),
+            callback: jest.fn(),
         };
-        const wrapper = shallow<LeaveChannelModal>(
+        const wrapper = shallow<typeof LeaveChannelModal>(
             <LeaveChannelModal
                 {...props}
             />,
         );
 
-        const instance = wrapper.instance();
-        instance.handleSubmit();
-        expect(instance.props.actions.leaveChannel).toHaveBeenCalledTimes(1);
-        process.nextTick(() => {
-            expect(wrapper.state('show')).toEqual(true);
-            expect(wrapper.state('channel')).not.toBeNull();
-            done();
-        });
+        wrapper.find(ConfirmModal).props().onConfirm?.(true);
+        expect(props.actions.leaveChannel).toHaveBeenCalledTimes(1);
+        expect(props.callback).toHaveBeenCalledTimes(0);
     });
 });
