@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {ProductIdentifier} from '@mattermost/types/products';
+
 import Pluggable from 'plugins/pluggable';
 import {
     CustomizeYourExperienceTour,
@@ -12,6 +14,8 @@ import {
 } from 'components/onboarding_tour';
 import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
 import StatusDropdown from 'components/status_dropdown';
+
+import {isChannels} from 'utils/products';
 
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
@@ -31,7 +35,7 @@ const RightControlsContainer = styled.div`
 `;
 
 export type Props = {
-    productId?: string | null;
+    productId?: ProductIdentifier;
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
@@ -48,9 +52,9 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
                     openSelfHostedPurchaseModal({})
                 }}
             >
-        {'paid self hosted'}
+                {'paid self hosted'}
             </button>
-            {productId === null ? (
+            {isChannels(productId) ? (
                 <>
                     <AtMentionsButton/>
                     <SavedPostsButton/>
