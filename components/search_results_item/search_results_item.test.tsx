@@ -5,7 +5,7 @@ import {shallow} from 'enzyme';
 import React from 'react';
 
 import {Locations} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import SearchResultsItem from 'components/search_results_item/search_results_item';
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
@@ -13,12 +13,6 @@ import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 
 import {PostState, PostType} from '@mattermost/types/posts';
 import CommentIcon from '../common/comment_icon';
-
-jest.mock('utils/browser_history', () => ({
-    browserHistory: {
-        push: jest.fn(),
-    },
-}));
 
 jest.mock('utils/utils', () => ({
     isMobile: jest.fn().mockReturnValueOnce(false).mockReturnValue(true).mockReturnValue(false),
@@ -208,7 +202,7 @@ describe('components/SearchResultsItem', () => {
         wrapper.find('.search-item__jump').simulate('click', {preventDefault: jest.fn()});
         expect(setRhsExpanded).toHaveBeenCalledTimes(1);
         expect(setRhsExpanded).toHaveBeenLastCalledWith(false);
-        expect(browserHistory.push).toHaveBeenLastCalledWith(`/${defaultProps.teamName}/pl/${post.id}`);
+        expect(getHistory().push).toHaveBeenLastCalledWith(`/${defaultProps.teamName}/pl/${post.id}`);
     });
 
     test('should match snapshot for archived channel', () => {

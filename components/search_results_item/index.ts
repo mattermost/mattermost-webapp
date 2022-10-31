@@ -82,7 +82,7 @@ export function mapStateToProps() {
             teamDisplayName,
             teamName,
             channelId: channel.id,
-            channelName: channel.display_name,
+            channelDisplayName: channel.display_name,
             channelType: channel.type,
             channelIsArchived: channel.delete_at !== 0,
             enablePostUsernameOverride,

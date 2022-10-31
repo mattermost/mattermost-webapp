@@ -3408,7 +3408,6 @@
   "passwordRequirements": "Cerințe privind parola:",
   "password_form.change": "Modificare parolă",
   "password_form.enter": "Introduceți o nouă parolă pentru contul dvs. {siteName}.",
-  "password_form.error": "Introduceți cel puțin caracterele {chars}.",
   "password_form.pwd": "Parola",
   "password_form.title": "Resetare parolă",
   "password_send.checkInbox": "Vă rugăm să vă verificați inbox-ul.",
