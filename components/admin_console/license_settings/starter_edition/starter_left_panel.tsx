@@ -50,8 +50,8 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
             </div>
             <div className='title'>
                 <FormattedMessage
-                    id='admin.license.starterEdition.title'
-                    defaultMessage='Starter'
+                    id='admin.license.freeEdition.title'
+                    defaultMessage='Free'
                 />
             </div>
             <div className='currentPlanLegend'>
@@ -59,7 +59,7 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
             </div>
             <div className='subtitle'>
                 <FormattedMessage
-                    id='admin.license.starterEdition.subtitle'
+                    id='admin.license.freeEdition.subtitle'
                     defaultMessage='Purchase Professional or Enterprise to unlock enterprise features.'
                 />
             </div>

@@ -50,8 +50,6 @@ describe('components/RhsComment', () => {
         isBusy: false,
         shouldHighlight: false,
         removePost: jest.fn(),
-        previewCollapsed: '',
-        previewEnabled: false,
         isEmbedVisible: false,
         enableEmojiPicker: true,
         enablePostUsernameOverride: false,
