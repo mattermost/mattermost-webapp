@@ -14,9 +14,10 @@ import {GlobalState} from 'types/store';
 
 import {getCurrentLocale} from 'selectors/i18n';
 
+import {setGlobalItem} from 'actions/storage';
+import {makeGetGlobalItem} from 'selectors/storage';
+
 import TeamAnalytics from './team_analytics';
-import { setGlobalItem } from 'actions/storage';
-import { makeGetGlobalItem } from 'selectors/storage';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
@@ -44,7 +45,7 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             getTeams,
             getProfilesInTeam,
-            setGlobalItem
+            setGlobalItem,
         }, dispatch),
     };
 }

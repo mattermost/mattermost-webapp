@@ -72,7 +72,6 @@ class BrowserStoreClass {
         return this.localStorageSupported;
     }
 
-
     hasSeenLandingPage() {
         return localStorage.getItem(StoragePrefixes.LANDING_PAGE_SEEN);
     }

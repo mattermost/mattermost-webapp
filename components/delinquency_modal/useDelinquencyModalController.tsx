@@ -2,17 +2,18 @@
 // See LICENSE.txt for license information.
 import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
+
 import {setItem} from 'actions/storage';
 import {getCloudProducts} from 'mattermost-redux/actions/cloud';
 import {Subscription} from '@mattermost/types/cloud';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {PreferenceType} from '@mattermost/types/preferences';
-import BrowserStore from 'stores/browser_store';
 import {StoragePrefixes, ModalIdentifiers} from 'utils/constants';
 import {ModalData} from 'types/actions';
 
+import {makeGetItem} from 'selectors/storage';
+
 import DelinquencyModal from './delinquency_modal';
-import { makeGetItem } from 'selectors/storage';
 
 const SESSION_MODAL_ITEM = `${StoragePrefixes.DELINQUENCY}hide_downgrade_modal`;
 
