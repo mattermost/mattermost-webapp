@@ -22,7 +22,10 @@ export default class A11yController {
 
         this.mouseIsPressed = false;
 
-        this.lastInputEventIsKeyboard = false;
+        this.lastInputEventIsKeyDown = false;
+        this.lastInputEventIsKeyboard = true;
+
+        this.manualFocus = false;
 
         this.enterKeyIsPressed = false;
         this.f6KeyIsPressed = false;
@@ -31,6 +34,7 @@ export default class A11yController {
         this.tabKeyIsPressed = false;
         this.tildeKeyIsPressed = false;
         this.lKeyIsPressed = false;
+        this.escKeyIsPressed = false;
         this.windowIsFocused = true;
 
         // used to reset navigation whenever navigation within a region occurs (section or element)
@@ -42,6 +46,7 @@ export default class A11yController {
         document.addEventListener(EventTypes.MOUSE_DOWN, this.handleMouseDown, listenerOptions);
         document.addEventListener(EventTypes.MOUSE_UP, this.handleMouseUp, listenerOptions);
         document.addEventListener(EventTypes.FOCUS, this.handleFocus, listenerOptions);
+        document.addEventListener(A11yCustomEventTypes.FOCUS, this.handleA11yFocus, listenerOptions);
         window.addEventListener(EventTypes.BLUR, this.handleWindowBlur, listenerOptions);
     }
 
@@ -55,6 +60,7 @@ export default class A11yController {
         document.removeEventListener(EventTypes.MOUSE_DOWN, this.handleMouseDown, listenerOptions);
         document.removeEventListener(EventTypes.MOUSE_UP, this.handleMouseUp, listenerOptions);
         document.removeEventListener(EventTypes.FOCUS, this.handleFocus, listenerOptions);
+        document.removeEventListener(A11yCustomEventTypes.FOCUS, this.handleA11yFocus, listenerOptions);
         window.removeEventListener(EventTypes.BLUR, this.handleWindowBlur, listenerOptions);
     }
 
@@ -71,7 +77,7 @@ export default class A11yController {
         if (!this.regions || !this.regions.length || !this.isElementValid(this.activeRegion)) {
             return false;
         }
-        if (!this.lastInputEventIsKeyboard) {
+        if (!this.lastInputEventIsKeyDown) {
             return false;
         }
         if (this.modalIsOpen || this.popupIsOpen) {
@@ -162,7 +168,8 @@ export default class A11yController {
                this.downArrowKeyIsPressed ||
                this.tabKeyIsPressed ||
                this.tildeKeyIsPressed ||
-               this.lKeyIsPressed;
+               this.lKeyIsPressed ||
+               this.escKeyIsPressed;
     }
 
     /**
@@ -502,7 +509,7 @@ export default class A11yController {
      * Updates the visual state of the currently focused element
      */
     udpateCurrentFocus(forceUpdate = false) {
-        if ((!this.focusedElement || !this.a11yKeyIsPressed) && !forceUpdate) {
+        if ((!this.focusedElement || !(this.a11yKeyIsPressed || this.manualFocus)) && !forceUpdate) {
             return;
         }
         this.focusedElement.classList.add(A11yClassNames.FOCUSED);
@@ -572,7 +579,7 @@ export default class A11yController {
         this.tildeKeyIsPressed = false;
         this.enterKeyIsPressed = false;
         this.lKeyIsPressed = false;
-        this.lastInputEventIsKeyboard = false;
+        this.lastInputEventIsKeyDown = false;
     }
 
     // helper methods
@@ -699,6 +706,8 @@ export default class A11yController {
     // event handling methods
 
     handleKeyDown = (event) => {
+        this.lastInputEventIsKeyboard = true;
+
         const modifierKeys = {
             ctrlIsPressed: event.ctrlKey,
             altIsPressed: event.altKey,
@@ -706,14 +715,14 @@ export default class A11yController {
         };
         switch (true) {
         case isKeyPressed(event, Constants.KeyCodes.TAB):
-            this.lastInputEventIsKeyboard = true;
+            this.lastInputEventIsKeyDown = true;
             if ((!isMac() && modifierKeys.altIsPressed) || cmdOrCtrlPressed(event)) {
                 return;
             }
             this.tabKeyIsPressed = true;
             break;
         case isKeyPressed(event, Constants.KeyCodes.TILDE):
-            this.lastInputEventIsKeyboard = true;
+            this.lastInputEventIsKeyDown = true;
             if (!this.regions || !this.regions.length) {
                 return;
             }
@@ -730,7 +739,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.F6):
-            this.lastInputEventIsKeyboard = true;
+            this.lastInputEventIsKeyDown = true;
             if (!isDesktopApp() && !cmdOrCtrlPressed(event)) {
                 return;
             }
@@ -743,7 +752,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.UP):
-            this.lastInputEventIsKeyboard = true;
+            this.lastInputEventIsKeyDown = true;
             if (!this.navigationInProgress || !this.sections || !this.sections.length) {
                 return;
             }
@@ -756,7 +765,7 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.DOWN):
-            this.lastInputEventIsKeyboard = true;
+            this.lastInputEventIsKeyDown = true;
             if (!this.navigationInProgress || !this.sections || !this.sections.length) {
                 return;
             }
@@ -769,6 +778,8 @@ export default class A11yController {
             }
             break;
         case isKeyPressed(event, Constants.KeyCodes.ESCAPE):
+            this.escKeyIsPressed = true;
+            this.lastInputEventIsKeyDown = true;
             if (!this.navigationInProgress) {
                 return;
             }
@@ -787,7 +798,7 @@ export default class A11yController {
             break;
         case isKeyPressed(event, Constants.KeyCodes.L):
             // For the Ctrl+Shift+L keyboard shortcut
-            this.lastInputEventIsKeyboard = true;
+            this.lastInputEventIsKeyDown = true;
             this.lKeyIsPressed = true;
             break;
         }
@@ -800,7 +811,7 @@ export default class A11yController {
     handleMouseClick = (event) => {
         // hitting enter on a <button> triggers a click event
         if (!this.enterKeyIsPressed) {
-            this.lastInputEventIsKeyboard = false;
+            this.lastInputEventIsKeyDown = false;
         }
         if (event.target === this.activeElement) {
             return;
@@ -810,6 +821,7 @@ export default class A11yController {
 
     handleMouseDown = () => {
         this.mouseIsPressed = true;
+        this.lastInputEventIsKeyboard = false;
     }
 
     handleMouseUp = () => {
@@ -822,13 +834,23 @@ export default class A11yController {
         // decided to leave this fix in for now. If we find the need for a more sustainable fix we can certainly do
         // that, as well, but for now this is sufficient.
         // @see: https://github.com/mattermost/mattermost-webapp/pull/8882#discussion_r790905592
-        if (this.lastInputEventIsKeyboard && this.windowIsFocused && event.target.id !== 'edit_textbox') {
+        if (this.lastInputEventIsKeyDown && this.windowIsFocused && event.target.id !== 'edit_textbox') {
             this.nextElement(event.target, event.path || true);
         }
 
         // focus just came back to the app
         if (!this.windowIsFocused) {
             this.windowIsFocused = true;
+        }
+    }
+
+    handleA11yFocus = (event) => {
+        if (!event.detail.keyboardOnly || this.lastInputEventIsKeyboard) {
+            this.manualFocus = true;
+            this.nextElement(event.detail.target, true);
+            this.manualFocus = false;
+        } else {
+            event.detail.target.focus();
         }
     }
 
