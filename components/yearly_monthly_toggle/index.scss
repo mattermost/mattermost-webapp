@@ -23,13 +23,13 @@
             font-size: 14px;
             font-style: normal;
         }
-        
+
         .text-selected {
             color: var(--denim-button-bg);
             font-weight: 600;
             line-height: 18px;
         }
-        
+
         .text-unselected {
             color: var(--center-channel-text);
             font-weight: 500;
@@ -52,14 +52,13 @@
         animation-fill-mode: forwards;
         animation-name: moveLeft;
     }
-    
+
     .move-right {
         position: relative;
         animation-duration: 0.1s;
         animation-fill-mode: forwards;
         animation-name: moveRight;
     }
-
 }
 
 @keyframes moveLeft {
