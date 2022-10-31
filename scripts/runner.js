@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-// HARRISON remove some of these ignores
-/* eslint-disable no-console, no-empty-function, no-unused-vars */
-
 const {Writable} = require('stream');
 
 const blessed = require('blessed');
@@ -13,6 +10,8 @@ class Runner {
     commands;
     filter = '';
     ui;
+
+    scrollLocked = true;
 
     buffer = [];
     partialBuffer = '';
@@ -47,7 +46,15 @@ class Runner {
             height: '100%-3',
             content: 'THE END IS NEVER '.repeat(1000),
             tags: true,
+            alwaysScroll: true,
             scrollable: true,
+            scrollbar: {
+                ch: '#',
+                style: {},
+                track: {
+                    ch: '|',
+                },
+            },
             style: {},
         });
 
@@ -93,11 +100,23 @@ class Runner {
     }
 
     registerHotkeys() {
-        this.ui.screen.key(['']);
-        this.ui.screen.key(['escape', 'q', 'C-c'], (/*ch, key*/) => {
+        this.ui.screen.key(['escape', 'q', 'C-c'], () => {
             for (const listener of this.closeListeners) {
                 listener();
             }
+        });
+
+        this.ui.screen.key(['up', 'down'], (char, key) => {
+            this.scrollDelta(key.name === 'up' ? -1 : 1);
+        });
+        this.ui.screen.on('wheelup', () => {
+            this.scrollDelta(-3);
+        });
+        this.ui.screen.on('wheeldown', () => {
+            this.scrollDelta(3);
+        });
+        this.ui.screen.key('end', () => {
+            this.scrollToBottom();
         });
     }
 
@@ -107,7 +126,13 @@ class Runner {
         const filtered = this.buffer.filter((line) => this.filter === '' || line.tag === this.filter);
 
         this.ui.output.setContent(filtered.map((line) => this.formatLine(line)).join('\n'));
-        this.ui.output.setScrollPerc(100);
+
+        if (this.scrollLocked) {
+            this.ui.output.scrollbar.style.inverse = true;
+            this.ui.output.setScrollPerc(100);
+        } else {
+            this.ui.output.scrollbar.style.inverse = false;
+        }
 
         this.ui.screen.render();
     }
@@ -121,6 +146,24 @@ class Runner {
     onFilter(newFilter) {
         this.filter = newFilter;
 
+        this.scrollLocked = true;
+        this.renderUi();
+    }
+
+    scrollDelta(delta) {
+        this.ui.output.scroll(delta);
+
+        if (this.ui.output.getScrollPerc() >= 100 || this.ui.output.getScrollHeight() <= this.ui.output.height) {
+            this.scrollLocked = true;
+        } else {
+            this.scrollLocked = false;
+        }
+
+        this.renderUi();
+    }
+
+    scrollToBottom() {
+        this.scrollLocked = true;
         this.renderUi();
     }
 
