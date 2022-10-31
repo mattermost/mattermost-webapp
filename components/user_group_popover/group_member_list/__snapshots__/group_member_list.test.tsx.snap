@@ -267,7 +267,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
           }
         >
           <div
-            className="UserList-XOHHq fpsWld"
+            className="UserList-XOHHq jibMvm"
             role="list"
             style={
               Object {

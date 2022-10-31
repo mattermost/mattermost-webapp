@@ -168,7 +168,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                       >
                         <Heading>
                           <div
-                            className="Heading-cZOfwh fEDQIv"
+                            className="Heading-cZOfwh fOpSLq"
                           >
                             <Title
                               className="overflow--ellipsis text-nowrap"
@@ -270,7 +270,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                   >
                                     <button
                                       aria-label="Edit Group"
-                                      className="EditButton-kHoHNr ibxCQM user-group-popover_edit-button btn-icon"
+                                      className="EditButton-kHoHNr gVKjPk user-group-popover_edit-button btn-icon"
                                       onBlur={[Function]}
                                       onClick={[Function]}
                                       onFocus={[Function]}
@@ -310,7 +310,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                             </span>
                             <Dot>
                               <span
-                                className="NoShrink-kvAhsR Dot-etuPYa flwket hLOtga"
+                                className="NoShrink-kvAhsR Dot-etuPYa flwket hfnhQU"
                               >
                                  • 
                               </span>
@@ -359,59 +359,69 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                             </FormattedMessage>
                           </div>
                         </Subtitle>
-                        <SearchBar
-                          className="user-group-popover_search-bar"
-                          inputPrefix={
-                            <i
-                              className="icon icon-magnify"
-                            />
-                          }
-                          onChange={[Function]}
-                          placeholder="Search members"
-                          type="text"
-                          useLegend={false}
-                          value=""
-                        >
-                          <ForwardRef
-                            className="SearchBar-cqBsIW kCZdZV user-group-popover_search-bar"
-                            inputPrefix={
-                              <i
-                                className="icon icon-magnify"
-                              />
-                            }
-                            onChange={[Function]}
-                            placeholder="Search members"
-                            type="text"
-                            useLegend={false}
-                            value=""
+                        <SearchContainer>
+                          <div
+                            className="SearchContainer-cQpEfk fQgLpW"
                           >
-                            <div
-                              className="Input_container"
+                            <SearchBar
+                              className="user-group-popover_search-bar"
+                              inputPrefix={<MagnifyIcon />}
+                              onChange={[Function]}
+                              placeholder="Search members"
+                              type="text"
+                              useLegend={false}
+                              value=""
                             >
-                              <fieldset
-                                className="Input_fieldset SearchBar-cqBsIW kCZdZV user-group-popover_search-bar"
+                              <ForwardRef
+                                className="SearchBar-cqBsIW fEZOzw user-group-popover_search-bar"
+                                inputPrefix={<MagnifyIcon />}
+                                onChange={[Function]}
+                                placeholder="Search members"
+                                type="text"
+                                useLegend={false}
+                                value=""
                               >
                                 <div
-                                  className="Input_wrapper"
+                                  className="Input_container"
                                 >
-                                  <i
-                                    className="icon icon-magnify"
-                                  />
-                                  <input
-                                    className="Input form-control medium"
-                                    id="input_"
-                                    onBlur={[Function]}
-                                    onChange={[Function]}
-                                    onFocus={[Function]}
-                                    placeholder="Search members"
-                                    type="text"
-                                    value=""
-                                  />
+                                  <fieldset
+                                    className="Input_fieldset SearchBar-cqBsIW fEZOzw user-group-popover_search-bar"
+                                  >
+                                    <div
+                                      className="Input_wrapper"
+                                    >
+                                      <MagnifyIcon>
+                                        <svg
+                                          fill="currentColor"
+                                          height={24}
+                                          version="1.1"
+                                          viewBox="0 0 24 24"
+                                          width={24}
+                                          xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                          <path
+                                            d="M20.224,18.829l-3.775-3.775C17.418,13.791,18,12.215,18,10.5C18,6.358,14.642,3,10.5,3S3,6.358,3,10.5S6.358,18,10.5,18c1.708,0,3.278-0.578,4.539-1.539l3.775,3.749c0.39,0.388,1.02,0.388,1.41,0C20.592,19.823,20.592,19.216,20.224,18.829z M5,10.5
+	C5,7.462,7.462,5,10.5,5S16,7.462,16,10.5S13.538,16,10.5,16S5,13.538,5,10.5z"
+                                          />
+                                        </svg>
+                                      </MagnifyIcon>
+                                      <input
+                                        className="Input form-control medium"
+                                        id="input_"
+                                        onBlur={[Function]}
+                                        onChange={[Function]}
+                                        onFocus={[Function]}
+                                        placeholder="Search members"
+                                        type="text"
+                                        value=""
+                                      />
+                                    </div>
+                                  </fieldset>
                                 </div>
-                              </fieldset>
-                            </div>
-                          </ForwardRef>
-                        </SearchBar>
+                              </ForwardRef>
+                            </SearchBar>
+                          </div>
+                        </SearchContainer>
                       </div>
                     </Header>
                     <Connect(Component)
@@ -1036,7 +1046,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                           }
                         >
                           <div
-                            className="UserList-XOHHq fpsWld"
+                            className="UserList-XOHHq jibMvm"
                             role="list"
                             style={
                               Object {

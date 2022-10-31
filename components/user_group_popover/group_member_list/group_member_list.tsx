@@ -257,7 +257,7 @@ const UserList = styled.div`
     display: flex;
     padding: 0;
     margin: 0;
-    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     box-sizing: content-box;
     position: relative;
 `;

@@ -5,7 +5,7 @@ import styled from 'styled-components';
 import {FormattedMessage} from 'react-intl';
 import {debounce} from 'lodash';
 
-import {PencilOutlineIcon} from '@mattermost/compass-icons/components';
+import {PencilOutlineIcon, MagnifyIcon} from '@mattermost/compass-icons/components';
 
 import {ModalData} from 'types/actions';
 import {UserProfile} from '@mattermost/types/users';
@@ -157,15 +157,17 @@ const UserGroupPopover = (props: Props) => {
                         />
                     </Subtitle>
                     {group.member_count > 10 ? (
-                        <SearchBar
-                            type='text'
-                            className='user-group-popover_search-bar'
-                            placeholder={Utils.localizeMessage('user_group_popover.searchGroupMembers', 'Search members')}
-                            inputPrefix={<i className={'icon icon-magnify'}/>}
-                            value={searchTerm}
-                            onChange={handleSearch}
-                            useLegend={false}
-                        />
+                        <SearchContainer>
+                            <SearchBar
+                                type='text'
+                                className='user-group-popover_search-bar'
+                                placeholder={Utils.localizeMessage('user_group_popover.searchGroupMembers', 'Search members')}
+                                inputPrefix={<MagnifyIcon/>}
+                                value={searchTerm}
+                                onChange={handleSearch}
+                                useLegend={false}
+                            />
+                        </SearchContainer>
                     ) : null}
                 </Header>
                 <GroupMemberList
@@ -191,10 +193,13 @@ const Title = styled.span`
 `;
 
 const EditButton = styled.button`
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
     flex: 0 0 auto;
     margin-left: 4px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
     svg {
         width: 18px;
@@ -205,7 +210,8 @@ const Heading = styled.div`
     font-weight: 600;
     font-size: 16px;
     display: flex;
-    margin-bottom: 4px;
+    align-items: center;
+    font-family: 'Metropolis', sans-serif;
 `;
 
 const Subtitle = styled.div`
@@ -219,11 +225,32 @@ const NoShrink = styled.span`
 `;
 
 const Dot = styled(NoShrink)`
-    padding: 0 8px;
+    padding: 0 6px;
+`;
+
+const SearchContainer = styled.div`
+    margin: 12px -6px 0 -6px;
 `;
 
 const SearchBar = styled(Input)`
-    margin-top: 12px;
+    height: 32px;
+
+    .Input_wrapper {
+        padding-left: 0;
+        align-items: center;
+
+
+        input {
+            height: unset;
+            font-size: 12px;
+        }
+    }
+
+    svg {
+        width: 18px;
+        height: 18px;
+        margin: 0 11px;
+    }
 `;
 
 export default React.memo(UserGroupPopover);
