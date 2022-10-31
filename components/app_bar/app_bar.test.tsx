@@ -22,6 +22,15 @@ jest.mock('react-redux', () => ({
     useDispatch: () => mockDispatch,
 }));
 
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom') as typeof import('react-router-dom'),
+    useLocation: () => {
+        return {
+            pathname: '',
+        };
+    },
+}));
+
 describe('components/app_bar/app_bar', () => {
     beforeEach(() => {
         mockState = {
@@ -36,6 +45,7 @@ describe('components/app_bar/app_bar', () => {
                 components: {
                     AppBar: channelHeaderComponents,
                     RightHandSidebarComponent: rhsComponents,
+                    Product: [],
                 } as {[componentName: string]: PluginComponent[]},
             },
             entities: {

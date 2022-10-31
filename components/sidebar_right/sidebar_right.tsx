@@ -18,12 +18,16 @@ import Search from 'components/search/index';
 import RhsPlugin from 'plugins/rhs_plugin';
 
 import {Channel} from '@mattermost/types/channels';
+import {ProductIdentifier} from '@mattermost/types/products';
+
 import {RhsState} from 'types/store/rhs';
 
 type Props = {
     isExpanded: boolean;
     isOpen: boolean;
     channel: Channel;
+    teamId: string;
+    productId: ProductIdentifier;
     postRightVisible: boolean;
     postCardVisible: boolean;
     searchVisible: boolean;
@@ -41,7 +45,7 @@ type Props = {
         showPinnedPosts: (channelId: string) => void;
         openRHSSearch: () => void;
         closeRightHandSide: () => void;
-        openAtPrevious: (previos: Partial<Props> | undefined) => void;
+        openAtPrevious: (previous: Partial<Props> | undefined) => void;
         updateSearchTerms: (terms: string) => void;
         showChannelFiles: (channelId: string) => void;
         showChannelInfo: (channelId: string) => void;
@@ -120,12 +124,14 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
     componentDidMount() {
         window.addEventListener('resize', this.determineTransition);
         document.addEventListener('keydown', this.handleShortcut);
+        document.addEventListener('mousedown', this.handleClickOutside);
         this.determineTransition();
     }
 
     componentWillUnmount() {
         window.removeEventListener('resize', this.determineTransition);
         document.removeEventListener('keydown', this.handleShortcut);
+        document.removeEventListener('mousedown', this.handleClickOutside);
         if (this.sidebarRight.current) {
             this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
         }
@@ -159,7 +165,28 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             this.props.actions.setRhsExpanded(false);
         }
 
+        // close when changing teams, close when changing products
+        if (
+            this.props.teamId !== prevProps.teamId ||
+            this.props.productId !== prevProps.productId
+        ) {
+            this.props.actions.closeRightHandSide();
+        }
+
         this.setPrevious();
+    }
+
+    handleClickOutside = (e: MouseEvent) => {
+        if (
+            (this.props.isOpen && this.props.isExpanded) && // can be collapsed
+            e.target && // has target
+            document.getElementById('root')?.contains(e.target as Element) &&//  within Root
+            !this.sidebarRight.current?.contains(e.target as Element) && // not within RHS
+            !document.getElementById('global-header')?.contains(e.target as Element) && // not within Global Header
+            !document.querySelector('.app-bar')?.contains(e.target as Element) // not within App Bar
+        ) {
+            this.props.actions.setRhsExpanded(false);
+        }
     }
 
     determineTransition = () => {
@@ -167,7 +194,10 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         if (this.sidebarRight.current) {
             transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
         }
-        const hasTransition = Boolean(transitionInfo) && transitionInfo !== 'all 0s ease 0s';
+        const hasTransition =
+            Boolean(transitionInfo) &&
+            transitionInfo !== 'all 0s ease 0s' &&
+            transitionInfo !== 'none 0s ease 0s';
 
         if (this.sidebarRight.current && hasTransition) {
             this.setState({isOpened: this.props.isOpen});
@@ -185,10 +215,6 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             this.setState({isOpened: this.props.isOpen});
         }
     }
-
-    onShrink = () => {
-        this.props.actions.setRhsExpanded(false);
-    };
 
     handleUpdateSearchTerms = (term: string) => {
         this.props.actions.updateSearchTerms(term);
@@ -213,9 +239,9 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isExpanded,
         } = this.props;
 
-        let content = null;
         const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
 
+        let content = null;
         switch (true) {
         case postRightVisible:
             content = (
@@ -244,33 +270,31 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
         const containerClassName = classNames('sidebar--right', {
-            'sidebar--right--expanded': isSidebarRightExpanded,
-            'move--left': isOpen,
-            hidden: !isOpen,
+            'sidebar--right--expanded expanded': isSidebarRightExpanded,
+            'move--left is-open': isOpen,
         });
 
-        return (
-            <div
-                className={containerClassName}
-                id='sidebar-right'
-                role='complementary'
-                ref={this.sidebarRight}
-            >
+        return isOpen && (
+            <>
+                <div className={'sidebar--right sidebar--right--width-holder'}/>
                 <div
-                    onClick={this.onShrink}
-                    className='sidebar--right__bg'
-                />
-                <div className='sidebar-right-container'>
-                    <Search
-                        isSideBarRight={true}
-                        isSideBarRightOpen={this.state.isOpened}
-                        getFocus={this.getSearchBarFocus}
-                        channelDisplayName={channelDisplayName}
-                    >
-                        {isOpen && content}
-                    </Search>
+                    className={containerClassName}
+                    id='sidebar-right'
+                    role='complementary'
+                    ref={this.sidebarRight}
+                >
+                    <div className='sidebar-right-container'>
+                        <Search
+                            isSideBarRight={true}
+                            isSideBarRightOpen={true}
+                            getFocus={this.getSearchBarFocus}
+                            channelDisplayName={channelDisplayName}
+                        >
+                            {content}
+                        </Search>
+                    </div>
                 </div>
-            </div>
+            </>
         );
     }
 }
