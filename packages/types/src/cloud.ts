@@ -202,3 +202,27 @@ export type TeamsUsage = {
 export type ValidBusinessEmail = {
     is_valid: boolean;
 }
+
+export interface CreateSubscriptionRequest {
+    customer_id: string;
+    product_id: string;
+    add_ons: string[];
+    seats: number;
+    total: number;
+    internal_purchase_order?: string;
+}
+
+export interface SelfHostedSignupForm {
+	first_name: string;
+	last_name: string;
+	billing_address: Address;
+	organization: string;
+	subscription_request: CreateSubscriptionRequest;
+}
+
+export interface SelfHostedSignupBootstrapResponse {
+	subscription_id:      string;
+	customer_id:          string;
+	payment_intent_id:     string;
+	payment_intent_secret: string;
+}

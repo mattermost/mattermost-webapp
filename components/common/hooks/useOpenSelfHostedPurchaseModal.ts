@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import PurchaseModal from 'components/purchase_modal';
+import SelfHostedPurchaseModal from 'components/self_hosted_purchase_modal';
 import {Client4} from 'mattermost-redux/client';
 
 interface OpenPurchaseModalOptions{
@@ -27,7 +27,7 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
         });
         dispatch(openModal({
             modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
-            dialogType: PurchaseModal,
+            dialogType: SelfHostedPurchaseModal,
             dialogProps: {
                 callerCTA: telemetryProps.trackingLocation,
             },

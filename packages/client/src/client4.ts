@@ -12,7 +12,19 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
+import {
+    Product,
+CloudCustomer,
+Address,
+CloudCustomerPatch,
+Invoice,
+     Limits,
+     IntegrationsUsage,
+     NotifyAdminRequest,
+     Subscription,
+     ValidBusinessEmail,
+    SelfHostedSignupForm,
+} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3845,7 +3857,21 @@ export default class Client4 {
     bootstrapSelfHostedSignup = () => {
         return this.doFetch<void>(
             `${this.getCloudRoute()}/self-hosted-bootstrap`,
-             {method: 'post'},
+            {method: 'post'},
+        );
+    };
+
+    paySelfHostedSignup = (form: SelfHostedSignupForm) => {
+        return this.doFetch<void>(
+            `${this.getCloudRoute()}/self-hosted-payment`,
+            {method: 'post', body: JSON.stringify(form)},
+        );
+    };
+
+    confirmSelfHostedSignup = () => {
+        return this.doFetch<void>(
+            `${this.getCloudRoute()}/self-hosted-confirm`,
+            {method: 'post'},
         );
     };
 

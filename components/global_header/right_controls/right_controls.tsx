@@ -41,7 +41,7 @@ export type Props = {
 const RightControls = ({productId = null}: Props): JSX.Element => {
     const showCustomizeTip = useShowOnboardingTutorialStep(OnboardingTourSteps.CUSTOMIZE_EXPERIENCE);
 
-    const openSelfHostedPurchaseModal =  useOpenSelfHostedPurchaseModal({});
+    const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
     return (
         <RightControlsContainer
             id={'RightControlsContainer'}
@@ -49,7 +49,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
             <PlanUpgradeButton/>
             <button
                 onClick={() => {
-                    openSelfHostedPurchaseModal({})
+                    openSelfHostedPurchaseModal({});
                 }}
             >
                 {'paid self hosted'}
