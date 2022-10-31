@@ -366,6 +366,8 @@ export class TestHelper {
             headerCentreComponent: () => null,
             headerRightComponent: () => null,
             showTeamSidebar: false,
+            showAppBar: false,
+            wrapped: true,
         };
     }
 
