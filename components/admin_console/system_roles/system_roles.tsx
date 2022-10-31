@@ -8,7 +8,7 @@ import {Link} from 'react-router-dom';
 import {Role} from '@mattermost/types/roles';
 
 import {t} from 'utils/i18n';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
@@ -71,7 +71,7 @@ export default class SystemRoles extends React.PureComponent<Props> {
                             </span>
                         ),
                     },
-                    onClick: () => browserHistory.push(`/admin_console/user_management/system_roles/${role.id}`),
+                    onClick: () => getHistory().push(`/admin_console/user_management/system_roles/${role.id}`),
                 });
             }
         });

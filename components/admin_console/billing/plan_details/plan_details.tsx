@@ -57,8 +57,8 @@ export const PlanDetailsTopElements = ({
     case CloudProducts.STARTER:
         productName = (
             <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.cloudStarter'
-                defaultMessage='Cloud Starter'
+                id='admin.billing.subscription.planDetails.productName.cloudFree'
+                defaultMessage='Cloud Free'
             />
         );
         break;

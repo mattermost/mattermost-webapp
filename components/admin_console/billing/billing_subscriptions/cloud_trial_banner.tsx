@@ -74,7 +74,7 @@ const CloudTrialBanner = ({trialEndDate}: Props): JSX.Element | null => {
             title={(
                 <FormattedMessage
                     id='admin.subscription.cloudTrialCard.upgradeTitle'
-                    defaultMessage='Upgrade to one of our paid plans to avoid Starter plan data limits'
+                    defaultMessage='Upgrade to one of our paid plans to avoid Free plan data limits'
                 />
             )}
             message={(
