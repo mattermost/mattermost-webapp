@@ -15,6 +15,7 @@ import * as AdminActions from 'actions/admin_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
+import OverageUsersBanner from 'components/overage_users_banner';
 
 import {AboutLinks, CloudLinks, ModalIdentifiers, StatTypes} from 'utils/constants';
 
@@ -317,7 +318,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     removing={this.state.removing}
                     fileInputRef={this.fileInputRef}
                     handleChange={this.handleChange}
-                    statsActiveUsers={this.props.stats[StatTypes.TOTAL_USERS]}
+                    statsActiveUsers={this.props.stats[StatTypes.TOTAL_USERS] || 0}
                 />
             );
 
@@ -355,6 +356,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <div className='admin-console__banner_section'>
+                            <OverageUsersBanner location='admin-console'/>
                             {!this.state.clickNormalUpgradeBtn && license.IsLicensed !== 'true' &&
                                 this.props.prevTrialLicense?.IsLicensed !== 'true' &&
                                 <TrialBanner

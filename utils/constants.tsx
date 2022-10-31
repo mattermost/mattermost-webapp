@@ -156,6 +156,7 @@ export const Preferences = {
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
     CONFIGURATION_BANNERS: 'configuration_banners',
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
+    OVERAGE_USERS_BANNER: 'overage_users_banner',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
