@@ -713,7 +713,6 @@ ProfilePopoverState
         }
         title = (
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
-                <span className='user-popover__username'>{title}</span>
                 {roleTitle}
             </span>
         );
