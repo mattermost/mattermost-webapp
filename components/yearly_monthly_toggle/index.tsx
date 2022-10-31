@@ -18,7 +18,7 @@ interface Props {
 
 function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
     const [isMonthly, setIsMonthly] = useState(true);
-    const initialToggleBorder = isPurchases ? 'toggle-border-purchases' : 'toggle-border'
+    const initialToggleBorder = 'toggle-border';
     const [toggleBorderClassName, setToggleBorderClassName] = useState(initialToggleBorder);
 
     const options = [
@@ -57,7 +57,7 @@ function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
     return (
         <div className='toggle-monthly-yearly-container'>
             <div className={toggleBorderClassName}/>
-            <div className={isPurchases ? 'toggle-monthly-yearly-purchases' : 'toggle-monthly-yearly'}>
+            <div className='toggle-monthly-yearly'>
                 <SwitchSelector
                     onChange={onToggleChange}
                     options={options}

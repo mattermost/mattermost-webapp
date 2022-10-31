@@ -1,6 +1,7 @@
 .toggle-monthly-yearly-container {
     display: grid;
     width: 161px;
+    height: 32px;
     margin: auto;
 
     .toggle-monthly-yearly,
@@ -12,39 +13,18 @@
     .toggle-monthly-yearly {
         width: 161px;
         height: 32px;
-        margin: 44px auto;
-
-        .text {
-            top: 7px;
-            left: 90px;
-            width: 56px;
-            height: 18px;
-            margin: 7px 16px 0;
-            font-family: 'Metropolis';
-            font-size: 14px;
-            font-style: normal;
-        }
-
-        .text-selected {
-            color: var(--denim-button-bg);
-            font-weight: 600;
-            line-height: 18px;
-        }
-
-        .text-unselected {
-            color: var(--center-channel-text);
-            font-weight: 500;
-            line-height: 17px;
-        }
+        margin: auto;
+        position: absolute;
     }
-
+    
     .toggle-border {
         width: 80px;
         height: 32px;
         border: 1px solid var(--denim-button-bg);
-        margin-top: 44px;
+        // margin-top: 44px;
         margin-left: 80px;
         border-radius: 40px;
+        position: absolute;
     }
 
     .move-left {
@@ -60,21 +40,29 @@
         animation-fill-mode: forwards;
         animation-name: moveRight;
     }
-}
 
-div.toggle-monthly-yearly-purchases {
-    width: 161px;
-    height: 32px;
-    margin: auto;
-}
+    .text {
+        top: 7px;
+        left: 90px;
+        width: 56px;
+        height: 18px;
+        margin: 7px 16px 0;
+        font-family: 'Metropolis';
+        font-size: 14px;
+        font-style: normal;
+    }
 
-div.toggle-border {
-    width: 80px;
-    height: 32px;
-    border: 1px solid var(--denim-button-bg);
-    margin-top: 44px;
-    margin-left: 80px;
-    border-radius: 40px;
+    .text-selected {
+        color: var(--denim-button-bg);
+        font-weight: 600;
+        line-height: 18px;
+    }
+
+    .text-unselected {
+        color: var(--center-channel-text);
+        font-weight: 500;
+        line-height: 17px;
+    }
 }
 
 @keyframes moveLeft {
