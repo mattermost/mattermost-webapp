@@ -1,6 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {shallow} from 'enzyme';
 
 import AutocompleteSelector from './autocomplete_selector';
@@ -95,7 +95,8 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
             </div>
         `);
 
-        wrapper.instance().onChange({target: {value: 'value from input'}});
+        const changeEvent = {target: {value: 'value from input'}} as ChangeEvent<HTMLInputElement>;
+        wrapper.instance().onChange(changeEvent);
         wrapper.instance().onFocus();
 
         expect(wrapper).toMatchInlineSnapshot(`

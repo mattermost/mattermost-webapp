@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {RefObject} from 'react';
+import React, {RefObject, ChangeEvent} from 'react';
 
 import SuggestionBox from 'components/suggestion/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list';
@@ -52,7 +52,7 @@ export default class AutocompleteSelector extends React.PureComponent <Props, St
         };
     }
 
-    onChange = (e: {target: {value: string}}) => {
+    onChange = (e: ChangeEvent<HTMLInputElement>) => {
         if (!e || !e.target) {
             return;
         }
