@@ -5,31 +5,37 @@
     justify-content: center;
 }
 
-div.flexcontainer {
+.flexcontainer {
     display: flex;
     min-height: 120px;
+
+    .alert-option-container {
+        flex: 1;
+
+        .alert-option {
+            padding-left: 50%;
+        }
+    }
+
+    .save-text-div {
+        flex: 1;
+
+        .save-text {
+            margin-top: 51px;
+            margin-right: 12px;
+            color: var(--denim-status-online);
+            font-family: 'Metropolis';
+            font-size: 14px;
+            font-style: normal;
+            font-weight: 600;
+            line-height: 18px;
+            text-align: right;
+        }
+    }
 }
 
-div.alert-option-container {
-    flex: 1;
-}
 
-div.alert-option {
-    padding-left: 50%;
-}
 
-div.save-text-div {
-    flex: 1;
-}
 
-p.save-text {
-    margin-top: 51px;
-    margin-right: 12px;
-    color: var(--denim-status-online);
-    font-family: 'Metropolis';
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 18px;
-    text-align: right;
-}
+
+
