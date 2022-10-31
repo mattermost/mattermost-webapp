@@ -20,5 +20,5 @@ test('/landing#/login', async ({page, isMobile, browserName, viewport}, testInfo
     await landingLoginPage.goto();
 
     // Match snapshot of landing page
-    ({eyes} = await matchSnapshot(testInfo.title, {page, isMobile, browserName, viewport}));
+    ({eyes} = await matchSnapshot(testInfo, {page, isMobile, browserName, viewport}));
 });

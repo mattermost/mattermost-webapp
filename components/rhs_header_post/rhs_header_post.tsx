@@ -14,7 +14,7 @@ import KeyboardShortcutSequence, {
     KEYBOARD_SHORTCUTS,
 } from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants, {RHSStates} from 'utils/constants';
 import {t} from 'utils/i18n';
 import CRTThreadsPaneTutorialTip
@@ -67,7 +67,7 @@ export default class RhsHeaderPost extends React.PureComponent<RhsHeaderPostProp
 
         this.props.setRhsExpanded(false);
         const teamUrl = this.props.relativeTeamUrl;
-        browserHistory.push(`${teamUrl}/pl/${this.props.rootPostId}`);
+        getHistory().push(`${teamUrl}/pl/${this.props.rootPostId}`);
     }
 
     handleFollowChange = () => {

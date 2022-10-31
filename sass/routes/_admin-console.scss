@@ -6,22 +6,23 @@
 
 .admin-console {
     height: 100%;
-    padding-left: 220px;
     color: #333;
+    grid-area: center;
     -webkit-overflow-scrolling: touch;
+
+    > div {
+        width: 100%;
+        height: 100%;
+    }
 
     .wrapper--fixed {
         display: flex;
-        height: calc(100vh - #{$backstage-bar-height});
+        height: 100%;
         flex-direction: column;
 
         // Fix for Safari on iOS MM-24361
         @supports (-webkit-touch-callout: none) {
             height: -webkit-fill-available;
-        }
-
-        .announcement-bar--fixed & {
-            height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
         }
     }
 
@@ -171,6 +172,8 @@
     }
 
     .form-horizontal {
+        height: 100%;
+
         .control-label {
             padding-right: 0;
             font-weight: 600;
@@ -551,15 +554,12 @@
 }
 
 .admin-sidebar {
-    position: fixed;
     z-index: 10;
-    top: $backstage-bar-height;
-    left: 0;
     display: flex;
     width: 220px;
-    height: calc(100% - #{$announcement-bar-height});
     flex-direction: column;
     background: #111;
+    grid-area: lhs;
 
     .filter-container {
         position: relative;

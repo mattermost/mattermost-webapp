@@ -74,7 +74,7 @@ export const GrandfatheredPlanBanner = (props: GrandfatheredPlanBannerProps) => 
     let message = {
         id: t('admin.billing.subscription.grandfatheredBannerBody'),
         defaultMessage:
-            'Your workspace will update to the current Cloud Starter plan on November 1, 2022. You may lose access to some Enterprise features. Contact Sales to learn more or to subscribe to the Enterprise plan today.',
+            'Your workspace will update to the current Cloud Free plan on November 1, 2022. You may lose access to some Enterprise features. Contact Sales to learn more or to subscribe to the Enterprise plan today.',
     };
 
     if (subscription.is_legacy_cloud_paid_tier) {

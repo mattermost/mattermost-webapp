@@ -30,7 +30,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils';
-import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
@@ -846,8 +846,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const {clipboardData} = e;
+
+        const hasLinks = hasHtmlLink(clipboardData);
         let table = getTable(clipboardData);
-        if (!table) {
+        if (!table && !hasLinks) {
             return;
         }
         table = table as HTMLTableElement;
@@ -855,7 +857,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         e.preventDefault();
 
         let message = this.state.message;
-        if (isGitHubCodeBlock(table.className)) {
+        if (table && isGitHubCodeBlock(table.className)) {
             const selectionStart = (e.target as any).selectionStart;
             const selectionEnd = (e.target as any).selectionEnd;
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
@@ -865,7 +867,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const originalSize = message.length;
-        message = formatMarkdownTableMessage(table, message.trim(), this.state.caretPosition);
+        message = formatMarkdownMessage(clipboardData, message.trim(), this.state.caretPosition);
         const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
         this.setMessageAndCaretPostion(message, newCaretPosition);
     }

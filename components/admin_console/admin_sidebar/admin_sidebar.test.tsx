@@ -38,6 +38,7 @@ describe('components/AdminSidebar', () => {
                 Enable: true,
                 EnableUploads: true,
             } as PluginSettings,
+            FeatureFlags: {},
         },
         intl: {} as IntlShape,
         adminDefinition: AdminDefinition,
@@ -91,6 +92,7 @@ describe('components/AdminSidebar', () => {
                 limitsLoaded: false,
                 limits: {},
             },
+            errors: {},
         },
         showTaskList: false,
     };
@@ -141,6 +143,7 @@ describe('components/AdminSidebar', () => {
         const props: Props = {
             license: {},
             config: {
+                ...defaultProps.config,
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 } as ExperimentalSettings,
@@ -187,6 +190,7 @@ describe('components/AdminSidebar', () => {
         const props: Props = {
             license: {},
             config: {
+                ...defaultProps.config,
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 } as ExperimentalSettings,
@@ -235,6 +239,7 @@ describe('components/AdminSidebar', () => {
                 IsLicensed: 'true',
             },
             config: {
+                ...defaultProps.config,
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 } as ExperimentalSettings,
@@ -296,6 +301,7 @@ describe('components/AdminSidebar', () => {
                 Announcement: 'true',
             },
             config: {
+                ...defaultProps.config,
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 } as ExperimentalSettings,
@@ -357,6 +363,7 @@ describe('components/AdminSidebar', () => {
         const props: Props = {
             license: {},
             config: {
+                ...defaultProps.config,
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 } as ExperimentalSettings,
@@ -445,6 +452,7 @@ describe('components/AdminSidebar', () => {
         const props: Props = {
             license: {},
             config: {
+                ...defaultProps.config,
                 ExperimentalSettings: {
                     RestrictSystemAdmin: false,
                 } as ExperimentalSettings,
