@@ -14,18 +14,19 @@ import SpinnerButton from 'components/spinner_button';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n';
+import {Team} from '@mattermost/types/teams';
 
 const REQUEST_POST = 'P';
 const REQUEST_GET = 'G';
 
 type Props = {
-    team: {id: string ; name: string};
+    team: Team;
     header: {id: string ; defaultMessage: string};
     footer: {id: string ; defaultMessage: string};
     loading: {id: string ; defaultMessage: string};
-    renderExtra: JSX.Element;
+    renderExtra?: JSX.Element;
     serverError: string;
-    initialCommand: Partial<Command>;
+    initialCommand?: Partial<Command>;
     action: (command: Command) => Promise<void>;
 }
 
@@ -53,16 +54,16 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
 
     getStateFromCommand = (command: Props['initialCommand']) => {
         return {
-            displayName: command.display_name || '',
-            description: command.description || '',
-            trigger: command.trigger || '',
-            url: command.url || '',
-            method: command.method || REQUEST_POST,
-            username: command.username || '',
-            iconUrl: command.icon_url || '',
-            autocomplete: command.auto_complete || false,
-            autocompleteHint: command.auto_complete_hint || '',
-            autocompleteDescription: command.auto_complete_desc || '',
+            displayName: command?.display_name || '',
+            description: command?.description || '',
+            trigger: command?.trigger || '',
+            url: command?.url || '',
+            method: command?.method || REQUEST_POST,
+            username: command?.username || '',
+            iconUrl: command?.icon_url || '',
+            autocomplete: command?.auto_complete || false,
+            autocompleteHint: command?.auto_complete_hint || '',
+            autocompleteDescription: command?.auto_complete_desc || '',
             saving: false,
             clientError: null,
         };
