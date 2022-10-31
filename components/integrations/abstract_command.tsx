@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
@@ -187,61 +187,61 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
         this.props.action(command).then(() => this.setState({saving: false}));
     }
 
-    updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateDisplayName = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             displayName: e.target.value,
         });
     }
 
-    updateDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateDescription = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             description: e.target.value,
         });
     }
 
-    updateTrigger = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateTrigger = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             trigger: e.target.value,
         });
     }
 
-    updateUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateUrl = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             url: e.target.value,
         });
     }
 
-    updateMethod = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    updateMethod = (e: ChangeEvent<HTMLSelectElement>) => {
         this.setState({
             method: e.target.value,
         });
     }
 
-    updateUsername = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateUsername = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             username: e.target.value,
         });
     }
 
-    updateIconUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateIconUrl = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             iconUrl: e.target.value,
         });
     }
 
-    updateAutocomplete = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateAutocomplete = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             autocomplete: e.target.checked,
         });
     }
 
-    updateAutocompleteHint = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateAutocompleteHint = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             autocompleteHint: e.target.value,
         });
     }
 
-    updateAutocompleteDescription = (e: React.ChangeEvent<HTMLInputElement>) => {
+    updateAutocompleteDescription = (e: ChangeEvent<HTMLInputElement>) => {
         this.setState({
             autocompleteDescription: e.target.value,
         });
