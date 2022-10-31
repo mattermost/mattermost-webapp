@@ -33,6 +33,15 @@ type State= Partial<Command> & {
     saving: boolean;
     clientError: null | JSX.Element | string;
     trigger: string;
+    displayName: string;
+    description: string;
+    url: string;
+    method: 'P' | 'G' | '';
+    username: string;
+    iconUrl: string;
+    autocomplete: boolean;
+    autocompleteHint: string;
+    autocompleteDescription: string;
 }
 
 export default class AbstractCommand extends React.PureComponent<Props, State> {
@@ -77,14 +86,14 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
         }
 
         const command = {
-            display_name: this.state.display_name,
+            display_name: this.state.displayName,
             description: this.state.description,
             trigger: triggerWord,
             url: this.state.url.trim(),
             method: this.state.method,
             username: this.state.username,
             icon_url: this.state.icon_url,
-            auto_complete: this.state.auto_complete,
+            auto_complete: this.state.autocomplete,
             team_id: this.props.team.id,
             auto_complete_desc: '',
             auto_complete_hint: '',
@@ -97,8 +106,8 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
         };
 
         if (command.auto_complete) {
-            command.auto_complete_desc = this.state.auto_complete_desc || '';
-            command.auto_complete_hint = this.state.auto_complete_hint || '';
+            command.auto_complete_desc = this.state.autocompleteDescription || '';
+            command.auto_complete_hint = this.state.autocompleteHint || '';
         }
 
         if (!command.trigger) {
@@ -180,7 +189,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
 
     updateDisplayName = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            display_name: e.target.value,
+            displayName: e.target.value,
         });
     }
 
@@ -222,13 +231,13 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
 
     updateAutocomplete = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            auto_complete: e.target.checked,
+            autocomplete: e.target.checked,
         });
     }
 
     updateAutocompleteHint = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            auto_complete_hint: e.target.value,
+            autocompleteHint: e.target.value,
         });
     }
 
@@ -242,7 +251,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
         let autocompleteHint = null;
         let autocompleteDescription = null;
 
-        if (this.state.auto_complete) {
+        if (this.state.autocomplete) {
             autocompleteHint = (
                 <div className='form-group'>
                     <label
@@ -260,7 +269,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                             type='text'
                             maxLength={1024}
                             className='form-control'
-                            value={this.state.auto_complete_hint}
+                            value={this.state.autocompleteHint}
                             onChange={this.updateAutocompleteHint}
                             placeholder={{id: t('add_command.autocompleteHint.placeholder'), defaultMessage: 'Example: [Patient Name]'}}
                         />
@@ -291,7 +300,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                             type='text'
                             maxLength={128}
                             className='form-control'
-                            value={this.state.auto_complete_desc}
+                            value={this.state.autocompleteDescription}
                             onChange={this.updateAutocompleteDescription}
                             placeholder={{id: t('add_command.autocompleteDescription.placeholder'), defaultMessage: 'Example: "Returns search results for patient records"'}}
                         />
@@ -341,7 +350,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                                     type='text'
                                     maxLength={64}
                                     className='form-control'
-                                    value={this.state.display_name}
+                                    value={this.state.displayName}
                                     onChange={this.updateDisplayName}
                                 />
                                 <div className='form__help'>
@@ -563,7 +572,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                                 <input
                                     id='autocomplete'
                                     type='checkbox'
-                                    checked={this.state.auto_complete}
+                                    checked={this.state.autocomplete}
                                     onChange={this.updateAutocomplete}
                                 />
                                 <div className='form__help'>
