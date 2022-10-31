@@ -92,7 +92,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
             url: this.state.url.trim(),
             method: this.state.method,
             username: this.state.username,
-            icon_url: this.state.icon_url,
+            icon_url: this.state.iconUrl,
             auto_complete: this.state.autocomplete,
             team_id: this.props.team.id,
             auto_complete_desc: '',
@@ -225,7 +225,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
 
     updateIconUrl = (e: React.ChangeEvent<HTMLInputElement>) => {
         this.setState({
-            icon_url: e.target.value,
+            iconUrl: e.target.value,
         });
     }
 
@@ -546,7 +546,7 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
                                     type='text'
                                     maxLength={1024}
                                     className='form-control'
-                                    value={this.state.icon_url}
+                                    value={this.state.iconUrl}
                                     onChange={this.updateIconUrl}
                                     placeholder={{id: t('add_command.iconUrl.placeholder'), defaultMessage: 'https://www.example.com/myicon.png'}}
                                 />
