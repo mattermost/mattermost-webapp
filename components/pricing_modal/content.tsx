@@ -350,7 +350,7 @@ function Content(props: ContentProps) {
                             />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
                             action: () => {
-                                trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                                trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
                                 window.open(contactSalesLink, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),

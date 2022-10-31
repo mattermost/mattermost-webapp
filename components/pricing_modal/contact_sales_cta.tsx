@@ -10,7 +10,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';
 
-import {LicenseLinks} from 'utils/constants';
+import {LicenseLinks, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 const StyledA = styled.a`
 color: var(--denim-button-bg);
@@ -39,7 +39,7 @@ function ContactSalesCTA() {
             onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
                 e.preventDefault();
                 if (isCloud) {
-                    trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
+                    trackEvent(TELEMETRY_CATEGORIES.CLOUD_PRICING, 'click_enterprise_contact_sales');
                     openSalesLink();
                 } else {
                     trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');

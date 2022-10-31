@@ -667,7 +667,20 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                             this.state.selectedProduct?.billing_scheme ===
                                 BillingSchemes.SALES_SERVE,
                     }}
-                    planLabel={undefined}
+                    planLabel={
+                        showPlanLabel ? (
+                            <PlanLabel
+                                text={formatMessage({
+                                    id: 'pricing_modal.planLabel.mostPopular',
+                                    defaultMessage: 'MOST POPULAR',
+                                })}
+                                bgColor='var(--title-color-indigo-500)'
+                                color='var(--button-color)'
+                                firstSvg={<StarMarkSvg/>}
+                                secondSvg={<StarMarkSvg/>}
+                            />
+                        ) : undefined
+                    }
                     annualSubscription={this.props.annualSubscription}
                     updatePrice={updateProfessionalPrice}
                 />

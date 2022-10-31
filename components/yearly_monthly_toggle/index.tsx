@@ -9,6 +9,8 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import './index.scss';
 
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
+
 interface Props {
     updatePrice: (isMonthly: boolean) => void;
     isPurchases: boolean;
@@ -43,7 +45,8 @@ function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
             setToggleBorderClassName(initialToggleBorder + ' move-right');
         }
 
-        trackEvent('cloud_pricing', 'click_yearly_toggle');
+        const telemetry_category = isPurchases ? TELEMETRY_CATEGORIES.CLOUD_PURCHASING : TELEMETRY_CATEGORIES.CLOUD_PRICING;
+        trackEvent(telemetry_category, 'click_yearly_toggle');
 
         // update the displayed price
         updatePrice(!isMonthly);
