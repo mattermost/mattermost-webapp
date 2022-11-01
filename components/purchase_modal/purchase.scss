@@ -443,19 +443,27 @@
                         .icon {
                             flex: 1;
                             justify-content: left;
+                            align-self: flex-start;
                             .icon-information-outline {
-                                margin: auto 0;
+                                margin: 0;
+                                color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
                             }
                         }
                         .monthly-price {
                             flex: 1;
                             align-items: right;
                         }
+                        .Input___customMessage {
+                            width: 250px;
+                            .icon.error {
+                                display: none;
+                            }
+                        }
                     }
                 }
 
                 .bottom.bottom-yearly {
-                    height: 460px;
+                    height: 470px;
                 }
             }
         }

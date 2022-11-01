@@ -23,6 +23,7 @@ import {
     CloudProducts,
     BillingSchemes,
     ModalIdentifiers,
+    ItemStatus,
 } from 'utils/constants';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
@@ -84,6 +85,7 @@ type CardProps = {
     usersCount: number;
     monthlyPrice: number;
     yearlyPrice: number;
+    intl: IntlShape;
 }
 
 type Props = {
@@ -188,12 +190,30 @@ function Card(props: CardProps) {
         window.open(CloudLinks.BILLING_DOCS, '_blank');
     };
 
-    const [usersCount, setUsersCount] = useState(props.usersCount);
+    const [usersCount, setUsersCount] = useState(props.usersCount.toString());
     const [monthlyPrice, setMonthlyPrice] = useState(props.monthlyPrice * props.usersCount);
     const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
     const [priceDifference, setPriceDifference] = useState((props.monthlyPrice-props.yearlyPrice)*props.usersCount);
     const [isMonthly, setIsMonthly] = useState(true);
     const [containerClassname, setContainerClassname] = useState('bottom');
+
+    const {formatMessage} = props.intl;
+
+    const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const value = event.target.value;
+        setUsersCount(value);
+        
+        const numValue = Number(value)
+        if (numValue && numValue > 0) {
+            setMonthlyPrice(numValue * props.monthlyPrice);
+            setYearlyPrice(numValue * props.yearlyPrice);
+            setPriceDifference((props.monthlyPrice-props.yearlyPrice) * numValue);
+        }
+    };
+
+    const checkValidNumber = () => {
+        return Number(usersCount) && Number(usersCount) > 0;
+    }
 
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
@@ -202,7 +222,6 @@ function Card(props: CardProps) {
         } else {
             setContainerClassname('bottom bottom-yearly')
         }
-        console.log('hello');
     }
 
     const userCountTooltip = (
@@ -259,6 +278,11 @@ function Card(props: CardProps) {
         </div>
     </Fragment>;
 
+    const errorMessage = formatMessage({
+        id: 'admin.billing.subscription.userCount.error',
+        defaultMessage: `Your workspace currently has ${props.usersCount} users`,
+    }, {num: props.usersCount})
+
     const yearlyPlan = 
     <Fragment>
         <div className="flex-grid">
@@ -266,12 +290,16 @@ function Card(props: CardProps) {
                 <Input
                     name='UserSeats'
                     type='text'
-                    value={props.usersCount}
-                    onChange={() => {console.log("here")}}
+                    value={usersCount}
+                    onChange={onChange}
                     placeholder={'User seats'}
-                    required={true}
                     wrapperClassName='user_seats'
                     inputClassName='user_seats'
+                    customMessage={checkValidNumber() ? null : {
+                        type: ItemStatus.ERROR,
+                        value: errorMessage
+                        // 'Your workspace currently has n users'
+                    }}
                 />
             </div>
             <div className="icon">
@@ -288,11 +316,21 @@ function Card(props: CardProps) {
         <table>
             <tbody>
                 <tr>
-                    <td className='yearly_savings'>Yearly Savings</td>
+                    <td className='yearly_savings'>
+                        <FormattedMessage
+                            defaultMessage={'Yearly Savings'}
+                            id={'admin.billing.subscription.yearlySavings'}
+                        />
+                    </td>
                     <td className='yearly_savings'>-${priceDifference}</td>
                 </tr>
                 <tr>
-                    <td>Total</td>
+                    <td>
+                        <FormattedMessage
+                            defaultMessage={'Total'}
+                            id={'admin.billing.subscription.total'}
+                        />
+                    </td>
                     <td>${yearlyPrice}</td>
                 </tr>
             </tbody>
@@ -789,6 +827,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     usersCount={this.props.usersCount}
                     monthlyPrice={this.state.selectedProduct?.price_per_seat ?? 0}
                     yearlyPrice={getYearlyPrice()}
+                    intl={this.props.intl}
                 />
             </>
         );
