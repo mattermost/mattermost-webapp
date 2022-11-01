@@ -49,7 +49,7 @@ function mapStateToProps(state: GlobalState) {
         theme: getTheme(state),
         isDelinquencyModal,
         annualSubscription: state.entities.general.config.FeatureFlagAnnualSubscription === 'true',
-        usersCount: Number(state.entities.admin.analytics?.total_users_count) || 1,
+        usersCount: Number(state.entities.admin.analytics!.TOTAL_USERS) || 1,
     };
 }
 type Actions = {
