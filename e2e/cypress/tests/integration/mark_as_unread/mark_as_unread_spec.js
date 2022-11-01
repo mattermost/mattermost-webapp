@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @mark_as_unread
 
-import {beRead, beUnread} from '../../support/assertions';
+import { beRead, beUnread } from '../../support/assertions';
 
-import {verifyPostNextToNewMessageSeparator, verifyTopSpaceForNewMessage, verifyBottomSpaceForNewMessage, switchToChannel, showCursor, notShowCursor} from './helpers';
+import { verifyPostNextToNewMessageSeparator, verifyTopSpaceForNewMessage, verifyBottomSpaceForNewMessage, switchToChannel, showCursor, notShowCursor } from './helpers';
 
 describe('Mark as Unread', () => {
     let testUser;
@@ -26,7 +26,7 @@ describe('Mark as Unread', () => {
 
     beforeEach(() => {
         cy.apiAdminLogin();
-        cy.apiInitSetup().then(({team, channel, user}) => {
+        cy.apiInitSetup().then(({ team, channel, user }) => {
             team1 = team;
             testUser = user;
             channelA = channel;
@@ -36,7 +36,7 @@ describe('Mark as Unread', () => {
                 cy.apiAddUserToChannel(channelB.id, testUser.id);
             });
 
-            cy.apiCreateUser().then(({user: user2}) => {
+            cy.apiCreateUser().then(({ user: user2 }) => {
                 const otherUser = user2;
 
                 cy.apiAddUserToTeam(team1.id, otherUser.id).then(() => {
@@ -99,6 +99,45 @@ describe('Mark as Unread', () => {
         // And becomes read when switching back
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
     });
+
+    it('The latest post should appear unread after marking the channel as unread', () => {
+        // channelA starts unread, then becomes read after you viewed 
+        // and switched to channelB
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        switchToChannel(channelA);
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        switchToChannel(channelB);
+
+        // After mark channelA with the RHS mark as unread option, channelA
+        // should appear unread
+        cy.get(`#sidebarItem_${channelA.name}`).find('.SidebarMenu').click({ force: true });
+        cy.get(`#markAsUnread-${channelA.id}`).click();
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // After switching back to channelA, 
+        // the New Messages line should appear above the last post (post3)
+        cy.get(`#sidebarItem_${channelA.name}`).click();
+        verifyPostNextToNewMessageSeparator('post3');
+    })
+
+    it('The latest post should appear unread after marking the channel as unread with alt-left-click on channel sidebar item', () => {
+        // channelA starts unread, then becomes read after you viewed 
+        // and switched to channelB
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        switchToChannel(channelA);
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        switchToChannel(channelB);
+
+        // After mark channelA with alt-left-click, channelA
+        // should appear unread
+        cy.get(`#sidebarItem_${channelA.name}`).type('{alt}', { release: false }).click();
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // After switching back to channelA, 
+        // the New Messages line should appear above the last post (post3)
+        cy.get(`#sidebarItem_${channelA.name}`).click();
+        verifyPostNextToNewMessageSeparator('post3');
+    })
 
     it('MM-T257 Mark as Unread when bringing window into focus', () => {
         // * Verify channels are unread
@@ -188,7 +227,7 @@ describe('Mark as Unread', () => {
         switchToChannel(channelA);
 
         // Show the RHS
-        cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
+        cy.get(`#CENTER_commentIcon_${post3.id}`).click({ force: true });
 
         markAsUnreadFromPost(post1, true);
 
@@ -213,7 +252,7 @@ describe('Mark as Unread', () => {
         switchToChannel(channelA);
 
         // Show the RHS
-        cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
+        cy.get(`#CENTER_commentIcon_${post3.id}`).click({ force: true });
 
         // Pretend that we start hovering over each and then hold alt afterwards
         for (const componentId of componentIds) {
@@ -221,10 +260,10 @@ describe('Mark as Unread', () => {
             cy.get(componentId).trigger('mouseover').should(notShowCursor);
 
             // * Verify that we show the pointer after pressing alt
-            cy.get(componentId).trigger('keydown', {altKey: true}).should(showCursor);
+            cy.get(componentId).trigger('keydown', { altKey: true }).should(showCursor);
 
             // * Verify that we stop showing the pointer after releasing alt
-            cy.get(componentId).trigger('keydown', {altKey: false}).should(notShowCursor);
+            cy.get(componentId).trigger('keydown', { altKey: false }).should(notShowCursor);
 
             // # Move the mouse away from the post
             cy.get(componentId).trigger('mouseout');
@@ -233,10 +272,10 @@ describe('Mark as Unread', () => {
         // Pretend that we hold down alt and then hover over each post
         for (const componentId of componentIds) {
             // * Verify that we don't show the pointer on mouseover
-            cy.get(componentId).trigger('mouseover', {altKey: true}).should(showCursor);
+            cy.get(componentId).trigger('mouseover', { altKey: true }).should(showCursor);
 
             // # Move the mouse away from the post
-            cy.get(componentId).trigger('mouseout', {altKey: true}).should(notShowCursor);
+            cy.get(componentId).trigger('mouseout', { altKey: true }).should(notShowCursor);
         }
     });
 
@@ -351,7 +390,7 @@ describe('Mark as Unread', () => {
         switchToChannel(channelA);
 
         // Show the RHS
-        cy.get(`#CENTER_commentIcon_${post3.id}`).click({force: true});
+        cy.get(`#CENTER_commentIcon_${post3.id}`).click({ force: true });
 
         // # Mark post1 as unread in RHS as root thread
         cy.uiClickPostDropdownMenu(post1.id, 'Mark as Unread', 'RHS_ROOT');
@@ -394,10 +433,10 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
 
         // * Hover on the post with holding alt should show cursor
-        cy.get(`#post_${post2.id}`).trigger('mouseover').type('{alt}', {release: false}).should(showCursor);
+        cy.get(`#post_${post2.id}`).trigger('mouseover').type('{alt}', { release: false }).should(showCursor);
 
         // # Mouse click on the post holding alt
-        cy.get(`#post_${post2.id}`).type('{alt}', {release: false}).click();
+        cy.get(`#post_${post2.id}`).type('{alt}', { release: false }).click();
 
         // * Verify the post is marked as unread
         verifyPostNextToNewMessageSeparator('post2');
@@ -422,9 +461,9 @@ describe('Mark as Unread', () => {
 function markAsUnreadFromPost(post, rhs = false) {
     const prefix = rhs ? 'rhsPost' : 'post';
 
-    cy.get('body').type('{alt}', {release: false});
-    cy.get(`#${prefix}_${post.id}`).click({force: true});
-    cy.get('body').type('{alt}', {release: true});
+    cy.get('body').type('{alt}', { release: false });
+    cy.get(`#${prefix}_${post.id}`).click({ force: true });
+    cy.get('body').type('{alt}', { release: true });
 }
 
 function markAsUnreadFromAnotherSession(post, user) {
