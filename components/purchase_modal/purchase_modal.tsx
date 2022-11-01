@@ -193,7 +193,7 @@ function Card(props: CardProps) {
     const [usersCount, setUsersCount] = useState(props.usersCount.toString());
     const [monthlyPrice, setMonthlyPrice] = useState(props.monthlyPrice * props.usersCount);
     const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
-    const [priceDifference, setPriceDifference] = useState((props.monthlyPrice-props.yearlyPrice)*props.usersCount);
+    const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
     const [isMonthly, setIsMonthly] = useState(true);
     const [containerClassname, setContainerClassname] = useState('bottom');
 
@@ -202,27 +202,26 @@ function Card(props: CardProps) {
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         setUsersCount(value);
-        
-        const numValue = Number(value)
+        const numValue = Number(value);
         if (numValue && numValue > 0) {
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
-            setPriceDifference((props.monthlyPrice-props.yearlyPrice) * numValue);
+            setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
         }
     };
 
     const checkValidNumber = () => {
         return Number(usersCount) && Number(usersCount) > 0;
-    }
+    };
 
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
         if (isMonthly) {
-            setContainerClassname('bottom')
+            setContainerClassname('bottom');
         } else {
-            setContainerClassname('bottom bottom-yearly')
+            setContainerClassname('bottom bottom-yearly');
         }
-    }
+    };
 
     const userCountTooltip = (
         <Tooltip
@@ -244,137 +243,9 @@ function Card(props: CardProps) {
         </Tooltip>
     );
 
-    const monthlyPlan = 
-    <Fragment>
-        <div className='enable_annual_sub'>
-            <button
-                className={'plan_action_btn ' + props.buttonDetails.customClass}
-                disabled={props.buttonDetails.disabled}
-                onClick={props.buttonDetails.action}
-            >{props.buttonDetails.text}</button>
-        </div>
-        <div className='plan_billing_cycle'>
-            <FormattedMessage
-                defaultMessage={'Payment begins: {beginDate}. '}
-                id={'admin.billing.subscription.paymentBegins'}
-                values={{
-                    beginDate: getNextBillingDate(),
-                }}
-            />
-            <FormattedMessage
-                defaultMessage={
-                    'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                }
-                id={'admin.billing.subscription.freeTrialDisclaimer'}
-            />
-            <a
-                onClick={seeHowBillingWorks}
-            >
-                <FormattedMessage
-                    defaultMessage={'See how billing works.'}
-                    id={'admin.billing.subscription.howItWorks'}
-                />
-            </a>
-        </div>
-    </Fragment>;
-
-    const errorMessage = formatMessage({
-        id: 'admin.billing.subscription.userCount.error',
-        defaultMessage: `Your workspace currently has ${props.usersCount} users`,
-    }, {num: props.usersCount})
-
-    const yearlyPlan = 
-    <Fragment>
-        <div className="flex-grid">
-            <div className="user_seats_container">
-                <Input
-                    name='UserSeats'
-                    type='text'
-                    value={usersCount}
-                    onChange={onChange}
-                    placeholder={'User seats'}
-                    wrapperClassName='user_seats'
-                    inputClassName='user_seats'
-                    customMessage={checkValidNumber() ? null : {
-                        type: ItemStatus.ERROR,
-                        value: errorMessage
-                        // 'Your workspace currently has n users'
-                    }}
-                />
-            </div>
-            <div className="icon">
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='right'
-                    overlay={userCountTooltip}
-                >
-                    <i className='icon-information-outline'/>
-                </OverlayTrigger>
-            </div>
-            <div className="monthly_price"><p>${monthlyPrice}</p></div>
-        </div>
-        <table>
-            <tbody>
-                <tr>
-                    <td className='yearly_savings'>
-                        <FormattedMessage
-                            defaultMessage={'Yearly Savings'}
-                            id={'admin.billing.subscription.yearlySavings'}
-                        />
-                    </td>
-                    <td className='yearly_savings'>-${priceDifference}</td>
-                </tr>
-                <tr>
-                    <td>
-                        <FormattedMessage
-                            defaultMessage={'Total'}
-                            id={'admin.billing.subscription.total'}
-                        />
-                    </td>
-                    <td>${yearlyPrice}</td>
-                </tr>
-            </tbody>
-        </table>
-        <div className='enable_annual_sub'>
-            <button
-                className={'plan_action_btn ' + props.buttonDetails.customClass}
-                disabled={props.buttonDetails.disabled}
-                onClick={props.buttonDetails.action}
-            >{props.buttonDetails.text}</button>
-        </div>
-        <div className='plan_billing_cycle'>
-            <FormattedMessage
-                defaultMessage={'You will be charged {beginDate}. '}
-                id={'admin.billing.subscription.paymentBeginsYearly'}
-                values={{
-                    beginDate: getNextBillingDate(),
-                }}
-            />
-            <a
-                onClick={seeHowBillingWorks}
-            >
-                <FormattedMessage
-                    defaultMessage={'See how billing works.'}
-                    id={'admin.billing.subscription.howItWorks'}
-                />
-            </a>
-        </div>
-    </Fragment>
-
-    const originalPlan = <div className='PlanCard'>
-        {props.planLabel && props.planLabel}
-        <div
-            className='top'
-            style={{backgroundColor: props.topColor}}
-        />
-        <div className='bottom'>
-            <div className='plan_price_rate_section'>
-                <h4>{props.plan}</h4>
-                <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>${props.price}</h1>
-                <p>{props.rate}</p>
-            </div>
-            {props.planBriefing}
-            <div>
+    const monthlyPlan = (
+        <Fragment>
+            <div className='enable_annual_sub'>
                 <button
                     className={'plan_action_btn ' + props.buttonDetails.customClass}
                     disabled={props.buttonDetails.disabled}
@@ -382,6 +253,13 @@ function Card(props: CardProps) {
                 >{props.buttonDetails.text}</button>
             </div>
             <div className='plan_billing_cycle'>
+                <FormattedMessage
+                    defaultMessage={'Payment begins: {beginDate}. '}
+                    id={'admin.billing.subscription.paymentBegins'}
+                    values={{
+                        beginDate: getNextBillingDate(),
+                    }}
+                />
                 <FormattedMessage
                     defaultMessage={
                         'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
@@ -397,27 +275,159 @@ function Card(props: CardProps) {
                     />
                 </a>
             </div>
-        </div>
-    </div>;
+        </Fragment>
+    );
 
-    const monthlyYearlyPlan = <div className='PlanCard'>
-        <div className={containerClassname}>
-            <div className='save_text'>
+    const errorMessage = formatMessage({
+        id: 'admin.billing.subscription.userCount.error',
+        defaultMessage: `Your workspace currently has ${props.usersCount} users`,
+    }, {num: props.usersCount});
+
+    const yearlyPlan = (
+        <Fragment>
+            <div className='flex-grid'>
+                <div className='user_seats_container'>
+                    <Input
+                        name='UserSeats'
+                        type='text'
+                        value={usersCount}
+                        onChange={onChange}
+                        placeholder={'User seats'}
+                        wrapperClassName='user_seats'
+                        inputClassName='user_seats'
+                        customMessage={checkValidNumber() ? null : {
+                            type: ItemStatus.ERROR,
+                            value: errorMessage,
+                        }}
+                    />
+                </div>
+                <div className='icon'>
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='right'
+                        overlay={userCountTooltip}
+                    >
+                        <i className='icon-information-outline'/>
+                    </OverlayTrigger>
+                </div>
+                <div className='monthly_price'><p>{`$${monthlyPrice}`}</p></div>
+            </div>
+            <table>
+                <tbody>
+                    <tr>
+                        <td className='yearly_savings'>
+                            <FormattedMessage
+                                defaultMessage={'Yearly Savings'}
+                                id={'admin.billing.subscription.yearlySavings'}
+                            />
+                        </td>
+                        <td className='yearly_savings'>{`-$${priceDifference}`}</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <FormattedMessage
+                                defaultMessage={'Total'}
+                                id={'admin.billing.subscription.total'}
+                            />
+                        </td>
+                        <td>{`$${yearlyPrice}`}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div className='enable_annual_sub'>
+                <button
+                    className={'plan_action_btn ' + props.buttonDetails.customClass}
+                    disabled={props.buttonDetails.disabled}
+                    onClick={props.buttonDetails.action}
+                >{props.buttonDetails.text}</button>
+            </div>
+            <div className='plan_billing_cycle'>
                 <FormattedMessage
-                    defaultMessage={'Save 20% with Yearly.'}
-                    id={'pricing_modal.saveWithYearly'}
+                    defaultMessage={'You will be charged {beginDate}. '}
+                    id={'admin.billing.subscription.paymentBeginsYearly'}
+                    values={{
+                        beginDate: getNextBillingDate(),
+                    }}
                 />
+                <a
+                    onClick={seeHowBillingWorks}
+                >
+                    <FormattedMessage
+                        defaultMessage={'See how billing works.'}
+                        id={'admin.billing.subscription.howItWorks'}
+                    />
+                </a>
             </div>
-            <YearlyMonthlyToggle updatePrice={updateDisplayPage} isPurchases={true}/>
-            {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
-            <div className='plan_price_rate_section' style={{height: '125px'}}>
-                <h4 className='plan_name'>{props.plan}</h4>
-                <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>${props.price}</h1>
-                <p className='plan_text'>{props.rate}</p>
+        </Fragment>
+    );
+
+    const originalPlan = (
+        <div className='PlanCard'>
+            {props.planLabel && props.planLabel}
+            <div
+                className='top'
+                style={{backgroundColor: props.topColor}}
+            />
+            <div className='bottom'>
+                <div className='plan_price_rate_section'>
+                    <h4>{props.plan}</h4>
+                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${props.price}`}</h1>
+                    <p>{props.rate}</p>
+                </div>
+                {props.planBriefing}
+                <div>
+                    <button
+                        className={'plan_action_btn ' + props.buttonDetails.customClass}
+                        disabled={props.buttonDetails.disabled}
+                        onClick={props.buttonDetails.action}
+                    >{props.buttonDetails.text}</button>
+                </div>
+                <div className='plan_billing_cycle'>
+                    <FormattedMessage
+                        defaultMessage={
+                            'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
+                        }
+                        id={'admin.billing.subscription.freeTrialDisclaimer'}
+                    />
+                    <a
+                        onClick={seeHowBillingWorks}
+                    >
+                        <FormattedMessage
+                            defaultMessage={'See how billing works.'}
+                            id={'admin.billing.subscription.howItWorks'}
+                        />
+                    </a>
+                </div>
             </div>
-            {isMonthly ? monthlyPlan : yearlyPlan}
         </div>
-    </div>;
+    );
+
+    const monthlyYearlyPlan = (
+        <div className='PlanCard'>
+            <div className={containerClassname}>
+                <div className='save_text'>
+                    <FormattedMessage
+                        defaultMessage={'Save 20% with Yearly.'}
+                        id={'pricing_modal.saveWithYearly'}
+                    />
+                </div>
+                <YearlyMonthlyToggle
+                    updatePrice={updateDisplayPage}
+                    isPurchases={true}
+                />
+                {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
+                <div
+                    className='plan_price_rate_section'
+                    style={{height: '125px'}}
+                >
+                    <h4 className='plan_name'>{props.plan}</h4>
+                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${props.price}`}</h1>
+                    <p className='plan_text'>{props.rate}</p>
+                </div>
+                {isMonthly ? monthlyPlan : yearlyPlan}
+            </div>
+        </div>
+    );
 
     return (
         props.annualSubscription ? monthlyYearlyPlan : originalPlan

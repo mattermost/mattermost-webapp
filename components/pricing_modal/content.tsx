@@ -202,7 +202,10 @@ function Content(props: ContentProps) {
                                     {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
                                 </p>
                             </div>
-                            <YearlyMonthlyToggle updatePrice={updateProfessionalPrice} isPurchases={false}/>
+                            <YearlyMonthlyToggle
+                                updatePrice={updateProfessionalPrice}
+                                isPurchases={false}
+                            />
                         </Fragment>
                     }
                     <div className='alert-option-container'>

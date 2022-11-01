@@ -45,8 +45,8 @@ function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
             setToggleBorderClassName(initialToggleBorder + ' move-right');
         }
 
-        const telemetry_category = isPurchases ? TELEMETRY_CATEGORIES.CLOUD_PURCHASING : TELEMETRY_CATEGORIES.CLOUD_PRICING;
-        trackEvent(telemetry_category, 'click_yearly_toggle');
+        const telemetryCategory = isPurchases ? TELEMETRY_CATEGORIES.CLOUD_PURCHASING : TELEMETRY_CATEGORIES.CLOUD_PRICING;
+        trackEvent(telemetryCategory, 'click_yearly_toggle');
 
         // update the displayed price
         updatePrice(!isMonthly);
