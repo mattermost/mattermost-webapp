@@ -206,6 +206,6 @@ describe('Keyboard Shortcuts', () => {
 });
 
 function modalShouldOpen() {
-    const name = isMac() ? /Keyboard Shortcuts ⌘ \// : /Keyboard Shortcuts Ctrl \//;
+    const name = isMac() ? /Keyboard shortcuts ⌘ \// : /Keyboard shortcuts Ctrl \//;
     cy.findByRole('dialog', {name}).should('be.visible');
 }

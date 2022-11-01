@@ -183,6 +183,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
             <Avatar
                 size={size}
                 url={this.props.profilePicture}
+                tabIndex={undefined}
             />
         );
     }
@@ -415,7 +416,10 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                     active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
-                <div className='status-wrapper'>
+                <button
+                    className='status-wrapper style--none'
+                    aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                >
                     <CustomStatusEmoji
                         showTooltip={true}
                         tooltipDirection={'bottom'}
@@ -432,7 +436,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                             status={(this.props.status || 'offline') as TUserStatus}
                         />
                     </button>
-                </div>
+                </button>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id={'statusDropdownMenu'}

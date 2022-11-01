@@ -103,7 +103,6 @@ export type ClientConfig = {
     EnforceMultifactorAuthentication: string;
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
-    ExperimentalCloudBilling: string;
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
@@ -114,8 +113,8 @@ export type ClientConfig = {
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
+    FeatureFlagBoardsProduct: string;
     FeatureFlagGraphQL: string;
-    FeatureFlagPlanUpgradeButtonText: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -673,7 +672,6 @@ export type ExperimentalSettings = {
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;
-    CloudBilling: boolean;
 };
 
 export type AnalyticsSettings = {

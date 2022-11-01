@@ -123,7 +123,7 @@ describe('Channel members RHS', () => {
                 cy.uiGotoDirectMessageWithUser(newUser);
 
                 // * The RHS must not exist
-                cy.uiGetRHS({visible: false});
+                cy.get('#sidebar-right').should('not.exist');
             });
         });
     });
