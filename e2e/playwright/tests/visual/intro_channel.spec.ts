@@ -38,5 +38,5 @@ test('Intro to channel as regular user', async ({page, isMobile, browserName, vi
     await page.addStyleTag({content: hideTeamHeader + hidePostHeaderTime});
 
     // Match snapshot of channel intro page
-    ({eyes} = await matchSnapshot(testInfo.title, testArgs));
+    ({eyes} = await matchSnapshot(testInfo, testArgs));
 });

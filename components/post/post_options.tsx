@@ -47,6 +47,7 @@ type Props = {
     isSearchResultsItem?: boolean;
     canReply?: boolean;
     replyCount?: number;
+    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string;
 };
 
 const PostOptions = (props: Props): JSX.Element => {
@@ -86,7 +87,7 @@ const PostOptions = (props: Props): JSX.Element => {
     };
 
     const handleDotMenuOpened = (open: boolean) => {
-        setShowDotMenu(true);
+        setShowDotMenu(open);
         props.handleDropdownOpened!(open || showEmojiPicker);
     };
 
@@ -142,7 +143,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 teamId={props.teamId}
                 emojis={props.recentEmojis}
                 getDotMenuRef={getDotMenuRef}
-                size={props.isExpanded ? 3 : 1}
+                size={props.isExpanded || props.location === 'CENTER' ? 3 : 1}
             />
         );
     }
@@ -173,6 +174,36 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     }
 
+    // Action menus
+    const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobile || hoverLocal);
+    const actionsMenu = showActionsMenuIcon && (
+        <ActionsMenu
+            post={post}
+            location={props.location}
+            handleDropdownOpened={handleActionsMenuOpened}
+            isMenuOpen={showActionsMenu}
+            showPulsatingDot={showActionsMenuPulsatingDot}
+            showTutorialTip={showActionTip}
+            handleOpenTip={handleActionsMenuTipOpened}
+            handleNextTip={handleActionsMenuGotItClick}
+            handleDismissTip={handleTipDismissed}
+        />
+    );
+    const dotMenu = (
+        <DotMenu
+            post={props.post}
+            location={props.location}
+            isFlagged={props.isFlagged}
+            handleDropdownOpened={handleDotMenuOpened}
+            handleCommentClick={props.handleCommentClick}
+            handleAddReactionClick={toggleEmojiPicker}
+            isReadOnly={isReadOnly || channelIsArchived}
+            isMenuOpen={showDotMenu}
+            enableEmojiPicker={props.enableEmojiPicker}
+        />
+    );
+
+    // Build post options
     let options: ReactNode;
     if (isEphemeral) {
         options = (
@@ -182,38 +213,39 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     } else if (isPostDeleted) {
         options = null;
+    } else if (props.isSearchResultsItem) {
+        const hasCRTFooter = props.collapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
+
+        options = (
+            <div className='col__controls post-menu'>
+                {dotMenu}
+                {flagIcon}
+                {props.canReply && !hasCRTFooter &&
+                    <CommentIcon
+                        location={Locations.SEARCH}
+                        handleCommentClick={props.handleCommentClick}
+                        commentCount={props.replyCount}
+                        postId={post.id}
+                        searchStyle={'search-item__comment'}
+                        extraClass={props.replyCount ? 'icon--visible' : ''}
+                    />
+                }
+                <a
+                    href='#'
+                    onClick={props.handleJumpClick}
+                    className='search-item__jump'
+                >
+                    <FormattedMessage
+                        id='search_item.jump'
+                        defaultMessage='Jump'
+                    />
+                </a>
+            </div>
+        );
     } else if (!isSystemMessage &&
         (isMobileView ||
         hoverLocal ||
         a11yActive)) {
-        const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobile || hoverLocal);
-        const actionsMenu = showActionsMenuIcon && (
-            <ActionsMenu
-                post={post}
-                location={Locations.RHS_COMMENT}
-                handleDropdownOpened={handleActionsMenuOpened}
-                isMenuOpen={showActionsMenu}
-                showPulsatingDot={showActionsMenuPulsatingDot}
-                showTutorialTip={showActionTip}
-                handleOpenTip={handleActionsMenuTipOpened}
-                handleNextTip={handleActionsMenuGotItClick}
-                handleDismissTip={handleTipDismissed}
-            />
-        );
-        const dotMenu = (
-            <DotMenu
-                post={props.post}
-                location={Locations.RHS_COMMENT}
-                isFlagged={props.isFlagged}
-                handleDropdownOpened={handleDotMenuOpened}
-                handleCommentClick={props.handleCommentClick}
-                handleAddReactionClick={toggleEmojiPicker}
-                isReadOnly={isReadOnly || channelIsArchived}
-                isMenuOpen={showDotMenu}
-                enableEmojiPicker={props.enableEmojiPicker}
-            />
-        );
-
         options = (
             <div
                 ref={dotMenuRef}

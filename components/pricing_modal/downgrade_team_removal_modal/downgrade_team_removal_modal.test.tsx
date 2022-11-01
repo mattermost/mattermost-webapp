@@ -302,6 +302,7 @@ describe('components/pricing_modal/downgrade_team_removal_modal', () => {
                         add_ons: [],
                         billing_scheme: 'flat_fee',
                         recurring_interval: 'month',
+                        cross_sells_to: '',
                     },
                     prod_enterprise: {
                         id: 'prod_enterprise',

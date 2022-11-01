@@ -13,6 +13,8 @@ import {Props as TimestampProps} from 'components/timestamp/timestamp';
 
 import PostComponent from 'components/post';
 
+import {Locations} from 'utils/constants';
+
 import Reply from './reply';
 
 type Props = {
@@ -60,11 +62,11 @@ function ThreadViewerRow({
         return (
             <PostComponent
                 postId={listId}
-                currentUserId={currentUserId}
                 isLastPost={isLastPost}
                 handleCardClick={onCardClick}
                 teamId={teamId}
                 timestampProps={timestampProps}
+                location={Locations.RHS_ROOT}
             />
         );
     case PostListUtils.isCombinedUserActivityPost(listId): {

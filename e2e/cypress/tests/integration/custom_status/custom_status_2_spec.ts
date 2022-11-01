@@ -10,26 +10,21 @@
 // Stage: @prod
 // Group: @custom_status
 
-import set from 'lodash.set';
-
 describe('Custom Status - Setting a Custom Status', () => {
-    before(() => {
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'TeamSettings.EnableCustomUserStatuses', true);
-            cy.apiUpdateConfig(config);
-
-            // # Login as test user and visit channel
-            cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
-                cy.visit(channelUrl);
-            });
-        });
-    });
-
     const defaultCustomStatuses = ['In a meeting', 'Out for lunch', 'Out sick', 'Working from home', 'On a vacation'];
     const customStatus = {
         emoji: 'calendar',
         text: 'In a meeting',
     };
+
+    before(() => {
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
+
+        // # Login as test user and visit channel
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
+        });
+    });
 
     it('MM-T3836_1 should open status dropdown', () => {
         // # Click on the sidebar header to open status dropdown

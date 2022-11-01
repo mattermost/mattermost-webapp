@@ -21,7 +21,7 @@ import FileSearchResultItem from 'components/file_search_results';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import * as Utils from 'utils/utils';
-import {searchHintOptions, DataSearchTypes} from 'utils/constants';
+import {searchHintOptions, DataSearchTypes, Locations} from 'utils/constants';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
 import {t} from 'utils/i18n';
 
@@ -281,14 +281,12 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 return (
                     <PostComponent
                         key={item.id}
-                        compactDisplay={props.compactDisplay}
                         post={item as Post}
                         matches={props.matches[item.id]}
                         term={(!props.isFlaggedPosts && !props.isPinnedPosts && !props.isMentionSearch) ? searchTerms : ''}
                         isMentionSearch={props.isMentionSearch}
                         a11yIndex={index}
-                        isFlagged={props.isFlaggedPosts}
-                        isPinned={props.isPinnedPosts}
+                        location={Locations.SEARCH}
                     />
                 );
             }
