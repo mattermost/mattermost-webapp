@@ -14,7 +14,7 @@ import AddGroupsToChannelModal from 'components/add_groups_to_channel_modal';
 
 import {ModalIdentifiers} from 'utils/constants';
 
-import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal.jsx';
+import ListModal, {DEFAULT_NUM_PER_PAGE} from 'components/list_modal';
 
 import DropdownIcon from 'components/widgets/icons/fa_dropdown_icon';
 

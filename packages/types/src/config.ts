@@ -52,6 +52,7 @@ export type ClientConfig = {
     EnableCustomEmoji: string;
     EnableCustomGroups: string;
     EnableCustomUserStatuses: string;
+    EnableLastActiveTime: string;
     EnableTimedDND: string;
     EnableCustomTermsOfService: string;
     EnableDeveloper: string;
@@ -102,7 +103,6 @@ export type ClientConfig = {
     EnforceMultifactorAuthentication: string;
     ExperimentalClientSideCertCheck: string;
     ExperimentalClientSideCertEnable: string;
-    ExperimentalCloudBilling: string;
     ExperimentalDataPrefetch: string;
     ExperimentalEnableAuthenticationTransfer: string;
     ExperimentalEnableAutomaticReplies: string;
@@ -113,8 +113,8 @@ export type ClientConfig = {
     ExperimentalTimezone: string;
     ExperimentalViewArchivedChannels: string;
     FileLevel: string;
+    FeatureFlagBoardsProduct: string;
     FeatureFlagGraphQL: string;
-    FeatureFlagPlanUpgradeButtonText: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -362,6 +362,7 @@ export type TeamSettings = {
     LockTeammateNameDisplay: boolean;
     ExperimentalPrimaryTeam: string;
     ExperimentalDefaultChannels: string[];
+    EnableLastActiveTime: boolean;
 };
 
 export type ClientRequirements = {
@@ -671,7 +672,6 @@ export type ExperimentalSettings = {
     LinkMetadataTimeoutMilliseconds: number;
     RestrictSystemAdmin: boolean;
     UseNewSAMLLibrary: boolean;
-    CloudBilling: boolean;
 };
 
 export type AnalyticsSettings = {

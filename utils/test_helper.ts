@@ -17,6 +17,7 @@ import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+import {Invoice, Product, Subscription, CloudCustomer} from '@mattermost/types/cloud';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -365,6 +366,8 @@ export class TestHelper {
             headerCentreComponent: () => null,
             headerRightComponent: () => null,
             showTeamSidebar: false,
+            showAppBar: false,
+            wrapped: true,
         };
     }
 
@@ -403,5 +406,91 @@ export class TestHelper {
             };
         });
         return preferences;
+    }
+    public static getSubscriptionMock(override: Partial<Subscription>): Subscription {
+        return {
+            id: '',
+            customer_id: '',
+            product_id: '',
+            add_ons: [],
+            start_at: 0,
+            end_at: 0,
+            create_at: 0,
+            seats: 0,
+            last_invoice: TestHelper.getInvoiceMock({subscription_id: override.id || ''}),
+            trial_end_at: 0,
+            is_free_trial: 'false',
+            ...override,
+        };
+    }
+    public static getInvoiceMock(override: Partial<Invoice>): Invoice {
+        return {
+            id: '',
+            number: '',
+            create_at: 0,
+            total: 0,
+            tax: 0,
+            status: '',
+            description: '',
+            period_start: 0,
+            period_end: 0,
+            subscription_id: '',
+            line_items: [],
+            current_product_name: '',
+            ...override,
+        };
+    }
+    public static getProductMock(override: Partial<Product>): Product {
+        return {
+            id: '',
+            name: '',
+            description: '',
+            price_per_seat: 0,
+            add_ons: [],
+            product_family: '',
+            sku: '',
+            billing_scheme: '',
+            recurring_interval: '',
+            cross_sells_to: '',
+            ...override,
+        };
+    }
+
+    public static getCloudCustomerMock(override: Partial<CloudCustomer> = {}): CloudCustomer {
+        return {
+            id: '',
+            billing_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            company_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            payment_method: {
+                type: '',
+                last_four: '',
+                exp_month: 0,
+                exp_year: 0,
+                card_brand: '',
+                name: '',
+            },
+            name: '',
+            email: '',
+            contact_first_name: '',
+            contact_last_name: '',
+            create_at: 0,
+            creator_id: '',
+            num_employees: 100,
+            ...override,
+        };
     }
 }

@@ -1,12 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+/* eslint-disable no-console, no-process-env */
+
 const childProcess = require('child_process');
 const http = require('http');
 const path = require('path');
 
 const url = require('url');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ExternalTemplateRemotesPlugin = require('external-remotes-plugin');
 const webpack = require('webpack');
 const {ModuleFederationPlugin} = require('webpack').container;
 const nodeExternals = require('webpack-node-externals');
@@ -19,16 +22,17 @@ const LiveReloadPlugin = require('webpack-livereload-plugin');
 
 const packageJson = require('./package.json');
 
-/* eslint-disable no-console */
-
-const NPM_TARGET = process.env.npm_lifecycle_event; //eslint-disable-line no-process-env
+const NPM_TARGET = process.env.npm_lifecycle_event;
 
 const targetIsRun = NPM_TARGET?.startsWith('run');
 const targetIsTest = NPM_TARGET === 'test';
 const targetIsStats = NPM_TARGET === 'stats';
 const targetIsDevServer = NPM_TARGET?.startsWith('dev-server');
+const targetIsEslint = NPM_TARGET === 'check' || NPM_TARGET === 'fix' || process.env.VSCODE_CWD;
 
 const DEV = targetIsRun || targetIsStats || targetIsDevServer;
+
+const boardsDevServerUrl = process.env.MM_BOARDS_DEV_SERVER_URL ?? 'http://localhost:9006';
 
 const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
@@ -127,7 +131,7 @@ let publicPath = '/static/';
 
 // Allow overriding the publicPath in dev from the exported SiteURL.
 if (DEV) {
-    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || ''; //eslint-disable-line no-process-env
+    const siteURL = process.env.MM_SERVICESETTINGS_SITEURL || '';
     if (siteURL) {
         publicPath = path.join(new url.URL(siteURL).pathname, 'static') + '/';
     }
@@ -269,6 +273,12 @@ var config = {
             filename: 'root.html',
             inject: 'head',
             template: 'root.html',
+            meta: {
+                csp: {
+                    'http-equiv': 'Content-Security-Policy',
+                    content: generateCSP(),
+                },
+            },
         }),
         new CopyWebpackPlugin({
             patterns: [
@@ -379,6 +389,19 @@ var config = {
     ],
 };
 
+function generateCSP() {
+    let csp = 'script-src \'self\' cdn.rudderlabs.com/ js.stripe.com/v3';
+
+    if (DEV) {
+        // react-hot-loader and development source maps require eval
+        csp += ' \'unsafe-eval\'';
+
+        csp += ' ' + boardsDevServerUrl;
+    }
+
+    return csp;
+}
+
 async function initializeModuleFederation() {
     function makeSingletonSharedModules(packageNames) {
         const sharedObject = {};
@@ -416,11 +439,25 @@ async function initializeModuleFederation() {
         });
     }
 
-    async function getRemoteModules() {
+    async function getRemoteContainers() {
         const products = [
-            {name: 'focalboard', baseUrl: 'http://localhost:9006'},
+            {name: 'boards', baseUrl: boardsDevServerUrl},
         ];
 
+        if (!DEV) {
+            // For production, hardcode the URLs of product containers to be based on the web app URL
+            const remotes = {};
+            for (const product of products) {
+                remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js`;
+            }
+
+            return {
+                remotes,
+                aliases: {},
+            };
+        }
+
+        // For development, identify which product dev servers are available
         const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
 
         const remotes = {};
@@ -446,7 +483,7 @@ async function initializeModuleFederation() {
         return {remotes, aliases};
     }
 
-    const {remotes, aliases} = await getRemoteModules();
+    const {remotes, aliases} = await getRemoteContainers();
 
     config.plugins.push(new ModuleFederationPlugin({
         name: 'mattermost-webapp',
@@ -476,13 +513,16 @@ async function initializeModuleFederation() {
         ],
     }));
 
+    // Add this plugin to perform the substitution of window.basename when loading remote containers
+    config.plugins.push(new ExternalTemplateRemotesPlugin());
+
     config.resolve.alias = {
         ...config.resolve.alias,
         ...aliases,
     };
 
     config.plugins.push(new webpack.DefinePlugin({
-        REMOTE_MODULES: JSON.stringify(remotes),
+        REMOTE_CONTAINERS: JSON.stringify(remotes),
     }));
 }
 
@@ -503,15 +543,15 @@ if (DEV) {
 const env = {};
 if (DEV) {
     env.PUBLIC_PATH = JSON.stringify(publicPath);
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
-    if (process.env.MM_LIVE_RELOAD) { //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
+    if (process.env.MM_LIVE_RELOAD) {
         config.plugins.push(new LiveReloadPlugin());
     }
 } else {
     env.NODE_ENV = JSON.stringify('production');
-    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || ''); //eslint-disable-line no-process-env
-    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || ''); //eslint-disable-line no-process-env
+    env.RUDDER_KEY = JSON.stringify(process.env.RUDDER_KEY || '');
+    env.RUDDER_DATAPLANE_URL = JSON.stringify(process.env.RUDDER_DATAPLANE_URL || '');
 }
 
 config.plugins.push(new webpack.DefinePlugin({
@@ -577,7 +617,7 @@ if (targetIsDevServer) {
 // not helpful.)
 // See https://reactjs.org/blog/2018/09/10/introducing-the-react-profiler.html and
 // https://gist.github.com/bvaughn/25e6233aeb1b4f0cdb8d8366e54a3977
-if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
+if (process.env.PRODUCTION_PERF_DEBUG) {
     console.log('Enabling production performance debug settings'); //eslint-disable-line no-console
     config.resolve.alias['react-dom'] = 'react-dom/profiling';
     config.resolve.alias['schedule/tracing'] = 'schedule/tracing-profiling';
@@ -588,7 +628,7 @@ if (process.env.PRODUCTION_PERF_DEBUG) { //eslint-disable-line no-process-env
     };
 }
 
-if (NPM_TARGET === 'check') {
+if (targetIsEslint) {
     // ESLint can't handle setting an async config, so just skip the async part
     module.exports = config;
 } else {

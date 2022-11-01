@@ -45,7 +45,7 @@ describe('Integrations page', () => {
         });
     });
 
-    it('should should display correct message when incoming webhook not found', () => {
+    it('should display correct message when incoming webhook not found', () => {
         // # Open incoming web hooks page
         cy.get('#incomingWebhooks').click();
 
@@ -72,7 +72,7 @@ describe('Integrations page', () => {
         cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No incoming webhooks match ${searchString}`);
     });
 
-    it('should should display correct message when outgoing webhook not found', () => {
+    it('should display correct message when outgoing webhook not found', () => {
         // # Open outgoing web hooks page
         cy.get('#outgoingWebhooks').click();
 
@@ -100,7 +100,7 @@ describe('Integrations page', () => {
         cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No outgoing webhooks match ${searchString}`);
     });
 
-    it('should should display correct message when slash command not found', () => {
+    it('should display correct message when slash command not found', () => {
         // # Open slash command page
         cy.get('#slashCommands').click();
 
@@ -128,7 +128,7 @@ describe('Integrations page', () => {
         cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No commands match ${searchString}`);
     });
 
-    it('should should display correct message when OAuth app not found', () => {
+    it('should display correct message when OAuth app not found', () => {
         // # Open OAuth apps page
         cy.get('#oauthApps').click();
 
@@ -158,7 +158,7 @@ describe('Integrations page', () => {
         cy.get('#emptySearchResultsMessage').should('be.visible').and('have.text', `No OAuth 2.0 Applications match ${searchString}`);
     });
 
-    it('should should display correct message when bot account not found', () => {
+    it('should display correct message when bot account not found', () => {
         // # Open  bot account page
         cy.get('#botAccounts').click();
 

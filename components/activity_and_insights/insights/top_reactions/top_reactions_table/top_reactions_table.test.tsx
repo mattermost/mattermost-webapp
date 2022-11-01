@@ -34,6 +34,7 @@ describe('components/activity_and_insights/insights/top_reactions/top_reactions_
 
     const initialState = {
         entities: {
+            general: {config: {}},
             teams: {
                 currentTeamId: 'team_id1',
                 teams: {
