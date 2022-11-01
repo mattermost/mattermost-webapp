@@ -269,6 +269,7 @@ const OnBoardingTaskList = (): JSX.Element | null => {
             value: String(!open),
         }];
         dispatch(savePreferences(currentUserId, preferences));
+        trackEvent(OnboardingTaskCategory, open ? OnboardingTaskList.ONBOARDING_TASK_LIST_CLOSE : OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN);
     }, [open, currentUserId]);
 
     const openVideoModal = useCallback(() => {

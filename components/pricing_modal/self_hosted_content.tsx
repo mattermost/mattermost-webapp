@@ -56,7 +56,7 @@ function SelfHostedContent(props: ContentProps) {
     const starterBriefing = [
         formatMessage({id: 'pricing_modal.briefing.unlimitedWorkspaceTeams', defaultMessage: 'Unlimited workspace teams'}),
         formatMessage({id: 'pricing_modal.briefing.unlimitedPlaybookRuns', defaultMessage: 'Unlimited playbooks and runs'}),
-        formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
         formatMessage({id: 'pricing_modal.briefing.fullMessageAndHistory', defaultMessage: 'Full message and file history'}),
         formatMessage({id: 'pricing_modal.briefing.ssoWithGitLab', defaultMessage: 'SSO with Gitlab'}),
     ];
@@ -135,10 +135,10 @@ function SelfHostedContent(props: ContentProps) {
                 {renderAlert()}
                 <div className='PricingModal__body'>
                     <Card
-                        id='starter'
+                        id='free'
                         topColor='#339970'
-                        plan='Starter'
-                        planSummary={formatMessage({id: 'pricing_modal.planSummary.starter', defaultMessage: 'Increased productivity for small teams'})}
+                        plan='Free'
+                        planSummary={formatMessage({id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams'})}
                         price='$0'
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={

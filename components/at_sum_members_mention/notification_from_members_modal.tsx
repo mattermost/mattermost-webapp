@@ -4,6 +4,7 @@
 import React from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
+import {useHistory} from 'react-router-dom';
 
 import styled from 'styled-components';
 
@@ -20,7 +21,6 @@ import {closeModal} from 'actions/views/modals';
 
 import {GlobalState} from 'types/store';
 
-import {browserHistory} from 'utils/browser_history';
 import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
 import {ModalIdentifiers} from 'utils/constants';
 
@@ -60,7 +60,9 @@ const unknownUser: UserProfile = {id: 'unknown', username: 'unknown'} as UserPro
 
 function NotificationFromMembersModal(props: Props) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const {formatMessage} = useIntl();
+
     const channel = useSelector(getCurrentChannel);
     const teamUrl = useSelector(getCurrentRelativeTeamUrl);
     const userProfiles = useSelector(getUsers);
@@ -87,7 +89,7 @@ function NotificationFromMembersModal(props: Props) {
         await dispatch(openDirectChannelToUserId(user.id));
 
         // ... and then redirect to it
-        browserHistory.push(teamUrl + '/messages/@' + user.username);
+        history.push(teamUrl + '/messages/@' + user.username);
     };
 
     const handleOnClose = () => {
