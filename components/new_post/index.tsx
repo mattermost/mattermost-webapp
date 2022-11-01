@@ -102,7 +102,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         post = ownProps.post;
     }
     if (!post) {
-        return;
+        return null;
     }
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';

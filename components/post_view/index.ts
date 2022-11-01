@@ -64,7 +64,6 @@ function makeMapStateToProps() {
             }
             lastViewedAt = channel.last_post_at ? lastViewedAt : channel.last_post_at;
         }
-        console.log(lastViewedAt);
 
         const teamMemberships = getTeamMemberships(state);
         const channelLoading = isChannelLoading(params!, channel, team, teammate, teamMemberships);
