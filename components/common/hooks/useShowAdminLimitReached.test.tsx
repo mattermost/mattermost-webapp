@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactPortal} from 'react';
 import {screen} from '@testing-library/react';
 import {Provider} from 'react-redux';
 
@@ -94,6 +94,11 @@ const openModalState = {
 };
 
 const modalRegex = /message history.*no longer available.*Upgrade to a paid plan and get unlimited access to your message history/;
+
+jest.mock('react-dom', () => ({
+    ...jest.requireActual('react-dom') as typeof import('react-dom'),
+    createPortal: (node: React.ReactNode) => node as ReactPortal,
+}));
 
 describe('useShowAdminLimitReached', () => {
     it('opens cloud usage modal if admin has just logged in on a cloud instance, the instance has exceeded its message history limit, and the admin has not been shown the modal on log in before.', () => {

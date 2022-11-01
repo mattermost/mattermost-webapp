@@ -2986,7 +2986,6 @@
   "passwordRequirements": "密碼要求：",
   "password_form.change": "變更密碼",
   "password_form.enter": "輸入 {siteName} 帳戶的新密碼",
-  "password_form.error": "請至少輸入{chars} 個字",
   "password_form.pwd": "密碼",
   "password_form.title": "密碼重設",
   "password_send.checkInbox": "請檢查收件夾。",
