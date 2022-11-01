@@ -51,6 +51,7 @@ import ProcessPaymentSetup from './process_payment_setup';
 import 'components/payment_form/payment_form.scss';
 
 import './purchase.scss';
+
 let stripePromise: Promise<Stripe | null>;
 
 enum ButtonCustomiserClasses {
