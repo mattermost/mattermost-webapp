@@ -3149,6 +3149,7 @@ const AdminDefinition = {
                         help_text: t('admin.team.emailInvitationsDescription'),
                         help_text_default: 'When true users can invite others to the system using email.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
+                        isHidden: it.isCloudLicense
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -3194,7 +3195,7 @@ const AdminDefinition = {
                         help_text: t('admin.email.requireVerificationDescription'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
-                        isHidden: it.licensed,
+                        isHidden: it.isCloudLicense,
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
