@@ -98,7 +98,7 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 4px;
+                padding: 4px 6px 4px 8px;
             }
 
             .MenuWrapper:hover {
@@ -268,11 +268,14 @@
     }
 
     .primaryButton {
-        padding: 10px 20px;
         background-color: var(--button-bg);
         border-radius: 4px;
         color: var(--button-color);
         font-size: 14px;
         font-weight: 600;
+    }
+
+    #createNewChannelButton {
+        padding: 10px 20px;
     }
 }

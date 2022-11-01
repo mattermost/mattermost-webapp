@@ -241,7 +241,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 <div className='form-group has-error'><label className='control-label'>{serverErrorState}</label></div>;
         }
 
-        const createNewChannelButton = (className: string, icon?: JSX.Element) => {
+        const createNewChannelButton = (className: string, id?: string, icon?: JSX.Element) => {
             const buttonClassName = classNames('btn', className);
             return (
                 <TeamPermissionGate
@@ -250,6 +250,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                 >
                     <button
                         type='button'
+                        id={id}
                         className={buttonClassName}
                         onClick={this.handleNewChannel}
                     >
@@ -271,7 +272,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                         defaultMessage='Try searching different keywords, checking for typos or adjusting the filters.'
                     />
                 </p>
-                {createNewChannelButton('primaryButton', <i className='icon-plus'/>)}
+                {createNewChannelButton('primaryButton', 'createNewChannelButton', <i className='icon-plus'/>)}
             </>
         );
 
