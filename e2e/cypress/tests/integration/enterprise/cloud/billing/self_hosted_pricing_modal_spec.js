@@ -8,7 +8,7 @@
 // ***************************************************************
 
 // Stage: @prod
-// Group: @cloud_only @cloud_trial
+// Group: @enterprise
 
 function withTrialBefore(trialed) {
     cy.intercept('GET', '**/api/v4/trial-license/prev', {
