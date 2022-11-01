@@ -5,13 +5,13 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {OAuthApp} from 'mattermost-redux/types/integrations';
+import {OAuthApp} from '@mattermost/types/integrations';
 
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import icon50 from 'images/icon50x50.png';
 import AccessHistoryModal from 'components/access_history_modal';
 import ActivityLogModal from 'components/activity_log_modal';
@@ -57,7 +57,7 @@ type Props = {
     enableSaml: boolean;
     enableSignUpWithOffice365: boolean;
     experimentalEnableAuthenticationTransfer: boolean;
-    passwordConfig: Utils.PasswordConfig;
+    passwordConfig: ReturnType<typeof Utils.getPasswordConfig>;
     militaryTime: boolean;
     actions: Actions;
 };

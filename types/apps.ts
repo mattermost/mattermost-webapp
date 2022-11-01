@@ -3,8 +3,8 @@
 
 import {IntlShape} from 'react-intl';
 
-import {AppBinding, AppCallRequest, AppCallResponse, AppContext, AppForm} from 'mattermost-redux/types/apps';
-import {Post} from 'mattermost-redux/types/posts';
+import {AppBinding, AppCallRequest, AppCallResponse, AppContext, AppForm} from '@mattermost/types/apps';
+import {Post} from '@mattermost/types/posts';
 
 export type DoAppCallResult<Res=unknown> = {
     data?: AppCallResponse<Res>;

@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AppsTypes} from '../../action_types';
-import {AppBinding, AppForm} from '../../types/apps';
+import {AppBinding, AppForm} from '@mattermost/types/apps';
+
+import {AppsTypes} from 'mattermost-redux/action_types';
 
 import * as Reducers from './apps';
 

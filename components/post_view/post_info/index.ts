@@ -8,9 +8,10 @@ import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
 import {setActionsMenuInitialisationState} from 'mattermost-redux/actions/preferences';
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
+import {Emoji} from '@mattermost/types/emojis';
 import {removePost, ExtendedPost} from 'mattermost-redux/actions/posts';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {makeGetCommentCountForPost} from 'mattermost-redux/selectors/entities/posts';
+import {makeGetCommentCountForPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {
     get,
@@ -18,12 +19,12 @@ import {
 } from 'mattermost-redux/selectors/entities/preferences';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import {GlobalState} from 'types/store';
 
 import {closeRightHandSide} from 'actions/views/rhs';
-import {emitShortcutReactToLastPostFrom} from 'actions/post_actions.jsx';
+import {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {Preferences} from 'utils/constants';
 import {shouldShowDotMenu, shouldShowActionsMenu} from 'utils/post_utils';
 import {getSelectedPostCard} from 'selectors/rhs';
@@ -54,13 +55,13 @@ function makeMapStateToProps() {
         const selectedCard = getSelectedPostCard(state);
         const config = getConfig(state);
         const channel = state.entities.channels.channels[ownProps.post.channel_id];
-        const channelIsArchived = channel ? channel.delete_at !== 0 : null;
+        const channelIsArchived = channel ? channel.delete_at !== 0 : undefined;
         const enableEmojiPicker = config.EnableEmojiPicker === 'true' && !channelIsArchived;
         const teamId = getCurrentTeamId(state);
         const shortcutReactToLastPostEmittedFrom = getShortcutReactToLastPostEmittedFrom(state);
         const showActionsMenuPulsatingDot = showActionsDropdownPulsatingDot(state);
 
-        let emojis = [];
+        let emojis: Emoji[] = [];
         const oneClickReactionsEnabled = get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.ONE_CLICK_REACTIONS_ENABLED, Preferences.ONE_CLICK_REACTIONS_ENABLED_DEFAULT) === 'true';
         if (oneClickReactionsEnabled) {
             emojis = getOneClickReactionEmojis(state);
@@ -83,6 +84,7 @@ function makeMapStateToProps() {
             showActionsMenuPulsatingDot,
             oneClickReactionsEnabled,
             recentEmojis: emojis,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

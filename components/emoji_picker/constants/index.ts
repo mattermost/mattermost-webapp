@@ -1,9 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {EmojiCategory} from 'mattermost-redux/types/emojis';
+import {EmojiCategory} from '@mattermost/types/emojis';
 
-import * as Emoji from 'utils/emoji.jsx';
+import * as Emoji from 'utils/emoji';
 
 import {Category, Categories} from '../types';
 
@@ -30,9 +30,9 @@ const categoryClass: Map<EmojiCategory, string> = new Map([
 function createCategory(name: EmojiCategory): Category {
     return {
         name,
-        id: Emoji.CategoryTranslations.get(name),
+        id: Emoji.CategoryTranslations.get(name) || '',
         className: categoryClass.get(name) || '',
-        message: Emoji.CategoryMessage.get(name),
+        message: Emoji.CategoryMessage.get(name)!,
     };
 }
 

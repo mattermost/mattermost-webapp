@@ -5,6 +5,10 @@ import React from 'react';
 
 import {shallow} from 'enzyme';
 
+import {Provider} from 'react-redux';
+
+import mockStore from 'tests/test_store';
+
 import LearnMoreTrialModalStep from 'components/learn_more_trial_modal/learn_more_trial_modal_step';
 
 describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => {
@@ -17,9 +21,37 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
         buttonLabel: 'button',
     };
 
+    const state = {
+        entities: {
+            admin: {
+                prevTrialLicense: {
+                    IsLicensed: 'false',
+                },
+            },
+            general: {
+                license: {
+                    IsLicensed: 'false',
+                },
+            },
+        },
+        views: {
+            modals: {
+                modalState: {
+                    learn_more_trial_modal: {
+                        open: 'true',
+                    },
+                },
+            },
+        },
+    };
+
+    const store = mockStore(state);
+
     test('should match snapshot', () => {
         const wrapper = shallow(
-            <LearnMoreTrialModalStep {...props}/>,
+            <Provider store={store}>
+                <LearnMoreTrialModalStep {...props}/>
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();
@@ -27,10 +59,26 @@ describe('components/learn_more_trial_modal/learn_more_trial_modal_step', () => 
 
     test('should match snapshot with optional params', () => {
         const wrapper = shallow(
-            <LearnMoreTrialModalStep
-                {...props}
-                bottomLeftMessage='Step bottom message'
-            />,
+            <Provider store={store}>
+                <LearnMoreTrialModalStep
+                    {...props}
+                    bottomLeftMessage='Step bottom message'
+                />
+            </Provider>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when loaded in cloud workspace', () => {
+        const cloudProps = {...props, isCloud: true};
+        const wrapper = shallow(
+            <Provider store={store}>
+                <LearnMoreTrialModalStep
+                    {...cloudProps}
+                    bottomLeftMessage='Step bottom message'
+                />
+            </Provider>,
         );
 
         expect(wrapper).toMatchSnapshot();

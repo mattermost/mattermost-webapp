@@ -7,20 +7,32 @@ import {useDispatch, useSelector} from 'react-redux';
 
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
+import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getInt} from 'mattermost-redux/selectors/entities/preferences';
+
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import {BoardsTourTip, PlaybooksTourTip} from 'components/onboarding_explore_tools_tour';
+import {FINISHED, TutorialTourName} from 'components/onboarding_tour';
 
 import {isSwitcherOpen} from 'selectors/views/product_menu';
 
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {
+    GenericTaskSteps,
     OnboardingTaskCategory,
     OnboardingTasksName,
     TaskNameMapToSteps,
     useHandleOnBoardingTaskData,
 } from 'components/onboarding_tasks';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
+import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
+
+import {GlobalState} from 'types/store';
+import {suitePluginIds} from 'utils/constants';
+
+import {useClickOutsideRef} from '../../hooks';
 
 import ProductBranding from './product_branding';
 import ProductMenuItem from './product_menu_item';
@@ -37,6 +49,7 @@ export const ProductMenuContainer = styled.nav`
 `;
 
 export const ProductMenuButton = styled(IconButton).attrs(() => ({
+    id: 'product_switch_menu',
     icon: 'products',
     size: 'sm',
 
@@ -58,32 +71,68 @@ const ProductMenu = (): JSX.Element => {
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
-    const currentProductID = useCurrentProductId(products);
+    const currentProductID = useCurrentProductId();
+
+    const enableTutorial = useSelector(getConfig).EnableTutorial === 'true';
+    const currentUserId = useSelector(getCurrentUserId);
+    const tutorialStep = useSelector((state: GlobalState) => getInt(state, TutorialTourName.EXPLORE_OTHER_TOOLS, currentUserId, 0));
+    const triggerStep = useSelector((state: GlobalState) => getInt(state, OnboardingTaskCategory, OnboardingTasksName.EXPLORE_OTHER_TOOLS, FINISHED));
+    const exploreToolsTourTriggered = triggerStep === GenericTaskSteps.STARTED;
+
+    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
+    const focalboard = pluginsList.focalboard;
+    const playbooks = pluginsList.playbooks;
+
+    const boardsStep = 0;
+    const playbooksStep = focalboard ? 1 : 0;
+
+    const showBoardsTour = enableTutorial && tutorialStep === boardsStep && exploreToolsTourTriggered && focalboard;
+    const showPlaybooksTour = enableTutorial && tutorialStep === playbooksStep && exploreToolsTourTriggered && playbooks;
 
     const handleClick = () => dispatch(setProductMenuSwitcherOpen(!switcherOpen));
 
     const handleOnBoardingTaskData = useHandleOnBoardingTaskData();
-    const taskName = OnboardingTasksName.VISIT_SYSTEM_CONSOLE;
+
+    const visitSystemConsoleTaskName = OnboardingTasksName.VISIT_SYSTEM_CONSOLE;
     const handleVisitConsoleClick = () => {
-        const steps = TaskNameMapToSteps[taskName];
-        handleOnBoardingTaskData(taskName, steps.FINISHED, true, 'finish');
+        const steps = TaskNameMapToSteps[visitSystemConsoleTaskName];
+        handleOnBoardingTaskData(visitSystemConsoleTaskName, steps.FINISHED, true, 'finish');
         localStorage.setItem(OnboardingTaskCategory, 'true');
     };
 
     useClickOutsideRef(menuRef, () => {
+        if (exploreToolsTourTriggered || !switcherOpen) {
+            return;
+        }
         dispatch(setProductMenuSwitcherOpen(false));
     });
 
-    const productItems = products?.map((product) => (
-        <ProductMenuItem
-            key={product.id}
-            destination={product.switcherLinkURL}
-            icon={product.switcherIcon}
-            text={product.switcherText}
-            active={product.id === currentProductID}
-            onClick={handleClick}
-        />
-    ));
+    const productItems = products?.map((product) => {
+        let tourTip;
+
+        // focalboard
+        if (product.pluginId === suitePluginIds.focalboard && showBoardsTour) {
+            tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
+        }
+
+        // playbooks
+        if (product.pluginId === suitePluginIds.playbooks && showPlaybooksTour) {
+            tourTip = (<PlaybooksTourTip singleTip={!focalboard}/>);
+        }
+
+        return (
+            <ProductMenuItem
+                key={product.id}
+                destination={product.switcherLinkURL}
+                icon={product.switcherIcon}
+                text={product.switcherText}
+                active={product.id === currentProductID}
+                onClick={handleClick}
+                tourTip={tourTip}
+                id={`product-menu-item-${product.pluginId || product.id}`}
+            />
+        );
+    });
 
     return (
         <div ref={menuRef}>
@@ -106,12 +155,12 @@ const ProductMenu = (): JSX.Element => {
                         destination={'/'}
                         icon={'product-channels'}
                         text={'Channels'}
-                        active={currentProductID === null}
+                        active={isChannels(currentProductID)}
                         onClick={handleClick}
                     />
                     {productItems}
                     <ProductMenuList
-                        isMessaging={currentProductID === null}
+                        isMessaging={isChannels(currentProductID)}
                         onClick={handleClick}
                         handleVisitConsoleClick={handleVisitConsoleClick}
                     />

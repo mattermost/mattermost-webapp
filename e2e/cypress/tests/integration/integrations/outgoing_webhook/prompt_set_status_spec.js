@@ -52,7 +52,7 @@ describe('Prompting set status', () => {
             cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
-        cy.apiGetUserStatus(`${user1.id}`).then((result) => {
+        cy.apiGetUserStatus(user1.id).then((result) => {
             cy.wrap(result.status.status).should('be.equal', 'offline');
         });
 
@@ -80,7 +80,7 @@ describe('Prompting set status', () => {
             cy.get('.online--icon').should('not.exist');
             cy.findByText('Offline').should('be.visible');
         });
-        cy.apiGetUserStatus(`${user1.id}`).then((result) => {
+        cy.apiGetUserStatus(user1.id).then((result) => {
             cy.wrap(result.status.status).should('be.equal', 'offline');
         });
     });
@@ -91,13 +91,13 @@ const openDM = (username) => {
     cy.uiAddDirectMessage().click().wait(TIMEOUTS.TWO_SEC);
 
     // # Type username and wait for some time to load users list
-    cy.get('#selectItems').should('be.visible').type(`${username}`).wait(TIMEOUTS.TWO_SEC);
+    cy.get('#selectItems input').typeWithForce(username).wait(TIMEOUTS.TWO_SEC);
 
     // # Find the user in the list and click
     cy.get('#multiSelectList').findByText(`@${username}`).click();
 
     // * Verify that the user is selected
-    cy.get('#selectItems').findByText(`${username}`).should('be.visible');
+    cy.get('#selectItems').findByText(username).should('be.visible');
 
     // # Click go to open DM with the user
     cy.findByText('Go').click();

@@ -4,29 +4,40 @@
 import React, {useEffect, useState} from 'react';
 import {useDispatch, useStore, useSelector} from 'react-redux';
 
+import {GlobalState} from '@mattermost/types/store';
+
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {getCloudSubscription, getCloudProducts, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
-import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {openModal} from 'actions/views/modals';
+import {pageVisited} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import PurchaseModal from 'components/purchase_modal';
+import CloudTrialBanner from 'components/admin_console/billing/billing_subscriptions/cloud_trial_banner';
+import CloudFetchError from 'components/cloud_fetch_error';
 
-import {getCloudContactUsLink, InquiryType, InquiryIssue} from 'selectors/cloud';
-import {cloudFreeEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {GlobalState} from 'types/store';
+import {getCloudContactUsLink, InquiryType, SalesInquiryIssue} from 'selectors/cloud';
+import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {
-    ModalIdentifiers,
+    getSubscriptionProduct,
+    getCloudSubscription as selectCloudSubscription,
+    getCloudCustomer as selectCloudCustomer,
+    getCloudErrors,
+} from 'mattermost-redux/selectors/entities/cloud';
+import {
     TrialPeriodDays,
 } from 'utils/constants';
 import {isCustomerCardExpired} from 'utils/cloud_utils';
-import {getRemainingDaysFromFutureTimestamp} from 'utils/utils.jsx';
+import {hasSomeLimits} from 'utils/limits';
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import {useQuery} from 'utils/http_utils';
 
 import BillingSummary from '../billing_summary';
 import PlanDetails from '../plan_details';
+
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+import useGetLimits from 'components/common/hooks/useGetLimits';
 
 import ContactSalesCard from './contact_sales_card';
 import CancelSubscription from './cancel_subscription';
@@ -36,59 +47,59 @@ import {
     creditCardExpiredBanner,
     paymentFailedBanner,
 } from './billing_subscriptions';
+import LimitReachedBanner from './limit_reached_banner';
 
 import './billing_subscriptions.scss';
 
-const BillingSubscriptions: React.FC = () => {
+const BillingSubscriptions = () => {
     const dispatch = useDispatch<DispatchFunc>();
     const store = useStore();
-    const analytics = useSelector((state: GlobalState) => state.entities.admin.analytics);
-    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const analytics = useSelector(getAdminAnalytics);
+    const subscription = useSelector(selectCloudSubscription);
+    const [cloudLimits] = useGetLimits();
+    const errorLoadingData = useSelector((state: GlobalState) => {
+        const errors = getCloudErrors(state);
+        return Boolean(errors.limits || errors.subscription || errors.customer || errors.products);
+    });
 
-    const products = useSelector((state: GlobalState) => state.entities.cloud.products);
-    const isCardExpired = useSelector((state: GlobalState) => isCustomerCardExpired(state.entities.cloud.customer));
+    const isCardExpired = isCustomerCardExpired(useSelector(selectCloudCustomer));
 
-    const contactSalesLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales));
-    const cancelAccountLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.CancelAccount));
-    const trialQuestionsLink = useSelector((state: GlobalState) => getCloudContactUsLink(state, InquiryType.Sales, InquiryIssue.TrialQuestions));
-    const isCloudFreeEnabled = useSelector(cloudFreeEnabled);
+    const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
+    const cancelAccountLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.CancelAccount);
+    const trialQuestionsLink = useSelector(getCloudContactUsLink)(InquiryType.Sales, SalesInquiryIssue.TrialQuestions);
+    const trialEndDate = subscription?.trial_end_at || 0;
 
     const [showCreditCardBanner, setShowCreditCardBanner] = useState(true);
 
     const query = useQuery();
     const actionQueryParam = query.get('action');
 
-    const product = useSelector((state: GlobalState) => {
-        if (state.entities.cloud.products && subscription) {
-            return state.entities.cloud.products[subscription?.product_id];
-        }
-        return undefined;
-    });
+    const product = useSelector(getSubscriptionProduct);
+
+    const openPricingModal = useOpenPricingModal();
+
+    const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
 
     // show the upgrade section when is a free tier customer
-    const onUpgradeMattermostCloud = () => {
-        trackEvent('cloud_admin', 'click_upgrade_mattermost_cloud');
-        dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
-            dialogType: PurchaseModal,
-        }));
+    const onUpgradeMattermostCloud = (callerInfo: string) => {
+        openCloudPurchaseModal({trackingLocation: callerInfo});
     };
 
     let isFreeTrial = false;
     let daysLeftOnTrial = 0;
     if (subscription?.is_free_trial === 'true') {
         isFreeTrial = true;
-        daysLeftOnTrial = getRemainingDaysFromFutureTimestamp(subscription.trial_end_at);
-        if (daysLeftOnTrial > TrialPeriodDays.TRIAL_MAX_DAYS) {
-            daysLeftOnTrial = TrialPeriodDays.TRIAL_MAX_DAYS;
-        }
+        daysLeftOnTrial = Math.min(
+            getRemainingDaysFromFutureTimestamp(subscription.trial_end_at),
+            TrialPeriodDays.TRIAL_30_DAYS,
+        );
     }
 
     useEffect(() => {
-        getCloudSubscription()(dispatch, store.getState());
+        getCloudSubscription()(dispatch, store.getState);
         const includeLegacyProducts = true;
-        getCloudProducts(includeLegacyProducts)(dispatch, store.getState());
-        getCloudCustomer()(dispatch, store.getState());
+        getCloudProducts(includeLegacyProducts)(dispatch, store.getState);
+        getCloudCustomer()(dispatch, store.getState);
 
         if (!analytics) {
             (async function getAllAnalytics() {
@@ -99,7 +110,15 @@ const BillingSubscriptions: React.FC = () => {
         pageVisited('cloud_admin', 'pageview_billing_subscription');
 
         if (actionQueryParam === 'show_purchase_modal') {
-            onUpgradeMattermostCloud();
+            onUpgradeMattermostCloud('billing_subscriptions_external_direct_link');
+        }
+
+        if (actionQueryParam === 'show_pricing_modal') {
+            openPricingModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
+        }
+
+        if (actionQueryParam === 'show_delinquency_modal') {
+            openCloudPurchaseModal({trackingLocation: 'billing_subscriptions_external_direct_link'});
         }
     }, []);
 
@@ -107,12 +126,10 @@ const BillingSubscriptions: React.FC = () => {
         return subscription?.last_invoice?.status === 'failed';
     };
 
-    if (!subscription || !products) {
+    // handle not loaded yet here, failed to load handled below
+    if ((!subscription || !product) && !errorLoadingData) {
         return null;
     }
-
-    const isPaidTier = Boolean(subscription?.is_paid_tier === 'true');
-    const productsLength = Object.keys(products).length;
 
     return (
         <div className='wrapper--fixed BillingSubscriptions'>
@@ -122,36 +139,43 @@ const BillingSubscriptions: React.FC = () => {
             />
             <div className='admin-console__wrapper'>
                 <div className='admin-console__content'>
-                    {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
-                    {showCreditCardBanner && isCardExpired && creditCardExpiredBanner(setShowCreditCardBanner)}
-                    <div className='BillingSubscriptions__topWrapper'>
-                        <PlanDetails
-                            isFreeTrial={isFreeTrial}
-                            subscriptionPlan={product?.sku}
+                    {errorLoadingData && <CloudFetchError/>}
+                    {!errorLoadingData && <>
+                        <LimitReachedBanner
+                            product={product}
                         />
-                        <BillingSummary
-                            isPaidTier={isPaidTier}
+                        {shouldShowPaymentFailedBanner() && paymentFailedBanner()}
+                        {showCreditCardBanner &&
+                        isCardExpired &&
+                        creditCardExpiredBanner(setShowCreditCardBanner)}
+                        {isFreeTrial && <CloudTrialBanner trialEndDate={trialEndDate}/>}
+                        <div className='BillingSubscriptions__topWrapper'>
+                            <PlanDetails
+                                isFreeTrial={isFreeTrial}
+                                subscriptionPlan={product?.sku}
+                            />
+                            <BillingSummary
+                                isFreeTrial={isFreeTrial}
+                                daysLeftOnTrial={daysLeftOnTrial}
+                                onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                            />
+                        </div>
+                        {hasSomeLimits(cloudLimits) && !isFreeTrial ? (
+                            <Limits/>
+                        ) : (
+                            <ContactSalesCard
+                                contactSalesLink={contactSalesLink}
+                                isFreeTrial={isFreeTrial}
+                                trialQuestionsLink={trialQuestionsLink}
+                                subscriptionPlan={product?.sku}
+                                onUpgradeMattermostCloud={onUpgradeMattermostCloud}
+                            />
+                        )}
+                        <CancelSubscription
+                            cancelAccountLink={cancelAccountLink}
                             isFreeTrial={isFreeTrial}
-                            daysLeftOnTrial={daysLeftOnTrial}
-                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
                         />
-                    </div>
-                    {isCloudFreeEnabled ?
-                        <Limits/> :
-                        <ContactSalesCard
-                            contactSalesLink={contactSalesLink}
-                            isFreeTrial={isFreeTrial}
-                            trialQuestionsLink={trialQuestionsLink}
-                            subscriptionPlan={product?.sku}
-                            onUpgradeMattermostCloud={onUpgradeMattermostCloud}
-                            productsLength={productsLength}
-                        />
-                    }
-                    <CancelSubscription
-                        cancelAccountLink={cancelAccountLink}
-                        isFreeTrial={isFreeTrial}
-                        isPaidTier={isPaidTier}
-                    />
+                    </>}
                 </div>
             </div>
         </div>

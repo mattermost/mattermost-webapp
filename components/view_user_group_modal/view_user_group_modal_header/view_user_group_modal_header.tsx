@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {ModalData} from 'types/actions';
 import LocalizedIcon from 'components/localized_icon';
 import {t} from 'utils/i18n';
-import {Group} from 'mattermost-redux/types/groups';
+import {Group} from '@mattermost/types/groups';
 import {ModalIdentifiers} from 'utils/constants';
 import AddUsersToGroupModal from 'components/add_users_to_group_modal';
 import ViewUserGroupHeaderSubMenu from '../view_user_group_header_sub_menu';

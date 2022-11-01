@@ -9,10 +9,10 @@ import {memoizeResult} from 'mattermost-redux/utils/helpers';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {PostList} from 'mattermost-redux/types/posts';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {PostList} from '@mattermost/types/posts';
 
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
 import {prefetchChannelPosts} from 'actions/views/channel';
 

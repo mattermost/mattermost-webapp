@@ -5,7 +5,7 @@ import React, {memo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {areEqual} from 'react-window';
 
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 
 import LoadingScreen from 'components/loading_screen';
 import NoResultsIndicator from 'components/no_results_indicator';

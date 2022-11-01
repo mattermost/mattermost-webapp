@@ -4,6 +4,7 @@
 import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import {Stripe} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
@@ -11,6 +12,7 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {completeStripeAddPaymentMethod} from 'actions/cloud';
 import BlockableLink from 'components/admin_console/blockable_link';
@@ -21,7 +23,6 @@ import SaveButton from 'components/save_button';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 import {GlobalState} from 'types/store';
 import {CloudLinks} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
 
 import './payment_info_edit.scss';
 import AlertBanner from 'components/alert_banner';
@@ -30,8 +31,11 @@ let stripePromise: Promise<Stripe | null>;
 
 const PaymentInfoEdit: React.FC = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const isDevMode = useSelector((state: GlobalState) => getConfig(state).EnableDeveloper === 'true');
     const paymentInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+    const theme = useSelector(getTheme);
 
     const [showCreditCardWarning, setShowCreditCardWarning] = useState(true);
     const [isSaving, setIsSaving] = useState(false);
@@ -64,7 +68,7 @@ const PaymentInfoEdit: React.FC = () => {
         const success = await setPaymentMethod();
 
         if (success) {
-            browserHistory.push('/admin_console/billing/payment_info');
+            history.push('/admin_console/billing/payment_info');
         } else {
             setIsServerError(true);
         }
@@ -131,6 +135,7 @@ const PaymentInfoEdit: React.FC = () => {
                                 className='PaymentInfoEdit__paymentForm'
                                 onInputChange={onPaymentInput}
                                 initialBillingDetails={billingDetails}
+                                theme={theme}
                             />
                         </Elements>
                     </div>

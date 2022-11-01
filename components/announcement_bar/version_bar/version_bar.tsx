@@ -5,17 +5,16 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {equalServerVersions} from 'utils/server_version';
 import {AnnouncementBarTypes} from 'utils/constants';
 
 import AnnouncementBar from '../default_announcement_bar';
 
 interface Props {
-    serverVersion: string;
+    buildHash?: string;
 }
 
 interface State {
-    serverVersionOnAppLoad: string;
+    buildHashOnAppLoad?: string;
 }
 
 export default class VersionBar extends React.PureComponent <Props, State> {
@@ -23,14 +22,14 @@ export default class VersionBar extends React.PureComponent <Props, State> {
         super(props);
 
         this.state = {
-            serverVersionOnAppLoad: props.serverVersion,
+            buildHashOnAppLoad: props.buildHash,
         };
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
-        if (!state.serverVersionOnAppLoad && props.serverVersion) {
+        if (!state.buildHashOnAppLoad && props.buildHash) {
             return {
-                serverVersionOnAppLoad: props.serverVersion,
+                buildHashOnAppLoad: props.buildHash,
             };
         }
 
@@ -42,14 +41,14 @@ export default class VersionBar extends React.PureComponent <Props, State> {
     }
 
     render() {
-        const {serverVersionOnAppLoad} = this.state;
-        const {serverVersion} = this.props;
+        const {buildHashOnAppLoad} = this.state;
+        const {buildHash} = this.props;
 
-        if (!serverVersionOnAppLoad) {
+        if (!buildHashOnAppLoad) {
             return null;
         }
 
-        if (!equalServerVersions(serverVersionOnAppLoad, serverVersion)) {
+        if (buildHashOnAppLoad !== buildHash) {
             return (
                 <AnnouncementBar
                     type={AnnouncementBarTypes.ANNOUNCEMENT}

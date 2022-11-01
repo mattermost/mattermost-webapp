@@ -2,9 +2,9 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {AppBinding} from '@mattermost/types/apps';
 
 import {TextFormattingOptions} from 'utils/text_formatting';
 

@@ -5,7 +5,7 @@ import {AdminState} from './admin';
 import {Bot} from './bots';
 import {ChannelsState} from './channels';
 import {ChannelCategoriesState} from './channel_categories';
-import {CloudState} from './cloud';
+import {CloudState, CloudUsage} from './cloud';
 import {EmojisState} from './emojis';
 import {FilesState} from './files';
 import {GeneralState} from './general';
@@ -17,9 +17,8 @@ import {PreferenceType} from './preferences';
 import {
     AdminRequestsStatuses, ChannelsRequestsStatuses,
     FilesRequestsStatuses, GeneralRequestsStatuses,
-    JobsRequestsStatuses, PostsRequestsStatuses,
-    RolesRequestsStatuses, TeamsRequestsStatuses,
-    UsersRequestsStatuses,
+    PostsRequestsStatuses, RolesRequestsStatuses,
+    TeamsRequestsStatuses, UsersRequestsStatuses,
 } from './requests';
 import {Role} from './roles';
 import {SchemesState} from './schemes';
@@ -29,6 +28,8 @@ import {ThreadsState} from './threads';
 import {Typing} from './typing';
 import {UsersState} from './users';
 import {AppsState} from './apps';
+import {InsightsState} from './insights';
+import {GifsState} from './gifs';
 
 export type GlobalState = {
     entities: {
@@ -60,11 +61,13 @@ export type GlobalState = {
             pending: Set<string>;
         };
         schemes: SchemesState;
-        gifs: any;
+        gifs: GifsState;
         groups: GroupsState;
         channelCategories: ChannelCategoriesState;
         apps: AppsState;
         cloud: CloudState;
+        usage: CloudUsage;
+        insights: InsightsState;
     };
     errors: any[];
     requests: {
@@ -76,7 +79,6 @@ export type GlobalState = {
         admin: AdminRequestsStatuses;
         files: FilesRequestsStatuses;
         roles: RolesRequestsStatuses;
-        jobs: JobsRequestsStatuses;
     };
     websocket: {
         connected: boolean;

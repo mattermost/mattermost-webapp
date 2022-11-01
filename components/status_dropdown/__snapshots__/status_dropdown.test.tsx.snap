@@ -7,8 +7,9 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
   onToggle={[Function]}
   open={false}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -20,31 +21,34 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -174,13 +178,7 @@ exports[`components/StatusDropdown should match snapshot in default state 1`] = 
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -239,8 +237,9 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
   onToggle={[Function]}
   open={true}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -252,31 +251,34 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -487,13 +489,7 @@ exports[`components/StatusDropdown should match snapshot with custom status and 
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -552,8 +548,9 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
   onToggle={[Function]}
   open={true}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -565,31 +562,34 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -752,13 +752,7 @@ exports[`components/StatusDropdown should match snapshot with custom status enab
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -817,8 +811,9 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
   onToggle={[Function]}
   open={true}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -830,31 +825,34 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1017,13 +1015,7 @@ exports[`components/StatusDropdown should match snapshot with custom status expi
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -1082,8 +1074,9 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
   onToggle={[Function]}
   open={true}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1095,31 +1088,34 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1283,13 +1279,7 @@ exports[`components/StatusDropdown should match snapshot with custom status puls
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -1348,8 +1338,9 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
   onToggle={[Function]}
   open={false}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1365,22 +1356,23 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
       size="sm"
       url="http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <Memo(Avatar)
         size="lg"
         url="http://localhost:8065/api/v4/users/jsx5jmdiyjyuzp9rzwfaf5pwjo/image?_=1590519110944"
@@ -1389,11 +1381,13 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1523,13 +1517,7 @@ exports[`components/StatusDropdown should match snapshot with profile picture UR
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -1588,8 +1576,9 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
   onToggle={[Function]}
   open={true}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1601,31 +1590,34 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -1755,13 +1747,7 @@ exports[`components/StatusDropdown should match snapshot with status dropdown op
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -1820,8 +1806,9 @@ exports[`components/StatusDropdown should not show clear status button when cust
   onToggle={[Function]}
   open={true}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -1833,31 +1820,34 @@ exports[`components/StatusDropdown should not show clear status button when cust
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -2020,13 +2010,7 @@ exports[`components/StatusDropdown should not show clear status button when cust
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />
@@ -2085,8 +2069,9 @@ exports[`components/StatusDropdown should show clear status button when custom s
   onToggle={[Function]}
   open={true}
 >
-  <div
-    className="status-wrapper"
+  <button
+    aria-label="Set a status"
+    className="status-wrapper style--none"
   >
     <Memo(CustomStatusEmoji)
       emojiStyle={
@@ -2098,31 +2083,34 @@ exports[`components/StatusDropdown should show clear status button when custom s
       showTooltip={true}
       tooltipDirection="bottom"
     />
-    <button
-      aria-label="Set a status"
-      className="status style--none"
+    <div
+      className="status"
     >
       <StatusIcon
         size="sm"
         status="offline"
       />
-    </button>
-  </div>
+    </div>
+  </button>
   <Menu
     ariaLabel="Set a status"
     id="statusDropdownMenu"
     listId="status-drop-down-menu-list"
   >
-    <MenuHeader>
+    <MenuHeader
+      onClick={[Function]}
+    >
       <div
         className="username-wrapper"
       >
         <Text
+          className="bold"
           margin="none"
         >
           Nev Aa
         </Text>
         <Text
+          className=""
           color="disabled"
           margin="none"
         >
@@ -2333,13 +2321,7 @@ exports[`components/StatusDropdown should show clear status button when custom s
         }
         id="status-menu-offline"
         onClick={[Function]}
-        rightDecorator={
-          <Icon
-            color="success"
-            glyph="check"
-            size={16}
-          />
-        }
+        rightDecorator={false}
         show={true}
         text="Offline"
       />

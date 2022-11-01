@@ -3,12 +3,11 @@
 
 import React from 'react';
 import {Modal} from 'react-bootstrap';
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
 
 import {openModal, closeModal} from 'actions/views/modals';
 import {ActionTypes, ModalIdentifiers} from 'utils/constants';
 
+import mockStore from 'tests/test_store';
 class TestModal extends React.PureComponent {
     render() {
         return (
@@ -23,8 +22,6 @@ class TestModal extends React.PureComponent {
 }
 
 describe('modals view actions', () => {
-    const mockStore = configureStore([thunk]);
-
     let store;
     beforeEach(() => {
         store = mockStore();

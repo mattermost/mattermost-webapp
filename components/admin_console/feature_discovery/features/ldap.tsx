@@ -4,6 +4,7 @@
 import React from 'react';
 
 import {t} from 'utils/i18n';
+import {LicenseSkus} from 'utils/constants';
 
 import FeatureDiscovery from '../index';
 
@@ -13,6 +14,7 @@ const LDAPFeatureDiscovery: React.FC = () => {
     return (
         <FeatureDiscovery
             featureName='ldap'
+            minimumSKURequiredForFeature={LicenseSkus.Professional}
             titleID='admin.ldap_feature_discovery.title'
             titleDefault='Integrate Active Directory/LDAP with Mattermost Professional'
             copyID='admin.ldap_feature_discovery.copy'

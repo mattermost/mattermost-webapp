@@ -8,9 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
@@ -103,7 +103,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     categoryMenuItems.push(
         {
             id: 'ChannelMenu-moveToDivider',
-            text: (<li className='MenuGroup menu-divider'/>),
+            text: (<span className='MenuGroup menu-divider'/>),
         },
         {
             id: `moveToNewCategory-${channel.id}`,

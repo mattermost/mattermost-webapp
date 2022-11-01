@@ -25,6 +25,7 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration =
     const wrapperRef = useRef<HTMLDivElement>(null);
     const childRef = useRef<HTMLDivElement>(null);
     const prevSlot = useRef<AutoHeightProps['showSlot']>(showSlot);
+    const prevHeight = useRef<number|null>(null);
     const [animate, setAnimate] = useState<boolean>(false);
     const [height, setHeight] = useState<string | number>('auto');
     const [overflow, setOverflow] = useState<string>('visible');
@@ -36,8 +37,8 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration =
             setChild(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
         } else {
             // switch slots using height animation
-            setAnimate(true);
             prevSlot.current = showSlot;
+            setAnimate(true);
         }
     }, [showSlot, slot1, slot2]);
 
@@ -80,7 +81,7 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration =
             in={animate}
             timeout={duration}
             onEnter={() => {
-                setHeight(wrapperRef.current!.offsetHeight);
+                setHeight(prevHeight.current ?? childRef.current!.offsetHeight);
                 setOverflow('hidden');
                 setChild(showSlot === AutoHeightSlots.SLOT1 ? slot1 : slot2);
             }}
@@ -88,6 +89,7 @@ const AutoHeightSwitcher = ({showSlot, slot1, slot2, onTransitionEnd, duration =
                 setHeight(childRef.current!.offsetHeight);
             }}
             onEntered={(node: HTMLElement) => {
+                prevHeight.current = childRef.current!.offsetHeight;
                 setHeight('auto');
                 setOverflow('visible');
                 setAnimate(false);

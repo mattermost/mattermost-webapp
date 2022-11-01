@@ -8,7 +8,7 @@ import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {InsightsScopes} from 'utils/constants';
 
 type Props = {

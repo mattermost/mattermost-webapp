@@ -11,7 +11,7 @@ import * as I18n from 'i18n/i18n.jsx';
 
 import Constants from 'utils/constants';
 import {rolesFromMapping, mappingValueFromRoles} from 'utils/policy_roles_adapter';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import RequestButton from 'components/admin_console/request_button/request_button';
 import BooleanSetting from 'components/admin_console/boolean_setting';
 import TextSetting from 'components/admin_console/text_setting';

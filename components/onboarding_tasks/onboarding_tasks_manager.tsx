@@ -4,7 +4,7 @@
 import React, {useCallback, useMemo} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import {matchPath, useLocation} from 'react-router-dom';
+import {matchPath, useHistory, useLocation} from 'react-router-dom';
 
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
 import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
@@ -21,11 +21,11 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {get, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
 import {
     openInvitationsModal,
     setShowOnboardingCompleteProfileTour,
@@ -33,8 +33,7 @@ import {
     switchToChannels,
 } from 'actions/views/onboarding_tasks';
 
-import {Constants, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import {OnboardingPreferences} from 'components/preparing_workspace/preparing_workspace';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES, ExploreOtherToolsTourSteps} from 'utils/constants';
 
 import {generateTelemetryTag} from './utils';
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName, TaskNameMapToSteps} from './constants';
@@ -44,49 +43,55 @@ const getCategory = makeGetCategory();
 const taskLabels = {
     [OnboardingTasksName.CHANNELS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_channels_tour'
-            defaultMessage='Take a tour of channels'
+            id='onboardingTask.checklist.task_learn_more_about_messaging'
+            defaultMessage='🔀 Learn about messaging'
         />
     ),
     [OnboardingTasksName.BOARDS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_boards_tour'
-            defaultMessage='Manage tasks with your first board'
+            id='onboardingTask.checklist.plan_sprint_with_kanban_style_boards'
+            defaultMessage='🎯 Plan a sprint with Kanban-style boards'
         />),
     [OnboardingTasksName.PLAYBOOKS_TOUR]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_playbooks_tour'
-            defaultMessage='Explore workflows with your first Playbook'
+            id='onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks'
+            defaultMessage='🐛 Resolve incidents faster with playbooks'
         />
     ),
     [OnboardingTasksName.INVITE_PEOPLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_invite'
-            defaultMessage='Invite team members to the workspace'
+            id='onboardingTask.checklist.task_invite_team_members'
+            defaultMessage='👋 Invite team members to the workspace'
         />
     ),
     [OnboardingTasksName.COMPLETE_YOUR_PROFILE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_complete_profile'
-            defaultMessage='Complete your profile'
+            id='onboardingTask.checklist.task_complete_your_profile'
+            defaultMessage='📷 Complete your profile'
+        />
+    ),
+    [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
+        <FormattedMessage
+            id='onboardingTask.checklist.explore_other_tools_in_platform'
+            defaultMessage='⛰️ Explore other tools in the platform'
         />
     ),
     [OnboardingTasksName.DOWNLOAD_APP]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_download_apps'
-            defaultMessage='Download the Desktop and Mobile Apps'
+            id='onboardingTask.checklist.task_download_mm_apps'
+            defaultMessage='📱 Download the Desktop and Mobile Apps'
         />
     ),
     [OnboardingTasksName.VISIT_SYSTEM_CONSOLE]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_system_console'
-            defaultMessage='Visit the System Console to configure your workspace'
+            id='onboardingTask.checklist.task_visit_system_console'
+            defaultMessage='🥰️ Visit the System Console to configure your workspace'
         />
     ),
     [OnboardingTasksName.START_TRIAL]: (
         <FormattedMessage
-            id='onboardingTask.checklist.task_start_trial'
-            defaultMessage='Learn more about Enterprise-level high-security features'
+            id='onboardingTask.checklist.task_start_enterprise_trial'
+            defaultMessage='🏢 Learn more about Enterprise-level high-security features'
         />
     ),
 };
@@ -97,20 +102,47 @@ export const useTasksList = () => {
     const license = useSelector(getLicense);
     const isPrevLicensed = prevTrialLicense?.IsLicensed;
     const isCurrentLicensed = license?.IsLicensed;
+    const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
+    const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
+    const isUserFirstAdmin = useSelector(isFirstAdmin);
+
+    // Cloud conditions
+    const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
+    const isCloud = license?.Cloud === 'true';
+    const isFreeTrial = subscription?.is_free_trial === 'true';
+    const hadPrevCloudTrial = subscription?.is_free_trial === 'false' && subscription?.trial_end_at > 0;
 
     // Show this CTA if the instance is currently not licensed and has never had a trial license loaded before
-    const showStartTrialTask = (isCurrentLicensed === 'false' && isPrevLicensed === 'false');
+    // if Cloud, show if not in trial and had never been on trial
+    const selfHostedTrialCondition = isCurrentLicensed === 'false' && isPrevLicensed === 'false';
+    const cloudTrialCondition = isCloud && !isFreeTrial && !hadPrevCloudTrial;
+
+    const showStartTrialTask = selfHostedTrialCondition || cloudTrialCondition;
+
     const list: Record<string, string> = {...OnboardingTasksName};
-    const pluginsPreferenceState = useSelector((state: GlobalState) => get(state, Constants.Preferences.ONBOARDING, OnboardingPreferences.USE_CASE));
-    const pluginsPreference = pluginsPreferenceState && JSON.parse(pluginsPreferenceState);
-    if ((pluginsPreference && !pluginsPreference.boards) || !pluginsList.focalboard) {
+    if (!pluginsList.focalboard || !isUserFirstAdmin) {
         delete list.BOARDS_TOUR;
     }
-    if ((pluginsPreference && !pluginsPreference.playbooks) || !pluginsList.playbooks) {
+    if (!pluginsList.playbooks || !isUserFirstAdmin) {
         delete list.PLAYBOOKS_TOUR;
     }
     if (!showStartTrialTask) {
         delete list.START_TRIAL;
+    }
+
+    if (!isUserFirstAdmin && !isUserAdmin) {
+        delete list.VISIT_SYSTEM_CONSOLE;
+        delete list.START_TRIAL;
+    }
+
+    // explore other tools tour is only shown to subsequent admins and end users
+    if (isUserFirstAdmin || (!pluginsList.playbooks && !pluginsList.focalboard)) {
+        delete list.EXPLORE_OTHER_TOOLS;
+    }
+
+    // invite other users is hidden for guest users
+    if (isGuestUser) {
+        delete list.INVITE_PEOPLE;
     }
 
     return Object.values(list);
@@ -166,9 +198,11 @@ export const useHandleOnBoardingTaskData = () => {
 
 export const useHandleOnBoardingTaskTrigger = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+    const {pathname} = useLocation();
+
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
-    const {pathname} = useLocation();
     const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
     const inChannels = matchPath(pathname, {path: '/:team/channels/:chanelId'}) != null;
 
@@ -198,13 +232,13 @@ export const useHandleOnBoardingTaskTrigger = () => {
             break;
         }
         case OnboardingTasksName.BOARDS_TOUR: {
-            browserHistory.push('/boards');
+            history.push('/boards');
             localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
         }
         case OnboardingTasksName.PLAYBOOKS_TOUR: {
-            browserHistory.push('/playbooks/start');
+            history.push('/playbooks/start');
             localStorage.setItem(OnboardingTaskCategory, 'true');
             handleSaveData(taskName, TaskNameMapToSteps[taskName].FINISHED, true);
             break;
@@ -214,6 +248,30 @@ export const useHandleOnBoardingTaskTrigger = () => {
             dispatch(setShowOnboardingCompleteProfileTour(true));
             handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
             if (inAdminConsole) {
+                dispatch(switchToChannels());
+            }
+            break;
+        }
+        case OnboardingTasksName.EXPLORE_OTHER_TOOLS: {
+            dispatch(setProductMenuSwitcherOpen(true));
+            handleSaveData(taskName, TaskNameMapToSteps[taskName].STARTED, true);
+            const tourCategory = TutorialTourName.EXPLORE_OTHER_TOOLS;
+            const preferences = [
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: currentUserId,
+                    value: ExploreOtherToolsTourSteps.BOARDS_TOUR.toString(),
+                },
+                {
+                    user_id: currentUserId,
+                    category: tourCategory,
+                    name: TTNameMapToATStatusKey[tourCategory],
+                    value: AutoTourStatus.ENABLED.toString(),
+                },
+            ];
+            dispatch(savePreferences(currentUserId, preferences));
+            if (!inChannels) {
                 dispatch(switchToChannels());
             }
             break;

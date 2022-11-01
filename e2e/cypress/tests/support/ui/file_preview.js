@@ -6,7 +6,13 @@ Cypress.Commands.add('uiGetFileThumbnail', (filename) => {
 });
 
 Cypress.Commands.add('uiGetFileUploadPreview', () => {
-    return cy.get('.file-preview__container').should('be.visible');
+    return cy.get('.file-preview__container');
+});
+
+Cypress.Commands.add('uiWaitForFileUploadPreview', () => {
+    cy.waitUntil(() => cy.uiGetFileUploadPreview().then((el) => {
+        return el.find('.post-image.normal').length > 0;
+    }));
 });
 
 Cypress.Commands.add('uiGetFilePreviewModal', (options = {exist: true}) => {

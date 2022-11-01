@@ -79,7 +79,7 @@ describe('Post Header', () => {
             });
 
             // # Click to other location like post textbox
-            cy.get('#post_textbox').click();
+            cy.uiGetPostTextBox().click();
 
             // * Check that the center dot menu and dropdown are hidden
             cy.get(`#post_${postId}`).should('be.visible').within(() => {
@@ -111,7 +111,7 @@ describe('Post Header', () => {
             cy.clickPostReactionIcon(postId);
 
             // # Click on textbox to focus away from emoji area
-            cy.get('#post_textbox').click();
+            cy.uiGetPostTextBox().click();
 
             // * Check that the center post reaction icon and emoji picker are not visible
             cy.get(`#CENTER_reaction_${postId}`).should('not.exist');

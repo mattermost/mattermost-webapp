@@ -172,7 +172,6 @@
     },
     "ComplianceSettings": {
         "Enable": false,
-        "Directory": "./data/",
         "EnableDaily": false
     },
     "LocalizationSettings": {
@@ -218,8 +217,7 @@
         "Enable": false
     },
     "ExperimentalSettings": {
-        "RestrictSystemAdmin": true,
-        "CloudBilling": true
+        "RestrictSystemAdmin": true
     },
     "DataRetentionSettings": {
         "EnableMessageDeletion": false,
@@ -252,6 +250,9 @@
                 "Enable": false
             },
             "com.mattermost.plugin-incident-management": {
+                "Enable": false
+            },
+            "focalboard": {
                 "Enable": false
             }
         }

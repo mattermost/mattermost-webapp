@@ -63,7 +63,7 @@ describe('Plugin Marketplace', () => {
         });
 
         // # Filter to jira plugin only
-        cy.get('#searchMarketplaceTextbox').type('jira', {force: true});
+        cy.get('#searchMarketplaceTextbox').typeWithForce('jira');
 
         // * Verify should be an error connecting to the marketplace server
         cy.get('#error_bar').contains('Error connecting to the marketplace server');

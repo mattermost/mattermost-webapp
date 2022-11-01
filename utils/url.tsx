@@ -177,10 +177,14 @@ export function shouldOpenInNewTab(url: string, siteURL?: string, managedResourc
 
     const path = url.startsWith('/') ? url : url.substring(siteURL?.length || 0);
 
-    // Paths managed by plugins and public file links aren't handled by the web app
     const unhandledPaths = [
+
+        // Paths managed by plugins and public file links aren't handled by the web app
         'plugins',
         'files',
+
+        // Internal help pages should always open in a new tab
+        'help',
     ];
 
     // Paths managed by another service shouldn't be handled by the web app either

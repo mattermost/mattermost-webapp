@@ -4,8 +4,8 @@
 import React from 'react';
 
 import {RequestStatus} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 

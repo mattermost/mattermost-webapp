@@ -10,20 +10,16 @@
 // Stage: @prod
 // Group: @dm_category
 
-import {getAdminAccount} from '../../support/env';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('DM category', () => {
-    const sysadmin = getAdminAccount();
     let testUser;
+
     before(() => {
         // # Login as test user and visit town-square
-        cy.apiInitSetup({loginAfter: true}).then(({team, user}) => {
+        cy.apiInitSetup({loginAfter: true, promoteNewUserAsAdmin: true}).then(({team, user}) => {
             testUser = user;
             cy.visit(`/${team.name}/channels/town-square`);
-
-            // # upgrade user to sys admin role
-            cy.externalRequest({user: sysadmin, method: 'put', path: `users/${user.id}/roles`, data: {roles: 'system_user system_admin'}});
         });
     });
 
@@ -38,7 +34,7 @@ describe('DM category', () => {
 
             // # Search for the new user's username
             cy.get('#selectItems input').
-                type(user.username, {force: true}).
+                typeWithForce(user.username).
                 wait(TIMEOUTS.HALF_SEC);
 
             // # Select the user you searched for
@@ -120,7 +116,7 @@ describe('DM category', () => {
 
                 // # Search for the new user's username
                 cy.get('#selectItems input').
-                    type(user.username, {force: true}).
+                    typeWithForce(user.username).
                     wait(TIMEOUTS.HALF_SEC);
 
                 // # Select the user you searched for
@@ -128,7 +124,7 @@ describe('DM category', () => {
 
                 // # Search for the 2nd user's username
                 cy.get('#selectItems input').
-                    type(user2.username, {force: true}).
+                    typeWithForce(user2.username).
                     wait(TIMEOUTS.HALF_SEC);
 
                 // # Select the user you searched for
@@ -222,7 +218,7 @@ describe('DM category', () => {
 
                     // # Search for the new user's username
                     cy.get('#selectItems input').
-                        type(user.username, {force: true}).
+                        typeWithForce(user.username).
                         wait(TIMEOUTS.HALF_SEC);
 
                     // # Select the user you searched for
@@ -230,7 +226,7 @@ describe('DM category', () => {
 
                     // # Search for the 2nd user's username
                     cy.get('#selectItems input').
-                        type(user2.username, {force: true}).
+                        typeWithForce(user2.username).
                         wait(TIMEOUTS.HALF_SEC);
 
                     // # Select the user you searched for

@@ -31,7 +31,6 @@ import './ldap_server_commands';
 import './okta_commands';
 import './saml_commands';
 import './shell';
-import './storybook_commands';
 import './task_commands';
 import './ui';
 import './ui_commands'; // soon to deprecate
@@ -133,6 +132,19 @@ before(() => {
             break;
         }
 
+        if (Cypress.env('serverClusterEnabled')) {
+            cy.log('Checking cluster information...');
+
+            // * Ensure cluster is set up properly when enabled
+            cy.shouldHaveClusterEnabled();
+            cy.apiGetClusterStatus().then(({clusterInfo}) => {
+                const sameCount = clusterInfo?.length === Cypress.env('serverClusterHostCount');
+                expect(sameCount, sameCount ? '' : `Should match number of hosts in a cluster as expected. Got "${clusterInfo?.length}" but expected "${Cypress.env('serverClusterHostCount')}"`).to.equal(true);
+
+                clusterInfo.forEach((info) => cy.log(`hostname: ${info.hostname}, version: ${info.version}, config_hash: ${info.config_hash}`));
+            });
+        }
+
         // Log license status and server details before test
         printLicenseStatus();
         printServerDetails();
@@ -225,7 +237,11 @@ function resetUserPreference(userId) {
     cy.apiSaveCollapsePreviewsPreference('false');
     cy.apiSaveClockDisplayModeTo24HourPreference(false);
     cy.apiSaveTutorialStep(userId, '999');
-    cy.apiSaveOnboardingPreference(userId, 'hide', 'true');
-    cy.apiSaveCloudTrialBannerPreference(userId, 'trial', '14_days_banner');
+    cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_open', 'false');
+    cy.apiSaveOnboardingTaskListPreference(userId, 'onboarding_task_list_show', 'false');
+    cy.apiSaveCloudTrialBannerPreference(userId, 'trial', 'max_days_banner');
     cy.apiSaveActionsMenuPreference(userId);
+    cy.apiSaveSkipStepsPreference(userId, 'true');
+    cy.apiSaveStartTrialModal(userId, 'true');
+    cy.apiSaveUnreadScrollPositionPreference(userId, 'start_from_left_off');
 }

@@ -4,13 +4,22 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Post} from 'mattermost-redux/types/posts';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Post} from '@mattermost/types/posts';
 
 import {TestHelper} from 'utils/test_helper';
 
 import RhsThread from './rhs_thread';
+
+const mockDispatch = jest.fn();
+let mockState: any;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
 
 describe('components/RhsThread', () => {
     const post: Post = TestHelper.getPostMock({
@@ -38,6 +47,8 @@ describe('components/RhsThread', () => {
 
     const directTeammate: UserProfile = TestHelper.getUserMock();
 
+    const currentTeam = TestHelper.getTeamMock();
+
     const baseProps = {
         posts: [post],
         selected: post,
@@ -48,6 +59,7 @@ describe('components/RhsThread', () => {
         socketConnectionStatus: true,
         actions,
         directTeammate,
+        currentTeam,
     };
 
     test('should match snapshot', () => {

@@ -4,7 +4,7 @@ import {connect} from 'react-redux';
 
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 

@@ -24,3 +24,9 @@ Cypress.Commands.add('uiClickPostDropdownMenu', (postId, menuItem, location = 'C
     cy.findAllByTestId(`post-menu-${postId}`).eq(0).should('be.visible');
     cy.findByText(menuItem).scrollIntoView().should('be.visible').click({force: true});
 });
+
+Cypress.Commands.add('uiPostDropdownMenuShortcut', (postId, menuText, shortcutKey, location = 'CENTER') => {
+    cy.clickPostDotMenu(postId, location);
+    cy.findByText(menuText).scrollIntoView().should('be.visible');
+    cy.get('body').type(shortcutKey);
+});

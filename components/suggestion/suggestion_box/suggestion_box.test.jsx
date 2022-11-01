@@ -8,7 +8,7 @@ import CommandProvider from 'components/suggestion/command_provider/command_prov
 import AtMentionProvider from 'components/suggestion/at_mention_provider/at_mention_provider.jsx';
 import SuggestionBox from 'components/suggestion/suggestion_box/suggestion_box';
 import SuggestionList from 'components/suggestion/suggestion_list.jsx';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 jest.mock('mattermost-redux/client', () => {
     const actual = jest.requireActual('mattermost-redux/client');

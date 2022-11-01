@@ -41,7 +41,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiLoginWithMFA({username: 'sysadmin', password: 'secret', token: '123456'});
          */
-        apiLoginWithMFA(user: UserProfile, token: string): Chainable<UserProfile>;
+        apiLoginWithMFA(user: UserProfile, token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Login as admin via API.
@@ -51,7 +51,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLogin();
          */
-        apiAdminLogin(): Chainable<UserProfile>;
+        apiAdminLogin(): Chainable<{user: UserProfile}>;
 
         /**
          * Login as admin via API.
@@ -62,7 +62,7 @@ declare namespace Cypress {
          * @example
          *   cy.apiAdminLoginWithMFA(token);
          */
-        apiAdminLoginWithMFA(): Chainable<UserProfile>;
+        apiAdminLoginWithMFA(token: string): Chainable<{user: UserProfile}>;
 
         /**
          * Logout a user's active session from server via API.
@@ -110,7 +110,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiGetUserByEmail(email: string): Chainable<UserProfile>;
+        apiGetUserByEmail(email: string): Chainable<{user: UserProfile}>;
 
         /**
          * Get users by usernames.
@@ -147,7 +147,7 @@ declare namespace Cypress {
          *       // do something with user
          *   });
          */
-        apiPatchUser(userId: string, userData: UserProfile): Chainable<UserProfile>;
+        apiPatchUser(userId: string, userData: UserProfile): Chainable<{user: UserProfile}>;
 
         /**
          * Convenient command to patch a current user.
@@ -176,6 +176,7 @@ declare namespace Cypress {
          * Create an admin account based from the env variables defined in Cypress env.
          * @param {string} options.namePrefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
+         * @param {boolean} options.showOnboarding - false (default) to hide or true to show Onboarding steps
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          *
          * @example
@@ -187,35 +188,41 @@ declare namespace Cypress {
          * Create a randomly named admin account
          *
          * @param {boolean} options.loginAfter - false (default) or true if wants to login as the new admin.
+         * @param {boolean} options.hideAdminTrialModal - true (default) or false if wants to hide Start Enterprise Trial modal.
          *
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(options: {loginAfter: boolean}): Chainable<{sysadmin: UserProfile}>;
+        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal: boolean}): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.user - predefined `user` object instead on random user
          * @param {string} options.prefix - 'user' (default) or any prefix to easily identify a user
          * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
-         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
+         * @param {boolean} options.showOnboarding - false (default) to hide or true to show Onboarding steps
          * @returns {UserProfile} `out.user` as `UserProfile` object
          *
          * @example
          *   cy.apiCreateUser(options);
          */
-        apiCreateUser(options: Record<string, any>): Chainable<UserProfile>;
+        apiCreateUser(options?: {
+            user?: Partial<UserProfile>;
+            prefix?: string;
+            bypassTutorial?: boolean;
+            showOnboarding?: boolean;
+        }): Chainable<{user: UserProfile}>;
 
         /**
          * Create a new guest user with an options to set name prefix and be able to bypass tutorial steps.
          * @param {string} options.prefix - 'guest' (default) or any prefix to easily identify a guest
          * @param {boolean} options.bypassTutorial - true (default) or false for guest to go thru tutorial steps
-         * @param {boolean} options.hideOnboarding - true (default) to hide or false to show Onboarding steps
+         * @param {boolean} options.showOnboarding - false (default) to hide or true to show Onboarding steps
          * @returns {UserProfile} `out.guest` as `UserProfile` object
          *
          * @example
          *   cy.apiCreateGuestUser(options);
          */
-        apiCreateGuestUser(options: Record<string, any>): Chainable<UserProfile>;
+        apiCreateGuestUser(options: Record<string, any>): Chainable<{guest: UserProfile}>;
 
         /**
          * Revoke all active sessions for a user.
@@ -300,16 +307,16 @@ declare namespace Cypress {
         apiPromoteGuestToUser(userId: string): Chainable<UserProfile>;
 
         /**
-        * Verifies a user's email via userId without having to go to the user's email inbox.
-        * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
-        * @param {string} userId - User ID
-        * @returns {UserProfile} out.user: `UserProfile` object
-        *
-        * @example
-        *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
-        *       // do something with user
-        *   });
-        */
+         * Verifies a user's email via userId without having to go to the user's email inbox.
+         * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
+         * @param {string} userId - User ID
+         * @returns {UserProfile} out.user: `UserProfile` object
+         *
+         * @example
+         *   cy.apiVerifyUserEmailById('user-id').then(({user}) => {
+         *       // do something with user
+         *   });
+         */
         apiVerifyUserEmailById(userId: string): Chainable<UserProfile>;
 
         /**

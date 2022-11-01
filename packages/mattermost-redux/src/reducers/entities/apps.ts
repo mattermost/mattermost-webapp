@@ -3,7 +3,7 @@
 import {combineReducers} from 'redux';
 
 import {AppsTypes} from 'mattermost-redux/action_types';
-import {AppBinding, AppCommandFormMap, AppsState} from 'mattermost-redux/types/apps';
+import {AppBinding, AppCommandFormMap, AppsState} from '@mattermost/types/apps';
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {validateBindings} from 'mattermost-redux/utils/apps';
 

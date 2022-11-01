@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import SizeAwareImage from 'components/size_aware_image';
 import {FileTypes, ModalIdentifiers} from 'utils/constants';
@@ -39,14 +39,13 @@ type State = {
 }
 
 export default class SingleImageView extends React.PureComponent<Props, State> {
-    private mounted: boolean;
+    private mounted = false;
     static defaultProps = {
         compactDisplay: false,
     };
 
     constructor(props: Props) {
         super(props);
-        this.mounted = true;
         this.state = {
             loaded: false,
             dimensions: {
@@ -91,6 +90,7 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             dialogProps: {
                 fileInfos: [this.props.fileInfo],
                 postId: this.props.postId,
+                startIndex: 0,
             },
         });
     }

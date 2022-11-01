@@ -73,6 +73,11 @@ function createChannel(channelType, teamId, userToAdd = null) {
     });
 }
 
+export function createPrivateChannel(teamId, userToAdd = null) {
+    // # Create a private channel as sysadmin
+    return createChannel('P', teamId, userToAdd);
+}
+
 module.exports = {
     withTimestamp,
     createEmail,
@@ -233,9 +238,8 @@ module.exports = {
     },
     searchAndVerifyUser: (user) => {
         // # Start @ mentions autocomplete with username
-        cy.get('#post_textbox').
+        cy.uiGetPostTextBox().
             as('input').
-            should('be.visible').
             clear().
             type(`@${user.username}`);
 

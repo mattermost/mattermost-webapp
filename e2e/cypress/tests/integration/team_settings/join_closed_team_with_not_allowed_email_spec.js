@@ -74,12 +74,12 @@ describe('Team Settings', () => {
             const errorMessage = `The following email addresses do not belong to an accepted domain: ${emailDomain}. Please contact your System Administrator for details.`;
 
             // # Type email, username and password
-            cy.get('#email').should('be.visible').type(email);
-            cy.get('#name').type(username);
-            cy.get('#password').type(password);
+            cy.get('#input_email').should('be.visible').type(email);
+            cy.get('#input_name').type(username);
+            cy.get('#input_password-input').type(password);
 
             // # Attempt to create an account by clicking on the 'Create Account' button
-            cy.get('#createAccountButton').click();
+            cy.findByText('Create Account').click();
 
             // * Assert that the expected error message from creating an account with an email not from the allowed email domain exists and is visible
             cy.findByText(errorMessage).should('be.visible');

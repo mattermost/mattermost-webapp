@@ -6,10 +6,10 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector, shallowEqual} from 'react-redux';
 
 import {Preferences} from 'mattermost-redux/constants';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 
-import {setThreadFollow, updateThreadRead, markThreadAsUnread} from 'mattermost-redux/actions/threads';
+import {setThreadFollow, updateThreadRead, markLastPostInThreadAsUnread} from 'mattermost-redux/actions/threads';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 
 import {
@@ -65,7 +65,7 @@ function ThreadMenu({
         if (hasUnreads) {
             dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
         } else {
-            dispatch(markThreadAsUnread(currentUserId, currentTeamId, threadId, threadId));
+            dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
         }
     }, [
         currentUserId,

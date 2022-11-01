@@ -4,11 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {Command} from 'mattermost-redux/types/integrations';
-import {RelationOneToOne} from 'mattermost-redux/types/utilities';
+import {Team} from '@mattermost/types/teams';
+import {Command} from '@mattermost/types/integrations';
+import {RelationOneToOne} from '@mattermost/types/utilities';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {t} from 'utils/i18n';
 import LoadingScreen from 'components/loading_screen';
 import ConfirmModal from 'components/confirm_modal';
@@ -116,7 +116,7 @@ export default class EditCommand extends React.PureComponent<Props, State> {
         const {data, error} = await this.props.actions.editCommand(this.newCommand);
 
         if (data) {
-            browserHistory.push(`/${this.props.team.name}/integrations/commands`);
+            getHistory().push(`/${this.props.team.name}/integrations/commands`);
             return;
         }
 

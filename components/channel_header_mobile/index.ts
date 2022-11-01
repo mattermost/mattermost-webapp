@@ -13,7 +13,6 @@ import {
     getCurrentChannel,
     getMyCurrentChannelMembership,
 } from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {
@@ -22,7 +21,6 @@ import {
 } from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 
-import {getIsRhsOpen} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
 
 import {GlobalState} from 'types/store';
@@ -44,9 +42,6 @@ const mapStateToProps = (state: GlobalState, ownProps: OwnProps) => ({
     channel: getCurrentChannel(state),
     isMobileView: getIsMobileView(state),
     isMuted: isCurrentChannelMuted(state),
-    isReadOnly: false,
-    isRHSOpen: getIsRhsOpen(state),
-    currentRelativeTeamUrl: getCurrentRelativeTeamUrl(state),
     inGlobalThreads: Boolean(matchPath(ownProps.location.pathname, {path: '/:team/threads/:threadIdentifier?'})),
 });
 

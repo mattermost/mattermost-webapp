@@ -1,7 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '../../packages/mattermost-redux/src/types/users';
+import {expect} from '@playwright/test';
+import {UserProfile} from '@mattermost/types/lib/users';
 
 import {
     Client,
@@ -14,6 +15,8 @@ import {
 } from './support/server';
 import {defaultTeam} from './support/utils';
 import testConfig from './test.config';
+
+const productsAsPlugin = ['com.mattermost.calls', 'focalboard', 'playbooks'];
 
 async function globalSetup() {
     let {adminClient, adminUser} = await getAdminClient();
@@ -85,6 +88,7 @@ async function sysadminSetup(client: Client, user: UserProfile) {
                 baseCount++;
             }
 
+            // eslint-disable-next-line no-console
             console.log(
                 `Added ${
                     usersLimit - totalUsersCount
@@ -93,14 +97,14 @@ async function sysadminSetup(client: Client, user: UserProfile) {
         }
     }
 
-    // Ensure Boards and Playbooks are installed and active.
-    // Soon Calls to be added.
+    // Ensure all products as plugin are installed and active.
     const pluginStatus = await client.getPluginStatuses();
     const plugins = await client.getPlugins();
 
-    ['playbooks', 'focalboard'].forEach(async (pluginId) => {
+    productsAsPlugin.forEach(async (pluginId) => {
         const isInstalled = pluginStatus.some((plugin) => plugin.plugin_id === pluginId);
         if (!isInstalled) {
+            // eslint-disable-next-line no-console
             console.log(`${pluginId} is not installed. Related visual test will fail.`);
             return;
         }
@@ -110,12 +114,44 @@ async function sysadminSetup(client: Client, user: UserProfile) {
             const isInactive = plugins.inactive.some((plugin) => plugin.id === pluginId);
             if (isInstalled && isInactive) {
                 await client.enablePlugin(pluginId);
+                // eslint-disable-next-line no-console
                 console.log(`${pluginId} has been activated.`);
             } else {
+                // eslint-disable-next-line no-console
                 console.log(`${pluginId} is not active. Related visual test will fail.`);
             }
         }
     });
+
+    // Ensure server deployment type is as expected
+    if (testConfig.haClusterEnabled) {
+        const {haClusterNodeCount, haClusterName} = testConfig;
+
+        const {Enable, ClusterName} = (await client.getConfig()).ClusterSettings;
+        expect(Enable, Enable ? '' : 'Should have cluster enabled').toBe(true);
+
+        const sameClusterName = ClusterName === haClusterName;
+        expect(
+            sameClusterName,
+            sameClusterName
+                ? ''
+                : `Should have cluster name set and as expected. Got "${ClusterName}" but expected "${haClusterName}"`
+        ).toBe(true);
+
+        const clusterInfo = await client.getClusterStatus();
+        const sameCount = clusterInfo?.length === haClusterNodeCount;
+        expect(
+            sameCount,
+            sameCount
+                ? ''
+                : `Should match number of nodes in a cluster as expected. Got "${clusterInfo?.length}" but expected "${haClusterNodeCount}"`
+        ).toBe(true);
+
+        clusterInfo.forEach((info) =>
+            // eslint-disable-next-line no-console
+            console.log(`hostname: ${info.hostname}, version: ${info.version}, config_hash: ${info.config_hash}`)
+        );
+    }
 }
 
 export default globalSetup;

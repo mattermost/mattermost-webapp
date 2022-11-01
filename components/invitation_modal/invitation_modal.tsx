@@ -10,14 +10,16 @@ import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {debounce} from 'mattermost-redux/actions/helpers';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
+
+import {getRoleForTrackFlow} from 'utils/utils';
 
 import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
 import InviteView, {InviteState, initializeInviteState} from './invite_view';
@@ -157,11 +159,12 @@ export class InvitationModal extends React.PureComponent<Props, State> {
     }
 
     invite = async () => {
+        const roleForTrackFlow = getRoleForTrackFlow();
         const inviteAs = this.state.invite.inviteType;
         if (inviteAs === InviteType.MEMBER && this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length});
+            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length, ...roleForTrackFlow});
         }
-        trackEvent('invite_users', 'click_invite');
+        trackEvent('invite_users', 'click_invite', roleForTrackFlow);
 
         const users: UserProfile[] = [];
         const emails: string[] = [];

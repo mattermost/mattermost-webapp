@@ -10,10 +10,10 @@ import * as Utils from 'utils/utils';
 
 import {getThreadCountsInCurrentTeam} from 'mattermost-redux/selectors/entities/threads';
 import {getThreads, markAllThreadsInTeamRead} from 'mattermost-redux/actions/threads';
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 import {trackEvent} from 'actions/telemetry_actions';
 
-import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
+import {Constants, CrtTutorialSteps, ModalIdentifiers, Preferences} from 'utils/constants';
 
 import NoResultsIndicator from 'components/no_results_indicator';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
@@ -31,6 +31,10 @@ import CRTUnreadTutorialTip
     from 'components/crt_tour/crt_unread_tutorial_tip/crt_unread_tutorial_tip';
 
 import {getIsMobileView} from 'selectors/views/browser';
+
+import {closeModal, openModal} from 'actions/views/modals';
+
+import MarkAllThreadsAsReadModal, {MarkAllThreadsAsReadModalProps} from '../mark_all_threads_as_read_modal';
 
 import VirtualizedThreadList from './virtualized_thread_list';
 
@@ -70,7 +74,7 @@ const ThreadList = ({
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
-    const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam);
+    const {total = 0, total_unread_threads: totalUnread} = useSelector(getThreadCountsInCurrentTeam) ?? {};
 
     const [isLoading, setLoading] = React.useState<boolean>(false);
     const [hasLoaded, setHasLoaded] = React.useState<boolean>(false);
@@ -154,6 +158,28 @@ const ThreadList = ({
         }
     }, [currentTeamId, currentUserId, currentFilter]);
 
+    const handleOpenMarkAllAsReadModal = useCallback(() => {
+        const handleCloseMarkAllAsReadModal = () => {
+            dispatch(closeModal(ModalIdentifiers.MARK_ALL_THREADS_AS_READ));
+        };
+
+        const handleConfirm = () => {
+            handleAllMarkedRead();
+            handleCloseMarkAllAsReadModal();
+        };
+
+        const modalProp: MarkAllThreadsAsReadModalProps = {
+            onConfirm: handleConfirm,
+            onCancel: handleCloseMarkAllAsReadModal,
+        };
+
+        dispatch(openModal({
+            modalId: ModalIdentifiers.MARK_ALL_THREADS_AS_READ,
+            dialogType: MarkAllThreadsAsReadModal,
+            dialogProps: modalProp,
+        }));
+    }, [handleAllMarkedRead]);
+
     return (
         <div
             tabIndex={0}
@@ -207,8 +233,9 @@ const ThreadList = ({
                         >
                             <Button
                                 id={'threads-list__mark-all-as-read'}
+                                disabled={!someUnread}
                                 className={'Button___large Button___icon'}
-                                onClick={handleAllMarkedRead}
+                                onClick={handleOpenMarkAllAsReadModal}
                             >
                                 <span className='Icon'>
                                     <i className='icon-playlist-check'/>
@@ -218,7 +245,10 @@ const ThreadList = ({
                     </div>
                 )}
             />
-            <div className='threads'>
+            <div
+                className='threads'
+                data-testid={'threads_list'}
+            >
                 <VirtualizedThreadList
                     key={`threads_list_${currentFilter}`}
                     loadMoreItems={handleLoadMoreItems}

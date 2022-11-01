@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {ProductIdentifier} from '@mattermost/types/products';
+
 import Pluggable from 'plugins/pluggable';
 import {
     CustomizeYourExperienceTour,
@@ -12,9 +14,12 @@ import {
 } from 'components/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
 
+import {isChannels} from 'utils/products';
+
 import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
+import PlanUpgradeButton from './plan_upgrade_button';
 
 const RightControlsContainer = styled.div`
     display: flex;
@@ -29,7 +34,7 @@ const RightControlsContainer = styled.div`
 `;
 
 export type Props = {
-    productId?: string | null;
+    productId?: ProductIdentifier;
 }
 
 const RightControls = ({productId = null}: Props): JSX.Element => {
@@ -39,7 +44,8 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
         <RightControlsContainer
             id={'RightControlsContainer'}
         >
-            {productId === null ? (
+            <PlanUpgradeButton/>
+            {isChannels(productId) ? (
                 <>
                     <AtMentionsButton/>
                     <SavedPostsButton/>

@@ -15,8 +15,7 @@ type Props = {
     isFreeTrial: boolean;
     trialQuestionsLink: any;
     subscriptionPlan: string | undefined;
-    onUpgradeMattermostCloud: () => void;
-    productsLength: number;
+    onUpgradeMattermostCloud: (callerInfo: string) => void;
 }
 
 const ContactSalesCard = (props: Props) => {
@@ -26,7 +25,6 @@ const ContactSalesCard = (props: Props) => {
         trialQuestionsLink,
         subscriptionPlan,
         onUpgradeMattermostCloud,
-        productsLength,
     } = props;
     let title;
     let description;
@@ -43,14 +41,7 @@ const ContactSalesCard = (props: Props) => {
         </a>
     );
 
-    // prior to releasing the cloud-{(s)tarter,(p)rofessional,(e)nterprise} plans,
-    // there is only one product fetched and available on this page, Mattermost Cloud.
-    // Mattermost Cloud pre cloud-{s,p,e} release does not have a sku,
-    // so we test for it with `productLengths === 1`.
-    // Post cloud-{s,p,e} release, Mattermost Cloud has a sku named cloud-legacy,
-    // so we test for it with `subscriptionPlan === CloudProducts.LEGACY`.
-    // We have to, since post cloud-{s,p,e} we fetch all 4 products.
-    const isCloudLegacyPlan = productsLength === 1 || subscriptionPlan === CloudProducts.LEGACY;
+    const isCloudLegacyPlan = subscriptionPlan === CloudProducts.LEGACY;
 
     if (isFreeTrial) {
         title = (
@@ -83,13 +74,13 @@ const ContactSalesCard = (props: Props) => {
         case CloudProducts.STARTER:
             title = (
                 <FormattedMessage
-                    id='admin.billing.subscription.privateCloudCard.cloudStarter.title'
+                    id='admin.billing.subscription.privateCloudCard.cloudFree.title'
                     defaultMessage='Upgrade to Cloud Professional'
                 />
             );
             description = (
                 <FormattedMessage
-                    id='admin.billing.subscription.privateCloudCard.cloudStarter.description'
+                    id='admin.billing.subscription.privateCloudCard.cloudFree.description'
                     defaultMessage='Optimize your processes with Guest Accounts, Office365 suite integrations, GitLab SSO and advanced permissions.'
                 />
             );
@@ -165,10 +156,10 @@ const ContactSalesCard = (props: Props) => {
 
                     </a>
                 }
-                {(!isFreeTrial && productsLength > 1 && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
+                {(!isFreeTrial && subscriptionPlan !== CloudProducts.ENTERPRISE && subscriptionPlan !== CloudProducts.LEGACY) &&
                     <button
                         type='button'
-                        onClick={onUpgradeMattermostCloud}
+                        onClick={() => onUpgradeMattermostCloud('admin_console_subscription_card_upgrade_now_button')}
                         className='PrivateCloudCard__actionButton'
                     >
                         <FormattedMessage

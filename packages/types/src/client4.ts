@@ -14,24 +14,6 @@ export type ClientResponse<T> = {
     data: T;
 };
 
-type ErrorOffline = {
-    message: string;
-    url: string;
-};
-type ErrorInvalidResponse = {
-    intl: {
-        id: string;
-        defaultMessage: string;
-    };
-};
-export type ErrorApi = {
-    message: string;
-    server_error_id: string;
-    status_code: number;
-    url: string;
-};
-export type Client4Error = ErrorOffline | ErrorInvalidResponse | ErrorApi;
-
 export type Options = {
     headers?: { [x: string]: string };
     method?: string;
@@ -43,3 +25,14 @@ export type Options = {
 export type StatusOK = {
     status: 'OK';
 };
+
+export type FetchPaginatedThreadOptions = {
+    fetchThreads?: boolean;
+    collapsedThreads?: boolean;
+    collapsedThreadsExtended?: boolean;
+    direction?: 'up'|'down';
+    fetchAll?: boolean;
+    perPage?: number;
+    fromCreateAt?: number;
+    fromPost?: string;
+}

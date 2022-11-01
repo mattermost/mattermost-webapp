@@ -18,7 +18,7 @@ import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import {Groups} from 'mattermost-redux/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {ChannelWithTeamData} from 'mattermost-redux/types/channels';
+import {ChannelWithTeamData} from '@mattermost/types/channels';
 import {
     Group,
     GroupChannel,
@@ -26,9 +26,9 @@ import {
     GroupTeam,
     SyncablePatch,
     SyncableType,
-} from 'mattermost-redux/types/groups';
-import {Team} from 'mattermost-redux/types/teams';
-import {UserProfile} from 'mattermost-redux/types/users';
+} from '@mattermost/types/groups';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import {t} from 'utils/i18n';
 import {localizeMessage} from 'utils/utils';
@@ -86,7 +86,7 @@ export type State = {
     groupMentionName?: string;
     saving: boolean;
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
     hasAllowReferenceChanged: boolean;
     hasGroupMentionNameChanged: boolean;
     teamsToAdd: GroupTeam[];
@@ -117,7 +117,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             groupMentionName: props.group.name,
             saving: false,
             saveNeeded: false,
-            serverError: null,
+            serverError: undefined,
             hasAllowReferenceChanged: false,
             hasGroupMentionNameChanged: false,
             teamsToAdd: [],
@@ -259,7 +259,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
         const newState: Partial<State> = {
             saveNeeded: true,
             itemsToRemove,
-            serverError: null,
+            serverError: undefined,
         };
         const syncableType = this.syncableTypeFromEntryType(type);
 
@@ -441,7 +441,7 @@ export default class GroupDetails extends React.PureComponent<Props, State> {
             hasAllowReferenceChanged,
             hasGroupMentionNameChanged,
         } = this.state;
-        let serverError = null;
+        let serverError;
 
         const GroupNameIsTakenError = (
             <FormattedMessage

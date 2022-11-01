@@ -3,11 +3,9 @@
 
 import React from 'react';
 
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
-import StartTrialBtn from './start_trial_btn';
+import TrialBenefitsModalStepMore from 'components/trial_benefits_modal/trial_benefits_modal_step_more';
 
 import './learn_more_trial_modal_step.scss';
 
@@ -18,7 +16,9 @@ export type LearnMoreTrialModalStepProps = {
     svgWrapperClassName: string;
     svgElement: React.ReactNode;
     bottomLeftMessage?: string;
-    handleEmbargoError?: () => void;
+    pageURL?: string;
+    buttonLabel?: string;
+    handleOnClose?: () => void;
 }
 
 const LearnMoreTrialModalStep = (
@@ -29,12 +29,10 @@ const LearnMoreTrialModalStep = (
         svgWrapperClassName,
         svgElement,
         bottomLeftMessage,
-        handleEmbargoError,
+        pageURL,
+        buttonLabel,
+        handleOnClose,
     }: LearnMoreTrialModalStepProps) => {
-    const {formatMessage} = useIntl();
-
-    const startTrialBtnMsg = formatMessage({id: 'start_trial.modal_btn.start_free_trial', defaultMessage: 'Start free 30-day trial'});
-
     return (
         <div
             id={`learnMoreTrialModalStep-${id}`}
@@ -43,28 +41,47 @@ const LearnMoreTrialModalStep = (
             <div className={`${svgWrapperClassName} svg-wrapper`}>
                 {svgElement}
             </div>
-            <div className='pre-title'>
-                <FormattedMessage
-                    id='learn_more_trial_modal.pretitle'
-                    defaultMessage='With Enterprise, you can...'
-                />
-            </div>
             <div className='title'>
                 {title}
             </div>
             <div className='description'>
                 {description}
             </div>
-            <StartTrialBtn
-                message={startTrialBtnMsg}
-                handleEmbargoError={handleEmbargoError}
-                telemetryId='start_trial_from_learn_more_about_trial_modal'
-            />
+            {(pageURL && buttonLabel) && (
+                <TrialBenefitsModalStepMore
+                    id={id}
+                    route={pageURL}
+                    message={buttonLabel}
+                    onClick={handleOnClose}
+                    styleLink={true}
+                    telemetryId={'learn_more_trial_modal'}
+                />
+            )}
             <div className='disclaimer'>
                 <span>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='start_trial.modal.disclaimer'
-                        defaultMessage='By clicking “Start trial”, I agree to the [Mattermost Software Evaluation Agreement,](!https://mattermost.com/software-evaluation-agreement) [privacy policy,](!https://mattermost.com/privacy-policy/) and receiving product emails.'
+                        defaultMessage='By clicking “Start trial”, I agree to the <linkEvaluation>Mattermost Software Evaluation Agreement</linkEvaluation>, <linkPrivacy>privacy policy</linkPrivacy> and receiving product emails.'
+                        values={{
+                            linkEvaluation: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/software-evaluation-agreement'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                            linkPrivacy: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/privacy-policy/'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </span>
             </div>

@@ -563,9 +563,9 @@ const paddedComponent = (WrappedComponent: any) => {
 const styles = {
     container: () => {
         return {
-            display: 'table-cell',
-            verticalAlign: 'top',
-            width: '100%',
+            display: 'flex',
+            overflow: 'hidden',
+            flex: 'auto',
         };
     },
 };

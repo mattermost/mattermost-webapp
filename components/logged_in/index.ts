@@ -6,7 +6,7 @@ import {bindActionCreators, Dispatch} from 'redux';
 
 import {GlobalState} from 'types/store';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {DispatchFunc, GenericAction} from 'mattermost-redux/types/actions';
 
@@ -15,7 +15,7 @@ import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/channels'
 import {getLicense, getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser, shouldShowTermsOfService} from 'mattermost-redux/selectors/entities/users';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {checkIfMFARequired} from 'utils/route';
 import {getChannelURL} from 'utils/utils';
 import {isPermalinkURL} from 'utils/url';
@@ -47,10 +47,10 @@ const getChannelURLAction = (channel: Channel, teamId: string, url: string) => (
     const state = getState();
 
     if (url && isPermalinkURL(url)) {
-        return browserHistory.push(url);
+        return getHistory().push(url);
     }
 
-    return browserHistory.push(getChannelURL(state, channel, teamId));
+    return getHistory().push(getChannelURL(state, channel, teamId));
 };
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {

@@ -1,12 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ValueOf} from './utilities';
+
 export type CloudState = {
     subscription?: Subscription;
     products?: Record<string, Product>;
     customer?: CloudCustomer;
     invoices?: Record<string, Invoice>;
-    limits: Limits;
+    limits: {
+        limitsLoaded: boolean;
+        limits: Limits;
+    };
+    errors: {
+        subscription?: true;
+        products?: true;
+        customer?: true;
+        invoices?: true;
+        limits?: true;
+    };
 }
 
 export type Subscription = {
@@ -18,10 +30,10 @@ export type Subscription = {
     end_at: number;
     create_at: number;
     seats: number;
-    is_paid_tier: string;
     last_invoice?: Invoice;
     trial_end_at: number;
     is_free_trial: string;
+    delinquent_since?: number;
 }
 
 export type Product = {
@@ -34,6 +46,7 @@ export type Product = {
     sku: string;
     billing_scheme: string;
     recurring_interval: string;
+    cross_sells_to: string;
 };
 
 export type AddOn = {
@@ -42,6 +55,17 @@ export type AddOn = {
     display_name: string;
     price_per_seat: number;
 };
+
+export const TypePurchases = {
+    firstSelfHostLicensePurchase: 'first_purchase',
+    renewalSelfHost: 'renewal_self',
+    monthlySubscription: 'monthly_subscription',
+    annualSubscription: 'annual_subscription',
+} as const;
+
+export type MetadataGatherWireTransferKeys = `${ValueOf<typeof TypePurchases>}_alt_payment_method`
+
+export type CustomerMetadataGatherWireTransfer = Partial<Record<MetadataGatherWireTransferKeys, string>>
 
 // Customer model represents a customer on the system.
 export type CloudCustomer = {
@@ -56,7 +80,7 @@ export type CloudCustomer = {
     billing_address: Address;
     company_address: Address;
     payment_method: PaymentMethod;
-}
+} & CustomerMetadataGatherWireTransfer
 
 // CustomerPatch model represents a customer patch on the system.
 export type CloudCustomerPatch = {
@@ -65,7 +89,7 @@ export type CloudCustomerPatch = {
     num_employees?: number;
     contact_first_name?: string;
     contact_last_name?: string;
-}
+} & CustomerMetadataGatherWireTransfer
 
 // Address model represents a customer's address.
 export type Address = {
@@ -85,6 +109,12 @@ export type PaymentMethod = {
     exp_year: number;
     card_brand: string;
     name: string;
+}
+
+export type NotifyAdminRequest = {
+    trial_notification: boolean;
+    required_plan: string;
+    required_feature: string;
 }
 
 // Invoice model represents a invoice on the system.
@@ -139,4 +169,36 @@ export type Limits = {
         cards?: number;
         views?: number;
     };
+}
+
+export interface CloudUsage {
+    files: {
+        totalStorage: number;
+        totalStorageLoaded: boolean;
+    };
+    messages: {
+        history: number;
+        historyLoaded: boolean;
+    };
+    boards: {
+        cards: number;
+        cardsLoaded: boolean;
+    };
+    teams: TeamsUsage;
+    integrations: IntegrationsUsage;
+}
+
+export interface IntegrationsUsage {
+    enabled: number;
+    enabledLoaded: boolean;
+}
+
+export type TeamsUsage = {
+    active: number;
+    cloudArchived: number;
+    teamsLoaded: boolean;
+}
+
+export type ValidBusinessEmail = {
+    is_valid: boolean;
 }

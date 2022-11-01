@@ -3,7 +3,7 @@
 
 import testConfigureStore from 'tests/test_store';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import * as utils from 'utils/notifications';
 import * as baseUtils from 'utils/utils';
@@ -159,7 +159,6 @@ describe('notification_actions', () => {
 
         test('should notify user', async () => {
             const store = testConfigureStore(baseState);
-            const pushSpy = jest.spyOn(browserHistory, 'push');
             const focus = window.focus;
             window.focus = jest.fn();
 
@@ -174,7 +173,7 @@ describe('notification_actions', () => {
 
                 spy.mock.calls[0][0].onClick();
 
-                expect(pushSpy).toHaveBeenCalledWith('/team/channels/utopia');
+                expect(getHistory().push).toHaveBeenCalledWith('/team/channels/utopia');
                 expect(window.focus).toHaveBeenCalled();
                 window.focus = focus;
             });
@@ -262,6 +261,24 @@ describe('notification_actions', () => {
         test('should not notify user on systemMessage', () => {
             const store = testConfigureStore(baseState);
             post.type = 'system_message';
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).not.toHaveBeenCalled();
+            });
+        });
+
+        test('should notify user on add to channel', () => {
+            const store = testConfigureStore(baseState);
+            post.type = 'system_add_to_channel';
+            post.props.addedUserId = 'current_user_id';
+            return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
+                expect(spy).toHaveBeenCalled();
+            });
+        });
+
+        test('should not notify user on other user add to channel', () => {
+            const store = testConfigureStore(baseState);
+            post.type = 'system_add_to_channel';
+            post.props.addedUserId = 'not_current_user_id';
             return store.dispatch(sendDesktopNotification(post, msgProps)).then(() => {
                 expect(spy).not.toHaveBeenCalled();
             });
@@ -358,7 +375,6 @@ describe('notification_actions', () => {
             });
 
             test('should redirect to permalink when CRT in on and the post is a thread', () => {
-                const pushSpy = jest.spyOn(browserHistory, 'push');
                 const focus = window.focus;
                 window.focus = jest.fn();
 
@@ -376,7 +392,7 @@ describe('notification_actions', () => {
                     });
                     spy.mock.calls[0][0].onClick();
 
-                    expect(pushSpy).toHaveBeenCalledWith('/team/pl/post_id');
+                    expect(getHistory().push).toHaveBeenCalledWith('/team/pl/post_id');
                     expect(window.focus).toHaveBeenCalled();
                     window.focus = focus;
                 });

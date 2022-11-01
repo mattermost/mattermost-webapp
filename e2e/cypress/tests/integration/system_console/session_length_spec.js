@@ -84,43 +84,43 @@ describe('MM-T2574 Session Lengths', () => {
                 expect(setting).to.be.false;
             });
         });
-        it('Setting "Session Length AD/LDAP and Email (days)" should save in UI', () => {
-            cy.get('#sessionLengthWebInDays').
-                should('have.value', '30').
-                clear().type('31');
+        it('Setting "Session Length AD/LDAP and Email (hours)" should save in UI', () => {
+            cy.findByTestId('sessionLengthWebInHoursinput').
+                should('have.value', '720').
+                clear().type('744');
             saveConfig();
-            cy.get('#sessionLengthWebInDays').should('have.value', '31');
+            cy.findByTestId('sessionLengthWebInHoursinput').should('have.value', '744');
         });
-        it('Setting "Session Length AD/LDAP and Email (days)" should be saved in the server configuration', () => {
+        it('Setting "Session Length AD/LDAP and Email (hours)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then(({config}) => {
-                const setting = config.ServiceSettings.SessionLengthWebInDays;
-                expect(setting).to.equal(31);
+                const setting = config.ServiceSettings.SessionLengthWebInHours;
+                expect(setting).to.equal(744);
             });
         });
-        it('Setting "Session Length Mobile (days)" should save in UI', () => {
-            cy.get('#sessionLengthMobileInDays').
-                should('have.value', '30').
-                clear().type('31');
+        it('Setting "Session Length Mobile (hours)" should save in UI', () => {
+            cy.findByTestId('sessionLengthMobileInHoursinput').
+                should('have.value', '720').
+                clear().type('744');
             saveConfig();
-            cy.get('#sessionLengthMobileInDays').should('have.value', '31');
+            cy.findByTestId('sessionLengthMobileInHoursinput').should('have.value', '744');
         });
-        it('Setting "Session Length Mobile (days)" should be saved in the server configuration', () => {
+        it('Setting "Session Length Mobile (hours)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then(({config}) => {
-                const setting = config.ServiceSettings.SessionLengthMobileInDays;
-                expect(setting).to.equal(31);
+                const setting = config.ServiceSettings.SessionLengthMobileInHours;
+                expect(setting).to.equal(744);
             });
         });
-        it('Setting "Session Length SSO (days)" should save in UI', () => {
-            cy.get('#sessionLengthSSOInDays').
-                should('have.value', '30').
-                clear().type('31');
+        it('Setting "Session Length SSO (hours)" should save in UI', () => {
+            cy.findByTestId('sessionLengthSSOInHoursinput').
+                should('have.value', '720').
+                clear().type('744');
             saveConfig();
-            cy.get('#sessionLengthSSOInDays').should('have.value', '31');
+            cy.findByTestId('sessionLengthSSOInHoursinput').should('have.value', '744');
         });
-        it('Setting "Session Length SSO (days)" should be saved in the server configuration', () => {
+        it('Setting "Session Length SSO (hours)" should be saved in the server configuration', () => {
             cy.apiGetConfig().then(({config}) => {
-                const setting = config.ServiceSettings.SessionLengthSSOInDays;
-                expect(setting).to.equal(31);
+                const setting = config.ServiceSettings.SessionLengthSSOInHours;
+                expect(setting).to.equal(744);
             });
         });
         it('Setting "Session Cache (minutes)" should save in UI', () => {

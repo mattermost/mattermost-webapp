@@ -5,10 +5,12 @@ import {connect} from 'react-redux';
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getTeamStats} from 'mattermost-redux/actions/teams';
-import {getProfilesNotInChannel, searchProfiles} from 'mattermost-redux/actions/users';
-import {getProfilesNotInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserStatuses, makeGetProfilesNotInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getProfilesNotInChannel, getProfilesInChannel, searchProfiles} from 'mattermost-redux/actions/users';
+import {getProfilesNotInCurrentChannel, getProfilesInCurrentChannel, getProfilesNotInCurrentTeam, getProfilesNotInTeam, getUserStatuses, makeGetProfilesNotInChannel, makeGetProfilesInChannel} from 'mattermost-redux/selectors/entities/users';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+
 import {Action, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam, getTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -17,7 +19,7 @@ import {Permissions} from 'mattermost-redux/constants';
 import {Value} from 'components/multiselect/multiselect';
 
 import {addUsersToChannel} from 'actions/channel_actions';
-import {loadStatusesForProfilesList} from 'actions/status_actions.jsx';
+import {loadStatusesForProfilesList} from 'actions/status_actions';
 
 import {closeModal} from 'actions/views/modals';
 
@@ -32,17 +34,29 @@ type OwnProps = {
     teamId?: string;
 }
 
-function makeMapStateToProps() {
-    const doGetProfilesNotInChannel = makeGetProfilesNotInChannel();
+function makeMapStateToProps(initialState: GlobalState, initialProps: OwnProps) {
+    let doGetProfilesNotInChannel: (state: GlobalState, channelId: string, filters?: any) => UserProfile[];
+    if (initialProps.channelId && initialProps.teamId) {
+        doGetProfilesNotInChannel = makeGetProfilesNotInChannel();
+    }
+
+    let doGetProfilesInChannel: (state: GlobalState, channelId: string, filters?: any) => UserProfile[];
+    if (initialProps.channelId && initialProps.teamId) {
+        doGetProfilesInChannel = makeGetProfilesInChannel();
+    }
+
     return (state: GlobalState, props: OwnProps) => {
         let profilesNotInCurrentChannel: UserProfileValue[];
+        let profilesInCurrentChannel: UserProfileValue[];
         let profilesNotInCurrentTeam: UserProfileValue[];
 
         if (props.channelId && props.teamId) {
             profilesNotInCurrentChannel = doGetProfilesNotInChannel(state, props.channelId) as UserProfileValue[];
+            profilesInCurrentChannel = doGetProfilesInChannel(state, props.channelId) as UserProfileValue[];
             profilesNotInCurrentTeam = getProfilesNotInTeam(state, props.teamId) as UserProfileValue[];
         } else {
             profilesNotInCurrentChannel = getProfilesNotInCurrentChannel(state) as UserProfileValue[];
+            profilesInCurrentChannel = getProfilesInCurrentChannel(state) as UserProfileValue[];
             profilesNotInCurrentTeam = getProfilesNotInCurrentTeam(state) as UserProfileValue[];
         }
 
@@ -59,9 +73,13 @@ function makeMapStateToProps() {
 
         const userStatuses = getUserStatuses(state);
 
+        const teammateNameDisplaySetting = getTeammateNameDisplaySetting(state);
+
         return {
             profilesNotInCurrentChannel,
+            profilesInCurrentChannel,
             profilesNotInCurrentTeam,
+            teammateNameDisplaySetting,
             userStatuses,
             canInviteGuests,
             emailInvitationsEnabled,
@@ -76,6 +94,7 @@ type Actions = {
     loadStatusesForProfilesList: (users: UserProfile[]) => void;
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
     closeModal: (modalId: string) => void;
+    getProfilesInChannel: (channelId: string, page: number, perPage: number, sort: string, options: {active?: boolean}) => Promise<ActionResult>;
 }
 
 function mapDispatchToProps(dispatch: Dispatch) {
@@ -83,6 +102,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             addUsersToChannel,
             getProfilesNotInChannel,
+            getProfilesInChannel,
             getTeamStats,
             loadStatusesForProfilesList,
             searchProfiles,

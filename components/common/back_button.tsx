@@ -4,6 +4,7 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {Link} from 'react-router-dom';
+import classNames from 'classnames';
 
 type Props = {
 
@@ -12,23 +13,25 @@ type Props = {
      */
     url: string;
 
+    className?: string;
+
     /**
      * onClick handler when user clicks back button
      */
     onClick?: React.EventHandler<React.MouseEvent>;
 }
 
-const BackButton = (props: Props): JSX.Element => {
+const BackButton = ({url, className, onClick}: Props): JSX.Element => {
     const {formatMessage} = useIntl();
 
     return (
         <div
             id='back_button'
-            className='signup-header'
+            className={classNames('signup-header', className)}
         >
             <Link
-                onClick={props.onClick}
-                to={props.url}
+                onClick={onClick}
+                to={url}
             >
                 <span
                     id='back_button_icon'

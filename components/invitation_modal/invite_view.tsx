@@ -6,18 +6,20 @@ import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
-import {Channel} from 'mattermost-redux/types/channels';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
+import {Channel} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
 
 import {getSiteURL} from 'utils/url';
 import {Constants} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
-import {getAnalyticsCategory} from 'components/next_steps_view/step_helpers';
 import useCopyText from 'components/common/hooks/useCopyText';
 import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
-import {t} from 'utils/i18n.jsx';
+import {getAnalyticsCategory} from 'components/onboarding_tasks';
+
+import {t} from 'utils/i18n';
+import {getTrackFlowRole, getRoleForTrackFlow} from 'utils/utils';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
@@ -77,11 +79,11 @@ export default function InviteView(props: Props) {
     const {formatMessage} = useIntl();
 
     const inviteURL = useMemo(() => {
-        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}`;
+        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}&sbr=${getTrackFlowRole()}`;
     }, [props.currentTeam.invite_id]);
 
     const copyText = useCopyText({
-        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link'),
+        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link', getRoleForTrackFlow()),
         text: inviteURL,
     });
 
@@ -90,7 +92,7 @@ export default function InviteView(props: Props) {
             onClick={copyText.onClick}
             data-testid='InviteView__copyInviteLink'
             aria-label='team invite link'
-            className='InviteView__copyLink tertiary-button'
+            className='InviteView__copyLink'
         >
             {!copyText.copiedRecently && (
                 <>
@@ -171,8 +173,8 @@ export default function InviteView(props: Props) {
                             inviteType: (
                                 props.inviteType === InviteType.MEMBER ?
                                     <FormattedMessage
-                                        id='invite_modal.members'
-                                        defaultMessage='members'
+                                        id='invite_modal.people'
+                                        defaultMessage='people'
                                     /> :
                                     <FormattedMessage
                                         id='invite_modal.guests'

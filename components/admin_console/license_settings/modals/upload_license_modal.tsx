@@ -12,7 +12,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {uploadLicense} from 'mattermost-redux/actions/admin';
 import {getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 import {getCurrentLocale} from 'selectors/i18n';
 
 import {GlobalState} from 'types/store';

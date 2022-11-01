@@ -1,17 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
+import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Team} from 'mattermost-redux/types/teams';
-
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {closeRightHandSide, closeMenu as closeRhsMenu} from 'actions/views/rhs';
 import {close as closeLhs} from 'actions/views/lhs';
 import LocalStorageStore from 'stores/local_storage_store';
 import reduxStore from 'stores/redux_store';
 import {redirectUserToDefaultTeam, toggleSideBarRightMenuAction, getTeamRedirectChannelIfIsAccesible} from 'actions/global_actions';
+
+import mockStore from 'tests/test_store';
 
 jest.mock('actions/views/rhs', () => ({
     closeMenu: jest.fn(),
@@ -23,7 +23,7 @@ jest.mock('actions/views/lhs', () => ({
 }));
 
 jest.mock('mattermost-redux/actions/users', () => ({
-    loadMe: () => ({type: 'MOCK_RECEIVED_ME'}),
+    loadMeREST: () => ({type: 'MOCK_RECEIVED_ME'}),
 }));
 
 jest.mock('stores/redux_store', () => {
@@ -36,7 +36,6 @@ jest.mock('stores/redux_store', () => {
 describe('actions/global_actions', () => {
     describe('redirectUserToDefaultTeam', () => {
         it('should redirect to /select_team when no team is available', async () => {
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -67,9 +66,8 @@ describe('actions/global_actions', () => {
 
             reduxStore.getState.mockImplementation(store.getState);
 
-            browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
-            expect(browserHistory.push).toHaveBeenCalledWith('/select_team');
+            expect(getHistory().push).toHaveBeenCalledWith('/select_team');
         });
 
         it('should redirect to last viewed channel in the last viewed team when the user have access to that team', async () => {
@@ -78,7 +76,6 @@ describe('actions/global_actions', () => {
             LocalStorageStore.setPreviousChannelName(userId, 'team1', 'channel-in-team-1');
             LocalStorageStore.setPreviousChannelName(userId, 'team2', 'channel-in-team-2');
 
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -143,9 +140,8 @@ describe('actions/global_actions', () => {
 
             reduxStore.getState.mockImplementation(store.getState);
 
-            browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
-            expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
+            expect(getHistory().push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
         });
 
         it('should redirect to last channel on first team with channels when the user have no channels in the current team', async () => {
@@ -154,7 +150,6 @@ describe('actions/global_actions', () => {
             LocalStorageStore.setPreviousChannelName(userId, 'team1', 'channel-in-team-1');
             LocalStorageStore.setPreviousChannelName(userId, 'team2', 'channel-in-team-2');
 
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -218,9 +213,8 @@ describe('actions/global_actions', () => {
 
             reduxStore.getState.mockImplementation(store.getState);
 
-            browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
-            expect(browserHistory.push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
+            expect(getHistory().push).toHaveBeenCalledWith('/team2/channels/channel-in-team-2');
         });
 
         it('should redirect to /select_team when the user have no channels in the any of his teams', async () => {
@@ -229,7 +223,6 @@ describe('actions/global_actions', () => {
             LocalStorageStore.setPreviousChannelName(userId, 'team1', 'channel-in-team-1');
             LocalStorageStore.setPreviousChannelName(userId, 'team2', 'channel-in-team-2');
 
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -292,13 +285,11 @@ describe('actions/global_actions', () => {
 
             reduxStore.getState.mockImplementation(store.getState);
 
-            browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
-            expect(browserHistory.push).toHaveBeenCalledWith('/select_team');
+            expect(getHistory().push).toHaveBeenCalledWith('/select_team');
         });
 
         it('should do nothing if there is not current user', async () => {
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -326,9 +317,8 @@ describe('actions/global_actions', () => {
 
             reduxStore.getState.mockImplementation(store.getState);
 
-            browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
-            expect(browserHistory.push).not.toHaveBeenCalled();
+            expect(getHistory().push).not.toHaveBeenCalled();
         });
 
         it('should redirect to direct message if that\'s the most recently used', async () => {
@@ -336,7 +326,6 @@ describe('actions/global_actions', () => {
             const teamId = 'team1';
             const user2 = 'user2';
             const directChannelId = `${userId}__${user2}`;
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -433,7 +422,6 @@ describe('actions/global_actions', () => {
             const user2 = 'user2';
             const directChannelId = `${userId}__${user2}`;
             const groupChannelId = 'group-channel';
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -531,7 +519,6 @@ describe('actions/global_actions', () => {
             LocalStorageStore.setPreviousChannelName(userId, 'team1', 'channel-in-team-1');
             LocalStorageStore.setPreviousChannelName(userId, 'team2', 'channel-in-team-2');
 
-            const mockStore = configureStore();
             const store = mockStore({
                 entities: {
                     general: {
@@ -582,9 +569,8 @@ describe('actions/global_actions', () => {
 
             reduxStore.getState.mockImplementation(store.getState);
 
-            browserHistory.push = jest.fn();
             await redirectUserToDefaultTeam();
-            expect(browserHistory.push).toHaveBeenCalledWith('/team1/channels/channel-in-team-1');
+            expect(getHistory().push).toHaveBeenCalledWith('/team1/channels/channel-in-team-1');
         });
     });
 

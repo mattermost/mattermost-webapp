@@ -3,10 +3,10 @@
 
 import {Client4} from 'mattermost-redux/client';
 import {Action, ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
-import {AppCallResponse, AppForm, AppCallRequest, AppContext, AppBinding} from 'mattermost-redux/types/apps';
+import {AppCallResponse, AppForm, AppCallRequest, AppContext, AppBinding} from '@mattermost/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
-import {Post} from 'mattermost-redux/types/posts';
-import {CommandArgs} from 'mattermost-redux/types/integrations';
+import {Post} from '@mattermost/types/posts';
+import {CommandArgs} from '@mattermost/types/integrations';
 
 import {openModal} from 'actions/views/modals';
 
@@ -14,7 +14,7 @@ import AppsForm from 'components/apps_form';
 
 import {ModalIdentifiers} from 'utils/constants';
 import {getSiteURL, shouldOpenInNewTab} from 'utils/url';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {createCallRequest, makeCallErrorResponse} from 'utils/apps';
 
 import {cleanForm} from 'mattermost-redux/utils/apps';
@@ -117,7 +117,7 @@ export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): Act
                 const navigateURL = res.navigate_to_url.startsWith(getSiteURL()) ?
                     res.navigate_to_url.slice(getSiteURL().length) :
                     res.navigate_to_url;
-                browserHistory.push(navigateURL);
+                getHistory().push(navigateURL);
                 return {data: res};
             }
             default: {

@@ -36,7 +36,10 @@ export const inviteUserByEmail = (email) => {
     // # Wait half a second to ensure that the modal has been fully loaded
     cy.wait(TIMEOUTS.HALF_SEC);
 
-    cy.findByRole('textbox', {name: 'Add or Invite People'}).type(email, {force: true}).wait(TIMEOUTS.HALF_SEC).type('{enter}', {force: true});
+    cy.findByRole('textbox', {name: 'Add or Invite People'}).
+        typeWithForce(email).
+        wait(TIMEOUTS.HALF_SEC).
+        typeWithForce('{enter}');
     cy.get('#inviteMembersButton').click();
 
     // # Wait for a while to ensure that email notification is sent
@@ -60,7 +63,7 @@ export const verifyEmailInviteAndVisitLink = (sender, username, email, team, sit
         cy.visit(permalink);
 
         // * Verify it redirects into the signup page
-        cy.get('#signup_email_section', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
+        cy.get('.signup-body', {timeout: TIMEOUTS.HALF_MIN}).should('be.visible');
     });
 };
 
@@ -71,11 +74,14 @@ export const signupAndVerifyTutorial = (username, password, teamDisplayName) => 
     // # Attempt to create an account by clicking on the 'Create Account' button
     cy.get('#createAccountButton').click();
 
+    // # Close the onboarding tutorial
+    cy.uiCloseOnboardingTaskList();
+
     // * Check that the display name of the team the user was invited to is being correctly displayed
     cy.uiGetLHSHeader().findByText(teamDisplayName);
 
-    // * Check that the 'Welcome to Mattermost' message is visible
-    cy.findByText('Welcome to Mattermost').should('be.visible');
+    // * Check that the 'Beginning of Town Square' message is visible
+    cy.findByText('Beginning of Town Square').should('be.visible');
 
     // * Check that 'Town Square' is currently being selected
     cy.get('.active').within(() => {

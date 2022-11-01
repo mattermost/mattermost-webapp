@@ -39,7 +39,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
                   <div
                     className="mt-2"
                   >
-                    <injectIntl(FormattedMarkdownMessage)
+                    <MemoizedFormattedMessage
                       defaultMessage="test-subtitle-default"
                       id="test-subtitle-id"
                       values={
@@ -83,7 +83,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
                   <div
                     className="mt-2"
                   >
-                    <injectIntl(FormattedMarkdownMessage)
+                    <MemoizedFormattedMessage
                       defaultMessage="test-subtitle-default"
                       id="test-subtitle-id"
                       values={
@@ -135,7 +135,7 @@ describe('components/widgets/admin_console/AdminPanel', () => {
                   <div
                     className="mt-2"
                   >
-                    <injectIntl(FormattedMarkdownMessage)
+                    <MemoizedFormattedMessage
                       defaultMessage="test-subtitle-default"
                       id="test-subtitle-id"
                       values={

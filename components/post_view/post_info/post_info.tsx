@@ -9,12 +9,13 @@ import ActionsMenu from 'components/actions_menu';
 import {Posts, Preferences} from 'mattermost-redux/constants';
 import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
-import {Post} from 'mattermost-redux/types/posts';
+import {Post} from '@mattermost/types/posts';
 import {ExtendedPost} from 'mattermost-redux/actions/posts';
 
+import type {emitShortcutReactToLastPostFrom} from 'actions/post_actions';
 import {trackEvent} from 'actions/telemetry_actions';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import Constants, {EventTypes, TELEMETRY_CATEGORIES, TELEMETRY_LABELS, Locations} from 'utils/constants';
 import CommentIcon from 'components/post_view/comment_icon';
 import DotMenu from 'components/dot_menu';
@@ -25,7 +26,8 @@ import PostReaction from 'components/post_view/post_reaction';
 import PostRecentReactions from 'components/post_view/post_recent_reactions';
 import PostTime from 'components/post_view/post_time';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
-import {Emoji} from 'mattermost-redux/types/emojis';
+import PriorityLabel from 'components/post_priority/post_priority_label';
+import {Emoji} from '@mattermost/types/emojis';
 
 type Props = {
 
@@ -102,7 +104,7 @@ type Props = {
     /**
      * Set not to allow edits on post
      */
-    isReadOnly: boolean | null;
+    isReadOnly?: boolean;
 
     /**
      * To check if the state of emoji for last message and from where it was emitted
@@ -119,6 +121,8 @@ type Props = {
      */
     showActionsMenuPulsatingDot: boolean;
 
+    isPostPriorityEnabled: boolean;
+
     actions: {
 
         /**
@@ -129,7 +133,7 @@ type Props = {
         /**
          * Function to set or unset emoji picker for last message
          */
-        emitShortcutReactToLastPostFrom?: (emittedFrom: string) => void;
+        emitShortcutReactToLastPostFrom?: typeof emitShortcutReactToLastPostFrom;
 
         /**
          * Function to set viewed Actions Menu for first time
@@ -177,9 +181,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
-        if (e) {
-            e.stopPropagation();
-        }
+        e?.stopPropagation();
         const showEmojiPicker = !this.state.showEmojiPicker;
 
         this.setState({
@@ -277,7 +279,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
                     channelId={post.channel_id}
                     postId={post.id}
                     emojis={this.props.recentEmojis}
-                    teamId={this.props.teamId}
+                    teamId={this.props.teamId!}
                     getDotMenuRef={this.getDotMenu}
                 />
             );
@@ -335,7 +337,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             postFlagIcon = (
                 <PostFlagIcon
                     postId={post.id}
-                    isFlagged={this.props.isFlagged}
+                    isFlagged={Boolean(this.props.isFlagged)}
                 />
             );
         }
@@ -400,7 +402,7 @@ export default class PostInfo extends React.PureComponent<Props, State> {
     }
 
     render(): React.ReactNode {
-        const {post} = this.props;
+        const {post, isPostPriorityEnabled} = this.props;
 
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
@@ -475,13 +477,19 @@ export default class PostInfo extends React.PureComponent<Props, State> {
             );
         }
 
+        let priority;
+        if (post.props?.priority && isPostPriorityEnabled) {
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+        }
+
         return (
             <div
                 className='post__header--info'
                 ref={this.postHeaderRef}
             >
-                <div className='col'>
+                <div className='col d-flex align-items-center'>
                     {postTime}
+                    {priority}
                     {postInfoIcon}
                     {visibleMessage}
                 </div>

@@ -3,14 +3,14 @@
 
 import {
     applyMiddleware,
-    createStore,
+    legacy_createStore,
     Reducer,
     Store,
 } from 'redux';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
 
-import {GlobalState} from 'mattermost-redux/types/store';
+import {GlobalState} from '@mattermost/types/store';
 
 import serviceReducers from '../reducers';
 
@@ -49,7 +49,7 @@ export default function configureStore<S extends GlobalState>({
 
     const baseReducer = createReducer(serviceReducers, appReducers);
 
-    const store = createStore(
+    const store = legacy_createStore(
         baseReducer,
         baseState,
         middleware,

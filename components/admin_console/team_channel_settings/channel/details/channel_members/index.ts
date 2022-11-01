@@ -6,13 +6,13 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {createSelector} from 'reselect';
 
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/types/users';
 
 import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
 
 import {ActionResult, ActionFunc, GenericAction} from 'mattermost-redux/types/actions';
-import {ChannelStats} from 'mattermost-redux/types/channels';
+import {ChannelStats} from '@mattermost/types/channels';
 
 import {getChannelStats} from 'mattermost-redux/actions/channels';
 import {getFilteredUsersStats} from 'mattermost-redux/actions/users';

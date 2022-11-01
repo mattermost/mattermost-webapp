@@ -2,6 +2,8 @@
 
 .InviteResultTable {
     width: 100%;
+    max-height: 400px;
+    overflow-y: auto;
 
     .table-header {
         display: flex;
@@ -90,7 +92,6 @@
     }
 
     .reason {
-        display: flex;
         width: 50%;
         align-items: center;
         padding: 12px;

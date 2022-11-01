@@ -10,9 +10,10 @@ import Text from '@mattermost/compass-components/components/text';
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {TUserStatus} from '@mattermost/compass-components/shared';
 
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {PulsatingDot} from '@mattermost/components';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
 
 import * as GlobalActions from 'actions/global_actions';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
@@ -26,7 +27,6 @@ import UserSettingsModal from 'components/user_settings/modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import PulsatingDot from 'components/widgets/pulsating_dot';
 import Avatar, {TAvatarSizeToken} from 'components/widgets/users/avatar/avatar';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps, CompleteYourProfileTour} from 'components/onboarding_tasks';
 import Tooltip from 'components/tooltip';
@@ -36,7 +36,7 @@ import {ModalData} from 'types/actions';
 import {Constants, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getCurrentDateTimeForTimezone, getCurrentMomentForTimezone} from 'utils/timezone';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 
 import './status_dropdown.scss';
 
@@ -80,7 +80,6 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
     static defaultProps = {
         userId: '',
         profilePicture: '',
-        status: UserStatuses.OFFLINE,
     }
 
     constructor(props: Props) {
@@ -91,6 +90,14 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             width: 0,
             isStatusSet: false,
         };
+    }
+
+    openProfileModal = (): void => {
+        this.props.actions.openModal({
+            modalId: ModalIdentifiers.USER_SETTINGS,
+            dialogType: UserSettingsModal,
+            dialogProps: {isContentProductSettings: false},
+        });
     }
 
     setStatus = (status: string, dndEndTime?: number): void => {
@@ -175,6 +182,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             <Avatar
                 size={size}
                 url={this.props.profilePicture}
+                tabIndex={undefined}
             />
         );
     }
@@ -399,7 +407,10 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
-                <div className='status-wrapper'>
+                <button
+                    className='status-wrapper style--none'
+                    aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                >
                     <CustomStatusEmoji
                         showTooltip={true}
                         tooltipDirection={'bottom'}
@@ -407,29 +418,30 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                         onClick={this.handleCustomStatusEmojiClick as () => void}
                     />
                     {this.renderProfilePicture('sm')}
-                    <button
-                        className='status style--none'
-                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
-                    >
+                    <div className='status'>
                         <StatusIcon
                             size={'sm'}
                             status={(this.props.status || 'offline') as TUserStatus}
                         />
-                    </button>
-                </div>
+                    </div>
+                </button>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id={'statusDropdownMenu'}
                     listId={'status-drop-down-menu-list'}
                 >
                     {currentUser && (
-                        <Menu.Header>
+                        <Menu.Header onClick={this.openProfileModal}>
                             {this.renderProfilePicture('lg')}
                             <div className={'username-wrapper'}>
-                                <Text margin={'none'}>{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
+                                <Text
+                                    className={'bold'}
+                                    margin={'none'}
+                                >{`${currentUser.first_name} ${currentUser.last_name}`}</Text>
                                 <Text
                                     margin={'none'}
-                                    color={!currentUser.first_name && !currentUser.last_name ? 'secondary' : 'disabled'}
+                                    className={!currentUser.first_name && !currentUser.last_name ? 'bold' : ''}
+                                    color={!currentUser.first_name && !currentUser.last_name ? undefined : 'disabled'}
                                 >
                                     {'@' + currentUser.username}
                                 </Text>

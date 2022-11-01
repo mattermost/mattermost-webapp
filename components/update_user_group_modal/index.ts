@@ -8,7 +8,7 @@ import {Action, ActionResult} from 'mattermost-redux/types/actions';
 
 import {GlobalState} from 'types/store';
 
-import {CustomGroupPatch} from 'mattermost-redux/types/groups';
+import {CustomGroupPatch} from '@mattermost/types/groups';
 import {patchGroup} from 'mattermost-redux/actions/groups';
 import {ModalData} from 'types/actions';
 import {openModal} from 'actions/views/modals';

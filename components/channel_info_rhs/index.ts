@@ -25,7 +25,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import RHS, {Props} from './channel_info_rhs';
 
@@ -59,6 +59,8 @@ function mapStateToProps(state: GlobalState) {
             canManageMembers: false,
             canManageProperties: false,
             channelStats,
+            isMobile: false,
+            channelMembers: [],
         };
     }
 

@@ -1,13 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {memo} from 'react';
+import React, {memo, useCallback} from 'react';
 
 import ReactSelect, {ValueType} from 'react-select';
 
 import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
-import {InsightsTimeFrames} from 'utils/constants';
-import {localizeMessage} from 'utils/utils.jsx';
+import {trackEvent} from 'actions/telemetry_actions';
+
+import {TimeFrames} from '@mattermost/types/insights';
+
+import {localizeMessage} from 'utils/utils';
 
 import './time_frame_dropdown.scss';
 
@@ -16,7 +19,7 @@ type SelectOption = {
     label: string;
 }
 type Props = {
-    timeFrame: SelectOption;
+    timeFrame: string;
     setTimeFrame: (value: SelectOption) => void;
 }
 
@@ -45,6 +48,7 @@ const TimeFrameDropdown = (props: Props) => {
 
     const onTimeFrameChange = (selectedOption: ValueType<SelectOption>) => {
         if (selectedOption && 'value' in selectedOption) {
+            trackEvent('insights', `time_frame_selected_${selectedOption.value}`);
             props.setTimeFrame(selectedOption);
         }
     };
@@ -60,6 +64,29 @@ const TimeFrameDropdown = (props: Props) => {
         );
     };
 
+    const getCurrentTimeFrame = useCallback((): SelectOption => {
+        const timeFrame = props.timeFrame;
+
+        if (timeFrame === TimeFrames.INSIGHTS_1_DAY) {
+            return {
+                value: TimeFrames.INSIGHTS_1_DAY,
+                label: localizeMessage('insights.timeFrame.today', 'Today'),
+            };
+        }
+
+        if (timeFrame === TimeFrames.INSIGHTS_28_DAYS) {
+            return {
+                value: TimeFrames.INSIGHTS_28_DAYS,
+                label: localizeMessage('insights.timeFrame.longRange', 'Last 28 days'),
+            };
+        }
+
+        return {
+            value: TimeFrames.INSIGHTS_7_DAYS,
+            label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
+        };
+    }, [props.timeFrame]);
+
     return (
         <ReactSelect
             className='react-select react-select-top'
@@ -69,25 +96,26 @@ const TimeFrameDropdown = (props: Props) => {
             styles={reactStyles}
             options={[
                 {
-                    value: InsightsTimeFrames.INSIGHTS_1_DAY,
+                    value: TimeFrames.INSIGHTS_1_DAY,
                     label: localizeMessage('insights.timeFrame.today', 'Today'),
                 },
                 {
-                    value: InsightsTimeFrames.INSIGHTS_7_DAYS,
+                    value: TimeFrames.INSIGHTS_7_DAYS,
                     label: localizeMessage('insights.timeFrame.mediumRange', 'Last 7 days'),
                 },
                 {
-                    value: InsightsTimeFrames.INSIGHTS_28_DAYS,
+                    value: TimeFrames.INSIGHTS_28_DAYS,
                     label: localizeMessage('insights.timeFrame.longRange', 'Last 28 days'),
                 },
             ]}
             clearable={false}
             onChange={onTimeFrameChange}
-            value={props.timeFrame}
+            value={getCurrentTimeFrame()}
             aria-labelledby='changeInsightsTemporal'
             components={{
                 DropdownIndicator: CustomDropwdown,
             }}
+            isSearchable={false}
         />
     );
 };

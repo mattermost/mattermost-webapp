@@ -16,6 +16,7 @@ import MenuItemLink from './menu_items/menu_item_link';
 import MenuCloudTrial from './menu_items/menu_cloud_trial';
 import MenuStartTrial from './menu_items/menu_start_trial';
 import MenuItemToggleModalRedux from './menu_items/menu_item_toggle_modal_redux';
+import MenuItemCloudLimit from './menu_items/menu_item_cloud_limit';
 
 import './menu.scss';
 
@@ -40,6 +41,7 @@ export default class Menu extends React.PureComponent<Props> {
     public static ItemSubMenu = SubMenuItem
     public static CloudTrial = MenuCloudTrial
     public static StartTrial = MenuStartTrial
+    public static ItemCloudLimit = MenuItemCloudLimit
 
     public node: React.RefObject<HTMLUListElement>; //Public because it is used by tests
     private observer: MutationObserver;

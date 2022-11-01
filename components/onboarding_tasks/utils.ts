@@ -4,3 +4,7 @@
 export const generateTelemetryTag = (category: string, name: string, suffix: string) => {
     return `${category}--${name}--${suffix}`;
 };
+
+export function getAnalyticsCategory(isAdmin: boolean) {
+    return isAdmin ? 'admin_onboarding' : 'end_user_onboarding';
+}

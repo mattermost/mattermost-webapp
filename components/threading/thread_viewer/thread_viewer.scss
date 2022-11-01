@@ -34,4 +34,23 @@
     > div {
         flex: 1 1 auto;
     }
+
+    .channel-archived-warning__container {
+        padding-top: 16px;
+    }
+
+    .channel-archived-warning__content {
+        display: flex;
+        justify-content: center;
+        padding: 24px;
+        padding-right: 47.5px;
+        padding-left: 46.5px;
+        margin: 0 auto;
+        line-height: 20px;
+        text-align: center;
+
+        svg {
+            margin-right: 3.4px;
+        }
+    }
 }

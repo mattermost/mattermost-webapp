@@ -5,7 +5,7 @@ import React from 'react';
 import {getVideoId, ytRegex, handleYoutubeTime} from 'utils/youtube';
 
 import ExternalImage from 'components/external_image';
-import {OpenGraphMetadata} from 'mattermost-redux/types/posts';
+import {OpenGraphMetadata} from '@mattermost/types/posts';
 
 type Props = {
     postId: string;

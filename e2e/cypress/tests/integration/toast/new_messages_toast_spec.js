@@ -12,6 +12,8 @@
 
 import {getRandomId} from '../../utils';
 
+import * as TIMEOUTS from '../../fixtures/timeouts';
+
 import {
     scrollDown,
     scrollUp,
@@ -48,6 +50,7 @@ describe('Toast', () => {
     beforeEach(() => {
         // # Click on test channel then off-topic channel in LHS
         cy.uiClickSidebarItem(testChannelName);
+        cy.postMessage('This is Testing');
         cy.uiClickSidebarItem('off-topic');
     });
 
@@ -58,6 +61,8 @@ describe('Toast', () => {
         Cypress._.times(numberOfPost, (num) => {
             cy.postMessageAs({sender: otherUser, message: `${num} ${randomId}`, channelId: testChannelId});
         });
+
+        cy.wait(TIMEOUTS.ONE_SEC);
 
         // # Switch to the channel
         cy.uiClickSidebarItem(testChannelName);

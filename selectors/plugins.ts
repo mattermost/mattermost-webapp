@@ -3,10 +3,16 @@
 
 import {createSelector} from 'reselect';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
 import {appBarEnabled, getAppBarAppBindings} from 'mattermost-redux/selectors/entities/apps';
+import {createShallowSelector} from 'mattermost-redux/utils/helpers';
+
+import {get} from 'mattermost-redux/selectors/entities/preferences';
+import {Preferences} from 'mattermost-redux/constants';
 
 import {GlobalState} from 'types/store';
+
+import {AppBinding} from '@mattermost/types/apps';
+
 import {FileDropdownPluginComponent, PluginComponent} from '../types/store/plugins';
 
 export const getFilesDropdownPluginMenuItems = createSelector(
@@ -41,6 +47,30 @@ export const getChannelHeaderPluginComponents = createSelector(
     },
 );
 
+const getChannelHeaderMenuPluginComponentsShouldRender = createSelector(
+    'getChannelHeaderMenuPluginComponentsShouldRender',
+    (state: GlobalState) => state,
+    (state: GlobalState) => state.plugins.components.ChannelHeader,
+    (state, channelHeaderMenuComponents = []) => {
+        return channelHeaderMenuComponents.map((component) => {
+            if (typeof component.shouldRender === 'function') {
+                return component.shouldRender(state);
+            }
+
+            return true;
+        });
+    },
+);
+
+export const getChannelHeaderMenuPluginComponents = createShallowSelector(
+    'getChannelHeaderMenuPluginComponents',
+    getChannelHeaderMenuPluginComponentsShouldRender,
+    (state: GlobalState) => state.plugins.components.ChannelHeader,
+    (componentShouldRender = [], channelHeaderMenuComponents = []) => {
+        return channelHeaderMenuComponents.filter((component, idx) => componentShouldRender[idx]);
+    },
+);
+
 export const getChannelIntroPluginComponents = createSelector(
     'getChannelIntroPluginComponents',
     (state: GlobalState) => state.plugins.components.ChannelIntroButton,
@@ -62,7 +92,14 @@ export const shouldShowAppBar = createSelector(
     appBarEnabled,
     getAppBarAppBindings,
     getAppBarPluginComponents,
-    (enabled: boolean, bindings: AppBinding[], pluginComponents: PluginComponent[]) => {
-        return enabled && Boolean(bindings.length || pluginComponents.length);
+    getChannelHeaderPluginComponents,
+    (enabled: boolean, bindings: AppBinding[], appBarComponents: PluginComponent[], channelHeaderComponents) => {
+        return enabled && Boolean(bindings.length || appBarComponents.length || channelHeaderComponents.length);
     },
 );
+
+export function showNewChannelWithBoardPulsatingDot(state: GlobalState): boolean {
+    const pulsatingDotState = get(state, Preferences.APP_BAR, Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED, '');
+    const showPulsatingDot = pulsatingDotState !== '' && JSON.parse(pulsatingDotState)[Preferences.NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED] === false;
+    return showPulsatingDot;
+}

@@ -45,7 +45,6 @@ describe('CRT Desktop notifications', () => {
 
             // # Login as receiver
             cy.apiLogin(receiver);
-            cy.apiSaveShowStartTrialModal(receiver.id, 'true');
         });
     });
 

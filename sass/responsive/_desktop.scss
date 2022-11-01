@@ -1,7 +1,22 @@
 @charset "utf-8";
 
+@media screen and (min-width: 1680px) and (max-width: 2135px) {
+    .inner-wrap {
+        &.move--left {
+            .ActivityAndInsights {
+                .insights-card {
+                    &.large {
+                        align-self: flex-start;
+                    }
+                }
+            }
+        }
+    }
+}
+
 @media screen and (min-width: 1680px) {
-    .sidebar--right {
+    .sidebar--right,
+    .sidebar--right--width-holder {
         width: 500px;
 
         .sidebar--right__title__channel {
@@ -15,37 +30,6 @@
             .search__form--focused {
                 width: 374px;
                 max-width: 374px;
-            }
-        }
-    }
-
-    .inner-wrap {
-        &.move--left {
-            .search__form {
-                width: 374px;
-            }
-
-            #post-list {
-                margin-right: 500px;
-            }
-
-            .app__content {
-                >.post-create__container {
-                    width: calc(100% - 500px);
-                }
-            }
-        }
-    }
-
-    // global header style adjustments
-    .channel__wrap {
-
-        // indicates the RHS is open
-        &.move--left {
-
-            // adjust channel header width
-            #channel-header {
-                width: calc(100% - 500px);
             }
         }
     }
@@ -157,11 +141,7 @@
 @media (min-width: 1280px) {
     .sidebar--right {
         &.sidebar--right--expanded {
-            width: 96rem;
-
-            .multi-teams & {
-                width: 96rem;
-            }
+            width: min(60vw, 96rem);
         }
     }
 }

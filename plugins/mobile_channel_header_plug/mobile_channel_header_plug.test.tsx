@@ -9,8 +9,8 @@ import MobileChannelHeaderPlug, {RawMobileChannelHeaderPlug} from 'plugins/mobil
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import {createCallContext} from 'utils/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Theme} from 'mattermost-redux/types/themes';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 describe('plugins/MobileChannelHeaderPlug', () => {
     const testPlug = {

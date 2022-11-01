@@ -8,14 +8,14 @@ import {bindActionCreators, Dispatch} from 'redux';
 import {GlobalState} from 'types/store';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Post, PostPreviewMetadata} from 'mattermost-redux/types/posts';
+import {Post, PostPreviewMetadata} from '@mattermost/types/posts';
 
 import {makeGetChannel} from 'mattermost-redux/selectors/entities/channels';
 import {get} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import {isEmbedVisible} from 'selectors/posts';
 
@@ -27,15 +27,17 @@ import {General} from 'mattermost-redux/constants';
 
 import PostMessagePreview from './post_message_preview';
 
-type Props = {
+export type OwnProps = {
     metadata: PostPreviewMetadata;
     previewPost?: Post;
+    preventClickAction?: boolean;
+    previewFooterMessage?: string;
 }
 
 function makeMapStateToProps() {
     const getChannel = makeGetChannel();
 
-    return (state: GlobalState, ownProps: Props) => {
+    return (state: GlobalState, ownProps: OwnProps) => {
         const config = getConfig(state);
         const currentTeamUrl = getCurrentRelativeTeamUrl(state);
         let user = null;
@@ -63,6 +65,7 @@ function makeMapStateToProps() {
             user,
             isEmbedVisible: embedVisible,
             compactDisplay: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.MESSAGE_DISPLAY, Preferences.MESSAGE_DISPLAY_DEFAULT) === Preferences.MESSAGE_DISPLAY_COMPACT,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }

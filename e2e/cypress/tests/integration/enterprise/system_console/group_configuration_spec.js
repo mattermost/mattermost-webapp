@@ -94,7 +94,7 @@ describe('group configuration', () => {
             // # Search for off-topic
             cy.get('#add_team_or_channel').should('be.visible').click();
             cy.get('.dropdown-menu').find('#add_channel').should('be.visible').click();
-            cy.get('#selectItems').type('off-');
+            cy.get('#selectItems input').typeWithForce('off-');
 
             // * Check that the off-topic channels are displayed
             cy.get('.more-modal__details').should('have.length.greaterThan', 1);

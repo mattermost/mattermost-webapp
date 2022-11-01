@@ -13,7 +13,7 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import PostHeader, {Props} from './post_header';
 
-function mapStateToProps(state: GlobalState, ownProps: Props) {
+function mapStateToProps(state: GlobalState, ownProps: Pick<Props, 'post'>) {
     const config = getConfig(state);
     const enablePostUsernameOverride = config.EnablePostUsernameOverride === 'true';
     const enablePostIconOverride = config.EnablePostIconOverride === 'true';

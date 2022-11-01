@@ -3,13 +3,11 @@
 /* eslint-disable react/no-string-refs */
 /* eslint-disable header/header */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable max-lines */
 import React from 'react';
-import {FormattedDate, FormattedTime} from 'react-intl';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {StatusOK} from 'mattermost-redux/types/client4';
+import {StatusOK} from '@mattermost/types/client4';
 
 import {isLicenseExpired, isLicenseExpiring, isTrialLicense, isEnterpriseOrE20License} from 'utils/license_utils';
 
@@ -212,9 +210,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
         const requestedUsers = Math.max(this.props.stats.TOTAL_USERS, 30) || 30;
         const {error, data} = await this.props.actions.requestTrialLicense(requestedUsers, true, true, 'license');
         if (error) {
-            this.setState({gettingTrialError: error, gettingTrialResponseCode: data.status});
+            this.setState({gettingTrialError: error});
         }
-        this.setState({gettingTrial: false});
+        this.setState({gettingTrial: false, gettingTrialResponseCode: data?.status});
         await this.props.actions.getLicenseConfig();
     }
 
@@ -282,16 +280,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     render() {
         const {license, upgradedFromTE, isDisabled} = this.props;
 
-        const issued = (
-            <>
-                <FormattedDate value={new Date(parseInt(license.IssuedAt, 10))}/>
-                {' '}
-                <FormattedTime value={new Date(parseInt(license.IssuedAt, 10))}/>
-            </>
-        );
-        const startsAt = <FormattedDate value={new Date(parseInt(license.StartsAt, 10))}/>;
-        const expiresAt = <FormattedDate value={new Date(parseInt(license.ExpiresAt, 10))}/>;
-
         let leftPanel = null;
         let rightPanel = null;
 
@@ -324,9 +312,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     upgradedFromTE={upgradedFromTE}
                     license={license}
                     isTrialLicense={isTrialLicense(license)}
-                    issued={issued}
-                    startsAt={startsAt}
-                    expiresAt={expiresAt}
                     handleRemove={this.confirmLicenseRemoval}
                     isDisabled={isDisabled}
                     removing={this.state.removing}
@@ -411,6 +396,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
 
     renewLicenseCard = () => {
         const {isDisabled} = this.props;
+
         if (isTrialLicense(this.props.license)) {
             return (
                 <TrialLicenseCard
