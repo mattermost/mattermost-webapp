@@ -2421,6 +2421,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsTrue('EmailSettings.SendEmailNotifications'),
                         ),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2435,6 +2436,7 @@ const AdminDefinition = {
                             it.configIsTrue('ClusterSettings', 'Enable'),
                             it.configIsFalse('ServiceSettings', 'SiteURL'),
                         ),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
