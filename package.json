@@ -33,7 +33,7 @@
     "dynamic-virtualized-list": "github:mattermost/dynamic-virtualized-list#77a0cb4c565bc239bab1ce5414b95bdd9a570963",
     "emoji-datasource": "6.1.1",
     "emoji-datasource-apple": "6.0.1",
-    "emoji-regex": "10.1.0",
+    "emoji-regex": "10.2.1",
     "exif2css": "1.3.0",
     "fast-deep-equal": "3.1.3",
     "flexsearch": "0.6.32",
