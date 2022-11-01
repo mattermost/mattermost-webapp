@@ -217,7 +217,7 @@
                     border-radius: 0 0 4px 4px;
 
                     .enable_annual_sub {
-                        margin-top: 16px
+                        margin-top: 16px;
                     }
 
                     .save_text {
@@ -356,13 +356,13 @@
                         }
 
                         h1 {
+                            margin: 0;
                             color: var(--center-channel-color);
                             font-family: 'Metropolis';
                             font-size: 52px;
                             font-style: normal;
                             font-weight: 700;
                             line-height: 60px;
-                            margin: 0;
                         }
 
                         .enterprise_price {
@@ -376,6 +376,7 @@
                             font-style: normal;
                             line-height: 20px;
                         }
+
                         p.plan_text {
                             margin-bottom: 0;
                         }
@@ -407,22 +408,24 @@
                     table {
                         width: 100%;
                         border-collapse: collapse;
+
                         .yearly_savings {
-                            color: var(--denim-status-online);
-                            font-family: 'Open Sans';
-                            font-style: normal;
-                            font-weight: 600;
-                            font-size: 14px;
-                            line-height: 20px;
                             padding-top: 8px;
                             padding-bottom: 8px;
+                            color: var(--denim-status-online);
+                            font-family: 'Open Sans';
+                            font-size: 14px;
+                            font-style: normal;
+                            font-weight: 600;
+                            line-height: 20px;
                         }
+
                         .total_price {
                             color: var(--sys-denim-center-channel-text);
                             font-family: 'Open Sans';
+                            font-size: 14px;
                             font-style: normal;
                             font-weight: 700;
-                            font-size: 14px;
                             line-height: 24px;
                         }
                     }
@@ -434,27 +437,34 @@
                     .flex-grid {
                         display: flex;
                         margin-top: 20px;
+
                         .user_seats_container {
                             width: 100px;
+
                             .user_seats {
                                 height: 24px;
                             }
                         }
+
                         .icon {
                             flex: 1;
-                            justify-content: left;
                             align-self: flex-start;
+                            justify-content: left;
+
                             .icon-information-outline {
                                 margin: 0;
                                 color: rgba(var(--sys-denim-center-channel-text-rgb), 0.72);
                             }
                         }
+
                         .monthly-price {
                             flex: 1;
                             align-items: right;
                         }
+
                         .Input___customMessage {
                             width: 250px;
+
                             .icon.error {
                                 display: none;
                             }

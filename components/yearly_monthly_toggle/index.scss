@@ -11,20 +11,19 @@
     }
 
     .toggle-monthly-yearly {
+        position: absolute;
         width: 161px;
         height: 32px;
         margin: auto;
-        position: absolute;
     }
-    
+
     .toggle-border {
+        position: absolute;
         width: 80px;
         height: 32px;
         border: 1px solid var(--denim-button-bg);
-        // margin-top: 44px;
         margin-left: 80px;
         border-radius: 40px;
-        position: absolute;
     }
 
     .move-left {
