@@ -156,7 +156,8 @@ function Content(props: ContentProps) {
     ];
 
     // Default professional price
-    const [professionalPrice, setProfessionalPrice] = useState(10);
+    const defaultProfessionalPrice = 10;
+    const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
 
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
         if (!monthlyProfessionalProduct) {
