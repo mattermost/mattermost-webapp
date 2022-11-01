@@ -19,6 +19,7 @@ type DeferredRenderWrapperState = {
  */
 export default function deferComponentRender<ComponentProps>(WrappedComponent: React.ComponentType<ComponentProps>, PreRenderComponent: React.ReactNode = null) {
     class DeferredRenderWrapper extends React.PureComponent<ComponentProps, DeferredRenderWrapperState> {
+        mounted = false;
         constructor(props: ComponentProps) {
             super(props);
 
@@ -28,9 +29,18 @@ export default function deferComponentRender<ComponentProps>(WrappedComponent: R
         }
 
         componentDidMount() {
+            this.mounted = true;
             window.requestAnimationFrame(() => {
-                window.requestAnimationFrame(() => this.setState({shouldRender: true}));
+                window.requestAnimationFrame(() => {
+                    if (this.mounted) {
+                        this.setState({shouldRender: true});
+                    }
+                });
             });
+        }
+
+        componentWillUnmount() {
+            this.mounted = false;
         }
 
         render() {

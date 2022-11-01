@@ -26,6 +26,7 @@ import {
     isFileTransfer,
     isUriDrop,
     localizeMessage,
+    isTextDroppableEvent,
 } from 'utils/utils';
 
 import {FileInfo, FileUploadResponse} from '@mattermost/types/files';
@@ -160,8 +161,6 @@ export type Props = {
          */
         uploadFile: ({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) => XMLHttpRequest;
     };
-
-    isAdvancedTextEditorEnabled: boolean;
 };
 
 type State = {
@@ -387,6 +386,7 @@ export class FileUpload extends PureComponent<Props, State> {
             if (!isUriDrop(files) && isFileTransfer(files)) {
                 overlay?.classList.remove('hidden');
             }
+            e.detail.preventDefault();
         };
 
         const leave = (e: CustomEvent) => {
@@ -397,18 +397,36 @@ export class FileUpload extends PureComponent<Props, State> {
             }
 
             dragTimeout.cancel();
+
+            e.detail.preventDefault();
         };
 
-        const over = () => dragTimeout.fireAfter(OVERLAY_TIMEOUT);
+        const over = (e: CustomEvent) => {
+            dragTimeout.fireAfter(OVERLAY_TIMEOUT);
+            if (!isTextDroppableEvent(e.detail)) {
+                e.detail.preventDefault();
+            }
+        };
         const dropWithHiddenClass = (e: CustomEvent) => {
             overlay?.classList.add('hidden');
             dragTimeout.cancel();
 
             this.handleDrop(e.detail);
+
+            if (!isTextDroppableEvent(e.detail)) {
+                e.detail.preventDefault();
+            }
         };
 
-        const drop = (e: CustomEvent) => this.handleDrop(e.detail);
+        const drop = (e: CustomEvent) => {
+            this.handleDrop(e.detail);
 
+            if (!isTextDroppableEvent(e.detail)) {
+                e.detail.preventDefault();
+            }
+        };
+
+        const noop = () => {}; // eslint-disable-line no-empty-function
         let dragsterActions = {};
         if (this.props.canUploadFiles) {
             dragsterActions = {
@@ -418,7 +436,12 @@ export class FileUpload extends PureComponent<Props, State> {
                 drop: dropWithHiddenClass,
             };
         } else {
-            dragsterActions = {drop};
+            dragsterActions = {
+                enter: noop,
+                leave: noop,
+                over: noop,
+                drop,
+            };
         }
 
         this.unbindDragsterEvents = dragster(containerSelector, dragsterActions);
@@ -493,7 +516,7 @@ export class FileUpload extends PureComponent<Props, State> {
     }
 
     keyUpload = (e: KeyboardEvent) => {
-        if (cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.U)) {
+        if (cmdOrCtrlPressed(e) && !e.shiftKey && isKeyPressed(e, Constants.KeyCodes.U)) {
             e.preventDefault();
 
             if (!this.props.canUploadFiles) {
@@ -592,10 +615,9 @@ export class FileUpload extends PureComponent<Props, State> {
                             type='button'
                             id='fileUploadButton'
                             aria-label={buttonAriaLabel}
-                            className={classNames('style--none', {
-                                'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                                'post-action': !this.props.isAdvancedTextEditorEnabled,
-                                disabled: uploadsRemaining <= 0})}
+                            className={classNames('style--none AdvancedTextEditor__action-button', {
+                                disabled: uploadsRemaining <= 0,
+                            })}
                             onClick={this.simulateInputClick}
                             onTouchEnd={this.simulateInputClick}
                         >
@@ -672,9 +694,7 @@ export class FileUpload extends PureComponent<Props, State> {
                                 type='button'
                                 id='fileUploadButton'
                                 aria-label={buttonAriaLabel}
-                                className={classNames('style--none', {
-                                    'AdvancedTextEditor__action-button': this.props.isAdvancedTextEditorEnabled,
-                                    'post-action': !this.props.isAdvancedTextEditorEnabled})}
+                                className='style--none AdvancedTextEditor__action-button'
                             >
                                 <PaperclipIcon
                                     size={18}

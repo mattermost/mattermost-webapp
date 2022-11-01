@@ -7,7 +7,7 @@ import {Modal} from 'react-bootstrap';
 
 import {Channel, ChannelType} from '@mattermost/types/channels';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import DeleteChannelModal, {Props} from 'components/delete_channel_modal/delete_channel_modal';
 
@@ -64,7 +64,6 @@ describe('components/delete_channel_modal', () => {
     });
 
     test('should have called actions.deleteChannel when handleDelete is called', () => {
-        browserHistory.push = jest.fn();
         const actions = {deleteChannel: jest.fn()};
         const props = {...baseProps, actions};
         const wrapper = shallow<DeleteChannelModal>(
@@ -76,7 +75,7 @@ describe('components/delete_channel_modal', () => {
 
         expect(actions.deleteChannel).toHaveBeenCalledTimes(1);
         expect(actions.deleteChannel).toHaveBeenCalledWith(props.channel.id);
-        expect(browserHistory.push).toHaveBeenCalledWith('/mattermostDev/channels/my-prev-channel');
+        expect(getHistory().push).toHaveBeenCalledWith('/mattermostDev/channels/my-prev-channel');
         expect(wrapper.state('show')).toEqual(false);
     });
 

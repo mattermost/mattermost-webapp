@@ -19,6 +19,8 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import {isEmail} from 'mattermost-redux/utils/helpers';
 
+import {getRoleForTrackFlow} from 'utils/utils';
+
 import ResultView, {ResultState, defaultResultState, InviteResults} from './result_view';
 import InviteView, {InviteState, initializeInviteState} from './invite_view';
 import NoPermissionsView from './no_permissions_view';
@@ -157,11 +159,12 @@ export class InvitationModal extends React.PureComponent<Props, State> {
     }
 
     invite = async () => {
+        const roleForTrackFlow = getRoleForTrackFlow();
         const inviteAs = this.state.invite.inviteType;
         if (inviteAs === InviteType.MEMBER && this.props.isCloud) {
-            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length});
+            trackEvent('cloud_invite_users', 'click_send_invitations', {num_invitations: this.state.invite.usersEmails.length, ...roleForTrackFlow});
         }
-        trackEvent('invite_users', 'click_invite');
+        trackEvent('invite_users', 'click_invite', roleForTrackFlow);
 
         const users: UserProfile[] = [];
         const emails: string[] = [];

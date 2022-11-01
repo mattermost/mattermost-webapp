@@ -5,8 +5,10 @@ import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
+import {useSelector} from 'react-redux';
 
 import MattermostLogo from 'components/widgets/icons/mattermost_logo';
+import {GlobalState} from 'types/store';
 
 import './about_build_modal_cloud.scss';
 
@@ -24,6 +26,13 @@ declare const COMMIT_HASH: string;
 export default function AboutBuildModalCloud(props: Props) {
     const config = props.config;
     const license = props.license;
+
+    let companyName = license.Company;
+    const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
+
+    if (companyInfo) {
+        companyName = companyInfo.name;
+    }
 
     const title = (
         <FormattedMessage
@@ -45,7 +54,7 @@ export default function AboutBuildModalCloud(props: Props) {
                 id='about.licensed'
                 defaultMessage='Licensed to:'
             />
-            {'\u00a0' + license.Company}
+            {'\u00a0' + companyName}
         </div>
     );
 

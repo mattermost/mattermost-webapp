@@ -12,7 +12,7 @@ import AutosizeTextarea from 'components/autosize_textarea';
 import PostMarkdown from 'components/post_markdown';
 import Provider from 'components/suggestion/provider';
 import AtMentionProvider from 'components/suggestion/at_mention_provider';
-import ChannelMentionProvider from 'components/suggestion/channel_mention_provider.jsx';
+import ChannelMentionProvider from 'components/suggestion/channel_mention_provider';
 import AppCommandProvider from 'components/suggestion/command_provider/app_provider';
 import CommandProvider from 'components/suggestion/command_provider/command_provider';
 import EmoticonProvider from 'components/suggestion/emoticon_provider.jsx';
@@ -65,6 +65,7 @@ export type Props = {
     inputComponent?: ElementType;
     openWhenEmpty?: boolean;
     priorityProfiles?: UserProfile[];
+    hasLabels?: boolean;
 };
 
 export default class Textbox extends React.PureComponent<Props> {
@@ -257,6 +258,9 @@ export default class Textbox extends React.PureComponent<Props> {
         }
         if (this.props.badConnection) {
             textboxClassName += ' bad-connection';
+        }
+        if (this.props.hasLabels) {
+            textboxClassName += ' textarea--has-labels';
         }
         if (this.props.preview) {
             textboxClassName += ' custom-textarea--preview';

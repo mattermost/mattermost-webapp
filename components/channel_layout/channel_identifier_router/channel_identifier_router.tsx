@@ -4,7 +4,7 @@
 import React from 'react';
 
 import ChannelView from 'components/channel_view/index';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 
 export interface Match {
@@ -59,7 +59,7 @@ export default class ChannelIdentifierRouter extends React.PureComponent<Props> 
         if (this.props.match.params.postid) {
             this.replaceUrlTimeout = setTimeout(() => {
                 const channelUrl = this.props.match.url.split('/').slice(0, -1).join('/');
-                browserHistory.replace(channelUrl);
+                getHistory().replace(channelUrl);
             }, Constants.PERMALINK_FADEOUT);
         }
     }

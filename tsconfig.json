@@ -14,7 +14,7 @@
     "strict": true,
     "strictNullChecks": true,
     "forceConsistentCasingInFileNames": true,
-    "module": "commonjs",
+    "module": "es2020",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "noEmit": true,
