@@ -5,6 +5,8 @@ import React from 'react';
 
 import {TIconGlyph} from '@mattermost/compass-components/foundations/icon';
 
+import {ProductScope} from '@mattermost/types/products';
+
 import {ClientPluginManifest} from '@mattermost/types/plugins';
 import {PluginAnalyticsRow} from '@mattermost/types/admin';
 import {FileInfo} from '@mattermost/types/files';
@@ -15,7 +17,6 @@ import {TopBoardResponse} from '@mattermost/types/insights';
 import {WebSocketClient} from '@mattermost/client';
 
 import {GlobalState} from 'types/store';
-import {ProductScope} from '@mattermost/types/products';
 
 export type PluginSiteStatsHandler = () => Promise<Record<string, PluginAnalyticsRow>>;
 
