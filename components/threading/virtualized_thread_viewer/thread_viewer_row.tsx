@@ -72,6 +72,7 @@ function ThreadViewerRow({
     case PostListUtils.isCombinedUserActivityPost(listId): {
         return (
             <CombinedUserActivityPost
+                location={Locations.CENTER}
                 combinedId={listId}
                 previousPostId={previousPostId}
                 isLastPost={isLastPost}

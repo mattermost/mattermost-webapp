@@ -11,6 +11,7 @@ import Post from 'components/post';
 
 type Props = {
     combinedId: string;
+    shouldHighlight?: boolean;
 }
 
 function makeMapStateToProps() {
@@ -20,6 +21,7 @@ function makeMapStateToProps() {
         return {
             post: generateCombinedPost(state, ownProps.combinedId),
             postId: ownProps.combinedId,
+            shouldHighlight: ownProps.shouldHighlight,
         };
     };
 }

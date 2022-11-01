@@ -169,6 +169,7 @@ export default class PostListRow extends React.PureComponent<PostListRowProps> {
         if (PostListUtils.isCombinedUserActivityPost(listId)) {
             return (
                 <CombinedUserActivityPost
+                    location={Locations.CENTER}
                     combinedId={listId}
                     {...postProps}
                 />
