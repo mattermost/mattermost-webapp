@@ -21,7 +21,10 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    isReduceOnBoardingTaskList,
+    makeGetCategory,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
@@ -105,6 +108,9 @@ export const useTasksList = () => {
     const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
     const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const isUserFirstAdmin = useSelector(isFirstAdmin);
+    const isThinOnBoardingTaskList = useSelector((state: GlobalState) => {
+        return isReduceOnBoardingTaskList(state);
+    });
 
     // Cloud conditions
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
@@ -145,6 +151,11 @@ export const useTasksList = () => {
         delete list.INVITE_PEOPLE;
     }
 
+    if (isThinOnBoardingTaskList) {
+        delete list.DOWNLOAD_APP;
+        delete list.COMPLETE_YOUR_PROFILE;
+        delete list.VISIT_SYSTEM_CONSOLE;
+    }
     return Object.values(list);
 };
 
