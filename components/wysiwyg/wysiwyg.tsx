@@ -77,6 +77,10 @@ const EditorContainer = styled.div`
             min-width: 28px;
         }
     }
+
+    .ProseMirror-gapcursor:after {
+        border-color: rgb(var(--center-channel-color));
+    }
 `;
 
 function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: JSONContent) => void] {
@@ -136,6 +140,10 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
             Link.configure({
                 linkOnPaste: true,
                 openOnClick: false,
+            }).extend({
+
+                // when at the end of the input value this will allow the mark to be exited by pressing ArrowRight key
+                exitable: true,
             }),
             CodeBlockLowlight.
                 extend({

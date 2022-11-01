@@ -8,7 +8,17 @@ import {CSSTransition} from 'react-transition-group';
 import {times} from 'lodash';
 import {offset, useFloating} from '@floating-ui/react-dom';
 import type {Editor} from '@tiptap/react';
-import {TableLargeIcon} from '@mattermost/compass-icons/components';
+import {
+    TablePlusIcon,
+    TableRemoveIcon,
+    TableSettingsIcon,
+    TableRowPlusAfterIcon,
+    TableRowPlusBeforeIcon,
+    TableRowRemoveIcon,
+    TableColumnPlusAfterIcon,
+    TableColumnPlusBeforeIcon,
+    TableColumnRemoveIcon,
+} from '@mattermost/compass-icons/components';
 
 import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
@@ -25,84 +35,78 @@ export type TableControl =
     | 'deleteCol'
     | 'addRowAfter'
     | 'addRowBefore'
-    | 'deleteRow';
+    | 'deleteRow'
+    | 'toggleHeaderRow';
 
 export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinition<'table', TableControl>> => ([
     {
         mode: 'table',
         type: 'deleteTable',
-        icon: TableLargeIcon,
-        show: editor.can().deleteTable(),
+        icon: TableRemoveIcon,
         action: () => editor.chain().focus().deleteTable().run(),
         canDoAction: () => editor.can().deleteTable(),
-        labelDescriptor: {id: 'wysiwyg.tool.table.delete', defaultMessage: 'Delete table'},
-        ariaLabelDescriptor: {id: 'shortcuts.msgs.markdown.table.delete', defaultMessage: 'delete table'},
+        labelDescriptor: {id: 'wysiwyg.tool-label.table.delete', defaultMessage: 'Delete table'},
+        ariaLabelDescriptor: {id: 'accessibility.button.table.delete', defaultMessage: 'delete table'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownTableDelete,
     },
     {
         mode: 'table',
         type: 'addColBefore',
-        icon: TableLargeIcon,
-        show: editor.can().addColumnBefore(),
+        icon: TableColumnPlusBeforeIcon,
         action: () => editor.chain().focus().addColumnBefore().run(),
         canDoAction: () => editor.can().addColumnBefore(),
-        labelDescriptor: {id: 'wysiwyg.tool.table.column.add.after', defaultMessage: 'Add column to the left'},
-        ariaLabelDescriptor: {id: 'shortcuts.msgs.markdown.table.column.add.after', defaultMessage: 'add column to the left'},
+        labelDescriptor: {id: 'wysiwyg.tool-label.table.column.add.after', defaultMessage: 'Add column to the left'},
+        ariaLabelDescriptor: {id: 'accessibility.button.table.column.add.after', defaultMessage: 'add column to the left'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownColAddBefore,
     },
     {
         mode: 'table',
         type: 'addColAfter',
-        icon: TableLargeIcon,
-        show: editor.can().addColumnAfter(),
+        icon: TableColumnPlusAfterIcon,
         action: () => editor.chain().focus().addColumnAfter().run(),
         canDoAction: () => editor.can().addColumnAfter(),
-        labelDescriptor: {id: 'wysiwyg.tool.table.column.add.before', defaultMessage: 'Add column to the right'},
-        ariaLabelDescriptor: {id: 'shortcuts.msgs.markdown.table.column.add.before', defaultMessage: 'add column to the right'},
+        labelDescriptor: {id: 'wysiwyg.tool-label.table.column.add.before', defaultMessage: 'Add column to the right'},
+        ariaLabelDescriptor: {id: 'accessibility.button.table.column.add.before', defaultMessage: 'add column to the right'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownColAddAfter,
     },
     {
         mode: 'table',
         type: 'deleteCol',
-        icon: TableLargeIcon,
-        show: editor.can().deleteColumn(),
+        icon: TableColumnRemoveIcon,
         action: () => editor.chain().focus().deleteColumn().run(),
         canDoAction: () => editor.can().deleteColumn(),
-        labelDescriptor: {id: 'wysiwyg.tool.table.column.delete', defaultMessage: 'Delete column'},
-        ariaLabelDescriptor: {id: 'shortcuts.msgs.markdown.table.column.delete', defaultMessage: 'delete column'},
+        labelDescriptor: {id: 'wysiwyg.tool-label.table.column.delete', defaultMessage: 'Delete column'},
+        ariaLabelDescriptor: {id: 'accessibility.button.table.column.delete', defaultMessage: 'delete column'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownColDelete,
     },
     {
         mode: 'table',
         type: 'addRowBefore',
-        icon: TableLargeIcon,
-        show: editor.can().addRowBefore(),
+        icon: TableRowPlusBeforeIcon,
         action: () => editor.chain().focus().addRowBefore().run(),
         canDoAction: () => editor.can().addRowBefore(),
-        labelDescriptor: {id: 'wysiwyg.tool.table.row.add.after', defaultMessage: 'Add row above'},
-        ariaLabelDescriptor: {id: 'shortcuts.msgs.markdown.table.row.add.after', defaultMessage: 'add row above'},
+        labelDescriptor: {id: 'wysiwyg.tool-label.table.row.add.after', defaultMessage: 'Add row above'},
+        ariaLabelDescriptor: {id: 'accessibility.button.table.row.add.after', defaultMessage: 'add row above'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownRowAddBefore,
     },
     {
         mode: 'table',
         type: 'addRowAfter',
-        icon: TableLargeIcon,
-        show: editor.can().addRowAfter(),
+        icon: TableRowPlusAfterIcon,
         action: () => editor.chain().focus().addRowAfter().run(),
         canDoAction: () => editor.can().addRowAfter(),
-        labelDescriptor: {id: 'wysiwyg.tool.table.row.add.before', defaultMessage: 'Add row below'},
-        ariaLabelDescriptor: {id: 'shortcuts.msgs.markdown.table.row.add.before', defaultMessage: 'add row below'},
+        labelDescriptor: {id: 'wysiwyg.tool-label.table.row.add.before', defaultMessage: 'Add row below'},
+        ariaLabelDescriptor: {id: 'accessibility.button.table.row.add.before', defaultMessage: 'add row below'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownRowAddAfter,
     },
     {
         mode: 'table',
         type: 'deleteRow',
-        icon: TableLargeIcon,
-        show: editor.can().deleteRow(),
+        icon: TableRowRemoveIcon,
         action: () => editor.chain().focus().deleteRow().run(),
         canDoAction: () => editor.can().deleteRow(),
-        labelDescriptor: {id: 'wysiwyg.tool.table.row.delete', defaultMessage: 'Delete row'},
-        ariaLabelDescriptor: {id: 'shortcuts.msgs.markdown.table.row.delete', defaultMessage: 'delete row'},
+        labelDescriptor: {id: 'wysiwyg.tool-label.table.row.delete', defaultMessage: 'Delete row'},
+        ariaLabelDescriptor: {id: 'accessibility.button.table.row.delete', defaultMessage: 'delete row'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownRowDelete,
     },
 ]);
@@ -152,7 +156,7 @@ const SelectionMatrix = ({onSelect}: SelectionMatrixProps) => {
     return (
         <>
             <MatrixTitle>
-                {formatMessage({id: 'wysiwyg.tool.table.add', defaultMessage: 'Insert table'})}
+                {formatMessage({id: 'wysiwyg.tool-label.table.add', defaultMessage: 'Insert table'})}
             </MatrixTitle>
             <MatrixWrapper>
                 {times(6, (row) => (
@@ -182,9 +186,9 @@ type TableControlProps = {
 
 const TableControls = ({editor}: TableControlProps) => {
     const {formatMessage} = useIntl();
-    const [showTableControls, setShowTableControls] = useState(false);
+    const [showTableOverlay, setShowTableOverlay] = useState(false);
 
-    const tableControls = makeTableControlDefinitions(editor);
+    const tableOptions = makeTableControlDefinitions(editor);
     const tableModeIsActive = editor.isActive('table');
 
     // TODO@michel: move this to its own component (e.g. `Popover`)
@@ -195,17 +199,17 @@ const TableControls = ({editor}: TableControlProps) => {
 
     // this little helper hook always returns the latest refs and does not mess with the floatingUI placement calculation
     const getLatest = useGetLatest({
-        showTableControls,
+        showTableOverlay,
         buttonRef,
         floatingRef,
     });
 
-    const toggleTableControls = useCallback((event?) => {
+    const toggleTableOverlay = useCallback((event?) => {
         event?.preventDefault();
-        setShowTableControls(!showTableControls);
-    }, [showTableControls]);
+        setShowTableOverlay(!showTableOverlay);
+    }, [showTableOverlay]);
 
-    const tableControlsContainerStyles: React.CSSProperties = {
+    const tableOverlayContainerStyles: React.CSSProperties = {
         position: strategy,
         top: y ?? 0,
         left: x ?? 0,
@@ -223,7 +227,7 @@ const TableControls = ({editor}: TableControlProps) => {
                     !floatingRef.current?.contains(target) &&
                     !buttonRef.current?.contains(target)
                 ) {
-                    setShowTableControls(false);
+                    setShowTableOverlay(false);
                 }
             }
         };
@@ -233,11 +237,14 @@ const TableControls = ({editor}: TableControlProps) => {
         return () => document.removeEventListener('mousedown', handleClickOutside);
     }, [getLatest]);
 
-    const overlayContent = tableModeIsActive ? tableControls.map(({type, mode, action, icon: Icon, canDoAction, ...rest}) => (
+    const overlayContent = tableModeIsActive ? tableOptions.map(({type, mode, action, icon: Icon, canDoAction, ...rest}) => (
         <Fragment key={`${type}_${mode}`}>
             {type.includes('Before') && <StyledOptionSeparator/>}
             <StyledTableSelectOption
-                onClick={action}
+                onClick={() => {
+                    toggleTableOverlay();
+                    action();
+                }}
                 disabled={!canDoAction?.()}
                 aria-label={rest.ariaLabelDescriptor ? formatMessage(rest.ariaLabelDescriptor) : ''}
             >
@@ -254,34 +261,34 @@ const TableControls = ({editor}: TableControlProps) => {
         <SelectionMatrix
             onSelect={(selection) => {
                 editor.chain().focus().insertTable({...selection, withHeaderRow: false}).run();
-                setShowTableControls(false);
+                setShowTableOverlay(false);
             }}
         />
     );
 
     useEffect(() => {
         update?.();
-    }, [showTableControls, update]);
+    }, [showTableOverlay, update]);
 
     return (
         <>
             <ToolbarControl
                 mode={'table'}
-                Icon={TableLargeIcon}
-                onClick={toggleTableControls}
-                isActive={showTableControls}
-                shortcutDescriptor={showTableControls ? KEYBOARD_SHORTCUTS.msgMarkdownTableControls : KEYBOARD_SHORTCUTS.msgMarkdownTableAdd}
-                ariaLabelDescriptor={showTableControls ? {id: 'shortcuts.msgs.markdown.table.controls', defaultMessage: 'show table controls'} : {id: 'shortcuts.msgs.markdown.table.add', defaultMessage: 'add table'}}
+                Icon={tableModeIsActive ? TableSettingsIcon : TablePlusIcon}
+                onClick={toggleTableOverlay}
+                isActive={showTableOverlay}
+                shortcutDescriptor={tableModeIsActive ? KEYBOARD_SHORTCUTS.msgMarkdownTableOptions : KEYBOARD_SHORTCUTS.msgMarkdownTableInsert}
+                ariaLabelDescriptor={tableModeIsActive ? {id: 'accessibility.button.table.options', defaultMessage: 'show table options'} : {id: 'accessibility.button.table.add', defaultMessage: 'insert table'}}
                 ref={reference}
             />
             <CSSTransition
                 timeout={250}
                 classNames='scale'
-                in={showTableControls}
+                in={showTableOverlay}
             >
                 <FloatingContainer
                     ref={floating}
-                    style={tableControlsContainerStyles}
+                    style={tableOverlayContainerStyles}
                 >
                     {overlayContent}
                 </FloatingContainer>

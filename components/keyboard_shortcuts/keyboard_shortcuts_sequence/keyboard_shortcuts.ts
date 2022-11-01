@@ -451,24 +451,24 @@ export const KEYBOARD_SHORTCUTS = {
             defaultMessage: 'Bulleted List',
         },
     },
-    msgMarkdownTableControls: {
+    msgMarkdownTableOptions: {
         default: {
-            id: t('shortcuts.msgs.markdown.table.controls'),
-            defaultMessage: 'Show table controls',
+            id: t('shortcuts.msgs.markdown.table.options'),
+            defaultMessage: 'Table options',
         },
         mac: {
-            id: t('shortcuts.msgs.markdown.table.controls.mac'),
-            defaultMessage: 'Show table controls',
+            id: t('shortcuts.msgs.markdown.table.options.mac'),
+            defaultMessage: 'Table options',
         },
     },
-    msgMarkdownTableAdd: {
+    msgMarkdownTableInsert: {
         default: {
-            id: t('shortcuts.msgs.markdown.table.add'),
-            defaultMessage: 'Add table',
+            id: t('shortcuts.msgs.markdown.table.insert'),
+            defaultMessage: 'Insert table',
         },
         mac: {
-            id: t('shortcuts.msgs.markdown.table.add.mac'),
-            defaultMessage: 'Add table',
+            id: t('shortcuts.msgs.markdown.table.insert.mac'),
+            defaultMessage: 'Insert table',
         },
     },
     msgMarkdownTableDelete: {

@@ -214,6 +214,7 @@ export default ({node, updateAttributes, extension}: NodeViewProps) => {
                             onClick={(event) => {
                                 event.preventDefault();
                                 updateAttributes({language: lang});
+                                toggleHeadingControls();
                             }}
                         >
                             {lang}

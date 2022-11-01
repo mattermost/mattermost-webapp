@@ -41,7 +41,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'p',
         type: 'setParagraph',
-        labelDescriptor: {id: t('wysiwyg.tool.paragraph.label'), defaultMessage: 'Normal text'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.paragraph.label'), defaultMessage: 'Normal text'},
         ariaLabelDescriptor: {id: t('accessibility.button.paragraph'), defaultMessage: 'normal text'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownP,
         action: () => editor.chain().focus().setParagraph().run(),
@@ -50,7 +50,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h1',
         type: 'toggleHeading',
-        labelDescriptor: {id: t('wysiwyg.tool.heading1.label'), defaultMessage: 'Heading 1'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.heading1.label'), defaultMessage: 'Heading 1'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading1'), defaultMessage: 'heading 1'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH1,
         action: () => editor.chain().focus().toggleHeading({level: 1}).run(),
@@ -59,7 +59,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h2',
         type: 'toggleHeading',
-        labelDescriptor: {id: t('wysiwyg.tool.heading2.label'), defaultMessage: 'Heading 2'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.heading2.label'), defaultMessage: 'Heading 2'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading2'), defaultMessage: 'heading 2'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH2,
         action: () => editor.chain().focus().toggleHeading({level: 2}).run(),
@@ -68,7 +68,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h3',
         type: 'toggleHeading',
-        labelDescriptor: {id: t('wysiwyg.tool.heading3.label'), defaultMessage: 'Heading 3'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.heading3.label'), defaultMessage: 'Heading 3'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading3'), defaultMessage: 'heading 3'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH3,
         action: () => editor.chain().focus().toggleHeading({level: 3}).run(),
@@ -77,7 +77,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h4',
         type: 'toggleHeading',
-        labelDescriptor: {id: t('wysiwyg.tool.heading4.label'), defaultMessage: 'Heading 4'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.heading4.label'), defaultMessage: 'Heading 4'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading4'), defaultMessage: 'heading 4'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH4,
         action: () => editor.chain().focus().toggleHeading({level: 4}).run(),
@@ -86,7 +86,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h5',
         type: 'toggleHeading',
-        labelDescriptor: {id: t('wysiwyg.tool.heading5.label'), defaultMessage: 'Heading 5'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.heading5.label'), defaultMessage: 'Heading 5'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading5'), defaultMessage: 'heading 5'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH5,
         action: () => editor.chain().focus().toggleHeading({level: 5}).run(),
@@ -95,7 +95,7 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     {
         mode: 'h6',
         type: 'toggleHeading',
-        labelDescriptor: {id: t('wysiwyg.tool.heading6.label'), defaultMessage: 'Heading 6'},
+        labelDescriptor: {id: t('wysiwyg.tool-label.heading6.label'), defaultMessage: 'Heading 6'},
         ariaLabelDescriptor: {id: t('accessibility.button.heading6'), defaultMessage: 'heading 6'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownH6,
         action: () => editor.chain().focus().toggleHeading({level: 6}).run(),
