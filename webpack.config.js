@@ -520,7 +520,7 @@ async function initializeModuleFederation() {
         './app': 'components/app.jsx',
         './store': 'stores/redux_store.jsx',
         './styles': 'sass/styles.scss',
-        './registry': 'moduleRegistry',
+        './registry': 'module_registry',
     };
     moduleFederationPluginOptions.filename = 'remote_entry.js';
 

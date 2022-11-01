@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getModule, setModule} from 'moduleRegistry';
+import {getModule, setModule} from 'module_registry';
 
 export function clearUserCookieDefault() {
     // We need to clear the cookie without the domain, with the domain, and with both the domain and path set because we
