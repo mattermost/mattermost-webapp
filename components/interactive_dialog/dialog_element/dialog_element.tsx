@@ -10,7 +10,7 @@ import GenericUserProvider from 'components/suggestion/generic_user_provider';
 import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
-import AutocompleteSelector from 'components/autocomplete_selector';
+import AutocompleteSelector, {Selected} from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
 import RadioSetting from 'components/widgets/settings/radio_setting';
@@ -48,15 +48,6 @@ export type Props = {
 type State = {
     value?: string;
 }
-
-export type Selected = {
-    id?: string;
-    username?: string;
-    display_name?: string;
-    value: string;
-    text: string;
-}
-
 export default class DialogElement extends React.PureComponent<Props, State> {
     private providers: Provider[];
 

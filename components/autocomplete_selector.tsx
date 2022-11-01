@@ -8,7 +8,6 @@ import SuggestionList from 'components/suggestion/suggestion_list';
 
 import ModalSuggestionList from './suggestion/modal_suggestion_list';
 import Provider from './suggestion/provider';
-import {Selected} from './interactive_dialog/dialog_element/dialog_element';
 
 type Props = {
     onSelected?: (selected: Selected) => void;
@@ -31,6 +30,14 @@ type State = {
     target?: {value: string};
     focused?: boolean;
     input?: string;
+}
+
+export type Selected = {
+    id?: string;
+    username?: string;
+    display_name?: string;
+    value: string;
+    text: string;
 }
 
 export default class AutocompleteSelector extends React.PureComponent <Props, State> {
