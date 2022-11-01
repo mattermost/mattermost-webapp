@@ -46,6 +46,7 @@ exports[`components/post_view/post_list_row should render combined post 1`] = `
 <Connect(Connect(PostComponent))
   combinedId="user-activity-1234-5678"
   isLastPost={false}
+  location="CENTER"
   previousPostId="abcd"
   shouldHighlight={false}
   togglePostMenu={[MockFunction]}
@@ -99,8 +100,8 @@ exports[`components/post_view/post_list_row should render new messages line 1`] 
 
 exports[`components/post_view/post_list_row should render post 1`] = `
 <Connect(PostComponent)
-  currentUserId="user_id_1"
   isLastPost={false}
+  location="CENTER"
   post={
     Object {
       "channel_id": "",
