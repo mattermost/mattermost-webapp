@@ -197,10 +197,10 @@ function ThreadItem({
                         </Badge>
                     )}
                     {isPostPriorityEnabled && (
-                        post?.props?.priority && (
+                        thread.is_urgent && (
                             <PriorityBadge
                                 className={postAuthor === channel?.display_name ? 'ml-2' : ''}
-                                priority={post.props.priority}
+                                priority={'urgent'}
                             />
                         )
                     )}
