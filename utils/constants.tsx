@@ -2163,20 +2163,6 @@ export enum ClaimErrors {
     API_USER_INVALID_PASSWORD = 'api.user.check_user_password.invalid.app_error',
 }
 
-// TODO: Remove after last legacy free products are migrated
-// (months after freemium is launched)
-// Hard coding product ids is a bad practice in general.
-// We do it here because these are legacy (we aren't making more),
-// there aren't that many,
-// and we would rather simplify some logic subscription logic now
-// so that we don't have to add confusing data to subscriptions
-// such as the new free plan having is_paid_tier=true
-// even though it is free and not paid.
-export const LegacyFreeProductIds: Record<string, true> = {
-    prod_HyiHEAVKW5bYG3: true,
-    prod_Hm2oYaBiRSISL2: true,
-};
-
 export const DataSearchTypes = {
     FILES_SEARCH_TYPE: 'files',
     MESSAGES_SEARCH_TYPE: 'messages',

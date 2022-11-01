@@ -5,6 +5,8 @@ import React from 'react';
 import {isValidElementType} from 'react-is';
 import {Reducer} from 'redux';
 
+import {ProductScope} from '@mattermost/types/products';
+
 import reducerRegistry from 'mattermost-redux/store/reducer_registry';
 
 import {
@@ -33,7 +35,6 @@ import {generateId} from 'utils/utils';
 import {PluginComponent, PluginsState, ProductComponent, NeedsTeamComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 import {FileInfo} from '@mattermost/types/files';
-import {ProductScope} from '@mattermost/types/products';
 import {Channel, ChannelMembership} from '@mattermost/types/channels';
 import {reArg} from 'utils/func';
 
