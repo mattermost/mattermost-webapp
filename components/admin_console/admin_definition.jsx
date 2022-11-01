@@ -2327,6 +2327,7 @@ const AdminDefinition = {
                         help_text: t('admin.viewArchivedChannelsHelpText'),
                         help_text_default: 'When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -3150,7 +3151,7 @@ const AdminDefinition = {
                         help_text: t('admin.team.emailInvitationsDescription'),
                         help_text_default: 'When true users can invite others to the system using email.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
-                        isHidden: it.isCloudLicense
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -5920,6 +5921,7 @@ const AdminDefinition = {
                         },
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
