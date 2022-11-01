@@ -434,22 +434,28 @@
                     .flex-grid {
                         display: flex;
                         margin-top: 20px;
-                    }
-
-                    .col1 {
-                        width: 100px;
-                        .user_seats {
-                            height: 24px;
+                        .user_seats_container {
+                            width: 100px;
+                            .user_seats {
+                                height: 24px;
+                            }
                         }
-                    }
-
-                    .col {
-                        flex:1
+                        .icon {
+                            flex: 1;
+                            justify-content: left;
+                            .icon-information-outline {
+                                margin: auto 0;
+                            }
+                        }
+                        .monthly-price {
+                            flex: 1;
+                            align-items: right;
+                        }
                     }
                 }
 
                 .bottom.bottom-yearly {
-                    height: 450px;
+                    height: 460px;
                 }
             }
         }

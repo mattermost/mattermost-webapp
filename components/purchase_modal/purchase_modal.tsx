@@ -205,12 +205,6 @@ function Card(props: CardProps) {
         console.log('hello');
     }
 
-    console.log('counts: '+ props.usersCount)
-    console.log('counts: '+ typeof props.usersCount)
-
-    console.log('price: '+ props.price)
-    console.log('price: '+ typeof props.price)
-
     const monthlyPlan = 
     <Fragment>
         <div className='enable_annual_sub'>
@@ -248,7 +242,7 @@ function Card(props: CardProps) {
     const yearlyPlan = 
     <Fragment>
         <div className="flex-grid">
-            <div className="col1">
+            <div className="user_seats_container">
                 <Input
                     name='UserSeats'
                     type='text'
@@ -260,8 +254,8 @@ function Card(props: CardProps) {
                     inputClassName='user_seats'
                 />
             </div>
-            <div className="col"><i className='icon-information-outline'/></div>
-            <div className="col"><p>${monthlyPrice}</p></div>
+            <div className="icon"><i className='icon-information-outline'/></div>
+            <div className="monthly_price"><p>${monthlyPrice}</p></div>
         </div>
         <table>
             <tbody>
@@ -284,17 +278,11 @@ function Card(props: CardProps) {
         </div>
         <div className='plan_billing_cycle'>
             <FormattedMessage
-                defaultMessage={'Payment begins: {beginDate}. '}
-                id={'admin.billing.subscription.paymentBegins'}
+                defaultMessage={'You will be charged {beginDate}. '}
+                id={'admin.billing.subscription.paymentBeginsYearly'}
                 values={{
                     beginDate: getNextBillingDate(),
                 }}
-            />
-            <FormattedMessage
-                defaultMessage={
-                    'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
-                }
-                id={'admin.billing.subscription.freeTrialDisclaimer'}
             />
             <a
                 onClick={seeHowBillingWorks}
