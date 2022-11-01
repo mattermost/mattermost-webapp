@@ -37,10 +37,10 @@ function makeMapStateToProps() {
     const getPostIdsForThread = makeGetPostIdsForThread();
     const getChannel = makeGetChannel();
 
-    return function mapStateToProps(state: GlobalState, {rootPostId}: OwnProps) {
+    return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         const currentUserId = getCurrentUserId(state);
         const currentTeamId = getCurrentTeamId(state);
-        const selected = getPost(state, rootPostId);
+        const selected = getPost(state, ownProps.rootPostId);
         const socketStatus = getSocketStatus(state);
         const highlightedPostId = getHighlightedPostId(state);
         const selectedPostFocusedAt = getSelectedPostFocussedAt(state);

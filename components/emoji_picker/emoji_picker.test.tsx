@@ -24,6 +24,7 @@ describe('components/emoji_picker/EmojiPicker', () => {
         visible: true,
         onEmojiClick: jest.fn(),
         handleFilterChange: jest.fn(),
+        handleEmojiPickerClose: jest.fn(),
         customEmojisEnabled: false,
         customEmojiPage: 1,
         emojiMap: new EmojiMap(new Map()),

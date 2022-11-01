@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useState, useCallback, useEffect, useMemo} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getMyLeastActiveChannels, getLeastActiveChannelsForTeam} from 'mattermost-redux/actions/insights';
-
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-
 import {LeastActiveChannel} from '@mattermost/types/insights';
+
+import {CircleSkeletonLoader, RectangleSkeletonLoader} from '@mattermost/components';
+
+import {getMyLeastActiveChannels, getLeastActiveChannelsForTeam} from 'mattermost-redux/actions/insights';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {InsightsScopes} from 'utils/constants';
 
-import TitleLoader from '../skeleton_loader/title_loader/title_loader';
-import CircleLoader from '../skeleton_loader/circle_loader/circle_loader';
 import widgetHoc, {WidgetHocProps} from '../widget_hoc/widget_hoc';
 import WidgetEmptyState from '../widget_empty_state/widget_empty_state';
 
@@ -62,12 +62,25 @@ const LeastActiveChannels = (props: WidgetHocProps & Props) => {
                     className='least-active-channels-loading-container'
                     key={i}
                 >
-                    <CircleLoader
-                        size={16}
+                    <CircleSkeletonLoader size={16}/>
+                    <RectangleSkeletonLoader
+                        width='30%'
+                        height={12}
+                        margin='0 0 0 6px'
+                        flex='1'
                     />
-                    <TitleLoader/>
-                    <TitleLoader/>
-                    <TitleLoader/>
+                    <RectangleSkeletonLoader
+                        width='30%'
+                        height={12}
+                        margin='0 0 0 30px'
+                        flex='1'
+                    />
+                    <RectangleSkeletonLoader
+                        width='20%'
+                        height={12}
+                        margin='0 0 0 50px'
+                        flex='1'
+                    />
                 </div>,
             );
         }

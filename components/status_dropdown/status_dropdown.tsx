@@ -11,6 +11,7 @@ import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 import {TUserStatus} from '@mattermost/compass-components/shared';
 
 import {PreferenceType} from '@mattermost/types/preferences';
+import {PulsatingDot} from '@mattermost/components';
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {CustomStatusDuration, UserCustomStatus, UserProfile, UserStatus} from '@mattermost/types/users';
 
@@ -26,7 +27,6 @@ import UserSettingsModal from 'components/user_settings/modal';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
-import PulsatingDot from 'components/widgets/pulsating_dot';
 import Avatar, {TAvatarSizeToken} from 'components/widgets/users/avatar/avatar';
 import {OnboardingTaskCategory, OnboardingTasksName, TaskNameMapToSteps, CompleteYourProfileTour} from 'components/onboarding_tasks';
 import Tooltip from 'components/tooltip';
@@ -182,6 +182,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
             <Avatar
                 size={size}
                 url={this.props.profilePicture}
+                tabIndex={undefined}
             />
         );
     }
@@ -406,7 +407,10 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                     active: this.props.isStatusDropdownOpen || isStatusSet,
                 })}
             >
-                <div className='status-wrapper'>
+                <button
+                    className='status-wrapper style--none'
+                    aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
+                >
                     <CustomStatusEmoji
                         showTooltip={true}
                         tooltipDirection={'bottom'}
@@ -414,16 +418,13 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                         onClick={this.handleCustomStatusEmojiClick as () => void}
                     />
                     {this.renderProfilePicture('sm')}
-                    <button
-                        className='status style--none'
-                        aria-label={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
-                    >
+                    <div className='status'>
                         <StatusIcon
                             size={'sm'}
                             status={(this.props.status || 'offline') as TUserStatus}
                         />
-                    </button>
-                </div>
+                    </div>
+                </button>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
                     id={'statusDropdownMenu'}

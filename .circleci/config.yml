@@ -13,14 +13,15 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-8
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-10
   - &save_cache
     save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-8
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-10
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
         - ~/mattermost/mattermost-webapp/packages/client/lib
         - ~/mattermost/mattermost-webapp/packages/components/dist
+        - ~/mattermost/mattermost-webapp/packages/components/node_modules
         - ~/mattermost/mattermost-webapp/packages/types/lib
 
 jobs:
@@ -31,7 +32,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          npm ci
+          make node_modules
       - *save_cache
   check-deps:
     parameters:
@@ -154,7 +155,7 @@ jobs:
       - run: |
           node --version
           npm version
-          make package-ci
+          make dist
       - store_artifacts:
           path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:

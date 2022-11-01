@@ -17,9 +17,8 @@ import {PreferenceType} from './preferences';
 import {
     AdminRequestsStatuses, ChannelsRequestsStatuses,
     FilesRequestsStatuses, GeneralRequestsStatuses,
-    JobsRequestsStatuses, PostsRequestsStatuses,
-    RolesRequestsStatuses, TeamsRequestsStatuses,
-    UsersRequestsStatuses,
+    PostsRequestsStatuses, RolesRequestsStatuses,
+    TeamsRequestsStatuses, UsersRequestsStatuses,
 } from './requests';
 import {Role} from './roles';
 import {SchemesState} from './schemes';
@@ -30,6 +29,7 @@ import {Typing} from './typing';
 import {UsersState} from './users';
 import {AppsState} from './apps';
 import {InsightsState} from './insights';
+import {GifsState} from './gifs';
 
 export type GlobalState = {
     entities: {
@@ -61,7 +61,7 @@ export type GlobalState = {
             pending: Set<string>;
         };
         schemes: SchemesState;
-        gifs: any;
+        gifs: GifsState;
         groups: GroupsState;
         channelCategories: ChannelCategoriesState;
         apps: AppsState;
@@ -79,7 +79,6 @@ export type GlobalState = {
         admin: AdminRequestsStatuses;
         files: FilesRequestsStatuses;
         roles: RolesRequestsStatuses;
-        jobs: JobsRequestsStatuses;
     };
     websocket: {
         connected: boolean;
