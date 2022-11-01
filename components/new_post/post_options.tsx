@@ -55,7 +55,6 @@ const PostOptions = (props: Props): JSX.Element => {
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
     const [showDotMenu, setShowDotMenu] = useState(false);
     const [showActionsMenu, setShowActionsMenu] = useState(false);
-    const [showOptionsMenuWithoutHover, setShowOptionsMenuWithoutHover] = useState(false);
     const [showActionTip, setShowActionTip] = useState(false);
 
     const {
@@ -115,9 +114,7 @@ const PostOptions = (props: Props): JSX.Element => {
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
     const isEphemeral = isPostEphemeral(post);
     const isSystemMessage = PostUtils.isSystemMessage(post);
-
-    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip || showOptionsMenuWithoutHover;
-
+    const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
     const showCommentIcon = !isSystemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply);
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
 
@@ -144,7 +141,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 teamId={props.teamId}
                 emojis={props.recentEmojis}
                 getDotMenuRef={getDotMenuRef}
-                size={props.isExpanded ? 3 : 1}
+                size={props.isExpanded || props.location === 'CENTER' ? 3 : 1}
             />
         );
     }
@@ -175,6 +172,36 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     }
 
+    // Action menus
+    const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobile || hoverLocal);
+    const actionsMenu = showActionsMenuIcon && (
+        <ActionsMenu
+            post={post}
+            location={props.location}
+            handleDropdownOpened={handleActionsMenuOpened}
+            isMenuOpen={showActionsMenu}
+            showPulsatingDot={showActionsMenuPulsatingDot}
+            showTutorialTip={showActionTip}
+            handleOpenTip={handleActionsMenuTipOpened}
+            handleNextTip={handleActionsMenuGotItClick}
+            handleDismissTip={handleTipDismissed}
+        />
+    );
+    const dotMenu = (
+        <DotMenu
+            post={props.post}
+            location={props.location}
+            isFlagged={props.isFlagged}
+            handleDropdownOpened={handleDotMenuOpened}
+            handleCommentClick={props.handleCommentClick}
+            handleAddReactionClick={toggleEmojiPicker}
+            isReadOnly={isReadOnly || channelIsArchived}
+            isMenuOpen={showDotMenu}
+            enableEmojiPicker={props.enableEmojiPicker}
+        />
+    );
+
+    // Build post options
     let options: ReactNode;
     if (isEphemeral) {
         options = (
@@ -184,38 +211,39 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     } else if (isPostDeleted) {
         options = null;
+    } else if (props.isSearchResultsItem) {
+        const hasCRTFooter = props.collapsedThreadsEnabled && !post.root_id && (post.reply_count > 0 || post.is_following);
+
+        options = (
+            <div className='col__controls post-menu'>
+                {dotMenu}
+                {flagIcon}
+                {props.canReply && !hasCRTFooter &&
+                    <CommentIcon
+                        location={Locations.SEARCH}
+                        handleCommentClick={props.handleCommentClick}
+                        commentCount={props.replyCount}
+                        postId={post.id}
+                        searchStyle={'search-item__comment'}
+                        extraClass={props.replyCount ? 'icon--visible' : ''}
+                    />
+                }
+                <a
+                    href='#'
+                    onClick={props.handleJumpClick}
+                    className='search-item__jump'
+                >
+                    <FormattedMessage
+                        id='search_item.jump'
+                        defaultMessage='Jump'
+                    />
+                </a>
+            </div>
+        );
     } else if (!isSystemMessage &&
         (isMobileView ||
         hoverLocal ||
         a11yActive)) {
-        const showActionsMenuIcon = props.shouldShowActionsMenu && (isMobile || hoverLocal);
-        const actionsMenu = showActionsMenuIcon && (
-            <ActionsMenu
-                post={post}
-                location={props.location}
-                handleDropdownOpened={handleActionsMenuOpened}
-                isMenuOpen={showActionsMenu}
-                showPulsatingDot={showActionsMenuPulsatingDot}
-                showTutorialTip={showActionTip}
-                handleOpenTip={handleActionsMenuTipOpened}
-                handleNextTip={handleActionsMenuGotItClick}
-                handleDismissTip={handleTipDismissed}
-            />
-        );
-        const dotMenu = (
-            <DotMenu
-                post={props.post}
-                location={props.location}
-                isFlagged={props.isFlagged}
-                handleDropdownOpened={handleDotMenuOpened}
-                handleCommentClick={props.handleCommentClick}
-                handleAddReactionClick={toggleEmojiPicker}
-                isReadOnly={isReadOnly || channelIsArchived}
-                isMenuOpen={showDotMenu}
-                enableEmojiPicker={props.enableEmojiPicker}
-            />
-        );
-
         options = (
             <div
                 ref={dotMenuRef}

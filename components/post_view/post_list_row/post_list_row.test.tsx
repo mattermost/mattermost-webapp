@@ -10,7 +10,7 @@ import {ChannelType} from '@mattermost/types/channels';
 import {CloudUsage} from '@mattermost/types/cloud';
 
 import CombinedUserActivityPost from 'components/post_view/combined_user_activity_post';
-import Post from 'components/post_view/post';
+import Post from 'components/new_post';
 import DateSeparator from 'components/post_view/date_separator';
 import NewMessageSeparator from 'components/post_view/new_message_separator/new_message_separator';
 import ChannelIntroMessage from 'components/post_view/channel_intro_message/';
@@ -39,6 +39,7 @@ describe('components/post_view/post_list_row', () => {
         limits: {},
         usage: {} as CloudUsage,
         post: TestHelper.getPostMock({id: 'post_id_1'}),
+        currentUserId: 'user)_id_1',
     };
 
     test('should render more messages loading indicator', () => {

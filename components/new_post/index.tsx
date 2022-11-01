@@ -46,7 +46,7 @@ import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import PostComponent from './post_component';
 
 interface OwnProps {
-    post: Post;
+    post?: Post;
     previousPostId?: string;
     postId?: string;
     teamId?: string;
@@ -71,14 +71,14 @@ function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
     let post;
     if (ownProps.postId) {
         post = getPost(state, ownProps?.postId);
-    } else {
+    } else if (ownProps.post) {
         post = ownProps.post;
     }
     const previousPost = ownProps.previousPostId && getPost(state, ownProps.previousPostId);
 
     let consecutivePost = false;
 
-    if (previousPost) {
+    if (previousPost && post) {
         consecutivePost = areConsecutivePostsBySameUser(post, previousPost);
     }
     return consecutivePost;
@@ -100,6 +100,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         post = getPost(state, ownProps?.postId);
     } else {
         post = ownProps.post;
+    }
+    if (!post) {
+        return;
     }
     const config = getConfig(state);
     const enableEmojiPicker = config.EnableEmojiPicker === 'true';
