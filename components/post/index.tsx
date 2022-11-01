@@ -50,6 +50,7 @@ interface OwnProps {
     previousPostId?: string;
     postId?: string;
     teamId?: string;
+    shouldHighlight?: boolean;
 }
 
 function isFirstReply(post: Post, previousPost?: Post | null): boolean {
@@ -191,7 +192,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         shortcutReactToLastPostEmittedFrom,
         isBot,
         collapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
-        shouldHighlight: highlightedPostId === post.id,
+        shouldHighlight: ownProps.shouldHighlight || highlightedPostId === post.id,
         oneClickReactionsEnabled,
         recentEmojis: emojis,
         isCollapsedThreadsEnabled: isCollapsedThreadsEnabled(state),
