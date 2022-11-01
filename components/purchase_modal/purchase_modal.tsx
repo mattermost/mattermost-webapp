@@ -211,7 +211,7 @@ function Card(props: CardProps) {
     };
 
     const checkValidNumber = () => {
-        return Number(usersCount) && Number(usersCount) > 0;
+        return Number(usersCount) && Number(usersCount) >= props.usersCount && Number(usersCount) % 1 === 0;
     };
 
     const updateDisplayPage = (isMonthly: boolean) => {
