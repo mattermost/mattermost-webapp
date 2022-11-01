@@ -26,7 +26,7 @@ import {
 } from 'utils/constants';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
-import Input, {SIZE} from 'components/widgets/inputs/input/input';
+import Input from 'components/widgets/inputs/input/input';
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
 import RootPortal from 'components/root_portal';
@@ -205,6 +205,26 @@ function Card(props: CardProps) {
         console.log('hello');
     }
 
+    const userCountTooltip = (
+        <Tooltip
+            id='userCount__tooltip'
+            className='userCountTooltip'
+        >
+            <div className='tooltipTitle'>
+                <FormattedMessage
+                    defaultMessage={'Current User Count'}
+                    id={'admin.billing.subscription.userCount.tooltipTitle'}
+                />
+            </div>
+            <div className='tooltipText'>
+                <FormattedMessage
+                    defaultMessage={'This is autofilled by your current number of users'}
+                    id={'admin.billing.subscription.userCount.tooltipText'}
+                />
+            </div>
+        </Tooltip>
+    );
+
     const monthlyPlan = 
     <Fragment>
         <div className='enable_annual_sub'>
@@ -254,7 +274,15 @@ function Card(props: CardProps) {
                     inputClassName='user_seats'
                 />
             </div>
-            <div className="icon"><i className='icon-information-outline'/></div>
+            <div className="icon">
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='right'
+                    overlay={userCountTooltip}
+                >
+                    <i className='icon-information-outline'/>
+                </OverlayTrigger>
+            </div>
             <div className="monthly_price"><p>${monthlyPrice}</p></div>
         </div>
         <table>
