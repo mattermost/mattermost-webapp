@@ -21,5 +21,7 @@
         background-repeat: no-repeat;
         background-size: cover;
         overflow-y: auto;
+        // Hack for issue in iOS Safari with scrolling
+        -webkit-overflow-scrolling: touch;
     }
 }
