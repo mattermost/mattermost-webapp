@@ -172,6 +172,7 @@
         }
     }
 
+    // todo sinan revert to old version as you are only interested under id='user-profile-popover'
     .popover-title {
         overflow: hidden;
         max-width: 100%;
@@ -183,6 +184,7 @@
         > span {
             display: flex;
             justify-content: space-between;
+            align-items: center;
         }
     }
 
@@ -287,6 +289,8 @@
 }
 
 .user-popover__role {
+    display: flex;
+    align-items: center;
     padding: 0 4px;
     margin-left: 2px;
     background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
@@ -294,9 +298,10 @@
     color: var(--center-channel-text-rgb);
     font-size: 10px;
     font-weight: 600;
-    letter-spacing: 0.02;
+    letter-spacing: 0.02em;
     line-height: 16px;
     text-transform: uppercase;
+    height: min-content;
 }
 
 .user-popover__email {
@@ -304,6 +309,22 @@
     overflow: hidden;
     max-width: 300px;
     text-overflow: ellipsis;
+}
+
+.user-popover__close {
+    display: flex;
+    border: none;
+    background: none;
+    font-weight: 400;
+    padding: 6px;
+    line-height: 18px;
+    color: rgba(var(--center-channel-text-rgb), 0.56);
+    margin-left: auto;
+
+    &:hover {
+        border-radius: 4px;
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+    }
 }
 
 .hidden-label + .search-autocomplete__divider {

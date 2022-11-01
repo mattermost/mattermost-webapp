@@ -3,19 +3,29 @@
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
+import {CloseIcon} from '@mattermost/compass-icons/components';
+
+import Pluggable from 'plugins/pluggable';
+
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
+import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+
+import * as GlobalActions from 'actions/global_actions';
+
+import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
+import {ModalData} from 'types/actions';
+
+import {getHistory} from 'utils/browser_history';
+import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
+import {t} from 'utils/i18n';
+import * as Utils from 'utils/utils';
+
 import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
-import {getHistory} from 'utils/browser_history';
-import * as GlobalActions from 'actions/global_actions';
-import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
-import {t} from 'utils/i18n';
-import * as Utils from 'utils/utils';
-import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
-import Pluggable from 'plugins/pluggable';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButton from 'components/toggle_modal_button';
@@ -26,9 +36,6 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
-import {UserCustomStatus, UserProfile, UserTimezone, CustomStatusDuration} from '@mattermost/types/users';
-import {ServerError} from '@mattermost/types/errors';
-import {ModalData} from 'types/actions';
 
 import './profile_popover.scss';
 
@@ -159,10 +166,7 @@ type ProfilePopoverState = {
  * The profile popover, or hovercard, that appears with user information when clicking
  * on the username or profile picture of a user.
  */
-class ProfilePopover extends React.PureComponent<
-ProfilePopoverProps,
-ProfilePopoverState
-> {
+class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePopoverState> {
     static getComponentName() {
         return 'ProfilePopover';
     }
@@ -189,6 +193,7 @@ ProfilePopoverState
         }
     }
     handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+        console.log('handleShowDirectChannel')
         const {actions} = this.props;
         e.preventDefault();
         if (!this.props.user) {
@@ -259,6 +264,7 @@ ProfilePopoverState
         this.handleCloseModals();
     };
     handleCloseModals = () => {
+        console.log('handleCloseModals');
         const {modals} = this.props;
         for (const modal in modals?.modalState) {
             if (!Object.prototype.hasOwnProperty.call(modals, modal)) {
@@ -570,7 +576,7 @@ ProfilePopoverState
                 </div>,
             );
         }
-        if (haveOverrideProp) {
+        if (haveOverrideProp) { // todo sinan test what is this. If not needed delete this and handleMentionKeyClick
             dataContent.push(
                 <div
                     data-toggle='tooltip'
@@ -704,16 +710,17 @@ ProfilePopoverState
                 </span>
             );
         }
-        let title: React.ReactNode = `@${this.props.user.username}`;
-        if (this.props.overwriteName) {
-            title = this.props.overwriteName;
-            roleTitle = '';
-        } else if (this.props.hasMention) {
-            title = <a onClick={this.handleMentionKeyClick}>{title}</a>;
-        }
-        title = (
+        const title = (
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
                 {roleTitle}
+                <button
+                    className='user-popover__close'
+                    onClick={this.handleCloseModals}
+                >
+                    <CloseIcon
+                        size={18}
+                    />
+                </button>
             </span>
         );
         return (
