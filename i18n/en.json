@@ -2797,7 +2797,7 @@
   "channel_header.editLink": "Edit",
   "channel_header.flagged": "Saved posts",
   "channel_header.groupMessageHasGuests": "This group message has guests",
-  "channel_header.lastActive": "Active {timestamp}",
+  "channel_header.lastActive": "Last online {timestamp}",
   "channel_header.leave": "Leave Channel",
   "channel_header.manageMembers": "Manage Members",
   "channel_header.menuAriaLabel": "Channel Menu",

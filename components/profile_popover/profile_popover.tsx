@@ -23,8 +23,6 @@ import * as Utils from 'utils/utils';
 
 import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
-import OverlayTrigger from 'components/overlay_trigger';
-import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
 import LocalizedIcon from 'components/localized_icon';
@@ -38,6 +36,7 @@ import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 
 import './profile_popover.scss';
+import classNames from 'classnames';
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'>{
 
@@ -191,9 +190,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 channelId,
             );
         }
+        console.log('last_activity_at: ', this.props.user?.last_activity_at);
     }
     handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        console.log('handleShowDirectChannel')
+        console.log('handleShowDirectChannel');
         const {actions} = this.props;
         e.preventDefault();
         if (!this.props.user) {
@@ -364,6 +364,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 key='user-popover-image'
             >
                 <Avatar
+                    id='userAvatar'
                     size='xxl'
                     username={this.props.user?.username || ''}
                     url={urlSrc}
@@ -383,7 +384,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 >
                     <FormattedMessage
                         id='channel_header.lastActive'
-                        defaultMessage='Active {timestamp}'
+                        defaultMessage='Last online {timestamp}'
                         values={{
                             timestamp: (
                                 <Timestamp
@@ -400,16 +401,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         }
 
         const fullname = Utils.getFullName(this.props.user);
-        const haveOverrideProp =
-      this.props.overwriteIcon || this.props.overwriteName;
-        if ((fullname || this.props.user.position) && !haveOverrideProp) {
-            dataContent.push(
-                <hr
-                    key='user-popover-hr'
-                    className='divider divider--expanded'
-                />,
-            );
-        }
+        console.log('full name', fullname)
+        const haveOverrideProp = this.props.overwriteIcon || this.props.overwriteName;
         if (fullname && !haveOverrideProp) {
             let sharedIcon;
             if (this.props.user.remote_id) {
@@ -420,19 +413,15 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     />
                 );
             }
+
+            // todo sinan check when full name offline
             dataContent.push(
                 <div
                     data-testId={`popover-fullname-${this.props.user.username}`}
-                    className='overflow--ellipsis text-nowrap'
+                    className='overflow--ellipsis text-nowrap pb-1'
                     key='user-popover-fullname'
                 >
-                    <OverlayTrigger
-                        delayShow={Constants.OVERLAY_TIME_DELAY}
-                        placement='top'
-                        overlay={<Tooltip id='fullNameTooltip'>{fullname}</Tooltip>}
-                    >
-                        <span className='user-profile-popover__heading'>{fullname}</span>
-                    </OverlayTrigger>
+                    <span className='user-profile-popover__heading'>{fullname}</span>
                     {sharedIcon}
                 </div>,
             );
@@ -441,28 +430,28 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             dataContent.push(
                 <div
                     key='bot-description'
-                    className='overflow--ellipsis text-nowrap'
+                    className='overflow--ellipsis text-nowrap pb-1'
                 >
                     {this.props.user.bot_description}
                 </div>,
             );
         }
+        const userNameClass = classNames('overflow--ellipsis text-nowrap pb-1', {'user-profile-popover__heading': fullname !== ''})
+        let userName: React.ReactNode = `@${this.props.user.username}`;
+        dataContent.push(
+            <div className={userNameClass}>
+                {userName}
+            </div>,
+        )
         if (this.props.user.position && !haveOverrideProp) {
             const position = (this.props.user?.position || '').substring(
                 0,
                 Constants.MAX_POSITION_LENGTH,
             );
             dataContent.push(
-                <OverlayTrigger
-                    delayShow={Constants.OVERLAY_TIME_DELAY}
-                    placement='top'
-                    overlay={<Tooltip id='positionTooltip'>{position}</Tooltip>}
-                    key='user-popover-position'
-                >
-                    <div className='overflow--ellipsis text-nowrap pt-1 pb-1'>
-                        {position}
-                    </div>
-                </OverlayTrigger>,
+                <div className='overflow--ellipsis text-nowrap pb-1'>
+                    {position}
+                </div>,
             );
         }
         const email = this.props.user.email || '';

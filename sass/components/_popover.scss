@@ -176,7 +176,7 @@
     .popover-title {
         overflow: hidden;
         max-width: 100%;
-        padding: 8px 10px;
+        padding: 6px 10px 0;
         border-color: var(--center-channel-bg);
         background: none;
         text-overflow: ellipsis;
@@ -249,15 +249,21 @@
     width: 128px;
     margin: 0 auto;
 
+    #userAvatar {
+        width: 96px;
+        min-width: 96px;
+        height: 96px;
+    }
+
     .user-popover-status {
         position: absolute;
         top: auto;
         right: 8px;
         bottom: 0;
         display: flex;
-        width: 28px;
-        height: 28px;
-        padding: 4px;
+        width: 24px;
+        height: 24px;
+        padding: 2px;
         background: rgba(var(--center-channel-bg-rgb), 1);
         border-radius: 50px;
 
