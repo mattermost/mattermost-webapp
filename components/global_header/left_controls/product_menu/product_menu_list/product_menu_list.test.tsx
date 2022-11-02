@@ -109,7 +109,7 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper.find('#userGroups')).toMatchSnapshot();
     });
 
-    test('user groups button is disabled for starter', () => {
+    test('user groups button is disabled for free', () => {
         const props = {
             ...defaultProps,
             enableCustomUserGroups: true,

@@ -933,6 +933,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1033,6 +1034,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1068,6 +1070,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };

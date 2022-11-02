@@ -5,12 +5,7 @@ import React from 'react';
 
 import {getClassnamesForBody} from './channel_controller';
 
-jest.mock('components/announcement_bar', () => () => <div/>);
-jest.mock('components/system_notice', () => () => <div/>);
 jest.mock('components/reset_status_modal', () => () => <div/>);
-jest.mock('components/sidebar_right', () => () => <div/>);
-jest.mock('components/sidebar_right_menu', () => () => <div/>);
-jest.mock('components/app_bar/app_bar', () => () => <div/>);
 jest.mock('components/sidebar', () => () => <div/>);
 jest.mock('components/channel_layout/center_channel', () => () => <div/>);
 jest.mock('components/loading_screen', () => () => <div/>);

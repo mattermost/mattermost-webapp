@@ -9,7 +9,7 @@ import Constants from 'utils/constants';
 import {imageURLForTeam, isMobile, localizeMessage, moveCursorToEnd} from 'utils/utils';
 import {t} from 'utils/i18n';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
@@ -320,7 +320,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
     render() {
         const team = this.props.team;
 
-        const clientError = this.state.clientError ?? null;
+        const clientError = this.state.clientError;
         const serverError = this.state.serverError ?? null;
 
         let inviteSection;

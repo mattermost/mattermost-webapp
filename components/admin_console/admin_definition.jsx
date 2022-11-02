@@ -6,11 +6,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
+import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon, ProductsIcon} from '@mattermost/compass-icons/components';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
-import {Constants, LegacyFreeProductIds, CloudProducts, LicenseSkus} from 'utils/constants';
+import {Constants, CloudProducts, LicenseSkus} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
 import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';
@@ -209,8 +209,7 @@ export const it = {
         const limits = cloud?.limits;
         const subscriptionProduct = cloud?.products?.[productId];
         const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
-        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
-        return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
+        return cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
@@ -5766,6 +5765,43 @@ const AdminDefinition = {
             schema: {
                 id: 'CustomPluginSettings',
                 component: CustomPluginSettings,
+            },
+        },
+    },
+    products: {
+        icon: (
+            <ProductsIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
+        sectionTitle: t('admin.sidebar.products'),
+        sectionTitleDefault: 'Products',
+        isHidden: it.any(
+            it.configIsFalse('FeatureFlags', 'BoardsProduct'),
+            it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.PRODUCTS)),
+        ),
+        boards: {
+            url: 'products/boards',
+            title: t('admin.sidebar.boards'),
+            title_default: 'Boards',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+            schema: {
+                id: 'BoardsSettings',
+                name: t('admin.site.boards'),
+                name_default: 'Boards',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ProductSettings.EnablePublicSharedBoards',
+                        label: t('admin.customization.enablePublicSharedBoardsTitle'),
+                        label_default: 'Enable Public Shared Boards:',
+                        help_text: t('admin.customization.enablePublicSharedBoardsDesc'),
+                        help_text_default: 'This allows board editors to share boards that can be accessed by anyone with the link.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+                    },
+                ],
             },
         },
     },

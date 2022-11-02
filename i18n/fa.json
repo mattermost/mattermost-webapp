@@ -3427,7 +3427,6 @@
   "passwordRequirements": "الزامات رمز عبور:",
   "password_form.change": "رمز عبورم را عوض کن",
   "password_form.enter": "یک رمز عبور جدید برای حساب {siteName} خود وارد کنید.",
-  "password_form.error": "لطفا حداقل {chars} نویسه را وارد کنید.",
   "password_form.pwd": "کلمه عبور",
   "password_form.title": "تنظیم مجدد رمز عبور",
   "password_send.checkInbox": "لطفا صندوق ورودی خود را بررسی کنید.",
