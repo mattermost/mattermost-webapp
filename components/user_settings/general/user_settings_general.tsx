@@ -5,19 +5,21 @@
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
+import SettingItemMax from 'components/setting_item_max';
+
 import {isEmail} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import LocalizedIcon from 'components/localized_icon';
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import SettingPicture from 'components/setting_picture.jsx';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
+
+import {UserProfile} from '@mattermost/types/users';
 
 const holders = defineMessages({
     usernameReserved: {
