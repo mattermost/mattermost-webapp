@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent} from 'react';
+import React from 'react';
 import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
@@ -112,44 +112,55 @@ describe('components/integrations/AbstractCommand', () => {
             <AbstractCommand {...baseProps}/>,
         );
         const displayName = 'new display_name';
-        wrapper.instance().updateDisplayName({preventDefault: jest.fn(), target: {value: displayName}});
+        const displayNameEvent = {preventDefault: jest.fn(), target: {value: displayName}} as any;
+        wrapper.instance().updateDisplayName(displayNameEvent);
         expect(wrapper.state('displayName')).toEqual(displayName);
 
         const description = 'new description';
-        wrapper.instance().updateDescription({target: {value: description}});
+        const descriptionEvent = {preventDefault: jest.fn(), target: {value: description}} as any;
+        wrapper.instance().updateDescription(descriptionEvent);
         expect(wrapper.state('description')).toEqual(description);
 
         const trigger = 'new trigger';
-        wrapper.instance().updateTrigger({target: {value: trigger}});
+        const triggerEvent = {preventDefault: jest.fn(), target: {value: trigger}} as any;
+        wrapper.instance().updateTrigger(triggerEvent);
         expect(wrapper.state('trigger')).toEqual(trigger);
 
         const url = 'new url';
-        wrapper.instance().updateUrl({target: {value: url}});
+        const urlEvent = {preventDefault: jest.fn(), target: {value: url}} as any;
+        wrapper.instance().updateUrl(urlEvent);
         expect(wrapper.state('url')).toEqual(url);
 
         const method = 'P';
-        wrapper.instance().updateMethod({target: {value: method}});
+        const methodEvent = {preventDefault: jest.fn(), target: {value: method}} as any;
+        wrapper.instance().updateMethod(methodEvent);
         expect(wrapper.state('method')).toEqual(method);
 
         const username = 'new username';
-        wrapper.instance().updateUsername({target: {value: username}});
+        const usernameEvent = {preventDefault: jest.fn(), target: {value: username}} as any;
+        wrapper.instance().updateUsername(usernameEvent);
         expect(wrapper.state('username')).toEqual(username);
 
         const iconUrl = 'new iconUrl';
-        wrapper.instance().updateIconUrl({target: {value: iconUrl}});
+        const iconUrlEvent = {preventDefault: jest.fn(), target: {value: iconUrl}} as any;
+        wrapper.instance().updateIconUrl(iconUrlEvent);
         expect(wrapper.state('iconUrl')).toEqual(iconUrl);
 
-        wrapper.instance().updateAutocomplete({target: {checked: true}});
+        const trueUpdateAutocompleteEvent = {target: {checked: true}} as any;
+        const falseeUpdateAutocompleteEvent = {target: {checked: false}} as any;
+        wrapper.instance().updateAutocomplete(trueUpdateAutocompleteEvent);
         expect(wrapper.state('autocomplete')).toEqual(true);
-        wrapper.instance().updateAutocomplete({target: {checked: false}});
+        wrapper.instance().updateAutocomplete(falseeUpdateAutocompleteEvent);
         expect(wrapper.state('autocomplete')).toEqual(false);
 
         const autocompleteHint = 'new autocompleteHint';
-        wrapper.instance().updateAutocompleteHint({target: {value: autocompleteHint}});
+        const autocompleteHintEvent = {preventDefault: jest.fn(), target: {value: autocompleteHint}} as any;
+        wrapper.instance().updateAutocompleteHint(autocompleteHintEvent);
         expect(wrapper.state('autocompleteHint')).toEqual(autocompleteHint);
 
         const autocompleteDescription = 'new autocompleteDescription';
-        wrapper.instance().updateAutocompleteDescription({target: {value: autocompleteDescription}});
+        const autocompleteDescriptionEvent = {preventDefault: jest.fn(), target: {value: autocompleteDescription}} as any;
+        wrapper.instance().updateAutocompleteDescription(autocompleteDescriptionEvent);
         expect(wrapper.state('autocompleteDescription')).toEqual(autocompleteDescription);
     });
 
@@ -167,7 +178,8 @@ describe('components/integrations/AbstractCommand', () => {
         );
         expect(newAction).toHaveBeenCalledTimes(0);
 
-        const evt = {preventDefault: jest.fn()};
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        const evt: any = {preventDefault: jest.fn()};
         const handleSubmit = wrapper.instance().handleSubmit;
         handleSubmit(evt);
         expect(wrapper.state('saving')).toEqual(true);
