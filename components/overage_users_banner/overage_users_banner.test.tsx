@@ -88,7 +88,7 @@ describe('components/overage_users_banner', () => {
     it('should not render the banner because we are not on overage state', () => {
         renderComponent();
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check')).not.toBeInTheDocument();
+        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
     });
 
     it('should not render the banner because we are not admins', () => {
@@ -109,7 +109,7 @@ describe('components/overage_users_banner', () => {
             store,
         });
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check')).not.toBeInTheDocument();
+        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
     });
 
     it('should not render the banner because it\'s cloud licenese', () => {
@@ -124,10 +124,9 @@ describe('components/overage_users_banner', () => {
             store,
         });
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check')).not.toBeInTheDocument();
+        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
     });
 
-    // EACH para las props de location
     it.each([['app'], ['admin-console']])('should not render the 5% banner in %s location because we have dissmised it', (location) => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
@@ -176,7 +175,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
-        //expect(screen.getByText('Notify your Customer Success Manager on your next true-up check')).toBeInTheDocument();
+        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
     });
 
     it.each([['app'], ['admin-console']])('should render the banner because we are over 5% in %s location and we have preferences from one old banner', (location) => {
@@ -207,7 +206,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
-        //expect(screen.getByText('Notify your Customer Success Manager on your next true-up check')).toBeInTheDocument();
+        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
     });
 
     it.each([['app'], ['admin-console']])('should save the preferences for 5% banner in %s location if admin click on close', (location) => {
@@ -254,7 +253,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        //expect(screen.getByText('Notify your Customer Success Manager on your next true-up check')).toBeInTheDocument();
+        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
     });
 
     it('should render the banner because we are over 10%, admin location and we have preferences', () => {
@@ -282,7 +281,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        //expect(screen.getByText('Notify your Customer Success Manager on your next true-up check')).toBeInTheDocument();
+        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
     });
 
     // Over 10% and in the app side
@@ -304,7 +303,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        //expect(screen.getByText('Notify your Customer Success Manager on your next true-up check')).toBeInTheDocument();
+        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
     });
 
     it('should render the banner because we are over 10%, app location and we have preference only for the warning state', () => {
@@ -335,7 +334,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        //expect(screen.getByText('Notify your Customer Success Manager on your next true-up check')).toBeInTheDocument();
+        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
     });
 
     it('should not render the banner because we are over 10%, app location and we have preferences', () => {
@@ -366,7 +365,7 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.queryByText(text10PercentageState)).not.toBeInTheDocument();
-        //expect(screen.getByText('Notify your Customer Success Manager on your next true-up check')).toBeInTheDocument();
+        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
     });
 
     it('should save preferences for the banner because we are over 10%, app location and we don\'t have preferences', () => {
