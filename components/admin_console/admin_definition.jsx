@@ -2946,7 +2946,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
             isHidden: it.any(
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
             ),
             schema: {
