@@ -174,7 +174,7 @@ export default function ChannelNotificationsModal(props: Props) {
             <CheckboxItemCreator
                 inputFieldValue={settings.channel_auto_follow_threads === 'true'}
                 inputFieldData={AutoFollowThreadsInputFieldData}
-                handleChange={(e) => handleChange({push_threads: e ? 'false' : 'true'})}
+                handleChange={(e) => handleChange({channel_auto_follow_threads: e ? 'true' : 'false'})}
             />
         </>
     );
