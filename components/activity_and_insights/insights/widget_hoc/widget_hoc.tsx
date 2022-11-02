@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {ComponentType, useCallback, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
