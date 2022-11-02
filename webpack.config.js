@@ -5,6 +5,7 @@
 
 const childProcess = require('child_process');
 const http = require('http');
+const https = require('https');
 const path = require('path');
 
 const url = require('url');
@@ -427,7 +428,8 @@ async function initializeModuleFederation() {
                 return;
             }
 
-            const req = http.request(`${baseUrl}/remote_entry.js`, (response) => {
+            const requestModule = baseUrl.startsWith('https:') ? https : http;
+            const req = requestModule.request(`${baseUrl}/remote_entry.js`, (response) => {
                 return resolve(response.statusCode === 200);
             });
 
