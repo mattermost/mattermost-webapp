@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 import {shallow} from 'enzyme';
 import {FormattedMessage} from 'react-intl';
 
 import AbstractCommand from 'components/integrations/abstract_command';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/AbstractCommand', () => {
     const header = {id: 'Header', defaultMessage: 'Header'};
     const footer = {id: 'Footer', defaultMessage: 'Footer'};
     const loading = {id: 'Loading', defaultMessage: 'Loading'};
+    const method: 'G' | 'P' | '' = 'G';
     const command = {
         id: 'r5tpgt4iepf45jt768jz84djic',
         display_name: 'display_name',
@@ -20,23 +22,21 @@ describe('components/integrations/AbstractCommand', () => {
         auto_complete_hint: 'auto_complete_hint',
         auto_complete_desc: 'auto_complete_desc',
         token: 'jb6oyqh95irpbx8fo9zmndkp1r',
-        create_at: '1499722850203',
+        create_at: 1499722850203,
         creator_id: '88oybd1dwfdoxpkpw1h5kpbyco',
         delete_at: 0,
         icon_url: 'https://google.com/icon',
-        method: 'G',
+        method,
         team_id: 'm5gix3oye3du8ghk4ko6h9cq7y',
         update_at: 1504468859001,
         url: 'https://google.com/command',
         username: 'username',
     };
-    const team = {
-        name: 'test',
-        id: command.team_id,
-    };
+    const team = TestHelper.getTeamMock({name: 'test', id: command.team_id});
+
     const action = jest.fn().mockImplementation(
         () => {
-            return new Promise((resolve) => {
+            return new Promise<void>((resolve) => {
                 process.nextTick(() => resolve());
             });
         },
@@ -47,14 +47,13 @@ describe('components/integrations/AbstractCommand', () => {
         header,
         footer,
         loading,
-        renderExtra: 'renderExtra',
         serverError: '',
         initialCommand: command,
         action,
     };
 
     test('should match snapshot', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
         expect(wrapper).toMatchSnapshot();
@@ -63,7 +62,7 @@ describe('components/integrations/AbstractCommand', () => {
     test('should match snapshot, displays client error', () => {
         const newSeverError = 'server error';
         const props = {...baseProps, serverError: newSeverError};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...props}/>,
         );
 
@@ -75,7 +74,7 @@ describe('components/integrations/AbstractCommand', () => {
     });
 
     test('should call action function', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
 
@@ -86,7 +85,7 @@ describe('components/integrations/AbstractCommand', () => {
     });
 
     test('should match object returned by getStateFromCommand', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
 
@@ -109,12 +108,11 @@ describe('components/integrations/AbstractCommand', () => {
     });
 
     test('should match state when method is called', () => {
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...baseProps}/>,
         );
-
         const displayName = 'new display_name';
-        wrapper.instance().updateDisplayName({target: {value: displayName}});
+        wrapper.instance().updateDisplayName({preventDefault: jest.fn(), target: {value: displayName}});
         expect(wrapper.state('displayName')).toEqual(displayName);
 
         const description = 'new description';
@@ -129,7 +127,7 @@ describe('components/integrations/AbstractCommand', () => {
         wrapper.instance().updateUrl({target: {value: url}});
         expect(wrapper.state('url')).toEqual(url);
 
-        const method = 'new method';
+        const method = 'P';
         wrapper.instance().updateMethod({target: {value: method}});
         expect(wrapper.state('method')).toEqual(method);
 
@@ -158,13 +156,13 @@ describe('components/integrations/AbstractCommand', () => {
     test('should match state when handleSubmit is called', () => {
         const newAction = jest.fn().mockImplementation(
             () => {
-                return new Promise((resolve) => {
+                return new Promise<void>((resolve) => {
                     process.nextTick(() => resolve());
                 });
             },
         );
         const props = {...baseProps, action: newAction};
-        const wrapper = shallow(
+        const wrapper = shallow<AbstractCommand>(
             <AbstractCommand {...props}/>,
         );
         expect(newAction).toHaveBeenCalledTimes(0);
