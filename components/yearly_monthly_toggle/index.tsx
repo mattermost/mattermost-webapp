@@ -31,7 +31,7 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
         },
     ];
 
-    const onToggleChange = (newValue: string) => {
+    const onToggleChange = (newValue: any) => {
         setIsMonthly(newValue === monthlyLabel);
 
         // isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state
