@@ -85,7 +85,7 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                 dispatch(getMissingProfilesByIds(getUserIdsForUsersThatRequestedFeature(requestFeatures[featureId])));
             }
         }
-    }, []);
+    }, [dispatch, requestFeatures]);
 
     const isDowngradeNotification = (featureId: string) => featureId === PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE;
 
