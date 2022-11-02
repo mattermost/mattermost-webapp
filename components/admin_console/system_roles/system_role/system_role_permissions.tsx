@@ -239,8 +239,8 @@ export default class SystemRolePermissions extends React.PureComponent<Props, St
 
         if (isLicensedForCloud) {
             // Remove the site configuration section if it's licensed for cloud
-            this.removeSection('site');
             this.removeSection('about');
+            this.removeSection('environment');
         }
 
         return getSectionsListForRole(sectionsList, this.props.role.name, editedSectionsByRole).map((section: SystemSection) => {
