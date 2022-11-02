@@ -68,7 +68,7 @@ describe('components/ModalController', () => {
         );
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.find('div').first().html()).toBe('<div></div>');
+        expect(wrapper.find('ModalController > *').length).toBe(0);
         expect(document.getElementsByClassName('modal-dialog').length).toBeFalsy();
     });
 

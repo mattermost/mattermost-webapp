@@ -44,7 +44,7 @@ import {
 
 import {addUserToTeam} from 'actions/team_actions';
 import {searchForTerm} from 'actions/post_actions';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as UserAgent from 'utils/user_agent';
 import bing from 'sounds/bing.mp3';
 import crackle from 'sounds/crackle.mp3';
@@ -1561,11 +1561,11 @@ export async function handleFormattedTextClick(e: React.MouseEvent, currentRelat
             }
 
             e.stopPropagation();
-            browserHistory.push(linkAttribute.value);
+            getHistory().push(linkAttribute.value);
         }
     } else if (channelMentionAttribute) {
         e.preventDefault();
-        browserHistory.push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
+        getHistory().push(currentRelativeTeamUrl + '/channels/' + channelMentionAttribute.value);
     }
 }
 

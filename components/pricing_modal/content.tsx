@@ -5,10 +5,9 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
-import {RecurringIntervals} from 'utils/constants'
-import {findProductBySkuAndInterval} from 'utils/products'
+import {findProductBySkuAndInterval} from 'utils/products';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
@@ -132,11 +131,11 @@ function Content(props: ContentProps) {
     const hasLimits = hasSomeLimits(limits);
 
     const starterBriefing = [
-        formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+        formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
         formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
-        formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-        formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
-        formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
+        formatMessage({id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+        formatMessage({id: 'pricing_modal.briefing.free.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
+        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
     ];
 
     const legacyStarterBriefing = [
@@ -152,14 +151,10 @@ function Content(props: ContentProps) {
 
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
         // Monthly subscription price
-        if (newIsMonthly) {
-            if (monthlyProfessionalProduct) {
-                setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
-            }
-        } else { // Yearly subscription price
-            if (yearlyProfessionalProduct) {
-                setProfessionalPrice(yearlyProfessionalProduct.price_per_seat);
-            }
+        if (newIsMonthly && monthlyProfessionalProduct) {
+            setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+        } else if (!newIsMonthly && yearlyProfessionalProduct) {
+            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat);
         }
     };
 
@@ -212,10 +207,10 @@ function Content(props: ContentProps) {
 
                 <div className='PricingModal__body'>
                     <Card
-                        id='starter'
+                        id='free'
                         topColor='#339970'
-                        plan='Starter'
-                        planSummary={formatMessage({id: 'pricing_modal.planSummary.starter', defaultMessage: 'Increased productivity for small teams'})}
+                        plan='Free'
+                        planSummary={formatMessage({id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams'})}
                         price='$0'
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={

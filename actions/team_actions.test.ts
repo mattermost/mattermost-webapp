@@ -9,7 +9,7 @@ import * as Actions from 'actions/team_actions';
 
 import configureStore from 'tests/test_store';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {TestHelper} from 'utils/test_helper';
 
 jest.mock('mattermost-redux/actions/teams', () => ({
@@ -65,12 +65,6 @@ jest.mock('mattermost-redux/actions/users', () => ({
     }),
 }));
 
-jest.mock('utils/browser_history', () => ({
-    browserHistory: {
-        push: jest.fn(),
-    },
-}));
-
 describe('Actions.Team', () => {
     const currentChannelId = 'currentChannelId';
 
@@ -89,7 +83,7 @@ describe('Actions.Team', () => {
 
             testStore.dispatch(Actions.switchTeam('/test'));
 
-            expect(browserHistory.push).toHaveBeenCalledWith('/test');
+            expect(getHistory().push).toHaveBeenCalledWith('/test');
             expect(testStore.getActions()).toEqual([]);
         });
 
@@ -100,7 +94,7 @@ describe('Actions.Team', () => {
 
             testStore.dispatch(Actions.switchTeam('/test', team));
 
-            expect(browserHistory.push).not.toHaveBeenCalled();
+            expect(getHistory().push).not.toHaveBeenCalled();
             expect(testStore.getActions()).toContainEqual(TeamActions.selectTeam(team));
         });
     });
