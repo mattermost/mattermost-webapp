@@ -2491,7 +2491,7 @@
   "get_public_link_modal.help": "아래 링크를 통해 누구나 이 서버에 등록하지 않고도 이 파일을 볼 수 있습니다.",
   "get_public_link_modal.title": "공개 링크 복사",
   "gif_picker.gfycat": "Gfycat 검색",
-  "globalThreads.sidebarLink": "글타래",
+  "globalThreads.sidebarLink": "스레드",
   "globalThreads.threadList.noUnreadThreads": "읽지 않은 글타래 없음",
   "group_list_modal.addGroupButton": "그룹 추가하기",
   "group_list_modal.removeGroupButton": "그룹 제거",
