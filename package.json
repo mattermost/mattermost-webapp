@@ -53,7 +53,7 @@
     "marked": "github:mattermost/marked#2ef7f28cc7718e3f551c4ce9ea75fdd7580c2008",
     "memoize-one": "5.2.1",
     "moment-timezone": "0.5.38",
-    "p-queue": "7.1.0",
+    "p-queue": "7.3.0",
     "pdfjs-dist": "2.15.349",
     "popper.js": "1.16.1",
     "process": "0.11.10",
