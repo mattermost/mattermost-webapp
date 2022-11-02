@@ -10,7 +10,7 @@ import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutl
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
-import {Constants, LegacyFreeProductIds, CloudProducts, LicenseSkus} from 'utils/constants';
+import {Constants, CloudProducts, LicenseSkus} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
 import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';
@@ -209,8 +209,7 @@ export const it = {
         const limits = cloud?.limits;
         const subscriptionProduct = cloud?.products?.[productId];
         const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
-        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
-        return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
+        return cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
