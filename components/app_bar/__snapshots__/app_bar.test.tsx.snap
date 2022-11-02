@@ -19,7 +19,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
   >
     <_StyledDiv>
       <div
-        className="_StyledDiv-BRlth jquHst"
+        className="c0"
       >
         <AppBarPluginComponent
           component={
@@ -101,7 +101,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
           key="divider"
         >
           <hr
-            className="_StyledHr-jLdlHU gGjtME app-bar__divider"
+            className="c1 app-bar__divider"
           />
         </_StyledHr>
         <AppBarBinding
