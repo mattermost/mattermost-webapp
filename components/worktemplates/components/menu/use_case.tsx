@@ -37,23 +37,32 @@ interface UseCaseProps {
 }
 
 const UseCase = (props: UseCaseProps) => {
-    const {formatMessage} = useIntl();
+    const {formatMessage, formatList} = useIntl();
 
     const details = useMemo(() => {
         const detailBuilder: string[] = [];
         if (props.nbChannels > 0) {
-            detailBuilder.push(`${props.nbChannels} channels`);
+            detailBuilder.push(formatMessage({
+                id: 'worktemplates.menu.usecase_nb_channels',
+                defaultMessage: '{nbChannels, plural, =1 {# channel} other {# channels}}',
+            }, {nbChannels: props.nbChannels}));
         }
 
         if (props.nbBoards > 0) {
-            detailBuilder.push(`${props.nbBoards} boards`);
+            detailBuilder.push(formatMessage({
+                id: 'worktemplates.menu.usecase_nb_boards',
+                defaultMessage: '{nbBoards, plural, =1 {# board} other {# boards}}',
+            }, {nbBoards: props.nbBoards}));
         }
 
         if (props.nbPlaybooks > 0) {
-            detailBuilder.push(`${props.nbPlaybooks} playbooks`);
+            detailBuilder.push(formatMessage({
+                id: 'worktemplates.menu.usecase_nb_playbooks',
+                defaultMessage: '{nbPlaybooks, plural, =1 {# playbook} other {# playbooks}}',
+            }, {nbPlaybooks: props.nbPlaybooks}));
         }
 
-        return detailBuilder.join(', ');
+        return formatList(detailBuilder, {style: 'narrow'});
     }, [props.nbChannels, props.nbBoards, props.nbPlaybooks]);
 
     const selectTemplate = (e: React.MouseEvent<HTMLElement>) => {
