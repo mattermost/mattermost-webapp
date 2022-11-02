@@ -8,10 +8,14 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
 
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
+import {ProviderResults} from './generic_user_provider';
 
 class SearchUserSuggestion extends Suggestion {
+    node?: HTMLDivElement | null;
     render() {
         const {item, isSelection} = this.props;
 
@@ -75,12 +79,13 @@ class SearchUserSuggestion extends Suggestion {
 }
 
 export default class SearchUserProvider extends Provider {
-    constructor(userSearchFunc) {
+    autocompleteUsersInTeam: (username: string) => any;
+    constructor(userSearchFunc: (username: string) => DispatchFunc) {
         super();
         this.autocompleteUsersInTeam = userSearchFunc;
     }
 
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: (res: ProviderResults) => void) {
         const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
 
         this.doAutocomplete(captured, resultsCallback);
@@ -88,7 +93,7 @@ export default class SearchUserProvider extends Provider {
         return Boolean(captured);
     }
 
-    async doAutocomplete(captured, resultsCallback) {
+    async doAutocomplete(captured: RegExpExecArray | null, resultsCallback: (res: ProviderResults) => void) {
         if (!captured) {
             return;
         }
@@ -104,7 +109,7 @@ export default class SearchUserProvider extends Provider {
         }
 
         const users = Object.assign([], data.users);
-        const mentions = users.map((user) => user.username);
+        const mentions = users.map((user: {username: string}) => user.username);
 
         resultsCallback({
             matchedPretext: usernamePrefix,
