@@ -6,20 +6,12 @@ import {combineReducers} from 'redux';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {Product, Subscription, SubscriptionResponse, CloudCustomer, Invoice, Limits} from '@mattermost/types/cloud';
-
-import {LegacyFreeProductIds} from 'utils/constants';
+import {Product, Subscription, CloudCustomer, Invoice, Limits} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {
     case CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION: {
-        const responseSubscription: SubscriptionResponse = action.data;
-        const {is_paid_tier: isPaidTier, ...baseSubscription} = responseSubscription;
-        const subscription: Subscription = {...baseSubscription};
-        if (LegacyFreeProductIds[subscription.product_id] && isPaidTier === 'true') {
-            subscription.is_legacy_cloud_paid_tier = true;
-        }
-        return subscription;
+        return action.data;
     }
     default:
         return state;

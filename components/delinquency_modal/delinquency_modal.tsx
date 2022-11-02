@@ -125,7 +125,7 @@ const DelinquencyModal = (props: DelinquencyModalProps) => {
                 >
                     <FormattedMessage
                         id='cloud_delinquency.modal.stay_on_freemium'
-                        defaultMessage='Stay on Starter (Free Plan)'
+                        defaultMessage='Stay on Free'
                     />
                 </button>
 
