@@ -350,6 +350,7 @@
   "admin.billing.subscription.planDetails.productName.cloudEnterprise": "Cloud Enterprise",
   "admin.billing.subscription.planDetails.productName.cloudFree": "Cloud Free",
   "admin.billing.subscription.planDetails.productName.cloudProfessional": "Cloud Professional",
+  "admin.billing.subscription.planDetails.productName.unknown": "Nieznany produkt",
   "admin.billing.subscription.planDetails.subheader": "Szczegóły planu",
   "admin.billing.subscription.planDetails.userCount": "{userCount} użytkowników",
   "admin.billing.subscription.privateCloudCard.cloudEnterprise.description": "W Mattermost współpracujemy z Tobą i Twoim zespołem, aby spełnić Twoje potrzeby w zakresie całego produktu. Jeśli szukasz rocznej zniżki, skontaktuj się z naszym działem sprzedaży.",
