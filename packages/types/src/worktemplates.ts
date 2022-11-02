@@ -65,4 +65,7 @@ interface Description {
     integration: MessageWithMandatoryIllustration;
 }
 
-export type Visibility = 'public' | 'private';
+export enum Visibility {
+    Public = 'public',
+    Private = 'private',
+}
