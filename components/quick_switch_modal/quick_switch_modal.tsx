@@ -191,7 +191,7 @@ export default class QuickSwitchModal extends React.PureComponent<Props, State> 
                     closeButton={true}
                 />
                 <Modal.Body>
-                    <div 
+                    <div
                         className='channel-switcher__header'
                         id='quickSwitchHeader'
                     >
