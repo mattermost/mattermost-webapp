@@ -17,7 +17,8 @@ import {getOldestPostTimeInChannel} from 'mattermost-redux/selectors/entities/po
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
-import {useNotifyAdmin, NotifyStatus} from 'components/notify_admin_cta/notify_admin_cta';
+import {NotifyStatus} from 'components/common/hooks/useGetNotifyAdmin';
+import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 
 import {LicenseSkus, PaidFeatures} from 'utils/constants';
 

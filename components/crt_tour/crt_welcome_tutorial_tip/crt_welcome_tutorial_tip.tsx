@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
 import {Constants} from 'utils/constants';
@@ -11,7 +13,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import TutorialTip from 'components/tutorial/tutorial_tip_legacy';
 import {useMeasurePunchoutsDeprecated} from 'components/tutorial/tutorial_tip_legacy/hooks';
 import {close as closeLhs} from 'actions/views/lhs';
-import {browserHistory} from 'utils/browser_history';
 
 type Props = {
     autoTour: boolean;
@@ -19,10 +20,12 @@ type Props = {
 
 const CRTWelcomeTutorialTip = ({autoTour}: Props) => {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const teamUrl = useSelector((state: GlobalState) => getCurrentRelativeTeamUrl(state));
     const nextUrl = `${teamUrl}/threads`;
     const onNextNavigateTo = () => {
-        browserHistory.push(nextUrl);
+        history.push(nextUrl);
         dispatch(closeLhs());
     };
 

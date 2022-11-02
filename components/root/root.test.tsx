@@ -74,6 +74,9 @@ describe('components/Root', () => {
             },
         } as RouteComponentProps,
         isCloud: false,
+        rhsIsExpanded: false,
+        rhsIsOpen: false,
+        shouldShowAppBar: false,
     };
 
     test('should load config and license on mount and redirect to sign-up page', () => {
