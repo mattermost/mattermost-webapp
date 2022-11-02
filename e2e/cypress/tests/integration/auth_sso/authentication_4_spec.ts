@@ -109,6 +109,7 @@ describe('Authentication', () => {
                     Uppercase: null,
                     Symbol: null,
                 },
+                ServiceSettings: {},
             };
 
             if (!isCloudLicensed) {

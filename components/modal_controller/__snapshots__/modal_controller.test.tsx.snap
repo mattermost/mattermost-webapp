@@ -25,9 +25,7 @@ exports[`components/ModalController component should match snapshot without any 
           "modalState": Object {},
         }
       }
-    >
-      <div />
-    </ModalController>
+    />
   </Connect(ModalController)>
 </Provider>
 `;
