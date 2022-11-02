@@ -17,19 +17,22 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
     const [isMonthly, setIsMonthly] = useState(true);
     const [toggleBorderClassName, setToggleBorderClassName] = useState('toggle-border');
 
+    const monthlyLabel = 'Monthly';
+    const yearlyLabel = 'Yearly';
+
     const options = [
         {
-            label: <p className={isMonthly ? 'text text-unselected' : 'text text-selected'}>{'Yearly'}</p>,
-            value: 'Yearly',
+            label: <p className={isMonthly ? 'text text-unselected' : 'text text-selected'}>{yearlyLabel}</p>,
+            value: yearlyLabel,
         },
         {
-            label: <p className={isMonthly ? 'text text-selected' : 'text text-unselected'}>{'Monthly'}</p>,
-            value: 'Monthly',
+            label: <p className={isMonthly ? 'text text-selected' : 'text text-unselected'}>{monthlyLabel}</p>,
+            value: monthlyLabel,
         },
     ];
 
-    const onToggleChange = () => {
-        setIsMonthly(!isMonthly);
+    const onToggleChange = (newValue: string) => {
+        setIsMonthly(newValue === monthlyLabel);
 
         // isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state
         // (ie. UI shows monthly selected but the isMonthly variable is still false at this point)

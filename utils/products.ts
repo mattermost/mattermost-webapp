@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {ProductComponent} from '../types/store/plugins';
+import {Product} from '@mattermost/types/cloud';
 
 export const getCurrentProductId = (products: ProductComponent[], pathname: string): string | null => {
     if (!products) {
@@ -16,4 +17,11 @@ export const getCurrentProductId = (products: ProductComponent[], pathname: stri
     }
 
     return null;
+};
+
+// find a product based on its SKU an RecurringInterval
+export const findProductBySkuAndInterval = (products: Record<string, Product>, sku: string, interval: string) => {
+    return Object.values(products).find(((product) => {
+        return product.sku === sku && product.recurring_interval === interval;
+    }));
 };
