@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable no-case-declarations */
-
 import {combineReducers} from 'redux';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
@@ -11,11 +9,12 @@ import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
 
 function categories(state: Category[] = [], action: GenericAction) {
     switch (action.type) {
-    case WorkTemplatesType.RECEIVED_DEV_WORKTEMPLATES:
+    case WorkTemplatesType.RECEIVED_DEV_WORKTEMPLATES: {
         const data = action.data as WorkTemplate[];
         return data.
             map((template) => template.category).
             filter((category, index, self) => self.indexOf(category) === index);
+    }
     default:
         return state;
     }
@@ -23,7 +22,7 @@ function categories(state: Category[] = [], action: GenericAction) {
 
 function templatesInCategory(state: Record<string, WorkTemplate> = {}, action: GenericAction) {
     switch (action.type) {
-    case WorkTemplatesType.RECEIVED_DEV_WORKTEMPLATES:
+    case WorkTemplatesType.RECEIVED_DEV_WORKTEMPLATES: {
         const res: Record<string, WorkTemplate[]> = {};
         const data = action.data as WorkTemplate[];
         const categoryIds = data.
@@ -39,6 +38,7 @@ function templatesInCategory(state: Record<string, WorkTemplate> = {}, action: G
             });
         });
         return res;
+    }
     default:
         return state;
     }
