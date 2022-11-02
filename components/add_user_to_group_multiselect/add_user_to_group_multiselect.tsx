@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 import MultiSelectOption from './multiselect_option/multiselect_option';
 
 const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 30;
+const MAX_SELECTABLE_VALUES = 256;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -62,6 +62,8 @@ type State = {
     values: UserProfileValue[];
     term: string;
     loadingUsers: boolean;
+    maxValues: number | undefined;
+    numRemainingText: string | null;
 }
 
 export default class AddUserToGroupMultiSelect extends React.PureComponent<Props, State> {
@@ -80,6 +82,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             values: [],
             term: '',
             loadingUsers: true,
+            maxValues: undefined,
+            numRemainingText: null,
         } as State;
 
         this.selectedItemRef = React.createRef<HTMLDivElement>();
@@ -96,6 +100,11 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         }
 
         this.setState({values});
+
+        if (values.length >= MAX_SELECTABLE_VALUES) {
+            this.setState({maxValues: MAX_SELECTABLE_VALUES});
+            this.setState({numRemainingText: localizeMessage('multiselect.maxGroupMembers', 'No more than 256 members can be added to a group at once.')});
+        }
     };
 
     public componentDidMount(): void {
@@ -218,7 +227,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 handleDelete={this.handleDelete}
                 handleAdd={this.addValue}
                 handleSubmit={this.handleSubmit}
-                maxValues={MAX_SELECTABLE_VALUES}
                 buttonSubmitText={buttonSubmitText}
                 buttonSubmitLoadingText={buttonSubmitLoadingText}
                 saving={this.props.saving}
@@ -230,6 +238,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 backButtonClick={this.props.backButtonClick}
                 backButtonClass={this.props.backButtonClass}
                 backButtonText={this.props.backButtonText}
+                maxValues={this.state.maxValues}
+                numRemainingText={this.state.numRemainingText}
             />
         );
     }
