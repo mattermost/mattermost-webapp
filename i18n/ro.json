@@ -42,7 +42,7 @@
   "accessibility.sidebar.types.unread": "necitite",
   "activity_log.activeSessions": "Sesiuni active",
   "activity_log.browser": "Navigator: {browser}",
-  "activity_log.firstTime": "Prima dată activ: {data}, {timp}",
+  "activity_log.firstTime": "Prima dată activ: {date}, {time}",
   "activity_log.lastActivity": "Ultima activitate: {date}, {time}",
   "activity_log.logout": "Deconectare",
   "activity_log.moreInfo": "Mai multe informații",
