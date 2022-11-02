@@ -24,6 +24,7 @@ Invoice,
      Subscription,
      ValidBusinessEmail,
     SelfHostedSignupForm,
+    SelfHostedSignupCustomerResponse
 } from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
@@ -3861,9 +3862,9 @@ export default class Client4 {
         );
     };
 
-    paySelfHostedSignup = (form: SelfHostedSignupForm) => {
-        return this.doFetch<void>(
-            `${this.getCloudRoute()}/self-hosted-payment`,
+    createCustomerSelfHostedSignup = (form: SelfHostedSignupForm) => {
+        return this.doFetch<SelfHostedSignupCustomerResponse>(
+            `${this.getCloudRoute()}/self-hosted-customer`,
             {method: 'post', body: JSON.stringify(form)},
         );
     };

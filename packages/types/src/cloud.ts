@@ -217,12 +217,10 @@ export interface SelfHostedSignupForm {
 	last_name: string;
 	billing_address: Address;
 	organization: string;
-	subscription_request: CreateSubscriptionRequest;
 }
 
-export interface SelfHostedSignupBootstrapResponse {
-	subscription_id:      string;
+export interface SelfHostedSignupCustomerResponse {
 	customer_id:          string;
-	payment_intent_id:     string;
-	payment_intent_secret: string;
+	setup_intent_id:     string;
+	setup_intent_secret: string;
 }

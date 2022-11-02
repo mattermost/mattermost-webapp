@@ -19,14 +19,19 @@ export function completeStripeAddPaymentMethod(
     stripe: Stripe,
     billingDetails: BillingDetails,
     isDevMode: boolean,
+    prefetchedSetupIntent?: StripeSetupIntent,
 ) {
     return async () => {
         let paymentSetupIntent: StripeSetupIntent;
-        try {
-            paymentSetupIntent = await Client4.createPaymentMethod() as StripeSetupIntent;
-        } catch (error) {
-            return error;
-        }
+        if (prefetchedSetupIntent !== undefined) {
+            paymentSetupIntent = prefetchedSetupIntent;
+        } else {
+            try {
+                paymentSetupIntent = await Client4.createPaymentMethod() as StripeSetupIntent;
+            } catch (error) {
+                return error;
+            }
+        }       
         const cardSetupFunction = getConfirmCardSetup(isDevMode);
         const confirmCardSetup = cardSetupFunction(stripe.confirmCardSetup);
 
