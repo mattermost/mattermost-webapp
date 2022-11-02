@@ -31,8 +31,8 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
         },
     ];
 
-    const onToggleChange = (newValue: any) => {
-        setIsMonthly(newValue === monthlyLabel);
+    const onToggleChange = () => {
+        setIsMonthly(!isMonthly);
 
         // isMonthly variable hasn't been updated to the latest value and currently represents the previous toggle state
         // (ie. UI shows monthly selected but the isMonthly variable is still false at this point)
