@@ -433,6 +433,11 @@ async function initializeModuleFederation() {
                 return resolve(response.statusCode === 200);
             });
 
+            req.setTimeout(100, () => {
+                // If this times out, we've connected to the dev server even if it's not ready yet
+                resolve(true);
+            });
+
             req.on('error', () => {
                 resolve(false);
             });
@@ -458,6 +463,9 @@ async function initializeModuleFederation() {
                 aliases: {},
             };
         }
+
+        // Wait a second for product dev servers to start up if they were started at the same time as this one
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // For development, identify which product dev servers are available
         const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
