@@ -84,9 +84,19 @@ export type Props = {
     onInput?: (e?: React.FormEvent<HTMLInputElement>) => void;
 }
 
+type State = {
+    f6Pressed: boolean;
+}
+
 // A component that can be used to make controlled inputs that function properly in certain
 // environments (ie. IE11) where typing quickly would sometimes miss inputs
-export class QuickInput extends React.PureComponent<Props> {
+export class QuickInput extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            f6Pressed: false,
+        };
+    }
     private input?: HTMLInputElement | HTMLTextAreaElement;
 
     static defaultProps = {
@@ -104,6 +114,24 @@ export class QuickInput extends React.PureComponent<Props> {
                 this.updateInputFromProps();
             }
         }
+        this.onKeyDown();
+    }
+
+    onKeyDown = () => {
+        document.onkeydown = (e) => {
+            if (e.key === 'F6' && !this.state.f6Pressed) {
+                e.preventDefault();
+                setTimeout(() => {
+                    this.setState({f6Pressed: true});
+                }, 0);
+                document.getElementById('searchBox')?.focus() && this.setState({f6Pressed: true}); // eslint-disable-line
+            } else if (this.state.f6Pressed) {
+                this.input?.focus();
+                setTimeout(() => {
+                    this.setState({f6Pressed: false});
+                }, 0);
+            }
+        };
     }
 
     private updateInputFromProps = () => {
