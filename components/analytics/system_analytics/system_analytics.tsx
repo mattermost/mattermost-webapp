@@ -458,10 +458,10 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
             systemCards = (
                 <>
                     {userCount}
-                    {isCloud ? null : seatsPurchased}
+                    {isCloud || !isLicensed ? null : seatsPurchased}
                     {teamCount}
                     {channelCount}
-                    {postCount}
+                    {skippedIntensiveQueries ? null : postCount}
                 </>
             );
         }
