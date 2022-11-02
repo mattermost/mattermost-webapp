@@ -1,21 +1,47 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import deepEqual from 'fast-deep-equal';
-import React from 'react';
+import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
-import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
+import classNames from 'classnames';
 
-import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
-
-import NotificationSection from 'components/channel_notifications_modal/components/notification_section.jsx';
+import ModalHeader from 'components/widgets/modals/generic/modal_header';
 
 import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
 import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 
+import SectionCreator from '../widgets/modals/generic/section_creator';
+
+import CheckboxItemCreator from '../widgets/modals/generic/checkbox-item-creator';
+
+import {IgnoreChannelMentions, NotificationLevels} from '../../utils/constants';
+
+import RadioItemCreator from '../widgets/modals/generic/radio-item-creator';
+
+import {
+    desktopNotificationInputFieldData,
+    DesktopNotificationsSectionDesc,
+    DesktopNotificationsSectionTitle,
+    IgnoreMentionsDesc,
+    IgnoreMentionsInputFieldData,
+    MobileNotificationInputFieldData,
+    MobileNotificationsSectionDesc,
+    MobileNotificationsSectionTitle,
+    MuteAndIgnoreSectionTitle,
+    MuteChannelDesc,
+    MuteChannelInputFieldData,
+    ChannelMemberNotifyProps,
+    NotifyMeTitle,
+    DesktopReplyThreadsInputFieldData,
+    ThreadsReplyTitle,
+    MobileReplyThreadsInputFieldData,
+    AutoFollowThreadsTitle, AutoFollowThreadsDesc, AutoFollowThreadsInputFieldData,
+} from './utils';
+
 import type {PropsFromRedux} from './index';
+import './channel_notifications_modal.scss';
 
 type Props = PropsFromRedux & {
 
@@ -35,279 +61,200 @@ type Props = PropsFromRedux & {
     currentUser: UserProfile;
 };
 
-export type ChannelMemberNotifyProps = Partial<ChannelNotifyProps> & Pick<UserNotifyProps, 'desktop_threads' | 'push_threads'>
+function getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
+    let ignoreChannelMentionsDefault: ChannelNotifyProps['ignore_channel_mentions'] = IgnoreChannelMentions.OFF;
 
-type State = {
-    show: boolean;
-    activeSection: string;
-    serverError: string | null;
-    desktopNotifyLevel: ChannelNotifyProps['desktop'];
-    desktopThreadsNotifyLevel: UserNotifyProps['desktop_threads'];
-    markUnreadNotifyLevel: ChannelNotifyProps['mark_unread'];
-    pushNotifyLevel: ChannelNotifyProps['push'];
-    pushThreadsNotifyLevel: UserNotifyProps['push_threads'];
-    ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions'];
+    if (channelMemberNotifyProps?.mark_unread === NotificationLevels.MENTION || (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false')) {
+        ignoreChannelMentionsDefault = IgnoreChannelMentions.ON;
+    }
+
+    let ignoreChannelMentions = channelMemberNotifyProps?.ignore_channel_mentions;
+    if (!ignoreChannelMentions || ignoreChannelMentions === IgnoreChannelMentions.DEFAULT) {
+        ignoreChannelMentions = ignoreChannelMentionsDefault;
+    }
+
+    return {
+        desktop: channelMemberNotifyProps?.desktop || NotificationLevels.DEFAULT,
+        desktop_threads: channelMemberNotifyProps?.desktop_threads || NotificationLevels.ALL,
+        mark_unread: channelMemberNotifyProps?.mark_unread || NotificationLevels.ALL,
+        push: channelMemberNotifyProps?.push || NotificationLevels.DEFAULT,
+        push_threads: channelMemberNotifyProps?.push_threads || NotificationLevels.ALL,
+        ignore_channel_mentions: ignoreChannelMentions,
+        channel_auto_follow_threads: channelMemberNotifyProps?.channel_auto_follow_threads || 'false',
+    };
+}
+
+type SettingsType = {
+    desktop: ChannelNotifyProps['desktop'];
+    channel_auto_follow_threads: 'true' | 'false';
+    desktop_threads: UserNotifyProps['desktop_threads'];
+    mark_unread: ChannelNotifyProps['mark_unread'];
+    push: ChannelNotifyProps['push'];
+    push_threads: UserNotifyProps['push_threads'];
+    ignore_channel_mentions: ChannelNotifyProps['ignore_channel_mentions'];
 };
 
-export default class ChannelNotificationsModal extends React.PureComponent<Props, State> {
-    constructor(props: Props) {
-        super(props);
+export default function ChannelNotificationsModal(props: Props) {
+    const {formatMessage} = useIntl();
+    const [show, setShow] = useState(true);
+    const [serverError, setServerError] = useState('');
+    const [haveChanges, setHaveChanges] = useState(false);
+    const [channelNotifyProps] = useState(props.channelMember && props.channelMember.notify_props);
 
-        const channelNotifyProps = props.channelMember && props.channelMember.notify_props;
+    const [settings, setSettings] = useState<SettingsType>(getStateFromNotifyProps(props.currentUser.notify_props, channelNotifyProps));
 
-        this.state = {
-            show: true,
-            activeSection: NotificationSections.NONE,
-            serverError: null,
-            ...this.getStateFromNotifyProps(props.currentUser.notify_props, channelNotifyProps),
-        };
+    function handleHide() {
+        setShow(false);
     }
 
-    componentDidUpdate(prevProps: Props) {
-        const prevChannelNotifyProps = prevProps.channelMember && prevProps.channelMember.notify_props;
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
-
-        if (!deepEqual(channelNotifyProps, prevChannelNotifyProps)) {
-            this.resetStateFromNotifyProps(this.props.currentUser.notify_props, channelNotifyProps);
-        }
+    function handleExit() {
+        props.onExited();
     }
 
-    resetStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: Partial<ChannelNotifyProps>) {
-        this.setState(this.getStateFromNotifyProps(currentUserNotifyProps, channelMemberNotifyProps));
-    }
+    const handleChange = useCallback((values: Record<string, string>) => {
+        setSettings({...settings, ...values});
+        setHaveChanges(true);
+    }, [settings]);
 
-    getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
-        let ignoreChannelMentionsDefault: ChannelNotifyProps['ignore_channel_mentions'] = IgnoreChannelMentions.OFF;
+    const MuteIgnoreSectionContent = (
+        <>
+            <CheckboxItemCreator
+                description={MuteChannelDesc}
+                inputFieldValue={settings.mark_unread === 'mention'}
+                inputFieldData={MuteChannelInputFieldData}
+                handleChange={(e) => handleChange({mark_unread: e ? 'mention' : 'all'})}
+            />
+            <CheckboxItemCreator
+                description={IgnoreMentionsDesc}
+                inputFieldValue={settings.ignore_channel_mentions === 'on'}
+                inputFieldData={IgnoreMentionsInputFieldData}
+                handleChange={(e) => handleChange({ignore_channel_mentions: e ? 'on' : 'off'})}
+            />
+        </>
+    );
 
-        if (channelMemberNotifyProps?.mark_unread === NotificationLevels.MENTION || (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false')) {
-            ignoreChannelMentionsDefault = IgnoreChannelMentions.ON;
-        }
+    const DesktopNotificationsSectionContent = (
+        <>
+            <RadioItemCreator
+                title={NotifyMeTitle}
+                inputFieldValue={settings.desktop}
+                inputFieldData={desktopNotificationInputFieldData}
+                handleChange={(e) => handleChange({desktop: e.target.value})}
+            />
+            {settings.desktop === 'mention' &&
+                <CheckboxItemCreator
+                    title={ThreadsReplyTitle}
+                    inputFieldValue={settings.desktop_threads === 'all'}
+                    inputFieldData={DesktopReplyThreadsInputFieldData}
+                    handleChange={(e) => handleChange({desktop_threads: e ? 'mention' : 'all'})}
+                />}
+        </>
+    );
 
-        let ignoreChannelMentions = channelMemberNotifyProps?.ignore_channel_mentions;
-        if (!ignoreChannelMentions || ignoreChannelMentions === IgnoreChannelMentions.DEFAULT) {
-            ignoreChannelMentions = ignoreChannelMentionsDefault;
-        }
+    const MobileNotificationsSectionContent = (
+        <>
+            <RadioItemCreator
+                title={NotifyMeTitle}
+                inputFieldValue={settings.push}
+                inputFieldData={MobileNotificationInputFieldData}
+                handleChange={(e) => handleChange({push: e.target.value})}
+            />
+            {settings.push === 'mention' &&
+                <CheckboxItemCreator
+                    title={ThreadsReplyTitle}
+                    inputFieldValue={settings.push_threads === 'all'}
+                    inputFieldData={MobileReplyThreadsInputFieldData}
+                    handleChange={(e) => handleChange({push_threads: e ? 'mention' : 'all'})}
+                />}
+        </>
+    );
 
-        return {
-            desktopNotifyLevel: channelMemberNotifyProps?.desktop || NotificationLevels.DEFAULT,
-            desktopThreadsNotifyLevel: channelMemberNotifyProps?.desktop_threads || NotificationLevels.ALL,
-            markUnreadNotifyLevel: channelMemberNotifyProps?.mark_unread || NotificationLevels.ALL,
-            pushNotifyLevel: channelMemberNotifyProps?.push || NotificationLevels.DEFAULT,
-            pushThreadsNotifyLevel: channelMemberNotifyProps?.push_threads || NotificationLevels.ALL,
-            ignoreChannelMentions,
-        };
-    }
+    const AutoFollowThreadsSectionContent = (
+        <>
+            <CheckboxItemCreator
+                inputFieldValue={settings.channel_auto_follow_threads === 'true'}
+                inputFieldData={AutoFollowThreadsInputFieldData}
+                handleChange={(e) => handleChange({push_threads: e ? 'false' : 'true'})}
+            />
+        </>
+    );
 
-    handleHide = () => this.setState({show: false});
-
-    handleExit = () => {
-        this.updateSection(NotificationSections.NONE);
-        this.props.onExited();
-    }
-
-    updateSection = (section = NotificationSections.NONE) => {
-        this.setState({activeSection: section});
-
-        if (section === NotificationSections.NONE) {
-            const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
-            this.resetStateFromNotifyProps(this.props.currentUser.notify_props, channelNotifyProps);
-        }
-    }
-
-    handleUpdateChannelNotifyProps = async (props: Partial<ChannelNotifyProps>) => {
-        const {
-            actions,
-            channel,
-            currentUser,
-        } = this.props;
-
-        const {error} = await actions.updateChannelNotifyProps(currentUser.id, channel.id, props);
+    async function handleSave() {
+        const {error} = await props.actions.updateChannelNotifyProps(props.currentUser.id, props.channel.id, settings);
         if (error) {
-            this.setState({serverError: error.message});
-        } else {
-            this.updateSection(NotificationSections.NONE);
+            setServerError(error.message);
         }
     }
 
-    handleSubmitDesktopNotifyLevel = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props as ChannelMemberNotifyProps;
-        const {desktopNotifyLevel, desktopThreadsNotifyLevel} = this.state;
+    return (
+        <Modal
+            dialogClassName='a11y__modal settings-modal channel-notifications-settings-modal'
+            show={show}
+            onHide={handleHide}
+            onExited={handleExit}
+            role='dialog'
+            aria-labelledby='channelNotificationModalLabel'
+        >
+            <ModalHeader
+                id={'channelNotificationModalLabel'}
+                title={formatMessage({
+                    id: 'channel_notifications.preferences',
+                    defaultMessage: 'Notification Preferences',
+                })}
+                subtitle={props.channel.display_name}
+                handleClose={handleHide}
+            />
+            <main className='channel-notifications-settings-modal__body'>
+                <div className='channel-notifications-settings-modal__content'>
+                    <SectionCreator
+                        title={MuteAndIgnoreSectionTitle}
+                        content={MuteIgnoreSectionContent}
+                    />
+                    <div className='channel-notifications-settings-modal__divider'/>
+                    <SectionCreator
+                        title={DesktopNotificationsSectionTitle}
+                        description={DesktopNotificationsSectionDesc}
+                        content={DesktopNotificationsSectionContent}
+                    />
+                    <div className='channel-notifications-settings-modal__divider'/>
+                    <SectionCreator
+                        title={MobileNotificationsSectionTitle}
+                        description={MobileNotificationsSectionDesc}
+                        content={MobileNotificationsSectionContent}
+                    />
 
-        if (
-            channelNotifyProps?.desktop === desktopNotifyLevel &&
-            channelNotifyProps?.desktop_threads === desktopThreadsNotifyLevel
-        ) {
-            this.updateSection(NotificationSections.NONE);
-            return;
-        }
-
-        const props = {desktop: desktopNotifyLevel, desktop_threads: desktopThreadsNotifyLevel};
-
-        this.handleUpdateChannelNotifyProps(props);
-    }
-
-    handleUpdateDesktopNotifyLevel = (desktopNotifyLevel: ChannelNotifyProps['desktop']) => this.setState({desktopNotifyLevel});
-
-    handleUpdateDesktopThreadsNotifyLevel = (desktopThreadsNotifyLevel: UserNotifyProps['desktop_threads']) => this.setState({desktopThreadsNotifyLevel});
-
-    handleSubmitMarkUnreadLevel = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
-        const {markUnreadNotifyLevel} = this.state;
-
-        if (channelNotifyProps?.mark_unread === markUnreadNotifyLevel) {
-            this.updateSection(NotificationSections.NONE);
-            return;
-        }
-
-        const props = {mark_unread: markUnreadNotifyLevel};
-        this.handleUpdateChannelNotifyProps(props);
-    }
-
-    handleUpdateMarkUnreadLevel = (markUnreadNotifyLevel: ChannelNotifyProps['mark_unread']) => this.setState({markUnreadNotifyLevel});
-
-    handleSubmitPushNotificationLevel = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props as ChannelMemberNotifyProps;
-        const {pushNotifyLevel, pushThreadsNotifyLevel} = this.state;
-
-        if (
-            channelNotifyProps?.push === pushNotifyLevel &&
-            channelNotifyProps?.push_threads === pushThreadsNotifyLevel
-        ) {
-            this.updateSection(NotificationSections.NONE);
-            return;
-        }
-
-        const props = {push: pushNotifyLevel, push_threads: pushThreadsNotifyLevel};
-        this.handleUpdateChannelNotifyProps(props);
-    }
-
-    handleUpdatePushNotificationLevel = (pushNotifyLevel: ChannelNotifyProps['push']) => this.setState({pushNotifyLevel});
-    handleUpdatePushThreadsNotificationLevel = (pushThreadsNotifyLevel: UserNotifyProps['push_threads']) => this.setState({pushThreadsNotifyLevel});
-    handleUpdateIgnoreChannelMentions = (ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions']) => this.setState({ignoreChannelMentions});
-
-    handleSubmitIgnoreChannelMentions = () => {
-        const channelNotifyProps = this.props.channelMember && this.props.channelMember.notify_props;
-        const {ignoreChannelMentions} = this.state;
-
-        if (channelNotifyProps?.ignore_channel_mentions === ignoreChannelMentions) {
-            this.updateSection('');
-            return;
-        }
-
-        const props = {ignore_channel_mentions: ignoreChannelMentions};
-        this.handleUpdateChannelNotifyProps(props);
-    }
-
-    render() {
-        const {
-            activeSection,
-            desktopNotifyLevel,
-            desktopThreadsNotifyLevel,
-            markUnreadNotifyLevel,
-            pushNotifyLevel,
-            pushThreadsNotifyLevel,
-            ignoreChannelMentions,
-            serverError,
-        } = this.state;
-
-        const {
-            channel,
-            channelMember,
-            currentUser,
-            sendPushNotifications,
-        } = this.props;
-
-        let serverErrorTag = null;
-        if (serverError) {
-            serverErrorTag = <div className='form-group has-error'><label className='control-label'>{serverError}</label></div>;
-        }
-
-        return (
-            <Modal
-                dialogClassName='a11y__modal settings-modal settings-modal--tabless'
-                show={this.state.show}
-                onHide={this.handleHide}
-                onExited={this.handleExit}
-                role='dialog'
-                aria-labelledby='channelNotificationModalLabel'
-            >
-                <Modal.Header closeButton={true}>
-                    <Modal.Title
-                        componentClass='h1'
-                        id='channelNotificationModalLabel'
-                    >
-                        <FormattedMessage
-                            id='channel_notifications.preferences'
-                            defaultMessage='Notification Preferences for '
-                        />
-                        <span className='name'>{channel.display_name}</span>
-                    </Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                    <div className='settings-table'>
-                        <div className='settings-content'>
-                            <div className='user-settings'>
-                                <br/>
-                                <div className='divider-dark first'/>
-                                <NotificationSection
-                                    section={NotificationSections.MARK_UNREAD}
-                                    expand={activeSection === NotificationSections.MARK_UNREAD}
-                                    memberNotificationLevel={markUnreadNotifyLevel}
-                                    onChange={this.handleUpdateMarkUnreadLevel}
-                                    onSubmit={this.handleSubmitMarkUnreadLevel}
-                                    onUpdateSection={this.updateSection}
-                                    serverError={serverError}
-                                />
-                                <div className='divider-light'/>
-                                <NotificationSection
-                                    section={NotificationSections.IGNORE_CHANNEL_MENTIONS}
-                                    expand={activeSection === NotificationSections.IGNORE_CHANNEL_MENTIONS}
-                                    memberNotificationLevel={markUnreadNotifyLevel}
-                                    ignoreChannelMentions={ignoreChannelMentions}
-                                    onChange={this.handleUpdateIgnoreChannelMentions}
-                                    onSubmit={this.handleSubmitIgnoreChannelMentions}
-                                    onUpdateSection={this.updateSection}
-                                    serverError={serverError}
-                                />
-                                {!isChannelMuted(channelMember) &&
-                                <div>
-                                    <div className='divider-light'/>
-                                    <NotificationSection
-                                        section={NotificationSections.DESKTOP}
-                                        expand={activeSection === NotificationSections.DESKTOP}
-                                        memberNotificationLevel={desktopNotifyLevel}
-                                        memberThreadsNotificationLevel={desktopThreadsNotifyLevel}
-                                        globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.desktop : NotificationLevels.ALL}
-                                        onChange={this.handleUpdateDesktopNotifyLevel}
-                                        onChangeThreads={this.handleUpdateDesktopThreadsNotifyLevel}
-                                        onSubmit={this.handleSubmitDesktopNotifyLevel}
-                                        onUpdateSection={this.updateSection}
-                                        serverError={serverError}
-                                    />
-                                    <div className='divider-light'/>
-                                    {sendPushNotifications &&
-                                    <NotificationSection
-                                        section={NotificationSections.PUSH}
-                                        expand={activeSection === NotificationSections.PUSH}
-                                        memberNotificationLevel={pushNotifyLevel}
-                                        memberThreadsNotificationLevel={pushThreadsNotifyLevel}
-                                        globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.push : NotificationLevels.ALL}
-                                        onChange={this.handleUpdatePushNotificationLevel}
-                                        onChangeThreads={this.handleUpdatePushThreadsNotificationLevel}
-                                        onSubmit={this.handleSubmitPushNotificationLevel}
-                                        onUpdateSection={this.updateSection}
-                                        serverError={serverError}
-                                    />
-                                    }
-                                </div>
-                                }
-                                <div className='divider-dark'/>
-                            </div>
-                        </div>
+                    <div className='channel-notifications-settings-modal__divider'/>
+                    <SectionCreator
+                        title={AutoFollowThreadsTitle}
+                        description={AutoFollowThreadsDesc}
+                        content={AutoFollowThreadsSectionContent}
+                    />
+                </div>
+            </main>
+            <footer className='channel-notifications-settings-modal__footer'>
+                {serverError &&
+                    <div>
+                        {serverError}
                     </div>
-                    {serverErrorTag}
-                </Modal.Body>
-            </Modal>
-        );
-    }
+                }
+                <button
+                    className='channel-notifications-settings-modal__cancel-btn'
+                >
+                    <FormattedMessage
+                        id='generic_btn.cancel'
+                        defaultMessage='Cancel'
+                    />
+                </button>
+                <button
+                    className={classNames('channel-notifications-settings-modal__save-btn', {disabled: haveChanges})}
+                    onClick={handleSave}
+                >
+                    <FormattedMessage
+                        id='generic_btn.save'
+                        defaultMessage='Save'
+                    />
+                </button>
+            </footer>
+        </Modal>
+    );
 }
