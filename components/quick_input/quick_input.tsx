@@ -121,11 +121,11 @@ export class QuickInput extends React.PureComponent<Props, State> {
         document.onkeydown = (e) => {
             if (e.key === 'F6' && !this.state.f6Pressed) {
                 e.preventDefault();
+                document.getElementById('searchBox')?.focus(); // eslint-disable-line
                 setTimeout(() => {
                     this.setState({f6Pressed: true});
                 }, 0);
-                document.getElementById('searchBox')?.focus() && this.setState({f6Pressed: true}); // eslint-disable-line
-            } else if (this.state.f6Pressed) {
+            } else if (e.key === 'F6' && this.state.f6Pressed) {
                 this.input?.focus();
                 setTimeout(() => {
                     this.setState({f6Pressed: false});
