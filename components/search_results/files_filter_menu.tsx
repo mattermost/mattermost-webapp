@@ -24,12 +24,12 @@ export default function FilesFilterMenu(props: Props): JSX.Element {
             id='files-filter-tooltip'
             className='hidden-xs'
         >
-        <FormattedMessage
-            id='channel_info_rhs.menu.files.filter'
-            defaultMessage='Filter'
+            <FormattedMessage
+                id='channel_info_rhs.menu.files.filter'
+                defaultMessage='Filter'
             />
         </Tooltip>
-    )
+    );
     return (
         <div className='FilesFilterMenu'>
             <MenuWrapper>
@@ -40,10 +40,10 @@ export default function FilesFilterMenu(props: Props): JSX.Element {
                     overlay={toolTip}
                     rootClose={true}
                 >
-                <span className='action-icon dots-icon'>
-                    {props.selectedFilter !== 'all' && <i className='icon-dot'/>}
-                    <i className='icon icon-filter-variant'/>
-                </span>
+                    <span className='action-icon dots-icon'>
+                        {props.selectedFilter !== 'all' && <i className='icon-dot'/>}
+                        <i className='icon icon-filter-variant'/>
+                    </span>
                 </OverlayTrigger>
                 <Menu
                     ariaLabel={'file menu'}
