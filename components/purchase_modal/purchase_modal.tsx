@@ -24,6 +24,7 @@ import {
     BillingSchemes,
     ModalIdentifiers,
     ItemStatus,
+    RecurringIntervals,
 } from 'utils/constants';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
@@ -148,7 +149,7 @@ type State = {
  * @param productSku String - the sku value of the product of type either cloud-starter | cloud-professional | cloud-enterprise
  * @returns Product
  */
-function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string): Product | null {
+function findProductInDictionary(products: Record<string, Product> | undefined, productId?: string | null, productSku?: string, productRecurringInterval?: string): Product | null {
     if (!products) {
         return null;
     }
@@ -165,7 +166,7 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
         keys.forEach((key) => {
             if (productId && products[key].id === productId) {
                 currentProduct = products[key];
-            } else if (productSku && products[key].sku === productSku) {
+            } else if (productSku && products[key].sku === productSku && products[key].recurring_interval === productRecurringInterval) {
                 currentProduct = products[key];
             }
         });
@@ -181,7 +182,7 @@ function getSelectedProduct(products: Record<string, Product> | undefined, produ
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
     }
-    return findProductInDictionary(products, null, nextSku);
+    return findProductInDictionary(products, null, nextSku, RecurringIntervals.MONTH);
 }
 
 function Card(props: CardProps) {

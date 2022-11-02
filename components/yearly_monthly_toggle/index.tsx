@@ -21,14 +21,17 @@ function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
     const initialToggleBorder = 'toggle-border';
     const [toggleBorderClassName, setToggleBorderClassName] = useState(initialToggleBorder);
 
+    const monthlyLabel = 'Monthly';
+    const yearlyLabel = 'Yearly';
+
     const options = [
         {
-            label: <p className={isMonthly ? 'text text-unselected' : 'text text-selected'}>{'Yearly'}</p>,
-            value: 'Yearly',
+            label: <p className={isMonthly ? 'text text-unselected' : 'text text-selected'}>{yearlyLabel}</p>,
+            value: yearlyLabel,
         },
         {
-            label: <p className={isMonthly ? 'text text-selected' : 'text text-unselected'}>{'Monthly'}</p>,
-            value: 'Monthly',
+            label: <p className={isMonthly ? 'text text-selected' : 'text text-unselected'}>{monthlyLabel}</p>,
+            value: monthlyLabel,
         },
     ];
 

@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React, {Fragment, useState} from 'react';
+import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
+import {findProductBySkuAndInterval} from 'utils/products';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
@@ -61,23 +62,12 @@ function Content(props: ContentProps) {
     const product = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
 
-    const findProductBySku = (sku: string) => {
-        return Object.values(products || {}).find(((product) => {
-            return product.sku === sku;
-        }));
-    };
-
-    const findProductByID = (id: string) => {
-        return Object.values(products || {}).find(((product) => {
-            return product.id === id;
-        }));
-    };
-
     const annualSubscriptionEnabled = useSelector(isAnnualSubscriptionEnabled);
 
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const monthlyProfessionalProduct = findProductBySku(CloudProducts.PROFESSIONAL);
+    const monthlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.MONTH);
+    const yearlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
 
     const starterProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;
@@ -160,18 +150,11 @@ function Content(props: ContentProps) {
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
 
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        if (!monthlyProfessionalProduct) {
-            return;
-        }
-
         // Monthly subscription price
-        if (newIsMonthly) {
+        if (newIsMonthly && monthlyProfessionalProduct) {
             setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
-        } else { // Yearly subscription price
-            const yearlyProduct = findProductByID(monthlyProfessionalProduct.cross_sells_to);
-            if (yearlyProduct) {
-                setProfessionalPrice(yearlyProduct.price_per_seat);
-            }
+        } else if (!newIsMonthly && yearlyProfessionalProduct) {
+            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat);
         }
     };
 
@@ -195,9 +178,7 @@ function Content(props: ContentProps) {
             <Modal.Body>
                 <div className='flexcontainer'>
                     {annualSubscriptionEnabled &&
-
-                        // Fragment can be eventually removed when annualSubscription featureFlag is removed
-                        <Fragment>
+                        <>
                             <div className='save-text-div'>
                                 <p className='save-text'>
                                     {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
@@ -207,7 +188,7 @@ function Content(props: ContentProps) {
                                 updatePrice={updateProfessionalPrice}
                                 isPurchases={false}
                             />
-                        </Fragment>
+                        </>
                     }
                     <div className='alert-option-container'>
                         <div className='alert-option'>
