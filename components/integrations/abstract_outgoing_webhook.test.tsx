@@ -5,14 +5,13 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook';
+import {TestHelper} from 'utils/test_helper';
 
 describe('components/integrations/AbstractOutgoingWebhook', () => {
     const emptyFunction = jest.fn();
+    const team = TestHelper.getTeamMock({id: 'test-team-id', name: 'test'});
     const props = {
-        team: {
-            id: 'test-team-id',
-            name: 'test',
-        },
+        team,
         action: emptyFunction,
         enablePostUsernameOverride: false,
         enablePostIconOverride: false,
