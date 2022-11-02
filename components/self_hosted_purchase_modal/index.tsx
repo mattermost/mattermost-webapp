@@ -42,7 +42,7 @@ function PaymentForm() {
         organization: 'bob corp',
         subscription_request: {
             customer_id: '',
-            product_id: '',
+            product_id: 'prod_K3evf2gg2LIzrD',
             add_ons: [],
             seats: 123,
             total: 1234.03,
