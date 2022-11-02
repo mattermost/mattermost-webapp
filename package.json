@@ -70,7 +70,7 @@
     "react-intl": "5.20.10",
     "react-is": "16.13.1",
     "react-overlays": "0.9.3",
-    "react-popper": "2.2.5",
+    "react-popper": "2.3.0",
     "react-redux": "7.2.4",
     "react-router-dom": "5.3.3",
     "react-select": "2.4.4",
