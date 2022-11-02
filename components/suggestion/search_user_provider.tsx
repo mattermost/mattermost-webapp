@@ -10,6 +10,8 @@ import SharedUserIndicator from 'components/shared_user_indicator';
 
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
+import {UserProfile} from '@mattermost/types/users';
+
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
 import {ProviderResults} from './generic_user_provider';
@@ -109,7 +111,7 @@ export default class SearchUserProvider extends Provider {
         }
 
         const users = Object.assign([], data.users);
-        const mentions = users.map((user: {username: string}) => user.username);
+        const mentions = users.map((user: UserProfile) => user.username);
 
         resultsCallback({
             matchedPretext: usernamePrefix,
