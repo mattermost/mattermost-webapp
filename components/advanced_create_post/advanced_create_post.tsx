@@ -30,7 +30,7 @@ import {
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
 } from 'utils/post_utils';
-import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
@@ -67,8 +67,6 @@ import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_i
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
-
-const CreatePostDraftTimeoutMilliseconds = 500;
 
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
@@ -315,7 +313,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
-        if (useLDAPGroupMentions) {
+        if (useLDAPGroupMentions && currentChannel.id) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
     }
@@ -326,7 +324,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useLDAPGroupMentions) {
+            if (useLDAPGroupMentions && currentChannel.id) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }
@@ -834,7 +832,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
         this.saveDraftFrame = window.setTimeout(() => {
             this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        }, CreatePostDraftTimeoutMilliseconds);
+        }, Constants.SAVE_DRAFT_TIMEOUT);
         this.draftsForChannel[channelId] = draft;
     }
 
@@ -848,8 +846,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const {clipboardData} = e;
+
+        const hasLinks = hasHtmlLink(clipboardData);
         let table = getTable(clipboardData);
-        if (!table) {
+        if (!table && !hasLinks) {
             return;
         }
         table = table as HTMLTableElement;
@@ -857,7 +857,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         e.preventDefault();
 
         let message = this.state.message;
-        if (isGitHubCodeBlock(table.className)) {
+        if (table && isGitHubCodeBlock(table.className)) {
             const selectionStart = (e.target as any).selectionStart;
             const selectionEnd = (e.target as any).selectionEnd;
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
@@ -867,7 +867,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const originalSize = message.length;
-        message = formatMarkdownTableMessage(table, message.trim(), this.state.caretPosition);
+        message = formatMarkdownMessage(clipboardData, message.trim(), this.state.caretPosition);
         const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
         this.setMessageAndCaretPostion(message, newCaretPosition);
     }
@@ -1050,19 +1050,51 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
-        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
         const messageIsEmpty = this.state.message.length === 0;
         const draftMessageIsEmpty = this.props.draft.message.length === 0;
-        const ctrlEnterKeyCombo =
-            (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
+
+        const ctrlOrMetaKeyPressed = e.ctrlKey || e.metaKey;
+        const ctrlEnterKeyCombo = (this.props.ctrlSend || this.props.codeBlockOnCtrlEnter) &&
             Utils.isKeyPressed(e, KeyCodes.ENTER) &&
             ctrlOrMetaKeyPressed;
-        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
-        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+
         const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
-        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
-        const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);
+        const shiftAltCombo = !Utils.cmdOrCtrlPressed(e) && e.shiftKey && e.altKey;
+
+        // listen for line break key combo and insert new line character
+        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
+            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
+            return;
+        }
+
+        if (ctrlEnterKeyCombo) {
+            this.setShowPreview(false);
+            this.postMsgKeyPress(e);
+            return;
+        }
+
+        const {message} = this.state;
+
+        if (Utils.isKeyPressed(e, KeyCodes.ESCAPE)) {
+            this.textboxRef.current?.blur();
+        }
+
+        if (
+            !e.ctrlKey &&
+            !e.metaKey &&
+            !e.altKey &&
+            !e.shiftKey &&
+            Utils.isKeyPressed(e, KeyCodes.UP) &&
+            message === ''
+        ) {
+            e.preventDefault();
+            if (this.textboxRef.current) {
+                this.textboxRef.current.blur();
+            }
+
+            this.editLastPost(e);
+        }
 
         const {
             selectionStart,
@@ -1070,47 +1102,110 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             value,
         } = e.target as TextboxElement;
 
-        // listen for line break key combo and insert new line character
-        if (Utils.isUnhandledLineBreakKeyCombo(e)) {
-            this.setState({message: Utils.insertLineBreakFromKeyEvent(e)});
-        } else if (ctrlEnterKeyCombo) {
-            this.postMsgKeyPress(e);
-        } else if (upKeyOnly && messageIsEmpty) {
+        if (ctrlKeyCombo) {
+            if (draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.UP)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.loadPrevMessage(e);
+            } else if (draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.loadNextMessage(e);
+            } else if (Utils.isKeyPressed(e, KeyCodes.B)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'bold',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.I)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'italic',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            }
+        } else if (ctrlAltCombo) {
+            if (Utils.isKeyPressed(e, KeyCodes.K)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'link',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.C)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'code',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.E)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.toggleEmojiPicker();
+            } else if (Utils.isKeyPressed(e, KeyCodes.T)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.toggleAdvanceTextEditor();
+            } else if (Utils.isKeyPressed(e, KeyCodes.P) && message.length) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.setShowPreview(!this.props.shouldShowPreview);
+            }
+        } else if (shiftAltCombo) {
+            if (Utils.isKeyPressed(e, KeyCodes.X)) {
+                e.stopPropagation();
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'strike',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.SEVEN)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'ol',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.EIGHT)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'ul',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            } else if (Utils.isKeyPressed(e, KeyCodes.NINE)) {
+                e.preventDefault();
+                this.applyMarkdown({
+                    markdownMode: 'quote',
+                    selectionStart,
+                    selectionEnd,
+                    message: value,
+                });
+            }
+        }
+        const upKeyOnly = !ctrlOrMetaKeyPressed && !e.altKey && !e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const shiftUpKeyCombo = !ctrlOrMetaKeyPressed && !e.altKey && e.shiftKey && Utils.isKeyPressed(e, KeyCodes.UP);
+        const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
+
+        if (upKeyOnly && messageIsEmpty) {
             this.editLastPost(e);
         } else if (shiftUpKeyCombo && messageIsEmpty) {
             this.replyToLastPost(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.UP)) {
-            this.loadPrevMessage(e);
-        } else if (ctrlKeyCombo && draftMessageIsEmpty && Utils.isKeyPressed(e, KeyCodes.DOWN)) {
-            this.loadNextMessage(e);
-        } else if (ctrlAltCombo && markdownLinkKey) {
-            this.applyMarkdown({
-                markdownMode: 'link',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.B)) {
-            this.applyMarkdown({
-                markdownMode: 'bold',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlKeyCombo && Utils.isKeyPressed(e, KeyCodes.I)) {
-            this.applyMarkdown({
-                markdownMode: 'italic',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
-        } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.X)) {
-            this.applyMarkdown({
-                markdownMode: 'strike',
-                selectionStart,
-                selectionEnd,
-                message: value,
-            });
         } else if (ctrlShiftCombo && Utils.isKeyPressed(e, KeyCodes.E)) {
             e.stopPropagation();
             e.preventDefault();
@@ -1369,7 +1464,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}
-                    handleEmojiClose={this.handleEmojiClose}
                     hideEmojiPicker={this.hideEmojiPicker}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}
