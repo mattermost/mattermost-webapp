@@ -90,7 +90,7 @@ describe('Channel Settings', () => {
             childNodes.map((child) => usernames.push(child.innerText));
 
             // # Get username from text for comparison
-            username = usernames.toString().match(/@\w+/g)[0];
+            username = usernames.toString().match(/\w+/g)[0];
             cy.get('#multiSelectList').should('contain', username);
 
             // # Verify status wrapper is present within the modal list
