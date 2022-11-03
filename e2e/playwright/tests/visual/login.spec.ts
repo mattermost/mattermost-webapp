@@ -17,7 +17,7 @@ test.afterAll(async () => {
 test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     const testArgs = {page, isMobile, browserName, viewport};
     const {adminClient} = await getAdminClient();
-    const adminConfig = await adminClient.getConfig();
+    const adminConfig = await adminClient?.getConfig();
 
     // Go to login page
     const loginPage = new LoginPage(page, adminConfig);

@@ -33,7 +33,7 @@ async function globalSetup() {
     if (adminClient) {
         await sysadminSetup(adminClient, adminUser);
     } else {
-        throw new Error(`Failed to setup admin: Check that you're able to access the server using admin credential for "${adminUser?.username}"`);
+        throw new Error("Failed to setup admin: Check that you're able to access the server using the same admin credential.");
     }
 }
 
