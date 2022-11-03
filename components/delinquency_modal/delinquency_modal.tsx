@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
@@ -124,7 +125,7 @@ const DelinquencyModal = (props: DelinquencyModalProps) => {
                 >
                     <FormattedMessage
                         id='cloud_delinquency.modal.stay_on_freemium'
-                        defaultMessage='Stay on Starter (Free Plan)'
+                        defaultMessage='Stay on Free'
                     />
                 </button>
 

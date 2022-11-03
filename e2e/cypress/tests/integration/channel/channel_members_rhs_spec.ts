@@ -123,7 +123,7 @@ describe('Channel members RHS', () => {
                 cy.uiGotoDirectMessageWithUser(newUser);
 
                 // * The RHS must not exist
-                cy.uiGetRHS({visible: false});
+                cy.get('#sidebar-right').should('not.exist');
             });
         });
     });
@@ -161,7 +161,7 @@ describe('Channel members RHS', () => {
 
                 // # erase the field
                 cy.uiGetRHS().get('[aria-label="cancel members search"]').should('be.visible').click();
-                cy.uiGetRHS().contains(`${users[1].username}`).should('exist');
+                cy.uiGetRHS().contains(users[1].username).should('exist');
             });
         });
     });
@@ -184,7 +184,7 @@ describe('Channel members RHS', () => {
                         cy.apiDeactivateUser(testUser.id);
 
                         // * Ensure the user is not visible anymore
-                        cy.uiGetRHS().contains(`${testUser.username}`).should('not.exist');
+                        cy.uiGetRHS().contains(testUser.username).should('not.exist');
                     });
                 });
             });
@@ -309,7 +309,7 @@ describe('Channel members RHS', () => {
             openChannelMembersRhs(testTeam, channel);
 
             // # make sure that last user is not present in the list
-            cy.uiGetRHS().contains(`${lastUser.username}`).should('not.exist');
+            cy.uiGetRHS().contains(lastUser.username).should('not.exist');
 
             // # Search for the user user
             cy.uiGetRHS().findByTestId('channel-member-rhs-search').should('be.visible').type(lastUser.username);

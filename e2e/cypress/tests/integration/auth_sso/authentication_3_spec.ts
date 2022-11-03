@@ -18,7 +18,7 @@ describe('Authentication', () => {
 
     after(() => {
         cy.apiAdminLogin({failOnStatusCode: false});
-        cy.apiUpdateConfig();
+        cy.apiUpdateConfig({});
     });
 
     const testCases = [
@@ -57,7 +57,7 @@ describe('Authentication', () => {
             cy.visit('/login');
 
             // # Remove autofocus from login input
-            cy.focused().tab();
+            cy.focused().blur();
 
             let expectedPlaceholderText;
             if (signinWithEmail && signinWithUsername) {
