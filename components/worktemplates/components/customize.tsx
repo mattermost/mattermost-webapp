@@ -7,7 +7,6 @@ import {useIntl} from 'react-intl';
 
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 import {Visibility} from '@mattermost/types/worktemplates';
-import Input from 'components/widgets/inputs/input/input';
 
 export interface CustomizeProps {
     className?: string;
@@ -44,13 +43,6 @@ const Customize = ({
                     placeholder={formatMessage({id: 'worktemplates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, etc.'})}
                     value={name}
                     onChange={(e) => onNameChanged(e.target.value)}
-                />
-
-                <Input
-                    label='Test'
-                    value={name}
-                    onChange={(e) => onNameChanged(e.target.value)}
-                    placeholder={formatMessage({id: 'worktemplates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, etc.'})}
                 />
             </div>
             <div className='visibility-section-container'>

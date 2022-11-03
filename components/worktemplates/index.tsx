@@ -75,7 +75,7 @@ const WorkTemplateModal = () => {
 
     const handleTemplateSelected = (template: WorkTemplate, quickUse: boolean) => {
         setSelectedTemplate(template);
-        if (quickUse === true) {
+        if (quickUse) {
             create(template, '');
             return;
         }
