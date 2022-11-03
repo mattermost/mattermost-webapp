@@ -24,17 +24,17 @@ export interface Category {
     name: string;
 }
 
-interface Channel {
+export interface Channel {
     id: string;
     name: string;
     illustration: string;
 }
-interface Board {
+export interface Board {
     id: string;
     name: string;
     illustration: string;
 }
-interface Playbook {
+export interface Playbook {
     id: string;
     name: string;
     illustration: string;

@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useMemo} from 'react';
+import React, {useMemo, useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import {AccordionItemType} from 'components/common/accordion/accordion';
-import {WorkTemplate} from '@mattermost/types/worktemplates';
+import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
 import {getTemplateDefaultIllustration} from '../utils';
 
 import ModalBodyWithIllustration from './modal_body_with_illustration';
@@ -22,19 +22,36 @@ export interface PreviewProps {
 const Preview = ({template, ...props}: PreviewProps) => {
     const {formatMessage} = useIntl();
 
-    const [currentIllustration, setCurrentIllustration] = React.useState<string>(getTemplateDefaultIllustration(template));
+    const [currentIllustration, setCurrentIllustration] = useState<string>(getTemplateDefaultIllustration(template));
 
-    const channels = useMemo(() => template.content.filter((c) => c.channel).map((c) => c.channel!), [template.content]);
-    const boards = useMemo(() => template.content.filter((c) => c.board).map((c) => c.board!), [template.content]);
-    const playbooks = useMemo(() => template.content.filter((c) => c.playbook).map((c) => c.playbook!), [template.content]);
-    const integrations = useMemo(() => template.content.filter((c) => c.integration).map((c) => c.integration!), [template.content]);
+    const [channels, boards, playbooks, integrations] = useMemo(() => {
+        const channels: Channel[] = [];
+        const boards: Board[] = [];
+        const playbooks: Playbook[] = [];
+        const integrations: Integration[] = [];
+        template.content.forEach((c) => {
+            if (c.channel) {
+                channels.push(c.channel);
+            }
+            if (c.board) {
+                boards.push(c.board);
+            }
+            if (c.playbook) {
+                playbooks.push(c.playbook);
+            }
+            if (c.integration) {
+                integrations.push(c.integration);
+            }
+        });
+        return [channels, boards, playbooks, integrations];
+    }, [template.content]);
 
     // building accordion items
     const accordionItemsData: AccordionItemType[] = [];
     if (channels.length > 0) {
         accordionItemsData.push({
             id: 'channels',
-            title: 'Channels',
+            title: formatMessage({id: 'worktemplates.preview.accordion_title_channels', defaultMessage: 'Channels'}),
             extraContent: <Chip>{channels.length}</Chip>,
             items: [(
                 <PreviewSection
@@ -49,7 +66,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
     if (boards.length > 0) {
         accordionItemsData.push({
             id: 'boards',
-            title: 'Boards',
+            title: formatMessage({id: 'worktemplates.preview.accordion_title_boards', defaultMessage: 'Boards'}),
             extraContent: <Chip>{boards.length}</Chip>,
             items: [(
                 <PreviewSection
@@ -64,7 +81,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
     if (playbooks.length > 0) {
         accordionItemsData.push({
             id: 'playbooks',
-            title: 'Playbooks',
+            title: formatMessage({id: 'worktemplates.preview.accordion_title_playbooks', defaultMessage: 'Playbooks'}),
             extraContent: <Chip>{playbooks.length}</Chip>,
             items: [(
                 <PreviewSection

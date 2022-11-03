@@ -49,21 +49,27 @@ const ModalTitle = (props: ModalTitleProps) => {
     );
 };
 
+enum ModalState {
+    Menu = 'menu',
+    Customize = 'customize',
+    Preview = 'preview',
+}
+
 const WorkTemplateModal = () => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
-    const [state, setState] = useState<'menu' | 'preview' | 'customize'>('menu');
+    const [state, setState] = useState(ModalState.Menu);
     const [selectedTemplate, setSelectedTemplate] = useState<WorkTemplate | null>(null);
     const [selectedName, setSelectedName] = useState<string>('');
-    const [selectedVisibility, setSelectedVisibility] = useState<Visibility>('public');
+    const [selectedVisibility, setSelectedVisibility] = useState(Visibility.Public);
 
     const closeModal = () => {
         dispatch(closeModalAction(ModalIdentifiers.WORKTEMPLATES));
     };
 
     const goToMenu = () => {
-        setState('menu');
+        setState(ModalState.Menu);
         setSelectedTemplate(null);
     };
 
@@ -74,7 +80,7 @@ const WorkTemplateModal = () => {
             return;
         }
 
-        setState('preview');
+        setState(ModalState.Preview);
     };
 
     const handleOnNameChanged = (name: string) => {
@@ -101,20 +107,20 @@ const WorkTemplateModal = () => {
     let confirmButtonText;
     let confirmButtonAction;
     switch (state) {
-    case 'menu':
+    case ModalState.Menu:
         title = formatMessage({id: 'worktemplates.menu.modal_title', defaultMessage: 'Create a work template'});
         break;
-    case 'preview':
+    case ModalState.Preview:
         title = formatMessage({id: 'worktemplates.preview.modal_title', defaultMessage: 'Preview - {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'worktemplates.preview.modal_cancel_button', defaultMessage: 'Back'});
         cancelButtonAction = goToMenu;
         confirmButtonText = formatMessage({id: 'worktemplates.preview.modal_next_button', defaultMessage: 'Next'});
-        confirmButtonAction = () => setState('customize');
+        confirmButtonAction = () => setState(ModalState.Customize);
         break;
-    case 'customize':
+    case ModalState.Customize:
         title = formatMessage({id: 'worktemplates.customize.modal_title', defaultMessage: 'Customize - {useCase}'}, {useCase: selectedTemplate?.useCase});
         cancelButtonText = formatMessage({id: 'worktemplates.customize.modal_cancel_button', defaultMessage: 'Back'});
-        cancelButtonAction = () => setState('preview');
+        cancelButtonAction = () => setState(ModalState.Preview);
         confirmButtonText = formatMessage({id: 'worktemplates.customize.modal_create_button', defaultMessage: 'Create'});
         confirmButtonAction = () => create(selectedTemplate!, selectedName);
         break;
@@ -139,17 +145,17 @@ const WorkTemplateModal = () => {
             autoCloseOnCancelButton={false}
             autoCloseOnConfirmButton={false}
         >
-            {state === 'menu' && (
+            {state === ModalState.Menu && (
                 <Menu
                     onTemplateSelected={handleTemplateSelected}
                 />
             )}
-            {(state === 'preview' && selectedTemplate) && (
+            {(state === ModalState.Preview && selectedTemplate) && (
                 <Preview
                     template={selectedTemplate}
                 />
             )}
-            {(state === 'customize' && selectedTemplate) && (
+            {(state === ModalState.Customize && selectedTemplate) && (
                 <Customize
                     name={selectedName}
                     visibility={selectedVisibility}

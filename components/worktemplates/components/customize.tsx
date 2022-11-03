@@ -7,6 +7,7 @@ import {useIntl} from 'react-intl';
 
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
 import {Visibility} from '@mattermost/types/worktemplates';
+import Input from 'components/widgets/inputs/input/input';
 
 export interface CustomizeProps {
     className?: string;
@@ -44,6 +45,13 @@ const Customize = ({
                     value={name}
                     onChange={(e) => onNameChanged(e.target.value)}
                 />
+
+                <Input
+                    label='Test'
+                    value={name}
+                    onChange={(e) => onNameChanged(e.target.value)}
+                    placeholder={formatMessage({id: 'worktemplates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, etc.'})}
+                />
             </div>
             <div className='visibility-section-container'>
                 <p>
@@ -52,8 +60,8 @@ const Customize = ({
                     </strong>
                 </p>
                 <PublicPrivateSelector
-                    selected={visibility === 'public' ? 'O' : 'P'}
-                    onChange={(selected) => onVisibilityChanged(selected === 'O' ? 'public' : 'private')}
+                    selected={visibility === Visibility.Public ? 'O' : 'P'}
+                    onChange={(selected) => onVisibilityChanged(selected === 'O' ? Visibility.Public : Visibility.Private)}
                 />
             </div>
         </div>

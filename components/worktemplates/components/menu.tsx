@@ -7,6 +7,8 @@ import styled from 'styled-components';
 
 import {useIntl} from 'react-intl';
 
+import classNames from 'classnames';
+
 import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
 import {worktemplates as workTemplateDevData} from '../dev_data';
 
@@ -58,14 +60,13 @@ const UseCases = styled.div`
 
 interface MenuProps {
     className?: string;
-
     onTemplateSelected: (template: WorkTemplate, quickUse: boolean) => void;
 }
 
 const Menu = (props: MenuProps) => {
     const {formatMessage} = useIntl();
 
-    const [selectedCategory, setSelectedCategory] = useState<string>('');
+    const [selectedCategory, setSelectedCategory] = useState('');
 
     const dispatch = useDispatch();
     const categories = useSelector((state: GlobalState) => state.entities.worktemplates.categories);
@@ -112,7 +113,7 @@ const Menu = (props: MenuProps) => {
                         <li key={category.id}>
                             <CategoryButton
                                 onClick={() => changeCategory(category)}
-                                className={selectedCategory === category.id ? 'selected' : ''}
+                                className={classNames({selected: category.id === selectedCategory})}
                             >
                                 {category.name}
                             </CategoryButton>
@@ -126,9 +127,9 @@ const Menu = (props: MenuProps) => {
                         key={workTemplate.id}
                         name={workTemplate.useCase}
                         illustration={workTemplate.illustration}
-                        nbChannels={workTemplate.content.filter((c) => c.channel).length}
-                        nbBoards={workTemplate.content.filter((c) => c.board).length}
-                        nbPlaybooks={workTemplate.content.filter((c) => c.playbook).length}
+                        channelsCount={workTemplate.content.filter((c) => c.channel).length}
+                        boardsCount={workTemplate.content.filter((c) => c.board).length}
+                        playbooksCount={workTemplate.content.filter((c) => c.playbook).length}
                         onQuickUse={() => quickUse(workTemplate)}
                         onSelectTemplate={() => selectTemplate(workTemplate)}
                     />

@@ -28,9 +28,9 @@ interface UseCaseProps {
     className?: string;
     name: string;
     illustration: string;
-    nbChannels: number;
-    nbBoards: number;
-    nbPlaybooks: number;
+    channelsCount: number;
+    boardsCount: number;
+    playbooksCount: number;
 
     onQuickUse: () => void;
     onSelectTemplate: () => void;
@@ -41,29 +41,29 @@ const UseCase = (props: UseCaseProps) => {
 
     const details = useMemo(() => {
         const detailBuilder: string[] = [];
-        if (props.nbChannels > 0) {
+        if (props.channelsCount > 0) {
             detailBuilder.push(formatMessage({
-                id: 'worktemplates.menu.usecase_nb_channels',
-                defaultMessage: '{nbChannels, plural, =1 {# channel} other {# channels}}',
-            }, {nbChannels: props.nbChannels}));
+                id: 'worktemplates.menu.usecase_channels_count',
+                defaultMessage: '{channelsCount, plural, =1 {# channel} other {# channels}}',
+            }, {channelsCount: props.channelsCount}));
         }
 
-        if (props.nbBoards > 0) {
+        if (props.boardsCount > 0) {
             detailBuilder.push(formatMessage({
-                id: 'worktemplates.menu.usecase_nb_boards',
-                defaultMessage: '{nbBoards, plural, =1 {# board} other {# boards}}',
-            }, {nbBoards: props.nbBoards}));
+                id: 'worktemplates.menu.usecase_boards_count',
+                defaultMessage: '{boardsCount, plural, =1 {# board} other {# boards}}',
+            }, {boardsCount: props.boardsCount}));
         }
 
-        if (props.nbPlaybooks > 0) {
+        if (props.playbooksCount > 0) {
             detailBuilder.push(formatMessage({
-                id: 'worktemplates.menu.usecase_nb_playbooks',
-                defaultMessage: '{nbPlaybooks, plural, =1 {# playbook} other {# playbooks}}',
-            }, {nbPlaybooks: props.nbPlaybooks}));
+                id: 'worktemplates.menu.usecase_playbooks_count',
+                defaultMessage: '{playbooksCount, plural, =1 {# playbook} other {# playbooks}}',
+            }, {playbooksCount: props.playbooksCount}));
         }
 
         return formatList(detailBuilder, {style: 'narrow'});
-    }, [props.nbChannels, props.nbBoards, props.nbPlaybooks]);
+    }, [props.channelsCount, props.boardsCount, props.playbooksCount]);
 
     const selectTemplate = (e: React.MouseEvent<HTMLElement>) => {
         e.stopPropagation();

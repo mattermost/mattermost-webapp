@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {WorkTemplate} from '@mattermost/types/worktemplates';
+import {Visibility, WorkTemplate} from '@mattermost/types/worktemplates';
 
 export const worktemplates: WorkTemplate[] = [
     {
         id: 'product+product_roadmap',
         category: {id: 'product_team', name: 'Product Team'},
         useCase: 'Feature Release',
-        visibility: 'public',
+        visibility: Visibility.Public,
         illustration: 'https://via.placeholder.com/204x123.png',
         description: {
             channel: {
