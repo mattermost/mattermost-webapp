@@ -161,7 +161,7 @@ describe('Channel members RHS', () => {
 
                 // # erase the field
                 cy.uiGetRHS().get('[aria-label="cancel members search"]').should('be.visible').click();
-                cy.uiGetRHS().contains(users[1].username).should('exist');
+                cy.uiGetRHS().contains(users[0].username).should('exist');
             });
         });
     });
