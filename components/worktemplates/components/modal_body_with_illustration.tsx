@@ -16,7 +16,7 @@ const ModalBodyWithIllustration = (props: ModalBodyWithIllustrationProps) => {
             <div className='content-side'>
                 {props.children}
             </div>
-            <div style={{marginTop: 17}}>
+            <div className='illustration-side'>
                 <img
                     src={props.illustration}
                 />
@@ -32,6 +32,10 @@ const StyledModalBodyWithIllustration = styled(ModalBodyWithIllustration)`
         width: 387px;
         height: 416px;
         padding-right: 32px;
+    }
+
+    .illustration-side {
+        margin-top: 17px;
     }
 
     img {

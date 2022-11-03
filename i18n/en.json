@@ -4090,6 +4090,7 @@
   "navbar_dropdown.userGroups.modal.titleEndUser": "User groups available in paid plans",
   "navbar_dropdown.userGroups.tooltip.cloudFreeTrial": "During your trial you are able to create user groups. These user groups will be archived after your trial.",
   "navbar_dropdown.viewMembers": "View Members",
+  "navbar_dropdown.workTemplate": "Work Templates",
   "navbar.addGroups": "Add Groups",
   "navbar.addMembers": "Add Members",
   "navbar.preferences": "Notification Preferences",

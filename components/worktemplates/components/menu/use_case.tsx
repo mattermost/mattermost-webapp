@@ -3,7 +3,6 @@
 
 import React, {useMemo} from 'react';
 import {useIntl} from 'react-intl';
-
 import styled from 'styled-components';
 
 const QuickUse = styled.button`
@@ -41,21 +40,21 @@ const UseCase = (props: UseCaseProps) => {
 
     const details = useMemo(() => {
         const detailBuilder: string[] = [];
-        if (props.channelsCount > 0) {
+        if (props.channelsCount) {
             detailBuilder.push(formatMessage({
                 id: 'worktemplates.menu.usecase_channels_count',
                 defaultMessage: '{channelsCount, plural, =1 {# channel} other {# channels}}',
             }, {channelsCount: props.channelsCount}));
         }
 
-        if (props.boardsCount > 0) {
+        if (props.boardsCount) {
             detailBuilder.push(formatMessage({
                 id: 'worktemplates.menu.usecase_boards_count',
                 defaultMessage: '{boardsCount, plural, =1 {# board} other {# boards}}',
             }, {boardsCount: props.boardsCount}));
         }
 
-        if (props.playbooksCount > 0) {
+        if (props.playbooksCount) {
             detailBuilder.push(formatMessage({
                 id: 'worktemplates.menu.usecase_playbooks_count',
                 defaultMessage: '{playbooksCount, plural, =1 {# playbook} other {# playbooks}}',
@@ -129,7 +128,6 @@ const StyledUseCaseMenuItem = styled(UseCase)`
         padding: 18px 12px;
         width: 220px;
         height: 54px;
-
         font-weight: 600;
         font-size: 12px;
         line-height: 16px;

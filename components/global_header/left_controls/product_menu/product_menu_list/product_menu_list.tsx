@@ -143,11 +143,11 @@ const ProductMenuList = (props: Props): JSX.Element | null => {
                     modalId={ModalIdentifiers.WORKTEMPLATES}
                     show={props.showWorkTemplateButton}
                     dialogType={WorkTemplateModal}
-                    text={'Work Templates'}
+                    text={formatMessage({id: 'navbar_dropdown.workTemplate', defaultMessage: 'Work Templates'})}
                     icon={
                         <Icon
                             size={16}
-                            glyph={'application-cog'}
+                            glyph={'application-cog'} //TODO: change icon
                         />
                     }
                 />

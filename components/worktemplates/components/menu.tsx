@@ -2,18 +2,16 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
+import classNames from 'classnames';
+import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {useIntl} from 'react-intl';
-
-import classNames from 'classnames';
-
-import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
-import {worktemplates as workTemplateDevData} from '../dev_data';
-
 import {injectDevData} from 'mattermost-redux/actions/worktemplates';
+import {Category, WorkTemplate} from '@mattermost/types/worktemplates';
 import {GlobalState} from '@mattermost/types/store';
+
+import {worktemplates as workTemplateDevData} from '../dev_data';
 
 import UseCaseMenuItem from './menu/use_case';
 
@@ -21,7 +19,6 @@ const Categories = styled.div`
     h2 {
         margin: 0;
         padding: 8px 16px;
-
         font-weight: 600;
         font-size: 12px;
         line-height: 16px;
@@ -79,7 +76,7 @@ const Menu = (props: MenuProps) => {
     }, []);
 
     useEffect(() => {
-        if (categories.length === 0 || selectedCategory !== '') {
+        if (categories?.length === 0 || selectedCategory !== '') {
             return;
         }
 

@@ -5,7 +5,7 @@ import {WorkTemplate} from '@mattermost/types/worktemplates';
 
 export function getTemplateDefaultIllustration(template: WorkTemplate): string {
     const channels = template.content.filter((c) => c.channel).map((c) => c.channel!);
-    if (channels.length > 0) {
+    if (channels.length) {
         return channels[0].illustration;
     }
     if (template.description.channel.illustration) {
@@ -13,7 +13,7 @@ export function getTemplateDefaultIllustration(template: WorkTemplate): string {
     }
 
     const boards = template.content.filter((c) => c.board).map((c) => c.board!);
-    if (boards.length > 0) {
+    if (boards.length) {
         return boards[0].illustration;
     }
     if (template.description.board.illustration) {
@@ -21,7 +21,7 @@ export function getTemplateDefaultIllustration(template: WorkTemplate): string {
     }
 
     const playbooks = template.content.filter((c) => c.playbook).map((c) => c.playbook!);
-    if (playbooks.length > 0) {
+    if (playbooks.length) {
         return playbooks[0].illustration;
     }
     if (template.description.playbook.illustration) {

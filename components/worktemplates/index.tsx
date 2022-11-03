@@ -7,10 +7,11 @@ import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
 
-import {Visibility, WorkTemplate} from '@mattermost/types/worktemplates';
-import {closeModal as closeModalAction} from 'actions/views/modals';
 import LocalizedIcon from 'components/localized_icon';
+import {closeModal as closeModalAction} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
+
+import {Visibility, WorkTemplate} from '@mattermost/types/worktemplates';
 
 import Customize from './components/customize';
 import Menu from './components/menu';
