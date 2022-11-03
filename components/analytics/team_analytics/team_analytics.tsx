@@ -27,6 +27,7 @@ import {ActivatedUserCard} from 'components/analytics/activated_users_card';
 import {getMonthLong} from 'utils/i18n';
 
 import {formatPostsPerDayData, formatUsersWithPostsPerDayData, synchronizeChartLabels} from '../format';
+import OverageUsersBanner from 'components/overage_users_banner';
 
 const LAST_ANALYTICS_TEAM = 'last_analytics_team';
 
@@ -305,6 +306,7 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
 
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
+                        <OverageUsersBanner location='admin-console'/>
                         {banner}
                         <div className='row'>
                             <ActivatedUserCard
