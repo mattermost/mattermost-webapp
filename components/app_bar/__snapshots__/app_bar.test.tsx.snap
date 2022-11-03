@@ -1,13 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
+.c0 {
+  height: 100%;
+  padding-top: 16px;
+  border-left: solid 1px rgba(var(--center-channel-color-rgb),0.12);
+  background-color: rgba(var(--center-channel-color-rgb),0.04);
+}
+
+.c1:last-child,
+.c1:first-child {
+  display: none;
+}
+
 <AppBar>
   <div
     className="app-bar"
   >
     <_StyledDiv>
       <div
-        className="_StyledDiv-BRlth jquHst"
+        className="c0"
       >
         <AppBarPluginComponent
           component={
@@ -89,7 +101,7 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
           key="divider"
         >
           <hr
-            className="_StyledHr-jLdlHU gGjtME app-bar__divider"
+            className="c1 app-bar__divider"
           />
         </_StyledHr>
         <AppBarBinding
