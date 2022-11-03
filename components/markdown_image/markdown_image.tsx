@@ -29,7 +29,6 @@ type Props = {
     src: string;
     title: string;
     className: string;
-    // eslint-disable-next-line no-empty-pattern
     onImageLoaded: ({height, width}: Record<string, number>) => void;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
