@@ -132,7 +132,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.uiGetLHSTeamMenu().should('not.exist');
     });
 
-    it('MM-T1477 Accessibility Support in Status Dropdown - KNOWN ISSUE: MM-45716', () => {
+    it('MM-T1477 Accessibility Support in Status Dropdown  - KNOWN ISSUE: MM-45716', () => {
         // # Focus to set status button
         cy.uiGetSetStatusButton().focus().tab({shift: true}).tab();
 
@@ -150,41 +150,41 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         // * Verify the first option is not selected by default
         cy.uiGetStatusMenuContainer().find('.dropdown-menu').children().eq(0).should('not.be.focused');
 
-        // // # Press tab
+        // # Press tab
         cy.focused().tab();
 
-        // // * Verify first focus is on menu header which is the profile image
-        // cy.uiGetStatusMenuContainer().within(() => {
-        //     cy.findByAltText('user profile image').should('be.focused');
-        // });
+        // * Verify first focus is on menu header which is the profile image
+        cy.uiGetStatusMenuContainer().within(() => {
+            cy.findByAltText('user profile image').should('be.focused');
+        });
 
-        // // # Press tab
-        // cy.focused().tab();
+        // # Press tab
+        cy.focused().tab();
 
-        // // * Verify the accessibility support in the Status Dropdown menu items
-        // const menuItems = [
-        //     {id: 'status-menu-custom-status', label: 'Set a Custom Status dialog'},
-        //     {id: 'status-menu-online', label: 'online'},
-        //     {id: 'status-menu-away', label: 'away'},
-        //     {id: 'status-menu-dnd_menuitem', label: 'do not disturb. disables all notifications'},
-        //     {id: 'status-menu-offline', label: 'offline'},
-        //     {id: 'accountSettings', label: 'Profile dialog'},
-        //     {id: 'logout', label: 'Log Out'},
-        // ];
+        // * Verify the accessibility support in the Status Dropdown menu items
+        const menuItems = [
+            {id: 'status-menu-custom-status', label: 'Set a Custom Status dialog'},
+            {id: 'status-menu-online', label: 'online'},
+            {id: 'status-menu-away', label: 'away'},
+            {id: 'status-menu-dnd_menuitem', label: 'do not disturb. disables all notifications'},
+            {id: 'status-menu-offline', label: 'offline'},
+            {id: 'accountSettings', label: 'Profile dialog'},
+            {id: 'logout', label: 'Log Out'},
+        ];
 
-        // menuItems.forEach((item) => {
-        //     // * Verify that the menu item is focused
-        //     cy.uiGetStatusMenuContainer().find(`#${item.id}`).
-        //         should('be.visible').
-        //         findAllByLabelText(item.label).first().
-        //         should('be.focused');
+        menuItems.forEach((item) => {
+            // * Verify that the menu item is focused
+            cy.uiGetStatusMenuContainer().find(`#${item.id}`).
+                should('be.visible').
+                findAllByLabelText(item.label).first().
+                should('be.focused');
 
-        //     // # Press tab for next item
-        //     cy.focused().tab();
-        // });
+            // # Press tab for next item
+            cy.focused().tab();
+        });
 
-        // // * Verify if menu is closed when we press Escape
-        // cy.get('body').typeWithForce('{esc}');
-        // cy.uiGetStatusMenuContainer({exist: false});
+        // * Verify if menu is closed when we press Escape
+        cy.get('body').typeWithForce('{esc}');
+        cy.uiGetStatusMenuContainer({exist: false});
     });
 });
