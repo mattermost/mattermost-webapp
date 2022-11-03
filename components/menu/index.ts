@@ -2,13 +2,15 @@
 // See LICENSE.txt for license information.
 
 import {connect, ConnectedProps} from 'react-redux';
-import {MenuItem, MenuList, Divider} from '@mui/material';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {GlobalState} from 'types/store';
 
 import {MenuComponent} from './menu';
+import {MenuList} from './menu_list';
+import {MenuItem} from './menu_item';
+import {MenuDivider} from './menu_divider';
 
 function mapStateToProps(state: GlobalState) {
     return {
@@ -22,11 +24,9 @@ export type PropsFromRedux = ConnectedProps<typeof connector>;
 
 const Menu = connector(MenuComponent);
 
-const MenuDivider = Divider;
-
 export {
     Menu,
-    MenuItem,
     MenuList,
+    MenuItem,
     MenuDivider,
 };

@@ -19,12 +19,9 @@ interface Props extends PropsFromRedux {
     anchorNode?: ReactNode;
     anchorClassName?: string;
     anchorAriaLabel?: string;
-    anchorTabIndex?: number;
-    anchorHtmlAttributes?: Record<string, string>; // change to more specific later
 
     // Menu props
     menuId?: string;
-    menuClassName?: string;
     menuAriaLabel?: string;
 
     // Tooltip props
@@ -74,7 +71,6 @@ export function MenuComponent(props: Props) {
                     className={props.anchorClassName}
                     onClick={handleMenuOpen}
                     tabIndex={isMenuOpen ? 0 : -1}
-                    {...props.anchorHtmlAttributes}
                 >
                     {props.anchorNode}
                 </button>
