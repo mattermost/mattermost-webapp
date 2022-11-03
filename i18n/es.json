@@ -2381,7 +2381,7 @@
   "admin.team_channel_settings.need_domains": "Por favor especifica los dominios de los correos electrónicos.",
   "admin.team_channel_settings.need_groups": "Debes agregar al menos un grupo para administrar este equipo mediante la sincronización de los miembros del grupo.",
   "admin.team_channel_settings.need_groups_channel": "Debes agregar al menos un grupo para administrar este canal mediante la sincronización de los miembros del grupo.",
-  "admin.team_channel_settings.removeConfirmModal.messageChannel": "{amount, number} {amount, plural, one {usuario será eliminado} other {usuarios serán eliminados}}. No son miembros de grupos enlazados con este canal. ¿Estás seguro de querer eliminar {amount, plural, one {este usuario} other {estos usuarios}?",
+  "admin.team_channel_settings.removeConfirmModal.messageChannel": "{amount, number} {amount, plural, one {usuario será eliminado} other {usuarios serán eliminados}}. No son miembros de grupos enlazados con este canal. ¿Estás seguro de querer eliminar {amount, plural, one {este usuario} other {estos usuarios}}?",
   "admin.team_channel_settings.removeConfirmModal.messageTeam": "{amount, number} {amount, plural, one {usuario será eliminado} other {usuarios serán eliminados}}. No son miembros de grupos enlazados con este canal. ¿Estás seguro de querer eliminar {amount, plural, one {este usuario} other {estos usuarios}}?",
   "admin.team_channel_settings.removeConfirmModal.remove": "Guarda y elimina {amount, plural, one {usuario} other {usuarios}}",
   "admin.team_channel_settings.removeConfirmModal.title": "¿Guardar y eliminar {amount, number} {amount, plural, one {usuario} other {usuarios}}?",

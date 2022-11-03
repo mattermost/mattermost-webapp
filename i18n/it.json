@@ -3094,7 +3094,7 @@
   "post_message_view.edited": "(modificato)",
   "post_pre_header.pinned": "Bloccato",
   "postlist.toast.history": "Mostra storico messaggi",
-  "postlist.toast.newMessages": "{count, number} nuovo {count, plural, one {message} other {messages}",
+  "postlist.toast.newMessages": "{count, number} nuovo {count, plural, one {message} other {messages}}",
   "postlist.toast.newMessagesSince": "{count, number} nuovo {count, plural, one {message} other {messages}} da {data} a {time}",
   "postlist.toast.scrollToBottom": "Vai ai recenti",
   "postlist.toast.scrollToLatest": "Vai ai nuovi messaggi",

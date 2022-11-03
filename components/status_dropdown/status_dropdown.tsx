@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode} from 'react';
+import {IntlShape, injectIntl, FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 import classNames from 'classnames';
-import {FormattedDate, FormattedMessage, FormattedTime} from 'react-intl';
 
 import StatusIcon from '@mattermost/compass-components/components/status-icon';
 import Text from '@mattermost/compass-components/components/text';
@@ -41,9 +41,10 @@ import {localizeMessage} from 'utils/utils';
 import './status_dropdown.scss';
 
 type Props = {
+    intl: IntlShape;
     status?: string;
     userId: string;
-    profilePicture: string;
+    profilePicture?: string;
     autoResetPref?: string;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
@@ -69,7 +70,7 @@ type State = {
     isStatusSet: boolean;
 };
 
-export default class StatusDropdown extends React.PureComponent<Props, State> {
+export class StatusDropdown extends React.PureComponent<Props, State> {
     dndTimes = [
         {id: 'thirty_minutes', label: t('status_dropdown.dnd_sub_menu_item.thirty_minutes'), labelDefault: '30 mins'},
         {id: 'one_hour', label: t('status_dropdown.dnd_sub_menu_item.one_hour'), labelDefault: '1 hour'},
@@ -339,6 +340,7 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
     }
 
     render = (): JSX.Element => {
+        const {intl} = this.props;
         const needsConfirm = this.isUserOutOfOffice() && this.props.autoResetPref === '';
         const {status, customStatus, isCustomStatusExpired, currentUser} = this.props;
         const isStatusSet = customStatus && (customStatus.text.length > 0 || customStatus.emoji.length > 0) && !isCustomStatusExpired;
@@ -399,6 +401,13 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
 
         const customStatusComponent = this.renderCustomStatus(isStatusSet);
 
+        const menuAriaLabeltext = intl.formatMessage({
+            id: 'status_dropdown.menuAriaLabel.text',
+            defaultMessage: 'user status is set to {menuAriaLabelValue} you can change status by selecting your profile picture',
+        }, {
+            menuAriaLabelValue: this.props.status,
+        });
+
         return (
             <MenuWrapper
                 onToggle={this.onToggle}
@@ -418,12 +427,15 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
                         onClick={this.handleCustomStatusEmojiClick as () => void}
                     />
                     {this.renderProfilePicture('sm')}
-                    <div className='status'>
+                    <button
+                        className='status style--none'
+                        aria-label={menuAriaLabeltext}
+                    >
                         <StatusIcon
                             size={'sm'}
                             status={(this.props.status || 'offline') as TUserStatus}
                         />
-                    </div>
+                    </button>
                 </button>
                 <Menu
                     ariaLabel={localizeMessage('status_dropdown.menuAriaLabel', 'Set a status')}
@@ -558,3 +570,4 @@ export default class StatusDropdown extends React.PureComponent<Props, State> {
         );
     }
 }
+export default injectIntl(StatusDropdown);
