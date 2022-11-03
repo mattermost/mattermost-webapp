@@ -60,7 +60,7 @@ const NewChannelWithBoardTourTip = ({
         }
     }, []);
 
-    const overlayPunchOut = useMeasurePunchouts(['app-bar-icon-focalboard'], []);
+    const overlayPunchOut = useMeasurePunchouts(['app-bar-icon-focalboard'], [], {y: -2, height: 4, x: 0, width: 0});
 
     if (!showTip) {
         return null;
