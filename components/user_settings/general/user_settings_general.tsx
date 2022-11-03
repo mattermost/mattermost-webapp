@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
@@ -1341,10 +1342,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
+                    <h4 className='modal-title'>
                         <div className='modal-back'>
                             <LocalizedIcon
                                 className='fa fa-angle-left'
@@ -1388,4 +1386,3 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 }
 
 export default injectIntl(UserSettingsGeneralTab);
-/* eslint-enable react/no-string-refs */
