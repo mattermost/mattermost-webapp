@@ -43,6 +43,7 @@ $app-bar-width: 48px;
 
             .app-bar__icon-inner,
             span:not(.pulsating_dot) {
+                // if we want to show a tourtip/pulsating dot in any of the app bar icons, these styles must be ommitted when span.pulsating_dot
                 box-shadow: 0 0 0 2px var(--sidebar-text-active-border);
 
                 &:hover {
