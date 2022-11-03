@@ -18,8 +18,7 @@ import * as Utils from 'utils/utils';
 
 import Pluggable from 'plugins/pluggable';
 
-import {getCurrentProduct} from 'selectors/products';
-
+import {getCurrentProduct} from 'utils/products';
 import SystemPermissionGate from 'components/permissions_gates/system_permission_gate';
 import TeamButton from 'components/team_sidebar/components/team_button';
 

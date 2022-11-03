@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
 
@@ -109,7 +110,7 @@ describe('components/global/product_switcher_menu', () => {
         expect(wrapper.find('#userGroups')).toMatchSnapshot();
     });
 
-    test('user groups button is disabled for starter', () => {
+    test('user groups button is disabled for free', () => {
         const props = {
             ...defaultProps,
             enableCustomUserGroups: true,
