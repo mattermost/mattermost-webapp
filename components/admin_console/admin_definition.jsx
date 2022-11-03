@@ -4685,6 +4685,7 @@ const AdminDefinition = {
             title: t('admin.sidebar.gitlab'),
             title_default: 'GitLab',
             isHidden: it.any(
+                it.licensed,
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {
@@ -4810,9 +4811,7 @@ const AdminDefinition = {
                 shouldDisplay: () => true,
             },
             isHidden: it.any(
-                it.all(
-                    it.not(usesLegacyOauth),
-                ),
+                it.not(usesLegacyOauth),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             ),
             schema: {
@@ -4865,9 +4864,7 @@ const AdminDefinition = {
                         type: Constants.SettingsTypes.TYPE_CUSTOM,
                         component: OpenIdConvert,
                         key: 'OpenIdConvert',
-                        isHidden: it.any(
-                            it.not(usesLegacyOauth),
-                        ),
+                        isHidden: it.not(usesLegacyOauth),
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
                     },
                     {
@@ -5183,9 +5180,7 @@ const AdminDefinition = {
             url: 'authentication/openid',
             title: t('admin.sidebar.openid'),
             title_default: 'OpenID Connect',
-            isHidden: it.any(
-                it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
-            ),
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.OPENID)),
             schema: {
                 id: 'OpenIdSettings',
                 name: t('admin.authentication.openid'),
