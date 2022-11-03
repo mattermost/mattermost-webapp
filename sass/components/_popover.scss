@@ -195,6 +195,7 @@
 
         &.divider--expanded {
             margin: 8px -15px;
+            border-color: rgba(var(--center-channel-text-rgb), 0.08);
         }
     }
 

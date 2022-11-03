@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+import classNames from 'classnames';
 
-import {CloseIcon} from '@mattermost/compass-icons/components';
+import {CloseIcon, EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
 import Pluggable from 'plugins/pluggable';
 
@@ -36,7 +37,6 @@ import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
 
 import './profile_popover.scss';
-import classNames from 'classnames';
 
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'>{
 
@@ -190,10 +190,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 channelId,
             );
         }
-        console.log('last_activity_at: ', this.props.user?.last_activity_at);
     }
     handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        console.log('handleShowDirectChannel');
         const {actions} = this.props;
         e.preventDefault();
         if (!this.props.user) {
@@ -264,7 +262,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         this.handleCloseModals();
     };
     handleCloseModals = () => {
-        console.log('handleCloseModals');
         const {modals} = this.props;
         for (const modal in modals?.modalState) {
             if (!Object.prototype.hasOwnProperty.call(modals, modal)) {
@@ -297,24 +294,22 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         let expiryContent;
         if (customStatusSet) {
             const customStatusEmoji = (
-                <span className='d-flex'>
-                    <CustomStatusEmoji
-                        userID={this.props.user?.id}
-                        showTooltip={false}
-                        emojiStyle={{
-                            marginRight: 4,
-                            marginTop: 1,
-                        }}
-                    />
-                </span>
+                <CustomStatusEmoji
+                    userID={this.props.user?.id}
+                    showTooltip={false}
+                    emojiStyle={{
+                        marginRight: 4,
+                        marginTop: 1,
+                    }}
+                />
             );
             customStatusContent = (
-                <div className='d-flex'>
+                <div className='d-flex align-items-center'>
                     {customStatusEmoji}
                     <CustomStatusText
                         tooltipDirection='top'
                         text={customStatus?.text || ''}
-                        className='user-popover__email pb-1'
+                        className='user-popover__email'
                     />
                 </div>
             );
@@ -329,17 +324,16 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             );
         } else if (canSetCustomStatus) {
             customStatusContent = (
-                <div>
-                    <button
-                        className='user-popover__set-custom-status-btn'
-                        onClick={this.showCustomStatusModal}
-                    >
-                        <FormattedMessage
-                            id='user_profile.custom_status.set_status'
-                            defaultMessage='Set a status'
-                        />
-                    </button>
-                </div>
+                <button
+                    className='user-popover__set-custom-status-btn'
+                    onClick={this.showCustomStatusModal}
+                >
+                    <EmoticonHappyOutlineIcon size={14}/>
+                    <FormattedMessage
+                        id='user_profile.custom_status.set_status'
+                        defaultMessage='Set a status'
+                    />
+                </button>
             );
         }
 
@@ -401,7 +395,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         }
 
         const fullname = Utils.getFullName(this.props.user);
-        console.log('full name', fullname)
         const haveOverrideProp = this.props.overwriteIcon || this.props.overwriteName;
         if (fullname && !haveOverrideProp) {
             let sharedIcon;
@@ -413,8 +406,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     />
                 );
             }
-
-            // todo sinan check when full name offline
             dataContent.push(
                 <div
                     data-testId={`popover-fullname-${this.props.user.username}`}
@@ -436,13 +427,13 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 </div>,
             );
         }
-        const userNameClass = classNames('overflow--ellipsis text-nowrap pb-1', {'user-profile-popover__heading': fullname !== ''})
-        let userName: React.ReactNode = `@${this.props.user.username}`;
+        const userNameClass = classNames('overflow--ellipsis text-nowrap pb-1', {'user-profile-popover__heading': fullname === ''});
+        const userName: React.ReactNode = `@${this.props.user.username}`;
         dataContent.push(
             <div className={userNameClass}>
                 {userName}
             </div>,
-        )
+        );
         if (this.props.user.position && !haveOverrideProp) {
             const position = (this.props.user?.position || '').substring(
                 0,
@@ -451,29 +442,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             dataContent.push(
                 <div className='overflow--ellipsis text-nowrap pb-1'>
                     {position}
-                </div>,
-            );
-        }
-        const email = this.props.user.email || '';
-        if (email && !this.props.user.is_bot && !haveOverrideProp) {
-            dataContent.push(
-                <hr
-                    key='user-popover-hr2'
-                    className='divider divider--expanded'
-                />,
-            );
-            dataContent.push(
-                <div
-                    data-toggle='tooltip'
-                    title={email}
-                    key='user-popover-email'
-                >
-                    <a
-                        href={'mailto:' + email}
-                        className='text-nowrap text-lowercase user-popover__email pb-1'
-                    >
-                        {email}
-                    </a>
                 </div>,
             );
         }
@@ -495,26 +463,24 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             dataContent.push(
                 <div
                     key='user-popover-local-time'
-                    className='pb-1'
+                    className='pb-1 d-flex flex-column'
                 >
-                    <span className='user-profile-popover__heading'>
+                    <span className='user-popover__subtitle' >
                         <FormattedMessage
                             id='user_profile.account.localTime'
                             defaultMessage='Local Time'
                         />
                     </span>
-                    <div>
-                        <Timestamp
-                            useRelative={false}
-                            useDate={false}
-                            userTimezone={this.props.user?.timezone as UserTimezone | undefined}
-                            useTime={{
-                                hour: 'numeric',
-                                minute: 'numeric',
-                                timeZoneName: 'short',
-                            }}
-                        />
-                    </div>
+                    <Timestamp
+                        useRelative={false}
+                        useDate={false}
+                        userTimezone={this.props.user?.timezone as UserTimezone | undefined}
+                        useTime={{
+                            hour: 'numeric',
+                            minute: 'numeric',
+                            timeZoneName: 'short',
+                        }}
+                    />
                 </div>,
             );
         }
@@ -526,9 +492,9 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 <div
                     key='user-popover-status'
                     id='user-popover-status'
-                    className='pb-1'
+                    className='pb-1 d-flex flex-column'
                 >
-                    <span className='user-profile-popover__heading'>
+                    <span className='user-popover__subtitle'>
                         <FormattedMessage
                             id='user_profile.custom_status'
                             defaultMessage='Status'

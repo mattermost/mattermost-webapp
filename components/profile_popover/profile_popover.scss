@@ -1,8 +1,14 @@
 .user-popover__set-custom-status-btn {
-    padding: 0;
+    padding: 2px 0;
     border: none;
     background: transparent;
-    color: var(--link-color);
+    color: var(--denim-button-bg);
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .user-profile-popover__heading {
@@ -29,6 +35,12 @@
 
         .overflow--ellipsis {
             text-align: center;
+        }
+
+        .user-popover__subtitle {
+            font-weight: 600;
+            font-size: 11px;
+            line-height: 16px;
         }
     }
 }
