@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ComponentProps} from 'react';
-import {shallow} from 'enzyme';
+import {mount, shallow} from 'enzyme';
 
 import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
@@ -164,7 +164,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should call onExited and match state on handleOnHide', () => {
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...baseProps}/>,
         );
 
@@ -188,7 +188,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on updateSection', () => {
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...baseProps}/>,
         );
 
@@ -198,7 +198,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should reset state when collapsing a section', () => {
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...baseProps}/>,
         );
 
@@ -213,7 +213,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleSubmitDesktopNotifyLevel', () => {
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...baseProps}/>,
         );
 
@@ -232,7 +232,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
     });
 
     test('should match state on handleUpdateDesktopNotifyLevel', () => {
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...baseProps}/>,
         );
 
@@ -249,7 +249,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             },
         });
         const props = {...baseProps, channelMember};
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...props}/>,
         );
 
@@ -275,7 +275,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             },
         });
         const props = {...baseProps, channelMember};
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>,
         );
 
@@ -294,7 +294,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             },
         } as unknown as ChannelMembership;
         const props = {...baseProps, channelMember};
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow(
             <ChannelNotificationsModal {...props}/>,
         );
 
@@ -321,7 +321,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
             },
         });
         const props = {...baseProps, channelMember};
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...props}/>,
         );
 
@@ -339,7 +339,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         const currentUserNotifyProps = {
             channel: 'false',
         } as UserNotifyProps;
-        const wrapper = shallow<ChannelNotificationsModal>(
+        const wrapper = shallow<typeof ChannelNotificationsModal>(
             <ChannelNotificationsModal {...baseProps}/>,
         );
 
