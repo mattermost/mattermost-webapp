@@ -19,34 +19,39 @@ type UserRequest = {
 };
 
 type ClientCache = {
-    client: Client;
-    user?: UserProfile;
+    client: Client | null;
+    user: UserProfile | null;
     err?: any;
 };
 
 const clients: Record<string, ClientCache> = {};
 
 export async function makeClient(userRequest?: UserRequest, useCache = true): Promise<ClientCache> {
-    const client = new Client();
-    client.setUrl(testConfig.baseURL);
+    try {
+        const client = new Client();
+        client.logToConsole = false;
+        client.setUrl(testConfig.baseURL);
 
-    if (!userRequest) {
-        return {client};
+        if (!userRequest) {
+            return {client, user: null};
+        }
+
+        const cacheKey = userRequest.username + userRequest.password;
+        if (useCache && clients[cacheKey] != null) {
+            return clients[cacheKey];
+        }
+
+        const userProfile = await client.login(userRequest.username, userRequest.password);
+        const user = {...userProfile, password: userRequest.password};
+
+        if (useCache) {
+            clients[cacheKey] = {client, user};
+        }
+
+        return {client, user};
+    } catch (err) {
+        return {client: null, user: null, err};
     }
-
-    const cacheKey = userRequest.username + userRequest.password;
-    if (useCache && clients[cacheKey] != null) {
-        return clients[cacheKey];
-    }
-
-    const userProfile = await client.login(userRequest.username, userRequest.password);
-    const user = {...userProfile, password: userRequest.password};
-
-    if (useCache) {
-        clients[cacheKey] = {client, user};
-    }
-
-    return {client, user};
 }
 
 export {
