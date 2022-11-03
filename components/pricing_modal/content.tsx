@@ -87,13 +87,13 @@ function Content(props: ContentProps) {
     const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
         isDelinquencyModal: true,
     });
-    const openPurchaseModal = (callerInfo: string) => {
+    const openPurchaseModal = (callerInfo: string, isMonthlyPlan: boolean) => {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
         if (subscription?.delinquent_since) {
             openCloudDelinquencyModal({trackingLocation: telemetryInfo});
         }
-        openCloudPurchaseModal({trackingLocation: telemetryInfo});
+        openCloudPurchaseModal({trackingLocation: telemetryInfo}, isMonthlyPlan);
     };
 
     const closePricingModal = () => {
@@ -148,13 +148,16 @@ function Content(props: ContentProps) {
     // Default professional price
     const defaultProfessionalPrice = 10;
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
+    const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
 
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
         // Monthly subscription price
         if (newIsMonthly && monthlyProfessionalProduct) {
             setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+            setIsMonthlyPlan(true);
         } else if (!newIsMonthly && yearlyProfessionalProduct) {
             setProfessionalPrice(yearlyProfessionalProduct.price_per_seat);
+            setIsMonthlyPlan(false);
         }
     };
 
@@ -187,6 +190,7 @@ function Content(props: ContentProps) {
                             <YearlyMonthlyToggle
                                 updatePrice={updateProfessionalPrice}
                                 isPurchases={false}
+                                isInitialPlanMonthly={true}
                             />
                         </>
                     }
@@ -280,7 +284,7 @@ function Content(props: ContentProps) {
                                 callerInfo='professional_plan_pricing_modal_card'
                             />) : undefined}
                         buttonDetails={{
-                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
+                            action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button', isMonthlyPlan),
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,

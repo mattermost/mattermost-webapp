@@ -88,6 +88,7 @@ type CardProps = {
     monthlyPrice: number;
     yearlyPrice: number;
     intl: IntlShape;
+    isInitialPlanMonthly: boolean;
 }
 
 type Props = {
@@ -107,6 +108,7 @@ type Props = {
     isCloudDelinquencyGreaterThan90Days: boolean;
     annualSubscription: boolean;
     usersCount: number;
+    isInitialPlanMonthly: boolean;
 
     // callerCTA is information about the cta that opened this modal. This helps us provide a telemetry path
     // showing information about how the modal was opened all the way to more CTAs within the modal itself
@@ -196,8 +198,12 @@ function Card(props: CardProps) {
     const [monthlyPrice, setMonthlyPrice] = useState(props.monthlyPrice * props.usersCount);
     const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
     const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
-    const [isMonthly, setIsMonthly] = useState(true);
-    const [containerClassname, setContainerClassname] = useState('bottom');
+    const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
+
+    const monthlyContainerName = 'bottom';
+    const yearlyContainerName = 'bottom bottom-yearly';
+    const initialContainerName = props.isInitialPlanMonthly ? monthlyContainerName : yearlyContainerName;
+    const [containerClassname, setContainerClassname] = useState(initialContainerName);
 
     const {formatMessage} = props.intl;
 
@@ -219,9 +225,9 @@ function Card(props: CardProps) {
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
         if (isMonthly) {
-            setContainerClassname('bottom');
+            setContainerClassname(monthlyContainerName);
         } else {
-            setContainerClassname('bottom bottom-yearly');
+            setContainerClassname(yearlyContainerName);
         }
     };
 
@@ -416,6 +422,7 @@ function Card(props: CardProps) {
                 <YearlyMonthlyToggle
                     updatePrice={updateDisplayPage}
                     isPurchases={true}
+                    isInitialPlanMonthly={props.isInitialPlanMonthly}
                 />
                 {/* the style below will eventually be added to the plan_price_rate_section once the annualSubscription feature flag is removed*/}
                 <div
@@ -840,6 +847,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     monthlyPrice={this.state.selectedProduct?.price_per_seat ?? 0}
                     yearlyPrice={getYearlyPrice()}
                     intl={this.props.intl}
+                    isInitialPlanMonthly={this.props.isInitialPlanMonthly}
                 />
             </>
         );

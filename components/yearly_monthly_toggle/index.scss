@@ -26,18 +26,30 @@
         border-radius: 40px;
     }
 
-    .move-left {
+    .toggle-border.yearly {
+        margin-left: 0;
+    }
+
+    .move {
         position: relative;
         animation-duration: 0.1s;
         animation-fill-mode: forwards;
+    }
+
+    .move-left {
         animation-name: moveLeft;
     }
 
     .move-right {
-        position: relative;
-        animation-duration: 0.1s;
-        animation-fill-mode: forwards;
         animation-name: moveRight;
+    }
+
+    .move-left.yearly {
+        animation-name: moveLeftYearly;
+    }
+
+    .move-right.yearly {
+        animation-name: moveRightYearly;
     }
 
     .text {
@@ -79,5 +91,23 @@
 
     to {
         right: 0;
+    }
+}
+
+@keyframes moveRightYearly {
+    from { left: 0; }
+
+    to {
+        left: 80px;
+    }
+}
+
+@keyframes moveLeftYearly {
+    from {
+        left: 80px;
+    }
+
+    to {
+        left: 0;
     }
 }

@@ -14,11 +14,12 @@ import {TELEMETRY_CATEGORIES} from 'utils/constants';
 interface Props {
     updatePrice: (isMonthly: boolean) => void;
     isPurchases: boolean;
+    isInitialPlanMonthly: boolean;
 }
 
-function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
-    const [isMonthly, setIsMonthly] = useState(true);
-    const initialToggleBorder = 'toggle-border';
+function YearlyMonthlyToggle(props: Props) {
+    const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
+    const initialToggleBorder = props.isInitialPlanMonthly ? 'toggle-border' : 'toggle-border yearly';
     const [toggleBorderClassName, setToggleBorderClassName] = useState(initialToggleBorder);
 
     const monthlyLabel = 'Monthly';
@@ -43,19 +44,20 @@ function YearlyMonthlyToggle({updatePrice, isPurchases}: Props) {
 
         // controls the animation of the toggle border
         if (isMonthly) {
-            setToggleBorderClassName(initialToggleBorder + ' move-left');
+            setToggleBorderClassName(initialToggleBorder + ' move move-left');
         } else {
-            setToggleBorderClassName(initialToggleBorder + ' move-right');
+            setToggleBorderClassName(initialToggleBorder + ' move move-right');
         }
 
-        const telemetryCategory = isPurchases ? TELEMETRY_CATEGORIES.CLOUD_PURCHASING : TELEMETRY_CATEGORIES.CLOUD_PRICING;
+        const telemetryCategory = props.isPurchases ? TELEMETRY_CATEGORIES.CLOUD_PURCHASING : TELEMETRY_CATEGORIES.CLOUD_PRICING;
         trackEvent(telemetryCategory, 'click_yearly_toggle');
 
         // update the displayed price
-        updatePrice(!isMonthly);
+        props.updatePrice(!isMonthly);
     };
 
-    const initialSelectedIndex = options.findIndex(({value}) => value === 'Monthly');
+    const initialPlan = (props.isInitialPlanMonthly) ? monthlyLabel : yearlyLabel;
+    const initialSelectedIndex = options.findIndex(({value}) => value === initialPlan);
 
     return (
         <div className='toggle-monthly-yearly-container'>
