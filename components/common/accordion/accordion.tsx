@@ -33,7 +33,7 @@ const Accordion = ({
     onHeaderClick,
     onItemOpened,
     className,
-}: AccordionProps): JSX.Element | null => {
+}: AccordionProps): JSX.Element => {
     const [currentIndexes, setCurrentIndexes] = useState<number[]>(openFirstElement ? [0] : []);
 
     const onButtonClick = (index: number) => {
