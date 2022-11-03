@@ -1,19 +1,27 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useRef, useReducer} from 'react';
+import React, {useEffect, useRef, useReducer, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {useIntl} from 'react-intl';
 
-import {Stripe, StripeCardElement, StripeCardElementChangeEvent} from '@stripe/stripe-js';
+import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
 import {Elements} from '@stripe/react-stripe-js';
 
-import {SelfHostedSignupForm} from '@mattermost/types/cloud';
+import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/cloud';
+import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
+import {Client4} from 'mattermost-redux/client';
+import {CloudTypes} from 'mattermost-redux/action_types';
+import {DispatchFunc} from 'mattermost-redux/types/actions';
+
+import {trackEvent, pageVisited} from 'actions/telemetry_actions';
+import {closeModal} from 'actions/views/modals';
+import {confirmSelfHostedSignup} from 'actions/cloud';
 
 import {GlobalState} from 'types/store';
-import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
 
 import {isModalOpen} from 'selectors/views/modals';
 
@@ -24,21 +32,14 @@ import DropdownInput from 'components/dropdown_input';
 
 import Input from 'components/widgets/inputs/input/input';
 
-import {trackEvent, pageVisited} from 'actions/telemetry_actions';
-import {closeModal} from 'actions/views/modals';
-import {completeStripeAddPaymentMethod} from 'actions/cloud';
-import {Client4} from 'mattermost-redux/client';
 import {
     ModalIdentifiers,
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
+import {COUNTRIES} from 'utils/countries';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
-
-// interface Props {
-//     callerCTA?: string;
-// }
 
 interface State {
     address: string;
@@ -52,64 +53,76 @@ interface State {
     waitingOnNetwork: boolean;
     agreedTerms: boolean;
     cardFilled: boolean;
+    seats: number;
+    submitting: boolean;
 }
 
 interface UpdateAddress {
-    type: 'update_address'
+    type: 'update_address';
     data: string;
 }
 
 interface UpdateAddress2 {
-    type: 'update_address_2'
+    type: 'update_address2';
     data: string;
 }
 
 interface UpdateCity {
-    type: 'update_city'
+    type: 'update_city';
     data: string;
 }
 
 interface UpdateState {
-    type: 'update_state'
+    type: 'update_state';
     data: string;
 }
 
 interface UpdateCountry {
-    type: 'update_country'
+    type: 'update_country';
     data: string;
 }
 
 interface UpdatePostalCode {
-    type: 'update_postal_code'
+    type: 'update_postal_code';
     data: string;
 }
 
 interface UpdateOrganization {
-    type: 'update_organization'
+    type: 'update_organization';
     data: string;
 }
 
 interface UpdateCardName {
-    type: 'update_card_name'
+    type: 'update_card_name';
     data: string;
 }
 
 interface UpdateWaitingOnNetwork {
-    type: 'update_waiting_on_network'
+    type: 'update_waiting_on_network';
     data: boolean;
 }
 
 interface UpdateAgreedTerms {
-    type: 'update_agreed_terms'
+    type: 'update_agreed_terms';
     data: boolean;
 }
 
 interface UpdateCardFilled {
-    type: 'card_filled'
+    type: 'card_filled';
     data: boolean;
 }
 
-type Action = 
+interface UpdateSeats {
+    type: 'update_seats';
+    data: number;
+}
+
+interface UpdateSubmitting {
+    type: 'update_submitting';
+    data: boolean;
+}
+
+type Action =
     | UpdateAddress
     | UpdateAddress2
     | UpdateCity
@@ -121,6 +134,8 @@ type Action =
     | UpdateAgreedTerms
     | UpdateCardFilled
     | UpdateCardName
+    | UpdateSeats
+    | UpdateSubmitting
 
 const initialState: State = {
     address: '',
@@ -134,67 +149,62 @@ const initialState: State = {
     waitingOnNetwork: false,
     agreedTerms: false,
     cardFilled: false,
+    seats: 10,
+    submitting: false,
 };
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
-    case 'update_address': 
-        return {...state, address: action.data}
-    case 'update_address_2':
-        return {...state, address2: action.data}
+    case 'update_address':
+        return {...state, address: action.data};
+    case 'update_address2':
+        return {...state, address2: action.data};
     case 'update_city':
-        return {...state, city: action.data}
+        return {...state, city: action.data};
     case 'update_country':
-        return {...state, country: action.data}
+        return {...state, country: action.data};
     case 'update_postal_code':
-        return {...state, postalCode: action.data}
+        return {...state, postalCode: action.data};
     case 'update_state':
-        return {...state, state: action.data}
+        return {...state, state: action.data};
     case 'update_waiting_on_network':
-        return {...state, waitingOnNetwork: action.data}
+        return {...state, waitingOnNetwork: action.data};
     case 'update_agreed_terms':
-        return {...state, agreedTerms: action.data}
+        return {...state, agreedTerms: action.data};
     case 'card_filled':
-        return {...state, cardFilled: action.data}
+        return {...state, cardFilled: action.data};
     case 'update_card_name':
-        return {...state, cardName: action.data}
+        return {...state, cardName: action.data};
+    case 'update_organization':
+        return {...state, organization: action.data};
+    case 'update_submitting':
+        return {...state, submitting: action.data};
     default:
         // eslint-disable-next-line
         console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`)
-        return state
-    
+        return state;
     }
 }
 
-function selectBillingDetails(s: State, card: StripeCardElement): BillingDetails {
-    return {
-    address: s.address,
-    address2: s.address2,
-    city: s.city,
-    state: s.state,
-    country: s.country,
-    postalCode: s.postalCode,
-    name: s.cardName,
-    card,
-    agreedTerms: s.agreedTerms,
-    }
-    
-}
-
-export default function SelfHostedPurchaseModal(/*props: Props*/) {
+export default function SelfHostedPurchaseModal() {
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
+    const progress = useSelector(getSelfHostedSignupProgress);
+    const user = useSelector(getCurrentUser);
     const theme = useSelector(getTheme);
     const intl = useIntl();
+    const [, setStripeLoaded] = useState(false);
 
-    const [state, dispatch] = useReducer(reducer, initialState)
-    const reduxDispatch = useDispatch();
+    const [state, dispatch] = useReducer(reducer, initialState);
+    const reduxDispatch = useDispatch<DispatchFunc>();
 
     const cardRef = useRef<CardInputType | null>(null);
     const modalRef = useRef();
+
     // const billingDetails = selectBillingDetails(state, cardRef.current?.getCard()!);
-    const checkbillingDetailsValid = () => areBillingDetailsValid(selectBillingDetails(state, cardRef.current?.getCard()!));
+    // const checkBillingDetailsValid = () => areBillingDetailsValid(selectBillingDetails(state, cardRef.current?.getCard()!));
 
     const stripeRef = useRef<Stripe | null>(null);
+    const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE;
 
     useEffect(() => {
         pageVisited(
@@ -203,157 +213,264 @@ export default function SelfHostedPurchaseModal(/*props: Props*/) {
         );
         loadStripe(STRIPE_PUBLIC_KEY).then((stripe: Stripe | null) => {
             stripeRef.current = stripe;
+
+            // deliberately cause a rerender so that the input can render.
+            // otherwise, the input does not show up.
+            setStripeLoaded(true);
         });
     }, []);
 
-    // const onPaymentInput = (billing: BillingDetails) => {
-    //     this.setState({
-    //         paymentInfoIsValid:
-    //             areBillingDetailsValid(billing) && this.state.cardInputComplete,
-    //     });
-    //     this.setState({billingDetails: billing});
-    // }
-
     const handleCardInputChange = (event: StripeCardElementChangeEvent) => {
-        dispatch({type: 'card_filled', data: event.complete})
-    }
-
-    const form: SelfHostedSignupForm = {
-        first_name: 'bob',
-        last_name: 'jones',
-        billing_address: {
-            city: 'polis',
-            country: 'polistan',
-            line1: '123 polis street',
-            line2: '#123',
-            postal_code: '12345',
-            state: 'MN',
-        },
-        organization: 'bob corp',
+        dispatch({type: 'card_filled', data: event.complete});
     };
-    // const subscriptionRequest =  {
-    //     customer_id: '',
-    //     product_id: 'prod_K3evf2gg2LIzrD',
-    //     add_ons: [],
-    //     seats: 123,
-    //     total: 1234.03,
-    //     internal_purchase_order: 'asdf',
-    // };
-    // 
-
-    // const onBlur = () => {
-    //     const {onInputBlur} = props;
-    //     if (onInputBlur) {
-    //         onInputBlur(
-    //             selectBillingDetails(state, cardRef.current?.getCard()!);
-    //         )
-    //     }
-    // }
 
     async function submit() {
-        const result = await Client4.createCustomerSelfHostedSignup(form);
-        console.log(result);
+        let submitProgress = progress;
+        dispatch({type: 'update_submitting', data: true});
+        const signupCustomerResult = await Client4.createCustomerSelfHostedSignup({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            billing_address: {
+                city: state.city,
+                country: state.country,
+                line1: state.address,
+                line2: state.address2,
+                postal_code: state.postalCode,
+                state: state.state,
+            },
+            organization: state.organization,
+        });
+        if (progress === SelfHostedSignupProgress.START || progress === SelfHostedSignupProgress.CREATED_CUSTOMER) {
+            reduxDispatch({
+                type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                data: signupCustomerResult.progress,
+
+            });
+            submitProgress = signupCustomerResult.progress;
+        }
         const isDevMode = false;
         if (stripeRef.current === null) {
-            console.log('stripe ref is not here. waaah.')
-            return
+            loadStripe(STRIPE_PUBLIC_KEY).then((stripe: Stripe | null) => {
+                stripeRef.current = stripe;
+
+                // deliberately cause a rerender so that the input can render.
+                // otherwise, the input does not show up.
+                setStripeLoaded(true);
+            });
+            dispatch({type: 'update_submitting', data: false});
+            return;
         }
-        const addedPaymentMethod = await reduxDispatch(completeStripeAddPaymentMethod(
-            stripeRef.current,
-            {
-                address: form.billing_address.line1,
-                address2: form.billing_address.line2,
-                city:  form.billing_address.city,
-                state:  form.billing_address.state,
-                country:  form.billing_address.country,
-                postalCode:  form.billing_address.postal_code,
-                name: form.first_name + ' ' + form.last_name,
-                card: '' as any,
-            },
-            isDevMode,
-            {
-                id: result.setup_intent_id,
-                client_secret: result.setup_intent_secret,
-            },
-        ));
-        console.log(addedPaymentMethod);
+        try {
+            const finished = await reduxDispatch(confirmSelfHostedSignup(
+                stripeRef.current,
+                {
+                    id: signupCustomerResult.setup_intent_id,
+                    client_secret: signupCustomerResult.setup_intent_secret,
+                },
+                isDevMode,
+                {
+                    address: state.address,
+                    address2: state.address2,
+                    city: state.city,
+                    state: state.state,
+                    country: state.country,
+                    postalCode: state.postalCode,
+                    name: state.cardName,
+                    card: cardRef.current?.getCard()!,
+                },
+                submitProgress,
+                {
+                    product_id: 'prod_K3evf2gg2LIzrD',
+                    add_ons: [],
+                    seats: state.seats,
+                },
+            ));
+            if (finished) {
+                (function() {console.log('redirect to license page or something');})()
+            }
+            dispatch({type: 'update_submitting', data: false});
+        } catch {
+            dispatch({type: 'update_submitting', data: false});
+        }
     }
-    
+    const canSubmitForm = true;
+
+    let buttonStep = 'Signup';
+    if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
+        buttonStep = 'Re-request license';
+    }
+
     return (
         <Elements
             options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
             stripe={stripeRef.current}
         >
-        <RootPortal>
-            <FullScreenModal
-                show={show}
-                ref={modalRef}
-                ariaLabelledBy='self_hosted_purchase_modal_title'
-                onClose={() => {
-                    trackEvent(
-                        TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                        'click_close_purchasing_screen',
-                    );
-                    reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
-                }}
-            >
-        <div>
-            {'form here'}
-            <CardInput
-                forwardedRef={cardRef}
-                required={true}
-                onCardInputChange={handleCardInputChange}
-                theme={theme}
-            />
-            <Input
-                name='name'
-                type='text'
-                value={state.cardName}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {dispatch({type: 'update_card_name', data: e.target.value})}}
-                placeholder={intl.formatMessage({
-                    id: 'payment_form.name_on_card',
-                    defaultMessage: 'Name on Card',
-                })}
-                required={true}
-            />
+            <RootPortal>
+                <FullScreenModal
+                    show={show}
+                    ref={modalRef}
+                    ariaLabelledBy='self_hosted_purchase_modal_title'
+                    onClose={() => {
+                        trackEvent(
+                            TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                            'click_close_purchasing_screen',
+                        );
+                        reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
+                    }}
+                >
+                    {showForm && <div style={{margin: '30px'}}>
+                        <div style={{zIndex: '234', padding: '30px'}}>
+                            <CardInput
+                                forwardedRef={cardRef}
+                                required={true}
+                                onCardInputChange={handleCardInputChange}
+                                theme={theme}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                name='company'
+                                type='text'
+                                value={state.organization}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    dispatch({type: 'update_organization', data: e.target.value});
+                                }}
+                                placeholder={intl.formatMessage({
+                                    id: 'payment_form.organization',
+                                    defaultMessage: 'Company Name',
+                                })}
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                name='name'
+                                type='text'
+                                value={state.cardName}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    dispatch({type: 'update_card_name', data: e.target.value});
+                                }}
+                                placeholder={intl.formatMessage({
+                                    id: 'payment_form.name_on_card',
+                                    defaultMessage: 'Name on Card',
+                                })}
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <input
+                                type='number'
+                                value={state.seats}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    dispatch({type: 'update_seats', data: parseInt(e.target.value, 10) || 42});
+                                }}
+                                min={1}
+                                max={9999999999999}
+                            />
+                        </div>
+                        <div>
 
-                    <DropdownInput
-                        onChange={this.handleCountryChange}
-                        value={
-                            this.state.country ? {value: this.state.country, label: this.state.country} : undefined
-                        }
-                        options={COUNTRIES.map((country) => ({
-                            value: country.name,
-                            label: country.name,
-                        }))}
-                        legend={Utils.localizeMessage(
-                            'payment_form.country',
-                            'Country',
-                        )}
-                        placeholder={Utils.localizeMessage(
-                            'payment_form.country',
-                            'Country',
-                        )}
-                        name={'billing_dropdown'}
-                    />
-            <StateSelector
-                country={state.country}
-                state={state.state}
-                onChange={(state: string) => {dispatch({type: 'update_state', data: state})}}
-            />
-            <FormattedMessage
-                id='payment_form.billing_address'
-                defaultMessage='Billing address'
-            />
-        </div>
-        <button
-            className=''
-            onClick={submit}
-         >
-            {'start flow'}
-        </button>
-            </FullScreenModal>
-        </RootPortal>
+                            <DropdownInput
+                                onChange={(option: {value: string}) => {
+                                    dispatch({type: 'update_country', data: option.value});
+                                }}
+                                value={
+                                    state.country ? {value: state.country, label: state.country} : undefined
+                                }
+                                options={COUNTRIES.map((country) => ({
+                                    value: country.name,
+                                    label: country.name,
+                                }))}
+                                legend={intl.formatMessage({
+                                    id: 'payment_form.country',
+                                    defaultMessage: 'Country',
+                                })}
+                                placeholder={intl.formatMessage({
+                                    id: 'payment_form.country',
+                                    defaultMessage: 'Country',
+                                })}
+                                name={'billing_dropdown'}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                name='address'
+                                type='text'
+                                value={state.address}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    dispatch({type: 'update_address', data: e.target.value});
+                                }}
+                                placeholder={intl.formatMessage({
+                                    id: 'payment_form.address',
+                                    defaultMessage: 'Address',
+                                })}
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                name='address2'
+                                type='text'
+                                value={state.address2}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    dispatch({type: 'update_address2', data: e.target.value});
+                                }}
+                                placeholder={intl.formatMessage({
+                                    id: 'payment_form.address_2',
+                                    defaultMessage: 'Address 2',
+                                })}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                name='city'
+                                type='text'
+                                value={state.city}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    dispatch({type: 'update_city', data: e.target.value});
+                                }}
+                                placeholder={intl.formatMessage({
+                                    id: 'payment_form.city',
+                                    defaultMessage: 'City',
+                                })}
+                                required={true}
+                            />
+                        </div>
+                        <div>
+                            <StateSelector
+                                country={state.country}
+                                state={state.state}
+                                onChange={(state: string) => {
+                                    dispatch({type: 'update_state', data: state});
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <Input
+                                name='postalCode'
+                                type='text'
+                                value={state.postalCode}
+                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                    dispatch({type: 'update_postal_code', data: e.target.value});
+                                }}
+                                placeholder={intl.formatMessage({
+                                    id: 'payment_form.zipcode',
+                                    defaultMessage: 'Zip/Postal Code',
+                                })}
+                                required={true}
+                            />
+                        </div>
+                    </div>}
+
+                    <button
+                        className=''
+                        disabled={!canSubmitForm}
+                        onClick={submit}
+                    >
+                        {buttonStep}
+                    </button>
+                </FullScreenModal>
+            </RootPortal>
         </Elements>
     );
 }

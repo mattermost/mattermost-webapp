@@ -9,22 +9,25 @@ import FormData from 'form-data';
 import {SystemSetting} from '@mattermost/types/general';
 import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
+import type {ValueOf} from '@mattermost/types/utilities';
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
 import {
     Product,
-CloudCustomer,
-Address,
-CloudCustomerPatch,
-Invoice,
-     Limits,
-     IntegrationsUsage,
-     NotifyAdminRequest,
-     Subscription,
-     ValidBusinessEmail,
+    CloudCustomer,
+    Address,
+    CloudCustomerPatch,
+    Invoice,
+    Limits,
+    IntegrationsUsage,
+    NotifyAdminRequest,
+    Subscription,
+    ValidBusinessEmail,
     SelfHostedSignupForm,
-    SelfHostedSignupCustomerResponse
+    SelfHostedSignupCustomerResponse,
+    CreateSubscriptionRequest,
+    SelfHostedSignupProgress,
 } from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
@@ -3856,7 +3859,7 @@ export default class Client4 {
     };
 
     bootstrapSelfHostedSignup = () => {
-        return this.doFetch<void>(
+        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
             `${this.getCloudRoute()}/self-hosted-bootstrap`,
             {method: 'post'},
         );
@@ -3869,10 +3872,10 @@ export default class Client4 {
         );
     };
 
-    confirmSelfHostedSignup = () => {
-        return this.doFetch<void>(
+    confirmSelfHostedSignup = (setupIntentId: string, createSubscriptionRequest: CreateSubscriptionRequest) => {
+        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
             `${this.getCloudRoute()}/self-hosted-confirm`,
-            {method: 'post'},
+            {method: 'post', body: JSON.stringify({stripe_setup_intent_id: setupIntentId, subscription: createSubscriptionRequest})},
         );
     };
 
