@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {Fragment, ReactNode, useState} from 'react';
+import React, {ReactNode, useState} from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
@@ -252,7 +252,7 @@ function Card(props: CardProps) {
     );
 
     const monthlyPlan = (
-        <Fragment>
+        <>
             <div className='enable_annual_sub'>
                 <button
                     className={'plan_action_btn ' + props.buttonDetails.customClass}
@@ -283,7 +283,7 @@ function Card(props: CardProps) {
                     />
                 </a>
             </div>
-        </Fragment>
+        </>
     );
 
     const errorMessage = formatMessage({
@@ -292,7 +292,7 @@ function Card(props: CardProps) {
     }, {num: props.usersCount});
 
     const yearlyPlan = (
-        <Fragment>
+        <>
             <div className='flex-grid'>
                 <div className='user_seats_container'>
                     <Input
@@ -366,7 +366,7 @@ function Card(props: CardProps) {
                     />
                 </a>
             </div>
-        </Fragment>
+        </>
     );
 
     const originalPlan = (
