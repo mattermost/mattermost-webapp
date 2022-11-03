@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {browserHistory} from 'utils/browser_history.jsx';
+import {getHistory} from 'utils/browser_history';
 
 import ChannelIdentifierRouter from './channel_identifier_router';
 
@@ -71,10 +71,9 @@ describe('components/channel_layout/CenterChannel', () => {
                 url: '/team/channel/identifier/abcd',
             },
         };
-        browserHistory.replace = jest.fn();
         shallow(<ChannelIdentifierRouter {...props}/>);
         jest.runOnlyPendingTimers();
-        expect(browserHistory.replace).toHaveBeenLastCalledWith('/team/channel/identifier');
+        expect(getHistory().replace).toHaveBeenLastCalledWith('/team/channel/identifier');
     });
 
     test('should call browserHistory.replace on props change to permalink', () => {
@@ -91,11 +90,10 @@ describe('components/channel_layout/CenterChannel', () => {
             },
         };
 
-        browserHistory.replace = jest.fn();
         const wrapper = shallow(<ChannelIdentifierRouter {...baseProps}/>);
         wrapper.setProps(props);
 
         jest.runOnlyPendingTimers();
-        expect(browserHistory.replace).toHaveBeenLastCalledWith('/team1/channel/identifier1');
+        expect(getHistory().replace).toHaveBeenLastCalledWith('/team1/channel/identifier1');
     });
 });

@@ -18,10 +18,7 @@ describe('components/audit_table/AuditTable', () => {
         showIp: true,
         showSession: true,
         currentUser: TestHelper.getUserMock({id: 'user-1'}),
-        getUser: jest.fn(),
-        getByName: jest.fn(),
         actions,
-        getDirectTeammate: jest.fn(),
     };
 
     test('should match snapshot with no audits', () => {

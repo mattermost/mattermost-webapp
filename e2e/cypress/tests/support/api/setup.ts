@@ -1,16 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '@mattermost/types/users';
-import {Team} from '@mattermost/types/teams';
-import {Channel} from '@mattermost/types/channels';
-
 import {ChainableT} from '../../types';
 
 interface SetupResult {
-    user: UserProfile;
-    team: Team;
-    channel: Channel;
+    user: Cypress.UserProfile;
+    team: Cypress.Team;
+    channel: Cypress.Channel;
     channelUrl: string;
     offTopicUrl: string;
     townSquareUrl: string;
@@ -89,9 +85,9 @@ declare global {
              * @param {string} options.teamPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a team
              * @param {string} options.channelPrefix - {name: 'team', displayName: 'Team'} (default) or any prefix to easily identify a channel
              * @returns {Object} `out` Cypress-chainable, yielded with element passed into .wrap().
-             * @returns {UserProfile} `out.user` as `UserProfile` object
-             * @returns {Team} `out.team` as `Team` object
-             * @returns {Channel} `out.channel` as `Channel` object
+             * @returns {Cypress.UserProfile} `out.user` as `UserProfile` object
+             * @returns {Cypress.Team} `out.team` as `Team` object
+             * @returns {Cypress.Channel} `out.channel` as `Channel` object
              * @returns {string} `out.channelUrl` as channel URL
              * @returns {string} `out.offTopicUrl` as off-topic URL
              * @returns {string} `out.townSquareUrl` as town-square URL
