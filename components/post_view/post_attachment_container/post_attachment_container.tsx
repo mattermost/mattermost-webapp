@@ -53,14 +53,14 @@ const PostAttachmentContainer = (props: Props) => {
             !elements.includes(tagName) &&
                 e.target.getAttribute('role') !== 'button' &&
                 e.target.className !== `attachment attachment--${className}`
-            ) {
-                const classNames = [
-                    'icon icon-menu-down',
-                    'icon icon-menu-right',
-                    'post-image',
-                    'file-icon',
-                    'Reaction',
-                ];
+        ) {
+            const classNames = [
+                'icon icon-menu-down',
+                'icon icon-menu-right',
+                'post-image',
+                'file-icon',
+                'Reaction',
+            ];
 
             if (params && shouldFocusPostWithoutRedirect && crtEnabled && post && post.root_id) {
                 dispatch(focusPost(params.postId, link, currentUserId, {skipRedirectReplyPermalink: true}));
