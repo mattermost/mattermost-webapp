@@ -18,6 +18,11 @@ jest.mock('selectors/storage');
 
 (StorageSelectors.makeGetItem as jest.Mock).mockReturnValue(() => false);
 
+jest.mock('react-dom', () => ({
+    ...jest.requireActual('react-dom'),
+    createPortal: (node: any) => node,
+}));
+
 describe('components/delinquency_modal/delinquency_modal_controller', () => {
     const initialState = {
         views: {

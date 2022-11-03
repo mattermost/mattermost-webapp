@@ -13,7 +13,6 @@ import './plan_details.scss';
 
 type Props = {
     userCount: number;
-    isLegacyFree: boolean;
     isFreeTrial: boolean;
     subscriptionPlan: string | undefined;
     daysLeftOnTrial: number;
@@ -21,68 +20,56 @@ type Props = {
 
 export const PlanDetailsTopElements = ({
     userCount,
-    isLegacyFree,
     isFreeTrial,
     subscriptionPlan,
     daysLeftOnTrial,
 }: Props) => {
-    let userCountDisplay;
     let productName;
     const openPricingModal = useOpenPricingModal();
     const intl = useIntl();
 
-    if (isLegacyFree) {
+    const userCountDisplay = (
+        <div className='PlanDetails__userCount'>
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.userCount'
+                defaultMessage='{userCount} users'
+                values={{userCount}}
+            />
+        </div>
+    );
+    switch (subscriptionPlan) {
+    case CloudProducts.PROFESSIONAL:
         productName = (
             <FormattedMessage
-                id='admin.billing.subscription.planDetails.productName.mmCloud'
-                defaultMessage='Mattermost Cloud'
+                id='admin.billing.subscription.planDetails.productName.cloudProfessional'
+                defaultMessage='Cloud Professional'
             />
         );
-    } else {
-        userCountDisplay = (
-            <div className='PlanDetails__userCount'>
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.userCount'
-                    defaultMessage='{userCount} users'
-                    values={{userCount}}
-                />
-            </div>
+        break;
+    case CloudProducts.ENTERPRISE:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
+                defaultMessage='Cloud Enterprise'
+            />
         );
-        switch (subscriptionPlan) {
-        case CloudProducts.PROFESSIONAL:
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudProfessional'
-                    defaultMessage='Cloud Professional'
-                />
-            );
-            break;
-        case CloudProducts.ENTERPRISE:
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudEnterprise'
-                    defaultMessage='Cloud Enterprise'
-                />
-            );
-            break;
-        case CloudProducts.STARTER:
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.cloudFree'
-                    defaultMessage='Cloud Free'
-                />
-            );
-            break;
-        default:
-            // must be CloudProducts.LEGACY
-            productName = (
-                <FormattedMessage
-                    id='admin.billing.subscription.planDetails.productName.mmCloud'
-                    defaultMessage='Mattermost Cloud'
-                />
-            );
-            break;
-        }
+        break;
+    case CloudProducts.STARTER:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.cloudFree'
+                defaultMessage='Cloud Free'
+            />
+        );
+        break;
+    default:
+        productName = (
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.productName.unknown'
+                defaultMessage='Unknown product'
+            />
+        );
+        break;
     }
 
     const trialBadge = (
