@@ -25,7 +25,7 @@ async function globalSetup() {
     if (!adminClient) {
         const {client: firstClient} = await makeClient();
         const defaultAdmin = getDefaultAdminUser();
-        await firstClient?.createUserX(defaultAdmin);
+        await firstClient?.createUser(defaultAdmin, '', '');
 
         ({client: adminClient, user: adminUser} = await makeClient(defaultAdmin));
     }

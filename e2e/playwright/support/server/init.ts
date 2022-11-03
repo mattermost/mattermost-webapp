@@ -29,7 +29,7 @@ export async function initSetup({
         const team = await adminClient.createTeam(createRandomTeam(teamPrefix.name, teamPrefix.displayName));
 
         const randomUser = createRandomUser(userPrefix);
-        const user = await adminClient.createUserX(randomUser);
+        const user = await adminClient.createUser(randomUser, '', '');
         user.password = randomUser.password;
 
         await adminClient.addToTeam(team.id, user.id);

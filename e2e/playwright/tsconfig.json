@@ -7,8 +7,8 @@
         "noEmit": true,
         "baseUrl": ".",
         "paths": {
-            "@mattermost/client/*": ["../../packages/client/src/*"],
-            "@mattermost/types/*": ["../../packages/types/src/*"],
+            "@mattermost/client/*": ["../../packages/client/lib/*"],
+            "@mattermost/types/*": ["../../packages/types/lib/*"],
             "@e2e-support/*": ["support/*"],
             "@e2e-test.config": ["test.config.ts"]
         }

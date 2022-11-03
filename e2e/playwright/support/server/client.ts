@@ -11,38 +11,12 @@ import FormData from 'form-data';
 import 'isomorphic-unfetch';
 
 import {Client4} from '@mattermost/client';
-import {UserProfile} from '@mattermost/types/users';
 import {StatusOK} from '@mattermost/types/client4';
 import {CustomEmoji} from '@mattermost/types/emojis';
 import {PluginManifest} from '@mattermost/types/plugins';
 import {License} from '@mattermost/types/config';
 
-import {buildQueryString} from '@mattermost/client/helpers';
-
 export default class Client extends Client4 {
-    createUserX = (user: UserProfile, token?: string, inviteId?: string, redirect?: string) => {
-        this.trackEvent('api', 'api_users_create');
-
-        const queryParams: any = {};
-
-        if (token) {
-            queryParams.t = token;
-        }
-
-        if (inviteId) {
-            queryParams.iid = inviteId;
-        }
-
-        if (redirect) {
-            queryParams.r = redirect;
-        }
-
-        return this.doFetch<UserProfile>(`${this.getUsersRoute()}${buildQueryString(queryParams)}`, {
-            method: 'post',
-            body: JSON.stringify(user),
-        });
-    };
-
     uploadProfileImageX = (userId: string, filePath: string) => {
         this.trackEvent('api', 'api_users_update_profile_picture');
 
