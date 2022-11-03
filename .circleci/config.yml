@@ -34,6 +34,7 @@ jobs:
       - checkout
       - run: |
           make node_modules
+          make e2e/playwright/node_modules
       - *save_cache
   check-deps:
     parameters:
