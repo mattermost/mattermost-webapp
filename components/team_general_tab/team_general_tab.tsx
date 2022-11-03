@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React, {ChangeEvent, MouseEvent, ReactNode} from 'react';
@@ -640,10 +641,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
+                    <h4 className='modal-title'>
                         <div className='modal-back'>
                             <span onClick={this.props.collapseModal}>
                                 <BackIcon/>
@@ -655,10 +653,7 @@ export default class GeneralTab extends React.PureComponent<Props, State> {
                         />
                     </h4>
                 </div>
-                <div
-                    ref='wrapper'
-                    className='user-settings'
-                >
+                <div className='user-settings'>
                     <h3 className='tab-header'>
                         <FormattedMessage
                             id='general_tab.title'
