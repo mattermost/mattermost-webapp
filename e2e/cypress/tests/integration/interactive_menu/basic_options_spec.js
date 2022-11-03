@@ -33,7 +33,7 @@ describe('Interactive Menu', () => {
     let teamId;
 
     before(() => {
-        cy.requireWebhookServer();
+        // cy.requireWebhookServer();
 
         cy.apiInitSetup().then(({team, channel, user}) => {
             testUser = user;
