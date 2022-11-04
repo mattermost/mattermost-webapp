@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ChangeEvent} from 'react';
 
 import {Channel} from '@mattermost/types/channels';
 
@@ -11,7 +11,7 @@ import * as Utils from 'utils/utils';
 type Props = {
     id?: string;
     channels: Channel[];
-    onChange?: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    onChange?: (e: ChangeEvent<HTMLSelectElement>) => void;
     value?: string;
     selectOpen?: boolean;
     selectPrivate?: boolean;

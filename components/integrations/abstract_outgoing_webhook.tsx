@@ -5,8 +5,6 @@ import React, {ChangeEvent} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
-//import {ArrayDestructuringAssignment} from 'typescript';
-
 import {localizeMessage} from 'utils/utils';
 import {OutgoingWebhook} from '@mattermost/types/integrations';
 import BackstageHeader from 'components/backstage/components/backstage_header';
@@ -27,6 +25,7 @@ type Props = {
     enablePostUsernameOverride: boolean;
     enablePostIconOverride: boolean;
 }
+
 type State= {
     displayName: string;
     description: string;
