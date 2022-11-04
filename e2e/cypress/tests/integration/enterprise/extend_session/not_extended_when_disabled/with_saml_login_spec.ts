@@ -24,7 +24,6 @@ describe('Extended Session Length', () => {
     const sessionConfig = {
         ServiceSettings: {
             SessionLengthSSOInDays: sessionLengthInDays,
-            ExtendSessionLengthWithActivity: false,
         },
     };
 
