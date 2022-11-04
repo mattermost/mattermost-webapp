@@ -26,11 +26,11 @@
         border-radius: 40px;
     }
 
-    .toggle-border.yearly {
+    .toggle-border.toggle-border-yearly {
         margin-left: 0;
     }
 
-    .move {
+    .move-border {
         position: relative;
         animation-duration: 0.1s;
         animation-fill-mode: forwards;
@@ -44,15 +44,15 @@
         animation-name: moveRight;
     }
 
-    .move-left.yearly {
+    .move-left.toggle-border-yearly {
         animation-name: moveLeftYearly;
     }
 
-    .move-right.yearly {
+    .move-right.toggle-border-yearly {
         animation-name: moveRightYearly;
     }
 
-    .text {
+    .label-text {
         top: 7px;
         left: 90px;
         width: 56px;
