@@ -23,6 +23,7 @@ type Props = {
 type State = {
     code: string;
     lang: string;
+    highlighted: string;
     loading: boolean;
     success: boolean;
     prevFileUrl?: string;
@@ -88,7 +89,7 @@ export default class CodePreview extends React.PureComponent<Props, State> {
         }
     }
 
-    handleReceivedCode = (data: string | Node) => {
+    handleReceivedCode = async (data: string | Node) => {
         let code = data as string;
         const Data = data as Node;
         if (Data.nodeName === '#document') {
