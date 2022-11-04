@@ -5,11 +5,11 @@ import React, {useEffect, useRef, useReducer, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
-import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
-import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/stripe-js#importing-loadstripe-without-side-effects
+import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
 import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
+import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/cloud';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
@@ -25,7 +25,7 @@ import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
 
-import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
+import {STRIPE_CSS_SRC} from 'components/payment_form/stripe';
 import CardInput, {CardInputType} from 'components/payment_form/card_input';
 import StateSelector from 'components/payment_form/state_selector';
 import DropdownInput from 'components/dropdown_input';
@@ -40,6 +40,7 @@ import {COUNTRIES} from 'utils/countries';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
+import useLoadStripe from 'components/common/hooks/useLoadStripe';
 
 interface State {
     address: string;
@@ -147,7 +148,7 @@ const initialState: State = {
     cardName: '',
     organization: '',
     waitingOnNetwork: false,
-    agreedTerms: false,
+    agreedTerms: true,
     cardFilled: false,
     seats: 10,
     submitting: false,
@@ -186,24 +187,80 @@ function reducer(state: State, action: Action): State {
     }
 }
 
+function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgress>) {
+    if (state.submitting) {
+        return false
+    }
+
+    if (progress === SelfHostedSignupProgress.PAID
+         || progress === SelfHostedSignupProgress.CREATED_LICENSE
+         || progress === SelfHostedSignupProgress.CREATED_SUBSCRIPTION
+    ) {
+        // in these cases, the server has all the data it needs, all it needs is resubmit.
+        return true
+    }
+
+    if (progress === SelfHostedSignupProgress.CONFIRMED_INTENT) {
+        return Boolean(
+            // address
+            state.address &&
+            state.city &&
+            state.state &&
+            state.postalCode &&
+            state.country &&
+
+            // product/license
+            state.seats &&
+            state.organization &&
+            
+            // legal
+            state.agreedTerms
+        )
+    }
+
+    if (progress === SelfHostedSignupProgress.START) {
+        return Boolean(
+            // card
+            state.cardName &&
+            state.cardFilled &&
+                
+            // address
+            state.address &&
+            state.city &&
+            state.state &&
+            state.postalCode &&
+            state.country &&
+
+            // product/license
+            state.seats &&
+            state.organization &&
+            
+            // legal
+            state.agreedTerms
+        )
+    
+    }
+    return true
+}
+
 export default function SelfHostedPurchaseModal() {
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
     const progress = useSelector(getSelfHostedSignupProgress);
     const user = useSelector(getCurrentUser);
     const theme = useSelector(getTheme);
     const intl = useIntl();
-    const [, setStripeLoaded] = useState(false);
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const reduxDispatch = useDispatch<DispatchFunc>();
 
     const cardRef = useRef<CardInputType | null>(null);
     const modalRef = useRef();
+    const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
 
     // const billingDetails = selectBillingDetails(state, cardRef.current?.getCard()!);
     // const checkBillingDetailsValid = () => areBillingDetailsValid(selectBillingDetails(state, cardRef.current?.getCard()!));
 
-    const stripeRef = useRef<Stripe | null>(null);
+    const stripeRef = useLoadStripe(stripeLoadHint);
     const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE;
 
     useEffect(() => {
@@ -211,13 +268,6 @@ export default function SelfHostedPurchaseModal() {
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
             'pageview_self_hosted_purchase',
         );
-        loadStripe(STRIPE_PUBLIC_KEY).then((stripe: Stripe | null) => {
-            stripeRef.current = stripe;
-
-            // deliberately cause a rerender so that the input can render.
-            // otherwise, the input does not show up.
-            setStripeLoaded(true);
-        });
     }, []);
 
     const handleCardInputChange = (event: StripeCardElementChangeEvent) => {
@@ -250,13 +300,7 @@ export default function SelfHostedPurchaseModal() {
         }
         const isDevMode = false;
         if (stripeRef.current === null) {
-            loadStripe(STRIPE_PUBLIC_KEY).then((stripe: Stripe | null) => {
-                stripeRef.current = stripe;
-
-                // deliberately cause a rerender so that the input can render.
-                // otherwise, the input does not show up.
-                setStripeLoaded(true);
-            });
+            setStripeLoadHint(Math.random())
             dispatch({type: 'update_submitting', data: false});
             return;
         }
@@ -293,7 +337,7 @@ export default function SelfHostedPurchaseModal() {
             dispatch({type: 'update_submitting', data: false});
         }
     }
-    const canSubmitForm = true;
+    const canSubmitForm = canSubmit(state, progress)
 
     let buttonStep = 'Signup';
     if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
@@ -319,7 +363,7 @@ export default function SelfHostedPurchaseModal() {
                     }}
                 >
                     {showForm && <div style={{margin: '30px'}}>
-                        <div style={{zIndex: '234', padding: '30px'}}>
+                        <div>
                             <CardInput
                                 forwardedRef={cardRef}
                                 required={true}
