@@ -29,6 +29,7 @@ export type Props = {
     compassDesign?: boolean;
     backdrop?: boolean;
     backdropClassName?: string;
+    tabIndex?: number;
 };
 
 type State = {
@@ -79,9 +80,11 @@ export class GenericModal extends React.PureComponent<Props, State> {
     private onEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             if (this.props.autoCloseOnConfirmButton) {
+                console.log('autohide');
                 this.onHide();
             }
             if (this.props.handleEnterKeyPress) {
+                console.log('handleEnterKeyPress');
                 this.props.handleEnterKeyPress();
             }
         }
@@ -163,7 +166,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
             >
                 <div
                     onKeyDown={this.onEnterKeyDown}
-                    tabIndex={0}
+                    tabIndex={this.props.tabIndex || 0}
                     className='GenericModal__wrapper-enter-key-press-catcher'
                 >
                     <Modal.Header closeButton={true}>

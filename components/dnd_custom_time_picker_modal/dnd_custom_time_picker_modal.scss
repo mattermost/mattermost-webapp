@@ -120,3 +120,26 @@
     color: rgba(var(--center-channel-color-rgb), 0.64);
     font-size: 10px;
 }
+
+
+.DndModal__calendar-input {
+    height: 40px;
+
+    .Input_wrapper {
+        padding-left: 8px;
+
+        button {
+            margin: 0 8px 0 0;
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+
+            &:active {
+                background-color: transparent;
+            }
+        }
+        
+        input#DndModal__calendar-input {
+            height: auto;
+            border: 0;
+        }
+    }
+}

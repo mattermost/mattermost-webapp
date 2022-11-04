@@ -2,12 +2,10 @@
 // See LICENSE.txt for license information.
 import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector} from 'react-redux';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
-import {DayModifiers, NavbarElementProps} from 'react-day-picker';
+import {DayModifiers, DayPicker} from 'react-day-picker';
 import {useIntl} from 'react-intl';
 
 import moment, {Moment} from 'moment-timezone';
-import MomentUtils from 'react-day-picker/moment';
 
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
@@ -17,7 +15,7 @@ import {getCurrentMomentForTimezone} from 'utils/timezone';
 
 const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
 
-const Navbar: React.FC<Partial<NavbarElementProps>> = (navbarProps: Partial<NavbarElementProps>) => {
+const Navbar = (navbarProps: Partial<any>) => {
     const {
         onPreviousClick,
         onNextClick,
@@ -143,7 +141,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                 <span className='dateTime__date-icon'>
                     <i className='icon-calendar-outline'/>
                 </span>
-                <DayPickerInput
+                {/* <DayPickerInput
                     value={time.toDate()}
                     format='yyyy-MM-DD'
                     formatDate={MomentUtils.formatDate}
@@ -161,7 +159,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                             before: currentTime,
                         },
                     }}
-                />
+                /> */}
             </div>
             <div className='dateTime__time'>
                 <MenuWrapper

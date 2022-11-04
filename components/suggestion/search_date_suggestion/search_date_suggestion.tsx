@@ -3,13 +3,11 @@
 
 import React from 'react';
 
-import DayPicker from 'react-day-picker';
-
-import MomentLocaleUtils from 'react-day-picker/moment';
+import {DayPicker} from 'react-day-picker';
 
 import Suggestion from '../suggestion.jsx';
 
-import 'react-day-picker/lib/style.css';
+import 'react-day-picker/dist/style.css';
 
 import 'moment';
 
@@ -62,7 +60,6 @@ export default class SearchDateSuggestion extends Suggestion {
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}
                 modifiers={modifiers}
-                localeUtils={MomentLocaleUtils}
                 locale={locale}
             />
         );

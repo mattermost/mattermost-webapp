@@ -3,7 +3,7 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import DayPickerInput from 'react-day-picker/DayPickerInput';
+import {DayPicker} from 'react-day-picker';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from '@mattermost/types/users';
@@ -17,6 +17,10 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
 import {localizeMessage} from 'utils/utils';
+import Input from 'components/widgets/inputs/input/input';
+import {usePopper} from 'react-popper';
+import DatePicker from 'components/date_picker';
+import IconButton from '@mattermost/compass-components/components/icon-button';
 
 type Props = {
     onExited: () => void;
@@ -32,9 +36,13 @@ type State = {
     selectedTime: string;
     timeMenuList: string[];
     dayPickerStartDate: Date;
+    isPopperOpen: boolean;
+    popperElement: HTMLDivElement | null;
 }
 
 export default class DndCustomTimePicker extends React.PureComponent<Props, State> {
+    private popperRef: React.RefObject<HTMLDivElement>;
+
     constructor(props: Props) {
         super(props);
 
@@ -50,7 +58,11 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             selectedDate,
             dayPickerStartDate: selectedDate,
             ...this.makeTimeMenuList(selectedDate),
+            isPopperOpen: false,
+            popperElement: null,
         };
+
+        this.popperRef = React.createRef();
     }
 
     formatDate = (date: Date): string => {
@@ -99,6 +111,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
 
     handleDaySelection = (day: Date) => {
         this.setState({
+            isPopperOpen: false,
             selectedDate: day,
             ...this.makeTimeMenuList(day),
         });
@@ -136,6 +149,20 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
+    handlePopperOpen = (e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        this.setState({
+            isPopperOpen: true,
+        });
+    };
+
+    handlePopperClosed = () => {
+        this.setState({
+            isPopperOpen: false,
+        });
+    };
+
     render() {
         const {
             modalHeaderText,
@@ -168,32 +195,46 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 handleConfirm={this.handleConfirm}
-                handleEnterKeyPress={this.handleConfirm}
+                // handleEnterKeyPress={this.handleConfirm}
+                autoCloseOnConfirmButton={false}
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
+                tabIndex={-1}
             >
                 <div className='DndModal__content'>
-                    <div>
-                        <div className='DndModal__input DndModal__input--no-border'>
-                            <div className='DndModal__input__label'>
-                                <FormattedMessage
-                                    id='dnd_custom_time_picker_modal.date'
-                                    defaultMessage='Date'
+                    <DatePicker
+                        isPopperOpen={this.state.isPopperOpen}
+                        closePopper={this.handlePopperClosed}
+                        datePickerProps={{
+                            initialFocus: this.state.isPopperOpen,
+                            mode: "single",
+                            selected: selectedDate,
+                            onDayClick: this.handleDaySelection,
+                            disabled: [{
+                                before: dayPickerStartDate,
+                            }],
+                        }}
+                    >
+                        <Input
+                            value={this.formatDate(selectedDate)}
+                            id='DndModal__calendar-input'
+                            className='DndModal__calendar-input'
+                            label={localizeMessage('dnd_custom_time_picker_modal.date', 'Date')}
+                            inputPrefix={
+                                <IconButton
+                                    icon={'calendar-outline'}
+                                    onClick={this.handlePopperOpen}
+                                    size={'sm'}
                                 />
-                            </div>
-                            <i className='icon icon--no-spacing icon-calendar-outline icon--xs icon-14'/>
-                            <DayPickerInput
-                                value={this.formatDate(selectedDate)}
-                                onDayChange={this.handleDaySelection}
-                                dayPickerProps={{
-                                    selectedDays: selectedDate,
-                                    disabledDays: {
-                                        before: dayPickerStartDate,
-                                    },
-                                }}
-                            />
-                        </div>
-                    </div>
+                                // <button
+                                //     className='style--none'
+                                //     onClick={this.handlePopperOpen}
+                                // >
+                                //     <i className='icon icon-calendar-outline icon--xs icon-14' />
+                                // </button>
+                            }
+                        />
+                    </DatePicker>
                     <MenuWrapper
                         id='dropdown-no-caret'
                         stopPropagationOnToggle={true}
