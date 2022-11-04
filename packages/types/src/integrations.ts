@@ -71,7 +71,6 @@ export type CommandResponse = {
     channel_id: SVGAnimatedString;
     icon_url: string;
     type: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     props: Record<string, any>;
     goto_location: string;
     trigger_id: string;
@@ -88,7 +87,6 @@ export type AutocompleteSuggestion = {
     IconData: string;
 };
 
-// eslint-disable-next-line no-warning-comments
 export type CommandAutocompleteSuggestion = AutocompleteSuggestion; // TODO remove this alias after the mattermost-redux migration
 
 export type OAuthApp = {
@@ -142,7 +140,6 @@ export type DialogElement = {
     data_source: string;
     options: Array<{
         text: string;
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         value: any;
     }>;
 };
