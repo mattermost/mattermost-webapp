@@ -481,7 +481,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const title = (
             <FormattedMessage
                 id='create_group_memberships_modal.title'
-                defaultMessage='Add {username} to all of their group-defaulted teams and group channels'
+                defaultMessage='Re-sync {username} to teams and channels'
                 values={{
                     username: this.props.user.username,
                 }}
@@ -491,7 +491,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const message = (
             <FormattedMessage
                 id='create_group_memberships_modal.desc'
-                defaultMessage='This will add (or re-adds) {username} to all of their teams and channels that they get added to based on their group memberships. Do you want to proceed?'
+                defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. Do you want to continue?"
                 values={{
                     username: this.props.user.username,
                 }}
@@ -501,7 +501,14 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const createGroupMembershipsButton = (
             <FormattedMessage
                 id='create_group_memberships_modal.create'
-                defaultMessage='Create'
+                defaultMessage='Yes'
+            />
+        );
+
+        const cancelGroupMembershipsButton = (
+            <FormattedMessage
+                id='create_group_memberships_modal.cancel'
+                defaultMessage='No'
             />
         );
 
@@ -511,6 +518,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                 title={title}
                 message={message}
                 confirmButtonClass='btn btn-danger'
+                cancelButtonText={cancelGroupMembershipsButton}
                 confirmButtonText={createGroupMembershipsButton}
                 onConfirm={this.handleCreateGroupSyncableMemberships}
                 onCancel={this.handleCreateGroupSyncableMembershipsCancel}
@@ -709,7 +717,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
                             <Menu.ItemAction
                                 show={user.auth_service === Constants.LDAP_SERVICE}
                                 onClick={this.handleShowCreateGroupSyncableMembershipsModal}
-                                text={Utils.localizeMessage('admin.user_item.createGroupTeamChannelMemberships', 'Reset group-defaulted teams and channels')}
+                                text={Utils.localizeMessage('admin.user_item.createGroupTeamChannelMemberships', 'Re-sync user via LDAP groups')}
                             />
                         </SystemPermissionGate>
                     </Menu>

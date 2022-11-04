@@ -250,16 +250,22 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
   />
   <ConfirmModal
+    cancelButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="No"
+        id="create_group_memberships_modal.cancel"
+      />
+    }
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Create"
+        defaultMessage="Yes"
         id="create_group_memberships_modal.create"
       />
     }
     message={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="This will add (or re-adds) {username} to all of their teams and channels that they get added to based on their group memberships. Do you want to proceed?"
+        defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. Do you want to continue?"
         id="create_group_memberships_modal.desc"
         values={
           Object {
@@ -274,7 +280,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Add {username} to all of their group-defaulted teams and group channels"
+        defaultMessage="Re-sync {username} to teams and channels"
         id="create_group_memberships_modal.title"
         values={
           Object {
@@ -390,7 +396,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
         <MenuItemAction
           onClick={[Function]}
           show={false}
-          text="Reset group-defaulted teams and channels"
+          text="Re-sync user via LDAP groups"
         />
       </Connect(SystemPermissionGate)>
     </Menu>
@@ -552,16 +558,22 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     }
   />
   <ConfirmModal
+    cancelButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="No"
+        id="create_group_memberships_modal.cancel"
+      />
+    }
     confirmButtonClass="btn btn-danger"
     confirmButtonText={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Create"
+        defaultMessage="Yes"
         id="create_group_memberships_modal.create"
       />
     }
     message={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="This will add (or re-adds) {username} to all of their teams and channels that they get added to based on their group memberships. Do you want to proceed?"
+        defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. Do you want to continue?"
         id="create_group_memberships_modal.desc"
         values={
           Object {
@@ -576,7 +588,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Add {username} to all of their group-defaulted teams and group channels"
+        defaultMessage="Re-sync {username} to teams and channels"
         id="create_group_memberships_modal.title"
         values={
           Object {
@@ -692,7 +704,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
         <MenuItemAction
           onClick={[Function]}
           show={false}
-          text="Reset group-defaulted teams and channels"
+          text="Re-sync user via LDAP groups"
         />
       </Connect(SystemPermissionGate)>
     </Menu>
