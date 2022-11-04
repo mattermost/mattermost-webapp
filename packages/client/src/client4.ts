@@ -3749,6 +3749,13 @@ export default class Client4 {
         );
     }
 
+    createGroupTeamsAndChannels = (userID: string) => {
+        return this.doFetch<Group>(
+            `${this.getBaseRoute()}/ldap/users/${userID}/group_sync_memberships`,
+            {method: 'post'},
+        );
+    }
+
     // Redirect Location
     getRedirectLocation = (urlParam: string) => {
         if (!urlParam.length) {

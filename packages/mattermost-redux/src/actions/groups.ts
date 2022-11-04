@@ -435,3 +435,23 @@ export function archiveGroup(groupId: string): ActionFunc {
         return {data};
     };
 }
+
+export function createGroupTeamsAndChannels(userID: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        try {
+            await Client4.createGroupTeamsAndChannels(userID);
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            return {error};
+        }
+
+        dispatch(
+            {
+                type: GroupTypes.CREATED_GROUP_TEAMS_AND_CHANNELS,
+                userID,
+            },
+        );
+
+        return {user_id: userID};
+    };
+}

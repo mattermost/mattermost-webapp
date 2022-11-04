@@ -249,6 +249,41 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
     }
   />
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Create"
+        id="create_group_memberships_modal.create"
+      />
+    }
+    message={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="This will add (or re-adds) {username} to all of their teams and channels that they get added to based on their group memberships. Do you want to proceed?"
+        id="create_group_memberships_modal.desc"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add {username} to all of their group-defaulted teams and group channels"
+        id="create_group_memberships_modal.title"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+  />
   <MenuWrapper
     animationComponent={[Function]}
     className=""
@@ -343,6 +378,19 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           onClick={[Function]}
           show={true}
           text="Revoke Sessions"
+        />
+      </Connect(SystemPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_user_management_groups",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Reset group-defaulted teams and channels"
         />
       </Connect(SystemPermissionGate)>
     </Menu>
@@ -503,6 +551,41 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
     }
   />
+  <ConfirmModal
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Create"
+        id="create_group_memberships_modal.create"
+      />
+    }
+    message={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="This will add (or re-adds) {username} to all of their teams and channels that they get added to based on their group memberships. Do you want to proceed?"
+        id="create_group_memberships_modal.desc"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Add {username} to all of their group-defaulted teams and group channels"
+        id="create_group_memberships_modal.title"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+  />
   <MenuWrapper
     animationComponent={[Function]}
     className=""
@@ -597,6 +680,19 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           onClick={[Function]}
           show={true}
           text="Revoke Sessions"
+        />
+      </Connect(SystemPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_user_management_groups",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Reset group-defaulted teams and channels"
         />
       </Connect(SystemPermissionGate)>
     </Menu>
