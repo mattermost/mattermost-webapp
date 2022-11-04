@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import debounce from 'lodash/debounce';
@@ -145,7 +146,6 @@ export default class PopoverBar extends React.PureComponent<Props> {
         return (
             <div
                 data-testid='fileCountFooter'
-                ref='imageFooter'
                 className='modal-button-bar file-preview-modal__zoom-bar'
             >
                 {wrappedZoomControls}
@@ -153,4 +153,3 @@ export default class PopoverBar extends React.PureComponent<Props> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

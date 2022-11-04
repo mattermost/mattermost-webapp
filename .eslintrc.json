@@ -26,6 +26,12 @@
     }
   },
   "rules": {
+    "header/header": [
+      2,
+      "line",
+      " Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.\n See LICENSE.txt for license information.",
+      2
+    ],
     "no-duplicate-imports": 0,
     "import/no-duplicates": 2,
     "max-nested-callbacks": ["error", 10],
