@@ -48,6 +48,8 @@ function mapStateToProps(state: GlobalState) {
         currentTeam: getCurrentTeam(state),
         theme: getTheme(state),
         isDelinquencyModal,
+        annualSubscription: state.entities.general.config.FeatureFlagAnnualSubscription === 'true',
+        usersCount: Number(state.entities.admin.analytics!.TOTAL_USERS) || 1,
     };
 }
 type Actions = {
