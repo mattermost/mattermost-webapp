@@ -47,7 +47,6 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         canDoAction: () => editor.can().deleteTable(),
         labelDescriptor: {id: 'wysiwyg.tool-label.table.delete', defaultMessage: 'Delete table'},
         ariaLabelDescriptor: {id: 'accessibility.button.table.delete', defaultMessage: 'delete table'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownTableDelete,
     },
     {
         mode: 'table',
@@ -57,7 +56,6 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         canDoAction: () => editor.can().addColumnBefore(),
         labelDescriptor: {id: 'wysiwyg.tool-label.table.column.add.after', defaultMessage: 'Add column to the left'},
         ariaLabelDescriptor: {id: 'accessibility.button.table.column.add.after', defaultMessage: 'add column to the left'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownColAddBefore,
     },
     {
         mode: 'table',
@@ -67,7 +65,6 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         canDoAction: () => editor.can().addColumnAfter(),
         labelDescriptor: {id: 'wysiwyg.tool-label.table.column.add.before', defaultMessage: 'Add column to the right'},
         ariaLabelDescriptor: {id: 'accessibility.button.table.column.add.before', defaultMessage: 'add column to the right'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownColAddAfter,
     },
     {
         mode: 'table',
@@ -77,17 +74,15 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         canDoAction: () => editor.can().deleteColumn(),
         labelDescriptor: {id: 'wysiwyg.tool-label.table.column.delete', defaultMessage: 'Delete column'},
         ariaLabelDescriptor: {id: 'accessibility.button.table.column.delete', defaultMessage: 'delete column'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownColDelete,
     },
     {
         mode: 'table',
         type: 'addRowBefore',
         icon: TableRowPlusBeforeIcon,
         action: () => editor.chain().focus().addRowBefore().run(),
-        canDoAction: () => editor.can().addRowBefore(),
+        canDoAction: () => !editor.isActive('tableHeader') && editor.can().addRowBefore(),
         labelDescriptor: {id: 'wysiwyg.tool-label.table.row.add.after', defaultMessage: 'Add row above'},
         ariaLabelDescriptor: {id: 'accessibility.button.table.row.add.after', defaultMessage: 'add row above'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownRowAddBefore,
     },
     {
         mode: 'table',
@@ -97,7 +92,6 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         canDoAction: () => editor.can().addRowAfter(),
         labelDescriptor: {id: 'wysiwyg.tool-label.table.row.add.before', defaultMessage: 'Add row below'},
         ariaLabelDescriptor: {id: 'accessibility.button.table.row.add.before', defaultMessage: 'add row below'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownRowAddAfter,
     },
     {
         mode: 'table',
@@ -107,7 +101,6 @@ export const makeTableControlDefinitions = (editor: Editor): Array<ToolDefinitio
         canDoAction: () => editor.can().deleteRow(),
         labelDescriptor: {id: 'wysiwyg.tool-label.table.row.delete', defaultMessage: 'Delete row'},
         ariaLabelDescriptor: {id: 'accessibility.button.table.row.delete', defaultMessage: 'delete row'},
-        shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownRowDelete,
     },
 ]);
 
@@ -115,17 +108,17 @@ const MatrixWrapper = styled.div`
     display: grid;
     grid-gap: 4px;
     grid-template-columns: repeat(6, min-content);
-    padding: 10px 10px 0;
+    padding: 10px;
 `;
 
-const MatrixTitle = styled.span`
-    display: block;
+const MatrixText = styled.span`
+    display: flex;
     color: rgb(var(--center-channel-color-rgb));
     font-style: normal;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    padding: 0 10px;
+    padding: 0 10px 10px;
 `;
 
 type MatrixBoxProps = {
@@ -135,8 +128,8 @@ type MatrixBoxProps = {
 const MatrixBox = memo(styled.div<MatrixBoxProps>`
     width: 24px;
     height: 24px;
-    background: ${({selected}) => (selected ? 'rgba(var(--button-bg-rgb), 0.24)' : 'transparent')};
-    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    background: ${({selected}) => (selected ? 'rgba(var(--button-bg-rgb), 0.08)' : 'transparent')};
+    border: 1px solid ${({selected}) => (selected ? 'rgba(var(--button-bg-rgb), 0.16)' : 'rgba(var(--center-channel-color-rgb), 0.08)')};
     border-radius: 2px;
 `);
 
@@ -146,7 +139,7 @@ type MatrixSelection = {
 }
 
 type SelectionMatrixProps = {
-    onSelect: ({cols, rows}: MatrixSelection) => void;
+    onSelect: ({cols, rows}: MatrixSelection, includeHeader?: boolean) => void;
 }
 
 const SelectionMatrix = ({onSelect}: SelectionMatrixProps) => {
@@ -155,9 +148,9 @@ const SelectionMatrix = ({onSelect}: SelectionMatrixProps) => {
 
     return (
         <>
-            <MatrixTitle>
-                {formatMessage({id: 'wysiwyg.tool-label.table.add', defaultMessage: 'Insert table'})}
-            </MatrixTitle>
+            <MatrixText>
+                {selection.rows || selection.cols ? formatMessage({id: 'wysiwyg.tool-label.table.insert.grid', defaultMessage: 'Insert {cols}x{rows} table'}, selection) : formatMessage({id: 'wysiwyg.tool-label.table.insert', defaultMessage: 'Insert table'})}
+            </MatrixText>
             <MatrixWrapper>
                 {times(6, (row) => (
                     <React.Fragment key={`row_${row}`}>
@@ -260,7 +253,8 @@ const TableControls = ({editor}: TableControlProps) => {
     )) : (
         <SelectionMatrix
             onSelect={(selection) => {
-                editor.chain().focus().insertTable({...selection, withHeaderRow: false}).run();
+                const {cols, rows} = selection;
+                editor.chain().focus().insertTable({cols, rows: rows + 1, withHeaderRow: true}).run();
                 setShowTableOverlay(false);
             }}
         />
@@ -320,8 +314,12 @@ const StyledTableSelectOption = styled.button`
         background: rgba(var(--center-channel-color-rgb), 0.08);
     }
 
-    svg {
+    :not([disabled]) svg {
         opacity: 0.56;
+    }
+
+    &[disabled] {
+        opacity: 0.32;
     }
 `;
 

@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {ResolvedPos} from 'prosemirror-model';
+import {EditorView} from 'prosemirror-view';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
@@ -14,8 +16,10 @@ import {
     ReactNodeViewRenderer as renderReactNodeView,
 } from '@tiptap/react';
 import type {JSONContent} from '@tiptap/react';
+import {Extension} from '@tiptap/core';
 import type {Editor} from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
+import {Plugin, PluginKey} from 'prosemirror-state';
 
 import Link from '@tiptap/extension-link';
 import Typography from '@tiptap/extension-typography';
@@ -36,7 +40,7 @@ import {ActionTypes} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
-import {htmlToMarkdown} from './utils/turndown';
+import {htmlToMarkdown, markdownToHtml} from './utils/toMarkdown';
 
 import Toolbar from './toolbar';
 import SendButton from './components/send-button';
@@ -61,17 +65,14 @@ const EditorContainer = styled.div`
         }
 
         &.ProseMirror-selectednode,
+        th.selectedCell,
         td.selectedCell {
             position: relative;
-
-            &::after {
-                content: '';
-                position: absolute;
-                inset: 0 0 0 0;
-                background: rgba(var(--semantic-color-danger), 0.12);
-            }
+            background: rgba(var(--button-bg-rgb), 0.08);
+            border: 1px solid rgba(var(--button-bg-rgb), 0.32);
         }
 
+        th,
         td {
             // this is to fix a bug with the cursor being hidden in empty cells
             min-width: 28px;
@@ -111,6 +112,34 @@ function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: J
     return [draft, setDraftContent];
 }
 
+export const PasteHandler = Extension.create({
+    name: 'pasteHandler',
+
+    addProseMirrorPlugins() {
+        return [
+            new Plugin({
+                key: new PluginKey('pasteHandler'),
+                props: {
+                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                    // @ts-ignore
+                    clipboardTextParser(text: string, $context: ResolvedPos, plain: boolean, view: EditorView) {
+                        console.log('#### pasted text', text); // eslint-disable-line no-console
+                        console.log('#### $context', $context); // eslint-disable-line no-console
+                        console.log('#### plain', plain); // eslint-disable-line no-console
+                        console.log('#### view', view); // eslint-disable-line no-console
+                    },
+                    transformPastedText(text: string) {
+                        return String(markdownToHtml(text));
+                    },
+
+                    // … and many, many more.
+                    // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
+                },
+            }),
+        ];
+    },
+});
+
 type Props = {
     channelId: string;
     rootId?: string;
@@ -129,10 +158,15 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
             Typography,
             Code,
             Table.configure({
-                HTMLAttributes: {
-                    class: 'markdown__table',
-                },
                 allowTableNodeSelection: true,
+            }).extend({
+                renderHTML({node}) {
+                    // this might be the right place to force a header row if it is not present
+                    // atlassian has a library with ProseMirror utils that might be of help here: https://github.com/atlassian/prosemirror-utils
+                    console.log('#### node of the inserted table', node); // eslint-disable-line no-console
+
+                    return ['table', {class: 'markdown__table'}, ['tbody', 0]];
+                },
             }),
             TableRow,
             TableHeader,
@@ -153,7 +187,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     addKeyboardShortcuts() {
                         return {
 
-                            // exit node on arrow down
+                            // exit node on arrow up
                             ArrowUp: (...params) => {
                                 /**
                                  * This is where we should add the logic to add a new paragraph node before the
@@ -176,6 +210,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     lowlight,
                     defaultLanguage: 'css',
                 }),
+            PasteHandler,
         ],
         content: draft?.content,
         autofocus: 'end',
