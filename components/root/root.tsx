@@ -636,6 +636,15 @@ export default class Root extends React.PureComponent<Props, State> {
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <DelinquencyModalController/>
+                        <footer
+                            css={`
+                                grid-area: footer;
+                                height: 40px;
+                                background: var(--global-header-background);
+                            `}
+                        >
+                            {'Thread Bar'}
+                        </footer>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route
