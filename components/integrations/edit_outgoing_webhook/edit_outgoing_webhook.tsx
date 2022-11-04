@@ -4,14 +4,13 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook';
-
 import {Team} from '@mattermost/types/teams';
 import {OutgoingWebhook} from '@mattermost/types/integrations';
 import {ServerError} from '@mattermost/types/errors';
 
 import {getHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal';
+import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook.jsx';
 import LoadingScreen from 'components/loading_screen';
 
 const HEADER = {id: 'integrations.edit', defaultMessage: 'Edit'};
