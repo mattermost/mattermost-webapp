@@ -420,6 +420,31 @@ export function showMentions() {
     };
 }
 
+export function showChannelMentions() {
+    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const termKeys = getCurrentUserMentionKeys(getState()).filter(({key}) => {
+            return key === '@channel' || key === '@all' || key === '@here';
+        });
+
+        const terms = termKeys.map(({key}) => key).join(', ').trim() + ' ';
+        trackEvent('api', 'api_posts_search_channel_mention');
+
+        dispatch(performSearch(terms, true));
+        dispatch(batchActions([
+            {
+                type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
+                terms,
+            },
+            {
+                type: ActionTypes.UPDATE_RHS_STATE,
+                state: RHSStates.MENTION,
+            },
+        ]));
+
+        return {data: true};
+    };
+}
+
 export function showChannelInfo(channelId: string) {
     return (dispatch: DispatchFunc) => {
         dispatch({

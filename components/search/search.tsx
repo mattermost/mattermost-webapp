@@ -5,7 +5,7 @@ import React, {ChangeEvent, MouseEvent, FormEvent, useEffect, useState, useRef} 
 import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentChannelNameForSearchShortcut} from 'mattermost-redux/selectors/entities/channels';
 import {isServerVersionGreaterThanOrEqualTo} from 'utils/server_version';
@@ -28,6 +28,8 @@ import SearchDateProvider from 'components/suggestion/search_date_provider';
 import SearchChannelProvider from 'components/suggestion/search_channel_provider';
 import SearchUserProvider from 'components/suggestion/search_user_provider';
 import type {SearchType} from 'types/store/rhs';
+
+import {showChannelMentions} from 'actions/views/rhs';
 
 import type {Props, SearchFilterType} from './types';
 
@@ -81,7 +83,7 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
         searchType,
         hideMobileSearchBarInRHS,
     } = props;
-
+    const dispatch = useDispatch();
     const intl = useIntl();
     const currentChannelName = useSelector(getCurrentChannelNameForSearchShortcut);
 
@@ -184,6 +186,9 @@ const Search: React.FC<Props> = (props: Props): JSX.Element => {
     };
 
     const handleAddSearchTerm = (term: string): void => {
+        if (term === '@all') {
+            dispatch(showChannelMentions());
+        }
         const pretextArray = searchTerms?.split(' ') || [];
         pretextArray.pop();
         pretextArray.push(term.toLowerCase());
