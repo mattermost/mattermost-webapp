@@ -24,7 +24,7 @@ import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import LeaveChannelModal from 'components/leave_channel_modal';
 
-const ROWS_FROM_BOTTOM_TO_OPEN_UP = 3;
+const ROWS_FROM_BOTTOM_TO_OPEN_UP = 2;
 
 interface Props {
     channel: Channel;
