@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, SubscriptionResponse, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
+import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -79,7 +79,7 @@ import type {
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
 import {Draft} from '@mattermost/types/drafts';
-import {BoardsUsageResponse} from '@mattermost/types/boards';
+import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
 import {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
@@ -3509,6 +3509,34 @@ export default class Client4 {
         );
     }
 
+    getBoardsTemplates = (teamId = '0') => {
+        return this.doFetch<BoardTemplate[]>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/teams/${teamId}/templates`,
+            {method: 'get'},
+        );
+    }
+
+    createBoard = (board: Board) => {
+        return this.doFetch<CreateBoardResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards`,
+            {method: 'POST', body: JSON.stringify({...board})},
+        );
+    }
+
+    createBoardFromTemplate = (boardTemplateId: string, teamId: string) => {
+        return this.doFetch<CreateBoardResponse>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards/${boardTemplateId}/duplicate?asTemplate=false&toTeam=${teamId}`,
+            {method: 'POST'},
+        );
+    }
+
+    patchBoard = (newBoardId: string, boardPatch: BoardPatch) => {
+        return this.doFetch<Board>(
+            `/plugins/${suitePluginIds.focalboard}/api/v2/boards/${newBoardId}`,
+            {method: 'PATCH', body: JSON.stringify({...boardPatch})},
+        );
+    }
+
     // Groups
 
     linkGroupSyncable = (groupID: string, syncableID: string, syncableType: string, patch: SyncablePatch) => {
@@ -3889,7 +3917,7 @@ export default class Client4 {
     }
 
     getSubscription = () => {
-        return this.doFetch<SubscriptionResponse>(
+        return this.doFetch<Subscription>(
             `${this.getCloudRoute()}/subscription`,
             {method: 'get'},
         );
