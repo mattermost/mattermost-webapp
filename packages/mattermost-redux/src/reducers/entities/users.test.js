@@ -578,4 +578,99 @@ describe('Reducers.users', () => {
             assert.deepEqual(newState.filteredStats, expectedState.filteredStats);
         });
     });
+    describe('profilesNotInGroup', () => {
+        it('initial state', () => {
+            const state = undefined;
+            const action = {};
+            const expectedState = {
+                profilesNotInGroup: {},
+            };
+
+            const newState = reducer(state, action);
+            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+        });
+
+        it('UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP, no existing profiles', () => {
+            const state = {
+                profilesNotInGroup: {},
+            };
+            const action = {
+                type: UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP,
+                id: 'id',
+                data: [
+                    {
+                        id: 'user_id',
+                    },
+                    {
+                        id: 'user_id_2',
+                    },
+                ],
+            };
+            const expectedState = {
+                profilesNotInGroup: {
+                    id: new Set().add('user_id').add('user_id_2'),
+                },
+            };
+
+            const newState = reducer(state, action);
+            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+        });
+
+        it('UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP, existing profiles', () => {
+            const state = {
+                profilesNotInGroup: {
+                    id: new Set().add('old_user_id'),
+                    other_id: new Set().add('other_user_id'),
+                },
+            };
+            const action = {
+                type: UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP,
+                id: 'id',
+                data: [
+                    {
+                        id: 'user_id',
+                    },
+                    {
+                        id: 'user_id_2',
+                    },
+                ],
+            };
+            const expectedState = {
+                profilesNotInGroup: {
+                    id: new Set().add('old_user_id').add('user_id').add('user_id_2'),
+                    other_id: new Set().add('other_user_id'),
+                },
+            };
+
+            const newState = reducer(state, action);
+            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+        });
+
+        it('UserTypes.RECEIVED_PROFILES_FOR_GROUP, existing profiles', () => {
+            const state = {
+                profilesNotInGroup: {
+                    id: new Set().add('user_id').add('user_id_2'),
+                    other_id: new Set().add('other_user_id'),
+                },
+            };
+            const action = {
+                type: UserTypes.RECEIVED_PROFILES_FOR_GROUP,
+                id: 'id',
+                data: [
+                    {
+                        user_id: 'user_id',
+                    },
+                ],
+            };
+            const expectedState = {
+                profilesNotInGroup: {
+                    id: new Set().add('user_id_2'),
+                    other_id: new Set().add('other_user_id'),
+                },
+            };
+
+            const newState = reducer(state, action);
+            assert.deepEqual(newState.profilesNotInGroup, expectedState.profilesNotInGroup);
+        });
+    });
 });
