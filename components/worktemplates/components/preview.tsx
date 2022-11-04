@@ -6,8 +6,9 @@ import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import {AccordionItemType} from 'components/common/accordion/accordion';
-import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
 import {getTemplateDefaultIllustration} from '../utils';
+
+import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
 
 import ModalBodyWithIllustration from './modal_body_with_illustration';
 import Accordion from './preview/accordion';

@@ -6,8 +6,10 @@ import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
 import PublicPrivateSelector from 'components/widgets/public-private-selector/public-private-selector';
+import Constants from 'utils/constants';
+
 import {Visibility} from '@mattermost/types/worktemplates';
-import Input from 'components/widgets/inputs/input/input';
+import {ChannelType} from '@mattermost/types/channels';
 
 export interface CustomizeProps {
     className?: string;
@@ -27,6 +29,11 @@ const Customize = ({
 }: CustomizeProps) => {
     const {formatMessage} = useIntl();
 
+    const privacySelectorValue = (visibility === Visibility.Public ? Constants.OPEN_CHANNEL : Constants.PRIVATE_CHANNEL) as ChannelType;
+    const onPrivacySelectorChanged = (value: ChannelType) => {
+        onVisibilityChanged(value === Constants.PRIVATE_CHANNEL ? Visibility.Private : Visibility.Public);
+    };
+
     return (
         <div className={props.className}>
             <div className='name-section-container'>
@@ -45,13 +52,6 @@ const Customize = ({
                     value={name}
                     onChange={(e) => onNameChanged(e.target.value)}
                 />
-
-                <Input
-                    label='Test'
-                    value={name}
-                    onChange={(e) => onNameChanged(e.target.value)}
-                    placeholder={formatMessage({id: 'worktemplates.customize.name_input_placeholder', defaultMessage: 'e.g. Web app, Growth, etc.'})}
-                />
             </div>
             <div className='visibility-section-container'>
                 <p>
@@ -60,8 +60,8 @@ const Customize = ({
                     </strong>
                 </p>
                 <PublicPrivateSelector
-                    selected={visibility === Visibility.Public ? 'O' : 'P'}
-                    onChange={(selected) => onVisibilityChanged(selected === 'O' ? Visibility.Public : Visibility.Private)}
+                    selected={privacySelectorValue}
+                    onChange={onPrivacySelectorChanged}
                 />
             </div>
         </div>
@@ -85,7 +85,7 @@ const StyledCustomized = styled(Customize)`
     }
 
     strong {
-       font-weight: 600;
+        font-weight: 600;
         font-size: 14px;
         line-height: 20px;
         color: var(--center-channel-text);
