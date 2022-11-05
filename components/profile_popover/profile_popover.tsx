@@ -4,9 +4,10 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
-import {CloseIcon, EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
+import {AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, SendIcon} from '@mattermost/compass-icons/components';
 
 import Pluggable from 'plugins/pluggable';
+import CallButton from 'plugins/call_button';
 
 import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
@@ -38,7 +39,7 @@ import ExpiryTime from 'components/custom_status/expiry_time';
 
 import './profile_popover.scss';
 
-interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'>{
+interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
      * Source URL from the image to display in the popover
@@ -146,7 +147,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
-        openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
+        openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
@@ -156,6 +157,8 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     enableLastActiveTime: boolean;
 
     timestampUnits: string[];
+
+    isCallsEnabled: boolean;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -191,7 +194,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             );
         }
     }
-    handleShowDirectChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleShowDirectChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
         const {actions} = this.props;
         e.preventDefault();
         if (!this.props.user) {
@@ -202,7 +205,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             return;
         }
         this.setState({loadingDMChannel: user.id});
-        actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
+        actions.openDirectChannelToUserId(user.id).then((result: { error: ServerError }) => {
             if (!result.error) {
                 if (this.props.isMobileView) {
                     GlobalActions.emitCloseRightHandSide();
@@ -257,7 +260,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         };
         this.props.actions.openModal(customStatusInputModalData);
     };
-    handleAddToChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleAddToChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         this.handleCloseModals();
     };
@@ -284,9 +287,9 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         const customStatusSet = (customStatus?.text || customStatus?.emoji) && !isCustomStatusExpired;
         const canSetCustomStatus = user?.id === currentUserId;
         const shouldShowCustomStatus =
-      isCustomStatusEnabled &&
-      !hideStatus &&
-      (customStatusSet || canSetCustomStatus);
+            isCustomStatusEnabled &&
+            !hideStatus &&
+            (customStatusSet || canSetCustomStatus);
         if (!shouldShowCustomStatus) {
             return null;
         }
@@ -548,6 +551,34 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 </div>,
             );
         }
+        const addToChannelMessage = formatMessage({
+            id: 'user_profile.add_user_to_channel',
+            defaultMessage: 'Add to a Channel',
+        });
+        const addToChannelButton = (
+            <button
+                type='button'
+                className='btn icon-btn'
+                onClick={this.handleAddToChannel}
+            >
+                <ToggleModalButton
+                    ariaLabel={addToChannelMessage}
+                    modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                    role='menuitem'
+                    dialogType={AddUserToChannelModal}
+                    dialogProps={{user: this.props.user}}
+                    onClick={this.props.hide}
+                >
+                    <AccountPlusOutlineIcon
+                        size={18}
+                        aria-label={formatMessage({
+                            id: t('user_profile.add_user_to_channel.icon'),
+                            defaultMessage: 'Add User to Channel Icon',
+                        })}
+                    />
+                </ToggleModalButton>
+            </button>
+        );
         if (this.props.user.id !== this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
                 <div
@@ -555,40 +586,39 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     key='user-popover-dm'
                     className='popover__row first'
                 >
-                    <a
-                        href='#'
-                        className='text-nowrap user-popover__email'
+                    <button
+                        type='button'
+                        className='btn'
                         onClick={this.handleShowDirectChannel}
                     >
-                        <LocalizedIcon
-                            className='fa fa-paper-plane'
-                            title={{
+                        <SendIcon
+                            size={12}
+                            aria-label={formatMessage({
                                 id: t('user_profile.send.dm.icon'),
                                 defaultMessage: 'Send Message Icon',
-                            }}
+                            })}
                         />
                         <FormattedMessage
                             id='user_profile.send.dm'
-                            defaultMessage='Send Message'
+                            defaultMessage='Message'
                         />
-                    </a>
+                    </button>
+                    {(this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) ? addToChannelButton : null}
+                    {this.props.isCallsEnabled ? <CallButton/> : null}
+                    <CallButton/>
                 </div>,
             );
             if (
                 this.props.canManageAnyChannelMembersInCurrentTeam &&
                 this.props.isInCurrentTeam
             ) {
-                const addToChannelMessage = formatMessage({
-                    id: 'user_profile.add_user_to_channel',
-                    defaultMessage: 'Add to a Channel',
-                });
                 dataContent.push(
                     <div
                         data-toggle='tooltip'
                         className='popover__row first'
                         key='user-popover-add-to-channel'
                     >
-                        <a
+                        {/* <a
                             href='#'
                             className='text-nowrap'
                             onClick={this.handleAddToChannel}
@@ -610,7 +640,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                                 />
                                 {addToChannelMessage}
                             </ToggleModalButton>
-                        </a>
+                        </a> */}
                     </div>,
                 );
             }

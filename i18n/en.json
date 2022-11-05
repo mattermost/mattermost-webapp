@@ -4981,7 +4981,7 @@
   "user_profile.add_user_to_channel.icon": "Add User to Channel Icon",
   "user_profile.custom_status": "Status",
   "user_profile.custom_status.set_status": "Set a status",
-  "user_profile.send.dm": "Send Message",
+  "user_profile.send.dm": "Message",
   "user_profile.send.dm.icon": "Send Message Icon",
   "user.settings.advance.confirmDeactivateAccountTitle": "Confirm Deactivation",
   "user.settings.advance.confirmDeactivateDesc": "Are you sure you want to deactivate your account? This can only be reversed by your System Administrator.",

@@ -53,7 +53,10 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
 
     if (pluginCallComponents.length === 1) {
         const item = pluginCallComponents[0];
+        console.log('item: ', item);
+        console.log('clickEnabled: ', clickEnabled);
         const clickHandler = () => item.action?.(currentChannel, channelMember);
+        console.log('pluginCallComponents.length === 1: ', pluginCallComponents.length === 1);
 
         return (
             <div

@@ -32,6 +32,8 @@ import {GlobalState} from 'types/store';
 
 import {ServerError} from '@mattermost/types/errors';
 
+import {suitePluginIds} from 'packages/client/src/client4';
+
 import ProfilePopover from './profile_popover';
 
 type OwnProps = {
@@ -87,6 +89,7 @@ function makeMapStateToProps() {
             enableLastActiveTime,
             timestampUnits,
             isMobileView: getIsMobileView(state),
+            isCallsEnabled: Boolean(state.plugins.plugins[suitePluginIds.calls]),
         };
     };
 }
@@ -94,7 +97,7 @@ function makeMapStateToProps() {
 type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
-    openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
+    openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
     getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
 }
 
