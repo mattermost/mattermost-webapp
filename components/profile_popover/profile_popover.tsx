@@ -4,7 +4,7 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
-import {AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, PhoneInTalkIcon, SendIcon} from '@mattermost/compass-icons/components';
+import {AccountOutlineIcon, AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, PhoneInTalkIcon, SendIcon} from '@mattermost/compass-icons/components';
 
 import Pluggable from 'plugins/pluggable';
 import CallButton from 'plugins/call_button';
@@ -27,7 +27,6 @@ import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
 import UserSettingsModal from 'components/user_settings/modal';
 import AddUserToChannelModal from 'components/add_user_to_channel_modal';
-import LocalizedIcon from 'components/localized_icon';
 import ToggleModalButton from 'components/toggle_modal_button';
 import Avatar from 'components/widgets/users/avatar';
 import Popover from 'components/widgets/popover';
@@ -39,6 +38,8 @@ import ExpiryTime from 'components/custom_status/expiry_time';
 
 import './profile_popover.scss';
 
+// todo sinan fix unit and e2e tests
+// todo sinan fix close button
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
@@ -234,7 +235,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
         this.handleCloseModals();
     };
-    handleEditAccountSettings = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    handleEditAccountSettings = (e: React.MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
         if (!this.props.user) {
             return;
@@ -515,13 +516,14 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     key='user-popover-settings'
                     className='popover__row first'
                 >
-                    <a
-                        href='#'
+                    <button
+                        type='button'
+                        className='btn'
                         onClick={this.handleEditAccountSettings}
                     >
-                        <LocalizedIcon
-                            className='fa fa-pencil-square-o'
-                            title={{
+                        <AccountOutlineIcon
+                            size={12}
+                            aria-label={{
                                 id: t('generic_icons.edit'),
                                 defaultMessage: 'Edit Icon',
                             }}
@@ -530,7 +532,20 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                             id='user_profile.account.editProfile'
                             defaultMessage='Edit Profile'
                         />
-                    </a>
+                    </button>
+                    <button
+                        type='button'
+                        className='btn icon-btn'
+                        onClick={this.handleShowDirectChannel}
+                    >
+                        <SendIcon
+                            size={18}
+                            aria-label={formatMessage({
+                                id: t('user_profile.send.dm.icon'),
+                                defaultMessage: 'Send Message Icon',
+                            })}
+                        />
+                    </button>
                 </div>,
             );
         }
@@ -555,6 +570,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             id: 'user_profile.add_user_to_channel',
             defaultMessage: 'Add to a Channel',
         });
+
+        // todo sinan tooltip koy
         const addToChannelButton = (
             <button
                 type='button'
@@ -580,6 +597,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             </button>
         );
 
+        // todo sinan tooltip koy
         const callButton = (
             <button
                 type='button'
