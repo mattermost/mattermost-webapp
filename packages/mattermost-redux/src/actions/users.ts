@@ -4,25 +4,26 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
+import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from '@mattermost/types/users';
+import {ServerError} from '@mattermost/types/errors';
+
 import {Client4} from 'mattermost-redux/client';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import {UserProfile, UserStatus, GetFilteredUsersStatsOpts, UsersStats, UserCustomStatus} from '@mattermost/types/users';
 import {UserTypes, AdminTypes, GeneralTypes, PreferenceTypes, TeamTypes, RoleTypes} from 'mattermost-redux/action_types';
 
 import {setServerVersion, getClientConfig, getLicenseConfig} from 'mattermost-redux/actions/general';
 import {getMyTeams, getMyTeamMembers, getMyTeamUnreads} from 'mattermost-redux/actions/teams';
-import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
+import {loadRolesIfNeeded, convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
 import {bindClientFunc, forceLogoutIfNecessary, debounce} from 'mattermost-redux/actions/helpers';
 import {logError} from 'mattermost-redux/actions/errors';
 import {getMyPreferences} from 'mattermost-redux/actions/preferences';
 import {
     currentUserInfoQuery,
     CurrentUserInfoQueryResponseType,
-    convertRolesNamesArrayToString,
     transformToRecievedMeReducerPayload,
     transformToRecievedTeamsListReducerPayload,
-    transformToRecievedRolesReducerPayload,
+    transformToReceivedUserAndTeamRolesReducerPayload,
     transformToRecievedMyTeamMembersReducerPayload,
 } from 'mattermost-redux/actions/users_queries';
 
@@ -74,8 +75,11 @@ export function loadMeREST(): ActionFunc {
         const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
+        let userId: UserProfile['id'] = '';
+        let userRolesAsString = '';
+
         try {
-            await Promise.all([
+            const actionResponse = await Promise.all([
                 dispatch(getClientConfig()),
                 dispatch(getLicenseConfig()),
                 dispatch(getMe()),
@@ -84,22 +88,19 @@ export function loadMeREST(): ActionFunc {
                 dispatch(getMyTeamMembers()),
             ]);
 
+            userId = actionResponse?.[2]?.data?.id ?? '';
+            userRolesAsString = actionResponse?.[2]?.data?.roles ?? ''; // for rest api, roles are returned as (role1<space>role2<space>role3)
+
             const isCollapsedThreads = isCollapsedThreadsEnabled(state);
             await dispatch(getMyTeamUnreads(isCollapsedThreads));
         } catch (error) {
-            dispatch(logError(error));
-            return {error};
+            dispatch(logError(error as ServerError));
+            return {error: error as ServerError};
         }
 
-        const {currentUserId} = state.entities.users;
-        if (currentUserId) {
-            Client4.setUserId(currentUserId);
-        }
-
-        const user = state.entities.users.profiles[currentUserId];
-        if (user) {
-            Client4.setUserRoles(user.roles);
-        }
+        // Set the user id and roles in the client4 class for telemetry
+        Client4.setUserId(userId);
+        Client4.setUserRoles(userRolesAsString);
 
         return {data: true};
     };
@@ -113,56 +114,59 @@ export function loadMe(): ActionFunc {
         const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
-        let responseData: CurrentUserInfoQueryResponseType['data'] | null = null;
+        let userId: UserProfile['id'] = '';
+        let userRolesAsString = '';
+
         try {
-            const {data} = await Client4.fetchWithGraphQL<CurrentUserInfoQueryResponseType>(currentUserInfoQuery);
-            responseData = data;
+            const {data, errors} = await Client4.fetchWithGraphQL<CurrentUserInfoQueryResponseType>(currentUserInfoQuery);
+
+            if (errors || !data) {
+                throw new Error('Error returned in fetching current user info with graphql');
+            }
+
+            dispatch(
+                batchActions([
+                    {
+                        type: GeneralTypes.CLIENT_LICENSE_RECEIVED,
+                        data: data.license,
+                    },
+                    {
+                        type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
+                        data: data.config,
+                    },
+                    {
+                        type: UserTypes.RECEIVED_ME,
+                        data: transformToRecievedMeReducerPayload(data.user),
+                    },
+                    {
+                        type: RoleTypes.RECEIVED_ROLES,
+                        data: transformToReceivedUserAndTeamRolesReducerPayload(data.user.roles, data.teamMembers),
+                    },
+                    {
+                        type: PreferenceTypes.RECEIVED_ALL_PREFERENCES,
+                        data: data.user.preferences,
+                    },
+                    {
+                        type: TeamTypes.RECEIVED_TEAMS_LIST,
+                        data: transformToRecievedTeamsListReducerPayload(data.teamMembers),
+                    },
+                    {
+                        type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
+                        data: transformToRecievedMyTeamMembersReducerPayload(data.teamMembers, data.user.id),
+                    },
+                ]),
+            );
+
+            userId = data.user.id;
+            userRolesAsString = convertRolesNamesArrayToString(data.user.roles);
         } catch (error) {
-            dispatch(logError(error));
-            return {error};
+            dispatch(logError(error as ServerError, true, true));
+            return {error: error as ServerError};
         }
 
-        if (!responseData) {
-            return {data: false};
-        }
-
-        dispatch(
-            batchActions([
-                {
-                    type: GeneralTypes.CLIENT_LICENSE_RECEIVED,
-                    data: responseData.license,
-                },
-                {
-                    type: GeneralTypes.CLIENT_CONFIG_RECEIVED,
-                    data: responseData.config,
-                },
-                {
-                    type: UserTypes.RECEIVED_ME,
-                    data: transformToRecievedMeReducerPayload(responseData.user),
-                },
-                {
-                    type: RoleTypes.RECEIVED_ROLES,
-                    data: transformToRecievedRolesReducerPayload(responseData.user.roles, responseData.teamMembers),
-                },
-                {
-                    type: PreferenceTypes.RECEIVED_ALL_PREFERENCES,
-                    data: responseData.user.preferences,
-                },
-                {
-                    type: TeamTypes.RECEIVED_TEAMS_LIST,
-                    data: transformToRecievedTeamsListReducerPayload(responseData.teamMembers),
-                },
-                {
-                    type: TeamTypes.RECEIVED_MY_TEAM_MEMBERS,
-                    data: transformToRecievedMyTeamMembersReducerPayload(responseData.teamMembers, responseData.user.id),
-                },
-            ]),
-        );
-
-        if (responseData.user.id) {
-            Client4.setUserId(responseData.user.id);
-            Client4.setUserRoles(convertRolesNamesArrayToString(responseData.user.roles));
-        }
+        // Set the user id and roles in the client4 class for telemetry
+        Client4.setUserId(userId);
+        Client4.setUserRoles(userRolesAsString);
 
         return {data: true};
     };
