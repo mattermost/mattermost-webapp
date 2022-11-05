@@ -183,8 +183,8 @@
 
         > span {
             display: flex;
-            justify-content: space-between;
             align-items: center;
+            justify-content: space-between;
         }
     }
 
@@ -194,8 +194,8 @@
         }
 
         &.divider--expanded {
-            margin: 8px -15px;
             border-color: rgba(var(--center-channel-text-rgb), 0.08);
+            margin: 8px -15px;
         }
     }
 
@@ -275,6 +275,7 @@
     }
 }
 
+// todo sinan check and delete unused classes, also update tests
 .user-popover__username,
 .user-popover__username > a {
     display: inline-block;
@@ -297,6 +298,7 @@
 
 .user-popover__role {
     display: flex;
+    height: min-content;
     align-items: center;
     padding: 0 4px;
     margin-left: 2px;
@@ -308,7 +310,6 @@
     letter-spacing: 0.02em;
     line-height: 16px;
     text-transform: uppercase;
-    height: min-content;
 }
 
 .user-popover__email {
@@ -320,17 +321,17 @@
 
 .user-popover__close {
     display: flex;
-    border: none;
-    background: none;
-    font-weight: 400;
     padding: 6px;
-    line-height: 18px;
-    color: rgba(var(--center-channel-text-rgb), 0.56);
+    border: none;
     margin-left: auto;
+    background: none;
+    color: rgba(var(--center-channel-text-rgb), 0.56);
+    font-weight: 400;
+    line-height: 18px;
 
     &:hover {
-        border-radius: 4px;
         background: rgba(var(--center-channel-color-rgb), 0.08);
+        border-radius: 4px;
     }
 }
 

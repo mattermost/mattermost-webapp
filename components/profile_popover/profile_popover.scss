@@ -1,19 +1,19 @@
 .user-popover__set-custom-status-btn {
+    display: flex;
+    align-items: center;
     padding: 2px 0;
     border: none;
     background: transparent;
     color: var(--denim-button-bg);
-    font-weight: 600;
     font-size: 12px;
-    line-height: 10px;
-    display: flex;
-    align-items: center;
+    font-weight: 600;
     gap: 6px;
+    line-height: 10px;
 }
 
 .user-profile-popover__heading {
-    font-weight: 600;
     font-size: 18px;
+    font-weight: 600;
     line-height: 24px;
     text-align: center;
 }
@@ -24,47 +24,67 @@
     color: rgba(var(--center-channel-text-rgb), 0.64);
     font-size: 11px;
     font-weight: 400;
-    line-height: 16px;
     letter-spacing: 0.02em;
+    line-height: 16px;
     text-align: center;
 }
 
 .user-profile-popover {
     .popover-content {
-        padding: 4px 16px 8px;
+        padding: 0 16px;
 
         .overflow--ellipsis {
             text-align: center;
         }
 
         .user-popover__subtitle {
-            font-weight: 600;
             font-size: 11px;
+            font-weight: 600;
             line-height: 16px;
         }
 
         .popover__row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            gap: 12px;
+
+            &.first {
+                border-top-color: rgba(var(--center-channel-color-rgb), 0.08);
+            }
+
             .btn {
                 display: flex;
                 align-items: center;
                 padding: 8px 12px;
                 background-color: var(--button-bg);
-                color: var(--button-color);
-                gap: 6px;
                 border-radius: 4px;
-                font-weight: 600;
+                color: var(--button-color);
                 font-size: 12px;
+                font-weight: 600;
+                gap: 6px;
                 line-height: 10px;
             }
 
             .icon-btn {
+                padding: 2px 6px;
                 background-color: unset;
                 color: rgba(var(--center-channel-color-rgb), 0.56);
-                padding: 2px 4px;
 
                 &:hover {
                     background: rgba(var(--center-channel-color-rgb), 0.08);
                     border-radius: 4px;
+                }
+            }
+
+            .popover_row-controlContainer {
+                display: flex;
+                align-items: center;
+
+                .callButtonContainer {
+                    height: unset;
+                    margin-top: 0;
                 }
             }
         }

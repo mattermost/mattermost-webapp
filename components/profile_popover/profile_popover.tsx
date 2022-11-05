@@ -4,7 +4,7 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import classNames from 'classnames';
 
-import {AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, SendIcon} from '@mattermost/compass-icons/components';
+import {AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutlineIcon, PhoneInTalkIcon, SendIcon} from '@mattermost/compass-icons/components';
 
 import Pluggable from 'plugins/pluggable';
 import CallButton from 'plugins/call_button';
@@ -579,6 +579,21 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 </ToggleModalButton>
             </button>
         );
+
+        const callButton = (
+            <button
+                type='button'
+                className='btn icon-btn'
+            >
+                <PhoneInTalkIcon
+                    size={18}
+                    aria-label={formatMessage({
+                        id: t('webapp.mattermost.feature.start_call'),
+                        defaultMessage: 'Start Call',
+                    })}
+                />
+            </button>
+        );
         if (this.props.user.id !== this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
                 <div
@@ -603,47 +618,14 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                             defaultMessage='Message'
                         />
                     </button>
-                    {(this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) ? addToChannelButton : null}
-                    {this.props.isCallsEnabled ? <CallButton/> : null}
-                    <CallButton/>
+                    <div
+                        className='popover_row-controlContainer'
+                    >
+                        {(this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) ? addToChannelButton : null}
+                        {this.props.isCallsEnabled ? <CallButton customButton={callButton}/> : null}
+                    </div>
                 </div>,
             );
-            if (
-                this.props.canManageAnyChannelMembersInCurrentTeam &&
-                this.props.isInCurrentTeam
-            ) {
-                dataContent.push(
-                    <div
-                        data-toggle='tooltip'
-                        className='popover__row first'
-                        key='user-popover-add-to-channel'
-                    >
-                        {/* <a
-                            href='#'
-                            className='text-nowrap'
-                            onClick={this.handleAddToChannel}
-                        >
-                            <ToggleModalButton
-                                ariaLabel={addToChannelMessage}
-                                modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                                role='menuitem'
-                                dialogType={AddUserToChannelModal}
-                                dialogProps={{user: this.props.user}}
-                                onClick={this.props.hide}
-                            >
-                                <LocalizedIcon
-                                    className='fa fa-user-plus'
-                                    title={{
-                                        id: t('user_profile.add_user_to_channel.icon'),
-                                        defaultMessage: 'Add User to Channel Icon',
-                                    }}
-                                />
-                                {addToChannelMessage}
-                            </ToggleModalButton>
-                        </a> */}
-                    </div>,
-                );
-            }
         }
         dataContent.push(
             <Pluggable
