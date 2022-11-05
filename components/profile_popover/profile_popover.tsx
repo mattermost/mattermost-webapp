@@ -35,6 +35,8 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import CustomStatusModal from 'components/custom_status/custom_status_modal';
 import CustomStatusText from 'components/custom_status/custom_status_text';
 import ExpiryTime from 'components/custom_status/expiry_time';
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
 
 import './profile_popover.scss';
 
@@ -509,6 +511,14 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 </div>,
             );
         }
+        const sendMessageTooltip = (
+            <Tooltip id='sendMessageTooltip'>
+                <FormattedMessage
+                    id='channel_members_rhs.member.send_message'
+                    defaultMessage='Send message'
+                />
+            </Tooltip>
+        );
         if (this.props.user.id === this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
                 <div
@@ -538,13 +548,19 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         className='btn icon-btn'
                         onClick={this.handleShowDirectChannel}
                     >
-                        <SendIcon
-                            size={18}
-                            aria-label={formatMessage({
-                                id: t('user_profile.send.dm.icon'),
-                                defaultMessage: 'Send Message Icon',
-                            })}
-                        />
+                        <OverlayTrigger
+                            delayShow={Constants.OVERLAY_TIME_DELAY}
+                            placement='top'
+                            overlay={sendMessageTooltip}
+                        >
+                            <SendIcon
+                                size={18}
+                                aria-label={formatMessage({
+                                    id: t('user_profile.send.dm.icon'),
+                                    defaultMessage: 'Send Message Icon',
+                                })}
+                            />
+                        </OverlayTrigger>
                     </button>
                 </div>,
             );
