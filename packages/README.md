@@ -67,13 +67,13 @@ To set up a new package:
 1. Ensure all source files are located in `src` and all compiled files are built to `lib`.
 1. Add an entry to the `workspaces` section of the root `package.json` so that NPM is aware of your package.
 1. Set up import aliases so that the package is visible from the web app to the following tools:
-    1. TypeScript - In the root `tsconfig.json`, add an entry to the `compilerOptions.paths` section pointing to the `src` folder and an entry to the `references` section pointing to the root of your package which should contain its own `tsconfig.json`.
+    1. **TypeScript** - In the root `tsconfig.json`, add an entry to the `compilerOptions.paths` section pointing to the `src` folder and an entry to the `references` section pointing to the root of your package which should contain its own `tsconfig.json`.
     
         Note that the `compilerOptions.paths` entry will differ based on if your package exports just a single module (ie a single `index.js` file) or if it exports multiple submodules.
 
-        ```json
-            {
-                "compilerOptions": {
+        ```json5
+        {
+            "compilerOptions": {
                 "paths": {
                     "@mattermost/apple": ["packages/apple/lib"], // import * as Apple from '@mattermost/apple';
                     "@mattermost/banana/*": ["packages/banana/lib/*"], // import Yellow from    '@mattermost/banana/yellow';
@@ -86,7 +86,7 @@ To set up a new package:
         }
         ```
 
-    1. Jest - Add an entry to the `jest.moduleNameMapper` section of the root `package.json` for your package. Since that setting supports regexes, you can add these to the existing patterns used by the `client` and `types` packages.
+    1. **Jest** - Add an entry to the `jest.moduleNameMapper` section of the root `jest.config.js` for your package. Since that setting supports regexes, you can add these to the existing patterns used by the `client` and `types` packages.
     
         Similar to TypeScript, this will differ based on if the package exports a single module or multiple modules.
 
