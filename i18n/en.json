@@ -4983,6 +4983,7 @@
   "user_profile.custom_status.set_status": "Set a status",
   "user_profile.send.dm": "Message",
   "user_profile.send.dm.icon": "Send Message Icon",
+  "user_profile.send.dm.yourself": "Send yourself a message",
   "user.settings.advance.confirmDeactivateAccountTitle": "Confirm Deactivation",
   "user.settings.advance.confirmDeactivateDesc": "Are you sure you want to deactivate your account? This can only be reversed by your System Administrator.",
   "user.settings.advance.deactivate_member_modal.deactivateButton": "Yes, deactivate my account",

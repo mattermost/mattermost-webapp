@@ -514,8 +514,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         const sendMessageTooltip = (
             <Tooltip id='sendMessageTooltip'>
                 <FormattedMessage
-                    id='channel_members_rhs.member.send_message'
-                    defaultMessage='Send message'
+                    id='user_profile.send.dm.yourself'
+                    defaultMessage='Send yourself a message'
                 />
             </Tooltip>
         );
@@ -543,15 +543,15 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                             defaultMessage='Edit Profile'
                         />
                     </button>
-                    <button
-                        type='button'
-                        className='btn icon-btn'
-                        onClick={this.handleShowDirectChannel}
+                    <OverlayTrigger
+                        delayShow={Constants.OVERLAY_TIME_DELAY}
+                        placement='top'
+                        overlay={sendMessageTooltip}
                     >
-                        <OverlayTrigger
-                            delayShow={Constants.OVERLAY_TIME_DELAY}
-                            placement='top'
-                            overlay={sendMessageTooltip}
+                        <button
+                            type='button'
+                            className='btn icon-btn'
+                            onClick={this.handleShowDirectChannel}
                         >
                             <SendIcon
                                 size={18}
@@ -560,8 +560,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                                     defaultMessage: 'Send Message Icon',
                                 })}
                             />
-                        </OverlayTrigger>
-                    </button>
+                        </button>
+                    </OverlayTrigger>
                 </div>,
             );
         }
@@ -587,46 +587,65 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             defaultMessage: 'Add to a Channel',
         });
 
-        // todo sinan tooltip koy
         const addToChannelButton = (
-            <button
-                type='button'
-                className='btn icon-btn'
-                onClick={this.handleAddToChannel}
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip id='addToChannelTooltip'>
+                        {addToChannelMessage}
+                    </Tooltip>
+                }
             >
-                <ToggleModalButton
-                    ariaLabel={addToChannelMessage}
-                    modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
-                    role='menuitem'
-                    dialogType={AddUserToChannelModal}
-                    dialogProps={{user: this.props.user}}
-                    onClick={this.props.hide}
+                <button
+                    type='button'
+                    className='btn icon-btn'
+                    onClick={this.handleAddToChannel}
                 >
-                    <AccountPlusOutlineIcon
-                        size={18}
-                        aria-label={formatMessage({
-                            id: t('user_profile.add_user_to_channel.icon'),
-                            defaultMessage: 'Add User to Channel Icon',
-                        })}
-                    />
-                </ToggleModalButton>
-            </button>
+                    <ToggleModalButton
+                        ariaLabel={addToChannelMessage}
+                        modalId={ModalIdentifiers.ADD_USER_TO_CHANNEL}
+                        role='menuitem'
+                        dialogType={AddUserToChannelModal}
+                        dialogProps={{user: this.props.user}}
+                        onClick={this.props.hide}
+                    >
+                        <AccountPlusOutlineIcon
+                            size={18}
+                            aria-label={formatMessage({
+                                id: t('user_profile.add_user_to_channel.icon'),
+                                defaultMessage: 'Add User to Channel Icon',
+                            })}
+                        />
+                    </ToggleModalButton>
+                </button>
+            </OverlayTrigger>
         );
 
-        // todo sinan tooltip koy
+        const startCallMessage = formatMessage({
+            id: t('webapp.mattermost.feature.start_call'),
+            defaultMessage: 'Start Call',
+        });
         const callButton = (
-            <button
-                type='button'
-                className='btn icon-btn'
+            <OverlayTrigger
+                delayShow={Constants.OVERLAY_TIME_DELAY}
+                placement='top'
+                overlay={
+                    <Tooltip id='startCallTooltip'>
+                        {startCallMessage}
+                    </Tooltip>
+                }
             >
-                <PhoneInTalkIcon
-                    size={18}
-                    aria-label={formatMessage({
-                        id: t('webapp.mattermost.feature.start_call'),
-                        defaultMessage: 'Start Call',
-                    })}
-                />
-            </button>
+                <button
+                    type='button'
+                    className='btn icon-btn'
+                >
+                    <PhoneInTalkIcon
+                        size={18}
+                        aria-label={startCallMessage}
+                    />
+                </button>
+            </OverlayTrigger>
         );
         if (this.props.user.id !== this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
