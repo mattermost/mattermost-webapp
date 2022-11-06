@@ -165,6 +165,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
+    show: boolean;
 };
 
 /**
@@ -185,6 +186,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         super(props);
         this.state = {
             loadingDMChannel: undefined,
+            show: true,
         };
     }
     componentDidMount() {
@@ -263,7 +265,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         };
         this.props.actions.openModal(customStatusInputModalData);
     };
-    handleAddToChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    handleAddToChannel = (e: React.MouseEvent<HTMLAnchorElement>) => {
         e.preventDefault();
         this.handleCloseModals();
     };
@@ -345,8 +347,14 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
 
         return {customStatusContent, expiryContent};
     }
+    handleClose = () => {
+        if (this.state.show) {
+            this.setState({show: false});
+            this.handleCloseModals();
+        }
+    }
     render() {
-        if (!this.props.user) {
+        if (!this.props.user || !this.state.show) {
             return null;
         }
 
@@ -414,7 +422,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             }
             dataContent.push(
                 <div
-                    data-testId={`popover-fullname-${this.props.user.username}`}
+                    data-testid={`popover-fullname-${this.props.user.username}`}
                     className='overflow--ellipsis text-nowrap pb-1'
                     key='user-popover-fullname'
                 >
@@ -436,7 +444,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         const userNameClass = classNames('overflow--ellipsis text-nowrap pb-1', {'user-profile-popover__heading': fullname === ''});
         const userName: React.ReactNode = `@${this.props.user.username}`;
         dataContent.push(
-            <div className={userNameClass}>
+            <div
+                className={userNameClass}
+                key='user-popover-username'
+            >
                 {userName}
             </div>,
         );
@@ -446,7 +457,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 Constants.MAX_POSITION_LENGTH,
             );
             dataContent.push(
-                <div className='overflow--ellipsis text-nowrap pb-1'>
+                <div
+                    className='overflow--ellipsis text-nowrap pb-1'
+                    key='user-popover-position'
+                >
                     {position}
                 </div>,
             );
@@ -597,9 +611,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     </Tooltip>
                 }
             >
-                <button
-                    type='button'
-                    className='btn icon-btn'
+                <a
+                    className='btn icon-btn text-nowrap'
                     onClick={this.handleAddToChannel}
                 >
                     <ToggleModalButton
@@ -618,7 +631,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                             })}
                         />
                     </ToggleModalButton>
-                </button>
+                </a>
             </OverlayTrigger>
         );
 
@@ -735,7 +748,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 {roleTitle}
                 <button
                     className='user-popover__close'
-                    onClick={this.handleCloseModals}
+                    onClick={this.handleClose}
                 >
                     <CloseIcon
                         size={18}

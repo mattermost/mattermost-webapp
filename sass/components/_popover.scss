@@ -172,7 +172,6 @@
         }
     }
 
-    // todo sinan revert to old version as you are only interested under id='user-profile-popover'
     .popover-title {
         overflow: hidden;
         max-width: 100%;
@@ -273,22 +272,6 @@
             min-height: 100%;
         }
     }
-}
-
-// todo sinan check and delete unused classes, also update tests
-.user-popover__username,
-.user-popover__username > a {
-    display: inline-block;
-    overflow: hidden;
-    max-width: 150px;
-    height: 17px;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-.user-profile-popover .user-popover__username:only-child,
-.user-profile-popover .user-popover__username:only-child > a {
-    max-width: 100%;
 }
 
 .user-profile-popover .Avatar {
