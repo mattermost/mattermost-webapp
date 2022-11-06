@@ -9,7 +9,6 @@ import {AccountOutlineIcon, AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutl
 import Pluggable from 'plugins/pluggable';
 import CallButton from 'plugins/call_button';
 
-import EventEmitter from 'mattermost-redux/utils/event_emitter';
 import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -40,8 +39,6 @@ import Tooltip from 'components/tooltip';
 
 import './profile_popover.scss';
 
-// todo sinan fix unit and e2e tests
-// todo sinan fix close button
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
@@ -222,21 +219,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 getHistory().push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         });
-        this.handleCloseModals();
-    };
-    handleMentionKeyClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        if (!this.props.user) {
-            return;
-        }
-        if (this.props.hide) {
-            this.props.hide();
-        }
-        EventEmitter.emit(
-            'mention_key_click',
-            this.props.user.username,
-            this.props.isRHS,
-        );
         this.handleCloseModals();
     };
     handleEditAccountSettings = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -579,7 +561,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 </div>,
             );
         }
-        if (haveOverrideProp) { // todo sinan test what is this. If not needed delete this and handleMentionKeyClick
+        if (haveOverrideProp) {
             dataContent.push(
                 <div
                     data-toggle='tooltip'
@@ -590,9 +572,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         id='user_profile.account.post_was_created'
                         defaultMessage='This post was created by an integration from'
                     />
-                    <a
-                        onClick={this.handleMentionKeyClick}
-                    >{` @${this.props.user.username}`}</a>
+                    {` @${this.props.user.username}`}
                 </div>,
             );
         }
