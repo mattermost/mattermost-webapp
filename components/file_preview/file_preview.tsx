@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React, {ReactNode} from 'react';
@@ -134,10 +135,7 @@ export default class FilePreview extends React.PureComponent<Props> {
         }
 
         return (
-            <div
-                className='file-preview__container'
-                ref='container'
-            >
+            <div className='file-preview__container'>
                 {previews}
             </div>
         );

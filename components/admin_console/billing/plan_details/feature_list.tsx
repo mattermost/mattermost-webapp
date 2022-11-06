@@ -12,34 +12,11 @@ import './feature_list.scss';
 
 export interface FeatureListProps {
     subscriptionPlan?: string;
-    isLegacyFree: boolean;
 }
 
 const FeatureList = (props: FeatureListProps) => {
     const intl = useIntl();
     const [limits] = useGetLimits();
-    const featuresFreeTier = [
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.99uptime',
-            defaultMessage: '99.0% uptime',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.selfServiceDocumentation',
-            defaultMessage: 'Self-Service documentation and forum support',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.mfaAuthentication',
-            defaultMessage: 'Google, GitLab, O365 & MFA Authentication',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.guestAccounts',
-            defaultMessage: 'Guest Accounts',
-        }),
-        intl.formatMessage({
-            id: 'admin.billing.subscription.planDetails.features.unlimitedIntegrations',
-            defaultMessage: 'Unlimited Integrations',
-        }),
-    ];
 
     const featuresCloudStarter = [
         intl.formatMessage(
@@ -193,27 +170,23 @@ const FeatureList = (props: FeatureListProps) => {
         }),
     ];
 
-    let features;
+    let features: string[] = [];
 
-    if (props.isLegacyFree) {
-        features = featuresFreeTier;
-    } else {
-        switch (props.subscriptionPlan) {
-        case CloudProducts.PROFESSIONAL:
-            features = featuresCloudProfessional;
-            break;
+    switch (props.subscriptionPlan) {
+    case CloudProducts.PROFESSIONAL:
+        features = featuresCloudProfessional;
+        break;
 
-        case CloudProducts.STARTER:
-            features = hasSomeLimits(limits) ? featuresCloudStarter : featuresCloudStarterLegacy;
-            break;
-        case CloudProducts.ENTERPRISE:
-            features = featuresCloudEnterprise;
-            break;
-        default:
-            // must be CloudProducts.LEGACY
-            features = featuresFreeTier;
-            break;
-        }
+    case CloudProducts.STARTER:
+        features = hasSomeLimits(limits) ? featuresCloudStarter : featuresCloudStarterLegacy;
+        break;
+    case CloudProducts.ENTERPRISE:
+        features = featuresCloudEnterprise;
+        break;
+    default:
+        // unknown product
+        features = [];
+        break;
     }
 
     const featureElements = features?.map((feature, i) => (

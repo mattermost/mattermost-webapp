@@ -232,7 +232,6 @@
   "admin.billing.payment_info_edit.save": "儲存訊息",
   "admin.billing.payment_info_edit.title": "編輯付費資訊",
   "admin.billing.subscription.title": "訂閱",
-  "admin.billing.subscription.upgradeMattermostCloud.upgradeButton": "升級 Mattermost 雲端版",
   "admin.bleve.bulkIndexingTitle": "批次索引：",
   "admin.bleve.createJob.help": "將從舊至新依序對資料庫中所有的使用者、頻道、訊息建立索引。在建立索引時 Bleve 依然可用，但是在建立索引完成前檢索結果可能會不完整。",
   "admin.bleve.createJob.title": "開始索引",

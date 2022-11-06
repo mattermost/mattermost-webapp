@@ -54,14 +54,12 @@ describe('components/admin_console/billing/plan_details/feature_list', () => {
     test('should match snapshot when running FREE tier', () => {
         const wrapper = renderFeatureList({
             subscriptionPlan: CloudProducts.STARTER,
-            isLegacyFree: false,
         });
         expect(wrapper).toMatchSnapshot();
     });
     test('should match snapshot when running paid tier and professional', () => {
         const wrapper = renderFeatureList({
             subscriptionPlan: CloudProducts.PROFESSIONAL,
-            isLegacyFree: false,
         });
         expect(wrapper).toMatchSnapshot();
     });
@@ -69,7 +67,6 @@ describe('components/admin_console/billing/plan_details/feature_list', () => {
     test('should match snapshot when running paid tier and enterprise', () => {
         const wrapper = renderFeatureList({
             subscriptionPlan: CloudProducts.ENTERPRISE,
-            isLegacyFree: false,
         });
         expect(wrapper).toMatchSnapshot();
     });
@@ -77,7 +74,6 @@ describe('components/admin_console/billing/plan_details/feature_list', () => {
     test('should match snapshot when running paid tier and free', () => {
         const wrapper = renderFeatureList({
             subscriptionPlan: CloudProducts.STARTER,
-            isLegacyFree: false,
         });
         expect(wrapper).toMatchSnapshot();
     });
@@ -85,22 +81,18 @@ describe('components/admin_console/billing/plan_details/feature_list', () => {
     test('all feature items must have different values', () => {
         const wrapperEnterprise = renderFeatureList({
             subscriptionPlan: CloudProducts.ENTERPRISE,
-            isLegacyFree: false,
         }, true);
 
         const wrapperStarter = renderFeatureList({
             subscriptionPlan: CloudProducts.STARTER,
-            isLegacyFree: false,
         }, true);
 
         const wrapperProfessional = renderFeatureList({
             subscriptionPlan: CloudProducts.PROFESSIONAL,
-            isLegacyFree: false,
         }, true);
 
         const wrapperFreeTier = renderFeatureList({
             subscriptionPlan: CloudProducts.PROFESSIONAL,
-            isLegacyFree: false,
         }, true);
 
         const wrappers = [wrapperProfessional, wrapperEnterprise, wrapperStarter, wrapperFreeTier];
