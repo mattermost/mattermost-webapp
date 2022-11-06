@@ -12,7 +12,9 @@ import Pluggable from 'plugins/pluggable';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {TestHelper} from 'utils/test_helper';
+import CallButton from 'plugins/call_button/call_button';
 
+// todo sinan write test for close button, call button, send message to yourself button
 describe('components/ProfilePopover', () => {
     const baseProps = {
         enableTimezone: false,
@@ -46,6 +48,7 @@ describe('components/ProfilePopover', () => {
             'minute',
             'hour',
         ],
+        isCallsEnabled: true,
     };
 
     test('should match snapshot', () => {
@@ -190,6 +193,18 @@ describe('components/ProfilePopover', () => {
         const props = {
             ...baseProps,
             enableLastActiveTime: false,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when calls are disabled', () => {
+        const props = {
+            ...baseProps,
+            isCallsEnabled: false,
         };
 
         const wrapper = shallowWithIntl(
