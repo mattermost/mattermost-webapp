@@ -21,6 +21,9 @@ const QuickUse = styled.button`
     font-size: 11px;
     line-height: 16px;
     color: var(--button-color);
+    visibility: hidden;
+    opacity: 0;
+    z-index: 2;
 
     transition: visibility 0.4s ease-in-out, opacity 0.4s ease-in-out;
 `;
@@ -106,11 +109,6 @@ const StyledUseCaseMenuItem = styled(UseCase)`
     cursor: pointer;
     margin-bottom: 16px;
 
-    ${QuickUse} {
-        visibility:hidden;
-        opacity:0;
-    }
-
     .illustration {
         height: 130px;
         background: rgba(73, 146, 243, 0.2);
@@ -133,9 +131,11 @@ const StyledUseCaseMenuItem = styled(UseCase)`
     }
 
     .name {
-        padding: 16px 12px;
+        padding: 14px 12px;
         width: 220px;
         height: 44px;
+        font-family: 'Open Sans';
+        line-height: 16px;
         font-weight: 600;
         font-size: 12px;
         line-height: 16px;
@@ -144,10 +144,11 @@ const StyledUseCaseMenuItem = styled(UseCase)`
         flex-grow: 2;
 
         .details {
-            visibility:hidden;
+            visibility: hidden;
+            margin-bottom: 12px;
             opacity: 0;
             font-weight: 400;
-            font-size: 10px;
+            font-size: 11px;
             line-height: 16px;
             letter-spacing: 0.02em;
             color: rgba(var(--center-channel-color), 0.72);
@@ -158,9 +159,8 @@ const StyledUseCaseMenuItem = styled(UseCase)`
     &:hover {
         box-shadow: var(--elevation-2);
         ${QuickUse} {
-            visibility:visible;
-            opacity:1;
-            z-index: 2;
+            visibility: visible;
+            opacity: 1;
         }
 
         img {
@@ -169,10 +169,9 @@ const StyledUseCaseMenuItem = styled(UseCase)`
 
         .name {
             height: 56px;
-            padding-bottom: 2px;
-
+            padding: 12px 12px 0;
             .details {
-                visibility:visible;
+                visibility: visible;
                 opacity: 1;
             }
         }
