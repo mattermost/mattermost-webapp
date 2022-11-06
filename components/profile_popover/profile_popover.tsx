@@ -147,7 +147,7 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
         closeModal: (modalId: string) => void;
-        openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
+        openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
@@ -207,7 +207,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             return;
         }
         this.setState({loadingDMChannel: user.id});
-        actions.openDirectChannelToUserId(user.id).then((result: { error: ServerError }) => {
+        actions.openDirectChannelToUserId(user.id).then((result: {error: ServerError}) => {
             if (!result.error) {
                 if (this.props.isMobileView) {
                     GlobalActions.emitCloseRightHandSide();
