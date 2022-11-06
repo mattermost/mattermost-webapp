@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ReactNode, useState, MouseEvent, FocusEvent} from 'react';
-import {Menu} from '@mui/material';
+import React, {ReactNode, useState, MouseEvent} from 'react';
+import {Menu, MenuList} from '@mui/material';
 
 import Tooltip from 'components/tooltip';
 import CompassDesignProvider from 'components/compass_design_provider';
@@ -42,7 +42,7 @@ export function MenuComponent(props: Props) {
         setAnchorElement(event.currentTarget);
     };
 
-    const handleMenuClose = (event: MouseEvent<HTMLDivElement> | FocusEvent<HTMLDivElement>) => {
+    const handleMenuClose = (event: MouseEvent<HTMLDivElement | HTMLUListElement>) => {
         event.preventDefault();
         setAnchorElement(null);
     };
@@ -80,18 +80,14 @@ export function MenuComponent(props: Props) {
                 anchorEl={anchorElement}
                 open={isMenuOpen}
                 onClose={handleMenuClose}
-                onBlur={handleMenuClose}
                 aria-label={props.menuAriaLabel}
-                MenuListProps={{
-                    'aria-labelledby': props.anchorId,
-                }}
-                PaperProps={{
-                    style: {
-                        maxHeight: '50vh',
-                    },
-                }}
             >
-                {props.children}
+                <MenuList
+                    aria-labelledby={props.anchorId}
+                    onClick={handleMenuClose}
+                >
+                    {props.children}
+                </MenuList>
             </Menu>
         </CompassDesignProvider>
     );

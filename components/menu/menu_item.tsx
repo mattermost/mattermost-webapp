@@ -7,6 +7,8 @@ import {MenuItem as MuiMenuItem} from '@mui/material';
 interface Props {
     id?: string;
     onClick?: MouseEventHandler<HTMLLIElement>;
+    onMouseEnter?: React.MouseEventHandler<HTMLLIElement>;
+    onMouseLeave?: React.MouseEventHandler<HTMLLIElement>;
     disabled?: boolean;
     children: ReactNode;
 }
@@ -16,8 +18,11 @@ export function MenuItem(props: Props) {
         <MuiMenuItem
             id={props.id}
             component='li'
+            disableRipple={true}
             disabled={props.disabled}
             onClick={props.onClick}
+            onMouseEnter={props.onMouseEnter}
+            onMouseLeave={props.onMouseLeave}
         >
             {props.children}
         </MuiMenuItem>

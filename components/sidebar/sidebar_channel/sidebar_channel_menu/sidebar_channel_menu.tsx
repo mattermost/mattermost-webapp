@@ -20,9 +20,9 @@ import {Channel} from '@mattermost/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
-// import CategoryMenuItems from 'components/category_menu_items';
+import CategoryMenuItems from 'components/category_menu_items';
 import ChannelInviteModal from 'components/channel_invite_modal';
-import {Menu, MenuItem, MenuList, MenuDivider} from 'components/menu';
+import {Menu, MenuItem, MenuDivider} from 'components/menu';
 
 import {ModalData} from 'types/actions';
 
@@ -147,149 +147,124 @@ function SidebarChannelMenu(props: Props) {
         );
     }
 
-    function channelMenuItems() {
-        let favorite;
-        if (props.isFavorite) {
-            favorite = (
-                <MenuItem
-                    id={`unfavorite-${props.channel.id}`}
-                    onClick={handleUnfavoriteChannel}
-                >
-                    <StarIcon
-                        size={18}
-                    />
-                    <FormattedMessage
-                        id='sidebar_left.sidebar_channel_menu.unfavoriteChannel'
-                        defaultMessage='Unfavorite'
-                    />
-                </MenuItem>
-            );
-        } else {
-            favorite = (
-                <MenuItem
-                    id={`favorite-${props.channel.id}`}
-                    onClick={handleFavoriteChannel}
-                >
-                    <StarOutlineIcon
-                        size={18}
-                    />
-                    <FormattedMessage
-                        id='sidebar_left.sidebar_channel_menu.favoriteChannel'
-                        defaultMessage='Favorite'
-                    />
-                </MenuItem>
-            );
-        }
+    let menuFavorite = (
+        <MenuItem
+            id={`favorite-${props.channel.id}`}
+            onClick={handleFavoriteChannel}
+        >
+            <StarOutlineIcon
+                size={18}
+            />
+            <FormattedMessage
+                id='sidebar_left.sidebar_channel_menu.favoriteChannel'
+                defaultMessage='Favorite'
+            />
+        </MenuItem>
+    );
+    if (props.isFavorite) {
+        menuFavorite = (
+            <MenuItem
+                id={`unfavorite-${props.channel.id}`}
+                onClick={handleUnfavoriteChannel}
+            >
+                <StarIcon
+                    size={18}
+                />
+                <FormattedMessage
+                    id='sidebar_left.sidebar_channel_menu.unfavoriteChannel'
+                    defaultMessage='Unfavorite'
+                />
+            </MenuItem>
+        );
+    }
 
-        let muteChannel;
-        if (props.isMuted) {
-            let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'});
-            if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
-                muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteConversation', defaultMessage: 'Unmute Conversation'});
-            }
-            muteChannel = (
-                <MenuItem
-                    id={`unmute-${props.channel.id}`}
-                    onClick={handleUnmuteChannel}
-                >
-                    <BellOffOutlineIcon
-                        size={18}
-                    />
-                    {muteChannelText}
-                </MenuItem>
-            );
-        } else {
-            let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteChannel', defaultMessage: 'Mute Channel'});
-            if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
-                muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteConversation', defaultMessage: 'Mute Conversation'});
-            }
-            muteChannel = (
-                <MenuItem
-                    id={`mute-${props.channel.id}`}
-                    onClick={handleMuteChannel}
-                >
-                    <BellOutlineIcon
-                        size={18}
-                    />
-                    {muteChannelText}
-                </MenuItem>
-            );
-        }
-
-        let copyLink;
-        if (props.channel.type === Constants.OPEN_CHANNEL || props.channel.type === Constants.PRIVATE_CHANNEL) {
-            copyLink = (
-                <MenuItem
-                    id={`copyLink-${props.channel.id}`}
-                    onClick={handleCopyLink}
-                >
-                    <LinkVariantIcon
-                        size={18}
-                    />
-                    <FormattedMessage
-                        id='sidebar_left.sidebar_channel_menu.copyLink'
-                        defaultMessage='Copy Link'
-                    />
-                </MenuItem>
-            );
-        }
-
-        let addMembers;
-        if ((props.channel.type === Constants.PRIVATE_CHANNEL && props.managePrivateChannelMembers) || (props.channel.type === Constants.OPEN_CHANNEL && props.managePublicChannelMembers)) {
-            addMembers = (
-                <MenuItem
-                    id={`addMembers-${props.channel.id}`}
-                    onClick={handleAddMembers}
-                >
-                    <AccountOutlineIcon
-                        size={18}
-                    />
-                    <FormattedMessage
-                        id='sidebar_left.sidebar_channel_menu.addMembers'
-                        defaultMessage='Add Members'
-                    />
-                </MenuItem>
-            );
-        }
-
-        let leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
+    let menuMuteChannel: ReactNode | null = null;
+    if (props.isMuted) {
+        let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'});
         if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
-            leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
+            muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteConversation', defaultMessage: 'Unmute Conversation'});
         }
-
-        let leaveChannel;
-        if (props.channel.name !== Constants.DEFAULT_CHANNEL) {
-            leaveChannel = (
-                <>
-                    <MenuDivider/>
-                    <MenuItem
-                        id={`leave-${props.channel.id}`}
-                        onClick={handleLeaveChannel}
-                    >
-                        <CloseIcon
-                            size={18}
-                        />
-                        {leaveChannelText}
-                    </MenuItem>
-                </>
-            );
+        menuMuteChannel = (
+            <MenuItem
+                id={`unmute-${props.channel.id}`}
+                onClick={handleUnmuteChannel}
+            >
+                <BellOffOutlineIcon
+                    size={18}
+                />
+                {muteChannelText}
+            </MenuItem>
+        );
+    } else {
+        let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteChannel', defaultMessage: 'Mute Channel'});
+        if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
+            muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteConversation', defaultMessage: 'Mute Conversation'});
         }
+        menuMuteChannel = (
+            <MenuItem
+                id={`mute-${props.channel.id}`}
+                onClick={handleMuteChannel}
+            >
+                <BellOutlineIcon
+                    size={18}
+                />
+                {muteChannelText}
+            </MenuItem>
+        );
+    }
 
-        return (
-            <MenuList>
-                {menuMarkAsRead}
-                {favorite}
-                {muteChannel}
-                <MenuDivider/>
-                {/* <CategoryMenuItems
-                    channel={channel}
-                    location={'sidebar'}
-                /> */}
-                <MenuDivider/>
-                {copyLink}
-                {addMembers}
-                {leaveChannel}
-            </MenuList>
+    let menuCopyLink: ReactNode | null = null;
+    if (props.channel.type === Constants.OPEN_CHANNEL || props.channel.type === Constants.PRIVATE_CHANNEL) {
+        menuCopyLink = (
+            <MenuItem
+                id={`copyLink-${props.channel.id}`}
+                onClick={handleCopyLink}
+            >
+                <LinkVariantIcon
+                    size={18}
+                />
+                <FormattedMessage
+                    id='sidebar_left.sidebar_channel_menu.copyLink'
+                    defaultMessage='Copy Link'
+                />
+            </MenuItem>
+        );
+    }
+
+    let menuAddMembers: ReactNode | null = null;
+    if ((props.channel.type === Constants.PRIVATE_CHANNEL && props.managePrivateChannelMembers) || (props.channel.type === Constants.OPEN_CHANNEL && props.managePublicChannelMembers)) {
+        menuAddMembers = (
+            <MenuItem
+                id={`addMembers-${props.channel.id}`}
+                onClick={handleAddMembers}
+            >
+                <AccountOutlineIcon
+                    size={18}
+                />
+                <FormattedMessage
+                    id='sidebar_left.sidebar_channel_menu.addMembers'
+                    defaultMessage='Add Members'
+                />
+            </MenuItem>
+        );
+    }
+
+    let leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
+    if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
+        leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
+    }
+    let menuLeaveChannel: ReactNode | null = null;
+    if (props.channel.name !== Constants.DEFAULT_CHANNEL) {
+        menuLeaveChannel = (
+            <MenuItem
+                id={`leave-${props.channel.id}`}
+                onClick={handleLeaveChannel}
+            >
+                <CloseIcon
+                    size={18}
+                />
+                {leaveChannelText}
+            </MenuItem>
         );
     }
 
@@ -304,7 +279,19 @@ function SidebarChannelMenu(props: Props) {
             menuId={`SidebarChannelMenu-${props.channel.id}`}
             menuAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
         >
-            {channelMenuItems()}
+            {menuMarkAsRead}
+            {menuFavorite}
+            {menuMuteChannel}
+            <MenuDivider/>
+            <CategoryMenuItems
+                channel={props.channel}
+                location={'sidebar'}
+            />
+            <MenuDivider/>
+            {menuCopyLink}
+            {menuAddMembers}
+            {menuLeaveChannel && <MenuDivider/>}
+            {menuLeaveChannel}
         </Menu>
     );
 }

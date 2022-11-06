@@ -8,7 +8,7 @@ import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from 'types/store';
 
 import {MenuComponent} from './menu';
-import {MenuList} from './menu_list';
+import {SubMenu} from './sub_menu';
 import {MenuItem} from './menu_item';
 import {MenuDivider} from './menu_divider';
 
@@ -26,7 +26,7 @@ const Menu = connector(MenuComponent);
 
 export {
     Menu,
-    MenuList,
+    SubMenu,
     MenuItem,
     MenuDivider,
 };

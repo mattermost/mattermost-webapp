@@ -5,6 +5,8 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {FolderMoveOutlineIcon} from '@mattermost/compass-icons/components';
+
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -15,20 +17,22 @@ import {ChannelCategory} from '@mattermost/types/channel_categories';
 import {trackEvent} from 'actions/telemetry_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
 import {openModal} from 'actions/views/modals';
-import EditCategoryModal from 'components/edit_category_modal';
-import Menu from 'components/widgets/menu/menu';
+
 import {getCategoriesForCurrentTeam, getDisplayedChannels} from 'selectors/views/channel_sidebar';
 import {GlobalState} from 'types/store';
+
 import Constants, {ModalIdentifiers} from 'utils/constants';
+
+import EditCategoryModal from 'components/edit_category_modal';
+import {SubMenu, MenuItem, MenuDivider} from 'components/menu';
 
 type Props = {
     channel: Channel;
-    openUp: boolean;
     location?: string | 'sidebar' | 'channel';
 };
 
 const CategoryMenuItems = (props: Props): JSX.Element | null => {
-    const {channel, openUp, location} = props;
+    const {channel, location} = props;
     const intl = useIntl();
     const dispatch = useDispatch<DispatchFunc>();
     const displayedChannels = useSelector((state: GlobalState) => getDisplayedChannels(state));
@@ -46,14 +50,14 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         return null;
     }
 
-    const moveToCategory = (categoryId: string) => {
+    function moveToCategory(categoryId: string) {
         if (currentCategory?.id !== categoryId) {
             dispatch(addChannelsInSidebar(categoryId, channel.id));
             trackEvent('ui', 'ui_sidebar_channel_menu_moveToExistingCategory');
         }
-    };
+    }
 
-    const moveToNewCategory = () => {
+    function moveToNewCategory() {
         dispatch(openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
@@ -62,7 +66,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
             },
         }));
         trackEvent('ui', 'ui_sidebar_channel_menu_createCategory');
-    };
+    }
 
     let filteredCategories = categories.filter((category) => category.type !== CategoryTypes.DIRECT_MESSAGES);
 
@@ -100,33 +104,32 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         } as any;
     });
 
-    categoryMenuItems.push(
-        {
-            id: 'ChannelMenu-moveToDivider',
-            text: (<span className='MenuGroup menu-divider'/>),
-        },
-        {
-            id: `moveToNewCategory-${channel.id}`,
-            icon: (<i className='icon-folder-move-outline'/>),
-            direction: 'right' as any,
-            text: intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
-            action: moveToNewCategory,
-        },
+    return (
+        <SubMenu
+            anchorId={`moveToCategory-${channel.id}`}
+            anchorNode={
+                <>
+                    <FolderMoveOutlineIcon/>
+                    {intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
+                </>
+            }
+        >
+            <MenuDivider/>
+            <MenuItem
+                id={`moveToNewCategory-${channel.id}`}
+                onClick={moveToNewCategory}
+            >
+                <FolderMoveOutlineIcon/>
+                {intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'})}
+            </MenuItem>
+        </SubMenu>
     );
 
     return (
         <React.Fragment>
             <Menu.Group>
                 <Menu.ItemSubMenu
-                    id={`moveTo-${channel.id}`}
                     subMenu={categoryMenuItems}
-                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
-                    direction={'right' as any}
-                    icon={location === 'sidebar' ? <i className='icon-folder-move-outline'/> : null}
-                    openUp={openUp}
-                    styleSelectableItem={true}
-                    selectedValueText={currentCategory?.display_name}
-                    renderSelected={false}
                 />
             </Menu.Group>
         </React.Fragment>
