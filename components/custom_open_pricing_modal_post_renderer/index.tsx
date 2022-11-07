@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 
 import Markdown from 'components/markdown';
 
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
-import {Post} from '@mattermost/types/posts';
+
 import {getUsers} from 'mattermost-redux/selectors/entities/users';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import {openModal} from 'actions/views/modals';
@@ -16,6 +16,9 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {ModalIdentifiers, PaidFeatures} from 'utils/constants';
 import {trackEvent} from 'actions/telemetry_actions';
 import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+
+import {Post} from '@mattermost/types/posts';
 
 const MinimumPlansForFeature = {
     Professional: 'Professional plan',
@@ -71,13 +74,22 @@ export default function OpenPricingModalPost(props: {post: Post}) {
 
     const openPricingModal = useOpenPricingModal();
 
+    const getUserIdsForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => requests.map((request: FeatureRequest) => request.user_id);
     const postProps = props.post.props as Partial<CustomPostProps>;
     const requestFeatures = postProps?.requested_features;
     const wasTrialRequest = postProps?.trial;
+
+    useEffect(() => {
+        if (requestFeatures) {
+            for (const featureId of Object.keys(requestFeatures)) {
+                dispatch(getMissingProfilesByIds(getUserIdsForUsersThatRequestedFeature(requestFeatures[featureId])));
+            }
+        }
+    }, [dispatch, requestFeatures]);
+
     const isDowngradeNotification = (featureId: string) => featureId === PaidFeatures.UPGRADE_DOWNGRADED_WORKSPACE;
 
     const customMessageBody = [];
-    const getUserIdsForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => requests.map((request: FeatureRequest) => request.user_id);
 
     const getUserNamesForUsersThatRequestedFeature = (requests: FeatureRequest[]): string[] => {
         const unknownName = formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.unknown', defaultMessage: '@unknown'});
