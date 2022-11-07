@@ -12,6 +12,7 @@
     .radio {
         display: flex;
         align-items: center;
+        gap: 8px;
 
         &:first-child {
             margin-top: 0;
@@ -25,7 +26,7 @@
             opacity: 0.6;
         }
 
-        // TODO
+        // TODO@UI
         // in this case we should probably use a Chip component instead, which aligns better with what is needed here
         // involved components are
         //   - invite_as.tsx
@@ -35,9 +36,10 @@
         .Tag {
             position: absolute;
             display: inline-flex;
-            margin-left: 15px;
+            margin: 0;
 
             &__restricted-indicator-badge {
+                position: relative;
                 display: flex;
                 height: 24px;
                 align-items: center;
