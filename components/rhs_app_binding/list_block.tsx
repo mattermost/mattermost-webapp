@@ -1,7 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {CSSProperties} from 'react';
+import React from 'react';
+
+import classNames from 'classnames';
 
 import ActionsMenu from './actions_menu';
 import {CommonProps} from './common_props';
@@ -9,9 +11,9 @@ import Icon from './icon';
 
 export default function ListBlock(props: CommonProps) {
     return (
-        <div>
+        <div className='mm-app-bar-rhs-binding-list-block'>
             <h3>{props.binding.label}</h3>
-            <div>
+            <ul className='mm-app-bar-rhs-binding-list'>
                 {props.binding.bindings?.map((b) => (
                     <ListItem
                         {...props}
@@ -19,7 +21,7 @@ export default function ListBlock(props: CommonProps) {
                         binding={b}
                     />
                 ))}
-            </div>
+            </ul>
         </div>
     );
 }
@@ -28,42 +30,22 @@ export function ListItem(props: CommonProps) {
     let actionsMenu;
     const actions = props.binding.bindings?.find((b) => b.type === 'actions');
     if (actions) {
-        const centerActionsButton = props.binding.bindings?.length === 1;
-        const style: CSSProperties = centerActionsButton ? {
-            position: 'absolute',
-            right: '5px',
-            display: 'flex',
-            alignItems: 'center',
-            height: '100%',
-        } : {
-            position: 'absolute',
-            right: '5px',
-            top: '10px',
-        };
-
         actionsMenu = (
-            <div
-                style={style}
-            >
-                <ActionsMenu
-                    {...props}
-                    binding={actions}
-                    centerButton={centerActionsButton}
-                />
-            </div>
+            <ActionsMenu
+                {...props}
+                binding={actions}
+            />
         );
     }
 
     let iconComponent;
     if (props.binding.icon) {
         iconComponent = (
-            <div style={{display: 'inline-block'}}>
-                <div>
-                    <Icon
-                        width={'24px'}
-                        src={props.binding.icon}
-                    />
-                </div>
+            <div className='mm-app-bar-rhs-binding-list-item__icon-ctr'>
+                <Icon
+                    width={'18px'}
+                    src={props.binding.icon}
+                />
             </div>
         );
     }
@@ -82,49 +64,41 @@ export function ListItem(props: CommonProps) {
     );
 
     const title = (
-        <h4>
+        <h4 className='mm-app-bar-rhs-binding-list-item__title'>
             {props.binding.label}
         </h4>
     );
 
     const description = props.binding.description && (
-        <p>
+        <p className='mm-app-bar-rhs-binding-list-item__sub-text'>
             {props.binding.description}
         </p>
     );
 
     const textContent = (
-        <div style={{display: 'inline-block'}}>
+        <div className='mm-app-bar-rhs-binding-list-item__content-ctr'>
             {title}
             {description}
         </div>
     );
 
-    const listItemStyle: CSSProperties = {
-        position: 'relative',
-        minHeight: '65px',
+    const handleItemClick = () => {
+        if (props.binding.submit) {
+            props.handleBindingClick(props.binding);
+        }
     };
 
-    if (props.binding.submit) {
-        listItemStyle.cursor = 'pointer';
-    }
-
     return (
-        <div
-            style={listItemStyle}
-            className='list-block-item'
-            onClick={() => {
-                if (props.binding.submit) {
-                    props.handleBindingClick(props.binding);
-                }
-            }}
+        <li
+            className={classNames('mm-app-bar-rhs-binding-list-item', {'cursor-pointer': props.binding.submit})}
+            onClick={handleItemClick}
         >
-            {actionsMenu}
             {iconComponent}
             {textContent}
+            {actionsMenu}
             <div>
                 {childBindings}
             </div>
-        </div>
+        </li>
     );
 }

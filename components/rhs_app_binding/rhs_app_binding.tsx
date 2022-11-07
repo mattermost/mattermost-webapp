@@ -7,7 +7,6 @@ import {useDispatch, useSelector} from 'react-redux';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 import {getCurrentChannelId} from 'mattermost-redux/selectors/entities/common';
 
-import {AppBinding} from '@mattermost/types/apps';
 import {DoAppCallResult} from 'types/apps';
 
 import {handleBindingClick, openAppsModal, postEphemeralCallResponseForChannel} from 'actions/apps';
@@ -15,6 +14,8 @@ import {getRhsAppBinding} from 'selectors/rhs';
 import {createCallContext} from 'utils/apps';
 
 import SearchResultsHeader from 'components/search_results_header';
+
+import {AppBinding} from '@mattermost/types/apps';
 
 import {AppBindingView} from './view';
 
@@ -35,7 +36,7 @@ export default function RhsAppBinding() {
     return (
         <div
             id='rhsContainer'
-            className='sidebar-right__body app-bar-rhs-binding'
+            className='sidebar-right__body mm-app-bar-rhs-binding'
         >
             <SearchResultsHeader>
                 {binding?.label || ''}

@@ -4,15 +4,17 @@
 import React, {useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
-
-import {AppBinding} from '@mattermost/types/apps';
-
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
 import Constants from 'utils/constants';
+import {DotsVerticalIcon} from '@mattermost/compass-icons/components';
+
+import classNames from 'classnames';
+
+import {AppBinding} from '@mattermost/types/apps';
 
 import {CommonProps} from './common_props';
 
@@ -69,7 +71,7 @@ export default function ActionsMenu(props: CommonProps) {
             <Menu.ItemAction
                 text={binding.label}
                 key={binding.location}
-                onClick={(e) => onSelectedItem(e, binding)}
+                onClick={(e: React.MouseEvent) => onSelectedItem(e, binding)}
                 icon={icon}
             />
         );
@@ -87,64 +89,41 @@ export default function ActionsMenu(props: CommonProps) {
     );
 
     return (
-        <div
-            onClick={(e) => e.stopPropagation()}
-            className='actions-container'
+        <MenuWrapper
+            open={isMenuOpen}
+            onToggle={handleDropdownOpened}
         >
-            <MenuWrapper
-                open={isMenuOpen}
-                onToggle={handleDropdownOpened}
+            <OverlayTrigger
+                className='hidden-xs'
+                delayShow={500}
+                placement='top'
+                overlay={tooltip}
+                rootClose={true}
             >
-                <OverlayTrigger
-                    className='hidden-xs'
-                    delayShow={500}
-                    placement='top'
-                    overlay={tooltip}
-                    rootClose={true}
+                <button
+                    className={classNames('mm-app-bar-rhs-binding-list-item__more-btn',
+                        {'more-btn-menu-active': isMenuOpen})}
+                    onClick={handleMenuClick}
+                    ref={buttonRef}
                 >
-                    {/* <button
-                        key='more-actions-button'
-                        // ref={this.buttonRef}
-                        // id={`${this.props.location}_actions_button_${this.props.post.id}`}
-                        // aria-label={Utils.localizeMessage('post_info.actions.tooltip.actions', 'Actions').toLowerCase()}
-                        // className={classNames('post-menu__item', {
-                        //     'post-menu__item--active': isMenuOpen,
-                        // })}
-                        type='button'
-                        aria-expanded='false'
-                        onClick={handleMenuClick}
-                    >
-                        <i className={'icon icon-apps'} />
-                    </button> */}
-                    <i
-                        className='icon icon-dots-vertical'
-                        style={{cursor: 'pointer'}}
-                        onClick={handleMenuClick}
-                        ref={buttonRef}
-
+                    <DotsVerticalIcon
+                        size={18}
+                        color={'currentColor'}
                     />
+                </button>
+            </OverlayTrigger>
+            <Menu
 
-                    {/* <button
-                        className='icon action-wrapper'
-                        onClick={handleMenuClick}
-                        ref={buttonRef}
-                    >
-                        <i className='icon icon-dots-vertical' />
-                    </button> */}
-                </OverlayTrigger>
-                <Menu
-
-                    // id={`${this.props.location}_actions_dropdown_${this.props.post.id}`}
-                    openLeft={true}
-                    openUp={openUp}
-                    ariaLabel={props.binding.hint || ''}
+                // id={`${this.props.location}_actions_dropdown_${this.props.post.id}`}
+                openLeft={true}
+                openUp={openUp}
+                ariaLabel={props.binding.hint || ''}
 
                 // ariaLabel={Utils.localizeMessage('post_info.menuAriaLabel', 'Post extra options')}
                 // key={`${this.props.location}_actions_dropdown_${this.props.post.id}`}
-                >
-                    {menuItems}
-                </Menu>
-            </MenuWrapper>
-        </div>
+            >
+                {menuItems}
+            </Menu>
+        </MenuWrapper>
     );
 }
