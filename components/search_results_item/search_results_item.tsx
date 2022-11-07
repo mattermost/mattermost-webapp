@@ -24,7 +24,7 @@ import PostBodyAdditionalContent from 'components/post_view/post_body_additional
 import PostFlagIcon from 'components/post_view/post_flag_icon';
 import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import PostTime from 'components/post_view/post_time';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
@@ -166,7 +166,7 @@ export default class SearchResultsItem extends React.PureComponent<Props, State>
         }
 
         this.props.actions.setRhsExpanded(false);
-        browserHistory.push(`/${this.props.teamName}/pl/${this.props.post.id}`);
+        getHistory().push(`/${this.props.teamName}/pl/${this.props.post.id}`);
     };
 
     handleCardClick = (post: Post) => {

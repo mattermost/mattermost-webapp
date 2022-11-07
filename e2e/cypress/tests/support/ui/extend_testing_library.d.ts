@@ -20,11 +20,11 @@ declare namespace Cypress {
         /**
          * Extends `findByRole` by matching case to `name` as insensitive but sensitive to `text` value
          * @param {string} role - button, input, textbox, etc.
-         * @param {Object} option.name - text value of the target element
+         * @param {Object} option - text value of the target element
          *
          * @example
-         *   cy.findByRoleExtended('button', 'Advanced').should('be.visible').click();
+         *   cy.findByRoleExtended('button', {name: 'Advanced'}).should('be.visible').click();
          */
-        findByRoleExtended(): Chainable;
+        findByRoleExtended(role: string, option: {name: string}): Chainable;
     }
 }

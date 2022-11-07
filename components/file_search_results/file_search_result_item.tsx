@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import Tag from 'components/widgets/tag/tag';
 
 import {fileSizeToString, copyToClipboard, localizeMessage} from 'utils/utils';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {getSiteURL} from 'utils/url';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
@@ -43,7 +43,7 @@ export default class FileSearchResultItem extends React.PureComponent<Props, Sta
 
     private jumpToConv = (e: MouseEvent) => {
         e.stopPropagation();
-        browserHistory.push(`/${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
+        getHistory().push(`/${this.props.teamName}/pl/${this.props.fileInfo.post_id}`);
     }
 
     private copyLink = () => {

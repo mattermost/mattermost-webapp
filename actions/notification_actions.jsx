@@ -15,7 +15,7 @@ import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {isThreadOpen} from 'selectors/views/threads';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
 import {isDesktopApp, isMobileApp} from 'utils/user_agent';
@@ -226,7 +226,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
             silent,
             onClick: () => {
                 window.focus();
-                browserHistory.push(url);
+                getHistory().push(url);
             },
         }).catch((error) => {
             dispatch(logError(error));

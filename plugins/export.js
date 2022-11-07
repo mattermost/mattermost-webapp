@@ -1,11 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {closeRightHandSide, selectPostById} from 'actions/views/rhs';
+import {getSelectedPostId, getIsRhsOpen} from 'selectors/rhs';
+
 import BotTag from 'components/widgets/tag/bot_tag';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import {formatText} from 'utils/text_formatting';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
@@ -43,9 +46,11 @@ window.PostUtils = {formatText, messageHtmlToComponent};
 window.openInteractiveDialog = openInteractiveDialog;
 window.useNotifyAdmin = useNotifyAdmin;
 window.WebappUtils = {
-    browserHistory,
     modals: {openModal, ModalIdentifiers},
 };
+Object.defineProperty(window.WebappUtils, 'browserHistory', {
+    get: () => getHistory(),
+});
 
 // This need to be a function because `openPricingModal`
 // is initialized when `UpgradeCloudButton` is loaded.
@@ -73,4 +78,8 @@ window.ProductApi = {
     useWebSocket,
     useWebSocketClient,
     WebSocketProvider: WebSocketContext,
+    closeRhs: closeRightHandSide,
+    selectRhsPost: selectPostById,
+    getRhsSelectedPostId: getSelectedPostId,
+    getIsRhsOpen,
 };

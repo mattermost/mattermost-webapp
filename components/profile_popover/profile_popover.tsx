@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
@@ -9,7 +10,7 @@ import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -211,7 +212,7 @@ ProfilePopoverState
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(`${this.props.teamUrl}/messages/@${user.username}`);
+                getHistory().push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         });
         this.handleCloseModals();

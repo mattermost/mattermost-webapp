@@ -109,7 +109,6 @@ describe('components/needs_team', () => {
         previousTeamId: '',
         selectedThreadId: null,
         collapsedThreads: true,
-        shouldShowAppBar: true,
         adminSetupRequired: false,
         isUserFirstAdmin: false,
         isCustomGroupsEnabled: false,
