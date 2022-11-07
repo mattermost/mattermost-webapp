@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode, useState, MouseEvent} from 'react';
-import {Menu, MenuList, MenuItem} from '@mui/material';
+import {Menu, MenuList, MenuItem, PopoverOrigin} from '@mui/material';
 import styled from 'styled-components';
 
 import {ArrowForwardIosIcon} from '@mattermost/compass-icons/components';
@@ -17,8 +17,10 @@ interface Props {
     // Menu props
     menuId?: string;
     menuAriaLabel?: string;
+    openAt?: 'right' | 'left';
 
     children: ReactNode;
+
 }
 
 export function SubMenu(props: Props) {
@@ -64,11 +66,8 @@ export function SubMenu(props: Props) {
                 anchorEl={anchorElement}
                 open={isSubMenuOpen}
                 aria-label={props.menuAriaLabel}
-                anchorOrigin={{
-                    vertical: 'top',
-                    horizontal: 'right',
-                }}
                 style={{pointerEvents: 'none'}} // disables the menu background wrapper
+                {...getOriginOfAnchorAndTransform(props.openAt)}
             >
                 <MenuList
                     aria-labelledby={props.anchorId}
@@ -95,3 +94,29 @@ const MenuItemAnchor = styled.div`
         flex-direction: row;
     }
 `;
+
+function getOriginOfAnchorAndTransform(openAt = 'right'): {anchorOrigin: PopoverOrigin; transformOrigin: PopoverOrigin} {
+    if (openAt === 'left') {
+        return {
+            anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'left',
+            },
+            transformOrigin: {
+                vertical: 'top',
+                horizontal: 'right',
+            },
+        };
+    }
+
+    return {
+        anchorOrigin: {
+            vertical: 'top',
+            horizontal: 'right',
+        },
+        transformOrigin: {
+            vertical: 'top',
+            horizontal: 'left',
+        },
+    };
+}
