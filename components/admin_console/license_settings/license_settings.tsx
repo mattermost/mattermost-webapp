@@ -356,7 +356,6 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         <div className='admin-console__banner_section'>
-                            <OverageUsersBanner location='admin-console'/>
                             {!this.state.clickNormalUpgradeBtn && license.IsLicensed !== 'true' &&
                                 this.props.prevTrialLicense?.IsLicensed !== 'true' &&
                                 <TrialBanner

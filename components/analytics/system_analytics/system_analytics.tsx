@@ -475,7 +475,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 />
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
-                        <OverageUsersBanner location='admin-console'/>
                         {banner}
                         <div className='grid-statistics'>
                             {systemCards}

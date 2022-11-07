@@ -6,6 +6,8 @@ import React from 'react';
 import {ClientLicense, ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
+import OverageUsersBanner from 'components/overage_users_banner';
+
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
 import TextDismissableBar from './text_dismissable_bar';
@@ -101,6 +103,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {cloudDelinquencyAnnouncementBar}
                 {legacyMattermostCloudBar}
                 {notifyAdminDowngradeDelinquencyBar}
+                {this.props.license?.Cloud !== 'true' && <OverageUsersBanner/>}
                 <AutoStartTrialModal/>
                 <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>

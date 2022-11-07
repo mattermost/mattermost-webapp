@@ -1,38 +1,29 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import AlertBanner from 'components/alert_banner';
+import AnnouncementBar from 'components/announcement_bar/default_announcement_bar';
 import {calculateOverageUserActivated} from 'utils/overage_team';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from '@mattermost/types/preferences';
-import {LicenseLinks, StatTypes, Preferences} from 'utils/constants';
+import {LicenseLinks, StatTypes, Preferences, AnnouncementBarTypes} from 'utils/constants';
 
 import './overage_users_banner.scss';
 
-type OverageUsersBannerProps = {
-    location: 'admin-console' | 'app';
-}
-
 type AdminHasWatchItArgs = {
-    isAppView: boolean;
     preferenceName: string;
     overagePreferences: PreferenceType[];
     isWarningBanner: boolean;
 }
 
-const adminHasWatchIt = ({isAppView, preferenceName, overagePreferences, isWarningBanner}: AdminHasWatchItArgs): boolean => {
-    if (isAppView) {
-        return overagePreferences.find((value) => value.name === preferenceName) !== undefined;
-    }
-
+const adminHasWatchIt = ({preferenceName, overagePreferences, isWarningBanner}: AdminHasWatchItArgs): boolean => {
     if (isWarningBanner) {
         return overagePreferences.find((value) => value.name === preferenceName) !== undefined;
     }
@@ -40,11 +31,12 @@ const adminHasWatchIt = ({isAppView, preferenceName, overagePreferences, isWarni
     return false;
 };
 
-const OverageUsersBanner = ({location}: OverageUsersBannerProps) => {
-    const isAppView = location === 'app';
+const OverageUsersBanner = () => {
+    const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const stats = useSelector((state: GlobalState) => state.entities.admin.analytics) || {};
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
+    const user = useSelector(getCurrentUser);
     const license = useSelector(getLicense);
     const seatsPurchased = parseInt(license.Users, 10);
     const isCloud = useSelector(isCurrentLicenseCloud);
@@ -66,58 +58,51 @@ const OverageUsersBanner = ({location}: OverageUsersBannerProps) => {
 
     const isOverageState = isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats;
 
-    if (!isAdmin || !isOverageState || isCloud || adminHasWatchIt({isAppView, isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
+    if (!isAdmin || !isOverageState || isCloud || adminHasWatchIt({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
         return null;
     }
 
-    const handleDismiss = () => {
-        if (isAppView || isBetween5PercerntAnd10PercentPurchasedSeats) {
-            dispatch(savePreferences(currentUser.id, [{
-                category: Preferences.OVERAGE_USERS_BANNER,
-                name: preferenceName,
-                user_id: currentUser.id,
-                value: 'Overage users banner watched',
-            }]));
-        }
+    const handleClose = () => {
+        dispatch(savePreferences(currentUser.id, [{
+            category: Preferences.OVERAGE_USERS_BANNER,
+            name: preferenceName,
+            user_id: currentUser.id,
+            value: 'Overage users banner watched',
+        }]));
     };
 
-    const isDimissable = isAppView || isBetween5PercerntAnd10PercentPurchasedSeats;
+    const handleClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        window.open(LicenseLinks.CONTACT_SALES, '_blank');
+    };
+
+    const message = (
+        <FormattedMessage
+            id='licensingPage.overageUsersBanner.text'
+            defaultMessage='Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}. Purchase additional seats to remain compliant.'
+            values={{
+                seats: overageByUsers,
+            }}
+        />);
+
+    const cta = formatMessage({
+        id: 'licensingPage.overageUsersBanner.cta',
+        defaultMessage: 'Contact Sales',
+    });
 
     return (
-        <AlertBanner
-            mode={isOver10PercerntPurchasedSeats ? 'danger' : 'warning'}
-            onDismiss={isDimissable ? handleDismiss : undefined}
-            title={
-                <FormattedMessage
-                    id='licensingPage.overageUsersBanner.title'
-                    defaultMessage='Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}'
-                    values={{
-                        seats: overageByUsers,
-                    }}
-                />
-            }
-            message={
-                <FormattedMessage
-                    id='licensingPage.overageUsersBanner.description'
-                    defaultMessage='Notify your Customer Success Manager on your next true-up check. <a>Contact Sales</a>'
-                    values={{
-                        a: (chunks: React.ReactNode) => {
-                            return (
-                                <a
-                                    className='overage_users_banner__button'
-                                    href={LicenseLinks.CONTACT_SALES}
-                                    target='_blank'
-                                    rel='noreferrer'
-                                >
-                                    {chunks}
-                                </a>
-                            );
-                        },
-                    }}
-                >
-                    {(text) => <p className='overage_users_banner__description'>{text}</p>}
-                </FormattedMessage>
-            }
+        <AnnouncementBar
+            type={isBetween5PercerntAnd10PercentPurchasedSeats ? AnnouncementBarTypes.GENERAL : AnnouncementBarTypes.CRITICAL}
+            showCloseButton={isBetween5PercerntAnd10PercentPurchasedSeats}
+            onButtonClick={handleClick}
+            modalButtonText={cta}
+            modalButtonDefaultText={cta}
+            message={message}
+            showLinkAsButton={true}
+            isTallBanner={true}
+            icon={<i className='icon icon-alert-outline'/>}
+            handleClose={handleClose}
+            showCTA={license.Email === user.email}
         />
     );
 };

@@ -30,16 +30,26 @@ jest.mock('mattermost-redux/actions/preferences', () => ({
 }));
 
 const seatsPurchased = 40;
+const email = 'test@mattermost.com';
 
 const seatsMinimumFor5PercentageState = (Math.ceil(seatsPurchased * OverActiveUserLimits.MIN)) + seatsPurchased;
 
 const seatsMinimumFor10PercentageState = (Math.ceil(seatsPurchased * OverActiveUserLimits.MAX)) + seatsPurchased;
 
-const text5PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor5PercentageState - seatsPurchased} seats`;
-const text10PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor10PercentageState - seatsPurchased} seats`;
+const text5PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor5PercentageState - seatsPurchased} seats. Purchase additional seats to remain compliant.`;
+const text10PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor10PercentageState - seatsPurchased} seats. Purchase additional seats to remain compliant.`;
+
+const contactSalesTextLink = 'Contact Sales';
 
 describe('components/overage_users_banner', () => {
     const initialState: DeepPartial<GlobalState> = {
+        views: {
+            announcementBar: {
+                announcementBarState: {
+                    announcementBarCount: 1,
+                },
+            },
+        },
         entities: {
             users: {
                 currentUserId: 'current_user',
@@ -47,6 +57,7 @@ describe('components/overage_users_banner', () => {
                     current_user: {
                         roles: General.SYSTEM_ADMIN_ROLE,
                         id: 'currentUser',
+                        email,
                     },
                 },
             },
@@ -65,6 +76,7 @@ describe('components/overage_users_banner', () => {
                     Name: 'LicenseName',
                     Company: 'Mattermost Inc.',
                     Users: String(seatsPurchased),
+                    Email: 'test@mattermost.com',
                 },
             },
             preferences: {
@@ -73,22 +85,26 @@ describe('components/overage_users_banner', () => {
         },
     };
 
-    const renderComponent = ({props, store}: RenderComponentArgs = {props: {}, store: initialState}) => {
-        const defaultProps: React.ComponentProps<typeof OverageUsersBanner> = {
-            location: 'admin-console',
-        };
+    let windowSpy: jest.SpyInstance;
 
+    beforeAll(() => {
+        windowSpy = jest.spyOn(window, 'open');
+        windowSpy.mockImplementation(() => {});
+    });
+
+    afterAll(() => {
+        windowSpy.mockRestore();
+    });
+
+    const renderComponent = ({store}: RenderComponentArgs = {props: {}, store: initialState}) => {
         return renderWithIntlAndStore(
-            <OverageUsersBanner
-                {...defaultProps}
-                {...props}
-            />, store);
+            <OverageUsersBanner/>, store);
     };
 
     it('should not render the banner because we are not on overage state', () => {
         renderComponent();
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
+        expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
     });
 
     it('should not render the banner because we are not admins', () => {
@@ -109,7 +125,7 @@ describe('components/overage_users_banner', () => {
             store,
         });
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
+        expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
     });
 
     it('should not render the banner because it\'s cloud licenese', () => {
@@ -124,10 +140,10 @@ describe('components/overage_users_banner', () => {
             store,
         });
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
+        expect(screen.queryByText('Your workspace user count has exceeded your paid license seat count by', {exact: false})).not.toBeInTheDocument();
     });
 
-    it.each([['app'], ['admin-console']])('should not render the 5% banner in %s location because we have dissmised it', (location) => {
+    it('should not render the 5% banner because we have dissmised it', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
@@ -149,15 +165,12 @@ describe('components/overage_users_banner', () => {
 
         renderComponent({
             store,
-            props: {
-                location: location as ComponentProps['location'],
-            },
         });
 
         expect(screen.queryByText(text5PercentageState)).not.toBeInTheDocument();
     });
 
-    it.each([['app'], ['admin-console']])('should render the banner because we are over 5% in %s location and we don\'t have any preferences', (location) => {
+    it('should render the banner because we are over 5% and we don\'t have any preferences', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.admin = {
@@ -169,16 +182,13 @@ describe('components/overage_users_banner', () => {
 
         renderComponent({
             store,
-            props: {
-                location: location as ComponentProps['location'],
-            },
         });
 
         expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
     });
 
-    it.each([['app'], ['admin-console']])('should render the banner because we are over 5% in %s location and we have preferences from one old banner', (location) => {
+    it('should render the banner because we are over 5% and we have preferences from one old banner', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
@@ -200,16 +210,42 @@ describe('components/overage_users_banner', () => {
 
         renderComponent({
             store,
-            props: {
-                location: location as ComponentProps['location'],
-            },
         });
 
         expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
     });
 
-    it.each([['app'], ['admin-console']])('should save the preferences for 5% banner in %s location if admin click on close', (location) => {
+    it('should render the 5% banner but without the cta because we aren\'t who purchase it', () => {
+        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
+
+        store.entities.users = {
+            ...store.entities.users,
+            profiles: {
+                ...store.entities.users.profiles,
+                current_user: {
+                    ...store.entities.users.profiles.current_user,
+                    email: 'other-email@mm.com',
+                },
+            },
+        };
+
+        store.entities.admin = {
+            ...store.entities.admin,
+            analytics: {
+                [StatTypes.TOTAL_USERS]: seatsMinimumFor5PercentageState,
+            },
+        };
+
+        renderComponent({
+            store,
+        });
+
+        expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
+        expect(screen.queryByText(contactSalesTextLink)).not.toBeInTheDocument();
+    });
+
+    it('should save the preferences for 5% banner if admin click on close', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.admin = {
@@ -221,12 +257,9 @@ describe('components/overage_users_banner', () => {
 
         renderComponent({
             store,
-            props: {
-                location: location as ComponentProps['location'],
-            },
         });
 
-        fireEvent.click(screen.getByRole('button'));
+        fireEvent.click(screen.getByRole('link'));
 
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(store.entities.users.profiles.current_user.id, [{
@@ -237,8 +270,7 @@ describe('components/overage_users_banner', () => {
         }]);
     });
 
-    // Over 10% and in the system console
-    it('should render the banner because we are over 10%, admin location and we don\'t have preferences', () => {
+    it('should render the banner because we are over 10%', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
         store.entities.admin = {
@@ -253,21 +285,22 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
     });
 
-    it('should render the banner because we are over 10%, admin location and we have preferences', () => {
+    it('should render the 10% banner but without the cta because we aren\'t who purchase it', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
-        store.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
-            [
-                {
-                    category: Preferences.OVERAGE_USERS_BANNER,
-                    value: 'Overage users banner watched',
-                    name: `error_overage_seats_${seatsPurchased}`,
+        store.entities.users = {
+            ...store.entities.users,
+            profiles: {
+                ...store.entities.users.profiles,
+                current_user: {
+                    ...store.entities.users.profiles.current_user,
+                    email: 'other-email@mm.com',
                 },
-            ],
-        );
+            },
+        };
 
         store.entities.admin = {
             ...store.entities.admin,
@@ -281,118 +314,6 @@ describe('components/overage_users_banner', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
-    });
-
-    // Over 10% and in the app side
-    it('should render the banner because we are over 10%, app location and we don\'t have preferences', () => {
-        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
-
-        store.entities.admin = {
-            ...store.entities.admin,
-            analytics: {
-                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
-            },
-        };
-
-        renderComponent({
-            store,
-            props: {
-                location: 'app',
-            },
-        });
-
-        expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
-    });
-
-    it('should render the banner because we are over 10%, app location and we have preference only for the warning state', () => {
-        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
-
-        store.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
-            [
-                {
-                    category: Preferences.OVERAGE_USERS_BANNER,
-                    value: 'Overage users banner watched',
-                    name: `warn_overage_seats_${seatsPurchased}`,
-                },
-            ],
-        );
-
-        store.entities.admin = {
-            ...store.entities.admin,
-            analytics: {
-                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
-            },
-        };
-
-        renderComponent({
-            store,
-            props: {
-                location: 'app',
-            },
-        });
-
-        expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
-    });
-
-    it('should not render the banner because we are over 10%, app location and we have preferences', () => {
-        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
-
-        store.entities.preferences.myPreferences = TestHelper.getPreferencesMock(
-            [
-                {
-                    category: Preferences.OVERAGE_USERS_BANNER,
-                    value: 'Overage users banner watched',
-                    name: `error_overage_seats_${seatsPurchased}`,
-                },
-            ],
-        );
-
-        store.entities.admin = {
-            ...store.entities.admin,
-            analytics: {
-                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
-            },
-        };
-
-        renderComponent({
-            store,
-            props: {
-                location: 'app',
-            },
-        });
-
-        expect(screen.queryByText(text10PercentageState)).not.toBeInTheDocument();
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
-    });
-
-    it('should save preferences for the banner because we are over 10%, app location and we don\'t have preferences', () => {
-        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
-
-        store.entities.admin = {
-            ...store.entities.admin,
-            analytics: {
-                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
-            },
-        };
-
-        renderComponent({
-            store,
-            props: {
-                location: 'app',
-            },
-        });
-
-        fireEvent.click(screen.getByRole('button'));
-
-        expect(savePreferences).toBeCalledTimes(1);
-        expect(savePreferences).toBeCalledWith(store.entities.users.profiles.current_user.id, [{
-            category: Preferences.OVERAGE_USERS_BANNER,
-            name: `error_overage_seats_${seatsPurchased}`,
-            user_id: store.entities.users.profiles.current_user.id,
-            value: 'Overage users banner watched',
-        }]);
+        expect(screen.queryByText(contactSalesTextLink)).not.toBeInTheDocument();
     });
 });
