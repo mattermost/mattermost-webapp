@@ -26,6 +26,7 @@ import {
     ItemStatus,
     RecurringIntervals,
 } from 'utils/constants';
+import {findProductByID} from 'utils/products';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import Input from 'components/widgets/inputs/input/input';
@@ -89,6 +90,8 @@ type CardProps = {
     yearlyPrice: number;
     intl: IntlShape;
     isInitialPlanMonthly: boolean;
+    updateIsMonthly: (isMonthly: boolean) => void;
+    updateUsersCount: (userCount: number) => void;
 }
 
 type Props = {
@@ -123,7 +126,8 @@ type Props = {
             isDevMode: boolean
         ) => Promise<boolean | null>;
         subscribeCloudSubscription: (
-            productId: string
+            productId: string,
+            seats?: number,
         ) => Promise<boolean | null>;
         getClientConfig: () => void;
         getCloudSubscription: () => void;
@@ -142,6 +146,8 @@ type State = {
     isUpgradeFromTrial: boolean;
     buttonClickedInfo: string;
     selectedProductPrice: string | null | undefined;
+    isMonthly: boolean;
+    usersCount: number;
 }
 
 /**
@@ -215,6 +221,7 @@ function Card(props: CardProps) {
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
+            props.updateUsersCount(numValue);
         }
     };
 
@@ -531,6 +538,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
             selectedProductPrice: getSelectedProduct(props.products, props.productId)?.price_per_seat.toString(),
+            isMonthly: this.props.isInitialPlanMonthly,
+            usersCount: this.props.usersCount,
         };
     }
 
@@ -584,6 +593,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     handleSubmitClick = async () => {
         const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
+        if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval == RecurringIntervals.MONTH) {
+            const yearlyProduct = findProductByID(this.props.products|| {}, this.state.selectedProduct.cross_sells_to);
+            if (yearlyProduct) {
+                this.setState({selectedProduct: yearlyProduct});
+            }
+        }
+
         this.setState({processing: true, paymentInfoIsValid: false, buttonClickedInfo: callerInfo});
     }
 
@@ -786,18 +802,12 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     CloudProducts.PROFESSIONAL && !this.props.annualSubscription;
         const {formatMessage} = this.props.intl;
 
-        const findProductByID = (id: string) => {
-            return Object.values(this.props.products || {}).find(((product) => {
-                return product.id === id;
-            }));
-        };
-
         const getYearlyPrice = () => {
             if (!this.state.selectedProduct) {
                 return 0;
             }
 
-            const crossSellsToProduct = findProductByID(this.state.selectedProduct.cross_sells_to);
+            const crossSellsToProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
             return crossSellsToProduct ? crossSellsToProduct.price_per_seat : 0;
         };
 
@@ -843,11 +853,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                         ) : undefined
                     }
                     annualSubscription={this.props.annualSubscription}
-                    usersCount={this.props.usersCount}
+                    usersCount={this.state.usersCount}
                     monthlyPrice={this.state.selectedProduct?.price_per_seat ?? 0}
                     yearlyPrice={getYearlyPrice()}
                     intl={this.props.intl}
                     isInitialPlanMonthly={this.props.isInitialPlanMonthly}
+                    updateIsMonthly={(newIsMonthly: boolean) => this.setState({isMonthly: newIsMonthly})}
+                    updateUsersCount={(newUsersCount: number) => this.setState({usersCount: newUsersCount})}
                 />
             </>
         );
@@ -989,6 +1001,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         telemetryProps={{
                                             callerInfo: this.state.buttonClickedInfo,
                                         }}
+                                        usersCount={this.state.usersCount}
                                     />
                                 </div>
                             ) : null}

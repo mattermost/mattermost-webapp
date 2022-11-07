@@ -36,7 +36,7 @@ type Props = RouteComponentProps & {
         isDevMode: boolean
     ) => Promise<boolean | null>;
     subscribeCloudSubscription:
-    | ((productId: string) => Promise<boolean | null>)
+    | ((productId: string, seats?: number) => Promise<boolean | null>)
     | null;
     onBack: () => void;
     onClose: () => void;
@@ -48,6 +48,7 @@ type Props = RouteComponentProps & {
     telemetryProps?: { callerInfo: string };
     onSuccess?: () => void;
     intl: IntlShape;
+    usersCount: number;
 };
 
 type State = {
@@ -124,7 +125,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         }
 
         if (subscribeCloudSubscription) {
-            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string);
+            const productUpdated = await subscribeCloudSubscription(this.props.selectedProduct?.id as string, this.props.usersCount);
 
             // the action subscribeCloudSubscription returns a true boolean when successful and an error when it fails
             if (typeof productUpdated !== 'boolean') {
@@ -329,6 +330,7 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
         }
     }
 }
+
 
 export default injectIntl(withRouter(ProcessPaymentSetup));
 
