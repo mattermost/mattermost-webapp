@@ -6,6 +6,7 @@ import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import {AccordionItemType} from 'components/common/accordion/accordion';
+
 import {getTemplateDefaultIllustration} from '../utils';
 
 import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
@@ -23,7 +24,7 @@ export interface PreviewProps {
 const Preview = ({template, ...props}: PreviewProps) => {
     const {formatMessage} = useIntl();
 
-    const [currentIllustration, setCurrentIllustration] = useState<string>(getTemplateDefaultIllustration(template));
+    const [currentIllustration, setCurrentIllustration] = useState<[string, string]>(getTemplateDefaultIllustration(template));
 
     const [channels, boards, playbooks, integrations] = useMemo(() => {
         const channels: Channel[] = [];
@@ -59,7 +60,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'channels'}
                     message={template.description.channel.message}
                     items={channels}
-                    onUpdateIllustration={setCurrentIllustration}
+                    onUpdateIllustration={(illustration: string, id: string) => setCurrentIllustration([illustration, id])}
                 />
             )],
         });
@@ -74,7 +75,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'boards'}
                     message={template.description.board.message}
                     items={boards}
-                    onUpdateIllustration={setCurrentIllustration}
+                    onUpdateIllustration={(illustration: string, id: string) => setCurrentIllustration([illustration, id])}
                 />
             )],
         });
@@ -89,7 +90,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'playbooks'}
                     message={template.description.playbook.message}
                     items={playbooks}
-                    onUpdateIllustration={setCurrentIllustration}
+                    onUpdateIllustration={(illustration: string, id: string) => setCurrentIllustration([illustration, id])}
                 />
             )],
         });
@@ -108,16 +109,16 @@ const Preview = ({template, ...props}: PreviewProps) => {
         const item = accordionItemsData[index];
         switch (item.id) {
         case 'channels':
-            setCurrentIllustration(channels[0].illustration);
+            setCurrentIllustration(['channels', channels[0].illustration]);
             break;
         case 'boards':
-            setCurrentIllustration(boards[0].illustration);
+            setCurrentIllustration(['boards', boards[0].illustration]);
             break;
         case 'playbooks':
-            setCurrentIllustration(playbooks[0].illustration);
+            setCurrentIllustration(['playbooks', playbooks[0].illustration]);
             break;
         case 'integrations':
-            setCurrentIllustration(template.description.integration.illustration);
+            setCurrentIllustration(['integrations', template.description.integration.illustration]);
         }
     };
 
