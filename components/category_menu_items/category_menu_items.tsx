@@ -85,25 +85,6 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         });
     }
 
-    const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
-        let text = category.display_name;
-
-        if (category.type === CategoryTypes.FAVORITES) {
-            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
-        }
-        if (category.type === CategoryTypes.CHANNELS) {
-            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
-        }
-
-        return {
-            id: `moveToCategory-${channel.id}-${category.id}`,
-            icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
-            direction: 'right' as any,
-            text,
-            action: () => moveToCategory(category.id),
-        } as any;
-    });
-
     return (
         <SubMenu
             anchorId={`moveToCategory-${channel.id}`}
@@ -114,6 +95,17 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
                 </>
             }
         >
+            {filteredCategories.map((category: ChannelCategory) => (
+                <MenuItem
+                    id={`moveToCategory-${channel.id}-${category.id}`}
+                    key={`moveToCategory-${channel.id}-${category.id}`}
+                    onClick={() => moveToCategory(category.id)}
+                >
+                    {category.type === CategoryTypes.FAVORITES ? <i className='icon-star-outline'/> : <i className='icon-folder-outline'/>}
+                    {/* eslint-disable-next-line no-nested-ternary */}
+                    {category.type === CategoryTypes.FAVORITES ? intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'}) : category.type === CategoryTypes.CHANNELS ? intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'}) : category.display_name}
+                </MenuItem>
+            ))}
             <MenuDivider/>
             <MenuItem
                 id={`moveToNewCategory-${channel.id}`}
@@ -123,16 +115,6 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
                 {intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'})}
             </MenuItem>
         </SubMenu>
-    );
-
-    return (
-        <React.Fragment>
-            <Menu.Group>
-                <Menu.ItemSubMenu
-                    subMenu={categoryMenuItems}
-                />
-            </Menu.Group>
-        </React.Fragment>
     );
 };
 
