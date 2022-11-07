@@ -6,8 +6,6 @@ import React from 'react';
 import {ClientLicense, ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
-import OverageUsersBanner from 'components/overage_users_banner';
-
 import ConfigurationAnnouncementBar from './configuration_bar';
 import VersionBar from './version_bar';
 import TextDismissableBar from './text_dismissable_bar';
@@ -21,6 +19,7 @@ import CloudDelinquencyAnnouncementBar from './cloud_delinquency';
 import ShowThreeDaysLeftTrialModal from './show_tree_days_left_trial_modal/show_three_days_left_trial_modal';
 import LegacyMattermostCloudBar from './legacy_mattermost_cloud_bar';
 import NotifyAdminDowngradeDelinquencyBar from './notify_admin_downgrade_delinquency_bar';
+import OverageUsersBanner from './overage_users_banner';
 
 type Props = {
     license?: ClientLicense;
