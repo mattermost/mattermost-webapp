@@ -32,13 +32,16 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on all
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
@@ -141,16 +144,19 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on aud
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
         <i
           className="icon-dot"
         />
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
@@ -253,16 +259,19 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on cod
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
         <i
           className="icon-dot"
         />
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
@@ -365,16 +374,19 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on doc
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
         <i
           className="icon-dot"
         />
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
@@ -477,16 +489,19 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on ima
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
         <i
           className="icon-dot"
         />
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
@@ -589,16 +604,19 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on pre
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
         <i
           className="icon-dot"
         />
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
@@ -701,16 +719,19 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on spr
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
         <i
           className="icon-dot"
         />
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
@@ -813,16 +834,19 @@ exports[`components/search_results/FilesFilterMenu should match snapshot, on vid
         ]
       }
     >
-      <span
+      <IconContainer
         className="action-icon dots-icon"
+        id="filesFilterButton"
+        type="button"
       >
         <i
           className="icon-dot"
         />
-        <i
-          className="icon icon-filter-variant"
+        <FilterVariantIcon
+          color="currentColor"
+          size={18}
         />
-      </span>
+      </IconContainer>
     </OverlayTrigger>
     <Menu
       ariaLabel="file menu"
