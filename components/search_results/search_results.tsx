@@ -107,7 +107,9 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         if (props.searchPage === 0 && !props.isChannelFiles && !props.isSearchingTerm) {
             setTimeout(() => {
                 props.getMorePostsForSearch();
-                props.getMoreFilesForSearch();
+                if (!props.isMentionSearch) {
+                    props.getMoreFilesForSearch();
+                }
             }, 100);
         }
     }, [props.searchPage, props.searchTerms, props.isSearchingTerm]);

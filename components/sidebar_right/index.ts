@@ -51,6 +51,7 @@ function mapStateToProps(state: GlobalState, props: RouteComponentProps) {
         isChannelInfo: rhsState === RHSStates.CHANNEL_INFO,
         isChannelMembers: rhsState === RHSStates.CHANNEL_MEMBERS,
         isPluginView: rhsState === RHSStates.PLUGIN,
+        isMentionSearch: rhsState === RHSStates.MENTION,
         rhsChannel: getSelectedChannel(state),
         selectedPostId,
         selectedPostCardId,

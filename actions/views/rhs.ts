@@ -14,7 +14,7 @@ import {
     searchFilesWithParams,
 } from 'mattermost-redux/actions/search';
 import * as PostActions from 'mattermost-redux/actions/posts';
-import {getCurrentUserId, getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentChannelId, getCurrentChannelNameForSearchShortcut, getChannel as getChannelSelector} from 'mattermost-redux/selectors/entities/channels';
@@ -168,8 +168,11 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
         const userTimezone = makeGetUserTimezone()(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
-        const messagesPromise = dispatch(searchPostsWithParams(isMentionSearch ? '' : teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
-        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilters, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, page: 0, per_page: 20}));
+        const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, has_user_mention: Boolean(isMentionSearch), page: 0, per_page: 20}));
+        if (isMentionSearch) {
+            return Promise.all([messagesPromise]);
+        }
+        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilters, is_or_search: false, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, has_user_mention: false, page: 0, per_page: 20}));
         return Promise.all([filesPromise, messagesPromise]);
     };
 }
@@ -395,20 +398,14 @@ export function showChannelFiles(channelId: string) {
 }
 
 export function showMentions() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const termKeys = getCurrentUserMentionKeys(getState()).filter(({key}) => {
-            return key !== '@channel' && key !== '@all' && key !== '@here';
-        });
-
-        const terms = termKeys.map(({key}) => key).join(' ').trim() + ' ';
-
+    return (dispatch: DispatchFunc) => {
         trackEvent('api', 'api_posts_search_mention');
 
-        dispatch(performSearch(terms, true));
+        dispatch(performSearch('', true));
         dispatch(batchActions([
             {
                 type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                terms,
+                terms: '',
             },
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
@@ -570,7 +567,7 @@ export function openAtPrevious(previous: any) { // TODO Could not find the prope
             return showChannelMembers(currentChannelId)(dispatch, getState);
         }
         if (previous.isMentionSearch) {
-            return showMentions()(dispatch, getState);
+            return showMentions()(dispatch);
         }
         if (previous.isPinnedPosts) {
             return showPinnedPosts()(dispatch, getState);

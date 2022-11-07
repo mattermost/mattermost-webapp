@@ -226,14 +226,13 @@ describe('rhs view actions', () => {
             const timeZoneOffset = getBrowserUtcOffset() * 60;
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
-            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, has_user_mention: false}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, has_user_mention: false}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(SearchActions.searchPostsWithParams('', {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
-            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20}));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, has_user_mention: true}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });
@@ -426,11 +425,11 @@ describe('rhs view actions', () => {
 
             const compareStore = mockStore(initialState);
 
-            compareStore.dispatch(performSearch('@mattermost ', true));
+            compareStore.dispatch(performSearch('', true));
             compareStore.dispatch(batchActions([
                 {
                     type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: '@mattermost ',
+                    terms: '',
                 },
                 {
                     type: ActionTypes.UPDATE_RHS_STATE,
@@ -702,11 +701,11 @@ describe('rhs view actions', () => {
             store.dispatch(openAtPrevious({isMentionSearch: true}));
             const compareStore = mockStore(initialState);
 
-            compareStore.dispatch(performSearch('@mattermost ', true));
+            compareStore.dispatch(performSearch('', true));
             compareStore.dispatch(batchActions([
                 {
                     type: ActionTypes.UPDATE_RHS_SEARCH_TERMS,
-                    terms: '@mattermost ',
+                    terms: '',
                 },
                 {
                     type: ActionTypes.UPDATE_RHS_STATE,

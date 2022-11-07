@@ -37,6 +37,7 @@ type Props = {
     isChannelInfo: boolean;
     isChannelMembers: boolean;
     isPluginView: boolean;
+    isMentionSearch: boolean;
     previousRhsState: RhsState;
     rhsChannel: Channel;
     selectedPostId: string;
@@ -82,6 +83,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelFiles: this.props.isChannelFiles,
             isChannelInfo: this.props.isChannelInfo,
             isChannelMembers: this.props.isChannelMembers,
+            isMentionSearch: this.props.isMentionSearch,
             selectedPostId: this.props.selectedPostId,
             selectedPostCardId: this.props.selectedPostCardId,
             previousRhsState: this.props.previousRhsState,
