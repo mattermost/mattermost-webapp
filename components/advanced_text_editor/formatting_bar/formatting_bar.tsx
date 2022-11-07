@@ -20,7 +20,7 @@ export const Separator = styled.div`
     position: relative;
     width: 1px;
     height: 24px;
-    background: rgba(var(--center-channel-color-rgb), 0.32);
+    background: rgba(var(--center-channel-color-rgb), 0.16);
 `;
 
 export const FormattingBarSpacer = styled.div`
@@ -122,7 +122,7 @@ interface FormattingBarProps {
      */
     location: string;
 
-    /*
+    /**
      * controls that enhance the message,
      * e.g: message priority picker
      */
@@ -246,7 +246,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 );
             })}
 
-            {additionalControls && (
+            {Array.isArray(additionalControls) && additionalControls.length > 0 && (
                 <>
                     <Separator/>
                     {additionalControls}

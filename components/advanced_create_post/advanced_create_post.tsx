@@ -11,6 +11,7 @@ import {AlertCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Posts} from 'mattermost-redux/constants';
 import {sortFileInfos} from 'mattermost-redux/utils/file_utils';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {
@@ -34,10 +35,11 @@ import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCod
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
+import EmojiMap from 'utils/emoji_map';
 
-import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import Tooltip from 'components/tooltip';
 import OverlayTrigger from 'components/overlay_trigger';
+import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import EditChannelHeaderModal from 'components/edit_channel_header_modal';
 import EditChannelPurposeModal from 'components/edit_channel_purpose_modal';
@@ -47,20 +49,19 @@ import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
 
-import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {PostDraft} from 'types/store/draft';
+import {ModalData} from 'types/actions';
+import {FilePreviewInfo} from 'components/file_preview/file_preview';
+import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
+
+import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriority} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
-import EmojiMap from 'utils/emoji_map';
-import {ActionResult} from 'mattermost-redux/types/actions';
 import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from '@mattermost/types/integrations';
 import {Group} from '@mattermost/types/groups';
-import {ModalData} from 'types/actions';
 import {FileInfo} from '@mattermost/types/files';
 import {Emoji} from '@mattermost/types/emojis';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
 import AdvancedTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
@@ -1513,7 +1514,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         )
                     )}
                     additionalControls={[
-                        this.props.isPostPriorityEnabled ? (
+                        this.props.isPostPriorityEnabled && (
                             <React.Fragment key='PostPriorityPicker'>
                                 <PostPriorityPickerOverlay
                                     priority={this.props.draft?.props?.priority}
@@ -1551,8 +1552,8 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     </IconContainer>
                                 </OverlayTrigger>
                             </React.Fragment>
-                        ) : null,
-                    ]}
+                        ),
+                    ].filter(Boolean)}
                 />
             </form>
         );
