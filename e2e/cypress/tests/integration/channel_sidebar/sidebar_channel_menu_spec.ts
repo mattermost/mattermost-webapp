@@ -49,11 +49,11 @@ describe('Sidebar channel menu', () => {
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
 
         // # Have another user send a message in the Town Square
-        cy.get('@townSquareId').then((channelId) => {
+        cy.get('@townSquareId').then((townSquareId) => {
             cy.postMessageAs({
                 sender: sysadmin,
                 message: 'post1',
-                channelId,
+                channelId: townSquareId.text(),
             });
         });
 
@@ -164,11 +164,11 @@ describe('Sidebar channel menu', () => {
         cy.get('#channelHeaderTitle').should('contain', 'Off-Topic');
 
         // # Have another user send a message in the Town Square
-        cy.get('@townSquareId').then((channelId) => {
+        cy.get('@townSquareId').then((townSquareId) => {
             cy.postMessageAs({
                 sender: sysadmin,
                 message: `@${userName} post1`,
-                channelId,
+                channelId: townSquareId.text(),
             });
         });
 
