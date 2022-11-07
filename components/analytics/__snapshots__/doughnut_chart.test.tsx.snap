@@ -45,7 +45,6 @@ exports[`components/analytics/doughnut_chart.tsx should match snapshot, loaded w
 
 exports[`components/analytics/doughnut_chart.tsx should match snapshot, loaded without data 1`] = `
 <DoughnutChart
-  data={Object {}}
   height={400}
   title="Test"
   width={600}
@@ -64,10 +63,14 @@ exports[`components/analytics/doughnut_chart.tsx should match snapshot, loaded w
       <div
         className="content"
       >
-        <canvas
-          height={400}
-          width={600}
-        />
+        <FormattedMessage
+          defaultMessage="Loading..."
+          id="analytics.chart.loading"
+        >
+          <span>
+            Loading...
+          </span>
+        </FormattedMessage>
       </div>
     </div>
   </div>

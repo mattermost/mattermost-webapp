@@ -154,6 +154,7 @@ export const Preferences = {
     SHOWN_LIMITS_REACHED_ON_LOGIN: 'shown_limits_reached_on_login',
     USE_CASE: 'use_case',
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
+    CONFIGURATION_BANNERS: 'configuration_banners',
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
 };
 
@@ -675,6 +676,10 @@ export const CloudBanners = {
     THREE_DAYS_LEFT_TRIAL_MODAL_DISMISSED: 'dismiss_3_days_left_trial_modal',
 };
 
+export const ConfigurationBanners = {
+    LICENSE_EXPIRED: 'license_expired',
+};
+
 export const AdvancedTextEditor = {
     COMMENT: 'comment',
     POST: 'post',
@@ -694,6 +699,7 @@ export const TELEMETRY_CATEGORIES = {
     CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
     CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
     SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
+    SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
     WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
     REQUEST_BUSINESS_EMAIL: 'request_business_email',
 };
@@ -1450,6 +1456,7 @@ export const Constants = {
     INVITE_TEAM: 'I',
     OPEN_TEAM: 'O',
     THREADS: 'threads',
+    INSIGHTS: 'insights',
     MAX_POST_LEN: 4000,
     EMOJI_SIZE: 16,
     DEFAULT_EMOJI_PICKER_LEFT_OFFSET: 87,
@@ -1897,6 +1904,7 @@ export const Constants = {
     DEFAULT_SITE_URL: 'http://localhost:8065',
     CHANNEL_HEADER_BUTTON_DISABLE_TIMEOUT: 1000,
     DEFAULT_DM_NUMBER: 40,
+    FIRST_ADMIN_ROLE: 'first_admin',
 };
 
 export const ValidationErrors = {
@@ -1920,6 +1928,7 @@ export const ConsolePages = {
     SESSION_LENGTHS: '/admin_console/environment/session_lengths',
     WEB_SERVER: '/admin_console/environment/web_server',
     PUSH_NOTIFICATION_CENTER: '/admin_console/environment/push_notification_server',
+    SMTP: '/admin_console/environment/smtp',
 };
 
 export const WindowSizes = {
@@ -2154,20 +2163,6 @@ export enum ClaimErrors {
     ENT_LDAP_LOGIN_INVALID_PASSWORD = 'ent.ldap.do_login.invalid_password.app_error',
     API_USER_INVALID_PASSWORD = 'api.user.check_user_password.invalid.app_error',
 }
-
-// TODO: Remove after last legacy free products are migrated
-// (months after freemium is launched)
-// Hard coding product ids is a bad practice in general.
-// We do it here because these are legacy (we aren't making more),
-// there aren't that many,
-// and we would rather simplify some logic subscription logic now
-// so that we don't have to add confusing data to subscriptions
-// such as the new free plan having is_paid_tier=true
-// even though it is free and not paid.
-export const LegacyFreeProductIds: Record<string, true> = {
-    prod_HyiHEAVKW5bYG3: true,
-    prod_Hm2oYaBiRSISL2: true,
-};
 
 export const DataSearchTypes = {
     FILES_SEARCH_TYPE: 'files',

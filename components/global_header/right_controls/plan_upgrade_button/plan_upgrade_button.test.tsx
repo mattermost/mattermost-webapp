@@ -49,7 +49,7 @@ describe('components/global/PlanUpgradeButton', () => {
             },
         },
     };
-    it('should show Upgrade button in global header for admin users, cloud starter subscription', () => {
+    it('should show Upgrade button in global header for admin users, cloud free subscription', () => {
         const state = {
             ...initialState,
         };

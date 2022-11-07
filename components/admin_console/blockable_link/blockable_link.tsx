@@ -4,7 +4,7 @@
 import React from 'react';
 import {NavLink} from 'react-router-dom';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 type Props = {
     id?: string;
@@ -32,7 +32,7 @@ export default class BlockableLink extends React.PureComponent<Props> {
         if (this.props.blocked) {
             e.preventDefault();
             this.props.actions.deferNavigation(() => {
-                browserHistory.push(this.props.to);
+                getHistory().push(this.props.to);
             });
         }
     };

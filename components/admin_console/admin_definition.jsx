@@ -6,11 +6,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon} from '@mattermost/compass-icons/components';
+import {AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon, ProductsIcon} from '@mattermost/compass-icons/components';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
-import {Constants, LegacyFreeProductIds, CloudProducts, LicenseSkus} from 'utils/constants';
+import {Constants, CloudProducts, LicenseSkus} from 'utils/constants';
 import {isCloudFreePlan} from 'utils/cloud_utils';
 import {isCloudLicense} from 'utils/license_utils';
 import {getSiteURL} from 'utils/url';
@@ -209,8 +209,7 @@ export const it = {
         const limits = cloud?.limits;
         const subscriptionProduct = cloud?.products?.[productId];
         const isCloudFreeProduct = isCloudFreePlan(subscriptionProduct, limits);
-        const isLegacyFreeUnpaid = Boolean(LegacyFreeProductIds[productId]) && !cloud.subscription?.is_legacy_cloud_paid_tier;
-        return isLegacyFreeUnpaid || cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
+        return cloud?.subscription?.is_free_trial === 'true' || isCloudFreeProduct;
     },
     userHasReadPermissionOnResource: (key) => (config, state, license, enterpriseReady, consoleAccess) => consoleAccess?.read?.[key],
     userHasReadPermissionOnSomeResources: (key) => Object.values(key).some((resource) => it.userHasReadPermissionOnResource(resource)),
@@ -2327,6 +2326,7 @@ const AdminDefinition = {
                         help_text: t('admin.viewArchivedChannelsHelpText'),
                         help_text_default: 'When true, allows users to view, share and search for content of channels that have been archived. Users can only view the content in channels of which they were a member before the channel was archived.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2407,6 +2407,7 @@ const AdminDefinition = {
                         help_text: t('admin.environment.notifications.enable.help'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost attempts to send email notifications. When false, email invitations and user account setting change emails are still sent as long as the SMTP server is configured. Developers may set this field to false to skip email setup for faster development.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2419,6 +2420,7 @@ const AdminDefinition = {
                             it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.NOTIFICATIONS)),
                             it.stateIsTrue('EmailSettings.SendEmailNotifications'),
                         ),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -2433,6 +2435,7 @@ const AdminDefinition = {
                             it.configIsTrue('ClusterSettings', 'Enable'),
                             it.configIsFalse('ServiceSettings', 'SiteURL'),
                         ),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_DROPDOWN,
@@ -3149,6 +3152,7 @@ const AdminDefinition = {
                         help_text: t('admin.team.emailInvitationsDescription'),
                         help_text_default: 'When true users can invite others to the system using email.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.SIGNUP)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BUTTON,
@@ -3194,6 +3198,7 @@ const AdminDefinition = {
                         help_text: t('admin.email.requireVerificationDescription'),
                         help_text_default: 'Typically set to true in production. When true, Mattermost requires email verification after account creation prior to allowing login. Developers may set this field to false to skip sending verification emails for faster development.',
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.AUTHENTICATION.EMAIL)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,
@@ -5769,6 +5774,43 @@ const AdminDefinition = {
             },
         },
     },
+    products: {
+        icon: (
+            <ProductsIcon
+                size={16}
+                className={'category-icon fa'}
+                color={'currentColor'}
+            />
+        ),
+        sectionTitle: t('admin.sidebar.products'),
+        sectionTitleDefault: 'Products',
+        isHidden: it.any(
+            it.configIsFalse('FeatureFlags', 'BoardsProduct'),
+            it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.PRODUCTS)),
+        ),
+        boards: {
+            url: 'products/boards',
+            title: t('admin.sidebar.boards'),
+            title_default: 'Boards',
+            isHidden: it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+            schema: {
+                id: 'BoardsSettings',
+                name: t('admin.site.boards'),
+                name_default: 'Boards',
+                settings: [
+                    {
+                        type: Constants.SettingsTypes.TYPE_BOOL,
+                        key: 'ProductSettings.EnablePublicSharedBoards',
+                        label: t('admin.customization.enablePublicSharedBoardsTitle'),
+                        label_default: 'Enable Public Shared Boards:',
+                        help_text: t('admin.customization.enablePublicSharedBoardsDesc'),
+                        help_text_default: 'This allows board editors to share boards that can be accessed by anyone with the link.',
+                        isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.PRODUCTS.BOARDS)),
+                    },
+                ],
+            },
+        },
+    },
     integrations: {
         icon: (
             <SitemapIcon
@@ -5880,6 +5922,7 @@ const AdminDefinition = {
                         },
                         help_text_markdown: false,
                         isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                        isHidden: it.licensedForFeature('Cloud'),
                     },
                     {
                         type: Constants.SettingsTypes.TYPE_BOOL,

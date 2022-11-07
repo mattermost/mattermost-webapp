@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import keyMirror from 'mattermost-redux/utils/key_mirror';
 
 export default keyMirror({
@@ -33,10 +34,6 @@ export default keyMirror({
     GET_CHANNELS_TIMEZONE_REQUEST: null,
     GET_CHANNELS_TIMEZONE_SUCCESS: null,
     GET_CHANNELS_TIMEZONE_FAILURE: null,
-
-    CHANNELS_MEMBERS_CATEGORIES_REQUEST: null,
-    CHANNELS_MEMBERS_CATEGORIES_SUCCESS: null,
-    CHANNELS_MEMBERS_CATEGORIES_FAILURE: null,
 
     CHANNEL_STATS_REQUEST: null,
     CHANNEL_STATS_SUCCESS: null,

@@ -27,7 +27,7 @@ declare namespace Cypress {
          * @param {String} type - 'O' for a public channel (default), 'P' for a private channel
          * @param {String} purpose - A short description of the purpose of the channel
          * @param {String} header - Markdown-formatted text to display in the header of the channel
-         * @param {Boolean} unique - if true (default), it will create with unique/random channel name.
+         * @param {Boolean} [unique=true] - if true (default), it will create with unique/random channel name.
          * @returns {Channel} `out.channel` as `Channel`
          *
          * @example
@@ -41,7 +41,8 @@ declare namespace Cypress {
             displayName: string,
             type?: string,
             purpose?: string,
-            header?: string
+            header?: string,
+            unique: boolean = true
         ): Chainable<{channel: Channel}>;
 
         /**
@@ -201,15 +202,15 @@ declare namespace Cypress {
          * @param {string} displayName - display name of channel to be created
          * @param {string} type - type of channel
          * @param {string} teamId - team Id where the channel will be added
-         * @param {string[]} messages - messages to be posted before archiving a channel
-         * @param {UserProfile} user - user who will be posting the messages
-         * @returns {Channel} `out.channel` as `Channel`
+         * @param {string[]} [messages] - messages to be posted before archiving a channel
+         * @param {UserProfile} [user] - user who will be posting the messages
+         * @returns {Channel} archived channel
          *
          * @example
-         *   cy.apiCreateArchivedChannel('channel-name', 'channel-display-name', 'team-id', messages, user).then(({channel}) => {
+         *   cy.apiCreateArchivedChannel('channel-name', 'channel-display-name', 'team-id', messages, user).then((channel) => {
          *       // do something with channel
          *   });
          */
-        apiCreateArchivedChannel(name: string, displayName: string, type: string, teamId: string, messages: string[], user: UserProfile): Chainable<{channel: Channel}>;
+        apiCreateArchivedChannel(name: string, displayName: string, type: string, teamId: string, messages?: string[], user?: UserProfile): Chainable<Channel>;
     }
 }

@@ -73,6 +73,11 @@ function createChannel(channelType, teamId, userToAdd = null) {
     });
 }
 
+export function createPrivateChannel(teamId, userToAdd = null) {
+    // # Create a private channel as sysadmin
+    return createChannel('P', teamId, userToAdd);
+}
+
 module.exports = {
     withTimestamp,
     createEmail,
