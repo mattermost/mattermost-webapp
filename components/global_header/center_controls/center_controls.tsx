@@ -4,9 +4,9 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import Pluggable from 'plugins/pluggable';
-
 import {ProductIdentifier} from '@mattermost/types/products';
+
+import Pluggable from 'plugins/pluggable';
 
 import {isChannels} from 'utils/products';
 

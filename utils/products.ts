@@ -5,10 +5,11 @@ import {useLocation, matchPath} from 'react-router-dom';
 
 import {useSelector} from 'react-redux';
 
+import {ProductIdentifier, ProductScope} from '@mattermost/types/products';
+
 import {ProductComponent} from 'types/store/plugins';
 import {selectProducts, selectCurrentProductId, selectCurrentProduct} from 'selectors/products';
 import {GlobalState} from 'types/store';
-import {ProductIdentifier, ProductScope} from '@mattermost/types/products';
 
 export const getCurrentProductId = (
     products: ProductComponent[],

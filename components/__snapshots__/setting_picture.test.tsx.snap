@@ -16,7 +16,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <li
         className="setting-list-item"
@@ -32,7 +32,15 @@ exports[`components/SettingItemMin should match snapshot with active Save button
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -56,7 +64,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             data-testid="uploadPicture"
             disabled={false}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -77,7 +85,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             data-testid="saveSettingPicture"
             disabled={false}
             onClick={[Function]}
-            tabIndex="0"
+            tabIndex={0}
           >
             <LoadingWrapper
               loading={false}
@@ -94,7 +102,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage
@@ -124,13 +131,21 @@ exports[`components/SettingItemMin should match snapshot with active Save button
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <div
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -154,7 +169,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             data-testid="uploadPicture"
             disabled={false}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -175,7 +190,7 @@ exports[`components/SettingItemMin should match snapshot with active Save button
             data-testid="saveSettingPicture"
             disabled={false}
             onClick={[Function]}
-            tabIndex="0"
+            tabIndex={0}
           >
             <LoadingWrapper
               loading={false}
@@ -192,7 +207,6 @@ exports[`components/SettingItemMin should match snapshot with active Save button
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage
@@ -222,7 +236,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <li
         className="setting-list-item"
@@ -238,7 +252,15 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -262,7 +284,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             data-testid="uploadPicture"
             disabled={true}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -283,7 +305,7 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
             data-testid="saveSettingPicture"
             disabled={true}
             onClick={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
           >
             <LoadingWrapper
               loading={true}
@@ -300,7 +322,6 @@ exports[`components/SettingItemMin should match snapshot, on loading picture 1`]
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage
@@ -330,7 +351,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <li
         className="setting-list-item"
@@ -358,7 +379,15 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -382,7 +411,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             data-testid="uploadPicture"
             disabled={false}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -403,7 +432,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
             data-testid="saveSettingPicture"
             disabled={true}
             onClick={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
           >
             <LoadingWrapper
               loading={false}
@@ -420,7 +449,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on fil
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage
@@ -450,7 +478,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <li
         className="setting-list-item"
@@ -466,7 +494,15 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -490,7 +526,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             data-testid="uploadPicture"
             disabled={false}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -511,7 +547,7 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
             data-testid="saveSettingPicture"
             disabled={true}
             onClick={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
           >
             <LoadingWrapper
               loading={false}
@@ -528,7 +564,6 @@ exports[`components/SettingItemMin should match snapshot, profile picture on sou
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage
@@ -558,7 +593,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <li
         className="setting-list-item"
@@ -586,7 +621,15 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -610,7 +653,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             data-testid="uploadPicture"
             disabled={false}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -631,7 +674,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
             data-testid="saveSettingPicture"
             disabled={true}
             onClick={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
           >
             <LoadingWrapper
               loading={false}
@@ -648,7 +691,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on file 1`] 
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage
@@ -678,7 +720,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <li
         className="setting-list-item"
@@ -748,7 +790,15 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -772,7 +822,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             data-testid="uploadPicture"
             disabled={false}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -793,7 +843,7 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
             data-testid="saveSettingPicture"
             disabled={true}
             onClick={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
           >
             <LoadingWrapper
               loading={false}
@@ -810,7 +860,6 @@ exports[`components/SettingItemMin should match snapshot, team icon on source 1`
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage
@@ -840,7 +889,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
       aria-describedby="setting-picture__helptext"
       aria-label="Profile Picture"
       className="setting-list"
-      tabIndex="-1"
+      tabIndex={-1}
     >
       <li
         className="setting-list-item"
@@ -910,7 +959,15 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
         className="setting-list-item pt-3"
         id="setting-picture__helptext"
       >
-        <Component />
+        <MemoizedFormattedMessage
+          defaultMessage="Upload a picture in BMP, JPG or PNG format. Maximum file size: {max}"
+          id="setting_picture.help.profile"
+          values={
+            Object {
+              "max": 52428800,
+            }
+          }
+        />
       </div>
       <div
         className="setting-list-item"
@@ -934,7 +991,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             data-testid="uploadPicture"
             disabled={false}
             onChange={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
             type="file"
           />
           <button
@@ -955,7 +1012,7 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
             data-testid="saveSettingPicture"
             disabled={true}
             onClick={[Function]}
-            tabIndex="-1"
+            tabIndex={-1}
           >
             <LoadingWrapper
               loading={false}
@@ -972,7 +1029,6 @@ exports[`components/SettingItemMin should match snapshot, user icon on source 1`
           aria-label="Cancel"
           className="btn btn-link btn-sm theme"
           data-testid="cancelSettingPicture"
-          href="#"
           onClick={[Function]}
         >
           <MemoizedFormattedMessage

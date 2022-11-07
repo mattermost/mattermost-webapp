@@ -4,6 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import {ProductIdentifier} from '@mattermost/types/products';
+
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
 import * as Utils from 'utils/utils';
@@ -18,7 +20,6 @@ import Search from 'components/search/index';
 import RhsPlugin from 'plugins/rhs_plugin';
 
 import {Channel} from '@mattermost/types/channels';
-import {ProductIdentifier} from '@mattermost/types/products';
 
 import {RhsState} from 'types/store/rhs';
 

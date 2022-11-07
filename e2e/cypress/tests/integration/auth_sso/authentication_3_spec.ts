@@ -16,6 +16,11 @@ describe('Authentication', () => {
         cy.apiAdminLogin();
     });
 
+    after(() => {
+        cy.apiAdminLogin({failOnStatusCode: false});
+        cy.apiUpdateConfig({});
+    });
+
     const testCases = [
         {
             title: 'MM-T1767 - Email signin false Username signin true',

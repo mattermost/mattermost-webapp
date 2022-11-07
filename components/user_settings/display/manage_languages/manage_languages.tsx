@@ -5,13 +5,15 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import ReactSelect, {ValueType} from 'react-select';
 
+import SettingItemMax from 'components/setting_item_max';
+
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from '@mattermost/types/users';
 
 import * as I18n from 'i18n/i18n.jsx';
-import SettingItemMax from 'components/setting_item_max.jsx';
 import {isKeyPressed} from 'utils/utils';
 import Constants from 'utils/constants';
+
+import {UserProfile} from '@mattermost/types/users';
 
 type Actions = {
     updateMe: (user: UserProfile) => Promise<ActionResult>;
