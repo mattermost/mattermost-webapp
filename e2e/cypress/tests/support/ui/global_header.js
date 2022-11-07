@@ -76,7 +76,7 @@ Cypress.Commands.add('uiGetHelpButton', () => {
 });
 
 Cypress.Commands.add('uiGetHelpMenu', (options = {visible: true}) => {
-    const dropdown = () => cy.get('#helpMenuPortal').find('.dropdown-menu');
+    const dropdown = () => cy.get('#helpMenuPortal').click().find('.dropdown-menu');
 
     if (options.visible) {
         return dropdown().should('be.visible');
