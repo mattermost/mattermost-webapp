@@ -16,18 +16,10 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 import SharedUserIndicator from 'components/shared_user_indicator';
 import Avatar from 'components/widgets/users/avatar';
 
-import Suggestion from '../suggestion.jsx';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import StatusIcon from 'components/status_icon';
 
-import {UserProfile} from '../command_provider/app_command_parser/app_command_parser_dependencies.js';
-
-interface Item extends UserProfile {
-    display_name: string;
-    name: string;
-    isCurrentUser: boolean;
-    type: string;
-}
+import Suggestion from '../suggestion.jsx';
 
 class AtMentionSuggestion extends Suggestion {
     render() {
