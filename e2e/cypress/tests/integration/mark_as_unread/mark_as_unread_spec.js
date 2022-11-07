@@ -108,7 +108,7 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
         switchToChannel(channelB);
 
-        // After mark channelA with the RHS mark as unread option, channelA
+        // After mark channelA with the LHS mark as unread option, channelA
         // should appear unread
         cy.get(`#sidebarItem_${channelA.name}`).find('.SidebarMenu').click({force: true});
         cy.get(`#markAsUnread-${channelA.id}`).click();
