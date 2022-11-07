@@ -100,7 +100,7 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
     });
 
-    it('The latest post should appear unread after marking the channel as unread', () => {
+    it('MM-T5223 The latest post should appear unread after marking the channel as unread', () => {
         // channelA starts unread, then becomes read after you viewed
         // and switched to channelB
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
