@@ -4,6 +4,8 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import {ProductIdentifier} from '@mattermost/types/products';
+
 import Pluggable from 'plugins/pluggable';
 import {
     CustomizeYourExperienceTour,
@@ -11,8 +13,6 @@ import {
     useShowOnboardingTutorialStep,
 } from 'components/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
-
-import {ProductIdentifier} from '@mattermost/types/products';
 
 import {isChannels} from 'utils/products';
 

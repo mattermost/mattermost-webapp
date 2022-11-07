@@ -1,15 +1,53 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import SaveButton from 'components/save_button';
 import Constants from 'utils/constants';
 import {isKeyPressed} from 'utils/utils';
+type Props = {
 
-export default class SettingItemMax extends React.PureComponent {
+    // Array of inputs selection
+    inputs?: ReactNode;
+    containerStyle?: string;
+    serverError?: ReactNode;
+
+    /**
+     * Client error
+     */
+    clientError?: ReactNode;
+
+    /**
+     * Settings extra information
+     */
+    extraInfo?: ReactNode;
+
+    /**
+     * Info position
+     */
+    infoPosition?: string;
+
+    /**
+     * Settings or tab section
+     */
+    section: string;
+    updateSection?: (section: string) => void;
+    setting?: string;
+    submit?: ((setting?: string) => void) | null;
+    disableEnterSubmit?: boolean;
+    submitExtra?: ReactNode;
+    saving?: boolean;
+    title?: ReactNode;
+    width?: string;
+    cancelButtonText?: ReactNode;
+    shiftEnter?: boolean;
+    saveButtonText?: string;
+}
+export default class SettingItemMax extends React.PureComponent<Props> {
+    settingList: React.RefObject<HTMLDivElement>;
+
     static defaultProps = {
         infoPosition: 'bottom',
         saving: false,
@@ -17,110 +55,14 @@ export default class SettingItemMax extends React.PureComponent {
         containerStyle: '',
     };
 
-    static propTypes = {
-
-        /**
-         * Array of inputs selection
-         */
-        inputs: PropTypes.node,
-
-        /**
-         * Styles for main component
-         */
-        containerStyle: PropTypes.string,
-
-        /**
-         * Client error
-         */
-        clientError: PropTypes.oneOfType([
-            PropTypes.string,
-            PropTypes.object,
-        ]),
-
-        /**
-         * Server error
-         */
-        serverError: PropTypes.string,
-
-        /**
-         * Settings extra information
-         */
-        extraInfo: PropTypes.element,
-
-        /**
-         * Info position
-         */
-        infoPosition: PropTypes.string,
-
-        /**
-         * Settings or tab section
-         */
-        section: PropTypes.string,
-
-        /**
-         * Function to update section
-         */
-        updateSection: PropTypes.func,
-
-        /**
-         * setting to submit
-         */
-        setting: PropTypes.string,
-
-        /**
-         * Function to submit setting
-         */
-        submit: PropTypes.func,
-
-        /**
-         * Disable submit by enter key
-         */
-        disableEnterSubmit: PropTypes.bool,
-
-        /**
-         * Extra information on submit
-         */
-        submitExtra: PropTypes.node,
-
-        /**
-         * Indicates whether setting is on saving
-         */
-        saving: PropTypes.bool,
-
-        /**
-         * Settings title
-         */
-        title: PropTypes.node,
-
-        /**
-         * Settings width
-         */
-        width: PropTypes.string,
-
-        /**
-         * Text of cancel button
-         */
-        cancelButtonText: PropTypes.node,
-
-        /**
-         * Avoid submitting when using SHIFT + ENTER
-         */
-        shiftEnter: PropTypes.bool,
-
-        /**
-         * Text of save button
-         */
-        saveButtonText: PropTypes.string,
-    }
-
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.settingList = React.createRef();
     }
 
     componentDidMount() {
         if (this.settingList.current) {
-            const focusableElements = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
+            const focusableElements: NodeListOf<HTMLElement> = this.settingList.current.querySelectorAll('.btn:not(.save-button):not(.btn-cancel), input.form-control, select, textarea, [tabindex]:not([tabindex="-1"])');
             if (focusableElements.length > 0) {
                 focusableElements[0].focus();
             } else {
@@ -135,27 +77,38 @@ export default class SettingItemMax extends React.PureComponent {
         document.removeEventListener('keydown', this.onKeyDown);
     }
 
-    onKeyDown = (e) => {
-        if (this.props.shiftEnter && e.keyCode === Constants.KeyCodes.ENTER && e.shiftKey) {
+    onKeyDown = (e: KeyboardEvent) => {
+        const target = e.target as HTMLElement;
+        if (this.props.shiftEnter && isKeyPressed(e, Constants.KeyCodes.ENTER) && e.shiftKey) {
             return;
         }
-        if (this.props.disableEnterSubmit !== true && isKeyPressed(e, Constants.KeyCodes.ENTER) && this.props.submit && e.target.tagName !== 'SELECT' && e.target.parentElement && e.target.parentElement.className !== 'react-select__input' && !e.target.classList.contains('btn-cancel') && this.settingList.current && this.settingList.current.contains(e.target)) {
+        if (this.props.disableEnterSubmit !== true &&
+            isKeyPressed(e, Constants.KeyCodes.ENTER) &&
+            this.props.submit &&
+            target.tagName !== 'SELECT' &&
+            target.parentElement &&
+            target.parentElement.className !== 'react-select__input' &&
+            !target.classList.contains('btn-cancel') &&
+            this.settingList.current &&
+            this.settingList.current.contains(target)) {
             this.handleSubmit(e);
         }
     }
 
-    handleSubmit = (e) => {
+    handleSubmit = (e: React.MouseEvent | KeyboardEvent) => {
         e.preventDefault();
 
-        if (this.props.setting) {
+        if (this.props.setting && this.props.submit) {
             this.props.submit(this.props.setting);
-        } else {
+        } else if (this.props.submit) {
             this.props.submit();
         }
     }
 
-    handleUpdateSection = (e) => {
-        this.props.updateSection(this.props.section);
+    handleUpdateSection = (e: React.MouseEvent) => {
+        if (this.props.updateSection) {
+            this.props.updateSection(this.props.section);
+        }
         e.preventDefault();
     }
 
@@ -205,7 +158,7 @@ export default class SettingItemMax extends React.PureComponent {
             );
         }
 
-        let submit = '';
+        let submit: JSX.Element | null = null;
         if (this.props.submit) {
             submit = (
                 <SaveButton
@@ -274,7 +227,7 @@ export default class SettingItemMax extends React.PureComponent {
                 {title}
                 <div className={widthClass}>
                     <div
-                        tabIndex='-1'
+                        tabIndex={-1}
                         ref={this.settingList}
                         className='setting-list'
                     >
