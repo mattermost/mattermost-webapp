@@ -22,7 +22,7 @@ type RestrictedIndicatorProps = {
     titleAdminPostTrial?: string;
     messageAdminPostTrial?: string | React.ReactNode;
     titleEndUser?: string;
-    messageEndUser?: string;
+    messageEndUser?: string  | React.ReactNode;
     blocked?: boolean;
     tooltipTitle?: string;
     tooltipMessage?: string;
