@@ -14,7 +14,7 @@ export interface ModalBodyWithIllustrationProps {
 const Illustration = styled.img`
     opacity: 0;
     visibility: hidden;
-    transition: opacity 0.4s ease-in-out;
+    transition: opacity 0.4s linear;
     margin-top: 17px;
 `;
 
