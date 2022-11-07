@@ -120,7 +120,7 @@ describe('Mark as Unread', () => {
         verifyPostNextToNewMessageSeparator('post3');
     });
 
-    it('The latest post should appear unread after marking the channel as unread with alt-left-click on channel sidebar item', () => {
+    it('MM-T5224 The latest post should appear unread after marking the channel as unread with alt/option+left-click on channel sidebar item', () => {
         // channelA starts unread, then becomes read after you viewed
         // and switched to channelB
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
