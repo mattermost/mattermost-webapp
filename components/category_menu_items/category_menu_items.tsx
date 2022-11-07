@@ -104,7 +104,6 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         {
             id: 'ChannelMenu-moveToDivider',
             text: (<span className='MenuGroup menu-divider'/>),
-            tabIndex: -1,
         },
         {
             id: `moveToNewCategory-${channel.id}`,

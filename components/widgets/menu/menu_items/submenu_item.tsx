@@ -53,6 +53,7 @@ export type Props = {
     extraText?: string;
     rightDecorator?: React.ReactNode;
     isHeader?: boolean;
+    tabIndex?: number;
 }
 
 type State = {
@@ -134,16 +135,8 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
         }
     }
 
-    setBackGroundColor(e: React.FocusEvent<HTMLSpanElement>) {
-        e.currentTarget.style.background = 'rgba(var(--center-channel-color-rgb), 0.08)';
-    }
-
-    unsetBackGroundColor(e: React.FocusEvent<HTMLSpanElement>) {
-        e.currentTarget.style.background = 'unset';
-    }
-
     public render() {
-        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator} = this.props;
+        const {id, postId, text, selectedValueText, subMenu, icon, filter, ariaLabel, direction, styleSelectableItem, extraText, renderSelected, rightDecorator, tabIndex} = this.props;
         const isMobile = Utils.isMobile();
 
         if (filter && !filter(id)) {
@@ -193,9 +186,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                             <span
                                 className={classNames(['SubMenuItemContainer', {hasDivider}])}
                                 key={s.id}
-                                onFocus={this.setBackGroundColor}
-                                onBlur={this.unsetBackGroundColor}
-                                tabIndex={s.tabIndex}
+                                tabIndex={s.id.includes('Divider') ? 1 : 0}
                             >
                                 <SubMenuItem
                                     id={s.id}
@@ -210,6 +201,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                                     root={false}
                                     direction={s.direction}
                                     isHeader={s.isHeader}
+                                    tabIndex={1}
                                 />
                                 {s.text === selectedValueText && <span className='sorting-menu-checkbox'>
                                     <i className='icon-check'/>
@@ -236,7 +228,7 @@ export default class SubMenuItem extends React.PureComponent<Props, State> {
                     onMouseEnter={this.show}
                     onMouseLeave={this.hide}
                     onClick={this.onClick}
-                    tabIndex={0}
+                    tabIndex={tabIndex ?? 0}
                     onKeyDown={this.handleKeyDown}
                 >
                     <div className={icon ? 'grid' : 'flex'}>

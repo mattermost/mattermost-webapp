@@ -99,7 +99,6 @@ export class SidebarCategorySortingMenu extends React.PureComponent<Props, State
             {
                 id: 'ChannelMenu-moveToDivider',
                 text: (<li className='MenuGroup menu-divider'/>),
-                tabIndex: -1,
             },
             ...selectedDmCount,
         );

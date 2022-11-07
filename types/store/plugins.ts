@@ -71,7 +71,6 @@ export type Menu = {
     icon?: React.ReactElement;
     direction?: 'left' | 'right';
     isHeader?: boolean;
-    tabIndex?: number;
 }
 
 export type PluginComponent = {
