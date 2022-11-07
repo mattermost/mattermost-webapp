@@ -8,9 +8,8 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import SharedUserIndicator from 'components/shared_user_indicator';
 
-import {DispatchFunc} from 'mattermost-redux/types/actions';
-
 import {UserProfile} from '@mattermost/types/users';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import Provider from './provider';
 import Suggestion from './suggestion.jsx';
@@ -81,8 +80,8 @@ class SearchUserSuggestion extends Suggestion {
 }
 
 export default class SearchUserProvider extends Provider {
-    autocompleteUsersInTeam: (username: string) => any;
-    constructor(userSearchFunc: (username: string) => DispatchFunc) {
+    autocompleteUsersInTeam: (username: string) => Promise<UserAutocomplete>;
+    constructor(userSearchFunc: (username: string) => Promise<UserAutocomplete>) {
         super();
         this.autocompleteUsersInTeam = userSearchFunc;
     }

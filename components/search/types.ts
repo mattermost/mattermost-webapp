@@ -4,12 +4,13 @@
 import React from 'react';
 import {Action} from 'redux';
 
-import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
+import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
 
 import {SearchType} from 'types/store/rhs';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
 
@@ -51,7 +52,7 @@ export type DispatchProps = {
         setRhsExpanded: (expanded: boolean) => Action;
         closeRightHandSide: () => void;
         autocompleteChannelsForSearch: (term: string, success: (channels: Channel[]) => void, error: (err: ServerError) => void) => ActionFunc;
-        autocompleteUsersInTeam: (username: string) => DispatchFunc;
+        autocompleteUsersInTeam: (username: string) => Promise<UserAutocomplete>;
         updateRhsState: (rhsState: string) => void;
         getMorePostsForSearch: () => ActionFunc;
         openRHSSearch: () => void;
