@@ -1,7 +1,6 @@
 @import 'utils/mixins';
 
 .overage_users_banner {
-
     &__description {
         color: var(--center-channel-text);
         font-size: 14px;
@@ -11,7 +10,8 @@
 
     &__button {
         @include link;
-        font-size: 14px;
+
         background: transparent;
+        font-size: 14px;
     }
 }

@@ -26,7 +26,6 @@ import {
     formatPostDoughtnutData,
     synchronizeChartLabels,
 } from '../format';
-import OverageUsersBanner from 'components/overage_users_banner';
 
 const StatTypes = Constants.StatTypes;
 

@@ -15,7 +15,6 @@ import * as AdminActions from 'actions/admin_actions.jsx';
 import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
-import OverageUsersBanner from 'components/overage_users_banner';
 
 import {AboutLinks, CloudLinks, ModalIdentifiers, StatTypes} from 'utils/constants';
 
