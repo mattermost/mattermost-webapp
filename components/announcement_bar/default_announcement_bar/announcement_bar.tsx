@@ -28,7 +28,7 @@ type Props = {
     handleClose?: (e?: any) => void;
     showModal?: boolean;
     announcementBarCount?: number;
-    onButtonClick?: () => void;
+    onButtonClick?: (e?: any) => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
@@ -168,6 +168,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
             <div
                 className={barClass}
                 style={barStyle}
+                css={{gridArea: 'announcement'}}
             >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}

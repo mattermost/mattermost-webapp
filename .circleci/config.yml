@@ -32,7 +32,7 @@ jobs:
     steps:
       - checkout
       - run: |
-          npm ci
+          make node_modules
       - *save_cache
   check-deps:
     parameters:
@@ -155,7 +155,7 @@ jobs:
       - run: |
           node --version
           npm version
-          make package-ci
+          make dist
       - store_artifacts:
           path: ~/mattermost/mattermost-webapp/mattermost-webapp.tar.gz
       - persist_to_workspace:

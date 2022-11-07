@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
@@ -8,6 +9,7 @@ import {shallowEqual, useDispatch, useSelector} from 'react-redux';
 
 import {TimeFrame} from '@mattermost/types/insights';
 
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
 import RenderEmoji from 'components/emoji/render_emoji';
 
@@ -57,6 +59,11 @@ const TopReactionsTable = (props: Props) => {
     useEffect(() => {
         getMyTeamReactions();
     }, [getMyTeamReactions]);
+
+    useEffect(() => {
+        const reactions = props.filterType === InsightsScopes.TEAM ? teamTopReactions : myTopReactions;
+        dispatch(loadCustomEmojisIfNeeded(reactions.map((reaction) => reaction.emoji_name)));
+    }, [props.filterType, teamTopReactions, myTopReactions]);
 
     const getColumns = useMemo((): Column[] => {
         const columns: Column[] = [

@@ -4,7 +4,7 @@
 import React from 'react';
 import {Modifier} from 'react-day-picker';
 
-import {AutocompleteSuggestion, Channel, UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies';
+import {UserProfile} from './command_provider/app_command_parser/app_command_parser_dependencies';
 
 type Props = {
     onClick?: (term: string, matchedPretext: string) => boolean;
@@ -12,7 +12,7 @@ type Props = {
     term: string;
     matchedPretext: string;
     isSelection?: boolean;
-    item: UserProfile | Channel | AutocompleteSuggestion;
+    item: any;
     teammate?: UserProfile;
     currentUser?: string;
     locale?: string;

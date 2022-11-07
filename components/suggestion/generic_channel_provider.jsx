@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import Provider from './provider.jsx';
+import Provider from './provider';
 import Suggestion from './suggestion';
 
 class ChannelSuggestion extends Suggestion {

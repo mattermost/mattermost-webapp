@@ -8,12 +8,6 @@ import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
 import PasswordResetForm from './password_reset_form';
 
-jest.mock('utils/browser_history', () => ({
-    browserHistory: {
-        push: jest.fn(),
-    },
-}));
-
 describe('components/PasswordResetForm', () => {
     const baseProps = {
         location: {
