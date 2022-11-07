@@ -199,6 +199,7 @@ function Card(props: CardProps) {
     const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
     const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
     const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
+    const [displayPrice, setDisplayPrice] = useState(props.price);
 
     const monthlyContainerName = 'bottom';
     const yearlyContainerName = 'bottom bottom-yearly';
@@ -209,24 +210,31 @@ function Card(props: CardProps) {
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
-        setUsersCount(value);
         const numValue = Number(value);
-        if (numValue && numValue > 0) {
+        if (value == '' || (numValue && checkValidNumber(numValue))) {
+            setUsersCount(numValue.toString());
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
         }
+
     };
 
-    const checkValidNumber = () => {
-        return Number(usersCount) && Number(usersCount) >= props.usersCount && Number(usersCount) % 1 === 0;
+    const checkValidNumber = (value: number) => {
+        return value > 0 && value % 1 === 0;
+    };
+
+    const checkGreaterThanUsersCount = () => {
+        return Number(usersCount) && Number(usersCount) >= props.usersCount;
     };
 
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
         if (isMonthly) {
+            setDisplayPrice(props.monthlyPrice.toString());
             setContainerClassname(monthlyContainerName);
         } else {
+            setDisplayPrice(props.yearlyPrice.toString());
             setContainerClassname(yearlyContainerName);
         }
     };
@@ -303,7 +311,7 @@ function Card(props: CardProps) {
                         placeholder={'User seats'}
                         wrapperClassName='user_seats'
                         inputClassName='user_seats'
-                        customMessage={checkValidNumber() ? null : {
+                        customMessage={checkGreaterThanUsersCount() ? null : {
                             type: ItemStatus.ERROR,
                             value: errorMessage,
                         }}
@@ -430,7 +438,7 @@ function Card(props: CardProps) {
                     style={{height: '125px'}}
                 >
                     <h4 className='plan_name'>{props.plan}</h4>
-                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${props.price}`}</h1>
+                    <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${displayPrice}`}</h1>
                     <p className='plan_text'>{props.rate}</p>
                 </div>
                 {isMonthly ? monthlyPlan : yearlyPlan}
