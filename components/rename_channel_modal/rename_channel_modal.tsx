@@ -12,7 +12,7 @@ import {ServerError} from '@mattermost/types/errors';
 import LocalizedInput from 'components/localized_input/localized_input';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants from 'utils/constants';
 import {t} from 'utils/i18n';
 import {getShortenedURL, validateChannelUrl} from 'utils/url';
@@ -191,7 +191,7 @@ export class RenameChannelModal extends React.PureComponent<Props, State> {
     onSaveSuccess = () => {
         this.handleHide();
         this.unsetError();
-        browserHistory.push('/' + this.props.team.name + '/channels/' + this.state.channelName);
+        getHistory().push('/' + this.props.team.name + '/channels/' + this.state.channelName);
     }
 
     handleCancel = (e?: MouseEvent) => {
