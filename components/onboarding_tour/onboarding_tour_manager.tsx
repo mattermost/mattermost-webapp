@@ -8,6 +8,7 @@ import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {GlobalState} from '@mattermost/types/store';
 import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 import {open as openLhs} from 'actions/views/lhs.js';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
@@ -24,6 +25,7 @@ import {
     ChannelsTour,
     FINISHED,
     OnboardingTourSteps,
+    OnboardingTourStepsForGuestUsers,
     SKIPPED,
     TTNameMapToATStatusKey,
     TutorialTourName,
@@ -124,7 +126,10 @@ const useHandleNavigationAndExtraActions = () => {
 
 const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
     const [show, setShow] = useState(false);
-    const tourSteps = OnboardingTourSteps;
+
+    // restrict the 'learn more about messaging' tour when user is guest (townSquare, channel creation and user invite are restricted to guest)
+    const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
+    const tourSteps = isGuestUser ? OnboardingTourStepsForGuestUsers : OnboardingTourSteps;
 
     // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();

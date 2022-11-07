@@ -34,6 +34,12 @@ export const OnboardingTourSteps = {
     FINISHED,
 };
 
+export const OnboardingTourStepsForGuestUsers = {
+    SEND_MESSAGE: 0,
+    CUSTOMIZE_EXPERIENCE: 1,
+    FINISHED,
+};
+
 export const ExploreOtherToolsTourSteps = {
     BOARDS_TOUR: 0,
     PLAYBOOKS_TOUR: 1,
