@@ -157,7 +157,7 @@ function Content(props: ContentProps) {
             setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
             setIsMonthlyPlan(true);
         } else if (!newIsMonthly && yearlyProfessionalProduct) {
-            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat);
+            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat / 12);
             setIsMonthlyPlan(false);
         }
     };
