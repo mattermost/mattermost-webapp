@@ -266,7 +266,7 @@ function disableUnreadFilterWithShortcut() {
     cy.get('.SidebarChannelGroupHeader:contains(UNREADS)').should('not.exist');
 }
 
-function createChannel(teamId, channelName, message) {
+function createChannel(teamId, channelName, message?) {
     return cy.apiCreateChannel(teamId, channelName, channelName, 'O', '', '', false).then(({channel}) => {
         if (message) {
             cy.wait(TIMEOUTS.THREE_SEC);
