@@ -10,16 +10,16 @@ interface PreviewSectionProps {
     message: string;
     items: Array<{id: string; name: string; illustration?: string}>;
 
-    onUpdateIllustration: (illustration: string, id: string) => void;
+    onUpdateIllustration: (id: string, illustration: string) => void;
 }
 
 const PreviewSection = styled((props: PreviewSectionProps) => {
     const {formatMessage} = useIntl();
 
-    const updateIllustration = (e: React.MouseEvent<HTMLAnchorElement>, illustration: string, id: string) => {
+    const updateIllustration = (e: React.MouseEvent<HTMLAnchorElement>, id: string, illustration: string) => {
         e.preventDefault();
 
-        props.onUpdateIllustration(illustration, id);
+        props.onUpdateIllustration(id, illustration);
     };
 
     return (
@@ -33,7 +33,7 @@ const PreviewSection = styled((props: PreviewSectionProps) => {
                     <li key={c.id}>
                         <a
                             href='#'
-                            onClick={(e) => updateIllustration(e, c.illustration || '', c.id)}
+                            onClick={(e) => updateIllustration(e, c.id, c.illustration || '')}
                         >
                             {c.name}
                         </a>

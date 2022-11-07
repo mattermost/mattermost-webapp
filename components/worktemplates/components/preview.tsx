@@ -60,7 +60,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'channels'}
                     message={template.description.channel.message}
                     items={channels}
-                    onUpdateIllustration={(illustration: string, id: string) => setCurrentIllustration([illustration, id])}
+                    onUpdateIllustration={(id: string, illustration: string) => setCurrentIllustration([id, illustration])}
                 />
             )],
         });
@@ -75,7 +75,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'boards'}
                     message={template.description.board.message}
                     items={boards}
-                    onUpdateIllustration={(illustration: string, id: string) => setCurrentIllustration([illustration, id])}
+                    onUpdateIllustration={(id: string, illustration: string) => setCurrentIllustration([id, illustration])}
                 />
             )],
         });
@@ -90,7 +90,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'playbooks'}
                     message={template.description.playbook.message}
                     items={playbooks}
-                    onUpdateIllustration={(illustration: string, id: string) => setCurrentIllustration([illustration, id])}
+                    onUpdateIllustration={(id: string, illustration: string) => setCurrentIllustration([id, illustration])}
                 />
             )],
         });
