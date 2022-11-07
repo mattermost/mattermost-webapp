@@ -69,7 +69,6 @@ exports[`components/Menu should match snapshot with guest access disabled and no
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -102,7 +101,6 @@ exports[`components/Menu should match snapshot with guest access disabled and no
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -131,7 +129,6 @@ exports[`components/Menu should match snapshot with guest access disabled and no
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -156,7 +153,6 @@ exports[`components/Menu should match snapshot with guest access disabled and no
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -182,7 +178,6 @@ exports[`components/Menu should match snapshot with guest access disabled and no
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -205,7 +200,6 @@ exports[`components/Menu should match snapshot with guest access disabled and no
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -258,7 +252,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -283,7 +276,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
@@ -309,7 +301,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -338,7 +329,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -363,7 +353,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -389,7 +378,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -412,7 +400,6 @@ exports[`components/Menu should match snapshot with id 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -464,7 +451,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -489,7 +475,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
@@ -515,7 +500,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -544,7 +528,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -569,7 +552,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -595,7 +577,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -618,7 +599,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled 1
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -719,7 +699,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(injectIntl(UserSettingsModal))",
           "type": [Function],
         }
       }
@@ -749,7 +728,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -779,7 +757,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
@@ -811,7 +788,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -845,7 +821,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -875,7 +850,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -906,7 +880,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -959,7 +932,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -1017,7 +989,6 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AboutBuildModal)",
           "type": [Function],
         }
       }
@@ -1067,7 +1038,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -1092,7 +1062,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
@@ -1118,7 +1087,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -1147,7 +1115,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -1172,7 +1139,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -1198,7 +1164,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -1221,7 +1186,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled 1`
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -1322,7 +1286,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(injectIntl(UserSettingsModal))",
           "type": [Function],
         }
       }
@@ -1352,7 +1315,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -1382,7 +1344,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
@@ -1414,7 +1375,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -1448,7 +1408,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -1478,7 +1437,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -1509,7 +1467,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -1562,7 +1519,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -1622,7 +1578,6 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AboutBuildModal)",
           "type": [Function],
         }
       }
@@ -1672,7 +1627,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -1697,7 +1651,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
@@ -1723,7 +1676,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -1752,7 +1704,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -1777,7 +1728,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -1803,7 +1753,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -1826,7 +1775,6 @@ exports[`components/Menu should match snapshot with plugins 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -1942,7 +1890,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(injectIntl(UserSettingsModal))",
           "type": [Function],
         }
       }
@@ -1972,7 +1919,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(AddGroupsToTeamModal)",
             "type": [Function],
           }
         }
@@ -2002,7 +1948,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(InvitationModal)",
             "type": [Function],
           }
         }
@@ -2034,7 +1979,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamSettingsModal)",
             "type": [Function],
           }
         }
@@ -2068,7 +2012,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(TeamGroupsManageModal))",
             "type": [Function],
           }
         }
@@ -2098,7 +2041,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -2129,7 +2071,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(TeamMembersModal)",
             "type": [Function],
           }
         }
@@ -2182,7 +2123,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(LeaveTeamModal)",
           "type": [Function],
         }
       }
@@ -2253,7 +2193,6 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
           "$$typeof": Symbol(react.memo),
           "WrappedComponent": [Function],
           "compare": null,
-          "displayName": "Connect(AboutBuildModal)",
           "type": [Function],
         }
       }
