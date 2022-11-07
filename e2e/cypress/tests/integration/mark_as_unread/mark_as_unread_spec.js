@@ -128,7 +128,7 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
         switchToChannel(channelB);
 
-        // After mark channelA with alt-left-click, channelA
+        // After mark channelA with alt/option+left-click, channelA
         // should appear unread
         cy.get(`#sidebarItem_${channelA.name}`).type('{alt}', {release: false}).click();
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
