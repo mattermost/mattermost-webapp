@@ -54,16 +54,16 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
 
     getStateFromCommand = (command: Props['initialCommand']) => {
         return {
-            displayName: command?.display_name || '',
-            description: command?.description || '',
-            trigger: command?.trigger || '',
-            url: command?.url || '',
-            method: command?.method || REQUEST_POST,
-            username: command?.username || '',
-            iconUrl: command?.icon_url || '',
-            autocomplete: command?.auto_complete || false,
-            autocompleteHint: command?.auto_complete_hint || '',
-            autocompleteDescription: command?.auto_complete_desc || '',
+            displayName: command?.display_name ?? '',
+            description: command?.description ?? '',
+            trigger: command?.trigger ?? '',
+            url: command?.url ?? '',
+            method: command?.method ?? REQUEST_POST,
+            username: command?.username ?? '',
+            iconUrl: command?.icon_url ?? '',
+            autocomplete: command?.auto_complete ?? false,
+            autocompleteHint: command?.auto_complete_hint ?? '',
+            autocompleteDescription: command?.auto_complete_desc ?? '',
             saving: false,
             clientError: null,
         };
