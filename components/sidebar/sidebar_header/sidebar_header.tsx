@@ -26,8 +26,7 @@ type SidebarHeaderContainerProps = {
     id?: string;
 }
 
-type SidebarHeaderProps = {
-}
+type SidebarHeaderProps = Record<string, unknown>;
 
 const SidebarHeaderContainer = styled(Flex).attrs(() => ({
     element: 'header',

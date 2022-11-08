@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import { useIntl } from 'react-intl';
 import { useDispatch, useSelector } from 'react-redux';
@@ -95,9 +96,10 @@ function StarterDisclaimerCTA() {
             id='starter_plan_data_restrictions_cta'
             onClick={openLimitsMiniModal}
         >
-            <i className='icon-alert-outline' />
-            {intl.formatMessage({ id: 'pricing_modal.planDisclaimer.free', defaultMessage: 'This plan has data restrictions.' })}
-        </Disclaimer>);
+            <i className='icon-alert-outline'/>
+            {intl.formatMessage({id: 'pricing_modal.planDisclaimer.free', defaultMessage: 'This plan has data restrictions.'})}
+        </Disclaimer>
+    );
 }
 
 export default StarterDisclaimerCTA;

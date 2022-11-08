@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {AxiosResponse} from 'axios';
 
 import {ChainableT} from '../types';
@@ -115,8 +116,7 @@ function postIncomingWebhook({url, data, waitFor}: {
 Cypress.Commands.add('postIncomingWebhook', postIncomingWebhook);
 
 interface ExternalRequestArg<T> {
-    user: {
-    };
+    user: Record<string, unknown>;
     method: string;
     path: string;
     data?: T;
