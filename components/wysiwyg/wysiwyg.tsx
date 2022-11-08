@@ -45,6 +45,7 @@ import {htmlToMarkdown, markdownToHtml} from './utils/toMarkdown';
 import Toolbar from './toolbar';
 import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
+import {UserSuggestions, ChannelSuggestions} from './components/suggestions';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -211,6 +212,8 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     defaultLanguage: 'css',
                 }),
             PasteHandler,
+            UserSuggestions,
+            ChannelSuggestions,
         ],
         content: draft?.content,
         autofocus: 'end',
