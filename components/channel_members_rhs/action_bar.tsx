@@ -120,6 +120,7 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
                                 <Button
                                     className='manage-members'
                                     onClick={actions.startEditing}
+                                    aria-label='manage members'
                                 >
                                     <FormattedMessage
                                         id='channel_members_rhs.action_bar.manage_button'
@@ -130,6 +131,7 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
                             <Button
                                 onClick={actions.inviteMembers}
                                 className='add-members'
+                                aria-label='add members'
                             >
                                 <ButtonIcon
                                     className='icon-account-plus-outline'
