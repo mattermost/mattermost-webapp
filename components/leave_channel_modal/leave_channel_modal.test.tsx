@@ -6,9 +6,10 @@ import React from 'react';
 
 import {ChannelType} from '@mattermost/types/channels';
 
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal/leave_private_channel_modal';
+import LeaveChannelModal from 'components/leave_channel_modal/leave_channel_modal';
+import ConfirmModal from 'components/confirm_modal';
 
-describe('components/LeavePrivateChannelModal', () => {
+describe('components/LeaveChannelModal', () => {
     const channels = {
         'channel-1': {
             id: 'channel-1',
@@ -73,13 +74,13 @@ describe('components/LeavePrivateChannelModal', () => {
         };
 
         const wrapper = shallow(
-            <LeavePrivateChannelModal {...props}/>,
+            <LeaveChannelModal {...props}/>,
         );
 
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should fail to leave channel', (done) => {
+    test('should fail to leave channel', () => {
         const props = {
             channel: channels['channel-1'],
             actions: {
@@ -92,20 +93,16 @@ describe('components/LeavePrivateChannelModal', () => {
                 }),
             },
             onExited: jest.fn(),
+            callback: jest.fn(),
         };
-        const wrapper = shallow<LeavePrivateChannelModal>(
-            <LeavePrivateChannelModal
+        const wrapper = shallow<typeof LeaveChannelModal>(
+            <LeaveChannelModal
                 {...props}
             />,
         );
 
-        const instance = wrapper.instance();
-        instance.handleSubmit();
-        expect(instance.props.actions.leaveChannel).toHaveBeenCalledTimes(1);
-        process.nextTick(() => {
-            expect(wrapper.state('show')).toEqual(true);
-            expect(wrapper.state('channel')).not.toBeNull();
-            done();
-        });
+        wrapper.find(ConfirmModal).props().onConfirm?.(true);
+        expect(props.actions.leaveChannel).toHaveBeenCalledTimes(1);
+        expect(props.callback).toHaveBeenCalledTimes(0);
     });
 });
