@@ -92,7 +92,7 @@ const OverageUsersBanner = () => {
 
     return (
         <AnnouncementBar
-            type={isBetween5PercerntAnd10PercentPurchasedSeats ? AnnouncementBarTypes.GENERAL : AnnouncementBarTypes.CRITICAL}
+            type={isBetween5PercerntAnd10PercentPurchasedSeats ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL}
             showCloseButton={isBetween5PercerntAnd10PercentPurchasedSeats}
             onButtonClick={handleClick}
             modalButtonText={cta}
