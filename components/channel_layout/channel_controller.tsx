@@ -10,12 +10,7 @@ import {RequestStatus} from 'mattermost-redux/constants';
 
 import {loadStatusesForChannelAndSidebar} from 'actions/status_actions';
 
-import AnnouncementBarController from 'components/announcement_bar';
-import SystemNotice from 'components/system_notice';
 import ResetStatusModal from 'components/reset_status_modal';
-import SidebarRight from 'components/sidebar_right';
-import SidebarRightMenu from 'components/sidebar_right_menu';
-import AppBar from 'components/app_bar/app_bar';
 import Sidebar from 'components/sidebar';
 import CenterChannel from 'components/channel_layout/center_channel';
 import LoadingScreen from 'components/loading_screen';
@@ -23,8 +18,6 @@ import FaviconTitleHandler from 'components/favicon_title_handler';
 import ProductNoticesModal from 'components/product_notices_modal';
 
 import Pluggable from 'plugins/pluggable';
-
-import {shouldShowAppBar} from 'selectors/plugins';
 
 import {GlobalState} from 'types/store';
 
@@ -38,8 +31,6 @@ export default function ChannelController() {
 
     const shouldRenderCenterChannel = useSelector((state: GlobalState) =>
         state.requests.channels.getChannelsMembersCategories.status === RequestStatus.SUCCESS);
-
-    const isAppBarEnabled = useSelector(shouldShowAppBar);
 
     useEffect(() => {
         const isMsBrowser = isInternetExplorer() || isEdge();
@@ -62,24 +53,21 @@ export default function ChannelController() {
     }, []);
 
     return (
-        <div
-            id='channel_view'
-            className='channel-view'
-        >
-            <AnnouncementBarController/>
-            <SystemNotice/>
-            <FaviconTitleHandler/>
-            <ProductNoticesModal/>
-            <div className={classNames('container-fluid channel-view-inner', {'app-bar-enabled': isAppBarEnabled})}>
-                <SidebarRight/>
-                <SidebarRightMenu/>
-                <Sidebar/>
-                {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen/>}
-                <Pluggable pluggableName='Root'/>
-                <ResetStatusModal/>
+        <>
+            <Sidebar/>
+            <div
+                id='channel_view'
+                className='channel-view'
+            >
+                <FaviconTitleHandler/>
+                <ProductNoticesModal/>
+                <div className={classNames('container-fluid channel-view-inner')}>
+                    {shouldRenderCenterChannel ? <CenterChannel/> : <LoadingScreen/>}
+                    <Pluggable pluggableName='Root'/>
+                    <ResetStatusModal/>
+                </div>
             </div>
-            <AppBar/>
-        </div>
+        </>
     );
 }
 
