@@ -47,6 +47,12 @@
 
     &__timestamp {
         color: rgba(var(--center-channel-color-rgb), 0.64);
+        vertical-align: middle;
+    }
+
+    &__sync-icon {
+        display: flex;
+        align-items: center;
     }
 
     &__actions {
@@ -59,6 +65,7 @@
 
     &__info {
         display: inline-flex;
+        align-items: center;
 
         &.hide {
             display: none;

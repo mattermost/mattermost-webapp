@@ -91,6 +91,7 @@ function ChannelDraft({
                             />
                         )}
                         timestamp={value.updateAt}
+                        fromServer={value.fromServer || false}
                     />
                     <Body
                         channelId={channel.id}

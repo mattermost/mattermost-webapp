@@ -88,6 +88,7 @@ import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
 
+import {getConnectionId} from 'selectors/general';
 import {getSelectedChannelId, getSelectedPost} from 'selectors/rhs';
 import {isThreadOpen, isThreadManuallyUnread} from 'selectors/views/threads';
 
@@ -1680,11 +1681,18 @@ function handleThreadFollowChanged(msg) {
 }
 
 function handleUpsertDraftEvent(msg) {
-    return async (doDispatch) => {
+    return async (doDispatch, doGetState) => {
+        const state = doGetState();
+        const connectionId = getConnectionId(state);
+
         const draft = JSON.parse(msg.data.draft);
         const {key, value} = transformServerDraft(draft);
         value.show = true;
         value.remote = true;
+
+        if (msg.broadcast.omit_connection_id !== connectionId) {
+            value.fromServer = true;
+        }
 
         localStorage.setItem(key, JSON.stringify(value));
         doDispatch(setGlobalItem(key, value));

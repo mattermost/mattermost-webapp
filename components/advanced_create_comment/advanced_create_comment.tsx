@@ -325,6 +325,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     draft: {
                         ...prev.draft,
                         show: !isDraftEmpty(prev.draft),
+                        fromServer: false,
                     } as PostDraft,
                 };
             }
