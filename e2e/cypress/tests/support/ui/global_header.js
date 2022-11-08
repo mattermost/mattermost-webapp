@@ -72,11 +72,11 @@ Cypress.Commands.add('uiOpenHelpMenu', (item = '') => {
 });
 
 Cypress.Commands.add('uiGetHelpButton', () => {
-    return cy.findByRole('button', {name: 'user status is set to online you can change status by selecting your profile picture'}).should('be.visible');
+    return cy.findByRole('button', {name: 'Select to toggle the help menu.'}).should('be.visible');
 });
 
 Cypress.Commands.add('uiGetHelpMenu', (options = {visible: true}) => {
-    const dropdown = () => cy.get('#helpMenuPortal').click().find('.dropdown-menu');
+    const dropdown = () => cy.get('#helpMenuPortal').find('.dropdown-menu');
 
     if (options.visible) {
         return dropdown().should('be.visible');
