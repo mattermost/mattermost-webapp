@@ -5,6 +5,7 @@
 
 const childProcess = require('child_process');
 const http = require('http');
+const https = require('https');
 const path = require('path');
 
 const url = require('url');
@@ -427,8 +428,14 @@ async function initializeModuleFederation() {
                 return;
             }
 
-            const req = http.request(`${baseUrl}/remote_entry.js`, (response) => {
+            const requestModule = baseUrl.startsWith('https:') ? https : http;
+            const req = requestModule.request(`${baseUrl}/remote_entry.js`, (response) => {
                 return resolve(response.statusCode === 200);
+            });
+
+            req.setTimeout(100, () => {
+                // If this times out, we've connected to the dev server even if it's not ready yet
+                resolve(true);
             });
 
             req.on('error', () => {
@@ -456,6 +463,9 @@ async function initializeModuleFederation() {
                 aliases: {},
             };
         }
+
+        // Wait a second for product dev servers to start up if they were started at the same time as this one
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // For development, identify which product dev servers are available
         const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));

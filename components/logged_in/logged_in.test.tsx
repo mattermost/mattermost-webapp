@@ -24,6 +24,7 @@ describe('components/logged_in/LoggedIn', () => {
         actions: {
             autoUpdateTimezone: jest.fn(),
             getChannelURLAction: jest.fn(),
+            viewChannel: jest.fn(),
         },
         showTermsOfService: false,
         location: {

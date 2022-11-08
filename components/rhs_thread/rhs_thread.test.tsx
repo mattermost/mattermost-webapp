@@ -12,6 +12,15 @@ import {TestHelper} from 'utils/test_helper';
 
 import RhsThread from './rhs_thread';
 
+const mockDispatch = jest.fn();
+let mockState: any;
+
+jest.mock('react-redux', () => ({
+    ...jest.requireActual('react-redux') as typeof import('react-redux'),
+    useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
+    useDispatch: () => mockDispatch,
+}));
+
 describe('components/RhsThread', () => {
     const post: Post = TestHelper.getPostMock({
         channel_id: 'channel_id',
@@ -38,6 +47,8 @@ describe('components/RhsThread', () => {
 
     const directTeammate: UserProfile = TestHelper.getUserMock();
 
+    const currentTeam = TestHelper.getTeamMock();
+
     const baseProps = {
         posts: [post],
         selected: post,
@@ -48,6 +59,7 @@ describe('components/RhsThread', () => {
         socketConnectionStatus: true,
         actions,
         directTeammate,
+        currentTeam,
     };
 
     test('should match snapshot', () => {

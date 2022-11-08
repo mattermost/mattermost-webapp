@@ -668,7 +668,6 @@ const defaultServerConfig: AdminConfig = {
         CommandPalette: false,
         PostForwarding: true,
         BoardsProduct: true,
-        PlanUpgradeButtonText: 'upgrade',
     },
     ImportSettings: {
         Directory: './import',
