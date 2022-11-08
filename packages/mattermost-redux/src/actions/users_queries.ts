@@ -5,7 +5,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Role} from '@mattermost/types/roles';
-import {Team} from '@mattermost/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
 import {convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
 
@@ -80,12 +80,12 @@ query gqlWebCurrentUserInfo {
 
 export const currentUserInfoQuery = JSON.stringify({query: currentUserInfoQueryString, operationName: 'gqlWebCurrentUserInfo'});
 
-type GraphQlUser = UserProfile & {
+type GraphQLUser = UserProfile & {
     roles: Role[];
     preferences: PreferenceType[];
 };
 
-type GraphQlTeamMember = {
+type GraphQLTeamMember = {
     team: Team;
     user: UserProfile;
     roles: Role[];
@@ -97,17 +97,17 @@ type GraphQlTeamMember = {
 
 export type CurrentUserInfoQueryResponseType = {
     data?: {
-        user: GraphQlUser;
+        user: GraphQLUser;
         config: ClientConfig;
         license: ClientLicense;
-        teamMembers: GraphQlTeamMember[];
+        teamMembers: GraphQLTeamMember[];
     };
     errors?: unknown;
 };
 
 export function transformToReceivedUserAndTeamRolesReducerPayload(
-    userRoles: GraphQlUser['roles'],
-    teamMembers: GraphQlTeamMember[]): Role[] {
+    userRoles: GraphQLUser['roles'],
+    teamMembers: GraphQLTeamMember[]): Role[] {
     let roles: Role[] = [...userRoles];
 
     teamMembers.forEach((teamMember) => {
@@ -119,7 +119,7 @@ export function transformToReceivedUserAndTeamRolesReducerPayload(
     return roles;
 }
 
-export function transformToRecievedMeReducerPayload(user: Partial<GraphQlUser>) {
+export function transformToRecievedMeReducerPayload(user: GraphQLUser): UserProfile {
     return {
         ...user,
         position: user?.position ?? '',
@@ -127,14 +127,14 @@ export function transformToRecievedMeReducerPayload(user: Partial<GraphQlUser>) 
     };
 }
 
-export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<GraphQlTeamMember[]>) {
+export function transformToRecievedTeamsListReducerPayload(teamsMembers: GraphQLTeamMember[]): Team[] {
     return teamsMembers.map((teamMember) => ({...teamMember?.team, delete_at: 0}));
 }
 
 export function transformToRecievedMyTeamMembersReducerPayload(
-    teamsMembers: Partial<GraphQlTeamMember[]>,
+    teamsMembers: Partial<GraphQLTeamMember[]>,
     userId: UserProfile['id'],
-) {
+): TeamMembership[] {
     return teamsMembers.map((teamMember) => ({
         team_id: teamMember?.team?.id ?? '',
         user_id: userId || '',
