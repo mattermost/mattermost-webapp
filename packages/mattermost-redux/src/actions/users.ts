@@ -95,11 +95,12 @@ export function loadMeREST(): ActionFunc {
         }
 
         const state = getState();
-        const currentUserId = state.entities.users.currentUserId;
 
         // Set the user id and roles in the client4 class for telemetry
+        const currentUserId = state?.entities?.users?.currentUserId ?? '';
+        const currentUserRoles = state?.entities?.users?.profiles?.[currentUserId]?.roles ?? '';
         Client4.setUserId(currentUserId);
-        Client4.setUserRoles(state.entities.users.profiles[currentUserId].roles);
+        Client4.setUserRoles(currentUserRoles);
 
         return {data: true};
     };
@@ -107,10 +108,8 @@ export function loadMeREST(): ActionFunc {
 
 export function loadMe(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState();
-
         // Sometimes the server version is set in one or the other
-        const serverVersion = state.entities.general.serverVersion || Client4.getServerVersion();
+        const serverVersion = getState().entities.general.serverVersion || Client4.getServerVersion();
         dispatch(setServerVersion(serverVersion));
 
         let userId: UserProfile['id'] = '';
