@@ -16,7 +16,7 @@ import Suggestion from './suggestion.jsx';
 import {ProviderResults} from './generic_user_provider';
 
 class SearchUserSuggestion extends Suggestion {
-    node?: HTMLDivElement | null;
+    private node?: HTMLDivElement | null;
     render() {
         const {item, isSelection} = this.props;
 
@@ -80,7 +80,7 @@ class SearchUserSuggestion extends Suggestion {
 }
 
 export default class SearchUserProvider extends Provider {
-    autocompleteUsersInTeam: (username: string) => Promise<UserAutocomplete>;
+    private autocompleteUsersInTeam: (username: string) => Promise<UserAutocomplete>;
     constructor(userSearchFunc: (username: string) => Promise<UserAutocomplete>) {
         super();
         this.autocompleteUsersInTeam = userSearchFunc;

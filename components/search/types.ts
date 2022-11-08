@@ -8,9 +8,9 @@ import {ActionFunc} from 'mattermost-redux/types/actions';
 
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
+import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import {SearchType} from 'types/store/rhs';
-import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 export type SearchFilterType = 'all' | 'documents' | 'spreadsheets' | 'presentations' | 'code' | 'images' | 'audio' | 'video';
 
