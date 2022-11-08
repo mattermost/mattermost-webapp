@@ -26,10 +26,9 @@ import {
     TaskNameMapToSteps,
     useHandleOnBoardingTaskData,
 } from 'components/onboarding_tasks';
-import {ExploreOtherToolsTourSteps} from 'utils/constants';
+import {ExploreOtherToolsTourSteps, suitePluginIds} from 'utils/constants';
 import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
 import {GlobalState} from 'types/store';
-import {suitePluginIds} from 'utils/constants';
 
 import {useClickOutsideRef} from '../../hooks';
 

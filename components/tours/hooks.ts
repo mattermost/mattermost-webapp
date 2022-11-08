@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {useCallback} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
@@ -10,7 +11,7 @@ import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {close as closeLhs, open as openLhs} from 'actions/views/lhs';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 import {switchToChannels} from 'actions/views/onboarding_tasks';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {GlobalState} from 'types/store';
 
 import {OnboardingTaskCategory, OnboardingTaskList, OnboardingTasksName} from '../onboarding_tasks';
@@ -100,7 +101,7 @@ export const useHandleNavigationAndExtraActions = (tourCategory: string) => {
             }
             case CrtTutorialSteps.LIST_POPOVER : {
                 const nextUrl = `${teamUrl}/threads`;
-                browserHistory.push(nextUrl);
+                getHistory().push(nextUrl);
                 break;
             }
             case CrtTutorialSteps.UNREAD_POPOVER : {
