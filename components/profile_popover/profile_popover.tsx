@@ -163,7 +163,6 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
-    show: boolean;
 };
 
 /**
@@ -184,7 +183,6 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         super(props);
         this.state = {
             loadingDMChannel: undefined,
-            show: true,
         };
     }
     componentDidMount() {
@@ -331,13 +329,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         return {customStatusContent, expiryContent};
     }
     handleClose = () => {
-        if (this.state.show) {
-            this.setState({show: false});
-            this.handleCloseModals();
-        }
+        this.props.hide?.();
     }
     render() {
-        if (!this.props.user || !this.state.show) {
+        if (!this.props.user) {
             return null;
         }
 
