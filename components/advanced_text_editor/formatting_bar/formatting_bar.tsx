@@ -230,6 +230,8 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         left: x ?? 0,
     };
 
+    const showSeparators = wideMode !== 'narrow';
+
     return (
         <FormattingBarContainer ref={formattingBarRef}>
             {controls.map((mode) => {
@@ -241,21 +243,20 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                             onClick={makeFormattingHandler(mode)}
                             disabled={disableControls}
                         />
-                        {mode === 'heading' && <Separator/>}
+                        {mode === 'heading' && showSeparators && <Separator/>}
                     </React.Fragment>
                 );
             })}
 
             {Array.isArray(additionalControls) && additionalControls.length > 0 && (
                 <>
-                    <Separator/>
+                    {showSeparators && <Separator/>}
                     {additionalControls}
                 </>
             )}
 
             {hasHiddenControls && (
                 <>
-                    <Separator/>
                     <IconContainer
                         id={'HiddenControlsButton' + location}
                         ref={reference}
