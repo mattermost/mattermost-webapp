@@ -1524,6 +1524,7 @@ describe('Actions.Users', () => {
                     user: {
                         id: TestHelper.basicUser.id,
                         roles: TestHelper.basicUser.roles.split(' ').map((r) => ({name: r})),
+                        preferences: [],
                     },
                     teamMembers: [],
                 },
