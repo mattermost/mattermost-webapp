@@ -107,8 +107,8 @@ export default class AbstractCommand extends React.PureComponent<Props, State> {
         };
 
         if (command.auto_complete) {
-            command.auto_complete_desc = this.state.autocompleteDescription || '';
-            command.auto_complete_hint = this.state.autocompleteHint || '';
+            command.auto_complete_desc = this.state.autocompleteDescription ?? '';
+            command.auto_complete_hint = this.state.autocompleteHint ?? '';
         }
 
         if (!command.trigger) {
