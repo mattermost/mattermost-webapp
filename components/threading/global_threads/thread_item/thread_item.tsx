@@ -6,11 +6,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
-import Tag from 'components/widgets/tag/tag';
-
-import {Channel} from '@mattermost/types/channels';
-import {Post} from '@mattermost/types/posts';
-import {UserThread} from '@mattermost/types/threads';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -22,24 +17,24 @@ import * as Utils from 'utils/utils';
 import {CrtTutorialSteps, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {getIsMobileView} from 'selectors/views/browser';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
 import CRTListTutorialTip from 'components/tours/crt_tour/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
-import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+import Tag from 'components/widgets/tag/tag';
 
-import {UserThread} from '@mattermost/types/threads';
-import {Post} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {UserThread} from '@mattermost/types/threads';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
 import ThreadMenu from '../thread_menu';
 
 import Attachment from './attachments';
-
 import './thread_item.scss';
 
 export type OwnProps = {
