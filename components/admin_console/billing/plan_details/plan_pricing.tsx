@@ -21,12 +21,11 @@ const PlanPricing = ({
     }
 
     const getPrice = (product: Product) => {
-        if (product.recurring_interval == RecurringIntervals.YEAR) {
-            console.log(product.price_per_seat)
+        if (product.recurring_interval === RecurringIntervals.YEAR) {
             return (product.price_per_seat / 12).toFixed(2);
         }
         return product.price_per_seat.toFixed(2);
-    }
+    };
 
     return (
         <div className='PlanPricing'>
