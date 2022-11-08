@@ -147,7 +147,7 @@ function Content(props: ContentProps) {
     ];
 
     // Default professional price
-    const defaultProfessionalPrice = 10;
+    const defaultProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
     const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
 
@@ -180,13 +180,11 @@ function Content(props: ContentProps) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <div className='flexcontainer'>
+                <div className='pricing-options-container'>
                     {annualSubscriptionEnabled &&
                         <>
-                            <div className='save-text-div'>
-                                <p className='save-text'>
-                                    {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
-                                </p>
+                            <div className='save-text'>
+                                {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
                             </div>
                             <YearlyMonthlyToggle
                                 updatePrice={updateProfessionalPrice}

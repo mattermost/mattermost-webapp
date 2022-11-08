@@ -217,14 +217,13 @@ function Card(props: CardProps) {
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
         const numValue = Number(value);
-        if (value == '' || (numValue && checkValidNumber(numValue))) {
+        if (value === '' || (numValue && checkValidNumber(numValue))) {
             setUsersCount(numValue.toString());
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
             props.updateUsersCount(numValue);
         }
-
     };
 
     const checkValidNumber = (value: number) => {

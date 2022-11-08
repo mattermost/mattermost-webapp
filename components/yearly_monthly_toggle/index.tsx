@@ -3,6 +3,8 @@
 
 import React, {useState} from 'react';
 
+import {useIntl} from 'react-intl';
+
 import SwitchSelector from 'react-switch-selector';
 
 import classNames from 'classnames';
@@ -20,11 +22,12 @@ interface Props {
 }
 
 function YearlyMonthlyToggle(props: Props) {
+    const {formatMessage} = useIntl();
     const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
     const [moveBorder, setMoveBorder] = useState(false);
 
-    const monthlyLabel = 'Monthly';
-    const yearlyLabel = 'Yearly';
+    const monthlyLabel = formatMessage({id: 'pricing_modal.monthly', defaultMessage: 'Monthly'});
+    const yearlyLabel = formatMessage({id: 'pricing_modal.yearly', defaultMessage: 'Yearly'});
 
     const options = [
         {
@@ -85,7 +88,7 @@ function YearlyMonthlyToggle(props: Props) {
                     onChange={onToggleChange}
                     options={options}
                     initialSelectedIndex={initialSelectedIndex}
-                    backgroundColor={'border: 1px solid red'}
+                    backgroundColor={''}
                     border={'solid 1px rgba(var(--title-color-indigo-500-rgb), 0.4)'}
                     selectionIndicatorMargin={0}
                     selectedBackgroundColor={'rgba(var(--denim-button-bg-rgb), 0.08)'}
