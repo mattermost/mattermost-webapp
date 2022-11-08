@@ -12,7 +12,8 @@
 }
 
 .user-profile-popover__heading {
-    font-size: 18px;
+    font-family: Metropolis, sans-serif;
+    font-size: 20px;
     font-weight: 600;
     line-height: 24px;
     text-align: center;
@@ -30,6 +31,9 @@
 }
 
 .user-profile-popover {
+    min-width: 200px;
+    max-width: 248px;
+
     .popover-content {
         padding: 0 16px;
 
@@ -38,16 +42,23 @@
         }
 
         .user-popover__subtitle {
+            margin-bottom: 4px;
             font-size: 11px;
             font-weight: 600;
             line-height: 16px;
+        }
+
+        .user-popover__time-status-container {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 8px;
         }
 
         .popover__row {
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 10px 15px;
+            padding: 16px;
             gap: 12px;
 
             &.first {
@@ -56,6 +67,7 @@
 
             .btn {
                 display: flex;
+                height: 32px;
                 align-items: center;
                 padding: 8px 12px;
                 background-color: var(--button-bg);

@@ -401,7 +401,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             dataContent.push(
                 <div
                     data-testid={`popover-fullname-${this.props.user.username}`}
-                    className='overflow--ellipsis text-nowrap pb-1'
+                    className='overflow--ellipsis pb-1'
                     key='user-popover-fullname'
                 >
                     <span className='user-profile-popover__heading'>{fullname}</span>
@@ -436,13 +436,19 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             );
             dataContent.push(
                 <div
-                    className='overflow--ellipsis text-nowrap pb-1'
+                    className='overflow--ellipsis text-nowrap'
                     key='user-popover-position'
                 >
                     {position}
                 </div>,
             );
         }
+        dataContent.push(
+            <hr
+                key='user-popover-hr'
+                className='divider divider--expanded'
+            />,
+        );
         dataContent.push(
             <Pluggable
                 key='profilePopoverPluggable2'
@@ -461,7 +467,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             dataContent.push(
                 <div
                     key='user-popover-local-time'
-                    className='pb-1 d-flex flex-column'
+                    className='user-popover__time-status-container'
                 >
                     <span className='user-popover__subtitle' >
                         <FormattedMessage
@@ -490,7 +496,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 <div
                     key='user-popover-status'
                     id='user-popover-status'
-                    className='pb-1 d-flex flex-column'
+                    className='user-popover__time-status-container'
                 >
                     <span className='user-popover__subtitle'>
                         <FormattedMessage

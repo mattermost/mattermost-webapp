@@ -175,7 +175,7 @@
     .popover-title {
         overflow: hidden;
         max-width: 100%;
-        padding: 6px 10px 0;
+        padding: 6px 6px 0;
         border-color: var(--center-channel-bg);
         background: none;
         text-overflow: ellipsis;
@@ -247,12 +247,12 @@
     position: relative;
     display: block;
     width: 128px;
-    margin: 0 auto;
+    margin: 0 auto 8px;
 
     #userAvatar {
-        width: 96px;
-        min-width: 96px;
-        height: 96px;
+        width: 120px;
+        min-width: 120px;
+        height: 120px;
     }
 
     .user-popover-status {
@@ -288,6 +288,7 @@
     background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
     border-radius: 4px;
     color: var(--center-channel-text-rgb);
+    font-family: Open Sans, sans-serif;
     font-size: 10px;
     font-weight: 600;
     letter-spacing: 0.02em;
