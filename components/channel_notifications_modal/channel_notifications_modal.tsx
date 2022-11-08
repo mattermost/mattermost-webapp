@@ -181,6 +181,7 @@ export default function ChannelNotificationsModal(props: Props) {
 
     async function handleSave() {
         const {error} = await props.actions.updateChannelNotifyProps(props.currentUser.id, props.channel.id, settings);
+        handleHide();
         if (error) {
             setServerError(error.message);
         }
@@ -238,6 +239,7 @@ export default function ChannelNotificationsModal(props: Props) {
                     </div>
                 }
                 <button
+                    onClick={handleHide}
                     className='channel-notifications-settings-modal__cancel-btn'
                 >
                     <FormattedMessage
