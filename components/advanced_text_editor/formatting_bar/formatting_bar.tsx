@@ -230,7 +230,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         left: x ?? 0,
     };
 
-    const showSeparators = wideMode !== 'narrow';
+    const showSeparators = wideMode === 'wide';
 
     return (
         <FormattingBarContainer ref={formattingBarRef}>
