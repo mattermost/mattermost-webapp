@@ -13,9 +13,9 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Channel settings', () => {
-    let mainUser;
-    let otherUser;
-    let myTeam;
+    let mainUser: Cypress.UserProfile;
+    let otherUser: Cypress.UserProfile;
+    let myTeam: Cypress.Team;
 
     // # Ensure a list of channel names that will be alphabetically sorted
     const channelNames = new Array(20).fill(1).map((value, index) => `scroll${index}`);
@@ -35,7 +35,7 @@ describe('Channel settings', () => {
             // # Create 20 channels (based on length of channelNames array) to ensure that the channels list is scrollable
             cy.wrap(channelNames).each((name) => {
                 const displayName = `channel-${name}`;
-                cy.apiCreateChannel(team.id, name, displayName, 'O', '', '', false).then(({channel}) => {
+                cy.apiCreateChannel(team.id, name.toString(), displayName, 'O', '', '', false).then(({channel}) => {
                     // # Add our 2 created users to each channel so they can both post messages
                     cy.apiAddUserToChannel(channel.id, mainUser.id);
                     cy.apiAddUserToChannel(channel.id, otherUser.id);
