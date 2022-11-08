@@ -78,18 +78,13 @@ function TeamController(props: Props) {
 
     function handleKeydown(e: KeyboardEvent) {
         if (e.shiftKey && cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.L)) {
-            const sidebar = document.getElementById('sidebar-right');
-            if (sidebar) {
-                if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
-                    const replyTextbox = document.getElementById('reply_textbox');
-                    if (replyTextbox) {
-                        replyTextbox.focus();
-                    }
-                } else {
-                    const postTextbox = document.getElementById('post_textbox');
-                    if (postTextbox) {
-                        postTextbox.focus();
-                    }
+            const replyTextbox = document.querySelector<HTMLElement>('#sidebar-right.is-open.expanded #reply_textbox');
+            if (replyTextbox) {
+                replyTextbox.focus();
+            } else {
+                const postTextbox = document.getElementById('post_textbox');
+                if (postTextbox) {
+                    postTextbox.focus();
                 }
             }
         }
@@ -233,6 +228,7 @@ function TeamController(props: Props) {
                         <Pluggable
                             pluggableName={'NeedsTeamComponent'}
                             pluggableId={plugin.id}
+                            css={{gridArea: 'center'}}
                         />
                     )}
                 />
