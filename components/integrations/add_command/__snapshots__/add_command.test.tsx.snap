@@ -21,7 +21,6 @@ exports[`components/integrations/AddCommand should match snapshot 1`] = `
       "id": "add_command.saving",
     }
   }
-  renderExtra=""
   serverError=""
   team={
     Object {
