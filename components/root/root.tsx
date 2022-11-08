@@ -22,6 +22,12 @@ import {loadRecentlyUsedCustomEmojis} from 'actions/emoji_actions';
 import * as GlobalActions from 'actions/global_actions';
 import {measurePageLoadTelemetry, trackEvent, trackSelectorMetrics} from 'actions/telemetry_actions.jsx';
 
+import SidebarRight from 'components/sidebar_right';
+import AppBar from 'components/app_bar/app_bar';
+import SidebarRightMenu from 'components/sidebar_right_menu';
+import AnnouncementBarController from 'components/announcement_bar';
+import SystemNotice from 'components/system_notice';
+
 import {makeAsyncComponent} from 'components/async_load';
 import CompassThemeProvider from 'components/compass_theme_provider/compass_theme_provider';
 import GlobalHeader from 'components/global_header/global_header';
@@ -33,6 +39,7 @@ import OnBoardingTaskList from 'components/onboarding_tasklist';
 import LaunchingWorkspace, {LAUNCHING_WORKSPACE_FULLSCREEN_Z_INDEX} from 'components/preparing_workspace/launching_workspace';
 import {Animations} from 'components/preparing_workspace/steps';
 import OpenPricingModalPost from 'components/custom_open_pricing_modal_post_renderer';
+import AccessProblem from 'components/access_problem';
 
 import {initializePlugins} from 'plugins';
 import Pluggable from 'plugins/pluggable';
@@ -148,6 +155,9 @@ type Props = {
     plugins?: PluginComponent[];
     products: ProductComponent[];
     showLaunchingWorkspace: boolean;
+    rhsIsExpanded: boolean;
+    rhsIsOpen: boolean;
+    shouldShowAppBar: boolean;
 } & RouteComponentProps
 
 interface State {
@@ -323,6 +333,13 @@ export default class Root extends React.PureComponent<Props, State> {
                 prevProps.history.push('/terms_of_service');
             }
         }
+        if (
+            this.props.shouldShowAppBar !== prevProps.shouldShowAppBar ||
+            this.props.rhsIsOpen !== prevProps.rhsIsOpen ||
+            this.props.rhsIsExpanded !== prevProps.rhsIsExpanded
+        ) {
+            this.setRootMeta();
+        }
     }
 
     async redirectToOnboardingOrDefaultTeam() {
@@ -480,6 +497,18 @@ export default class Root extends React.PureComponent<Props, State> {
         }
     }
 
+    setRootMeta = () => {
+        const root = document.getElementById('root')!;
+
+        for (const [className, enabled] of Object.entries({
+            'app-bar-enabled': this.props.shouldShowAppBar,
+            'rhs-open': this.props.rhsIsOpen,
+            'rhs-open-expanded': this.props.rhsIsExpanded,
+        })) {
+            root.classList.toggle(className, enabled);
+        }
+    }
+
     updateWindowSize = () => {
         switch (true) {
         case this.desktopMediaQuery.matches:
@@ -512,6 +541,10 @@ export default class Root extends React.PureComponent<Props, State> {
                     <HFRoute
                         path={'/login'}
                         component={Login}
+                    />
+                    <HFRoute
+                        path={'/access_problem'}
+                        component={AccessProblem}
                     />
                     <HFTRoute
                         path={'/reset_password'}
@@ -604,6 +637,8 @@ export default class Root extends React.PureComponent<Props, State> {
                             />
                         )}
                         <ModalController/>
+                        <AnnouncementBarController/>
+                        <SystemNotice/>
                         <GlobalHeader/>
                         <CloudEffects/>
                         <OnBoardingTaskList/>
@@ -614,18 +649,29 @@ export default class Root extends React.PureComponent<Props, State> {
                                 <Route
                                     key={product.id}
                                     path={product.baseURL}
-                                    render={(props) => (
-                                        <LoggedIn {...props}>
-                                            <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
-                                                <Pluggable
-                                                    pluggableName={'Product'}
-                                                    subComponentName={'mainComponent'}
-                                                    pluggableId={product.id}
-                                                    webSocketClient={webSocketClient}
-                                                />
-                                            </div>
-                                        </LoggedIn>
-                                    )}
+                                    render={(props) => {
+                                        let pluggable = (
+                                            <Pluggable
+                                                pluggableName={'Product'}
+                                                subComponentName={'mainComponent'}
+                                                pluggableId={product.id}
+                                                webSocketClient={webSocketClient}
+                                                css={product.wrapped ? undefined : {gridArea: 'center'}}
+                                            />
+                                        );
+                                        if (product.wrapped) {
+                                            pluggable = (
+                                                <div className={classNames(['product-wrapper', {wide: !product.showTeamSidebar}])}>
+                                                    {pluggable}
+                                                </div>
+                                            );
+                                        }
+                                        return (
+                                            <LoggedIn {...props}>
+                                                {pluggable}
+                                            </LoggedIn>
+                                        );
+                                    }}
                                 />
                             ))}
                             {this.props.plugins?.map((plugin) => (
@@ -636,6 +682,7 @@ export default class Root extends React.PureComponent<Props, State> {
                                         <Pluggable
                                             pluggableName={'CustomRouteComponent'}
                                             pluggableId={plugin.id}
+                                            css={{gridArea: 'center'}}
                                         />
                                     )}
                                 />
@@ -647,6 +694,9 @@ export default class Root extends React.PureComponent<Props, State> {
                             <RootRedirect/>
                         </Switch>
                         <Pluggable pluggableName='Global'/>
+                        <SidebarRight/>
+                        <AppBar/>
+                        <SidebarRightMenu/>
                     </CompassThemeProvider>
                 </Switch>
             </RootProvider>
