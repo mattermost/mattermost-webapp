@@ -4,6 +4,7 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {markMostRecentPostInChannelAsUnread} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {Channel} from '@mattermost/types/channels';
@@ -60,6 +61,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            markMostRecentPostInChannelAsUnread,
             unsetEditingPost,
             clearChannelSelection,
             multiSelectChannelTo,
