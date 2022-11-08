@@ -7,8 +7,6 @@ import classNames from 'classnames';
 
 import Pluggable from 'plugins/pluggable';
 
-import {Channel} from '@mattermost/types/channels';
-
 import {mark, trackEvent} from 'actions/telemetry_actions';
 
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
@@ -19,12 +17,14 @@ import Constants from 'utils/constants';
 import {wrapEmojis} from 'utils/emoji_utils';
 import {isDesktopApp} from 'utils/user_agent';
 import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
-import {ChannelsAndDirectMessagesTour} from 'components/onboarding_tour';
+import {ChannelsAndDirectMessagesTour} from 'components/tours/onboarding_tour';
+
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
-import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import {Channel} from '@mattermost/types/channels';
 
 type Props = {
     channel: Channel;

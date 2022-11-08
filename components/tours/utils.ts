@@ -1,7 +1,23 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import React from 'react';
+
 import {FINISHED} from './constant';
+
+export type ActionType = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
+
+export interface ChannelsTourTipManager {
+    show: boolean;
+    currentStep: number;
+    tourSteps: Record<string, number>;
+    handleOpen: (e: React.MouseEvent) => void;
+    handleSkip: (e: React.MouseEvent) => void;
+    handleDismiss: (e: React.MouseEvent) => void;
+    handlePrevious: (e: React.MouseEvent) => void;
+    handleNext: (e: React.MouseEvent) => void;
+    handleJump: (e: React.MouseEvent, jumpStep: number) => void;
+}
 
 export const KeyCodes: Record<string, [string, number]> = {
     ENTER: ['Enter', 13],

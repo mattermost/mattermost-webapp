@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import CustomImg from 'images/Customize-Your-Experience.gif';
+
 import {useMeasurePunchouts} from '@mattermost/components';
 
 import OnboardingTourTip from './onboarding_tour_tip';
@@ -35,7 +36,7 @@ export const CustomizeYourExperienceTour = () => {
             title={title}
             screen={screen}
             imageURL={CustomImg}
-            placement='bottom-end'
+            placement='bottom-start'
             pulsatingDotPlacement='bottom'
             pulsatingDotTranslate={translate}
             offset={offset}

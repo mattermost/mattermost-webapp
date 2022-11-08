@@ -2,100 +2,49 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useState} from 'react';
+
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {savePreferences, savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
+
+import {savePreferences as storeSavePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-
-import {setProductMenuSwitcherOpen} from 'actions/views/product_menu';
 import {trackEvent as trackEventAction} from 'actions/telemetry_actions';
-
-import {GlobalState} from 'types/store';
-
 import {
     generateTelemetryTag,
-    OnboardingTaskCategory,
-    OnboardingTaskList,
-    OnboardingTasksName,
 } from 'components/onboarding_tasks';
 
 import {
+    ActionType,
+    ChannelsTourTipManager,
+    getLastStep,
+    isKeyPressed,
+    KeyCodes,
+    useGetTourSteps,
+    useHandleNavigationAndExtraActions,
+} from 'components/tours';
+
+import {GlobalState} from '@mattermost/types/store';
+
+import {
     AutoTourStatus,
-    OtherToolsTour,
-    ExploreOtherToolsTourSteps,
+    ChannelsTour,
     FINISHED,
     SKIPPED,
     TTNameMapToATStatusKey,
-    TutorialTourName,
-} from '../onboarding_tour/constant';
-import {isKeyPressed, KeyCodes} from '../onboarding_tour/utils';
+} from './constant';
 
-export type ActionType = 'next' | 'prev' | 'dismiss' | 'jump' | 'skipped'
-
-export interface OnBoardingTourTipManager {
-    show: boolean;
-    currentStep: number;
-    tourSteps: Record<string, number>;
-    handleOpen: (e: React.MouseEvent) => void;
-    handleSkip: (e: React.MouseEvent) => void;
-    handleDismiss: (e: React.MouseEvent) => void;
-    handlePrevious: (e: React.MouseEvent) => void;
-    handleNext: (e: React.MouseEvent) => void;
-    handleJump: (e: React.MouseEvent, jumpStep: number) => void;
-}
-
-const useHandleNavigationAndExtraActions = () => {
-    const dispatch = useDispatch();
-    const currentUserId = useSelector(getCurrentUserId);
-
-    const nextStepActions = useCallback((step: number) => {
-        dispatch(setProductMenuSwitcherOpen(true));
-        if (step === ExploreOtherToolsTourSteps.FINISHED) {
-            dispatch(setProductMenuSwitcherOpen(false));
-            let preferences = [
-                {
-                    user_id: currentUserId,
-                    category: OnboardingTaskCategory,
-                    name: OnboardingTasksName.EXPLORE_OTHER_TOOLS,
-                    value: FINISHED.toString(),
-                },
-            ];
-            preferences = [...preferences,
-                {
-                    user_id: currentUserId,
-                    category: OnboardingTaskCategory,
-                    name: OnboardingTaskList.ONBOARDING_TASK_LIST_OPEN,
-                    value: 'true',
-                },
-            ];
-            dispatch(savePreferences(currentUserId, preferences));
-        }
-    }, [currentUserId]);
-
-    return useCallback((step: number) => {
-        nextStepActions(step);
-    }, [nextStepActions]);
-};
-
-const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
+export const useTourTipManager = (tourCategory: string): ChannelsTourTipManager => {
     const [show, setShow] = useState(false);
-    const tourSteps = ExploreOtherToolsTourSteps;
+    const tourSteps = useGetTourSteps(tourCategory);
 
+    // Function to save the tutorial step in redux store start here which needs to be modified
     const dispatch = useDispatch();
     const currentUserId = useSelector(getCurrentUserId);
-    const tourCategory = TutorialTourName.EXPLORE_OTHER_TOOLS;
     const currentStep = useSelector((state: GlobalState) => getInt(state, tourCategory, currentUserId, 0));
     const autoTourStatus = useSelector((state: GlobalState) => getInt(state, tourCategory, TTNameMapToATStatusKey[tourCategory], 0));
     const isAutoTourEnabled = autoTourStatus === AutoTourStatus.ENABLED;
-    const handleActions = useHandleNavigationAndExtraActions();
-
-    const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
-    const focalboard = pluginsList.focalboard;
-    const playbooks = pluginsList.playbooks;
-
-    // if both plugins are enabled, then the last step is one, otherwise if just one is enabled it must be 0
-    const lastStep = (focalboard && playbooks) ? 1 : 0;
+    const handleActions = useHandleNavigationAndExtraActions(tourCategory);
 
     const handleSaveDataAndTrackEvent = useCallback(
         (stepValue: number, eventSource: ActionType, autoTour = true, trackEvent = true) => {
@@ -116,12 +65,14 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
             dispatch(storeSavePreferences(currentUserId, preferences));
             if (trackEvent) {
                 const eventSuffix = `${stepValue}--${eventSource}`;
-                const telemetryTag = generateTelemetryTag(OtherToolsTour, tourCategory, eventSuffix);
+                const telemetryTag = generateTelemetryTag(ChannelsTour, tourCategory, eventSuffix);
                 trackEventAction(tourCategory, telemetryTag);
             }
         },
         [currentUserId],
     );
+
+    // Function to save the tutorial step in redux store end here
 
     const handleEventPropagationAndDefault = (e: React.MouseEvent | KeyboardEvent) => {
         e.stopPropagation();
@@ -158,14 +109,13 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         }
         handleHide();
         handleSaveDataAndTrackEvent(stepValue, type);
-        handleActions(stepValue);
+        handleActions(stepValue, currentStep);
     }, [currentStep, handleHide, handleSaveDataAndTrackEvent, handleActions]);
 
     const handleDismiss = useCallback((e: React.MouseEvent): void => {
         handleEventPropagationAndDefault(e);
         handleHide();
         handleSaveDataAndTrackEvent(currentStep, 'dismiss', false);
-        dispatch(setProductMenuSwitcherOpen(false));
     }, [handleSaveDataAndTrackEvent, handleHide]);
 
     const handlePrevious = useCallback((e: React.MouseEvent): void => {
@@ -177,8 +127,7 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         if (e) {
             handleEventPropagationAndDefault(e);
         }
-        if (lastStep === currentStep) {
-            dispatch(setProductMenuSwitcherOpen(false));
+        if (getLastStep(tourSteps) === currentStep) {
             handleSavePreferences(FINISHED);
         } else {
             handleSavePreferences(true);
@@ -196,7 +145,7 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         handleEventPropagationAndDefault(e);
         handleHide();
         handleSaveDataAndTrackEvent(SKIPPED, 'skipped', false);
-        handleActions(SKIPPED);
+        handleActions(SKIPPED, currentStep);
     }, [handleSaveDataAndTrackEvent, handleHide]);
 
     useEffect(() => {
@@ -222,5 +171,3 @@ const useOnBoardingTourTipManager = (): OnBoardingTourTipManager => {
         handleSkip,
     };
 };
-
-export default useOnBoardingTourTipManager;

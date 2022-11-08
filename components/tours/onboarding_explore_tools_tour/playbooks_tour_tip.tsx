@@ -4,13 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {useMeasurePunchouts} from '@mattermost/components';
-
 import PlaybooksImg from 'images/playbooks_tour_tip.svg';
 
-import OnboardingExploreToolsTourTip from './onboarding_explore_tools_tour_tip';
+import {useMeasurePunchouts} from '@mattermost/components';
 
-import './explore_tools_tour_tip.scss';
+import OnboardingExploreToolsTourTip from './onboarding_explore_tools_tour_tip';
 
 interface PlaybooksTourTipProps {
     singleTip: boolean;
@@ -41,6 +39,8 @@ export const PlaybooksTourTip = ({singleTip}: PlaybooksTourTipProps) => {
             overlayPunchOut={overlayPunchOut}
             singleTip={singleTip}
             imageURL={PlaybooksImg}
+            placement='right-start'
+            pulsatingDotPlacement='right'
         />
     );
 };

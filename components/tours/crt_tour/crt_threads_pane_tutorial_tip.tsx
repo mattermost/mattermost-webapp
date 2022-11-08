@@ -2,21 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {TourTip, useMeasurePunchouts} from '@mattermost/components';
-
 import {Constants, Preferences} from 'utils/constants';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
-
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
+
+import {TourTip, useMeasurePunchouts} from '@mattermost/components';
 
 const translate = {x: 2, y: 25};
 
 const CRTThreadsPaneTutorialTip = () => {
     const dispatch = useDispatch();
+    const {formatMessage} = useIntl();
     const currentUserId = useSelector(getCurrentUserId);
     const title = (
         <FormattedMessage
@@ -27,10 +26,15 @@ const CRTThreadsPaneTutorialTip = () => {
 
     const screen = (
         <p>
-            <FormattedMarkdownMessage
-                id='tutorial_threads.threads_pane.description'
-                defaultMessage={'Click the **Follow** button to be notified about replies and see it in your **Threads** view. Within a thread, the **New Messages** line shows you where you left off.'}
-            />
+            {formatMessage(
+                {
+                    id: 'tutorial_threads.threads_pane.description',
+                    defaultMessage: 'Click the <b>Follow</b> button to be notified about replies and see it in your <b>Threads</b> view. Within a thread, the <b>New Messages</b> line shows you where you left off.',
+                },
+                {
+                    b: (value: string) => <b>{value}</b>,
+                },
+            )}
         </p>
     );
 

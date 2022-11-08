@@ -16,6 +16,7 @@ import {Constants, ModalIdentifiers, Preferences} from 'utils/constants';
 import * as Utils from 'utils/utils';
 
 import './collapsed_reply_threads_modal.scss';
+import {AutoTourStatus, TTNameMapToATStatusKey, TutorialTourName} from '../../constant';
 
 type Props = {
     onExited: () => void;
@@ -54,6 +55,11 @@ function CollapsedReplyThreadsModal(props: Props) {
             category: Preferences.CRT_TUTORIAL_TRIGGERED,
             name: currentUserId,
             value: (Constants.CrtTutorialTriggerSteps.STARTED).toString(),
+        }, {
+            user_id: currentUserId,
+            category: TutorialTourName.CRT_TUTORIAL_STEP,
+            name: TTNameMapToATStatusKey[TutorialTourName.CRT_TUTORIAL_STEP],
+            value: AutoTourStatus.ENABLED.toString(),
         }];
         dispatch(savePreferences(currentUserId, preferences));
         onHide(false);

@@ -2,16 +2,13 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-
 import {FormattedMessage} from 'react-intl';
-
-import {useMeasurePunchouts} from '@mattermost/components';
 
 import BoardsImg from 'images/boards_tour_tip.svg';
 
-import OnboardingExploreToolsTourTip from './onboarding_explore_tools_tour_tip';
+import {useMeasurePunchouts} from '@mattermost/components';
 
-import './explore_tools_tour_tip.scss';
+import OnboardingExploreToolsTourTip from './onboarding_explore_tools_tour_tip';
 
 interface BoardsTourTipProps {
     singleTip: boolean;
@@ -42,6 +39,8 @@ export const BoardsTourTip = ({singleTip}: BoardsTourTipProps) => {
             overlayPunchOut={overlayPunchOut}
             singleTip={singleTip}
             imageURL={BoardsImg}
+            placement='right-start'
+            pulsatingDotPlacement='right'
         />
     );
 };

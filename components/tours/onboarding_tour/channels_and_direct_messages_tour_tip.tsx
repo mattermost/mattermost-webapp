@@ -5,11 +5,12 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {useMeasurePunchouts} from '@mattermost/components';
 import {getChannelsNameMapInCurrentTeam} from 'mattermost-redux/selectors/entities/channels';
 import {GlobalState} from 'types/store';
 import Constants from 'utils/constants';
 import ChannelsImg from 'images/channels_and_direct_tour_tip.svg';
+
+import {useMeasurePunchouts} from '@mattermost/components';
 
 import OnboardingTourTip from './onboarding_tour_tip';
 
@@ -50,14 +51,15 @@ export const ChannelsAndDirectMessagesTour = ({firstChannelName}: Props) => {
             <p>
                 <FormattedMessage
                     id='onboardingTour.ChannelsAndDirectMessagesTour.townSquare'
-                    defaultMessage={'We’ve also added the **{townSquare}** and **{offTopic}** channels for everyone on your team.'}
-                    values={{townSquare: townSquareDisplayName, offTopic: offTopicDisplayName}}
+                    defaultMessage='We’ve also added the <b>{townSquare}</b> and <b>{offTopic}</b> channels for everyone on your team.'
+                    values={{townSquare: townSquareDisplayName, offTopic: offTopicDisplayName, b: (value: string) => <b>{value}</b>}}
                 />
             </p>
             <p>
                 <FormattedMessage
                     id='onboardingTour.ChannelsAndDirectMessagesTour.directMessages'
-                    defaultMessage={'**Direct messages** are for private conversations between individuals or small groups.'}
+                    defaultMessage='<b>Direct messages</b> are for private conversations between individuals or small groups.'
+                    values={{b: (value: string) => <b>{value}</b>}}
                 />
             </p>
         </>
