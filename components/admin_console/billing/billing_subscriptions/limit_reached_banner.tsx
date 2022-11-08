@@ -27,7 +27,7 @@ import AlertBanner from 'components/alert_banner';
 import './limit_reached_banner.scss';
 
 interface Props {
-    product: Product;
+    product?: Product;
 }
 
 const LimitReachedBanner = (props: Props) => {
@@ -40,13 +40,13 @@ const LimitReachedBanner = (props: Props) => {
     const openPurchaseModal = useOpenCloudPurchaseModal({});
     const openPricingModal = useOpenPricingModal();
     const saveBool = useSaveBool();
-    if (hasDismissedBanner || !someLimitExceeded || (props.product?.sku !== CloudProducts.STARTER && props.product?.sku !== CloudProducts.PROFESSIONAL)) {
+    if (hasDismissedBanner || !someLimitExceeded || !props.product || (props.product.sku !== CloudProducts.STARTER && props.product.sku !== CloudProducts.PROFESSIONAL)) {
         return null;
     }
 
     let title = (
         <FormattedMessage
-            id='workspace_limits.banner_upgrade.starter'
+            id='workspace_limits.banner_upgrade.free'
             defaultMessage='Upgrade to one of our paid plans to avoid {planName} plan data limits'
             values={{
                 planName: props.product.name,
@@ -56,7 +56,7 @@ const LimitReachedBanner = (props: Props) => {
 
     let description = (
         <FormattedMessage
-            id='workspace_limits.banner_upgrade_reason.starter'
+            id='workspace_limits.banner_upgrade_reason.free'
             defaultMessage='Your workspace has exceeded {planName} plan data limits. Upgrade to a paid plan for additional capacity.'
             values={{
                 planName: props.product.name,

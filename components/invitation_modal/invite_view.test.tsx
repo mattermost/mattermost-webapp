@@ -5,8 +5,8 @@ import React from 'react';
 
 import {Provider} from 'react-redux';
 
+import store from 'stores/redux_store.jsx';
 import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
-import mockStore from 'tests/test_store';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {Team} from '@mattermost/types/teams';
@@ -82,15 +82,22 @@ describe('InviteView', () => {
                 },
             },
             users: {
-                currentUserId: 'uid',
+                currentUserId: 'current_user_id',
                 profiles: {
-                    uid: {},
+                    current_user_id: {roles: 'system_user'},
+                },
+            },
+            roles: {
+                roles: {
+                    system_user: {
+                        permissions: [],
+                    },
                 },
             },
         },
     };
 
-    const store = mockStore(state);
+    store.getState = () => (state);
 
     beforeEach(() => {
         props = defaultProps;

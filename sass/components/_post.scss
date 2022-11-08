@@ -399,6 +399,8 @@
         padding: 13px 0 12px 16px;
         cursor: auto;
         resize: none;
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
         transition: height 150ms ease-in-out;
 
         &:not(.custom-textarea--emoji-picker) {
@@ -653,6 +655,7 @@
     .post-list__content {
         overflow: hidden;
         height: 100%;
+        margin-right: 5px;
 
         .dropdown-menu {
             &.bottom {
@@ -2237,6 +2240,8 @@
 
 .post-list__dynamic {
     overflow-x: hidden;
+    scrollbar-color: var(--center-channel-color-32) #fff0;
+    scrollbar-width: thin;
 
     .emoji-picker--active & {
         pointer-events: none;

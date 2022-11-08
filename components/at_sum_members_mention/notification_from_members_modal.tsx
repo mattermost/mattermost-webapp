@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {useIntl} from 'react-intl';
+import {useHistory} from 'react-router-dom';
 
 import styled from 'styled-components';
 
 import {getCurrentChannel} from 'mattermost-redux/selectors/entities/channels';
-import {UserProfile} from '@mattermost/types/users';
-import {ChannelMembership} from '@mattermost/types/channels';
+
 import {getUsers, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
@@ -17,16 +17,19 @@ import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/tea
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {isModalOpen} from 'selectors/views/modals';
 import {closeModal} from 'actions/views/modals';
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
 
 import {GlobalState} from 'types/store';
 
-import {browserHistory} from 'utils/browser_history';
 import {mapFeatureIdToTranslation} from 'utils/notify_admin_utils';
 import {ModalIdentifiers} from 'utils/constants';
 
-import MemberList from '../channel_members_rhs/member_list';
 import {ListItemType} from 'components/channel_members_rhs/channel_members_rhs';
 import GenericModal from 'components/generic_modal';
+
+import MemberList from '../channel_members_rhs/member_list';
+import {ChannelMembership} from '@mattermost/types/channels';
+import {UserProfile} from '@mattermost/types/users';
 
 import './notification_from_members_modal.scss';
 
@@ -60,7 +63,13 @@ const unknownUser: UserProfile = {id: 'unknown', username: 'unknown'} as UserPro
 
 function NotificationFromMembersModal(props: Props) {
     const dispatch = useDispatch();
+    const history = useHistory();
     const {formatMessage} = useIntl();
+
+    useEffect(() => {
+        dispatch(getMissingProfilesByIds(props.userIds));
+    }, [dispatch, props.userIds]);
+
     const channel = useSelector(getCurrentChannel);
     const teamUrl = useSelector(getCurrentRelativeTeamUrl);
     const userProfiles = useSelector(getUsers);
@@ -87,7 +96,7 @@ function NotificationFromMembersModal(props: Props) {
         await dispatch(openDirectChannelToUserId(user.id));
 
         // ... and then redirect to it
-        browserHistory.push(teamUrl + '/messages/@' + user.username);
+        history.push(teamUrl + '/messages/@' + user.username);
     };
 
     const handleOnClose = () => {

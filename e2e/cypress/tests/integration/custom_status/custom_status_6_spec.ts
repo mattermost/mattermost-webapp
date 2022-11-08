@@ -10,25 +10,20 @@
 // Stage: @prod
 // Group: @custom_status
 
-import set from 'lodash.set';
-
 describe('Custom Status - Slash Commands', () => {
-    before(() => {
-        cy.apiGetConfig().then(({config}) => {
-            set(config, 'TeamSettings.EnableCustomUserStatuses', true);
-            cy.apiUpdateConfig(config);
-
-            // # Login as test user and visit channel
-            cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
-                cy.visit(channelUrl);
-            });
-        });
-    });
-
     const customStatus = {
         emoji: 'laughing',
         text: 'Feeling happy',
     };
+
+    before(() => {
+        cy.apiUpdateConfig({TeamSettings: {EnableCustomUserStatuses: true}});
+
+        // # Login as test user and visit channel
+        cy.apiInitSetup({loginAfter: true}).then(({channelUrl}) => {
+            cy.visit(channelUrl);
+        });
+    });
 
     it('MM-T3852_1 should set custom status by slash command', () => {
         // # Set the custom status using slash command
