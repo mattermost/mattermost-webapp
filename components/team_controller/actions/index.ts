@@ -41,7 +41,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
         LocalStorageStore.setPreviousTeamId(currentUser.id, team.id);
 
         if (isGuest(currentUser.roles)) {
-            // TODO: This is a poor way of handling guest account.
+            // Will be fixed in MM-48260
             dispatch({type: ChannelTypes.CHANNELS_MEMBERS_CATEGORIES_FAILURE, error: null});
         }
 

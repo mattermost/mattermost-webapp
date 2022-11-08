@@ -280,7 +280,7 @@ export function fetchChannelsAndMembers(teamId: Team['id'] = ''): ActionFunc<{ch
         const channelMembers = transformToReceivedChannelMembersReducerPayload(channelMembersResponse, currentUserId);
 
         const actions = [];
-        if (teamId.length > 0) {
+        if (teamId) {
             actions.push({
                 type: ChannelTypes.RECEIVED_CHANNELS,
                 teamId,

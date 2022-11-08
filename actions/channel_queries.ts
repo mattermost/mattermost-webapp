@@ -15,29 +15,33 @@ type Cursor = {
     cursor: string;
 }
 
+type GraphQLChannel = Omit<ServerChannel, 'team_id'> & Cursor & {
+    team: Team;
+};
+
 export type ChannelsQueryResponseType = {
     data: {
-        channels: Array<Omit<ServerChannel, 'team_id'> & {
-            team: Team;
-        } & Cursor>;
+        channels: GraphQLChannel[];
     };
     errors?: unknown;
 };
 
+type GraphQLChannelMember = Omit<ChannelMembership, 'channel_id | user_id | roles | post_root_id'> & Cursor & {
+    channel: ServerChannel;
+    roles: Role[];
+};
+
 export type ChannelMembersQueryResponseType = {
     data: {
-        channelMembers: Array<Omit<ChannelMembership, 'channel_id | user_id | roles | post_root_id'> & {
-            channel: ServerChannel;
-            roles: Role[];
-        } & Cursor>;
+        channelMembers: GraphQLChannelMember[];
     };
     errors?: unknown;
 };
 
 export type ChannelsAndChannelMembersQueryResponseType = {
     data: {
-        channels: ChannelsQueryResponseType['data']['channels'];
-        channelMembers: ChannelMembersQueryResponseType['data']['channelMembers'];
+        channels: GraphQLChannel[];
+        channelMembers: GraphQLChannelMember[];
     } | null;
     errors?: unknown;
 }
@@ -172,7 +176,7 @@ export function getChannelMembersQueryString(cursor = '', teamId: Team['id'] = '
 }
 
 export function transformToReceivedChannelsReducerPayload(
-    channels: Partial<ChannelsQueryResponseType['data']['channels']>,
+    channels: Partial<GraphQLChannel[]>,
 ): ServerChannel[] {
     return channels.map((channel) => ({
         id: channel?.id ?? '',
@@ -199,9 +203,7 @@ export function transformToReceivedChannelsReducerPayload(
 }
 
 export function transformToReceivedChannelMembersReducerPayload(
-    channelMembers: Partial<
-    ChannelMembersQueryResponseType['data']['channelMembers']
-    >,
+    channelMembers: Partial<GraphQLChannelMember[]>,
     userId: UserProfile['id'],
 ): ChannelMembership[] {
     return channelMembers.map((channelMember) => ({

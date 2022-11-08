@@ -45,50 +45,8 @@ function TeamController(props: Props) {
 
     const [team, setTeam] = useState<Team | null>(getTeamFromTeamList(props.teamsList, teamNameParam));
 
-    const blurTime = useRef(new Date().getTime());
+    const blurTime = useRef(Date.now());
     const lastTime = useRef(Date.now());
-
-    function handleFocus() {
-        if (props.selectedThreadId) {
-            window.isActive = true;
-        }
-        if (props.currentChannelId) {
-            window.isActive = true;
-            props.markChannelAsReadOnFocus(props.currentChannelId);
-        }
-
-        const currentTime = (new Date()).getTime();
-        if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
-            if (props.graphQLEnabled) {
-                props.fetchChannelsAndMembers(props.currentTeamId);
-            } else {
-                props.fetchMyChannelsAndMembersREST(props.currentTeamId);
-            }
-        }
-    }
-
-    function handleBlur() {
-        window.isActive = false;
-        blurTime.current = new Date().getTime();
-
-        if (props.currentUser) {
-            props.viewChannel('');
-        }
-    }
-
-    function handleKeydown(e: KeyboardEvent) {
-        if (e.shiftKey && cmdOrCtrlPressed(e) && isKeyPressed(e, Constants.KeyCodes.L)) {
-            const replyTextbox = document.querySelector<HTMLElement>('#sidebar-right.is-open.expanded #reply_textbox');
-            if (replyTextbox) {
-                replyTextbox.focus();
-            } else {
-                const postTextbox = document.getElementById('post_textbox');
-                if (postTextbox) {
-                    postTextbox.focus();
-                }
-            }
-        }
-    }
 
     useEffect(() => {
         if (props.graphQLEnabled) {
@@ -96,11 +54,11 @@ function TeamController(props: Props) {
         } else {
             props.fetchAllMyTeamsChannelsAndChannelMembersREST();
         }
-    }, []);
+    }, [props.graphQLEnabled]);
 
     useEffect(() => {
         const wakeUpIntervalId = setInterval(() => {
-            const currentTime = (new Date()).getTime();
+            const currentTime = Date.now();
             if ((currentTime - lastTime.current) > WAKEUP_THRESHOLD) {
                 console.log('computer woke up - fetching latest'); //eslint-disable-line no-console
                 reconnect(false);
@@ -115,6 +73,48 @@ function TeamController(props: Props) {
 
     // Effect runs on mount, add event listeners on windows object
     useEffect(() => {
+        function handleFocus() {
+            if (props.selectedThreadId) {
+                window.isActive = true;
+            }
+            if (props.currentChannelId) {
+                window.isActive = true;
+                props.markChannelAsReadOnFocus(props.currentChannelId);
+            }
+
+            const currentTime = Date.now();
+            if ((currentTime - blurTime.current) > UNREAD_CHECK_TIME_MILLISECONDS && props.currentTeamId) {
+                if (props.graphQLEnabled) {
+                    props.fetchChannelsAndMembers(props.currentTeamId);
+                } else {
+                    props.fetchMyChannelsAndMembersREST(props.currentTeamId);
+                }
+            }
+        }
+
+        function handleBlur() {
+            window.isActive = false;
+            blurTime.current = Date.now();
+
+            if (props.currentUser) {
+                props.viewChannel('');
+            }
+        }
+
+        function handleKeydown(event: KeyboardEvent) {
+            if (event.shiftKey && cmdOrCtrlPressed(event) && isKeyPressed(event, Constants.KeyCodes.L)) {
+                const replyTextbox = document.querySelector<HTMLElement>('#sidebar-right.is-open.expanded #reply_textbox');
+                if (replyTextbox) {
+                    replyTextbox.focus();
+                } else {
+                    const postTextbox = document.getElementById('post_textbox');
+                    if (postTextbox) {
+                        postTextbox.focus();
+                    }
+                }
+            }
+        }
+
         window.addEventListener('focus', handleFocus);
         window.addEventListener('blur', handleBlur);
         window.addEventListener('keydown', handleKeydown);
@@ -124,7 +124,7 @@ function TeamController(props: Props) {
             window.removeEventListener('blur', handleBlur);
             window.removeEventListener('keydown', handleKeydown);
         };
-    }, []);
+    }, [props.selectedThreadId, props.graphQLEnabled, props.currentChannelId, props.currentTeamId, props.currentUser.id]);
 
     // Effect runs on mount, adds active state to window
     useEffect(() => {
