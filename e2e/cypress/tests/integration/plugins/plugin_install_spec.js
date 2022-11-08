@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // <reference path="../support/index.d.ts" />
 
 // ***************************************************************
@@ -15,7 +16,6 @@
  * under fixtures folder.
  */
 
-// Stage: @prod
 // Group: @system_console @plugin @not_cloud @timeout_error
 
 import * as TIMEOUTS from '../../fixtures/timeouts';

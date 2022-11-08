@@ -26,10 +26,12 @@ import {
     TaskNameMapToSteps,
     useHandleOnBoardingTaskData,
 } from 'components/onboarding_tasks';
-import {GlobalState} from 'types/store';
 import {ExploreOtherToolsTourSteps} from 'utils/constants';
+import {useCurrentProductId, useProducts, isChannels} from 'utils/products';
+import {GlobalState} from 'types/store';
+import {suitePluginIds} from 'utils/constants';
 
-import {useClickOutsideRef, useCurrentProductId, useProducts} from '../../hooks';
+import {useClickOutsideRef} from '../../hooks';
 
 import ProductBranding from './product_branding';
 import ProductMenuItem from './product_menu_item';
@@ -68,7 +70,7 @@ const ProductMenu = (): JSX.Element => {
     const dispatch = useDispatch();
     const switcherOpen = useSelector(isSwitcherOpen);
     const menuRef = useRef<HTMLDivElement>(null);
-    const currentProductID = useCurrentProductId(products);
+    const currentProductID = useCurrentProductId();
 
     const enableTutorial = useSelector(getConfig).EnableTutorial === 'true';
     const currentUserId = useSelector(getCurrentUserId);
@@ -95,7 +97,7 @@ const ProductMenu = (): JSX.Element => {
     };
 
     useClickOutsideRef(menuRef, () => {
-        if (exploreToolsTourTriggered) {
+        if (exploreToolsTourTriggered || !switcherOpen) {
             return;
         }
         dispatch(setProductMenuSwitcherOpen(false));
@@ -105,12 +107,12 @@ const ProductMenu = (): JSX.Element => {
         let tourTip;
 
         // focalboard
-        if (product.pluginId === 'focalboard' && showBoardsTour) {
+        if (product.pluginId === suitePluginIds.focalboard && showBoardsTour) {
             tourTip = (<BoardsTourTip singleTip={!playbooks}/>);
         }
 
         // playbooks
-        if (product.pluginId === 'playbooks' && showPlaybooksTour) {
+        if (product.pluginId === suitePluginIds.playbooks && showPlaybooksTour) {
             tourTip = (<PlaybooksTourTip singleTip={!boards}/>);
         }
 
@@ -149,12 +151,12 @@ const ProductMenu = (): JSX.Element => {
                         destination={'/'}
                         icon={'product-channels'}
                         text={'Channels'}
-                        active={currentProductID === null}
+                        active={isChannels(currentProductID)}
                         onClick={handleClick}
                     />
                     {productItems}
                     <ProductMenuList
-                        isMessaging={currentProductID === null}
+                        isMessaging={isChannels(currentProductID)}
                         onClick={handleClick}
                         handleVisitConsoleClick={handleVisitConsoleClick}
                     />

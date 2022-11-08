@@ -1,18 +1,11 @@
 .team-sidebar {
-    position: fixed;
     z-index: 17;
-    bottom: 0;
-    left: 0;
     display: flex;
     width: 65px;
     height: 100%;
     flex-direction: column;
     background: var(--sidebar-teambar-bg);
     text-align: center;
-
-    body.announcement-bar--fixed & {
-        height: calc(100% - #{$announcement-bar-height});
-    }
 
     .fa {
         color: var(--sidebar-header-text-color);
@@ -143,20 +136,6 @@
     }
 }
 
-.multi-teams {
-    .sidebar--left {
-        left: 65px;
-    }
-
-    .app__content {
-        margin-left: 285px;
-    }
-
-    .product-wrapper {
-        width: calc(100% - 65px);
-    }
-}
-
 @media screen and (min-width: 769px) {
     // global header style adjustments
     .team-sidebar {
@@ -166,22 +145,6 @@
         --sidebar-teambar-bg-rgb: var(--sidebar-header-bg-rgb);
         --sidebar-header-text-color-rgb: var(--sidebar-text-rgb);
 
-        // adjust height of team sidebar
-        height: calc(100% - 40px);
         border-right: solid 1px rgba(var(--center-channel-color-rgb), 0.08);
-
-        body.announcement-bar--fixed & {
-            height: calc(100% - #{$announcement-bar-height} - 40px);
-        }
-    }
-}
-
-.product-wrapper {
-    width: 100%;
-    height: calc(100% - 40px);
-    margin-left: auto;
-
-    &.wide {
-        width: 100%;
     }
 }

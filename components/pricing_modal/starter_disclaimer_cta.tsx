@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -33,7 +34,7 @@ function StarterDisclaimerCTA() {
     const dispatch = useDispatch();
     const [limits] = useGetLimits();
     const products = useSelector(getCloudProducts);
-    const starterProductName = Object.values(products || {})?.find((product: Product) => product?.sku === CloudProducts.STARTER)?.name || 'Cloud Starter';
+    const starterProductName = Object.values(products || {})?.find((product: Product) => product?.sku === CloudProducts.STARTER)?.name || 'Cloud Free';
 
     if (!hasSomeLimits(limits)) {
         return null;
@@ -53,7 +54,7 @@ function StarterDisclaimerCTA() {
                     },
                 },
                 description: {
-                    id: t('workspace_limits.modals.informational.description.starterLimits'),
+                    id: t('workspace_limits.modals.informational.description.freeLimits'),
                     defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
                     values: {
                         planName: starterProductName,
@@ -100,8 +101,9 @@ function StarterDisclaimerCTA() {
             onClick={openLimitsMiniModal}
         >
             <i className='icon-alert-outline'/>
-            {intl.formatMessage({id: 'pricing_modal.planDisclaimer.starter', defaultMessage: 'This plan has data restrictions.'})}
-        </Disclaimer>);
+            {intl.formatMessage({id: 'pricing_modal.planDisclaimer.free', defaultMessage: 'This plan has data restrictions.'})}
+        </Disclaimer>
+    );
 }
 
 export default StarterDisclaimerCTA;

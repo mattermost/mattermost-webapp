@@ -57,7 +57,7 @@ export default function LHSNearingLimitsModal() {
     };
 
     let description: Message = {
-        id: t('workspace_limits.modals.informational.description.starterLimits'),
+        id: t('workspace_limits.modals.informational.description.freeLimits'),
         defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
         values: {
             planName: product?.name,

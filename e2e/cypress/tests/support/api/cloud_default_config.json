@@ -251,6 +251,9 @@
             },
             "com.mattermost.plugin-incident-management": {
                 "Enable": false
+            },
+            "focalboard": {
+                "Enable": false
             }
         }
     },

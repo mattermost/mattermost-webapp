@@ -11,7 +11,7 @@ import {AdminConfig} from '@mattermost/types/config';
 
 import {BaseProps} from 'components/admin_console/admin_settings';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {Constants} from 'utils/constants';
 
 import FormError from 'components/form_error';
@@ -70,7 +70,7 @@ export default class OpenIdConvert extends React.PureComponent<Props, State> {
         if (err) {
             this.setState({serverError: err.message});
         } else {
-            browserHistory.push('/admin_console/authentication/openid');
+            getHistory().push('/admin_console/authentication/openid');
         }
     }
 
