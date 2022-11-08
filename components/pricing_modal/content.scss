@@ -10,7 +10,7 @@
     }
 }
 
-.flexcontainer {
+.pricing-options-container {
     display: flex;
     align-items: center;
     min-height: 120px;
@@ -18,20 +18,17 @@
     .alert-option-container {
         flex: 1;
     }
-
-    .save-text-div {
+    
+    .save-text {
         flex: 1;
-
-        .save-text {
-            margin: 0;
-            margin-right: 12px;
-            color: var(--denim-status-online);
-            font-family: 'Metropolis';
-            font-size: 14px;
-            font-style: normal;
-            font-weight: 600;
-            line-height: 18px;
-            text-align: right;
-        }
+        margin: 0;
+        margin-right: 12px;
+        color: var(--denim-status-online);
+        font-family: 'Metropolis';
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 18px;
+        text-align: right;
     }
 }
