@@ -20,9 +20,7 @@ import * as Utils from 'utils/utils';
 
 import './company_info_edit.scss';
 
-type Props = {
-
-};
+type Props = Record<string, never>;
 
 const CompanyInfoEdit: React.FC<Props> = () => {
     const dispatch = useDispatch();

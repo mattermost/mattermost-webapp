@@ -134,7 +134,8 @@ function FileLimitStickyBanner() {
                                         openPricingModal({trackingLocation: 'file_limit_sticky_banner'});
                                     }
                                 }
-                            >{chunks}</a>);
+                            >{chunks}</a>
+                        );
                     },
                 })
             }

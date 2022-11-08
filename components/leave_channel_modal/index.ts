@@ -8,7 +8,7 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 
 import {leaveChannel} from 'actions/views/channel';
 
-import LeavePrivateChannelModal from './leave_private_channel_modal';
+import LeaveChannelModal from './leave_channel_modal';
 
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
@@ -18,4 +18,4 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     };
 }
 
-export default connect(null, mapDispatchToProps)(LeavePrivateChannelModal);
+export default connect(null, mapDispatchToProps)(LeaveChannelModal);
