@@ -64,17 +64,17 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         }
 
         return {
-            displayName: hook?.display_name || '',
-            description: hook?.description || '',
-            contentType: hook?.content_type || 'application/x-www-form-urlencoded',
-            channelId: hook?.channel_id || '',
+            displayName: hook?.display_name ?? '',
+            description: hook?.description ?? '',
+            contentType: hook?.content_type ?? 'application/x-www-form-urlencoded',
+            channelId: hook?.channel_id ?? '',
             triggerWords,
-            triggerWhen: hook?.trigger_when || 0,
+            triggerWhen: hook?.trigger_when ?? 0,
             callbackUrls,
             saving: false,
             clientError: null,
-            username: hook?.username || '',
-            iconURL: hook?.icon_url || '',
+            username: hook?.username ?? '',
+            iconURL: hook?.icon_url ?? '',
         };
     }
 
@@ -155,7 +155,6 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
             update_at: 0,
             delete_at: 0,
             creator_id: '',
-
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
