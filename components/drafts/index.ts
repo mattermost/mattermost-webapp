@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUser, getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {draftsAreEnabled, getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {GlobalState} from 'types/store';
@@ -24,6 +24,7 @@ function makeMapStateToProps() {
             drafts: getDrafts(state),
             status,
             user,
+            draftsAreEnabled: draftsAreEnabled(state),
         };
     };
 }

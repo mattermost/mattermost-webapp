@@ -3,6 +3,7 @@
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {draftsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {Client4} from 'mattermost-redux/client';
 
 import {setGlobalItem} from 'actions/storage';
@@ -16,10 +17,14 @@ import type {UserProfile} from '@mattermost/types/users';
 
 export function removeDraft(key: string, channelId: string, rootId = '') {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        dispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
-        const connectionId = getConnectionId(getState() as GlobalState);
-        await Client4.deleteDraft(channelId, rootId, connectionId);
+        const state = getState() as GlobalState;
 
+        dispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
+
+        if (draftsAreEnabled(state)) {
+            const connectionId = getConnectionId(getState() as GlobalState);
+            await Client4.deleteDraft(channelId, rootId, connectionId);
+        }
         return {data: true};
     };
 }
@@ -38,9 +43,9 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
                 remote: false,
             };
 
-            const connectionId = getConnectionId(state);
-            const userId = getCurrentUserId(state);
-            if (save) {
+            if (draftsAreEnabled(state) && save) {
+                const connectionId = getConnectionId(state);
+                const userId = getCurrentUserId(state);
                 await upsertDraft(updatedValue, userId, rootId, connectionId);
             }
         }
@@ -78,8 +83,10 @@ export function removeFilePreview(key: string, id: string) {
 
             dispatch(setGlobalItem(key, updatedDraft));
 
-            const userId = getCurrentUserId(state);
-            await upsertDraft(updatedDraft, userId, rootId, connectionId);
+            if (draftsAreEnabled(state)) {
+                const userId = getCurrentUserId(state);
+                await upsertDraft(updatedDraft, userId, rootId, connectionId);
+            }
         }
     };
 }

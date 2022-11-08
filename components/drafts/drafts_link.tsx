@@ -8,7 +8,9 @@ import {useIntl} from 'react-intl';
 
 import {getDrafts} from 'mattermost-redux/actions/drafts';
 
+import {draftsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+
 import {makeGetDraftsCount} from 'selectors/drafts';
 
 import ChannelMentionBadge from 'components/sidebar/sidebar_channel/channel_mention_badge';
@@ -19,6 +21,7 @@ const getDraftsCount = makeGetDraftsCount();
 
 function DraftsLink() {
     const dispatch = useDispatch();
+    const draftsEnabled = useSelector(draftsAreEnabled);
     const {formatMessage} = useIntl();
     const {url} = useRouteMatch();
     const match = useRouteMatch('/:team/drafts');
@@ -26,10 +29,12 @@ function DraftsLink() {
     const teamId = useSelector(getCurrentTeamId);
 
     useEffect(() => {
-        dispatch(getDrafts(teamId));
-    }, [teamId]);
+        if (draftsEnabled) {
+            dispatch(getDrafts(teamId));
+        }
+    }, [teamId, draftsEnabled, dispatch]);
 
-    if (!count && !match) {
+    if (!draftsEnabled || (!count && !match)) {
         return null;
     }
 

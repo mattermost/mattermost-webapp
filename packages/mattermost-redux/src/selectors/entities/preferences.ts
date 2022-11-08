@@ -266,3 +266,8 @@ export function isGraphQLEnabled(state: GlobalState): boolean {
 export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): boolean {
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
+
+export function draftsAreEnabled(state: GlobalState): boolean {
+    const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
+    return isFeatureEnabled;
+}
