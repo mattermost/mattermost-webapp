@@ -28,7 +28,7 @@ function ModalHeader({id, title, subtitle, handleClose}: Props) {
                 className='mm-modal-header__ctr'
                 onClick={handleClose}
             >
-                <button className='style--none'>
+                <button className='style--none mm-modal-header__close-btn'>
                     <CloseIcon
                         size={24}
                         color={'currentcolor'}

@@ -7,7 +7,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
   autoFocus={true}
   backdrop={true}
   bsClass="modal"
-  dialogClassName="a11y__modal settings-modal channel-notifications-settings-modal"
+  dialogClassName="a11y__modal channel-notifications-settings-modal"
   dialogComponentClass={[Function]}
   enforceFocus={true}
   keyboard={true}
@@ -290,6 +290,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
   >
     <button
       className="channel-notifications-settings-modal__cancel-btn"
+      onClick={[Function]}
     >
       <MemoizedFormattedMessage
         defaultMessage="Cancel"

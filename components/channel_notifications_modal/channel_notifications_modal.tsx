@@ -189,7 +189,7 @@ export default function ChannelNotificationsModal(props: Props) {
 
     return (
         <Modal
-            dialogClassName='a11y__modal settings-modal channel-notifications-settings-modal'
+            dialogClassName='a11y__modal channel-notifications-settings-modal'
             show={show}
             onHide={handleHide}
             onExited={handleExit}
