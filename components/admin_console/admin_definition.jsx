@@ -4807,7 +4807,6 @@ const AdminDefinition = {
                         defaultMessage='deprecated'
                     />
                 ),
-                shouldDisplay: () => true,
             },
             isHidden: it.any(
                 it.not(usesLegacyOauth),
