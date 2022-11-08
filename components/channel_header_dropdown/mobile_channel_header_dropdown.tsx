@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
+
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
 
 import StatusIcon from 'components/status_icon';
 
@@ -14,18 +16,19 @@ import {ChannelHeaderDropdownItems} from 'components/channel_header_dropdown';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 
-import MobileChannelHeaderDropdownAnimation from './mobile_channel_header_dropdown_animation.jsx';
+import MobileChannelHeaderDropdownAnimation from './mobile_channel_header_dropdown_animation';
 
-export default class MobileChannelHeaderDropdown extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        channel: PropTypes.object.isRequired,
-        teammateId: PropTypes.string,
-        teammateIsBot: PropTypes.bool,
-        teammateStatus: PropTypes.string,
-        displayName: PropTypes.string.isRequired,
-    }
+type Props = {
+    user: UserProfile;
+    channel: Channel;
+    teammateId: string | null;
+    teammateIsBot?: boolean;
+    teammateStatus?: string;
+    displayName: string;
+    intl: IntlShape;
+}
 
+class MobileChannelHeaderDropdown extends React.PureComponent<Props> {
     getChannelTitle = () => {
         const {user, channel, teammateId, displayName} = this.props;
 
@@ -61,33 +64,22 @@ export default class MobileChannelHeaderDropdown extends React.PureComponent {
                         {dmHeaderIconStatus}
                         {this.getChannelTitle()}
                     </span>
-                    <FormattedMessage
-                        id='generic_icons.dropdown'
-                        defaultMessage='Dropdown Icon'
-                    >
-                        {(title) => (
-                            <span
-                                className='fa fa-angle-down header-dropdown__icon'
-                                title={title}
-                            />
-                        )}
-                    </FormattedMessage>
+                    <span
+                        className='fa fa-angle-down header-dropdown__icon'
+                        title={this.props.intl.formatMessage({id: 'generic_icons.dropdown', defaultMessage: 'Dropdown Icon'})}
+                    />
                 </a>
 
-                <FormattedMessage
-                    id='channel_header.menuAriaLabel'
-                    defaultMessage='Channel Menu'
-                >
-                    {(ariaLabel) => (
-                        <Menu ariaLabel={ariaLabel}>
-                            <ChannelHeaderDropdownItems isMobile={true}/>
-                            <div className='Menu__close visible-xs-block'>
-                                {'×'}
-                            </div>
-                        </Menu>
-                    )}
-                </FormattedMessage>
+                <Menu ariaLabel={this.props.intl.formatMessage({id: 'channel_header.menuAriaLabel', defaultMessage: 'Channel Menu'})}>
+                    <ChannelHeaderDropdownItems isMobile={true}/>
+                    <div className='Menu__close visible-xs-block'>
+                        {'×'}
+                    </div>
+                </Menu>
             </MenuWrapper>
         );
     }
 }
+
+export default injectIntl(MobileChannelHeaderDropdown);
+
