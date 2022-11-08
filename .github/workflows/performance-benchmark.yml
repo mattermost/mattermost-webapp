@@ -1,0 +1,46 @@
+name: Performance
+on: [push]
+jobs:
+  cypress-run:
+    runs-on: ubuntu-20.04
+    # let's make sure our tests pass on Chrome browser
+    name: Run Cypress benchmarks
+    steps:
+      - name: Check out web app
+        uses: actions/checkout@v2
+        with:
+          path: mattermost-webapp
+      - name: Install web app dependencies
+        run: |
+          cd mattermost-webapp
+          make node_modules
+
+      - name: Check out server
+        uses: actions/checkout@v2
+        with:
+          path: mattermost-server
+          repository: mattermost/mattermost-server
+      - name: Check out matching server branch, if available
+        run: |
+          cd mattermost-server
+          git checkout ${{ github.ref }} || true
+          echo Using server version `git rev-parse HEAD`
+      - uses: actions/setup-go@v3
+        with:
+          go-version: ^1.19.2
+
+      - run: |
+          pwd
+          ls .
+          ls mattermost-webapp
+
+      - uses: cypress-io/github-action@v4
+        with:
+          browser: chrome
+          spec: ./tests/integration/channel_sidebar/category_muting_spec.ts
+          start: |
+            npm run setup-benchmark:client
+            npm run setup-benchmark:server
+          wait-on: http://localhost:8065
+          wait-on-timeout: 450
+          working-directory: mattermost-webapp/e2e/cypress
