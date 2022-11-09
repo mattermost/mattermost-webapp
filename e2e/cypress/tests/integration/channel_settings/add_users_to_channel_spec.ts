@@ -11,11 +11,11 @@
 // Group: @channel @channel_settings @smoke
 
 describe('Channel Settings', () => {
-    let testTeam;
-    let firstUser;
-    let addedUsersChannel;
-    let username;
-    const usernames = [];
+    let testTeam: Cypress.Team;
+    let firstUser: Cypress.UserProfile;
+    let addedUsersChannel: Cypress.Channel;
+    let username: string;
+    const usernames: string[] = [];
 
     before(() => {
         cy.apiInitSetup().then(({team, user}) => {
@@ -87,14 +87,14 @@ describe('Channel Settings', () => {
         // # First add one user in order to see them disappearing from the list
         cy.get('#multiSelectList > div').first().then((el) => {
             const childNodes = Array.from(el[0].childNodes);
-            childNodes.map((child) => usernames.push(child.innerText));
+            childNodes.map((child: HTMLElement) => usernames.push(child.innerText));
 
             // # Get username from text for comparison
             username = usernames.toString().match(/\w+/g)[0];
             cy.get('#multiSelectList').should('contain', username);
 
             // # Verify status wrapper is present within the modal list
-            cy.get(el).children(0).should('have.class', 'status-wrapper');
+            cy.get(el as unknown as string).children().first().should('have.class', 'status-wrapper');
 
             // # Click to add the first user
             cy.wrap(el).click();
@@ -150,7 +150,7 @@ describe('Channel Settings', () => {
     });
 });
 
-function verifyMentionedUserAndProfilePopover(postId) {
+function verifyMentionedUserAndProfilePopover(postId: string) {
     cy.get(`#post_${postId}`).find('.mention-link').each(($el) => {
         // # Get username from each mentioned link
         const userName = $el[0].innerHTML;

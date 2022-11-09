@@ -9,14 +9,15 @@
 
 // Stage: @prod
 // Group: @channel_settings
+// node run_tests.js --group='@channel_settings'
 
 import {getRandomId} from '../../utils';
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Channel Settings', () => {
-    let testTeam;
-    let user1;
-    let admin;
+    let testTeam: Cypress.Team;
+    let user1: Cypress.UserProfile;
+    let admin: Cypress.UserProfile;
 
     before(() => {
         cy.apiGetMe().then(({user: adminUser}) => {

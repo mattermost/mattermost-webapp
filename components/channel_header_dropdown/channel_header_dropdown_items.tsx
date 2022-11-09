@@ -2,7 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import {Permissions} from 'mattermost-redux/constants';
 
@@ -29,6 +28,11 @@ import ChannelPermissionGate from 'components/permissions_gates/channel_permissi
 
 import Menu from 'components/widgets/menu/menu';
 
+import {PluginComponent} from 'types/store/plugins';
+
+import {UserProfile} from '@mattermost/types/users';
+import {Channel} from '@mattermost/types/channels';
+
 import MenuItemLeaveChannel from './menu_items/leave_channel';
 import MenuItemCloseChannel from './menu_items/close_channel';
 import MenuItemCloseMessage from './menu_items/close_message';
@@ -38,21 +42,21 @@ import MenuItemViewPinnedPosts from './menu_items/view_pinned_posts';
 import MenuItemToggleInfo from './menu_items/toggle_info';
 import MenuItemOpenMembersRHS from './menu_items/open_members_rhs';
 
-export default class ChannelHeaderDropdown extends React.PureComponent {
-    static propTypes = {
-        user: PropTypes.object.isRequired,
-        channel: PropTypes.object.isRequired,
-        isDefault: PropTypes.bool.isRequired,
-        isFavorite: PropTypes.bool.isRequired,
-        isReadonly: PropTypes.bool.isRequired,
-        isMuted: PropTypes.bool.isRequired,
-        isArchived: PropTypes.bool.isRequired,
-        isMobile: PropTypes.bool.isRequired,
-        penultimateViewedChannelName: PropTypes.string.isRequired,
-        pluginMenuItems: PropTypes.arrayOf(PropTypes.object),
-        isLicensedForLDAPGroups: PropTypes.bool,
-    }
+export type Props = {
+    user: UserProfile;
+    channel: Channel;
+    isDefault: boolean;
+    isFavorite: boolean;
+    isReadonly: boolean;
+    isMuted: boolean;
+    isArchived: boolean;
+    isMobile: boolean;
+    penultimateViewedChannelName: string;
+    pluginMenuItems: PluginComponent[];
+    isLicensedForLDAPGroups: boolean;
+}
 
+export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
     render() {
         const {
             user,
@@ -111,13 +115,11 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                 />
                 <Menu.Group divider={divider}>
                     <MenuItemToggleFavoriteChannel
-                        id='channelToggleFavorite'
                         show={isMobile}
                         channel={channel}
                         isFavorite={isFavorite}
                     />
                     <MenuItemViewPinnedPosts
-                        id='channelViewPinnedPosts'
                         show={isMobile}
                         channel={channel}
                     />
@@ -137,7 +139,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         user={user}
                         channel={channel}
                         isMuted={isMuted}
-                        isArchived={isArchived}
                     />
                 </Menu.Group>
 
@@ -304,7 +305,6 @@ export default class ChannelHeaderDropdown extends React.PureComponent {
                         currentUser={user}
                     />
                     <MenuItemCloseChannel
-                        id='channelCloseChannel'
                         isArchived={isArchived}
                     />
                 </Menu.Group>
