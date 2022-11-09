@@ -151,7 +151,7 @@ const StyledUseCaseMenuItem = styled(UseCase)`
             font-size: 11px;
             line-height: 16px;
             letter-spacing: 0.02em;
-            color: rgba(var(--center-channel-color), 0.72);
+            color: rgba(var(--center-channel-text-rgb), 0.72);
             transition: visibility 0.4s ease-in-out, opacity 0.4s ease-in-out;
         }
     }
