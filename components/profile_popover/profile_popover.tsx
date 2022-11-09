@@ -531,7 +531,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         onClick={this.handleEditAccountSettings}
                     >
                         <AccountOutlineIcon
-                            size={12}
+                            size={16}
                             aria-label={{
                                 id: t('generic_icons.edit'),
                                 defaultMessage: 'Edit Icon',
@@ -656,7 +656,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         onClick={this.handleShowDirectChannel}
                     >
                         <SendIcon
-                            size={12}
+                            size={16}
                             aria-label={formatMessage({
                                 id: t('user_profile.send.dm.icon'),
                                 defaultMessage: 'Send Message Icon',

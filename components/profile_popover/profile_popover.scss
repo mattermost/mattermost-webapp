@@ -86,10 +86,13 @@
                 background-color: var(--button-bg);
                 border-radius: 4px;
                 color: var(--button-color);
-                font-size: 12px;
-                font-weight: 600;
                 gap: 6px;
-                line-height: 10px;
+
+                span {
+                    font-size: 12px;
+                    font-weight: 600;
+                    line-height: 10px;
+                }
             }
 
             .icon-btn {
