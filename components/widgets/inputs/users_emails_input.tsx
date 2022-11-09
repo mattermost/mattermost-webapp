@@ -272,7 +272,8 @@ export default class UsersEmailsInput extends React.PureComponent<Props, State> 
     optionsLoader = (_input: string, callback: (options: UserProfile[]) => void) => {
         const customCallback = (options: UserProfile[]) => {
             this.setState({options});
-            callback(options);
+            const accessibleProfiles = options.map((user: UserProfile) => ({...user, label: user.username}));
+            callback(accessibleProfiles);
             if (this.props.onUsersLoad) {
                 this.props.onUsersLoad(options);
             }
