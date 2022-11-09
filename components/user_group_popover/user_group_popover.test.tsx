@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {Provider} from 'react-redux';
 import {act} from '@testing-library/react';
@@ -124,23 +125,7 @@ describe('component/user_group_popover', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should not show edit button', async () => {
-        const store = await mockStore(initialState);
-        const wrapper = mountWithIntl(
-            <Provider store={store}>
-                <BrowserRouter>
-                    <UserGroupPopover
-                        {...baseProps}
-                        canManageGroup={false}
-                    />
-                </BrowserRouter>
-            </Provider>,
-        );
-        await actImmediate(wrapper);
-        expect(wrapper.find('.user-group-popover_edit-button').exists()).toBe(false);
-    });
-
-    test('should show edit button and open modal', async () => {
+    test('should open modal', async () => {
         const store = await mockStore(initialState);
         const wrapper = mountWithIntl(
             <Provider store={store}>
@@ -153,8 +138,8 @@ describe('component/user_group_popover', () => {
         );
         await actImmediate(wrapper);
 
-        expect(wrapper.find('button.user-group-popover_edit-button').exists()).toBe(true);
-        wrapper.find('button.user-group-popover_edit-button').simulate('click');
+        expect(wrapper.find('button.user-group-popover_header-button').exists()).toBe(true);
+        wrapper.find('button.user-group-popover_header-button').simulate('click');
         expect(baseProps.actions.openModal).toBeCalled();
         expect(baseProps.hide).toBeCalled();
     });

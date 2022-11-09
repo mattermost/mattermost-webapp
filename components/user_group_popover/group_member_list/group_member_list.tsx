@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useEffect, useState, useRef} from 'react';
 import styled, {css} from 'styled-components';
 import AutoSizer from 'react-virtualized-auto-sizer';
@@ -23,7 +24,9 @@ import SimpleTooltip from 'components/widgets/simple_tooltip';
 import NoResultsIndicator from 'components/no_results_indicator';
 import {NoResultsVariant} from 'components/no_results_indicator/types';
 
-const USERS_PER_PAGE = 60;
+import {Load} from '../user_group_popover';
+
+const USERS_PER_PAGE = 10;
 
 // These constants must be changed if user list style is modified
 export const VIEWPORT_SCALE_FACTOR = 0.4;
@@ -56,7 +59,7 @@ export type Props = {
     /**
      * State of current search
      */
-    isSearchLoading: boolean;
+    searchState: Load;
 
     /**
      * @internal
@@ -82,7 +85,7 @@ const GroupMemberList = (props: Props) => {
         hide,
         teamUrl,
         searchTerm,
-        isSearchLoading,
+        searchState,
         showUserOverlay,
     } = props;
 
@@ -91,8 +94,8 @@ const GroupMemberList = (props: Props) => {
     const {formatMessage} = useIntl();
 
     const [nextPage, setNextPage] = useState(Math.floor(users.length / USERS_PER_PAGE));
-    const [isNextPageLoading, setIsNextPageLoading] = useState(false);
-    const [isDMLoading, setIsDMLoading] = useState<string | undefined>(undefined);
+    const [nextPageLoadState, setNextPageLoadState] = useState(Load.DONE);
+    const [currentDMLoading, setCurrentDMLoading] = useState<string | undefined>(undefined);
 
     const infiniteLoaderRef = useRef<InfiniteLoader | null>(null);
     const variableSizeListRef = useRef<VariableSizeList | null>(null);
@@ -111,23 +114,25 @@ const GroupMemberList = (props: Props) => {
     }, [users.length, hasMounted]);
 
     const loadNextPage = async () => {
-        setIsNextPageLoading(true);
+        setNextPageLoadState(Load.LOADING);
         const res = await actions.getUsersInGroup(group.id, nextPage, USERS_PER_PAGE);
         if (res.data) {
             setNextPage(nextPage + 1);
+            setNextPageLoadState(Load.DONE);
+        } else {
+            setNextPageLoadState(Load.FAILED);
         }
-        setIsNextPageLoading(false);
     };
 
     const showDirectChannel = (user: UserProfile) => {
-        if (isDMLoading !== undefined) {
+        if (currentDMLoading !== undefined) {
             return;
         }
-        setIsDMLoading(user.id);
+        setCurrentDMLoading(user.id);
         actions.openDirectChannelToUserId(user.id).then((result: { error: ServerError }) => {
             if (!result.error) {
                 actions.closeRightHandSide();
-                setIsDMLoading(undefined);
+                setCurrentDMLoading(undefined);
                 hide?.();
                 history.push(`${teamUrl}/messages/@${user.username}`);
             }
@@ -138,7 +143,7 @@ const GroupMemberList = (props: Props) => {
     const hasNextPage = !isSearching && users.length < group.member_count;
     const itemCount = !isSearching && hasNextPage ? users.length + 1 : users.length;
 
-    const loadMoreItems = isSearching || isNextPageLoading ? () => {} : loadNextPage;
+    const loadMoreItems = isSearching || nextPageLoadState === Load.LOADING ? () => {} : loadNextPage;
 
     const maxListHeight = Math.min(MAX_LIST_HEIGHT, Math.max(MIN_LIST_HEIGHT, Utils.getViewportSize().h * VIEWPORT_SCALE_FACTOR));
 
@@ -195,18 +200,28 @@ const GroupMemberList = (props: Props) => {
         }
 
         return (
-            <LoadingItem style={style}>
+            <LoadingItem
+                style={style}
+                first={index === 0}
+                last={index === users.length}
+            >
                 <LoadingSpinner/>
             </LoadingItem>
         );
     };
 
     const renderContent = () => {
-        if (isSearchLoading) {
+        if (searchState === Load.LOADING) {
             return (
                 <LargeLoadingItem>
                     <LoadingSpinner/>
                 </LargeLoadingItem>
+            );
+        } else if (searchState === Load.FAILED) {
+            return (
+                <LoadFailedItem>
+                    <span>{Utils.localizeMessage('group_member_list.searchError', 'There was a problem getting results. Clear your search term and try again.')}</span>
+                </LoadFailedItem>
             );
         } else if (isSearching && users.length === 0) {
             return (
@@ -216,6 +231,20 @@ const GroupMemberList = (props: Props) => {
                         titleValues={{channelName: `"${searchTerm}"`}}
                     />
                 </NoResultsItem>
+            );
+        } else if (nextPageLoadState === Load.FAILED) {
+            return (
+                <LoadFailedItem>
+                    <span>
+                        {Utils.localizeMessage('group_member_list.loadError', 'Oops! Something went wrong while loading this group.')}
+                        {' '}
+                        <RetryButton
+                            onClick={loadMoreItems}
+                        >
+                            {Utils.localizeMessage('group_member_list.retryLoadButton', 'Retry')}
+                        </RetryButton>
+                    </span>
+                </LoadFailedItem>
             );
         }
         return (<AutoSizer>
@@ -232,7 +261,7 @@ const GroupMemberList = (props: Props) => {
                             itemCount={itemCount}
                             onItemsRendered={onItemsRendered}
                             ref={ref}
-                            itemSize={(index) => getItemHeight(index === 0 || index === group.member_count - 1)}
+                            itemSize={(index) => getItemHeight(index === 0 || index === group.member_count - 1 || index === users.length + 1)}
                             height={height}
                             width={width}
                         >
@@ -329,12 +358,20 @@ const DMButton = styled.button`
     }
 `;
 
-const LoadingItem = styled.div`
+const LoadingItem = styled.div<{first?: boolean; last?: boolean}>`
+    ${(props) => props.first && css `
+        padding-top: ${MARGIN}px;
+    `}
+
+    ${(props) => props.last && css `
+        padding-bottom: ${MARGIN}px;
+    `}
+
     display: flex;
     justify-content: center;
     align-items: center;
     height: ${ITEM_HEIGHT}px;
-    padding-bottom: 8px;
+    box-sizing: content-box;
 `;
 
 const LargeLoadingItem = styled.div`
@@ -345,10 +382,25 @@ const LargeLoadingItem = styled.div`
     width: 100%;
 `;
 
+const LoadFailedItem = styled(LargeLoadingItem)`
+    padding: 16px;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    text-align: center;
+    font-size: 12px;
+`;
+
 const NoResultsItem = styled.div`
     align-self: stretch;
     overflow-y: scroll;
     overflow-y: overlay;
+`;
+
+const RetryButton = styled.button`
+    background: none;
+    padding: 0;
+    border: none;
+    font-weight: 600;
+    color: var(--link-color);
 `;
 
 export default React.memo(GroupMemberList);

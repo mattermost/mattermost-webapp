@@ -156,151 +156,60 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                 className="popover-content"
               >
                 <Body
-                  role="complementary"
+                  role="dialog"
                 >
                   <div
-                    className="Body-jPAhUp cgMLCY"
-                    role="complementary"
+                    className="Body-jPXXyK jkivLB"
+                    role="dialog"
                   >
                     <Header>
                       <div
-                        className="Header-ichWIW gyHzoI"
+                        className="Header-ibKheB hIZrPW"
                       >
                         <Heading>
                           <div
-                            className="Heading-cZOfwh fOpSLq"
+                            className="Heading-dalVaC VzXTr"
                           >
                             <Title
                               className="overflow--ellipsis text-nowrap"
                             >
                               <span
-                                className="Title-gpUzhl dKDzZI overflow--ellipsis text-nowrap"
+                                className="Title-gqsoLG eUZcLS overflow--ellipsis text-nowrap"
                               >
                                 group_display_name
                               </span>
                             </Title>
-                            <SimpleTooltip
-                              content="Edit group"
-                              id="user-group-popover-group1"
+                            <CloseButton
+                              aria-label="Close"
+                              className="btn-icon"
+                              onClick={[MockFunction]}
                             >
-                              <OverlayTrigger
-                                defaultOverlayShown={false}
-                                delayShow={500}
-                                overlay={
-                                  <Tooltip
-                                    className="hidden-xs"
-                                    id="user-group-popover-group1"
-                                    placement="top"
-                                  >
-                                    Edit group
-                                  </Tooltip>
-                                }
-                                placement="top"
-                                trigger={
-                                  Array [
-                                    "hover",
-                                    "focus",
-                                  ]
-                                }
+                              <button
+                                aria-label="Close"
+                                className="CloseButton-lhxEdi iXKFqQ btn-icon"
+                                onClick={[MockFunction]}
                               >
-                                <OverlayTrigger
-                                  defaultOverlayShown={false}
-                                  delayShow={500}
-                                  overlay={
-                                    <OverlayWrapper
-                                      className="hidden-xs"
-                                      id="user-group-popover-group1"
-                                      intl={
-                                        Object {
-                                          "defaultFormats": Object {},
-                                          "defaultLocale": "en",
-                                          "defaultRichTextElements": undefined,
-                                          "formatDate": [Function],
-                                          "formatDateTimeRange": [Function],
-                                          "formatDateToParts": [Function],
-                                          "formatDisplayName": [Function],
-                                          "formatList": [Function],
-                                          "formatListToParts": [Function],
-                                          "formatMessage": [Function],
-                                          "formatNumber": [Function],
-                                          "formatNumberToParts": [Function],
-                                          "formatPlural": [Function],
-                                          "formatRelativeTime": [Function],
-                                          "formatTime": [Function],
-                                          "formatTimeToParts": [Function],
-                                          "formats": Object {},
-                                          "formatters": Object {
-                                            "getDateTimeFormat": [Function],
-                                            "getDisplayNames": [Function],
-                                            "getListFormat": [Function],
-                                            "getMessageFormat": [Function],
-                                            "getNumberFormat": [Function],
-                                            "getPluralRules": [Function],
-                                            "getRelativeTimeFormat": [Function],
-                                          },
-                                          "locale": "en",
-                                          "messages": Object {},
-                                          "onError": [Function],
-                                          "textComponent": "span",
-                                          "timeZone": "Etc/UTC",
-                                          "wrapRichTextChunksInFragment": undefined,
-                                        }
-                                      }
-                                      placement="top"
-                                    >
-                                      Edit group
-                                    </OverlayWrapper>
-                                  }
-                                  placement="top"
-                                  trigger={
-                                    Array [
-                                      "hover",
-                                      "focus",
-                                    ]
-                                  }
-                                >
-                                  <EditButton
-                                    aria-label="Edit Group"
-                                    className="user-group-popover_edit-button btn-icon"
-                                    onBlur={[Function]}
-                                    onClick={[Function]}
-                                    onFocus={[Function]}
-                                    onMouseOut={[Function]}
-                                    onMouseOver={[Function]}
+                                <CloseIcon>
+                                  <svg
+                                    fill="currentColor"
+                                    height={24}
+                                    version="1.1"
+                                    viewBox="0 0 24 24"
+                                    width={24}
+                                    xmlns="http://www.w3.org/2000/svg"
                                   >
-                                    <button
-                                      aria-label="Edit Group"
-                                      className="EditButton-kHoHNr gVKjPk user-group-popover_edit-button btn-icon"
-                                      onBlur={[Function]}
-                                      onClick={[Function]}
-                                      onFocus={[Function]}
-                                      onMouseOut={[Function]}
-                                      onMouseOver={[Function]}
-                                    >
-                                      <PencilOutlineIcon>
-                                        <svg
-                                          fill="currentColor"
-                                          height={24}
-                                          version="1.1"
-                                          viewBox="0 0 24 24"
-                                          width={24}
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M14.06,9L15,9.94L5.92,19H5V18.08L14.06,9M17.66,3C17.41,3 17.15,3.1 16.96,3.29L15.13,5.12L18.88,8.87L20.71,7.04C21.1,6.65 21.1,6 20.71,5.63L18.37,3.29C18.17,3.09 17.92,3 17.66,3M14.06,6.19L3,17.25V21H6.75L17.81,9.94L14.06,6.19Z"
-                                          />
-                                        </svg>
-                                      </PencilOutlineIcon>
-                                    </button>
-                                  </EditButton>
-                                </OverlayTrigger>
-                              </OverlayTrigger>
-                            </SimpleTooltip>
+                                    <path
+                                      d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
+                                    />
+                                  </svg>
+                                </CloseIcon>
+                              </button>
+                            </CloseButton>
                           </div>
                         </Heading>
                         <Subtitle>
                           <div
-                            className="Subtitle-nEVRx bLENzr"
+                            className="Subtitle-ocLvS yXVnq"
                           >
                             <span
                               className="overflow--ellipsis text-nowrap"
@@ -310,7 +219,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                             </span>
                             <Dot>
                               <span
-                                className="NoShrink-kvAhsR Dot-etuPYa flwket hfnhQU"
+                                className="NoShrink-kvXWXm Dot-etDJYJ wzpro jiooBj"
                               >
                                  • 
                               </span>
@@ -323,9 +232,9 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                   "$$typeof": Symbol(react.forward_ref),
                                   "attrs": Array [],
                                   "componentStyle": e {
-                                    "baseHash": 1214394282,
+                                    "baseHash": -1318562053,
                                     "baseStyle": undefined,
-                                    "componentId": "NoShrink-kvAhsR",
+                                    "componentId": "NoShrink-kvXWXm",
                                     "isStatic": false,
                                     "rules": Array [
                                       "flex:0 0 auto;",
@@ -336,7 +245,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                   "foldedComponentIds": Array [],
                                   "render": [Function],
                                   "shouldForwardProp": undefined,
-                                  "styledComponentId": "NoShrink-kvAhsR",
+                                  "styledComponentId": "NoShrink-kvXWXm",
                                   "target": "span",
                                   "toString": [Function],
                                   "warnTooManyClasses": [Function],
@@ -351,7 +260,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                             >
                               <NoShrink>
                                 <span
-                                  className="NoShrink-kvAhsR flwket"
+                                  className="NoShrink-kvXWXm wzpro"
                                 >
                                   15 Members
                                 </span>
@@ -359,71 +268,82 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                             </FormattedMessage>
                           </div>
                         </Subtitle>
-                        <SearchContainer>
-                          <div
-                            className="SearchContainer-cQpEfk fQgLpW"
-                          >
-                            <SearchBar
-                              className="user-group-popover_search-bar"
-                              inputPrefix={<MagnifyIcon />}
-                              onChange={[Function]}
-                              placeholder="Search members"
-                              type="text"
-                              useLegend={false}
-                              value=""
-                            >
-                              <ForwardRef
-                                className="SearchBar-cqBsIW fEZOzw user-group-popover_search-bar"
-                                inputPrefix={<MagnifyIcon />}
-                                onChange={[Function]}
-                                placeholder="Search members"
-                                type="text"
-                                useLegend={false}
-                                value=""
-                              >
-                                <div
-                                  className="Input_container"
-                                >
-                                  <fieldset
-                                    className="Input_fieldset SearchBar-cqBsIW fEZOzw user-group-popover_search-bar"
-                                  >
-                                    <div
-                                      className="Input_wrapper"
-                                    >
-                                      <MagnifyIcon>
-                                        <svg
-                                          fill="currentColor"
-                                          height={24}
-                                          version="1.1"
-                                          viewBox="0 0 24 24"
-                                          width={24}
-                                          xmlns="http://www.w3.org/2000/svg"
-                                        >
-                                          <path
-                                            d="M20.224,18.829l-3.775-3.775C17.418,13.791,18,12.215,18,10.5C18,6.358,14.642,3,10.5,3S3,6.358,3,10.5S6.358,18,10.5,18c1.708,0,3.278-0.578,4.539-1.539l3.775,3.749c0.39,0.388,1.02,0.388,1.41,0C20.592,19.823,20.592,19.216,20.224,18.829z M5,10.5
-	C5,7.462,7.462,5,10.5,5S16,7.462,16,10.5S13.538,16,10.5,16S5,13.538,5,10.5z"
-                                          />
-                                        </svg>
-                                      </MagnifyIcon>
-                                      <input
-                                        className="Input form-control medium"
-                                        id="input_"
-                                        onBlur={[Function]}
-                                        onChange={[Function]}
-                                        onFocus={[Function]}
-                                        placeholder="Search members"
-                                        type="text"
-                                        value=""
-                                      />
-                                    </div>
-                                  </fieldset>
-                                </div>
-                              </ForwardRef>
-                            </SearchBar>
-                          </div>
-                        </SearchContainer>
+                        <HeaderButton
+                          aria-label="View full group info"
+                          className="user-group-popover_header-button"
+                          onClick={[Function]}
+                        >
+                          <button
+                            aria-label="View full group info"
+                            className="HeaderButton-jHgPlb gMcbGQ user-group-popover_header-button"
+                            onClick={[Function]}
+                          />
+                        </HeaderButton>
                       </div>
                     </Header>
+                    <SearchContainer>
+                      <div
+                        className="SearchContainer-cRelmn ifVpbU"
+                      >
+                        <SearchBar
+                          className="user-group-popover_search-bar"
+                          inputPrefix={<MagnifyIcon />}
+                          onChange={[Function]}
+                          placeholder="Search members"
+                          type="text"
+                          useLegend={false}
+                          value=""
+                        >
+                          <ForwardRef
+                            className="SearchBar-cqKmJF itaKpa user-group-popover_search-bar"
+                            inputPrefix={<MagnifyIcon />}
+                            onChange={[Function]}
+                            placeholder="Search members"
+                            type="text"
+                            useLegend={false}
+                            value=""
+                          >
+                            <div
+                              className="Input_container"
+                            >
+                              <fieldset
+                                className="Input_fieldset SearchBar-cqKmJF itaKpa user-group-popover_search-bar"
+                              >
+                                <div
+                                  className="Input_wrapper"
+                                >
+                                  <MagnifyIcon>
+                                    <svg
+                                      fill="currentColor"
+                                      height={24}
+                                      version="1.1"
+                                      viewBox="0 0 24 24"
+                                      width={24}
+                                      xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                      <path
+                                        d="M20.224,18.829l-3.775-3.775C17.418,13.791,18,12.215,18,10.5C18,6.358,14.642,3,10.5,3S3,6.358,3,10.5S6.358,18,10.5,18c1.708,0,3.278-0.578,4.539-1.539l3.775,3.749c0.39,0.388,1.02,0.388,1.41,0C20.592,19.823,20.592,19.216,20.224,18.829z M5,10.5
+	C5,7.462,7.462,5,10.5,5S16,7.462,16,10.5S13.538,16,10.5,16S5,13.538,5,10.5z"
+                                      />
+                                    </svg>
+                                  </MagnifyIcon>
+                                  <input
+                                    className="Input form-control medium"
+                                    id="input_"
+                                    onBlur={[Function]}
+                                    onChange={[Function]}
+                                    onFocus={[Function]}
+                                    placeholder="Search members"
+                                    type="text"
+                                    value=""
+                                  />
+                                </div>
+                              </fieldset>
+                            </div>
+                          </ForwardRef>
+                        </SearchBar>
+                      </div>
+                    </SearchContainer>
                     <Connect(Component)
                       group={
                         Object {
@@ -443,7 +363,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                         }
                       }
                       hide={[MockFunction]}
-                      isSearchLoading={false}
+                      searchState={0}
                       showUserOverlay={[MockFunction]}
                     >
                       <Memo(GroupMemberList)
@@ -472,8 +392,8 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                           }
                         }
                         hide={[MockFunction]}
-                        isSearchLoading={false}
                         nameDisplaySetting="username"
+                        searchState={0}
                         searchTerm=""
                         showUserOverlay={[MockFunction]}
                         teamUrl="/team1"
@@ -1046,7 +966,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                           }
                         >
                           <div
-                            className="UserList-XOHHq jibMvm"
+                            className="UserList-XqScV gnsdGQ"
                             role="list"
                             style={
                               Object {
@@ -1127,7 +1047,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iDxtpL hPEDpU group-member-list_item"
+                                            className="UserListItem-iCIMiI eBglCA group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1144,7 +1064,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               onClick={[Function]}
                                             >
                                               <button
-                                                className="UserButton-cakUky dseUQB"
+                                                className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
                                                 <Memo(Avatar)
@@ -1159,14 +1079,14 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                     className="Avatar Avatar-sm avatar-post-preview"
                                                     onError={[Function]}
                                                     src="/api/v4/users/id0/image?_=0"
-                                                    tabIndex={0}
+                                                    tabIndex={-1}
                                                   />
                                                 </Memo(Avatar)>
                                                 <Username
                                                   className="overflow--ellipsis text-nowrap"
                                                 >
                                                   <span
-                                                    className="Username-hePYcP gMptXA overflow--ellipsis text-nowrap"
+                                                    className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                                   >
                                                     username0
                                                   </span>
@@ -1175,7 +1095,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                   className="group-member-list_gap"
                                                 >
                                                   <span
-                                                    className="Gap-qdUKH bGFEzN group-member-list_gap"
+                                                    className="Gap-pVXiI hWeVKL group-member-list_gap"
                                                   />
                                                 </Gap>
                                               </button>
@@ -1184,7 +1104,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-imECTf jwpGnP group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1277,7 +1197,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                       >
                                                         <button
                                                           aria-label="Send message to username0"
-                                                          className="DMButton-hIwmQW lctuta btn-icon"
+                                                          className="DMButton-hIFgRF ecgFEo btn-icon"
                                                           onBlur={[Function]}
                                                           onClick={[Function]}
                                                           onFocus={[Function]}
@@ -1340,7 +1260,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iDxtpL zUvpN group-member-list_item"
+                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1357,7 +1277,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               onClick={[Function]}
                                             >
                                               <button
-                                                className="UserButton-cakUky dseUQB"
+                                                className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
                                                 <Memo(Avatar)
@@ -1372,14 +1292,14 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                     className="Avatar Avatar-sm avatar-post-preview"
                                                     onError={[Function]}
                                                     src="/api/v4/users/id1/image?_=0"
-                                                    tabIndex={0}
+                                                    tabIndex={-1}
                                                   />
                                                 </Memo(Avatar)>
                                                 <Username
                                                   className="overflow--ellipsis text-nowrap"
                                                 >
                                                   <span
-                                                    className="Username-hePYcP gMptXA overflow--ellipsis text-nowrap"
+                                                    className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                                   >
                                                     username1
                                                   </span>
@@ -1388,7 +1308,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                   className="group-member-list_gap"
                                                 >
                                                   <span
-                                                    className="Gap-qdUKH bGFEzN group-member-list_gap"
+                                                    className="Gap-pVXiI hWeVKL group-member-list_gap"
                                                   />
                                                 </Gap>
                                               </button>
@@ -1397,7 +1317,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-imECTf jwpGnP group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1490,7 +1410,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                       >
                                                         <button
                                                           aria-label="Send message to username1"
-                                                          className="DMButton-hIwmQW lctuta btn-icon"
+                                                          className="DMButton-hIFgRF ecgFEo btn-icon"
                                                           onBlur={[Function]}
                                                           onClick={[Function]}
                                                           onFocus={[Function]}
@@ -1553,7 +1473,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iDxtpL zUvpN group-member-list_item"
+                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1570,7 +1490,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               onClick={[Function]}
                                             >
                                               <button
-                                                className="UserButton-cakUky dseUQB"
+                                                className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
                                                 <Memo(Avatar)
@@ -1585,14 +1505,14 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                     className="Avatar Avatar-sm avatar-post-preview"
                                                     onError={[Function]}
                                                     src="/api/v4/users/id10/image?_=0"
-                                                    tabIndex={0}
+                                                    tabIndex={-1}
                                                   />
                                                 </Memo(Avatar)>
                                                 <Username
                                                   className="overflow--ellipsis text-nowrap"
                                                 >
                                                   <span
-                                                    className="Username-hePYcP gMptXA overflow--ellipsis text-nowrap"
+                                                    className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                                   >
                                                     username10
                                                   </span>
@@ -1601,7 +1521,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                   className="group-member-list_gap"
                                                 >
                                                   <span
-                                                    className="Gap-qdUKH bGFEzN group-member-list_gap"
+                                                    className="Gap-pVXiI hWeVKL group-member-list_gap"
                                                   />
                                                 </Gap>
                                               </button>
@@ -1610,7 +1530,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-imECTf jwpGnP group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1703,7 +1623,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                       >
                                                         <button
                                                           aria-label="Send message to username10"
-                                                          className="DMButton-hIwmQW lctuta btn-icon"
+                                                          className="DMButton-hIFgRF ecgFEo btn-icon"
                                                           onBlur={[Function]}
                                                           onClick={[Function]}
                                                           onFocus={[Function]}
@@ -1766,7 +1686,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iDxtpL zUvpN group-member-list_item"
+                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1783,7 +1703,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               onClick={[Function]}
                                             >
                                               <button
-                                                className="UserButton-cakUky dseUQB"
+                                                className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
                                                 <Memo(Avatar)
@@ -1798,14 +1718,14 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                     className="Avatar Avatar-sm avatar-post-preview"
                                                     onError={[Function]}
                                                     src="/api/v4/users/id11/image?_=0"
-                                                    tabIndex={0}
+                                                    tabIndex={-1}
                                                   />
                                                 </Memo(Avatar)>
                                                 <Username
                                                   className="overflow--ellipsis text-nowrap"
                                                 >
                                                   <span
-                                                    className="Username-hePYcP gMptXA overflow--ellipsis text-nowrap"
+                                                    className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                                   >
                                                     username11
                                                   </span>
@@ -1814,7 +1734,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                   className="group-member-list_gap"
                                                 >
                                                   <span
-                                                    className="Gap-qdUKH bGFEzN group-member-list_gap"
+                                                    className="Gap-pVXiI hWeVKL group-member-list_gap"
                                                   />
                                                 </Gap>
                                               </button>
@@ -1823,7 +1743,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-imECTf jwpGnP group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -1916,7 +1836,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                       >
                                                         <button
                                                           aria-label="Send message to username11"
-                                                          className="DMButton-hIwmQW lctuta btn-icon"
+                                                          className="DMButton-hIFgRF ecgFEo btn-icon"
                                                           onBlur={[Function]}
                                                           onClick={[Function]}
                                                           onFocus={[Function]}
@@ -1979,7 +1899,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                           }
                                         >
                                           <div
-                                            className="UserListItem-iDxtpL zUvpN group-member-list_item"
+                                            className="UserListItem-iCIMiI dWNclx group-member-list_item"
                                             role="listitem"
                                             style={
                                               Object {
@@ -1996,7 +1916,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               onClick={[Function]}
                                             >
                                               <button
-                                                className="UserButton-cakUky dseUQB"
+                                                className="UserButton-bZNeGd lLsMM"
                                                 onClick={[Function]}
                                               >
                                                 <Memo(Avatar)
@@ -2011,14 +1931,14 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                     className="Avatar Avatar-sm avatar-post-preview"
                                                     onError={[Function]}
                                                     src="/api/v4/users/id12/image?_=0"
-                                                    tabIndex={0}
+                                                    tabIndex={-1}
                                                   />
                                                 </Memo(Avatar)>
                                                 <Username
                                                   className="overflow--ellipsis text-nowrap"
                                                 >
                                                   <span
-                                                    className="Username-hePYcP gMptXA overflow--ellipsis text-nowrap"
+                                                    className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                                   >
                                                     username12
                                                   </span>
@@ -2027,7 +1947,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                   className="group-member-list_gap"
                                                 >
                                                   <span
-                                                    className="Gap-qdUKH bGFEzN group-member-list_gap"
+                                                    className="Gap-pVXiI hWeVKL group-member-list_gap"
                                                   />
                                                 </Gap>
                                               </button>
@@ -2036,7 +1956,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                               className="group-member-list_dm-button"
                                             >
                                               <div
-                                                className="DMContainer-imECTf jwpGnP group-member-list_dm-button"
+                                                className="DMContainer-ilPVMc dULejF group-member-list_dm-button"
                                               >
                                                 <SimpleTooltip
                                                   content="Send message"
@@ -2129,7 +2049,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                                                       >
                                                         <button
                                                           aria-label="Send message to username12"
-                                                          className="DMButton-hIwmQW lctuta btn-icon"
+                                                          className="DMButton-hIFgRF ecgFEo btn-icon"
                                                           onBlur={[Function]}
                                                           onClick={[Function]}
                                                           onFocus={[Function]}

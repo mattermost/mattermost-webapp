@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {Provider} from 'react-redux';
 import {act} from '@testing-library/react';
@@ -13,6 +14,8 @@ import mockStore from 'tests/test_store';
 import {TestHelper} from 'utils/test_helper';
 
 import {General} from 'mattermost-redux/constants';
+
+import {Load} from '../user_group_popover';
 
 import GroupMemberList from './group_member_list';
 
@@ -60,7 +63,7 @@ describe('component/user_group_popover/group_member_list', () => {
         canManageGroup: true,
         showUserOverlay: jest.fn(),
         hide: jest.fn(),
-        isSearchLoading: false,
+        searchState: Load.DONE,
         users,
         nameDisplaySetting: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
         teamUrl: 'team',
@@ -83,7 +86,6 @@ describe('component/user_group_popover/group_member_list', () => {
             </Provider>,
         );
         await actImmediate(wrapper);
-        console.log(wrapper.debug());
 
         expect(wrapper).toMatchSnapshot();
     });
@@ -103,8 +105,6 @@ describe('component/user_group_popover/group_member_list', () => {
 
         wrapper.find('.group-member-list_dm-button').first().simulate('click');
         expect(baseProps.actions.openDirectChannelToUserId).toBeCalledTimes(0);
-
-        console.log(wrapper.debug());
     });
 
     test('should show user overlay and hide', async () => {

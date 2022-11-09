@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useEffect, useCallback, useState} from 'react';
 import styled from 'styled-components';
 import {FormattedMessage} from 'react-intl';
 import {debounce} from 'lodash';
 
-import {PencilOutlineIcon, MagnifyIcon} from '@mattermost/compass-icons/components';
+import {CloseIcon, MagnifyIcon} from '@mattermost/compass-icons/components';
 
 import {ModalData} from 'types/actions';
 import {UserProfile} from '@mattermost/types/users';
@@ -19,10 +20,15 @@ import Input from 'components/widgets/inputs/input/input';
 import Popover from 'components/widgets/popover';
 import ViewUserGroupModal from 'components/view_user_group_modal';
 import UserGroupsModal from 'components/user_groups_modal';
-import SimpleTooltip from 'components/widgets/simple_tooltip';
 import GroupMemberList from 'components/user_group_popover/group_member_list';
 
 import './user_group_popover.scss';
+
+export enum Load {
+    DONE,
+    LOADING,
+    FAILED,
+}
 
 export type Props = {
 
@@ -45,7 +51,6 @@ export type Props = {
      * @internal
      */
     searchTerm: string;
-    canManageGroup: boolean;
 
     actions: {
         setPopoverSearchTerm: (term: string) => void;
@@ -58,17 +63,20 @@ const UserGroupPopover = (props: Props) => {
     const {
         group,
         actions,
-        canManageGroup,
         hide,
         searchTerm,
         showUserOverlay,
     } = props;
 
-    const [isSearchLoading, setIsSearchLoading] = useState(false);
+    const [searchState, setSearchState] = useState(Load.DONE);
 
-    const doSearch = useCallback(debounce(async (terms: string) => {
-        await actions.searchProfiles(terms, {in_group_id: group.id});
-        setIsSearchLoading(false);
+    const doSearch = useCallback(debounce(async (term) => {
+        const res = await actions.searchProfiles(term, {in_group_id: group.id});
+        if (res.data) {
+            setSearchState(Load.DONE);
+        } else {
+            setSearchState(Load.FAILED);
+        }
     }, Constants.SEARCH_TIMEOUT_MILLISECONDS), [actions.searchProfiles]);
 
     useEffect(() => {
@@ -84,8 +92,11 @@ const UserGroupPopover = (props: Props) => {
 
     useEffect(() => {
         if (searchTerm) {
-            setIsSearchLoading(true);
+            setSearchState(Load.LOADING);
             doSearch(searchTerm);
+        } else {
+            setSearchState(Load.DONE);
+            doSearch.cancel();
         }
     }, [searchTerm, doSearch]);
 
@@ -100,7 +111,7 @@ const UserGroupPopover = (props: Props) => {
     };
 
     const openViewGroupModal = () => {
-        hide?.();
+        hide();
         actions.openModal({
             modalId: ModalIdentifiers.VIEW_USER_GROUP,
             dialogType: ViewUserGroupModal,
@@ -121,7 +132,7 @@ const UserGroupPopover = (props: Props) => {
             {...props}
             id='user-group-popover'
         >
-            <Body role='complementary'>
+            <Body role='dialog'>
                 <Header>
                     <Heading>
                         <Title
@@ -129,20 +140,13 @@ const UserGroupPopover = (props: Props) => {
                         >
                             {group.display_name}
                         </Title>
-                        {canManageGroup ? (
-                            <SimpleTooltip
-                                id={`user-group-popover-${group.id}`}
-                                content='Edit group'
-                            >
-                                <EditButton
-                                    className='user-group-popover_edit-button btn-icon'
-                                    aria-label='Edit Group'
-                                    onClick={openViewGroupModal}
-                                >
-                                    <PencilOutlineIcon/>
-                                </EditButton>
-                            </SimpleTooltip>
-                        ) : null}
+                        <CloseButton
+                            className='btn-icon'
+                            aria-label={Utils.localizeMessage('user_group_popover.close', 'Close')}
+                            onClick={hide}
+                        >
+                            <CloseIcon/>
+                        </CloseButton>
                     </Heading>
                     <Subtitle>
                         <span className='overflow--ellipsis text-nowrap'>{'@'}{group.name}</span>
@@ -156,24 +160,29 @@ const UserGroupPopover = (props: Props) => {
                             tagName={NoShrink}
                         />
                     </Subtitle>
-                    {group.member_count > 10 ? (
-                        <SearchContainer>
-                            <SearchBar
-                                type='text'
-                                className='user-group-popover_search-bar'
-                                placeholder={Utils.localizeMessage('user_group_popover.searchGroupMembers', 'Search members')}
-                                inputPrefix={<MagnifyIcon/>}
-                                value={searchTerm}
-                                onChange={handleSearch}
-                                useLegend={false}
-                            />
-                        </SearchContainer>
-                    ) : null}
+                    <HeaderButton
+                        aria-label={Utils.localizeMessage('user_group_popover.openGroupModal', 'View full group info')}
+                        onClick={openViewGroupModal}
+                        className='user-group-popover_header-button'
+                    />
                 </Header>
+                {group.member_count > 10 ? (
+                    <SearchContainer>
+                        <SearchBar
+                            type='text'
+                            className='user-group-popover_search-bar'
+                            placeholder={Utils.localizeMessage('user_group_popover.searchGroupMembers', 'Search members')}
+                            inputPrefix={<MagnifyIcon/>}
+                            value={searchTerm}
+                            onChange={handleSearch}
+                            useLegend={false}
+                        />
+                    </SearchContainer>
+                ) : null}
                 <GroupMemberList
                     group={group}
                     hide={hide}
-                    isSearchLoading={isSearchLoading}
+                    searchState={searchState}
                     showUserOverlay={showUserOverlay}
                 />
             </Body>
@@ -186,13 +195,30 @@ const Body = styled.div`
 
 const Header = styled.div`
     padding: 16px 20px;
+    position: relative;
+
+    &:hover {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+`;
+
+const HeaderButton = styled.button`
+    padding: 0;
+    background: none;
+    border: none;
+    display: block;
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
 `;
 
 const Title = styled.span`
     flex: 1 1 auto;
 `;
 
-const EditButton = styled.button`
+const CloseButton = styled.button`
     width: 28px;
     height: 28px;
     flex: 0 0 auto;
@@ -200,6 +226,9 @@ const EditButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+
+    /* Place this button above the main header button */
+    z-index: 9;
 
     svg {
         width: 18px;
@@ -229,7 +258,7 @@ const Dot = styled(NoShrink)`
 `;
 
 const SearchContainer = styled.div`
-    margin: 12px -6px 0 -6px;
+    margin: 4px 12px 12px 12px;
 `;
 
 const SearchBar = styled(Input)`

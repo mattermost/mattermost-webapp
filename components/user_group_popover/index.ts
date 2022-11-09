@@ -6,16 +6,12 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
-import {Group} from '@mattermost/types/groups';
-
 import {GlobalState} from 'types/store';
 import {ModalData} from 'types/actions';
 
-import {haveIGroupPermission} from 'mattermost-redux/selectors/entities/roles';
 import {openModal} from 'actions/views/modals';
 import {setPopoverSearchTerm} from 'actions/views/search';
 import {searchProfiles} from 'mattermost-redux/actions/users';
-import {Permissions} from 'mattermost-redux/constants';
 
 import {getIsMobileView} from 'selectors/views/browser';
 
@@ -27,14 +23,9 @@ type Actions = {
     searchProfiles: (term: string, options: any) => Promise<ActionResult>;
 };
 
-type OwnProps = {
-    group: Group;
-};
-
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+function mapStateToProps(state: GlobalState) {
     return {
         searchTerm: state.views.search.popoverSearch,
-        canManageGroup: haveIGroupPermission(state, ownProps.group.id, Permissions.MANAGE_CUSTOM_GROUP_MEMBERS),
         isMobileView: getIsMobileView(state),
     };
 }

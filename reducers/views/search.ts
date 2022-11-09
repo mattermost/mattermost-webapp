@@ -29,8 +29,6 @@ function popoverSearch(state = '', action: GenericAction) {
         return action.data.trim();
     }
 
-    case UserTypes.LOGOUT_SUCCESS:
-        return '';
     default:
         return state;
     }
