@@ -40,7 +40,7 @@ import type {NewPostDraft} from 'types/store/draft';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
-import Toolbar from './toolbar';
+import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
 import {UserSuggestions, ChannelSuggestions, EmojiSuggestions} from './components/suggestions';

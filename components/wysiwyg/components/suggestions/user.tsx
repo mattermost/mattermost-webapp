@@ -5,7 +5,7 @@ import {Mention} from '@tiptap/extension-mention';
 import {SuggestionOptions} from '@tiptap/suggestion';
 import {PluginKey} from 'prosemirror-state';
 
-import SuggestionList, {SuggestionListProps, SuggestionListRef, SuggestionItem} from '../suggestion-list';
+import SuggestionList, {SuggestionListProps, SuggestionListRef, SuggestionItem} from './suggestion-list';
 
 const pluginName = 'channel-suggestions';
 const SuggestionPluginKey = new PluginKey(pluginName);

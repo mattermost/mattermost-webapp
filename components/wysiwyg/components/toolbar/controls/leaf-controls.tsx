@@ -126,6 +126,10 @@ type Props = {
     children: ReactNode | ReactNodeArray;
 };
 
+/**
+ * cross-referencing the comment from suggestion-list file regarding overlays
+ * @see: ../../suggestion-list.tsx
+ */
 export const Overlay = ({editor, open, children, onClose}: Props) => {
     const {x, y, strategy, reference, floating, refs} = useFloating({
         strategy: 'fixed',
