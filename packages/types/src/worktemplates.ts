@@ -70,9 +70,3 @@ export enum Visibility {
     Private = 'private',
 }
 
-export enum TemplateType { 'CHANNELS', 'BOARDS', 'PLAYBOOKS', 'INTEGRATIONS' }
-
-export interface TemplateIllustration {
-    type: TemplateType;
-    illustration: string;
-}
