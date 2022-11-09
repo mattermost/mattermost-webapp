@@ -37,7 +37,7 @@ jobs:
           curl http://localhost:8065
         env:
           # MM_SQLSETTINGS_DRIVERNAME: postgres
-          MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@postgres/mattermost_test?sslmode=disable&connect_timeout=10&binary_parameters=yes
+          MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@postgres:5432/mattermost_test?sslmode=disable&connect_timeout=10&binary_parameters=yes
 
 # pr-builds.mattermost.com/mattermost-webapp/commit/284347eb4b7ab859654b02fdffc574d01c514009/mattermost-enterprise-linux-amd64.tar.gz
 
