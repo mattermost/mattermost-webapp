@@ -610,8 +610,9 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     selectedProduct = () => {
         // If the subscription is not past 90 days delinquent, we don't need to upgrade them as they're still on the correct plan
         if (this.props.isDelinquencyModal && !this.props.isCloudDelinquencyGreaterThan90Days) {
-            return findProductInDictionary(this.props.products, this.props.productId)
+            return findProductInDictionary(this.props.products, this.props.productId);
         }
+
         // If not delinquent, or they've been downgraded (ie, passed 90 days), the modal functions as normal
         return this.state.selectedProduct;
     }
