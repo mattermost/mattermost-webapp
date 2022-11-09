@@ -21,7 +21,7 @@ import {t} from 'utils/i18n';
 
 import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
-import ToolbarControl from '../toolbar_controls';
+import ToolbarControl, {FloatingContainer} from '../toolbar_controls';
 import type {ToolDefinition} from '../toolbar_controls';
 
 function setLink(editor: Editor) {
@@ -107,7 +107,7 @@ const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Markd
     },
 ];
 
-const FloatingContainer = styled.div`
+const FloatingLinkContainer = styled(FloatingContainer)`
     display: flex;
     flex-direction: column;
     padding: 12px;
@@ -117,6 +117,9 @@ const FloatingContainer = styled.div`
     min-width: 250px;
 
     box-shadow: 0 0 8px 2px rgba(0,0,0,0.12);
+
+    transform: scale(1);
+    opacity: 1;
 `;
 
 type Props = {
@@ -177,9 +180,9 @@ export const Overlay = ({editor, open, children, onClose}: Props) => {
                 left: x ?? 0,
             }}
         >
-            <FloatingContainer>
+            <FloatingLinkContainer>
                 {children}
-            </FloatingContainer>
+            </FloatingLinkContainer>
         </div>,
         document.body,
     );

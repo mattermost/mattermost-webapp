@@ -7,42 +7,20 @@ import {PluginKey} from 'prosemirror-state';
 
 import SuggestionList, {SuggestionListProps, SuggestionListRef, SuggestionItem} from './suggestion-list';
 
-const pluginName = 'user-suggestions';
+const pluginName = 'hashtag-suggestions';
 const SuggestionPluginKey = new PluginKey(pluginName);
 
 const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
-    char: '@',
+    char: '#',
 
     pluginKey: SuggestionPluginKey,
 
     items: ({query}) => {
         return [
-            'Lea Thompson',
-            'Cyndi Lauper',
-            'Tom Cruise',
-            'Madonna',
-            'Jerry Hall',
-            'Joan Collins',
-            'Winona Ryder',
-            'Christina Applegate',
-            'Alyssa Milano',
-            'AlyssaAlyssaAlyssaAlyssaAlyssaAlyssa Milano',
-            'Molly Ringwald',
-            'Ally Sheedy',
-            'Debbie Harry',
-            'Olivia Newton-John',
-            'Elton John',
-            'Michael J. Fox',
-            'Axl Rose',
-            'Emilio Estevez',
-            'Ralph Macchio',
-            'Rob Lowe',
-            'Jennifer Grey',
-            'Mickey Rourke',
-            'John Cusack',
-            'Matthew Broderick',
-            'Justine Bateman',
-            'Lisa Bonet',
+            'random',
+            'devDays',
+            'rnd',
+            'offtopic',
         ].
             filter((item) => item.toLowerCase().startsWith(query.toLowerCase())).
             map((name) => ({
@@ -89,13 +67,13 @@ const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
     },
 };
 
-const User = Mention.extend({
+const HashtagSuggestions = Mention.extend({
     name: pluginName,
 }).configure({
     HTMLAttributes: {
-        class: 'user-suggestion',
+        class: 'hashtag-suggestion',
     },
     suggestion,
 });
 
-export default User;
+export default HashtagSuggestions;

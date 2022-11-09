@@ -3,9 +3,11 @@
 import UserSuggestions from './user';
 import ChannelSuggestions from './channel';
 import EmojiSuggestions from './emoji';
+import HashtagSuggestions from './hashtag';
 
 export {
     UserSuggestions,
     ChannelSuggestions,
     EmojiSuggestions,
+    HashtagSuggestions,
 };
