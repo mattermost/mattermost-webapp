@@ -36,14 +36,14 @@
 
     .popover-title {
         .user-popover__role {
-                padding: 0 4px;
-                background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
-                color: var(--center-channel-text-rgb);
-                font-family: Open Sans, sans-serif;
-                font-size: 10px;
-                letter-spacing: 0.02em;
-                line-height: 16px;
-            }
+            padding: 0 4px;
+            background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
+            color: var(--center-channel-text-rgb);
+            font-family: Open Sans, sans-serif;
+            font-size: 10px;
+            letter-spacing: 0.02em;
+            line-height: 16px;
+        }
     }
 
     .popover-content {
@@ -81,6 +81,7 @@
                 display: flex;
                 height: 32px;
                 align-items: center;
+                justify-content: center;
                 padding: 8px 12px;
                 background-color: var(--button-bg);
                 border-radius: 4px;
@@ -92,7 +93,8 @@
             }
 
             .icon-btn {
-                padding: 4px 6px;
+                width: 32px;
+                padding: 0;
                 background-color: unset;
                 color: rgba(var(--center-channel-color-rgb), 0.56);
 
