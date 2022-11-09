@@ -26,7 +26,7 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import {Load} from '../user_group_popover';
 
-const USERS_PER_PAGE = 10;
+const USERS_PER_PAGE = 60;
 
 // These constants must be changed if user list style is modified
 export const VIEWPORT_SCALE_FACTOR = 0.4;
