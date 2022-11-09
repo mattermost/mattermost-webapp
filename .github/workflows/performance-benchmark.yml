@@ -43,24 +43,26 @@ jobs:
 
       - name: Check out web app
         uses: actions/checkout@v3
-      # - name: Wait for PR branch to be built
-      #   uses: lewagon/wait-on-check-action@v1.2.0
-      #   with:
-      #     ref: ${{ github.ref }}
-      #     check-name: 'untagged-build'
-      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
-      #     wait-interval: 10
+      - name: Wait for PR branch to be built
+        uses: lewagon/wait-on-check-action@v1.2.0
+        with:
+          ref: ${{ github.ref }}
+          check-name: 'untagged-build'
+          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          wait-interval: 10
       - name: Download the thing
         working-directory: e2e/cypress
         run: |
-          # curl https://pr-builds.mattermost.com/mattermost-webapp/commit/${{ github.sha }}/mattermost-enterprise-linux-amd64.tar.gz > mattermost.tar.gz
-          curl https://releases.mattermost.com/7.4.0/mattermost-7.4.0-linux-amd64.tar.gz > mattermost.tar.gz
-          tar -xf mattermost.tar.gz
+          curl https://pr-builds.mattermost.com/mattermost-webapp/commit/${{ github.sha }}/mattermost-enterprise-linux-amd64.tar.gz > mattermost.tar.gz
+          tar -xvf mattermost.tar.gz
       - name: Run the E2E tests
         uses: cypress-io/github-action@v4
         with:
           browser: chrome
-          spec: ./tests/integration/channel_sidebar/category_muting_spec.ts
+          spec: |
+            ./tests/integration/channel_sidebar/category_muting_spec.ts
+            ./tests/integration/channel_sidebar/this_should_fail_lol.ts
+            ./tests/integration/channel_sidebar/category_collapsing_spec.ts
           start: npm run setup-benchmark-server
           wait-on: http://localhost:8065
           working-directory: e2e/cypress
