@@ -175,7 +175,7 @@
     .popover-title {
         overflow: hidden;
         max-width: 100%;
-        padding: 6px 6px 0;
+        padding: 12px 12px 0;
         border-color: var(--center-channel-bg);
         background: none;
         text-overflow: ellipsis;
@@ -277,23 +277,6 @@
 .user-profile-popover .Avatar {
     display: block;
     margin: 5px auto;
-}
-
-.user-popover__role {
-    display: flex;
-    height: min-content;
-    align-items: center;
-    padding: 0 4px;
-    margin-left: 2px;
-    background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
-    border-radius: 4px;
-    color: var(--center-channel-text-rgb);
-    font-family: Open Sans, sans-serif;
-    font-size: 10px;
-    font-weight: 600;
-    letter-spacing: 0.02em;
-    line-height: 16px;
-    text-transform: uppercase;
 }
 
 .user-popover__email {

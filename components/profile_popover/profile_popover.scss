@@ -34,6 +34,18 @@
     min-width: 200px;
     max-width: 248px;
 
+    .popover-title {
+        .user-popover__role {
+                padding: 0 4px;
+                background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
+                color: var(--center-channel-text-rgb);
+                font-family: Open Sans, sans-serif;
+                font-size: 10px;
+                letter-spacing: 0.02em;
+                line-height: 16px;
+            }
+    }
+
     .popover-content {
         padding: 0 16px;
 
