@@ -5,42 +5,79 @@ jobs:
     runs-on: ubuntu-20.04
     # let's make sure our tests pass on Chrome browser
     name: Run Cypress benchmarks
+    services:
+      postgres:
+        image: postgres
+        env:
+          POSTGRES_PASSWORD: mostest
+          POSTGRES_USER: mmuser
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
-      - name: Check out web app
-        uses: actions/checkout@v2
-        with:
-          path: mattermost-webapp
-      - name: Install web app dependencies
+      # - name: Wait for web app build
+      #   uses: lewagon/wait-on-check-action@v1.2.0
+      #   with:
+      #     ref: ${{ github.ref }}
+      #     check-name: 'ci/circleci: prepare-docker-build'
+      #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+      #     wait-interval: 10
+      - name: Download the thing
         run: |
-          cd mattermost-webapp
-          make node_modules
-
-      - name: Check out server
-        uses: actions/checkout@v2
-        with:
-          path: mattermost-server
-          repository: mattermost/mattermost-server
-      - name: Check out matching server branch, if available
+          # curl https://pr-builds.mattermost.com/mattermost-webapp/commit/${{ github.ref }}/mattermost-enterprise-linux-amd64.tar.gz > mattermost.tar.gz
+          # curl https://releases.mattermost.com/7.4.0/mattermost-7.4.0-linux-amd64.tar.gz > mattermost.tar.gz
+          tar -xf mattermost.tar.gz
+      - name: Run the server
+        working-directory: mattermost
         run: |
-          cd mattermost-server
-          git checkout ${{ github.ref }} || true
-          echo Using server version `git rev-parse HEAD`
-      - uses: actions/setup-go@v3
-        with:
-          go-version: ^1.19.2
+          bin/mattermost &
+          sleep 20
+          curl http://localhost:8065
+        env:
+          # MM_SQLSETTINGS_DRIVERNAME: postgres
+          MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@postgres/mattermost_test?sslmode=disable&connect_timeout=10&binary_parameters=yes
 
-      - run: |
-          pwd
-          ls .
-          ls mattermost-webapp
+# pr-builds.mattermost.com/mattermost-webapp/commit/284347eb4b7ab859654b02fdffc574d01c514009/mattermost-enterprise-linux-amd64.tar.gz
 
-      - uses: cypress-io/github-action@v4
-        with:
-          browser: chrome
-          spec: ./tests/integration/channel_sidebar/category_muting_spec.ts
-          start: |
-            npm run setup-benchmark:client
-            npm run setup-benchmark:server
-          wait-on: http://localhost:8065
-          wait-on-timeout: 450
-          working-directory: mattermost-webapp/e2e/cypress
+
+
+      # - name: Check out web app
+      #   uses: actions/checkout@v2
+      #   with:
+      #     path: mattermost-webapp
+      # - name: Install web app dependencies
+      #   run: |
+      #     cd mattermost-webapp
+      #     make node_modules
+
+      # - name: Check out server
+      #   uses: actions/checkout@v2
+      #   with:
+      #     path: mattermost-server
+      #     repository: mattermost/mattermost-server
+      # - name: Check out matching server branch, if available
+      #   run: |
+      #     cd mattermost-server
+      #     git checkout ${{ github.ref }} || true
+      #     echo Using server version `git rev-parse HEAD`
+      # - uses: actions/setup-go@v3
+      #   with:
+      #     go-version: ^1.19.2
+
+      # - run: |
+      #     pwd
+      #     ls .
+      #     ls mattermost-webapp
+
+      # - uses: cypress-io/github-action@v4
+      #   with:
+      #     browser: chrome
+      #     spec: ./tests/integration/channel_sidebar/category_muting_spec.ts
+      #     start: |
+      #       npm run setup-benchmark:client
+      #       npm run setup-benchmark:server
+      #     wait-on: http://localhost:8065
+      #     wait-on-timeout: 450
+      #     working-directory: mattermost-webapp/e2e/cypress
