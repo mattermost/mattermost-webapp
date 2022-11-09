@@ -58,6 +58,18 @@ export type SuggestionListProps = Pick<SuggestionProps<SuggestionItem>, 'items' 
     visible: boolean;
 };
 
+/**
+ * this is kind of duplicating the Link Overlay, so we might want to extract the overlay logic to a separate
+ * component (`SelectionOverlay`?). The positioning should ideally be defined by an element, since updates will automatically
+ * move the overlay to the new position. If not present positioning can be accomplished with the editor selection, so
+ * this should be the fallback case for it.
+ *
+ * example implmentation of position calculation with editor:
+ * @see: https://github.com/ueberdosis/tiptap/issues/2305#issuecomment-1020665146
+ *
+ * related codesandbox:
+ * @see: https://codesandbox.io/s/recursing-curran-q9uueb?file=/src/components/ControlledBubbleMenu.jsx
+ */
 const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({items, command, decorationNode, visible}: SuggestionListProps, ref) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
 

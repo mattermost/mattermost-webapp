@@ -7,8 +7,6 @@ import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {debounce} from 'lodash';
 import type {DebouncedFunc} from 'lodash';
-import {ResolvedPos} from 'prosemirror-model';
-import {EditorView} from 'prosemirror-view';
 
 import {
     EditorContent,
@@ -40,7 +38,7 @@ import {ActionTypes} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
-import {htmlToMarkdown, markdownToHtml} from './utils/toMarkdown';
+import {htmlToMarkdown} from './utils/toMarkdown';
 
 import Toolbar from './toolbar';
 import SendButton from './components/send-button';
@@ -121,16 +119,9 @@ export const PasteHandler = Extension.create({
             new Plugin({
                 key: new PluginKey('pasteHandler'),
                 props: {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    clipboardTextParser(text: string, $context: ResolvedPos, plain: boolean, view: EditorView) {
-                        console.log('#### pasted text', text); // eslint-disable-line no-console
-                        console.log('#### $context', $context); // eslint-disable-line no-console
-                        console.log('#### plain', plain); // eslint-disable-line no-console
-                        console.log('#### view', view); // eslint-disable-line no-console
-                    },
                     transformPastedText(text: string) {
-                        return String(markdownToHtml(text));
+                        // return String(markdownToHtml(text));
+                        return text;
                     },
 
                     // … and many, many more.

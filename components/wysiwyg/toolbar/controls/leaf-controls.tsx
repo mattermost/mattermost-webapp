@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import {useClickAway} from '@mattermost/compass-components/shared/hooks';
+import React, {ReactNode, ReactNodeArray, useLayoutEffect, useState} from 'react';
+import {autoUpdate, flip, offset, useFloating} from '@floating-ui/react-dom';
+import {isNodeSelection, posToDOMRect} from '@tiptap/core';
 import {
     CodeTagsIcon,
     FormatBoldIcon,
@@ -11,6 +14,8 @@ import {
 } from '@mattermost/compass-icons/components';
 import classNames from 'classnames';
 import type {Editor} from '@tiptap/react';
+import {createPortal} from 'react-dom';
+import styled from 'styled-components';
 
 import {t} from 'utils/i18n';
 
@@ -102,19 +107,102 @@ const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Markd
     },
 ];
 
+const FloatingContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    padding: 12px;
+    background: rgb(var(--center-channel-bg-rgb));
+    border-radius: 4px;
+
+    min-width: 250px;
+
+    box-shadow: 0 0 8px 2px rgba(0,0,0,0.12);
+`;
+
+type Props = {
+    editor: Editor;
+    open: boolean;
+    onClose?: () => void;
+    children: ReactNode | ReactNodeArray;
+};
+
+export const Overlay = ({editor, open, children, onClose}: Props) => {
+    const {x, y, strategy, reference, floating, refs} = useFloating({
+        strategy: 'fixed',
+        whileElementsMounted: autoUpdate,
+        placement: 'top-start',
+        middleware: [
+            offset({mainAxis: 8}),
+            flip({
+                padding: 8,
+            }),
+        ],
+    });
+    useClickAway([refs.floating], onClose);
+
+    useLayoutEffect(() => {
+        const {ranges} = editor.state.selection;
+        const from = Math.min(...ranges.map((range) => range.$from.pos));
+        const to = Math.max(...ranges.map((range) => range.$to.pos));
+
+        reference({
+            getBoundingClientRect() {
+                if (isNodeSelection(editor.state.selection)) {
+                    const node = editor.view.nodeDOM(from) as HTMLElement;
+
+                    if (node) {
+                        return node.getBoundingClientRect();
+                    }
+                }
+
+                return posToDOMRect(editor.view, from, to);
+            },
+        });
+    }, [reference, editor, open]);
+
+    if (!open) {
+        return null;
+    }
+
+    return createPortal(
+        <div
+            ref={floating}
+            style={{
+                position: strategy,
+                top: y ?? 0,
+                left: x ?? 0,
+            }}
+        >
+            <FloatingContainer>
+                {children}
+            </FloatingContainer>
+        </div>,
+        document.body,
+    );
+};
+
 const LeafModeControls = ({editor}: {editor: Editor}) => {
+    const [showLinkOverlay, setShowLinkOverlay] = useState(false);
     const leafModeControls = makeLeafModeToolDefinitions(editor);
 
     const codeBlockModeIsActive = editor.isActive('codeBlock');
 
+    const toggleLinkOverlay = () => setShowLinkOverlay(!showLinkOverlay);
+
     return (
         <>
+            <Overlay
+                open={showLinkOverlay}
+                editor={editor}
+            >
+                {'TEST WITH A BIT MORE OF SPACE NEEDED'}
+            </Overlay>
             {leafModeControls.map((control) => (
                 <ToolbarControl
                     key={`${control.type}_${control.mode}`}
                     mode={control.type}
                     Icon={control.icon}
-                    onClick={control.action}
+                    onClick={control.type === 'setLink' ? toggleLinkOverlay : control.action}
                     className={classNames({active: control.isActive?.()})}
                     disabled={codeBlockModeIsActive}
                 />

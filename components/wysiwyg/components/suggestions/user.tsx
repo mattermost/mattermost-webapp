@@ -26,6 +26,7 @@ const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
             'Winona Ryder',
             'Christina Applegate',
             'Alyssa Milano',
+            'AlyssaAlyssaAlyssaAlyssaAlyssaAlyssa Milano',
             'Molly Ringwald',
             'Ally Sheedy',
             'Debbie Harry',
