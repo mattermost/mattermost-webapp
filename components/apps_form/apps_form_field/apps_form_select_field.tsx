@@ -6,6 +6,7 @@ import ReactSelect from 'react-select';
 import {Props as AsyncSelectProps} from 'react-select/async';
 
 import {AppField, AppSelectOption} from '@mattermost/types/apps';
+import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 const AsyncSelect = require('react-select/lib/Async').default as React.ElementType<AsyncSelectProps<AppSelectOption>>; // eslint-disable-line global-require
 
@@ -127,6 +128,8 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
             selectComponent = this.renderDynamicSelect();
         } else if (field.type === 'static_select') {
             selectComponent = this.renderStaticSelect();
+        } else if (field.type === AppFieldTypes.USER) {
+            selectComponent = this.renderDynamicSelect();
         } else {
             return null;
         }

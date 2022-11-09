@@ -59,15 +59,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
     handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
         const {name, field, onChange} = this.props;
 
-        if (field.type === AppFieldTypes.USER) {
-            const user = selected as UserProfile;
-            let selectedLabel = user.username;
-            if (this.props.teammateNameDisplay) {
-                selectedLabel = displayUsername(user, this.props.teammateNameDisplay);
-            }
-            const option = {label: selectedLabel, value: user.id};
-            onChange(name, option);
-        } else if (field.type === AppFieldTypes.CHANNEL) {
+        if (field.type === AppFieldTypes.CHANNEL) {
             const channel = selected as Channel;
             const option = {label: channel.display_name, value: channel.id};
             onChange(name, option);
@@ -163,8 +155,7 @@ export default class AppsFormField extends React.PureComponent<Props> {
                 />
             );
         }
-        case AppFieldTypes.CHANNEL:
-        case AppFieldTypes.USER: {
+        case AppFieldTypes.CHANNEL: {
             let selectedValue: string | undefined;
             if (this.props.value) {
                 selectedValue = (this.props.value as AppSelectOption).label;
@@ -180,6 +171,21 @@ export default class AppsFormField extends React.PureComponent<Props> {
                     placeholder={placeholder}
                     value={selectedValue}
                     listComponent={listComponent}
+                />
+            );
+        }
+        case AppFieldTypes.USER: {
+            return (
+                <AppsFormSelectField
+                    performLookup={async (name, userInput) => {
+                        const usersSearchResults: UserAutocomplete = await this.props.actions.autocompleteUsers(userInput);
+                        return usersSearchResults.users.map((user) => ({label: this.props.teammateNameDisplay ? displayUsername(user, this.props.teammateNameDisplay) : user.username, value: user.id}));
+                    }}
+                    field={field}
+                    label={displayNameContent}
+                    helpText={helpTextContent}
+                    onChange={this.handleSelected}
+                    value={this.props.value as AppSelectOption | null}
                 />
             );
         }
