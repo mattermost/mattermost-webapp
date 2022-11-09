@@ -312,7 +312,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     async componentDidMount() {
         if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
-            console.log("COMPONENT DID MOUNT FETCHING PRODUCTS");
             await this.props.actions.getCloudProducts();
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
@@ -609,12 +608,11 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 
     selectedProduct = () => {
-        // If the user is not past 90 days delinquent, we don't need to upgrade them as they're still on the correct plan
+        // If the subscription is not past 90 days delinquent, we don't need to upgrade them as they're still on the correct plan
         if (this.props.isDelinquencyModal && !this.props.isCloudDelinquencyGreaterThan90Days) {
-            console.log("CURRENT PRODUCT IS SELECTED PRODUCT");
             return findProductInDictionary(this.props.products, this.props.productId)
         }
-        console.log("SELECTED PRODUCT IS SELECTED PRODUCT");
+        // If not delinquent, or they've been downgraded (ie, passed 90 days), the modal functions as normal
         return this.state.selectedProduct;
     }
 
