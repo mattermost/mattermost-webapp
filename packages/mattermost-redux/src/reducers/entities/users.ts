@@ -446,6 +446,21 @@ function profilesInGroup(state: RelationOneToMany<Group, UserProfile> = {}, acti
 
 function profilesNotInGroup(state: RelationOneToMany<Group, UserProfile> = {}, action: GenericAction) {
     switch (action.type) {
+    case UserTypes.RECEIVED_PROFILES_FOR_GROUP: {
+        const id = action.id;
+        const nextSet = new Set(state[id]);
+        if (action.data) {
+            action.data.forEach((profile: any) => {
+                nextSet.delete(profile.user_id);
+            });
+
+            return {
+                ...state,
+                [id]: nextSet,
+            };
+        }
+        return state;
+    }
     case UserTypes.RECEIVED_PROFILES_LIST_NOT_IN_GROUP: {
         return profileListToSet(state, action);
     }

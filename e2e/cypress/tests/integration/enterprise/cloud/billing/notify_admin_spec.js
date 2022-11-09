@@ -46,7 +46,7 @@ function simulateSubscription(subscription, withLimits = {}) {
                 id: 'prod_1',
                 sku: 'cloud-starter',
                 price_per_seat: 0,
-                name: 'Cloud Starter',
+                name: 'Cloud Free',
             },
             {
                 id: 'prod_2',

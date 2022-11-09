@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @channel
 
 describe('Channel routing', () => {
@@ -38,7 +37,7 @@ describe('Channel routing', () => {
         });
     });
 
-    it('MM-T5141 Channel URL validation for spaces between characters', () => {
+    it('MM-T5141 New Channel is created with an associated Board', () => {
         // # Create new channel with board
         const channelName = 'Test Channel With Board';
         cy.uiCreateChannel({

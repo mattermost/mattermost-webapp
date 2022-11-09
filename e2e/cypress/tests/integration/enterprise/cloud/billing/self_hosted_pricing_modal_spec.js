@@ -46,7 +46,7 @@ describe('Self hosted Pricing modal', () => {
 
     it('should show Upgrade button in global header for admin users on starter plan', () => {
         // * Check that Upgrade button does not show
-        cy.get('#UpgradeButton').should('exist').contains('Upgrade');
+        cy.get('#UpgradeButton').should('exist').contains('View plans');
 
         // * Check for Upgrade button tooltip
         cy.get('#UpgradeButton').trigger('mouseover').then(() => {
@@ -79,7 +79,7 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#UpgradeButton').should('not.exist');
     });
 
-    it('Upgrade button should open pricing modal admin users when no trial has ever been added on starter plan', () => {
+    it('Upgrade button should open pricing modal admin users when no trial has ever been added on free plan', () => {
         // *Ensure the server has had no trial license before
         withTrialBefore('false');
 
@@ -90,10 +90,10 @@ describe('Self hosted Pricing modal', () => {
         // * Open pricing modal
         cy.get('#UpgradeButton').should('exist').click();
 
-        // * Check that starter card Downgrade button is disabled
+        // * Check that free card Downgrade button is disabled
         cy.get('#pricingModal').should('be.visible');
-        cy.get('#starter').should('be.visible');
-        cy.get('#starter_action').should('be.disabled').contains('Downgrade');
+        cy.get('#free').should('be.visible');
+        cy.get('#free_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professional upgrade button is available
         cy.get('#pricingModal').should('be.visible');
@@ -106,7 +106,7 @@ describe('Self hosted Pricing modal', () => {
         cy.get('#start_trial_btn').should('not.be.disabled').contains('Try free for 30 days');
     });
 
-    it('Upgrade button should open pricing modal admin users when the server has requested a trial before on starter plan', () => {
+    it('Upgrade button should open pricing modal admin users when the server has requested a trial before on free plan', () => {
         // *Ensure the server has had no trial license before
         withTrialBefore('true');
 
@@ -121,10 +121,10 @@ describe('Self hosted Pricing modal', () => {
         cy.get('.alert-option').should('be.visible');
         cy.get('span').contains('Looking for a cloud option?');
 
-        // * Check that starter card Downgrade button is disabled
+        // * Check that free card Downgrade button is disabled
         cy.get('#pricingModal').should('be.visible');
-        cy.get('#starter').should('be.visible');
-        cy.get('#starter_action').should('be.disabled').contains('Downgrade');
+        cy.get('#free').should('be.visible');
+        cy.get('#free_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professional upgrade button is available
         cy.get('#pricingModal').should('be.visible');
@@ -154,10 +154,10 @@ describe('Self hosted Pricing modal', () => {
         // * Open pricing modal
         cy.get('#UpgradeButton').should('exist').click();
 
-        // *Check that starter card Downgrade button is disabled
+        // *Check that free card Downgrade button is disabled
         cy.get('#pricingModal').should('be.visible');
-        cy.get('#starter').should('be.visible');
-        cy.get('#starter_action').should('be.disabled').contains('Downgrade');
+        cy.get('#free').should('be.visible');
+        cy.get('#free_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professional upgrade button is available
         cy.get('#pricingModal').should('be.visible');
