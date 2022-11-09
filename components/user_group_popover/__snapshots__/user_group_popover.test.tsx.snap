@@ -275,7 +275,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                         >
                           <button
                             aria-label="View full group info"
-                            className="HeaderButton-jHgPlb gMcbGQ user-group-popover_header-button"
+                            className="HeaderButton-jHgPlb jFywol user-group-popover_header-button"
                             onClick={[Function]}
                           />
                         </HeaderButton>
