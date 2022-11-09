@@ -4,12 +4,14 @@
 import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
-import {AccordionItemType} from 'components/common/accordion/accordion';
+
 import {CSSTransition} from 'react-transition-group'; // ES6
+
+import {AccordionItemType} from 'components/common/accordion/accordion';
 
 import {getTemplateDefaultIllustration} from '../utils';
 
-import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
+import {Board, Channel, Integration, Playbook, TemplateType, WorkTemplate} from '@mattermost/types/worktemplates';
 
 import ModalBody from './modal_body';
 import Accordion from './preview/accordion';
@@ -24,13 +26,13 @@ export interface PreviewProps {
 interface IllustrationAnimations {
     prior: {
         mounted: boolean;
-        name: string;
-        src: string;
+        type?: TemplateType;
+        illustration?: string;
     };
     current: {
         mounted: boolean;
-        name: string;
-        src: string;
+        type?: TemplateType;
+        illustration?: string;
     };
 }
 
@@ -44,13 +46,13 @@ const Preview = ({template, ...props}: PreviewProps) => {
         return {
             prior: {
                 mounted: false,
-                name: defaultIllustration[0],
-                src: defaultIllustration[1],
+                type: defaultIllustration?.type,
+                illustration: defaultIllustration?.illustration,
             },
             current: {
                 mounted: true,
-                name: defaultIllustration[0],
-                src: defaultIllustration[1],
+                type: defaultIllustration?.type,
+                illustration: defaultIllustration?.illustration,
             },
         };
     });
@@ -108,8 +110,8 @@ const Preview = ({template, ...props}: PreviewProps) => {
                         prior: {...illustrationDetails.current},
                         current: {
                             mounted: false,
-                            name: id,
-                            src: illustration,
+                            type: TemplateType.CHANNELS,
+                            illustration,
                         },
                     })}
                 />
@@ -130,8 +132,8 @@ const Preview = ({template, ...props}: PreviewProps) => {
                         prior: {...illustrationDetails.current},
                         current: {
                             mounted: false,
-                            name: id,
-                            src: illustration,
+                            type: TemplateType.BOARDS,
+                            illustration,
                         },
                     })}
                 />
@@ -152,8 +154,8 @@ const Preview = ({template, ...props}: PreviewProps) => {
                         prior: {...illustrationDetails.current},
                         current: {
                             mounted: false,
-                            name: id,
-                            src: illustration,
+                            type: TemplateType.PLAYBOOKS,
+                            illustration,
                         },
                     })}
                 />
@@ -182,8 +184,8 @@ const Preview = ({template, ...props}: PreviewProps) => {
                 },
                 current: {
                     mounted: false,
-                    name: 'channels',
-                    src: channels[0].illustration,
+                    type: TemplateType.CHANNELS,
+                    illustration: channels[0].illustration,
                 },
             });
             break;
@@ -195,8 +197,8 @@ const Preview = ({template, ...props}: PreviewProps) => {
                 },
                 current: {
                     mounted: false,
-                    name: 'boards',
-                    src: boards[0].illustration,
+                    type: TemplateType.BOARDS,
+                    illustration: boards[0].illustration,
                 },
             });
             break;
@@ -208,8 +210,8 @@ const Preview = ({template, ...props}: PreviewProps) => {
                 },
                 current: {
                     mounted: false,
-                    name: 'playbooks',
-                    src: playbooks[0].illustration,
+                    type: TemplateType.PLAYBOOKS,
+                    illustration: playbooks[0].illustration,
                 },
             });
             break;
@@ -221,8 +223,8 @@ const Preview = ({template, ...props}: PreviewProps) => {
                 },
                 current: {
                     mounted: false,
-                    name: 'integrations',
-                    src: template.description.integration.illustration,
+                    type: TemplateType.INTEGRATIONS,
+                    illustration: template.description.integration.illustration,
                 },
             });
         }
@@ -238,7 +240,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     onItemOpened={handleItemOpened}
                 />
             </ModalBody>
-            <div style={{position: 'relative', width: '100%'}}>
+            <div className='img-wrapper'>
                 <CSSTransition
                     nodeRef={nodeRefForPrior}
                     in={illustrationDetails.prior.mounted}
@@ -251,7 +253,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                 >
                     <img
                         ref={nodeRefForPrior}
-                        src={illustrationDetails.prior.src}
+                        src={illustrationDetails.prior.illustration}
                     />
                 </CSSTransition>
                 <CSSTransition
@@ -266,7 +268,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                 >
                     <img
                         ref={nodeRefForCurrent}
-                        src={illustrationDetails.current.src}
+                        src={illustrationDetails.current.illustration}
                     />
                 </CSSTransition>
             </div>
@@ -285,6 +287,11 @@ const StyledPreview = styled(Preview)`
         line-height: 24px;
         color: var(--center-channel-text);
         margin-bottom: 8px;
+    }
+
+    .img-wrapper {
+        position: relative;
+        width: 100%;
     }
 
     img {
