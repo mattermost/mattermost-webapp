@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { WorkTemplate} from '@mattermost/types/worktemplates';
+import {WorkTemplate} from '@mattermost/types/worktemplates';
 
 export function getTemplateDefaultIllustration(template: WorkTemplate): string {
     const channels = template.content.filter((c) => c.channel).map((c) => c.channel!);

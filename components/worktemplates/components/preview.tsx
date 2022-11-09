@@ -187,7 +187,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
             return;
         }
 
-        if(newCurrent.illustration === newPrior.illustration) {
+        if (newCurrent.illustration === newPrior.illustration) {
             return;
         }
         setIllustrationDetails({
