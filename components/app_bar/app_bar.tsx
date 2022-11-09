@@ -76,6 +76,7 @@ export default function AppBar() {
     return (
         <div className={'app-bar'}>
             <div
+                // eslint-disable-next-line react/no-unknown-property
                 css={`
                     height: 100%;
                     padding-top: 16px;
@@ -93,6 +94,7 @@ const divider = (
     <hr
         key='divider'
         className={'app-bar__divider'}
+        // eslint-disable-next-line react/no-unknown-property
         css={`
             :last-child, :first-child {
                 display: none;

@@ -100,6 +100,45 @@ describe('Mark as Unread', () => {
         cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
     });
 
+    it('MM-T5223 The latest post should appear unread after marking the channel as unread', () => {
+        // channelA starts unread, then becomes read after you viewed
+        // and switched to channelB
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        switchToChannel(channelA);
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        switchToChannel(channelB);
+
+        // After mark channelA with the LHS mark as unread option, channelA
+        // should appear unread
+        cy.get(`#sidebarItem_${channelA.name}`).find('.SidebarMenu').click({force: true});
+        cy.get(`#markAsUnread-${channelA.id}`).click();
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // After switching back to channelA,
+        // the New Messages line should appear above the last post (post3)
+        cy.get(`#sidebarItem_${channelA.name}`).click();
+        verifyPostNextToNewMessageSeparator('post3');
+    });
+
+    it('MM-T5224 The latest post should appear unread after marking the channel as unread with alt/option+left-click on channel sidebar item', () => {
+        // channelA starts unread, then becomes read after you viewed
+        // and switched to channelB
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+        switchToChannel(channelA);
+        cy.get(`#sidebarItem_${channelA.name}`).should(beRead);
+        switchToChannel(channelB);
+
+        // After mark channelA with alt/option+left-click, channelA
+        // should appear unread
+        cy.get(`#sidebarItem_${channelA.name}`).type('{alt}', {release: false}).click();
+        cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
+
+        // After switching back to channelA,
+        // the New Messages line should appear above the last post (post3)
+        cy.get(`#sidebarItem_${channelA.name}`).click();
+        verifyPostNextToNewMessageSeparator('post3');
+    });
+
     it('MM-T257 Mark as Unread when bringing window into focus', () => {
         // * Verify channels are unread
         cy.get(`#sidebarItem_${channelA.name}`).should(beUnread);
