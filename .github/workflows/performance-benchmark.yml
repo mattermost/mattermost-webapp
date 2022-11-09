@@ -61,7 +61,7 @@ jobs:
           browser: chrome
           spec: |
             ./tests/integration/channel_sidebar/category_muting_spec.ts
-            ./tests/integration/channel_sidebar/this_should_fail_lol.ts
+            ./tests/integration/channel_sidebar/this_should_fail_lol_spec.ts
             ./tests/integration/channel_sidebar/category_collapsing_spec.ts
           start: npm run setup-benchmark-server
           wait-on: http://localhost:8065
