@@ -13,7 +13,7 @@ import {haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
-import {loadOutgoingHooksAndProfilesForTeam} from 'actions/integration_actions';
+import {loadAllOutgoingHooksAndProfilesForTeam} from 'actions/integration_actions';
 
 import {GlobalState} from 'types/store';
 
@@ -42,7 +42,7 @@ function mapStateToProps(state: GlobalState) {
 function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Props['actions']>({
-            loadOutgoingHooksAndProfilesForTeam,
+            loadAllOutgoingHooksAndProfilesForTeam,
             removeOutgoingHook: Actions.removeOutgoingHook,
             updateOutgoingHook: Actions.updateOutgoingHook,
             regenOutgoingHookToken: Actions.regenOutgoingHookToken,

@@ -2,12 +2,17 @@
 // See LICENSE.txt for license information.
 
 import React, {ChangeEvent, ReactNode, useState} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import {localizeMessage} from 'utils/utils';
 
 import LoadingScreen from 'components/loading_screen';
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
+
+import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list';
 
 type Props = {
     children?: ReactNode | ((filter: string) => void);
@@ -20,6 +25,9 @@ type Props = {
     helpText?: ReactNode;
     loading: boolean;
     searchPlaceholder?: string;
+    page?: number;
+    nextPage?: () => void;
+    previousPage?: () => void;
 };
 
 const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.search', 'Search'), ...remainingProps}: Props) => {
@@ -27,9 +35,19 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
 
     const updateFilter = (e: ChangeEvent<HTMLInputElement>) => setFilter(e.target.value);
 
+    const getPaginationProps = (total: number) => {
+        const page = remainingProps.page || 0;
+        const startCount = (page * PAGE_SIZE) + 1;
+        let endCount = 0;
+        endCount = (page + 1) * PAGE_SIZE;
+        endCount = endCount > total ? total : endCount;
+        return {startCount, endCount};
+    }
+
     const filterLowered = filter.toLowerCase();
 
     let children;
+    let length;
     if (remainingProps.loading) {
         children = <LoadingScreen/>;
     } else {
@@ -41,7 +59,12 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
         children = React.Children.map(children, (child) => {
             return React.cloneElement(child, {filterLowered});
         });
-        if (children.length === 0 || !hasChildren) {
+        length = children.length;
+        if(remainingProps.page) {
+            const {startCount, endCount} = getPaginationProps(length); 
+            children = children.slice(startCount - 1, endCount);    
+        }
+        if (length === 0 || !hasChildren) {
             if (!filterLowered) {
                 if (remainingProps.emptyText) {
                     children = (
@@ -84,6 +107,39 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
         );
     }
 
+    let footer = null;
+    const page = remainingProps.page;
+    if (typeof page != 'undefined' && remainingProps.page && length) {
+        const {startCount, endCount} = getPaginationProps(length)
+        const firstPage = startCount <= 1;
+        const lastPage = endCount >= length;
+
+        footer = (  
+            <div className='backstage-list__paging'>
+                <FormattedMessage
+                    id='backstage-list.paginatorCount'
+                    defaultMessage={startCount + ' - ' + endCount + ' of ' + length}
+                />
+
+                <button
+                    type='button'
+                    className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                    onClick={firstPage ? void {} : remainingProps.previousPage}
+                    disabled={firstPage}
+                >
+                    <PreviousIcon/>
+                </button>
+                <button
+                    type='button'
+                    className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                    onClick={lastPage ? void {} : remainingProps.nextPage}
+                    disabled={lastPage}
+                >
+                    <NextIcon/>
+                </button>
+            </div>
+        );
+    }
     return (
         <div className='backstage-content'>
             <div className='backstage-header'>
@@ -111,6 +167,9 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
             </span>
             <div className='backstage-list'>
                 {children}
+            </div>
+            <div className='backstage-footer'>
+                {footer}
             </div>
         </div>
     );
