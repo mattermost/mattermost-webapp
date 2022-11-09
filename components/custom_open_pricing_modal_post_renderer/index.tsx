@@ -264,7 +264,8 @@ export default function OpenPricingModalPost(props: {post: Post}) {
                 style={{...btnStyle, border: '1px solid var(--button-bg)', color: 'var(--button-bg)', background: 'var(--sidebar-text)'}}
             >
                 {formatMessage({id: 'postypes.custom_open_pricing_modal_post_renderer.view_options', defaultMessage: 'View upgrade options'})}
-            </button>);
+            </button>
+        );
     };
 
     return (
