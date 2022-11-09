@@ -36,7 +36,7 @@ jobs:
         run: |
           bin/mattermost &
           sleep 20
-          curl http://localhost:8065/api/v4/config/client?format=old
+          curl http://localhost:8065/api/v4/config/client?format=old >> $GITHUB_STEP_SUMMARY
         env:
           MM_LOGSETTINGS_ENABLECONSOLE: false
           MM_SQLSETTINGS_DATASOURCE: postgres://mmuser:mostest@localhost/postgres?sslmode=disable&connect_timeout=10&binary_parameters=yes
