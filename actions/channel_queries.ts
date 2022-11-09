@@ -8,41 +8,26 @@ import {UserProfile} from '@mattermost/types/users';
 
 import {convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
 
-export const CHANNELS_MAX_PER_PAGE = 60;
-export const CHANNEL_MEMBERS_MAX_PER_PAGE = 60;
+export const CHANNELS_AND_CHANNEL_MEMBERS_PER_PAGE = 80;
 
 type Cursor = {
     cursor: string;
 }
 
-type GraphQLChannel = Omit<ServerChannel, 'team_id'> & Cursor & {
+export type GraphQLChannel = Omit<ServerChannel, 'team_id'> & Cursor & {
     team: Team;
 };
 
-export type ChannelsQueryResponseType = {
-    data: {
-        channels: GraphQLChannel[];
-    };
-    errors?: unknown;
-};
-
-type GraphQLChannelMember = Omit<ChannelMembership, 'channel_id | user_id | roles | post_root_id'> & Cursor & {
+export type GraphQLChannelMember = Omit<ChannelMembership, 'channel_id | user_id | roles | post_root_id'> & Cursor & {
     channel: ServerChannel;
     roles: Role[];
 };
 
-export type ChannelMembersQueryResponseType = {
-    data: {
-        channelMembers: GraphQLChannelMember[];
-    };
-    errors?: unknown;
-};
-
 export type ChannelsAndChannelMembersQueryResponseType = {
-    data: {
+    data?: {
         channels: GraphQLChannel[];
         channelMembers: GraphQLChannelMember[];
-    } | null;
+    };
     errors?: unknown;
 }
 
@@ -98,79 +83,28 @@ const channelMembersFragment = `
 `;
 
 const channelsAndChannelMembersQueryString = `
-    query gqlWebChannelsAndChannelMembers($teamId: String!, $maxChannelsPerPage: Int!, $maxChannelMembersPerPage: Int!) {
-        channels(userId: "me", teamId: $teamId, first: $maxChannelsPerPage) {
+    query gqlWebChannelsAndChannelMembers($teamId: String, $perPage: Int!, $channelsCursor: String, $channelMembersCursor: String) {
+        channels(userId: "me", teamId: $teamId, first: $perPage, after: $channelsCursor) {
             ...channelsFragment
         }
-        channelMembers(userId: "me", teamId: $teamId, first: $maxChannelMembersPerPage) {
+        channelMembers(userId: "me", teamId: $teamId, first: $perPage, after: $channelMembersCursor) {
             ...channelMembersFragment
         }
     }
+
     ${channelsFragment}
     ${channelMembersFragment}
 `;
 
-/**
- * @param teamId : If empty, returns all channels and channel members across teams. Otherwise only for the specified team.
- */
-export function getChannelsAndChannelMembersQueryString(teamId: Team['id'] = '') {
+export function getChannelsAndChannelMembersQueryString(teamId: Team['id'] = '', channelsCursor: Cursor['cursor'] = '', channelMembersCursor: Cursor['cursor'] = '') {
     return JSON.stringify({
         query: channelsAndChannelMembersQueryString,
         operationName: 'gqlWebChannelsAndChannelMembers',
         variables: {
             teamId,
-            maxChannelsPerPage: CHANNELS_MAX_PER_PAGE,
-            maxChannelMembersPerPage: CHANNEL_MEMBERS_MAX_PER_PAGE,
-        },
-    });
-}
-
-const channelsQueryString = `
-    query gqlWebChannels($teamId: String!, $maxChannelsPerPage: Int!, $cursor: String!) {
-        channels(userId: "me", teamId: $teamId, first: $maxChannelsPerPage, after: $cursor) {
-            ...channelsFragment
-        }
-    }
-    ${channelsFragment}
-`;
-
-/**
- * @param cursor : If empty, will return the first page of channel.
- * @param teamId : If its empty, will return channel for all teams instead. Otherwise only for the specified team.
- */
-export function getChannelsQueryString(cursor = '', teamId: Team['id'] = '') {
-    return JSON.stringify({
-        query: channelsQueryString,
-        operationName: 'gqlWebChannels',
-        variables: {
-            teamId,
-            maxChannelsPerPage: CHANNELS_MAX_PER_PAGE,
-            cursor,
-        },
-    });
-}
-
-const channelMembersQueryString = `
-    query gqlWebChannelMembers($teamId: String!, $maxChannelMembersPerPage: Int!, $cursor: String!) {
-        channelMembers(userId: "me", teamId: $teamId, first: $maxChannelMembersPerPage, after: $cursor) {
-            ...channelMembersFragment
-        }
-    }
-    ${channelMembersFragment}
-`;
-
-/**
- * @param cursor : If empty, will return the first page of channel members.
- * @param teamId : If its empty, will return channel members for all teams instead. Otherwise only for the specified team.
- */
-export function getChannelMembersQueryString(cursor = '', teamId: Team['id'] = '') {
-    return JSON.stringify({
-        query: channelMembersQueryString,
-        operationName: 'gqlWebChannelMembers',
-        variables: {
-            teamId,
-            maxChannelMembersPerPage: CHANNEL_MEMBERS_MAX_PER_PAGE,
-            cursor,
+            perPage: CHANNELS_AND_CHANNEL_MEMBERS_PER_PAGE,
+            channelsCursor,
+            channelMembersCursor,
         },
     });
 }
