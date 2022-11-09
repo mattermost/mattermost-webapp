@@ -187,7 +187,7 @@ function selfHostedSignup(state: SelfHostedSignupReducer = initialSelfHostedSign
     case CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS:
         return {
             ...state,
-            progress: action.progress,
+            progress: action.data,
         };
     default:
         return state;
