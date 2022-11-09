@@ -1,6 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+<<<<<<< HEAD:components/autocomplete_selector.test.tsx
 import React, {ChangeEvent} from 'react';
+=======
+
+import React from 'react';
+>>>>>>> master:components/autocomplete_selector.test.jsx
 import {shallow} from 'enzyme';
 
 import AutocompleteSelector from './autocomplete_selector';

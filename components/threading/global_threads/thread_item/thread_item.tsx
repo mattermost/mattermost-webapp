@@ -6,9 +6,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Channel} from '@mattermost/types/channels';
-import {Post} from '@mattermost/types/posts';
-import {UserThread} from '@mattermost/types/threads';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
@@ -17,7 +14,7 @@ import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/a
 import {Posts} from 'mattermost-redux/constants';
 
 import * as Utils from 'utils/utils';
-import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
+import {CrtTutorialSteps, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {getIsMobileView} from 'selectors/views/browser';
 import Badge from 'components/widgets/badges/badge';
@@ -25,9 +22,13 @@ import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
-import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
+import CRTListTutorialTip from 'components/tours/crt_tour/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
 import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+
+import {UserThread} from '@mattermost/types/threads';
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
@@ -77,7 +78,6 @@ function ThreadItem({
     const isMobileView = useSelector(getIsMobileView);
     const currentUserId = useSelector(getCurrentUserId);
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
     const postAuthor = post.props?.override_username || displayName;
@@ -268,7 +268,7 @@ function ThreadItem({
                     </>
                 )}
             </div>
-            {showListTutorialTip && isFirstThreadInList && isMobileView && (<CRTListTutorialTip autoTour={tutorialTipAutoTour}/>)}
+            {showListTutorialTip && isFirstThreadInList && isMobileView && (<CRTListTutorialTip/>)}
         </article>
     );
 }

@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
@@ -133,7 +134,8 @@ function FileLimitStickyBanner() {
                                         openPricingModal({trackingLocation: 'file_limit_sticky_banner'});
                                     }
                                 }
-                            >{chunks}</a>);
+                            >{chunks}</a>
+                        );
                     },
                 })
             }
