@@ -7,22 +7,19 @@ import {PluginKey} from 'prosemirror-state';
 
 import SuggestionList, {SuggestionListProps, SuggestionListRef, SuggestionItem} from '../suggestion-list';
 
-const pluginName = 'channel-suggestions';
+const pluginName = 'emoji-suggestions';
 const SuggestionPluginKey = new PluginKey(pluginName);
 
 const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
-    char: '~',
+    char: ':',
 
     pluginKey: SuggestionPluginKey,
 
     items: ({query}) => {
         return [
-            'Town Square',
-            'Broadcast',
-            'Off Topic',
-            'Random Channel 1',
-            'Random Channel 2',
-            'Random Channel 3',
+            'heart',
+            'eyes',
+            'smiley',
         ].
             filter((item) => item.toLowerCase().startsWith(query.toLowerCase())).
             map((name) => ({
@@ -69,13 +66,16 @@ const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
     },
 };
 
-const ChannelSuggestions = Mention.extend({
+const EmojiSuggestions = Mention.extend({
     name: pluginName,
 }).configure({
     HTMLAttributes: {
-        class: 'channel-suggestion',
+        class: 'emoji-suggestion',
+    },
+    renderLabel({options, node}) {
+        return `${options.suggestion.char}${node.attrs.label ?? node.attrs.id}`;
     },
     suggestion,
 });
 
-export default ChannelSuggestions;
+export default EmojiSuggestions;

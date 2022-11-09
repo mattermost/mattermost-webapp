@@ -5,9 +5,10 @@ import {Mention} from '@tiptap/extension-mention';
 import {SuggestionOptions} from '@tiptap/suggestion';
 import {PluginKey} from 'prosemirror-state';
 
-const SuggestionPluginKey = new PluginKey('user-suggestions');
-
 import SuggestionList, {SuggestionListProps, SuggestionListRef, SuggestionItem} from '../suggestion-list';
+
+const pluginName = 'channel-suggestions';
+const SuggestionPluginKey = new PluginKey(pluginName);
 
 const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
     char: '@',
@@ -88,7 +89,7 @@ const suggestion: Omit<SuggestionOptions<SuggestionItem>, 'editor'> = {
 };
 
 const User = Mention.extend({
-    name: 'user-suggestions',
+    name: pluginName,
 }).configure({
     HTMLAttributes: {
         class: 'at-mention',

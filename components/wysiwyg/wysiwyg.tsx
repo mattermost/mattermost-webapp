@@ -1,14 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {ResolvedPos} from 'prosemirror-model';
-import {EditorView} from 'prosemirror-view';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
 import {debounce} from 'lodash';
 import type {DebouncedFunc} from 'lodash';
+import {ResolvedPos} from 'prosemirror-model';
+import {EditorView} from 'prosemirror-view';
 
 import {
     EditorContent,
@@ -45,7 +45,7 @@ import {htmlToMarkdown, markdownToHtml} from './utils/toMarkdown';
 import Toolbar from './toolbar';
 import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
-import {UserSuggestions, ChannelSuggestions} from './components/suggestions';
+import {UserSuggestions, ChannelSuggestions, EmojiSuggestions} from './components/suggestions';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -214,6 +214,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
             PasteHandler,
             UserSuggestions,
             ChannelSuggestions,
+            EmojiSuggestions,
         ],
         content: draft?.content,
         autofocus: 'end',

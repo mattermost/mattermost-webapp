@@ -2,8 +2,10 @@
 // See LICENSE.txt for license information.
 import UserSuggestions from './user';
 import ChannelSuggestions from './channel';
+import EmojiSuggestions from './emoji';
 
 export {
     UserSuggestions,
     ChannelSuggestions,
+    EmojiSuggestions,
 };
