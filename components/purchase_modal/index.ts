@@ -80,4 +80,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default withGetCloudSubscription(connect(mapStateToProps, mapDispatchToProps)(PurchaseModal));
+export default connect(mapStateToProps, mapDispatchToProps)(PurchaseModal);

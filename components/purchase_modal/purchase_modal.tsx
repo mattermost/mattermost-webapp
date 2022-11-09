@@ -159,13 +159,11 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
             }
         });
     }
-
     return currentProduct;
 }
 
 function getSelectedProduct(products: Record<string, Product> | undefined, productId?: string | null) {
     const currentProduct = findProductInDictionary(products, productId);
-
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -314,6 +312,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     async componentDidMount() {
         if (isEmpty(this.state.currentProduct || this.state.selectedProduct)) {
+            console.log("COMPONENT DID MOUNT FETCHING PRODUCTS");
             await this.props.actions.getCloudProducts();
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
@@ -609,6 +608,16 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         );
     }
 
+    selectedProduct = () => {
+        // If the user is not past 90 days delinquent, we don't need to upgrade them as they're still on the correct plan
+        if (this.props.isDelinquencyModal && !this.props.isCloudDelinquencyGreaterThan90Days) {
+            console.log("CURRENT PRODUCT IS SELECTED PRODUCT");
+            return findProductInDictionary(this.props.products, this.props.productId)
+        }
+        console.log("SELECTED PRODUCT IS SELECTED PRODUCT");
+        return this.state.selectedProduct;
+    }
+
     purchaseScreen = () => {
         const title = (
             <FormattedMessage
@@ -736,10 +745,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                                 trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'paid_arrears');
                                             }
                                         }}
-                                        selectedProduct={this.state.selectedProduct}
+                                        selectedProduct={this.selectedProduct()}
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
-                                        this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
+                                        this.selectedProduct()?.billing_scheme === BillingSchemes.PER_SEAT}
                                         setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
                                         isUpgradeFromTrial={this.state.isUpgradeFromTrial}
                                         telemetryProps={{
