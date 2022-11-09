@@ -38,7 +38,8 @@ export function renderView(props: Props) {
         <div
             {...props}
             className='scrollbar--view'
-        />);
+        />
+    );
 }
 
 export function renderThumbHorizontal(props: Props) {
@@ -46,7 +47,8 @@ export function renderThumbHorizontal(props: Props) {
         <div
             {...props}
             className='scrollbar--horizontal'
-        />);
+        />
+    );
 }
 
 export function renderThumbVertical(props: Props) {
@@ -54,7 +56,8 @@ export function renderThumbVertical(props: Props) {
         <div
             {...props}
             className='scrollbar--vertical'
-        />);
+        />
+    );
 }
 
 export default class TeamSidebar extends React.PureComponent<Props, State> {

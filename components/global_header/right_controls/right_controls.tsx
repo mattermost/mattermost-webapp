@@ -9,10 +9,10 @@ import {ProductIdentifier} from '@mattermost/types/products';
 import Pluggable from 'plugins/pluggable';
 import {
     CustomizeYourExperienceTour,
-    OnboardingTourSteps,
     useShowOnboardingTutorialStep,
-} from 'components/onboarding_tour';
+} from 'components/tours/onboarding_tour';
 import StatusDropdown from 'components/status_dropdown';
+import {OnboardingTourSteps} from 'components/tours';
 
 import {isChannels} from 'utils/products';
 

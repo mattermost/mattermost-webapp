@@ -4,9 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
+import {markMostRecentPostInChannelAsUnread} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {Channel} from '@mattermost/types/channels';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
@@ -21,7 +22,9 @@ import {
     OnboardingTaskCategory,
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
-import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/tours';
+
+import {Channel} from '@mattermost/types/channels';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -61,6 +64,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            markMostRecentPostInChannelAsUnread,
             unsetEditingPost,
             clearChannelSelection,
             multiSelectChannelTo,
