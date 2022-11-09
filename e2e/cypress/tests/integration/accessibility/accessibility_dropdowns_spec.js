@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @accessibility
 
 describe('Verify Accessibility Support in Dropdown Menus', () => {
@@ -132,7 +131,7 @@ describe('Verify Accessibility Support in Dropdown Menus', () => {
         cy.uiGetLHSTeamMenu().should('not.exist');
     });
 
-    it('MM-T1477 Accessibility Support in Status Dropdown', () => {
+    it('MM-T1477 Accessibility Support in Status Dropdown  - KNOWN ISSUE: MM-45716', () => {
         // # Focus to set status button
         cy.uiGetSetStatusButton().focus().tab({shift: true}).tab();
 
