@@ -608,7 +608,7 @@ const defaultServerConfig: AdminConfig = {
                 Enable: true,
             },
             focalboard: {
-                Enable: true,
+                Enable: false,
             },
             playbooks: {
                 Enable: true,
@@ -656,8 +656,6 @@ const defaultServerConfig: AdminConfig = {
         CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
-        GuidedChannelCreation: false,
-        InviteToTeam: 'none',
         CustomGroups: true,
         BoardsDataRetention: false,
         NormalizeLdapDNs: false,
@@ -667,8 +665,7 @@ const defaultServerConfig: AdminConfig = {
         InsightsEnabled: true,
         CommandPalette: false,
         PostForwarding: true,
-        BoardsProduct: false,
-        PlanUpgradeButtonText: 'upgrade',
+        BoardsProduct: true,
     },
     ImportSettings: {
         Directory: './import',

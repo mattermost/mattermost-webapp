@@ -117,6 +117,8 @@ export default class SuggestionList extends React.PureComponent {
             }
         } else if (item.type === 'mention.channels') {
             this.currentLabel = item.channel.display_name;
+        } else if (item.emoji) {
+            this.currentLabel = item.name;
         }
 
         if (this.currentLabel) {

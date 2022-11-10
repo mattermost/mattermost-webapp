@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {General, Preferences} from '../constants';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {ChannelMembership} from '@mattermost/types/channels';

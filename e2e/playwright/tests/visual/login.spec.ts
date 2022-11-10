@@ -30,7 +30,7 @@ test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     await wait(duration.one_sec);
 
     // Match snapshot of login page
-    ({eyes, targetWindow} = await matchSnapshot(testInfo.title, testArgs));
+    ({eyes, targetWindow} = await matchSnapshot(testInfo, testArgs));
 
     // Click sign in button without entering user credential
     await loginPage.signInButton.click();
@@ -38,5 +38,5 @@ test('/login', async ({page, isMobile, browserName, viewport}, testInfo) => {
     await wait(duration.one_sec);
 
     // Match snapshot of login page with error
-    await matchSnapshot(testInfo.title + ' error', testArgs, {eyes, targetWindow});
+    await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs, {eyes, targetWindow});
 });
