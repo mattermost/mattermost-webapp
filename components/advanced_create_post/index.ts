@@ -26,7 +26,7 @@ import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/se
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {PreferenceType} from '@mattermost/types/preferences';
+
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -59,7 +59,9 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {OnboardingTourSteps, TutorialTourName} from 'components/tours';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import AdvancedCreatePost from './advanced_create_post';
 

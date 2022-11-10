@@ -22,11 +22,7 @@ type Props = {
     };
 };
 
-type State = {
-
-};
-
-export class ChannelFilter extends React.PureComponent<Props, State> {
+export class ChannelFilter extends React.PureComponent<Props> {
     componentDidMount() {
         document.addEventListener('keydown', this.handleUnreadFilterKeyPress);
     }

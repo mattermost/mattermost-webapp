@@ -102,7 +102,8 @@ function StarterDisclaimerCTA() {
         >
             <i className='icon-alert-outline'/>
             {intl.formatMessage({id: 'pricing_modal.planDisclaimer.free', defaultMessage: 'This plan has data restrictions.'})}
-        </Disclaimer>);
+        </Disclaimer>
+    );
 }
 
 export default StarterDisclaimerCTA;

@@ -37,6 +37,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         displayedChannels: [],
         actions: {
             markChannelAsRead: jest.fn(),
+            markMostRecentPostInChannelAsUnread: jest.fn(),
             favoriteChannel: jest.fn(),
             unfavoriteChannel: jest.fn(),
             muteChannel: jest.fn(),
@@ -72,6 +73,21 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         );
 
         expect(wrapper.find('#markAsRead-channel_id')).toHaveLength(1);
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when channel is read', () => {
+        const props = {
+            ...baseProps,
+            isUnread: false,
+        };
+
+        const wrapper = shallowWithIntl(
+            <SidebarChannelMenu {...props}/>,
+        );
+
+        expect(wrapper.find('#markAsUnread-channel_id')).toHaveLength(1);
 
         expect(wrapper).toMatchSnapshot();
     });
