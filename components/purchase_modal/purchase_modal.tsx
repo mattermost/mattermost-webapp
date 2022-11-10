@@ -26,7 +26,7 @@ import {
     ItemStatus,
     RecurringIntervals,
 } from 'utils/constants';
-import {findProductByID} from 'utils/products';
+import {findProductByID, findProductBySkuAndInterval} from 'utils/products';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import Input from 'components/widgets/inputs/input/input';
@@ -222,7 +222,7 @@ function Card(props: CardProps) {
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
-            props.updateUsersCount(numValue);
+            setUsersCount(numValue.toString());
         }
     };
 
@@ -239,6 +239,10 @@ function Card(props: CardProps) {
         if (isMonthly) {
             setDisplayPrice(props.monthlyPrice.toString());
             setContainerClassname(monthlyContainerName);
+            setUsersCount(props.usersCount.toString());
+            setMonthlyPrice(props.usersCount * props.monthlyPrice);
+            setYearlyPrice(props.usersCount * props.yearlyPrice);
+            setPriceDifference((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
         } else {
             setDisplayPrice(props.yearlyPrice.toString());
             setContainerClassname(yearlyContainerName);
@@ -605,6 +609,11 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             if (yearlyProduct) {
                 this.setState({selectedProduct: yearlyProduct});
             }
+        } else if ((this.state.isMonthly && this.state.selectedProduct?.recurring_interval == RecurringIntervals.YEAR)) {
+            const monthlyProduct = findProductByID(this.props.products|| {}, this.state.selectedProduct.cross_sells_to);
+            if (monthlyProduct) {
+                this.setState({selectedProduct: monthlyProduct});
+            }
         }
 
         this.setState({processing: true, paymentInfoIsValid: false, buttonClickedInfo: callerInfo});
@@ -815,6 +824,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             }
 
             const crossSellsToProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
+            console.log(crossSellsToProduct)
             return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : 0;
         };
 
