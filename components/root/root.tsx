@@ -85,6 +85,8 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 
 import WelcomePostRenderer from 'components/welcome_post_renderer';
 
+import DockDock from 'components/threading/global_threads_dock/dock';
+
 import {applyLuxonDefaults} from './effects';
 
 import RootProvider from './root_provider';
@@ -641,15 +643,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         <OnBoardingTaskList/>
                         <TeamSidebar/>
                         <DelinquencyModalController/>
-                        <footer
-                            css={`
-                                grid-area: footer;
-                                height: 40px;
-                                background: var(--global-header-background);
-                            `}
-                        >
-                            {'Thread Bar'}
-                        </footer>
+                        <DockDock/>
                         <Switch>
                             {this.props.products?.map((product) => (
                                 <Route

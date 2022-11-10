@@ -72,7 +72,8 @@
       2,
       {
         "ignore": [
-          "mask-type"
+          "mask-type",
+          "css"
         ]
       }
     ],

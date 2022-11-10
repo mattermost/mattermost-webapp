@@ -24,8 +24,10 @@ import {ModalData} from 'types/actions';
 import {PluginComponent} from 'types/store/plugins';
 import ForwardPostModal from '../forward_post_modal';
 import Badge from '../widgets/badges/badge';
+import {useDockedThreads} from 'components/threading/global_threads_dock/dock';
 
 import {ChangeEvent, trackDotMenuEvent} from './utils';
+
 import './dot_menu.scss';
 
 type ShortcutKeyProps = {
@@ -39,6 +41,20 @@ const ShortcutKey = ({shortcutKey: shortcut}: ShortcutKeyProps) => (
 );
 
 const MENU_BOTTOM_MARGIN = 80;
+
+const OpenInDock = (props: Props) => {
+    const {open} = useDockedThreads();
+    return (
+        <Menu.ItemAction
+            id={`dock_post_${props.post.id}`}
+            show={!PostUtils.isSystemMessage(props.post) && !props.isReadOnly}
+            text={Utils.localizeMessage('post_info.dock', 'Open in dock')}
+            icon={Utils.getMenuItemIcon('icon-reply-outline')}
+            rightDecorator={<ShortcutKey shortcutKey='P'/>}
+            onClick={() => open(props.post.id)}
+        />
+    );
+};
 
 type Props = {
     intl: IntlShape;
@@ -596,6 +612,7 @@ export class DotMenuClass extends React.PureComponent<Props, State> {
                         rightDecorator={<ShortcutKey shortcutKey='P'/>}
                         onClick={this.handlePinMenuItemActivated}
                     />
+                    <OpenInDock {...this.props}/>
                     {!isSystemMessage && (this.state.canEdit || this.state.canDelete) && this.renderDivider('edit')}
                     <Menu.ItemAction
                         id={`permalink_${this.props.post.id}`}
