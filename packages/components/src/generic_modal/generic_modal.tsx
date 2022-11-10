@@ -30,6 +30,7 @@ export type Props = {
     backdrop?: boolean;
     backdropClassName?: string;
     headerButton?: React.ReactNode;
+    children: React.ReactNode;
 };
 
 type State = {
