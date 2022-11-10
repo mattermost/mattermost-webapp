@@ -299,6 +299,7 @@ const SearchBar = styled.div`
         border: none;
         padding: 0;
         color: var(--center-channel-color);
+        background: var(--center-channel-bg);
         flex: 1;
     }
 
