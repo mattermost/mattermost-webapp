@@ -66,7 +66,7 @@ describe('Onboarding', () => {
 
         // # Attempt to create a new account
         cy.get('.login-body-card', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
-        cy.findByText('Create an account').should('be.visible').click();
+        cy.findByText('Don\'t have an account?').should('be.visible').click();
         cy.get('#input_email').should('be.focused').and('be.visible').type(email);
         cy.get('#input_name').should('be.visible').type(username);
         cy.get('#input_password-input').should('be.visible').type(password);

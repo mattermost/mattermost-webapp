@@ -324,6 +324,10 @@ const apiCreateGuestUser = ({
 };
 Cypress.Commands.add('apiCreateGuestUser', apiCreateGuestUser);
 
+/**
+ * Revoke all active sessions for a user
+ * @param {String} userId - ID of user to revoke sessions
+ */
 const apiRevokeUserSessions = (userId: string): ChainableT<{data: Record<string, any>}> => {
     return cy.request({
         headers: {'X-Requested-With': 'XMLHttpRequest'},
@@ -575,6 +579,7 @@ declare global {
             /**
              * Login as admin via API.
              * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+             * @param {Object} requestOptions - cypress' request options object, see https://docs.cypress.io/api/commands/request#Arguments
              * @returns {UserProfile} out.user: `UserProfile` object
              *
              * @example
@@ -716,13 +721,10 @@ declare global {
 
             /**
              * Create an admin account based from the env variables defined in Cypress env.
-             * @param {string} options.namePrefix - 'user' (default) or any prefix to easily identify a user
-             * @param {boolean} options.bypassTutorial - true (default) or false for user to go thru tutorial steps
-             * @param {boolean} options.showOnboarding - false (default) to hide or true to show Onboarding steps
              * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
              *
              * @example
-             *   cy.apiCreateAdmin(options);
+             *   cy.apiCreateAdmin();
              */
             apiCreateAdmin: typeof apiCreateAdmin;
 
