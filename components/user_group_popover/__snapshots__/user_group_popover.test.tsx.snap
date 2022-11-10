@@ -186,7 +186,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                             >
                               <button
                                 aria-label="Close"
-                                className="CloseButton-lhxEdi iXKFqQ btn-icon"
+                                className="CloseButton-lhxEdi gyMeQZ btn-icon"
                                 onClick={[MockFunction]}
                               >
                                 <CloseIcon>
@@ -281,69 +281,48 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                         </HeaderButton>
                       </div>
                     </Header>
-                    <SearchContainer>
+                    <SearchBar>
                       <div
-                        className="SearchContainer-cRelmn ifVpbU"
+                        className="SearchBar-cqKmJF kUpGaW"
                       >
-                        <SearchBar
+                        <MagnifyIcon>
+                          <svg
+                            fill="currentColor"
+                            height={24}
+                            version="1.1"
+                            viewBox="0 0 24 24"
+                            width={24}
+                            xmlns="http://www.w3.org/2000/svg"
+                          >
+                            <path
+                              d="M20.224,18.829l-3.775-3.775C17.418,13.791,18,12.215,18,10.5C18,6.358,14.642,3,10.5,3S3,6.358,3,10.5S6.358,18,10.5,18c1.708,0,3.278-0.578,4.539-1.539l3.775,3.749c0.39,0.388,1.02,0.388,1.41,0C20.592,19.823,20.592,19.216,20.224,18.829z M5,10.5
+	C5,7.462,7.462,5,10.5,5S16,7.462,16,10.5S13.538,16,10.5,16S5,13.538,5,10.5z"
+                            />
+                          </svg>
+                        </MagnifyIcon>
+                        <QuickInput
                           className="user-group-popover_search-bar"
-                          inputPrefix={<MagnifyIcon />}
+                          clearable={true}
+                          delayInputUpdate={false}
                           onChange={[Function]}
+                          onClear={[Function]}
                           placeholder="Search members"
+                          tooltipPosition="bottom"
                           type="text"
-                          useLegend={false}
                           value=""
                         >
-                          <ForwardRef
-                            className="SearchBar-cqKmJF itaKpa user-group-popover_search-bar"
-                            inputPrefix={<MagnifyIcon />}
-                            onChange={[Function]}
-                            placeholder="Search members"
-                            type="text"
-                            useLegend={false}
-                            value=""
-                          >
-                            <div
-                              className="Input_container"
-                            >
-                              <fieldset
-                                className="Input_fieldset SearchBar-cqKmJF itaKpa user-group-popover_search-bar"
-                              >
-                                <div
-                                  className="Input_wrapper"
-                                >
-                                  <MagnifyIcon>
-                                    <svg
-                                      fill="currentColor"
-                                      height={24}
-                                      version="1.1"
-                                      viewBox="0 0 24 24"
-                                      width={24}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M20.224,18.829l-3.775-3.775C17.418,13.791,18,12.215,18,10.5C18,6.358,14.642,3,10.5,3S3,6.358,3,10.5S6.358,18,10.5,18c1.708,0,3.278-0.578,4.539-1.539l3.775,3.749c0.39,0.388,1.02,0.388,1.41,0C20.592,19.823,20.592,19.216,20.224,18.829z M5,10.5
-	C5,7.462,7.462,5,10.5,5S16,7.462,16,10.5S13.538,16,10.5,16S5,13.538,5,10.5z"
-                                      />
-                                    </svg>
-                                  </MagnifyIcon>
-                                  <input
-                                    className="Input form-control medium"
-                                    id="input_"
-                                    onBlur={[Function]}
-                                    onChange={[Function]}
-                                    onFocus={[Function]}
-                                    placeholder="Search members"
-                                    type="text"
-                                    value=""
-                                  />
-                                </div>
-                              </fieldset>
-                            </div>
-                          </ForwardRef>
-                        </SearchBar>
+                          <div>
+                            <input
+                              className="user-group-popover_search-bar"
+                              defaultValue=""
+                              onChange={[Function]}
+                              placeholder="Search members"
+                              type="text"
+                            />
+                          </div>
+                        </QuickInput>
                       </div>
-                    </SearchContainer>
+                    </SearchBar>
                     <Connect(Component)
                       group={
                         Object {

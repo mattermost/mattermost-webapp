@@ -16,7 +16,7 @@ import {ActionResult} from 'mattermost-redux/types/actions';
 import * as Utils from 'utils/utils';
 import Constants, {ModalIdentifiers} from 'utils/constants';
 
-import Input from 'components/widgets/inputs/input/input';
+import {QuickInput} from 'components/quick_input/quick_input';
 import Popover from 'components/widgets/popover';
 import ViewUserGroupModal from 'components/view_user_group_modal';
 import UserGroupsModal from 'components/user_groups_modal';
@@ -127,6 +127,10 @@ const UserGroupPopover = (props: Props) => {
         actions.setPopoverSearchTerm(event.target.value);
     };
 
+    const handleClear = () => {
+        actions.setPopoverSearchTerm('');
+    };
+
     return (
         <Popover
             {...props}
@@ -167,17 +171,18 @@ const UserGroupPopover = (props: Props) => {
                     />
                 </Header>
                 {group.member_count > 10 ? (
-                    <SearchContainer>
-                        <SearchBar
+                    <SearchBar>
+                        <MagnifyIcon/>
+                        <QuickInput
                             type='text'
                             className='user-group-popover_search-bar'
                             placeholder={Utils.localizeMessage('user_group_popover.searchGroupMembers', 'Search members')}
-                            inputPrefix={<MagnifyIcon/>}
                             value={searchTerm}
                             onChange={handleSearch}
-                            useLegend={false}
+                            clearable={true}
+                            onClear={handleClear}
                         />
-                    </SearchContainer>
+                    </SearchBar>
                 ) : null}
                 <GroupMemberList
                     group={group}
@@ -228,6 +233,9 @@ const CloseButton = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    position: relative;
+    right: -4px;
+    top: -2px;
 
     /* Place this button above the main header button */
     z-index: 9;
@@ -259,28 +267,61 @@ const Dot = styled(NoShrink)`
     padding: 0 6px;
 `;
 
-const SearchContainer = styled.div`
+const SearchBar = styled.div`
     margin: 4px 12px 12px 12px;
-`;
-
-const SearchBar = styled(Input)`
+    padding: 0 1px;
     height: 32px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+    border-radius: 4px;
+    overflow: hidden;
 
-    .Input_wrapper {
-        padding-left: 0;
+    &:hover {
+        border-color: rgba(var(--center-channel-color-rgb), 0.48);
+    }
+
+    &:focus-within {
+        border-color: var(--button-bg);
+        box-shadow: inset 0 0 0 1px var(--button-bg);
+    }
+
+    & > div {
+        display: flex;
         align-items: center;
+        flex: 1;
+    }
 
+    input {
+        width: 100%;
+        font-size: 12px;
+        border: none;
+        padding: 0;
+        color: var(--center-channel-color);
+        flex: 1;
+    }
 
-        input {
-            height: unset;
-            font-size: 12px;
-        }
+    input.a11y--focused {
+        box-shadow: none;
     }
 
     svg {
-        width: 18px;
-        height: 18px;
+        width: 14px;
+        height: 100%;
         margin: 0 11px;
+        color: rgba(var(--center-channel-color-rgb), 0.64);
+    }
+
+    .input-clear {
+        width: 36px;
+        position: relative;
+        right: 0;
+    }
+
+    .icon {
+        display: flex;
+        font-size: 14px;
     }
 `;
 
