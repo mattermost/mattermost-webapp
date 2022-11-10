@@ -9,16 +9,11 @@ import {UserProfile} from '@mattermost/types/users';
 import {UserAutocomplete} from '@mattermost/types/autocomplete';
 
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
-
-import GenericUserProvider from 'components/suggestion/generic_user_provider';
-import GenericChannelProvider from 'components/suggestion/generic_channel_provider.jsx';
 
 import TextSetting, {InputTypes} from 'components/widgets/settings/text_setting';
 import AutocompleteSelector from 'components/autocomplete_selector';
 import ModalSuggestionList from 'components/suggestion/modal_suggestion_list.jsx';
 import BoolSetting from 'components/widgets/settings/bool_setting';
-import Provider from 'components/suggestion/provider';
 
 import Markdown from 'components/markdown';
 
@@ -45,16 +40,9 @@ export interface Props {
 }
 
 export default class AppsFormField extends React.PureComponent<Props> {
-    private providers: Provider[] = [];
-
     static defaultProps = {
         listComponent: ModalSuggestionList,
     };
-
-    constructor(props: Props) {
-        super(props);
-        this.setProviders();
-    }
 
     handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
         const {name, field, onChange} = this.props;
@@ -69,19 +57,6 @@ export default class AppsFormField extends React.PureComponent<Props> {
         }
     }
 
-    setProviders = () => {
-        const {actions, field} = this.props;
-
-        let providers: Provider[] = [];
-        if (field.type === AppFieldTypes.USER) {
-            providers = [new GenericUserProvider(actions.autocompleteUsers)];
-        } else if (field.type === AppFieldTypes.CHANNEL) {
-            providers = [new GenericChannelProvider(actions.autocompleteChannels)];
-        }
-
-        this.providers = providers;
-    }
-
     render() {
         const {
             field,
@@ -89,7 +64,6 @@ export default class AppsFormField extends React.PureComponent<Props> {
             value,
             onChange,
             errorText,
-            listComponent,
         } = this.props;
 
         const placeholder = field.hint || '';
@@ -155,32 +129,13 @@ export default class AppsFormField extends React.PureComponent<Props> {
                 />
             );
         }
-        case AppFieldTypes.CHANNEL: {
-            let selectedValue: string | undefined;
-            if (this.props.value) {
-                selectedValue = (this.props.value as AppSelectOption).label;
-            }
-            return (
-                <AutocompleteSelector
-                    id={name}
-                    disabled={field.readonly}
-                    providers={this.providers}
-                    onSelected={this.handleSelected}
-                    label={displayNameContent}
-                    helpText={helpTextContent}
-                    placeholder={placeholder}
-                    value={selectedValue}
-                    listComponent={listComponent}
-                />
-            );
-        }
+        case AppFieldTypes.CHANNEL:
         case AppFieldTypes.USER: {
             return (
                 <AppsFormSelectField
-                    performLookup={async (name, userInput) => {
-                        const usersSearchResults: UserAutocomplete = await this.props.actions.autocompleteUsers(userInput);
-                        return usersSearchResults.users.map((user) => ({label: this.props.teammateNameDisplay ? displayUsername(user, this.props.teammateNameDisplay) : user.username, value: user.id}));
-                    }}
+                    performLookup={this.props.performLookup}
+                    actions={this.props.actions}
+                    teammateNameDisplay={this.props.teammateNameDisplay}
                     field={field}
                     label={displayNameContent}
                     helpText={helpTextContent}
