@@ -16,6 +16,7 @@ export type FieldsetRadio = {
         name: string;
         key: string;
         value: string;
+        suffix?: JSX.Element;
     }>;
 }
 
@@ -50,6 +51,7 @@ function RadioItemCreator({
                     id={option.title.id}
                     defaultMessage={option.title.defaultMessage}
                 />
+                {option.suffix}
             </div>
         );
     });

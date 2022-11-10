@@ -1,12 +1,14 @@
 .modal .channel-notifications-settings-modal {
     overflow: hidden;
-    width: 832px;
+    width: 100%;
+    max-width: 600px;
     border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
     border-radius: 12px;
 
-    .modal-body {
+    .modal-content {
         overflow: hidden;
-        height: calc(100vh - 225px);
+        display: flex;
+        flex-direction: column;
     }
 
     .modal-header {
@@ -19,7 +21,8 @@
         display: flex;
         width: 100%;
         max-width: 1024px;
-        height: calc(90vh - 160px);
+        min-height: 150px;
+        height: calc(100vh - 265px);
     }
 
     &__footer {

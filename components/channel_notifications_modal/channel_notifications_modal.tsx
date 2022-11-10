@@ -9,6 +9,8 @@ import classNames from 'classnames';
 
 import ModalHeader from 'components/widgets/modals/generic/modal_header';
 
+import {BellOffOutlineIcon, CheckIcon} from '@mattermost/compass-icons/components';
+
 import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
 import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
 
@@ -41,7 +43,9 @@ import {
 } from './utils';
 
 import type {PropsFromRedux} from './index';
+
 import './channel_notifications_modal.scss';
+import AlertBanner from '../alert_banner';
 
 type Props = PropsFromRedux & {
 
@@ -74,7 +78,7 @@ function getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channe
     }
 
     return {
-        desktop: channelMemberNotifyProps?.desktop || NotificationLevels.DEFAULT,
+        desktop: channelMemberNotifyProps?.desktop || currentUserNotifyProps.desktop || NotificationLevels.DEFAULT,
         desktop_threads: channelMemberNotifyProps?.desktop_threads || NotificationLevels.ALL,
         mark_unread: channelMemberNotifyProps?.mark_unread || NotificationLevels.ALL,
         push: channelMemberNotifyProps?.push || NotificationLevels.DEFAULT,
@@ -87,10 +91,10 @@ function getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channe
 type SettingsType = {
     desktop: ChannelNotifyProps['desktop'];
     channel_auto_follow_threads: 'true' | 'false';
-    desktop_threads: UserNotifyProps['desktop_threads'];
+    desktop_threads: ChannelNotifyProps['desktop_threads'];
     mark_unread: ChannelNotifyProps['mark_unread'];
     push: ChannelNotifyProps['push'];
-    push_threads: UserNotifyProps['push_threads'];
+    push_threads: ChannelNotifyProps['push_threads'];
     ignore_channel_mentions: ChannelNotifyProps['ignore_channel_mentions'];
 };
 
@@ -138,7 +142,7 @@ export default function ChannelNotificationsModal(props: Props) {
             <RadioItemCreator
                 title={NotifyMeTitle}
                 inputFieldValue={settings.desktop}
-                inputFieldData={desktopNotificationInputFieldData}
+                inputFieldData={desktopNotificationInputFieldData(props.currentUser.notify_props.desktop)}
                 handleChange={(e) => handleChange({desktop: e.target.value})}
             />
             {settings.desktop === 'mention' &&
@@ -187,6 +191,52 @@ export default function ChannelNotificationsModal(props: Props) {
         }
     }
 
+    const settingsAndAlertBanner = settings.mark_unread === 'all' ? (
+        <>
+            <div className='channel-notifications-settings-modal__divider'/>
+            <SectionCreator
+                title={DesktopNotificationsSectionTitle}
+                description={DesktopNotificationsSectionDesc}
+                content={DesktopNotificationsSectionContent}
+            />
+            <div className='channel-notifications-settings-modal__divider'/>
+            <SectionCreator
+                title={MobileNotificationsSectionTitle}
+                description={MobileNotificationsSectionDesc}
+                content={MobileNotificationsSectionContent}
+            />
+
+            <div className='channel-notifications-settings-modal__divider'/>
+            <SectionCreator
+                title={AutoFollowThreadsTitle}
+                description={AutoFollowThreadsDesc}
+                content={AutoFollowThreadsSectionContent}
+            />
+        </>
+    ) : (
+        <AlertBanner
+            mode='info'
+            customIcon={
+                <BellOffOutlineIcon
+                    size={24}
+                    color={'currentColor'}
+                />
+            }
+            title={
+                <FormattedMessage
+                    id='channel_notifications.alertBanner.title'
+                    defaultMessage='This channel is muted'
+                />
+            }
+            message={
+                <FormattedMessage
+                    id='channel_notifications.alertBanner.description'
+                    defaultMessage='All other notification preferences for this channel are disabled'
+                />
+            }
+        />
+    );
+
     return (
         <Modal
             dialogClassName='a11y__modal channel-notifications-settings-modal'
@@ -211,25 +261,7 @@ export default function ChannelNotificationsModal(props: Props) {
                         title={MuteAndIgnoreSectionTitle}
                         content={MuteIgnoreSectionContent}
                     />
-                    <div className='channel-notifications-settings-modal__divider'/>
-                    <SectionCreator
-                        title={DesktopNotificationsSectionTitle}
-                        description={DesktopNotificationsSectionDesc}
-                        content={DesktopNotificationsSectionContent}
-                    />
-                    <div className='channel-notifications-settings-modal__divider'/>
-                    <SectionCreator
-                        title={MobileNotificationsSectionTitle}
-                        description={MobileNotificationsSectionDesc}
-                        content={MobileNotificationsSectionContent}
-                    />
-
-                    <div className='channel-notifications-settings-modal__divider'/>
-                    <SectionCreator
-                        title={AutoFollowThreadsTitle}
-                        description={AutoFollowThreadsDesc}
-                        content={AutoFollowThreadsSectionContent}
-                    />
+                    {settingsAndAlertBanner}
                 </div>
             </main>
             <footer className='channel-notifications-settings-modal__footer'>
