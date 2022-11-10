@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 import * as GeneralSelectors from 'mattermost-redux/selectors/entities/general';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';

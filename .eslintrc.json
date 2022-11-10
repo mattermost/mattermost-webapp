@@ -6,7 +6,7 @@
     "plugin:react-hooks/recommended"
   ],
   "plugins": [
-    "babel",
+    "@babel/eslint-plugin",
     "mattermost",
     "import",
     "cypress",
@@ -26,11 +26,17 @@
     }
   },
   "rules": {
+    "header/header": [
+      2,
+      "line",
+      " Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.\n See LICENSE.txt for license information.",
+      2
+    ],
     "no-duplicate-imports": 0,
     "import/no-duplicates": 2,
     "max-nested-callbacks": ["error", 10],
     "no-unused-expressions": 0,
-    "babel/no-unused-expressions": 2,
+    "@babel/no-unused-expressions": 2,
     "eol-last": ["error", "always"],
     "import/no-unresolved": 2,
     "import/order": [
@@ -59,6 +65,14 @@
           "location",
           "history",
           "component"
+        ]
+      }
+    ],
+    "react/no-unknown-property": [
+      2,
+      {
+        "ignore": [
+          "mask-type"
         ]
       }
     ],
@@ -153,7 +167,7 @@
     {
       "files": ["e2e/**"],
       "rules": {
-        "babel/no-unused-expressions": 0,
+        "@babel/no-unused-expressions": 0,
         "func-names": 0,
         "import/no-unresolved": 0,
         "max-nested-callbacks": 0,

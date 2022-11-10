@@ -656,8 +656,6 @@ const defaultServerConfig: AdminConfig = {
         CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
-        GuidedChannelCreation: false,
-        InviteToTeam: 'none',
         CustomGroups: true,
         BoardsDataRetention: false,
         NormalizeLdapDNs: false,
@@ -668,7 +666,6 @@ const defaultServerConfig: AdminConfig = {
         CommandPalette: false,
         PostForwarding: true,
         BoardsProduct: true,
-        PlanUpgradeButtonText: 'upgrade',
     },
     ImportSettings: {
         Directory: './import',
