@@ -283,7 +283,7 @@ exports[`component/user_group_popover should match snapshot 1`] = `
                     </Header>
                     <SearchBar>
                       <div
-                        className="SearchBar-cqKmJF kUpGaW"
+                        className="SearchBar-cqKmJF kxxwvg"
                       >
                         <MagnifyIcon>
                           <svg

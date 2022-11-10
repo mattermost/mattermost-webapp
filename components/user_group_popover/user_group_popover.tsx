@@ -307,9 +307,9 @@ const SearchBar = styled.div`
     }
 
     svg {
-        width: 14px;
+        width: 18px;
         height: 100%;
-        margin: 0 11px;
+        margin: 0 6px;
         color: rgba(var(--center-channel-color-rgb), 0.64);
     }
 
