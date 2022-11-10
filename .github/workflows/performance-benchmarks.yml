@@ -54,6 +54,7 @@ jobs:
         uses: cypress-io/github-action@v4
         with:
           browser: chrome
+          install: false
           spec: |
             ./tests/integration/channel_sidebar/category_muting_spec.ts
           start: npm run benchmarks:run-server
