@@ -28,6 +28,8 @@ import * as Utils from 'utils/utils';
 
 import {getChannelHeaderMenuPluginComponents} from 'selectors/plugins';
 
+import {GlobalState} from 'types/store';
+
 import Desktop from './channel_header_dropdown';
 import Items from './channel_header_dropdown_items';
 import Mobile from './mobile_channel_header_dropdown';
@@ -51,14 +53,14 @@ const getTeammateStatus = createSelector(
     getTeammateId,
     (userStatuses, teammateId) => {
         if (!teammateId) {
-            return null;
+            return undefined;
         }
 
         return userStatuses[teammateId];
     },
 );
 
-const mapStateToProps = (state) => ({
+const mapStateToProps = (state: GlobalState) => ({
     user: getCurrentUser(state),
     channel: getCurrentChannel(state),
     isDefault: isCurrentChannelDefault(state),
@@ -71,7 +73,7 @@ const mapStateToProps = (state) => ({
     isLicensedForLDAPGroups: state.entities.general.license.LDAPGroups === 'true',
 });
 
-const mobileMapStateToProps = (state) => {
+const mobileMapStateToProps = (state: GlobalState) => {
     const user = getCurrentUser(state);
     const channel = getCurrentChannel(state);
     const teammateId = getTeammateId(state);
