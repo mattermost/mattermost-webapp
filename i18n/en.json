@@ -5446,6 +5446,8 @@
   "workspace_limits.upgrade_professional": "Professional plan data limit",
   "workspace_limits.upgrade_reasons.professional": "On the Professional plan you can only view the most recent {fileStorage} of files. With Enterprise, experience unlimited file storage.",
   "workspace_limits.upgrade_reasons.starter": "{planName} is restricted to {messagesLimit} message history, {storageLimit} file storage, {appsLimit} apps, and {boardsCardsLimit} board cards.  You can delete items to free up space or upgrade to a paid plan.",
+  "wysiwyg.input-label.link.text": "Display text",
+  "wysiwyg.input-label.link.url": "Type or paste a link",
   "wysiwyg.tool-label.heading1.label": "Heading 1",
   "wysiwyg.tool-label.heading2.label": "Heading 2",
   "wysiwyg.tool-label.heading3.label": "Heading 3",

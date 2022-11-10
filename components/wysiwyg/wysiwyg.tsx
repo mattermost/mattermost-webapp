@@ -43,7 +43,7 @@ import {htmlToMarkdown} from './utils/toMarkdown';
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
-import {UserSuggestions, ChannelSuggestions, EmojiSuggestions, HashtagSuggestions} from './components/suggestions';
+import {UserSuggestions, ChannelSuggestions, EmojiSuggestions} from './components/suggestions';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -206,7 +206,6 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
             UserSuggestions,
             ChannelSuggestions,
             EmojiSuggestions,
-            HashtagSuggestions,
         ],
         content: draft?.content,
         autofocus: 'end',

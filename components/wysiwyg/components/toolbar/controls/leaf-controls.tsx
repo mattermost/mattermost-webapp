@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {useClickAway} from '@mattermost/compass-components/shared/hooks';
-import React, {ReactNode, ReactNodeArray, useLayoutEffect, useState} from 'react';
+import React, {FormEvent, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {autoUpdate, flip, offset, useFloating} from '@floating-ui/react-dom';
 import {isNodeSelection, posToDOMRect} from '@tiptap/core';
 import {
@@ -10,11 +10,12 @@ import {
     FormatBoldIcon,
     FormatItalicIcon,
     FormatStrikethroughVariantIcon,
-    LinkVariantIcon,
+    LinkVariantIcon, MenuVariantIcon,
 } from '@mattermost/compass-icons/components';
 import classNames from 'classnames';
 import type {Editor} from '@tiptap/react';
 import {createPortal} from 'react-dom';
+import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import {t} from 'utils/i18n';
@@ -23,27 +24,6 @@ import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcu
 
 import ToolbarControl, {FloatingContainer} from '../toolbar_controls';
 import type {ToolDefinition} from '../toolbar_controls';
-
-function setLink(editor: Editor) {
-    const previousUrl = editor.getAttributes('link').href;
-    // eslint-disable-next-line no-alert
-    const url = window.prompt('URL', previousUrl);
-
-    // cancelled
-    if (url === null) {
-        return;
-    }
-
-    // empty
-    if (url === '') {
-        editor.chain().focus().extendMarkRange('link').unsetLink().run();
-
-        return;
-    }
-
-    // update link
-    editor.chain().focus().extendMarkRange('link').setLink({href: url}).run();
-}
 
 export type MarkdownLeafMode =
     | 'bold'
@@ -84,7 +64,7 @@ const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Markd
         icon: LinkVariantIcon,
         ariaLabelDescriptor: {id: t('accessibility.button.link'), defaultMessage: 'link'},
         shortcutDescriptor: KEYBOARD_SHORTCUTS.msgMarkdownLink,
-        action: () => setLink(editor),
+        action: () => {},
         isActive: () => editor.isActive('link'),
     },
     {
@@ -110,11 +90,12 @@ const makeLeafModeToolDefinitions = (editor: Editor): Array<ToolDefinition<Markd
 const FloatingLinkContainer = styled(FloatingContainer)`
     display: flex;
     flex-direction: column;
+    gap: 4px;
     padding: 12px;
     background: rgb(var(--center-channel-bg-rgb));
     border-radius: 4px;
 
-    min-width: 250px;
+    min-width: 400px;
 
     box-shadow: 0 0 8px 2px rgba(0,0,0,0.12);
 
@@ -122,18 +103,37 @@ const FloatingLinkContainer = styled(FloatingContainer)`
     opacity: 1;
 `;
 
-type Props = {
+const LinkInputBox = styled.div`
+    background: transparent;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+    gap: 12px;
+`;
+
+const LinkInput = styled.input`
+    background: transparent;
+    appearance: none;
+    border: none;
+    padding: 9px 10px 9px 0;
+    font-size: 14px;
+    line-height: 20px;
+    color: rgb(var(--center-channel-color-rgb));
+`;
+
+type LinkOverlayProps = {
     editor: Editor;
     open: boolean;
+    buttonRef: React.RefObject<HTMLButtonElement>;
     onClose?: () => void;
-    children: ReactNode | ReactNodeArray;
 };
 
 /**
  * cross-referencing the comment from suggestion-list file regarding overlays
- * @see: ../../suggestion-list.tsx
+ * @see {@link components/wysiwyg/components/suggestions/suggestion-list.tsx}
  */
-export const Overlay = ({editor, open, children, onClose}: Props) => {
+export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps) => {
+    const {formatMessage} = useIntl();
     const {x, y, strategy, reference, floating, refs} = useFloating({
         strategy: 'fixed',
         whileElementsMounted: autoUpdate,
@@ -145,7 +145,28 @@ export const Overlay = ({editor, open, children, onClose}: Props) => {
             }),
         ],
     });
-    useClickAway([refs.floating], onClose);
+
+    const {state} = editor;
+    const {selection: {from, to}} = state;
+    const selectedText = state.doc.textBetween(from, to, ' ') || '';
+
+    const previousUrl = editor.getAttributes('link').href || '';
+
+    const [url, setUrl] = useState<string | null>(null);
+    const [text, setText] = useState<string | null>(null);
+
+    useEffect(() => {
+        const handleEscapeKey = (event: KeyboardEvent) => {
+            if (event.key === 'Esc' || event.key === 'Escape') {
+                onClose?.();
+            }
+        };
+        document.addEventListener('keydown', handleEscapeKey);
+
+        return () => document.removeEventListener('keydown', handleEscapeKey);
+    }, [onClose]);
+
+    useClickAway([refs.floating, buttonRef], onClose);
 
     useLayoutEffect(() => {
         const {ranges} = editor.state.selection;
@@ -167,6 +188,12 @@ export const Overlay = ({editor, open, children, onClose}: Props) => {
         });
     }, [reference, editor, open]);
 
+    useEffect(() => {
+        // reset the state values when we hide the overlay
+        setUrl(null);
+        setText(null);
+    }, [open]);
+
     if (!open) {
         return null;
     }
@@ -180,8 +207,82 @@ export const Overlay = ({editor, open, children, onClose}: Props) => {
                 left: x ?? 0,
             }}
         >
-            <FloatingLinkContainer>
-                {children}
+            <FloatingLinkContainer
+                as={'form'}
+                onSubmit={(event: FormEvent<HTMLFormElement>) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    // either we have a new url, or we take the previous one
+                    const newUrl = url || previousUrl;
+
+                    // same goes for this: either we have something typed for it or we take the previous/selected value
+                    const newText = text || selectedText || newUrl || '';
+
+                    if (!newUrl) {
+                        // if there is no URL set for the link it will remove the link mark
+                        editor.chain().focus().extendMarkRange('link').unsetLink().run();
+                    } else if (selectedText === newText) {
+                        // extend the range to the whole link (if no link mark is present it does not do anything)
+                        // and change/add the url on it
+                        editor.chain().focus().extendMarkRange('link').setLink({href: newUrl}).run();
+                    } else {
+                        editor.
+                            chain().
+                            focus().
+                            extendMarkRange('link').
+                            deleteRange(editor.state.selection).
+
+                            // insert the text (either the url or the text from the input field)
+                            insertContentAt(from, newText).
+
+                            // select the inserted text
+                            setTextSelection({from, to: from + newText.length}).
+
+                            // apply the link mark to it
+                            setLink({href: newUrl}).
+                            run();
+                    }
+
+                    // clear the component state
+                    setUrl(null);
+                    setText(null);
+
+                    // once done close the overlay
+                    onClose?.();
+                }}
+            >
+                <LinkInputBox>
+                    <LinkVariantIcon
+                        size={16}
+                        color={'rgba(var(--center-channel-color-rgb), 0.64)'}
+                    />
+                    <LinkInput
+                        type={'text'}
+                        value={url ?? previousUrl}
+                        placeholder={formatMessage({id: 'wysiwyg.input-label.link.url', defaultMessage: 'Type or paste a link'})}
+                        onChange={(event) => setUrl(event.target.value)}
+                    />
+                    {url !== null !== previousUrl && (
+                        <span>{'Enter to send'}</span>
+                    )}
+                </LinkInputBox>
+                <LinkInputBox>
+                    <MenuVariantIcon
+                        size={16}
+                        color={'rgba(var(--center-channel-color-rgb), 0.64)'}
+                    />
+                    <LinkInput
+                        type={'text'}
+                        value={text ?? selectedText}
+                        placeholder={formatMessage({id: 'wysiwyg.input-label.link.text', defaultMessage: 'Display text'})}
+                        onChange={(event) => setText(event.target.value)}
+                    />
+                </LinkInputBox>
+                <input
+                    type='submit'
+                    hidden={true}
+                />
             </FloatingLinkContainer>
         </div>,
         document.body,
@@ -189,23 +290,30 @@ export const Overlay = ({editor, open, children, onClose}: Props) => {
 };
 
 const LeafModeControls = ({editor}: {editor: Editor}) => {
+    const linkButtonRef = useRef<HTMLButtonElement>(null);
     const [showLinkOverlay, setShowLinkOverlay] = useState(false);
-    const leafModeControls = makeLeafModeToolDefinitions(editor);
 
     const codeBlockModeIsActive = editor.isActive('codeBlock');
+    const leafModeControls = makeLeafModeToolDefinitions(editor);
 
-    const toggleLinkOverlay = () => setShowLinkOverlay(!showLinkOverlay);
+    const toggleLinkOverlay = () => {
+        if (!showLinkOverlay) {
+            editor.commands.extendMarkRange('link');
+        }
+        setShowLinkOverlay(!showLinkOverlay);
+    };
 
     return (
         <>
-            <Overlay
-                open={showLinkOverlay}
+            <LinkOverlay
                 editor={editor}
-            >
-                {'TEST WITH A BIT MORE OF SPACE NEEDED'}
-            </Overlay>
+                open={showLinkOverlay}
+                buttonRef={linkButtonRef}
+                onClose={() => setShowLinkOverlay(false)}
+            />
             {leafModeControls.map((control) => (
                 <ToolbarControl
+                    ref={control.type === 'setLink' ? linkButtonRef : null}
                     key={`${control.type}_${control.mode}`}
                     mode={control.type}
                     Icon={control.icon}
