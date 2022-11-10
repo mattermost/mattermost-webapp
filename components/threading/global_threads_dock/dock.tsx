@@ -1,14 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect} from 'react';
 
 import {ClockOutlineIcon} from '@mattermost/compass-icons/components';
-import styled from 'styled-components';
+
+import {useSelector, useDispatch} from 'react-redux';
 
 import {useGlobalState} from 'stores/hooks';
 
+import {getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import {getPostsByIds} from 'mattermost-redux/actions/posts';
+
+import {GlobalState} from 'types/store';
+
+import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+
 import ThreadItem from './thread_item';
+import {BarItem} from './bar_item';
 
 const DOCKED_THREADS = 'docked_threads';
 
@@ -16,7 +26,7 @@ export const useDockedThreads = () => {
     const [threadIds, setThreadIds] = useGlobalState<string[]>([], DOCKED_THREADS);
 
     const open = (id: string) => {
-        setThreadIds([...threadIds, id]);
+        setThreadIds([...threadIds.filter((threadId) => threadId !== id), id]);
     };
 
     const close = (id: string) => {
@@ -30,14 +40,37 @@ export const useDockedThreads = () => {
     };
 };
 
+const useEnsureDeps = (postIds: string[]) => {
+    const dispatch = useDispatch();
+    const missingPostIds = useSelector((state: GlobalState) => postIds?.filter((postId) => !getPost(state, postId)));
+    useEffect(() => {
+        dispatch(getPostsByIds(missingPostIds));
+    }, [postIds]);
+
+    const postAuthorIds = useSelector((state: GlobalState) => postIds.reduce<string[]>((postAuthorIds, postId) => {
+        const post = getPost(state, postId);
+        if (post) {
+            postAuthorIds.push(post.user_id);
+        }
+        return postAuthorIds;
+    }, []));
+
+    useEffect(() => {
+        if (postAuthorIds.length) {
+            dispatch(getMissingProfilesByIds(postAuthorIds));
+        }
+    }, [postAuthorIds]);
+};
+
 const DockDock = () => {
     const {threadIds} = useDockedThreads();
+    useEnsureDeps(threadIds);
+
     return (
         <footer
             css={`
                 grid-area: footer;
                 display: flex;
-                justify-content: end;
                 height: 40px;
                 padding: 6px;
                 gap: 8px;
@@ -45,17 +78,26 @@ const DockDock = () => {
                 z-index: 103;
             `}
         >
-            {threadIds.map((id, i) => {
-                return (
-                    <ThreadItem
-                        key={id + i}
-                        id={id}
-                    />
-                );
-            })}
-            <BarItemButton>
+            <div
+                css={`
+                    display: flex;
+                    justify-content: end;
+                    width: 100%;
+                    gap: 8px;
+                `}
+            >
+                {threadIds.map((id) => {
+                    return (
+                        <ThreadItem
+                            key={id}
+                            id={id}
+                        />
+                    );
+                })}
+            </div>
+            <BarItem>
                 {'Threads'}
-            </BarItemButton>
+            </BarItem>
             <ThreadHistory/>
         </footer>
     );
@@ -63,9 +105,9 @@ const DockDock = () => {
 
 const HistoryButton = () => {
     return (
-        <BarItemButton>
+        <BarItem>
             <ClockOutlineIcon size={18}/>
-        </BarItemButton>
+        </BarItem>
     );
 };
 
@@ -74,25 +116,5 @@ const ThreadHistory = () => {
         <HistoryButton/>
     );
 };
-
-export const BarItemButton = styled.button`
-    display: inline-flex;
-    align-items: center;
-    border: none;
-    height: 28px;
-    padding: 4px 8px;
-    border-radius: 4px;
-    background: rgba(var(--sidebar-text-rgb), 0.08);
-    box-shadow: none;
-    color: rgba(var(--global-header-text-rgb), 0.64);
-    font-size: 12px;
-    line-height: 16px;
-    outline: none;
-
-    &:hover,
-    &:focus {
-        background: rgba(var(--sidebar-text-rgb), 0.16);
-    }
-`;
 
 export default DockDock;

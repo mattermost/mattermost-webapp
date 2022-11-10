@@ -1,29 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useCallback, useEffect, MouseEvent, useMemo, useState} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import React, {memo, useEffect, useMemo, useState} from 'react';
+import {useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloseCircleIcon} from '@mattermost/compass-icons/components';
+import {CloseIcon, MessageTextOutlineIcon} from '@mattermost/compass-icons/components';
+
+import styled from 'styled-components';
 
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
-import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
-import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
-import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 
-import * as Utils from 'utils/utils';
-import {CrtTutorialSteps, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
-import {getIsMobileView} from 'selectors/views/browser';
-
-import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
-
-import {UserThread} from '@mattermost/types/threads';
-import {Post} from '@mattermost/types/posts';
-import {Channel} from '@mattermost/types/channels';
 
 import {getPost} from 'mattermost-redux/selectors/entities/posts';
 
@@ -35,7 +25,8 @@ import ThreadViewer from '../thread_viewer';
 
 import {getChannel} from 'mattermost-redux/selectors/entities/channels';
 
-import {BarItemButton, useDockedThreads} from './dock';
+import {useDockedThreads} from './dock';
+import {BarItem} from './bar_item';
 
 type Props = {
     id: string;
@@ -68,29 +59,23 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
 
     const {close} = useDockedThreads();
 
-    // useEffect(() => {
-    //     if (channel?.teammate_id) {
-    //         dispatch(getMissingProfilesByIds([channel.teammate_id]));
-    //     }
-    // }, [channel?.teammate_id]);
+    useEffect(() => {
+        if (!channel && post?.channel_id) {
+            dispatch(fetchChannel(post.channel_id));
+        }
+    }, [channel, post?.channel_id]);
 
-    // useEffect(() => {
-    //     if (!channel && thread?.post.channel_id) {
-    //         dispatch(fetchChannel(thread.post.channel_id));
-    //     }
-    // }, [channel, thread?.post.channel_id]);
+    const participantIds = useMemo(() => {
+        const ids = (thread?.participants || []).flatMap(({id}) => {
+            if (id === post?.user_id) {
+                return [];
+            }
+            return id;
+        }).reverse();
+        return [post?.user_id, ...ids];
+    }, [post, thread?.participants]);
 
-    // const participantIds = useMemo(() => {
-    //     const ids = (thread?.participants || []).flatMap(({id}) => {
-    //         if (id === post.user_id) {
-    //             return [];
-    //         }
-    //         return id;
-    //     }).reverse();
-    //     return [post.user_id, ...ids];
-    // }, [thread?.participants]);
-
-    // let unreadTimestamp = post.edit_at || post.create_at;
+    const unreadTimestamp = post?.edit_at || post?.create_at;
 
     // const selectHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
     //     if (e.altKey) {
@@ -156,6 +141,7 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                 &.isOpen {
                     width: 400px;
                 }
+
             `}
         >
             {isOpen && (
@@ -166,14 +152,12 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                         z-index: 8;
                         right: 0;
                         width: 400px;
-
+                        height: 600px;
                         background: var(--global-header-background);
                         border: 1px solid rgba(var(--sidebar-text-rgb), 0.08);
-
-
                         .ThreadViewer {
-                            width: 400px;
-                            height: 600px;
+                            width: 100%;
+                            height: 100%;
                         }
                     `}
                 >
@@ -181,22 +165,47 @@ const ThreadItem = ({id}: Props): React.ReactElement | null => {
                 </div>
             )}
 
-            <BarItemButton
+            <ThreadItemRoot
                 onClick={() => setIsOpen((isOpen) => !isOpen)}
             >
-                {name}
-                {' | '}
-                {channel?.display_name}
-                {' '}
+                <span
+                    css={`
+                        white-space: nowrap;
+                        svg {
+                            vertical-align: middle;
+                        }
+                    `}
+                >
+                    <MessageTextOutlineIcon size={16}/>
+                    <span
+                        css={`
+                            margin-left: 6px;
+                        `}
+                    >
+                        {name}
+                        {' | '}
+                        {channel?.display_name}
+                        {' '}
+                    </span>
+                </span>
                 <button
                     className='style--none'
                     onClickCapture={() => close(id)}
+                    css={`
+                        && {
+                            padding: 7px !important;
+                        }
+                    `}
                 >
-                    <CloseCircleIcon size={16}/>
+                    <CloseIcon size={18}/>
                 </button>
-            </BarItemButton>
+            </ThreadItemRoot>
         </div>
     );
 };
+
+const ThreadItemRoot = styled(BarItem)`
+    padding-right: 0;
+`;
 
 export default memo(ThreadItem);
