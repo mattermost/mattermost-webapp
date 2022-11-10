@@ -5,11 +5,6 @@ import React from 'react';
 import {Route, Switch} from 'react-router-dom';
 import iNoBounce from 'inobounce';
 
-import {Channel, ChannelMembership} from '@mattermost/types/channels';
-import {Team, TeamMembership} from '@mattermost/types/teams';
-import {Group} from '@mattermost/types/groups';
-import {UserProfile, UserStatus} from '@mattermost/types/users';
-
 import {startPeriodicStatusUpdates, stopPeriodicStatusUpdates} from 'actions/status_actions';
 import {reconnect} from 'actions/websocket_actions.jsx';
 import * as GlobalActions from 'actions/global_actions';
@@ -26,6 +21,12 @@ import Pluggable from 'plugins/pluggable';
 
 import LocalStorageStore from 'stores/local_storage_store';
 import type {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+
+import {UserProfile, UserStatus} from '@mattermost/types/users';
+import {Group} from '@mattermost/types/groups';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {NeedsTeamComponent} from 'types/store/plugins';
 
 const BackstageController = makeAsyncComponent('BackstageController', LazyBackstageController);
 
@@ -47,8 +48,8 @@ type Props = {
     currentChannelId?: string;
     currentTeamId?: string;
     actions: {
-        fetchMyChannelsAndMembers: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
-        fetchAllMyTeamsChannelsAndChannelMembers: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
+        fetchMyChannelsAndMembersREST: (teamId: string) => Promise<{ data: { channels: Channel[]; members: ChannelMembership[] } }>;
+        fetchAllMyTeamsChannelsAndChannelMembersREST: () => Promise<{ data: { channels: Channel[]; members: ChannelMembership[]} }>;
         getMyTeamUnreads: (collapsedThreads: boolean) => Promise<{data: any; error?: any}>;
         viewChannel: (channelId: string, prevChannelId?: string | undefined) => Promise<{data: boolean}>;
         markChannelAsReadOnFocus: (channelId: string) => Promise<{data: any; error?: any}>;
@@ -74,9 +75,8 @@ type Props = {
     };
     teamsList: Team[];
     collapsedThreads: ReturnType<typeof isCollapsedThreadsEnabled>;
-    plugins?: any;
+    plugins?: NeedsTeamComponent[];
     selectedThreadId: string | null;
-    shouldShowAppBar: boolean;
     isCustomGroupsEnabled: boolean;
 }
 
@@ -195,7 +195,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             window.isActive = true;
         }
         if (Date.now() - this.blurTime > UNREAD_CHECK_TIME_MILLISECONDS && this.props.currentTeamId) {
-            this.props.actions.fetchMyChannelsAndMembers(this.props.currentTeamId);
+            this.props.actions.fetchMyChannelsAndMembersREST(this.props.currentTeamId);
         }
     }
 
@@ -236,7 +236,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
         if (this.props.currentUser && isGuest(this.props.currentUser.roles)) {
             this.setState({finishedFetchingChannels: false});
         }
-        this.props.actions.fetchMyChannelsAndMembers(team.id).then(
+        this.props.actions.fetchMyChannelsAndMembersREST(team.id).then(
             () => {
                 this.setState({
                     finishedFetchingChannels: true,
@@ -267,7 +267,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
     }
 
     fetchAllTeams = () => {
-        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembers();
+        this.props.actions.fetchAllMyTeamsChannelsAndChannelMembersREST();
     }
 
     updateCurrentTeam = (props: Props) => {
@@ -283,18 +283,13 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
 
     onShortcutKeyDown = (e: KeyboardEvent) => {
         if (e.shiftKey && Utils.cmdOrCtrlPressed(e) && Utils.isKeyPressed(e, Constants.KeyCodes.L)) {
-            const sidebar = document.getElementById('sidebar-right');
-            if (sidebar) {
-                if (sidebar.className.match('sidebar--right sidebar--right--expanded move--left')) {
-                    const replyTextbox = document.getElementById('reply_textbox');
-                    if (replyTextbox) {
-                        replyTextbox.focus();
-                    }
-                } else {
-                    const postTextbox = document.getElementById('post_textbox');
-                    if (postTextbox) {
-                        postTextbox.focus();
-                    }
+            const replyTextbox = document.querySelector<HTMLElement>('#sidebar-right.is-open.expanded #reply_textbox');
+            if (replyTextbox) {
+                replyTextbox.focus();
+            } else {
+                const postTextbox = document.getElementById('post_textbox');
+                if (postTextbox) {
+                    postTextbox.focus();
                 }
             }
         }
@@ -315,7 +310,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                     path={'/:team/emoji'}
                     component={BackstageController}
                 />
-                {this.props.plugins?.map((plugin: any) => (
+                {this.props.plugins?.map((plugin) => (
                     <Route
                         key={plugin.id}
                         path={'/:team/' + plugin.route}
@@ -323,6 +318,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                             <Pluggable
                                 pluggableName={'NeedsTeamComponent'}
                                 pluggableId={plugin.id}
+                                css={{gridArea: 'center'}}
                             />
                         )}
                     />
@@ -330,7 +326,6 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
                 <Route
                     render={() => (
                         <ChannelController
-                            shouldShowAppBar={this.props.shouldShowAppBar}
                             fetchingChannels={!this.state.finishedFetchingChannels}
                         />
                     )}

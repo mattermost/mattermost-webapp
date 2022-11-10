@@ -103,7 +103,7 @@ const CloudTrialEndAnnouncementBar: React.FC = () => {
     };
 
     const message = {
-        id: t('starter.banner.downgraded'),
+        id: t('free.banner.downgraded'),
         defaultMessage:
             'Your workspace now has restrictions and some data has been archived',
     };

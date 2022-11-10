@@ -86,7 +86,7 @@ describe('Channel Info RHS', () => {
         ensureRHSIsOpenOnChannelInfo(testChannel);
     });
 
-    it('MM-44435 - should be able to open RHS, visit the system console and come back without issues', () => {
+    it('MM-44435 - should be able to open RHS, visit the system console and come back without issues -- KNOWN ISSUE: MM-47226', () => {
         // # Go to test channel
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
@@ -290,8 +290,8 @@ describe('Channel Info RHS', () => {
                 cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Members').should('be.visible').click();
 
                 // * Ensure we see the members
-                cy.uiGetRHS().findByText('@sysadmin').should('be.visible');
-                cy.uiGetRHS().findByText(`@${admin.username}`).should('be.visible');
+                cy.uiGetRHS().contains('sysadmin').should('be.visible');
+                cy.uiGetRHS().findByText(`${admin.username}`).should('be.visible');
 
                 // # Click the Back Icon
                 cy.uiGetRHS().get('[aria-label="Back Icon"]').click();

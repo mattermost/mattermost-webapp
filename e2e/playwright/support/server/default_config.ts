@@ -521,7 +521,6 @@ const defaultServerConfig: AdminConfig = {
         LinkMetadataTimeoutMilliseconds: 5000,
         RestrictSystemAdmin: false,
         UseNewSAMLLibrary: false,
-        CloudBilling: false,
         EnableSharedChannels: false,
         EnableRemoteClusterService: false,
         EnableAppBar: false,
@@ -609,7 +608,7 @@ const defaultServerConfig: AdminConfig = {
                 Enable: true,
             },
             focalboard: {
-                Enable: true,
+                Enable: false,
             },
             playbooks: {
                 Enable: true,
@@ -657,7 +656,6 @@ const defaultServerConfig: AdminConfig = {
         CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
-        GuidedChannelCreation: false,
         InviteToTeam: 'none',
         CustomGroups: true,
         BoardsDataRetention: false,
@@ -668,9 +666,7 @@ const defaultServerConfig: AdminConfig = {
         InsightsEnabled: true,
         CommandPalette: false,
         PostForwarding: true,
-        AdvancedTextEditor: true,
-        BoardsProduct: false,
-        PlanUpgradeButtonText: 'upgrade',
+        BoardsProduct: true,
     },
     ImportSettings: {
         Directory: './import',

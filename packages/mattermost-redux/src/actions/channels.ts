@@ -4,6 +4,8 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
+import {markPostAsUnread} from 'actions/post_actions';
+
 import {ChannelTypes, PreferenceTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import {Client4} from 'mattermost-redux/client';
@@ -22,6 +24,9 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import {getPosts} from 'mattermost-redux/actions/posts';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -336,7 +341,7 @@ export function updateChannelPrivacy(channelId: string, privacy: string): Action
     };
 }
 
-export function updateChannelNotifyProps(userId: string, channelId: string, props: ChannelNotifyProps): ActionFunc {
+export function updateChannelNotifyProps(userId: string, channelId: string, props: Partial<ChannelNotifyProps>): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const notifyProps = {
             user_id: userId,
@@ -460,7 +465,7 @@ export function getChannelTimezones(channelId: string): ActionFunc {
     };
 }
 
-export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
+export function fetchMyChannelsAndMembersREST(teamId: string): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         dispatch({
             type: ChannelTypes.CHANNELS_REQUEST,
@@ -520,7 +525,7 @@ export function fetchMyChannelsAndMembers(teamId: string): ActionFunc {
     };
 }
 
-export function fetchAllMyTeamsChannelsAndChannelMembers(): ActionFunc {
+export function fetchAllMyTeamsChannelsAndChannelMembersREST(): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
         const {currentUserId} = state.entities.users;
@@ -1428,6 +1433,23 @@ export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: str
     return actions;
 }
 
+export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let state = getState();
+        let postId = getMostRecentPostIdInChannel(state, channelId);
+        if (!postId) {
+            await dispatch(getPosts(channelId));
+            state = getState();
+            postId = getMostRecentPostIdInChannel(state, channelId);
+        }
+        if (postId) {
+            const lastPost = getPost(state, postId);
+            dispatch(markPostAsUnread(lastPost, 'CENTER'));
+        }
+        return {data: true};
+    };
+}
+
 export function getChannelMembersByIds(channelId: string, userIds: string[]) {
     return bindClientFunc({
         clientFunc: Client4.getChannelMembersByIds,
@@ -1589,7 +1611,7 @@ export default {
     patchChannel,
     updateChannelNotifyProps,
     getChannel,
-    fetchMyChannelsAndMembers,
+    fetchMyChannelsAndMembersREST,
     getChannelTimezones,
     getChannelMembersByIds,
     leaveChannel,

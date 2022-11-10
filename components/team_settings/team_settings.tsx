@@ -5,13 +5,15 @@ import React from 'react';
 
 import GeneralTab from 'components/team_general_tab';
 
+import {Team} from '@mattermost/types/teams';
+
 type Props = {
     activeTab: string;
     activeSection: string;
     updateSection: (section: string) => void;
     closeModal: () => void;
     collapseModal: () => void;
-    team?: Record<string, unknown>;
+    team?: Team;
 };
 
 const TeamSettings = ({

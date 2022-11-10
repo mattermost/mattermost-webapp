@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 import {connect} from 'react-redux';
 
 import {ActionFunc, ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 import {Channel} from '@mattermost/types/channels';
-import {getBool, getIsAdvancedTextEditorEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getBool} from 'mattermost-redux/selectors/entities/preferences';
 import {patchChannel} from 'mattermost-redux/actions/channels';
 import {Preferences} from 'mattermost-redux/constants';
 import {Constants} from 'utils/constants';
@@ -19,11 +20,8 @@ import {showPreviewOnEditChannelHeaderModal} from 'selectors/views/textbox';
 import EditChannelHeaderModal from './edit_channel_header_modal';
 
 function mapStateToProps(state: GlobalState) {
-    const markdownPreview = isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state);
-    const isAdvancedTextEditorEnabled = getIsAdvancedTextEditorEnabled(state);
-    const markdownPreviewFeatureIsEnabled = isAdvancedTextEditorEnabled ? true : markdownPreview;
     return {
-        markdownPreviewFeatureIsEnabled,
+        markdownPreviewFeatureIsEnabled: isFeatureEnabled(Constants.PRE_RELEASE_FEATURES.MARKDOWN_PREVIEW, state),
         shouldShowPreview: showPreviewOnEditChannelHeaderModal(state),
         ctrlSend: getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, 'send_on_ctrl_enter'),
     };

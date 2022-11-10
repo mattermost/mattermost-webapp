@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {ChainableT} from '../../types';
 
 Cypress.Commands.add('uiGetLHS', () => {
@@ -129,7 +130,7 @@ Cypress.Commands.add('uiGetChannelSidebarMenu', (channelName) => {
 });
 
 Cypress.Commands.add('uiClickSidebarItem', (name) => {
-    cy.uiGetSidebarItem(name).click();
+    cy.uiGetSidebarItem(name).click({force: true});
 
     if (name === 'threads') {
         cy.get('body').then((body) => {
@@ -176,7 +177,7 @@ declare global {
              * @example
              *   cy.uiOpenTeamMenu();
              */
-            uiOpenTeamMenu(item: string): Chainable;
+            uiOpenTeamMenu(item?: string): Chainable;
 
             /**
              * Get LHS add channel button

@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @not_cloud @system_console @license_removal
 
 describe('System console', () => {
@@ -17,7 +16,7 @@ describe('System console', () => {
         cy.apiDeleteLicense();
     });
 
-    it('License page shows View plans button', () => {
+    it('MM-T5132 License page shows View plans button', () => {
         cy.visit('/admin_console/about/license');
 
         // *Validate View plans button exits

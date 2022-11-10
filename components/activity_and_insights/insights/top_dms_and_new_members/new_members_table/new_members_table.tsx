@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {FormattedDate, FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -164,11 +165,15 @@ const NewMembersTable = (props: Props) => {
                 total={0}
                 className={classNames('InsightsTable', 'NewMembersTable')}
             />
-            <ModalPagination
-                hasNext={hasNext}
-                offset={props.offset}
-                setOffset={props.setOffset}
-            />
+            {
+                (props.offset !== 0 || newMembers.length === 10) &&
+                <ModalPagination
+                    hasNext={hasNext}
+                    offset={props.offset}
+                    setOffset={props.setOffset}
+                />
+            }
+
         </>
 
     );

@@ -6,17 +6,15 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {Channel} from '@mattermost/types/channels';
-import {Post} from '@mattermost/types/posts';
-import {UserThread} from '@mattermost/types/threads';
 import {getChannel as fetchChannel} from 'mattermost-redux/actions/channels';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
+import {markLastPostInThreadAsUnread, updateThreadRead} from 'mattermost-redux/actions/threads';
 import {Posts} from 'mattermost-redux/constants';
 
 import * as Utils from 'utils/utils';
-import {Constants, CrtTutorialSteps, Preferences} from 'utils/constants';
+import {CrtTutorialSteps, Preferences} from 'utils/constants';
 import {GlobalState} from 'types/store';
 import {getIsMobileView} from 'selectors/views/browser';
 import Badge from 'components/widgets/badges/badge';
@@ -24,8 +22,13 @@ import Timestamp from 'components/timestamp';
 import Avatars from 'components/widgets/users/avatars';
 import Button from 'components/threading/common/button';
 import SimpleTooltip from 'components/widgets/simple_tooltip';
-import CRTListTutorialTip from 'components/crt_tour/crt_list_tutorial_tip/crt_list_tutorial_tip';
+import CRTListTutorialTip from 'components/tours/crt_tour/crt_list_tutorial_tip';
 import Markdown from 'components/markdown';
+import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
+
+import {UserThread} from '@mattermost/types/threads';
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import {THREADING_TIME} from '../../common/options';
 import {useThreadRouting} from '../../hooks';
@@ -70,12 +73,11 @@ function ThreadItem({
     isFirstThreadInList,
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
-    const {select, goToInChannel} = useThreadRouting();
+    const {select, goToInChannel, currentTeamId} = useThreadRouting();
     const {formatMessage} = useIntl();
     const isMobileView = useSelector(getIsMobileView);
     const currentUserId = useSelector(getCurrentUserId);
     const tipStep = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_STEP, currentUserId));
-    const tutorialTipAutoTour = useSelector((state: GlobalState) => getInt(state, Preferences.CRT_TUTORIAL_AUTO_TOUR_STATUS, currentUserId, Constants.AutoTourStatus.ENABLED)) === Constants.AutoTourStatus.ENABLED;
     const showListTutorialTip = tipStep === CrtTutorialSteps.LIST_POPOVER;
     const msgDeleted = formatMessage({id: 'post_body.deleted', defaultMessage: '(message deleted)'});
     const postAuthor = post.props?.override_username || displayName;
@@ -102,7 +104,30 @@ function ThreadItem({
         return [post.user_id, ...ids];
     }, [thread?.participants]);
 
-    const selectHandler = useCallback(() => select(threadId), [threadId]);
+    let unreadTimestamp = post.edit_at || post.create_at;
+
+    const selectHandler = useCallback((e: MouseEvent<HTMLDivElement>) => {
+        if (e.altKey) {
+            const hasUnreads = thread ? Boolean(thread.unread_replies) : false;
+            const lastViewedAt = hasUnreads ? Date.now() : unreadTimestamp;
+
+            dispatch(manuallyMarkThreadAsUnread(threadId, lastViewedAt));
+            if (hasUnreads) {
+                dispatch(updateThreadRead(currentUserId, currentTeamId, threadId, Date.now()));
+            } else {
+                dispatch(markLastPostInThreadAsUnread(currentUserId, currentTeamId, threadId));
+            }
+        } else {
+            select(threadId);
+        }
+    }, [
+        currentUserId,
+        currentTeamId,
+        threadId,
+        thread,
+        updateThreadRead,
+        unreadTimestamp,
+    ]);
 
     const imageProps = useMemo(() => ({
         onImageHeightChanged: () => {},
@@ -129,8 +154,6 @@ function ThreadItem({
         reply_count: totalReplies,
         is_following: isFollowing,
     } = thread;
-
-    let unreadTimestamp = post.edit_at || post.create_at;
 
     // if we have the whole thread, get the posts in it, sorted from newest to oldest.
     // First post is latest reply. Use that timestamp
@@ -245,7 +268,7 @@ function ThreadItem({
                     </>
                 )}
             </div>
-            {showListTutorialTip && isFirstThreadInList && isMobileView && (<CRTListTutorialTip autoTour={tutorialTipAutoTour}/>)}
+            {showListTutorialTip && isFirstThreadInList && isMobileView && (<CRTListTutorialTip/>)}
         </article>
     );
 }

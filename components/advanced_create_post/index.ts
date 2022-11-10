@@ -26,12 +26,13 @@ import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/se
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {PreferenceType} from '@mattermost/types/preferences';
+
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUsersLatestPost,
     getLatestReplyablePostId,
     makeGetMessageInHistoryItem,
+    isPostPriorityEnabled,
 } from 'mattermost-redux/selectors/entities/posts';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
 import {
@@ -58,7 +59,9 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {OnboardingTourSteps, TutorialTourName} from 'components/tours';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import AdvancedCreatePost from './advanced_create_post';
 
@@ -130,6 +133,7 @@ function makeMapStateToProps() {
             channelMemberCountsByGroup,
             isLDAPEnabled,
             useCustomGroupMentions,
+            isPostPriorityEnabled: isPostPriorityEnabled(state),
         };
     };
 }
@@ -164,17 +168,6 @@ type Actions = {
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
 }
 
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
-function setDraft(key: string, value: PostDraft) {
-    if (value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, value);
-}
-
 function clearDraftUploads() {
     return actionOnGlobalItemsWithPrefix(StoragePrefixes.DRAFT, (_key: string, draft: PostDraft) => {
         if (!draft || !draft.uploadsInProgress || draft.uploadsInProgress.length === 0) {
@@ -194,7 +187,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             moveHistoryIndexForward,
             addReaction,
             removeReaction,
-            setDraft,
+            setDraft: setGlobalItem,
             clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,

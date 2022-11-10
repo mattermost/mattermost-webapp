@@ -9,6 +9,7 @@ declare namespace Cypress {
     type Bot = import('@mattermost/types/bots').Bot;
     type BotPatch = import('@mattermost/types/bots').BotPatch;
     type Channel = import('@mattermost/types/channels').Channel;
+    type ClusterInfo = import('@mattermost/types/admin').ClusterInfo;
     type Client = import('./client-impl').E2EClient;
     type ClientLicense = import('@mattermost/types/config').ClientLicense;
     type ChannelMembership = import('@mattermost/types/channels').ChannelMembership;
@@ -31,6 +32,7 @@ declare namespace Cypress {
     type UserStatus = import('@mattermost/types/users').UserStatus;
     type UserCustomStatus = import('@mattermost/types/users').UserCustomStatus;
     type UserAccessToken = import('@mattermost/types/users').UserAccessToken;
+    type DeepPartial = import('@mattermost/types/utilities').DeepPartial;
     interface Chainable {
         tab: (options?: {shift?: boolean}) => Chainable<JQuery>;
     }

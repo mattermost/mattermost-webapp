@@ -96,6 +96,13 @@ declare namespace Cypress {
         apiSaveCRTPreference(userId: string, value: string): Chainable<Response>;
 
         /**
+         * Saves tutorial step of a user
+         * @param {string} userId - User ID
+         * @param {string} value - value of tutorial step, e.g. '999' (default, completed tutorial)
+         */
+        apiSaveTutorialStep(userId: string, value: string): Chainable<Response>;
+
+        /**
          * Save cloud trial banner preference.
          * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
          * @param {string} userId - User ID
