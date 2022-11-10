@@ -27,6 +27,10 @@ export default class NotificationSection extends React.PureComponent {
          */
         memberNotificationLevel: PropTypes.string.isRequired,
 
+        memberDesktopSound: PropTypes.string,
+
+        memberDesktopNotificationSound: PropTypes.string,
+
         /**
          * Member's desktop_threads notification level
          */
@@ -51,6 +55,10 @@ export default class NotificationSection extends React.PureComponent {
          * onChangeThreads handles update of desktop_threads notification level
          */
         onChangeThreads: PropTypes.func,
+
+        onChangeDesktopSound: PropTypes.func,
+
+        onChangeNotificationSound: PropTypes.func,
 
         /**
          * Submit function to save notification level
@@ -78,6 +86,16 @@ export default class NotificationSection extends React.PureComponent {
         this.props.onChangeThreads(value);
     }
 
+    handleOnChangeDesktopSound = (e) => {
+        this.props.onChangeDesktopSound(e.target.value);
+    }
+
+    handleOnChangeNotificationSound = (selectedOption) => {
+        if (selectedOption && 'value' in selectedOption) {
+            this.props.onChangeNotificationSound(selectedOption.value);
+        }
+    }
+
     handleExpandSection = () => {
         this.props.onUpdateSection(this.props.section);
     }
@@ -92,6 +110,8 @@ export default class NotificationSection extends React.PureComponent {
             globalNotificationLevel,
             memberNotificationLevel,
             memberThreadsNotificationLevel,
+            memberDesktopSound,
+            memberDesktopNotificationSound,
             ignoreChannelMentions,
             onSubmit,
             section,
@@ -104,10 +124,14 @@ export default class NotificationSection extends React.PureComponent {
                     section={section}
                     memberNotifyLevel={memberNotificationLevel}
                     memberThreadsNotifyLevel={memberThreadsNotificationLevel}
+                    memberDesktopSound={memberDesktopSound}
+                    memberDesktopNotificationSound={memberDesktopNotificationSound}
                     globalNotifyLevel={globalNotificationLevel}
                     ignoreChannelMentions={ignoreChannelMentions}
                     onChange={this.handleOnChange}
                     onChangeThreads={this.handleOnChangeThreads}
+                    onChangeDesktopSound={this.handleOnChangeDesktopSound}
+                    onChangeNotificationSound={this.handleOnChangeNotificationSound}
                     onSubmit={onSubmit}
                     serverError={serverError}
                     onCollapseSection={this.handleCollapseSection}

@@ -1,40 +1,70 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent} from 'react';
+import React, {ChangeEvent, useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
+import ReactSelect, {ValueType} from 'react-select';
+
+import semver from 'semver';
+
+import * as Utils from 'utils/utils';
+
 import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
-import {IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
+import {DesktopSound, IgnoreChannelMentions, NotificationLevels, NotificationSections} from 'utils/constants';
 
 import SettingItemMax from 'components/setting_item_max';
+
+import {isDesktopApp} from 'utils/user_agent';
 
 import Describe from './describe';
 import ExtraInfo from './extra_info';
 import SectionTitle from './section_title';
 
+type SelectedOption = {
+    label: string;
+    value: string;
+};
+
 type Props = {
     ignoreChannelMentions?: string;
     onChange: (e: ChangeEvent<HTMLInputElement>) => void;
     onChangeThreads?: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChangeDesktopSound?: (e: ChangeEvent<HTMLInputElement>) => void;
+    onChangeNotificationSound?: (selectedOption: ValueType<SelectedOption>) => void;
     onCollapseSection: (section: string) => void;
     onSubmit: (setting?: string) => void;
     globalNotifyLevel?: string;
     memberNotifyLevel: string;
     memberThreadsNotifyLevel?: string;
+    memberDesktopSound?: string;
+    memberDesktopNotificationSound?: string;
     section: string;
     serverError?: string;
 }
+
+const sounds = Array.from(Utils.notificationSounds.keys());
+const options = sounds.map((sound) => {
+    return {value: sound, label: sound};
+});
+
+const makeReactSelectValue = (option: string) => {
+    return {value: option, label: option};
+};
 
 export default function ExpandView({
     section,
     memberNotifyLevel,
     memberThreadsNotifyLevel,
+    memberDesktopSound,
+    memberDesktopNotificationSound,
     globalNotifyLevel,
     onChange,
     onChangeThreads,
+    onChangeDesktopSound,
+    onChangeNotificationSound,
     onSubmit,
     serverError,
     onCollapseSection,
@@ -42,10 +72,18 @@ export default function ExpandView({
 }: Props) {
     const isCRTEnabled = useSelector(isCollapsedThreadsEnabled);
 
+    const dropdownSoundRef = useRef<ReactSelect>(null);
+
     const inputs = [(
         <div key='channel-notification-level-radio'>
             {(section === NotificationSections.DESKTOP || section === NotificationSections.PUSH) &&
             <fieldset>
+                <legend className='form-legend'>
+                    <FormattedMessage
+                        id='channel_notifications.sendDesktop'
+                        defaultMessage='Send desktop notifications'
+                    />
+                </legend>
                 <div className='radio'>
                     <label className=''>
                         <input
@@ -229,6 +267,72 @@ export default function ExpandView({
                     </div>
                 </fieldset>
             </>
+            }
+            {(section === NotificationSections.DESKTOP) && memberNotifyLevel !== NotificationLevels.NONE &&
+
+                <>
+                    <hr/>
+                    <fieldset>
+                        <legend className='form-legend'>
+                            <FormattedMessage
+                                id='channel_notifications.sound'
+                                defaultMessage='Notification sound'
+                            />
+                        </legend>
+                        <div className='radio'>
+                            <label className=''>
+                                <input
+                                    id='channelDesktopSoundOn'
+                                    name='channelDesktopSound'
+                                    type='radio'
+                                    value={DesktopSound.ON}
+                                    checked={memberDesktopSound === DesktopSound.ON}
+                                    onChange={onChangeDesktopSound}
+                                />
+                                <FormattedMessage
+                                    id='channel_notifications.sound.on.title'
+                                    defaultMessage='On'
+                                />
+                            </label>
+                        </div>
+                        <div className='radio'>
+                            <label>
+                                <input
+                                    id='channelDesktopSoundOff'
+                                    name='channelDesktopSound'
+                                    type='radio'
+                                    value={DesktopSound.OFF}
+                                    checked={memberDesktopSound === DesktopSound.OFF}
+                                    onChange={onChangeDesktopSound}
+                                />
+                                <FormattedMessage
+                                    id='channel_notifications.sound.off.title'
+                                    defaultMessage='Off'
+                                />
+                            </label>
+                        </div>
+                        {memberDesktopSound === DesktopSound.ON && (!isDesktopApp() || (window.desktop && semver.gte(window.desktop.version || '', '4.6.0'))) &&
+                        <div className='pt-2'>
+                            <ReactSelect
+                                className='react-select notification-sound-dropdown'
+                                classNamePrefix='react-select'
+                                id='channelSoundNotification'
+                                options={options}
+                                clearable={false}
+                                onChange={onChangeNotificationSound}
+                                value={makeReactSelectValue(memberDesktopNotificationSound ?? '')}
+                                isSearchable={false}
+                                ref={dropdownSoundRef}
+                            />
+                        </div>}
+                        <div className='mt-5'>
+                            <FormattedMessage
+                                id='channel_notifications.sound_info'
+                                defaultMessage='Notification sounds are available on Firefox, Edge, Safari, Chrome and Mattermost Desktop Apps.'
+                            />
+                        </div>
+                    </fieldset>
+                </>
             }
             {isCRTEnabled &&
             section === NotificationSections.PUSH &&
