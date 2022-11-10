@@ -5,7 +5,7 @@ import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
-import {CSSTransition} from 'react-transition-group'; // ES6
+import {CSSTransition} from 'react-transition-group';
 
 import {AccordionItemType} from 'components/common/accordion/accordion';
 
@@ -39,7 +39,7 @@ const ANIMATE_TIMEOUTS = {
     exit: 200,
 };
 
-const Preview = ({template, ...props}: PreviewProps) => {
+const Preview = ({template, className}: PreviewProps) => {
     const {formatMessage} = useIntl();
     const nodeRefForPrior = useRef(null);
     const nodeRefForCurrent = useRef(null);
@@ -197,7 +197,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
     };
 
     return (
-        <div className={props.className}>
+        <div className={className}>
             <div className='content-side'>
                 <strong>{formatMessage({id: 'worktemplates.preview.included_in_template_title', defaultMessage: 'Included in template'})}</strong>
                 <Accordion
