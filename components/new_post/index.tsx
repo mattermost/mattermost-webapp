@@ -71,7 +71,7 @@ function isFirstReply(post: Post, previousPost?: Post | null): boolean {
 function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
     let post;
     if (ownProps.postId) {
-        post = getPost(state, ownProps?.postId);
+        post = getPost(state, ownProps.postId);
     } else if (ownProps.post) {
         post = ownProps.post;
     }
@@ -98,7 +98,7 @@ function removePostAndCloseRHS(post: ExtendedPost) {
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     let post;
     if (ownProps.postId) {
-        post = getPost(state, ownProps?.postId);
+        post = getPost(state, ownProps.postId);
     } else {
         post = ownProps.post;
     }
