@@ -69,11 +69,6 @@ export const Task = (props: TaskProps): JSX.Element => {
             onClick={handleOnClick}
         >
             {completedStatus && <CompletedAnimation completed={completedStatus}/>}
-            <Icon
-                className={completedStatus ? 'play completed' : 'play'}
-                glyph={completedStatus ? 'check' : 'play'}
-                size={16}
-            />
             <span>{label}</span>
         </StyledTask>
     );
