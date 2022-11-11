@@ -78,12 +78,11 @@ export const TipTapCustomImage = (uploadFn: UploadFn) => {
                     }
                     const element = dom as HTMLImageElement;
 
-                    const obj = {
+                    return ({
                         src: element.getAttribute('src'),
                         title: element.getAttribute('title'),
                         alt: element.getAttribute('alt'),
-                    };
-                    return obj;
+                    });
                 },
             },
         ],

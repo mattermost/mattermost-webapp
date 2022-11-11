@@ -18,12 +18,21 @@ import {createPortal} from 'react-dom';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
+import CCIconButton, {PIconButton} from '@mattermost/compass-components/components/icon-button';
+
 import {t} from 'utils/i18n';
 
 import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
 
 import ToolbarControl, {FloatingContainer} from '../toolbar_controls';
 import type {ToolDefinition} from '../toolbar_controls';
+
+const IconButton = (props: PIconButton) => (
+    <CCIconButton
+        {...props}
+        type={'button'}
+    />
+);
 
 export type MarkdownLeafMode =
     | 'bold'
@@ -91,7 +100,7 @@ const FloatingLinkContainer = styled(FloatingContainer)`
     display: flex;
     flex-direction: column;
     gap: 4px;
-    padding: 12px;
+    padding: 10px 20px;
     background: rgb(var(--center-channel-bg-rgb));
     border-radius: 4px;
 
@@ -115,10 +124,17 @@ const LinkInput = styled.input`
     background: transparent;
     appearance: none;
     border: none;
+    flex: 1;
     padding: 9px 10px 9px 0;
     font-size: 14px;
     line-height: 20px;
     color: rgb(var(--center-channel-color-rgb));
+`;
+
+const LinkInputHelp = styled.span`
+    font-size: 10px;
+    line-height: 16px;
+    color: rgba(var(--center-channel-color-rgb), 0.56)
 `;
 
 type LinkOverlayProps = {
@@ -151,6 +167,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
     const selectedText = state.doc.textBetween(from, to, ' ') || '';
 
     const previousUrl = editor.getAttributes('link').href || '';
+    const linkMarkIsActive = editor.isActive('link');
 
     const [url, setUrl] = useState<string | null>(null);
     const [text, setText] = useState<string | null>(null);
@@ -193,6 +210,15 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
         setUrl(null);
         setText(null);
     }, [open]);
+
+    const closeOverlay = () => {
+        // clear the component state
+        setUrl(null);
+        setText(null);
+
+        // once done close the overlay
+        onClose?.();
+    };
 
     if (!open) {
         return null;
@@ -244,12 +270,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                             run();
                     }
 
-                    // clear the component state
-                    setUrl(null);
-                    setText(null);
-
-                    // once done close the overlay
-                    onClose?.();
+                    closeOverlay();
                 }}
             >
                 <LinkInputBox>
@@ -263,8 +284,21 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                         placeholder={formatMessage({id: 'wysiwyg.input-label.link.url', defaultMessage: 'Type or paste a link'})}
                         onChange={(event) => setUrl(event.target.value)}
                     />
-                    {url !== null !== previousUrl && (
-                        <span>{'Enter to send'}</span>
+                    {url !== null && url !== previousUrl && (
+                        <LinkInputHelp>{'⏎ Enter to send'}</LinkInputHelp>
+                    )}
+                    {linkMarkIsActive && (
+                        <IconButton
+                            size={'sm'}
+                            compact={true}
+                            destructive={true}
+                            icon={'trash-can-outline'}
+                            onClick={() => {
+                                editor.chain().focus().extendMarkRange('link').unsetLink().run();
+                                closeOverlay();
+                            }}
+                            aria-label={formatMessage({id: 'accessibility.button.link.delete', defaultMessage: 'remove link'})}
+                        />
                     )}
                 </LinkInputBox>
                 <LinkInputBox>

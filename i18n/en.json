@@ -40,6 +40,7 @@
   "accessibility.button.Info": "Info",
   "accessibility.button.italic": "italic",
   "accessibility.button.link": "link",
+  "accessibility.button.link.delete": "remove link",
   "accessibility.button.numbered_list": "numbered list",
   "accessibility.button.paragraph": "normal text",
   "accessibility.button.preview": "preview",
