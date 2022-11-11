@@ -3,7 +3,6 @@
 
 import React from 'react';
 import styled from 'styled-components';
-import Icon from '@mattermost/compass-components/foundations/icon/Icon';
 
 import {CompletedAnimation} from './onboarding_tasklist_animations';
 
