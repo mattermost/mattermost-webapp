@@ -711,6 +711,31 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
     <MenuItemToggleModalRedux
       dialogProps={
         Object {
+          "isContentProductSettings": false,
+        }
+      }
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(injectIntl(UserSettingsModal))",
+          "type": [Function],
+        }
+      }
+      icon={
+        <i
+          className="fa fa-user"
+        />
+      }
+      id="profileSettings"
+      modalId="user_settings"
+      show={true}
+      text="Profile"
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
           "isContentProductSettings": true,
         }
       }
@@ -731,7 +756,7 @@ exports[`components/Menu should match snapshot with most of the thing disabled i
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Profile"
+      text="Settings"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1314,6 +1339,31 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
     <MenuItemToggleModalRedux
       dialogProps={
         Object {
+          "isContentProductSettings": false,
+        }
+      }
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(injectIntl(UserSettingsModal))",
+          "type": [Function],
+        }
+      }
+      icon={
+        <i
+          className="fa fa-user"
+        />
+      }
+      id="profileSettings"
+      modalId="user_settings"
+      show={true}
+      text="Profile"
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
           "isContentProductSettings": true,
         }
       }
@@ -1334,7 +1384,7 @@ exports[`components/Menu should match snapshot with most of the thing enabled in
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Profile"
+      text="Settings"
     />
   </MenuGroup>
   <MenuGroup>
@@ -1934,6 +1984,31 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
     <MenuItemToggleModalRedux
       dialogProps={
         Object {
+          "isContentProductSettings": false,
+        }
+      }
+      dialogType={
+        Object {
+          "$$typeof": Symbol(react.memo),
+          "WrappedComponent": [Function],
+          "compare": null,
+          "displayName": "Connect(injectIntl(UserSettingsModal))",
+          "type": [Function],
+        }
+      }
+      icon={
+        <i
+          className="fa fa-user"
+        />
+      }
+      id="profileSettings"
+      modalId="user_settings"
+      show={true}
+      text="Profile"
+    />
+    <MenuItemToggleModalRedux
+      dialogProps={
+        Object {
           "isContentProductSettings": true,
         }
       }
@@ -1954,7 +2029,7 @@ exports[`components/Menu should match snapshot with plugins in mobile 1`] = `
       id="accountSettings"
       modalId="user_settings"
       show={true}
-      text="Profile"
+      text="Settings"
     />
   </MenuGroup>
   <MenuGroup>
