@@ -168,6 +168,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
             <div
                 className={barClass}
                 style={barStyle}
+                css={{gridArea: 'announcement'}}
             >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}

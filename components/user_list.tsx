@@ -1,28 +1,45 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import PropTypes from 'prop-types';
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import Constants from 'utils/constants';
 import LoadingScreen from 'components/loading_screen';
+
+import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import UserListRow from './user_list_row';
 
-export default class UserList extends React.PureComponent {
-    static propTypes = {
-        users: PropTypes.arrayOf(PropTypes.object),
-        extraInfo: PropTypes.object,
-        actions: PropTypes.arrayOf(PropTypes.node),
-        actionProps: PropTypes.object,
-        actionUserProps: PropTypes.object,
-        isDisabled: PropTypes.bool,
+type Props = {
+    rowComponentType?: React.ComponentType<any>;
+    length?: number;
+    actions?: ReactNode[];
+    actionUserProps?: {
+        [userId: string]: {
+            channel?: Channel;
+            teamMember: TeamMembership;
+            channelMember?: ChannelMembership;
+        };
+    };
+    isDisabled?: boolean;
+    users?: UserProfile[] | null;
+    extraInfo?: {[key: string]: Array<string | JSX.Element>};
+    actionProps?: {
+        mfaEnabled: boolean;
+        enableUserAccessTokens: boolean;
+        experimentalEnableAuthenticationTransfer: boolean;
+        doPasswordReset: (user: UserProfile) => void;
+        doEmailReset: (user: UserProfile) => void;
+        doManageTeams: (user: UserProfile) => void;
+        doManageRoles: (user: UserProfile) => void;
+        doManageTokens: (user: UserProfile) => void;
+        isDisabled?: boolean;
+    };
+}
 
-        // the type of user list row to render
-        rowComponentType: PropTypes.object,
-    }
-
+export default class UserList extends React.PureComponent <Props> {
     static defaultProps = {
         users: [],
         extraInfo: {},
@@ -30,8 +47,9 @@ export default class UserList extends React.PureComponent {
         actionProps: {},
         rowComponentType: UserListRow,
     }
+    containerRef: React.RefObject<any>;
 
-    constructor(props) {
+    constructor(props: Props) {
         super(props);
         this.containerRef = React.createRef();
     }
@@ -49,19 +67,21 @@ export default class UserList extends React.PureComponent {
         let content;
         if (users == null) {
             return <LoadingScreen/>;
-        } else if (users.length > 0) {
-            content = users.map((user, index) => {
+        } else if (users.length > 0 && RowComponentType && this.props.actionProps) {
+            content = users.map((user: UserProfile, index: number) => {
+                const {actionUserProps, extraInfo} = this.props;
+                const userId = user.id;
                 return (
                     <RowComponentType
                         key={user.id}
                         user={user}
-                        extraInfo={this.props.extraInfo[user.id]}
+                        extraInfo={extraInfo?.[userId]}
                         actions={this.props.actions}
                         actionProps={this.props.actionProps}
-                        actionUserProps={this.props.actionUserProps[user.id]}
+                        actionUserProps={actionUserProps?.[userId]}
                         index={index}
                         totalUsers={users.length}
-                        userCount={(index >= 0 && index < Constants.TEST_ID_COUNT) ? index : -1}
+                        userCount={index >= 0 ? index : -1}
                         isDisabled={this.props.isDisabled}
                     />
                 );

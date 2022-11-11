@@ -72,7 +72,7 @@ const taskLabels = {
     ),
     [OnboardingTasksName.EXPLORE_OTHER_TOOLS]: (
         <FormattedMessage
-            id='onboardingTask.checklist.explore_other_tools'
+            id='onboardingTask.checklist.explore_other_tools_in_platform'
             defaultMessage='⛰️ Explore other tools in the platform'
         />
     ),
