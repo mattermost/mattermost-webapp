@@ -28,6 +28,7 @@ export type ChannelNotifyProps = {
     push_threads: 'default' | 'all' | 'mention' | 'none';
     ignore_channel_mentions: 'default' | 'off' | 'on';
     channel_auto_follow_threads: 'true' | 'false';
+    mobile_settings_same_as_desktop: 'true' | 'false';
 };
 
 export type Channel = {

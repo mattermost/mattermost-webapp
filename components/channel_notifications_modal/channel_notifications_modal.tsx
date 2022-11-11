@@ -39,7 +39,10 @@ import {
     DesktopReplyThreadsInputFieldData,
     ThreadsReplyTitle,
     MobileReplyThreadsInputFieldData,
-    AutoFollowThreadsTitle, AutoFollowThreadsDesc, AutoFollowThreadsInputFieldData,
+    AutoFollowThreadsTitle,
+    AutoFollowThreadsDesc,
+    AutoFollowThreadsInputFieldData,
+    sameMobileSettingsDesktopInputFieldData,
 } from './utils';
 
 import type {PropsFromRedux} from './index';
@@ -77,14 +80,24 @@ function getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channe
         ignoreChannelMentions = ignoreChannelMentionsDefault;
     }
 
+    const desktop = channelMemberNotifyProps?.desktop === NotificationLevels.DEFAULT ? currentUserNotifyProps.desktop : (channelMemberNotifyProps?.desktop || currentUserNotifyProps.desktop);
+    const push = channelMemberNotifyProps?.push === NotificationLevels.DEFAULT ? currentUserNotifyProps.desktop : (channelMemberNotifyProps?.push || currentUserNotifyProps.push);
+    let mobile_settings_same_as_desktop = channelMemberNotifyProps?.mobile_settings_same_as_desktop || 'true';
+    if (channelMemberNotifyProps?.mobile_settings_same_as_desktop === undefined) {
+        mobile_settings_same_as_desktop = currentUserNotifyProps.desktop === channelMemberNotifyProps?.desktop &&
+        currentUserNotifyProps.desktop === channelMemberNotifyProps?.push ? 'true' : 'false';
+    }
+    console.log('channelMemberNotifyProps', channelMemberNotifyProps);
+
     return {
-        desktop: channelMemberNotifyProps?.desktop || currentUserNotifyProps.desktop || NotificationLevels.DEFAULT,
+        desktop,
         desktop_threads: channelMemberNotifyProps?.desktop_threads || NotificationLevels.ALL,
         mark_unread: channelMemberNotifyProps?.mark_unread || NotificationLevels.ALL,
-        push: channelMemberNotifyProps?.push || NotificationLevels.DEFAULT,
+        push,
         push_threads: channelMemberNotifyProps?.push_threads || NotificationLevels.ALL,
         ignore_channel_mentions: ignoreChannelMentions,
         channel_auto_follow_threads: channelMemberNotifyProps?.channel_auto_follow_threads || 'false',
+        mobile_settings_same_as_desktop,
     };
 }
 
@@ -96,6 +109,7 @@ type SettingsType = {
     push: ChannelNotifyProps['push'];
     push_threads: ChannelNotifyProps['push_threads'];
     ignore_channel_mentions: ChannelNotifyProps['ignore_channel_mentions'];
+    mobile_settings_same_as_desktop: 'true' | 'false';
 };
 
 export default function ChannelNotificationsModal(props: Props) {
@@ -150,26 +164,35 @@ export default function ChannelNotificationsModal(props: Props) {
                     title={ThreadsReplyTitle}
                     inputFieldValue={settings.desktop_threads === 'all'}
                     inputFieldData={DesktopReplyThreadsInputFieldData}
-                    handleChange={(e) => handleChange({desktop_threads: e ? 'mention' : 'all'})}
+                    handleChange={(e) => handleChange({desktop_threads: e ? 'all' : 'mention'})}
                 />}
         </>
     );
 
     const MobileNotificationsSectionContent = (
         <>
-            <RadioItemCreator
-                title={NotifyMeTitle}
-                inputFieldValue={settings.push}
-                inputFieldData={MobileNotificationInputFieldData}
-                handleChange={(e) => handleChange({push: e.target.value})}
+            <CheckboxItemCreator
+                inputFieldValue={settings.mobile_settings_same_as_desktop === 'true'}
+                inputFieldData={sameMobileSettingsDesktopInputFieldData}
+                handleChange={(e) => handleChange({mobile_settings_same_as_desktop: e ? 'true' : 'false'})}
             />
-            {settings.push === 'mention' &&
-                <CheckboxItemCreator
-                    title={ThreadsReplyTitle}
-                    inputFieldValue={settings.push_threads === 'all'}
-                    inputFieldData={MobileReplyThreadsInputFieldData}
-                    handleChange={(e) => handleChange({push_threads: e ? 'mention' : 'all'})}
-                />}
+            {settings.mobile_settings_same_as_desktop === 'false' && (
+                <>
+                    <RadioItemCreator
+                        title={NotifyMeTitle}
+                        inputFieldValue={settings.push}
+                        inputFieldData={MobileNotificationInputFieldData(props.currentUser.notify_props.push)}
+                        handleChange={(e) => handleChange({push: e.target.value})}
+                    />
+                    {settings.push === 'mention' &&
+                    <CheckboxItemCreator
+                        title={ThreadsReplyTitle}
+                        inputFieldValue={settings.push_threads === 'all'}
+                        inputFieldData={MobileReplyThreadsInputFieldData}
+                        handleChange={(e) => handleChange({push_threads: e ? 'all' : 'mention'})}
+                    />}
+                </>
+            )}
         </>
     );
 
