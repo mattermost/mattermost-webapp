@@ -3,7 +3,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {DayPicker} from 'react-day-picker';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from '@mattermost/types/users';
@@ -18,7 +17,6 @@ import './dnd_custom_time_picker_modal.scss';
 import {toUTCUnix} from 'utils/datetime';
 import {localizeMessage} from 'utils/utils';
 import Input from 'components/widgets/inputs/input/input';
-import {usePopper} from 'react-popper';
 import DatePicker from 'components/date_picker';
 import IconButton from '@mattermost/compass-components/components/icon-button';
 
@@ -92,7 +90,10 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
-    handleConfirm = () => {
+    handleConfirm =  async() => {
+        if (this.state.isPopperOpen) {
+            return;
+        }
         const hours = parseInt(this.state.selectedTime.split(':')[0], 10);
         const minutes = parseInt(this.state.selectedTime.split(':')[1], 10);
         const endTime = new Date(this.state.selectedDate);
@@ -100,13 +101,14 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         if (endTime < new Date()) {
             return;
         }
-        this.props.actions.setStatus({
+        await this.props.actions.setStatus({
             user_id: this.props.userId,
             status: UserStatuses.DND,
             dnd_end_time: toUTCUnix(endTime),
             manual: true,
             last_activity_at: toUTCUnix(this.props.currentDate),
         });
+        this.props.onExited();
     }
 
     handleDaySelection = (day: Date) => {
@@ -195,7 +197,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 modalHeaderText={modalHeaderText}
                 confirmButtonText={confirmButtonText}
                 handleConfirm={this.handleConfirm}
-                // handleEnterKeyPress={this.handleConfirm}
+                handleEnterKeyPress={this.handleConfirm}
                 autoCloseOnConfirmButton={false}
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
@@ -217,6 +219,10 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                     >
                         <Input
                             value={this.formatDate(selectedDate)}
+                            onChange={(e) => {
+                                const d = new Date(e.target.value);
+                                const formattedDate = this.formatDate(d);
+                            }}
                             id='DndModal__calendar-input'
                             className='DndModal__calendar-input'
                             label={localizeMessage('dnd_custom_time_picker_modal.date', 'Date')}
@@ -226,12 +232,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                                     onClick={this.handlePopperOpen}
                                     size={'sm'}
                                 />
-                                // <button
-                                //     className='style--none'
-                                //     onClick={this.handlePopperOpen}
-                                // >
-                                //     <i className='icon icon-calendar-outline icon--xs icon-14' />
-                                // </button>
                             }
                         />
                     </DatePicker>

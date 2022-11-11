@@ -7,42 +7,71 @@ import {DayPicker} from 'react-day-picker';
 
 import Suggestion from '../suggestion.jsx';
 
+import * as Utils from 'utils/utils';
+import Constants from 'utils/constants';
+
 import 'react-day-picker/dist/style.css';
 
-import 'moment';
+import 'date-fns';
 
 const loadedLocales: Record<string, moment.Locale> = {};
 
 type Props = {
     locale: string;
+    preventClose: () => void;
+}
+
+type State = {
+    datePickerFocused: boolean;
 }
 
 export default class SearchDateSuggestion extends Suggestion {
+    constructor(props: Props) {
+        super(props);
+
+        this.state = {
+            datePickerFocused: false,
+        };
+    }
+
     handleDayClick = (day: Date) => {
         const dayString = day.toISOString().split('T')[0];
         this.props.onClick(dayString, this.props.matchedPretext);
     }
 
+    handleKeyDown = (e: KeyboardEvent) => {
+        if (Utils.isKeyPressed(e, Constants.KeyCodes.DOWN) && document.activeElement?.id === 'searchBox') {
+            this.setState({datePickerFocused: true});
+        }
+    };
+
+
     componentDidMount() {
         //the naming scheme of momentjs packages are all lowercases
-        const locale = this.props.locale.toLowerCase();
+        const locale = this.props.locale;
 
         // Momentjs use en as defualt, no need to import en
         if (locale && locale !== 'en' && !loadedLocales[locale]) {
             /* eslint-disable global-require */
-            loadedLocales[locale] = require(`moment/locale/${locale}`);
+            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
+            /* eslint-disable global-require */
+        }
+
+        document.addEventListener('keydown', this.handleKeyDown);
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        const locale = this.props.locale;
+
+        if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {
+            /* eslint-disable global-require */
+            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
             /* eslint-disable global-require */
         }
     }
 
-    componentDidUpdate(prevProps: Props) {
-        const locale = this.props.locale.toLowerCase();
-
-        if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {
-            /* eslint-disable global-require */
-            loadedLocales[locale] = require(`moment/locale/${locale}`);
-            /* eslint-disable global-require */
-        }
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleKeyDown);
     }
 
     render() {
@@ -53,14 +82,17 @@ export default class SearchDateSuggestion extends Suggestion {
             };
         }
 
-        const locale = this.props.locale.toLowerCase();
+        const locale: string = this.props.locale;
 
-        return (
+        return (            
             <DayPicker
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}
-                modifiers={modifiers}
-                locale={locale}
+                mode={'single'}
+                locale={loadedLocales[locale]}
+                initialFocus={this.state.datePickerFocused}
+                onMonthChange={this.props.preventClose}
+                id='searchDatePicker'
             />
         );
     }

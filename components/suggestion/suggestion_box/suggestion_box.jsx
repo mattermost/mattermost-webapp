@@ -859,6 +859,7 @@ export default class SuggestionBox extends React.PureComponent {
                         components={this.state.components}
                         matchedPretext={this.state.matchedPretext}
                         onCompleteWord={this.handleCompleteWord}
+                        preventClose={this.preventSuggestionListClose}
                     />
                 }
             </div>
