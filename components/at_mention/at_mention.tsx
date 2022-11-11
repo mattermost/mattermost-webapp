@@ -12,7 +12,7 @@ import {Group} from '@mattermost/types/groups';
 import ProfilePopover from 'components/profile_popover';
 
 import {popOverOverlayPosition} from 'utils/position_utils';
-import {getUserFromMentionName} from 'utils/post_utils';
+import {getUserOrGroupFromMentionName} from 'utils/post_utils';
 
 import AtMentionGroup from 'components/at_mention/at_mention_group';
 
@@ -71,18 +71,12 @@ export default class AtMention extends React.PureComponent<Props, State> {
         this.setState({show: false});
     }
 
-    getGroupFromMentionName() {
-        const {groupsByName, mentionName} = this.props;
-        const mentionNameTrimmed = mentionName.toLowerCase().replace(/[._-]*$/, '');
-        return groupsByName?.[mentionNameTrimmed] || {};
-    }
-
     render() {
-        const user = getUserFromMentionName(this.props.usersByUsername, this.props.mentionName);
+        const user = getUserOrGroupFromMentionName(this.props.usersByUsername, this.props.mentionName) as UserProfile | '';
 
         if (!this.props.disableGroupHighlight && !user) {
-            const group = this.getGroupFromMentionName();
-            if (group.allow_reference) {
+            const group = getUserOrGroupFromMentionName(this.props.groupsByName, this.props.mentionName) as Group | '';
+            if (group && group.allow_reference) {
                 return (<span>
                     <AtMentionGroup group={group}/>
                 </span>);
