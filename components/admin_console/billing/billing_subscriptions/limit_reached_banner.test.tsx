@@ -66,7 +66,7 @@ const base = {
     cross_sells_to: '',
 };
 
-const starter = {...base, sku: CloudProducts.STARTER};
+const free = {...base, sku: CloudProducts.STARTER};
 const professional = {...base, sku: CloudProducts.PROFESSIONAL};
 const enterprise = {...base, sku: CloudProducts.ENTERPRISE};
 
@@ -101,7 +101,7 @@ const someLimitReached = {
     },
 };
 
-const titleStarter = /Upgrade to one of our paid plans to avoid/;
+const titleFree = /Upgrade to one of our paid plans to avoid/;
 const titleProfessional = /Upgrade to Enterprise to avoid Professional plan/;
 
 function makeSpies() {
@@ -126,7 +126,7 @@ describe('limits_reached_banner', () => {
         spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
 
         renderWithIntl(<Provider store={store}><LimitReachedBanner product={enterprise}/></Provider>);
-        expect(screen.queryByText(titleStarter)).not.toBeInTheDocument();
+        expect(screen.queryByText(titleFree)).not.toBeInTheDocument();
         expect(screen.queryByText(titleProfessional)).not.toBeInTheDocument();
     });
 
@@ -148,7 +148,7 @@ describe('limits_reached_banner', () => {
         const spies = makeSpies();
         spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
         renderWithIntl(<Provider store={store}><LimitReachedBanner product={enterprise}/></Provider>);
-        expect(screen.queryByText(titleStarter)).not.toBeInTheDocument();
+        expect(screen.queryByText(titleFree)).not.toBeInTheDocument();
         expect(screen.queryByText(titleProfessional)).not.toBeInTheDocument();
     });
 
@@ -156,19 +156,19 @@ describe('limits_reached_banner', () => {
         const store = mockStore(state);
         const spies = makeSpies();
         spies.useGetUsageDeltas.mockReturnValue(noLimitReached);
-        renderWithIntl(<Provider store={store}><LimitReachedBanner product={starter}/></Provider>);
-        expect(screen.queryByText(titleStarter)).not.toBeInTheDocument();
+        renderWithIntl(<Provider store={store}><LimitReachedBanner product={free}/></Provider>);
+        expect(screen.queryByText(titleFree)).not.toBeInTheDocument();
         expect(screen.queryByText(titleProfessional)).not.toBeInTheDocument();
     });
 
-    test('renders starter banner', () => {
+    test('renders free banner', () => {
         const store = mockStore(state);
         const spies = makeSpies();
         const mockOpenPricingModal = jest.fn();
         spies.useOpenPricingModal.mockReturnValue(mockOpenPricingModal);
         spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
-        renderWithIntl(<Provider store={store}><LimitReachedBanner product={starter}/></Provider>);
-        screen.getByText(titleStarter);
+        renderWithIntl(<Provider store={store}><LimitReachedBanner product={free}/></Provider>);
+        screen.getByText(titleFree);
         expect(screen.queryByText(titleProfessional)).not.toBeInTheDocument();
         fireEvent.click(screen.getByText('View plans'));
         expect(mockOpenPricingModal).toHaveBeenCalled();
@@ -180,8 +180,8 @@ describe('limits_reached_banner', () => {
         const mockOpenSalesLink = jest.fn();
         spies.useOpenSalesLink.mockReturnValue(mockOpenSalesLink);
         spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
-        renderWithIntl(<Provider store={store}><LimitReachedBanner product={starter}/></Provider>);
-        screen.getByText(titleStarter);
+        renderWithIntl(<Provider store={store}><LimitReachedBanner product={free}/></Provider>);
+        screen.getByText(titleFree);
         expect(screen.queryByText(titleProfessional)).not.toBeInTheDocument();
         fireEvent.click(screen.getByText('Contact sales'));
         expect(mockOpenSalesLink).toHaveBeenCalled();
@@ -195,7 +195,7 @@ describe('limits_reached_banner', () => {
         spies.useGetUsageDeltas.mockReturnValue(someLimitReached);
         renderWithIntl(<Provider store={store}><LimitReachedBanner product={professional}/></Provider>);
         screen.getByText(titleProfessional);
-        expect(screen.queryByText(titleStarter)).not.toBeInTheDocument();
+        expect(screen.queryByText(titleFree)).not.toBeInTheDocument();
         fireEvent.click(screen.getByText('Upgrade'));
         expect(mockOpenPurchaseModal).toHaveBeenCalled();
     });
