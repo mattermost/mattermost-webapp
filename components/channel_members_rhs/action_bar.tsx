@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import styled from 'styled-components';
 
 import Constants from 'utils/constants';
@@ -84,6 +84,18 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
         };
     }, [handleShortcut]);
 
+    const intl = useIntl();
+
+    const manageAriaLabel = intl.formatMessage({
+        id: 'channel_members_rhs.action_bar.manage_button_aria',
+        defaultMessage: 'manage members ',
+    });
+
+    const addAriaLabel = intl.formatMessage({
+        id: 'channel_members_rhs.action_bar.add_button_aria',
+        defaultMessage: 'add members',
+    });
+
     return (
         <div className={className}>
             <Title>
@@ -120,7 +132,7 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
                                 <Button
                                     className='manage-members'
                                     onClick={actions.startEditing}
-                                    aria-label='manage members'
+                                    aria-label={manageAriaLabel}
                                 >
                                     <FormattedMessage
                                         id='channel_members_rhs.action_bar.manage_button'
@@ -131,7 +143,7 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
                             <Button
                                 onClick={actions.inviteMembers}
                                 className='add-members'
-                                aria-label='add members'
+                                aria-label={addAriaLabel}
                             >
                                 <ButtonIcon
                                     className='icon-account-plus-outline'
