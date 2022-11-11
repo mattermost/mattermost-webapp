@@ -23,13 +23,38 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
     const monthlyLabel = formatMessage({id: 'pricing_modal.monthly', defaultMessage: 'Monthly'});
     const yearlyLabel = formatMessage({id: 'pricing_modal.yearly', defaultMessage: 'Yearly'});
 
+    // handle Enter key being pressed when using Tab to navigate the page
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            onToggleChange();
+
+            // click on the unselected label
+            const yearlyLabelElement = document.getElementById('text-unselected');
+            yearlyLabelElement?.click();
+        }
+    };
+
     const options = [
         {
-            label: <p className={isMonthly ? 'text text-unselected' : 'text text-selected'}>{yearlyLabel}</p>,
+            label: (
+                <p
+                    className={'text'}
+                    id={isMonthly ? 'text-unselected' : 'text-selected'}
+                >
+                    {yearlyLabel}
+                </p>
+            ),
             value: yearlyLabel,
         },
         {
-            label: <p className={isMonthly ? 'text text-selected' : 'text text-unselected'}>{monthlyLabel}</p>,
+            label: (
+                <p
+                    className={'text'}
+                    id={isMonthly ? 'text-selected' : 'text-unselected'}
+                >
+                    {monthlyLabel}
+                </p>
+            ),
             value: monthlyLabel,
         },
     ];
@@ -58,7 +83,11 @@ function YearlyMonthlyToggle({updatePrice}: Props) {
     return (
         <div className='toggle-monthly-yearly-container'>
             <div className={toggleBorderClassName}/>
-            <div className='toggle-monthly-yearly'>
+            <div
+                className='toggle-monthly-yearly'
+                tabIndex={0}
+                onKeyPress={handleKeyDown}
+            >
                 <SwitchSelector
                     onChange={onToggleChange}
                     options={options}
