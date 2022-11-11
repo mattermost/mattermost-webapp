@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {MouseEvent, useCallback, useEffect, useRef, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
@@ -37,7 +38,7 @@ import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import * as Utils from 'utils/utils';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
@@ -76,7 +77,7 @@ export type Props = {
     matches?: string[];
     term?: string;
     isMentionSearch?: boolean;
-    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string;
+    location: keyof typeof Locations;
     actions: {
         markPostAsUnread: (post: Post, location: string) => void;
         emitShortcutReactToLastPostFrom: (emittedFrom: 'CENTER' | 'RHS_ROOT' | 'NO_WHERE') => void;
@@ -274,7 +275,7 @@ const PostComponent = (props: Props): JSX.Element => {
         }
 
         props.actions.setRhsExpanded(false);
-        browserHistory.push(`/${props.teamName}/pl/${props.post.id}`);
+        getHistory().push(`/${props.teamName}/pl/${props.post.id}`);
     };
 
     const handleCommentClick = useCallback((e: React.MouseEvent) => {
@@ -343,7 +344,7 @@ const PostComponent = (props: Props): JSX.Element => {
     );
 
     const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
-    const threadFooter = props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
+    const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
     const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
     return (
@@ -410,7 +411,10 @@ const PostComponent = (props: Props): JSX.Element => {
                             className='post__header'
                             ref={postHeaderRef}
                         >
-                            <PostUserProfile {...props}/>
+                            <PostUserProfile
+                                {...props}
+                                isSystemMessage={isSystemMessage}
+                            />
                             <div className='col'>
                                 {
                                     <PostTime

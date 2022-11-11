@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {ReactNode, useRef, useState} from 'react';
 
 import {FormattedMessage} from 'react-intl';
@@ -47,7 +48,7 @@ type Props = {
     isSearchResultsItem?: boolean;
     canReply?: boolean;
     replyCount?: number;
-    location: 'CENTER' | 'RHS_ROOT' | 'RHS_COMMENT' | string;
+    location: keyof typeof Locations;
 };
 
 const PostOptions = (props: Props): JSX.Element => {

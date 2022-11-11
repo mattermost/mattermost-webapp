@@ -50,14 +50,21 @@ const renderView = (props: Record<string, unknown>): JSX.Element => (
 const renderThumbHorizontal = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
-        className='scrollbar--horizontal'
+        className='scrollbar--horizontal scrollbar--thumb--RHS'
     />
 );
 
 const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
-        className='scrollbar--vertical'
+        className='scrollbar--vertical scrollbar--thumb--RHS'
+    />
+);
+
+const renderTrackVertical = (props: Record<string, unknown>): JSX.Element => (
+    <div
+        {...props}
+        className='scrollbar--vertical--RHS'
     />
 );
 
@@ -351,6 +358,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                 autoHide={true}
                 autoHideTimeout={500}
                 autoHideDuration={500}
+                renderTrackVertical={renderTrackVertical}
                 renderThumbHorizontal={renderThumbHorizontal}
                 renderThumbVertical={renderThumbVertical}
                 renderView={renderView}

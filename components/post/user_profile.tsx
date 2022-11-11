@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
@@ -11,7 +12,7 @@ import {Post} from '@mattermost/types/posts';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Badge from 'components/widgets/badges/badge';
 import UserProfile from 'components/user_profile';
-import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import PostHeaderCustomStatus from 'components/post_view/post_header/post_header_custom_status';
 
 type Props = {
     post: Post;
@@ -21,7 +22,7 @@ type Props = {
     enablePostUsernameOverride?: boolean;
     isConsecutivePost?: boolean;
     isBot: boolean;
-    isSystemMessage?: boolean;
+    isSystemMessage: boolean;
     isPostBeingEdited?: boolean;
     isMobileView: boolean;
 };
@@ -33,19 +34,14 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
 
     let userProfile: ReactNode = null;
     let botIndicator = null;
-    let customStatus: ReactNode;
-    if (!isSystemMessage) {
-        customStatus = (
-            <CustomStatusEmoji
-                userID={post.user_id}
-                showTooltip={true}
-                emojiStyle={{
-                    marginLeft: 4,
-                    marginTop: 2,
-                }}
-            />
-        );
-    }
+
+    const customStatus = (
+        <PostHeaderCustomStatus
+            userId={props.post.user_id}
+            isBot={props.isBot || post.props.from_webhook === 'true'}
+            isSystemMessage={isSystemMessage}
+        />
+    );
 
     if (compactDisplay || isMobileView) {
         userProfile = (

@@ -33,6 +33,7 @@ const MenuItem = styled(Link)`
     display: flex;
     align-items: center;
     cursor: pointer;
+    position: relative;
 
     &:hover {
         background: rgba(var(--center-channel-color-rgb), 0.08);

@@ -27,7 +27,7 @@ export default class LatexBlock extends React.PureComponent<Props, State> {
 
     componentDidMount(): void {
         import('katex').then((katex) => {
-            this.setState({katex});
+            this.setState({katex: katex.default});
         });
     }
 
