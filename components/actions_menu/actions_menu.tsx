@@ -271,7 +271,7 @@ export class ActionMenuClass extends React.PureComponent<Props, State> {
         const totalSpace = windowHeight - MENU_BOTTOM_MARGIN;
         const spaceOnTop = y - Constants.CHANNEL_HEADER_HEIGHT;
         const spaceOnBottom = (totalSpace - (spaceOnTop + Constants.POST_AREA_HEIGHT));
-        console.log(spaceOnTop, spaceOnBottom);
+
         this.setState({
             openUp: (spaceOnTop > spaceOnBottom),
         });
