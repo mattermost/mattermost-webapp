@@ -19,6 +19,7 @@ export const OtherToolsTour = 'other_tools_tour';
 
 export const TutorialTourName = {
     ONBOARDING_TUTORIAL_STEP: 'tutorial_step',
+    ONBOARDING_TUTORIAL_STEP_FOR_GUESTS: 'tutorial_step_for_guest',
     CRT_TUTORIAL_STEP: 'crt_tutorial_step',
     CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     AUTO_TOUR_STATUS: 'auto_tour_status',
@@ -31,6 +32,12 @@ export const OnboardingTourSteps = {
     INVITE_PEOPLE: 2,
     SEND_MESSAGE: 3,
     CUSTOMIZE_EXPERIENCE: 4,
+    FINISHED,
+};
+
+export const OnboardingTourStepsForGuestUsers = {
+    SEND_MESSAGE: 0,
+    CUSTOMIZE_EXPERIENCE: 1,
     FINISHED,
 };
 
@@ -62,6 +69,7 @@ export const TTNameMapToATStatusKey = {
 
 export const TTNameMapToTourSteps = {
     [TutorialTourName.ONBOARDING_TUTORIAL_STEP]: OnboardingTourSteps,
+    [TutorialTourName.ONBOARDING_TUTORIAL_STEP_FOR_GUESTS]: OnboardingTourStepsForGuestUsers,
     [TutorialTourName.CRT_TUTORIAL_STEP]: CrtTutorialSteps,
     [TutorialTourName.EXPLORE_OTHER_TOOLS]: ExploreOtherToolsTourSteps,
 };
