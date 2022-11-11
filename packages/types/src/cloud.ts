@@ -19,6 +19,9 @@ export type CloudState = {
         invoices?: true;
         limits?: true;
     };
+    selfHostedSignup: {
+        progress: ValueOf<typeof SelfHostedSignupProgress>;
+    };
 }
 
 export type Subscription = {
@@ -61,6 +64,16 @@ export const TypePurchases = {
     renewalSelfHost: 'renewal_self',
     monthlySubscription: 'monthly_subscription',
     annualSubscription: 'annual_subscription',
+} as const;
+
+export const SelfHostedSignupProgress = {
+    START: 'START',
+    CREATED_CUSTOMER: 'CREATED_CUSTOMER',
+    CREATED_INTENT: 'CREATED_INTENT',
+    CONFIRMED_INTENT: 'CONFIRMED_INTENT',
+    CREATED_SUBSCRIPTION: 'CREATED_SUBSCRIPTION',
+    PAID: 'PAID',
+    CREATED_LICENSE: 'CREATED_LICENSE',
 } as const;
 
 export type MetadataGatherWireTransferKeys = `${ValueOf<typeof TypePurchases>}_alt_payment_method`
