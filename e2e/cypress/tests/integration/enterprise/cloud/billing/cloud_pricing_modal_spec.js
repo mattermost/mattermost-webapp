@@ -41,7 +41,7 @@ function simulateSubscription(subscription, withLimits = true) {
                 price_per_seat: 30,
                 recurring_interval: 'month',
                 name: 'Cloud Enterprise',
-                cross_sells_to: ''
+                cross_sells_to: '',
             },
             {
                 id: 'prod_4',
@@ -49,7 +49,7 @@ function simulateSubscription(subscription, withLimits = true) {
                 price_per_seat: 96,
                 recurring_interval: 'year',
                 name: 'Cloud Professional Yearly',
-                cross_sells_to: 'prod_2'
+                cross_sells_to: 'prod_2',
             },
         ],
     });
