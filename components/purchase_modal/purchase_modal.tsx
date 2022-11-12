@@ -9,6 +9,7 @@ import {loadStripe} from '@stripe/stripe-js/pure'; // https://github.com/stripe/
 import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
+import classNames from 'classnames';
 
 import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
 
@@ -81,7 +82,7 @@ type CardProps = {
     price: string;
     rate?: string;
     buttonDetails: ButtonDetails;
-    planBriefing?: JSX.Element;
+    planBriefing: JSX.Element | null; // can be removed once Yearly Subscriptions are available
     planLabel?: JSX.Element;
     annualSubscription: boolean;
     usersCount: number;
@@ -89,6 +90,7 @@ type CardProps = {
     yearlyPrice: number;
     intl: IntlShape;
     isInitialPlanMonthly: boolean;
+    setUserCountError: (hasError: boolean) => void;
 }
 
 type Props = {
@@ -141,7 +143,8 @@ type State = {
     selectedProduct: Product | null | undefined;
     isUpgradeFromTrial: boolean;
     buttonClickedInfo: string;
-    selectedProductPrice: string | null | undefined;
+    selectedProductPrice: string | null;
+    userCountError: boolean;
 }
 
 /**
@@ -200,13 +203,13 @@ function Card(props: CardProps) {
     const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
     const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
     const [displayPrice, setDisplayPrice] = useState(props.price);
-
-    const monthlyContainerName = 'bottom';
-    const yearlyContainerName = 'bottom bottom-yearly';
-    const initialContainerName = props.isInitialPlanMonthly ? monthlyContainerName : yearlyContainerName;
-    const [containerClassname, setContainerClassname] = useState(initialContainerName);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const {formatMessage} = props.intl;
+
+    const checkValidNumber = (value: number) => {
+        return value > 0 && value % 1 === 0;
+    };
 
     const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const value = event.target.value;
@@ -219,22 +222,12 @@ function Card(props: CardProps) {
         }
     };
 
-    const checkValidNumber = (value: number) => {
-        return value > 0 && value % 1 === 0;
-    };
-
-    const checkGreaterThanUsersCount = () => {
-        return Number(usersCount) && Number(usersCount) >= props.usersCount;
-    };
-
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
         if (isMonthly) {
             setDisplayPrice(props.monthlyPrice.toString());
-            setContainerClassname(monthlyContainerName);
         } else {
             setDisplayPrice(props.yearlyPrice.toString());
-            setContainerClassname(yearlyContainerName);
         }
     };
 
@@ -293,10 +286,37 @@ function Card(props: CardProps) {
         </>
     );
 
-    const errorMessage = formatMessage({
-        id: 'admin.billing.subscription.userCount.error',
+    const tooFewUsersErrorMessage = formatMessage({
+        id: 'admin.billing.subscription.userCount.minError',
         defaultMessage: `Your workspace currently has ${props.usersCount} users`,
     }, {num: props.usersCount});
+
+    const tooManyUsersErrorMessage = formatMessage({
+        id: 'admin.billing.subscription.userCount.maxError',
+        defaultMessage: `Your workspace only supports up to ${Constants.MAX_PURCHASE_SEATS} users`,
+    }, {num: Constants.MAX_PURCHASE_SEATS});
+
+    const isValid = () => {
+        const numUsersCount = Number(usersCount) ?? 0;
+        let isValidInput = true;
+
+        if (numUsersCount < props.usersCount) {
+            if (errorMessage !== tooFewUsersErrorMessage) {
+                setErrorMessage(tooFewUsersErrorMessage);
+            }
+            isValidInput = false;
+        }
+
+        if (numUsersCount > Constants.MAX_PURCHASE_SEATS) {
+            if (errorMessage !== tooManyUsersErrorMessage) {
+                setErrorMessage(tooManyUsersErrorMessage);
+            }
+            isValidInput = false;
+        }
+
+        props.setUserCountError(!isValidInput);
+        return isValidInput;
+    };
 
     const yearlyPlan = (
         <>
@@ -310,7 +330,7 @@ function Card(props: CardProps) {
                         placeholder={'User seats'}
                         wrapperClassName='user_seats'
                         inputClassName='user_seats'
-                        customMessage={checkGreaterThanUsersCount() ? null : {
+                        customMessage={isValid() ? null : {
                             type: ItemStatus.ERROR,
                             value: errorMessage,
                         }}
@@ -419,7 +439,14 @@ function Card(props: CardProps) {
 
     const monthlyYearlyPlan = (
         <div className='PlanCard'>
-            <div className={containerClassname}>
+            <div
+                className={
+                    classNames({
+                        bottom: true,
+                        'bottom-yearly': !isMonthly,
+                    })
+                }
+            >
                 <div className='save_text'>
                     <FormattedMessage
                         defaultMessage={'Save 20% with Yearly.'}
@@ -537,7 +564,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             selectedProduct: getSelectedProduct(props.products, props.productId),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-            selectedProductPrice: getSelectedProduct(props.products, props.productId)?.price_per_seat.toString(),
+            selectedProductPrice: getSelectedProduct(props.products, props.productId)?.price_per_seat.toString() || null,
+            userCountError: false,
         };
     }
 
@@ -548,7 +576,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
                 selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
-                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId)?.price_per_seat.toString(),
+                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId)?.price_per_seat.toString() ?? null,
             });
         }
 
@@ -820,20 +848,20 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     plan={this.getPlanNameFromProductName(
                         this.state.selectedProduct ? this.state.selectedProduct.name : '',
                     )}
-                    price={`${this.state.selectedProductPrice}`}
+                    price={this.state.selectedProductPrice ?? ''}
                     rate='/user/month'
-                    planBriefing={this.props.annualSubscription ? undefined : this.paymentFooterText()}
+                    planBriefing={this.props.annualSubscription ? null : this.paymentFooterText()}
                     buttonDetails={{
                         action: this.handleSubmitClick,
                         text: 'Upgrade',
                         customClass:
                             !this.state.paymentInfoIsValid ||
                             this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
+                                BillingSchemes.SALES_SERVE || this.state.userCountError ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special,
                         disabled:
                             !this.state.paymentInfoIsValid ||
                             this.state.selectedProduct?.billing_scheme ===
-                                BillingSchemes.SALES_SERVE,
+                                BillingSchemes.SALES_SERVE || this.state.userCountError,
                     }}
                     planLabel={
                         showPlanLabel ? (
@@ -855,6 +883,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     yearlyPrice={getYearlyPrice()}
                     intl={this.props.intl}
                     isInitialPlanMonthly={this.props.isInitialPlanMonthly}
+                    setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
                 />
             </>
         );

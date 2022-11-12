@@ -29,27 +29,38 @@ function YearlyMonthlyToggle(props: Props) {
     const monthlyLabel = formatMessage({id: 'pricing_modal.monthly', defaultMessage: 'Monthly'});
     const yearlyLabel = formatMessage({id: 'pricing_modal.yearly', defaultMessage: 'Yearly'});
 
+    // handle Enter key being pressed when using Tab to navigate the page
+    const handleKeyDown = (event: React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            onToggleChange();
+
+            // click on the unselected label
+            const yearlyLabelElement = document.getElementById('text-unselected');
+            yearlyLabelElement?.click();
+        }
+    };
+
     const options = [
         {
-            label: <p
-                className={classNames({
-                    'label-text': true,
-                    'text-selected': !isMonthly,
-                    'text-unselected': isMonthly,
-                })}>
-                {yearlyLabel}
-            </p>,
+            label: (
+                <p
+                    className={'label-text'}
+                    id={isMonthly ? 'text-unselected' : 'text-selected'}
+                >
+                    {yearlyLabel}
+                </p>
+            ),
             value: yearlyLabel,
         },
         {
-            label: <p
-                className={classNames({
-                    'label-text': true,
-                    'text-selected': isMonthly,
-                    'text-unselected': !isMonthly,
-                })}>
-                {monthlyLabel}
-            </p>,
+            label: (
+                <p
+                    className={'label-text'}
+                    id={isMonthly ? 'text-selected' : 'text-unselected'}
+                >
+                    {monthlyLabel}
+                </p>
+            ),
             value: monthlyLabel,
         },
     ];
@@ -83,7 +94,11 @@ function YearlyMonthlyToggle(props: Props) {
                     'move-right': moveBorder && isMonthly,
                 })}
             />
-            <div className='toggle-monthly-yearly'>
+            <div
+                className='toggle-monthly-yearly'
+                tabIndex={0}
+                onKeyPress={handleKeyDown}
+            >
                 <SwitchSelector
                     onChange={onToggleChange}
                     options={options}
