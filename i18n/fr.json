@@ -3990,7 +3990,7 @@
   "reaction.reactWidth.ariaLabel": "réagir avec",
   "reaction.reacted": "{users} {reactionVerb} avec {emoji}",
   "reaction.reactionVerb.user": "a réagi",
-  "reaction.reactionVerb.users": "a réagi",
+  "reaction.reactionVerb.users": "ont réagi",
   "reaction.reactionVerb.you": "avez réagi",
   "reaction.reactionVerb.youAndUsers": "avez réagi",
   "reaction.removeReact.ariaLabel": "supprimer la réaction",
