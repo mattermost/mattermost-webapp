@@ -34,6 +34,8 @@ import {ServerError} from '@mattermost/types/errors';
 
 import {suitePluginIds} from 'packages/client/src/client4';
 
+import {getCalls} from 'mattermost-redux/selectors/entities/common';
+
 import ProfilePopover from './profile_popover';
 
 type OwnProps = {
@@ -44,6 +46,23 @@ type OwnProps = {
 function getDefaultChannelId(state: GlobalState) {
     const selectedPost = getSelectedPost(state);
     return selectedPost.exists ? selectedPost.channel_id : getCurrentChannelId(state);
+}
+
+function checkUserInCall(state: GlobalState, userId: string) {
+    let isUserInCall = false;
+
+    const calls = getCalls(state);
+    Object.keys(calls).forEach((channelId) => {
+        const usersInCall = calls[channelId];
+
+        for (const user of usersInCall) {
+            if (user.id === userId) {
+                isUserInCall = true;
+                break;
+            }
+        }
+    });
+    return isUserInCall;
 }
 
 function makeMapStateToProps() {
@@ -68,9 +87,12 @@ function makeMapStateToProps() {
         const lastActivityTimestamp = getLastActivityForUserId(state, userId);
         const timestampUnits = getLastActiveTimestampUnits(state, userId);
         const enableLastActiveTime = displayLastActiveLabel(state, userId);
+        const isCallsEnabled = Boolean(state.plugins.plugins[suitePluginIds.calls]);
+        const currentUserId = getCurrentUserId(state);
+
         return {
             currentTeamId: team.id,
-            currentUserId: getCurrentUserId(state),
+            currentUserId,
             enableTimezone: areTimezonesEnabledAndSupported(state),
             isTeamAdmin,
             isChannelAdmin,
@@ -89,7 +111,9 @@ function makeMapStateToProps() {
             enableLastActiveTime,
             timestampUnits,
             isMobileView: getIsMobileView(state),
-            isCallsEnabled: Boolean(state.plugins.plugins[suitePluginIds.calls]),
+            isCallsEnabled,
+            isUserInCall: isCallsEnabled ? checkUserInCall(state, userId) : undefined,
+            isCurrentUserInCall: isCallsEnabled ? checkUserInCall(state, currentUserId) : undefined,
         };
     };
 }
@@ -97,7 +121,7 @@ function makeMapStateToProps() {
 type Actions = {
     openModal: <P>(modalData: ModalData<P>) => void;
     closeModal: (modalId: string) => void;
-    openDirectChannelToUserId: (userId?: string) => Promise<{error: ServerError}>;
+    openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
     getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
 }
 

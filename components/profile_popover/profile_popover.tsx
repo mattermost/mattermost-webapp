@@ -153,14 +153,12 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
-
     lastActivityTimestamp: number;
-
     enableLastActiveTime: boolean;
-
     timestampUnits: string[];
-
     isCallsEnabled: boolean;
+    isUserInCall?: boolean;
+    isCurrentUserInCall?: boolean;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -526,6 +524,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     className='popover__row first'
                 >
                     <button
+                        id='editProfileButton'
                         type='button'
                         className='btn'
                         onClick={this.handleEditAccountSettings}
@@ -651,6 +650,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     className='popover__row first'
                 >
                     <button
+                        id='messageButton'
                         type='button'
                         className='btn'
                         onClick={this.handleShowDirectChannel}
@@ -671,7 +671,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         className='popover_row-controlContainer'
                     >
                         {(this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) ? addToChannelButton : null}
-                        {this.props.isCallsEnabled ? <CallButton customButton={callButton}/> : null}
+                        {(this.props.isCallsEnabled && this.props.isUserInCall === false && this.props.isCurrentUserInCall === false) ? <CallButton customButton={callButton}/> : null}
                     </div>
                 </div>,
             );

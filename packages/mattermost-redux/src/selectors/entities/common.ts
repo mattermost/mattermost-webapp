@@ -8,6 +8,7 @@ import {TeamMembership} from '@mattermost/types/teams';
 import {GlobalState} from '@mattermost/types/store';
 import {UserProfile} from '@mattermost/types/users';
 import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
+import {suitePluginIds} from 'packages/client/src/client4';
 
 // Channels
 
@@ -50,4 +51,13 @@ export function getCurrentUserId(state: GlobalState): string {
 
 export function getUsers(state: GlobalState): IDMappedObjects<UserProfile> {
     return state.entities.users.profiles;
+}
+
+// Calls
+
+export function getCalls(state: GlobalState): Record<string, UserProfile[]> {
+    const callsPlugin = 'plugins-' + suitePluginIds.calls;
+
+    //@ts-ignore
+    return state[callsPlugin].voiceConnectedProfiles;
 }
