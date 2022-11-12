@@ -41,6 +41,7 @@ type Props = {
     zIndex?: number;
     className?: string;
     showBackdrop?: boolean;
+    tippyBlueStyle?: boolean;
 
     // if you don't want punchOut just assign null, keep null as hook may return null first than actual value
     overlayPunchOut: PunchOutCoordsHeightAndWidth | null;
@@ -85,7 +86,9 @@ export const TourTip = ({
     width = 352,
     zIndex = 999,
     showBackdrop = true,
+    tippyBlueStyle = false,
 }: Props) => {
+    const FIRST_STEP_INDEX = 0;
     const triggerRef = useRef(null);
     const onJump = (event: React.MouseEvent, jumpToStep: number) => {
         if (handleJump) {
@@ -104,7 +107,7 @@ export const TourTip = ({
 
     const dots = [];
     if (!singleTip && tourSteps) {
-        for (let dot = 0; dot < (Object.values(tourSteps).length - 1); dot++) {
+        for (let dot = FIRST_STEP_INDEX; dot < (Object.values(tourSteps).length - 1); dot++) {
             let className = 'tour-tip__dot';
             let circularRing = 'tour-tip__dot-ring';
 
@@ -112,7 +115,6 @@ export const TourTip = ({
                 className += ' active';
                 circularRing += ' tour-tip__dot-ring-active';
             }
-
             dots.push(
                 <div className={circularRing}>
                     <a
@@ -240,7 +242,11 @@ export const TourTip = ({
                     interactive={true}
                     appendTo={rootPortal!}
                     offset={offset}
-                    className={classNames('tour-tip__box', className)}
+                    className={classNames(
+                        'tour-tip__box',
+                        className,
+                        {'tippy-blue-style': tippyBlueStyle},
+                    )}
                     placement={placement}
                 />
             )}

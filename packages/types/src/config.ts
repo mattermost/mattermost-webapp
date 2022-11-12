@@ -115,7 +115,6 @@ export type ClientConfig = {
     FileLevel: string;
     FeatureFlagBoardsProduct: string;
     FeatureFlagGraphQL: string;
-    FeatureFlagPlanUpgradeButtonText: string;
     GfycatAPIKey: string;
     GfycatAPISecret: string;
     GoogleDeveloperKey: string;
@@ -188,6 +187,7 @@ export type ClientConfig = {
     EnableAppBar: string;
     EnableComplianceExport: string;
     PostPriority: string;
+    ReduceOnBoardingTaskList: string;
 };
 
 export type License = {

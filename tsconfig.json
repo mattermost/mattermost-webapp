@@ -21,6 +21,7 @@
     "experimentalDecorators": true,
     "jsx": "react",
     "baseUrl": ".",
+    "useUnknownInCatchVariables": false,
     "paths": {
         "@mattermost/client": ["packages/client/src"],
         "@mattermost/components": ["packages/components/src"],

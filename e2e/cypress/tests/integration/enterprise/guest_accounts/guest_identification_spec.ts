@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @not_cloud @enterprise @guest_account @mfa
 
 /**
@@ -41,7 +40,7 @@ describe('Guest Accounts', () => {
         });
 
         // # Log in as a team admin.
-        cy.apiAdminLogin().then(({user}) => {
+        cy.apiAdminLogin().then((user) => {
             sysadmin = user;
         });
     });

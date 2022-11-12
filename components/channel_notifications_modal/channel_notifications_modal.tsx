@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import deepEqual from 'fast-deep-equal';
@@ -247,10 +248,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
                 <Modal.Body>
                     <div className='settings-table'>
                         <div className='settings-content'>
-                            <div
-                                ref='wrapper'
-                                className='user-settings'
-                            >
+                            <div className='user-settings'>
                                 <br/>
                                 <div className='divider-dark first'/>
                                 <NotificationSection
