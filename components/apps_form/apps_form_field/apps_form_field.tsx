@@ -45,16 +45,10 @@ export default class AppsFormField extends React.PureComponent<Props> {
     };
 
     handleSelected = (selected: AppSelectOption | UserProfile | Channel) => {
-        const {name, field, onChange} = this.props;
+        const {name, onChange} = this.props;
 
-        if (field.type === AppFieldTypes.CHANNEL) {
-            const channel = selected as Channel;
-            const option = {label: channel.display_name, value: channel.id};
-            onChange(name, option);
-        } else {
-            const option = selected as AppSelectOption;
-            onChange(name, option);
-        }
+        const option = selected as AppSelectOption;
+        onChange(name, option);
     }
 
     render() {
@@ -130,25 +124,13 @@ export default class AppsFormField extends React.PureComponent<Props> {
             );
         }
         case AppFieldTypes.CHANNEL:
-        case AppFieldTypes.USER: {
-            return (
-                <AppsFormSelectField
-                    performLookup={this.props.performLookup}
-                    actions={this.props.actions}
-                    teammateNameDisplay={this.props.teammateNameDisplay}
-                    field={field}
-                    label={displayNameContent}
-                    helpText={helpTextContent}
-                    onChange={this.handleSelected}
-                    value={this.props.value as AppSelectOption | null}
-                />
-            );
-        }
+        case AppFieldTypes.USER:
         case AppFieldTypes.STATIC_SELECT:
         case AppFieldTypes.DYNAMIC_SELECT: {
             return (
                 <AppsFormSelectField
                     {...this.props}
+                    teammateNameDisplay={this.props.teammateNameDisplay}
                     field={field}
                     label={displayNameContent}
                     helpText={helpTextContent}

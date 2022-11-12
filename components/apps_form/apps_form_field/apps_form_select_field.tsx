@@ -201,9 +201,9 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const {field, label, helpText} = this.props;
 
         let selectComponent;
-        if (field.type === 'dynamic_select') {
+        if (field.type === AppFieldTypes.DYNAMIC_SELECT) {
             selectComponent = this.renderDynamicSelect();
-        } else if (field.type === 'static_select') {
+        } else if (field.type === AppFieldTypes.STATIC_SELECT) {
             selectComponent = this.renderStaticSelect();
         } else if (field.type === AppFieldTypes.USER) {
             selectComponent = this.renderUserSelect();

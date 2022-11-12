@@ -20,21 +20,23 @@ export const SelectChannelOption = (props: OptionProps<AppSelectOption>) => {
 
     const description = '(~' + item.name + ')';
 
-    return (<Option {...props}>
-        <div className='select_option_item'>
-            {icon}
-            <div className='select_option__item'>
-                <span className='select_option__main'>
-                    {channelName}
-                </span>
-                <span className='ml-2'>
-                    {' '}
-                    {description}
-                </span>
-                <span className='ml-2'>
-                    {' '}
-                    {purpose}
-                </span>
-            </div></div>
-    </Option>);
+    return (
+        <Option {...props}>
+            <div className='select_option_item'>
+                {icon}
+                <div className='select_option__item'>
+                    <span className='select_option__main'>
+                        {channelName}
+                    </span>
+                    <span className='ml-2'>
+                        {' '}
+                        {description}
+                    </span>
+                    <span className='ml-2'>
+                        {' '}
+                        {purpose}
+                    </span>
+                </div>
+            </div>
+        </Option>);
 };

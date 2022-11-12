@@ -96,45 +96,6 @@
     }
 }
 
-.select_option_item {
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    column-gap: 1.2rem;
-}
-
-.select_option__item {
-    overflow: hidden;
-    max-width: 89%;
-    color: rgba(var(--center-channel-color-rgb), 0.56);
-    text-overflow: ellipsis;
-    white-space: nowrap;
-
-    .select_option__main {
-        overflow: hidden;
-        max-width: 89%;
-        color: rgba(var(--center-channel-color-rgb), 1);
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-}
-
-.select_option__icon {
-    display: inline-flex;
-    flex: 0 0 1.6rem;
-    align-items: center;
-    justify-content: center;
-    fill: v(center-channel-color);
-    opacity: 0.56;
-
-    &--large {
-        width: 2.4rem;
-        height: 2.4rem;
-        flex: 0 0 1.2rem;
-        font-size: 2rem;
-    }
-}
-
 .has-error {
     .help-block,
     .radio,

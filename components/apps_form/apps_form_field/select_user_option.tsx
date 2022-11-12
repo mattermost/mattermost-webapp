@@ -12,6 +12,7 @@ import * as Utils from 'utils/utils';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
+import {imageURLForUser} from 'utils/utils';
 
 const {Option} = components;
 export const SelectUserOption = (props: OptionProps<AppSelectOption>) => {
@@ -32,7 +33,7 @@ export const SelectUserOption = (props: OptionProps<AppSelectOption>) => {
                 <Avatar
                     size='xxs'
                     username={username}
-                    url={props.data.icon_data}
+                    url={imageURLForUser(props.data.id)}
                 />
                 <div className='select_option__item'>
                     <span className='select_option__main'>
