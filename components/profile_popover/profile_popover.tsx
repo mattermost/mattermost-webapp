@@ -41,6 +41,8 @@ import Badge from 'components/widgets/badges/badge';
 
 import './profile_popover.scss';
 
+// todo sinan write test when current user and/ or other is in call
+// todo sinan write test when config settings are false
 interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>, 'id'> {
 
     /**
@@ -617,31 +619,50 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             </OverlayTrigger>
         );
 
-        const startCallMessage = formatMessage({
-            id: t('webapp.mattermost.feature.start_call'),
-            defaultMessage: 'Start Call',
-        });
-        const callButton = (
-            <OverlayTrigger
-                delayShow={Constants.OVERLAY_TIME_DELAY}
-                placement='top'
-                overlay={
-                    <Tooltip id='startCallTooltip'>
-                        {startCallMessage}
-                    </Tooltip>
-                }
-            >
-                <button
-                    type='button'
-                    className='btn icon-btn'
+        const renderCallButton = () => {
+            if (!this.props.isCallsEnabled) {
+                return null;
+            }
+            const disabled = this.props.isUserInCall || this.props.isCurrentUserInCall;
+            const startCallMessage = this.props.isUserInCall ? formatMessage({
+                id: t('user_profile.call.userBusy'),
+                defaultMessage: 'User is in another call',
+            }) : formatMessage({
+                id: t('webapp.mattermost.feature.start_call'),
+                defaultMessage: 'Start Call',
+            });
+            const iconButtonClassname = classNames('btn icon-btn', {'icon-btn-disabled': disabled});
+            const callButton = (
+                <OverlayTrigger
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='top'
+                    overlay={
+                        <Tooltip id='startCallTooltip'>
+                            {startCallMessage}
+                        </Tooltip>
+                    }
                 >
-                    <PhoneInTalkIcon
-                        size={18}
-                        aria-label={startCallMessage}
-                    />
-                </button>
-            </OverlayTrigger>
-        );
+                    <button
+                        type='button'
+                        className={iconButtonClassname}
+                    >
+                        <PhoneInTalkIcon
+                            size={18}
+                            aria-label={startCallMessage}
+                        />
+                    </button>
+                </OverlayTrigger>
+            );
+
+            if (disabled) {
+                return callButton;
+            }
+
+            return (
+                <CallButton customButton={callButton}/>
+            );
+        };
+
         if (this.props.user.id !== this.props.currentUserId && !haveOverrideProp) {
             dataContent.push(
                 <div
@@ -671,7 +692,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                         className='popover_row-controlContainer'
                     >
                         {(this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) ? addToChannelButton : null}
-                        {(this.props.isCallsEnabled && this.props.isUserInCall === false && this.props.isCurrentUserInCall === false) ? <CallButton customButton={callButton}/> : null}
+                        {renderCallButton()}
                     </div>
                 </div>,
             );

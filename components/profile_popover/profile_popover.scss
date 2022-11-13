@@ -107,6 +107,11 @@
                 }
             }
 
+            .icon-btn-disabled {
+                cursor: not-allowed;
+                opacity: 0.65;
+            }
+
             .popover_row-controlContainer {
                 display: flex;
                 align-items: center;
