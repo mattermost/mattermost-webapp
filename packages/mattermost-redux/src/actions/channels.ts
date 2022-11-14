@@ -4,6 +4,8 @@
 import {AnyAction} from 'redux';
 import {batchActions} from 'redux-batched-actions';
 
+import {markPostAsUnread} from 'actions/post_actions';
+
 import {ChannelTypes, PreferenceTypes, UserTypes} from 'mattermost-redux/action_types';
 
 import {Client4} from 'mattermost-redux/client';
@@ -22,6 +24,9 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getConfig, getServerVersion} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {getMostRecentPostIdInChannel, getPost} from 'mattermost-redux/selectors/entities/posts';
+
+import {getPosts} from 'mattermost-redux/actions/posts';
 
 import {ActionFunc, ActionResult, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 
@@ -1426,6 +1431,23 @@ export function actionsToMarkChannelAsUnread(getState: GetStateFunc, teamId: str
     }
 
     return actions;
+}
+
+export function markMostRecentPostInChannelAsUnread(channelId: string): ActionFunc {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        let state = getState();
+        let postId = getMostRecentPostIdInChannel(state, channelId);
+        if (!postId) {
+            await dispatch(getPosts(channelId));
+            state = getState();
+            postId = getMostRecentPostIdInChannel(state, channelId);
+        }
+        if (postId) {
+            const lastPost = getPost(state, postId);
+            dispatch(markPostAsUnread(lastPost, 'CENTER'));
+        }
+        return {data: true};
+    };
 }
 
 export function getChannelMembersByIds(channelId: string, userIds: string[]) {

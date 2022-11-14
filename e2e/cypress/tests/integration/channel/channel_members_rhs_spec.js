@@ -156,12 +156,12 @@ describe('Channel members RHS', () => {
                 cy.uiGetRHS().findByTestId('channel-member-rhs-search').should('be.visible').type(users[0].username);
 
                 // * we should see them, but nobody else
-                cy.uiGetRHS().findByText(`${users[0].username}`).should('be.visible');
+                cy.uiGetRHS().contains(`${users[0].username}`).should('be.visible');
                 cy.uiGetRHS().findByText(`${users[1].username}`).should('not.exist');
 
                 // # erase the field
                 cy.uiGetRHS().get('[aria-label="cancel members search"]').should('be.visible').click();
-                cy.uiGetRHS().findByText(`${users[0].username}`).should('exist');
+                cy.uiGetRHS().contains(`${users[0].username}`).should('exist');
             });
         });
     });

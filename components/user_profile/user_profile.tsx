@@ -2,8 +2,6 @@
 // See LICENSE.txt for license information.
 
 import React, {PureComponent} from 'react';
-import ColorHash from 'color-hash';
-import ColorContrastChecker from 'color-contrast-checker';
 
 import {UserProfile as UserProfileType} from '@mattermost/types/users';
 
@@ -11,13 +9,14 @@ import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {imageURLForUser, isMobile} from 'utils/utils';
-import LocalStorageStore from 'stores/local_storage_store';
 
 import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 import ProfilePopover from 'components/profile_popover';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import SharedUserIndicator from 'components/shared_user_indicator';
+
+import {generateColor} from './utils';
 
 export type UserProfileProps = {
     userId: string;
@@ -62,29 +61,6 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
         this.overlay = ref;
     }
 
-    generateColor = (username: string, background: string): string => {
-        const cacheKey = `${username}-${background}`;
-        const cachedColor = LocalStorageStore.getItem(cacheKey);
-        if (cachedColor !== null) {
-            return cachedColor;
-        }
-
-        let userColor = background;
-        let userAndSalt = username;
-        const checker = new ColorContrastChecker();
-        const colorHash = new ColorHash();
-
-        let tries = 3;
-        while (!checker.isLevelCustom(userColor, background, 4.5) && tries > 0) {
-            userColor = colorHash.hex(userAndSalt);
-            userAndSalt += 'salt';
-            tries--;
-        }
-
-        LocalStorageStore.setItem(cacheKey, userColor);
-        return userColor;
-    }
-
     render(): React.ReactNode {
         const {
             disablePopover,
@@ -115,7 +91,7 @@ export default class UserProfile extends PureComponent<UserProfileProps> {
 
         let userColor = '#000000';
         if (user && theme) {
-            userColor = this.generateColor(user.username, theme.centerChannelBg);
+            userColor = generateColor(user.username, theme.centerChannelBg);
         }
 
         let userStyle;

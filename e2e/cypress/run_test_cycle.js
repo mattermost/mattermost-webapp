@@ -123,54 +123,42 @@ async function saveResult(specExecution, result, testIndex) {
         test_end_at: stats.endedAt,
     };
 
-    const uploadedScreenshots = [];
-    tests.forEach((t) => {
-        const attempts = t.attempts[0];
-        if (attempts.screenshots && attempts.screenshots.length > 0) {
-            const path = t.attempts[0].screenshots[0].path;
-            uploadedScreenshots.push(uploadScreenshot(path, REPO, BRANCH, BUILD_ID));
-        }
-    });
-    const screenshotUrls = await Promise.all(uploadedScreenshots);
-
     const testCases = [];
-    tests.forEach((t, i) => {
-        const attempts = t.attempts[0];
+    for (let i = 0; i < tests.length; i++) {
+        const test = tests[i];
+        const attempts = test.attempts[0];
 
-        const test = {
-            title: t.title,
-            full_title: t.title.join(' '),
+        const testCase = {
+            title: test.title,
+            full_title: test.title.join(' '),
             state: attempts.state,
             duration: attempts.duration || 0,
-            code: trimToMaxLength(t.body),
+            code: trimToMaxLength(test.body),
         };
 
         if (attempts.startedAt) {
-            test.test_start_at = attempts.startedAt;
+            testCase.test_start_at = attempts.startedAt;
         }
 
-        if (t.displayError) {
-            test.error_display = trimToMaxLength(t.displayError);
+        if (test.displayError) {
+            testCase.error_display = trimToMaxLength(test.displayError);
         }
 
         const errorFrame = attempts.error && attempts.error.codeFrame && attempts.error.codeFrame.frame;
         if (errorFrame) {
-            test.error_frame = trimToMaxLength(errorFrame);
+            testCase.error_frame = trimToMaxLength(errorFrame);
         }
 
-        const screenshot = {};
         if (attempts.screenshots && attempts.screenshots.length > 0) {
-            const {takenAt, height, width} = attempts.screenshots[0];
-            screenshot.url = screenshotUrls[i];
-            screenshot.taken_at = takenAt;
-            screenshot.height = height;
-            screenshot.width = width;
-
-            test.screenshot = screenshot;
+            const path = test.attempts[0].screenshots[0].path;
+            const screenshotUrl = await uploadScreenshot(path, REPO, BRANCH, BUILD_ID);
+            if (typeof screenshotUrl === 'string' && !screenshotUrl.error) {
+                testCase.screenshot = {url: screenshotUrl};
+            }
         }
 
-        testCases.push(test);
-    });
+        testCases.push(testCase);
+    }
 
     await recordSpecResult(specExecution.id, specPatch, testCases);
 }
