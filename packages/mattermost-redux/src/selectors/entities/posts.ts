@@ -358,9 +358,8 @@ export function makeGetPostsForThread(): (state: GlobalState, rootId: string) =>
         getCurrentUser,
         (state: GlobalState, rootId: string) => state.entities.posts.postsInThread[rootId],
         (state: GlobalState, rootId: string) => state.entities.posts.posts[rootId],
-        getMyPreferences,
         shouldShowJoinLeaveMessages,
-        (posts, currentUser, postsForThread, rootPost, myPreferences, showJoinLeave) => {
+        (posts, currentUser, postsForThread, rootPost, showJoinLeave) => {
             const thread: Post[] = [];
 
             if (rootPost) {
