@@ -4,7 +4,7 @@
 import {connect, ConnectedProps} from 'react-redux';
 
 import {setCategoryMuted, setCategorySorting} from 'mattermost-redux/actions/channel_categories';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {openModal} from 'actions/views/modals';
 
@@ -13,10 +13,8 @@ import {GlobalState} from 'types/store';
 import SidebarCategoryMenu from './sidebar_category_menu';
 
 function mapStateToProps(state: GlobalState) {
-    const currentTeam = getCurrentTeam(state);
-
     return {
-        currentTeamId: currentTeam.id,
+        currentTeamId: getCurrentTeamId(state),
     };
 }
 
