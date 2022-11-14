@@ -4,6 +4,17 @@
 import React, {useRef, useState, MouseEvent, memo} from 'react';
 import {useIntl} from 'react-intl';
 
+import {
+    MarkAsUnreadIcon,
+    StarIcon,
+    StarOutlineIcon,
+    BellOutlineIcon,
+    BellOffOutlineIcon,
+    LinkVariantIcon,
+    AccountOutlineIcon,
+    CloseIcon,
+} from '@mattermost/compass-icons/components';
+
 import {trackEvent} from 'actions/telemetry_actions';
 
 import CategoryMenuItems from 'components/category_menu_items';
@@ -100,7 +111,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`markAsRead-${props.channel.id}`}
                 onClick={handleMarkAsRead}
-                icon={<i className='icon-mark-as-unread'/>}
+                icon={<MarkAsUnreadIcon size={16}/>}
                 text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
             />
         );
@@ -112,7 +123,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`markAsUnread-${props.channel.id}`}
                 onClick={handleMarkAsUnread}
-                icon={<i className='icon-mark-as-unread'/>}
+                icon={<MarkAsUnreadIcon size={16}/>}
                 text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
             />
         );
@@ -124,7 +135,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`unfavorite-${props.channel.id}`}
                 onClick={handleUnfavoriteChannel}
-                icon={<i className='icon-star'/>}
+                icon={<StarIcon size={16}/>}
                 text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unfavoriteChannel', defaultMessage: 'Unfavorite'})}
             />
         );
@@ -133,7 +144,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`favorite-${props.channel.id}`}
                 onClick={handleFavoriteChannel}
-                icon={<i className='icon-star-outline'/>}
+                icon={<StarOutlineIcon size={16}/>}
                 text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.favoriteChannel', defaultMessage: 'Favorite'})}
             />
         );
@@ -150,7 +161,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`unmute-${props.channel.id}`}
                 onClick={handleUnmuteChannel}
-                icon={<i className='icon-bell-off-outline'/>}
+                icon={<BellOffOutlineIcon size={16}/>}
                 text={muteChannelText}
             />
         );
@@ -163,7 +174,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`mute-${props.channel.id}`}
                 onClick={handleMuteChannel}
-                icon={<i className='icon-bell-outline'/>}
+                icon={<BellOutlineIcon size={16}/>}
                 text={muteChannelText}
             />
         );
@@ -175,7 +186,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`copyLink-${props.channel.id}`}
                 onClick={handleCopyLink}
-                icon={<i className='icon-link-variant'/>}
+                icon={<LinkVariantIcon size={16}/>}
                 text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
             />
         );
@@ -187,7 +198,7 @@ const SidebarChannelMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
-                icon={<i className='icon-account-outline'/>}
+                icon={<AccountOutlineIcon size={16}/>}
                 text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
             />
         );
@@ -205,7 +216,7 @@ const SidebarChannelMenu = (props: Props) => {
                 <Menu.ItemAction
                     id={`leave-${props.channel.id}`}
                     onClick={handleLeaveChannel}
-                    icon={<i className='icon-close'/>}
+                    icon={<CloseIcon size={16}/>}
                     text={leaveChannelText}
                     isDangerous={!(props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL)}
                 />

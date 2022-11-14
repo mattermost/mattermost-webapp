@@ -5,6 +5,12 @@ import React from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
+import {
+    FolderOutlineIcon,
+    StarOutlineIcon,
+    FolderMoveOutlineIcon,
+} from '@mattermost/compass-icons/components';
+
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
@@ -93,7 +99,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
 
         return {
             id: `moveToCategory-${channel.id}-${category.id}`,
-            icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
+            icon: category.type === CategoryTypes.FAVORITES ? (<StarOutlineIcon size={16}/>) : (<FolderOutlineIcon size={16}/>),
             direction: 'right' as any,
             text,
             action: () => moveToCategory(category.id),
@@ -107,7 +113,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
         },
         {
             id: `moveToNewCategory-${channel.id}`,
-            icon: (<i className='icon-folder-move-outline'/>),
+            icon: (<FolderMoveOutlineIcon size={16}/>),
             direction: 'right' as any,
             text: intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveToNewCategory', defaultMessage: 'New Category'}),
             action: moveToNewCategory,
@@ -122,7 +128,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
                     subMenu={categoryMenuItems}
                     text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.moveTo', defaultMessage: 'Move to...'})}
                     direction={'right' as any}
-                    icon={location === 'sidebar' ? <i className='icon-folder-move-outline'/> : null}
+                    icon={location === 'sidebar' ? <FolderMoveOutlineIcon size={16}/> : null}
                     openUp={openUp}
                     styleSelectableItem={true}
                     selectedValueText={currentCategory?.display_name}
