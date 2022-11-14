@@ -33,7 +33,7 @@ const SidebarChannelMenu = (props: Props) => {
     const isLeaving = useRef(false);
     const [openUp, setOpenUp] = useState(false);
 
-    const intl = useIntl();
+    const {formatMessage} = useIntl();
 
     function handleMarkAsRead() {
         props.markChannelAsRead(props.channel.id);
@@ -112,7 +112,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsRead-${props.channel.id}`}
                 onClick={handleMarkAsRead}
                 icon={<MarkAsUnreadIcon size={16}/>}
-                text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
+                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
             />
         );
     }
@@ -124,7 +124,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`markAsUnread-${props.channel.id}`}
                 onClick={handleMarkAsUnread}
                 icon={<MarkAsUnreadIcon size={16}/>}
-                text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
+                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
             />
         );
     }
@@ -136,7 +136,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`unfavorite-${props.channel.id}`}
                 onClick={handleUnfavoriteChannel}
                 icon={<StarIcon size={16}/>}
-                text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unfavoriteChannel', defaultMessage: 'Unfavorite'})}
+                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.unfavoriteChannel', defaultMessage: 'Unfavorite'})}
             />
         );
     } else {
@@ -145,16 +145,16 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`favorite-${props.channel.id}`}
                 onClick={handleFavoriteChannel}
                 icon={<StarOutlineIcon size={16}/>}
-                text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.favoriteChannel', defaultMessage: 'Favorite'})}
+                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.favoriteChannel', defaultMessage: 'Favorite'})}
             />
         );
     }
 
     let muteChannelMenuItem: JSX.Element | null = null;
     if (props.isMuted) {
-        let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'});
+        let muteChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteChannel', defaultMessage: 'Unmute Channel'});
         if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
-            muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteConversation', defaultMessage: 'Unmute Conversation'});
+            muteChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteConversation', defaultMessage: 'Unmute Conversation'});
         }
 
         muteChannelMenuItem = (
@@ -166,9 +166,9 @@ const SidebarChannelMenu = (props: Props) => {
             />
         );
     } else {
-        let muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteChannel', defaultMessage: 'Mute Channel'});
+        let muteChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteChannel', defaultMessage: 'Mute Channel'});
         if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
-            muteChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteConversation', defaultMessage: 'Mute Conversation'});
+            muteChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteConversation', defaultMessage: 'Mute Conversation'});
         }
         muteChannelMenuItem = (
             <Menu.ItemAction
@@ -187,7 +187,7 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`copyLink-${props.channel.id}`}
                 onClick={handleCopyLink}
                 icon={<LinkVariantIcon size={16}/>}
-                text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
+                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.copyLink', defaultMessage: 'Copy Link'})}
             />
         );
     }
@@ -199,16 +199,16 @@ const SidebarChannelMenu = (props: Props) => {
                 id={`addMembers-${props.channel.id}`}
                 onClick={handleAddMembers}
                 icon={<AccountOutlineIcon size={16}/>}
-                text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
+                text={formatMessage({id: 'sidebar_left.sidebar_channel_menu.addMembers', defaultMessage: 'Add Members'})}
             />
         );
     }
 
     let leaveChannelMenuItem: JSX.Element | null = null;
     if (props.channel.name !== Constants.DEFAULT_CHANNEL) {
-        let leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
+        let leaveChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveChannel', defaultMessage: 'Leave Channel'});
         if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
-            leaveChannelText = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
+            leaveChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
         }
 
         leaveChannelMenuItem = (
@@ -227,12 +227,12 @@ const SidebarChannelMenu = (props: Props) => {
     return (
         <SidebarMenu
             id={`SidebarChannelMenu-${props.channel.id}`}
-            ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-            buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+            ariaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+            buttonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
             isMenuOpen={props.isMenuOpen}
             onOpenDirectionChange={handleOpenDirectionChange}
             onToggleMenu={onToggleMenu}
-            tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
+            tooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             tabIndex={props.isCollapsed ? -1 : 0}
         >
             {props.isMenuOpen && (
