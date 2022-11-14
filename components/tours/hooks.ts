@@ -5,8 +5,9 @@ import {useCallback} from 'react';
 
 import {useDispatch, useSelector} from 'react-redux';
 
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 import {getCurrentRelativeTeamUrl} from 'mattermost-redux/selectors/entities/teams';
+
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {close as closeLhs, open as openLhs} from 'actions/views/lhs';
 import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
@@ -28,6 +29,7 @@ import {
 } from './constant';
 
 export const useGetTourSteps = (tourCategory: string) => {
+    const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
 
     let tourSteps: Record<string, number> = TTNameMapToTourSteps[tourCategory];
@@ -44,6 +46,9 @@ export const useGetTourSteps = (tourCategory: string) => {
             delete steps.BOARDS_TOUR;
         }
         tourSteps = steps;
+    } else if (tourCategory === TutorialTourName.ONBOARDING_TUTORIAL_STEP && isGuestUser) {
+        // restrict the 'learn more about messaging' tour when user is guest (townSquare, channel creation and user invite are restricted to guests)
+        tourSteps = TTNameMapToTourSteps[TutorialTourName.ONBOARDING_TUTORIAL_STEP_FOR_GUESTS];
     }
     return tourSteps;
 };
