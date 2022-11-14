@@ -47,6 +47,7 @@ describe('components/ProfilePopover', () => {
             'hour',
         ],
         isCallsEnabled: true,
+        isCallsDefaultEnabledOnAllChannels: true,
     };
 
     test('should match snapshot', () => {
@@ -208,6 +209,46 @@ describe('components/ProfilePopover', () => {
         const wrapper = shallowWithIntl(
             <ProfilePopover {...props}/>,
         );
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should disable start call button when user is in another call', () => {
+        const props = {
+            ...baseProps,
+            isUserInCall: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper.find('#startCallButton').hasClass('icon-btn-disabled')).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should disable start call button when user is in another call', () => {
+        const props = {
+            ...baseProps,
+            isCurrentUserInCall: true,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper.find('#startCallButton').hasClass('icon-btn-disabled')).toBe(true);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should not show the start call button when isCallsDefaultEnabledOnAllChannels is false', () => {
+        const props = {
+            ...baseProps,
+            isUserInCall: true,
+            isCallsDefaultEnabledOnAllChannels: false,
+        };
+
+        const wrapper = shallowWithIntl(
+            <ProfilePopover {...props}/>,
+        );
+        expect(wrapper.find('#startCallButton').exists()).toBe(false);
         expect(wrapper).toMatchSnapshot();
     });
 });

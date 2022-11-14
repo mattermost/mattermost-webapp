@@ -669,6 +669,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     }
                 >
                     <button
+                        id='startCallButton'
                         type='button'
                         className={iconButtonClassname}
                     >
