@@ -17,13 +17,13 @@ import {LicenseLinks, StatTypes, Preferences, AnnouncementBarTypes} from 'utils/
 
 import './overage_users_banner.scss';
 
-type AdminHasWatchItArgs = {
+type AdminHasDismissedItArgs = {
     preferenceName: string;
     overagePreferences: PreferenceType[];
     isWarningBanner: boolean;
 }
 
-const adminHasWatchIt = ({preferenceName, overagePreferences, isWarningBanner}: AdminHasWatchItArgs): boolean => {
+const adminHasDismissed = ({preferenceName, overagePreferences, isWarningBanner}: AdminHasDismissedItArgs): boolean => {
     if (isWarningBanner) {
         return overagePreferences.find((value) => value.name === preferenceName) !== undefined;
     }
@@ -59,7 +59,7 @@ const OverageUsersBanner = () => {
 
     const isOverageState = isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats;
 
-    if (!isAdmin || !isOverageState || isCloud || adminHasWatchIt({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
+    if (!isAdmin || !isOverageState || isCloud || adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
         return null;
     }
 
@@ -103,7 +103,6 @@ const OverageUsersBanner = () => {
             isTallBanner={true}
             icon={<i className='icon icon-alert-outline'/>}
             handleClose={handleClose}
-            showCTA={license.Email === user.email}
         />
     );
 };
