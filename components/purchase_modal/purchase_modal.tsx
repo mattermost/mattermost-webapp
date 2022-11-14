@@ -162,8 +162,15 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
     return currentProduct;
 }
 
-function getSelectedProduct(products: Record<string, Product> | undefined, productId?: string | null) {
+function getSelectedProduct(
+    products: Record<string, Product> | undefined,
+    productId?: string | null,
+    isDelinquencyModal?: boolean,
+    isCloudDelinquencyGreaterThan90Days?: boolean) {
     const currentProduct = findProductInDictionary(products, productId);
+    if (isDelinquencyModal && !isCloudDelinquencyGreaterThan90Days) {
+        return currentProduct;
+    }
     let nextSku = CloudProducts.PROFESSIONAL;
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -301,12 +308,22 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             billingDetails: null,
             cardInputComplete: false,
             processing: false,
-            editPaymentInfo: isEmpty(props.customer?.payment_method && props.customer?.billing_address),
-            currentProduct: findProductInDictionary(props.products, props.productId),
-            selectedProduct: getSelectedProduct(props.products, props.productId),
+            editPaymentInfo: isEmpty(
+                props.customer?.payment_method &&
+                    props.customer?.billing_address,
+            ),
+            currentProduct: findProductInDictionary(
+                props.products,
+                props.productId,
+            ),
+            selectedProduct: getSelectedProduct(
+                props.products,
+                props.productId,
+                props.isDelinquencyModal,
+                props.isCloudDelinquencyGreaterThan90Days,
+            ),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-
         };
     }
 
@@ -316,7 +333,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId),
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
             });
         }
 
@@ -607,16 +624,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         );
     }
 
-    selectedProduct = () => {
-        // If the subscription is not past 90 days delinquent, we don't need to upgrade them as they're still on the correct plan
-        if (this.props.isDelinquencyModal && !this.props.isCloudDelinquencyGreaterThan90Days) {
-            return findProductInDictionary(this.props.products, this.props.productId);
-        }
-
-        // If not delinquent, or they've been downgraded (ie, passed 90 days), the modal functions as normal
-        return this.state.selectedProduct;
-    }
-
     purchaseScreen = () => {
         const title = (
             <FormattedMessage
@@ -744,10 +751,10 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                                 trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'paid_arrears');
                                             }
                                         }}
-                                        selectedProduct={this.selectedProduct()}
+                                        selectedProduct={this.state.selectedProduct}
                                         currentProduct={this.state.currentProduct}
                                         isProratedPayment={(!this.props.isFreeTrial && this.state.currentProduct?.billing_scheme === BillingSchemes.FLAT_FEE) &&
-                                        this.selectedProduct()?.billing_scheme === BillingSchemes.PER_SEAT}
+                                        this.state.selectedProduct?.billing_scheme === BillingSchemes.PER_SEAT}
                                         setIsUpgradeFromTrialToFalse={this.setIsUpgradeFromTrialToFalse}
                                         isUpgradeFromTrial={this.state.isUpgradeFromTrial}
                                         telemetryProps={{
