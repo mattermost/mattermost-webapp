@@ -35,6 +35,7 @@ type Props = {
     onChangeDesktopSound?: (e: ChangeEvent<HTMLInputElement>) => void;
     onChangeNotificationSound?: (selectedOption: ValueType<SelectedOption>) => void;
     onCollapseSection: (section: string) => void;
+    onReset: () => void;
     onSubmit: (setting?: string) => void;
     globalNotifyLevel?: string;
     memberNotifyLevel: string;
@@ -65,6 +66,7 @@ export default function ExpandView({
     onChangeThreads,
     onChangeDesktopSound,
     onChangeNotificationSound,
+    onReset,
     onSubmit,
     serverError,
     onCollapseSection,
@@ -84,23 +86,6 @@ export default function ExpandView({
                         defaultMessage='Send desktop notifications'
                     />
                 </legend>
-                <div className='radio'>
-                    <label className=''>
-                        <input
-                            id='channelNotificationGlobalDefault'
-                            name='channelDesktopNotifications'
-                            type='radio'
-                            value={NotificationLevels.DEFAULT}
-                            checked={memberNotifyLevel === NotificationLevels.DEFAULT}
-                            onChange={onChange}
-                        />
-                        <Describe
-                            section={section}
-                            memberNotifyLevel={NotificationLevels.DEFAULT}
-                            globalNotifyLevel={globalNotifyLevel}
-                        />
-                    </label>
-                </div>
                 <div className='radio'>
                     <label className=''>
                         <input
@@ -376,7 +361,12 @@ export default function ExpandView({
 
     return (
         <SettingItemMax
-            title={<SectionTitle section={section}/>}
+            title={
+                <SectionTitle
+                    section={section}
+                    isExpanded={true}
+                    onClickResetButton={onReset}
+                />}
             inputs={inputs}
             submit={onSubmit}
             serverError={serverError}

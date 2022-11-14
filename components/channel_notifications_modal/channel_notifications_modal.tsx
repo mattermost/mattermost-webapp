@@ -53,6 +53,36 @@ type State = {
     ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions'];
 };
 
+const getDefaultDesktopNotificationLevel = (currentUserNotifyProps: UserNotifyProps): Exclude<ChannelMemberNotifyProps['desktop'], undefined> => {
+    if (currentUserNotifyProps?.desktop) {
+        if (currentUserNotifyProps.desktop === 'default') {
+            return NotificationLevels.ALL;
+        }
+        return currentUserNotifyProps.desktop;
+    }
+    return NotificationLevels.ALL;
+};
+
+const getDefaultDesktopSound = (currentUserNotifyProps: UserNotifyProps): Exclude<ChannelMemberNotifyProps['desktop_sound'], undefined> => {
+    if (currentUserNotifyProps?.desktop_sound) {
+        return currentUserNotifyProps.desktop_sound === 'true' ? 'on' : 'off';
+    }
+    return DesktopSound.ON;
+};
+
+const getDefaultDesktopNotificationSound = (currentUserNotifyProps: UserNotifyProps): Exclude<ChannelMemberNotifyProps['desktop_notification_sound'], undefined> => {
+    if (currentUserNotifyProps?.desktop_notification_sound) {
+        return currentUserNotifyProps.desktop_notification_sound;
+    }
+    return 'Bing';
+};
+const getDefaultDesktopThreadsNotifyLevel = (currentUserNotifyProps: UserNotifyProps): Exclude<ChannelMemberNotifyProps['desktop_threads'], undefined> => {
+    if (currentUserNotifyProps?.desktop_threads) {
+        return currentUserNotifyProps.desktop_threads;
+    }
+    return NotificationLevels.ALL;
+};
+
 export default class ChannelNotificationsModal extends React.PureComponent<Props, State> {
     constructor(props: Props) {
         super(props);
@@ -93,10 +123,10 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
         }
 
         return {
-            desktopNotifyLevel: channelMemberNotifyProps?.desktop || NotificationLevels.DEFAULT,
-            desktopSound: channelMemberNotifyProps?.desktop_sound || DesktopSound.ON,
-            desktopNotifySound: channelMemberNotifyProps?.desktop_notification_sound || 'Bing',
-            desktopThreadsNotifyLevel: channelMemberNotifyProps?.desktop_threads || NotificationLevels.ALL,
+            desktopNotifyLevel: channelMemberNotifyProps?.desktop || getDefaultDesktopNotificationLevel(currentUserNotifyProps),
+            desktopSound: channelMemberNotifyProps?.desktop_sound || getDefaultDesktopSound(currentUserNotifyProps),
+            desktopNotifySound: channelMemberNotifyProps?.desktop_notification_sound || getDefaultDesktopNotificationSound(currentUserNotifyProps),
+            desktopThreadsNotifyLevel: channelMemberNotifyProps?.desktop_threads || getDefaultDesktopThreadsNotifyLevel(currentUserNotifyProps),
             markUnreadNotifyLevel: channelMemberNotifyProps?.mark_unread || NotificationLevels.ALL,
             pushNotifyLevel: channelMemberNotifyProps?.push || NotificationLevels.DEFAULT,
             pushThreadsNotifyLevel: channelMemberNotifyProps?.push_threads || NotificationLevels.ALL,
@@ -133,6 +163,19 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
         } else {
             this.updateSection(NotificationSections.NONE);
         }
+    }
+
+    handleResetDesktopNotification = () => {
+        const currentUserNotifyProps = this.props.currentUser.notify_props;
+
+        const userDesktopNotificationDefaults = {
+            desktopNotifyLevel: getDefaultDesktopNotificationLevel(currentUserNotifyProps),
+            desktopSound: getDefaultDesktopSound(currentUserNotifyProps),
+            desktopNotifySound: getDefaultDesktopNotificationSound(currentUserNotifyProps),
+            desktopThreadsNotifyLevel: getDefaultDesktopThreadsNotifyLevel(currentUserNotifyProps),
+        };
+
+        this.setState(userDesktopNotificationDefaults);
     }
 
     handleSubmitDesktopNotification = () => {
@@ -298,6 +341,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
                                         onChangeThreads={this.handleUpdateDesktopThreadsNotifyLevel}
                                         onChangeDesktopSound={this.handleUpdateDesktopSound}
                                         onChangeNotificationSound={this.handleUpdateDesktopNotifySound}
+                                        onReset={this.handleResetDesktopNotification}
                                         onSubmit={this.handleSubmitDesktopNotification}
                                         onUpdateSection={this.updateSection}
                                         serverError={serverError}

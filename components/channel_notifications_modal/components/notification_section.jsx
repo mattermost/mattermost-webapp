@@ -60,6 +60,8 @@ export default class NotificationSection extends React.PureComponent {
 
         onChangeNotificationSound: PropTypes.func,
 
+        onReset: PropTypes.func,
+
         /**
          * Submit function to save notification level
          */
@@ -114,6 +116,7 @@ export default class NotificationSection extends React.PureComponent {
             memberDesktopNotificationSound,
             ignoreChannelMentions,
             onSubmit,
+            onReset,
             section,
             serverError,
         } = this.props;
@@ -129,6 +132,7 @@ export default class NotificationSection extends React.PureComponent {
                     globalNotifyLevel={globalNotificationLevel}
                     ignoreChannelMentions={ignoreChannelMentions}
                     onChange={this.handleOnChange}
+                    onReset={onReset}
                     onChangeThreads={this.handleOnChangeThreads}
                     onChangeDesktopSound={this.handleOnChangeDesktopSound}
                     onChangeNotificationSound={this.handleOnChangeNotificationSound}
