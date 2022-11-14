@@ -81,13 +81,14 @@ export default class EmojiPickerTabs extends PureComponent<Props, State> {
                 pickerStyle = {...this.props.style};
             }
 
-            pickerStyle.top = this.props.topOffset || 0;
-            if (pickerStyle.top && this.props.topOffset) {
-                pickerStyle.top = this.props.topOffset + (pickerStyle.top as number);
+            if (pickerStyle.top) {
+                pickerStyle.top = (this.props.topOffset || 0) + (pickerStyle.top as number);
+            } else {
+                pickerStyle.top = this.props.topOffset;
             }
 
-            if (pickerStyle.left && this.props.leftOffset) {
-                (pickerStyle.left as number) += this.props.leftOffset;
+            if (pickerStyle.left) {
+                (pickerStyle.left as number) += (this.props.leftOffset || 0);
             }
         }
 
