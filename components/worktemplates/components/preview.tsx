@@ -1,16 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useMemo, useState} from 'react';
+import React, {useEffect, useMemo, useRef, useState} from 'react';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
+import {CSSTransition} from 'react-transition-group';
+
 import {AccordionItemType} from 'components/common/accordion/accordion';
+
 import {getTemplateDefaultIllustration} from '../utils';
 
 import {Board, Channel, Integration, Playbook, WorkTemplate} from '@mattermost/types/worktemplates';
 
-import ModalBodyWithIllustration from './modal_body_with_illustration';
 import Accordion from './preview/accordion';
 import Chip from './preview/chip';
 import PreviewSection from './preview/section';
@@ -20,10 +22,64 @@ export interface PreviewProps {
     template: WorkTemplate;
 }
 
-const Preview = ({template, ...props}: PreviewProps) => {
-    const {formatMessage} = useIntl();
+interface IllustrationAnimations {
+    prior: {
+        animateIn: boolean;
+        illustration: string;
+    };
+    current: {
+        animateIn: boolean;
+        illustration: string;
+    };
+}
 
-    const [currentIllustration, setCurrentIllustration] = useState<string>(getTemplateDefaultIllustration(template));
+const ANIMATE_TIMEOUTS = {
+    appear: 0,
+    enter: 200,
+    exit: 200,
+};
+
+const Preview = ({template, className}: PreviewProps) => {
+    const {formatMessage} = useIntl();
+    const nodeRefForPrior = useRef(null);
+    const nodeRefForCurrent = useRef(null);
+
+    const [illustrationDetails, setIllustrationDetails] = useState<IllustrationAnimations>(() => {
+        const defaultIllustration = getTemplateDefaultIllustration(template);
+        return {
+            prior: {
+                animateIn: false,
+                illustration: defaultIllustration,
+            },
+            current: {
+                animateIn: true,
+                illustration: defaultIllustration,
+            },
+        };
+    });
+
+    useEffect(() => {
+        if (illustrationDetails.prior.animateIn) {
+            setIllustrationDetails((prevState: IllustrationAnimations) => ({
+                prior: {
+                    ...prevState.prior,
+                    animateIn: false,
+                },
+                current: {
+                    ...prevState.current,
+                    animateIn: true,
+                },
+            }));
+        }
+    }, [illustrationDetails.prior.animateIn]);
+
+    const handleIllustrationUpdate = (illustration: string) => setIllustrationDetails({
+        prior: {...illustrationDetails.current},
+        current: {
+            animateIn: false,
+            illustration,
+        },
+    });
 
     const [channels, boards, playbooks, integrations] = useMemo(() => {
         const channels: Channel[] = [];
@@ -59,7 +115,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'channels'}
                     message={template.description.channel.message}
                     items={channels}
-                    onUpdateIllustration={setCurrentIllustration}
+                    onUpdateIllustration={(illustration) => handleIllustrationUpdate(illustration)}
                 />
             )],
         });
@@ -74,7 +130,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'boards'}
                     message={template.description.board.message}
                     items={boards}
-                    onUpdateIllustration={setCurrentIllustration}
+                    onUpdateIllustration={(illustration) => handleIllustrationUpdate(illustration)}
                 />
             )],
         });
@@ -89,7 +145,7 @@ const Preview = ({template, ...props}: PreviewProps) => {
                     key={'playbooks'}
                     message={template.description.playbook.message}
                     items={playbooks}
-                    onUpdateIllustration={setCurrentIllustration}
+                    onUpdateIllustration={(illustration) => handleIllustrationUpdate(illustration)}
                 />
             )],
         });
@@ -106,37 +162,86 @@ const Preview = ({template, ...props}: PreviewProps) => {
     // When opening an accordion section, change the illustration to whatever has been open
     const handleItemOpened = (index: number) => {
         const item = accordionItemsData[index];
+        const newPrior = {
+            ...illustrationDetails.current,
+            animateIn: true,
+        };
+        const newCurrent: IllustrationAnimations['current'] = {
+            animateIn: false,
+            illustration: '',
+        };
         switch (item.id) {
         case 'channels':
-            setCurrentIllustration(channels[0].illustration);
+            newCurrent.illustration = channels[0].illustration;
             break;
         case 'boards':
-            setCurrentIllustration(boards[0].illustration);
+            newCurrent.illustration = boards[0].illustration;
             break;
         case 'playbooks':
-            setCurrentIllustration(playbooks[0].illustration);
+            newCurrent.illustration = playbooks[0].illustration;
             break;
         case 'integrations':
-            setCurrentIllustration(template.description.integration.illustration);
+            newCurrent.illustration = template.description.integration.illustration;
+            break;
+        default:
+            return;
         }
+
+        if (newCurrent.illustration === newPrior.illustration) {
+            return;
+        }
+        setIllustrationDetails({
+            prior: newPrior,
+            current: newCurrent,
+        });
     };
 
     return (
-        <div className={props.className}>
-            <ModalBodyWithIllustration illustration={currentIllustration || ''}>
+        <div className={className}>
+            <div className='content-side'>
                 <strong>{formatMessage({id: 'worktemplates.preview.included_in_template_title', defaultMessage: 'Included in template'})}</strong>
                 <Accordion
                     accordionItemsData={accordionItemsData}
                     openFirstElement={true}
                     onItemOpened={handleItemOpened}
                 />
-            </ModalBodyWithIllustration>
+            </div>
+            <div className='img-wrapper'>
+                <CSSTransition
+                    nodeRef={nodeRefForPrior}
+                    in={illustrationDetails.prior.animateIn}
+                    timeout={ANIMATE_TIMEOUTS}
+                    classNames='prior-illustration'
+                >
+                    <img
+                        ref={nodeRefForPrior}
+                        src={illustrationDetails.prior.illustration}
+                    />
+                </CSSTransition>
+                <CSSTransition
+                    nodeRef={nodeRefForCurrent}
+                    in={illustrationDetails.current.animateIn}
+                    timeout={ANIMATE_TIMEOUTS}
+                    classNames='current-illustration'
+                >
+                    <img
+                        ref={nodeRefForCurrent}
+                        src={illustrationDetails.current.illustration}
+                    />
+                </CSSTransition>
+            </div>
         </div>
     );
 };
 
 const StyledPreview = styled(Preview)`
     display: flex;
+
+    .content-side {
+        min-width: 387px;
+        height: 416px;
+        padding-right: 32px;
+    }
 
     strong {
         display: block;
@@ -146,6 +251,47 @@ const StyledPreview = styled(Preview)`
         line-height: 24px;
         color: var(--center-channel-text);
         margin-bottom: 8px;
+    }
+
+    .img-wrapper {
+        position: relative;
+        width: 100%;
+    }
+
+    img {
+        box-shadow: var(--elevation-2);
+        border-radius: 8px;
+        position: absolute;
+    }
+
+    .prior-illustration-enter,
+    .prior-illustration-enter-done,
+    .prior-illustration-exit-done {
+        opacity: 0;
+    }
+
+    .prior-illustration-exit {
+      opacity: 1;
+    }
+
+    .prior-illustration-exit-active {
+      opacity: 0;
+      transition: opacity 200ms ease-in-out;
+    }
+
+    .current-illustration-enter,
+    .current-illustration-exit,
+    .current-illustration-exit-done {
+        opacity: 0;
+    }
+
+    .current-illustration-enter-active {
+      opacity: 1;
+      transition: opacity 200ms ease-in-out;
+    }
+
+    .current-illustration-enter-done {
+      opacity: 1;
     }
 `;
 
