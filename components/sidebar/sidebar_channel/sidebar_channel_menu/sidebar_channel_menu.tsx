@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useRef, useState, MouseEvent} from 'react';
+import React, {useRef, useState, MouseEvent, memo} from 'react';
 import {useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -248,4 +248,4 @@ const SidebarChannelMenu = (props: Props) => {
     );
 };
 
-export default SidebarChannelMenu;
+export default memo(SidebarChannelMenu);
