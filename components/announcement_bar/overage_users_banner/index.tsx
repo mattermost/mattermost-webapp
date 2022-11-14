@@ -36,7 +36,6 @@ const OverageUsersBanner = () => {
     const dispatch = useDispatch();
     const stats = useSelector((state: GlobalState) => state.entities.admin.analytics) || {};
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
-    const user = useSelector(getCurrentUser);
     const license = useSelector(getLicense);
     const seatsPurchased = parseInt(license.Users, 10);
     const isCloud = useSelector(isCurrentLicenseCloud);

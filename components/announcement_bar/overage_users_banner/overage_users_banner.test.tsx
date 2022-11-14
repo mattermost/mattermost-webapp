@@ -220,35 +220,6 @@ describe('components/overage_users_banner', () => {
         expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
     });
 
-    it('should render the 5% banner but without the cta because we aren\'t who purchase it', () => {
-        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
-
-        store.entities.users = {
-            ...store.entities.users,
-            profiles: {
-                ...store.entities.users.profiles,
-                current_user: {
-                    ...store.entities.users.profiles.current_user,
-                    email: 'other-email@mm.com',
-                },
-            },
-        };
-
-        store.entities.admin = {
-            ...store.entities.admin,
-            analytics: {
-                [StatTypes.TOTAL_USERS]: seatsMinimumFor5PercentageState,
-            },
-        };
-
-        renderComponent({
-            store,
-        });
-
-        expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
-        expect(screen.queryByText(contactSalesTextLink)).not.toBeInTheDocument();
-    });
-
     it('should save the preferences for 5% banner if admin click on close', () => {
         const store: GlobalState = JSON.parse(JSON.stringify(initialState));
 
@@ -290,34 +261,5 @@ describe('components/overage_users_banner', () => {
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
         expect(screen.getByText(contactSalesTextLink)).toBeInTheDocument();
-    });
-
-    it('should render the 10% banner but without the cta because we aren\'t who purchase it', () => {
-        const store: GlobalState = JSON.parse(JSON.stringify(initialState));
-
-        store.entities.users = {
-            ...store.entities.users,
-            profiles: {
-                ...store.entities.users.profiles,
-                current_user: {
-                    ...store.entities.users.profiles.current_user,
-                    email: 'other-email@mm.com',
-                },
-            },
-        };
-
-        store.entities.admin = {
-            ...store.entities.admin,
-            analytics: {
-                [StatTypes.TOTAL_USERS]: seatsMinimumFor10PercentageState,
-            },
-        };
-
-        renderComponent({
-            store,
-        });
-
-        expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        expect(screen.queryByText(contactSalesTextLink)).not.toBeInTheDocument();
     });
 });
