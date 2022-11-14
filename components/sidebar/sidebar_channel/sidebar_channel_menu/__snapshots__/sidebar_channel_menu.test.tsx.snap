@@ -111,7 +111,16 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items 1`] = `
-<React.Fragment>
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -208,11 +217,20 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Leave Channel"
     />
   </MenuGroup>
-</React.Fragment>
+</Connect(SidebarMenu)>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - DM channels and public channels category 1`] = `
-<React.Fragment>
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -309,11 +327,20 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Leave Channel"
     />
   </MenuGroup>
-</React.Fragment>
+</Connect(SidebarMenu)>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - public channels and DM category 1`] = `
-<React.Fragment>
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
   <MenuGroup>
     <MenuItemAction
       icon={
@@ -410,7 +437,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
       text="Leave Channel"
     />
   </MenuGroup>
-</React.Fragment>
+</Connect(SidebarMenu)>
 `;
 
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is DM 1`] = `

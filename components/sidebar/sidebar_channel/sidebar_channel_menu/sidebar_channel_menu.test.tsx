@@ -2,16 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {ShallowWrapper} from 'enzyme';
+import {shallow} from 'enzyme';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {ChannelType} from '@mattermost/types/channels';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import Constants from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
-import SidebarChannelMenu, {SidebarChannelMenu as SidebarChannelMenuType} from './sidebar_channel_menu';
+import SidebarChannelMenu from './sidebar_channel_menu';
+
+jest.mock('react-intl', () => ({
+    ...jest.requireActual('react-intl'),
+    useIntl: () => ({
+        formatMessage: (message: {id: string; defaultMessage: string}) => {
+            return message.defaultMessage;
+        },
+    }),
+}));
 
 describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
     const testChannel = TestHelper.getChannelMock();
@@ -35,21 +43,19 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         onToggleMenu: jest.fn(),
         multiSelectedChannelIds: [],
         displayedChannels: [],
-        actions: {
-            markChannelAsRead: jest.fn(),
-            markMostRecentPostInChannelAsUnread: jest.fn(),
-            favoriteChannel: jest.fn(),
-            unfavoriteChannel: jest.fn(),
-            muteChannel: jest.fn(),
-            unmuteChannel: jest.fn(),
-            openModal: jest.fn(),
-            createCategory: jest.fn(),
-            addChannelsInSidebar: jest.fn(),
-        },
+        markChannelAsRead: jest.fn(),
+        markMostRecentPostInChannelAsUnread: jest.fn(),
+        favoriteChannel: jest.fn(),
+        unfavoriteChannel: jest.fn(),
+        muteChannel: jest.fn(),
+        unmuteChannel: jest.fn(),
+        openModal: jest.fn(),
+        createCategory: jest.fn(),
+        addChannelsInSidebar: jest.fn(),
     };
 
     test('should match snapshot and contain correct buttons', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...baseProps}/>,
         );
 
@@ -68,7 +74,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             isUnread: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
         );
 
@@ -83,7 +89,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             isUnread: false,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
         );
 
@@ -98,7 +104,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             isFavorite: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
         );
 
@@ -114,7 +120,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             isMuted: true,
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
         );
 
@@ -133,7 +139,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
         );
 
@@ -150,7 +156,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
         );
 
@@ -169,7 +175,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             },
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
         );
 
@@ -179,11 +185,11 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
     });
 
     test('should match snapshot of rendered items', () => {
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...baseProps}/>,
-        ) as ShallowWrapper<any, any, SidebarChannelMenuType>;
+        );
 
-        expect(wrapper.instance().renderDropdownItems()).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot of rendered items when multiselecting channels - public channels and DM category', () => {
@@ -206,11 +212,11 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             ],
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
-        ) as ShallowWrapper<any, any, SidebarChannelMenuType>;
+        );
 
-        expect(wrapper.instance().renderDropdownItems()).toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('should match snapshot of rendered items when multiselecting channels - DM channels and public channels category', () => {
@@ -237,19 +243,10 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
             ],
         };
 
-        const wrapper = shallowWithIntl(
+        const wrapper = shallow(
             <SidebarChannelMenu {...props}/>,
-        ) as ShallowWrapper<any, any, SidebarChannelMenuType>;
+        );
 
-        expect(wrapper.instance().renderDropdownItems()).toMatchSnapshot();
-    });
-
-    test('should call the close handler when leave channel is clicked', () => {
-        const wrapper = shallowWithIntl(
-            <SidebarChannelMenu {...baseProps}/>,
-        ) as ShallowWrapper<typeof baseProps, any, SidebarChannelMenuType>;
-
-        wrapper.instance().handleLeaveChannel({preventDefault: jest.fn(), stopPropagation: jest.fn()} as any);
-        expect(baseProps.closeHandler).toHaveBeenCalled();
+        expect(wrapper).toMatchSnapshot();
     });
 });
