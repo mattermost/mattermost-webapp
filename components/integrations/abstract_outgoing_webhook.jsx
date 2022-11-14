@@ -101,6 +101,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
             clientError: null,
             username: hook.username || '',
             iconURL: hook.icon_url || '',
+            enabled: hook.enabled ?? true,
         };
     }
 
@@ -175,6 +176,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
             description: this.state.description,
             username: this.state.username,
             icon_url: this.state.iconURL,
+            enabled: this.state.enabled,
         };
 
         this.props.action(hook).then(() => this.setState({saving: false}));
@@ -231,6 +233,12 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
     updateIconURL = (e) => {
         this.setState({
             iconURL: e.target.value,
+        });
+    }
+
+    updateEnabled = (e) => {
+        this.setState({
+            enabled: e.target.checked,
         });
     }
 
@@ -486,6 +494,31 @@ export default class AbstractOutgoingWebhook extends React.PureComponent {
                                                 </a>
                                             ),
                                         }}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='form-group'>
+                            <label
+                                className='control-label col-sm-4'
+                                htmlFor='enabled'
+                            >
+                                <FormattedMessage
+                                    id='add_outgoing_webhook.enabled'
+                                    defaultMessage='Enable webhook'
+                                />
+                            </label>
+                            <div className='col-md-5 col-sm-8 checkbox'>
+                                <input
+                                    id='enabled'
+                                    type='checkbox'
+                                    checked={this.state.enabled}
+                                    onChange={this.updateEnabled}
+                                />
+                                <div className='form__help'>
+                                    <FormattedMessage
+                                        id='add_outgoing_webhook.enabled.help'
+                                        defaultMessage='If set, the outgoing webhook will be enabled.'
                                     />
                                 </div>
                             </div>

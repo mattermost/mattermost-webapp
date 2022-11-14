@@ -62,9 +62,14 @@ export type Props = {
         removeOutgoingHook: (hookId: string) => Promise<void>;
 
         /**
+         * The function to call for updating outgoingWebhook
+         */
+        updateOutgoingHook: (hook: OutgoingWebhook) => Promise<void>;
+
+        /**
         * The function to call for outgoingWebhook List and for the status of api
         */
-        loadOutgoingHooksAndProfilesForTeam: (teamId: string, page: number, perPage: number) => Promise<void>;
+        loadAllOutgoingHooksAndProfilesForTeam: (teamId: string) => Promise<void>;
 
         /**
         * The function to call for regeneration of webhook token
@@ -80,6 +85,7 @@ export type Props = {
 
 type State = {
     loading: boolean;
+    page: number;
 };
 
 export default class InstalledOutgoingWebhooks extends React.PureComponent<Props, State> {
@@ -88,15 +94,14 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
 
         this.state = {
             loading: true,
+            page: 0,
         };
     }
 
     componentDidMount() {
         if (this.props.enableOutgoingWebhooks) {
-            this.props.actions.loadOutgoingHooksAndProfilesForTeam(
+            this.props.actions.loadAllOutgoingHooksAndProfilesForTeam(
                 this.props.teamId,
-                Constants.Integrations.START_PAGE_NUM,
-                parseInt(Constants.Integrations.PAGE_SIZE, 10),
             ).then(
                 () => this.setState({loading: false}),
             );
@@ -109,6 +114,10 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
 
     removeOutgoingHook = (outgoingWebhook: OutgoingWebhook) => {
         this.props.actions.removeOutgoingHook(outgoingWebhook.id);
+    }
+
+    toggleOutgoingHook = (outgoingWebhook: OutgoingWebhook) => {
+        this.props.actions.updateOutgoingHook(outgoingWebhook);
     }
 
     outgoingWebhookCompare = (a: OutgoingWebhook, b: OutgoingWebhook) => {
@@ -134,6 +143,15 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
         return displayNameA.localeCompare(displayNameB);
     }
 
+    nextPage = () => {
+        this.setState({page: this.state.page + 1})
+    }
+
+    previousPage = () => {
+        this.setState({page: this.state.page - 1});
+    }
+
+
     outgoingWebhooks = (filter: string) => this.props.outgoingWebhooks.
         sort(this.outgoingWebhookCompare).
         filter((outgoingWebhook) => matchesFilter(outgoingWebhook, this.props.channels[outgoingWebhook.channel_id], filter)).
@@ -146,6 +164,7 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
                     outgoingWebhook={outgoingWebhook}
                     onRegenToken={this.regenOutgoingWebhookToken}
                     onDelete={this.removeOutgoingHook}
+                    onToggle={this.toggleOutgoingHook}
                     creator={this.props.users[outgoingWebhook.creator_id] || {}}
                     canChange={canChange}
                     team={this.props.team}
@@ -156,73 +175,76 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
 
     render() {
         return (
-            <BackstageList
-                header={
-                    <FormattedMessage
-                        id='installed_outgoing_webhooks.header'
-                        defaultMessage='Installed Outgoing Webhooks'
-                    />
-                }
-                addText={
-                    <FormattedMessage
-                        id='installed_outgoing_webhooks.add'
-                        defaultMessage='Add Outgoing Webhook'
-                    />
-                }
-                addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
-                addButtonId='addOutgoingWebhook'
-                emptyText={
-                    <FormattedMessage
-                        id='installed_outgoing_webhooks.empty'
-                        defaultMessage='No outgoing webhooks found'
-                    />
-                }
-                emptyTextSearch={
-                    <FormattedMarkdownMessage
-                        id='installed_outgoing_webhooks.emptySearch'
-                        defaultMessage='No outgoing webhooks match {searchTerm}'
-                    />
-                }
-                helpText={
-                    <FormattedMessage
-                        id='installed_outgoing_webhooks.help'
-                        defaultMessage='Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
-                        values={{
-                            buildYourOwn: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
-                                >
-                                    <FormattedMessage
-                                        id='installed_outgoing_webhooks.help.buildYourOwn'
-                                        defaultMessage='Build your own'
-                                    />
-                                </a>
-                            ),
-                            appDirectory: (
-                                <a
-                                    target='_blank'
-                                    rel='noopener noreferrer'
-                                    href='https://mattermost.com/marketplace'
-                                >
-                                    <FormattedMessage
-                                        id='installed_outgoing_webhooks.help.appDirectory'
-                                        defaultMessage='App Directory'
-                                    />
-                                </a>
-                            ),
+                <BackstageList
+                    header={
+                        <FormattedMessage
+                            id='installed_outgoing_webhooks.header'
+                            defaultMessage='Installed Outgoing Webhooks'
+                        />
+                    }
+                    addText={
+                        <FormattedMessage
+                            id='installed_outgoing_webhooks.add'
+                            defaultMessage='Add Outgoing Webhook'
+                        />
+                    }
+                    addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
+                    addButtonId='addOutgoingWebhook'
+                    emptyText={
+                        <FormattedMessage
+                            id='installed_outgoing_webhooks.empty'
+                            defaultMessage='No outgoing webhooks found'
+                        />
+                    }
+                    emptyTextSearch={
+                        <FormattedMarkdownMessage
+                            id='installed_outgoing_webhooks.emptySearch'
+                            defaultMessage='No outgoing webhooks match {searchTerm}'
+                        />
+                    }
+                    helpText={
+                        <FormattedMessage
+                            id='installed_outgoing_webhooks.help'
+                            defaultMessage='Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
+                            values={{
+                                buildYourOwn: (
+                                    <a
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
+                                    >
+                                        <FormattedMessage
+                                            id='installed_outgoing_webhooks.help.buildYourOwn'
+                                            defaultMessage='Build your own'
+                                        />
+                                    </a>
+                                ),
+                                appDirectory: (
+                                    <a
+                                        target='_blank'
+                                        rel='noopener noreferrer'
+                                        href='https://mattermost.com/marketplace'
+                                    >
+                                        <FormattedMessage
+                                            id='installed_outgoing_webhooks.help.appDirectory'
+                                            defaultMessage='App Directory'
+                                        />
+                                    </a>
+                                ),
+                            }}
+                        />
+                    }
+                    searchPlaceholder={localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
+                    loading={this.state.loading}
+                    nextPage={this.nextPage}
+                    previousPage={this.previousPage}
+                    page={this.state.page}
+                    >
+                        {(filter: string) => {
+                            const children = this.outgoingWebhooks(filter);
+                            return [children, children.length > 0];
                         }}
-                    />
-                }
-                searchPlaceholder={localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
-                loading={this.state.loading}
-            >
-                {(filter: string) => {
-                    const children = this.outgoingWebhooks(filter);
-                    return [children, children.length > 0];
-                }}
-            </BackstageList>
+                </BackstageList>
         );
     }
 }

@@ -7,6 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import CopyText from 'components/copy_text';
+import Toggle from 'components/toggle';
 
 import DeleteIntegrationLink from './delete_integration_link';
 
@@ -99,6 +100,15 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         this.props.onDelete(this.props.outgoingWebhook);
     }
 
+    handleToggle = () => {
+        var outgoingWebhook = this.props.outgoingWebhook
+        const toggledWebhook = {
+            ...outgoingWebhook,
+            enabled: !outgoingWebhook.enabled,
+        };
+        this.props.onToggle(toggledWebhook);
+    }
+
     makeDisplayName(outgoingWebhook, channel) {
         if (outgoingWebhook.display_name) {
             return outgoingWebhook.display_name;
@@ -125,6 +135,23 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
         }
 
         const displayName = this.makeDisplayName(outgoingWebhook, channel);
+
+        let displayEnabled;
+        if(outgoingWebhook.enabled) {
+            displayEnabled = (
+                <FormattedMessage
+                    id='installed_outgoing_webhooks.enabled_webhook'
+                    defaultMessage=' - Enabled'
+                />
+            );
+        } else {
+            displayEnabled = (
+                <FormattedMessage
+                    id='installed_outgoing_webhooks.disabled_webhook'
+                    defaultMessage=' - Disabled'
+                />
+            );
+        }
 
         let description = null;
         if (outgoingWebhook.description) {
@@ -215,6 +242,12 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                         }
                         onDelete={this.handleDelete}
                     />
+                    {' - '}
+                    <Toggle
+                        disabled={false}
+                        onToggle={this.handleToggle}
+                        toggled={this.props.outgoingWebhook.enabled}
+                    />
                 </div>
             );
         }
@@ -225,6 +258,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent {
                     <div className='item-details__row d-flex flex-column flex-md-row justify-content-between'>
                         <strong className='item-details__name'>
                             {displayName}
+                            {displayEnabled}
                         </strong>
                         {actions}
                     </div>

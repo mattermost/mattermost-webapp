@@ -17,6 +17,20 @@ export function loadIncomingHooksAndProfilesForTeam(teamId, page = 0, perPage = 
     };
 }
 
+export function loadAllIncomingHooksAndProfilesForTeam(teamId) {
+    return async (dispatch) => {
+        let page = 0;
+        let {data} = await dispatch(IntegrationActions.getIncomingHooks(teamId, page, DEFAULT_PAGE_SIZE));
+        let incomingWebhooksList = [];
+        while (data.length > 0) {
+            incomingWebhooksList = incomingWebhooksList.concat(data);
+            data = await dispatch(IntegrationActions.getIncomingHooks(teamId, page, DEFAULT_PAGE_SIZE));
+            ++page;
+        }
+        dispatch(loadProfilesForIncomingHooks(incomingWebhooksList));
+    };
+}
+
 export function loadProfilesForIncomingHooks(hooks) {
     return async (dispatch, getState) => {
         const state = getState();
@@ -43,6 +57,20 @@ export function loadOutgoingHooksAndProfilesForTeam(teamId, page = 0, perPage = 
         if (data) {
             dispatch(loadProfilesForOutgoingHooks(data));
         }
+    };
+}
+
+export function loadAllOutgoingHooksAndProfilesForTeam(teamId) {
+    return async (dispatch) => {
+        let page = 0;
+        let {data} = await dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, DEFAULT_PAGE_SIZE));
+        let outgoingWebhooksList = [];
+        while (data.length > 0) {
+            outgoingWebhooksList = outgoingWebhooksList.concat(data);
+            data = await dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, DEFAULT_PAGE_SIZE));
+            ++page;
+        }
+        dispatch(loadProfilesForOutgoingHooks(outgoingWebhooksList));
     };
 }
 

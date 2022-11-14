@@ -3,11 +3,17 @@
 
 import PropTypes from 'prop-types';
 import React from 'react';
+import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
 
 import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
+
+import NextIcon from 'components/widgets/icons/fa_next_icon';
+import PreviousIcon from 'components/widgets/icons/fa_previous_icon';
 import SearchIcon from 'components/widgets/icons/fa_search_icon';
+
+import {PAGE_SIZE} from 'components/admin_console/team_channel_settings/abstract_list';
 
 export default class BackstageList extends React.PureComponent {
     static propTypes = {
@@ -21,6 +27,9 @@ export default class BackstageList extends React.PureComponent {
         helpText: PropTypes.node,
         loading: PropTypes.bool.isRequired,
         searchPlaceholder: PropTypes.string,
+        nextPage: PropTypes.func,
+        previousPage: PropTypes.func,
+        page: PropTypes.number,
     }
 
     static defaultProps = {
@@ -41,9 +50,85 @@ export default class BackstageList extends React.PureComponent {
         });
     }
 
+    getPaginationProps(total) {
+        const page = this.props.page;
+        const startCount = (page * PAGE_SIZE) + 1;
+        let endCount = 0;
+        endCount = (page + 1) * PAGE_SIZE;
+        endCount = endCount > total ? total : endCount;
+        return {startCount, endCount};
+    }
+
+    nextPage = () => {
+        if (!this.props.loading) {
+            this.props.nextPage();
+        }
+    }
+
+    previousPage = () => {
+        if (!this.props.loading) {
+            this.props.previousPage();
+        }
+    }
+
+    renderFooter = (total) => {
+        const page = this.props.page;
+        if (typeof page == 'undefined') {
+            return null;
+        }
+        let footer = null;
+        if (total) {
+            const {startCount, endCount} = this.getPaginationProps(total)
+            const firstPage = startCount <= 1;
+            const lastPage = endCount >= total;
+
+            let prevPageFn = this.previousPage;
+            if (firstPage) {
+                prevPageFn = () => {};
+            }
+
+            let nextPageFn = this.nextPage;
+            if (lastPage) {
+                nextPageFn = () => {};
+            }
+            
+            footer = (  
+                <div className='backstage-list__paging'>
+                    <FormattedMessage
+                        id='backstage-list.paginatorCount'
+                        defaultMessage='{startCount, number} - {endCount, number} of {total, number}'
+                        values={{
+                            startCount,
+                            endCount,
+                            total,
+                        }}
+                    />
+
+                    <button
+                        type='button'
+                        className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
+                        onClick={prevPageFn}
+                        disabled={firstPage}
+                    >
+                        <PreviousIcon/>
+                    </button>
+                    <button
+                        type='button'
+                        className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
+                        onClick={nextPageFn}
+                        disabled={lastPage}
+                    >
+                        <NextIcon/>
+                    </button>
+                </div>
+            );
+        }
+        return footer;
+    }
+    
     render() {
         const filter = this.state.filter.toLowerCase();
-
+        let total = 0;
         let children;
         if (this.props.loading) {
             children = <LoadingScreen/>;
@@ -56,6 +141,9 @@ export default class BackstageList extends React.PureComponent {
             children = React.Children.map(children, (child) => {
                 return React.cloneElement(child, {filter});
             });
+            total = children.length;
+            const {startCount, endCount} = this.getPaginationProps(total); 
+            children = children.slice(startCount - 1, endCount);
             if (children.length === 0 || !hasChildren) {
                 if (!filter) {
                     if (this.props.emptyText) {
@@ -126,6 +214,9 @@ export default class BackstageList extends React.PureComponent {
                 </span>
                 <div className='backstage-list'>
                     {children}
+                </div>
+                <div className='backstage-list__footer'>
+                    {this.renderFooter(total)}
                 </div>
             </div>
         );
