@@ -1974,6 +1974,8 @@ t('suggestion.mention.special');
 t('suggestion.mention.groups');
 t('suggestion.search.public');
 t('suggestion.search.group');
+t('suggestion.commands');
+t('suggestion.emoji');
 
 const {
     DONT_CLEAR,
