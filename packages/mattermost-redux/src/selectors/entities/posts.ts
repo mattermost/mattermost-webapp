@@ -23,6 +23,8 @@ import {
 
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
+import {shouldShowJoinLeaveMessages} from 'mattermost-redux/utils/post_list';
+
 import {Channel} from '@mattermost/types/channels';
 import {
     MessageHistory,
@@ -357,15 +359,13 @@ export function makeGetPostsForThread(): (state: GlobalState, rootId: string) =>
         (state: GlobalState, rootId: string) => state.entities.posts.postsInThread[rootId],
         (state: GlobalState, rootId: string) => state.entities.posts.posts[rootId],
         getMyPreferences,
-        (posts, currentUser, postsForThread, rootPost, myPreferences) => {
+        shouldShowJoinLeaveMessages,
+        (posts, currentUser, postsForThread, rootPost, myPreferences, showJoinLeave) => {
             const thread: Post[] = [];
 
             if (rootPost) {
                 thread.push(rootPost);
             }
-
-            const joinLeavePref = myPreferences[getPreferenceKey(Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_FILTER_JOIN_LEAVE)];
-            const showJoinLeave = joinLeavePref ? joinLeavePref.value !== 'false' : true;
 
             postsForThread?.forEach((id) => {
                 const post = posts[id];

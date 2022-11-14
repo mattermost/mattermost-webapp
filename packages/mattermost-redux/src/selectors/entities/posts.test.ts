@@ -2492,6 +2492,9 @@ describe('makeGetProfilesForThread', () => {
                     },
                     currentUserId: 'user1',
                 },
+                preferences: {
+                    myPreferences: {},
+                },
             },
         } as unknown as GlobalState;
 
@@ -2517,6 +2520,9 @@ describe('makeGetProfilesForThread', () => {
                         user2,
                     },
                     currentUserId: 'user2',
+                },
+                preferences: {
+                    myPreferences: {},
                 },
             },
         } as unknown as GlobalState;

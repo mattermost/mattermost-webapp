@@ -13,6 +13,9 @@ import Header from 'components/widgets/header';
 import FollowButton from 'components/threading/common/follow_button';
 import Button from 'components/threading/common/button';
 
+import TestHelper from '../../../../packages/mattermost-redux/test/test_helper';
+import {UserProfile} from '@mattermost/types/users';
+
 import ThreadPane from './thread_pane';
 
 const mockRouting = {
@@ -56,6 +59,10 @@ describe('components/threading/global_threads/thread_pane', () => {
             thread: mockThread,
         };
 
+        const user1 = TestHelper.fakeUserWithId('uid');
+        const profiles: Record<string, UserProfile> = {};
+        profiles[user1.id] = user1;
+
         mockState = {
             entities: {
                 general: {
@@ -85,6 +92,7 @@ describe('components/threading/global_threads/thread_pane', () => {
                     },
                 },
                 users: {
+                    profiles,
                     currentUserId: 'uid',
                 },
             },
