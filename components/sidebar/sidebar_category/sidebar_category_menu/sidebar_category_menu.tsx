@@ -6,6 +6,16 @@ import {useIntl} from 'react-intl';
 
 import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
 
+import {
+    BellOutlineIcon,
+    TrashCanOutlineIcon,
+    PencilOutlineIcon,
+    FormatListBulletedIcon,
+    SortAlphabeticalAscendingIcon,
+    ClockOutlineIcon,
+    FolderPlusOutlineIcon,
+} from '@mattermost/compass-icons/components';
+
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import {Menu as SubMenu} from 'types/store/plugins';
@@ -90,7 +100,7 @@ const SidebarCategoryMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`mute-${props.category.id}`}
                 onClick={toggleCategoryMute}
-                icon={<i className='icon-bell-outline'/>}
+                icon={<BellOutlineIcon size={16}/>}
                 text={props.category.muted ?
                     formatMessage({id: 'sidebar_left.sidebar_category_menu.unmuteCategory', defaultMessage: 'Unmute Category'}) :
                     formatMessage({id: 'sidebar_left.sidebar_category_menu.muteCategory', defaultMessage: 'Mute Category'})
@@ -107,7 +117,7 @@ const SidebarCategoryMenu = (props: Props) => {
                 isDangerous={true}
                 id={`delete-${props.category.id}`}
                 onClick={handleDeleteCategory}
-                icon={<i className='icon-trash-can-outline'/>}
+                icon={<TrashCanOutlineIcon size={16}/>}
                 text={formatMessage({id: 'sidebar_left.sidebar_category_menu.deleteCategory', defaultMessage: 'Delete Category'})}
             />
         );
@@ -116,7 +126,7 @@ const SidebarCategoryMenu = (props: Props) => {
             <Menu.ItemAction
                 id={`rename-${props.category.id}`}
                 onClick={handleRenameCategory}
-                icon={<i className='icon-pencil-outline'/>}
+                icon={<PencilOutlineIcon size={16}/>}
                 text={formatMessage({id: 'sidebar_left.sidebar_category_menu.renameCategory', defaultMessage: 'Rename Category'})}
             />
         );
@@ -142,13 +152,13 @@ const SidebarCategoryMenu = (props: Props) => {
     }];
 
     let sortChannelsSelectedValue = formatMessage({id: 'sidebar.sortedManually', defaultMessage: 'Manually'});
-    let sortChannelsIcon = <i className='icon-format-list-bulleted'/>;
+    let sortChannelsIcon = <FormatListBulletedIcon size={16}/>;
     if (props.category.sorting === CategorySorting.Alphabetical) {
         sortChannelsSelectedValue = formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'});
-        sortChannelsIcon = <i className='icon-sort-alphabetical-ascending'/>;
+        sortChannelsIcon = <SortAlphabeticalAscendingIcon size={16}/>;
     } else if (props.category.sorting === CategorySorting.Recency) {
         sortChannelsSelectedValue = formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'});
-        sortChannelsIcon = <i className='icon-clock-outline'/>;
+        sortChannelsIcon = <ClockOutlineIcon size={16}/>;
     }
 
     return (
@@ -182,7 +192,7 @@ const SidebarCategoryMenu = (props: Props) => {
                 <Menu.ItemAction
                     id={`create-${props.category.id}`}
                     onClick={handleCreateCategory}
-                    icon={<i className='icon-folder-plus-outline'/>}
+                    icon={<FolderPlusOutlineIcon size={16}/>}
                     text={formatMessage({id: 'sidebar_left.sidebar_category_menu.createCategory', defaultMessage: 'Create New Category'})}
                 />
             </Menu.Group>

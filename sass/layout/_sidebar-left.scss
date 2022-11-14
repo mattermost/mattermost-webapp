@@ -373,6 +373,10 @@ $sidebarOpacityAnimationDuration: 0.15s;
                 font-size: 16px;
                 line-height: 16px;
             }
+
+            svg {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
         }
 
         .Menu {
