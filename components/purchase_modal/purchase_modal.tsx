@@ -244,7 +244,7 @@ function Card(props: CardProps) {
             </div>
             <div className='tooltipText'>
                 <FormattedMessage
-                    defaultMessage={'This is autofilled by your current number of users'}
+                    defaultMessage={'You must purchase at least the current number of active users.'}
                     id={'admin.billing.subscription.userCount.tooltipText'}
                 />
             </div>
@@ -365,7 +365,7 @@ function Card(props: CardProps) {
                                 id={'admin.billing.subscription.total'}
                             />
                         </td>
-                        <td>{`$${yearlyPrice}`}</td>
+                        <td className='total_price'>{`$${yearlyPrice}`}</td>
                     </tr>
                 </tbody>
             </table>
@@ -377,13 +377,6 @@ function Card(props: CardProps) {
                 >{props.buttonDetails.text}</button>
             </div>
             <div className='plan_billing_cycle'>
-                <FormattedMessage
-                    defaultMessage={'You will be charged {beginDate}. '}
-                    id={'admin.billing.subscription.paymentBeginsYearly'}
-                    values={{
-                        beginDate: getNextBillingDate(),
-                    }}
-                />
                 <a
                     onClick={seeHowBillingWorks}
                 >
