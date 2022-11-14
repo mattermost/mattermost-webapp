@@ -5,6 +5,8 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Modal} from 'react-bootstrap';
 
+import {General} from 'mattermost-redux/constants';
+
 import {UserProfile} from '@mattermost/types/users';
 import {Channel} from '@mattermost/types/channels';
 import {RelationOneToOne} from '@mattermost/types/utilities';
@@ -54,6 +56,7 @@ describe('components/channel_invite_modal', () => {
         profilesInCurrentChannel: [],
         profilesNotInCurrentTeam: [],
         userStatuses: {},
+        teammateNameDisplaySetting: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
         actions: {
             addUsersToChannel: jest.fn().mockImplementation(() => {
                 const error = {

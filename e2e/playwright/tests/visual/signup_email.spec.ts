@@ -35,7 +35,7 @@ test('/signup_email', async ({page, isMobile, browserName, viewport}, testInfo) 
     await page.waitForLoadState('domcontentloaded');
 
     // Match snapshot of signup_email page
-    ({eyes, targetWindow} = await matchSnapshot(testInfo.title, testArgs));
+    ({eyes, targetWindow} = await matchSnapshot(testInfo, testArgs));
 
     // Click sign in button without entering user credential
     const signupPage = new SignupPage(page);
@@ -48,5 +48,5 @@ test('/signup_email', async ({page, isMobile, browserName, viewport}, testInfo) 
     await page.waitForLoadState('domcontentloaded');
 
     // Match snapshot of signup_email page
-    ({eyes, targetWindow} = await matchSnapshot(testInfo.title + ' error', testArgs, {eyes, targetWindow}));
+    ({eyes, targetWindow} = await matchSnapshot({...testInfo, title: `${testInfo.title} error`}, testArgs, {eyes, targetWindow}));
 });

@@ -44,9 +44,9 @@ const Avatar = ({
 
     return (
         <img
+            tabIndex={0}
             {...attrs}
             className={classes}
-            tabIndex={0}
             alt={`${username || 'user'} profile image`}
             src={url}
             onError={(e) => {

@@ -1,23 +1,26 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {defineMessages, FormattedDate, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
+import SettingItemMax from 'components/setting_item_max';
+
 import {isEmail} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from '@mattermost/types/users';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 
 import LocalizedIcon from 'components/localized_icon';
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
-import SettingPicture from 'components/setting_picture.jsx';
+import SettingPicture from 'components/setting_picture';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import {AnnouncementBarMessages, AnnouncementBarTypes, AcceptedProfileImageTypes, Constants, ValidationErrors} from 'utils/constants';
+
+import {UserProfile} from '@mattermost/types/users';
 
 const holders = defineMessages({
     usernameReserved: {
@@ -1281,7 +1284,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     defaultImageSrc={Utils.defaultImageURLForUser(user.id)}
                     serverError={serverError}
                     clientError={clientError}
-                    updateSection={(e: MouseEvent) => {
+                    updateSection={(e: React.MouseEvent) => {
                         this.updateSection('');
                         e.preventDefault();
                     }}
@@ -1339,10 +1342,7 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
+                    <h4 className='modal-title'>
                         <div className='modal-back'>
                             <LocalizedIcon
                                 className='fa fa-angle-left'
@@ -1386,4 +1386,3 @@ export class UserSettingsGeneralTab extends React.Component<Props, State> {
 }
 
 export default injectIntl(UserSettingsGeneralTab);
-/* eslint-enable react/no-string-refs */

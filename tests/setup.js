@@ -1,13 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import Adapter from 'enzyme-adapter-react-17-updated';
+import Adapter from 'enzyme-adapter-react-16';
 import {configure} from 'enzyme';
 
 import '@testing-library/jest-dom';
 
 import './redux-persist_mock';
 import './react-intl_mock';
+import './react-router-dom_mock';
 import './react-tippy_mock';
 
 global.performance = {};

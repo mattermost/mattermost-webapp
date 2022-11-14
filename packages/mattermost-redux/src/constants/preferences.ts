@@ -4,6 +4,7 @@
 import {Theme, ThemeKey} from 'mattermost-redux/selectors/entities/preferences';
 
 const Preferences = {
+    APP_BAR: 'app_bar',
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME: 'channel_approximate_view_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -71,6 +72,8 @@ const Preferences = {
 
     CATEGORY_UPGRADE_CLOUD: 'upgrade_cloud',
     SYSTEM_CONSOLE_LIMIT_REACHED: 'system_console_limit_reached',
+
+    NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED: 'channel_with_board_tip_showed',
 
     CATEGORY_THEME: 'theme',
     THEMES: {
