@@ -3889,6 +3889,8 @@
   "legacy_mattermost_cloud_migration": "Your legacy plan will no longer be supported starting November 1, 2022. <a>Update your plan now.</a>",
   "licensingPage.infoBanner.startTrialTitle": "Free 30 day trial!",
   "licensingPage.overageUsersBanner.cta": "Contact Sales",
+  "licensingPage.overageUsersBanner.noticeDescription": "Notify your Customer Success Manager on your next true-up check. <a>Contact Sales</a>",
+  "licensingPage.overageUsersBanner.noticeTitle": "Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}",
   "licensingPage.overageUsersBanner.text": "Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}. Purchase additional seats to remain compliant.",
   "link_preview.image_preview": "Show Image preview",
   "link_preview.remove_link_preview": "Remove link preview",

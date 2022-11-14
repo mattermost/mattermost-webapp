@@ -12,7 +12,8 @@
 
     &__button {
         @include link;
-        font-size: 14px;
+
         background: transparent;
+        font-size: 14px;
     }
 }
