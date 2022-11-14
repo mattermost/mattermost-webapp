@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {MouseEvent, useState} from 'react';
+import React, {MouseEvent, useState, memo} from 'react';
 import {useIntl} from 'react-intl';
 
 import {
@@ -39,7 +39,7 @@ type Props = OwnProps & PropsFromRedux;
 const SidebarCategorySortingMenu = (props: Props) => {
     const [openUp, setOpenUp] = useState(false);
 
-    const intl = useIntl();
+    const {formatMessage} = useIntl();
 
     function handleSortDirectMessages(sorting: CategorySorting) {
         props.setCategorySorting(props.category.id, sorting);
@@ -59,7 +59,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
         setOpenUp(openUp);
     }
 
-    function onToggleMenu(open: boolean) {
+    function handleToggleMenu(open: boolean) {
         props.onToggleMenu(open);
 
         if (open) {
@@ -70,17 +70,17 @@ const SidebarCategorySortingMenu = (props: Props) => {
     const sortMenuItems: SubMenu[] = [{
         id: 'sortAlphabetical',
         direction: 'right',
-        text: intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}),
+        text: formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}),
         action: () => handleSortDirectMessages(CategorySorting.Alphabetical),
     },
     {
         id: 'sortByMostRecent',
         direction: 'right',
-        text: intl.formatMessage({id: 'sidebar.sortedByRecencyLabel', defaultMessage: 'Recent Activity'}),
+        text: formatMessage({id: 'sidebar.sortedByRecencyLabel', defaultMessage: 'Recent Activity'}),
         action: () => handleSortDirectMessages(CategorySorting.Recency),
     }];
 
-    const selectedDmCount = Constants.DM_SHOW_COUNTS.map((number): SubMenu => {
+    const selectedDmCount = Constants.DM_AND_GM_SHOW_COUNTS.map((number): SubMenu => {
         return {
             id: `SidebarCategorySortingMenu-dmCount-${number}`,
             direction: 'right',
@@ -93,7 +93,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
         {
             id: 'showAllDms',
             direction: 'right',
-            text: intl.formatMessage({id: 'sidebar.allDirectMessages', defaultMessage: 'All direct messages'}),
+            text: formatMessage({id: 'sidebar.allDirectMessages', defaultMessage: 'All direct messages'}),
             action: () => handlelimitVisibleDMsGMs(10000),
         },
         {
@@ -106,12 +106,12 @@ const SidebarCategorySortingMenu = (props: Props) => {
     return (
         <SidebarMenu
             id={'SidebarCategorySortingMenu'}
-            ariaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
-            buttonAriaLabel={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+            ariaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
+            buttonAriaLabel={formatMessage({id: 'sidebar_left.sidebar_category_menu.dropdownAriaLabel', defaultMessage: 'Category Menu'})}
             isMenuOpen={props.isMenuOpen}
-            onToggleMenu={onToggleMenu}
+            onToggleMenu={handleToggleMenu}
             onOpenDirectionChange={handleOpenDirectionChange}
-            tooltipText={intl.formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
+            tooltipText={formatMessage({id: 'sidebar_left.sidebar_category_menu.editCategory', defaultMessage: 'Category options'})}
             tabIndex={props.isCollapsed ? -1 : 0}
             additionalClass='additionalClass'
         >
@@ -120,8 +120,8 @@ const SidebarCategorySortingMenu = (props: Props) => {
                     <Menu.ItemSubMenu
                         id={'sortDirectMessages'}
                         subMenu={sortMenuItems}
-                        text={intl.formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
-                        selectedValueText={props.category.sorting === CategorySorting.Alphabetical ? intl.formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}) : intl.formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'})}
+                        text={formatMessage({id: 'sidebar.sort', defaultMessage: 'Sort'})}
+                        selectedValueText={props.category.sorting === CategorySorting.Alphabetical ? formatMessage({id: 'user.settings.sidebar.sortAlpha', defaultMessage: 'Alphabetically'}) : formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'})}
                         icon={props.category.sorting === CategorySorting.Alphabetical ? <SortAlphabeticalAscendingIcon size={16}/> : <ClockOutlineIcon size={16}/>}
                         direction={'right'}
                         openUp={openUp}
@@ -130,8 +130,8 @@ const SidebarCategorySortingMenu = (props: Props) => {
                     <Menu.ItemSubMenu
                         id={'showMessageCount'}
                         subMenu={categoryMenuItems}
-                        text={intl.formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
-                        selectedValueText={props.selectedDmNumber === 10000 ? intl.formatMessage({id: 'channel_notifications.levels.all', defaultMessage: 'All'}) : props.selectedDmNumber}
+                        text={formatMessage({id: 'sidebar.show', defaultMessage: 'Show'})}
+                        selectedValueText={props.selectedDmNumber === 10000 ? formatMessage({id: 'channel_notifications.levels.all', defaultMessage: 'All'}) : props.selectedDmNumber}
                         icon={<AccountMultipleOutlineIcon size={16}/>}
                         direction={'right'}
                         openUp={openUp}
@@ -143,7 +143,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
                         id={'openDirectMessageMenuItem'}
                         onClick={props.handleOpenDirectMessagesModal}
                         icon={<AccountPlusOutlineIcon size={16}/>}
-                        text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
+                        text={formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
                     />
                 </Menu.Group>
             </React.Fragment>
@@ -151,4 +151,4 @@ const SidebarCategorySortingMenu = (props: Props) => {
     );
 };
 
-export default SidebarCategorySortingMenu;
+export default memo(SidebarCategorySortingMenu);
