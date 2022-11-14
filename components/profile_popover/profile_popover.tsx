@@ -652,8 +652,9 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             const disabled = this.props.isUserInCall || this.props.isCurrentUserInCall;
             const startCallMessage = this.props.isUserInCall ? formatMessage({
                 id: t('user_profile.call.userBusy'),
-                defaultMessage: 'User is in another call',
-            }) : formatMessage({
+                defaultMessage: '{user} is in another call',
+            }, {user: fullname === '' ? this.props.user?.username : fullname},
+            ) : formatMessage({
                 id: t('webapp.mattermost.feature.start_call'),
                 defaultMessage: 'Start Call',
             });
@@ -715,9 +716,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                             defaultMessage='Message'
                         />
                     </button>
-                    <div
-                        className='popover_row-controlContainer'
-                    >
+                    <div className='popover_row-controlContainer'>
                         {(this.props.canManageAnyChannelMembersInCurrentTeam && this.props.isInCurrentTeam) ? addToChannelButton : null}
                         {renderCallButton()}
                     </div>

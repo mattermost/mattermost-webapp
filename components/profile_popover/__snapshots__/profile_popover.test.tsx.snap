@@ -249,7 +249,7 @@ exports[`components/ProfilePopover should disable start call button when user is
           <Tooltip
             id="startCallTooltip"
           >
-            User is in another call
+            some_username is in another call
           </Tooltip>
         }
         placement="top"
@@ -266,7 +266,7 @@ exports[`components/ProfilePopover should disable start call button when user is
           type="button"
         >
           <PhoneInTalkIcon
-            aria-label="User is in another call"
+            aria-label="some_username is in another call"
             size={18}
           />
         </button>
