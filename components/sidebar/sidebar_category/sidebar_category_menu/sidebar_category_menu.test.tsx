@@ -2,11 +2,11 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { shallow } from 'enzyme';
+import {shallow} from 'enzyme';
 
-import { CategorySorting } from '@mattermost/types/channel_categories';
+import {CategorySorting} from '@mattermost/types/channel_categories';
 
-import { CategoryTypes } from 'mattermost-redux/constants/channel_categories';
+import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
@@ -34,7 +34,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
 
     test('should match snapshot and contain correct buttons', () => {
         const wrapper = shallow(
-            <SidebarCategoryMenu {...baseProps} />,
+            <SidebarCategoryMenu {...baseProps}/>,
         );
 
         expect(wrapper.find('#rename-category1')).toHaveLength(1);
@@ -54,7 +54,7 @@ describe('components/sidebar/sidebar_category/sidebar_category_menu', () => {
         };
 
         const wrapper = shallow(
-            <SidebarCategoryMenu {...props} />,
+            <SidebarCategoryMenu {...props}/>,
         );
 
         expect(wrapper.find('#rename-category1')).toHaveLength(0);

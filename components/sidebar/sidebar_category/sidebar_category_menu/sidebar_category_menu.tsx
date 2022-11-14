@@ -4,8 +4,6 @@
 import React, {useState, memo} from 'react';
 import {useIntl} from 'react-intl';
 
-import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
-
 import {
     BellOutlineIcon,
     TrashCanOutlineIcon,
@@ -15,6 +13,8 @@ import {
     ClockOutlineIcon,
     FolderPlusOutlineIcon,
 } from '@mattermost/compass-icons/components';
+
+import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 

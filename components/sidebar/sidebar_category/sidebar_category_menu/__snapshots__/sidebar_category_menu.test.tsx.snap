@@ -13,8 +13,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-category1"
@@ -24,8 +24,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-pencil-outline"
+        <PencilOutlineIcon
+          size={16}
         />
       }
       id="rename-category1"
@@ -35,8 +35,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-trash-can-outline"
+        <TrashCanOutlineIcon
+          size={16}
         />
       }
       id="delete-category1"
@@ -50,8 +50,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     <SubMenuItem
       direction="right"
       icon={
-        <i
-          className="icon-sort-alphabetical-ascending"
+        <SortAlphabeticalAscendingIcon
+          size={16}
         />
       }
       id="sortChannels"
@@ -89,8 +89,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-folder-plus-outline"
+        <FolderPlusOutlineIcon
+          size={16}
         />
       }
       id="create-category1"
@@ -115,8 +115,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-category1"
@@ -129,8 +129,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
     <SubMenuItem
       direction="right"
       icon={
-        <i
-          className="icon-sort-alphabetical-ascending"
+        <SortAlphabeticalAscendingIcon
+          size={16}
         />
       }
       id="sortChannels"
@@ -168,8 +168,8 @@ exports[`components/sidebar/sidebar_category/sidebar_category_menu should match 
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-folder-plus-outline"
+        <FolderPlusOutlineIcon
+          size={16}
         />
       }
       id="create-category1"
