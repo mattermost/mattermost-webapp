@@ -10,6 +10,7 @@ import {OverActiveUserLimits, Preferences, StatTypes} from 'utils/constants';
 import {renderWithIntlAndStore} from 'tests/react_testing_utils';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {TestHelper} from 'utils/test_helper';
+import {generateId} from 'utils/utils';
 
 import OverageUsersBanner from './index';
 
@@ -40,6 +41,8 @@ const text5PercentageState = `Your workspace user count has exceeded your paid l
 const text10PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor10PercentageState - seatsPurchased} seats. Purchase additional seats to remain compliant.`;
 
 const contactSalesTextLink = 'Contact Sales';
+
+const licenseId = generateId();
 
 describe('components/overage_users_banner', () => {
     const initialState: DeepPartial<GlobalState> = {
@@ -77,6 +80,7 @@ describe('components/overage_users_banner', () => {
                     Company: 'Mattermost Inc.',
                     Users: String(seatsPurchased),
                     Email: 'test@mattermost.com',
+                    Id: licenseId,
                 },
             },
             preferences: {
@@ -151,7 +155,7 @@ describe('components/overage_users_banner', () => {
                 {
                     category: Preferences.OVERAGE_USERS_BANNER,
                     value: 'Overage users banner watched',
-                    name: `warn_overage_seats_${seatsPurchased}`,
+                    name: `warn_overage_seats_${licenseId.substring(0, 8)}`,
                 },
             ],
         );
@@ -264,7 +268,7 @@ describe('components/overage_users_banner', () => {
         expect(savePreferences).toBeCalledTimes(1);
         expect(savePreferences).toBeCalledWith(store.entities.users.profiles.current_user.id, [{
             category: Preferences.OVERAGE_USERS_BANNER,
-            name: `warn_overage_seats_${seatsPurchased}`,
+            name: `warn_overage_seats_${licenseId.substring(0, 8)}`,
             user_id: store.entities.users.profiles.current_user.id,
             value: 'Overage users banner watched',
         }]);
