@@ -44,10 +44,10 @@ node_modules: package.json package-lock.json
 	node skip_integrity_check.js
 
 ifeq ($(CI),false)
-	npm install --legacy-peer-deps
+	npm install
 else
 	# This runs in CI with NODE_ENV=production which doesn't install devDependencies without this flag
-	npm ci --include=dev
+	npm ci --legacy-peer-deps
 endif
 
 	touch $@
