@@ -4,6 +4,7 @@
 import React, {ComponentProps} from 'react';
 
 import {shallow} from 'enzyme';
+
 import {setThreadFollow} from 'mattermost-redux/actions/threads';
 import TestHelper from 'packages/mattermost-redux/test/test_helper';
 jest.mock('mattermost-redux/actions/threads');
