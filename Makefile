@@ -46,7 +46,8 @@ node_modules: package.json package-lock.json
 ifeq ($(CI),false)
 	npm install
 else
-	npm ci
+	# This runs in CI with NODE_ENV=production which doesn't install devDependencies without this flag
+	npm ci --include=dev
 endif
 
 	touch $@

@@ -25,9 +25,7 @@ type Props = {
     };
 };
 
-type State = {
-
-};
+type State = Record<string, never>;
 
 export default class SidebarGroupChannel extends React.PureComponent<Props, State> {
     handleLeaveChannel = (callback: () => void) => {
