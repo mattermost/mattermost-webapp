@@ -35,6 +35,7 @@ const seatsMinimumFor10PercentageState = (Math.ceil(seatsPurchased * OverActiveU
 
 const text5PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor5PercentageState - seatsPurchased} seats`;
 const text10PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor10PercentageState - seatsPurchased} seats`;
+const notifyText = notifyText;
 
 const licenseId = generateId();
 
@@ -82,7 +83,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
     it('should not render the banner because we are not on overage state', () => {
         renderComponent();
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
+        expect(screen.queryByText(notifyText, {exact: false})).not.toBeInTheDocument();
     });
 
     it('should not render the banner because we are not admins', () => {
@@ -103,7 +104,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
             store,
         });
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
+        expect(screen.queryByText(notifyText, {exact: false})).not.toBeInTheDocument();
     });
 
     it('should not render the banner because it\'s cloud licenese', () => {
@@ -118,7 +119,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
             store,
         });
 
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
+        expect(screen.queryByText(notifyText, {exact: false})).not.toBeInTheDocument();
     });
 
     it('should not render the 5% banner because we have dissmised it', () => {
@@ -163,7 +164,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         });
 
         expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText(notifyText, {exact: false})).toBeInTheDocument();
     });
 
     it('should render the banner because we are over 5% and we have preferences from one old banner', () => {
@@ -191,7 +192,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         });
 
         expect(screen.getByText(text5PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText(notifyText, {exact: false})).toBeInTheDocument();
     });
 
     it('should save the preferences for 5% banner if admin click on close', () => {
@@ -234,7 +235,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText(notifyText, {exact: false})).toBeInTheDocument();
     });
 
     it('should render the banner because we are over 10%, and we have preference only for the warning state', () => {
@@ -262,7 +263,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         });
 
         expect(screen.getByText(text10PercentageState)).toBeInTheDocument();
-        expect(screen.getByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).toBeInTheDocument();
+        expect(screen.getByText(notifyText, {exact: false})).toBeInTheDocument();
     });
 
     it('should not render the banner because we are over 10% and we have preferences', () => {
@@ -290,7 +291,7 @@ describe('components/invitation_modal/overage_users_banner_notice', () => {
         });
 
         expect(screen.queryByText(text10PercentageState)).not.toBeInTheDocument();
-        expect(screen.queryByText('Notify your Customer Success Manager on your next true-up check', {exact: false})).not.toBeInTheDocument();
+        expect(screen.queryByText(notifyText, {exact: false})).not.toBeInTheDocument();
     });
 
     it('should save preferences for the banner because we are over 10% and we don\'t have preferences', () => {

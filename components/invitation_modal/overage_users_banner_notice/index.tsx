@@ -17,12 +17,12 @@ import {LicenseLinks, StatTypes, Preferences} from 'utils/constants';
 
 import './overage_users_banner_notice.scss';
 
-type AdminHasWatchItArgs = {
+type AdminHasDismissedArgs = {
     preferenceName: string;
     overagePreferences: PreferenceType[];
 }
 
-const adminHasWatchIt = ({preferenceName, overagePreferences}: AdminHasWatchItArgs): boolean => {
+const adminHasDismissed = ({preferenceName, overagePreferences}: AdminHasDismissedArgs): boolean => {
     return overagePreferences.find((value) => value.name === preferenceName) !== undefined;
 };
 
@@ -52,7 +52,7 @@ const OverageUsersBannerNotice = () => {
 
     const isOverageState = isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats;
 
-    if (!isAdmin || !isOverageState || isCloud || adminHasWatchIt({overagePreferences, preferenceName})) {
+    if (!isAdmin || !isOverageState || isCloud || adminHasDismissed({overagePreferences, preferenceName})) {
         return null;
     }
 
