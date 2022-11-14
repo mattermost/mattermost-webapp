@@ -220,7 +220,11 @@ function Card(props: CardProps) {
         const value = event.target.value;
         const numValue = Number(value);
         if (value === '' || (numValue && checkValidNumber(numValue))) {
-            setUsersCount(numValue.toString());
+            if (value === '') {
+                setUsersCount(value);
+            } else {
+                setUsersCount(numValue.toString());
+            }
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
@@ -230,9 +234,9 @@ function Card(props: CardProps) {
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
         if (isMonthly) {
-            setDisplayPrice(props.monthlyPrice.toString());
+            setDisplayPrice(props.monthlyPrice);
         } else {
-            setDisplayPrice(props.yearlyPrice.toString());
+            setDisplayPrice(props.yearlyPrice);
         }
     };
 
@@ -335,6 +339,7 @@ function Card(props: CardProps) {
                         placeholder={'User seats'}
                         wrapperClassName='user_seats'
                         inputClassName='user_seats'
+                        maxLength={String(Constants.MAX_PURCHASE_SEATS).length + 1}
                         customMessage={isValid() ? null : {
                             type: ItemStatus.ERROR,
                             value: errorMessage,
