@@ -10,6 +10,20 @@ import {UserProfile} from '@mattermost/types/users';
 import {RelationOneToOne, IDMappedObjects} from '@mattermost/types/utilities';
 import {suitePluginIds} from 'packages/client/src/client4';
 
+const CALLS_PLUGIN = 'plugins-' + suitePluginIds.calls;
+
+// todo where to put this type. This type is already defined in calls plugin. How can I reuse in order to avoid duplication
+type CallsConfig = {
+    ICEServers: string[];
+    ICEServersConfigs: RTCIceServer[];
+    AllowEnableCalls: boolean;
+    DefaultEnabled: boolean;
+    MaxCallParticipants: number;
+    NeedsTURNCredentials: boolean;
+    AllowScreenSharing: boolean;
+    sku_short_name: string;
+}
+
 // Channels
 
 export function getCurrentChannelId(state: GlobalState): string {
@@ -56,8 +70,13 @@ export function getUsers(state: GlobalState): IDMappedObjects<UserProfile> {
 // Calls
 
 export function getCalls(state: GlobalState): Record<string, UserProfile[]> {
-    const callsPlugin = 'plugins-' + suitePluginIds.calls;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return state[CALLS_PLUGIN].voiceConnectedProfiles;
+}
 
-    //@ts-ignore
-    return state[callsPlugin].voiceConnectedProfiles;
+export function getCallsConfig(state: GlobalState): CallsConfig {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    return state[CALLS_PLUGIN].callsConfig;
 }

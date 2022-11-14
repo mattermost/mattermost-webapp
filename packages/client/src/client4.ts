@@ -4048,6 +4048,13 @@ export default class Client4 {
         return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
     }
 
+    getCallsChannelState = (channelId: string) => {
+        return this.doFetch<{enabled: boolean; id: string}>(
+            `${this.url}/plugins/${suitePluginIds.calls}/${channelId}`,
+            {method: 'get'},
+        );
+    }
+
     // Client Helpers
 
     private doFetch = async <ClientDataResponse>(url: string, options: Options): Promise<ClientDataResponse> => {

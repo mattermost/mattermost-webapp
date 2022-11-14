@@ -11,6 +11,7 @@ import Pluggable from 'plugins/pluggable';
 import CallButton from 'plugins/call_button';
 
 import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions';
 
@@ -161,9 +162,17 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     isCallsEnabled: boolean;
     isUserInCall?: boolean;
     isCurrentUserInCall?: boolean;
+    isCallsDefaultEnabledOnAllChannels?: boolean;
+    isCallsCanBeDisabledOnSpecificChannels?: boolean;
+    dMChannelId?: string;
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
+};
+
+type ChannelCallsState = {
+    enabled: boolean;
+    id: string;
 };
 
 /**
@@ -180,6 +189,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         status: UserStatuses.OFFLINE,
         customStatus: null,
     };
+    callsChannelState?: ChannelCallsState;
     constructor(props: ProfilePopoverProps) {
         super(props);
         this.state = {
@@ -194,6 +204,11 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 userId,
                 channelId,
             );
+        }
+        if (this.props.isCallsEnabled && this.props.dMChannelId) {
+            this.getCallsChannelState(this.props.dMChannelId).then((data) => {
+                this.callsChannelState = data;
+            });
         }
     }
     handleShowDirectChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -331,6 +346,16 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
     }
     handleClose = () => {
         this.props.hide?.();
+    }
+    getCallsChannelState(channelId: string): Promise<ChannelCallsState> {
+        let data: Promise<ChannelCallsState>;
+        try {
+            data = Client4.getCallsChannelState(channelId);
+        } catch (error) {
+            return error;
+        }
+
+        return data;
     }
     render() {
         if (!this.props.user) {
@@ -620,9 +645,10 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         );
 
         const renderCallButton = () => {
-            if (!this.props.isCallsEnabled) {
+            if (!this.props.isCallsEnabled || !this.props.isCallsDefaultEnabledOnAllChannels || (this.props.isCallsCanBeDisabledOnSpecificChannels && this.callsChannelState?.enabled === false)) {
                 return null;
             }
+
             const disabled = this.props.isUserInCall || this.props.isCurrentUserInCall;
             const startCallMessage = this.props.isUserInCall ? formatMessage({
                 id: t('user_profile.call.userBusy'),

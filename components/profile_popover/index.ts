@@ -14,7 +14,10 @@ import {
     getChannelMembersInChannels,
     canManageAnyChannelMembersInCurrentTeam,
     getCurrentChannelId,
+    getChannelByName,
 } from 'mattermost-redux/selectors/entities/channels';
+import {getCallsConfig, getCalls} from 'mattermost-redux/selectors/entities/common';
+import {Action} from 'mattermost-redux/types/actions';
 
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {getMembershipForEntities} from 'actions/views/profile_popover';
@@ -23,9 +26,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {areTimezonesEnabledAndSupported, getCurrentUserTimezone} from 'selectors/general';
 import {getRhsState, getSelectedPost} from 'selectors/rhs';
 import {getIsMobileView} from 'selectors/views/browser';
-
 import {makeGetCustomStatus, isCustomStatusEnabled, isCustomStatusExpired} from 'selectors/views/custom_status';
-import {Action} from 'mattermost-redux/types/actions';
 
 import {ModalData} from 'types/actions';
 import {GlobalState} from 'types/store';
@@ -34,7 +35,7 @@ import {ServerError} from '@mattermost/types/errors';
 
 import {suitePluginIds} from 'packages/client/src/client4';
 
-import {getCalls} from 'mattermost-redux/selectors/entities/common';
+import {getDirectChannelName} from 'utils/utils';
 
 import ProfilePopover from './profile_popover';
 
@@ -87,8 +88,11 @@ function makeMapStateToProps() {
         const lastActivityTimestamp = getLastActivityForUserId(state, userId);
         const timestampUnits = getLastActiveTimestampUnits(state, userId);
         const enableLastActiveTime = displayLastActiveLabel(state, userId);
-        const isCallsEnabled = Boolean(state.plugins.plugins[suitePluginIds.calls]);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const isCallsEnabled = Boolean(state.plugins.plugins[suitePluginIds.calls]) && Boolean(state['plugins-' + suitePluginIds.calls]);
         const currentUserId = getCurrentUserId(state);
+        const callsConfig = isCallsEnabled ? getCallsConfig(state) : undefined;
 
         return {
             currentTeamId: team.id,
@@ -114,6 +118,9 @@ function makeMapStateToProps() {
             isCallsEnabled,
             isUserInCall: isCallsEnabled ? checkUserInCall(state, userId) : undefined,
             isCurrentUserInCall: isCallsEnabled ? checkUserInCall(state, currentUserId) : undefined,
+            isCallsDefaultEnabledOnAllChannels: callsConfig?.DefaultEnabled,
+            isCallsCanBeDisabledOnSpecificChannels: callsConfig?.AllowEnableCalls,
+            dMChannelId: getChannelByName(state, getDirectChannelName(currentUserId, userId))?.id,
         };
     };
 }
