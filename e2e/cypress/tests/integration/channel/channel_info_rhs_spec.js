@@ -291,7 +291,7 @@ describe('Channel Info RHS', () => {
 
                 // * Ensure we see the members
                 cy.uiGetRHS().contains('sysadmin').should('be.visible');
-                cy.uiGetRHS().findByText(`${admin.username}`).should('be.visible');
+                cy.uiGetRHS().contains(`${admin.username}`).should('be.visible');
 
                 // # Click the Back Icon
                 cy.uiGetRHS().get('[aria-label="Back Icon"]').click();

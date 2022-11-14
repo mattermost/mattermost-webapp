@@ -4767,6 +4767,8 @@
   "success_modal.subtitle": "Your final bill will be prorated. Your workspace now has {plan} limits.",
   "suggestion_list.no_matches": "No items match __{value}__",
   "suggestion.archive": "Archived Channels",
+  "suggestion.commands": "Commands",
+  "suggestion.emoji": "Emoji",
   "suggestion.mention.all": "Notifies everyone in this channel",
   "suggestion.mention.channel": "Notifies everyone in this channel",
   "suggestion.mention.channels": "My Channels",
