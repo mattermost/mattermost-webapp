@@ -11,11 +11,13 @@ import {mountWithThemedIntl} from 'tests/helpers/themed-intl-test-helper';
 
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
 import {Team} from '@mattermost/types/teams';
+import {generateId} from 'utils/utils';
 
 import ResultView from './result_view';
 import InviteView from './invite_view';
 import NoPermissionsView from './no_permissions_view';
 import InvitationModal, {Props, View, InvitationModal as BaseInvitationModal} from './invitation_modal';
+
 
 const defaultProps: Props = deepFreeze({
     actions: {
@@ -61,6 +63,7 @@ describe('InvitationModal', () => {
                 license: {
                     IsLicensed: 'true',
                     Cloud: 'true',
+                    Id: generateId(),
                 },
             },
             cloud: {
@@ -81,6 +84,9 @@ describe('InvitationModal', () => {
                         permissions: [],
                     },
                 },
+            },
+            preferences: {
+                myPreferences: {},
             },
         },
     };
