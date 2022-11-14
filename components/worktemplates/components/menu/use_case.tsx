@@ -7,8 +7,8 @@ import styled from 'styled-components';
 
 const QuickUse = styled.button`
     position: absolute;
-    top: 16px;
-    right: 16px;
+    top: 7px;
+    right: 7px;
 
     text-align: center;
     padding: 4px 10px;
@@ -21,6 +21,11 @@ const QuickUse = styled.button`
     font-size: 11px;
     line-height: 16px;
     color: var(--button-color);
+    visibility: hidden;
+    opacity: 0;
+    z-index: 2;
+
+    transition: visibility 0.4s ease-in-out, opacity 0.4s ease-in-out;
 `;
 
 interface UseCaseProps {
@@ -99,62 +104,82 @@ const StyledUseCaseMenuItem = styled(UseCase)`
     display: flex;
     flex-direction: column;
     width: 220px;
-    height: 185px;
     border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
     border-radius: 8px;
     cursor: pointer;
     margin-bottom: 16px;
 
-    ${QuickUse} {
-        display: none;
-    }
-
     .illustration {
-        height: 129px;
+        height: 130px;
         background: rgba(73, 146, 243, 0.2);
         border-radius: 8px 8px 0px 0px;
         display: flex;
         align-items: flex-end;
         justify-content: center;
         position: relative;
+        flex-grow: 1;
+        overflow-x: hidden;
+        overflow-y: hidden;
+        transition: height 0.4s ease-in-out;
 
         img {
             width: 204px;
             height: 123px;
+            z-index: 1;
+            transition: margin 0.4s ease-in-out;
         }
     }
 
     .name {
-        padding: 18px 12px;
+        padding: 14px 12px;
         width: 220px;
-        height: 54px;
+        height: 44px;
+        font-family: 'Open Sans';
+        line-height: 16px;
         font-weight: 600;
         font-size: 12px;
         line-height: 16px;
         color: var(--center-channel-color);
+        transition: height 0.4s ease-in-out;
+        flex-grow: 2;
 
         .details {
-            display: none;
+            visibility: hidden;
+            margin-bottom: 12px;
+            opacity: 0;
             font-weight: 400;
             font-size: 11px;
             line-height: 16px;
             letter-spacing: 0.02em;
-            color: rgba(var(--center-channel-color), 0.72);
+            color: rgba(var(--center-channel-text-rgb), 0.72);
+            transition: visibility 0.4s ease-in-out, opacity 0.4s ease-in-out;
         }
     }
 
     &:hover {
         box-shadow: var(--elevation-2);
         ${QuickUse} {
-            display: inline-block;
+            visibility: visible;
+            opacity: 1;
+        }
+
+        img {
+            margin-bottom: -12px;
         }
 
         .name {
-            padding-top: 10px;
+            height: 56px;
+            padding: 12px 12px 0;
             .details {
-                display: block;
+                visibility: visible;
+                opacity: 1;
             }
         }
+
+        .illustration {
+            height: 118px;
+        }
+
     }
 `;
 
