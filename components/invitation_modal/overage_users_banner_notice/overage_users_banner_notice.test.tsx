@@ -35,7 +35,7 @@ const seatsMinimumFor10PercentageState = (Math.ceil(seatsPurchased * OverActiveU
 
 const text5PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor5PercentageState - seatsPurchased} seats`;
 const text10PercentageState = `Your workspace user count has exceeded your paid license seat count by ${seatsMinimumFor10PercentageState - seatsPurchased} seats`;
-const notifyText = notifyText;
+const notifyText = 'Notify your Customer Success Manager on your next true-up check';
 
 const licenseId = generateId();
 
