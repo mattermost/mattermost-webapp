@@ -656,8 +656,6 @@ const defaultServerConfig: AdminConfig = {
         CallsMobile: false,
         CallsEnabled: true,
         BoardsFeatureFlags: '',
-        GuidedChannelCreation: false,
-        InviteToTeam: 'none',
         CustomGroups: true,
         BoardsDataRetention: false,
         NormalizeLdapDNs: false,
