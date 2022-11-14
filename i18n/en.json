@@ -2945,7 +2945,7 @@
   "channel_notifications.autoFollowThreadsDesc": "When enabled, all new replies in this channel will be automatically followed and will appear in your Threads view.",
   "channel_notifications.autoFollowThreadsTitle": "Follow all threads in this channel",
   "channel_notifications.checkbox.autoFollowThreadsTitle": "Automatically follow threads in this channel",
-  "channel_notifications.checkbox.sameMobileSettingsDesktop": "",
+  "channel_notifications.checkbox.sameMobileSettingsDesktop": "Use the same notification settings as desktop",
   "channel_notifications.checkbox.threadsReplyTitle": "Notify me about replies to threads I’m following",
   "channel_notifications.default": "(default)",
   "channel_notifications.desktopNotificationsDesc": "Available on Chrome, Edge, Firefox, and the Mattermost Desktop App.",
