@@ -80,23 +80,25 @@ function SelfHostedContent(props: ContentProps) {
     ];
 
     const renderAlert = () => {
-        return (<div className='alert-option'>
-            <span>
-                {formatMessage({id: 'pricing_modal.lookingForCloudOption', defaultMessage: 'Looking for a cloud option?'})}
-            </span>
-            <a
-                onClick={() => {
-                    trackEvent(
-                        TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
-                        'click_looking_for_a_cloud_option',
-                    );
-                }
-                }
-                href={CloudLinks.CLOUD_SIGNUP_PAGE}
-                rel='noopener noreferrer'
-                target='_blank'
-            >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
-        </div>);
+        return (
+            <div className='alert-option'>
+                <span>
+                    {formatMessage({id: 'pricing_modal.lookingForCloudOption', defaultMessage: 'Looking for a cloud option?'})}
+                </span>
+                <a
+                    onClick={() => {
+                        trackEvent(
+                            TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
+                            'click_looking_for_a_cloud_option',
+                        );
+                    }
+                    }
+                    href={CloudLinks.CLOUD_SIGNUP_PAGE}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+            </div>
+        );
     };
 
     const trialButton = () => {
@@ -108,7 +110,8 @@ function SelfHostedContent(props: ContentProps) {
                 disabled={isSelfHostedEnterpriseTrial}
                 btnClass={`plan_action_btn ${isSelfHostedEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                 onClick={closePricingModal}
-            />);
+            />
+        );
     };
 
     return (

@@ -49,7 +49,8 @@ function ContactSalesCTA() {
             }}
         >
             {formatMessage({id: 'pricing_modal.btn.contactSalesForQuote', defaultMessage: 'Contact Sales'})}
-        </StyledA>);
+        </StyledA>
+    );
 }
 
 export default ContactSalesCTA;

@@ -27,11 +27,15 @@
     }
 
     .admin-console__wrapper {
+        position: relative;
         overflow: auto;
         height: 100%;
         -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
         padding: 20px;
+        margin-right: 5px;
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
     }
 
     .admin-console__content {
