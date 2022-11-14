@@ -6,8 +6,8 @@
     border-radius: 12px;
 
     .modal-content {
-        overflow: hidden;
         display: flex;
+        overflow: hidden;
         flex-direction: column;
     }
 
@@ -21,8 +21,8 @@
         display: flex;
         width: 100%;
         max-width: 1024px;
-        min-height: 150px;
         height: calc(100vh - 265px);
+        min-height: 150px;
     }
 
     &__footer {
@@ -34,6 +34,25 @@
         padding: 24px 32px;
         border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
         gap: 8px;
+    }
+
+    &__reset-btn {
+        display: flex;
+        padding: 5px 12px;
+        border: none;
+        background: transparent;
+        border-radius: 4px;
+        color: var(--button-bg);
+        font-size: 12px;
+        font-weight: 600;
+        gap: 4px;
+        line-height: 9.5px;
+        place-items: center;
+
+        &:hover,
+        &:active {
+            background: rgba(var(--button-bg-rgb), 0.08);
+        }
     }
 
     &__save-btn {

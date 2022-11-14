@@ -106,19 +106,13 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
                 Object {
                   "options": Array [
                     Object {
-                      "dataTestId": "desktopNotification-default",
-                      "key": "desktopNotification-default",
-                      "name": "desktopNotification-default",
-                      "title": Object {
-                        "defaultMessage": "Global default (Mention)",
-                        "id": "channel_notifications.desktopNotificationDefaultLabel",
-                      },
-                      "value": "default",
-                    },
-                    Object {
                       "dataTestId": "desktopNotification-all",
                       "key": "desktopNotification-all",
                       "name": "desktopNotification-all",
+                      "suffix": <Memo(MemoizedFormattedMessage)
+                        defaultMessage="(default)"
+                        id="channel_notifications.default"
+                      />,
                       "title": Object {
                         "defaultMessage": "All new messages",
                         "id": "channel_notifications.desktopNotificationAllLabel",
@@ -129,8 +123,9 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
                       "dataTestId": "desktopNotification-mention",
                       "key": "desktopNotification-mention",
                       "name": "desktopNotification-mention",
+                      "suffix": undefined,
                       "title": Object {
-                        "defaultMessage": "Mentions, direct messages, and keywords only (default)",
+                        "defaultMessage": "Mentions, direct messages, and keywords only",
                         "id": "channel_notifications.desktopNotificationMentionLabel",
                       },
                       "value": "mention",
@@ -139,6 +134,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
                       "dataTestId": "desktopNotification-none",
                       "key": "desktopNotification-none",
                       "name": "desktopNotification-none",
+                      "suffix": undefined,
                       "title": Object {
                         "defaultMessage": "Nothing",
                         "id": "channel_notifications.desktopNotificationNothingLabel",
@@ -170,6 +166,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
             "id": "channel_notifications.desktopNotificationsTitle",
           }
         }
+        titleSuffix={<React.Fragment />}
       />
       <div
         className="channel-notifications-settings-modal__divider"
@@ -177,62 +174,71 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
       <SectionCreator
         content={
           <React.Fragment>
-            <RadioItemCreator
+            <CheckboxItemCreator
               handleChange={[Function]}
               inputFieldData={
                 Object {
-                  "options": Array [
-                    Object {
-                      "dataTestId": "MobileNotification-default",
-                      "key": "MobileNotification-default",
-                      "name": "MobileNotification-default",
-                      "title": Object {
-                        "defaultMessage": "Global default (Mention)",
-                        "id": "channel_notifications.MobileNotificationDefaultLabel",
-                      },
-                      "value": "default",
-                    },
-                    Object {
-                      "dataTestId": "MobileNotification-all",
-                      "key": "MobileNotification-all",
-                      "name": "MobileNotification-all",
-                      "title": Object {
-                        "defaultMessage": "All new messages",
-                        "id": "channel_notifications.MobileNotificationAllLabel",
-                      },
-                      "value": "all",
-                    },
-                    Object {
-                      "dataTestId": "MobileNotification-mention",
-                      "key": "MobileNotification-mention",
-                      "name": "MobileNotification-mention",
-                      "title": Object {
-                        "defaultMessage": "Mentions, direct messages, and keywords only (default)",
-                        "id": "channel_notifications.MobileNotificationMentionLabel",
-                      },
-                      "value": "mention",
-                    },
-                    Object {
-                      "dataTestId": "MobileNotification-none",
-                      "key": "MobileNotification-none",
-                      "name": "MobileNotification-none",
-                      "title": Object {
-                        "defaultMessage": "Nothing",
-                        "id": "channel_notifications.MobileNotificationNothingLabel",
-                      },
-                      "value": "none",
-                    },
-                  ],
+                  "dataTestId": "sameMobileSettingsDesktop",
+                  "name": "same mobile settings as Desktop",
+                  "title": Object {
+                    "defaultMessage": "Use the same notification settings as desktop",
+                    "id": "channel_notifications.checkbox.sameMobileSettingsDesktop",
+                  },
                 }
               }
-              inputFieldValue="default"
-              title={
-                Object {
-                  "defaultMessage": "Notify me about…",
-                  "id": "channel_notifications.NotifyMeTitle",
-                }
-              }
+              inputFieldValue={false}
             />
+            <React.Fragment>
+              <RadioItemCreator
+                handleChange={[Function]}
+                inputFieldData={
+                  Object {
+                    "options": Array [
+                      Object {
+                        "dataTestId": "MobileNotification-all",
+                        "key": "MobileNotification-all",
+                        "name": "MobileNotification-all",
+                        "suffix": undefined,
+                        "title": Object {
+                          "defaultMessage": "All new messages",
+                          "id": "channel_notifications.MobileNotificationAllLabel",
+                        },
+                        "value": "all",
+                      },
+                      Object {
+                        "dataTestId": "MobileNotification-mention",
+                        "key": "MobileNotification-mention",
+                        "name": "MobileNotification-mention",
+                        "suffix": undefined,
+                        "title": Object {
+                          "defaultMessage": "Mentions, direct messages, and keywords only",
+                          "id": "channel_notifications.MobileNotificationMentionLabel",
+                        },
+                        "value": "mention",
+                      },
+                      Object {
+                        "dataTestId": "MobileNotification-none",
+                        "key": "MobileNotification-none",
+                        "name": "MobileNotification-none",
+                        "suffix": undefined,
+                        "title": Object {
+                          "defaultMessage": "Nothing",
+                          "id": "channel_notifications.MobileNotificationNothingLabel",
+                        },
+                        "value": "none",
+                      },
+                    ],
+                  }
+                }
+                inputFieldValue="all"
+                title={
+                  Object {
+                    "defaultMessage": "Notify me about…",
+                    "id": "channel_notifications.NotifyMeTitle",
+                  }
+                }
+              />
+            </React.Fragment>
           </React.Fragment>
         }
         description={
@@ -246,6 +252,18 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
             "defaultMessage": "Mobile Notifications",
             "id": "channel_notifications.mobileNotificationsTitle",
           }
+        }
+        titleSuffix={
+          <button
+            className="channel-notifications-settings-modal__reset-btn"
+            onClick={[Function]}
+          >
+            <RefreshIcon
+              color="currentColor"
+              size={14}
+            />
+            Reset to default
+          </button>
         }
       />
       <div

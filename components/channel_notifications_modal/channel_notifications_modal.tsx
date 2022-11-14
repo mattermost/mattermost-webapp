@@ -7,20 +7,19 @@ import {FormattedMessage, useIntl} from 'react-intl';
 
 import classNames from 'classnames';
 
+import {BellOffOutlineIcon, RefreshIcon} from '@mattermost/compass-icons/components';
+
 import ModalHeader from 'components/widgets/modals/generic/modal_header';
 
-import {BellOffOutlineIcon, CheckIcon} from '@mattermost/compass-icons/components';
+import SectionCreator from 'components/widgets/modals/generic/section_creator';
+import RadioItemCreator from 'components/widgets/modals/generic/radio-item-creator';
+import CheckboxItemCreator from 'components/widgets/modals/generic/checkbox-item-creator';
 
-import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
+import {IgnoreChannelMentions, NotificationLevels} from 'utils/constants';
+import AlertBanner from 'components/alert_banner';
+
 import {UserNotifyProps, UserProfile} from '@mattermost/types/users';
-
-import SectionCreator from '../widgets/modals/generic/section_creator';
-
-import CheckboxItemCreator from '../widgets/modals/generic/checkbox-item-creator';
-
-import {IgnoreChannelMentions, NotificationLevels} from '../../utils/constants';
-
-import RadioItemCreator from '../widgets/modals/generic/radio-item-creator';
+import {Channel, ChannelNotifyProps} from '@mattermost/types/channels';
 
 import {
     desktopNotificationInputFieldData,
@@ -28,7 +27,7 @@ import {
     DesktopNotificationsSectionTitle,
     IgnoreMentionsDesc,
     IgnoreMentionsInputFieldData,
-    MobileNotificationInputFieldData,
+    mobileNotificationInputFieldData,
     MobileNotificationsSectionDesc,
     MobileNotificationsSectionTitle,
     MuteAndIgnoreSectionTitle,
@@ -48,7 +47,6 @@ import {
 import type {PropsFromRedux} from './index';
 
 import './channel_notifications_modal.scss';
-import AlertBanner from '../alert_banner';
 
 type Props = PropsFromRedux & {
 
@@ -68,6 +66,12 @@ type Props = PropsFromRedux & {
     currentUser: UserProfile;
 };
 
+function getUseSameDesktopSetting(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
+    const isSameAsDesktop = channelMemberNotifyProps?.desktop === channelMemberNotifyProps?.push || currentUserNotifyProps.push === currentUserNotifyProps.desktop;
+    const isSameAsDesktopThreads = channelMemberNotifyProps?.desktop_threads === channelMemberNotifyProps?.push_threads || currentUserNotifyProps.push_threads === currentUserNotifyProps.desktop_threads;
+    return isSameAsDesktop && isSameAsDesktopThreads;
+}
+
 function getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
     let ignoreChannelMentionsDefault: ChannelNotifyProps['ignore_channel_mentions'] = IgnoreChannelMentions.OFF;
 
@@ -82,12 +86,6 @@ function getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channe
 
     const desktop = channelMemberNotifyProps?.desktop === NotificationLevels.DEFAULT ? currentUserNotifyProps.desktop : (channelMemberNotifyProps?.desktop || currentUserNotifyProps.desktop);
     const push = channelMemberNotifyProps?.push === NotificationLevels.DEFAULT ? currentUserNotifyProps.desktop : (channelMemberNotifyProps?.push || currentUserNotifyProps.push);
-    let mobile_settings_same_as_desktop = channelMemberNotifyProps?.mobile_settings_same_as_desktop || 'true';
-    if (channelMemberNotifyProps?.mobile_settings_same_as_desktop === undefined) {
-        mobile_settings_same_as_desktop = currentUserNotifyProps.desktop === channelMemberNotifyProps?.desktop &&
-        currentUserNotifyProps.desktop === channelMemberNotifyProps?.push ? 'true' : 'false';
-    }
-    console.log('channelMemberNotifyProps', channelMemberNotifyProps);
 
     return {
         desktop,
@@ -97,7 +95,6 @@ function getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channe
         push_threads: channelMemberNotifyProps?.push_threads || NotificationLevels.ALL,
         ignore_channel_mentions: ignoreChannelMentions,
         channel_auto_follow_threads: channelMemberNotifyProps?.channel_auto_follow_threads || 'false',
-        mobile_settings_same_as_desktop,
     };
 }
 
@@ -109,7 +106,6 @@ type SettingsType = {
     push: ChannelNotifyProps['push'];
     push_threads: ChannelNotifyProps['push_threads'];
     ignore_channel_mentions: ChannelNotifyProps['ignore_channel_mentions'];
-    mobile_settings_same_as_desktop: 'true' | 'false';
 };
 
 export default function ChannelNotificationsModal(props: Props) {
@@ -118,6 +114,7 @@ export default function ChannelNotificationsModal(props: Props) {
     const [serverError, setServerError] = useState('');
     const [haveChanges, setHaveChanges] = useState(false);
     const [channelNotifyProps] = useState(props.channelMember && props.channelMember.notify_props);
+    const [mobileSettingsSameAsDesktop, setMobileSettingsSameAsDesktop] = useState<boolean>(getUseSameDesktopSetting(props.currentUser.notify_props, channelNotifyProps));
 
     const [settings, setSettings] = useState<SettingsType>(getStateFromNotifyProps(props.currentUser.notify_props, channelNotifyProps));
 
@@ -129,10 +126,26 @@ export default function ChannelNotificationsModal(props: Props) {
         props.onExited();
     }
 
+    const resetToDefault = useCallback((settingName: string) => {
+        const defaultSettings = props.currentUser.notify_props;
+        if (settingName === 'desktop') {
+            setSettings({...settings, desktop: defaultSettings.desktop, desktop_threads: defaultSettings.desktop_threads || settings.desktop_threads});
+        }
+        if (settingName === 'push') {
+            setSettings({...settings, push: defaultSettings.desktop, push_threads: defaultSettings.push_threads || settings.push_threads});
+        }
+    }, [settings, props.currentUser]);
+
     const handleChange = useCallback((values: Record<string, string>) => {
         setSettings({...settings, ...values});
         setHaveChanges(true);
     }, [settings]);
+
+    const handleMobileSettingsChange = useCallback(() => {
+        setMobileSettingsSameAsDesktop(!mobileSettingsSameAsDesktop);
+        setSettings({...settings, push: settings.desktop, push_threads: settings.desktop_threads});
+        setHaveChanges(true);
+    }, [mobileSettingsSameAsDesktop, settings]);
 
     const MuteIgnoreSectionContent = (
         <>
@@ -172,16 +185,16 @@ export default function ChannelNotificationsModal(props: Props) {
     const MobileNotificationsSectionContent = (
         <>
             <CheckboxItemCreator
-                inputFieldValue={settings.mobile_settings_same_as_desktop === 'true'}
+                inputFieldValue={mobileSettingsSameAsDesktop}
                 inputFieldData={sameMobileSettingsDesktopInputFieldData}
-                handleChange={(e) => handleChange({mobile_settings_same_as_desktop: e ? 'true' : 'false'})}
+                handleChange={() => handleMobileSettingsChange()}
             />
-            {settings.mobile_settings_same_as_desktop === 'false' && (
+            {!mobileSettingsSameAsDesktop && (
                 <>
                     <RadioItemCreator
                         title={NotifyMeTitle}
                         inputFieldValue={settings.push}
-                        inputFieldData={MobileNotificationInputFieldData(props.currentUser.notify_props.push)}
+                        inputFieldData={mobileNotificationInputFieldData(props.currentUser.notify_props.push)}
                         handleChange={(e) => handleChange({push: e.target.value})}
                     />
                     {settings.push === 'mention' &&
@@ -214,6 +227,31 @@ export default function ChannelNotificationsModal(props: Props) {
         }
     }
 
+    const resetToDefaultBtn = useCallback((settingName: string) => {
+        const defaultSettings = props.currentUser.notify_props;
+
+        const isDesktopSameAsDefault = (defaultSettings.desktop === settings.desktop && defaultSettings.desktop_threads === settings.desktop_threads);
+        const isPushSameAsDefault = (defaultSettings.push === settings.push && defaultSettings.push_threads === settings.push_threads);
+        if ((settingName === 'desktop' && isDesktopSameAsDefault) || (settingName === 'push' && isPushSameAsDefault)) {
+            return <></>;
+        }
+        return (
+            <button
+                className='channel-notifications-settings-modal__reset-btn'
+                onClick={() => resetToDefault(settingName)}
+            >
+                <RefreshIcon
+                    size={14}
+                    color={'currentColor'}
+                />
+                {formatMessage({
+                    id: 'channel_notifications.resetToDefault',
+                    defaultMessage: 'Reset to default',
+                })}
+            </button>
+        );
+    }, [props.currentUser, settings]);
+
     const settingsAndAlertBanner = settings.mark_unread === 'all' ? (
         <>
             <div className='channel-notifications-settings-modal__divider'/>
@@ -221,12 +259,14 @@ export default function ChannelNotificationsModal(props: Props) {
                 title={DesktopNotificationsSectionTitle}
                 description={DesktopNotificationsSectionDesc}
                 content={DesktopNotificationsSectionContent}
+                titleSuffix={resetToDefaultBtn('desktop')}
             />
             <div className='channel-notifications-settings-modal__divider'/>
             <SectionCreator
                 title={MobileNotificationsSectionTitle}
                 description={MobileNotificationsSectionDesc}
                 content={MobileNotificationsSectionContent}
+                titleSuffix={resetToDefaultBtn('push')}
             />
 
             <div className='channel-notifications-settings-modal__divider'/>

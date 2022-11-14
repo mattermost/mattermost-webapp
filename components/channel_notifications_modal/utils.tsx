@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {t} from 'utils/i18n';
-import {FieldsetCheckbox} from 'components/widgets/modals/generic/checkbox-item-creator';
-
 import {FormattedMessage} from 'react-intl';
 
 import React from 'react';
+
+import {t} from 'utils/i18n';
+import {FieldsetCheckbox} from 'components/widgets/modals/generic/checkbox-item-creator';
 
 import {FieldsetRadio} from '../widgets/modals/generic/radio-item-creator';
 import {NotificationLevels} from '../../utils/constants';
@@ -175,7 +175,7 @@ export const desktopNotificationInputFieldData = (defaultOption: string): Fields
     };
 };
 
-export const MobileNotificationInputFieldData = (defaultOption: string): FieldsetRadio => {
+export const mobileNotificationInputFieldData = (defaultOption: string): FieldsetRadio => {
     return {
         options: [
             {

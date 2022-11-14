@@ -68,28 +68,29 @@
         width: 1.6rem;
         height: 1.6rem;
     }
-    input[type=checkbox]{
+
+    input[type=checkbox] {
+        display: grid;
+        border: 1px solid rgba(var(--center-channel-text-rgb), 0.24);
+        margin: 0;
         -webkit-appearance: none;
         appearance: none;
         background-color: #fff;
-        margin: 0;
-        font: inherit;
-        color: rgba(var(--center-channel-text-rgb), 0.24);
-        border: 1px solid rgba(var(--center-channel-text-rgb), 0.24);
         border-radius: 3px;
-        display: grid;
+        color: rgba(var(--center-channel-text-rgb), 0.24);
+        font: inherit;
         place-content: center;
     }
 
     input[type="checkbox"]::before {
-        content:'';
         width: 10px;
         height: 10px;
-        clip-path: polygon(0% 57%, 32% 88%, 100%  20%, 88% 8.00%, 32% 64%, 12% 45%);
+        background: var(--center-channel-bg);
+        clip-path: polygon(0% 57%, 32% 88%, 100%  20%, 88% 8%, 32% 64%, 12% 45%);
+        content: '';
         transform: scale(0);
         transform-origin: bottom left;
         transition: 120ms transform ease-in-out;
-        background: var(--center-channel-bg);
     }
 
     input[type="checkbox"]:checked::before {
@@ -97,34 +98,34 @@
     }
 
     input[type="checkbox"]:checked {
-        background: var(--denim-button-bg);
         border-color: var(--denim-button-bg);
+        background: var(--denim-button-bg);
     }
 
-    input[type=radio]{
+    input[type=radio] {
+        display: grid;
+        width: 1.6rem;
+        height: 1.6rem;
+        border: 1px solid rgba(var(--center-channel-text-rgb), 0.24);
+        margin: 0;
         -webkit-appearance: none;
         appearance: none;
         background-color: #fff;
-        margin: 0;
-        width: 1.6rem;
-        height: 1.6rem;
-        font: inherit;
-        color: rgba(var(--center-channel-text-rgb), 0.24);
-        border: 1px solid rgba(var(--center-channel-text-rgb), 0.24);
-        display: grid;
-        place-content: center;
         border-radius: 50%;
+        color: rgba(var(--center-channel-text-rgb), 0.24);
+        font: inherit;
+        place-content: center;
     }
 
     input[type="radio"]::before {
-        content:'';
         width: 8px;
         height: 8px;
+        background: var(--denim-button-bg);
+        border-radius: 50%;
+        content: '';
         transform: scale(0);
         transform-origin: center center;
         transition: 120ms transform ease-in-out;
-        background: var(--denim-button-bg);
-        border-radius: 50%;
     }
 
     input[type="radio"]:checked::before {
@@ -134,5 +135,4 @@
     input[type="radio"]:checked {
         border-color: var(--denim-button-bg);
     }
-
 }

@@ -16,12 +16,14 @@ type Props = {
         defaultMessage: string;
     };
     content: JSX.Element;
+    titleSuffix?: JSX.Element;
 };
 
 function SectionCreator({
     title,
     description,
     content,
+    titleSuffix,
 }: Props): JSX.Element {
     const {formatMessage} = useIntl();
     const Title = (
@@ -36,10 +38,20 @@ function SectionCreator({
         </p>
     );
 
+    function titleRow() {
+        if (titleSuffix) {
+            return (<div className='mm-modal-generic-section__row'>
+                {Title}
+                {titleSuffix}
+            </div>);
+        }
+        return Title;
+    }
+
     return (
         <section className='mm-modal-generic-section'>
             <div className='mm-modal-generic-section__info-ctr'>
-                {Title}
+                {titleRow()}
                 {Description}
             </div>
             <div className='mm-modal-generic-section__content'>
