@@ -31,7 +31,7 @@ export default function SelfHostedPurchaseButton() {
                 openSelfHostedPurchaseModal({});
             }}
         >
-            {'paid self hosted'}
+            {'Self-Hosted signup'}
         </button>
 
     );

@@ -12,7 +12,19 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
+import {
+    Product,
+    CloudCustomer,
+    Address,
+    CloudCustomerPatch,
+    Invoice,
+    Limits,
+    IntegrationsUsage,
+    NotifyAdminRequest,
+    Subscription,
+    ValidBusinessEmail,
+    SelfHostedSignupProgress,
+} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -105,7 +117,7 @@ import {
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
 } from '@mattermost/types/users';
-import {DeepPartial, RelationOneToOne} from '@mattermost/types/utilities';
+import {DeepPartial, RelationOneToOne, ValueOf} from '@mattermost/types/utilities';
 import {ProductNotices} from '@mattermost/types/product_notices';
 import {
     DataRetentionCustomPolicies,
@@ -3839,6 +3851,13 @@ export default class Client4 {
     getIntegrationsUsage = () => {
         return this.doFetch<IntegrationsUsage>(
             `${this.getUsageRoute()}/integrations`, {method: 'get'},
+        );
+    };
+
+    bootstrapSelfHostedSignup = () => {
+        return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
+            `${this.getCloudRoute()}/self-hosted-bootstrap`,
+            {method: 'post'},
         );
     };
 
