@@ -63,13 +63,13 @@
         font-style: normal;
     }
 
-    .text-selected {
+    #text-selected {
         color: var(--denim-button-bg);
         font-weight: 600;
         line-height: 18px;
     }
 
-    .text-unselected {
+    #text-unselected {
         color: var(--center-channel-text);
         font-weight: 500;
         line-height: 17px;

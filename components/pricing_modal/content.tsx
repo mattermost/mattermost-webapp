@@ -151,8 +151,8 @@ function Content(props: ContentProps) {
     const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
     const [isMonthlyPlan, setIsMonthlyPlan] = useState(true);
 
+    // Set professional price
     const updateProfessionalPrice = (newIsMonthly: boolean) => {
-        // Monthly subscription price
         if (newIsMonthly && monthlyProfessionalProduct) {
             setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
             setIsMonthlyPlan(true);

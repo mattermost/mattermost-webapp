@@ -7,6 +7,7 @@ import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 import {Stripe} from '@stripe/stripe-js';
 
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
+import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getClientConfig} from 'mattermost-redux/actions/general';
 import {getCloudProducts, getCloudSubscription, getInvoices} from 'mattermost-redux/actions/cloud';
 import {Action} from 'mattermost-redux/types/actions';
@@ -49,7 +50,7 @@ function mapStateToProps(state: GlobalState) {
         theme: getTheme(state),
         isDelinquencyModal,
         annualSubscription: getFeatureFlagValue(state, 'AnnualSubscription') === 'true',
-        usersCount: Number(state.entities.admin.analytics!.TOTAL_USERS) || 1,
+        usersCount: Number(getAdminAnalytics(state)!.TOTAL_USERS) || 1,
     };
 }
 type Actions = {
