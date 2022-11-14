@@ -207,7 +207,7 @@ function Card(props: CardProps) {
     const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
     const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
     const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
-    const [displayPrice, setDisplayPrice] = useState(props.price);
+    const [displayPrice, setDisplayPrice] = useState(props.isInitialPlanMonthly ? props.monthlyPrice : props.yearlyPrice);
     const [errorMessage, setErrorMessage] = useState('');
 
     const {formatMessage} = props.intl;
