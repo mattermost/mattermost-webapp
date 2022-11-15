@@ -38,7 +38,7 @@
 
     &__reset-btn {
         display: flex;
-        padding: 5px 12px;
+        padding: 5px 8px;
         border: none;
         background: transparent;
         border-radius: 4px;
@@ -78,12 +78,6 @@
             border: 2px solid var(--sidebar-text-active-border);
             box-shadow: none;
         }
-
-        &:disabled {
-            background: rgba(var(--center-channel-color-rgb), 0.08);
-            color: rgba(var(--center-channel-color-rgb), 0.32);
-            cursor: not-allowed;
-        }
     }
 
     &__cancel-btn {
@@ -100,13 +94,6 @@
         &:hover,
         &:active {
             background: rgba(var(--button-bg-rgb), 0.12);
-        }
-
-        &:focus {
-            box-sizing: border-box;
-            padding: 10px 18px;
-            border: 2px solid var(--sidebar-text-active-border);
-            box-shadow: none;
         }
     }
 

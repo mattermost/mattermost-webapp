@@ -5,8 +5,6 @@ import React, {useCallback, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import classNames from 'classnames';
-
 import {BellOffOutlineIcon, RefreshIcon} from '@mattermost/compass-icons/components';
 
 import ModalHeader from 'components/widgets/modals/generic/modal_header';
@@ -112,7 +110,6 @@ export default function ChannelNotificationsModal(props: Props) {
     const {formatMessage} = useIntl();
     const [show, setShow] = useState(true);
     const [serverError, setServerError] = useState('');
-    const [haveChanges, setHaveChanges] = useState(false);
     const [channelNotifyProps] = useState(props.channelMember && props.channelMember.notify_props);
     const [mobileSettingsSameAsDesktop, setMobileSettingsSameAsDesktop] = useState<boolean>(getUseSameDesktopSetting(props.currentUser.notify_props, channelNotifyProps));
 
@@ -138,13 +135,11 @@ export default function ChannelNotificationsModal(props: Props) {
 
     const handleChange = useCallback((values: Record<string, string>) => {
         setSettings({...settings, ...values});
-        setHaveChanges(true);
     }, [settings]);
 
     const handleMobileSettingsChange = useCallback(() => {
         setMobileSettingsSameAsDesktop(!mobileSettingsSameAsDesktop);
         setSettings({...settings, push: settings.desktop, push_threads: settings.desktop_threads});
-        setHaveChanges(true);
     }, [mobileSettingsSameAsDesktop, settings]);
 
     const MuteIgnoreSectionContent = (
@@ -268,13 +263,6 @@ export default function ChannelNotificationsModal(props: Props) {
                 content={MobileNotificationsSectionContent}
                 titleSuffix={resetToDefaultBtn('push')}
             />
-
-            <div className='channel-notifications-settings-modal__divider'/>
-            <SectionCreator
-                title={AutoFollowThreadsTitle}
-                description={AutoFollowThreadsDesc}
-                content={AutoFollowThreadsSectionContent}
-            />
         </>
     ) : (
         <AlertBanner
@@ -325,6 +313,12 @@ export default function ChannelNotificationsModal(props: Props) {
                         content={MuteIgnoreSectionContent}
                     />
                     {settingsAndAlertBanner}
+                    <div className='channel-notifications-settings-modal__divider'/>
+                    <SectionCreator
+                        title={AutoFollowThreadsTitle}
+                        description={AutoFollowThreadsDesc}
+                        content={AutoFollowThreadsSectionContent}
+                    />
                 </div>
             </main>
             <footer className='channel-notifications-settings-modal__footer'>
@@ -343,8 +337,7 @@ export default function ChannelNotificationsModal(props: Props) {
                     />
                 </button>
                 <button
-                    disabled={!haveChanges}
-                    className={classNames('channel-notifications-settings-modal__save-btn', {disabled: haveChanges})}
+                    className={'channel-notifications-settings-modal__save-btn'}
                     onClick={handleSave}
                 >
                     <FormattedMessage
