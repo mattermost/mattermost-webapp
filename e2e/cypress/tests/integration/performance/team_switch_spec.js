@@ -9,6 +9,7 @@
 
 // Stage: @prod
 // Group: @channel
+import {measure} from './utils.js'
 
 describe('Channel switch performance test', () => {
     let testUser;
@@ -27,32 +28,26 @@ describe('Channel switch performance test', () => {
         });
     });
 
-    it('measures switching between two teams from LHS', () => {
+    it('measures switching between two teams from LHS', async () => {
         // # Invoke window object
 
-        cy.window().
-            its('performance').then((performance) => {
-                // # Switch to Team 2
-                cy.get('#teamSidebarWrapper').within(() => {
-                    cy.get(`#${testTeam2.name}TeamButton`).click();
-                }).
-
-                // # Mark end of the load
-
-                    then(() => performance.mark('teamLoad')).
-                    then(() => {
-                        performance.measure('teamLoad');
-                        const measure = performance.getEntriesByName('teamLoad')[0];
-                        const duration = measure.duration;
-
-                        // * Verify the duration is less than the specified amount
-                        assert.isAtMost(duration, 5000);
-
-                        // # Log the performance
-                        cy.log(
-                            `[PERFORMANCE] Team switch: ${duration / 1000} seconds`,
-                        );
-                    });
+        await measure('teamLoad', 500, () => {
+            // # Switch to Team 2
+            cy.get('#teamSidebarWrapper').within(() => {
+                cy.get(`#${testTeam2.name}TeamButton`).click();
             });
+            // * Expect that the user has switched teams
+            expectActiveTeamToBe(testTeam2.display_name, testTeam2.name);
+        });
     });
 });
+
+const expectActiveTeamToBe = (title, url) => {
+    // * Expect channel title to match title passed in argument
+    cy.get('#sidebar-header-container').
+        should('be.visible').
+        and('contain.text', title);
+
+    // * Expect url to match url passed in argument
+    cy.url().should('contain', url);
+};

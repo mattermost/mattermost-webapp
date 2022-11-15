@@ -9,6 +9,8 @@
 
 // Stage: @prod
 // Group: @channel
+import { assert } from 'console';
+import {measure} from './utils.js'
 
 describe('Channel switch performance test', () => {
     let testUser;
@@ -23,31 +25,24 @@ describe('Channel switch performance test', () => {
         });
     });
 
-    it('measures switching between two channels from LHS', () => {
+    it('measures switching between two channels from LHS', async () => {
         // # Invoke window object
+        await measure('channelLoad', 500, () => {
+            // # Switch channel to Off-topic
 
-        cy.window().
-            its('performance').then((performance) => {
-                // # Switch channel to Off-topic
-
-                cy.get('#sidebarItem_off-topic').click({force: true}).
-
-                // # Mark end of the load
-
-                    then(() => performance.mark('channelLoad')).
-                    then(() => {
-                        performance.measure('channelLoad');
-                        const measure = performance.getEntriesByName('channelLoad')[0];
-                        const duration = measure.duration;
-
-                        // * Verify the duration is less than the specified amount
-                        assert.isAtMost(duration, 5000);
-
-                        // # Log the performance
-                        cy.log(
-                            `[PERFORMANCE] Channel switch: ${duration / 1000} seconds`,
-                        );
-                    });
-            });
+            cy.get('#sidebarItem_off-topic').click({force: true});
+            // * Expect that the user is now in Off-Topic
+            expectActiveChannelToBe('Off-Topic', '/off-topic');
+        });
     });
 });
+
+const expectActiveChannelToBe = (title, url) => {
+    // * Expect channel title to match title passed in argument
+    cy.get('#channelHeaderTitle').
+        should('be.visible').
+        and('contain.text', title);
+
+    // * Expect url to match url passed in argument
+    cy.url().should('contain', url);
+};
