@@ -154,7 +154,7 @@ async function uploadScreenshot(filePath, repo, branch, build) {
             return {code: err.code};
         }
 
-        return err.response && err.response.data;
+        return {error: 'Failed to upload a screenshot.'};
     }
 }
 
