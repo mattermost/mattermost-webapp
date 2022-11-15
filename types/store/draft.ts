@@ -16,5 +16,4 @@ export type PostDraft = {
     show?: boolean;
     remote?: boolean;
     fromServer?: boolean;
-    deletedFileIds?: string[];
 };
