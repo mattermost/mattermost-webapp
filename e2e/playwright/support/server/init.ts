@@ -2,10 +2,11 @@
 // See LICENSE.txt for license information.
 
 import path from 'path';
+import {expect} from '@playwright/test';
 
-import {PreferenceType} from '@mattermost/types/lib/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
-import testConfig from '@test.config';
+import testConfig from '@e2e-test.config';
 
 import {makeClient} from '.';
 import {getOnPremServerConfig} from './default_config';
@@ -15,22 +16,28 @@ import {createRandomUser} from './user';
 export async function initSetup({
     userPrefix = 'user',
     teamPrefix = {name: 'team', displayName: 'Team'},
-    withDefaultProfileImage = false,
+    withDefaultProfileImage = true,
 } = {}) {
     try {
         const {adminClient, adminUser} = await getAdminClient();
+        if (!adminClient) {
+            throw new Error("Failed to setup admin: Check that you're able to access the server using the same admin credential.");
+        }
 
         const adminConfig = await adminClient.updateConfig(getOnPremServerConfig());
 
         const team = await adminClient.createTeam(createRandomTeam(teamPrefix.name, teamPrefix.displayName));
 
         const randomUser = createRandomUser(userPrefix);
-        const user = await adminClient.createUser(randomUser);
+        const user = await adminClient.createUser(randomUser, '', '');
         user.password = randomUser.password;
 
         await adminClient.addToTeam(team.id, user.id);
 
         const {client: userClient} = await makeClient(user);
+        if (!userClient) {
+            throw new Error("Failed to setup user: Check that you're able to access the server using the same credential for user");
+        }
 
         if (withDefaultProfileImage) {
             const fullPath = path.join(path.resolve(__dirname), '../', 'fixtures/mattermost-icon_128x128.png');
@@ -56,6 +63,8 @@ export async function initSetup({
         // log an error for debugging
         // eslint-disable-next-line no-console
         console.log(err);
+        expect(err, 'Should not throw an error').toBeFalsy();
+        throw err;
     }
 }
 
@@ -72,6 +81,6 @@ export async function getAdminClient() {
     return {adminClient, adminUser, err};
 }
 
-function getUrl(teamName, channelName) {
+function getUrl(teamName: string, channelName: string) {
     return `/${teamName}/channels/${channelName}`;
 }
