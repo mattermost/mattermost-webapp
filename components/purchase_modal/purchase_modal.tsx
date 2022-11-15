@@ -27,7 +27,7 @@ import {
     ItemStatus,
     RecurringIntervals,
 } from 'utils/constants';
-import {findProductByID, findProductBySkuAndInterval} from 'utils/products';
+import {findProductByID} from 'utils/products';
 import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
 
 import Input from 'components/widgets/inputs/input/input';
@@ -92,7 +92,7 @@ type CardProps = {
     intl: IntlShape;
     isInitialPlanMonthly: boolean;
     updateIsMonthly: (isMonthly: boolean) => void;
-    updateUsersCount: (userCount: number) => void;
+    updateInputUserCount: (userCount: number) => void;
     setUserCountError: (hasError: boolean) => void;
 }
 
@@ -151,6 +151,7 @@ type State = {
     userCountError: boolean;
     isMonthly: boolean;
     usersCount: number;
+    inputUserCount: number;
 }
 
 /**
@@ -213,7 +214,7 @@ function Card(props: CardProps) {
     const [yearlyPrice, setYearlyPrice] = useState(props.yearlyPrice * props.usersCount);
     const [priceDifference, setPriceDifference] = useState((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
     const [isMonthly, setIsMonthly] = useState(props.isInitialPlanMonthly);
-    const [displayPrice, setDisplayPrice] = useState(props.price);
+    const [displayPrice, setDisplayPrice] = useState(props.isInitialPlanMonthly ? props.monthlyPrice : props.yearlyPrice);
     const [errorMessage, setErrorMessage] = useState('');
 
     const {formatMessage} = props.intl;
@@ -226,24 +227,32 @@ function Card(props: CardProps) {
         const value = event.target.value;
         const numValue = Number(value);
         if (value === '' || (numValue && checkValidNumber(numValue))) {
-            setUsersCount(numValue.toString());
+            if (value === '') {
+                setUsersCount('');
+            } else {
+                setUsersCount(numValue.toString());
+            }
             setMonthlyPrice(numValue * props.monthlyPrice);
             setYearlyPrice(numValue * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * numValue);
-            setUsersCount(numValue.toString());
+            props.updateInputUserCount(numValue);
         }
     };
 
     const updateDisplayPage = (isMonthly: boolean) => {
         setIsMonthly(isMonthly);
         if (isMonthly) {
-            setDisplayPrice(props.monthlyPrice.toString());
+            // Reset userCount to the number of users in the workspace
             setUsersCount(props.usersCount.toString());
+            props.updateInputUserCount(props.usersCount);
+
+            // Update display prices
+            setDisplayPrice(props.monthlyPrice);
             setMonthlyPrice(props.usersCount * props.monthlyPrice);
             setYearlyPrice(props.usersCount * props.yearlyPrice);
             setPriceDifference((props.monthlyPrice - props.yearlyPrice) * props.usersCount);
         } else {
-            setDisplayPrice(props.yearlyPrice.toString());
+            setDisplayPrice(props.yearlyPrice);
         }
     };
 
@@ -346,6 +355,7 @@ function Card(props: CardProps) {
                         placeholder={'User seats'}
                         wrapperClassName='user_seats'
                         inputClassName='user_seats'
+                        maxLength={String(Constants.MAX_PURCHASE_SEATS).length + 1}
                         customMessage={isValid() ? null : {
                             type: ItemStatus.ERROR,
                             value: errorMessage,
@@ -588,6 +598,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             userCountError: false,
             isMonthly: this.props.isInitialPlanMonthly,
             usersCount: this.props.usersCount,
+            inputUserCount: this.props.usersCount,
         };
     }
 
@@ -861,7 +872,6 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             }
 
             const crossSellsToProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
-            console.log(crossSellsToProduct)
             return crossSellsToProduct ? crossSellsToProduct.price_per_seat / 12 : 0;
         };
 
@@ -914,7 +924,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                     isInitialPlanMonthly={this.props.isInitialPlanMonthly}
                     setUserCountError={(hasError: boolean) => this.setState({userCountError: hasError})}
                     updateIsMonthly={(newIsMonthly: boolean) => this.setState({isMonthly: newIsMonthly})}
-                    updateUsersCount={(newUsersCount: number) => this.setState({usersCount: newUsersCount})}
+                    updateInputUserCount={(newUsersCount: number) => this.setState({inputUserCount: newUsersCount})}
                 />
             </>
         );
@@ -1056,7 +1066,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
                                         telemetryProps={{
                                             callerInfo: this.state.buttonClickedInfo,
                                         }}
-                                        usersCount={this.state.usersCount}
+                                        usersCount={this.state.inputUserCount}
                                     />
                                 </div>
                             ) : null}
