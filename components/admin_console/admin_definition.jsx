@@ -918,7 +918,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/install/desktop-managed-resources.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1130,7 +1129,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://www.mattermost.com/file-content-extraction'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1207,7 +1205,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2_instance-profiles.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1274,7 +1271,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/configure/configuration-settings.html#session-lengths'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1351,7 +1347,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deploy/image-proxy.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1833,7 +1828,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://mattermost.com/privacy-policy/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1910,7 +1904,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/metrics.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -1988,7 +1981,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://mattermost.com/pl/default-allow-untrusted-internal-connections'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2207,7 +2199,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='http://translate.mattermost.com/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2752,7 +2743,6 @@ const AdminDefinition = {
                             linkKnownIssues: (msg) => (
                                 <a
                                     href='ttps://support.mattermost.com/hc/en-us/articles/4413183568276'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2762,7 +2752,6 @@ const AdminDefinition = {
                             linkCommunityChannel: (msg) => (
                                 <a
                                     href='https://community-daily.mattermost.com/core/channels/folded-reply-threads'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2807,7 +2796,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://mattermost.com/pl/message-priority/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2853,7 +2841,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/messaging/sharing-messages.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2893,7 +2880,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/messaging/formatting-text.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2926,7 +2912,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://www.youtube.com/watch?v=Im69kzhpR3I'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -2946,7 +2931,6 @@ const AdminDefinition = {
             title: t('admin.sidebar.fileSharingDownloads'),
             title_default: 'File Sharing and Downloads',
             isHidden: it.any(
-                it.configIsTrue('ExperimentalSettings', 'RestrictSystemAdmin'),
                 it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.SITE.FILE_SHARING_AND_DOWNLOADS)),
             ),
             schema: {
@@ -3041,7 +3025,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/manage/in-product-notices.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3063,7 +3046,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/manage/in-product-notices.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3265,7 +3247,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/auth.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3296,7 +3277,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/auth.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -3650,7 +3630,6 @@ const AdminDefinition = {
                                     link: (msg) => (
                                         <a
                                             href='https://docs.mattermost.com/manage/command-line-tools.html#mattermost-ldap-idmigrate'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -3917,7 +3896,6 @@ const AdminDefinition = {
                                     link: (msg) => (
                                         <a
                                             href='https://mattermost.com/default-ldap-docs'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -3956,7 +3934,6 @@ const AdminDefinition = {
                                     link: (msg) => (
                                         <a
                                             href='https://mattermost.com/default-ldap-docs'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -4141,7 +4118,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='http://docs.mattermost.com/deployment/sso-saml.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -4162,7 +4138,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/onboard/ad-ldap.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -4202,7 +4177,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/sso-saml-ldapsync.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -4913,7 +4887,6 @@ const AdminDefinition = {
                                     linkLogin: (msg) => (
                                         <a
                                             href='https://accounts.google.com/login'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -4923,7 +4896,6 @@ const AdminDefinition = {
                                     linkConsole: (msg) => (
                                         <a
                                             href='https://console.developers.google.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -4933,7 +4905,6 @@ const AdminDefinition = {
                                     linkAPI: (msg) => (
                                         <a
                                             href='https://console.developers.google.com/apis/library/people.googleapis.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -4955,7 +4926,6 @@ const AdminDefinition = {
                                     linkLogin: (msg) => (
                                         <a
                                             href='https://login.microsoftonline.com/'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -4965,7 +4935,6 @@ const AdminDefinition = {
                                     linkTenant: (msg) => (
                                         <a
                                             href='https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -4975,7 +4944,6 @@ const AdminDefinition = {
                                     linkApps: (msg) => (
                                         <a
                                             href='https://apps.dev.microsoft.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5301,7 +5269,6 @@ const AdminDefinition = {
                                     linkLogin: (msg) => (
                                         <a
                                             href='https://accounts.google.com/login'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5311,7 +5278,6 @@ const AdminDefinition = {
                                     linkConsole: (msg) => (
                                         <a
                                             href='https://console.developers.google.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5321,7 +5287,6 @@ const AdminDefinition = {
                                     linkAPI: (msg) => (
                                         <a
                                             href='https://console.developers.google.com/apis/library/people.googleapis.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5342,7 +5307,6 @@ const AdminDefinition = {
                                     linkLogin: (msg) => (
                                         <a
                                             href='https://login.microsoftonline.com/'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5352,7 +5316,6 @@ const AdminDefinition = {
                                     linkTenant: (msg) => (
                                         <a
                                             href='https://msdn.microsoft.com/en-us/library/azure/jj573650.aspx#Anchor_0'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5362,7 +5325,6 @@ const AdminDefinition = {
                                     linkApps: (msg) => (
                                         <a
                                             href='https://apps.dev.microsoft.com'
-                                            referrer='noreferrer'
                                             target='_blank'
                                             rel='noreferrer'
                                         >
@@ -5681,7 +5643,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/auth.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5846,7 +5807,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5868,7 +5828,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5890,7 +5849,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-slash-commands/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5912,7 +5870,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-oauth2/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5953,7 +5910,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -5993,7 +5949,6 @@ const AdminDefinition = {
                             linkDocumentation: (msg) => (
                                 <a
                                     href='https://mattermost.com/pl/default-bot-accounts'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6057,7 +6012,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://developers.gfycat.com/signup/#'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6333,7 +6287,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/administration/compliance.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6601,7 +6554,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/deployment/certificate-based-authentication.html'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6664,7 +6616,6 @@ const AdminDefinition = {
                             link: (msg) => (
                                 <a
                                     href='https://docs.mattermost.com/administration/config-settings.html#enable-hardened-mode-experimental'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >
@@ -6826,7 +6777,6 @@ const AdminDefinition = {
                             linkSupport: (msg) => (
                                 <a
                                     href='https://mattermost.com/support'
-                                    referrer='noreferrer'
                                     target='_blank'
                                     rel='noreferrer'
                                 >

@@ -13,16 +13,17 @@ executors:
 aliases:
   - &restore_cache
     restore_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-10
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum "e2e/playwright/package-lock.json" }}-10
   - &save_cache
     save_cache:
-      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-10
+      key: dependencies-{{ .Branch }}-{{ checksum "package-lock.json" }}-{{ checksum "e2e/playwright/package-lock.json" }}-10
       paths:
         - ~/mattermost/mattermost-webapp/node_modules
         - ~/mattermost/mattermost-webapp/packages/client/lib
         - ~/mattermost/mattermost-webapp/packages/components/dist
         - ~/mattermost/mattermost-webapp/packages/components/node_modules
         - ~/mattermost/mattermost-webapp/packages/types/lib
+        - ~/mattermost/mattermost-webapp/e2e/playwright/node_modules
 
 jobs:
   install:
@@ -33,6 +34,7 @@ jobs:
       - checkout
       - run: |
           make node_modules
+          make e2e/playwright/node_modules
       - *save_cache
   check-deps:
     parameters:

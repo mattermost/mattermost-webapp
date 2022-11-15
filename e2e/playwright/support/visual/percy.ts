@@ -3,10 +3,10 @@
 
 import percySnapshot from '@percy/playwright';
 
-import testConfig, {TestArgs} from '@test.config';
+import testConfig, {TestArgs} from '@e2e-test.config';
 
 export default async function snapshotWithPercy(name: string, testArgs: TestArgs) {
-    if (testArgs.browserName === 'chromium' && testConfig.percyEnabled) {
+    if (testArgs.browserName === 'chromium' && testConfig.percyEnabled && testArgs.viewport) {
         if (!process.env.PERCY_TOKEN) {
             // eslint-disable-next-line no-console
             console.error('Error: Token is missing! Please set using: "export PERCY_TOKEN=<change_me>"');
@@ -14,6 +14,9 @@ export default async function snapshotWithPercy(name: string, testArgs: TestArgs
 
         const {page, viewport} = testArgs;
 
+        // Ignore since percy is using Playwright.Page
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         await percySnapshot(page, name, {widths: [viewport.width], minHeight: viewport.height});
     }
 }

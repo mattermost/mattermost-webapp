@@ -5,6 +5,8 @@ import React from 'react';
 import {shallow, mount} from 'enzyme';
 import {FormattedMessage, IntlProvider} from 'react-intl';
 
+import {MemoryRouter} from 'react-router-dom';
+
 import AlertBanner from 'components/alert_banner';
 import ExternalLoginButton from 'components/external_login_button/external_login_button';
 import LoadingScreen from 'components/loading_screen';
@@ -15,10 +17,12 @@ import SaveButton from 'components/save_button';
 
 import {RequestStatus} from 'mattermost-redux/constants';
 import {ActionFunc} from 'mattermost-redux/types/actions';
-import {ClientConfig} from '@mattermost/types/config';
+
 import LocalStorageStore from 'stores/local_storage_store';
 import {GlobalState} from 'types/store';
 import Constants, {WindowSizes} from 'utils/constants';
+
+import {ClientConfig} from '@mattermost/types/config';
 
 let mockState: GlobalState;
 let mockLocation = {pathname: '', search: '', hash: ''};
@@ -148,7 +152,7 @@ describe('components/login/Login', () => {
         mockConfig.EnableSignInWithEmail = 'true';
 
         const wrapper = mount(
-            <Login/>,
+            <MemoryRouter><Login/></MemoryRouter>,
         );
 
         const alertBanner = wrapper.find(AlertBanner).first();
@@ -171,7 +175,9 @@ describe('components/login/Login', () => {
 
         const wrapper = mount(
             <IntlProvider {...intlProviderProps}>
-                <Login/>
+                <MemoryRouter>
+                    <Login/>
+                </MemoryRouter>
             </IntlProvider>,
         );
 
@@ -204,7 +210,9 @@ describe('components/login/Login', () => {
         mockConfig.EnableSignInWithEmail = 'true';
 
         const wrapper = mount(
-            <Login/>,
+            <MemoryRouter>
+                <Login/>
+            </MemoryRouter>,
         );
 
         expect(LocalStorageStore.getWasLoggedIn()).toEqual(false);
@@ -223,7 +231,9 @@ describe('components/login/Login', () => {
         mockConfig.EnableSignInWithEmail = 'true';
 
         const wrapper = mount(
-            <Login/>,
+            <MemoryRouter>
+                <Login/>
+            </MemoryRouter>,
         );
 
         let alertBanner = wrapper.find(AlertBanner).first();
