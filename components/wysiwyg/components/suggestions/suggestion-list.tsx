@@ -4,25 +4,32 @@
 // disabling this linter rule since it will show errors with the forwardRef
 /* eslint-disable react/prop-types */
 import React, {
-    forwardRef,
+    forwardRef, Fragment,
     useEffect,
     useImperativeHandle, useLayoutEffect,
     useState,
 } from 'react';
 import {createPortal} from 'react-dom';
 import {SuggestionProps} from '@tiptap/suggestion';
-import {useFloating, autoUpdate, offset, flip, shift} from '@floating-ui/react-dom';
+import {useFloating, autoUpdate, offset, flip, shift, size} from '@floating-ui/react-dom';
+import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
+
+import {MentionGroupTitle} from './at-mention_items';
 
 const ListContainer = styled.div`
     display: flex;
     flex-direction: column;
+
     padding: 6px 0;
-    background: rgb(var(--center-channel-bg-rgb));
+    max-width: 496px;
+    z-index: 100;
+
+    overflow-x: hidden;
+    overflow-y: auto;
+
     border-radius: 4px;
-
-    max-width: 250px;
-
+    background: rgb(var(--center-channel-bg-rgb));
     box-shadow: 0 0 8px 2px rgba(0,0,0,0.12);
 `;
 
@@ -31,18 +38,11 @@ type ListItemProps = {
 };
 
 const ListItem = styled.div<ListItemProps>`
-    appearance: none;
-    padding: 8px;
-    color: rgb(var(--center-channel-color-rgb));
-    font-weight: bold;
-
-    min-width: 150px;
-    max-width: 100%;
-
-    overflow: hidden;
-    text-overflow: ellipsis;
-
     background-color: ${({selected}) => (selected ? 'rgb(var(--button-bg-rgb), 0.08)' : 'transparent')};
+
+    &:hover {
+      background-color: rgb(var(--center-channel-color-rgb), 0.08);
+    }
 `;
 
 export type SuggestionListRef = {
@@ -51,11 +51,13 @@ export type SuggestionListRef = {
 
 export type SuggestionItem = {
     id: string;
-    label: string;
+    type?: string;
+    content?: JSX.Element | null;
 }
 
 export type SuggestionListProps = Pick<SuggestionProps<SuggestionItem>, 'items' | 'command' | 'decorationNode'> & {
     visible: boolean;
+    renderSeparators: boolean;
 };
 
 /**
@@ -70,7 +72,7 @@ export type SuggestionListProps = Pick<SuggestionProps<SuggestionItem>, 'items' 
  * related codesandbox:
  * @see: https://codesandbox.io/s/recursing-curran-q9uueb?file=/src/components/ControlledBubbleMenu.jsx
  */
-const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({items, command, decorationNode, visible}: SuggestionListProps, ref) => {
+const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({items, command, decorationNode, visible, renderSeparators}: SuggestionListProps, ref) => {
     const [selectedIndex, setSelectedIndex] = useState(0);
 
     const {x, y, reference, floating, strategy, refs, update} = useFloating({
@@ -78,6 +80,13 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
         whileElementsMounted: autoUpdate,
         placement: 'top-start',
         middleware: [
+            size({
+                apply({availableHeight, elements}) {
+                    Object.assign(elements.floating.style, {
+                        maxHeight: `${availableHeight - 48}px`,
+                    });
+                },
+            }),
             flip({
                 padding: 8,
                 fallbackPlacements: [
@@ -145,28 +154,34 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
         return autoUpdate(refs.reference.current, refs.floating.current, update);
     }, [refs.reference, refs.floating, update]);
 
+    const floatingStyle: React.CSSProperties = {
+        visibility: visible ? 'visible' : 'hidden',
+        position: strategy,
+        top: y ?? '',
+        left: x ?? '',
+    };
+
     return createPortal(
-        <div
+        <ListContainer
             ref={floating}
-            style={{
-                visibility: visible ? 'visible' : 'hidden',
-                position: strategy,
-                top: y ?? '',
-                left: x ?? '',
-            }}
+            style={floatingStyle}
         >
-            <ListContainer>
-                {items.length ? items.map(({id, label}, index) => (
+            {items.length ? items.map(({id, content, type}, index) => (
+                <Fragment key={id}>
+                    {renderSeparators && type && type !== items[index - 1]?.type && (
+                        <MentionGroupTitle>
+                            <FormattedMessage id={`suggestion.mention.${type}`}/>
+                        </MentionGroupTitle>
+                    )}
                     <ListItem
-                        key={id}
                         selected={index === selectedIndex}
                         onClick={() => selectItem(index)}
                     >
-                        {label}
+                        {content}
                     </ListItem>
-                )) : <ListItem>{'No result'}</ListItem>}
-            </ListContainer>
-        </div>,
+                </Fragment>
+            )) : <ListItem>{'No result'}</ListItem>}
+        </ListContainer>,
         document.body,
     );
 });

@@ -1,7 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useRef} from 'react';
+import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
@@ -38,12 +41,14 @@ import {ActionTypes} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
 
+import {RenderedMention} from './components/suggestions/at-mention_items';
+
 import {htmlToMarkdown} from './utils/toMarkdown';
 
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
-import {UserSuggestions, ChannelSuggestions, EmojiSuggestions} from './components/suggestions';
+import {AtMentionSuggestions, ChannelSuggestions, EmojiSuggestions, makeAtMentionSuggestion} from './components/suggestions';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -143,6 +148,7 @@ type Props = {
 export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
+    const teamId = useSelector(getCurrentTeamId);
 
     const editor = useEditor({
         extensions: [
@@ -203,7 +209,13 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     defaultLanguage: 'css',
                 }),
             PasteHandler,
-            UserSuggestions,
+            AtMentionSuggestions.extend({
+                addNodeView() {
+                    return renderReactNodeView(RenderedMention);
+                },
+            }).configure({
+                suggestion: makeAtMentionSuggestion(teamId, channelId),
+            }),
             ChannelSuggestions,
             EmojiSuggestions,
         ],
