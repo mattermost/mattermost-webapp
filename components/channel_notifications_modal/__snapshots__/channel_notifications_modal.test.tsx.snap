@@ -317,6 +317,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
     </button>
     <button
       className="channel-notifications-settings-modal__save-btn"
+      disabled={true}
       onClick={[Function]}
     >
       <MemoizedFormattedMessage

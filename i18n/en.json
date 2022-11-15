@@ -2961,7 +2961,7 @@
   "channel_notifications.NotifyMeTitle": "Notify me about…",
   "channel_notifications.preferences": "Notification Preferences",
   "channel_notifications.resetToDefault": "Reset to default",
-  "channel_notifications.ThreadsReplyTitle": "Notify me about replies to threads I’m following",
+  "channel_notifications.ThreadsReplyTitle": "Thread reply notifications",
   "channel_select.placeholder": "--- Select a channel ---",
   "channel_switch_modal.deactivated": "Deactivated",
   "channel_toggle_button.private": "Private",

@@ -1,15 +1,15 @@
 .mm-modal-header {
     display: flex;
     align-items: center;
-    padding: 24px 32px;
-    border-bottom: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+    padding: 20px 20px 20px 32px;
+    border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     background: none;
     gap: 8px;
 
     &__title {
         padding: 0;
         margin: 0;
-        color: var(--center-channel-text);
+        color: var(--center-channel-color);
         font-family: 'Metropolis', serif;
         font-size: 22px;
         font-style: normal;
@@ -20,14 +20,14 @@
     &__vertical-divider {
         width: 1px;
         height: 24px;
-        background: rgba(var(--center-channel-text-rgb), 0.16);
+        background: rgba(var(--center-channel-color-rgb), 0.16);
     }
 
     &__subtitle {
         overflow: hidden;
         padding: 0;
         margin: 0;
-        color: rgba(var(--center-channel-text-rgb), 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         font-family: inherit;
         font-size: 12px;
         font-style: normal;
@@ -42,7 +42,7 @@
         flex: 1 1 auto;
         align-items: center;
         justify-content: flex-end;
-        color: rgba(var(--center-channel-text-rgb), 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
         gap: 24px;
     }
 
@@ -57,11 +57,11 @@
         margin-left: 8px;
         background: transparent;
         border-radius: 4px;
-        color: rgba(var(--center-channel-text-rgb), 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
 
         &:hover,
         &.active {
-            background: rgba(var(--center-channel-text-rgb), 0.16);
+            background: rgba(var(--center-channel-color-rgb), 0.16);
         }
     }
 

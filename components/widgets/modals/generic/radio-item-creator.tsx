@@ -34,9 +34,9 @@ function RadioItemCreator({
 }: Props): JSX.Element {
     const fields = inputFieldData.options.map((option) => {
         return (
-            <div
+            <label
                 key={option.key}
-                className='mm-modal-generic-section-item__fieldset-radio'
+                className='mm-modal-generic-section-item__label-radio'
             >
                 <input
                     id={option.key}
@@ -52,13 +52,13 @@ function RadioItemCreator({
                     defaultMessage={option.title.defaultMessage}
                 />
                 {option.suffix}
-            </div>
+            </label>
         );
     });
 
     const content = (
         <>
-            <fieldset className='mm-modal-generic-section-item__fieldset-radio-ctr'>
+            <fieldset className='mm-modal-generic-section-item__fieldset-radio'>
                 {[...fields]}
             </fieldset>
         </>

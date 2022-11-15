@@ -30,20 +30,22 @@ function CheckboxItemCreator({
     const content = (
         <fieldset
             key={inputFieldData.name}
-            className='mm-modal-generic-section-item__fieldset-checkbox'
+            className='mm-modal-generic-section-item__fieldset-checkbox-ctr'
         >
-            <input
-                className='mm-modal-generic-section-item__input-checkbox'
-                data-testid={inputFieldData.dataTestId}
-                type='checkbox'
-                name={inputFieldData.name}
-                checked={inputFieldValue}
-                onChange={(e) => handleChange(e.target.checked)}
-            />
-            <FormattedMessage
-                id={inputFieldData.title.id}
-                defaultMessage={inputFieldData.title.defaultMessage}
-            />
+            <label className='mm-modal-generic-section-item__fieldset-checkbox'>
+                <input
+                    className='mm-modal-generic-section-item__input-checkbox'
+                    data-testid={inputFieldData.dataTestId}
+                    type='checkbox'
+                    name={inputFieldData.name}
+                    checked={inputFieldValue}
+                    onChange={(e) => handleChange(e.target.checked)}
+                />
+                <FormattedMessage
+                    id={inputFieldData.title.id}
+                    defaultMessage={inputFieldData.title.defaultMessage}
+                />
+            </label>
             <br/>
         </fieldset>
     );

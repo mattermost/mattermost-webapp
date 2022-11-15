@@ -343,6 +343,7 @@ export default function ChannelNotificationsModal(props: Props) {
                     />
                 </button>
                 <button
+                    disabled={!haveChanges}
                     className={classNames('channel-notifications-settings-modal__save-btn', {disabled: haveChanges})}
                     onClick={handleSave}
                 >
