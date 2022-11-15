@@ -14,6 +14,7 @@ import {
     AutoTourStatus,
     FINISHED,
     OnboardingTourSteps,
+    OnboardingTourStepsForGuestUsers,
     TTNameMapToATStatusKey,
     TutorialTourName,
 } from 'components/tours';
@@ -21,7 +22,10 @@ import LearnMoreTrialModal from 'components/learn_more_trial_modal/learn_more_tr
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
-import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {
+    isReduceOnBoardingTaskList,
+    makeGetCategory,
+} from 'mattermost-redux/selectors/entities/preferences';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {isCurrentUserGuestUser, isCurrentUserSystemAdmin, isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
 
@@ -105,6 +109,9 @@ export const useTasksList = () => {
     const isUserAdmin = useSelector((state: GlobalState) => isCurrentUserSystemAdmin(state));
     const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const isUserFirstAdmin = useSelector(isFirstAdmin);
+    const isThinOnBoardingTaskList = useSelector((state: GlobalState) => {
+        return isReduceOnBoardingTaskList(state);
+    });
 
     // Cloud conditions
     const subscription = useSelector((state: GlobalState) => state.entities.cloud.subscription);
@@ -145,6 +152,11 @@ export const useTasksList = () => {
         delete list.INVITE_PEOPLE;
     }
 
+    if (isThinOnBoardingTaskList) {
+        delete list.DOWNLOAD_APP;
+        delete list.COMPLETE_YOUR_PROFILE;
+        delete list.VISIT_SYSTEM_CONSOLE;
+    }
     return Object.values(list);
 };
 
@@ -203,6 +215,7 @@ export const useHandleOnBoardingTaskTrigger = () => {
 
     const handleSaveData = useHandleOnBoardingTaskData();
     const currentUserId = useSelector(getCurrentUserId);
+    const isGuestUser = useSelector((state: GlobalState) => isCurrentUserGuestUser(state));
     const inAdminConsole = matchPath(pathname, {path: '/admin_console'}) != null;
     const inChannels = matchPath(pathname, {path: '/:team/channels/:chanelId'}) != null;
     const pluginsList = useSelector((state: GlobalState) => state.plugins.plugins);
@@ -218,7 +231,9 @@ export const useHandleOnBoardingTaskTrigger = () => {
                     user_id: currentUserId,
                     category: tourCategory,
                     name: currentUserId,
-                    value: OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES.toString(),
+
+                    // use SEND_MESSAGE when user is guest (channel creation and invitation are restricted), so only message box and the configure tips are shown
+                    value: isGuestUser ? OnboardingTourStepsForGuestUsers.SEND_MESSAGE.toString() : OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES.toString(),
                 },
                 {
                     user_id: currentUserId,
