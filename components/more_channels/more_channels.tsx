@@ -264,7 +264,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
             );
         };
 
-        const createChannelHelpText = (
+        const noResultsText = (
             <>
                 <p className='secondary-message'>
                     <FormattedMessage
@@ -285,7 +285,7 @@ export default class MoreChannels extends React.PureComponent<Props, State> {
                     isSearch={search}
                     search={this.search}
                     handleJoin={this.handleJoin}
-                    noResultsText={createChannelHelpText}
+                    noResultsText={noResultsText}
                     loading={search ? searching : channelsRequestStarted}
                     toggleArchivedChannels={this.toggleArchivedChannels}
                     shouldShowArchivedChannels={this.state.shouldShowArchivedChannels}

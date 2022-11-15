@@ -46,8 +46,8 @@ export default class SearchableChannelList extends React.PureComponent {
             joiningChannel: '',
             page: 0,
             nextDisabled: false,
-            rememberChecked: BrowserStore.getItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false') === 'true',
-            channelName: '',
+            rememberHideJoinedChannelsChecked: BrowserStore.getItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false') === 'true',
+            channelSearchValue: '',
         };
 
         this.filter = React.createRef();
@@ -81,7 +81,7 @@ export default class SearchableChannelList extends React.PureComponent {
 
     createChannelRow = (channel) => {
         const ariaLabel = `${channel.display_name}, ${channel.purpose}`.toLowerCase();
-        let channelIcon;
+        let channelTypeIcon;
 
         let memberCount = 0;
         if (this.props.allChannelStats[channel.id]) {
@@ -89,11 +89,11 @@ export default class SearchableChannelList extends React.PureComponent {
         }
 
         if (isArchivedChannel(channel)) {
-            channelIcon = <ArchiveOutlineIcon size={18}/>;
+            channelTypeIcon = <ArchiveOutlineIcon size={18}/>;
         } else if (isPrivateChannel(channel)) {
-            channelIcon = <LockOutlineIcon size={18}/>;
+            channelTypeIcon = <LockOutlineIcon size={18}/>;
         } else {
-            channelIcon = <GlobeIcon size={18}/>;
+            channelTypeIcon = <GlobeIcon size={18}/>;
         }
 
         const membershipIndicator = this.isMemberOfChannel(channel.id) ? (
@@ -152,7 +152,7 @@ export default class SearchableChannelList extends React.PureComponent {
                         aria-label={ariaLabel}
                         className='style--none more-modal__name'
                     >
-                        {channelIcon}
+                        {channelTypeIcon}
                         <span id='channelName'>{channel.display_name}</span>
                     </div>
                     {channelPurposeContainer}
@@ -179,20 +179,20 @@ export default class SearchableChannelList extends React.PureComponent {
     }
 
     doSearch = () => {
-        this.props.search(this.state.channelName);
-        if (this.state.channelName === '') {
+        this.props.search(this.state.channelSearchValue);
+        if (this.state.channelSearchValue === '') {
             this.setState({page: 0});
         }
     }
 
     handleChange = (e) => {
         if (e.target) {
-            this.setState({channelName: e.target.value}, () => this.doSearch());
+            this.setState({channelSearchValue: e.target.value}, () => this.doSearch());
         }
     }
 
     handleClear = () => {
-        this.setState({channelName: ''}, () => this.doSearch());
+        this.setState({channelSearchValue: ''}, () => this.doSearch());
     }
 
     toggleArchivedChannelsOn = () => {
@@ -203,25 +203,16 @@ export default class SearchableChannelList extends React.PureComponent {
         this.props.toggleArchivedChannels(false);
     }
 
-    renderCheckboxIcon = () => {
-        if (this.state.rememberChecked) {
-            return (
-                <CheckboxCheckedIcon/>
-            );
-        }
-        return null;
-    };
-
     handleChecked = () => {
         // If it was checked, and now we're unchecking it, clear the preference
-        if (this.state.rememberChecked) {
+        if (this.state.rememberHideJoinedChannelsChecked) {
             BrowserStore.setItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'false');
             this.props.hideJoinedChannelsPreference(false);
         } else {
             BrowserStore.setItem(StoragePrefixes.HIDE_JOINED_CHANNELS, 'true');
             this.props.hideJoinedChannelsPreference(true);
         }
-        this.setState({rememberChecked: !this.state.rememberChecked});
+        this.setState({rememberHideJoinedChannelsChecked: !this.state.rememberHideJoinedChannelsChecked});
     }
 
     render() {
@@ -238,14 +229,14 @@ export default class SearchableChannelList extends React.PureComponent {
             />
         );
 
-        if (this.state.channelName.length > 0) {
+        if (this.state.channelSearchValue.length > 0) {
             emptyStateMessage = (
                 <FormattedMessage
                     id='more_channels.noMore'
                     tagName='strong'
                     defaultMessage='No results for {text}'
                     values={{
-                        text: this.state.channelName,
+                        text: this.state.channelSearchValue,
                     }}
                 />
             );
@@ -316,7 +307,7 @@ export default class SearchableChannelList extends React.PureComponent {
                     onInput={this.handleChange}
                     clearable={true}
                     onClear={this.handleClear}
-                    value={this.state.channelName}
+                    value={this.state.channelSearchValue}
                 />
             </div>
         );
@@ -368,10 +359,10 @@ export default class SearchableChannelList extends React.PureComponent {
         const hideJoinedPreferenceCheckbox = (
             <div className='d-flex align-items-center'>
                 <button
-                    className={`get-app__checkbox ${this.state.rememberChecked ? 'checked' : ''}`}
+                    className={`get-app__checkbox ${this.state.rememberHideJoinedChannelsChecked ? 'checked' : ''}`}
                     onClick={this.handleChecked}
                 >
-                    {this.renderCheckboxIcon()}
+                    {this.state.rememberHideJoinedChannelsChecked ? <CheckboxCheckedIcon/> : null}
                 </button>
                 <FormattedMessage
                     id='more_channels.hide_joined'
