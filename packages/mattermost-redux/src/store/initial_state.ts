@@ -236,6 +236,9 @@ const state: GlobalState = {
             topReactions: {},
             myTopReactions: {},
         },
+        voice: {
+            isRecordingModalOpened: false,
+        },
     },
     errors: [],
     requests: {

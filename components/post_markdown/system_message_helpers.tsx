@@ -16,6 +16,8 @@ import Markdown from 'components/markdown';
 import CombinedSystemMessage from 'components/post_view/combined_system_message';
 import PostAddChannelMember from 'components/post_view/post_add_channel_member';
 
+import VoiceMessage from 'components/recorder/post_type';
+
 function renderUsername(value: string): ReactNode {
     const username = (value[0] === '@') ? value : `@${value}`;
 
@@ -353,6 +355,12 @@ function renderChannelUnarchivedMessage(post: Post): ReactNode {
     );
 }
 
+function renderVoiceMessage(post: Post): ReactNode {
+    return (
+        <VoiceMessage post={post}/>
+    );
+}
+
 function renderMeMessage(post: Post): ReactNode {
     // Trim off the leading and trailing asterisk added to /me messages
     const message = post.message.replace(/^\*|\*$/g, '');
@@ -378,6 +386,7 @@ const systemMessageRenderers = {
     [Posts.POST_TYPES.CHANNEL_DELETED]: renderChannelDeletedMessage,
     [Posts.POST_TYPES.CHANNEL_UNARCHIVED]: renderChannelUnarchivedMessage,
     [Posts.POST_TYPES.ME]: renderMeMessage,
+    [Posts.POST_TYPES.VOICE]: renderVoiceMessage,
 };
 
 export function renderSystemMessage(post: Post, channel: Channel, isUserCanManageMembers?: boolean): ReactNode {

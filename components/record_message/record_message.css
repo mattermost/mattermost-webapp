@@ -1,0 +1,13 @@
+span.voice-recording-icon {
+  opacity: 1;
+  animation: fade 2s infinite;
+}
+
+button.voice-recording-button:hover {
+  text-decoration: underline;
+}
+
+@keyframes fade {
+  0%,100% { opacity: 0.1 }
+  50% { opacity: 1 }
+}

@@ -43,6 +43,7 @@ import {isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general'
 
 import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
 import {trackEvent} from './telemetry_actions';
+import { startRecording } from 'mattermost-redux/actions/voice';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -144,6 +145,10 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         case '/expand':
             dispatch(PostActions.resetEmbedVisibility());
             dispatch(PostActions.resetInlineImageVisibility());
+            return {data: true};
+        case '/voice':
+            dispatch(startRecording());
+            return {data: true};
         }
 
         if (appsEnabled(state)) {

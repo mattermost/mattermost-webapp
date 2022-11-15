@@ -159,6 +159,8 @@ export type Props = {
          * Function to be called to upload file
          */
         uploadFile: ({file, name, type, rootId, channelId, clientId, onProgress, onSuccess, onError}: UploadFile) => XMLHttpRequest;
+
+        startRecording(): () => void;
     };
 };
 
@@ -592,6 +594,64 @@ export class FileUpload extends PureComponent<Props, State> {
         let bodyAction;
         const buttonAriaLabel = formatMessage({id: 'accessibility.button.attachment', defaultMessage: 'attachment'});
         const iconAriaLabel = formatMessage({id: 'generic_icons.attach', defaultMessage: 'Attachment Icon'});
+        const menuAriaLabel = formatMessage({id: 'upload_menu.menu', defaultMessage: 'Upload Menu'});
+        const recordMessage = formatMessage({id: 'upload_menu.record', defaultMessage: 'Record Voice Message'});
+        const uploadMessage = formatMessage({id: 'upload_menu.files', defaultMessage: 'Upload Files'});
+
+        const menu = (
+            <MenuWrapper
+                className={'AdvancedTextEditor__action-button'}
+                isDisabled={false}
+                stopPropagationOnToggle={true}
+            >
+                <button
+                    type='button'
+                    id='fileUploadButton'
+                    aria-label={buttonAriaLabel}
+                    className={classNames('style--none AdvancedTextEditor__action-button', {
+                        disabled: uploadsRemaining <= 0,
+                    })}
+                >
+                    <PaperclipIcon
+                        size={18}
+                        color={'currentColor'}
+                        aria-label={iconAriaLabel}
+                    />
+                </button>
+                <Menu
+                    openLeft={true}
+                    openUp={true}
+                    className={'group-actions-menu'}
+                    ariaLabel={menuAriaLabel}
+                >
+                    <Menu.Group>
+                        <Menu.ItemAction
+                            onClick={() => this.props.actions.startRecording()}
+                            icon={
+                                <i
+                                    className='icon fa fa-microphone'
+                                />
+                            }
+                            text={recordMessage}
+                            disabled={false}
+                        />
+                        <Menu.ItemAction
+                            onClick={this.simulateInputClick}
+                            onTouchEnd={this.simulateInputClick}
+                            icon={
+                                <PaperclipIcon
+                                    size={18}
+                                    color={'currentColor'}
+                                    aria-label={iconAriaLabel}
+                                />
+                            }
+                            text={uploadMessage}
+                            disabled={false}
+                        />
+                    </Menu.Group>
+                </Menu>
+            </MenuWrapper>
+        );
 
         if (this.props.pluginFileUploadMethods.length === 0) {
             bodyAction = (
@@ -610,25 +670,11 @@ export class FileUpload extends PureComponent<Props, State> {
                             </Tooltip>
                         }
                     >
-                        <button
-                            type='button'
-                            id='fileUploadButton'
-                            aria-label={buttonAriaLabel}
-                            className={classNames('style--none AdvancedTextEditor__action-button', {
-                                disabled: uploadsRemaining <= 0,
-                            })}
-                            onClick={this.simulateInputClick}
-                            onTouchEnd={this.simulateInputClick}
-                        >
-                            <PaperclipIcon
-                                size={18}
-                                color={'currentColor'}
-                                aria-label={iconAriaLabel}
-                            />
-                        </button>
+                        {menu}
                     </OverlayTrigger>
                     <input
                         id='fileUploadInput'
+                        className='___action-button'
                         tabIndex={-1}
                         aria-label={formatMessage(holders.uploadFile)}
                         ref={this.fileInput}
@@ -689,18 +735,7 @@ export class FileUpload extends PureComponent<Props, State> {
                                 </Tooltip>
                             }
                         >
-                            <button
-                                type='button'
-                                id='fileUploadButton'
-                                aria-label={buttonAriaLabel}
-                                className='style--none AdvancedTextEditor__action-button'
-                            >
-                                <PaperclipIcon
-                                    size={18}
-                                    color={'currentColor'}
-                                    aria-label={iconAriaLabel}
-                                />
-                            </button>
+                            {menu}
                         </OverlayTrigger>
                         <Menu
                             id='fileUploadOptions'

@@ -11,6 +11,7 @@ import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AdvancedCreatePost from 'components/advanced_create_post';
+import Recorder from 'components/recorder';
 
 import type {PropsFromRedux} from './index';
 
@@ -166,6 +167,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                 className='app__content'
             >
                 <FileUploadOverlay overlayType='center'/>
+                <Recorder/>
                 <ChannelHeader
                     {...this.props}
                 />

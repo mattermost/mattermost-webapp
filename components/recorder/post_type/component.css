@@ -1,0 +1,23 @@
+div.voice-player {
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 4px;
+  border-radius: 4px;
+  margin: 2px 0;
+}
+
+progress.voice-player-progress {
+  border-radius: 1px;
+  height: 0.4em;
+  padding: 0;
+  width: 80px;
+  margin: 0 8px;
+}
+
+button.voice-player-playbutton {
+  padding: 0;
+  background: none;
+  border: none;
+  outline: inherit;
+}

@@ -13,6 +13,8 @@ import {canUploadFiles} from 'utils/file_utils';
 import {FilesWillUploadHook} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
+import {startRecording} from 'mattermost-redux/actions/voice';
+
 import FileUpload, {Props} from './file_upload';
 
 function mapStateToProps(state: GlobalState) {
@@ -32,6 +34,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<any>, Props['actions']>({
             uploadFile,
+            startRecording,
         }, dispatch),
     };
 }

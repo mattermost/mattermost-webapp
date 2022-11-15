@@ -117,6 +117,7 @@ import {CompleteOnboardingRequest} from '@mattermost/types/setup';
 
 import {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
 import {LeastActiveChannelsResponse, TopChannelResponse, TopReactionResponse, TopThreadResponse, TopDMsResponse} from '@mattermost/types/insights';
+import {VoiceRecord} from '@mattermost/types/voice';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -1915,6 +1916,14 @@ export default class Client4 {
         return result;
     };
 
+    createVoiceRecord = async (record: VoiceRecord) => {
+        const result = await this.doFetch<Post>(
+            `${this.getPostsRoute()}`,
+            {method: 'post', body: JSON.stringify(record)},
+        );
+        return result;
+    };
+
     updatePost = (post: Post) => {
         this.trackEvent('api', 'api_posts_update', {channel_id: post.channel_id, post_id: post.id});
 
@@ -2289,6 +2298,10 @@ export default class Client4 {
         }
 
         return url;
+    }
+
+    getVoiceRecordRoute(postId: string) {
+        return `${this.getPostsRoute()}/recordings/${postId}`;
     }
 
     getFileThumbnailUrl(fileId: string, timestamp: number) {
