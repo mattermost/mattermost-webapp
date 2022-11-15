@@ -131,14 +131,16 @@
 }
 
 .RecurringIntervalBadge {
-    display: flex;
+    display: inline-block;
     height: 16px;
     align-items: center;
     margin-left: 12px;
     text-transform: uppercase;
 
     span {
-        bottom: 10px;
+        position: relative;
+        bottom: 2px;
+        color: rgba(var(--center-channel-text-rgb), 0.56);
         font-family: 'Open Sans';
         font-size: 10px;
         font-weight: 600;
