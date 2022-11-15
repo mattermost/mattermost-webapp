@@ -833,7 +833,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
-        const channelId = this.props.currentChannel.id;
 
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
@@ -849,6 +848,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             ...this.props.draft,
             message,
         };
+
+        this.handleDraftChange(draft);
+    }
+
+    handleDraftChange = (draft: PostDraft) => {
+        const channelId = this.props.currentChannel.id;
 
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
@@ -942,8 +947,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
         }
 
-        this.draftsForChannel[channelId] = draft;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.handleDraftChange(draft);
     }
 
     handleUploadError = (err: string | ServerError, clientId?: string, channelId?: string) => {
@@ -979,7 +983,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     removePreview = (id: string) => {
         let modifiedDraft = {} as PostDraft;
         const draft = {...this.props.draft};
-        const channelId = this.props.currentChannel.id;
 
         // Clear previous errors
         this.setState({serverError: null});
@@ -1010,9 +1013,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             };
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
-        this.draftsForChannel[channelId] = modifiedDraft;
-
+        this.handleDraftChange(modifiedDraft);
         this.handleFileUploadChange();
     };
 
@@ -1291,6 +1292,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }, () => {
             const textbox = this.textboxRef.current?.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+
+            const draft = {
+                ...this.props.draft,
+                message: this.state.message,
+            };
+
+            this.handleDraftChange(draft);
         });
     }
 
@@ -1327,19 +1335,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             caretPosition: newCaretPosition,
         }, () => {
             Utils.setCaretPosition(textbox, newCaretPosition);
+
+            const draft = {
+                ...this.props.draft,
+                message: this.state.message,
+            };
+
+            this.handleDraftChange(draft);
         });
     }
 
     prefillMessage = (message: string, shouldFocus?: boolean) => {
         this.setMessageAndCaretPostion(message, message.length);
-
-        const draft = {
-            ...this.props.draft,
-            message,
-        };
-        const channelId = this.props.currentChannel.id;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        this.draftsForChannel[channelId] = draft;
 
         if (shouldFocus) {
             const inputBox = this.textboxRef.current?.getInputBox();
@@ -1384,6 +1391,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         } else {
             const newMessage = (/\s+$/).test(this.state.message) ? this.state.message + gif : this.state.message + ' ' + gif;
             this.setState({message: newMessage});
+
+            const draft = {
+                ...this.props.draft,
+                newMessage,
+            };
+
+            this.handleDraftChange(draft);
         }
         this.handleEmojiClose();
     }
@@ -1414,7 +1428,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             },
         };
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, updatedDraft);
+        this.handleDraftChange(updatedDraft);
         this.focusTextbox();
     };
 
