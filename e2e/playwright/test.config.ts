@@ -3,7 +3,12 @@
 
 import {Page, ViewportSize} from '@playwright/test';
 
-export type TestArgs = {page: Page; isMobile: boolean; browserName: string; viewport: ViewportSize};
+export type TestArgs = {
+    page: Page;
+    isMobile?: boolean;
+    browserName: string;
+    viewport?: ViewportSize | null;
+};
 
 export type TestConfig = {
     baseURL: string;
@@ -33,7 +38,7 @@ const config: TestConfig = {
     lessThanCloudUserLimit: process.env.PW_LESS_THAN_CLOUD_USER_LIMIT === 'true',
     resetBeforeTest: process.env.PW_RESET_BEFORE_TEST === 'true',
     haClusterEnabled: process.env.PW_HA_CLUSTER_ENABLED === 'true',
-    haClusterNodeCount: parseInt(process.env.PW_HA_CLUSTER_NODE_COUNT, 10) || 3,
+    haClusterNodeCount: process.env.PW_HA_CLUSTER_NODE_COUNT ? parseInt(process.env.PW_HA_CLUSTER_NODE_COUNT, 10) : 3,
     haClusterName: process.env.PW_HA_CLUSTER_NAME || 'mm_dev_cluster',
     branch: process.env.PW_BRANCH || 'master',
     parentBranch: process.env.PW_PARENT_BRANCH || 'master',

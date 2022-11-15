@@ -271,3 +271,7 @@ export function draftsAreEnabled(state: GlobalState): boolean {
     const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
     return isFeatureEnabled;
 }
+
+export function isReduceOnBoardingTaskList(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'ReduceOnBoardingTaskList') === 'true';
+}

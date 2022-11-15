@@ -35,7 +35,8 @@ export function renderView(props: any) {
         <div
             {...props}
             className='scrollbar--view'
-        />);
+        />
+    );
 }
 
 export function renderThumbHorizontal(props: any) {
@@ -43,7 +44,8 @@ export function renderThumbHorizontal(props: any) {
         <div
             {...props}
             className='scrollbar--horizontal'
-        />);
+        />
+    );
 }
 
 export function renderTrackVertical(props: any) {
@@ -51,7 +53,8 @@ export function renderTrackVertical(props: any) {
         <div
             {...props}
             className='scrollbar--verticalTrack'
-        />);
+        />
+    );
 }
 
 export function renderThumbVertical(props: any) {
@@ -59,7 +62,8 @@ export function renderThumbVertical(props: any) {
         <div
             {...props}
             className='scrollbar--vertical'
-        />);
+        />
+    );
 }
 
 const scrollbarStyles: CSSProperties = {position: 'absolute'};
