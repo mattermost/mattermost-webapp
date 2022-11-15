@@ -267,9 +267,16 @@ export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): bo
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
 
-export function draftsAreEnabled(state: GlobalState): boolean {
+export function syncedDraftsAreEnabled(state: GlobalState): boolean {
     const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
-    return isFeatureEnabled;
+    const isConfiguredForFeature = getConfig(state).AllowSyncedDrafts === 'true';
+    const isConfiguredForUser = true;
+
+    return isFeatureEnabled && isConfiguredForFeature && isConfiguredForUser;
+}
+
+export function localDraftsAreEnabled(state: GlobalState): boolean {
+    return getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
 }
 
 export function isReduceOnBoardingTaskList(state: GlobalState): boolean {

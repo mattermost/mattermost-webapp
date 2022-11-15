@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 
 import {getDrafts} from 'mattermost-redux/actions/drafts';
 
-import {draftsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {localDraftsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {makeGetDraftsCount} from 'selectors/drafts';
@@ -21,7 +21,7 @@ const getDraftsCount = makeGetDraftsCount();
 
 function DraftsLink() {
     const dispatch = useDispatch();
-    const draftsEnabled = useSelector(draftsAreEnabled);
+    const draftsEnabled = useSelector(localDraftsAreEnabled);
     const {formatMessage} = useIntl();
     const {url} = useRouteMatch();
     const match = useRouteMatch('/:team/drafts');
