@@ -116,13 +116,29 @@
 
 .TrialBadge {
     padding: 0 4px;
-    margin-left: 5px;
+    margin-left: 10px;
     background: var(--sys-online-indicator);
     border-radius: 3px;
     color: #fff;
     text-transform: uppercase;
 
     span {
+        font-size: 10px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        line-height: 16px;
+    }
+}
+
+.RecurringIntervalBadge {
+    display: flex;
+    align-items: center;
+    margin-left: 12px;
+    text-transform: uppercase;
+    height: 16px;
+    span {
+        bottom: 10px;
+        font-family: 'Open Sans';
         font-size: 10px;
         font-weight: 600;
         letter-spacing: 0.02em;

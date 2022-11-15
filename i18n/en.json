@@ -315,6 +315,7 @@
   "admin.billing.subscription.goBackTryAgain": "Go back and try again",
   "admin.billing.subscription.howItWorks": "See how billing works",
   "admin.billing.subscription.LearnMore": "Learn more",
+  "admin.billing.subscription.month": "Month",
   "admin.billing.subscription.mostRecentPaymentFailed": "Your most recent payment failed",
   "admin.billing.subscription.nextBillingDate": "Starting from {date}, you will be billed for the {productName} plan. You can change your plan whenever you like and we will pro-rate the charges.",
   "admin.billing.subscription.paymentBegins": "Payment begins: {beginDate}. ",

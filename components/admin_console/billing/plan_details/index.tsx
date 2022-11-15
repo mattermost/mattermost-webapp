@@ -44,6 +44,7 @@ const PlanDetails = ({isFreeTrial, subscriptionPlan}: Props) => {
                 isFreeTrial={isFreeTrial}
                 subscriptionPlan={subscriptionPlan}
                 daysLeftOnTrial={daysLeftOnTrial}
+                recurringInterval={product.recurring_interval}
             />
             <PlanPricing
                 product={product}
