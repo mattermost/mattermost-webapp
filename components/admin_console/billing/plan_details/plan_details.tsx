@@ -118,7 +118,7 @@ export const PlanDetailsTopElements = ({
         }
 
         return monthlyBadge;
-    }
+    };
 
     const viewPlansButton = (
         <button

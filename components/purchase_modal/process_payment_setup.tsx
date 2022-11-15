@@ -331,6 +331,4 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
     }
 }
 
-
 export default injectIntl(withRouter(ProcessPaymentSetup));
-
