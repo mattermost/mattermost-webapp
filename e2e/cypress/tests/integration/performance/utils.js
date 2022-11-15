@@ -1,17 +1,20 @@
-export const measure = async (name, upperLimit, cb, runs=10) => {
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+export const measurePerformance = async (name, upperLimit, cb, runs = 10) => {
     return cy.window().its('performance').then(async (performance) => {
         performance.mark(name);
 
-        for(let i = 0; i < runs; i++) {
+        for (let i = 0; i < runs; i++) {
             await cb();
         }
-    
+
         performance.measure(name);
         const measure = performance.getEntriesByName(name)[0];
-        const durationMs = Math.round(measure.duration/runs);
+        const durationMs = Math.round(measure.duration / runs);
 
         cy.log(`[PERFORMANCE] ${name}: ${durationMs}ms`, durationMs <= upperLimit ? ' within upper limit' : ' outside upper limit', ` of ${upperLimit}ms`);
-    
-        assert.isAtMost(durationMs, upperLimit);    
+
+        assert.isAtMost(durationMs, upperLimit);
     });
 };

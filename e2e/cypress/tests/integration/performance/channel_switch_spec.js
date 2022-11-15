@@ -9,8 +9,8 @@
 
 // Stage: @prod
 // Group: @channel
-import { assert } from 'console';
-import {measure} from './utils.js'
+
+import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
     let testUser;
@@ -27,10 +27,11 @@ describe('Channel switch performance test', () => {
 
     it('measures switching between two channels from LHS', async () => {
         // # Invoke window object
-        await measure('channelLoad', 500, () => {
+        await measurePerformance('channelLoad', 500, () => {
             // # Switch channel to Off-topic
 
             cy.get('#sidebarItem_off-topic').click({force: true});
+
             // * Expect that the user is now in Off-Topic
             expectActiveChannelToBe('Off-Topic', '/off-topic');
         });

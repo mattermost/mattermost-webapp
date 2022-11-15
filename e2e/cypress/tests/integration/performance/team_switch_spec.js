@@ -9,7 +9,7 @@
 
 // Stage: @prod
 // Group: @channel
-import {measure} from './utils.js'
+import {measurePerformance} from './utils.js';
 
 describe('Channel switch performance test', () => {
     let testUser;
@@ -31,11 +31,12 @@ describe('Channel switch performance test', () => {
     it('measures switching between two teams from LHS', async () => {
         // # Invoke window object
 
-        await measure('teamLoad', 500, () => {
+        await measurePerformance('teamLoad', 500, () => {
             // # Switch to Team 2
             cy.get('#teamSidebarWrapper').within(() => {
                 cy.get(`#${testTeam2.name}TeamButton`).click();
             });
+
             // * Expect that the user has switched teams
             expectActiveTeamToBe(testTeam2.display_name, testTeam2.name);
         });
