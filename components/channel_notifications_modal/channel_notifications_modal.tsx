@@ -65,7 +65,7 @@ const getDefaultDesktopNotificationLevel = (currentUserNotifyProps: UserNotifyPr
 
 const getDefaultDesktopSound = (currentUserNotifyProps: UserNotifyProps): Exclude<ChannelMemberNotifyProps['desktop_sound'], undefined> => {
     if (currentUserNotifyProps?.desktop_sound) {
-        return currentUserNotifyProps.desktop_sound === 'true' ? 'on' : 'off';
+        return currentUserNotifyProps.desktop_sound === 'true' ? DesktopSound.ON : DesktopSound.OFF;
     }
     return DesktopSound.ON;
 };
@@ -112,6 +112,13 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
 
     getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
         let ignoreChannelMentionsDefault: ChannelNotifyProps['ignore_channel_mentions'] = IgnoreChannelMentions.OFF;
+        let desktopNotifyLevelDefault: ChannelNotifyProps['desktop'] = getDefaultDesktopNotificationLevel(currentUserNotifyProps);
+
+        if (channelMemberNotifyProps?.desktop) {
+            if (channelMemberNotifyProps.desktop !== 'default') {
+                desktopNotifyLevelDefault = channelMemberNotifyProps.desktop;
+            }
+        }
 
         if (channelMemberNotifyProps?.mark_unread === NotificationLevels.MENTION || (currentUserNotifyProps.channel && currentUserNotifyProps.channel === 'false')) {
             ignoreChannelMentionsDefault = IgnoreChannelMentions.ON;
@@ -123,7 +130,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
         }
 
         return {
-            desktopNotifyLevel: channelMemberNotifyProps?.desktop || getDefaultDesktopNotificationLevel(currentUserNotifyProps),
+            desktopNotifyLevel: desktopNotifyLevelDefault,
             desktopSound: channelMemberNotifyProps?.desktop_sound || getDefaultDesktopSound(currentUserNotifyProps),
             desktopNotifySound: channelMemberNotifyProps?.desktop_notification_sound || getDefaultDesktopNotificationSound(currentUserNotifyProps),
             desktopThreadsNotifyLevel: channelMemberNotifyProps?.desktop_threads || getDefaultDesktopThreadsNotifyLevel(currentUserNotifyProps),
