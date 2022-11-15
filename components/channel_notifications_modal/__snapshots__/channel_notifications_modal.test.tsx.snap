@@ -97,10 +97,15 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
             <NotificationSection
               expand={false}
               globalNotificationLevel="all"
+              memberDesktopNotificationSound="Bing"
+              memberDesktopSound="on"
               memberNotificationLevel="all"
               memberThreadsNotificationLevel="all"
               onChange={[Function]}
+              onChangeDesktopSound={[Function]}
+              onChangeNotificationSound={[Function]}
               onChangeThreads={[Function]}
+              onReset={[Function]}
               onSubmit={[Function]}
               onUpdateSection={[Function]}
               section="desktop"

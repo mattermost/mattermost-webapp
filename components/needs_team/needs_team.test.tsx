@@ -26,11 +26,15 @@ jest.mock('actions/post_actions', () => ({
     reconnect: jest.fn(),
 }));
 
-jest.mock('utils/utils', () => ({
-    localizeMessage: jest.fn(),
-    isGuest: jest.fn(),
-    makeIsEligibleForClick: jest.fn(),
-}));
+jest.mock('utils/utils', () => {
+    const original = jest.requireActual('utils/utils');
+    return {
+        ...original,
+        localizeMessage: jest.fn(),
+        isGuest: jest.fn(),
+        makeIsEligibleForClick: jest.fn(),
+    };
+});
 
 describe('components/needs_team', () => {
     const history = {
