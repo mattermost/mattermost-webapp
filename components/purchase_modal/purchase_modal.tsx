@@ -652,13 +652,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
 
     handleSubmitClick = async () => {
         const callerInfo = this.props.callerCTA + '> purchase_modal > upgrade_button_click';
-        if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval == RecurringIntervals.MONTH) {
-            const yearlyProduct = findProductByID(this.props.products|| {}, this.state.selectedProduct.cross_sells_to);
+        if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.MONTH) {
+            const yearlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
             if (yearlyProduct) {
                 this.setState({selectedProduct: yearlyProduct});
             }
-        } else if ((this.state.isMonthly && this.state.selectedProduct?.recurring_interval == RecurringIntervals.YEAR)) {
-            const monthlyProduct = findProductByID(this.props.products|| {}, this.state.selectedProduct.cross_sells_to);
+        } else if ((this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.YEAR)) {
+            const monthlyProduct = findProductByID(this.props.products || {}, this.state.selectedProduct.cross_sells_to);
             if (monthlyProduct) {
                 this.setState({selectedProduct: monthlyProduct});
             }
