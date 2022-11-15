@@ -14,6 +14,7 @@ import {setGlobalItem} from 'actions/storage';
 import {StoragePrefixes} from 'utils/constants';
 
 import type {Draft as ServerDraft} from '@mattermost/types/drafts';
+import {FileInfo} from '@mattermost/types/files';
 
 export type Draft = {
     key: keyof GlobalState['storage']['storage'];
@@ -28,12 +29,17 @@ export function transformServerDraft(draft: ServerDraft): Draft {
         key = `${StoragePrefixes.COMMENT_DRAFT}${draft.root_id}`;
     }
 
+    let fileInfos: FileInfo[] = [];
+    if (draft.metadata?.files) {
+        fileInfos = draft.metadata.files;
+    }
+
     return {
         key,
         timestamp: new Date(draft.update_at),
         value: {
             message: draft.message,
-            fileInfos: [],
+            fileInfos,
             props: draft.props,
             uploadsInProgress: [],
             channelId: draft.channel_id,
