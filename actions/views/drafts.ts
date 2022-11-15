@@ -103,6 +103,7 @@ function upsertDraft(draft: PostDraft, userId: UserProfile['id'], rootId = '', c
         message: draft.message,
         props: draft.props,
         file_ids: fileIds,
+        deleted_file_ids: draft.deletedFileIds || [],
     };
 
     return Client4.upsertDraft(newDraft, connectionId);

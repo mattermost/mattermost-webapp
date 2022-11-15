@@ -259,6 +259,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     private lastBlurAt = 0;
     private lastChannelSwitchAt = 0;
     private draftsForChannel: {[channelID: string]: PostDraft | null} = {};
+    private draftDeletedFileIds: string[] = [];
     private lastOrientation?: string;
     private saveDraftFrame?: number | null;
 
@@ -383,10 +384,23 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     saveDraft = (props = this.props, save = false) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
-            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId], save);
+            const draft = this.draftsForChannel[channelId];
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft, save);
             clearTimeout(this.saveDraftFrame);
+            this.resetDraftDeletedFileIds();
             this.saveDraftFrame = null;
         }
+    }
+
+    resetDraftDeletedFileIds = () => {
+        this.draftDeletedFileIds = [];
+
+        const draft = {
+            ...this.props.draft,
+            deletedFileIds: [],
+        };
+
+        this.handleDraftChange(draft);
     }
 
     setShowPreview = (newPreviewValue: boolean) => {
@@ -1007,9 +1021,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         } else {
             const fileInfos = draft.fileInfos.filter((item, itemIndex) => index !== itemIndex);
 
+            this.draftDeletedFileIds.push(id);
+
             modifiedDraft = {
                 ...draft,
                 fileInfos,
+                deletedFileIds: this.draftDeletedFileIds,
             };
         }
 

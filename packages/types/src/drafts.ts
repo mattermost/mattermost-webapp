@@ -14,4 +14,5 @@ export type Draft = {
     props: Record<string, any>;
     file_ids?: string[];
     metadata?: PostMetadata;
+    deleted_file_ids?: string[];
 };
