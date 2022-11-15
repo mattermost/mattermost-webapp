@@ -1691,7 +1691,7 @@ function handleUpsertDraftEvent(msg) {
         value.remote = true;
 
         if (msg.broadcast.omit_connection_id !== connectionId) {
-            value.fromServer = true;
+            value.remote = true;
         }
 
         localStorage.setItem(key, JSON.stringify(value));

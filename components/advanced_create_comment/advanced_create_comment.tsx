@@ -325,7 +325,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     draft: {
                         ...prev.draft,
                         show: !isDraftEmpty(prev.draft),
-                        fromServer: false,
+                        remote: false,
                     } as PostDraft,
                 };
             }
@@ -415,7 +415,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         const updatedDraft = {...draft, message};
 
-        this.props.onUpdateCommentDraft(updatedDraft);
+        this.handleDraftChange(updatedDraft);
         this.setState({draft: updatedDraft});
     }
 
@@ -476,8 +476,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             message: newMessage,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
-        this.draftsForPost[this.props.rootId] = modifiedDraft;
+        this.handleDraftChange(modifiedDraft);
 
         this.setState({
             showEmojiPicker: false,
@@ -503,8 +502,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             message: newMessage,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
-        this.draftsForPost[this.props.rootId] = modifiedDraft;
+        this.handleDraftChange(modifiedDraft);
 
         this.setState({
             showEmojiPicker: false,
@@ -734,12 +732,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         const show = isDraftEmpty(draft) ? false : draft.show;
         const updatedDraft = {...draft, message, show};
 
-        if (this.saveDraftFrame) {
-            clearTimeout(this.saveDraftFrame);
-        }
-        this.saveDraftFrame = window.setTimeout(() => {
-            this.props.onUpdateCommentDraft(updatedDraft);
-        }, Constants.SAVE_DRAFT_TIMEOUT);
+        this.handleDraftChange(updatedDraft);
 
         this.setState({draft: updatedDraft, serverError}, () => {
             if (this.props.scrollToBottom) {
@@ -747,6 +740,21 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             }
         });
         this.draftsForPost[this.props.rootId] = updatedDraft;
+    }
+
+    handleDraftChange = (draft: PostDraft, rootId?: string, save = false) => {
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
+
+        this.saveDraftFrame = window.setTimeout(() => {
+            if (typeof rootId == 'undefined') {
+                this.props.onUpdateCommentDraft(draft);
+            } else {
+                this.props.updateCommentDraftWithRootId(rootId, draft, save);
+            }
+        }, Constants.SAVE_DRAFT_TIMEOUT);
+        this.draftsForPost[this.props.rootId] = draft;
     }
 
     handleMouseUpKeyUp = (e: React.MouseEvent | React.KeyboardEvent) => {
@@ -929,8 +937,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             message: res.message,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
-        this.draftsForPost[this.props.rootId] = modifiedDraft;
+        this.handleDraftChange(modifiedDraft);
 
         this.setState({
             draft: modifiedDraft,
@@ -985,8 +992,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             fileInfos: newFileInfos,
             uploadsInProgress,
         };
-        this.props.updateCommentDraftWithRootId(rootId!, modifiedDraft, true);
-        this.draftsForPost[rootId!] = modifiedDraft;
+        this.handleDraftChange(modifiedDraft, rootId!, true);
         if (this.props.rootId === rootId) {
             this.setState({draft: modifiedDraft});
         }
@@ -1055,9 +1061,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             uploadsInProgress,
         };
 
-        this.props.onUpdateCommentDraft(modifiedDraft);
+        this.handleDraftChange(modifiedDraft);
         this.setState({draft: modifiedDraft});
-        this.draftsForPost[this.props.rootId] = modifiedDraft;
 
         this.handleFileUploadChange();
     }

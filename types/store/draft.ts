@@ -15,5 +15,4 @@ export type PostDraft = {
     updateAt: number;
     show?: boolean;
     remote?: boolean;
-    fromServer?: boolean;
 };

@@ -372,7 +372,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                 this.draftsForChannel[channelId] = {
                     ...draft,
                     show: !isDraftEmpty(draft),
-                    fromServer: false,
+                    remote: false,
                 } as PostDraft;
             }
         }

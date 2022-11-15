@@ -107,7 +107,7 @@ function ThreadDraft({
                             />
                         )}
                         timestamp={value.updateAt}
-                        fromServer={value.fromServer || false}
+                        remote={value.remote || false}
                     />
                     <Body
                         channelId={channel.id}

@@ -36,7 +36,7 @@ type Props = {
     actions: React.ReactNode;
     hover: boolean;
     timestamp: number;
-    fromServer: boolean;
+    remote: boolean;
     title: React.ReactNode;
 }
 
@@ -44,7 +44,7 @@ function PanelHeader({
     actions,
     hover,
     timestamp,
-    fromServer,
+    remote,
     title,
 }: Props) {
     const syncTooltip = (
@@ -66,7 +66,7 @@ function PanelHeader({
                     {actions}
                 </div>
                 <div className={cn('PanelHeader__info', {hide: hover})}>
-                    {fromServer && <div className='PanelHeader__sync-icon'>
+                    {remote && <div className='PanelHeader__sync-icon'>
                         <OverlayTrigger
                             trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
                             delayShow={Constants.OVERLAY_TIME_DELAY}
