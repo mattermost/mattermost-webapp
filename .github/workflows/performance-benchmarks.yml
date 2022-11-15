@@ -56,7 +56,7 @@ jobs:
           browser: chrome
           install: false
           spec: |
-            ./tests/integration/channel_sidebar/category_muting_spec.ts
+            ./tests/performance/
           start: npm run benchmarks:run-server
           wait-on: http://localhost:8065
           working-directory: e2e/cypress
