@@ -1,7 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Channel, ChannelMembership} from './channels';
+import {Post} from './posts';
 import {ProductScope} from './products';
+import {Team, TeamMembership} from './teams';
+import {UserProfile} from './users';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are
@@ -123,22 +127,51 @@ export type AppMetadataForClient = {
 }
 
 export type AppContext = {
+    user_id?: string;
     app_id: string;
     location?: string;
-    acting_user_id?: string;
-    user_id?: string;
-    channel_id?: string;
-    team_id?: string;
-    post_id?: string;
-    root_id?: string;
-    props?: AppContextProps;
     user_agent?: string;
-    track_as_submit?: boolean;
+    track_as_submit: boolean;
+
+    mattermost_site_url: string;
+    developer_mode: boolean;
+    app_path: string;
+
+    bot_user_id: string;
+    bot_access_token: string;
+
+    acting_user?: UserProfile;
+    acting_user_access_token?: string;
+    locale?: string;
+
+    channel?: Channel;
+    channel_member?: ChannelMembership;
+
+    team?: Team;
+    team_member?: TeamMembership;
+
+    post?: Post;
+    root_post?: Post;
+
+    oauth2?: OAuth2Context;
+
+    props?: AppContextProps;
 };
 
 export type AppContextProps = {
     [name: string]: string;
 };
+
+export type OAuth2Context = {
+    remote_root_url?: string;
+    client_id?: string;
+    client_secret?: string;
+    data?: any;
+
+    connect_url: string;
+    complete_url: string;
+    user?: any;
+}
 
 export type AppExpandLevel = string;
 
@@ -254,3 +287,4 @@ export type FormResponseData = {
 export type AppLookupResponse = {
     items: AppSelectOption[];
 }
+
