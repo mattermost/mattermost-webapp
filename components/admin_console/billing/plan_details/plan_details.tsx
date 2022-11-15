@@ -109,6 +109,11 @@ export const PlanDetailsTopElements = ({
     );
 
     const getBadge = () => {
+        // no badges to show if the plan is Cloud Free
+        if (subscriptionPlan === CloudProducts.STARTER) {
+            return null;
+        }
+
         if (isFreeTrial) {
             return trialBadge;
         }
