@@ -55,8 +55,8 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
             video = document.createElement('video');
         }
 
-        // rewriting the mimetype for quicktime to allow for playback in chrome browsers.
-        // mov files are encoded with MPEG-4 but the mimetype is set to quicktime.
+        // mov files are encoded with MPEG-4 but the mimetype is set to quicktime, should be allowed in chrome
+        // Long standing chrome bug: https://bugs.chromium.org/p/chromium/issues/detail?id=1120292
         const mimeType = (fileInfo.mime_type === 'video/quicktime') ? 'video/mp4' : fileInfo.mime_type;
 
         const canPlayType = video.canPlayType(mimeType);
