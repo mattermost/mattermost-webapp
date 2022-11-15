@@ -80,7 +80,7 @@ exports[`components/ProfilePopover should disable start call button when user is
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -401,7 +401,7 @@ exports[`components/ProfilePopover should disable start call button when user is
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -721,7 +721,7 @@ exports[`components/ProfilePopover should hide add-to-channel option if not on t
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -960,7 +960,7 @@ exports[`components/ProfilePopover should match snapshot 1`] = `
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -1299,7 +1299,7 @@ exports[`components/ProfilePopover should match snapshot for shared user 1`] = `
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1"
+    className="overflow--ellipsis pb-1"
     key="user-popover-username"
   >
     @shared_user
@@ -1626,7 +1626,7 @@ exports[`components/ProfilePopover should match snapshot when calls are disabled
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -1924,7 +1924,7 @@ exports[`components/ProfilePopover should match snapshot with custom status 1`] 
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -2293,7 +2293,7 @@ exports[`components/ProfilePopover should match snapshot with custom status expi
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -2617,7 +2617,7 @@ exports[`components/ProfilePopover should match snapshot with custom status not 
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -2882,7 +2882,7 @@ exports[`components/ProfilePopover should match snapshot with last active displa
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -3181,7 +3181,7 @@ exports[`components/ProfilePopover should match snapshot with no last active dis
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username
@@ -3506,7 +3506,7 @@ exports[`components/ProfilePopover should not show the start call button when is
     />
   </div>
   <div
-    className="overflow--ellipsis text-nowrap pb-1 user-profile-popover__heading"
+    className="overflow--ellipsis pb-1 user-profile-popover__heading"
     key="user-popover-username"
   >
     @some_username

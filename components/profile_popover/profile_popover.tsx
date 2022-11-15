@@ -445,7 +445,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 </div>,
             );
         }
-        const userNameClass = classNames('overflow--ellipsis text-nowrap pb-1', {'user-profile-popover__heading': fullname === ''});
+        const userNameClass = classNames('overflow--ellipsis pb-1', {'user-profile-popover__heading': fullname === ''});
         const userName: React.ReactNode = `@${this.props.user.username}`;
         dataContent.push(
             <div

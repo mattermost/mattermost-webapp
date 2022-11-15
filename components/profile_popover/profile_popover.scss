@@ -1,3 +1,5 @@
+@import 'utils/mixins';
+
 .user-popover__set-custom-status-btn {
     display: flex;
     align-items: center;
@@ -78,14 +80,10 @@
             }
 
             .btn {
-                display: flex;
+                @include primary-button;
+
                 height: 32px;
-                align-items: center;
-                justify-content: center;
                 padding: 8px 12px;
-                background-color: var(--button-bg);
-                border-radius: 4px;
-                color: var(--button-color);
                 gap: 6px;
 
                 span {
