@@ -166,9 +166,6 @@ describe('Verify Accessibility Support in different input fields', () => {
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('be.focused').and('have.attr', 'aria-label', 'preview').tab();
 
-            // * Verify if the focus is on the formatting options button
-            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
-
             // * Verify if the focus is on the bold button
             cy.get('#FormattingControl_bold').should('be.focused').and('have.attr', 'aria-label', 'bold').tab();
 
@@ -195,6 +192,9 @@ describe('Verify Accessibility Support in different input fields', () => {
 
             // * Verify if the focus is on the numbered list button
             cy.get('#FormattingControl_ol').should('be.focused').and('have.attr', 'aria-label', 'numbered list').tab();
+
+            // * Verify if the focus is on the formatting options button
+            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('be.focused').and('have.attr', 'aria-label', 'attachment').tab();
@@ -226,9 +226,6 @@ describe('Verify Accessibility Support in different input fields', () => {
             // * Verify if the focus is on the preview button
             cy.get('#PreviewInputTextButton').should('be.focused').and('have.attr', 'aria-label', 'preview').tab();
 
-            // * Verify if the focus is on the formatting options button
-            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
-
             // * Verify if the focus is on the bold button
             cy.get('#FormattingControl_bold').should('be.focused').and('have.attr', 'aria-label', 'bold').tab();
 
@@ -258,6 +255,9 @@ describe('Verify Accessibility Support in different input fields', () => {
 
             // * Verify if the focus is on the hidden numbered list button
             cy.get('#FormattingControl_ol').should('be.focused').and('have.attr', 'aria-label', 'numbered list').tab();
+
+            // * Verify if the focus is on the formatting options button
+            cy.get('#toggleFormattingBarButton').should('be.focused').and('have.attr', 'aria-label', 'formatting').tab();
 
             // * Verify if the focus is on the attachment icon
             cy.get('#fileUploadButton').should('be.focused').and('have.attr', 'aria-label', 'attachment').tab();
