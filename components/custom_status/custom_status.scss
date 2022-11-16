@@ -60,10 +60,11 @@
             border-color: var(--button-bg);
         }
     }
+
     .dateTime__calendar-input {
-        font-size: 14px;
         width: 266px;
         border: 2px solid var(--button-bg);
+        font-size: 14px;
 
         &:hover {
             border: 2px solid var(--button-bg);
@@ -73,7 +74,7 @@
         &:focus-within {
             box-shadow: 0;
         }
-        
+
         .Input_wrapper {
             padding: 0 10px;
         }
@@ -85,8 +86,8 @@
 
         input#customStatus__calendar-input {
             height: auto !important;
-            border: 0;
             padding: 0;
+            border: 0;
             font-weight: 400;
 
             &[readonly] {
@@ -98,7 +99,7 @@
             }
         }
     }
-    
+
 
     & &__input {
         position: relative;

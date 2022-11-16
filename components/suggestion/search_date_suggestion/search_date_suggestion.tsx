@@ -5,6 +5,8 @@ import React from 'react';
 
 import {DayPicker} from 'react-day-picker';
 
+import type {Locale} from 'date-fns';
+
 import Suggestion from '../suggestion.jsx';
 
 import * as Utils from 'utils/utils';
@@ -12,17 +14,11 @@ import Constants from 'utils/constants';
 
 import 'react-day-picker/dist/style.css';
 
-import type {Locale} from 'date-fns';
-
 const loadedLocales: Record<string, Locale> = {};
 
 type Props = {
     locale: string;
     preventClose: () => void;
-}
-
-type State = {
-    datePickerFocused: boolean;
 }
 
 export default class SearchDateSuggestion extends Suggestion {
@@ -82,13 +78,6 @@ export default class SearchDateSuggestion extends Suggestion {
     }
 
     render() {
-        let modifiers;
-        if (this.props.currentDate) {
-            modifiers = {
-                today: this.props.currentDate,
-            };
-        }
-
         const locale: string = this.props.locale;
 
         return (

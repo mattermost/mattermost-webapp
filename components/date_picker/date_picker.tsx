@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useEffect, useRef, useState} from 'react';
 
 import FocusTrap from 'focus-trap-react';
@@ -36,7 +37,7 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper, local
         } catch (e) {
             return false;
         }
-    }
+    };
 
     useEffect(() => {
         if (isPopperOpen && !popperRef?.current) {

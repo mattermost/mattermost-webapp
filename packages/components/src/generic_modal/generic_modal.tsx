@@ -80,11 +80,9 @@ export class GenericModal extends React.PureComponent<Props, State> {
     private onEnterKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             if (this.props.autoCloseOnConfirmButton) {
-                console.log('autohide');
                 this.onHide();
             }
             if (this.props.handleEnterKeyPress) {
-                console.log('handleEnterKeyPress');
                 this.props.handleEnterKeyPress();
             }
         }
