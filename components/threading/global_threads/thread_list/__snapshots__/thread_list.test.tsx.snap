@@ -57,7 +57,7 @@ exports[`components/threading/global_threads/thread_list should match snapshot 1
             onClick={[Function]}
           >
             <span
-              className="Icon"
+              className="icon"
             >
               <i
                 className="icon-playlist-check"
