@@ -86,7 +86,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
     }
 
     handleToggle = () => {
-        var incomingWebhook = this.props.incomingWebhook
+        const incomingWebhook = this.props.incomingWebhook;
         const toggledWebhook = {
             ...incomingWebhook,
             enabled: !incomingWebhook.enabled,
@@ -118,7 +118,7 @@ export default class InstalledIncomingWebhook extends React.PureComponent<Props>
         }
 
         let displayEnabled;
-        if(incomingWebhook.enabled) {
+        if (incomingWebhook.enabled) {
             displayEnabled = (
                 <FormattedMessage
                     id='installed_incoming_webhooks.enabled_webhook'

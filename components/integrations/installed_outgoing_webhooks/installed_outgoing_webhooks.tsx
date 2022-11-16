@@ -5,7 +5,6 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {localizeMessage} from 'utils/utils';
-import Constants from 'utils/constants';
 
 import BackstageList from 'components/backstage/components/backstage_list';
 import InstalledOutgoingWebhook, {matchesFilter} from 'components/integrations/installed_outgoing_webhook';
@@ -144,13 +143,12 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
     }
 
     nextPage = () => {
-        this.setState({page: this.state.page + 1})
+        this.setState({page: this.state.page + 1});
     }
 
     previousPage = () => {
         this.setState({page: this.state.page - 1});
     }
-
 
     outgoingWebhooks = (filter: string) => this.props.outgoingWebhooks.
         sort(this.outgoingWebhookCompare).
@@ -175,76 +173,76 @@ export default class InstalledOutgoingWebhooks extends React.PureComponent<Props
 
     render() {
         return (
-                <BackstageList
-                    header={
-                        <FormattedMessage
-                            id='installed_outgoing_webhooks.header'
-                            defaultMessage='Installed Outgoing Webhooks'
-                        />
-                    }
-                    addText={
-                        <FormattedMessage
-                            id='installed_outgoing_webhooks.add'
-                            defaultMessage='Add Outgoing Webhook'
-                        />
-                    }
-                    addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
-                    addButtonId='addOutgoingWebhook'
-                    emptyText={
-                        <FormattedMessage
-                            id='installed_outgoing_webhooks.empty'
-                            defaultMessage='No outgoing webhooks found'
-                        />
-                    }
-                    emptyTextSearch={
-                        <FormattedMarkdownMessage
-                            id='installed_outgoing_webhooks.emptySearch'
-                            defaultMessage='No outgoing webhooks match {searchTerm}'
-                        />
-                    }
-                    helpText={
-                        <FormattedMessage
-                            id='installed_outgoing_webhooks.help'
-                            defaultMessage='Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
-                            values={{
-                                buildYourOwn: (
-                                    <a
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
-                                    >
-                                        <FormattedMessage
-                                            id='installed_outgoing_webhooks.help.buildYourOwn'
-                                            defaultMessage='Build your own'
-                                        />
-                                    </a>
-                                ),
-                                appDirectory: (
-                                    <a
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        href='https://mattermost.com/marketplace'
-                                    >
-                                        <FormattedMessage
-                                            id='installed_outgoing_webhooks.help.appDirectory'
-                                            defaultMessage='App Directory'
-                                        />
-                                    </a>
-                                ),
-                            }}
-                        />
-                    }
-                    searchPlaceholder={localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
-                    loading={this.state.loading}
-                    nextPage={this.nextPage}
-                    previousPage={this.previousPage}
-                    page={this.state.page}
-                    >
-                        {(filter: string) => {
-                            const children = this.outgoingWebhooks(filter);
-                            return [children, children.length > 0];
+            <BackstageList
+                header={
+                    <FormattedMessage
+                        id='installed_outgoing_webhooks.header'
+                        defaultMessage='Installed Outgoing Webhooks'
+                    />
+                }
+                addText={
+                    <FormattedMessage
+                        id='installed_outgoing_webhooks.add'
+                        defaultMessage='Add Outgoing Webhook'
+                    />
+                }
+                addLink={'/' + this.props.team.name + '/integrations/outgoing_webhooks/add'}
+                addButtonId='addOutgoingWebhook'
+                emptyText={
+                    <FormattedMessage
+                        id='installed_outgoing_webhooks.empty'
+                        defaultMessage='No outgoing webhooks found'
+                    />
+                }
+                emptyTextSearch={
+                    <FormattedMarkdownMessage
+                        id='installed_outgoing_webhooks.emptySearch'
+                        defaultMessage='No outgoing webhooks match {searchTerm}'
+                    />
+                }
+                helpText={
+                    <FormattedMessage
+                        id='installed_outgoing_webhooks.help'
+                        defaultMessage='Use outgoing webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
+                        values={{
+                            buildYourOwn: (
+                                <a
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-outgoing/'
+                                >
+                                    <FormattedMessage
+                                        id='installed_outgoing_webhooks.help.buildYourOwn'
+                                        defaultMessage='Build your own'
+                                    />
+                                </a>
+                            ),
+                            appDirectory: (
+                                <a
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    href='https://mattermost.com/marketplace'
+                                >
+                                    <FormattedMessage
+                                        id='installed_outgoing_webhooks.help.appDirectory'
+                                        defaultMessage='App Directory'
+                                    />
+                                </a>
+                            ),
                         }}
-                </BackstageList>
+                    />
+                }
+                searchPlaceholder={localizeMessage('installed_outgoing_webhooks.search', 'Search Outgoing Webhooks')}
+                loading={this.state.loading}
+                nextPage={this.nextPage}
+                previousPage={this.previousPage}
+                page={this.state.page}
+            >
+                {(filter: string) => {
+                    const children = this.outgoingWebhooks(filter);
+                    return [children, children.length > 0];
+                }}
+            </BackstageList>
         );
     }
 }

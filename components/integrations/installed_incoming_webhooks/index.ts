@@ -18,12 +18,13 @@ import {ActionResult, GenericAction} from 'mattermost-redux/types/actions';
 
 import {loadAllIncomingHooksAndProfilesForTeam} from 'actions/integration_actions.jsx';
 
+import {IncomingWebhook} from '@mattermost/types/integrations';
+
 import InstalledIncomingWebhooks from './installed_incoming_webhooks';
 
-import {IncomingWebhook} from '@mattermost/types/integrations';
 type Actions = {
     removeIncomingHook: (hookId: string) => Promise<ActionResult>;
-    updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>
+    updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
     loadAllIncomingHooksAndProfilesForTeam: (teamId: string) => Promise<ActionResult>;
 }
 

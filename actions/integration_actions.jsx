@@ -24,7 +24,7 @@ export function loadAllIncomingHooksAndProfilesForTeam(teamId) {
         let incomingWebhooksList = [];
         while (data.length > 0) {
             incomingWebhooksList = incomingWebhooksList.concat(data);
-            data = await dispatch(IntegrationActions.getIncomingHooks(teamId, page, DEFAULT_PAGE_SIZE));
+            data = dispatch(IntegrationActions.getIncomingHooks(teamId, page, DEFAULT_PAGE_SIZE));
             ++page;
         }
         dispatch(loadProfilesForIncomingHooks(incomingWebhooksList));
@@ -67,7 +67,7 @@ export function loadAllOutgoingHooksAndProfilesForTeam(teamId) {
         let outgoingWebhooksList = [];
         while (data.length > 0) {
             outgoingWebhooksList = outgoingWebhooksList.concat(data);
-            data = await dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, DEFAULT_PAGE_SIZE));
+            data = dispatch(IntegrationActions.getOutgoingHooks('', teamId, page, DEFAULT_PAGE_SIZE));
             ++page;
         }
         dispatch(loadProfilesForOutgoingHooks(outgoingWebhooksList));

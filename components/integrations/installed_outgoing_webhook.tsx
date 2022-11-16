@@ -74,7 +74,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
     }
 
     handleToggle = () => {
-        var outgoingWebhook = this.props.outgoingWebhook
+        const outgoingWebhook = this.props.outgoingWebhook;
         const toggledWebhook = {
             ...outgoingWebhook,
             enabled: !outgoingWebhook.enabled,
@@ -110,7 +110,7 @@ export default class InstalledOutgoingWebhook extends React.PureComponent<Props>
         const displayName = this.makeDisplayName(outgoingWebhook, channel);
 
         let displayEnabled;
-        if(outgoingWebhook.enabled) {
+        if (outgoingWebhook.enabled) {
             displayEnabled = (
                 <FormattedMessage
                     id='installed_outgoing_webhooks.enabled_webhook'

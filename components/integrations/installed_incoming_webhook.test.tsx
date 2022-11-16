@@ -24,6 +24,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
         username: 'username',
         icon_url: 'http://test/icon.png',
         channel_locked: false,
+        enabled: true,
     };
 
     const teamId = 'testteamid';
@@ -36,6 +37,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 key={1}
                 incomingWebhook={incomingWebhook}
                 onDelete={emptyFunction}
+                onToggle={emptyFunction}
                 creator={{username: 'creator'}}
                 canChange={true}
                 team={{
@@ -85,6 +87,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 key={1}
                 incomingWebhook={incomingWebhook}
                 onDelete={emptyFunction}
+                onToggle={emptyFunction}
                 creator={{username: 'creator'}}
                 canChange={false}
                 team={{
@@ -134,6 +137,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 key={1}
                 incomingWebhook={incomingWebhook}
                 onDelete={emptyFunction}
+                onToggle={emptyFunction}
                 creator={{username: 'creator'}}
                 canChange={true}
                 team={{
@@ -184,6 +188,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 key={1}
                 incomingWebhook={incomingWebhook}
                 onDelete={emptyFunction}
+                onToggle={emptyFunction}
                 creator={{username: 'creator'}}
                 canChange={false}
                 team={{
@@ -235,6 +240,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 key={1}
                 incomingWebhook={newIncomingWebhook}
                 onDelete={emptyFunction}
+                onToggle={emptyFunction}
                 creator={{username: 'creator'}}
                 canChange={false}
                 team={{
@@ -283,6 +289,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 key={1}
                 incomingWebhook={incomingWebhook}
                 onDelete={emptyFunction}
+                onToggle={emptyFunction}
                 creator={{username: 'creator'}}
                 filter={'someLongText'}
                 canChange={false}
@@ -332,6 +339,7 @@ describe('components/integrations/InstalledIncomingWebhook', () => {
                 key={1}
                 incomingWebhook={incomingWebhook}
                 onDelete={emptyFunction}
+                onToggle={emptyFunction}
                 creator={{username: 'creator'}}
                 filter={'buil'}
                 canChange={true}
