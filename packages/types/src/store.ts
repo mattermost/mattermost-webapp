@@ -6,6 +6,7 @@ import {Bot} from './bots';
 import {ChannelsState} from './channels';
 import {ChannelCategoriesState} from './channel_categories';
 import {CloudState, CloudUsage} from './cloud';
+import {SelfHostedState} from './self_hosted'
 import {EmojisState} from './emojis';
 import {FilesState} from './files';
 import {GeneralState} from './general';
@@ -68,6 +69,7 @@ export type GlobalState = {
         cloud: CloudState;
         usage: CloudUsage;
         insights: InsightsState;
+        selfHosted: SelfHostedState;
     };
     errors: any[];
     requests: {

@@ -298,7 +298,7 @@ function DelinquencyCard(props: DelinquencyCardProps) {
     );
 }
 
-class PurchaseModal extends React.PureComponent<Props, State> {
+class CloudPurchaseModal extends React.PureComponent<Props, State> {
     modal = React.createRef();
 
     public constructor(props: Props) {
@@ -775,4 +775,4 @@ class PurchaseModal extends React.PureComponent<Props, State> {
     }
 }
 
-export default injectIntl(PurchaseModal);
+export default injectIntl(CloudPurchaseModal);

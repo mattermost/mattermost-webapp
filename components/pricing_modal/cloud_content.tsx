@@ -46,7 +46,7 @@ type ContentProps = {
     callerCTA?: string;
 }
 
-function Content(props: ContentProps) {
+function CloudContent(props: ContentProps) {
     const {formatMessage, formatNumber} = useIntl();
     const dispatch = useDispatch();
     const usage = useGetUsage();

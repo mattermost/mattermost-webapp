@@ -22,11 +22,19 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
+import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+
+import {
+    getSelfHostedSubscription as selectSelfHostedSubscription,
+    getSubscriptionProduct as selectSelfHostedSubscriptionProduct,
+    getSelfHostedProducts as selectSelfHostedProducts} from 'mattermost-redux/selectors/entities/self_hosted';
 
 import './content.scss';
 
 type ContentProps = {
     onHide: () => void;
+
+    callerCTA?: string;
 }
 
 function SelfHostedContent(props: ContentProps) {
@@ -39,7 +47,11 @@ function SelfHostedContent(props: ContentProps) {
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
+    const subscription = useSelector(selectSelfHostedSubscription);
+    const product = useSelector(selectSelfHostedSubscriptionProduct);
+    const products = useSelector(selectSelfHostedProducts);
     const license = useSelector(getLicense);
+
     const prevSelfHostedTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
 
     const isSelfHostedEnterpriseTrial = license.IsTrial === 'true';
@@ -49,6 +61,20 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
+    const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
+    const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
+        isDelinquencyModal: true,
+    });
+
+    const openPurchaseModal = (callerInfo: string) => {
+        props.onHide();
+        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        if (subscription?.delinquent_since) {
+            openCloudDelinquencyModal({trackingLocation: telemetryInfo});
+        }
+        openCloudPurchaseModal({trackingLocation: telemetryInfo});
+    };
+    
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
@@ -180,8 +206,9 @@ function SelfHostedContent(props: ContentProps) {
                                 />) : undefined}
                         buttonDetails={{
                             action: () => {
-                                trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                openPurchaseModal('click_pricing_modal_professional_card_upgrade_button');
+                                // trackEvent('self_hosted_pricing', 'click_upgrade_button');
+                                // window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional,
@@ -209,8 +236,9 @@ function SelfHostedContent(props: ContentProps) {
                                 />) : undefined}
                         buttonDetails={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? {
                             action: () => {
+                                openPurchaseModal('click_pricing_modal_professional_card_upgrade_button');
                                 trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
-                                window.open(LicenseLinks.CONTACT_SALES, '_blank');
+                                // window.open(LicenseLinks.CONTACT_SALES, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,
