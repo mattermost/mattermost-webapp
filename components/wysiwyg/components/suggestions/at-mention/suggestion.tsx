@@ -7,38 +7,65 @@ import {ReactRenderer} from '@tiptap/react';
 import {SuggestionOptions} from '@tiptap/suggestion';
 import {PluginKey} from 'prosemirror-state';
 
-import {WysiwygPluginNames} from 'utils/constants';
+import {Constants, WysiwygPluginNames} from 'utils/constants';
 
 import SuggestionList, {SuggestionItem, SuggestionListProps, SuggestionListRef} from '../suggestion-list';
 
-import {UserMentionItem} from './components';
+import {GroupMentionItem, SpecialMentionItem, UserMentionItem} from './components';
 
 const SuggestionPluginKey = new PluginKey(WysiwygPluginNames.AT_MENTION_SUGGESTION);
 
-export const makeAtMentionSuggestion: (teamId: string, channelId: string) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = (teamId: string, channelId: string) => ({
+type AtMentionSuggestionOptions = {
+    teamId: string;
+    channelId: string;
+    useSpecialMentions?: boolean;
+}
+
+export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, useSpecialMentions = true}) => ({
     char: '@',
 
     pluginKey: SuggestionPluginKey,
 
     items: async ({query}: {query: string}) => {
-        const {users, out_of_channel: nonMembers} = await Client4.autocompleteUsers(query, teamId, channelId, {limit: 30});
+        const {users: userInChannel, out_of_channel: userNotInChannel} = await Client4.autocompleteUsers(query, teamId, channelId, {limit: 30});
         const groups = await Client4.getGroups();
         const results: SuggestionItem[] = [];
-        if (Array.isArray(users) && users.length > 0) {
-            results.push(
-                ...users.map((user) => ({
-                    id: user.id,
-                    type: 'members',
-                    content: <UserMentionItem {...user}/>,
-                })),
-            );
+
+        // add all users that are members of the channel to the results
+        if (Array.isArray(userInChannel) && userInChannel.length > 0) {
+            results.push(...userInChannel.map((user) => ({
+                id: user.id,
+                type: 'members',
+                content: <UserMentionItem {...user}/>,
+            })));
         }
+
+        // add all found (and accessible) groups to the results
         if (Array.isArray(groups) && groups.length > 0) {
-            // results.push({labelDescriptor: {id: 'suggestion.mention.groups', defaultMessage: 'Group Mentions'}}, ...groups);
+            results.push(...groups.map((group) => ({
+                id: group.id,
+                type: 'groups',
+                content: <GroupMentionItem {...group}/>,
+            })));
         }
-        if (Array.isArray(nonMembers) && nonMembers.length > 0) {
-            // results.push({labelDescriptor: {id: 'suggestion.mention.nonmembers', defaultMessage: 'Not in Channel'}}, ...nonMembers);
+
+        if (useSpecialMentions) {
+            results.push(...Constants.SPECIAL_MENTIONS.map((special) => ({
+                id: `${special}_mention`,
+                type: 'special',
+                content: <SpecialMentionItem name={special}/>,
+            })));
         }
+
+        // add all users to the result that are not a member of this channel
+        if (Array.isArray(userNotInChannel) && userNotInChannel.length > 0) {
+            results.push(...userNotInChannel.map((user) => ({
+                id: user.id,
+                type: 'nonmembers',
+                content: <UserMentionItem {...user}/>,
+            })));
+        }
+
         return results;
     },
 

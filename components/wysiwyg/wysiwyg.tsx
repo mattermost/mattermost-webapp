@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {Permissions} from 'mattermost-redux/constants';
+import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
@@ -145,6 +147,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
     const teamId = useSelector(getCurrentTeamId);
+    const useSpecialMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS));
 
     const editor = useEditor({
         extensions: [
@@ -206,7 +209,11 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                 }),
             PasteHandler,
             AtMentionSuggestions.configure({
-                suggestion: makeAtMentionSuggestion(teamId, channelId),
+                suggestion: makeAtMentionSuggestion({
+                    teamId,
+                    channelId,
+                    useSpecialMentions,
+                }),
             }),
             ChannelSuggestions,
             EmojiSuggestions,
@@ -215,6 +222,9 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
         autofocus: 'end',
         onUpdate: ({editor}) => {
             debouncedDraft.current?.(editor);
+
+            // eslint-disable-next-line no-console
+            console.log('####### current message: ', htmlToMarkdown(editor.getHTML()));
 
             // call the onChange function from the parent component (if any available)
             onChange?.(htmlToMarkdown(editor.getHTML()));

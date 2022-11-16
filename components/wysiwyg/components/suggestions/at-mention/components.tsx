@@ -1,16 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {NodeViewProps} from '@tiptap/core/src/types';
-import {NodeViewWrapper} from '@tiptap/react';
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
+import {AccountMultipleOutlineIcon} from '@mattermost/compass-icons/components';
 import React from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 import {getDirectTeammate} from 'mattermost-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
-import {displayUsername, isGuest} from 'mattermost-redux/utils/user_utils';
+import {getStatusForUserId} from 'mattermost-redux/selectors/entities/users';
+import {isGuest} from 'mattermost-redux/utils/user_utils';
 import styled from 'styled-components';
 
 import {getLongDisplayNameParts, imageURLForUser} from 'utils/utils';
@@ -20,6 +18,8 @@ import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import ProfilePicture from 'components/profile_picture';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
+
+import {Group} from '@mattermost/types/groups';
 
 import {UserProfile} from '@mattermost/types/users';
 
@@ -32,30 +32,27 @@ const MentionItemRoot = styled.div`
 
     font-family: 'Open Sans', sans-serif;
     font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 20px;
+
     color: rgb(var(--center-channel-color-rgb));
+
+    > svg:first-child {
+        margin: 3px;
+        opacity: 0.56;
+    }
+
+    &:hover svg:first-child {
+        opacity: 0.72;
+    }
 
     .status-wrapper {
         height: auto;
     }
 `;
 
-const MentionGroupTitle = styled(MentionItemRoot)`
-    padding: 6px 20px;
-    opacity: 0.56;
-
-    font-weight: 600;
-    font-size: 12px;
-    line-height: 16px;
-    text-transform: uppercase;
-`;
-
-const UserMentionContainer = styled(MentionItemRoot)`
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 20px;
-`;
-
-const UserMentionDescription = styled.span`
+const MentionItemDescription = styled.span`
     opacity: 0.52;
     overflow: hidden;
     white-space: nowrap;
@@ -106,7 +103,7 @@ const UserMentionItem = (user: UserProfile) => {
     };
 
     return (
-        <UserMentionContainer
+        <MentionItemRoot
             id={user.id}
             aria-label={name}
         >
@@ -116,32 +113,48 @@ const UserMentionItem = (user: UserProfile) => {
                 size='sm'
             />
             {name}
-            {description && <UserMentionDescription>{description}</UserMentionDescription>}
+            {description && <MentionItemDescription>{description}</MentionItemDescription>}
             <CustomStatusEmoji
                 showTooltip={true}
                 userID={user.id}
                 emojiStyle={emojiStyle}
             />
             {tag}
-        </UserMentionContainer>
+        </MentionItemRoot>
     );
 };
 
-const RenderedMention = (props: NodeViewProps) => {
-    console.log('###### props', props);
-    const {id} = props.node.attrs;
-    const teammateNameDisplay = useSelector(getTeammateNameDisplaySetting);
-    const user = useSelector((state: GlobalState) => getUser(state, id));
-    const name = displayUsername(user, teammateNameDisplay, true);
+const GroupMentionItem = (group: Group) => {
+    const {id, display_name: displayName, name} = group;
     return (
-        <NodeViewWrapper as={'span'}>
-            {'@'}{name}
-        </NodeViewWrapper>
+        <MentionItemRoot
+            id={id}
+            aria-label={name}
+        >
+            <AccountMultipleOutlineIcon size={18}/>
+            {`@${name}`}
+            <MentionItemDescription>{displayName}</MentionItemDescription>
+        </MentionItemRoot>
+    );
+};
+
+const SpecialMentionItem = ({name}: {name: string}) => {
+    const {formatMessage} = useIntl();
+    const description = formatMessage({id: `suggestion.mention.${name}`});
+    return (
+        <MentionItemRoot
+            id={`${name}_mention-item`}
+            aria-label={name}
+        >
+            <AccountMultipleOutlineIcon size={18}/>
+            {`@${name}`}
+            <MentionItemDescription>{description}</MentionItemDescription>
+        </MentionItemRoot>
     );
 };
 
 export {
-    MentionGroupTitle,
     UserMentionItem,
-    RenderedMention,
+    GroupMentionItem,
+    SpecialMentionItem,
 };

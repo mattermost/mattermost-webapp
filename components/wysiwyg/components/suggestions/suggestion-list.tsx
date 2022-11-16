@@ -4,26 +4,28 @@
 // disabling this linter rule since it will show errors with the forwardRef
 /* eslint-disable react/prop-types */
 import React, {
-    forwardRef, Fragment,
+    forwardRef, Fragment, PropsWithChildren,
     useEffect,
-    useImperativeHandle, useLayoutEffect,
+    useImperativeHandle, useLayoutEffect, useRef,
     useState,
 } from 'react';
 import {createPortal} from 'react-dom';
 import {SuggestionProps} from '@tiptap/suggestion';
 import {useFloating, autoUpdate, offset, flip, shift, size} from '@floating-ui/react-dom';
 import {FormattedMessage} from 'react-intl';
+import scrollIntoView from 'smooth-scroll-into-view-if-needed';
 import styled from 'styled-components';
 
-import {MentionGroupTitle} from './at-mention_items';
-
-const ListContainer = styled.div`
+const ListContainer = styled.ul`
     display: flex;
     flex-direction: column;
 
-    padding: 6px 0;
+    margin: 0;
+    padding: 8px 0;
     max-width: 496px;
     z-index: 100;
+
+    list-style: none;
 
     overflow-x: hidden;
     overflow-y: auto;
@@ -33,17 +35,56 @@ const ListContainer = styled.div`
     box-shadow: 0 0 8px 2px rgba(0,0,0,0.12);
 `;
 
+const ListGroupTitle = styled.li`
+    display: flex;
+    flex: 1;
+    padding: 6px 20px;
+    opacity: 0.56;
+
+    font-family: 'Open Sans', sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 16px;
+    text-transform: uppercase;
+
+    &:not(:first-child) {
+        margin: 8px 0 0;
+    }
+`;
+
 type ListItemProps = {
     selected?: boolean;
 };
 
-const ListItem = styled.div<ListItemProps>`
+const StyledListItem = styled.li<ListItemProps>`
     background-color: ${({selected}) => (selected ? 'rgb(var(--button-bg-rgb), 0.08)' : 'transparent')};
 
     &:hover {
       background-color: rgb(var(--center-channel-color-rgb), 0.08);
     }
 `;
+
+const ListItem = (props: PropsWithChildren<ListItemProps>) => {
+    const itemRef = useRef<HTMLLIElement>(null);
+    useEffect(() => {
+        if (props.selected) {
+            const timeout = setTimeout(() => scrollIntoView(itemRef.current!, {
+                behavior: 'smooth',
+                scrollMode: 'if-needed',
+                block: 'nearest',
+            }), 200);
+            return () => clearTimeout(timeout);
+        }
+        return () => {};
+    }, [props.selected]);
+    return (
+        <StyledListItem
+            {...props}
+            ref={itemRef}
+        />
+    );
+};
 
 export type SuggestionListRef = {
     onKeyDown: (props: {event: KeyboardEvent}) => boolean;
@@ -169,9 +210,9 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
             {items.length ? items.map(({id, content, type}, index) => (
                 <Fragment key={id}>
                     {renderSeparators && type && type !== items[index - 1]?.type && (
-                        <MentionGroupTitle>
+                        <ListGroupTitle>
                             <FormattedMessage id={`suggestion.mention.${type}`}/>
-                        </MentionGroupTitle>
+                        </ListGroupTitle>
                     )}
                     <ListItem
                         selected={index === selectedIndex}
