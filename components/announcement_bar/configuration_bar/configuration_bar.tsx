@@ -10,6 +10,7 @@ import {AnnouncementBarTypes, AnnouncementBarMessages, WarnMetricTypes, Preferen
 import {t} from 'utils/i18n';
 
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
+import {getSkuDisplayName} from 'components/admin_console/license_settings/enterprise_edition/enterprise_edition_left_panel';
 
 import ackIcon from 'images/icons/check-circle-outline.svg';
 import alertIcon from 'images/icons/round-white-info-icon.svg';
@@ -26,6 +27,7 @@ import {PreferenceType} from '@mattermost/types/preferences';
 import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
 import RenewalLink from '../renewal_link/';
+
 
 type Props = {
     config?: Partial<ClientConfig>;
@@ -284,9 +286,10 @@ const ConfigurationAnnouncementBar = (props: Props) => {
                 />
                 <FormattedMessage
                     id='announcement_bar.error.license_expiring'
-                    defaultMessage='Enterprise license expires on {date, date, long}.'
+                    defaultMessage='{licenseSku} license expires on {date, date, long}.'
                     values={{
                         date: new Date(parseInt(props.license?.ExpiresAt, 10)),
+                        licenseSku: getSkuDisplayName(props.license.SkuShortName, props.license.IsGovSku === 'true'),
                     }}
                 />
             </>);

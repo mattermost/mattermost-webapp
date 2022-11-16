@@ -2,13 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import moment from 'moment';
 
 import {ClientLicense} from '@mattermost/types/config';
 import {Client4} from 'mattermost-redux/client';
 
 import RenewalLink from 'components/announcement_bar/renewal_link/';
+import {getSkuDisplayName} from '../enterprise_edition/enterprise_edition_left_panel';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
@@ -16,6 +17,7 @@ import AlertBanner from 'components/alert_banner';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import './renew_license_card.scss';
+
 
 export interface RenewLicenseCardProps {
     license: ClientLicense;
@@ -47,6 +49,7 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
             />
         </div>
     );
+    const intl = useIntl();
 
     let cardTitle = (
         <FormattedMessage
@@ -81,7 +84,10 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
             <div className='RenewLicenseCard__text-description bolder'>
                 <FormattedMessage
                     id='admin.license.renewalCard.description'
-                    defaultMessage='Renew your Enterprise license through the Customer Portal to avoid any disruption.'
+                    defaultMessage='Renew your {licenseSku} license through the Customer Portal to avoid any disruption.'
+                    values={{
+                        licenseSku: getSkuDisplayName(license.SkuShortName, license.IsGovSku === 'true'),
+                    }}
                 />
             </div>
             <div className='RenewLicenseCard__text-description'>
