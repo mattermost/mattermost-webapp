@@ -42,7 +42,7 @@ const ToggleFormattingBar = (props: ToggleFormattingBarProps): JSX.Element => {
         </Tooltip>
     );
 
-    const ChevronIcon = active ? ChevronDownIcon : ChevronUpIcon;
+    const ChevronIcon = active ? ChevronUpIcon : ChevronDownIcon;
 
     return (
         <OverlayTrigger
