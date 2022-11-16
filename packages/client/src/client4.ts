@@ -3836,6 +3836,12 @@ export default class Client4 {
         );
     };
 
+    getSelfHostedProducts = () => {
+        return this.doFetch<Product[]>(
+            `${this.getCloudRoute()}/products/selfhosted`, {method: 'get'},
+        );
+    }
+
     getIntegrationsUsage = () => {
         return this.doFetch<IntegrationsUsage>(
             `${this.getUsageRoute()}/integrations`, {method: 'get'},

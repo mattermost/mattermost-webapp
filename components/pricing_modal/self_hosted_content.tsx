@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,6 +14,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {Client4} from 'mattermost-redux/client';
 
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
@@ -29,12 +30,25 @@ type ContentProps = {
     onHide: () => void;
 }
 
+const FALL_BACK_PROFESSIONAL_PRICE = 7.5;
+
 function SelfHostedContent(props: ContentProps) {
+    const [professionalPrice, setProfessionalPrice] = useState(FALL_BACK_PROFESSIONAL_PRICE);
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
+    }, []);
+
+    useEffect(() => {
+        async function fetchSelfHostedProducts() {
+            const products = await Client4.getSelfHostedProducts();
+            const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+            setProfessionalPrice(professionalProduct?.price_per_seat || FALL_BACK_PROFESSIONAL_PRICE);
+        }
+
+        fetchSelfHostedProducts();
     }, []);
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
@@ -168,7 +182,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price='$10'
+                        price={`$${professionalPrice}`}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                         planLabel={
                             isProfessional ? (
