@@ -127,6 +127,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                         className='dateTime__calendar-input'
                         label={localizeMessage('dnd_custom_time_picker_modal.date', 'Date')}
                         onClick={handlePopperOpen}
+                        tabIndex={-1}
                         inputPrefix={
                             <IconButton
                                 onClick={handlePopperOpen}
@@ -141,9 +142,8 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                 <MenuWrapper
                     className='dateTime__time-menu'
                 >
-                    <div
-                        role='button'
-                        tabIndex={0}
+                    <button
+                        className='style--none'
                     >
                         <span className='dateTime__input-title'>{formatMessage({id: 'custom_status.expiry.time_picker.title', defaultMessage: 'Time'})}</span>
                         <span className='dateTime__time-icon'>
@@ -158,7 +158,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
                                 value={time.toString()}
                             />
                         </div>
-                    </div>
+                    </button>
                     <Menu
                         ariaLabel={formatMessage({id: 'time_dropdown.choose_time', defaultMessage: 'Choose a time'})}
                         id='expiryTimeMenu'

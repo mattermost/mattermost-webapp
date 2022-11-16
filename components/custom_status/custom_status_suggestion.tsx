@@ -64,11 +64,12 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
         ) : null;
 
     return (
-        <div
+        <button
             className='statusSuggestion__row cursor--pointer'
             onMouseEnter={showClearButton}
             onMouseLeave={hideClearButton}
             onClick={() => handleSuggestionClick(status)}
+            tabIndex={0}
         >
             <div className='statusSuggestion__icon'>
                 <RenderEmoji
@@ -94,7 +95,7 @@ const CustomStatusSuggestion: React.FC<Props> = (props: Props) => {
                 </span>
             )}
             {show && clearButton}
-        </div>
+        </button>
     );
 };
 

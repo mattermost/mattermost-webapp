@@ -306,7 +306,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     return (
         <GenericModal
-            enforceFocus={false}
             onExited={props.onExited}
             modalHeaderText={
                 <FormattedMessage
@@ -376,7 +375,6 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         placeholder={formatMessage({id: 'custom_status.set_status', defaultMessage: 'Set a status'})}
                     />
                 </div>
-                {showSuggestions && suggestion}
                 {isStatusSet && (
                     <ExpiryMenu
                         duration={duration}
@@ -384,6 +382,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                         handleDurationChange={setDuration}
                     />
                 )}
+                {showSuggestions && suggestion}
                 {showDateAndTimeField && (
                     <DateTimeInput
                         time={customExpiryTime}

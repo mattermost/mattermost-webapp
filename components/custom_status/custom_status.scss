@@ -222,6 +222,8 @@
         padding-left: 18px;
         color: var(--center-channel-color);
         font-size: inherit;
+        border: none;
+        background: transparent;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
@@ -351,6 +353,7 @@ span.emoticon[style]:hover {
         color: var(--center-channel-color);
         cursor: pointer;
         font-size: 14px;
+        text-align: left;
 
         &-title {
             position: absolute;
