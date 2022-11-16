@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import moment from 'moment';
 
 import {ClientLicense} from '@mattermost/types/config';
@@ -17,7 +17,6 @@ import AlertBanner from 'components/alert_banner';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
 import './renew_license_card.scss';
-
 
 export interface RenewLicenseCardProps {
     license: ClientLicense;
@@ -49,7 +48,6 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
             />
         </div>
     );
-    const intl = useIntl();
 
     let cardTitle = (
         <FormattedMessage

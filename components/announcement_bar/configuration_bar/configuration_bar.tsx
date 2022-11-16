@@ -28,7 +28,6 @@ import AnnouncementBar from '../default_announcement_bar';
 import TextDismissableBar from '../text_dismissable_bar';
 import RenewalLink from '../renewal_link/';
 
-
 type Props = {
     config?: Partial<ClientConfig>;
     intl: IntlShape;
