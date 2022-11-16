@@ -1,10 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import React, {useCallback, useEffect, useRef, useState} from 'react';
+import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
 import {useDispatch, useSelector} from 'react-redux';
@@ -40,8 +38,6 @@ import {ActionTypes} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
-
-import {RenderedMention} from './components/suggestions/at-mention_items';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
@@ -209,11 +205,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     defaultLanguage: 'css',
                 }),
             PasteHandler,
-            AtMentionSuggestions.extend({
-                addNodeView() {
-                    return renderReactNodeView(RenderedMention);
-                },
-            }).configure({
+            AtMentionSuggestions.configure({
                 suggestion: makeAtMentionSuggestion(teamId, channelId),
             }),
             ChannelSuggestions,

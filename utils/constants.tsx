@@ -7,8 +7,6 @@ import keyMirror from 'key-mirror';
 
 import Permissions from 'mattermost-redux/constants/permissions';
 
-import {CustomStatusDuration} from '@mattermost/types/users';
-
 import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
@@ -28,6 +26,8 @@ import solarizedLightIcon from 'images/themes/code_themes/solarized-light.png';
 import logoWebhook from 'images/webhook_icon.jpg';
 
 import {t} from 'utils/i18n';
+
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 import githubCSS from '!!file-loader?name=files/code_themes/[hash].[ext]!highlight.js/styles/github.css';
 
@@ -2123,6 +2123,12 @@ export const InsightsCardTitles = {
         mySubTitle: {},
     },
 };
+
+export enum WysiwygPluginNames {
+    AT_MENTION_SUGGESTION = 'at-mention-suggestion',
+    CHANNEL_SUGGESTION = 'channel-suggestion',
+    EMOJI_SUGGESTION = 'emoji-suggestion',
+}
 
 export enum ClaimErrors {
     MFA_VALIDATE_TOKEN_AUTHENTICATE = 'mfa.validate_token.authenticate.app_error',

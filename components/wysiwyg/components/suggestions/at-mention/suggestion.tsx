@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {ReactRenderer} from '@tiptap/react';
-import {Mention} from '@tiptap/extension-mention';
-import {SuggestionOptions} from '@tiptap/suggestion';
 import {Client4} from 'mattermost-redux/client';
+
+import {ReactRenderer} from '@tiptap/react';
+import {SuggestionOptions} from '@tiptap/suggestion';
 import {PluginKey} from 'prosemirror-state';
 
-import {UserMentionItem} from './at-mention_items';
+import {WysiwygPluginNames} from 'utils/constants';
 
-import SuggestionList, {SuggestionItem, SuggestionListProps, SuggestionListRef} from './suggestion-list';
+import SuggestionList, {SuggestionItem, SuggestionListProps, SuggestionListRef} from '../suggestion-list';
 
-const pluginName = 'user-suggestions';
-const SuggestionPluginKey = new PluginKey(pluginName);
+import {UserMentionItem} from './components';
+
+const SuggestionPluginKey = new PluginKey(WysiwygPluginNames.AT_MENTION_SUGGESTION);
 
 export const makeAtMentionSuggestion: (teamId: string, channelId: string) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = (teamId: string, channelId: string) => ({
     char: '@',
@@ -78,9 +79,3 @@ export const makeAtMentionSuggestion: (teamId: string, channelId: string) => Omi
         };
     },
 });
-
-const AtMention = Mention.extend({
-    name: pluginName,
-});
-
-export default AtMention;
