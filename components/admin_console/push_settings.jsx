@@ -130,7 +130,6 @@ export default class PushSettings extends AdminSettings {
                         link: (msg) => (
                             <a
                                 href='https://docs.mattermost.com/deploy/mobile-hpns.html'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -149,7 +148,6 @@ export default class PushSettings extends AdminSettings {
                         linkIOS: (msg) => (
                             <a
                                 href='https://mattermost.com/mattermost-ios-app/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -159,7 +157,6 @@ export default class PushSettings extends AdminSettings {
                         linkAndroid: (msg) => (
                             <a
                                 href='https://mattermost.com/mattermost-android-app/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -169,7 +166,6 @@ export default class PushSettings extends AdminSettings {
                         linkHPNS: (msg) => (
                             <a
                                 href='https://docs.mattermost.com/deploy/mobile-hpns.html'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -188,7 +184,6 @@ export default class PushSettings extends AdminSettings {
                         linkIOS: (msg) => (
                             <a
                                 href='https://mattermost.com/mattermost-ios-app/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -198,7 +193,6 @@ export default class PushSettings extends AdminSettings {
                         linkAndroid: (msg) => (
                             <a
                                 href='https://mattermost.com/mattermost-android-app/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -208,7 +202,6 @@ export default class PushSettings extends AdminSettings {
                         linkHPNS: (msg) => (
                             <a
                                 href='https://docs.mattermost.com/deploy/mobile-hpns.html'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -227,7 +220,6 @@ export default class PushSettings extends AdminSettings {
                         link: (msg) => (
                             <a
                                 href='https://docs.mattermost.com/'
-                                referrer='noreferrer'
                                 target='_blank'
                                 rel='noreferrer'
                             >
@@ -258,7 +250,6 @@ export default class PushSettings extends AdminSettings {
                                 linkTerms: (msg) => (
                                     <a
                                         href='https://mattermost.com/hpns-terms/'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >
@@ -268,7 +259,6 @@ export default class PushSettings extends AdminSettings {
                                 linkPricacy: (msg) => (
                                     <a
                                         href='https://mattermost.com/data-processing-addendum/'
-                                        referrer='noreferrer'
                                         target='_blank'
                                         rel='noreferrer'
                                     >

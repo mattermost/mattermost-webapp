@@ -14,9 +14,7 @@ import CloudFetchError from 'components/cloud_fetch_error';
 
 import CompanyInfoDisplay from './company_info_display';
 
-type Props = {
-
-};
+type Props = Record<string, never>;
 
 const CompanyInfo: React.FC<Props> = () => {
     const dispatch = useDispatch<DispatchFunc>();

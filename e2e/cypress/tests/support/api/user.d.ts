@@ -78,14 +78,14 @@ declare namespace Cypress {
         /**
          * Get current user.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
-         * @returns {UserProfile} out.user: `UserProfile` object
+         * @returns {user: UserProfile} out.user: `UserProfile` object
          *
          * @example
          *   cy.apiGetMe().then(({user}) => {
          *       // do something with user
          *   });
          */
-        apiGetMe(): Chainable<UserProfile>;
+        apiGetMe(): Chainable<{user: UserProfile}>;
 
         /**
          * Get a user by ID.
