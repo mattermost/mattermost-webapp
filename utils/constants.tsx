@@ -958,6 +958,7 @@ export const AdvancedSections = {
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
     PERFORMANCE_DEBUGGING: 'performanceDebugging',
+    SYNC_DRAFTS: 'syncDrafts',
 };
 
 export const RHSStates = {

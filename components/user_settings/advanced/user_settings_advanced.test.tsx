@@ -40,6 +40,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         sendOnCtrlEnter: '',
         formatting: '',
         joinLeave: '',
+        syncDrafts: '',
         unreadScrollPosition: Preferences.UNREAD_SCROLL_POSITION_START_FROM_LEFT,
         codeBlockOnCtrlEnter: 'false',
         enablePreviewFeatures: false,

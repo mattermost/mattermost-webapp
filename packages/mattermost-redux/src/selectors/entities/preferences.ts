@@ -270,7 +270,7 @@ export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): bo
 export function syncedDraftsAreEnabled(state: GlobalState): boolean {
     const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
     const isConfiguredForFeature = getConfig(state).AllowSyncedDrafts === 'true';
-    const isConfiguredForUser = true;
+    const isConfiguredForUser = getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_SYNC_DRAFTS, true);
 
     return isFeatureEnabled && isConfiguredForFeature && isConfiguredForUser;
 }
