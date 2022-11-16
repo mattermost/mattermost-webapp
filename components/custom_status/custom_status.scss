@@ -60,6 +60,45 @@
             border-color: var(--button-bg);
         }
     }
+    .dateTime__calendar-input {
+        font-size: 14px;
+        width: 266px;
+        border: 2px solid var(--button-bg);
+
+        &:hover {
+            border: 2px solid var(--button-bg);
+            cursor: pointer;
+        }
+
+        &:focus-within {
+            box-shadow: 0;
+        }
+        
+        .Input_wrapper {
+            padding: 0 10px;
+        }
+
+        button {
+            margin: 0 8px 0 0;
+            color: rgba(var(--center-channel-color-rgb), 0.72);
+        }
+
+        input#customStatus__calendar-input {
+            height: auto !important;
+            border: 0;
+            padding: 0;
+            font-weight: 400;
+
+            &[readonly] {
+                background: transparent;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+    
 
     & &__input {
         position: relative;

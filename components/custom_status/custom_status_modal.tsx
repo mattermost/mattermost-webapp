@@ -377,18 +377,18 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                     />
                 </div>
                 {showSuggestions && suggestion}
-                {showDateAndTimeField && (
-                    <DateTimeInput
-                        time={customExpiryTime}
-                        handleChange={setCustomExpiryTime}
-                        timezone={timezone}
-                    />
-                )}
                 {isStatusSet && (
                     <ExpiryMenu
                         duration={duration}
                         expiryTime={showSuggestions ? currentCustomStatus?.expires_at : undefined}
                         handleDurationChange={setDuration}
+                    />
+                )}
+                {showDateAndTimeField && (
+                    <DateTimeInput
+                        time={customExpiryTime}
+                        handleChange={setCustomExpiryTime}
+                        timezone={timezone}
                     />
                 )}
             </div>

@@ -1297,9 +1297,26 @@
         }
     }
 
-    .search-help-popover {
-        left: 0;
-        max-width: 100%;
+    .search__form {
+        .search-help-popover {
+            left: 0;
+            width: auto;
+            max-width: 100%;
+
+            &.autocomplete {
+                .popover-content {
+                    .rdp-months {
+                        .rdp-caption {
+                            padding: 0;
+                        }
+        
+                        .rdp-cell {
+                            padding: 0;
+                        }
+                    }
+                }
+            }
+        }
     }
 
     .modal-direct-channels,

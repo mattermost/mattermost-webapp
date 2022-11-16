@@ -3,69 +3,23 @@
 
 import React, {useEffect, useState, useCallback} from 'react';
 import {useSelector} from 'react-redux';
-import {DayModifiers, DayPicker} from 'react-day-picker';
+import {DayModifiers} from 'react-day-picker';
 import {useIntl} from 'react-intl';
 
 import moment, {Moment} from 'moment-timezone';
 
+import IconButton from '@mattermost/compass-components/components/icon-button';
+
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
+import Input from 'components/widgets/inputs/input/input';
 import Menu from 'components/widgets/menu/menu';
 import Timestamp from 'components/timestamp';
 import {getCurrentLocale} from 'selectors/i18n';
+import {localizeMessage} from 'utils/utils';
 import {getCurrentMomentForTimezone} from 'utils/timezone';
+import DatePicker from 'components/date_picker';
 
 const CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES = 30;
-
-const Navbar = (navbarProps: Partial<any>) => {
-    const {
-        onPreviousClick,
-        onNextClick,
-        className,
-    } = navbarProps;
-    const styleLeft: React.CSSProperties = {
-        float: 'left',
-        fontSize: 18,
-    };
-    const styleRight: React.CSSProperties = {
-        float: 'right',
-        fontSize: 18,
-    };
-
-    return (
-        <div className={className}>
-            <button
-                className='style--none'
-                style={styleLeft}
-                onClick={(e) => {
-                    e.preventDefault();
-                    if (onPreviousClick) {
-                        onPreviousClick();
-                    }
-                }}
-            >
-                <i
-                    className='fa fa-angle-left'
-                    aria-hidden='true'
-                />
-            </button>
-            <button
-                className='style--none'
-                style={styleRight}
-                onClick={(e) => {
-                    e.preventDefault();
-                    if (onNextClick) {
-                        onNextClick();
-                    }
-                }}
-            >
-                <i
-                    className='fa fa-angle-right'
-                    aria-hidden='true'
-                />
-            </button>
-        </div>
-    );
-};
 
 export function getRoundedTime(value: Moment) {
     const roundedTo = CUSTOM_STATUS_TIME_PICKER_INTERVALS_IN_MINUTES;
@@ -101,6 +55,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     const locale = useSelector(getCurrentLocale);
     const {time, handleChange, timezone} = props;
     const [timeOptions, setTimeOptions] = useState<Date[]>([]);
+    const [isPopperOpen, setIsPopperOpen] = useState(false);
     const {formatMessage} = useIntl();
 
     const setTimeAndOptions = () => {
@@ -123,6 +78,7 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
             const dayWithTimezone = timezone ? moment.tz(day, timezone) : moment(day);
             handleChange(dayWithTimezone.startOf('day'));
         }
+        handlePopperClosed();
     };
 
     const handleTimeChange = useCallback((time: Date, e: React.MouseEvent) => {
@@ -131,42 +87,64 @@ const DateTimeInputContainer: React.FC<Props> = (props: Props) => {
     }, [handleChange]);
 
     const currentTime = getCurrentMomentForTimezone(timezone).toDate();
-    const modifiers = {
-        today: currentTime,
+
+    const handlePopperClosed = useCallback(() => {
+        setIsPopperOpen(false);
+    }, []);
+
+    const handlePopperOpen = useCallback(() => {
+        setIsPopperOpen(true);
+    }, []);
+
+    const formatDate = (date: Date): string => {
+        const month = (date.getMonth() + 1).toString().padStart(2, '0');
+        const day = date.getDate().toString().padStart(2, '0');
+        const year = date.getFullYear().toString();
+        return [year, month, day].join('-');
     };
 
     return (
         <div className='dateTime'>
             <div className='dateTime__date'>
-                <span className='dateTime__input-title'>{formatMessage({id: 'custom_status.expiry.date_picker.title', defaultMessage: 'Date'})}</span>
-                <span className='dateTime__date-icon'>
-                    <i className='icon-calendar-outline'/>
-                </span>
-                {/* <DayPickerInput
-                    value={time.toDate()}
-                    format='yyyy-MM-DD'
-                    formatDate={MomentUtils.formatDate}
-                    onDayChange={handleDayChange}
-                    inputProps={{
-                        readOnly: true,
-                        className: 'dateTime__input',
-                    }}
-                    dayPickerProps={{
-                        navbarElement: <Navbar/>,
-                        fromMonth: currentTime,
-                        modifiers,
-                        locale: locale.toLowerCase(),
-                        disabledDays: {
+                <DatePicker
+                    isPopperOpen={isPopperOpen}
+                    closePopper={handlePopperClosed}
+                    locale={locale}
+                    datePickerProps={{
+                        initialFocus: isPopperOpen,
+                        mode: 'single',
+                        selected: currentTime,
+                        onDayClick: handleDayChange,
+                        disabled: [{
                             before: currentTime,
-                        },
+                        }],
                     }}
-                /> */}
+                >
+                    <Input
+                        value={formatDate(time.toDate())}
+                        id='customStatus__calendar-input'
+                        readOnly={true}
+                        className='dateTime__calendar-input'
+                        label={localizeMessage('dnd_custom_time_picker_modal.date', 'Date')}
+                        onClick={handlePopperOpen}
+                        inputPrefix={
+                            <IconButton
+                                onClick={handlePopperOpen}
+                                icon={'calendar-outline'}
+                                size={'sm'}
+                            />
+                        }
+                    />
+                </DatePicker>
             </div>
             <div className='dateTime__time'>
                 <MenuWrapper
                     className='dateTime__time-menu'
                 >
-                    <div>
+                    <div
+                        role='button'
+                        tabIndex={0}
+                    >
                         <span className='dateTime__input-title'>{formatMessage({id: 'custom_status.expiry.time_picker.title', defaultMessage: 'Time'})}</span>
                         <span className='dateTime__time-icon'>
                             <i className='icon-clock-outline'/>

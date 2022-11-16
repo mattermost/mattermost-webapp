@@ -1,40 +1,56 @@
-import React, { ChangeEventHandler, useEffect, useRef, useState } from 'react';
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+import React, {useEffect, useRef, useState} from 'react';
 
 import FocusTrap from 'focus-trap-react';
-import { DayPicker } from 'react-day-picker';
-import { usePopper } from 'react-popper';
+import {DayPicker, DayPickerProps} from 'react-day-picker';
+import {usePopper} from 'react-popper';
+
+import type {Locale} from 'date-fns';
 
 import './date_picker.scss';
 
 type Props = {
     children: React.ReactNode;
-    datePickerProps: any;
+    datePickerProps: DayPickerProps;
     isPopperOpen: boolean;
+    locale: string;
     closePopper: () => void;
 }
 
-const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper}: Props) => {
+const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper, locale}: Props) => {
+    const loadedLocales: Record<string, Locale> = {};
     const popperRef = useRef<HTMLDivElement>(null);
-    // const buttonRef = useRef<HTMLButtonElement>(null);
     const [popperElement, setPopperElement] = useState<HTMLDivElement | null>(
-        null
+        null,
     );
 
     const popper = usePopper(popperRef.current, popperElement, {
-        placement: 'bottom-start'
+        placement: 'bottom-start',
     });
 
-    // const closePopper = () => {
-    //     setIsPopperOpen(false);
-    //     buttonRef?.current?.focus();
-    // };
+    const localeExists = (path: string) => {
+        try {
+            require.resolve(path);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 
     useEffect(() => {
-        console.log(popperRef)
         if (isPopperOpen && !popperRef?.current) {
             closePopper();
         }
     }, [popperRef]);
+
+    useEffect(() => {
+        if (locale && locale !== 'en-US' && !loadedLocales[locale] && localeExists(`date-fns/locale/${locale}/index.js`)) {
+            /* eslint-disable global-require */
+            loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
+            /* eslint-disable global-require */
+        }
+    }, []);
 
     return (
         <div>
@@ -43,31 +59,31 @@ const DatePicker = ({children, datePickerProps, isPopperOpen, closePopper}: Prop
             </div>
             {isPopperOpen && (
                 <FocusTrap
-                    active
+                    active={true}
                     focusTrapOptions={{
                         initialFocus: false,
                         allowOutsideClick: true,
                         clickOutsideDeactivates: true,
                         onDeactivate: closePopper,
-                        // fallbackFocus: buttonRef.current
                     }}
                 >
                     <div
                         tabIndex={-1}
                         style={popper.styles.popper}
-                        className="date-picker__popper"
+                        className='date-picker__popper'
                         {...popper.attributes.popper}
                         ref={setPopperElement}
-                        role="dialog"
+                        role='dialog'
                     >
                         <DayPicker
                             {...datePickerProps}
+                            locale={loadedLocales[locale]}
                         />
                     </div>
                 </FocusTrap>
             )}
         </div>
     );
-}
+};
 
 export default DatePicker;

@@ -12,9 +12,9 @@ import Constants from 'utils/constants';
 
 import 'react-day-picker/dist/style.css';
 
-import 'date-fns';
+import type {Locale} from 'date-fns';
 
-const loadedLocales: Record<string, moment.Locale> = {};
+const loadedLocales: Record<string, Locale> = {};
 
 type Props = {
     locale: string;
@@ -45,13 +45,20 @@ export default class SearchDateSuggestion extends Suggestion {
         }
     };
 
+    localeExists = (path: string) => {
+        try {
+            require.resolve(path);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 
     componentDidMount() {
-        //the naming scheme of momentjs packages are all lowercases
         const locale = this.props.locale;
 
-        // Momentjs use en as defualt, no need to import en
-        if (locale && locale !== 'en' && !loadedLocales[locale]) {
+        // Default value is en-US
+        if (locale && locale !== 'en-US' && !loadedLocales[locale] && this.localeExists(`date-fns/locale/${locale}/index.js`)) {
             /* eslint-disable global-require */
             loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
             /* eslint-disable global-require */
@@ -63,7 +70,7 @@ export default class SearchDateSuggestion extends Suggestion {
     componentDidUpdate(prevProps: Props) {
         const locale = this.props.locale;
 
-        if (locale && locale !== 'en' && locale !== prevProps.locale && !loadedLocales[locale]) {
+        if (locale && locale !== 'en-US' && locale !== prevProps.locale && !loadedLocales[locale] && this.localeExists(`date-fns/locale/${locale}/index.js`)) {
             /* eslint-disable global-require */
             loadedLocales[locale] = require(`date-fns/locale/${locale}/index.js`);
             /* eslint-disable global-require */
@@ -84,7 +91,7 @@ export default class SearchDateSuggestion extends Suggestion {
 
         const locale: string = this.props.locale;
 
-        return (            
+        return (
             <DayPicker
                 onDayClick={this.handleDayClick}
                 showOutsideDays={true}

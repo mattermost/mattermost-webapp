@@ -4,6 +4,10 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import IconButton from '@mattermost/compass-components/components/icon-button';
+
+import classNames from 'classnames';
+
 import {ActionFunc} from 'mattermost-redux/types/actions';
 import {UserStatus} from '@mattermost/types/users';
 
@@ -18,12 +22,12 @@ import {toUTCUnix} from 'utils/datetime';
 import {localizeMessage} from 'utils/utils';
 import Input from 'components/widgets/inputs/input/input';
 import DatePicker from 'components/date_picker';
-import IconButton from '@mattermost/compass-components/components/icon-button';
 
 type Props = {
     onExited: () => void;
     userId: string;
     currentDate: Date;
+    locale: string;
     actions: {
         setStatus: (status: UserStatus) => ActionFunc;
     };
@@ -39,8 +43,6 @@ type State = {
 }
 
 export default class DndCustomTimePicker extends React.PureComponent<Props, State> {
-    private popperRef: React.RefObject<HTMLDivElement>;
-
     constructor(props: Props) {
         super(props);
 
@@ -59,8 +61,6 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             isPopperOpen: false,
             popperElement: null,
         };
-
-        this.popperRef = React.createRef();
     }
 
     formatDate = (date: Date): string => {
@@ -90,7 +90,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
         };
     }
 
-    handleConfirm =  async() => {
+    handleConfirm = async () => {
         if (this.state.isPopperOpen) {
             return;
         }
@@ -171,7 +171,7 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
             confirmButtonText,
         } = this.getText();
 
-        const {timeMenuList, selectedTime, selectedDate, dayPickerStartDate} = this.state;
+        const {timeMenuList, selectedTime, selectedDate, dayPickerStartDate, isPopperOpen} = this.state;
         const timeMenuItems = timeMenuList.map((time) => {
             return (
                 <Menu.ItemAction
@@ -198,34 +198,34 @@ export default class DndCustomTimePicker extends React.PureComponent<Props, Stat
                 confirmButtonText={confirmButtonText}
                 handleConfirm={this.handleConfirm}
                 handleEnterKeyPress={this.handleConfirm}
-                autoCloseOnConfirmButton={false}
                 id='dndCustomTimePickerModal'
                 className={'DndModal modal-overflow'}
                 tabIndex={-1}
             >
                 <div className='DndModal__content'>
                     <DatePicker
-                        isPopperOpen={this.state.isPopperOpen}
+                        isPopperOpen={isPopperOpen}
                         closePopper={this.handlePopperClosed}
+                        locale={this.props.locale}
                         datePickerProps={{
-                            initialFocus: this.state.isPopperOpen,
-                            mode: "single",
+                            initialFocus: isPopperOpen,
+                            mode: 'single',
                             selected: selectedDate,
                             onDayClick: this.handleDaySelection,
                             disabled: [{
                                 before: dayPickerStartDate,
                             }],
+                            showOutsideDays: true,
                         }}
                     >
                         <Input
                             value={this.formatDate(selectedDate)}
-                            onChange={(e) => {
-                                const d = new Date(e.target.value);
-                                const formattedDate = this.formatDate(d);
-                            }}
+                            readOnly={true}
                             id='DndModal__calendar-input'
-                            className='DndModal__calendar-input'
+                            className={classNames('DndModal__calendar-input', {'popper-open': isPopperOpen})}
                             label={localizeMessage('dnd_custom_time_picker_modal.date', 'Date')}
+                            onClick={this.handlePopperOpen}
+                            tabIndex={-1}
                             inputPrefix={
                                 <IconButton
                                     icon={'calendar-outline'}
