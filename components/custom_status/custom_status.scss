@@ -100,7 +100,6 @@
         }
     }
 
-
     & &__input {
         position: relative;
         width: calc(100% - 16px);
@@ -220,10 +219,10 @@
         align-items: center;
         padding-right: 10px;
         padding-left: 18px;
-        color: var(--center-channel-color);
-        font-size: inherit;
         border: none;
         background: transparent;
+        color: var(--center-channel-color);
+        font-size: inherit;
 
         &:hover {
             background-color: rgba(var(--center-channel-color-rgb), 0.08);
