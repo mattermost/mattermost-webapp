@@ -3,7 +3,7 @@
 
 import {DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
-import {syncedDraftsAreEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {syncedDraftsAreAllowedAndEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {Client4} from 'mattermost-redux/client';
 
 import {setGlobalItem} from 'actions/storage';
@@ -21,7 +21,7 @@ export function removeDraft(key: string, channelId: string, rootId = '') {
 
         dispatch(setGlobalItem(key, {message: '', fileInfos: [], uploadsInProgress: []}));
 
-        if (syncedDraftsAreEnabled(state)) {
+        if (syncedDraftsAreAllowedAndEnabled(state)) {
             const connectionId = getConnectionId(getState() as GlobalState);
             await Client4.deleteDraft(channelId, rootId, connectionId);
         }
@@ -43,7 +43,7 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
                 remote: false,
             };
 
-            if (syncedDraftsAreEnabled(state) && save) {
+            if (syncedDraftsAreAllowedAndEnabled(state) && save) {
                 const connectionId = getConnectionId(state);
                 const userId = getCurrentUserId(state);
                 await upsertDraft(updatedValue, userId, rootId, connectionId);
@@ -83,7 +83,7 @@ export function removeFilePreview(key: string, id: string) {
 
             dispatch(setGlobalItem(key, updatedDraft));
 
-            if (syncedDraftsAreEnabled(state)) {
+            if (syncedDraftsAreAllowedAndEnabled(state)) {
                 const userId = getCurrentUserId(state);
                 await upsertDraft(updatedDraft, userId, rootId, connectionId);
             }

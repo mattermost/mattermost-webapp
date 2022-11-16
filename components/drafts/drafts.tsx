@@ -24,7 +24,7 @@ type Props = {
     user: UserProfile;
     displayName: string;
     status: UserStatus['status'];
-    draftsAreEnabled: boolean;
+    localDraftsAreEnabled: boolean;
 }
 
 function Drafts({
@@ -32,7 +32,7 @@ function Drafts({
     drafts,
     status,
     user,
-    draftsAreEnabled,
+    localDraftsAreEnabled,
 }: Props) {
     const dispatch = useDispatch();
     const {formatMessage} = useIntl();
@@ -41,7 +41,7 @@ function Drafts({
         dispatch(selectChannel(''));
     }, []);
 
-    if (!draftsAreEnabled) {
+    if (!localDraftsAreEnabled) {
         return null;
     }
 

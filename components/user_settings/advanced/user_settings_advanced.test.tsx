@@ -45,6 +45,7 @@ describe('components/user_settings/display/UserSettingsDisplay', () => {
         codeBlockOnCtrlEnter: 'false',
         enablePreviewFeatures: false,
         enableUserDeactivation: false,
+        syncedDraftsAreAllowed: true,
     };
 
     test('should have called handleSubmit', async () => {

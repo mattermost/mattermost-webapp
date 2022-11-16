@@ -267,7 +267,14 @@ export function getHasDismissedSystemConsoleLimitReached(state: GlobalState): bo
     return getBool(state, Preferences.CATEGORY_UPGRADE_CLOUD, Preferences.SYSTEM_CONSOLE_LIMIT_REACHED, false);
 }
 
-export function syncedDraftsAreEnabled(state: GlobalState): boolean {
+export function syncedDraftsAreAllowed(state: GlobalState): boolean {
+    const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
+    const isConfiguredForFeature = getConfig(state).AllowSyncedDrafts === 'true';
+
+    return isFeatureEnabled && isConfiguredForFeature;
+}
+
+export function syncedDraftsAreAllowedAndEnabled(state: GlobalState): boolean {
     const isFeatureEnabled = getFeatureFlagValue(state, 'GlobalDrafts') === 'true';
     const isConfiguredForFeature = getConfig(state).AllowSyncedDrafts === 'true';
     const isConfiguredForUser = getBool(state, Preferences.CATEGORY_ADVANCED_SETTINGS, Preferences.ADVANCED_SYNC_DRAFTS, true);

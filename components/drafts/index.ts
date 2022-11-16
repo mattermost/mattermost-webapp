@@ -24,7 +24,7 @@ function makeMapStateToProps() {
             drafts: getDrafts(state),
             status,
             user,
-            draftsAreEnabled: localDraftsAreEnabled(state),
+            localDraftsAreEnabled: localDraftsAreEnabled(state),
         };
     };
 }

@@ -6,7 +6,7 @@ import {ActionCreatorsMapObject, bindActionCreators, Dispatch} from 'redux';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
-import {get, getUnreadScrollPositionPreference, makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
+import {get, getUnreadScrollPositionPreference, makeGetCategory, syncedDraftsAreAllowed} from 'mattermost-redux/selectors/entities/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {updateUserActive, revokeAllSessionsForUser} from 'mattermost-redux/actions/users';
 
@@ -37,6 +37,7 @@ function makeMapStateToProps() {
             unreadScrollPosition: getUnreadScrollPositionPreference(state),
             enablePreviewFeatures,
             enableUserDeactivation,
+            syncedDraftsAreAllowed: syncedDraftsAreAllowed(state),
         };
     };
 }

@@ -51,6 +51,7 @@ export type Props = {
     collapseModal: () => void;
     enablePreviewFeatures: boolean;
     enableUserDeactivation: boolean;
+    syncedDraftsAreAllowed: boolean;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
         updateUserActive: (userId: string, active: boolean) => Promise<ActionResult>;
@@ -845,10 +846,13 @@ export default class AdvancedSettingsDisplay extends React.PureComponent<Props, 
             unreadScrollPositionSectionDivider = <div className='divider-light'/>;
         }
 
-        const syncDraftsSection = this.renderSyncDraftsSection();
+        let syncDraftsSection = null;
         let syncDraftsSectionDivider = null;
-        if (syncDraftsSection) {
-            syncDraftsSectionDivider = <div className='divider-light'/>;
+        if (this.props.syncedDraftsAreAllowed) {
+            syncDraftsSection = this.renderSyncDraftsSection();
+            if (syncDraftsSection) {
+                syncDraftsSectionDivider = <div className='divider-light'/>;
+            }
         }
 
         return (
