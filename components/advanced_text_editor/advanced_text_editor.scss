@@ -42,6 +42,7 @@
 
     &__body {
         position: relative;
+        max-width: 100%;
         flex: 1;
         border: 2px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 4px;
