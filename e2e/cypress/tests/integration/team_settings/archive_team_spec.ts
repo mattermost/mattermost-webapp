@@ -1,29 +1,38 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+// ***************************************************************
+// - [#] indicates a test step (e.g. # Go to a page)
+// - [*] indicates an assertion (e.g. * Check the title)
+// - Use element ID when selecting an element. Create one if none.
+// ***************************************************************
+
+// Stage: @prod
+// Group: @team_settings
+
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
-describe('archive team', () => {
-    let adminUser: Cypress.UserProfile;
+describe('Teams Settings', () => {
+    let sysadmin: Cypress.UserProfile;
 
     before(() => {
-        cy.apiCreateCustomAdmin({loginAfter: true}).then(({sysadmin}) => {
-            adminUser = sysadmin;
+        cy.apiCreateCustomAdmin({loginAfter: true}).then(({sysadmin: admin}) => {
+            sysadmin = admin;
         });
     });
 
-    it('MM-XXXX should not go to deleted team on login', () => {
+    it('MM-T5299 User tries to go to archived team', () => {
         // # Create a new user
-        cy.apiCreateUser({prefix: 'testuser'}).then(({user: testUser}) => {
+        cy.apiCreateUser().then(({user}) => {
             // # Create a new team 1
             cy.apiCreateTeam('team1', 'team1').then(({team: team1}) => {
                 // # Create a new team 2
                 cy.apiCreateTeam('team2', 'team2').then(({team: team2}) => {
                     // # Add user to both teams
-                    cy.apiAddUserToTeam(team1.id, testUser.id);
-                    cy.apiAddUserToTeam(team2.id, testUser.id);
+                    cy.apiAddUserToTeam(team1.id, user.id);
+                    cy.apiAddUserToTeam(team2.id, user.id);
 
-                    cy.apiLogin(testUser);
+                    cy.apiLogin(user);
 
                     // # Visit team 1 so the previous team is set to team 1 in local storage
                     cy.visit(`/${team1.name}/channels/town-square`);
@@ -38,7 +47,7 @@ describe('archive team', () => {
                     cy.reload();
 
                     // # Login as admin
-                    cy.apiLogin(adminUser);
+                    cy.apiLogin(sysadmin);
 
                     // # Archive team 1
                     cy.apiDeleteTeam(team1.id);
@@ -47,7 +56,7 @@ describe('archive team', () => {
                     cy.apiLogout();
 
                     // # Login as user
-                    cy.apiLogin(testUser);
+                    cy.apiLogin(user);
                     cy.visit('/');
 
                     // * Verify we landed on team 2 url
