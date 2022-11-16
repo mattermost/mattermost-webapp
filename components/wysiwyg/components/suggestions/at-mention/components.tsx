@@ -125,7 +125,7 @@ const UserMentionItem = (user: UserProfile) => {
 };
 
 const GroupMentionItem = (group: Group) => {
-    const {id, display_name: displayName, name} = group;
+    const {id, description, name} = group;
     return (
         <MentionItemRoot
             id={id}
@@ -133,7 +133,7 @@ const GroupMentionItem = (group: Group) => {
         >
             <AccountMultipleOutlineIcon size={18}/>
             {`@${name}`}
-            <MentionItemDescription>{displayName}</MentionItemDescription>
+            <MentionItemDescription>{description}</MentionItemDescription>
         </MentionItemRoot>
     );
 };

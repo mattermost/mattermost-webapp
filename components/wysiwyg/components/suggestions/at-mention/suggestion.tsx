@@ -1,5 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
+// See LICENSE.txt for license information.
+import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
+
+// See LICENSE.txt for license information.
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 
@@ -8,6 +13,8 @@ import {SuggestionOptions} from '@tiptap/suggestion';
 import {PluginKey} from 'prosemirror-state';
 
 import {Constants, WysiwygPluginNames} from 'utils/constants';
+
+import {Group} from '@mattermost/types/groups';
 
 import SuggestionList, {SuggestionItem, SuggestionListProps, SuggestionListRef} from '../suggestion-list';
 
@@ -21,6 +28,34 @@ type AtMentionSuggestionOptions = {
     useSpecialMentions?: boolean;
 }
 
+function getGroupSuggestions(group: Group): string[] {
+    const groupSuggestions: string[] = [];
+    if (!group) {
+        return groupSuggestions;
+    }
+
+    if (group.name) {
+        const groupnameSuggestions = getSuggestionsSplitByMultiple(group.name.toLowerCase(), Constants.AUTOCOMPLETE_SPLIT_CHARACTERS);
+        groupSuggestions.push(...groupnameSuggestions);
+    }
+
+    const suggestions = getSuggestionsSplitBy(group.display_name.toLowerCase(), ' ');
+    groupSuggestions.push(...suggestions);
+
+    groupSuggestions.push(group.display_name.toLowerCase());
+    return groupSuggestions;
+}
+
+function filterGroup(prefix: string, group: Group): boolean {
+    if (!group) {
+        return false;
+    }
+
+    const prefixLower = prefix.toLowerCase();
+    const groupSuggestions = getGroupSuggestions(group);
+    return groupSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
+}
+
 export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, useSpecialMentions = true}) => ({
     char: '@',
 
@@ -29,6 +64,7 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
     items: async ({query}: {query: string}) => {
         const {users: userInChannel, out_of_channel: userNotInChannel} = await Client4.autocompleteUsers(query, teamId, channelId, {limit: 30});
         const groups = await Client4.getGroups();
+        const filteredGroups = groups.filter((group) => filterGroup(query, group));
         const results: SuggestionItem[] = [];
 
         // add all users that are members of the channel to the results
@@ -41,8 +77,8 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
         }
 
         // add all found (and accessible) groups to the results
-        if (Array.isArray(groups) && groups.length > 0) {
-            results.push(...groups.map((group) => ({
+        if (Array.isArray(filteredGroups) && filteredGroups.length > 0) {
+            results.push(...filteredGroups.map((group) => ({
                 id: group.id,
                 type: 'groups',
                 content: <GroupMentionItem {...group}/>,
@@ -50,8 +86,8 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
         }
 
         if (useSpecialMentions) {
-            results.push(...Constants.SPECIAL_MENTIONS.map((special) => ({
-                id: `${special}_mention`,
+            results.push(...Constants.SPECIAL_MENTIONS.filter((special) => special.startsWith(query.toLowerCase())).map((special) => ({
+                id: special,
                 type: 'special',
                 content: <SpecialMentionItem name={special}/>,
             })));
