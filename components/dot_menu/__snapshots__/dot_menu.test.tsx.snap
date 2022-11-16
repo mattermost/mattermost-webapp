@@ -87,10 +87,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, canDelete 1`] = `
             defaultMessage="Forward"
             id="forward_post_button.label"
           />
-          <Memo(Tag)
-            text="NEW"
-            variant="success"
-          />
         </span>
       }
     />
@@ -361,10 +357,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, hide "New" badge on 
             defaultMessage="Forward"
             id="forward_post_button.label"
           />
-          <Memo(Tag)
-            text="NEW"
-            variant="success"
-          />
         </span>
       }
     />
@@ -629,10 +621,6 @@ exports[`components/dot_menu/DotMenu should match snapshot, on Center 1`] = `
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Forward"
             id="forward_post_button.label"
-          />
-          <Memo(Tag)
-            text="NEW"
-            variant="success"
           />
         </span>
       }
@@ -903,6 +891,10 @@ exports[`components/dot_menu/DotMenu should match snapshot, show "New" badge on 
           <Memo(MemoizedFormattedMessage)
             defaultMessage="Forward"
             id="forward_post_button.label"
+          />
+          <Memo(Tag)
+            text="NEW"
+            variant="success"
           />
         </span>
       }
