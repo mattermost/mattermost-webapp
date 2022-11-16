@@ -220,7 +220,7 @@ function ThreadItem({
                         )}
                     >
                         <Button className='Button___icon'>
-                            <i className='Icon icon-dots-vertical'/>
+                            <i className='icon icon-dots-vertical'/>
                         </Button>
                     </SimpleTooltip>
                 </ThreadMenu>

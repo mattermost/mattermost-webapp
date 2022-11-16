@@ -124,7 +124,7 @@ const ThreadPane = ({
                                 })}
                             >
                                 <Button className='Button___icon Button___large'>
-                                    <i className='Icon icon-dots-vertical'/>
+                                    <i className='icon icon-dots-vertical'/>
                                 </Button>
                             </SimpleTooltip>
                         </ThreadMenu>

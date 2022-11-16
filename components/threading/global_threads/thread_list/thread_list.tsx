@@ -228,7 +228,7 @@ const ThreadList = ({
                                 className={'Button___large Button___icon'}
                                 onClick={handleOpenMarkAllAsReadModal}
                             >
-                                <span className='Icon'>
+                                <span className='icon'>
                                     <i className='icon-playlist-check'/>
                                 </span>
                             </Button>
