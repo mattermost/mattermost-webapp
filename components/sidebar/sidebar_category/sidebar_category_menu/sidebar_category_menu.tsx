@@ -44,66 +44,18 @@ const SidebarCategoryMenu = (props: Props) => {
 
     const {formatMessage} = useIntl();
 
-    function toggleCategoryMute() {
-        props.setCategoryMuted(props.category.id, !props.category.muted);
-    }
-
-    function handleDeleteCategory() {
-        props.openModal({
-            modalId: ModalIdentifiers.DELETE_CATEGORY,
-            dialogType: DeleteCategoryModal,
-            dialogProps: {
-                category: props.category,
-            },
-        });
-    }
-
-    function handleRenameCategory() {
-        props.openModal({
-            modalId: ModalIdentifiers.EDIT_CATEGORY,
-            dialogType: EditCategoryModal,
-            dialogProps: {
-                categoryId: props.category.id,
-                initialCategoryName: props.category.display_name,
-            },
-        });
-    }
-
-    function handleCreateCategory() {
-        props.openModal({
-            modalId: ModalIdentifiers.EDIT_CATEGORY,
-            dialogType: EditCategoryModal,
-        });
-        trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
-    }
-
-    function handleSortChannels(sorting: CategorySorting) {
-        props.setCategorySorting(props.category.id, sorting);
-        trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
-    }
-
-    function handleToggleMenu(open: boolean) {
-        props.onToggleMenu(open);
-
-        if (open) {
-            trackEvent('ui', 'ui_sidebar_category_menu_opened');
-        }
-    }
-
-    function handleOpenDirectionChange(openUp: boolean) {
-        setOpenUp(openUp);
-    }
-
     let muteUnmuteCategoryMenuItem: JSX.Element | null = null;
     if (props.category.type !== CategoryTypes.DIRECT_MESSAGES) {
+        function toggleCategoryMute() {
+            props.setCategoryMuted(props.category.id, !props.category.muted);
+        }
+
         muteUnmuteCategoryMenuItem = (
             <Menu.ItemAction
                 id={`mute-${props.category.id}`}
                 onClick={toggleCategoryMute}
                 icon={<BellOutlineIcon size={16}/>}
-                text={props.category.muted ?
-                    formatMessage({id: 'sidebar_left.sidebar_category_menu.unmuteCategory', defaultMessage: 'Unmute Category'}) :
-                    formatMessage({id: 'sidebar_left.sidebar_category_menu.muteCategory', defaultMessage: 'Mute Category'})
+                text={props.category.muted ? formatMessage({id: 'sidebar_left.sidebar_category_menu.unmuteCategory', defaultMessage: 'Unmute Category'}) : formatMessage({id: 'sidebar_left.sidebar_category_menu.muteCategory', defaultMessage: 'Mute Category'})
                 }
             />
         );
@@ -112,6 +64,16 @@ const SidebarCategoryMenu = (props: Props) => {
     let deleteCategoryMenuItem: JSX.Element | null = null;
     let renameCategoryMenuItem: JSX.Element | null = null;
     if (props.category.type === CategoryTypes.CUSTOM) {
+        function handleDeleteCategory() {
+            props.openModal({
+                modalId: ModalIdentifiers.DELETE_CATEGORY,
+                dialogType: DeleteCategoryModal,
+                dialogProps: {
+                    category: props.category,
+                },
+            });
+        }
+
         deleteCategoryMenuItem = (
             <Menu.ItemAction
                 isDangerous={true}
@@ -122,6 +84,17 @@ const SidebarCategoryMenu = (props: Props) => {
             />
         );
 
+        function handleRenameCategory() {
+            props.openModal({
+                modalId: ModalIdentifiers.EDIT_CATEGORY,
+                dialogType: EditCategoryModal,
+                dialogProps: {
+                    categoryId: props.category.id,
+                    initialCategoryName: props.category.display_name,
+                },
+            });
+        }
+
         renameCategoryMenuItem = (
             <Menu.ItemAction
                 id={`rename-${props.category.id}`}
@@ -130,6 +103,11 @@ const SidebarCategoryMenu = (props: Props) => {
                 text={formatMessage({id: 'sidebar_left.sidebar_category_menu.renameCategory', defaultMessage: 'Rename Category'})}
             />
         );
+    }
+
+    function handleSortChannels(sorting: CategorySorting) {
+        props.setCategorySorting(props.category.id, sorting);
+        trackEvent('ui', `ui_sidebar_sort_dm_${sorting}`);
     }
 
     const sortMenuItems: SubMenu[] = [{
@@ -159,6 +137,26 @@ const SidebarCategoryMenu = (props: Props) => {
     } else if (props.category.sorting === CategorySorting.Recency) {
         sortChannelsSelectedValue = formatMessage({id: 'user.settings.sidebar.recent', defaultMessage: 'Recent Activity'});
         sortChannelsIcon = <ClockOutlineIcon size={16}/>;
+    }
+
+    function handleOpenDirectionChange(openUp: boolean) {
+        setOpenUp(openUp);
+    }
+
+    function handleToggleMenu(open: boolean) {
+        props.onToggleMenu(open);
+
+        if (open) {
+            trackEvent('ui', 'ui_sidebar_category_menu_opened');
+        }
+    }
+
+    function handleCreateCategory() {
+        props.openModal({
+            modalId: ModalIdentifiers.EDIT_CATEGORY,
+            dialogType: EditCategoryModal,
+        });
+        trackEvent('ui', 'ui_sidebar_category_menu_createCategory');
     }
 
     return (
