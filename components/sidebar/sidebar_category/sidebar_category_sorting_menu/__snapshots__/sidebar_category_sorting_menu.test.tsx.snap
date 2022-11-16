@@ -1,0 +1,177 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/sidebar/sidebar_category/sidebar_category_sorting_menu should match snapshot 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <Memo(SidebarCategorySortingMenu)
+    category={
+      Object {
+        "channel_ids": Array [
+          "channel_id",
+        ],
+        "collapsed": false,
+        "display_name": "category_name",
+        "id": "category_id",
+        "muted": false,
+        "sorting": "alpha",
+        "team_id": "team_id",
+        "type": "custom",
+        "user_id": "user_id",
+      }
+    }
+    currentUserId="user_id"
+    handleOpenDirectMessagesModal={[MockFunction]}
+    isCollapsed={false}
+    isMenuOpen={true}
+    onToggleMenu={[MockFunction]}
+    savePreferences={[MockFunction]}
+    selectedDmNumber={10}
+    setCategorySorting={[MockFunction]}
+  >
+    <Connect(SidebarMenu)
+      additionalClass="additionalClass"
+      ariaLabel="Category Menu"
+      buttonAriaLabel="Category Menu"
+      id="SidebarCategorySortingMenu"
+      isMenuOpen={true}
+      onOpenDirectionChange={[Function]}
+      onToggleMenu={[Function]}
+      tabIndex={0}
+      tooltipText="Category options"
+    >
+      <SidebarMenu
+        additionalClass="additionalClass"
+        ariaLabel="Category Menu"
+        buttonAriaLabel="Category Menu"
+        dispatch={[Function]}
+        draggingState={
+          Object {
+            "id": "",
+            "state": "",
+            "type": "",
+          }
+        }
+        id="SidebarCategorySortingMenu"
+        isMenuOpen={true}
+        onOpenDirectionChange={[Function]}
+        onToggleMenu={[Function]}
+        tabIndex={0}
+        tooltipText="Category options"
+      >
+        <MenuWrapper
+          animationComponent={[Function]}
+          className="SidebarMenu menuOpen"
+          onToggle={[Function]}
+          stopPropagationOnToggle={true}
+        >
+          <div
+            className="MenuWrapper SidebarMenu menuOpen"
+            onClick={[Function]}
+          >
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              delayShow={500}
+              disabled={true}
+              overlay={
+                <Tooltip
+                  className="hidden-xs"
+                  id="new-group-tooltip"
+                >
+                  Category options
+                </Tooltip>
+              }
+              placement="top"
+              trigger={
+                Array [
+                  "hover",
+                  "focus",
+                ]
+              }
+            >
+              <OverlayTrigger
+                defaultOverlayShown={false}
+                delayShow={500}
+                overlay={
+                  <OverlayWrapper
+                    className="hidden-xs"
+                    id="new-group-tooltip"
+                    intl={null}
+                    style={
+                      Object {
+                        "visibility": "hidden",
+                      }
+                    }
+                  >
+                    Category options
+                  </OverlayWrapper>
+                }
+                placement="top"
+                trigger={
+                  Array [
+                    "hover",
+                    "focus",
+                  ]
+                }
+              >
+                <button
+                  aria-label="Category Menu"
+                  className="SidebarMenu_menuButton additionalClass"
+                  onBlur={[Function]}
+                  onClick={null}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
+                  tabIndex={0}
+                >
+                  <i
+                    className="icon-dots-vertical"
+                  />
+                </button>
+              </OverlayTrigger>
+            </OverlayTrigger>
+            <MenuWrapperAnimation
+              show={false}
+            >
+              <CSSTransition
+                classNames="MenuWrapperAnimation"
+                enter={true}
+                exit={true}
+                in={false}
+                mountOnEnter={true}
+                timeout={80}
+                unmountOnExit={true}
+              >
+                <Transition
+                  appear={false}
+                  enter={true}
+                  exit={true}
+                  in={false}
+                  mountOnEnter={true}
+                  onEnter={[Function]}
+                  onEntered={[Function]}
+                  onEntering={[Function]}
+                  onExit={[Function]}
+                  onExited={[Function]}
+                  onExiting={[Function]}
+                  timeout={80}
+                  unmountOnExit={true}
+                />
+              </CSSTransition>
+            </MenuWrapperAnimation>
+          </div>
+        </MenuWrapper>
+      </SidebarMenu>
+    </Connect(SidebarMenu)>
+  </Memo(SidebarCategorySortingMenu)>
+</Provider>
+`;

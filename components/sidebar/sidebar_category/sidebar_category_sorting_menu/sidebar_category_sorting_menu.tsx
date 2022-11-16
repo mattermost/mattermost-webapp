@@ -55,18 +55,6 @@ const SidebarCategorySortingMenu = (props: Props) => {
         }]);
     }
 
-    function handleOpenDirectionChange(openUp: boolean) {
-        setOpenUp(openUp);
-    }
-
-    function handleToggleMenu(open: boolean) {
-        props.onToggleMenu(open);
-
-        if (open) {
-            trackEvent('ui', 'ui_sidebar_category_menu_opened');
-        }
-    }
-
     const sortMenuItems: SubMenu[] = [{
         id: 'sortAlphabetical',
         direction: 'right',
@@ -103,6 +91,18 @@ const SidebarCategorySortingMenu = (props: Props) => {
         ...selectedDmCount,
     ];
 
+    function handleOpenDirectionChange(openUp: boolean) {
+        setOpenUp(openUp);
+    }
+
+    function handleToggleMenu(open: boolean) {
+        props.onToggleMenu(open);
+
+        if (open) {
+            trackEvent('ui', 'ui_sidebar_category_menu_opened');
+        }
+    }
+
     return (
         <SidebarMenu
             id={'SidebarCategorySortingMenu'}
@@ -115,7 +115,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
             tabIndex={props.isCollapsed ? -1 : 0}
             additionalClass='additionalClass'
         >
-            <React.Fragment>
+            <>
                 <Menu.Group>
                     <Menu.ItemSubMenu
                         id={'sortDirectMessages'}
@@ -146,7 +146,7 @@ const SidebarCategorySortingMenu = (props: Props) => {
                         text={formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
                     />
                 </Menu.Group>
-            </React.Fragment>
+            </>
         </SidebarMenu>
     );
 };
