@@ -88,7 +88,7 @@ const ActionBar = ({className, channelType, membersCount, canManageMembers, edit
 
     const manageAriaLabel = intl.formatMessage({
         id: 'channel_members_rhs.action_bar.manage_button_aria',
-        defaultMessage: 'manage members ',
+        defaultMessage: 'manage members',
     });
 
     const addAriaLabel = intl.formatMessage({
