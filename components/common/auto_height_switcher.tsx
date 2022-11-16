@@ -52,7 +52,7 @@ const AutoHeightSwitcher = ({showSlot, onTransitionEnd, slot1 = null, slot2 = nu
             return () => clearTimeout(timeout);
         }
         return () => {};
-    }, [shouldScrollIntoView]);
+    }, [shouldScrollIntoView, showSlot]);
 
     // necessary to override this on element-level since a rule from _post.scss has a higher specificity
     // and would override the display property
