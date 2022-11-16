@@ -3,13 +3,10 @@
 
 import {Locator, Page} from '@playwright/test';
 
-import {UserProfile} from '@mattermost/types/lib/users';
-
 export default class SignupPage {
     readonly page: Page;
     readonly title: Locator;
     readonly subtitle: Locator;
-    readonly siteDescription: Locator;
     readonly emailInput: Locator;
     readonly usernameInput: Locator;
     readonly passwordInput: Locator;
@@ -43,7 +40,7 @@ export default class SignupPage {
         await this.title.waitFor();
     }
 
-    async create(user: Partial<UserProfile>, waitForRedirect = true) {
+    async create(user: {email: string; username: string; password: string}, waitForRedirect = true) {
         await this.emailInput.fill(user.email);
         await this.usernameInput.fill(user.username);
         await this.passwordInput.fill(user.password);
