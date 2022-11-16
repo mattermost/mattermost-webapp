@@ -70,7 +70,7 @@
     }
 
     #text-unselected {
-        color: var(--center-channel-text);
+        color: rgba(var(--center-channel-text), 0.56);
         font-weight: 500;
         line-height: 17px;
     }
