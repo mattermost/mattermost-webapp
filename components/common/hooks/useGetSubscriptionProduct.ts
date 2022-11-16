@@ -9,7 +9,7 @@ import {
 } from 'mattermost-redux/actions/cloud';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 
-import {Product} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/product';
 import {getCloudSubscription, getCloudProducts, getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 
 export default function useGetSubscription(): Product | undefined {

@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
-import {Product} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/product';
 
 import {getCloudProducts} from 'mattermost-redux/selectors/entities/cloud';
 

@@ -18,7 +18,9 @@ import {ProductComponent} from 'types/store/plugins';
 import {ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
-import {Invoice, Product, Subscription, CloudCustomer} from '@mattermost/types/cloud';
+import {CloudCustomer} from '@mattermost/types/cloud';
+import {Invoice, Subscription} from '@mattermost/types/subscription';
+import {Product} from '@mattermost/types/product';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {

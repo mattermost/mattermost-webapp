@@ -348,4 +348,4 @@ function CloudContent(props: ContentProps) {
     );
 }
 
-export default Content;
+export default CloudContent;

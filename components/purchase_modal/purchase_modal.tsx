@@ -10,7 +10,9 @@ import {Elements} from '@stripe/react-stripe-js';
 
 import {isEmpty} from 'lodash';
 
-import {CloudCustomer, Product, Invoice} from '@mattermost/types/cloud';
+import {CloudCustomer} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/product';
+import {Invoice} from '@mattermost/types/subscription';
 
 import {localizeMessage, getNextBillingDate} from 'utils/utils';
 

@@ -18,7 +18,7 @@ import CreditCardSvg from 'components/common/svg_images_components/credit_card_s
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
-import {Product} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/product';
 
 import IconMessage from './icon_message';
 

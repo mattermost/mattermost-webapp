@@ -47,9 +47,9 @@ function SelfHostedContent(props: ContentProps) {
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
-    const subscription = useSelector(selectSelfHostedSubscription);
-    const product = useSelector(selectSelfHostedSubscriptionProduct);
-    const products = useSelector(selectSelfHostedProducts);
+    // const subscription = useSelector(selectSelfHostedSubscription);
+    // const product = useSelector(selectSelfHostedSubscriptionProduct);
+    // const products = useSelector(selectSelfHostedProducts);
     const license = useSelector(getLicense);
 
     const prevSelfHostedTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
@@ -67,12 +67,12 @@ function SelfHostedContent(props: ContentProps) {
     });
 
     const openPurchaseModal = (callerInfo: string) => {
-        props.onHide();
-        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
-        if (subscription?.delinquent_since) {
-            openCloudDelinquencyModal({trackingLocation: telemetryInfo});
-        }
-        openCloudPurchaseModal({trackingLocation: telemetryInfo});
+        // props.onHide();
+        // const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        // if (subscription?.delinquent_since) {
+        //     openCloudDelinquencyModal({trackingLocation: telemetryInfo});
+        // }
+        openCloudPurchaseModal({});
     };
     
     const closePricingModal = () => {
@@ -179,7 +179,7 @@ function SelfHostedContent(props: ContentProps) {
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
                         buttonDetails={{
-                            action: () => {},
+                            action: () => {openPurchaseModal('click_pricing_modal_professional_card_upgrade_button');},
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: true,
                             customClass: ButtonCustomiserClasses.secondary,
@@ -237,7 +237,7 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? {
                             action: () => {
                                 openPurchaseModal('click_pricing_modal_professional_card_upgrade_button');
-                                trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
+                                // trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
                                 // window.open(LicenseLinks.CONTACT_SALES, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),

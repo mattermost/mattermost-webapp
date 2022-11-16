@@ -6,7 +6,7 @@ import {FormattedMessage} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {BillingSchemes, CloudProducts, CloudLinks} from 'utils/constants';
-import {Product} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/product';
 
 import './plan_pricing.scss';
 

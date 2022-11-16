@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {Invoice, InvoiceLineItemType} from '@mattermost/types/cloud';
+import {Invoice, InvoiceLineItemType} from '@mattermost/types/subscription';
 
 import {numberToFixedDynamic} from 'utils/utils';
 

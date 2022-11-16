@@ -9,7 +9,7 @@ import {Modal} from 'react-bootstrap';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {Team} from '@mattermost/types/teams';
-import {Product} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/product';
 import {t} from 'utils/i18n';
 import RadioButtonGroup from 'components/common/radio_group';
 import DropdownInput, {ValueType} from 'components/dropdown_input';

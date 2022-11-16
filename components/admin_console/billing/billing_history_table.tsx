@@ -6,7 +6,7 @@ import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 
 import {useDispatch} from 'react-redux';
 
-import {Invoice} from '@mattermost/types/cloud';
+import {Invoice} from '@mattermost/types/subscription';
 import {Client4} from 'mattermost-redux/client';
 import {openModal} from 'actions/views/modals';
 import CloudInvoicePreview from 'components/cloud_invoice_preview';

@@ -11,7 +11,7 @@ import {GlobalState} from 'types/store';
 import {subscribeCloudSubscription} from 'actions/cloud';
 import {closeModal} from 'actions/views/modals';
 import {Team} from '@mattermost/types/teams';
-import {Product} from '@mattermost/types/cloud';
+import {Product} from '@mattermost/types/product';
 import {t} from 'utils/i18n';
 import {isModalOpen} from 'selectors/views/modals';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
