@@ -32,7 +32,7 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
     }
 
     componentDidMount() {
-        this.handleFileInfoChanged(this.props.fileInfo);
+        this.handleFileInfoChanged();
 
         if (this.sourceRef.current) {
             this.sourceRef.current.addEventListener('error', this.handleLoadError, {once: true});
@@ -41,7 +41,7 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.fileUrl !== prevProps.fileUrl) {
-            this.handleFileInfoChanged(this.props.fileInfo);
+            this.handleFileInfoChanged();
         }
 
         if (this.sourceRef.current) {
@@ -49,20 +49,14 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
         }
     }
 
-    handleFileInfoChanged = (fileInfo: FileInfo) => {
+    handleFileInfoChanged = () => {
         let video = this.videoRef.current;
         if (!video) {
             video = document.createElement('video');
         }
 
-        // mov files are encoded with MPEG-4 but the mimetype is set to quicktime, should be allowed in chrome
-        // Long standing chrome bug: https://bugs.chromium.org/p/chromium/issues/detail?id=1120292
-        const mimeType = (fileInfo.mime_type === 'video/quicktime') ? 'video/mp4' : fileInfo.mime_type;
-
-        const canPlayType = video.canPlayType(mimeType);
-
         this.setState({
-            canPlay: canPlayType === 'probably' || canPlayType === 'maybe',
+            canPlay: true,
         });
     }
 
