@@ -182,7 +182,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_user_complete');
@@ -214,7 +214,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_user_complete');
@@ -247,7 +247,7 @@ describe('Authentication', () => {
         cy.visit('/login');
 
         // * Assert that create account button is visible
-        cy.findByText('Create an account', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        cy.findByText('Don\'t have an account?', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         // # Go to sign up with email page
         cy.visit('/signup_user_complete');
