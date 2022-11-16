@@ -35,78 +35,13 @@ const SidebarChannelMenu = (props: Props) => {
 
     const {formatMessage} = useIntl();
 
-    function handleMarkAsRead() {
-        props.markChannelAsRead(props.channel.id);
-        trackEvent('ui', 'ui_sidebar_channel_menu_markAsRead');
-    }
-
-    function handleMarkAsUnread() {
-        props.markMostRecentPostInChannelAsUnread(props.channel.id);
-        trackEvent('ui', 'ui_sidebar_channel_menu_markAsUnread');
-    }
-
-    function handleFavoriteChannel() {
-        props.favoriteChannel(props.channel.id);
-        trackEvent('ui', 'ui_sidebar_channel_menu_favorite');
-    }
-
-    function handleUnfavoriteChannel() {
-        props.unfavoriteChannel(props.channel.id);
-        trackEvent('ui', 'ui_sidebar_channel_menu_unfavorite');
-    }
-
-    function handleUnmuteChannel() {
-        props.unmuteChannel(props.currentUserId, props.channel.id);
-    }
-
-    function handleMuteChannel() {
-        props.muteChannel(props.currentUserId, props.channel.id);
-    }
-
-    function handleCopyLink() {
-        copyToClipboard(props.channelLink);
-    }
-
-    function handleLeaveChannel(e: MouseEvent<HTMLSpanElement, MouseEvent>) {
-        e.preventDefault();
-        e.stopPropagation();
-
-        if (isLeaving.current || !props.closeHandler) {
-            return;
-        }
-
-        isLeaving.current = true;
-
-        props.closeHandler(() => {
-            isLeaving.current = false;
-        });
-
-        trackEvent('ui', 'ui_sidebar_channel_menu_leave');
-    }
-
-    function handleAddMembers() {
-        props.openModal({
-            modalId: ModalIdentifiers.CHANNEL_INVITE,
-            dialogType: ChannelInviteModal,
-            dialogProps: {channel: props.channel},
-        });
-        trackEvent('ui', 'ui_sidebar_channel_menu_addMembers');
-    }
-
-    function handleOpenDirectionChange(openUp: boolean) {
-        setOpenUp(openUp);
-    }
-
-    function onToggleMenu(open: boolean) {
-        props.onToggleMenu(open);
-
-        if (open) {
-            trackEvent('ui', 'ui_sidebar_channel_menu_opened');
-        }
-    }
-
     let markAsReadMenuItem: JSX.Element | null = null;
     if (props.isUnread) {
+        function handleMarkAsRead() {
+            props.markChannelAsRead(props.channel.id);
+            trackEvent('ui', 'ui_sidebar_channel_menu_markAsRead');
+        }
+
         markAsReadMenuItem = (
             <Menu.ItemAction
                 id={`markAsRead-${props.channel.id}`}
@@ -119,6 +54,11 @@ const SidebarChannelMenu = (props: Props) => {
 
     let markAsUnreadMenuItem: JSX.Element | null = null;
     if (!props.isUnread) {
+        function handleMarkAsUnread() {
+            props.markMostRecentPostInChannelAsUnread(props.channel.id);
+            trackEvent('ui', 'ui_sidebar_channel_menu_markAsUnread');
+        }
+
         markAsUnreadMenuItem = (
             <Menu.ItemAction
                 id={`markAsUnread-${props.channel.id}`}
@@ -131,6 +71,11 @@ const SidebarChannelMenu = (props: Props) => {
 
     let favoriteMenuItem: JSX.Element | null = null;
     if (props.isFavorite) {
+        function handleUnfavoriteChannel() {
+            props.unfavoriteChannel(props.channel.id);
+            trackEvent('ui', 'ui_sidebar_channel_menu_unfavorite');
+        }
+
         favoriteMenuItem = (
             <Menu.ItemAction
                 id={`unfavorite-${props.channel.id}`}
@@ -140,6 +85,11 @@ const SidebarChannelMenu = (props: Props) => {
             />
         );
     } else {
+        function handleFavoriteChannel() {
+            props.favoriteChannel(props.channel.id);
+            trackEvent('ui', 'ui_sidebar_channel_menu_favorite');
+        }
+
         favoriteMenuItem = (
             <Menu.ItemAction
                 id={`favorite-${props.channel.id}`}
@@ -157,6 +107,10 @@ const SidebarChannelMenu = (props: Props) => {
             muteChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.unmuteConversation', defaultMessage: 'Unmute Conversation'});
         }
 
+        function handleUnmuteChannel() {
+            props.unmuteChannel(props.currentUserId, props.channel.id);
+        }
+
         muteChannelMenuItem = (
             <Menu.ItemAction
                 id={`unmute-${props.channel.id}`}
@@ -170,6 +124,11 @@ const SidebarChannelMenu = (props: Props) => {
         if (props.channel.type === Constants.DM_CHANNEL || props.channel.type === Constants.GM_CHANNEL) {
             muteChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.muteConversation', defaultMessage: 'Mute Conversation'});
         }
+
+        function handleMuteChannel() {
+            props.muteChannel(props.currentUserId, props.channel.id);
+        }
+
         muteChannelMenuItem = (
             <Menu.ItemAction
                 id={`mute-${props.channel.id}`}
@@ -182,6 +141,10 @@ const SidebarChannelMenu = (props: Props) => {
 
     let copyLinkMenuItem: JSX.Element | null = null;
     if (props.channel.type === Constants.OPEN_CHANNEL || props.channel.type === Constants.PRIVATE_CHANNEL) {
+        function handleCopyLink() {
+            copyToClipboard(props.channelLink);
+        }
+
         copyLinkMenuItem = (
             <Menu.ItemAction
                 id={`copyLink-${props.channel.id}`}
@@ -194,6 +157,15 @@ const SidebarChannelMenu = (props: Props) => {
 
     let addMembersMenuItem: JSX.Element | null = null;
     if ((props.channel.type === Constants.PRIVATE_CHANNEL && props.managePrivateChannelMembers) || (props.channel.type === Constants.OPEN_CHANNEL && props.managePublicChannelMembers)) {
+        function handleAddMembers() {
+            props.openModal({
+                modalId: ModalIdentifiers.CHANNEL_INVITE,
+                dialogType: ChannelInviteModal,
+                dialogProps: {channel: props.channel},
+            });
+            trackEvent('ui', 'ui_sidebar_channel_menu_addMembers');
+        }
+
         addMembersMenuItem = (
             <Menu.ItemAction
                 id={`addMembers-${props.channel.id}`}
@@ -211,6 +183,23 @@ const SidebarChannelMenu = (props: Props) => {
             leaveChannelText = formatMessage({id: 'sidebar_left.sidebar_channel_menu.leaveConversation', defaultMessage: 'Close Conversation'});
         }
 
+        function handleLeaveChannel(e: MouseEvent<HTMLSpanElement, MouseEvent>) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (isLeaving.current || !props.closeHandler) {
+                return;
+            }
+
+            isLeaving.current = true;
+
+            props.closeHandler(() => {
+                isLeaving.current = false;
+            });
+
+            trackEvent('ui', 'ui_sidebar_channel_menu_leave');
+        }
+
         leaveChannelMenuItem = (
             <Menu.Group>
                 <Menu.ItemAction
@@ -222,6 +211,18 @@ const SidebarChannelMenu = (props: Props) => {
                 />
             </Menu.Group>
         );
+    }
+
+    function handleOpenDirectionChange(openUp: boolean) {
+        setOpenUp(openUp);
+    }
+
+    function onToggleMenu(open: boolean) {
+        props.onToggleMenu(open);
+
+        if (open) {
+            trackEvent('ui', 'ui_sidebar_channel_menu_opened');
+        }
     }
 
     return (

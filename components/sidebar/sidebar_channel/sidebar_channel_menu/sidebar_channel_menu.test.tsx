@@ -68,7 +68,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when channel is unread', () => {
+    test('should show correct menu items when channel is unread', () => {
         const props = {
             ...baseProps,
             isUnread: true,
@@ -83,7 +83,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when channel is read', () => {
+    test('should show correct menu items when channel is read', () => {
         const props = {
             ...baseProps,
             isUnread: false,
@@ -98,7 +98,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when channel is favorite', () => {
+    test('should show correct menu items when channel is favorite', () => {
         const props = {
             ...baseProps,
             isFavorite: true,
@@ -114,7 +114,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when channel is muted', () => {
+    test('should show correct menu items when channel is muted', () => {
         const props = {
             ...baseProps,
             isMuted: true,
@@ -130,7 +130,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when channel is private', () => {
+    test('should show correct menu items when channel is private', () => {
         const props = {
             ...baseProps,
             channel: {
@@ -147,7 +147,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when channel is DM', () => {
+    test('should show correct menu items when channel is DM', () => {
         const props = {
             ...baseProps,
             channel: {
@@ -166,7 +166,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    test('should match snapshot when channel is Town Square', () => {
+    test('should show correct menu items when channel is Town Square', () => {
         const props = {
             ...baseProps,
             channel: {
@@ -180,14 +180,6 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         );
 
         expect(wrapper.find('#leave-channel_id')).toHaveLength(0);
-
-        expect(wrapper).toMatchSnapshot();
-    });
-
-    test('should match snapshot of rendered items', () => {
-        const wrapper = shallow(
-            <SidebarChannelMenu {...baseProps}/>,
-        );
 
         expect(wrapper).toMatchSnapshot();
     });
