@@ -45,7 +45,7 @@ describe('Messaging', () => {
         });
 
         // # Write lines until maximum height
-        for (let i = 0; i < 13; i++) {
+        for (let i = 0; i < 15; i++) {
             // # Post the line
             cy.uiGetPostTextBox().type('{shift}{enter}');
 
@@ -80,7 +80,7 @@ describe('Messaging', () => {
         });
 
         // #  Again, write lines until the textbox reaches the maximum height
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 15; i++) {
             cy.uiGetPostTextBox().type('{shift}{enter}');
         }
 
