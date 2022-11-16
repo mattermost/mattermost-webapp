@@ -25,9 +25,9 @@ describe('Channel switch performance test', () => {
         });
     });
 
-    it('measures switching between two channels from LHS', async () => {
+    it('measures switching between two channels from LHS', () => {
         // # Invoke window object
-        await measurePerformance('channelLoad', 500, () => {
+        measurePerformance('channelLoad', 5000, () => {
             // # Switch channel to Off-topic
 
             cy.get('#sidebarItem_off-topic').click({force: true});
@@ -43,6 +43,9 @@ const expectActiveChannelToBe = (title, url) => {
     cy.get('#channelHeaderTitle').
         should('be.visible').
         and('contain.text', title);
+
+    // * Expect that center channel is visible and page has loaded
+    cy.get('#app-content').should('be.visible');
 
     // * Expect url to match url passed in argument
     cy.url().should('contain', url);

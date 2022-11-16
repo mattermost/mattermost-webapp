@@ -28,10 +28,9 @@ describe('Channel switch performance test', () => {
         });
     });
 
-    it('measures switching between two teams from LHS', async () => {
+    it('measures switching between two teams from LHS', () => {
         // # Invoke window object
-
-        await measurePerformance('teamLoad', 500, () => {
+        measurePerformance('teamLoad', 5000, () => {
             // # Switch to Team 2
             cy.get('#teamSidebarWrapper').within(() => {
                 cy.get(`#${testTeam2.name}TeamButton`).click();
@@ -48,6 +47,9 @@ const expectActiveTeamToBe = (title, url) => {
     cy.get('#sidebar-header-container').
         should('be.visible').
         and('contain.text', title);
+
+    // * Expect that center channel is visible and page has loaded
+    cy.get('#app-content').should('be.visible');
 
     // * Expect url to match url passed in argument
     cy.url().should('contain', url);
