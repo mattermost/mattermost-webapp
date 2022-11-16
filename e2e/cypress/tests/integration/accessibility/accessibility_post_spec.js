@@ -52,7 +52,7 @@ describe('Verify Accessibility Support in Post', () => {
         performActionsToLastPost();
 
         // # Shift focus to the last post
-        cy.get('#post_textbox').focus().tab({shift: true});
+        cy.uiGetPostTextBox().focus().tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
 
         // * Verify post message in Center Channel
@@ -76,7 +76,7 @@ describe('Verify Accessibility Support in Post', () => {
             // * Verify post message in RHS
             cy.get('#rhsContainer').within(() => {
                 // # Shift the focus to the last post
-                cy.get('#reply_textbox').focus().tab({shift: true}).type('{uparrow}');
+                cy.uiGetReplyTextBox().focus().tab({shift: true}).type('{uparrow}');
 
                 // * Verify reader reads out the post correctly
                 verifyPostLabel(`#rhsPost_${postId}`, otherUser.username, `wrote, ${lastMessage}, 2 reactions, message is saved and pinned`);
@@ -86,7 +86,7 @@ describe('Verify Accessibility Support in Post', () => {
             cy.getLastPostId().then((replyId) => {
                 cy.get('#rhsContainer').within(() => {
                     // # Shift the focus to the last reply message
-                    cy.get('#reply_textbox').focus().tab({shift: true}).type('{uparrow}{downarrow}');
+                    cy.uiGetReplyTextBox().focus().tab({shift: true}).type('{uparrow}{downarrow}');
 
                     // * Verify reader reads out the post correctly
                     verifyPostLabel(`#rhsPost_${replyId}`, testUser.username, `replied, ${replyMessage}`);
@@ -99,7 +99,7 @@ describe('Verify Accessibility Support in Post', () => {
         postMessages(testChannel, otherUser, 5);
 
         // # Shift focus to the last post
-        cy.get('#post_textbox').focus().tab({shift: true}).type('{uparrow}{downarrow}');
+        cy.uiGetPostTextBox().focus().tab({shift: true}).type('{uparrow}{downarrow}');
 
         // * Verify if focus changes to different posts when we use up arrows
         for (let index = 1; index < 5; index++) {
@@ -138,7 +138,7 @@ describe('Verify Accessibility Support in Post', () => {
 
         cy.get('#rhsContainer').within(() => {
             // # Shift focus to the last post
-            cy.get('#reply_textbox').focus().tab({shift: true}).type('{uparrow}{downarrow}');
+            cy.uiGetReplyTextBox().focus().tab({shift: true}).type('{uparrow}{downarrow}');
         });
 
         // * Verify if focus changes to different posts when we use up arrows
@@ -162,7 +162,7 @@ describe('Verify Accessibility Support in Post', () => {
         postMessages(testChannel, otherUser, 1);
 
         // # Shift focus to the last post
-        cy.get('#post_textbox').focus().tab({shift: true}).type('{uparrow}{downarrow}');
+        cy.uiGetPostTextBox().focus().tab({shift: true}).type('{uparrow}{downarrow}');
         cy.focused().tab();
 
         cy.getLastPostId().then((postId) => {
@@ -234,7 +234,7 @@ describe('Verify Accessibility Support in Post', () => {
 
         cy.get('#rhsContainer').within(() => {
             // # Shift focus to the last post
-            cy.get('#reply_textbox').focus().tab({shift: true}).type('{uparrow}{downarrow}');
+            cy.uiGetReplyTextBox().focus().tab({shift: true}).type('{uparrow}{downarrow}');
         });
 
         // * Verify reverse tab on RHS
