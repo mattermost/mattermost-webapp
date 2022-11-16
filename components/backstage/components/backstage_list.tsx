@@ -42,7 +42,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
         endCount = (page + 1) * PAGE_SIZE;
         endCount = endCount > total ? total : endCount;
         return {startCount, endCount};
-    }
+    };
 
     const filterLowered = filter.toLowerCase();
 
@@ -60,9 +60,9 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
             return React.cloneElement(child, {filterLowered});
         });
         length = children.length;
-        if(remainingProps.page) {
-            const {startCount, endCount} = getPaginationProps(length); 
-            children = children.slice(startCount - 1, endCount);    
+        if (typeof remainingProps.page != 'undefined') {
+            const {startCount, endCount} = getPaginationProps(length);
+            children = children.slice(startCount - 1, endCount);
         }
         if (length === 0 || !hasChildren) {
             if (!filterLowered) {
@@ -109,12 +109,12 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
 
     let footer = null;
     const page = remainingProps.page;
-    if (typeof page != 'undefined' && remainingProps.page && length) {
-        const {startCount, endCount} = getPaginationProps(length)
+    if (typeof page != 'undefined' && length) {
+        const {startCount, endCount} = getPaginationProps(length);
         const firstPage = startCount <= 1;
         const lastPage = endCount >= length;
 
-        footer = (  
+        footer = (
             <div className='backstage-list__paging'>
                 <FormattedMessage
                     id='backstage-list.paginatorCount'
@@ -124,7 +124,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
                 <button
                     type='button'
                     className={'btn btn-link prev ' + (firstPage ? 'disabled' : '')}
-                    onClick={firstPage ? void {} : remainingProps.previousPage}
+                    onClick={firstPage ? undefined : remainingProps.previousPage}
                     disabled={firstPage}
                 >
                     <PreviousIcon/>
@@ -132,7 +132,7 @@ const BackstageList = ({searchPlaceholder = localizeMessage('backstage_list.sear
                 <button
                     type='button'
                     className={'btn btn-link next ' + (lastPage ? 'disabled' : '')}
-                    onClick={lastPage ? void {} : remainingProps.nextPage}
+                    onClick={lastPage ? undefined : remainingProps.nextPage}
                     disabled={lastPage}
                 >
                     <NextIcon/>

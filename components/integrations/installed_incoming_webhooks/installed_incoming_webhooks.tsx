@@ -27,7 +27,7 @@ type Props = {
     enableIncomingWebhooks: boolean;
     actions: {
         removeIncomingHook: (hookId: string) => Promise<ActionResult>;
-        updateIncomingHook: (hook : IncomingWebhook) => Promise<ActionResult>;
+        updateIncomingHook: (hook: IncomingWebhook) => Promise<ActionResult>;
         loadAllIncomingHooksAndProfilesForTeam: (teamId: string) => Promise<ActionResult>;
     };
 }
@@ -82,7 +82,7 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
     }
 
     nextPage = () => {
-        this.setState({page: this.state.page + 1})
+        this.setState({page: this.state.page + 1});
     }
 
     previousPage = () => {
@@ -111,76 +111,76 @@ export default class InstalledIncomingWebhooks extends React.PureComponent<Props
 
     render() {
         return (
-                <BackstageList
-                    header={
-                        <FormattedMessage
-                            id='installed_incoming_webhooks.header'
-                            defaultMessage='Installed Incoming Webhooks'
-                        />
-                    }
-                    addText={
-                        <FormattedMessage
-                            id='installed_incoming_webhooks.add'
-                            defaultMessage='Add Incoming Webhook'
-                        />
-                    }
-                    addLink={'/' + this.props.team.name + '/integrations/incoming_webhooks/add'}
-                    addButtonId='addIncomingWebhook'
-                    emptyText={
-                        <FormattedMessage
-                            id='installed_incoming_webhooks.empty'
-                            defaultMessage='No incoming webhooks found'
-                        />
-                    }
-                    emptyTextSearch={
-                        <FormattedMarkdownMessage
-                            id='installed_incoming_webhooks.emptySearch'
-                            defaultMessage='No incoming webhooks match {searchTerm}'
-                        />
-                    }
-                    helpText={
-                        <FormattedMessage
-                            id='installed_incoming_webhooks.help'
-                            defaultMessage='Use incoming webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
-                            values={{
-                                buildYourOwn: (
-                                    <a
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
-                                    >
-                                        <FormattedMessage
-                                            id='installed_incoming_webhooks.help.buildYourOwn'
-                                            defaultMessage='Build Your Own'
-                                        />
-                                    </a>
-                                ),
-                                appDirectory: (
-                                    <a
-                                        target='_blank'
-                                        rel='noopener noreferrer'
-                                        href='https://mattermost.com/marketplace'
-                                    >
-                                        <FormattedMessage
-                                            id='installed_incoming_webhooks.help.appDirectory'
-                                            defaultMessage='App Directory'
-                                        />
-                                    </a>
-                                ),
-                            }}
-                        />
-                    }
-                    searchPlaceholder={Utils.localizeMessage('installed_incoming_webhooks.search', 'Search Incoming Webhooks')}
-                    loading={this.state.loading}
-                    nextPage={this.nextPage}
-                    previousPage={this.previousPage}
-                    page={this.state.page}
-                >
-                    {(filter: string) => {
-                        const children = this.incomingWebhooks(filter);
-                        return [children, children.length > 0];
-                    }}
-                </BackstageList>
+            <BackstageList
+                header={
+                    <FormattedMessage
+                        id='installed_incoming_webhooks.header'
+                        defaultMessage='Installed Incoming Webhooks'
+                    />
+                }
+                addText={
+                    <FormattedMessage
+                        id='installed_incoming_webhooks.add'
+                        defaultMessage='Add Incoming Webhook'
+                    />
+                }
+                addLink={'/' + this.props.team.name + '/integrations/incoming_webhooks/add'}
+                addButtonId='addIncomingWebhook'
+                emptyText={
+                    <FormattedMessage
+                        id='installed_incoming_webhooks.empty'
+                        defaultMessage='No incoming webhooks found'
+                    />
+                }
+                emptyTextSearch={
+                    <FormattedMarkdownMessage
+                        id='installed_incoming_webhooks.emptySearch'
+                        defaultMessage='No incoming webhooks match {searchTerm}'
+                    />
+                }
+                helpText={
+                    <FormattedMessage
+                        id='installed_incoming_webhooks.help'
+                        defaultMessage='Use incoming webhooks to connect external tools to Mattermost. {buildYourOwn} or visit the {appDirectory} to find self-hosted, third-party apps and integrations.'
+                        values={{
+                            buildYourOwn: (
+                                <a
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    href='https://developers.mattermost.com/integrate/admin-guide/admin-webhooks-incoming/'
+                                >
+                                    <FormattedMessage
+                                        id='installed_incoming_webhooks.help.buildYourOwn'
+                                        defaultMessage='Build Your Own'
+                                    />
+                                </a>
+                            ),
+                            appDirectory: (
+                                <a
+                                    target='_blank'
+                                    rel='noopener noreferrer'
+                                    href='https://mattermost.com/marketplace'
+                                >
+                                    <FormattedMessage
+                                        id='installed_incoming_webhooks.help.appDirectory'
+                                        defaultMessage='App Directory'
+                                    />
+                                </a>
+                            ),
+                        }}
+                    />
+                }
+                searchPlaceholder={Utils.localizeMessage('installed_incoming_webhooks.search', 'Search Incoming Webhooks')}
+                loading={this.state.loading}
+                nextPage={this.nextPage}
+                previousPage={this.previousPage}
+                page={this.state.page}
+            >
+                {(filter: string) => {
+                    const children = this.incomingWebhooks(filter);
+                    return [children, children.length > 0];
+                }}
+            </BackstageList>
         );
     }
 }

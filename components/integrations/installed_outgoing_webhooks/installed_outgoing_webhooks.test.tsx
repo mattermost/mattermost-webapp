@@ -71,7 +71,8 @@ describe('components/integrations/InstalledOutgoingWebhooks', () => {
         channels: {mdpzfpfcxi85zkkqkzkch4b85h: channel},
         actions: {
             removeOutgoingHook: jest.fn(),
-            loadOutgoingHooksAndProfilesForTeam: jest.fn().mockReturnValue(Promise.resolve()),
+            updateOutgoingHook: jest.fn(),
+            loadAllOutgoingHooksAndProfilesForTeam: jest.fn().mockReturnValue(Promise.resolve()),
             regenOutgoingHookToken: jest.fn(),
         },
         enableOutgoingWebhooks: true,

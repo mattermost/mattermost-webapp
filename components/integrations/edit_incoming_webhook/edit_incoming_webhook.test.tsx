@@ -25,6 +25,7 @@ describe('components/integrations/EditIncomingWebhook', () => {
         username: 'username',
         icon_url: 'http://test/icon.png',
         channel_locked: false,
+        enabled: false,
     };
 
     const updateIncomingHook = jest.fn();
