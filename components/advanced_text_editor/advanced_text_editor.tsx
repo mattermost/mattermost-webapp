@@ -201,14 +201,12 @@ const AdvanceTextEditor = ({
     let attachmentPreview = null;
     if (!readOnlyChannel && (draft.fileInfos.length > 0 || draft.uploadsInProgress.length > 0)) {
         attachmentPreview = (
-            <div>
-                <FilePreview
-                    fileInfos={draft.fileInfos}
-                    onRemove={removePreview}
-                    uploadsInProgress={draft.uploadsInProgress}
-                    uploadsProgressPercent={uploadsProgressPercent}
-                />
-            </div>
+            <FilePreview
+                fileInfos={draft.fileInfos}
+                onRemove={removePreview}
+                uploadsInProgress={draft.uploadsInProgress}
+                uploadsProgressPercent={uploadsProgressPercent}
+            />
         );
     }
 
@@ -504,7 +502,7 @@ const AdvanceTextEditor = ({
                                 {showFormatJSX}
                             </TexteditorActions>
                         )}
-                        {showFormattingSpacer || shouldShowPreview ? (
+                        {showFormattingSpacer || shouldShowPreview || attachmentPreview ? (
                             <FormattingBarSpacer>
                                 {formattingBar}
                             </FormattingBarSpacer>
