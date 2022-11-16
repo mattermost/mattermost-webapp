@@ -22,9 +22,10 @@ export default function SectionTitle({section, isExpanded, onClickResetButton}: 
                 />
                 {isExpanded &&
                 <button
-                    className='color--link cursor--pointer style--none '
+                    className='d-flex align-items-center color--link cursor--pointer style--none '
                     onClick={onClickResetButton}
                 >
+                    <i className='icon icon-refresh'/>
                     <FormattedMessage
                         id='channel_notifications.resetToDefaults'
                         defaultMessage='Reset to defaults'
