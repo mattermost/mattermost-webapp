@@ -30,10 +30,10 @@ type ContentProps = {
     onHide: () => void;
 }
 
-const FALL_BACK_PROFESSIONAL_PRICE = 7.5;
+const FALL_BACK_PROFESSIONAL_PRICE = '7.5';
 
 function SelfHostedContent(props: ContentProps) {
-    const [professionalPrice, setProfessionalPrice] = useState(FALL_BACK_PROFESSIONAL_PRICE);
+    const [professionalPrice, setProfessionalPrice] = useState(' ');
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
@@ -46,9 +46,10 @@ function SelfHostedContent(props: ContentProps) {
             try {
                 const products = await Client4.getSelfHostedProducts();
                 const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
-                setProfessionalPrice(professionalProduct?.price_per_seat || FALL_BACK_PROFESSIONAL_PRICE);
+                const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
+                setProfessionalPrice(`$${price}`);
             } catch (error) {
-                setProfessionalPrice(FALL_BACK_PROFESSIONAL_PRICE);
+                setProfessionalPrice(`$${FALL_BACK_PROFESSIONAL_PRICE}`);
             }
         }
 
@@ -186,7 +187,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price={`$${professionalPrice}`}
+                        price={professionalPrice}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                         planLabel={
                             isProfessional ? (
