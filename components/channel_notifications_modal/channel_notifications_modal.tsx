@@ -267,6 +267,7 @@ export default function ChannelNotificationsModal(props: Props) {
     ) : (
         <AlertBanner
             mode='info'
+            variant='app'
             customIcon={
                 <BellOffOutlineIcon
                     size={24}

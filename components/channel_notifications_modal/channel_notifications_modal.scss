@@ -6,15 +6,15 @@
 
     .modal-content {
         display: flex;
-        max-height: calc(100vh - 240px);
         overflow: hidden;
+        max-height: calc(100vh - 240px);
         flex-direction: column;
         border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
         border-radius: 12px;
-        box-shadow: var(--elevation-6) ;
+        box-shadow: var(--elevation-6);
     }
 
-    &__ctr{
+    &__ctr {
         display: flex;
         place-items: center;
     }
@@ -30,11 +30,11 @@
         width: 100%;
         max-width: 1024px;
         min-height: 150px;
-        overflow-x: hidden;
-        overflow-y: auto;
         flex-direction: column;
         padding: 32px;
         gap: 24px;
+        overflow-x: hidden;
+        overflow-y: auto;
     }
 
     &__footer {
@@ -120,8 +120,8 @@
         .modal-content {
             display: flex;
             height: 100vh;
-            flex-direction: column;
             max-height: unset;
+            flex-direction: column;
             border-radius: unset;
         }
     }
