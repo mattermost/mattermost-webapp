@@ -14,18 +14,23 @@ import GuestBadge from 'components/widgets/badges/guest_badge';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {imageURLForUser} from 'utils/utils';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const getDescription = (data: any): string => {
+    if ((data.first_name || data.last_name) && data.nickname) {
+        return ` - ${Utils.getFullName(data)} (${data.nickname})`;
+    } else if (data.nickname) {
+        return ` - (${data.nickname})`;
+    } else if (data.first_name || data.last_name) {
+        return ` - ${Utils.getFullName(data)}`;
+    }
+    return '';
+};
+
 const {Option} = components;
+
 export const SelectUserOption = (props: OptionProps<AppSelectOption>) => {
     const username = props.data.username;
-    let description = '';
-
-    if ((props.data.first_name || props.data.last_name) && props.data.nickname) {
-        description = ` - ${Utils.getFullName(props.data)} (${props.data.nickname})`;
-    } else if (props.data.nickname) {
-        description = ` - (${props.data.nickname})`;
-    } else if (props.data.first_name || props.data.last_name) {
-        description = ` - ${Utils.getFullName(props.data)}`;
-    }
+    const description = getDescription(props.data);
 
     return (
         <Option {...props}>

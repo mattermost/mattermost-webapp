@@ -11,7 +11,8 @@ import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 import {Channel} from '@mattermost/types/channels';
 import {UserAutocomplete} from '@mattermost/types/autocomplete';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
-import {Client4} from 'mattermost-redux/client';
+
+import {imageURLForUser} from 'utils/utils';
 
 import {SelectUserOption} from './select_user_option';
 import {SelectChannelOption} from './select_channel_option';
@@ -90,7 +91,12 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
     loadDynamicUserOptions = async (userInput: string): Promise<AppSelectOption[]> => {
         const usersSearchResults: UserAutocomplete = await this.props.actions.autocompleteUsers(userInput.toLowerCase());
-        return usersSearchResults.users.map((user) => ({...user, label: this.props.teammateNameDisplay ? displayUsername(user, this.props.teammateNameDisplay) : user.username, value: user.id, icon_data: Client4.getUsersRoute() + '/' + user.id + '/image?_=' + (user.last_picture_update || 0)}));
+
+        return usersSearchResults.users.map((user) => {
+            const label = this.props.teammateNameDisplay ? displayUsername(user, this.props.teammateNameDisplay) : user.username;
+
+            return {...user, label, value: user.id, icon_data: imageURLForUser(user.id)};
+        });
     }
 
     loadDynamicChannelOptions = async (userInput: string): Promise<AppSelectOption[]> => {
@@ -201,20 +207,27 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
         const {field, label, helpText} = this.props;
 
         let selectComponent;
-        if (field.type === AppFieldTypes.DYNAMIC_SELECT) {
+
+        switch (field.type) {
+        case AppFieldTypes.DYNAMIC_SELECT:
             selectComponent = this.renderDynamicSelect();
-        } else if (field.type === AppFieldTypes.STATIC_SELECT) {
+            break;
+        case AppFieldTypes.STATIC_SELECT:
             selectComponent = this.renderStaticSelect();
-        } else if (field.type === AppFieldTypes.USER) {
+            break;
+        case AppFieldTypes.USER:
             selectComponent = this.renderUserSelect();
-        } else if (field.type === AppFieldTypes.CHANNEL) {
+            break;
+        case AppFieldTypes.CHANNEL:
             selectComponent = this.renderChannelSelect();
-        } else {
-            return null;
+            break;
         }
 
         return (
-            <div className='form-group'>
+            <div
+                id='apps_form_select_field'
+                className='form-group'
+            >
                 {label && (
                     <label>
                         {label}
