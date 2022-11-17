@@ -326,7 +326,7 @@ export default function SelfHostedPurchaseModal() {
                 {
                     product_id: 'prod_K3evf2gg2LIzrD',
                     add_ons: [],
-                    seats: state.seats,
+                    seats: Math.max(state.seats,200),
                 },
             ));
             if (finished) {
