@@ -17,7 +17,6 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 import AlertBanner from 'components/alert_banner';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
 
-
 import './renew_license_card.scss';
 
 export interface RenewLicenseCardProps {
