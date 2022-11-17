@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 import MultiSelectOption from './multiselect_option/multiselect_option';
 
 const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 3;
+const MAX_SELECTABLE_VALUES = 256;
 
 type UserProfileValue = Value & UserProfile;
 
