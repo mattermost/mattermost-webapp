@@ -56,7 +56,7 @@ function SelfHostedContent(props: ContentProps) {
     const starterBriefing = [
         formatMessage({id: 'pricing_modal.briefing.unlimitedWorkspaceTeams', defaultMessage: 'Unlimited workspace teams'}),
         formatMessage({id: 'pricing_modal.briefing.unlimitedPlaybookRuns', defaultMessage: 'Unlimited playbooks and runs'}),
-        formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
         formatMessage({id: 'pricing_modal.briefing.fullMessageAndHistory', defaultMessage: 'Full message and file history'}),
         formatMessage({id: 'pricing_modal.briefing.ssoWithGitLab', defaultMessage: 'SSO with Gitlab'}),
     ];
@@ -80,23 +80,25 @@ function SelfHostedContent(props: ContentProps) {
     ];
 
     const renderAlert = () => {
-        return (<div className='alert-option'>
-            <span>
-                {formatMessage({id: 'pricing_modal.lookingForCloudOption', defaultMessage: 'Looking for a cloud option?'})}
-            </span>
-            <a
-                onClick={() => {
-                    trackEvent(
-                        TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
-                        'click_looking_for_a_cloud_option',
-                    );
-                }
-                }
-                href={CloudLinks.CLOUD_SIGNUP_PAGE}
-                rel='noopener noreferrer'
-                target='_blank'
-            >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
-        </div>);
+        return (
+            <div className='alert-option'>
+                <span>
+                    {formatMessage({id: 'pricing_modal.lookingForCloudOption', defaultMessage: 'Looking for a cloud option?'})}
+                </span>
+                <a
+                    onClick={() => {
+                        trackEvent(
+                            TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
+                            'click_looking_for_a_cloud_option',
+                        );
+                    }
+                    }
+                    href={CloudLinks.CLOUD_SIGNUP_PAGE}
+                    rel='noopener noreferrer'
+                    target='_blank'
+                >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+            </div>
+        );
     };
 
     const trialButton = () => {
@@ -108,11 +110,12 @@ function SelfHostedContent(props: ContentProps) {
                 disabled={isSelfHostedEnterpriseTrial}
                 btnClass={`plan_action_btn ${isSelfHostedEnterpriseTrial ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                 onClick={closePricingModal}
-            />);
+            />
+        );
     };
 
     return (
-        <div className='Content'>
+        <div className='Content Content--self-hosted'>
             <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
@@ -135,10 +138,10 @@ function SelfHostedContent(props: ContentProps) {
                 {renderAlert()}
                 <div className='PricingModal__body'>
                     <Card
-                        id='starter'
+                        id='free'
                         topColor='#339970'
-                        plan='Starter'
-                        planSummary={formatMessage({id: 'pricing_modal.planSummary.starter', defaultMessage: 'Increased productivity for small teams'})}
+                        plan='Free'
+                        planSummary={formatMessage({id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams'})}
                         price='$0'
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={
