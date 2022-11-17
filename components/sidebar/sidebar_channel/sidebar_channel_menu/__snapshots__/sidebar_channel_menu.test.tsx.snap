@@ -9,7 +9,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction
@@ -422,7 +422,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction
@@ -509,7 +509,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction
@@ -605,7 +605,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction
@@ -715,7 +715,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction
@@ -825,7 +825,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction
@@ -935,7 +935,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction
@@ -1045,7 +1045,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   onOpenDirectionChange={[Function]}
   onToggleMenu={[Function]}
   tabIndex={0}
-  tooltipText="Channel options"
+  tooltipText="Category  options"
 >
   <MenuGroup>
     <MenuItemAction

@@ -62,7 +62,7 @@ describe('MM-T3156 DM category', () => {
     });
 
     it('MM-T3156_3 should order DMs alphabetically ', () => {
-        // # Hover over DIRECT MESSAGES and click channel options
+        // # Hover over DIRECT MESSAGES and click category  options
         cy.get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES) .SidebarMenu').invoke('show').
             get('.SidebarChannelGroupHeader:contains(DIRECT MESSAGES) .SidebarMenu_menuButton').should('be.visible').click();
 
