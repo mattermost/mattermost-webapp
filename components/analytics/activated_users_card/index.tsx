@@ -35,7 +35,7 @@ export const ActivatedUserCard = ({activatedUsers, seatsPurchased, isCloud}: Act
             title={
                 <FormattedMessage
                     id='analytics.team.totalUsers'
-                    defaultMessage='Total Active Users'
+                    defaultMessage='Total Activated Users'
                 />
             }
             icon='fa-users'
