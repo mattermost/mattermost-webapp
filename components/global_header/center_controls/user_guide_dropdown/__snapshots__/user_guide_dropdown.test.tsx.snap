@@ -216,13 +216,16 @@ exports[`components/channel_header/components/UserGuideDropdown should match sna
         show={true}
         text="Keyboard shortcuts"
       />
-      <MenuItemAction
-        id="testId_pluginmenuitem"
-        key="testId_pluginmenuitem"
-        onClick={[Function]}
-        show={true}
-        text="Test Item"
-      />
+      <PluggableErrorBoundary
+        key="testId"
+      >
+        <MenuItemAction
+          id="testId_pluginmenuitem"
+          onClick={[Function]}
+          show={true}
+          text="Test Item"
+        />
+      </PluggableErrorBoundary>
     </MenuGroup>
   </Menu>
 </MenuWrapper>

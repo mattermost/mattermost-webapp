@@ -89,37 +89,39 @@ exports[`PostBodyAdditionalContent with a normal link Should render the plugin c
   <span>
     some children
   </span>
-  <EmbedMP3
-    embed={
-      Object {
-        "type": "link",
-        "url": "https://example.com/song.mp3",
+  <PluggableErrorBoundary>
+    <EmbedMP3
+      embed={
+        Object {
+          "type": "link",
+          "url": "https://example.com/song.mp3",
+        }
       }
-    }
-    webSocketClient={
-      WebSocketClient {
-        "closeCallback": null,
-        "closeListeners": Set {},
-        "conn": null,
-        "connectFailCount": 0,
-        "connectionId": "",
-        "connectionUrl": null,
-        "errorCallback": null,
-        "errorListeners": Set {},
-        "eventCallback": null,
-        "firstConnectCallback": null,
-        "firstConnectListeners": Set {},
-        "messageListeners": Set {},
-        "missedEventCallback": null,
-        "missedMessageListeners": Set {},
-        "reconnectCallback": null,
-        "reconnectListeners": Set {},
-        "responseCallbacks": Object {},
-        "responseSequence": 1,
-        "serverSequence": 0,
+      webSocketClient={
+        WebSocketClient {
+          "closeCallback": null,
+          "closeListeners": Set {},
+          "conn": null,
+          "connectFailCount": 0,
+          "connectionId": "",
+          "connectionUrl": null,
+          "errorCallback": null,
+          "errorListeners": Set {},
+          "eventCallback": null,
+          "firstConnectCallback": null,
+          "firstConnectListeners": Set {},
+          "messageListeners": Set {},
+          "missedEventCallback": null,
+          "missedMessageListeners": Set {},
+          "reconnectCallback": null,
+          "reconnectListeners": Set {},
+          "responseCallbacks": Object {},
+          "responseSequence": 1,
+          "serverSequence": 0,
+        }
       }
-    }
-  />
+    />
+  </PluggableErrorBoundary>
 </div>
 `;
 
@@ -135,37 +137,39 @@ exports[`PostBodyAdditionalContent with a normal link Should render the plugin c
   <span>
     some children
   </span>
-  <EmbedMP3
-    embed={
-      Object {
-        "type": "link",
-        "url": "https://example.com/song.mp3",
+  <PluggableErrorBoundary>
+    <EmbedMP3
+      embed={
+        Object {
+          "type": "link",
+          "url": "https://example.com/song.mp3",
+        }
       }
-    }
-    webSocketClient={
-      WebSocketClient {
-        "closeCallback": null,
-        "closeListeners": Set {},
-        "conn": null,
-        "connectFailCount": 0,
-        "connectionId": "",
-        "connectionUrl": null,
-        "errorCallback": null,
-        "errorListeners": Set {},
-        "eventCallback": null,
-        "firstConnectCallback": null,
-        "firstConnectListeners": Set {},
-        "messageListeners": Set {},
-        "missedEventCallback": null,
-        "missedMessageListeners": Set {},
-        "reconnectCallback": null,
-        "reconnectListeners": Set {},
-        "responseCallbacks": Object {},
-        "responseSequence": 1,
-        "serverSequence": 0,
+      webSocketClient={
+        WebSocketClient {
+          "closeCallback": null,
+          "closeListeners": Set {},
+          "conn": null,
+          "connectFailCount": 0,
+          "connectionId": "",
+          "connectionUrl": null,
+          "errorCallback": null,
+          "errorListeners": Set {},
+          "eventCallback": null,
+          "firstConnectCallback": null,
+          "firstConnectListeners": Set {},
+          "messageListeners": Set {},
+          "missedEventCallback": null,
+          "missedMessageListeners": Set {},
+          "reconnectCallback": null,
+          "reconnectListeners": Set {},
+          "responseCallbacks": Object {},
+          "responseSequence": 1,
+          "serverSequence": 0,
+        }
       }
-    }
-  />
+    />
+  </PluggableErrorBoundary>
 </div>
 `;
 

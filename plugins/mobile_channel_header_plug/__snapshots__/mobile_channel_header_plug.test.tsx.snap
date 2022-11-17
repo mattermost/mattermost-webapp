@@ -395,18 +395,20 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
   <li
     className="flex-parent--center"
   >
-    <button
-      className="navbar-toggle navbar-right__icon"
-      onClick={[Function]}
-    >
-      <span
-        className="icon navbar-plugin-button"
+    <PluggableErrorBoundary>
+      <button
+        className="navbar-toggle navbar-right__icon"
+        onClick={[Function]}
       >
-        <i
-          className="fa fa-anchor"
-        />
-      </span>
-    </button>
+        <span
+          className="icon navbar-plugin-button"
+        >
+          <i
+            className="fa fa-anchor"
+          />
+        </span>
+      </button>
+    </PluggableErrorBoundary>
   </li>
 </MobileChannelHeaderPlug>
 `;
@@ -495,13 +497,15 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
     key="mobileChannelHeaderItemsomeid"
     role="presentation"
   >
-    <a
-      href="#"
-      onClick={[Function]}
-      role="menuitem"
-    >
-      some dropdown text
-    </a>
+    <PluggableErrorBoundary>
+      <a
+        href="#"
+        onClick={[Function]}
+        role="menuitem"
+      >
+        some dropdown text
+      </a>
+    </PluggableErrorBoundary>
   </li>
   <li
     className="MenuItem"
@@ -588,13 +592,15 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with one extended
     key="mobileChannelHeaderItemsomeid"
     role="presentation"
   >
-    <a
-      href="#"
-      onClick={[Function]}
-      role="menuitem"
-    >
-      some dropdown text
-    </a>
+    <PluggableErrorBoundary>
+      <a
+        href="#"
+        onClick={[Function]}
+        role="menuitem"
+      >
+        some dropdown text
+      </a>
+    </PluggableErrorBoundary>
   </li>
 </MobileChannelHeaderPlug>
 `;
@@ -962,26 +968,30 @@ exports[`plugins/MobileChannelHeaderPlug should match snapshot with two extended
     key="mobileChannelHeaderItemsomeid"
     role="presentation"
   >
-    <a
-      href="#"
-      onClick={[Function]}
-      role="menuitem"
-    >
-      some dropdown text
-    </a>
+    <PluggableErrorBoundary>
+      <a
+        href="#"
+        onClick={[Function]}
+        role="menuitem"
+      >
+        some dropdown text
+      </a>
+    </PluggableErrorBoundary>
   </li>
   <li
     className="MenuItem"
     key="mobileChannelHeaderItemsomeid2"
     role="presentation"
   >
-    <a
-      href="#"
-      onClick={[Function]}
-      role="menuitem"
-    >
-      some dropdown text
-    </a>
+    <PluggableErrorBoundary>
+      <a
+        href="#"
+        onClick={[Function]}
+        role="menuitem"
+      >
+        some dropdown text
+      </a>
+    </PluggableErrorBoundary>
   </li>
 </MobileChannelHeaderPlug>
 `;

@@ -41,27 +41,29 @@ exports[`plugins/PostMessageView should match snapshot with extended post type 1
     }
   }
 >
-  <PostTypePlugin
-    isRHS={false}
-    post={
-      Object {
-        "id": "post_id",
-        "message": "this is some text",
-        "type": "testtype",
+  <PluggableErrorBoundary>
+    <PostTypePlugin
+      isRHS={false}
+      post={
+        Object {
+          "id": "post_id",
+          "message": "this is some text",
+          "type": "testtype",
+        }
       }
-    }
-    theme={
-      Object {
-        "id": "theme_id",
+      theme={
+        Object {
+          "id": "theme_id",
+        }
       }
-    }
-  >
-    <span
-      id="pluginId"
     >
-      PostTypePlugin
-    </span>
-  </PostTypePlugin>
+      <span
+        id="pluginId"
+      >
+        PostTypePlugin
+      </span>
+    </PostTypePlugin>
+  </PluggableErrorBoundary>
 </PostMessageView>
 `;
 

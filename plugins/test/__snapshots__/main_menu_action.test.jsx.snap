@@ -352,13 +352,16 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
       />
     </MenuGroup>
     <MenuGroup>
-      <MenuItemAction
-        id="someplugin_pluginmenuitem"
-        key="someplugin_pluginmenuitem"
-        onClick={[Function]}
-        show={true}
-        text="some plugin text"
-      />
+      <PluggableErrorBoundary
+        key="some_pluggable_id"
+      >
+        <MenuItemAction
+          id="some_pluggable_id_pluginmenuitem"
+          onClick={[Function]}
+          show={true}
+          text="some plugin text"
+        />
+      </PluggableErrorBoundary>
     </MenuGroup>
     <MenuGroup>
       <MenuItemLink
@@ -648,14 +651,17 @@ exports[`plugins/MainMenuActions should match snapshot in web view 1`] = `
       </Connect(SystemPermissionGate)>
     </MenuGroup>
     <MenuGroup>
-      <MenuItemAction
-        icon={false}
-        id="someplugin_pluginmenuitem"
-        key="someplugin_pluginmenuitem"
-        onClick={[Function]}
-        show={true}
-        text="some plugin text"
-      />
+      <PluggableErrorBoundary
+        key="some_pluggable_id"
+      >
+        <MenuItemAction
+          icon={false}
+          id="some_pluggable_id_pluginmenuitem"
+          onClick={[Function]}
+          show={true}
+          text="some plugin text"
+        />
+      </PluggableErrorBoundary>
     </MenuGroup>
   </ul>
 </div>

@@ -1551,20 +1551,26 @@ exports[`components/ChannelHeaderDropdown should match snapshot with plugins 1`]
     />
   </MenuGroup>
   <MenuGroup>
-    <MenuItemAction
-      id="plugin-1_pluginmenuitem"
-      key="plugin-1_pluginmenuitem"
-      onClick={[Function]}
-      show={true}
-      text="plugin-1-text"
-    />
-    <MenuItemAction
-      id="plugin-2_pluginmenuitem"
-      key="plugin-2_pluginmenuitem"
-      onClick={[Function]}
-      show={true}
-      text="plugin-2-text"
-    />
+    <PluggableErrorBoundary
+      key="plugin-1"
+    >
+      <MenuItemAction
+        id="plugin-1_pluginmenuitem"
+        onClick={[Function]}
+        show={true}
+        text="plugin-1-text"
+      />
+    </PluggableErrorBoundary>
+    <PluggableErrorBoundary
+      key="plugin-2"
+    >
+      <MenuItemAction
+        id="plugin-2_pluginmenuitem"
+        onClick={[Function]}
+        show={true}
+        text="plugin-2-text"
+      />
+    </PluggableErrorBoundary>
   </MenuGroup>
   <MenuGroup>
     <Connect(ChannelPermissionGate)

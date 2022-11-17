@@ -28,24 +28,30 @@ exports[`components/global/product_switcher should have an active button state w
         onClick={[Function]}
         text="Channels"
       />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-boards"
-        id="product-menu-item-Boards"
+      <PluggableErrorBoundary
         key="Boards"
-        onClick={[Function]}
-        text="Boards"
-      />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-playbooks"
-        id="product-menu-item-Playbooks"
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-boards"
+          id="product-menu-item-Boards"
+          onClick={[Function]}
+          text="Boards"
+        />
+      </PluggableErrorBoundary>
+      <PluggableErrorBoundary
         key="Playbooks"
-        onClick={[Function]}
-        text="Playbooks"
-      />
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-playbooks"
+          id="product-menu-item-Playbooks"
+          onClick={[Function]}
+          text="Playbooks"
+        />
+      </PluggableErrorBoundary>
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
@@ -120,24 +126,30 @@ exports[`components/global/product_switcher should match snapshot with product s
         onClick={[Function]}
         text="Channels"
       />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-boards"
-        id="product-menu-item-Boards"
+      <PluggableErrorBoundary
         key="Boards"
-        onClick={[Function]}
-        text="Boards"
-      />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-playbooks"
-        id="product-menu-item-Playbooks"
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-boards"
+          id="product-menu-item-Boards"
+          onClick={[Function]}
+          text="Boards"
+        />
+      </PluggableErrorBoundary>
+      <PluggableErrorBoundary
         key="Playbooks"
-        onClick={[Function]}
-        text="Playbooks"
-      />
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-playbooks"
+          id="product-menu-item-Playbooks"
+          onClick={[Function]}
+          text="Playbooks"
+        />
+      </PluggableErrorBoundary>
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
@@ -176,24 +188,30 @@ exports[`components/global/product_switcher should render once when there are no
         onClick={[Function]}
         text="Channels"
       />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-boards"
-        id="product-menu-item-Boards"
+      <PluggableErrorBoundary
         key="Boards"
-        onClick={[Function]}
-        text="Boards"
-      />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-playbooks"
-        id="product-menu-item-Playbooks"
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-boards"
+          id="product-menu-item-Boards"
+          onClick={[Function]}
+          text="Boards"
+        />
+      </PluggableErrorBoundary>
+      <PluggableErrorBoundary
         key="Playbooks"
-        onClick={[Function]}
-        text="Playbooks"
-      />
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-playbooks"
+          id="product-menu-item-Playbooks"
+          onClick={[Function]}
+          text="Playbooks"
+        />
+      </PluggableErrorBoundary>
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}
         isMessaging={true}
@@ -232,24 +250,30 @@ exports[`components/global/product_switcher should render the correct amount of 
         onClick={[Function]}
         text="Channels"
       />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-boards"
-        id="product-menu-item-Boards"
+      <PluggableErrorBoundary
         key="Boards"
-        onClick={[Function]}
-        text="Boards"
-      />
-      <ProductMenuItem
-        active={false}
-        destination=""
-        icon="product-playbooks"
-        id="product-menu-item-Playbooks"
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-boards"
+          id="product-menu-item-Boards"
+          onClick={[Function]}
+          text="Boards"
+        />
+      </PluggableErrorBoundary>
+      <PluggableErrorBoundary
         key="Playbooks"
-        onClick={[Function]}
-        text="Playbooks"
-      />
+      >
+        <ProductMenuItem
+          active={false}
+          destination=""
+          icon="product-playbooks"
+          id="product-menu-item-Playbooks"
+          onClick={[Function]}
+          text="Playbooks"
+        />
+      </PluggableErrorBoundary>
       <Connect(ProductMenuList)
         handleVisitConsoleClick={[Function]}
         isMessaging={true}

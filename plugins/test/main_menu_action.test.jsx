@@ -6,6 +6,8 @@ import React from 'react';
 import MainMenu from 'components/main_menu/main_menu';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
+import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
+import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 describe('plugins/MainMenuActions', () => {
     const pluginAction = jest.fn();
@@ -27,7 +29,7 @@ describe('plugins/MainMenuActions', () => {
         enablePluginMarketplace: true,
         showDropdown: true,
         onToggleDropdown: () => {}, //eslint-disable-line no-empty-function
-        pluginMenuItems: [{id: 'someplugin', text: 'some plugin text', action: pluginAction}],
+        pluginMenuItems: [{id: 'some_pluggable_id', text: 'some plugin text', action: pluginAction}],
         canCreateOrDeleteCustomEmoji: true,
         canManageIntegrations: true,
         moreTeamsToJoin: true,
@@ -66,7 +68,8 @@ describe('plugins/MainMenuActions', () => {
         wrapper = wrapper.shallow();
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem')).toHaveLength(1);
+        expect(wrapper.find(PluggableErrorBoundary).key()).toEqual('some_pluggable_id');
+        expect(wrapper.find('MenuItemAction[id="some_pluggable_id_pluginmenuitem"]')).toHaveLength(1);
     });
 
     test('should match snapshot in mobile view with some plugin and ability to click plugin', () => {
@@ -84,10 +87,14 @@ describe('plugins/MainMenuActions', () => {
         wrapper = wrapper.shallow();
 
         expect(wrapper).toMatchSnapshot();
-        expect(wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem')).toHaveLength(1);
+        expect(wrapper.find(PluggableErrorBoundary).key()).toEqual('some_pluggable_id');
 
-        wrapper.findWhere((node) => node.key() === 'someplugin_pluginmenuitem').simulate('click');
+        const menuItem = wrapper.find('MenuItemAction[id="some_pluggable_id_pluginmenuitem"]');
+        expect(menuItem).toHaveLength(1);
+
+        expect(menuItem.prop('id')).toEqual('some_pluggable_id_pluginmenuitem');
+
+        menuItem.simulate('click');
         expect(pluginAction).toBeCalled();
     });
 });
-

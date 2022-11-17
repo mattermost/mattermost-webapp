@@ -167,7 +167,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
 
     createComponentButton = (plug: PluginComponent) => {
         return (
-            <PluggableErrorBoundary>
+            <PluggableErrorBoundary key={plug.id}>
                 <HeaderIconWrapper
                     key={'channelHeaderButton' + plug.id}
                     buttonClass='channel-header__icon'

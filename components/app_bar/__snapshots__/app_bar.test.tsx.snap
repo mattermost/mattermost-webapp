@@ -33,42 +33,20 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
           }
           key="the_component_id"
         >
-          <OverlayTrigger
-            defaultOverlayShown={false}
-            delayShow={400}
-            overlay={
-              <Tooltip
-                bsClass="tooltip"
-                id="pluginTooltip-app-bar-icon-playbooks"
-                placement="right"
-              >
-                <span>
-                  Playbooks Tooltip
-                </span>
-              </Tooltip>
-            }
-            placement="left"
-            trigger={
-              Array [
-                "hover",
-                "focus",
-              ]
-            }
-          >
+          <PluggableErrorBoundary>
             <OverlayTrigger
               defaultOverlayShown={false}
               delayShow={400}
               overlay={
-                <OverlayWrapper
+                <Tooltip
                   bsClass="tooltip"
                   id="pluginTooltip-app-bar-icon-playbooks"
-                  intl={null}
                   placement="right"
                 >
                   <span>
                     Playbooks Tooltip
                   </span>
-                </OverlayWrapper>
+                </Tooltip>
               }
               placement="left"
               trigger={
@@ -78,23 +56,47 @@ exports[`components/app_bar/app_bar should match snapshot on mount 1`] = `
                 ]
               }
             >
-              <div
-                className="app-bar__icon"
-                id="app-bar-icon-playbooks"
-                onBlur={[Function]}
-                onClick={[Function]}
-                onFocus={[Function]}
-                onMouseOut={[Function]}
-                onMouseOver={[Function]}
+              <OverlayTrigger
+                defaultOverlayShown={false}
+                delayShow={400}
+                overlay={
+                  <OverlayWrapper
+                    bsClass="tooltip"
+                    id="pluginTooltip-app-bar-icon-playbooks"
+                    intl={null}
+                    placement="right"
+                  >
+                    <span>
+                      Playbooks Tooltip
+                    </span>
+                  </OverlayWrapper>
+                }
+                placement="left"
+                trigger={
+                  Array [
+                    "hover",
+                    "focus",
+                  ]
+                }
               >
                 <div
-                  className="app-bar__old-icon app-bar__icon-inner app-bar__icon-inner--centered"
+                  className="app-bar__icon"
+                  id="app-bar-icon-playbooks"
+                  onBlur={[Function]}
+                  onClick={[Function]}
+                  onFocus={[Function]}
+                  onMouseOut={[Function]}
+                  onMouseOver={[Function]}
                 >
-                  fallback_component
+                  <div
+                    className="app-bar__old-icon app-bar__icon-inner app-bar__icon-inner--centered"
+                  >
+                    fallback_component
+                  </div>
                 </div>
-              </div>
+              </OverlayTrigger>
             </OverlayTrigger>
-          </OverlayTrigger>
+          </PluggableErrorBoundary>
         </AppBarPluginComponent>
         <_StyledHr
           className="app-bar__divider"
