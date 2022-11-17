@@ -43,9 +43,13 @@ function SelfHostedContent(props: ContentProps) {
 
     useEffect(() => {
         async function fetchSelfHostedProducts() {
-            const products = await Client4.getSelfHostedProducts();
-            const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
-            setProfessionalPrice(professionalProduct?.price_per_seat || FALL_BACK_PROFESSIONAL_PRICE);
+            try {
+                const products = await Client4.getSelfHostedProducts();
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                setProfessionalPrice(professionalProduct?.price_per_seat || FALL_BACK_PROFESSIONAL_PRICE);
+            } catch (error) {
+                setProfessionalPrice(FALL_BACK_PROFESSIONAL_PRICE);
+            }
         }
 
         fetchSelfHostedProducts();
