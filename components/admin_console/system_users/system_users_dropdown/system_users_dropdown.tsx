@@ -491,7 +491,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const message = (
             <FormattedMessage
                 id='create_group_memberships_modal.desc'
-                defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. Do you want to continue?"
+                defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. You can revert this change at any time."
                 values={{
                     username: this.props.user.username,
                 }}
