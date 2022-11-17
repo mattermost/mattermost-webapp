@@ -36,7 +36,7 @@ const DATE_RANGES = [
 const itemMessages = defineMessages({
     helpText: {
         id: t('post_info.edit.restore'),
-        defaultMessage: 'Restore',
+        defaultMessage: 'Restore this version',
     },
     currentVersionText: {
         id: t('post_info.edit.current_version'),
@@ -175,6 +175,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
         </Tooltip>
     );
 
+    // todo sinan fix alignment of tooltip
     const restoreButton = isCurrent ? null : (
         <OverlayTrigger
             trigger={['hover', 'focus']}

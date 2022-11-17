@@ -11,8 +11,8 @@ import GenericModal from 'components/generic_modal';
 
 const modalMessages = defineMessages({
     title: {
-        id: t('restore_post.title'),
-        defaultMessage: 'Restore this message?',
+        id: t('post_info.edit.restore'),
+        defaultMessage: 'Restore this version',
     },
 });
 
@@ -35,7 +35,7 @@ const RestorePostModal = ({post, actions, onExited}: Props) => {
 
     const modalHeaderText = (
         <div className='edit-post-history__restore__modal__header'>
-            {formatMessage(modalMessages.title)}
+            {formatMessage(modalMessages.title) + '?'}
         </div>
     );
 

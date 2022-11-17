@@ -3,15 +3,8 @@
 exports[`components/post_edit_history/edited_post_item should match snapshot 1`] = `
 <div
   className="edit-post-history__container"
+  onClick={[Function]}
 >
-  <ForwardRef
-    aria-label="Toggle to see an old message."
-    className="edit-post-history__icon__button"
-    compact={true}
-    icon="chevron-right"
-    onClick={[Function]}
-    size="sm"
-  />
   <PostAriaLabelDiv
     className="a11y__section post"
     id="searchResult_post_id"
@@ -45,39 +38,50 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
   >
     <div
       aria-hidden="true"
-      className="edit-post-history__date__container"
+      className="edit-post-history__title__container"
     >
-      <span
-        className="edit-post-history__date"
+      <div
+        className="edit-post-history__date__badge__container"
       >
-        <Connect(injectIntl(Timestamp))
-          ranges={
-            Array [
-              Object {
-                "display": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Today"
-                  id="date_separator.today"
-                />,
-                "equals": Array [
-                  "day",
-                  0,
-                ],
-              },
-              Object {
-                "display": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Yesterday"
-                  id="date_separator.yesterday"
-                />,
-                "equals": Array [
-                  "day",
-                  -1,
-                ],
-              },
-            ]
-          }
-          value={0}
+        <ForwardRef
+          aria-label="Toggle to see an old message."
+          className="edit-post-history__icon__button"
+          compact={true}
+          icon="chevron-right"
+          size="sm"
         />
-      </span>
+        <span
+          className="edit-post-history__date"
+        >
+          <Connect(injectIntl(Timestamp))
+            ranges={
+              Array [
+                Object {
+                  "display": <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Today"
+                    id="date_separator.today"
+                  />,
+                  "equals": Array [
+                    "day",
+                    0,
+                  ],
+                },
+                Object {
+                  "display": <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Yesterday"
+                    id="date_separator.yesterday"
+                  />,
+                  "equals": Array [
+                    "day",
+                    -1,
+                  ],
+                },
+              ]
+            }
+            value={0}
+          />
+        </span>
+      </div>
       <OverlayTrigger
         defaultOverlayShown={false}
         delayShow={400}
@@ -86,7 +90,7 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
             className="hidden-xs"
             id="editPostRestoreTooltip"
           >
-            Restore
+            Restore this version
           </Tooltip>
         }
         placement="bottom"
@@ -114,15 +118,8 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
 exports[`components/post_edit_history/edited_post_item should match snapshot when isCurrent is true 1`] = `
 <div
   className="edit-post-history__container edit-post-history__container__background"
+  onClick={[Function]}
 >
-  <ForwardRef
-    aria-label="Toggle to see an old message."
-    className="edit-post-history__icon__button"
-    compact={true}
-    icon="chevron-down"
-    onClick={[Function]}
-    size="sm"
-  />
   <PostAriaLabelDiv
     className="a11y__section post"
     id="searchResult_post_id"
@@ -156,101 +153,86 @@ exports[`components/post_edit_history/edited_post_item should match snapshot whe
   >
     <div
       aria-hidden="true"
-      className="edit-post-history__date__container"
+      className="edit-post-history__title__container"
     >
-      <span
-        className="edit-post-history__date"
-      >
-        <Connect(injectIntl(Timestamp))
-          ranges={
-            Array [
-              Object {
-                "display": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Today"
-                  id="date_separator.today"
-                />,
-                "equals": Array [
-                  "day",
-                  0,
-                ],
-              },
-              Object {
-                "display": <Memo(MemoizedFormattedMessage)
-                  defaultMessage="Yesterday"
-                  id="date_separator.yesterday"
-                />,
-                "equals": Array [
-                  "day",
-                  -1,
-                ],
-              },
-            ]
-          }
-          value={0}
-        />
-      </span>
-    </div>
-    <div
-      className="edit-post-history__current__indicator"
-    >
-      Current Version
-    </div>
-    <div
-      className="edit-post-history__header"
-    >
-      <span
-        className="profile-icon"
-      >
-        <Memo(Avatar)
-          className="avatar-post-preview"
-          size="sm"
-          url="/api/v4/users/user_id/image?_=0"
-        />
-      </span>
       <div
-        className="edit-post-history__header__username"
+        className="edit-post-history__date__badge__container"
       >
-        <Connect(UserProfile)
-          disablePopover={true}
-          hasMention={true}
-          userId="user_id"
+        <ForwardRef
+          aria-label="Toggle to see an old message."
+          className="edit-post-history__icon__button"
+          compact={true}
+          icon="chevron-down"
+          size="sm"
         />
+        <span
+          className="edit-post-history__date"
+        >
+          <Connect(injectIntl(Timestamp))
+            ranges={
+              Array [
+                Object {
+                  "display": <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Today"
+                    id="date_separator.today"
+                  />,
+                  "equals": Array [
+                    "day",
+                    0,
+                  ],
+                },
+                Object {
+                  "display": <Memo(MemoizedFormattedMessage)
+                    defaultMessage="Yesterday"
+                    id="date_separator.yesterday"
+                  />,
+                  "equals": Array [
+                    "day",
+                    -1,
+                  ],
+                },
+              ]
+            }
+            value={0}
+          />
+        </span>
+        <div
+          className="edit-post-history__current__indicator"
+        >
+          Current Version
+        </div>
       </div>
     </div>
     <div
-      className="post__content"
+      className="edit-post-history__content_container"
     >
       <div
-        className="search-item-snippet post__body"
+        className="edit-post-history__header"
       >
-        <Connect(PostBodyAdditionalContent)
-          post={
-            Object {
-              "channel_id": "",
-              "create_at": 0,
-              "delete_at": 0,
-              "edit_at": 0,
-              "hashtags": "",
-              "id": "post_id",
-              "is_pinned": false,
-              "message": "post message",
-              "metadata": Object {
-                "embeds": Array [],
-                "emojis": Array [],
-                "files": Array [],
-                "images": Object {},
-                "reactions": Array [],
-              },
-              "original_id": "",
-              "pending_post_id": "",
-              "props": Object {},
-              "reply_count": 0,
-              "root_id": "",
-              "type": "system_add_remove",
-              "update_at": 0,
-              "user_id": "user_id",
-            }
-          }
+        <span
+          className="profile-icon"
+        >
+          <Memo(Avatar)
+            className="avatar-post-preview"
+            size="sm"
+            url="/api/v4/users/user_id/image?_=0"
+          />
+        </span>
+        <div
+          className="edit-post-history__header__username"
+        >
+          <Connect(UserProfile)
+            disablePopover={true}
+            hasMention={true}
+            userId="user_id"
+          />
+        </div>
+      </div>
+      <div
+        className="post__content"
+      >
+        <div
+          className="search-item-snippet post__body"
         >
           <Connect(PostMessageView)
             isRHS={true}
@@ -283,7 +265,7 @@ exports[`components/post_edit_history/edited_post_item should match snapshot whe
             }
             showPostEditedIndicator={false}
           />
-        </Connect(PostBodyAdditionalContent)>
+        </div>
       </div>
     </div>
   </PostAriaLabelDiv>
