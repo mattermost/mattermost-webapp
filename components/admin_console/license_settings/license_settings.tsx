@@ -16,7 +16,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 
 import FormattedAdminHeader from 'components/widgets/admin_console/formatted_admin_header';
 
-import {AboutLinks, CloudLinks, ModalIdentifiers} from 'utils/constants';
+import {AboutLinks, CloudLinks, ModalIdentifiers, StatTypes} from 'utils/constants';
 
 import {ModalData} from 'types/actions';
 
@@ -317,6 +317,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     removing={this.state.removing}
                     fileInputRef={this.fileInputRef}
                     handleChange={this.handleChange}
+                    statsActiveUsers={this.props.stats[StatTypes.TOTAL_USERS]}
                 />
             );
 
