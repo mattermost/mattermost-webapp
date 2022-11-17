@@ -301,6 +301,37 @@ exports[`components/integrations/AbstractOutgoingWebhook should match snapshot 1
         </div>
       </div>
       <div
+        className="form-group"
+      >
+        <label
+          className="control-label col-sm-4"
+          htmlFor="enabled"
+        >
+          <MemoizedFormattedMessage
+            defaultMessage="Enable webhook"
+            id="add_outgoing_webhook.enabled"
+          />
+        </label>
+        <div
+          className="col-md-5 col-sm-8 checkbox"
+        >
+          <input
+            checked={true}
+            id="enabled"
+            onChange={[Function]}
+            type="checkbox"
+          />
+          <div
+            className="form__help"
+          >
+            <MemoizedFormattedMessage
+              defaultMessage="If set, the outgoing webhook will be enabled."
+              id="add_outgoing_webhook.enabled.help"
+            />
+          </div>
+        </div>
+      </div>
+      <div
         className="backstage-form__footer"
       >
         <FormError

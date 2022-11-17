@@ -25,6 +25,10 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
         className="item-details__name"
       >
         build
+        <MemoizedFormattedMessage
+          defaultMessage=" - Disabled"
+          id="installed_outgoing_webhooks.disabled_webhook"
+        />
       </strong>
       <div
         className="item-actions"
@@ -56,6 +60,11 @@ exports[`components/integrations/InstalledOutgoingWebhook should match snapshot 
             />
           }
           onDelete={[Function]}
+        />
+         - 
+        <Toggle
+          disabled={false}
+          onToggle={[Function]}
         />
       </div>
     </div>
