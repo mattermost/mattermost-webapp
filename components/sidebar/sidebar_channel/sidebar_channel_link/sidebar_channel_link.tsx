@@ -249,11 +249,11 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 />
                 <SidebarChannelMenu
                     channel={channel}
-                    isUnread={isUnread}
-                    isCollapsed={this.props.isCollapsed}
-                    closeHandler={this.props.closeHandler}
                     channelLink={link}
                     isMenuOpen={this.state.isMenuOpen}
+                    isCollapsed={this.props.isCollapsed}
+                    isUnread={isUnread}
+                    closeHandler={this.props.closeHandler}
                     onToggleMenu={this.handleMenuToggle}
                 />
             </>
