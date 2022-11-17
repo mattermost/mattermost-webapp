@@ -1,45 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
+import {connect, ConnectedProps} from 'react-redux';
 
 import {setCategoryMuted, setCategorySorting} from 'mattermost-redux/actions/channel_categories';
-import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {Action} from 'mattermost-redux/types/actions';
-import {CategorySorting} from '@mattermost/types/channel_categories';
-import {GlobalState} from '@mattermost/types/store';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {openModal} from 'actions/views/modals';
 
-import {ModalData} from 'types/actions';
+import {GlobalState} from 'types/store';
 
 import SidebarCategoryMenu from './sidebar_category_menu';
 
-function makeMapStateToProps() {
-    return (state: GlobalState) => {
-        const currentTeam = getCurrentTeam(state);
-
-        return {
-            currentTeamId: currentTeam.id,
-        };
-    };
-}
-
-type Actions = {
-    openModal: <P>(modalData: ModalData<P>) => void;
-    setCategoryMuted: (categoryId: string, muted: boolean) => void;
-    setCategorySorting: (categoryId: string, sorting: CategorySorting) => void;
-}
-
-function mapDispatchToProps(dispatch: Dispatch) {
+function mapStateToProps(state: GlobalState) {
     return {
-        actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
-            openModal,
-            setCategoryMuted,
-            setCategorySorting,
-        }, dispatch),
+        currentTeamId: getCurrentTeamId(state),
     };
 }
 
-export default connect(makeMapStateToProps, mapDispatchToProps)(SidebarCategoryMenu);
+const mapDispatchToProps = {
+    openModal,
+    setCategoryMuted,
+    setCategorySorting,
+};
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(SidebarCategoryMenu);
