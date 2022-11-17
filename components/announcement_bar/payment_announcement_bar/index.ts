@@ -12,7 +12,6 @@ import {getCloudSubscription, getCloudCustomer} from 'mattermost-redux/actions/c
 
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {
-    checkSubscriptionIsLegacyFree,
     getCloudSubscription as selectCloudSubscription,
     getCloudCustomer as selectCloudCustomer,
     getSubscriptionProduct,
@@ -34,7 +33,6 @@ function mapStateToProps(state: GlobalState) {
         isCloud: getLicense(state).Cloud === 'true',
         subscription,
         customer,
-        isLegacyFree: checkSubscriptionIsLegacyFree(state),
         isStarterFree: subscriptionProduct?.sku === CloudProducts.STARTER,
     };
 }

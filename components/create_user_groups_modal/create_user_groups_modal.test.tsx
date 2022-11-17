@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 
 import {shallow} from 'enzyme';
@@ -80,6 +81,21 @@ describe('component/create_user_groups_modal', () => {
         process.nextTick(() => {
             expect(wrapper.state('showUnknownError')).toEqual(false);
             expect(wrapper.state('mentionInputErrorText')).toEqual('Invalid character in mention.');
+        });
+    });
+
+    test('create a mention with special characters', () => {
+        const wrapper = shallow<CreateUserGroupsModal>(
+            <CreateUserGroupsModal
+                {...baseProps}
+            />,
+        );
+        wrapper.setState({name: 'Ursa', mention: 'ursa.-_'});
+        wrapper.instance().createGroup(users);
+        expect(wrapper.instance().props.actions.createGroupWithUserIds).toHaveBeenCalledTimes(1);
+        process.nextTick(() => {
+            expect(wrapper.state('showUnknownError')).toEqual(false);
+            expect(wrapper.state('mentionInputErrorText')).toEqual('');
         });
     });
 
