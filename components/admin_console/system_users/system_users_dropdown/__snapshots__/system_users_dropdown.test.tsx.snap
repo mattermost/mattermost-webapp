@@ -304,7 +304,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             defaultMessage="Member"
             id="admin.user_item.member"
           />
-
+           
         </span>
         <span
           className="caret"
@@ -612,7 +612,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             defaultMessage="Member"
             id="admin.user_item.member"
           />
-
+           
         </span>
         <span
           className="caret"
