@@ -481,7 +481,7 @@ export default class SystemUsersDropdown extends React.PureComponent<Props, Stat
         const title = (
             <FormattedMessage
                 id='create_group_memberships_modal.title'
-                defaultMessage='Re-sync {username} to teams and channels'
+                defaultMessage='Re-add {username} to teams and channels'
                 values={{
                     username: this.props.user.username,
                 }}

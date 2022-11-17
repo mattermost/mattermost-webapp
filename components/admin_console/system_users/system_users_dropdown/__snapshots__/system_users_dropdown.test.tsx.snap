@@ -280,7 +280,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Re-sync {username} to teams and channels"
+        defaultMessage="Re-add {username} to teams and channels"
         id="create_group_memberships_modal.title"
         values={
           Object {
@@ -304,7 +304,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             defaultMessage="Member"
             id="admin.user_item.member"
           />
-           
+
         </span>
         <span
           className="caret"
@@ -588,7 +588,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
     show={false}
     title={
       <Memo(MemoizedFormattedMessage)
-        defaultMessage="Re-sync {username} to teams and channels"
+        defaultMessage="Re-add {username} to teams and channels"
         id="create_group_memberships_modal.title"
         values={
           Object {
@@ -612,7 +612,7 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
             defaultMessage="Member"
             id="admin.user_item.member"
           />
-           
+
         </span>
         <span
           className="caret"
