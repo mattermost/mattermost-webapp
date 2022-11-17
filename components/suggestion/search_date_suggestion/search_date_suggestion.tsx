@@ -18,17 +18,12 @@ const loadedLocales: Record<string, Locale> = {};
 
 type Props = {
     locale: string;
-    preventClose: () => void;
 }
 
 export default class SearchDateSuggestion extends Suggestion {
-    constructor(props: Props) {
-        super(props);
-
-        this.state = {
-            datePickerFocused: false,
-        };
-    }
+    state = {
+        datePickerFocused: false,
+    };
 
     handleDayClick = (day: Date) => {
         const dayString = day.toISOString().split('T')[0];
