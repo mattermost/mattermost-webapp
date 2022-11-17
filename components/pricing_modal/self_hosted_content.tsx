@@ -6,7 +6,7 @@ import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, LicenseLinks, ModalIdentifiers, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, ModalIdentifiers, LicenseSkus, TELEMETRY_CATEGORIES} from 'utils/constants';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
@@ -22,14 +22,9 @@ import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import ContactSalesCTA from './contact_sales_cta';
 import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
-import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
-
-import {
-    getSelfHostedSubscription as selectSelfHostedSubscription,
-    getSubscriptionProduct as selectSelfHostedSubscriptionProduct,
-    getSelfHostedProducts as selectSelfHostedProducts} from 'mattermost-redux/selectors/entities/self_hosted';
 
 import './content.scss';
+import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
 
 type ContentProps = {
     onHide: () => void;
@@ -47,9 +42,6 @@ function SelfHostedContent(props: ContentProps) {
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
-    const subscription = useSelector(selectSelfHostedSubscription);
-    const product = useSelector(selectSelfHostedSubscriptionProduct);
-    const products = useSelector(selectSelfHostedProducts);
     const license = useSelector(getLicense);
 
     const prevSelfHostedTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
@@ -61,25 +53,18 @@ function SelfHostedContent(props: ContentProps) {
     const isEnterprise = license.SkuShortName === LicenseSkus.Enterprise;
     const isPostSelfHostedEnterpriseTrial = prevSelfHostedTrialLicense.IsLicensed === 'true';
 
-    const openCloudPurchaseModal = useOpenCloudPurchaseModal({});
-    const openCloudDelinquencyModal = useOpenCloudPurchaseModal({
-        isDelinquencyModal: true,
-    });
+    const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
 
-    const openPurchaseModal = (callerInfo: string) => {
-        props.onHide();
-        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
-        if (subscription?.delinquent_since) {
-            openCloudDelinquencyModal({trackingLocation: telemetryInfo});
-        }
-        openCloudPurchaseModal({});
+    const openPurchaseModal = (price?: string) => {
+        closePricingModal();
+        openSelfHostedPurchaseModal({});
     };
     
     const closePricingModal = () => {
         dispatch(closeModal(ModalIdentifiers.PRICING_MODAL));
     };
 
-    const starterBriefing = [
+    const starterBriefing = [   
         formatMessage({id: 'pricing_modal.briefing.unlimitedWorkspaceTeams', defaultMessage: 'Unlimited workspace teams'}),
         formatMessage({id: 'pricing_modal.briefing.unlimitedPlaybookRuns', defaultMessage: 'Unlimited playbooks and runs'}),
         formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
@@ -87,14 +72,17 @@ function SelfHostedContent(props: ContentProps) {
         formatMessage({id: 'pricing_modal.briefing.ssoWithGitLab', defaultMessage: 'SSO with Gitlab'}),
     ];
 
+    const starterPrice = '$0';
+
     const professionalBriefing = [
         formatMessage({id: 'pricing_modal.briefing.customUserGroups', defaultMessage: 'Custom user groups'}),
         formatMessage({id: 'pricing_modal.briefing.voiceCallsScreenSharingInGroupMessagesAndChannels', defaultMessage: 'Voice calls and screen sharing in group messages and channels'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
-
     ];
+
+    const professionalPrice = '$10'
 
     const enterpriseBriefing = [
         formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
@@ -168,7 +156,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='#339970'
                         plan='Free'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams'})}
-                        price='$0'
+                        price={starterPrice}
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={
                             isStarter ? (
@@ -179,7 +167,7 @@ function SelfHostedContent(props: ContentProps) {
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
                         buttonDetails={{
-                            action: () => {openPurchaseModal('click_pricing_modal_professional_card_upgrade_button');},
+                            action: () => {openPurchaseModal(starterPrice);},
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: true,
                             customClass: ButtonCustomiserClasses.secondary,
@@ -194,7 +182,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price='$10'
+                        price={professionalPrice}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                         planLabel={
                             isProfessional ? (
@@ -206,9 +194,7 @@ function SelfHostedContent(props: ContentProps) {
                                 />) : undefined}
                         buttonDetails={{
                             action: () => {
-                                openPurchaseModal('click_pricing_modal_professional_card_upgrade_button');
-                                // trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                // window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                openPurchaseModal(professionalPrice);
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional,
@@ -237,8 +223,6 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={(isPostSelfHostedEnterpriseTrial || !isAdmin) ? {
                             action: () => {
                                 openPurchaseModal('click_pricing_modal_professional_card_upgrade_button');
-                                // trackEvent('self_hosted_pricing', 'click_enterprise_contact_sales');
-                                // window.open(LicenseLinks.CONTACT_SALES, '_blank');
                             },
                             text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,

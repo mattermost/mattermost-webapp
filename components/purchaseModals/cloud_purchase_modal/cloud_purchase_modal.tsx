@@ -26,7 +26,7 @@ import {
     BillingSchemes,
     ModalIdentifiers,
 } from 'utils/constants';
-import {areBillingDetailsValid, BillingDetails} from '../../types/cloud/sku';
+import {areBillingDetailsValid, BillingDetails} from '../../../types/cloud/sku';
 
 import PaymentDetails from 'components/admin_console/billing/payment_details';
 import {STRIPE_CSS_SRC, STRIPE_PUBLIC_KEY} from 'components/payment_form/stripe';
@@ -43,13 +43,13 @@ import {ModalData} from 'types/actions';
 import {Team} from '@mattermost/types/teams';
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
-import PaymentForm from '../payment_form/payment_form';
+import PaymentForm from '../../payment_form/payment_form';
 
-import ProcessPaymentSetup from './process_payment_setup';
+import ProcessPaymentSetup from '../process_payment_setup';
 
 import 'components/payment_form/payment_form.scss';
 
-import './purchase.scss';
+import '../purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 

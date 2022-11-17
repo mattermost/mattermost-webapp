@@ -10,7 +10,7 @@ import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud'
 
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
-import IconMessage from 'components/purchase_modal/icon_message';
+import IconMessage from 'components/purchaseModals/icon_message';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import useOpenSalesLink from 'components/common/hooks/useOpenSalesLink';

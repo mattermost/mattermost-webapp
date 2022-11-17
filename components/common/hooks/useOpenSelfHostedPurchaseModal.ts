@@ -6,16 +6,17 @@ import {useDispatch} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import PurchaseModal from 'components/purchaseModals/cloud_purchase_modal';
+import PurchaseModal from 'components/purchaseModals/self_hosted_purchase_modal';
 
-interface OpenPurchaseModalOptions{
+interface OpenSelfHostedPurchaseModalOptions{
     onClick?: () => void;
     trackingLocation?: string;
     isDelinquencyModal?: boolean;
+    // price: string | undefined
 }
-type TelemetryProps = Pick<OpenPurchaseModalOptions, 'trackingLocation'>
+type TelemetryProps = Pick<OpenSelfHostedPurchaseModalOptions, 'trackingLocation'>
 
-export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOptions) {
+export default function useOpenSelfHostedPurchaseModal(options: OpenSelfHostedPurchaseModalOptions) {
     const dispatch = useDispatch();
     return (telemetryProps: TelemetryProps) => {
         if (options.onClick) {
@@ -25,7 +26,7 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
             callerInfo: telemetryProps.trackingLocation,
         });
         dispatch(openModal({
-            modalId: ModalIdentifiers.CLOUD_PURCHASE,
+            modalId: ModalIdentifiers.SELF_HOSTED_PURCHASE,
             dialogType: PurchaseModal,
             dialogProps: {
                 callerCTA: telemetryProps.trackingLocation,

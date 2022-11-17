@@ -28,7 +28,7 @@ import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'action
 import {ModalData} from 'types/actions';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 
-const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => import('./purchase_modal')));
+const CloudPurchaseModal = makeAsyncComponent('CloudPurchaseModal', React.lazy(() => import('./cloud_purchase_modal')));
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;
@@ -80,4 +80,4 @@ function mapDispatchToProps(dispatch: Dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withGetCloudSubscription(PurchaseModal));
+export default connect(mapStateToProps, mapDispatchToProps)(withGetCloudSubscription(CloudPurchaseModal));
