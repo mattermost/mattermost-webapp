@@ -40,6 +40,7 @@ import {ActionTypes} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
+import {isCustomEmojiEnabled} from 'selectors/emojis';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
@@ -47,7 +48,14 @@ import {htmlToMarkdown} from './utils/toMarkdown';
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
-import {AtMentionSuggestions, ChannelSuggestions, makeChannelSuggestion, EmojiSuggestions, makeAtMentionSuggestion} from './components/suggestions';
+import {
+    AtMentionSuggestions,
+    makeAtMentionSuggestion,
+    ChannelSuggestions,
+    makeChannelSuggestion,
+    EmojiSuggestions,
+    makeEmojiSuggestion,
+} from './components/suggestions';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -148,6 +156,7 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     const [draft, setDraftContent] = useDraft(channelId, rootId);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
     const teamId = useSelector(getCurrentTeamId);
+    const useCustomEmojis = useSelector(isCustomEmojiEnabled);
     const useSpecialMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS));
 
     const editor = useEditor({
@@ -221,7 +230,11 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     teamId,
                 }),
             }),
-            EmojiSuggestions,
+            EmojiSuggestions.configure({
+                suggestion: makeEmojiSuggestion({
+                    useCustomEmojis,
+                }),
+            }),
         ],
         content: draft?.content,
         autofocus: 'end',

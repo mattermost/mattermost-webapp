@@ -27,7 +27,7 @@ const ListContainer = styled.ul`
     margin: 0;
     padding: 8px 0;
     max-width: 496px;
-    z-index: 100;
+    max-height: inherit;
 
     list-style: none;
 
@@ -105,6 +105,7 @@ export type SuggestionItem = {
 export type SuggestionListProps = Pick<SuggestionProps<SuggestionItem>, 'items' | 'command' | 'decorationNode'> & {
     visible: boolean;
     renderSeparators: boolean;
+    minQueryLength?: number;
 };
 
 /**
@@ -193,34 +194,43 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
         return autoUpdate(refs.reference.current, refs.floating.current, update);
     }, [refs.reference, refs.floating, update]);
 
+    useEffect(() => {
+        update();
+    }, [items, update]);
+
     const floatingStyle: React.CSSProperties = {
         visibility: visible ? 'visible' : 'hidden',
         position: strategy,
         top: y ?? '',
         left: x ?? '',
+        zIndex: 100,
     };
 
     return createPortal(
-        <ListContainer
+        <div
             ref={floating}
             style={floatingStyle}
         >
-            {items.length ? items.map(({id, label, content, type}, index) => (
-                <Fragment key={id}>
-                    {renderSeparators && type && type !== items[index - 1]?.type && (
-                        <ListGroupTitle>
-                            <FormattedMessage id={`suggestion.mention.${type}`}/>
-                        </ListGroupTitle>
-                    )}
-                    <ListItem
-                        selected={index === selectedIndex}
-                        onClick={() => selectItem(index)}
-                    >
-                        {content || label}
-                    </ListItem>
-                </Fragment>
-            )) : <ListItem>{'No result'}</ListItem>}
-        </ListContainer>,
+            {Array.isArray(items) && items.length ? (
+                <ListContainer>
+                    {items.map(({id, label, content, type}, index) => (
+                        <Fragment key={id}>
+                            {renderSeparators && type && type !== items[index - 1]?.type && (
+                                <ListGroupTitle>
+                                    <FormattedMessage id={`suggestion.mention.${type}`}/>
+                                </ListGroupTitle>
+                            )}
+                            <ListItem
+                                selected={index === selectedIndex}
+                                onClick={() => selectItem(index)}
+                            >
+                                {content || label}
+                            </ListItem>
+                        </Fragment>
+                    ))}
+                </ListContainer>
+            ) : null}
+        </div>,
         document.body,
     );
 });
