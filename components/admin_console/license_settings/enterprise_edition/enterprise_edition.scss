@@ -135,11 +135,29 @@
                     min-width: 150px;
                     color: rgba(var(--secondary-blue-rgb), 0.4);
                     font-weight: 600;
+
+                    &--warning-overage-purchased {
+                        color: var(--warning-text);
+                    }
+
+                    &--overage-purchased {
+                        color: var(--error-text);
+                    }
                 }
 
                 span.value {
                     margin-left: 10px;
                     color: var(--secondary-blue);
+
+                    &--warning-overage-purchased {
+                        color: var(--warning-text);
+                        font-weight: 600;
+                    }
+
+                    &--overage-purchased {
+                        color: var(--error-text);
+                        font-weight: 600;
+                    }
                 }
             }
 

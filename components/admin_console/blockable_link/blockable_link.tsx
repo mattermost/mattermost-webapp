@@ -46,6 +46,7 @@ export default class BlockableLink extends React.PureComponent<Props> {
             <NavLink
                 {...props}
                 onClick={this.handleClick}
-            />);
+            />
+        );
     }
 }
