@@ -6,7 +6,7 @@ import {shallow} from 'enzyme';
 
 import {AdvancedSections} from 'utils/constants';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 import JoinLeaveSection from 'components/user_settings/advanced/join_leave_section/join_leave_section';

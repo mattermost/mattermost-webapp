@@ -37,6 +37,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         isChannelSelected: false,
         showChannelsTutorialStep: false,
         actions: {
+            markMostRecentPostInChannelAsUnread: jest.fn(),
             multiSelectChannel: jest.fn(),
             multiSelectChannelAdd: jest.fn(),
             multiSelectChannelTo: jest.fn(),

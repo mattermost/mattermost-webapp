@@ -14,8 +14,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-star-outline"
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
         />
       }
       id="favorite-channel_id"
@@ -25,8 +36,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-channel_id"
@@ -61,8 +72,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-link-variant"
+        <LinkVariantIcon
+          size={16}
         />
       }
       id="copyLink-channel_id"
@@ -72,8 +83,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-account-outline"
+        <AccountOutlineIcon
+          size={16}
         />
       }
       id="addMembers-channel_id"
@@ -85,8 +96,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          size={16}
         />
       }
       id="leave-channel_id"
@@ -99,277 +110,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 </Connect(SidebarMenu)>
 `;
 
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items 1`] = `
-<React.Fragment>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-star-outline"
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-bell-outline"
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
-  <CategoryMenuItems
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "id",
-        "delete_at": 0,
-        "display_name": "name",
-        "group_constrained": false,
-        "header": "header",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "DN",
-        "purpose": "purpose",
-        "scheme_id": "id",
-        "team_id": "team_id",
-        "type": "O",
-        "update_at": 0,
-      }
-    }
-    location="sidebar"
-    openUp={false}
-  />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-link-variant"
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-account-outline"
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</React.Fragment>
-`;
-
 exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - DM channels and public channels category 1`] = `
-<React.Fragment>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-star-outline"
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-bell-outline"
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
-  <CategoryMenuItems
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "id",
-        "delete_at": 0,
-        "display_name": "name",
-        "group_constrained": false,
-        "header": "header",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "DN",
-        "purpose": "purpose",
-        "scheme_id": "id",
-        "team_id": "team_id",
-        "type": "O",
-        "update_at": 0,
-      }
-    }
-    location="sidebar"
-    openUp={false}
-  />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-link-variant"
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-account-outline"
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</React.Fragment>
-`;
-
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - public channels and DM category 1`] = `
-<React.Fragment>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-star-outline"
-        />
-      }
-      id="favorite-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Favorite"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-bell-outline"
-        />
-      }
-      id="mute-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Mute Channel"
-    />
-  </MenuGroup>
-  <CategoryMenuItems
-    channel={
-      Object {
-        "create_at": 0,
-        "creator_id": "id",
-        "delete_at": 0,
-        "display_name": "name",
-        "group_constrained": false,
-        "header": "header",
-        "id": "channel_id",
-        "last_post_at": 0,
-        "last_root_post_at": 0,
-        "name": "DN",
-        "purpose": "purpose",
-        "scheme_id": "id",
-        "team_id": "team_id",
-        "type": "O",
-        "update_at": 0,
-      }
-    }
-    location="sidebar"
-    openUp={false}
-  />
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-link-variant"
-        />
-      }
-      id="copyLink-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Copy Link"
-    />
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-account-outline"
-        />
-      }
-      id="addMembers-channel_id"
-      onClick={[Function]}
-      show={true}
-      text="Add Members"
-    />
-  </MenuGroup>
-  <MenuGroup>
-    <MenuItemAction
-      icon={
-        <i
-          className="icon-close"
-        />
-      }
-      id="leave-channel_id"
-      isDangerous={true}
-      onClick={[Function]}
-      show={true}
-      text="Leave Channel"
-    />
-  </MenuGroup>
-</React.Fragment>
-`;
-
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is DM 1`] = `
 <Connect(SidebarMenu)
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
@@ -383,8 +124,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-star-outline"
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
         />
       }
       id="favorite-channel_id"
@@ -394,8 +146,228 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "last_root_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    location="sidebar"
+    openUp={false}
+  />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <LinkVariantIcon
+          size={16}
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <AccountOutlineIcon
+          size={16}
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <CloseIcon
+          size={16}
+        />
+      }
+      id="leave-channel_id"
+      isDangerous={true}
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot of rendered items when multiselecting channels - public channels and DM category 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <BellOutlineIcon
+          size={16}
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "last_root_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    location="sidebar"
+    openUp={false}
+  />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <LinkVariantIcon
+          size={16}
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <AccountOutlineIcon
+          size={16}
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <CloseIcon
+          size={16}
+        />
+      }
+      id="leave-channel_id"
+      isDangerous={true}
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is DM 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-channel_id"
@@ -431,8 +403,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          size={16}
         />
       }
       id="leave-channel_id"
@@ -445,7 +417,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 </Connect(SidebarMenu)>
 `;
 
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is Town Square 1`] = `
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is Town Square 1`] = `
 <Connect(SidebarMenu)
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
@@ -459,8 +431,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-star-outline"
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
         />
       }
       id="favorite-channel_id"
@@ -470,8 +453,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-channel_id"
@@ -506,8 +489,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-link-variant"
+        <LinkVariantIcon
+          size={16}
         />
       }
       id="copyLink-channel_id"
@@ -517,8 +500,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-account-outline"
+        <AccountOutlineIcon
+          size={16}
         />
       }
       id="addMembers-channel_id"
@@ -530,7 +513,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 </Connect(SidebarMenu)>
 `;
 
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is favorite 1`] = `
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is favorite 1`] = `
 <Connect(SidebarMenu)
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
@@ -544,8 +527,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-star"
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarIcon
+          size={16}
         />
       }
       id="unfavorite-channel_id"
@@ -555,8 +549,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-channel_id"
@@ -591,8 +585,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-link-variant"
+        <LinkVariantIcon
+          size={16}
         />
       }
       id="copyLink-channel_id"
@@ -602,8 +596,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-account-outline"
+        <AccountOutlineIcon
+          size={16}
         />
       }
       id="addMembers-channel_id"
@@ -615,8 +609,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          size={16}
         />
       }
       id="leave-channel_id"
@@ -629,7 +623,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 </Connect(SidebarMenu)>
 `;
 
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is muted 1`] = `
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is muted 1`] = `
 <Connect(SidebarMenu)
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
@@ -643,8 +637,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-star-outline"
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
         />
       }
       id="favorite-channel_id"
@@ -654,8 +659,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-off-outline"
+        <BellOffOutlineIcon
+          size={16}
         />
       }
       id="unmute-channel_id"
@@ -690,8 +695,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-link-variant"
+        <LinkVariantIcon
+          size={16}
         />
       }
       id="copyLink-channel_id"
@@ -701,8 +706,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-account-outline"
+        <AccountOutlineIcon
+          size={16}
         />
       }
       id="addMembers-channel_id"
@@ -714,8 +719,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          size={16}
         />
       }
       id="leave-channel_id"
@@ -728,7 +733,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 </Connect(SidebarMenu)>
 `;
 
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is private 1`] = `
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is private 1`] = `
 <Connect(SidebarMenu)
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
@@ -742,8 +747,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-star-outline"
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
         />
       }
       id="favorite-channel_id"
@@ -753,8 +769,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-channel_id"
@@ -789,8 +805,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-link-variant"
+        <LinkVariantIcon
+          size={16}
         />
       }
       id="copyLink-channel_id"
@@ -800,8 +816,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-account-outline"
+        <AccountOutlineIcon
+          size={16}
         />
       }
       id="addMembers-channel_id"
@@ -813,8 +829,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          size={16}
         />
       }
       id="leave-channel_id"
@@ -827,7 +843,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
 </Connect(SidebarMenu)>
 `;
 
-exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is unread 1`] = `
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is read 1`] = `
 <Connect(SidebarMenu)
   ariaLabel="Channel Menu"
   buttonAriaLabel="Channel Menu"
@@ -841,19 +857,19 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-mark-as-unread"
+        <MarkAsUnreadIcon
+          size={16}
         />
       }
-      id="markAsRead-channel_id"
+      id="markAsUnread-channel_id"
       onClick={[Function]}
       show={true}
-      text="Mark as Read"
+      text="Mark as Unread"
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-star-outline"
+        <StarOutlineIcon
+          size={16}
         />
       }
       id="favorite-channel_id"
@@ -863,8 +879,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-bell-outline"
+        <BellOutlineIcon
+          size={16}
         />
       }
       id="mute-channel_id"
@@ -899,8 +915,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-link-variant"
+        <LinkVariantIcon
+          size={16}
         />
       }
       id="copyLink-channel_id"
@@ -910,8 +926,8 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     />
     <MenuItemAction
       icon={
-        <i
-          className="icon-account-outline"
+        <AccountOutlineIcon
+          size={16}
         />
       }
       id="addMembers-channel_id"
@@ -923,8 +939,118 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   <MenuGroup>
     <MenuItemAction
       icon={
-        <i
-          className="icon-close"
+        <CloseIcon
+          size={16}
+        />
+      }
+      id="leave-channel_id"
+      isDangerous={true}
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should show correct menu items when channel is unread 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <MarkAsUnreadIcon
+          size={16}
+        />
+      }
+      id="markAsRead-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Read"
+    />
+    <MenuItemAction
+      icon={
+        <StarOutlineIcon
+          size={16}
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <BellOutlineIcon
+          size={16}
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "last_root_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    location="sidebar"
+    openUp={false}
+  />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <LinkVariantIcon
+          size={16}
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <AccountOutlineIcon
+          size={16}
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <CloseIcon
+          size={16}
         />
       }
       id="leave-channel_id"
