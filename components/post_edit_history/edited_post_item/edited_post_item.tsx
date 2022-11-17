@@ -190,7 +190,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
                 icon={'refresh'} // todo update with correct icon. Restore icon is recently added to compass
                 onClick={openRestorePostModal}
                 compact={true}
-                aria-label='Select to restore an old message.' // todo proper wording and translation needed
+                aria-label='Select to restore an old message.'
                 className='edit-post-history__icon__button'
             />
         </OverlayTrigger>
@@ -200,13 +200,15 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
     const timeStampValue = post.edit_at === 0 ? post.create_at : post.edit_at;
 
     return (
-        <div className={postContainerClass}>
+        <div
+            className={postContainerClass}
+            onClick={togglePost}
+        >
             <IconButton
                 size={'sm'}
                 icon={open ? 'chevron-down' : 'chevron-right'}
-                onClick={togglePost}
                 compact={true}
-                aria-label='Toggle to see an old message.' // todo proper wording and translation needed
+                aria-label='Toggle to see an old message.'
                 className='edit-post-history__icon__button'
             />
             <PostAriaLabelDiv

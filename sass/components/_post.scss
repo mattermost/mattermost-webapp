@@ -2245,7 +2245,12 @@
     display: flex;
     flex-direction: row;
     padding: 6px 16px 6px 12px;
-    gap: 16px;
+    gap: 4px;
+
+    &:not(.edit-post-history__container__background):hover {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        cursor: pointer;
+    }
 
     .edit-post-history__date__container {
         display: flex;
@@ -2276,8 +2281,8 @@
         color: rgba(var(--center-channel-text-rgb), 0.56);
 
         &:hover {
-            background-color: rgba(var(--button-bg-rgb), 0.08);
             color: rgba(var(--center-channel-text-rgb), 0.56);
+            cursor: pointer;
         }
     }
 }
