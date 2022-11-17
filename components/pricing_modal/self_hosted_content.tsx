@@ -47,9 +47,9 @@ function SelfHostedContent(props: ContentProps) {
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
 
-    // const subscription = useSelector(selectSelfHostedSubscription);
-    // const product = useSelector(selectSelfHostedSubscriptionProduct);
-    // const products = useSelector(selectSelfHostedProducts);
+    const subscription = useSelector(selectSelfHostedSubscription);
+    const product = useSelector(selectSelfHostedSubscriptionProduct);
+    const products = useSelector(selectSelfHostedProducts);
     const license = useSelector(getLicense);
 
     const prevSelfHostedTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
@@ -67,11 +67,11 @@ function SelfHostedContent(props: ContentProps) {
     });
 
     const openPurchaseModal = (callerInfo: string) => {
-        // props.onHide();
-        // const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
-        // if (subscription?.delinquent_since) {
-        //     openCloudDelinquencyModal({trackingLocation: telemetryInfo});
-        // }
+        props.onHide();
+        const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
+        if (subscription?.delinquent_since) {
+            openCloudDelinquencyModal({trackingLocation: telemetryInfo});
+        }
         openCloudPurchaseModal({});
     };
     
