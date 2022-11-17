@@ -16,7 +16,7 @@ import Constants from 'utils/constants';
 import MultiSelectOption from './multiselect_option/multiselect_option';
 
 const USERS_PER_PAGE = 50;
-const MAX_SELECTABLE_VALUES = 256;
+const MAX_SELECTABLE_VALUES = 3;
 
 type UserProfileValue = Value & UserProfile;
 
@@ -62,8 +62,6 @@ type State = {
     values: UserProfileValue[];
     term: string;
     loadingUsers: boolean;
-    maxValues: number | undefined;
-    numRemainingText: string | null;
 }
 
 export default class AddUserToGroupMultiSelect extends React.PureComponent<Props, State> {
@@ -82,8 +80,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             values: [],
             term: '',
             loadingUsers: true,
-            maxValues: undefined,
-            numRemainingText: null,
         } as State;
 
         this.selectedItemRef = React.createRef<HTMLDivElement>();
@@ -100,11 +96,6 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
         }
 
         this.setState({values});
-
-        if (values.length >= MAX_SELECTABLE_VALUES) {
-            this.setState({maxValues: MAX_SELECTABLE_VALUES});
-            this.setState({numRemainingText: localizeMessage('multiselect.maxGroupMembers', 'No more than 256 members can be added to a group at once.')});
-        }
     };
 
     public componentDidMount(): void {
@@ -212,6 +203,14 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
             users = [...users, ...includeUsers];
         }
 
+        let maxValues;
+        let numRemainingText = null;
+
+        if (this.state.values.length >= MAX_SELECTABLE_VALUES) {
+            maxValues = MAX_SELECTABLE_VALUES;
+            numRemainingText = localizeMessage('multiselect.maxGroupMembers', 'No more than 256 members can be added to a group at once.');
+        }
+
         return (
             <MultiSelect
                 key={this.props.multilSelectKey}
@@ -238,8 +237,8 @@ export default class AddUserToGroupMultiSelect extends React.PureComponent<Props
                 backButtonClick={this.props.backButtonClick}
                 backButtonClass={this.props.backButtonClass}
                 backButtonText={this.props.backButtonText}
-                maxValues={this.state.maxValues}
-                numRemainingText={this.state.numRemainingText}
+                maxValues={maxValues}
+                numRemainingText={numRemainingText}
             />
         );
     }
