@@ -444,14 +444,6 @@ export function createGroupTeamsAndChannels(userID: string): ActionFunc {
             forceLogoutIfNecessary(error, dispatch, getState);
             return {error};
         }
-
-        dispatch(
-            {
-                type: GroupTypes.CREATED_GROUP_TEAMS_AND_CHANNELS,
-                userID,
-            },
-        );
-
         return {user_id: userID};
     };
 }
