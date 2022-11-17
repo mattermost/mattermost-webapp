@@ -454,6 +454,10 @@ export default class Client4 {
         return `${this.getBaseRoute()}/cloud`;
     }
 
+    getHostedCustomerRoute() {
+        return `${this.getBaseRoute()}/hosted_customer`;
+    }
+
     getUsageRoute() {
         return `${this.getBaseRoute()}/usage`;
     }
@@ -3860,21 +3864,21 @@ export default class Client4 {
 
     bootstrapSelfHostedSignup = () => {
         return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
-            `${this.getCloudRoute()}/self-hosted-bootstrap`,
+            `${this.getHostedCustomerRoute()}/bootstrap`,
             {method: 'post'},
         );
     };
 
     createCustomerSelfHostedSignup = (form: SelfHostedSignupForm) => {
         return this.doFetch<SelfHostedSignupCustomerResponse>(
-            `${this.getCloudRoute()}/self-hosted-customer`,
+            `${this.getHostedCustomerRoute()}/customer`,
             {method: 'post', body: JSON.stringify(form)},
         );
     };
 
     confirmSelfHostedSignup = (setupIntentId: string, createSubscriptionRequest: CreateSubscriptionRequest) => {
         return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
-            `${this.getCloudRoute()}/self-hosted-confirm`,
+            `${this.getHostedCustomerRoute()}/confirm`,
             {method: 'post', body: JSON.stringify({stripe_setup_intent_id: setupIntentId, subscription: createSubscriptionRequest})},
         );
     };
