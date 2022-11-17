@@ -8,6 +8,7 @@ import moment from 'moment';
 import {ClientLicense} from '@mattermost/types/config';
 import {Client4} from 'mattermost-redux/client';
 
+import {getRemainingDaysFromFutureTimestamp} from 'utils/utils';
 import RenewalLink from 'components/announcement_bar/renewal_link/';
 import {getSkuDisplayName} from '../enterprise_edition/enterprise_edition_left_panel';
 
@@ -15,6 +16,7 @@ import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import AlertBanner from 'components/alert_banner';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
+
 
 import './renew_license_card.scss';
 
@@ -36,9 +38,8 @@ const RenewLicenseCard: React.FC<RenewLicenseCardProps> = ({license, totalUsers,
     }, []);
 
     let bannerType: 'info' | 'warning' | 'danger' = 'info';
-    const today = moment(Date.now());
-    const endOfLicense = moment(new Date(parseInt(license?.ExpiresAt, 10)));
-    const daysToEndLicense = endOfLicense.diff(today, 'days');
+    const endOfLicense = moment.utc(new Date(parseInt(license?.ExpiresAt, 10)));
+    const daysToEndLicense = getRemainingDaysFromFutureTimestamp(parseInt(license?.ExpiresAt, 10));
     const renewLinkTelemetry = {success: 'renew_license_admin_console_success', error: 'renew_license_admin_console_fail'};
     const contactSalesBtn = (
         <div className='purchase-card'>
