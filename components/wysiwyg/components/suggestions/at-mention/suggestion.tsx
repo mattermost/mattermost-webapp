@@ -2,11 +2,9 @@
 // See LICENSE.txt for license information.
 
 // See LICENSE.txt for license information.
-import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
-
-// See LICENSE.txt for license information.
 import React from 'react';
 import {Client4} from 'mattermost-redux/client';
+import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
 import {ReactRenderer} from '@tiptap/react';
 import {SuggestionOptions} from '@tiptap/suggestion';
@@ -72,6 +70,7 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
             results.push(...userInChannel.map((user) => ({
                 id: user.id,
                 type: 'members',
+                label: user.username,
                 content: <UserMentionItem {...user}/>,
             })));
         }
@@ -81,6 +80,7 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
             results.push(...filteredGroups.map((group) => ({
                 id: group.id,
                 type: 'groups',
+                label: group.display_name,
                 content: <GroupMentionItem {...group}/>,
             })));
         }
@@ -89,6 +89,7 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
             results.push(...Constants.SPECIAL_MENTIONS.filter((special) => special.startsWith(query.toLowerCase())).map((special) => ({
                 id: special,
                 type: 'special',
+                label: special,
                 content: <SpecialMentionItem name={special}/>,
             })));
         }
@@ -98,6 +99,7 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
             results.push(...userNotInChannel.map((user) => ({
                 id: user.id,
                 type: 'nonmembers',
+                label: user.username,
                 content: <UserMentionItem {...user}/>,
             })));
         }

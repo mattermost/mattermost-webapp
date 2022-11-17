@@ -4,10 +4,14 @@
 // disabling this linter rule since it will show errors with the forwardRef
 /* eslint-disable react/prop-types */
 import React, {
-    forwardRef, Fragment, PropsWithChildren,
+    forwardRef,
     useEffect,
-    useImperativeHandle, useLayoutEffect, useRef,
+    useImperativeHandle,
+    useLayoutEffect,
+    useRef,
     useState,
+    Fragment,
+    PropsWithChildren,
 } from 'react';
 import {createPortal} from 'react-dom';
 import {SuggestionProps} from '@tiptap/suggestion';
@@ -55,6 +59,7 @@ const ListGroupTitle = styled.li`
 
 type ListItemProps = {
     selected?: boolean;
+    onClick?: () => void;
 };
 
 const StyledListItem = styled.li<ListItemProps>`
@@ -92,8 +97,9 @@ export type SuggestionListRef = {
 
 export type SuggestionItem = {
     id: string;
+    label: string;
     type?: string;
-    content?: JSX.Element | null;
+    content?: JSX.Element;
 }
 
 export type SuggestionListProps = Pick<SuggestionProps<SuggestionItem>, 'items' | 'command' | 'decorationNode'> & {
@@ -147,17 +153,9 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
         }
     };
 
-    const upHandler = () => {
-        setSelectedIndex((selectedIndex + (items.length - 1)) % items.length);
-    };
-
-    const downHandler = () => {
-        setSelectedIndex((selectedIndex + 1) % items.length);
-    };
-
-    const enterHandler = () => {
-        selectItem(selectedIndex);
-    };
+    const upHandler = () => setSelectedIndex((selectedIndex + (items.length - 1)) % items.length);
+    const downHandler = () => setSelectedIndex((selectedIndex + 1) % items.length);
+    const enterHandler = () => selectItem(selectedIndex);
 
     useImperativeHandle(ref, () => ({
         onKeyDown: ({event}: {event: KeyboardEvent}) => {
@@ -207,7 +205,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
             ref={floating}
             style={floatingStyle}
         >
-            {items.length ? items.map(({id, content, type}, index) => (
+            {items.length ? items.map(({id, label, content, type}, index) => (
                 <Fragment key={id}>
                     {renderSeparators && type && type !== items[index - 1]?.type && (
                         <ListGroupTitle>
@@ -218,7 +216,7 @@ const SuggestionList = forwardRef<SuggestionListRef, SuggestionListProps>(({item
                         selected={index === selectedIndex}
                         onClick={() => selectItem(index)}
                     >
-                        {content}
+                        {content || label}
                     </ListItem>
                 </Fragment>
             )) : <ListItem>{'No result'}</ListItem>}

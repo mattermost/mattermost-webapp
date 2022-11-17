@@ -20,6 +20,8 @@ const markdownToHtml = (markdown: string) => unified().
     use(rehypeStringify).
     processSync(markdown);
 
-const htmlToMarkdown = (html: string) => toMarkdown(toMdast(fromHtml(html)), {extensions: [gfmToMarkdown()]});
+const htmlToMarkdown = (html: string) => {
+    return toMarkdown(toMdast(fromHtml(html)), {extensions: [gfmToMarkdown()]});
+};
 
 export {htmlToMarkdown, markdownToHtml};

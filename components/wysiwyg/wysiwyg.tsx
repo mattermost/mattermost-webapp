@@ -254,6 +254,9 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
 
     const handleSubmit = (event: React.FormEvent) => {
         event.preventDefault();
+
+        // We should probably only allow submitting with the value from the editor to not create a case
+        // where incorrect messages are being sent to the server
         onSubmit();
         editor.commands.clearContent(true);
     };
