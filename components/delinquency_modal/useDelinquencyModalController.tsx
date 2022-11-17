@@ -6,7 +6,7 @@ import {useSelector, useDispatch} from 'react-redux';
 
 import {setItem} from 'actions/storage';
 import {getCloudProducts} from 'mattermost-redux/actions/cloud';
-import {Subscription} from '@mattermost/types/subscription';
+import {Subscription} from '@mattermost/types/cloud';
 import {getSubscriptionProduct} from 'mattermost-redux/selectors/entities/cloud';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {StoragePrefixes, ModalIdentifiers} from 'utils/constants';

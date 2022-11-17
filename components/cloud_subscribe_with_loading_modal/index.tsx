@@ -11,14 +11,14 @@ import {GlobalState} from 'types/store';
 import {subscribeCloudSubscription} from 'actions/cloud';
 import {closeModal} from 'actions/views/modals';
 import {Team} from '@mattermost/types/teams';
-import {Product} from '@mattermost/types/product';
+import {Product} from '@mattermost/types/cloud';
 import {t} from 'utils/i18n';
 import {isModalOpen} from 'selectors/views/modals';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
-import IconMessage from 'components/purchaseModals/icon_message';
+import IconMessage from 'components/purchase_modal/icon_message';
 import ProgressBar, {ProcessState} from 'components/icon_message_with_progress_bar';
 import {
     archiveAllTeamsExcept,

@@ -19,8 +19,7 @@ import * as cloudActions from 'actions/cloud';
 import {FileSizes} from 'utils/file_utils';
 import {Constants, CloudProducts} from 'utils/constants';
 
-import {Subscription} from '@mattermost/types/subscription';
-import {Product} from '@mattermost/types/product';
+import {Subscription, Product} from '@mattermost/types/cloud';
 
 import Limits from './limits';
 

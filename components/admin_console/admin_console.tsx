@@ -5,8 +5,7 @@ import React from 'react';
 import {Route, Switch, Redirect} from 'react-router-dom';
 
 import {Role} from '@mattermost/types/roles';
-import {CloudState} from '@mattermost/types/cloud';
-import {Product} from '@mattermost/types/product';
+import {CloudState, Product} from '@mattermost/types/cloud';
 import {DeepPartial} from '@mattermost/types/utilities';
 import {AdminConfig, EnvironmentConfig, ClientLicense} from '@mattermost/types/config';
 

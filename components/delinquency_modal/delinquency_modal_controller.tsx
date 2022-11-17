@@ -5,7 +5,7 @@
 
 import React from 'react';
 
-import {Subscription} from '@mattermost/types/subscription';
+import {Subscription} from '@mattermost/types/cloud';
 import {PreferenceType} from '@mattermost/types/preferences';
 import withGetCloudSubscription from 'components/common/hocs/cloud/with_get_cloud_subscription';
 import {ModalData} from 'types/actions';

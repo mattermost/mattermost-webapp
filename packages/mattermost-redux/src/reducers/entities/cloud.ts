@@ -6,9 +6,7 @@ import {combineReducers} from 'redux';
 import {CloudTypes} from 'mattermost-redux/action_types';
 
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {CloudCustomer, Limits} from '@mattermost/types/cloud';
-import {Subscription, Invoice} from '@mattermost/types/subscription';
-import {Product} from '@mattermost/types/product';
+import {Product, Subscription, CloudCustomer, Invoice, Limits} from '@mattermost/types/cloud';
 
 export function subscription(state: Subscription | null = null, action: GenericAction) {
     switch (action.type) {

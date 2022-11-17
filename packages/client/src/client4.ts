@@ -12,9 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {CloudCustomer, Address, CloudCustomerPatch, Limits, IntegrationsUsage, NotifyAdminRequest, ValidBusinessEmail} from '@mattermost/types/cloud';
-import {Product} from '@mattermost/types/product';
-import {Subscription, Invoice} from '@mattermost/types/src/subscription';
+import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,

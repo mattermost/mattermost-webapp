@@ -9,7 +9,7 @@ import {useIntl} from 'react-intl';
 
 import {isModalOpen} from 'selectors/views/modals';
 import {ModalIdentifiers} from 'utils/constants';
-import {Invoice} from '@mattermost/types/subscription';
+import {Invoice} from '@mattermost/types/cloud';
 import {closeModal} from 'actions/views/modals';
 import {GlobalState} from 'types/store';
 

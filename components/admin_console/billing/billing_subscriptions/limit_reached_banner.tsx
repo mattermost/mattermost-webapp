@@ -5,7 +5,7 @@ import React from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
-import {Product} from '@mattermost/types/product';
+import {Product} from '@mattermost/types/cloud';
 
 import {SalesInquiryIssue} from 'selectors/cloud';
 

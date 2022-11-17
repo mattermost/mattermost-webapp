@@ -20,11 +20,11 @@ declare namespace Cypress {
     type PluginManifest = import('@mattermost/types/plugins').PluginManifest;
     type PluginsResponse = import('@mattermost/types/plugins').PluginsResponse;
     type PreferenceType = import('@mattermost/types/preferences').PreferenceType;
-    type Product = import('@mattermost/types/product').Product;
+    type Product = import('@mattermost/types/cloud').Product;
     type Role = import('@mattermost/types/roles').Role;
     type Scheme = import('@mattermost/types/schemes').Scheme;
     type Session = import('@mattermost/types/sessions').Session;
-    type Subscription = import('@mattermost/types/subscription').Subscription;
+    type Subscription = import('@mattermost/types/cloud').Subscription;
     type Team = import('@mattermost/types/teams').Team;
     type TeamMembership = import('@mattermost/types/teams').TeamMembership;
     type TermsOfService = import('@mattermost/types/terms_of_service').TermsOfService;

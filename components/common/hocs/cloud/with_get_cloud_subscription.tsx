@@ -5,7 +5,7 @@ import React, {ComponentType} from 'react';
 
 import {isEmpty} from 'lodash';
 
-import {Subscription} from '@mattermost/types/subscription';
+import {Subscription} from '@mattermost/types/cloud';
 
 interface Actions {
     getCloudSubscription?: () => void;
