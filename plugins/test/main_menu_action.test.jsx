@@ -7,7 +7,6 @@ import MainMenu from 'components/main_menu/main_menu';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import PluggableErrorBoundary from 'plugins/pluggable/error_boundary';
-import MenuItemAction from 'components/widgets/menu/menu_items/menu_item_action';
 
 describe('plugins/MainMenuActions', () => {
     const pluginAction = jest.fn();
