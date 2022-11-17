@@ -17,7 +17,6 @@ import {t} from 'utils/i18n';
 
 import PostAriaLabelDiv from 'components/post_view/post_aria_label_div';
 import OverlayTrigger from 'components/overlay_trigger';
-import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
 import Tooltip from 'components/tooltip';
 import Avatar from 'components/widgets/users/avatar';
@@ -149,24 +148,22 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
     );
 
     const message = (
-        <PostBodyAdditionalContent post={post}>
-            <PostMessageContainer
-                post={post}
-                isRHS={true}
-                showPostEditedIndicator={false}
-            />
-        </PostBodyAdditionalContent>
+        <PostMessageContainer
+            post={post}
+            isRHS={true}
+            showPostEditedIndicator={false}
+        />
     );
 
     const messageContainer = (
-        <>
+        <div className='edit-post-history__content_container'>
             {postHeader}
-            <div className='post__content' >
+            <div className='post__content'>
                 <div className='search-item-snippet post__body'>
                     {message}
                 </div>
             </div>
-        </>
+        </div>
     );
 
     const tooltip = (
@@ -204,31 +201,33 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
             className={postContainerClass}
             onClick={togglePost}
         >
-            <IconButton
-                size={'sm'}
-                icon={open ? 'chevron-down' : 'chevron-right'}
-                compact={true}
-                aria-label='Toggle to see an old message.'
-                className='edit-post-history__icon__button'
-            />
             <PostAriaLabelDiv
                 className={'a11y__section post'}
                 id={'searchResult_' + post.id}
                 post={post}
             >
                 <div
-                    className='edit-post-history__date__container'
+                    className='edit-post-history__title__container'
                     aria-hidden='true'
                 >
-                    <span className='edit-post-history__date'>
-                        <Timestamp
-                            value={timeStampValue}
-                            ranges={DATE_RANGES}
+                    <div className='edit-post-history__date__badge__container'>
+                        <IconButton
+                            size={'sm'}
+                            icon={open ? 'chevron-down' : 'chevron-right'}
+                            compact={true}
+                            aria-label='Toggle to see an old message.'
+                            className='edit-post-history__icon__button'
                         />
-                    </span>
+                        <span className='edit-post-history__date'>
+                            <Timestamp
+                                value={timeStampValue}
+                                ranges={DATE_RANGES}
+                            />
+                        </span>
+                        {currentVersionIndicator}
+                    </div>
                     {restoreButton}
                 </div>
-                {currentVersionIndicator}
                 {open && messageContainer}
             </PostAriaLabelDiv>
         </div>
