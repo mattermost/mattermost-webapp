@@ -60,7 +60,7 @@ export class ChannelFilter extends React.PureComponent<Props> {
     render() {
         const {intl, unreadFilterEnabled, hasMultipleTeams} = this.props;
 
-        let tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.filterByUnread', defaultMessage: 'Filter by unread'});
+        let tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.filterByUnread', defaultMessage: 'unreads filter button'});
 
         if (unreadFilterEnabled) {
             tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.showAllChannels', defaultMessage: 'Show all channels'});
