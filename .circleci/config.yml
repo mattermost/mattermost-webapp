@@ -189,13 +189,31 @@ jobs:
       - attach_workspace:
           at: ~/mattermost/
       - run:
+          name: Download server bundle
           command: |
-            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz
+            curl -f -o server.tar.gz https://pr-builds.mattermost.com/mattermost-server/$(echo "${CIRCLE_BRANCH}" | sed 's/pull\//PR-/g')/mattermost-enterprise-linux-amd64.tar.gz || true
+
+            if [[ -f server.tar.gz ]]; then
+                echo "Downloaded server bundle from ${CIRCLE_BRANCH} branch"
+            else
+                curl -f -o server.tar.gz https://s3.amazonaws.com/releases.mattermost.com/gitlab/bundle/master/mattermost-enterprise-linux-amd64.tar.gz
+                echo "Downloaded server bundle from master branch"
+            fi
 
             tar xf server.tar.gz
-            rm -rf mattermost/client
+      - run:
+          name: Replace web app
+          command: |
+            mv mattermost/client client-original
             tar xf mattermost-webapp.tar.gz
             mv client mattermost/client
+      - run:
+          name: Re-add products
+          command: |
+            mv client-original/products mattermost/client/products
+      - run:
+          name: Repackage server bundle
+          command: |
             tar -zcf mattermost-enterprise-linux-amd64.tar.gz mattermost/
       - store_artifacts:
           path: ~/mattermost/mattermost-webapp/mattermost-enterprise-linux-amd64.tar.gz
