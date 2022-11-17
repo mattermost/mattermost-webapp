@@ -115,7 +115,7 @@ function SelfHostedContent(props: ContentProps) {
     };
 
     return (
-        <div className='Content'>
+        <div className='Content Content--self-hosted'>
             <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
