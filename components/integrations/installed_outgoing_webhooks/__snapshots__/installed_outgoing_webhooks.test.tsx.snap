@@ -65,6 +65,7 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
     key="7h88x419ubbyuxzs7dfwtgkfgr"
     onDelete={[Function]}
     onRegenToken={[Function]}
+    onToggle={[Function]}
     outgoingWebhook={
       Object {
         "0": "asdf",
@@ -171,6 +172,7 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
     key="7h88x419ubbyuxzs7dfwtgkffr"
     onDelete={[Function]}
     onRegenToken={[Function]}
+    onToggle={[Function]}
     outgoingWebhook={
       Object {
         "0": "asdf",
@@ -278,6 +280,9 @@ exports[`components/integrations/InstalledOutgoingWebhooks should match snapshot
     />
   }
   loading={true}
+  nextPage={[Function]}
+  page={0}
+  previousPage={[Function]}
   searchPlaceholder="Search Outgoing Webhooks"
 >
   <Component />
