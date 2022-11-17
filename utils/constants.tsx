@@ -1447,6 +1447,7 @@ export const Constants = {
     MAX_USERS_IN_GM: 8,
     MIN_USERS_IN_GM: 3,
     MAX_CHANNEL_POPOVER_COUNT: 100,
+    DM_AND_GM_SHOW_COUNTS: [10, 15, 20, 40],
     DM_CHANNEL: 'D',
     GM_CHANNEL: 'G',
     OPEN_CHANNEL: 'O',
