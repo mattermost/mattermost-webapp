@@ -62,9 +62,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <injectIntl(FormattedMarkdownMessage)
-              defaultMessage="[Team Override Schemes](!https://docs.mattermost.com/onboard/advanced-permissions.html) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+            <MemoizedFormattedMessage
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
+              values={
+                Object {
+                  "linkSystemScheme": [Function],
+                  "linkTeamOverride": [Function],
+                }
+              }
             />
           </span>
         </div>
@@ -177,7 +183,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -220,6 +225,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "CustomPermissionsSchemes": "true",
+              "GuestAccountsPermissions": "true",
+              "IsLicensed": "true",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {
@@ -380,9 +392,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <injectIntl(FormattedMarkdownMessage)
-              defaultMessage="[Team Override Schemes](!https://docs.mattermost.com/onboard/advanced-permissions.html) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+            <MemoizedFormattedMessage
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
+              values={
+                Object {
+                  "linkSystemScheme": [Function],
+                  "linkTeamOverride": [Function],
+                }
+              }
             />
           </span>
         </div>
@@ -495,7 +513,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -521,7 +538,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -564,6 +580,11 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "IsLicensed": "false",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {
@@ -724,9 +745,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <injectIntl(FormattedMarkdownMessage)
-              defaultMessage="[Team Override Schemes](!https://docs.mattermost.com/onboard/advanced-permissions.html) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+            <MemoizedFormattedMessage
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
+              values={
+                Object {
+                  "linkSystemScheme": [Function],
+                  "linkTeamOverride": [Function],
+                }
+              }
             />
           </span>
         </div>
@@ -839,7 +866,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -865,7 +891,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -908,6 +933,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "CustomPermissionsSchemes": "true",
+              "GuestAccountsPermissions": "true",
+              "IsLicensed": "true",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {
@@ -1059,7 +1091,7 @@ Object {
   "saving": false,
   "schemeDescription": undefined,
   "schemeName": undefined,
-  "selectedPermission": null,
+  "selectedPermission": undefined,
   "serverError": null,
   "teams": null,
   "urlParams": URLSearchParams {},
@@ -1139,9 +1171,15 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           className="banner__content"
         >
           <span>
-            <injectIntl(FormattedMarkdownMessage)
-              defaultMessage="[Team Override Schemes](!https://docs.mattermost.com/onboard/advanced-permissions.html) set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the [System Scheme](!https://docs.mattermost.com/onboard/advanced-permissions.html)."
+            <MemoizedFormattedMessage
+              defaultMessage="<linkTeamOverride>Team Override Schemes</linkTeamOverride> set the permissions for Team Admins, Channel Admins and other members in specific teams. Use a Team Override Scheme when specific teams need permission exceptions to the <linkSystemScheme>System Scheme</linkSystemScheme>."
               id="admin.permissions.teamScheme.introBanner"
+              values={
+                Object {
+                  "linkSystemScheme": [Function],
+                  "linkTeamOverride": [Function],
+                }
+              }
             />
           </span>
         </div>
@@ -1254,7 +1292,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1280,7 +1317,6 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
           }
           scope="team_scope"
           selectRow={[Function]}
-          selected={null}
         />
       </AdminPanelTogglable>
       <AdminPanelTogglable
@@ -1323,6 +1359,13 @@ exports[`components/admin_console/permission_schemes_settings/permission_team_sc
         titleId="admin.permissions.systemScheme.playbookAdmin"
       >
         <PermissionsTreePlaybooks
+          license={
+            Object {
+              "CustomPermissionsSchemes": "true",
+              "GuestAccountsPermissions": "true",
+              "IsLicensed": "true",
+            }
+          }
           onToggle={[Function]}
           parentRole={
             Object {

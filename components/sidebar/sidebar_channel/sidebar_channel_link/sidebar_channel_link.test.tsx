@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import SidebarChannelLink from 'components/sidebar/sidebar_channel/sidebar_channel_link/sidebar_channel_link';
 
@@ -37,6 +37,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_link', () => {
         isChannelSelected: false,
         showChannelsTutorialStep: false,
         actions: {
+            markMostRecentPostInChannelAsUnread: jest.fn(),
             multiSelectChannel: jest.fn(),
             multiSelectChannelAdd: jest.fn(),
             multiSelectChannelTo: jest.fn(),

@@ -5,7 +5,7 @@ import React from 'react';
 
 import {FormattedMessage} from 'react-intl';
 
-import {WarnMetricStatus} from 'mattermost-redux/types/config';
+import {WarnMetricStatus} from '@mattermost/types/config';
 
 import {Constants, AnnouncementBarTypes, ModalIdentifiers} from 'utils/constants';
 import {isStringContainingUrl} from 'utils/url';
@@ -28,7 +28,7 @@ type Props = {
     handleClose?: (e?: any) => void;
     showModal?: boolean;
     announcementBarCount?: number;
-    onButtonClick?: () => void;
+    onButtonClick?: (e?: any) => void;
     modalButtonText?: string;
     modalButtonDefaultText?: string;
     showLinkAsButton: boolean;
@@ -85,6 +85,12 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
     componentDidMount() {
         this.props.actions.incrementAnnouncementBarCount();
         document.body.classList.add('announcement-bar--fixed');
+    }
+
+    componentDidUpdate() {
+        if (this.props.announcementBarCount === 1) {
+            document.body.classList.add('announcement-bar--fixed');
+        }
     }
 
     componentWillUnmount() {
@@ -144,7 +150,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
         let message = this.props.message;
         if (typeof message == 'string') {
             message = (
-                <FormattedMarkdownMessage id={this.props.message}/>
+                <FormattedMarkdownMessage id={this.props.message as string}/>
             );
         }
         const announcementTooltip = this.state.showTooltip ? (
@@ -162,6 +168,8 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
             <div
                 className={barClass}
                 style={barStyle}
+                // eslint-disable-next-line react/no-unknown-property
+                css={{gridArea: 'announcement'}}
             >
                 <OverlayTrigger
                     delayShow={Constants.OVERLAY_TIME_DELAY}
@@ -187,7 +195,7 @@ export default class AnnouncementBar extends React.PureComponent<Props, State> {
                                 >
                                     {(linkmessage) => (
                                         <ToggleModalButton
-                                            ariaLabel={linkmessage}
+                                            ariaLabel={linkmessage as unknown as string}
                                             className={'color--link--adminack'}
                                             dialogType={WarnMetricAckModal}
                                             onClick={() => trackEvent('admin', 'click_warn_metric_learn_more')}

@@ -9,26 +9,28 @@ import {
     StripeCardElementChangeEvent,
 } from '@stripe/stripe-js';
 
-import {PaymentMethod} from 'mattermost-redux/types/cloud';
+import {PaymentMethod} from '@mattermost/types/cloud';
 
 import {BillingDetails} from 'types/cloud/sku';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import DropdownInput from 'components/dropdown_input';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import * as Utils from 'utils/utils';
 import {COUNTRIES} from 'utils/countries';
 
 import StateSelector from './state_selector';
 import CardInput, {CardInputType} from './card_input';
 import CardImage from './card_image';
+import {GatherIntent, GatherIntentModal} from './gather_intent';
 
 import './payment_form.scss';
-import 'components/input.css';
 
 type Props = {
     className: string;
     initialBillingDetails?: BillingDetails;
     paymentMethod?: PaymentMethod;
+    theme: Theme;
     onCardInputChange?: (change: StripeCardElementChangeEvent) => void;
     onInputChange?: (billing: BillingDetails) => void;
     onInputBlur?: (billing: BillingDetails) => void;
@@ -152,7 +154,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
     }
 
     public render() {
-        const {className, paymentMethod, buttonFooter} = this.props;
+        const {className, paymentMethod, buttonFooter, theme} = this.props;
         const {changePaymentMethod} = this.state;
 
         let paymentDetails: JSX.Element;
@@ -165,6 +167,7 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                             required={true}
                             onBlur={this.onBlur}
                             onCardInputChange={this.handleCardInputChange}
+                            theme={theme}
                         />
                     </div>
                     <div className='form-row'>
@@ -356,6 +359,15 @@ export default class PaymentForm extends React.PureComponent<Props, State> {
                 id='payment_form'
                 className={`PaymentForm ${className}`}
             >
+                <GatherIntent
+                    typeGatherIntent='monthlySubscription'
+                    modalComponent={GatherIntentModal}
+                    gatherIntentText={
+                        <FormattedMessage
+                            id='payment_form.gather_wire_transfer_intent'
+                            defaultMessage='Looking for other payment options?'
+                        />}
+                />
                 <div className='section-title'>
                     <FormattedMessage
                         id='payment_form.credit_card'

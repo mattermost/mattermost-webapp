@@ -5,7 +5,7 @@ import React from 'react';
 import styled from 'styled-components';
 import {useIntl} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel, ChannelStats} from '@mattermost/types/channels';
 import {Constants} from 'utils/constants';
 
 const MenuItemContainer = styled.div`
@@ -23,14 +23,28 @@ const MenuItemText = styled.div`
     flex: 1;
 `;
 
+const RightSide = styled.div`
+    display: flex;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
+`;
+
+const Badge = styled.div`
+    font-size: 12px;
+    line-height: 18px;
+`;
+
 interface MenuItemProps {
     className?: string;
     icon: JSX.Element;
     text: string;
+    opensSubpanel?: boolean;
+    badge?: string|number;
     onClick: () => void;
 }
 
-const menuItem = ({icon, text, className, onClick}: MenuItemProps) => {
+const menuItem = ({icon, text, className, opensSubpanel, badge, onClick}: MenuItemProps) => {
+    const hasRightSide = (badge !== undefined) || opensSubpanel;
+
     return (
         <div className={className}>
             <MenuItemContainer onClick={onClick}>
@@ -38,6 +52,17 @@ const menuItem = ({icon, text, className, onClick}: MenuItemProps) => {
                 <MenuItemText>
                     {text}
                 </MenuItemText>
+
+                {hasRightSide && (
+                    <RightSide>
+                        {badge !== undefined && (
+                            <Badge>{badge}</Badge>
+                        )}
+                        {opensSubpanel && (
+                            <Icon><i className='icon icon-chevron-right'/></Icon>
+                        )}
+                    </RightSide>
+                )}
             </MenuItemContainer>
         </div>
     );
@@ -58,22 +83,30 @@ const MenuItem = styled(menuItem)`
 
 interface MenuProps {
     channel: Channel;
+    channelStats: ChannelStats;
     isArchived: boolean;
 
     className?: string;
 
     actions: {
         openNotificationSettings: () => void;
+        showChannelFiles: (channelId: string) => void;
+        showPinnedPosts: (channelId: string | undefined) => void;
+        showChannelMembers: (channelId: string) => void;
     };
 }
 
-const Menu = ({channel, isArchived, className, actions}: MenuProps) => {
+const Menu = ({channel, channelStats, isArchived, className, actions}: MenuProps) => {
     const {formatMessage} = useIntl();
 
     const showNotificationPreferences = channel.type !== Constants.DM_CHANNEL && !isArchived;
+    const showMembers = channel.type !== Constants.DM_CHANNEL;
 
     return (
-        <div className={className}>
+        <div
+            className={className}
+            data-testid='channel_info_rhs-menu'
+        >
             {showNotificationPreferences && (
                 <MenuItem
                     icon={<i className='icon icon-bell-outline'/>}
@@ -81,6 +114,29 @@ const Menu = ({channel, isArchived, className, actions}: MenuProps) => {
                     onClick={actions.openNotificationSettings}
                 />
             )}
+            {showMembers && (
+                <MenuItem
+                    icon={<i className='icon icon-account-outline'/>}
+                    text={formatMessage({id: 'channel_info_rhs.menu.members', defaultMessage: 'Members'})}
+                    opensSubpanel={true}
+                    badge={channelStats.member_count}
+                    onClick={() => actions.showChannelMembers(channel.id)}
+                />
+            )}
+            <MenuItem
+                icon={<i className='icon icon-pin-outline'/>}
+                text={formatMessage({id: 'channel_info_rhs.menu.pinned', defaultMessage: 'Pinned Messages'})}
+                opensSubpanel={true}
+                badge={channelStats?.pinnedpost_count}
+                onClick={() => actions.showPinnedPosts(channel.id)}
+            />
+            <MenuItem
+                icon={<i className='icon icon-file-text-outline'/>}
+                text={formatMessage({id: 'channel_info_rhs.menu.files', defaultMessage: 'Files'})}
+                opensSubpanel={true}
+                badge={channelStats?.files_count}
+                onClick={() => actions.showChannelFiles(channel.id)}
+            />
         </div>
     );
 };

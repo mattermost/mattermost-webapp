@@ -1,18 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from 'mattermost-redux/types/channels';
-import {Bot} from 'mattermost-redux/types/bots';
-import {Role} from 'mattermost-redux/types/roles';
-import {UserProfile, UserAccessToken} from 'mattermost-redux/types/users';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
-import {FileInfo} from 'mattermost-redux/types/files';
-import {Post} from 'mattermost-redux/types/posts';
-import {CategorySorting, ChannelCategory} from 'mattermost-redux/types/channel_categories';
-import {Command, IncomingWebhook} from 'mattermost-redux/types/integrations';
+
+import {Channel, ChannelMembership, ChannelNotifyProps, ChannelWithTeamData} from '@mattermost/types/channels';
+import {Bot} from '@mattermost/types/bots';
+import {Role} from '@mattermost/types/roles';
+import {UserProfile, UserAccessToken} from '@mattermost/types/users';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Group} from '@mattermost/types/groups';
+import {FileInfo} from '@mattermost/types/files';
+import {Post} from '@mattermost/types/posts';
+import {CategorySorting, ChannelCategory} from '@mattermost/types/channel_categories';
+import {Command, IncomingWebhook} from '@mattermost/types/integrations';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {Session} from 'mattermost-redux/types/sessions';
+import {CustomEmoji} from '@mattermost/types/emojis';
+import {Session} from '@mattermost/types/sessions';
 import {ProductComponent} from 'types/store/plugins';
+import {ClientLicense} from '@mattermost/types/config';
+import {PreferenceType} from '@mattermost/types/preferences';
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+import {Invoice, Product, Subscription, CloudCustomer} from '@mattermost/types/cloud';
 
 export class TestHelper {
     public static getUserMock(override: Partial<UserProfile> = {}): UserProfile {
@@ -21,12 +27,10 @@ export class TestHelper {
             roles: '',
             username: 'some-user',
             password: '',
-            auth_data: '',
             auth_service: '',
             create_at: 0,
             delete_at: 0,
             email: '',
-            email_verified: true,
             first_name: '',
             last_name: '',
             locale: '',
@@ -36,7 +40,6 @@ export class TestHelper {
             terms_of_service_id: '',
             update_at: 0,
             is_bot: false,
-            allow_marketing: false,
             props: {},
             notify_props: {
                 channel: 'false',
@@ -52,12 +55,9 @@ export class TestHelper {
             },
             last_picture_update: 0,
             last_password_update: 0,
-            failed_attempts: 0,
             mfa_active: false,
-            mfa_secret: '',
             last_activity_at: 0,
             bot_description: '',
-            bot_last_icon_update: 0,
         };
         return Object.assign({}, defaultUser, override);
     }
@@ -309,6 +309,7 @@ export class TestHelper {
             width: 350,
             height: 200,
             clientId: 'client_id',
+            archived: false,
         };
         return Object.assign({}, defaultFileInfo, override);
     }
@@ -366,6 +367,131 @@ export class TestHelper {
             headerCentreComponent: () => null,
             headerRightComponent: () => null,
             showTeamSidebar: false,
+            showAppBar: false,
+            wrapped: true,
+        };
+    }
+
+    public static getCustomEmojiMock(override: Partial<CustomEmoji>): CustomEmoji {
+        return {
+            id: 'emoji_id',
+            name: 'emoji',
+            category: 'custom',
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
+            creator_id: 'user_id',
+            ...override,
+        };
+    }
+    public static getLicenseMock(override: ClientLicense = {}): ClientLicense {
+        return {
+            ...override,
+        };
+    }
+    public static getCloudLicenseMock(override: ClientLicense = {}): ClientLicense {
+        return {
+            ...this.getLicenseMock(override),
+            Cloud: 'true',
+            ...override,
+        };
+    }
+    public static getPreferencesMock(override: Array<{category: string; name: string; value: string}> = [], userId = ''): { [x: string]: PreferenceType } {
+        const preferences: { [x: string]: PreferenceType } = {};
+        override.forEach((p) => {
+            preferences[getPreferenceKey(p.category, p.name)] = {
+                category: p.category,
+                name: p.name,
+                value: p.value,
+                user_id: userId,
+            };
+        });
+        return preferences;
+    }
+    public static getSubscriptionMock(override: Partial<Subscription>): Subscription {
+        return {
+            id: '',
+            customer_id: '',
+            product_id: '',
+            add_ons: [],
+            start_at: 0,
+            end_at: 0,
+            create_at: 0,
+            seats: 0,
+            last_invoice: TestHelper.getInvoiceMock({subscription_id: override.id || ''}),
+            trial_end_at: 0,
+            is_free_trial: 'false',
+            ...override,
+        };
+    }
+    public static getInvoiceMock(override: Partial<Invoice>): Invoice {
+        return {
+            id: '',
+            number: '',
+            create_at: 0,
+            total: 0,
+            tax: 0,
+            status: '',
+            description: '',
+            period_start: 0,
+            period_end: 0,
+            subscription_id: '',
+            line_items: [],
+            current_product_name: '',
+            ...override,
+        };
+    }
+    public static getProductMock(override: Partial<Product>): Product {
+        return {
+            id: '',
+            name: '',
+            description: '',
+            price_per_seat: 0,
+            add_ons: [],
+            product_family: '',
+            sku: '',
+            billing_scheme: '',
+            recurring_interval: '',
+            cross_sells_to: '',
+            ...override,
+        };
+    }
+
+    public static getCloudCustomerMock(override: Partial<CloudCustomer> = {}): CloudCustomer {
+        return {
+            id: '',
+            billing_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            company_address: {
+                city: '',
+                state: '',
+                country: '',
+                postal_code: '',
+                line1: '',
+                line2: '',
+            },
+            payment_method: {
+                type: '',
+                last_four: '',
+                exp_month: 0,
+                exp_year: 0,
+                card_brand: '',
+                name: '',
+            },
+            name: '',
+            email: '',
+            contact_first_name: '',
+            contact_last_name: '',
+            create_at: 0,
+            creator_id: '',
+            num_employees: 100,
+            ...override,
         };
     }
 }

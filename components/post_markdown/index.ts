@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {connect} from 'react-redux';
 
 import {createSelector} from 'reselect';
@@ -10,8 +11,8 @@ import {
     getMyGroupMentionKeys,
 } from 'mattermost-redux/selectors/entities/groups';
 import {getCurrentUserMentionKeys} from 'mattermost-redux/selectors/entities/users';
-import {Post} from 'mattermost-redux/types/posts';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Post} from '@mattermost/types/posts';
+import {Channel} from '@mattermost/types/channels';
 
 import {GlobalState} from 'types/store';
 

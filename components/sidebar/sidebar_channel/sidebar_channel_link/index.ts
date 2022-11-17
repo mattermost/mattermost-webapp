@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch} from 'redux';
 
-import {isFirstAdmin} from 'mattermost-redux/selectors/entities/users';
+import {markMostRecentPostInChannelAsUnread} from 'mattermost-redux/actions/channels';
 import {getCurrentUserId, getMyChannelMemberships} from 'mattermost-redux/selectors/entities/common';
 import {getInt} from 'mattermost-redux/selectors/entities/preferences';
-import {Channel} from 'mattermost-redux/types/channels';
+
 import {GenericAction} from 'mattermost-redux/types/actions';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 import {makeGetChannelUnreadCount} from 'mattermost-redux/selectors/entities/channels';
@@ -22,8 +22,9 @@ import {
     OnboardingTaskCategory,
     OnboardingTasksName,
 } from 'components/onboarding_tasks';
-import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
-import {isOnboardingHidden, showNextSteps} from 'components/next_steps_view/steps';
+import {FINISHED, OnboardingTourSteps, TutorialTourName} from 'components/tours';
+
+import {Channel} from '@mattermost/types/channels';
 
 import SidebarChannelLink from './sidebar_channel_link';
 
@@ -44,13 +45,9 @@ function makeMapStateToProps() {
         const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
         const triggerStep = getInt(state, OnboardingTaskCategory, OnboardingTasksName.CHANNELS_TOUR, FINISHED);
         const channelTourTriggered = triggerStep === GenericTaskSteps.STARTED;
-        const nextStep = showNextSteps(state);
-        const onboardingHidden = isOnboardingHidden(state);
         const isOnboardingFlowEnabled = config.EnableOnboardingFlow;
-        const isUserFirstAdmin = isFirstAdmin(state);
         const showChannelsTour = enableTutorial && tutorialStep === OnboardingTourSteps.CHANNELS_AND_DIRECT_MESSAGES;
-        const showChannelsTutorialStep = showChannelsTour && ((channelTourTriggered && isUserFirstAdmin) || (isOnboardingFlowEnabled === 'true' && !(nextStep || onboardingHidden) && !isUserFirstAdmin) || (isOnboardingFlowEnabled !== 'true' && !isUserFirstAdmin));
-
+        const showChannelsTutorialStep = showChannelsTour && channelTourTriggered && isOnboardingFlowEnabled === 'true';
         return {
             unreadMentions: unreadCount.mentions,
             unreadMsgs: unreadCount.messages,
@@ -66,6 +63,7 @@ function makeMapStateToProps() {
 function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
     return {
         actions: bindActionCreators({
+            markMostRecentPostInChannelAsUnread,
             unsetEditingPost,
             clearChannelSelection,
             multiSelectChannelTo,

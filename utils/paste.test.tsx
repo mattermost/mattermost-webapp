@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {parseTable, getTable, formatMarkdownTableMessage, formatGithubCodePaste} from './paste';
+import {parseTable, getTable, formatMarkdownMessage, formatGithubCodePaste} from './paste';
 
 const validClipboardData: any = {
     items: [1],
@@ -38,17 +38,54 @@ describe('Paste.getTable', () => {
     });
 });
 
-describe('Paste.formatMarkdownTableMessage', () => {
-    const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+describe('Paste.formatMarkdownMessage', () => {
+    const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
 
     test('returns a markdown table when valid html table provided', () => {
-        expect(formatMarkdownTableMessage(validTable)).toBe(markdownTable);
+        expect(formatMarkdownMessage(validClipboardData)).toBe(`${markdownTable}\n`);
+    });
+
+    test('returns a markdown table when valid html table with headers provided', () => {
+        const tableHeadersClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
+            },
+        };
+
+        expect(formatMarkdownMessage(tableHeadersClipboardData)).toBe(markdownTable);
+    });
+
+    test('removes style contents and additional whitespace around tables', () => {
+        const styleClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<style><!--td {border: 1px solid #cccccc;}--></style>\n<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>\n';
+            },
+        };
+
+        expect(formatMarkdownMessage(styleClipboardData)).toBe(markdownTable);
     });
 
     test('returns a markdown table under a message when one is provided', () => {
         const testMessage = 'test message';
 
-        expect(formatMarkdownTableMessage(validTable, testMessage)).toBe(`${testMessage}\n\n${markdownTable}`);
+        expect(formatMarkdownMessage(validClipboardData, testMessage)).toBe(`${testMessage}\n\n${markdownTable}\n`);
+    });
+
+    test('returns a markdown formatted link when valid hyperlink provided', () => {
+        const linkClipboardData: any = {
+            items: [1],
+            types: ['text/html'],
+            getData: () => {
+                return '<a href="https://test.domain">link text</a>';
+            },
+        };
+        const markdownLink = '[link text](https://test.domain)';
+
+        expect(formatMarkdownMessage(linkClipboardData)).toBe(markdownLink);
     });
 });
 
@@ -68,7 +105,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, '', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 0, selectionEnd: 0, message: '', clipboardData});
         expect(message).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
@@ -77,7 +114,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "test\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
         const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(4, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 4, selectionEnd: 4, message: 'test', clipboardData});
         expect(message).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
@@ -86,7 +123,7 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\ntest";
         const codeBlock = "```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(0, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 0, selectionEnd: 0, message: 'test', clipboardData});
         expect(message).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
@@ -95,8 +132,18 @@ describe('Paste.formatGithubCodePaste', () => {
         const message = "te\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\nst";
         const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
 
-        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste(2, 'test', clipboardData);
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 2, selectionEnd: 2, message: 'test', clipboardData});
         expect(message).toBe(formattedMessage);
+        expect(codeBlock).toBe(formattedCodeBlock);
+    });
+
+    test('Selected message in the middle is replaced with code', () => {
+        const originalMessage = 'test replace message';
+        const codeBlock = "\n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n";
+        const updatedMessage = "test \n```\n// a javascript codeblock example\nif (1 > 0) {\n  return 'condition is true';\n}\n```\n message";
+
+        const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart: 5, selectionEnd: 12, message: originalMessage, clipboardData});
+        expect(updatedMessage).toBe(formattedMessage);
         expect(codeBlock).toBe(formattedCodeBlock);
     });
 });

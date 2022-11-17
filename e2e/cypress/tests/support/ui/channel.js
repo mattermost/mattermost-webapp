@@ -8,26 +8,35 @@ Cypress.Commands.add('uiCreateChannel', ({
     prefix = 'channel-',
     isPrivate = false,
     purpose = '',
-    header = '',
+    name = '',
+    createBoard = false,
 }) => {
     cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
-    cy.get('#newChannelModalLabel').should('be.visible');
+    cy.get('#new-channel-modal').should('be.visible');
     if (isPrivate) {
-        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#public-private-selector-button-P').click().wait(TIMEOUTS.HALF_SEC);
     } else {
-        cy.get('#public').click().wait(TIMEOUTS.HALF_SEC);
+        cy.get('#public-private-selector-button-O').click().wait(TIMEOUTS.HALF_SEC);
     }
-    const channelName = `${prefix}${getRandomId()}`;
-    cy.get('#newChannelName').should('be.visible').clear().type(channelName);
+    const channelName = name || `${prefix}${getRandomId()}`;
+    cy.get('#input_new-channel-modal-name').should('be.visible').clear().type(channelName);
     if (purpose) {
-        cy.get('#newChannelPurpose').clear().type(purpose);
+        cy.get('#new-channel-modal-purpose').clear().type(purpose);
     }
-    if (header) {
-        cy.get('#newChannelHeader').clear().type(header);
+
+    if (createBoard) {
+        cy.get('#add-board-to-channel').should('be.visible');
+        cy.findByTestId('add-board-to-channel-check').then((el) => {
+            if (el && !el.hasClass('checked')) {
+                el.click();
+                cy.get('#input_select-board-template').should('be.visible').click();
+                cy.get('.SelectTemplateMenu .MenuItem:contains(Roadmap) button').should('be.visible').click();
+            }
+        });
     }
-    cy.get('#submitNewChannel').click();
-    cy.get('#newChannelModalLabel').should('not.exist');
+    cy.findByText('Create channel').click();
+    cy.get('#new-channel-modal').should('not.exist');
     cy.get('#channelIntro').should('be.visible');
     return cy.wrap({name: channelName});
 });
@@ -38,7 +47,7 @@ Cypress.Commands.add('uiAddUsersToCurrentChannel', (usernameList) => {
         cy.get('#channelAddMembers').click();
         cy.get('#addUsersToChannelModal').should('be.visible');
         usernameList.forEach((username) => {
-            cy.get('#react-select-2-input').type(`@${username}{enter}`);
+            cy.get('#selectItems input').typeWithForce(`@${username}{enter}`);
         });
         cy.get('#saveItems').click();
         cy.get('#addUsersToChannelModal').should('not.exist');
@@ -52,9 +61,9 @@ Cypress.Commands.add('uiArchiveChannel', () => {
 });
 
 Cypress.Commands.add('uiUnarchiveChannel', () => {
-    cy.get('#channelHeaderDropdownIcon').click();
-    cy.get('#channelUnarchiveChannel').click();
-    return cy.get('#unarchiveChannelModalDeleteButton').click();
+    cy.get('#channelHeaderDropdownIcon').should('be.visible').click();
+    cy.get('#channelUnarchiveChannel').should('be.visible').click();
+    return cy.get('#unarchiveChannelModalDeleteButton').should('be.visible').click();
 });
 
 Cypress.Commands.add('uiLeaveChannel', (isPrivate = false) => {
@@ -72,11 +81,12 @@ Cypress.Commands.add('goToDm', (username) => {
     cy.uiAddDirectMessage().click({force: true});
 
     // # Start typing part of a username that matches previously created users
-    cy.get('#selectItems input').type(username, {force: true});
+    cy.get('#selectItems input').typeWithForce(username);
     cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
-    cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-        type(username).wait(TIMEOUTS.ONE_SEC).
-        type('{enter}');
+    cy.findByRole('textbox', {name: 'Search for people'}).
+        typeWithForce(username).
+        wait(TIMEOUTS.ONE_SEC).
+        typeWithForce('{enter}');
 
     // # Save the selected item
     return cy.get('#saveItems').click().wait(TIMEOUTS.HALF_SEC);

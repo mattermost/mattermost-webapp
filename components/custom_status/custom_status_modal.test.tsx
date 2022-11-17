@@ -1,18 +1,19 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import * as StatusSelectors from 'selectors/views/custom_status';
+
+import mockStore from 'tests/test_store';
 
 import CustomStatusModal from './custom_status_modal';
 
 jest.mock('selectors/views/custom_status');
 
 describe('components/custom_status/custom_status_modal', () => {
-    const mockStore = configureStore();
     const store = mockStore({});
     const baseProps = {
         onExited: jest.fn(),

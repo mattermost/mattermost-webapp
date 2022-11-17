@@ -4,7 +4,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {UserProfile as UserProfileType} from 'mattermost-redux/types/users';
+import {UserProfile as UserProfileType} from '@mattermost/types/users';
 
 import UserProfile from './user_profile';
 
@@ -18,6 +18,16 @@ describe('components/UserProfile', () => {
 
     test('should match snapshot', () => {
         const wrapper = shallow(<UserProfile {...baseProps}/>);
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, with colorization', () => {
+        const props = {
+            ...baseProps,
+            colorize: true,
+        };
+
+        const wrapper = shallow(<UserProfile {...props}/>);
         expect(wrapper).toMatchSnapshot();
     });
 

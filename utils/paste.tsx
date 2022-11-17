@@ -1,6 +1,17 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import {splitMessageBasedOnCaretPosition} from 'utils/post_utils';
+
+import TurndownService from 'turndown';
+import {tables} from '@guyplusplus/turndown-plugin-gfm';
+
+import {splitMessageBasedOnCaretPosition, splitMessageBasedOnTextSelection} from 'utils/post_utils';
+
+type FormatCodeOptions = {
+    message: string;
+    clipboardData: DataTransfer;
+    selectionStart: number | null;
+    selectionEnd: number | null;
+};
 
 export function parseTable(html: string): HTMLTableElement | null {
     return new DOMParser().parseFromString(html, 'text/html').querySelector('table');
@@ -25,6 +36,10 @@ export function getTable(clipboardData: DataTransfer): HTMLTableElement | null {
     return table;
 }
 
+export function hasHtmlLink(clipboardData: DataTransfer): boolean {
+    return Array.from(clipboardData.types).includes('text/html') && (/<a/i).test(clipboardData.getData('text/html'));
+}
+
 export function getPlainText(clipboardData: DataTransfer): string | boolean {
     if (Array.from(clipboardData.types).indexOf('text/plain') === -1) {
         return false;
@@ -40,42 +55,39 @@ export function isGitHubCodeBlock(tableClassName: string): boolean {
     return result;
 }
 
-function columnText(column: Element): string {
-    const noBreakSpace = '\u00A0';
-    const text = column.textContent == null ?
-        noBreakSpace : column.textContent.trim().replace(/\|/g, '\\|').replace(/\n/g, ' ');
-    return text;
+function isHeaderlessTable(table: HTMLTableElement): boolean {
+    return table.querySelectorAll('th').length === 0;
 }
 
-function tableHeaders(row: HTMLTableRowElement): string[] {
-    return Array.from(row.querySelectorAll('td, th')).map(columnText);
-}
+export function formatMarkdownMessage(clipboardData: DataTransfer, message?: string, caretPosition?: number): string {
+    const html = clipboardData.getData('text/html');
 
-export function formatMarkdownTableMessage(table: HTMLTableElement, message?: string, caretPosition?: number): string {
-    const rows = Array.from(table.querySelectorAll('tr'));
+    //TODO@michel: Instantiate turndown service in a central file instead
+    const service = new TurndownService({emDelimiter: '*'}).remove('style');
+    service.use(tables);
+    let markdownFormattedMessage = service.turndown(html).trim();
 
-    const headerRow = rows.shift();
-    const headers = headerRow ? tableHeaders(headerRow) : [];
-    const spacers = headers.map(() => '---');
-    const header = `|${headers.join(' | ')}|\n|${spacers.join(' | ')}|\n`;
+    const table = getTable(clipboardData);
 
-    const body = rows.map((row) => {
-        return `|${Array.from(row.querySelectorAll('td')).map(columnText).join(' | ')}|`;
-    }).join('\n');
+    if (table && isHeaderlessTable(table)) {
+        markdownFormattedMessage += '\n';
+    }
 
-    const formattedTable = `${header}${body}\n`;
     if (!message) {
-        return formattedTable;
+        return markdownFormattedMessage;
     }
     if (typeof caretPosition === 'undefined') {
-        return `${message}\n\n${formattedTable}`;
+        return `${message}\n\n${markdownFormattedMessage}`;
     }
-    const newMessage = [message.slice(0, caretPosition), formattedTable, message.slice(caretPosition)];
+    const newMessage = [message.slice(0, caretPosition) + '\n', markdownFormattedMessage, message.slice(caretPosition)];
     return newMessage.join('\n');
 }
 
-export function formatGithubCodePaste(caretPosition: number, message: string, clipboardData: DataTransfer): {formattedMessage: string; formattedCodeBlock: string} {
-    const {firstPiece, lastPiece} = splitMessageBasedOnCaretPosition(caretPosition, message);
+export function formatGithubCodePaste({message, clipboardData, selectionStart, selectionEnd}: FormatCodeOptions): {formattedMessage: string; formattedCodeBlock: string} {
+    const textSelected = selectionStart !== selectionEnd;
+    const {firstPiece, lastPiece} = textSelected ?
+        splitMessageBasedOnTextSelection(selectionStart ?? message.length, selectionEnd ?? message.length, message) :
+        splitMessageBasedOnCaretPosition(selectionStart ?? message.length, message);
 
     // Add new lines if content exists before or after the cursor.
     const requireStartLF = firstPiece === '' ? '' : '\n';

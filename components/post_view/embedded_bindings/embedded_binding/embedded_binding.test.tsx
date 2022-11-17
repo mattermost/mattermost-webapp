@@ -4,10 +4,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import {MessageAttachment as MessageAttachmentType} from 'mattermost-redux/types/message_attachments';
-import {Post} from 'mattermost-redux/types/posts';
+import {AppBinding} from '@mattermost/types/apps';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {MessageAttachment as MessageAttachmentType} from '@mattermost/types/message_attachments';
+import {Post} from '@mattermost/types/posts';
 
 import EmbeddedBinding from './embedded_binding';
 

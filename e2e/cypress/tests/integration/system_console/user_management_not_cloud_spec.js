@@ -53,9 +53,9 @@ describe('User Management', () => {
         cy.visit('/login');
 
         // # Login as otherUser
-        cy.get('#loginId').should('be.visible').type(otherUser.username);
-        cy.get('#loginPassword').should('be.visible').type(otherUser.password);
-        cy.get('#loginButton').should('be.visible').click();
+        cy.get('#input_loginId').should('be.visible').type(otherUser.username);
+        cy.get('#input_password-input').should('be.visible').type(otherUser.password);
+        cy.get('#saveSetting').should('be.visible').click();
 
         // * Verify appropriate error message is displayed for deactivated user
         cy.findByText('Login failed because your account has been deactivated. Please contact an administrator.').should('exist').and('be.visible');
@@ -83,22 +83,10 @@ describe('User Management', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Click Channel Members
-        cy.get('#channelMember').should('be.visible').click();
-
-        // # Click View Members
-        cy.get('#member-list-popover').within(() => {
-            cy.findByText('Manage Members').click();
-        });
+        cy.get('.member-rhs__trigger').should('be.visible').click();
 
         // * Deactivated user does not show up in View Members for channels
-        cy.get('#channelMembersModal').should('be.visible').within(() => {
-            cy.get('#searchUsersInput').
-                should('be.visible').
-                click().
-                type(otherUser.email, {force: true});
-            cy.findByTestId('noUsersFound');
-            cy.uiClose();
-        });
+        cy.uiGetRHS().findByText(otherUser.username).should('not.exist');
 
         // * User does show up in DM More menu so that DM channels can be viewed.
         cy.uiGetLhsSection('DIRECT MESSAGES').findByText(otherUser.username).should('not.exist');
@@ -106,8 +94,8 @@ describe('User Management', () => {
 
         // * Verify that new messages cannot be posted.
         cy.get('#moreDmModal').should('be.visible').within(() => {
-            cy.get('#selectItems input').type(otherUser.email + '{enter}').wait(TIMEOUTS.HALF_SEC);
-            cy.get('#post_textbox').should('not.exist');
+            cy.get('#selectItems input').typeWithForce(otherUser.email + '{enter}').wait(TIMEOUTS.HALF_SEC);
+            cy.uiGetPostTextBox({exist: false});
         });
 
         // # Restore the user.

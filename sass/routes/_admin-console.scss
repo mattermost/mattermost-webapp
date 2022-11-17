@@ -6,31 +6,36 @@
 
 .admin-console {
     height: 100%;
-    padding-left: 220px;
     color: #333;
+    grid-area: center;
     -webkit-overflow-scrolling: touch;
+
+    > div {
+        width: 100%;
+        height: 100%;
+    }
 
     .wrapper--fixed {
         display: flex;
-        height: calc(100vh - #{$backstage-bar-height});
+        height: 100%;
         flex-direction: column;
 
         // Fix for Safari on iOS MM-24361
         @supports (-webkit-touch-callout: none) {
             height: -webkit-fill-available;
         }
-
-        .announcement-bar--fixed & {
-            height: calc(100vh - #{$announcement-bar-height} - #{$backstage-bar-height});
-        }
     }
 
     .admin-console__wrapper {
+        position: relative;
         overflow: auto;
         height: 100%;
         -webkit-flex: 1 1 auto;
         flex: 1 1 auto;
         padding: 20px;
+        margin-right: 5px;
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
     }
 
     .admin-console__content {
@@ -171,6 +176,8 @@
     }
 
     .form-horizontal {
+        height: 100%;
+
         .control-label {
             padding-right: 0;
             font-weight: 600;
@@ -181,6 +188,10 @@
             .control-label {
                 font-weight: normal;
             }
+        }
+
+        .help-text {
+            white-space: pre-line;
         }
 
         .form-group {
@@ -547,15 +558,12 @@
 }
 
 .admin-sidebar {
-    position: fixed;
     z-index: 10;
-    top: $backstage-bar-height;
-    left: 0;
     display: flex;
     width: 220px;
-    height: calc(100% - #{$announcement-bar-height});
     flex-direction: column;
     background: #111;
+    grid-area: lhs;
 
     .filter-container {
         position: relative;
@@ -641,6 +649,10 @@
         ul {
             padding-bottom: 20px;
             margin-top: 1px;
+
+            &.nav-stacked.task-list-shown {
+                padding-bottom: 72px;
+            }
         }
     }
 
@@ -718,6 +730,19 @@
         text-transform: uppercase;
     }
 
+    .sidebar-section-indicator {
+        position: absolute;
+        top: 0;
+        right: 0;
+        height: 100%;
+
+        i {
+            color: alpha-color($white, 0.5);
+            font-size: 14px;
+            line-height: 14px;
+        }
+    }
+
     .sidebar-subsection-title {
         padding: 6px 35px 6px 30px;
 
@@ -742,21 +767,33 @@
         &:hover {
             color: lighten($primary-color, 10);
             text-decoration: none;
+
+            i {
+                color: lighten($primary-color, 10);
+            }
         }
 
         &--active {
             background: alpha-color($white, 0.1);
             color: $white;
 
+            i {
+                color: $white;
+            }
+
             &:hover,
             &:focus {
                 background: alpha-color($white, 0.1);
                 color: $white;
+
+                i {
+                    color: $white;
+                }
             }
 
             &::after {
                 position: absolute;
-                top: 3px;
+                top: 2px;
                 right: -1px;
                 display: inline-block;
                 color: whitesmoke;

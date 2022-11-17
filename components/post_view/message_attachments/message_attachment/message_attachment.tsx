@@ -1,17 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React, {CSSProperties} from 'react';
 import truncate from 'lodash/truncate';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {PostAction, PostActionOption} from 'mattermost-redux/types/integration_actions';
+import {PostAction, PostActionOption} from '@mattermost/types/integration_actions';
 import {
     MessageAttachment as MessageAttachmentType,
     MessageAttachmentField,
-} from 'mattermost-redux/types/message_attachments';
-import {PostImage} from 'mattermost-redux/types/posts';
+} from '@mattermost/types/message_attachments';
+import {PostImage} from '@mattermost/types/posts';
 
 import {isUrlSafe} from 'utils/url';
 import {Constants, ModalIdentifiers} from 'utils/constants';
@@ -329,8 +330,10 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
                 fileInfos: [{
                     has_preview_image: false,
                     link,
-                    extension,
+                    extension: extension ?? '',
+                    name: link,
                 }],
+                startIndex: 0,
             },
         });
     }
@@ -537,7 +540,6 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
         return (
             <div
                 className={'attachment ' + preTextClass}
-                ref='attachment'
                 onClick={this.handleFormattedTextClick}
             >
                 {preText}
@@ -571,4 +573,3 @@ export default class MessageAttachment extends React.PureComponent<Props, State>
 const style = {
     footer: {clear: 'both'} as CSSProperties,
 };
-/* eslint-enable react/no-string-refs */

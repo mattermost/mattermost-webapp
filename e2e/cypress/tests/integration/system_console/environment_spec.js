@@ -29,10 +29,7 @@ describe('Environment', () => {
         cy.visit('/admin_console/environment/web_server');
 
         // # Click dropdown to open selection
-        cy.findByTestId('ServiceSettings.WebserverModedropdown').select('gzip');
-
-        // # Click Save button to save the settings
-        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+        cy.findByTestId('ServiceSettings.WebserverModedropdown').should('have.value', 'gzip');
 
         // # Navigate to a channel
         cy.visit(townsquareLink);
@@ -278,9 +275,12 @@ describe('Environment', () => {
         const amazonS3BucketName = '12';
         cy.findByTestId('FileSettings.AmazonS3Bucketinput').clear().type(amazonS3BucketName);
 
+        // # Click Save button to save the settings
+        cy.get('#saveSetting').click().wait(TIMEOUTS.ONE_SEC);
+
         cy.get('#TestS3Connection').scrollIntoView().should('be.visible').within(() => {
             cy.findByText('Test Connection').should('be.visible').click().wait(TIMEOUTS.ONE_SEC);
-            waitForAlert('Connection unsuccessful: S3 Bucket is required');
+            waitForAlert('Connection unsuccessful: Unable to connect to S3. Verify your Amazon S3 connection authorization parameters and authentication settings.');
         });
     });
 

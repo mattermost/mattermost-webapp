@@ -12,7 +12,6 @@ import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
 import ErrorTitle from './error_title';
 import ErrorMessage from './error_message';
-import WorkspaceUserLimitReached from './workspace_user_limit_reached';
 
 type Location = {
     search: string;
@@ -59,6 +58,15 @@ export default class ErrorPage extends React.PureComponent<Props> {
 
         let backButton;
         if (type === ErrorPageTypes.PERMALINK_NOT_FOUND && returnTo) {
+            backButton = (
+                <Link to={returnTo}>
+                    <FormattedMessage
+                        id='error.generic.link'
+                        defaultMessage='Back to Mattermost'
+                    />
+                </Link>
+            );
+        } else if (type === ErrorPageTypes.CLOUD_ARCHIVED && returnTo) {
             backButton = (
                 <Link to={returnTo}>
                     <FormattedMessage
@@ -125,7 +133,7 @@ export default class ErrorPage extends React.PureComponent<Props> {
             );
         }
 
-        let errorPage = (
+        const errorPage = (
             <div className='container-fluid'>
                 <div className='error__container'>
                     <div className='error__icon'>
@@ -147,10 +155,6 @@ export default class ErrorPage extends React.PureComponent<Props> {
                 </div>
             </div>
         );
-
-        if (type === ErrorPageTypes.MAX_FREE_USERS_REACHED) {
-            errorPage = <WorkspaceUserLimitReached/>;
-        }
 
         return (
             <>

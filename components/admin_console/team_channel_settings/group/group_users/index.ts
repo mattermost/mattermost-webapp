@@ -5,7 +5,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators, Dispatch, ActionCreatorsMapObject} from 'redux';
 
 import {memoizeResult} from 'mattermost-redux/utils/helpers';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {ActionResult, GenericAction, ActionFunc} from 'mattermost-redux/types/actions';
 
 import {filterProfilesStartingWithTerm, profileListToMap} from 'mattermost-redux/utils/user_utils';
@@ -16,7 +16,7 @@ import {getChannelMembersInChannels} from 'mattermost-redux/selectors/entities/c
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 
 import {GlobalState} from 'types/store';
-import {loadChannelMembersForProfilesList, loadTeamMembersForProfilesList} from 'actions/user_actions.jsx';
+import {loadChannelMembersForProfilesList, loadTeamMembersForProfilesList} from 'actions/user_actions';
 import {setModalSearchTerm, setModalFilters} from 'actions/views/search';
 
 import UsersToRemove, {Filters, Memberships} from './users_to_remove';

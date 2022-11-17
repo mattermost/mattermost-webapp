@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @not_cloud @extend_session @ldap
 
 import ldapUsers from '../../../../fixtures/ldap_users.json';
@@ -15,10 +14,10 @@ import ldapUsers from '../../../../fixtures/ldap_users.json';
 import {verifyExtendedSession, verifyNotExtendedSession} from './helpers';
 
 describe('Extended Session Length', () => {
-    const sessionLengthInDays = 1;
+    const sessionLengthInHours = 1;
     const setting = {
         ServiceSettings: {
-            SessionLengthWebInDays: sessionLengthInDays,
+            SessionLengthWebInHours: sessionLengthInHours,
         },
     };
     let testLdapUser;
@@ -53,7 +52,7 @@ describe('Extended Session Length', () => {
         cy.apiUpdateConfig(setting);
 
         cy.apiLogin(testLdapUser);
-        verifyExtendedSession(testLdapUser, sessionLengthInDays, offTopicUrl);
+        verifyExtendedSession(testLdapUser, sessionLengthInHours, offTopicUrl);
     });
 
     it('MM-T4046_2 LDAP user session should not extend even with user activity when disabled', () => {

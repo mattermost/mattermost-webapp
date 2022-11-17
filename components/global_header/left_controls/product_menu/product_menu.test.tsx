@@ -1,33 +1,34 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
 import * as reactRedux from 'react-redux';
-import configureStore from 'redux-mock-store';
+
+import * as productUtils from 'utils/products';
+
+import mockStore from 'tests/test_store';
 
 import {TopLevelProducts} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
-
-import * as hooks from '../../hooks';
 
 import ProductMenu, {ProductMenuButton, ProductMenuContainer} from './product_menu';
 import ProductMenuItem from './product_menu_item';
 import ProductMenuList from './product_menu_list';
 
-const spyProduct = jest.spyOn(hooks, 'useCurrentProductId');
+const spyProduct = jest.spyOn(productUtils, 'useCurrentProductId');
 spyProduct.mockReturnValue(null);
 
 describe('components/global/product_switcher', () => {
     const useDispatchMock = jest.spyOn(reactRedux, 'useDispatch');
     const useSelectorMock = jest.spyOn(reactRedux, 'useSelector');
-    const mockStore = configureStore();
 
     beforeEach(() => {
         const products = [
             TestHelper.makeProduct(TopLevelProducts.BOARDS),
             TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ];
-        const spyProducts = jest.spyOn(hooks, 'useProducts');
+        const spyProducts = jest.spyOn(productUtils, 'useProducts');
         spyProducts.mockReturnValue(products);
         useDispatchMock.mockClear();
         useSelectorMock.mockClear();
@@ -69,7 +70,7 @@ describe('components/global/product_switcher', () => {
             wrappingComponentProps: {store},
         });
 
-        const spyProducts = jest.spyOn(hooks, 'useProducts');
+        const spyProducts = jest.spyOn(productUtils, 'useProducts');
 
         spyProducts.mockReturnValue([]);
         expect(wrapper.find(ProductMenuItem).at(0)).toHaveLength(1);
@@ -97,7 +98,7 @@ describe('components/global/product_switcher', () => {
             TestHelper.makeProduct(TopLevelProducts.PLAYBOOKS),
         ];
 
-        const spyProducts = jest.spyOn(hooks, 'useProducts');
+        const spyProducts = jest.spyOn(productUtils, 'useProducts');
         spyProducts.mockReturnValue(products);
 
         expect(wrapper.find(ProductMenuItem)).toHaveLength(3);

@@ -11,6 +11,7 @@
 
     .post-right-comments-container {
         position: relative;
+        margin-right: 5px;
 
         .post {
             &:hover {
@@ -43,6 +44,10 @@
 
             .post__body {
                 background: transparent !important;
+            }
+
+            &.post--compact {
+                padding-left: 1em;
             }
         }
 
@@ -159,7 +164,7 @@
             min-width: 1px;
             max-width: 230px;
             height: 20px;
-            margin-top: 3px;
+            margin-top: 4px;
             margin-bottom: 0;
             float: left;
             font-size: 13px;

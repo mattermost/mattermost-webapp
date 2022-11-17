@@ -11,7 +11,7 @@ import {getDisplayableErrors} from 'mattermost-redux/selectors/errors';
 import {dismissError} from 'mattermost-redux/actions/errors';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 import {GenericAction} from 'mattermost-redux/types/actions';
-import {getCloudSubscription, getCloudCustomer, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription, getCloudCustomer} from 'mattermost-redux/actions/cloud';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import {dismissNotice} from 'actions/views/notice';
@@ -56,7 +56,6 @@ function mapDispatchToProps(dispatch: Dispatch<GenericAction>) {
             dismissNotice,
             getCloudSubscription,
             getCloudCustomer,
-            getSubscriptionStats,
         }, dispatch),
     };
 }

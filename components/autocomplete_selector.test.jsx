@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
 
@@ -41,7 +42,6 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                   openOnFocus={true}
                   openWhenEmpty={true}
                   providers={Array []}
-                  renderDividers={false}
                   renderNoResults={true}
                   replaceAllInputOnSelect={true}
                   value="some value"
@@ -88,7 +88,6 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                   openOnFocus={true}
                   openWhenEmpty={true}
                   providers={Array []}
-                  renderDividers={false}
                   renderNoResults={true}
                   replaceAllInputOnSelect={true}
                   value="value from prop"
@@ -126,7 +125,6 @@ describe('components/widgets/settings/AutocompleteSelector', () => {
                   openOnFocus={true}
                   openWhenEmpty={true}
                   providers={Array []}
-                  renderDividers={false}
                   renderNoResults={true}
                   replaceAllInputOnSelect={true}
                   value="value from input"

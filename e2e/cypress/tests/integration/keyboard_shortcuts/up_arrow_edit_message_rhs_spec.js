@@ -26,8 +26,8 @@ describe('Keyboard Shortcuts', () => {
             cy.clickPostDotMenu(postId);
             cy.findByText('Reply').click();
             const replyMessage = 'Well, hello there.';
-            cy.get('#reply_textbox').type(replyMessage);
-            cy.get('#reply_textbox').type('{enter}');
+            cy.uiGetReplyTextBox().type(replyMessage);
+            cy.uiGetReplyTextBox().type('{enter}');
             cy.uiWaitUntilMessagePostedIncludes(replyMessage);
 
             // # Press up arrow key

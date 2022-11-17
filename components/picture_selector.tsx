@@ -38,7 +38,7 @@ const PictureSelector: React.FC<Props> = (props: Props) => {
             reader.onload = (ev) => {
                 setImage(URL.createObjectURL(file));
 
-                const orientation = FileUtils.getExifOrientation(ev.target!.result);
+                const orientation = FileUtils.getExifOrientation(ev.target!.result! as ArrayBuffer);
                 setOrientationStyles(FileUtils.getOrientationStyles(orientation));
             };
             reader.readAsArrayBuffer(file);

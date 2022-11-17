@@ -11,7 +11,7 @@ import * as ReduxPostUtils from 'mattermost-redux/utils/post_utils';
 
 import Constants, {Locations, A11yCustomEventTypes, AppEvents} from 'utils/constants';
 import * as PostUtils from 'utils/post_utils';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import ActionsMenu from 'components/actions_menu';
 import DotMenu from 'components/dot_menu';
 import FileAttachmentListContainer from 'components/file_attachment_list';
@@ -27,11 +27,11 @@ import PostReaction from 'components/post_view/post_reaction';
 import MessageWithAdditionalContent from 'components/message_with_additional_content';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import InfoSmallIcon from 'components/widgets/icons/info_small_icon';
+import PriorityLabel from 'components/post_priority/post_priority_label';
 
 import UserProfile from 'components/user_profile';
 import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
-import {Emoji} from 'mattermost-redux/types/emojis';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
 
@@ -41,6 +41,7 @@ export default class RhsRootPost extends React.PureComponent {
         teamId: PropTypes.string.isRequired,
         currentUserId: PropTypes.string.isRequired,
         compactDisplay: PropTypes.bool,
+        colorizeUsernames: PropTypes.bool,
         commentCount: PropTypes.number.isRequired,
         isFlagged: PropTypes.bool.isRequired,
         previewCollapsed: PropTypes.string,
@@ -52,6 +53,7 @@ export default class RhsRootPost extends React.PureComponent {
         isReadOnly: PropTypes.bool.isRequired,
         pluginPostTypes: PropTypes.object,
         channelIsArchived: PropTypes.bool.isRequired,
+        isPostPriorityEnabled: PropTypes.bool.isRequired,
         handleCardClick: PropTypes.func.isRequired,
 
         /**
@@ -86,7 +88,9 @@ export default class RhsRootPost extends React.PureComponent {
          */
         showActionsMenuPulsatingDot: PropTypes.bool,
         oneClickReactionsEnabled: PropTypes.bool,
-        recentEmojis: PropTypes.arrayOf(Emoji),
+
+        // e.g. import {Emoji} from '@mattermost/types/emojis';
+        recentEmojis: PropTypes.arrayOf(PropTypes.object),
 
         isExpanded: PropTypes.bool,
 
@@ -212,7 +216,11 @@ export default class RhsRootPost extends React.PureComponent {
         );
     };
 
-    toggleEmojiPicker = () => {
+    toggleEmojiPicker = (e) => {
+        if (e && e.stopPropagation) {
+            e.stopPropagation();
+        }
+
         const showEmojiPicker = !this.state.showEmojiPicker;
         this.setState({showEmojiPicker});
     };
@@ -317,10 +325,6 @@ export default class RhsRootPost extends React.PureComponent {
         this.setState({showActionTip: false});
     };
 
-    handleActionsMenuOpened = (open) => {
-        this.setState({showActionsMenu: open});
-    };
-
     handleFileDropdownOpened = (open) => {
         this.setState({fileDropdownOpened: open});
     };
@@ -355,6 +359,7 @@ export default class RhsRootPost extends React.PureComponent {
         const isEphemeral = Utils.isPostEphemeral(post);
         const isSystemMessage = PostUtils.isSystemMessage(post);
         const isMeMessage = ReduxPostUtils.isMeMessage(post);
+        const colorize = this.props.compactDisplay && this.props.colorizeUsernames;
 
         const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && this.props.oneClickReactionsEnabled && this.props.enableEmojiPicker);
         let showRecentReacions;
@@ -410,9 +415,10 @@ export default class RhsRootPost extends React.PureComponent {
                     }
                     overwriteImage={Constants.SYSTEM_MESSAGE_PROFILE_IMAGE}
                     disablePopover={true}
+                    colorize={colorize}
                 />
             );
-        } else if (post.props && post.props.from_webhook) {
+        } else if (PostUtils.isFromWebhook(post)) {
             if (post.props.override_username && this.props.enablePostUsernameOverride) {
                 userProfile = (
                     <UserProfile
@@ -421,6 +427,7 @@ export default class RhsRootPost extends React.PureComponent {
                         hideStatus={true}
                         overwriteName={post.props.override_username}
                         disablePopover={true}
+                        colorize={colorize}
                     />
                 );
             } else {
@@ -430,6 +437,7 @@ export default class RhsRootPost extends React.PureComponent {
                         userId={post.user_id}
                         hideStatus={true}
                         disablePopover={true}
+                        colorize={colorize}
                     />
                 );
             }
@@ -443,6 +451,7 @@ export default class RhsRootPost extends React.PureComponent {
                     isBusy={this.props.isBusy}
                     isRHS={true}
                     hasMention={true}
+                    colorize={colorize}
                 />
             );
         }
@@ -452,6 +461,7 @@ export default class RhsRootPost extends React.PureComponent {
         const actionsMenu = (
             <ActionsMenu
                 post={this.props.post}
+                location={Locations.RHS_ROOT}
                 handleDropdownOpened={this.handleActionsMenuOpened}
                 isMenuOpen={this.state.showActionsMenu}
                 showPulsatingDot={this.props.showActionsMenuPulsatingDot}
@@ -489,13 +499,7 @@ export default class RhsRootPost extends React.PureComponent {
         }
 
         let dotMenuContainer;
-        if ((!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) &&
-            (this.state.hover ||
-             this.state.showEmojiPicker ||
-             this.state.showActionTip ||
-             this.state.showActionsMenu ||
-             this.state.a11yActive)
-        ) {
+        if (!isPostDeleted && this.props.post.type !== Constants.PostTypes.FAKE_PARENT_DELETED) {
             dotMenuContainer = (
                 <div
                     ref={this.dotMenuRef}
@@ -556,6 +560,11 @@ export default class RhsRootPost extends React.PureComponent {
             );
         }
 
+        let priority;
+        if (post.props?.priority && this.props.isPostPriorityEnabled) {
+            priority = <span className='d-flex mr-2 ml-1'><PriorityLabel priority={post.props.priority}/></span>;
+        }
+
         const message = (
             <MessageWithAdditionalContent
                 post={post}
@@ -610,8 +619,9 @@ export default class RhsRootPost extends React.PureComponent {
                                 {botIndicator}
                                 {customStatus}
                             </div>
-                            <div className='col'>
+                            <div className='col d-flex align-items-center'>
                                 {this.renderPostTime(isEphemeral)}
+                                {priority}
                                 {postInfoIcon}
                             </div>
                             {!isPostBeingEdited && dotMenuContainer}
@@ -629,7 +639,6 @@ export default class RhsRootPost extends React.PureComponent {
                             {fileAttachment}
                             <ReactionList
                                 post={post}
-                                isReadOnly={isReadOnly || channelIsArchived}
                             />
                         </div>
                     </div>

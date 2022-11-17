@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React from 'react';
@@ -9,12 +10,11 @@ import {FormattedMessage} from 'react-intl';
 import {Client4} from 'mattermost-redux/client';
 import {General} from 'mattermost-redux/constants';
 import {ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import * as UserUtils from 'mattermost-redux/utils/user_utils';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
 import BotBadge from 'components/widgets/badges/bot_badge';
 import Avatar from 'components/widgets/users/avatar';
 import {isSuccess} from 'types/actions';
@@ -167,16 +167,26 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
             additionalRoles = (
                 <div>
                     <p>
-                        <FormattedMarkdownMessage
+                        <FormattedMessage
                             id='admin.manage_roles.additionalRoles'
-                            defaultMessage='Select additional permissions for the account. [Read more about roles and permissions](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
+                            defaultMessage='Select additional permissions for the account. <link>Read more about roles and permissions</link>.'
+                            values={{
+                                link: (msg: React.ReactNode) => (
+                                    <a
+                                        href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/'
+                                        target='_blank'
+                                        rel='noreferrer'
+                                    >
+                                        {msg}
+                                    </a>
+                                ),
+                            }}
                         />
                     </p>
                     <div className='checkbox'>
                         <label>
                             <input
                                 type='checkbox'
-                                ref='postall'
                                 checked={this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 disabled={this.state.isSystemAdmin}
                                 onChange={this.handlePostAllChange}
@@ -197,7 +207,6 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                         <label>
                             <input
                                 type='checkbox'
-                                ref='postallpublic'
                                 checked={this.state.hasPostAllPublicRole || this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 disabled={this.state.hasPostAllRole || this.state.isSystemAdmin}
                                 onChange={this.handlePostAllPublicChange}
@@ -235,14 +244,24 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
                             <label>
                                 <input
                                     type='checkbox'
-                                    ref='postall'
                                     checked={this.state.hasUserAccessTokenRole || this.state.isSystemAdmin}
                                     disabled={this.state.isSystemAdmin}
                                     onChange={this.handleUserAccessTokenChange}
                                 />
-                                <FormattedMarkdownMessage
+                                <FormattedMessage
                                     id='admin.manage_roles.allowUserAccessTokens'
-                                    defaultMessage='Allow this account to generate [personal access tokens](!https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token/).'
+                                    defaultMessage='Allow this account to generate <link>personal access tokens</link>.'
+                                    values={{
+                                        link: (msg: React.ReactNode) => (
+                                            <a
+                                                href='https://developers.mattermost.com/integrate/admin-guide/admin-personal-access-token'
+                                                target='_blank'
+                                                rel='noreferrer'
+                                            >
+                                                {msg}
+                                            </a>
+                                        ),
+                                    }}
                                 />
                                 <span className='d-block pt-2 pb-2 light'>
                                     <FormattedMessage
@@ -373,4 +392,3 @@ export default class ManageRolesModal extends React.PureComponent<Props, State> 
         );
     }
 }
-/* eslint-enable react/no-string-refs */

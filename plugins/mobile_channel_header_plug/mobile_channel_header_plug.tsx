@@ -6,9 +6,9 @@ import React from 'react';
 import {injectIntl, IntlShape} from 'react-intl';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
-import {AppBinding} from 'mattermost-redux/types/apps';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Theme} from 'mattermost-redux/types/themes';
+import {AppBinding} from '@mattermost/types/apps';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
 import {PluginComponent} from 'types/store/plugins';
 import {createCallContext} from 'utils/apps';

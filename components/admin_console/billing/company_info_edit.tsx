@@ -1,31 +1,31 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import {getName} from 'country-list';
 import React, {useCallback, useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
-import {getName} from 'country-list';
+import {useHistory} from 'react-router-dom';
 
 import {getCloudCustomer, updateCloudCustomer, updateCloudCustomerAddress} from 'mattermost-redux/actions/cloud';
 
 import BlockableLink from 'components/admin_console/blockable_link';
 import DropdownInput from 'components/dropdown_input';
 import StateSelector from 'components/payment_form/state_selector';
-import Input from 'components/input';
+import Input from 'components/widgets/inputs/input/input';
 import SaveButton from 'components/save_button';
 import {GlobalState} from 'types/store';
-import {browserHistory} from 'utils/browser_history';
 import {COUNTRIES} from 'utils/countries';
 import * as Utils from 'utils/utils';
 
 import './company_info_edit.scss';
 
-type Props = {
-
-};
+type Props = Record<string, never>;
 
 const CompanyInfoEdit: React.FC<Props> = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
+
     const companyInfo = useSelector((state: GlobalState) => state.entities.cloud.customer);
 
     const [companyName, setCompanyName] = useState(companyInfo?.name);
@@ -102,7 +102,7 @@ const CompanyInfoEdit: React.FC<Props> = () => {
         }
 
         setIsSaving(false);
-        browserHistory.push('/admin_console/billing/company_info');
+        history.push('/admin_console/billing/company_info');
     };
 
     const billingAddressDisplay = (

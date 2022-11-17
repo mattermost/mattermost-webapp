@@ -72,9 +72,10 @@ describe('Bots in lists', () => {
             cy.visit(`/${team.name}/channels/${channel.name}`);
 
             // # Open channel members
-            cy.get('button.member-popover__trigger').click();
+            cy.get('.channel-header__trigger').click();
+            cy.findByText('Manage Members').click();
 
-            cy.get('#member-list-popover .more-modal__row .more-modal__name').then(async ($query) => {
+            cy.get('.more-modal__row .more-modal__name').then(async ($query) => {
                 // # Extract usernames from jQuery collection
                 const usernames = $query.toArray().map(({innerText}) => innerText.split('\n')[0]);
 
@@ -95,10 +96,10 @@ describe('Bots in lists', () => {
             });
 
             // * Verify no statuses on bots
-            cy.get('#member-list-popover .more-modal__row--bot .status-wrapper .status').should('not.exist');
+            cy.get('.more-modal__row--bot .status-wrapper .status').should('not.exist');
 
             // * Verify bot badges
-            cy.get('#member-list-popover .more-modal__row--bot .Badge').then(($badges) => {
+            cy.get('.more-modal__row--bot .Badge').then(($badges) => {
                 $badges.toArray().forEach((badgeEl) => {
                     cy.wrap(badgeEl).then(() => badgeEl.scrollIntoView());
                     cy.wrap(badgeEl).should('be.visible').and('have.text', 'BOT');

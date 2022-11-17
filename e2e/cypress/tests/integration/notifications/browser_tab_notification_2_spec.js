@@ -103,10 +103,7 @@ describe('Notifications', () => {
         cy.visit(testTeam2TownSquareUrl);
 
         // # Create a new channel
-        cy.uiBrowseOrCreateChannel('Create New Channel').click();
-        cy.wait(TIMEOUTS.HALF_SEC);
-        cy.get('#newChannelName').should('be.visible').type('new-channel');
-        cy.get('#submitNewChannel').click();
+        cy.uiCreateChannel({name: 'new-channel'});
         cy.wait(TIMEOUTS.HALF_SEC);
 
         // # Invites User 1

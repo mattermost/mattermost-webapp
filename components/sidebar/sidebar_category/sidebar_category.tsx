@@ -7,8 +7,8 @@ import {Draggable, Droppable} from 'react-beautiful-dnd';
 import classNames from 'classnames';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {ChannelCategory, CategorySorting} from 'mattermost-redux/types/channel_categories';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+import {ChannelCategory, CategorySorting} from '@mattermost/types/channel_categories';
+import {PreferenceType} from '@mattermost/types/preferences';
 import {localizeMessage} from 'mattermost-redux/utils/i18n_utils';
 import {trackEvent} from 'actions/telemetry_actions';
 import OverlayTrigger from 'components/overlay_trigger';

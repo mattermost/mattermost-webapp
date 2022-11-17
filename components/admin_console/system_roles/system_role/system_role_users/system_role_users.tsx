@@ -4,9 +4,9 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Role} from 'mattermost-redux/types/roles';
-import {ServerError} from 'mattermost-redux/types/errors';
-import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from 'mattermost-redux/types/users';
+import {Role} from '@mattermost/types/roles';
+import {ServerError} from '@mattermost/types/errors';
+import {UserProfile, UsersStats, GetFilteredUsersStatsOpts} from '@mattermost/types/users';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -24,7 +24,6 @@ export type Props = {
     role: Role;
     totalCount: number;
     term: string;
-    currentUserId: string;
     usersToRemove: Record<string, UserProfile>;
     usersToAdd: Record<string, UserProfile>;
     onAddCallback: (users: UserProfile[]) => void;
@@ -162,7 +161,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
     }
 
     getRows = () => {
-        const {users, readOnly, usersToAdd, usersToRemove, currentUserId} = this.props;
+        const {users, readOnly, usersToAdd, usersToRemove} = this.props;
         const {startCount, endCount} = this.getPaginationProps();
 
         // Remove users to remove and add users to add
@@ -195,7 +194,7 @@ export default class SystemRoleUsers extends React.PureComponent<Props, State> {
                         <UserGridRemove
                             user={user}
                             removeUser={this.onRemoveCallback}
-                            isDisabled={readOnly || user.id === currentUserId}
+                            isDisabled={readOnly}
                         />
                     ),
                 },

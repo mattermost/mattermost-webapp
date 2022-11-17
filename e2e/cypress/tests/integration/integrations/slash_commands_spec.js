@@ -15,7 +15,6 @@
 */
 
 import {getRandomId} from '../../utils';
-import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Integrations', () => {
     let user1;
@@ -66,10 +65,7 @@ describe('Integrations', () => {
         cy.visit(offTopicUrl1);
 
         // # User 1 Create a private channel, with ${channelName}
-        cy.uiBrowseOrCreateChannel('Create New Channel').click();
-        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
-        cy.get('#newChannelName').should('be.visible').type(privateChannelName);
-        cy.get('#submitNewChannel').click();
+        cy.uiCreateChannel({name: privateChannelName, isPrivate: true});
 
         // # User, who is a member of the channel, try /join command without tilde
         cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
@@ -111,10 +107,7 @@ describe('Integrations', () => {
         cy.visit(offTopicUrl1);
 
         // # User 1 Create a private channel, with ${channelName}
-        cy.uiBrowseOrCreateChannel('Create New Channel').click();
-        cy.get('#private').click().wait(TIMEOUTS.HALF_SEC);
-        cy.get('#newChannelName').should('be.visible').type(privateChannelName);
-        cy.get('#submitNewChannel').click();
+        cy.uiCreateChannel({name: privateChannelName, isPrivate: true});
 
         // # User, who is a member of the channel, try /open command without tilde
         cy.uiGetLhsSection('CHANNELS').findByText('Off-Topic').click();
@@ -222,7 +215,7 @@ describe('Integrations', () => {
         cy.clickPostCommentIcon();
 
         // # Type uppercase letter
-        cy.get('#reply_textbox').type('/C');
+        cy.uiGetReplyTextBox().type('/C');
 
         // # Scan inside of suggestion list
         cy.get('#suggestionList').should('exist').and('be.visible').within(() => {
@@ -231,7 +224,7 @@ describe('Integrations', () => {
         });
 
         // # Hit enter to send the message
-        cy.get('#reply_textbox').type('{enter}');
+        cy.uiGetReplyTextBox().type('{enter}');
 
         cy.get('@postID').then((postID) => {
             cy.get(`#rhsPost_${postID}`).should('be.visible').within(() => {

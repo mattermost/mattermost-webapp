@@ -9,8 +9,10 @@ type Props = {
     children: React.ReactNode | React.ReactNodeArray;
 }
 
-export default function Title(props: Props) {
+const Description = (props: Props) => {
     return (<p className='PreparingWorkspaceDescription'>
         {props.children}
     </p>);
-}
+};
+
+export default Description;

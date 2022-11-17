@@ -6,7 +6,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import GroupTeamsAndChannelsRow from 'components/admin_console/group_settings/group_details/group_teams_and_channels_row';
-import {GroupChannel, GroupTeam} from 'mattermost-redux/types/groups';
+import {GroupChannel, GroupTeam} from '@mattermost/types/groups';
 
 export type Props = {
     id: string;

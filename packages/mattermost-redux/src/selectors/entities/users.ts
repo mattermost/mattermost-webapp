@@ -1,8 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-/* eslint-disable max-lines */
-
 import {createSelector} from 'reselect';
 
 import {
@@ -25,21 +23,24 @@ import {
     includesAnAdminRole,
     profileListToMap,
     sortByUsername,
+    isGuest,
     applyRolesFilters,
 } from 'mattermost-redux/utils/user_utils';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Reaction} from 'mattermost-redux/types/reactions';
-import {GlobalState} from 'mattermost-redux/types/store';
-import {Team, TeamMembership} from 'mattermost-redux/types/teams';
-import {Group} from 'mattermost-redux/types/groups';
-import {UserProfile} from 'mattermost-redux/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {GlobalState} from '@mattermost/types/store';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {Group} from '@mattermost/types/groups';
+import {UserProfile} from '@mattermost/types/users';
 import {
     IDMappedObjects,
     RelationOneToMany,
     RelationOneToManyUnique,
     RelationOneToOne,
-} from 'mattermost-redux/types/utilities';
+} from '@mattermost/types/utilities';
+import {Reaction} from '@mattermost/types/reactions';
+
+import {General} from 'mattermost-redux/constants';
 
 export {getCurrentUser, getCurrentUserId, getUsers};
 
@@ -145,6 +146,15 @@ export const isCurrentUserSystemAdmin: (state: GlobalState) => boolean = createS
     },
 );
 
+export const isCurrentUserGuestUser: (state: GlobalState) => boolean = createSelector(
+    'isCurrentUserGuestUser',
+    getCurrentUser,
+    (user) => {
+        const roles = user?.roles || '';
+        return isGuest(roles);
+    },
+);
+
 export const currentUserHasAnAdminRole: (state: GlobalState) => boolean = createSelector(
     'currentUserHasAnAdminRole',
     getCurrentUser,
@@ -176,7 +186,7 @@ export const getCurrentUserRoles: (a: GlobalState) => UserProfile['roles'] = cre
     },
 );
 
-export type UserMentionKey= {
+export type UserMentionKey = {
     key: string;
     caseSensitive?: boolean;
 }
@@ -254,6 +264,11 @@ export const getProfileSetNotInCurrentTeam: (state: GlobalState) => Array<UserPr
 
 const PROFILE_SET_ALL = 'all';
 function sortAndInjectProfiles(profiles: IDMappedObjects<UserProfile>, profileSet?: 'all' | Array<UserProfile['id']> | Set<UserProfile['id']>): UserProfile[] {
+    const currentProfiles = injectProfiles(profiles, profileSet);
+    return currentProfiles.sort(sortByUsername);
+}
+
+function injectProfiles(profiles: IDMappedObjects<UserProfile>, profileSet?: 'all' | Array<UserProfile['id']> | Set<UserProfile['id']>): UserProfile[] {
     let currentProfiles: UserProfile[] = [];
 
     if (typeof profileSet === 'undefined') {
@@ -264,9 +279,7 @@ function sortAndInjectProfiles(profiles: IDMappedObjects<UserProfile>, profileSe
         currentProfiles = Array.from(profileSet).map((p) => profiles[p]);
     }
 
-    currentProfiles = currentProfiles.filter((profile) => Boolean(profile));
-
-    return currentProfiles.sort(sortByUsername);
+    return currentProfiles.filter((profile) => Boolean(profile));
 }
 
 export const getProfiles: (state: GlobalState, filters?: Filters) => UserProfile[] = createSelector(
@@ -316,6 +329,24 @@ export const getProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] 
     getProfileSetInCurrentChannel,
     (profiles, currentChannelProfileSet) => {
         return sortAndInjectProfiles(profiles, currentChannelProfileSet);
+    },
+);
+
+export const getActiveProfilesInCurrentChannel: (state: GlobalState) => UserProfile[] = createSelector(
+    'getProfilesInCurrentChannel',
+    getUsers,
+    getProfileSetInCurrentChannel,
+    (profiles, currentChannelProfileSet) => {
+        return sortAndInjectProfiles(profiles, currentChannelProfileSet).filter((user) => user.delete_at === 0);
+    },
+);
+
+export const getActiveProfilesInCurrentChannelWithoutSorting: (state: GlobalState) => UserProfile[] = createSelector(
+    'getProfilesInCurrentChannel',
+    getUsers,
+    getProfileSetInCurrentChannel,
+    (profiles, currentChannelProfileSet) => {
+        return injectProfiles(profiles, currentChannelProfileSet).filter((user) => user.delete_at === 0);
     },
 );
 
@@ -455,6 +486,10 @@ export function searchProfilesInCurrentChannel(state: GlobalState, term: string,
     return profiles;
 }
 
+export function searchActiveProfilesInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {
+    return searchProfilesInCurrentChannel(state, term, skipCurrent).filter((user) => user.delete_at === 0);
+}
+
 export function searchProfilesNotInCurrentChannel(state: GlobalState, term: string, skipCurrent = false): UserProfile[] {
     const profiles = filterProfilesStartingWithTerm(getProfilesNotInCurrentChannel(state), term);
     if (skipCurrent) {
@@ -556,6 +591,11 @@ export function makeGetProfilesForReactions(): (state: GlobalState, reactions: R
     );
 }
 
+/**
+ * Returns a selector that returns all profiles in a given channel with the given filters applied.
+ *
+ * Note that filters, if provided, must be either a constant or memoized to prevent constant recomputation of the selector.
+ */
 export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesInChannel',
@@ -576,20 +616,20 @@ export function makeGetProfilesInChannel(): (state: GlobalState, channelId: Chan
     );
 }
 
+/**
+ * Returns a selector that returns all profiles not in a given channel.
+ */
 export function makeGetProfilesNotInChannel(): (state: GlobalState, channelId: Channel['id'], filters?: Filters) => UserProfile[] {
     return createSelector(
         'makeGetProfilesNotInChannel',
         getUsers,
         getUserIdsNotInChannels,
         (state: GlobalState, channelId: string) => channelId,
-        (state, channelId, filters) => filters,
-        (users, userIds, channelId, filters = {}) => {
+        (users, userIds, channelId) => {
             const userIdsInChannel = userIds[channelId];
 
             if (!userIdsInChannel) {
                 return [];
-            } else if (filters) {
-                return sortAndInjectProfiles(filterProfiles(users, filters), userIdsInChannel);
             }
 
             return sortAndInjectProfiles(users, userIdsInChannel);
@@ -692,6 +732,14 @@ export function searchProfilesInGroup(state: GlobalState, groupId: Group['id'], 
     return profiles;
 }
 
+export function getUserLastActivities(state: GlobalState): RelationOneToOne<UserProfile, number> {
+    return state.entities.users.lastActivity;
+}
+
+export function getLastActivityForUserId(state: GlobalState, userId: UserProfile['id']): number {
+    return getUserLastActivities(state)[userId];
+}
+
 export function checkIsFirstAdmin(currentUser: UserProfile, users: IDMappedObjects<UserProfile>): boolean {
     if (!currentUser) {
         return false;
@@ -713,4 +761,46 @@ export const isFirstAdmin = createSelector(
     (state: GlobalState) => getCurrentUser(state),
     (state: GlobalState) => getUsers(state),
     checkIsFirstAdmin,
+);
+
+export const displayLastActiveLabel: (state: GlobalState, userId: string) => boolean = createSelector(
+    'displayLastActiveLabel',
+    (state: GlobalState, userId: string) => getStatusForUserId(state, userId),
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (state: GlobalState, userId: string) => getUser(state, userId),
+    getConfig,
+    (userStatus, timestamp, user, config) => {
+        const currentTime = new Date();
+        const oneMin = 60 * 1000;
+
+        if (
+            (!userStatus || userStatus === General.ONLINE) ||
+            (timestamp && (currentTime.valueOf() - new Date(timestamp).valueOf()) <= oneMin) ||
+            user?.props?.show_last_active === 'false' ||
+            user?.is_bot ||
+            timestamp === 0 ||
+            config.EnableLastActiveTime !== 'true'
+        ) {
+            return false;
+        }
+        return true;
+    },
+);
+
+export const getLastActiveTimestampUnits: (state: GlobalState, userId: string) => string[] = createSelector(
+    'getLastActiveTimestampUnits',
+    (state: GlobalState, userId: string) => getLastActivityForUserId(state, userId),
+    (timestamp) => {
+        const timestampUnits = [
+            'now',
+            'minute',
+            'hour',
+        ];
+        const currentTime = new Date();
+        const twoDaysAgo = 48 * 60 * 60 * 1000;
+        if ((currentTime.valueOf() - new Date(timestamp).valueOf()) < twoDaysAgo) {
+            timestampUnits.push('day');
+        }
+        return timestampUnits;
+    },
 );

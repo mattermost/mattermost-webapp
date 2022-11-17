@@ -14,10 +14,13 @@ type Props = {
     date?: string;
     error?: boolean;
     buttonText?: string;
-    formattedButonText?: JSX.Element;
+    tertiaryBtnText?: string;
+    formattedButtonText?: JSX.Element;
+    formattedTertiaryButonText?: JSX.Element;
     formattedTitle?: JSX.Element;
     formattedSubtitle?: JSX.Element;
     buttonHandler?: () => void;
+    tertiaryButtonHandler?: () => void;
     linkText?: string;
     linkURL?: string;
     footer?: JSX.Element;
@@ -32,10 +35,13 @@ export default function IconMessage(props: Props) {
         date,
         error,
         buttonText,
-        formattedButonText,
+        tertiaryBtnText,
+        formattedButtonText,
+        formattedTertiaryButonText,
         formattedTitle,
         formattedSubtitle,
         buttonHandler,
+        tertiaryButtonHandler,
         linkText,
         linkURL,
         footer,
@@ -43,15 +49,28 @@ export default function IconMessage(props: Props) {
     } = props;
 
     let button = null;
-    if ((buttonText || formattedButonText) && buttonHandler) {
+    if ((buttonText || formattedButtonText) && buttonHandler) {
         button = (
             <div className={classNames('IconMessage-button', error ? 'error' : '')}>
                 <button
-                    id='login_button'
                     className='btn btn-primary Form-btn'
                     onClick={buttonHandler}
                 >
-                    {formattedButonText || <FormattedMessage id={buttonText}/>}
+                    {formattedButtonText || <FormattedMessage id={buttonText}/>}
+                </button>
+            </div>
+        );
+    }
+
+    let tertiaryBtn = null;
+    if ((tertiaryBtnText || formattedTertiaryButonText) && tertiaryButtonHandler) {
+        tertiaryBtn = (
+            <div className={classNames('IconMessage-tertiary-button', error ? 'error' : '')}>
+                <button
+                    className='btn Form-btn'
+                    onClick={tertiaryButtonHandler}
+                >
+                    {formattedTertiaryButonText || <FormattedMessage id={tertiaryBtnText}/>}
                 </button>
             </div>
         );
@@ -73,6 +92,7 @@ export default function IconMessage(props: Props) {
             </div>
         );
     }
+
     return (
         <div
             id='payment_complete_header'
@@ -95,7 +115,10 @@ export default function IconMessage(props: Props) {
                     ) : null}
                     {formattedSubtitle || null}
                 </div>
-                {button}
+                <div className='IconMessage-buttons'>
+                    {tertiaryBtn}
+                    {button}
+                </div>
                 {link}
                 {footer}
             </div>

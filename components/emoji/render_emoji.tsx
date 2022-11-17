@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {useSelector} from 'react-redux';
 
@@ -36,7 +37,7 @@ const RenderEmoji = ({emojiName, emojiStyle, size, onClick}: ComponentProps) => 
             data-emoticon={emojiName}
             style={{
                 backgroundImage: `url(${emojiImageUrl})`,
-                backgroundSize: size,
+                backgroundSize: 'contain',
                 height: size,
                 width: size,
                 maxHeight: size,

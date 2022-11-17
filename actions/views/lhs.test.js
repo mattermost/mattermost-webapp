@@ -1,9 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import configureStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
-
 import {
     toggle,
     open,
@@ -11,7 +8,7 @@ import {
 } from 'actions/views/lhs';
 import {ActionTypes} from 'utils/constants';
 
-const mockStore = configureStore([thunk]);
+import mockStore from 'tests/test_store';
 
 describe('lhs view actions', () => {
     const initialState = {

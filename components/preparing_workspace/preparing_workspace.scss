@@ -53,12 +53,14 @@
 
     .tertiary-button {
         @include tertiary-button;
+        @include button-medium;
 
         margin-left: 16px;
     }
 
     .primary-button {
         @include primary-button;
+        @include button-medium;
     }
 
     .child-page {

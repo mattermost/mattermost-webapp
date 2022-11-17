@@ -7,20 +7,19 @@ import {cloneDeep} from 'lodash';
 
 import {Groups, Permissions} from 'mattermost-redux/constants';
 import {ActionFunc, ActionResult} from 'mattermost-redux/types/actions';
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Scheme} from 'mattermost-redux/types/schemes';
-import {ChannelModerationRoles} from 'mattermost-redux/types/roles';
-import {SyncablePatch, Group, SyncableType} from 'mattermost-redux/types/groups';
-import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from 'mattermost-redux/types/channels';
-import {Team} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {Scheme} from '@mattermost/types/schemes';
+import {SyncablePatch, Group, SyncableType} from '@mattermost/types/groups';
+import {Channel, ChannelModeration as ChannelPermissions, ChannelModerationPatch} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
 
-import {ServerError} from 'mattermost-redux/types/errors';
+import {ServerError} from '@mattermost/types/errors';
 
 import ConfirmModal from 'components/confirm_modal';
 import BlockableLink from 'components/admin_console/blockable_link';
 import FormError from 'components/form_error';
 import Constants from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {NeedGroupsError, UsersWillBeRemovedError} from '../../errors';
@@ -34,6 +33,8 @@ import {ChannelGroups} from './channel_groups';
 import {ChannelProfile} from './channel_profile';
 import ChannelMembers from './channel_members';
 import ChannelModeration from './channel_moderation';
+
+import {ChannelModerationRoles} from './types';
 
 export interface ChannelDetailsProps {
     channelID: string;
@@ -67,8 +68,8 @@ interface ChannelDetailsState {
         };
     };
     saveNeeded: boolean;
-    serverError: JSX.Element | null;
-    previousServerError: JSX.Element | null;
+    serverError: JSX.Element | undefined;
+    previousServerError: JSX.Element | undefined;
     isPrivacyChanging: boolean;
     saving: boolean;
     showConvertConfirmModal: boolean;
@@ -120,8 +121,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             rolesToUpdate: {},
             groups: props.groups,
             saveNeeded: false,
-            serverError: null,
-            previousServerError: null,
+            serverError: undefined,
+            previousServerError: undefined,
             channelPermissions: props.channelPermissions,
             teamScheme: props.teamScheme,
             isLocalArchived: props.channel.delete_at > 0,
@@ -220,7 +221,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     async processGroupsChange(groups: Group[]) {
         const {actions, channelID} = this.props;
         actions.setNavigationBlocked(true);
-        let serverError = null;
+        let serverError: JSX.Element | undefined;
         let usersToRemoveCount = 0;
         if (this.state.isSynced) {
             try {
@@ -366,7 +367,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             this.setState({showConvertAndRemoveConfirmModal: true});
             return;
         }
-        if (isPrivacyChanging && usersToRemoveCount === 0 && serverError === null) {
+        if (isPrivacyChanging && usersToRemoveCount === 0 && !serverError) {
             this.setState({showConvertConfirmModal: true});
             return;
         }
@@ -380,7 +381,7 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
     private handleSubmit = async () => {
         this.setState({showConvertConfirmModal: false, showRemoveConfirmModal: false, showConvertAndRemoveConfirmModal: false, showArchiveConfirmModal: false, saving: true});
         const {groups, isSynced, isPublic, isPrivacyChanging, channelPermissions, usersToAdd, usersToRemove, rolesToUpdate} = this.state;
-        let serverError: JSX.Element | null = null;
+        let serverError: JSX.Element | undefined;
         let saveNeeded = false;
         const {groups: origGroups, channelID, actions, channel} = this.props;
 
@@ -395,18 +396,18 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: false, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
                 actions.setNavigationBlocked(saveNeeded);
                 if (!saveNeeded) {
-                    browserHistory.push('/admin_console/user_management/channels');
+                    getHistory().push('/admin_console/user_management/channels');
                 }
             });
             return;
-        } else if (this.channelToBeRestored() && this.state.serverError === null) {
+        } else if (this.channelToBeRestored() && !this.state.serverError) {
             const result = await actions.unarchiveChannel(channel.id);
             if ('error' in result) {
                 serverError = <FormError error={result.error.message}/>;
             } else {
                 trackEvent('admin_channel_config_page', 'channel_unarchived', {channel_id: channelID});
             }
-            this.setState({serverError, previousServerError: null});
+            this.setState({serverError, previousServerError: undefined});
         }
 
         if (this.state.groups.length === 0 && isSynced) {
@@ -597,8 +598,8 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
 
         this.setState({serverError, saving: false, saveNeeded, isPrivacyChanging: privacyChanging, usersToRemoveCount: 0, rolesToUpdate: {}, usersToAdd: {}, usersToRemove: {}}, () => {
             actions.setNavigationBlocked(saveNeeded);
-            if (!saveNeeded && serverError === null) {
-                browserHistory.push('/admin_console/user_management/channels');
+            if (!saveNeeded && !serverError) {
+                getHistory().push('/admin_console/user_management/channels');
             }
         });
     };
@@ -666,13 +667,13 @@ export default class ChannelDetails extends React.PureComponent<ChannelDetailsPr
             // if the channel is being archived then clear the other server
             // errors, they're no longer relevant.
             newState.previousServerError = serverError;
-            newState.serverError = null;
+            newState.serverError = undefined;
         } else {
             // if the channel is being unarchived (maybe the user had toggled
             // and untoggled) the button, so reinstate any server errors that
             // were present.
             newState.serverError = previousServerError;
-            newState.previousServerError = null;
+            newState.previousServerError = undefined;
         }
         this.props.actions.setNavigationBlocked(true);
         this.setState(newState);

@@ -5,14 +5,15 @@ import React, {useCallback, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import type {ActionResult} from 'mattermost-redux/types/actions';
-import type {Team} from 'mattermost-redux/types/teams';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
+
 import SettingItemMin from 'components/setting_item_min';
-import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+
+import type {Team} from '@mattermost/types/teams';
 
 type Props = {
-    teamId: string;
+    teamId?: string;
     isActive: boolean;
     isGroupConstrained?: boolean;
     allowOpenInvite?: boolean;
@@ -77,9 +78,20 @@ const OpenInvite = (props: Props) => {
         inputs = [
             <div key='userOpenInviteOptions'>
                 <div>
-                    <FormattedMarkdownMessage
+                    <FormattedMessage
                         id='team_settings.openInviteDescription.groupConstrained'
-                        defaultMessage='No, members of this team are added and removed by linked groups. [Learn More](!https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html)'
+                        defaultMessage='No, members of this team are added and removed by linked groups. <link>Learn More</link>'
+                        values={{
+                            link: (msg: React.ReactNode) => (
+                                <a
+                                    href='https://mattermost.com/pl/default-ldap-group-constrained-team-channel.html'
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {msg}
+                                </a>
+                            ),
+                        }}
                     />
                 </div>
             </div>,

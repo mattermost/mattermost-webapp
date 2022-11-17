@@ -13,12 +13,12 @@
 /**
 * Note: This test requires webhook server running. Initiate `npm run start:webhook` to start.
 */
-import * as TIMEOUTS from '../../../fixtures/timeouts';
 
-import {addNewCommand} from './helpers';
+import {addNewCommand, runSlashCommand} from './helpers';
 
 describe('Slash commands page', () => {
     const trigger = 'test-message';
+    let channelUrl;
     let testTeam;
 
     before(() => {
@@ -37,6 +37,7 @@ describe('Slash commands page', () => {
 
             // # Open slash command page
             cy.get('#slashCommands').click();
+            channelUrl = `${testTeam.name}/channels/town-square`;
         });
     });
 
@@ -135,7 +136,7 @@ describe('Slash commands page', () => {
 
     it('MM-T695 Run custom slash command', () => {
         addNewCommand(testTeam, trigger, '');
-        runSlashCommand(testTeam, trigger);
+        runSlashCommand(channelUrl, trigger);
     });
 
     it('MM-T698 Cancel out of edit', () => {
@@ -184,20 +185,6 @@ describe('Slash commands page', () => {
         // * Verify successful update
         cy.findByText('Test Message - Edit').should('exist').and('be.visible');
 
-        runSlashCommand(testTeam, trigger);
+        runSlashCommand(channelUrl, trigger);
     });
 });
-
-function runSlashCommand(team, trigger) {
-    // # Go back to home channel
-    cy.visit(`/${team.name}/channels/town-square`);
-
-    // # Run slash command
-    cy.get('#post_textbox', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').clear().type(`/${trigger}{enter}{enter}`);
-    cy.wait(TIMEOUTS.TWO_SEC);
-
-    // # Get last post message text
-    cy.getLastPostId().then((postId) => {
-        cy.get(`#post_${postId}`).get('.Badge').contains('BOT');
-    });
-}

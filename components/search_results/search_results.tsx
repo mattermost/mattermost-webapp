@@ -5,18 +5,12 @@ import React, {useEffect, useRef, useState} from 'react';
 import {MessageDescriptor, useIntl, FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 import Scrollbars from 'react-custom-scrollbars';
-
 import classNames from 'classnames';
 
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {FileSearchResultItem as FileSearchResultItemType} from 'mattermost-redux/types/files';
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
-import {Post} from 'mattermost-redux/types/posts';
 
 import {getFilesDropdownPluginMenuItems} from 'selectors/plugins';
-
-import * as Utils from 'utils/utils.jsx';
-import {searchHintOptions} from 'utils/constants';
 
 import SearchResultsHeader from 'components/search_results_header';
 import SearchResultsItem from 'components/search_results_item';
@@ -25,21 +19,25 @@ import LoadingSpinner from 'components/widgets/loading/loading_wrapper';
 import NoResultsIndicator from 'components/no_results_indicator/no_results_indicator';
 import FlagIcon from 'components/widgets/icons/flag_icon';
 import FileSearchResultItem from 'components/file_search_results';
-
 import {NoResultsVariant} from 'components/no_results_indicator/types';
+
+import * as Utils from 'utils/utils';
+import {searchHintOptions, DataSearchTypes} from 'utils/constants';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
 import {t} from 'utils/i18n';
 
+import {Post} from '@mattermost/types/posts';
+import {FileSearchResultItem as FileSearchResultItemType} from '@mattermost/types/files';
+
 import MessageOrFileSelector from './messages_or_files_selector';
 import FilesFilterMenu from './files_filter_menu';
-
-import './search_results.scss';
+import SearchLimitsBanner from './search_limits_banner';
 
 import type {Props} from './types';
 
+import './search_results.scss';
+
 const GET_MORE_BUFFER = 30;
-const FILES_SEARCH_TYPE = 'files';
-const MESSAGES_SEARCH_TYPE = 'messages';
 
 const renderView = (props: Record<string, unknown>): JSX.Element => (
     <div
@@ -51,14 +49,21 @@ const renderView = (props: Record<string, unknown>): JSX.Element => (
 const renderThumbHorizontal = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
-        className='scrollbar--horizontal'
+        className='scrollbar--horizontal scrollbar--thumb--RHS'
     />
 );
 
 const renderThumbVertical = (props: Record<string, unknown>): JSX.Element => (
     <div
         {...props}
-        className='scrollbar--vertical'
+        className='scrollbar--vertical scrollbar--thumb--RHS'
+    />
+);
+
+const renderTrackVertical = (props: Record<string, unknown>): JSX.Element => (
+    <div
+        {...props}
+        className='scrollbar--vertical--RHS'
     />
 );
 
@@ -113,7 +118,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             const scrollTop = scrollbars.current?.getScrollTop() || 0;
             const clientHeight = scrollbars.current?.getClientHeight() || 0;
             if ((scrollTop + clientHeight + GET_MORE_BUFFER) >= scrollHeight) {
-                if (searchType === FILES_SEARCH_TYPE) {
+                if (searchType === DataSearchTypes.FILES_SEARCH_TYPE) {
                     loadMoreFiles();
                 } else {
                     loadMorePosts();
@@ -165,7 +170,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
     const noResults = (!results || !Array.isArray(results) || results.length === 0);
     const noFileResults = (!fileResults || !Array.isArray(fileResults) || fileResults.length === 0);
     const isLoading = isSearchingTerm || isSearchingFlaggedPost || isSearchingPinnedPost || !isOpened;
-    const isAtEnd = (searchType === MESSAGES_SEARCH_TYPE && isSearchAtEnd) || (searchType === FILES_SEARCH_TYPE && isSearchFilesAtEnd);
+    const isAtEnd = (searchType === DataSearchTypes.MESSAGES_SEARCH_TYPE && isSearchAtEnd) || (searchType === DataSearchTypes.FILES_SEARCH_TYPE && isSearchFilesAtEnd);
     const showLoadMore = !isAtEnd && !isChannelFiles && !isFlaggedPosts && !isPinnedPosts;
     const isMessagesSearch = (!isFlaggedPosts && !isMentionSearch && !isCard && !isPinnedPosts && !isChannelFiles);
 
@@ -248,7 +253,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case noResults && (searchType === MESSAGES_SEARCH_TYPE && !isChannelFiles):
+    case noResults && (searchType === DataSearchTypes.MESSAGES_SEARCH_TYPE && !isChannelFiles):
         contentItems = (
             <div
                 className={classNames([
@@ -260,7 +265,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
             </div>
         );
         break;
-    case noFileResults && (searchType === FILES_SEARCH_TYPE || isChannelFiles):
+    case noFileResults && (searchType === DataSearchTypes.FILES_SEARCH_TYPE || isChannelFiles):
         contentItems = (
             <div
                 className={classNames([
@@ -273,12 +278,12 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
         );
         break;
     default:
-        if (searchType === FILES_SEARCH_TYPE || isChannelFiles) {
+        if (searchType === DataSearchTypes.FILES_SEARCH_TYPE || isChannelFiles) {
             sortedResults = fileResults;
         }
 
         contentItems = sortedResults.map((item: Post|FileSearchResultItemType, index: number) => {
-            if (searchType === MESSAGES_SEARCH_TYPE && !props.isChannelFiles) {
+            if (searchType === DataSearchTypes.MESSAGES_SEARCH_TYPE && !props.isChannelFiles) {
                 return (
                     <SearchResultsItem
                         key={item.id}
@@ -348,11 +353,13 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     />
                 </div>
             }
+            <SearchLimitsBanner searchType={searchType}/>
             <Scrollbars
                 ref={scrollbars}
                 autoHide={true}
                 autoHideTimeout={500}
                 autoHideDuration={500}
+                renderTrackVertical={renderTrackVertical}
                 renderThumbHorizontal={renderThumbHorizontal}
                 renderThumbVertical={renderThumbVertical}
                 renderView={renderView}
@@ -364,7 +371,7 @@ const SearchResults: React.FC<Props> = (props: Props): JSX.Element => {
                     className={classNames([
                         'search-items-container post-list__table a11y__region',
                         {
-                            'no-results': (noResults && searchType === MESSAGES_SEARCH_TYPE) || (noFileResults && (searchType === FILES_SEARCH_TYPE || isChannelFiles)),
+                            'no-results': (noResults && searchType === DataSearchTypes.MESSAGES_SEARCH_TYPE) || (noFileResults && (searchType === DataSearchTypes.FILES_SEARCH_TYPE || isChannelFiles)),
                             'channel-files-container': isChannelFiles,
                         },
                     ])}

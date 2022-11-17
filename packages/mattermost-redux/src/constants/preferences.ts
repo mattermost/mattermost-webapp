@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Theme, ThemeKey} from 'mattermost-redux/types/themes';
+import {Theme, ThemeKey} from 'mattermost-redux/selectors/entities/preferences';
 
 const Preferences = {
+    APP_BAR: 'app_bar',
     CATEGORY_CHANNEL_OPEN_TIME: 'channel_open_time',
     CATEGORY_CHANNEL_APPROXIMATE_VIEW_TIME: 'channel_approximate_view_time',
     CATEGORY_DIRECT_CHANNEL_SHOW: 'direct_channel_show',
@@ -60,6 +61,19 @@ const Preferences = {
     NAME_DISABLE_CLIENT_PLUGINS: 'disable_client_plugins',
     NAME_DISABLE_TELEMETRY: 'disable_telemetry',
     NAME_DISABLE_TYPING_MESSAGES: 'disable_typing_messages',
+
+    UNREAD_SCROLL_POSITION: 'unread_scroll_position',
+    UNREAD_SCROLL_POSITION_START_FROM_LEFT: 'start_from_left_off',
+    UNREAD_SCROLL_POSITION_START_FROM_NEWEST: 'start_from_newest',
+
+    CATEGORY_INSIGHTS: 'insights',
+    NAME_INSIGHTS_TUTORIAL_STATE: 'insights_tutorial_state',
+    INSIGHTS_VIEWED: 'insights_modal_viewed',
+
+    CATEGORY_UPGRADE_CLOUD: 'upgrade_cloud',
+    SYSTEM_CONSOLE_LIMIT_REACHED: 'system_console_limit_reached',
+
+    NEW_CHANNEL_WITH_BOARD_TOUR_SHOWED: 'channel_with_board_tip_showed',
 
     CATEGORY_THEME: 'theme',
     THEMES: {
@@ -204,6 +218,7 @@ const Preferences = {
             codeTheme: 'monokai',
         },
     } as Record<ThemeKey, Theme>,
+    RECENT_EMOJIS: 'recent_emojis',
 };
 
 export default Preferences;

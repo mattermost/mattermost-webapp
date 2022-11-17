@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import * as UserSelectors from 'mattermost-redux/selectors/entities/users';
 import * as GeneralSelectors from 'mattermost-redux/selectors/entities/general';
 import * as PreferenceSelectors from 'mattermost-redux/selectors/entities/preferences';
@@ -9,7 +10,7 @@ import configureStore from 'store';
 import {makeGetCustomStatus, getRecentCustomStatuses, isCustomStatusEnabled, showStatusDropdownPulsatingDot, showPostHeaderUpdateStatusButton} from 'selectors/views/custom_status';
 
 import {TestHelper} from 'utils/test_helper';
-import {CustomStatusDuration} from 'mattermost-redux/types/users';
+import {CustomStatusDuration} from '@mattermost/types/users';
 
 jest.mock('mattermost-redux/selectors/entities/users');
 jest.mock('mattermost-redux/selectors/entities/general');

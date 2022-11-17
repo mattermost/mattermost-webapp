@@ -1,10 +1,11 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import classNames from 'classnames';
 
-import {CustomStatusDuration, UserCustomStatus} from 'mattermost-redux/types/users';
+import {CustomStatusDuration, UserCustomStatus} from '@mattermost/types/users';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';

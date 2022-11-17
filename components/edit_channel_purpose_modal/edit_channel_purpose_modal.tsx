@@ -5,11 +5,11 @@ import React, {ChangeEvent} from 'react';
 import {Modal} from 'react-bootstrap';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 type Actions = {
     patchChannel: (channelId: string, patch: Partial<Channel>) => Promise<ActionResult>;
@@ -67,7 +67,7 @@ export class EditChannelPurposeModal extends React.PureComponent<Props, State> {
         // listen for line break key combo and insert new line character
         if (Utils.isUnhandledLineBreakKeyCombo(e)) {
             e.preventDefault();
-            this.setState({purpose: Utils.insertLineBreakFromKeyEvent(e)});
+            this.setState({purpose: Utils.insertLineBreakFromKeyEvent(e as React.KeyboardEvent<HTMLTextAreaElement>)});
         } else if (ctrlSend && Utils.isKeyPressed(e, Constants.KeyCodes.ENTER) && e.ctrlKey) {
             e.preventDefault();
             this.handleSave();

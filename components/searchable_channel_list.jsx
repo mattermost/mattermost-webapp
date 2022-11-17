@@ -1,19 +1,21 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import PropTypes from 'prop-types';
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
+
 import LoadingScreen from 'components/loading_screen';
 import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 import QuickInput from 'components/quick_input';
 import * as UserAgent from 'utils/user_agent';
-import {localizeMessage} from 'utils/utils.jsx';
+import {localizeMessage} from 'utils/utils';
 import LocalizedInput from 'components/localized_input/localized_input';
 
-import ArchiveIcon from 'components/widgets/icons/archive_icon';
 import SharedChannelIndicator from 'components/shared_channel_indicator';
 
 import {t} from 'utils/i18n';
@@ -68,9 +70,10 @@ export default class SearchableChannelList extends React.PureComponent {
 
         if (shouldShowArchivedChannels) {
             archiveIcon = (
-                <div className='more-modal__icon-container'>
-                    <ArchiveIcon className='icon icon__archive'/>
-                </div>
+                <ArchiveOutlineIcon
+                    size={20}
+                    color={'currentColor'}
+                />
             );
         }
 
@@ -279,7 +282,6 @@ export default class SearchableChannelList extends React.PureComponent {
                 {channelDropdown}
                 <div
                     role='application'
-                    ref='channelList'
                     className='more-modal__list'
                 >
                     <div
@@ -317,4 +319,3 @@ SearchableChannelList.propTypes = {
     shouldShowArchivedChannels: PropTypes.bool.isRequired,
     canShowArchivedChannels: PropTypes.bool.isRequired,
 };
-/* eslint-enable react/no-string-refs */

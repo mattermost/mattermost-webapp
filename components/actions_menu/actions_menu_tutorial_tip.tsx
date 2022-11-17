@@ -1,11 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback} from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import FormattedMarkdownMessage from 'components/formatted_markdown_message.jsx';
-import TourTip, {useMeasurePunchouts} from 'components/widgets/tour_tip';
+import {TourTip} from '@mattermost/components';
 
 const translate = {x: 6, y: -16};
 
@@ -16,49 +15,55 @@ type Props = {
     showTip: boolean;
 }
 
+const title = (
+    <FormattedMessage
+        id='post_info.actions.tutorialTip.title'
+        defaultMessage='Actions for messages'
+    />
+);
+const screen = (
+    <FormattedMessage
+        id='post_info.actions.tutorialTip'
+        defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
+    />
+);
+const nextBtn = (
+    <FormattedMessage
+        id={'tutorial_tip.got_it'}
+        defaultMessage={'Got it'}
+    />
+);
+
 export const ActionsTutorialTip = ({handleOpen, handleDismiss, handleNext, showTip}: Props) => {
-    const title = (
-        <FormattedMessage
-            id='post_info.actions.tutorialTip.title'
-            defaultMessage='Actions for messages'
-        />
-    );
-    const screen = (
-        <FormattedMarkdownMessage
-            id='post_info.actions.tutorialTip'
-            defaultMessage='Message actions that are provided\nthrough apps, integrations or plugins\nhave moved to this menu item.'
-        />
-    );
+    const onDismiss = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleDismiss();
+    }, [handleDismiss]);
 
-    const overlayPunchOut = useMeasurePunchouts([], []);
-
-    const nextBtn = (): JSX.Element => {
-        return (
-            <FormattedMessage
-                id={'tutorial_tip.got_it'}
-                defaultMessage={'Got it'}
-            />
-        );
-    };
+    const onNext = useCallback((e: React.MouseEvent) => {
+        e.stopPropagation();
+        e.preventDefault();
+        handleNext(e);
+    }, [handleNext]);
 
     return (
         <TourTip
             show={showTip}
-            onHidden={handleDismiss}
             screen={screen}
             title={title}
-            overlayPunchOut={overlayPunchOut}
+            overlayPunchOut={null}
             placement='top'
             pulsatingDotPlacement='left'
             pulsatingDotTranslate={translate}
             step={1}
             singleTip={true}
-            showOptOut={true}
+            showOptOut={false}
             interactivePunchOut={true}
-            handleDismiss={handleDismiss}
-            handleNext={handleNext}
+            handleDismiss={onDismiss}
+            handleNext={onNext}
             handleOpen={handleOpen}
-            nextBtn={nextBtn()}
+            nextBtn={nextBtn}
         />
     );
 };

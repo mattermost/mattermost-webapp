@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {mount} from 'enzyme';
 import React from 'react';
 
-import configureStore from 'redux-mock-store';
 import {Provider} from 'react-redux';
 
 import * as CustomStatusSelectors from 'selectors/views/custom_status';
+
+import mockStore from 'tests/test_store';
 
 import CustomStatusEmoji from './custom_status_emoji';
 
@@ -14,7 +16,6 @@ jest.mock('selectors/views/custom_status');
 jest.mock('selectors/general');
 
 describe('components/custom_status/custom_status_emoji', () => {
-    const mockStore = configureStore();
     const store = mockStore({});
 
     const getCustomStatus = () => {

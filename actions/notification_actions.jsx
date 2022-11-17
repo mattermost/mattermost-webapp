@@ -10,16 +10,16 @@ import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {getTeammateNameDisplaySetting, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentUserId, getCurrentUser, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
-import {isSystemMessage} from 'mattermost-redux/utils/post_utils';
+import {isSystemMessage, isUserAddedInChannel} from 'mattermost-redux/utils/post_utils';
 import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import {isThreadOpen} from 'selectors/views/threads';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import Constants, {NotificationLevels, UserStatuses} from 'utils/constants';
 import {showNotification} from 'utils/notifications';
 import {isDesktopApp, isMobileApp} from 'utils/user_agent';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import {t} from 'utils/i18n';
 import {stripMarkdown} from 'utils/markdown';
 
@@ -34,7 +34,7 @@ export function sendDesktopNotification(post, msgProps) {
             return;
         }
 
-        if (isSystemMessage(post)) {
+        if (isSystemMessage(post) && !isUserAddedInChannel(post, currentUserId)) {
             return;
         }
 
@@ -226,7 +226,7 @@ const notifyMe = (title, body, channel, teamId, silent, soundName, url) => (disp
             silent,
             onClick: () => {
                 window.focus();
-                browserHistory.push(url);
+                getHistory().push(url);
             },
         }).catch((error) => {
             dispatch(logError(error));

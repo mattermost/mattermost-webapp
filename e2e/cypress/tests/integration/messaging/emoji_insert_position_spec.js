@@ -20,10 +20,10 @@ describe('Messaging', () => {
 
     it('MM-T95 Selecting an emoji from emoji picker should insert it at the cursor position', () => {
         // # Write some text in the send box.
-        cy.get('#post_textbox').type('HelloWorld!');
+        cy.uiGetPostTextBox().type('HelloWorld!');
 
         // # Move the cursor to the middle of the text.
-        cy.get('#post_textbox').type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
+        cy.uiGetPostTextBox().type('{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}{leftarrow}');
 
         // # Open emoji picker
         cy.uiOpenEmojiPicker();
@@ -32,8 +32,8 @@ describe('Messaging', () => {
         cy.clickEmojiInEmojiPicker('grinning');
 
         // * The emoji should be inserted where the cursor is at the time of selection.
-        cy.get('#post_textbox').should('have.value', 'Hello :grinning: World!');
-        cy.get('#post_textbox').type('{enter}');
+        cy.uiGetPostTextBox().should('have.value', 'Hello :grinning: World!');
+        cy.uiGetPostTextBox().type('{enter}');
 
         // * The emoji should be displayed in the post at the position inserted.
         cy.getLastPost().find('p').should('have.html', `Hello <span data-emoticon="grinning"><span alt=":grinning:" class="emoticon" title=":grinning:" style="background-image: url(&quot;${Cypress.config('baseUrl')}/static/emoji/1f600.png&quot;);">:grinning:</span></span> World!`);

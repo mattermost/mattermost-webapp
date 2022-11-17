@@ -83,10 +83,27 @@ describe('Channel Info RHS', () => {
         cy.get('#channel-info-btn').click();
 
         // * RHS Container shoud exist
-        cy.get('#rhsContainer').then((rhsContainer) => {
-            cy.wrap(rhsContainer).findByText('Info').should('be.visible');
-            cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
-        });
+        ensureRHSIsOpenOnChannelInfo(testChannel);
+    });
+
+    it('MM-44435 - should be able to open RHS, visit the system console and come back without issues -- KNOWN ISSUE: MM-47226', () => {
+        // # Go to test channel
+        cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+        // # Click on the channel info button
+        cy.get('#channel-info-btn').click();
+
+        // * RHS Container shoud exist
+        ensureRHSIsOpenOnChannelInfo(testChannel);
+
+        // # visit the system console...
+        cy.uiOpenProductMenu('System Console');
+
+        // # ...and leave it
+        cy.get('.backstage-navbar__back').click();
+
+        // * RHS Container shoud exist again
+        ensureRHSIsOpenOnChannelInfo(testChannel);
     });
 
     describe('regular channel', () => {
@@ -215,6 +232,72 @@ describe('Channel Info RHS', () => {
 
                 // * Ensures the modal is there
                 cy.get('.settings-modal').should('be.visible');
+            });
+            it('should be able to view files and come back', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                // # Click on "Files"
+                cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Files').should('be.visible').click();
+
+                // * Ensure we see the files RHS
+                cy.uiGetRHS().findByText('No files yet').should('be.visible');
+
+                // # Click the Back Icon
+                cy.uiGetRHS().get('[aria-label="Back Icon"]').click();
+
+                // * Make sure we are back in the channel info rhs
+                ensureRHSIsOpenOnChannelInfo(testChannel);
+            });
+            it('should be able to view pinned message and come back', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Go to test channel
+                cy.uiPostMessageQuickly('Hello channel info rhs spec').then(() => {
+                    cy.getNthPostId(-1).then((postId) => {
+                        cy.clickPostDotMenu(postId);
+                        cy.get(`#pin_post_${postId}`).click();
+                    });
+                });
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                // # Click on "Pinned Messages"
+                cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Pinned Messages').should('be.visible').click();
+
+                // * Ensure we see the Pinned Post RHS
+                cy.uiGetRHS().findByText('Hello channel info rhs spec').should('be.visible');
+
+                // # Click the Back Icon
+                cy.uiGetRHS().get('[aria-label="Back Icon"]').click();
+
+                // * Make sure we are back in the channel info rhs
+                ensureRHSIsOpenOnChannelInfo(testChannel);
+            });
+            it('should be able to view channel members and come back', () => {
+                // # Go to test channel
+                cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
+
+                // # Click on the channel info button
+                cy.get('#channel-info-btn').click();
+
+                // # Click on "Members"
+                cy.uiGetRHS().findByTestId('channel_info_rhs-menu').findByText('Members').should('be.visible').click();
+
+                // * Ensure we see the members
+                cy.uiGetRHS().contains('sysadmin').should('be.visible');
+                cy.uiGetRHS().contains(`${admin.username}`).should('be.visible');
+
+                // # Click the Back Icon
+                cy.uiGetRHS().get('[aria-label="Back Icon"]').click();
+
+                // * Make sure we are back in the channel info rhs
+                ensureRHSIsOpenOnChannelInfo(testChannel);
             });
         });
     });
@@ -393,3 +476,10 @@ describe('Channel Info RHS', () => {
         });
     });
 });
+
+function ensureRHSIsOpenOnChannelInfo(testChannel) {
+    cy.get('#rhsContainer').then((rhsContainer) => {
+        cy.wrap(rhsContainer).findByText('Info').should('be.visible');
+        cy.wrap(rhsContainer).findByText(testChannel.display_name).should('be.visible');
+    });
+}

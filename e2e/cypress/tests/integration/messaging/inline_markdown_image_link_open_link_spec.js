@@ -20,14 +20,6 @@ describe('Messaging', () => {
     });
 
     it('MM-T188 - Inline markdown image that is a link, opens the link', () => {
-        // * Open settings modal - Advanced section
-        cy.uiOpenSettingsModal('Advanced').within(() => {
-            // # Click on the 'Advanced Preview Features Edit' button and check the 'Show markdown preview option in message input box' and save
-            cy.get('#advancedPreviewFeaturesEdit').should('be.visible').click();
-            cy.get('#advancedPreviewFeaturesmarkdown_preview').check();
-            cy.uiSaveAndClose();
-        });
-
         const linkUrl = 'https://www.google.com';
         const imageUrl = 'https://docs.mattermost.com/_images/icon-76x76.png';
         const label = 'Build Status';

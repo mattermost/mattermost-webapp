@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import {ClientLicense, ClientConfig, WarnMetricStatus} from 'mattermost-redux/types/config';
+import {ClientLicense, ClientConfig, WarnMetricStatus} from '@mattermost/types/config';
 import withGetCloudSubscription from '../common/hocs/cloud/with_get_cloud_subscription';
 
 import ConfigurationAnnouncementBar from './configuration_bar';
@@ -11,10 +11,13 @@ import VersionBar from './version_bar';
 import TextDismissableBar from './text_dismissable_bar';
 import AnnouncementBar from './default_announcement_bar';
 
-import CloudAnnouncementBar from './cloud_announcement_bar';
 import PaymentAnnouncementBar from './payment_announcement_bar';
 import CloudTrialAnnouncementBar from './cloud_trial_announcement_bar';
+import CloudTrialEndAnnouncementBar from './cloud_trial_ended_announcement_bar';
 import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal';
+import CloudDelinquencyAnnouncementBar from './cloud_delinquency';
+import ShowThreeDaysLeftTrialModal from './show_tree_days_left_trial_modal/show_three_days_left_trial_modal';
+import NotifyAdminDowngradeDelinquencyBar from './notify_admin_downgrade_delinquency_bar';
 
 type Props = {
     license?: ClientLicense;
@@ -31,7 +34,6 @@ type Props = {
         dismissError: (index: number) => void;
         getCloudSubscription: () => void;
         getCloudCustomer: () => void;
-        getSubscriptionStats: () => void;
     };
 };
 
@@ -60,18 +62,27 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 />
             );
         }
-        let cloudAnnouncementBar = null;
+
         let paymentAnnouncementBar = null;
         let cloudTrialAnnouncementBar = null;
+        let cloudTrialEndAnnouncementBar = null;
+        let cloudDelinquencyAnnouncementBar = null;
+        let notifyAdminDowngradeDelinquencyBar = null;
         if (this.props.license?.Cloud === 'true') {
-            cloudAnnouncementBar = (
-                <CloudAnnouncementBar/>
-            );
             paymentAnnouncementBar = (
                 <PaymentAnnouncementBar/>
             );
             cloudTrialAnnouncementBar = (
                 <CloudTrialAnnouncementBar/>
+            );
+            cloudTrialEndAnnouncementBar = (
+                <CloudTrialEndAnnouncementBar/>
+            );
+            cloudDelinquencyAnnouncementBar = (
+                <CloudDelinquencyAnnouncementBar/>
+            );
+            notifyAdminDowngradeDelinquencyBar = (
+                <NotifyAdminDowngradeDelinquencyBar/>
             );
         }
 
@@ -79,10 +90,13 @@ class AnnouncementBarController extends React.PureComponent<Props> {
             <>
                 {adminConfiguredAnnouncementBar}
                 {errorBar}
-                {cloudAnnouncementBar}
                 {paymentAnnouncementBar}
                 {cloudTrialAnnouncementBar}
+                {cloudTrialEndAnnouncementBar}
+                {cloudDelinquencyAnnouncementBar}
+                {notifyAdminDowngradeDelinquencyBar}
                 <AutoStartTrialModal/>
+                <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>
                 <ConfigurationAnnouncementBar
                     config={this.props.config}

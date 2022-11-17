@@ -7,7 +7,7 @@ import {FormattedMessage} from 'react-intl';
 import {SearchFilterType} from '../search/types';
 import {SearchType} from 'types/store/rhs';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 import Constants from 'utils/constants';
 
 import FilesFilterMenu from './files_filter_menu';

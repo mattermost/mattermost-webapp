@@ -1,8 +1,9 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {shallow} from 'enzyme';
 
-import Constants from 'utils/constants.jsx';
+import Constants from 'utils/constants';
 
 import messageHtmlToComponent from 'utils/message_html_to_component';
 import * as TextFormatting from 'utils/text_formatting';

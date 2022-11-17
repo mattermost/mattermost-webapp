@@ -8,9 +8,9 @@ import {useDispatch, useSelector} from 'react-redux';
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
 import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/channel_categories';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
-import {ChannelCategory} from 'mattermost-redux/types/channel_categories';
+import {ChannelCategory} from '@mattermost/types/channel_categories';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {addChannelsInSidebar} from 'actions/views/channel_sidebar';
@@ -82,11 +82,20 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     }
 
     const categoryMenuItems = filteredCategories.map((category: ChannelCategory) => {
+        let text = category.display_name;
+
+        if (category.type === CategoryTypes.FAVORITES) {
+            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.favorites', defaultMessage: 'Favorites'});
+        }
+        if (category.type === CategoryTypes.CHANNELS) {
+            text = intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.channels', defaultMessage: 'Channels'});
+        }
+
         return {
             id: `moveToCategory-${channel.id}-${category.id}`,
             icon: category.type === CategoryTypes.FAVORITES ? (<i className='icon-star-outline'/>) : (<i className='icon-folder-outline'/>),
             direction: 'right' as any,
-            text: category.display_name,
+            text,
             action: () => moveToCategory(category.id),
         } as any;
     });
@@ -94,7 +103,7 @@ const CategoryMenuItems = (props: Props): JSX.Element | null => {
     categoryMenuItems.push(
         {
             id: 'ChannelMenu-moveToDivider',
-            text: (<li className='MenuGroup menu-divider'/>),
+            text: (<span className='MenuGroup menu-divider'/>),
         },
         {
             id: `moveToNewCategory-${channel.id}`,

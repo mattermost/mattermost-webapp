@@ -4,7 +4,7 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import configureStore from 'store';
 

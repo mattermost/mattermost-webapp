@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import UpgradeLink from './upgrade_link';
 
@@ -22,8 +23,6 @@ jest.mock('actions/telemetry_actions.jsx', () => {
 });
 
 describe('components/widgets/links/UpgradeLink', () => {
-    const mockStore = configureStore();
-
     const mockDispatch = jest.fn();
     jest.mock('react-redux', () => ({
         useDispatch: () => mockDispatch,

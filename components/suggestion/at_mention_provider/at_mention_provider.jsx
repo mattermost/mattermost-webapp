@@ -8,9 +8,9 @@ import {makeAddLastViewAtToProfiles} from 'mattermost-redux/selectors/entities/u
 import store from 'stores/redux_store';
 import {Constants} from 'utils/constants';
 
-import Provider from '../provider.jsx';
+import Provider from '../provider';
 
-import AtMentionSuggestion from './at_mention_suggestion.jsx';
+import AtMentionSuggestion from './at_mention_suggestion';
 
 const profilesInChannelOptions = {active: true};
 const regexForAtMention = /(?:^|\W)@([\p{L}\d\-_. ]*)$/iu;
@@ -99,6 +99,11 @@ export default class AtMentionProvider extends Provider {
         return groupSuggestions;
     }
 
+    // normalizeString performs a unicode normalization to a string
+    normalizeString(name) {
+        return name.normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+    }
+
     // filterProfile constrains profiles to those matching the latest prefix.
     filterProfile(profile) {
         if (!profile) {
@@ -107,7 +112,9 @@ export default class AtMentionProvider extends Provider {
 
         const prefixLower = this.latestPrefix.toLowerCase();
         const profileSuggestions = this.getProfileSuggestions(profile);
-        return profileSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
+        return profileSuggestions.some((suggestion) =>
+            this.normalizeString(suggestion).startsWith(this.normalizeString(prefixLower)),
+        );
     }
 
     // filterGroup constrains group mentions to those matching the latest prefix.

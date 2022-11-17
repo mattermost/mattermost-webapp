@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @messaging
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -26,8 +25,8 @@ describe('Messaging', () => {
     it('MM-T209 Input box on reply thread can expand', () => {
         const maxReplyCount = 15;
         const halfViewportHeight = Cypress.config('viewportHeight') / 2;
-        const padding = 10;
-        const postCreateContainerDefaultHeight = 190;
+        const padding = 8;
+        const postCreateContainerDefaultHeight = 188;
         const replyTextBoxDefaultHeight = 100;
         const postCreateContainerClassName = 'post-create__container';
         const replyTextBoxId = 'reply_textbox';

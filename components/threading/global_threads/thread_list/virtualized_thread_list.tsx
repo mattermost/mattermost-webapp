@@ -6,7 +6,7 @@ import AutoSizer from 'react-virtualized-auto-sizer';
 import InfiniteLoader from 'react-window-infinite-loader';
 import {FixedSizeList} from 'react-window';
 
-import {UserThread} from 'mattermost-redux/types/threads';
+import {UserThread} from '@mattermost/types/threads';
 
 import {Constants} from 'utils/constants';
 

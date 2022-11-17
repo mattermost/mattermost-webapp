@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 export default {
     CONFIG_CHANGED: 'config_changed',
     SERVER_VERSION_CHANGED: 'server_version_changed',
@@ -13,7 +14,6 @@ export default {
     JOBS_CHUNK_SIZE: 50,
     SEARCH_TIMEOUT_MILLISECONDS: 100,
     STATUS_INTERVAL: 60000,
-    AUTOCOMPLETE_LIMIT_DEFAULT: 25,
     AUTOCOMPLETE_SPLIT_CHARACTERS: ['.', '-', '_'],
     OUT_OF_OFFICE: 'ooo',
     OFFLINE: 'offline',
@@ -51,10 +51,10 @@ export default {
     RESTRICT_DIRECT_MESSAGE_TEAM: 'team',
     SWITCH_TO_DEFAULT_CHANNEL: 'switch_to_default_channel',
     DEFAULT_CHANNEL: 'town-square',
-    DM_CHANNEL: 'D',
-    OPEN_CHANNEL: 'O',
-    PRIVATE_CHANNEL: 'P',
-    GM_CHANNEL: 'G',
+    DM_CHANNEL: 'D' as const,
+    OPEN_CHANNEL: 'O' as const,
+    PRIVATE_CHANNEL: 'P' as const,
+    GM_CHANNEL: 'G' as const,
     ARCHIVED_CHANNEL: 'archive',
     PUSH_NOTIFY_APPLE_REACT_NATIVE: 'apple_rn',
     PUSH_NOTIFY_ANDROID_REACT_NATIVE: 'android_rn',

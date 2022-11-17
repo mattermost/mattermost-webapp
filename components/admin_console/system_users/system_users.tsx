@@ -9,9 +9,9 @@ import {Permissions} from 'mattermost-redux/constants';
 
 import {ActionFunc} from 'mattermost-redux/types/actions';
 
-import {Team} from 'mattermost-redux/types/teams';
+import {Team} from '@mattermost/types/teams';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {getStandardAnalytics} from 'actions/admin_actions';
 import {Constants, UserSearchOptions, SearchUserTeamFilter, UserFilters} from 'utils/constants';

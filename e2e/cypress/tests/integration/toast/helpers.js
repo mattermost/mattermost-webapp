@@ -40,3 +40,10 @@ export function scrollUp() {
         scrollTo(0, '70%', {duration: TIMEOUTS.ONE_SEC}).
         wait(TIMEOUTS.ONE_SEC);
 }
+
+export function scrollToTop() {
+    // # Scroll up so bottom is not visible
+    cy.get('div.post-list__dynamic').should('be.visible').
+        scrollTo(0, 0, {duration: TIMEOUTS.ONE_SEC}).
+        wait(TIMEOUTS.ONE_SEC);
+}

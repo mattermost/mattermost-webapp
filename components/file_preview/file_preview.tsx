@@ -1,15 +1,16 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
 
 import React, {ReactNode} from 'react';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import FilenameOverlay from 'components/file_attachment/filename_overlay';
 import Constants, {FileTypes} from 'utils/constants';
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import FileProgressPreview from './file_progress_preview';
 
@@ -134,10 +135,7 @@ export default class FilePreview extends React.PureComponent<Props> {
         }
 
         return (
-            <div
-                className='file-preview__container'
-                ref='container'
-            >
+            <div className='file-preview__container'>
                 {previews}
             </div>
         );

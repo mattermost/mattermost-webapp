@@ -4,6 +4,7 @@
 import fs from 'fs';
 
 import assert from 'assert';
+
 import nock from 'nock';
 
 import * as Actions from 'mattermost-redux/actions/users';
@@ -12,6 +13,7 @@ import {RequestStatus} from '../constants';
 import TestHelper from 'mattermost-redux/test/test_helper';
 import configureStore from 'mattermost-redux/test/test_store';
 import deepFreeze from 'mattermost-redux/utils/deep_freeze';
+import {UserTypes} from 'mattermost-redux/action_types';
 
 const OK_RESPONSE = {status: 'OK'};
 
@@ -32,6 +34,13 @@ describe('Actions.Users', () => {
                 },
             },
         });
+
+        Client4.setUserId('');
+        Client4.setUserRoles('');
+    });
+
+    afterEach(() => {
+        nock.cleanAll();
     });
 
     afterAll(() => {
@@ -53,71 +62,6 @@ describe('Actions.Users', () => {
         assert.ok(profiles[user.id]);
     });
 
-    it('login', async () => {
-        const user = TestHelper.basicUser;
-
-        nock(Client4.getBaseRoute()).
-            post('/users/logout').
-            reply(200, OK_RESPONSE);
-
-        await TestHelper.basicClient4.logout();
-
-        TestHelper.mockLogin();
-
-        await Actions.login(user.email, user.password)(store.dispatch, store.getState);
-
-        const state = store.getState();
-        const loginRequest = state.requests.users.login;
-        const {currentUserId, profiles} = state.entities.users;
-        const preferences = state.entities.preferences.myPreferences;
-        const teamMembers = state.entities.teams.myMembers;
-        const serverVersion = state.entities.general.serverVersion;
-
-        if (loginRequest.status === RequestStatus.FAILURE) {
-            throw new Error(JSON.stringify(loginRequest.error));
-        }
-
-        assert.ok(currentUserId);
-        assert.ok(profiles);
-        assert.ok(profiles[currentUserId]);
-        assert.ok(Object.keys(preferences).length);
-        assert.ok(serverVersion);
-
-        Object.keys(teamMembers).forEach((id) => {
-            assert.ok(teamMembers[id].team_id);
-            assert.equal(teamMembers[id].user_id, currentUserId);
-        });
-    });
-
-    it('loginById', async () => {
-        const user = TestHelper.basicUser;
-
-        nock(Client4.getBaseRoute()).
-            post('/users/logout').
-            reply(200, OK_RESPONSE);
-
-        await TestHelper.basicClient4.logout();
-
-        TestHelper.mockLogin();
-
-        await Actions.loginById(user.id, 'password1')(store.dispatch, store.getState);
-
-        const state = store.getState();
-        const {currentUserId, profiles} = state.entities.users;
-        const preferences = state.entities.preferences.myPreferences;
-        const teamMembers = state.entities.teams.myMembers;
-
-        assert.ok(currentUserId);
-        assert.ok(profiles);
-        assert.ok(profiles[currentUserId]);
-        assert.ok(Object.keys(preferences).length);
-
-        Object.keys(teamMembers).forEach((id) => {
-            assert.ok(teamMembers[id].team_id);
-            assert.equal(teamMembers[id].user_id, currentUserId);
-        });
-    });
-
     it('getTermsOfService', async () => {
         const response = {
             create_at: 1537976679426,
@@ -136,13 +80,15 @@ describe('Actions.Users', () => {
     });
 
     it('updateMyTermsOfServiceStatus accept terms', async () => {
-        const user = TestHelper.basicUser;
         nock(Client4.getBaseRoute()).
             post('/users').
             reply(201, {...TestHelper.fakeUserWithId()});
 
         TestHelper.mockLogin();
-        await Actions.login(user.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/users/me/terms_of_service').
@@ -160,13 +106,15 @@ describe('Actions.Users', () => {
     });
 
     it('updateMyTermsOfServiceStatus reject terms', async () => {
-        const user = TestHelper.basicUser;
         nock(Client4.getBaseRoute()).
             post('/users').
             reply(201, {...TestHelper.fakeUserWithId()});
 
         TestHelper.mockLogin();
-        await Actions.login(user.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/users/me/terms_of_service').
@@ -651,7 +599,10 @@ describe('Actions.Users', () => {
         assert.strictEqual(sessions.length, 0);
 
         TestHelper.mockLogin();
-        await Actions.loginById(user.id, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/users/login').
@@ -704,7 +655,10 @@ describe('Actions.Users', () => {
         assert.strictEqual(sessions.length, 0);
 
         TestHelper.mockLogin();
-        await Actions.loginById(user.id, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         nock(Client4.getBaseRoute()).
             post('/users/login').
@@ -838,7 +792,10 @@ describe('Actions.Users', () => {
 
     it('updateMe', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, TestHelper.basicUser.password)(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const state = store.getState();
         const currentUser = state.entities.users.profiles[state.entities.users.currentUserId];
@@ -886,7 +843,10 @@ describe('Actions.Users', () => {
 
     it('patchUser', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, TestHelper.basicUser.password)(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const state = store.getState();
         const currentUserId = state.entities.users.currentUserId;
@@ -931,7 +891,10 @@ describe('Actions.Users', () => {
 
     it('updateUserRoles', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -949,7 +912,10 @@ describe('Actions.Users', () => {
 
     it('updateUserMfa', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -967,7 +933,10 @@ describe('Actions.Users', () => {
 
     it('updateUserPassword', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const beforeTime = new Date().getTime();
         const currentUserId = store.getState().entities.users.currentUserId;
@@ -983,25 +952,6 @@ describe('Actions.Users', () => {
 
         assert.ok(currentUser);
         assert.ok(currentUser.last_password_update_at > beforeTime);
-    });
-
-    it('checkMfa', async () => {
-        const user = TestHelper.basicUser;
-
-        nock(Client4.getBaseRoute()).
-            post('/users/mfa').
-            reply(200, {mfa_required: false});
-
-        const {data: mfaRequired} = await Actions.checkMfa(user.email)(store.dispatch, store.getState);
-
-        const state = store.getState();
-        const mfaRequest = state.requests.users.checkMfa;
-
-        if (mfaRequest.status === RequestStatus.FAILURE) {
-            throw new Error(JSON.stringify(mfaRequest.error));
-        }
-
-        assert.ok(!mfaRequired);
     });
 
     it('generateMfaSecret', async () => {
@@ -1078,7 +1028,10 @@ describe('Actions.Users', () => {
 
     it('uploadProfileImage', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const testImageData = fs.createReadStream('packages/mattermost-redux/test/assets/images/test.png');
 
@@ -1100,7 +1053,10 @@ describe('Actions.Users', () => {
 
     it('setDefaultProfileImage', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1164,7 +1120,10 @@ describe('Actions.Users', () => {
     it('createUserAccessToken', (done) => {
         async function test() {
             TestHelper.mockLogin();
-            await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+            store.dispatch({
+                type: UserTypes.LOGIN_SUCCESS,
+            });
+            await Actions.loadMeREST()(store.dispatch, store.getState);
 
             const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1192,7 +1151,10 @@ describe('Actions.Users', () => {
 
     it('getUserAccessToken', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1225,7 +1187,10 @@ describe('Actions.Users', () => {
 
     it('getUserAccessTokens', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1259,7 +1224,10 @@ describe('Actions.Users', () => {
 
     it('getUserAccessTokensForUser', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1293,7 +1261,10 @@ describe('Actions.Users', () => {
 
     it('revokeUserAccessToken', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1338,7 +1309,10 @@ describe('Actions.Users', () => {
 
     it('disableUserAccessToken', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1390,7 +1364,10 @@ describe('Actions.Users', () => {
 
     it('enableUserAccessToken', async () => {
         TestHelper.mockLogin();
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1441,7 +1418,11 @@ describe('Actions.Users', () => {
     });
 
     it('clearUserAccessTokens', async () => {
-        await Actions.login(TestHelper.basicUser.email, 'password1')(store.dispatch, store.getState);
+        TestHelper.mockLogin();
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
 
         const currentUserId = store.getState().entities.users.currentUserId;
 
@@ -1518,5 +1499,40 @@ describe('Actions.Users', () => {
             const profiles = store.getState().entities.users.profiles;
             expect(profiles).toBe(originalState.entities.users.profiles);
         });
+    });
+
+    test('loadMeREST should set Client4\'s user_id and user_roles', async () => {
+        TestHelper.mockLogin();
+        store.dispatch({
+            type: UserTypes.LOGIN_SUCCESS,
+        });
+        await Actions.loadMeREST()(store.dispatch, store.getState);
+
+        expect(Client4.userId).toEqual(TestHelper.basicUser.id);
+        expect(Client4.userRoles).toEqual(TestHelper.basicUser.roles);
+    });
+
+    test('loadMe should set Client4\'s user_id and user_roles', async () => {
+        store = configureStore({});
+
+        nock(Client4.getGraphQLUrl()).
+            post('').
+            reply(200, {
+                data: {
+                    config: null,
+                    license: null,
+                    user: {
+                        id: TestHelper.basicUser.id,
+                        roles: TestHelper.basicUser.roles.split(' ').map((r) => ({name: r})),
+                        preferences: [],
+                    },
+                    teamMembers: [],
+                },
+            });
+
+        await Actions.loadMe()(store.dispatch, store.getState);
+
+        expect(Client4.userId).toEqual(TestHelper.basicUser.id);
+        expect(Client4.userRoles).toEqual(TestHelper.basicUser.roles);
     });
 });

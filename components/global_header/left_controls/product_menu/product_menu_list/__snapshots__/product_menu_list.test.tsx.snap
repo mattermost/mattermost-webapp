@@ -5,17 +5,12 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
   <div
     onClick={[Function]}
   >
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "sysconsole_write_billing",
-        ]
-      }
-    >
-      <MenuCloudTrial
-        id="menuCloudTrial"
-      />
-    </Connect(SystemPermissionGate)>
+    <MenuCloudTrial
+      id="menuCloudTrial"
+    />
+    <MenuItemCloudLimit
+      id="menuItemCloudLimit"
+    />
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -83,6 +78,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
           "sysconsole_read_experimental_features",
           "sysconsole_read_experimental_feature_flags",
           "sysconsole_read_experimental_bleve",
+          "sysconsole_read_products_boards",
         ]
       }
     >
@@ -130,6 +126,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
           "type": [Function],
         }
       }
+      disabled={false}
       icon={
         <Icon
           glyph="account-multiple-outline"
@@ -139,6 +136,7 @@ exports[`components/global/product_switcher_menu should match snapshot with id 1
       id="userGroups"
       modalId="user_groups"
       show={false}
+      sibling={false}
       text="User Groups"
     />
     <Connect(TeamPermissionGate)
@@ -213,17 +211,12 @@ exports[`components/global/product_switcher_menu should match snapshot with most
   <div
     onClick={[Function]}
   >
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "sysconsole_write_billing",
-        ]
-      }
-    >
-      <MenuCloudTrial
-        id="menuCloudTrial"
-      />
-    </Connect(SystemPermissionGate)>
+    <MenuCloudTrial
+      id="menuCloudTrial"
+    />
+    <MenuItemCloudLimit
+      id="menuItemCloudLimit"
+    />
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -291,6 +284,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
           "sysconsole_read_experimental_features",
           "sysconsole_read_experimental_feature_flags",
           "sysconsole_read_experimental_bleve",
+          "sysconsole_read_products_boards",
         ]
       }
     >
@@ -338,6 +332,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
           "type": [Function],
         }
       }
+      disabled={false}
       icon={
         <Icon
           glyph="account-multiple-outline"
@@ -347,6 +342,7 @@ exports[`components/global/product_switcher_menu should match snapshot with most
       id="userGroups"
       modalId="user_groups"
       show={false}
+      sibling={false}
       text="User Groups"
     />
     <Connect(TeamPermissionGate)
@@ -416,6 +412,125 @@ exports[`components/global/product_switcher_menu should match snapshot with most
 </MenuGroup>
 `;
 
+exports[`components/global/product_switcher_menu should match userGroups snapshot with EnableCustomGroups config 1`] = `
+<MenuItemToggleModalRedux
+  dialogProps={
+    Object {
+      "backButtonAction": [Function],
+    }
+  }
+  dialogType={
+    Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(UserGroupsModal)",
+      "type": [Function],
+    }
+  }
+  disabled={false}
+  icon={
+    <Icon
+      glyph="account-multiple-outline"
+      size={16}
+    />
+  }
+  id="userGroups"
+  modalId="user_groups"
+  show={true}
+  sibling={false}
+  text="User Groups"
+/>
+`;
+
+exports[`components/global/product_switcher_menu should match userGroups snapshot with cloud free 1`] = `
+<MenuItemToggleModalRedux
+  dialogProps={
+    Object {
+      "backButtonAction": [Function],
+    }
+  }
+  dialogType={
+    Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(UserGroupsModal)",
+      "type": [Function],
+    }
+  }
+  disabled={true}
+  icon={
+    <Icon
+      glyph="account-multiple-outline"
+      size={16}
+    />
+  }
+  id="userGroups"
+  modalId="user_groups"
+  show={true}
+  sibling={
+    <RestrictedIndicator
+      blocked={true}
+      feature="mattermost.feature.custom_user_groups"
+      messageAdminPostTrial="User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups."
+      messageAdminPreTrial="Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
+      messageEndUser="User groups are a way to organize users and apply actions to all users within that group."
+      minimumPlanRequiredForFeature="professional"
+      titleAdminPostTrial="Upgrade to create unlimited user groups"
+      titleAdminPreTrial="Try unlimited user groups with a free trial"
+      titleEndUser="User groups available in paid plans"
+      tooltipMessage="During your trial you are able to create user groups. These user groups will be archived after your trial."
+    />
+  }
+  text="User Groups"
+/>
+`;
+
+exports[`components/global/product_switcher_menu should match userGroups snapshot with cloud free trial 1`] = `
+<MenuItemToggleModalRedux
+  dialogProps={
+    Object {
+      "backButtonAction": [Function],
+    }
+  }
+  dialogType={
+    Object {
+      "$$typeof": Symbol(react.memo),
+      "WrappedComponent": [Function],
+      "compare": null,
+      "displayName": "Connect(UserGroupsModal)",
+      "type": [Function],
+    }
+  }
+  disabled={false}
+  icon={
+    <Icon
+      glyph="account-multiple-outline"
+      size={16}
+    />
+  }
+  id="userGroups"
+  modalId="user_groups"
+  show={true}
+  sibling={
+    <RestrictedIndicator
+      blocked={false}
+      feature="mattermost.feature.custom_user_groups"
+      messageAdminPostTrial="User groups are a way to organize users and apply actions to all users within that group. Upgrade to the Professional plan to create unlimited user groups."
+      messageAdminPreTrial="Create unlimited user groups with one of our paid plans. Get the full experience of Enterprise when you start a free, 30 day trial."
+      messageEndUser="User groups are a way to organize users and apply actions to all users within that group."
+      minimumPlanRequiredForFeature="professional"
+      titleAdminPostTrial="Upgrade to create unlimited user groups"
+      titleAdminPreTrial="Try unlimited user groups with a free trial"
+      titleEndUser="User groups available in paid plans"
+      tooltipMessage="During your trial you are able to create user groups. These user groups will be archived after your trial."
+    />
+  }
+  text="User Groups"
+/>
+`;
+
 exports[`components/global/product_switcher_menu should show integrations should show integrations modal 1`] = `
 <Fragment>
   <li
@@ -425,17 +540,12 @@ exports[`components/global/product_switcher_menu should show integrations should
   <div
     onClick={[Function]}
   >
-    <Connect(SystemPermissionGate)
-      permissions={
-        Array [
-          "sysconsole_write_billing",
-        ]
-      }
-    >
-      <MenuCloudTrial
-        id="menuCloudTrial"
-      />
-    </Connect(SystemPermissionGate)>
+    <MenuCloudTrial
+      id="menuCloudTrial"
+    />
+    <MenuItemCloudLimit
+      id="menuItemCloudLimit"
+    />
     <Connect(SystemPermissionGate)
       permissions={
         Array [
@@ -503,6 +613,7 @@ exports[`components/global/product_switcher_menu should show integrations should
           "sysconsole_read_experimental_features",
           "sysconsole_read_experimental_feature_flags",
           "sysconsole_read_experimental_bleve",
+          "sysconsole_read_products_boards",
         ]
       }
     >
@@ -550,6 +661,7 @@ exports[`components/global/product_switcher_menu should show integrations should
           "type": [Function],
         }
       }
+      disabled={false}
       icon={
         <Icon
           glyph="account-multiple-outline"
@@ -559,6 +671,7 @@ exports[`components/global/product_switcher_menu should show integrations should
       id="userGroups"
       modalId="user_groups"
       show={false}
+      sibling={false}
       text="User Groups"
     />
     <Connect(TeamPermissionGate)

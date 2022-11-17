@@ -1,23 +1,24 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import {Preferences} from 'mattermost-redux/constants';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
+import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
 
 import {AdvancedSections} from 'utils/constants';
-import {PreferenceType} from 'mattermost-redux/types/preferences';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 
 type Props = {
     activeSection?: string;
     currentUserId: string;
     joinLeave?: string;
     onUpdateSection: (section?: string) => void;
-    renderOnOffLabel: (label: string) => string;
+    renderOnOffLabel: (label: string) => ReactNode;
     actions: {
         savePreferences: (userId: string, preferences: PreferenceType[]) => void;
     };
@@ -124,7 +125,7 @@ export default class JoinLeaveSection extends React.PureComponent<Props, State> 
                     setting={AdvancedSections.JOIN_LEAVE}
                     submit={this.handleSubmit}
                     saving={this.state.isSaving}
-                    server_error={this.state.serverError}
+                    serverError={this.state.serverError}
                     updateSection={this.handleUpdateSection}
                 />
             );

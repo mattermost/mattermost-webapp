@@ -62,7 +62,7 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @  and user name
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.username}`);
+        cy.uiGetPostTextBox().clear().type(`@${testUser.username}`);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').should('be.visible').within(() => {
@@ -72,7 +72,7 @@ describe('autocomplete', () => {
 
         // # Post user mention
         cy.uiPostMessageQuickly(`@${testUser.username} `);
-        cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
+        cy.uiWaitUntilMessagePostedIncludes(testUser.username);
 
         // # Check that the user name has been posted
         cy.getLastPostId().then((postId) => {
@@ -84,7 +84,7 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @ and user nickname
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.nickname}`);
+        cy.uiGetPostTextBox().clear().type(`@${testUser.nickname}`);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
@@ -93,8 +93,8 @@ describe('autocomplete', () => {
         });
 
         // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
+        cy.uiGetPostTextBox().type('{enter}{enter}');
+        cy.uiWaitUntilMessagePostedIncludes(testUser.username);
 
         // # Check that the user name has been posted
         cy.getLastPostId().then((postId) => {
@@ -106,7 +106,7 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @  and user first names
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.first_name}`);
+        cy.uiGetPostTextBox().clear().type(`@${testUser.first_name}`);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').within(() => {
@@ -115,8 +115,8 @@ describe('autocomplete', () => {
         });
 
         // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${testUser.username}`);
+        cy.uiGetPostTextBox().type('{enter}{enter}');
+        cy.uiWaitUntilMessagePostedIncludes(testUser.username);
 
         // # Check that the user name has been posted
         cy.getLastPostId().then((postId) => {
@@ -128,7 +128,7 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Clear then type @ and user email
-        cy.get('#post_textbox').should('be.visible').clear().type(`@${testUser.email}`);
+        cy.uiGetPostTextBox().clear().type(`@${testUser.email}`);
 
         // * Verify that the item is displayed or not as expected.
         cy.get('#suggestionList').should('not.exist');
@@ -140,16 +140,16 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
         // # Clear then type @
-        cy.get('#post_textbox').should('be.visible').clear().type('@');
+        cy.uiGetPostTextBox().clear().type('@');
 
         // * Verify that the suggestion list is visible
         cy.get('#suggestionList').should('be.visible');
 
         // # Type user name
-        cy.get('#post_textbox').type(`${notInChannelUser.username}`);
+        cy.uiGetPostTextBox().type(notInChannelUser.username);
 
         // # Post user mention
-        cy.get('#post_textbox').type('{enter}{enter}');
+        cy.uiGetPostTextBox().type('{enter}{enter}');
         cy.uiWaitUntilMessagePostedIncludes('They will have access to all message history.');
         cy.getLastPostId().then((postId) => {
             // * Verify that the correct system message is displayed or not
@@ -178,16 +178,16 @@ describe('autocomplete', () => {
                 cy.visit(`/${testTeam.name}/channels/${testChannel.name}`);
 
                 // # Clear then type @
-                cy.get('#post_textbox').should('be.visible').clear().type('@');
+                cy.uiGetPostTextBox().clear().type('@');
 
                 // * Verify that the suggestion list is visible
                 cy.get('#suggestionList').should('be.visible');
 
                 // # Type user name
-                cy.get('#post_textbox').type(`${tempUser.username}`);
+                cy.uiGetPostTextBox().type(tempUser.username);
 
                 // # Post user name mention
-                cy.get('#post_textbox').type('{enter}{enter}');
+                cy.uiGetPostTextBox().type('{enter}{enter}');
                 cy.uiWaitUntilMessagePostedIncludes('They will have access to all message history.');
 
                 // * Verify that the correct system message is displayed
@@ -239,17 +239,17 @@ describe('autocomplete', () => {
             cy.visit(`/${testTeam.name}/channels/${gmChannel.name}`);
 
             // # Clear then type @
-            cy.get('#post_textbox').should('be.visible').clear().type('@');
+            cy.uiGetPostTextBox().clear().type('@');
 
             // * Verify that the suggestion list is visible
             cy.get('#suggestionList').should('be.visible');
 
             // # Type user name
-            cy.get('#post_textbox').type(`${notInChannelUser.username}`);
+            cy.uiGetPostTextBox().type(notInChannelUser.username);
 
             // # Post user name mention
-            cy.get('#post_textbox').type('{enter}{enter}');
-            cy.uiWaitUntilMessagePostedIncludes(`${notInChannelUser.username}`);
+            cy.uiGetPostTextBox().type('{enter}{enter}');
+            cy.uiWaitUntilMessagePostedIncludes(notInChannelUser.username);
 
             // # Check that the user name has been posted
             cy.getLastPostId().then((postId) => {
@@ -269,15 +269,15 @@ describe('autocomplete', () => {
             cy.visit(`/${testTeam.name}/channels/${testUser.id}__${otherUser.id}`);
 
             // # Clear then type @
-            cy.get('#post_textbox').should('be.visible').clear().type('@');
+            cy.uiGetPostTextBox().clear().type('@');
 
             // * Verify that the suggestion list is visible
             cy.get('#suggestionList').should('be.visible');
 
             // # Type user name
-            cy.get('#post_textbox').type(`${notInChannelUser.username}`);
-            cy.get('#post_textbox').type('{enter}{enter}');
-            cy.uiWaitUntilMessagePostedIncludes(`${notInChannelUser.username}`);
+            cy.uiGetPostTextBox().type(notInChannelUser.username);
+            cy.uiGetPostTextBox().type('{enter}{enter}');
+            cy.uiWaitUntilMessagePostedIncludes(notInChannelUser.username);
 
             cy.getLastPostId().then((postId) => {
                 // * Verify that the correct system message is displayed or not
@@ -296,8 +296,8 @@ describe('autocomplete', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Type input suffixed with '.'
-        cy.get('#post_textbox').clear().type(`@${sysadmin.username}.`).type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${sysadmin.username}`);
+        cy.uiGetPostTextBox().clear().type(`@${sysadmin.username}.`).type('{enter}{enter}');
+        cy.uiWaitUntilMessagePostedIncludes(sysadmin.username);
 
         cy.getLastPostId().then((postId) => {
             // # Check that the user name has been posted
@@ -308,8 +308,8 @@ describe('autocomplete', () => {
         });
 
         // # Type input suffixed with '_'
-        cy.get('#post_textbox').clear().type(`@${sysadmin.username}_`).type('{enter}{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${sysadmin.username}`);
+        cy.uiGetPostTextBox().clear().type(`@${sysadmin.username}_`).type('{enter}{enter}');
+        cy.uiWaitUntilMessagePostedIncludes(sysadmin.username);
 
         cy.getLastPostId().then((postId) => {
             // # Check that the user name has been posted
@@ -335,8 +335,8 @@ describe('autocomplete', () => {
             });
         });
 
-        cy.get('#post_textbox').type('{enter}');
-        cy.uiWaitUntilMessagePostedIncludes(`${otherUser.username}`);
+        cy.uiGetPostTextBox().type('{enter}');
+        cy.uiWaitUntilMessagePostedIncludes(otherUser.username);
 
         // # Check that the @ mention of username has been posted
         cy.getLastPostId().then((postId) => {

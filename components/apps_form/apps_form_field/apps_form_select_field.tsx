@@ -9,7 +9,7 @@ import ReactSelect from 'react-select';
 import {Tooltip} from 'react-bootstrap';
 import {FormattedMessage} from 'react-intl';
 
-import {AppField, AppSelectOption} from 'mattermost-redux/types/apps';
+import {AppField, AppSelectOption} from '@mattermost/types/apps';
 import {AppFieldTypes} from 'mattermost-redux/constants/apps';
 
 import Constants from 'utils/constants.jsx';
@@ -190,9 +190,11 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
         return (
             <div className='form-group'>
-                <label>
-                    {label}
-                </label>
+                {label && (
+                    <label>
+                        {label}
+                    </label>
+                )}
                 <React.Fragment key={this.state.refreshNonce}>
                     {selectComponent}
                     <div className='help-text'>

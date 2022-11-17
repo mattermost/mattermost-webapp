@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 import {Dispatch, bindActionCreators, ActionCreatorsMapObject} from 'redux';
 
-import {favoriteChannel, unfavoriteChannel, markChannelAsRead} from 'mattermost-redux/actions/channels';
+import {favoriteChannel, unfavoriteChannel, markChannelAsRead, markMostRecentPostInChannelAsUnread} from 'mattermost-redux/actions/channels';
 import Permissions from 'mattermost-redux/constants/permissions';
 import {isFavoriteChannel} from 'mattermost-redux/selectors/entities/channels';
 import {getMyChannelMemberships, getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
@@ -12,7 +12,7 @@ import {getCategoryInTeamWithChannel} from 'mattermost-redux/selectors/entities/
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeam} from 'mattermost-redux/selectors/entities/teams';
 import {Action} from 'mattermost-redux/types/actions';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 import {isChannelMuted} from 'mattermost-redux/utils/channel_utils';
 
 import {unmuteChannel, muteChannel} from 'actions/channel_actions';
@@ -67,6 +67,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
 type Actions = {
     markChannelAsRead: (channelId: string) => void;
+    markMostRecentPostInChannelAsUnread: (channelId: string) => void;
     favoriteChannel: (channelId: string) => void;
     unfavoriteChannel: (channelId: string) => void;
     muteChannel: (userId: string, channelId: string) => void;
@@ -79,6 +80,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
     return {
         actions: bindActionCreators<ActionCreatorsMapObject<Action>, Actions>({
             markChannelAsRead,
+            markMostRecentPostInChannelAsUnread,
             favoriteChannel,
             unfavoriteChannel,
             muteChannel,

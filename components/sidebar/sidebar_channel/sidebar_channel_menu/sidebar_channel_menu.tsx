@@ -4,7 +4,7 @@
 import React from 'react';
 import {IntlShape, injectIntl} from 'react-intl';
 
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -34,6 +34,7 @@ type Props = {
     isMenuOpen: boolean;
     onToggleMenu: (isMenuOpen: boolean) => void;
     actions: {
+        markMostRecentPostInChannelAsUnread: (channelId: string) => void;
         markChannelAsRead: (channelId: string) => void;
         favoriteChannel: (channelId: string) => void;
         unfavoriteChannel: (channelId: string) => void;
@@ -63,6 +64,11 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
     markAsRead = () => {
         this.props.actions.markChannelAsRead(this.props.channel.id);
         trackEvent('ui', 'ui_sidebar_channel_menu_markAsRead');
+    }
+
+    markAsUnread = () => {
+        this.props.actions.markMostRecentPostInChannelAsUnread(this.props.channel.id);
+        trackEvent('ui', 'ui_sidebar_channel_menu_markAsUnread');
     }
 
     favoriteChannel = () => {
@@ -124,6 +130,18 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                     onClick={this.markAsRead}
                     icon={<i className='icon-mark-as-unread'/>}
                     text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsRead', defaultMessage: 'Mark as Read'})}
+                />
+            );
+        }
+
+        let markAsUnread;
+        if (!isUnread) {
+            markAsUnread = (
+                <Menu.ItemAction
+                    id={`markAsUnread-${channel.id}`}
+                    onClick={this.markAsUnread}
+                    icon={<i className='icon-mark-as-unread'/>}
+                    text={intl.formatMessage({id: 'sidebar_left.sidebar_channel_menu.markAsUnread', defaultMessage: 'Mark as Unread'})}
                 />
             );
         }
@@ -216,6 +234,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
                         onClick={this.handleLeaveChannel}
                         icon={<i className='icon-close'/>}
                         text={leaveChannelText}
+                        isDangerous={!(channel.type === Constants.DM_CHANNEL || channel.type === Constants.GM_CHANNEL)}
                     />
                 </Menu.Group>
             );
@@ -225,6 +244,7 @@ export class SidebarChannelMenu extends React.PureComponent<Props, State> {
             <React.Fragment>
                 <Menu.Group>
                     {markAsRead}
+                    {markAsUnread}
                     {favorite}
                     {muteChannel}
                 </Menu.Group>

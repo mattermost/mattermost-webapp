@@ -7,16 +7,15 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @enterprise @not_cloud @extend_session
 
 import {verifyExtendedSession, verifyNotExtendedSession} from './helpers';
 
 describe('Extended Session Length', () => {
-    const sessionLengthInDays = 1;
+    const sessionLengthInHours = 1;
     const setting = {
         ServiceSettings: {
-            SessionLengthWebInDays: sessionLengthInDays,
+            SessionLengthWebInHours: sessionLengthInHours,
         },
     };
     let emailUser;
@@ -46,7 +45,7 @@ describe('Extended Session Length', () => {
         cy.apiUpdateConfig(setting);
 
         cy.apiLogin(emailUser);
-        verifyExtendedSession(emailUser, sessionLengthInDays, offTopicUrl);
+        verifyExtendedSession(emailUser, sessionLengthInHours, offTopicUrl);
     });
 
     it('MM-T4045_2 Email user session should not extend even with user activity when disabled', () => {

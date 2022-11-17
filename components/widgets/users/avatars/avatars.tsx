@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, ComponentProps, CSSProperties, useMemo, useEffect} from 'react';
+import React, {memo, ComponentProps, CSSProperties, useMemo, useEffect, useRef} from 'react';
 import {useIntl} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
 import tinycolor from 'tinycolor2';
 
-import {UserProfile} from 'mattermost-redux/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import {getUser as selectUser, makeDisplayNameGetter} from 'mattermost-redux/selectors/entities/users';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getMissingProfilesByIds} from 'mattermost-redux/actions/users';
@@ -19,7 +19,7 @@ import {imageURLForUser} from 'utils/utils';
 import SimpleTooltip, {useSynchronizedImmediate} from 'components/widgets/simple_tooltip';
 import Avatar from 'components/widgets/users/avatar';
 import ProfilePopover from 'components/profile_popover';
-import OverlayTrigger from 'components/overlay_trigger';
+import OverlayTrigger, {BaseOverlayTrigger} from 'components/overlay_trigger';
 
 import './avatars.scss';
 
@@ -29,7 +29,12 @@ type Props = {
     breakAt?: number;
     size?: ComponentProps<typeof Avatar>['size'];
     fetchMissingUsers?: boolean;
+    disableProfileOverlay?: boolean;
 };
+
+interface MMOverlayTrigger extends BaseOverlayTrigger {
+    hide: () => void;
+}
 
 const OTHERS_DISPLAY_LIMIT = 99;
 
@@ -53,26 +58,37 @@ const displayNameGetter = makeDisplayNameGetter();
 function UserAvatar({
     userId,
     overlayProps,
+    disableProfileOverlay,
     ...props
 }: {
     userId: UserProfile['id'];
     overlayProps: Partial<ComponentProps<typeof SimpleTooltip>>;
+    disableProfileOverlay: boolean;
 } & ComponentProps<typeof Avatar>) {
     const user = useSelector((state: GlobalState) => selectUser(state, userId)) as UserProfile | undefined;
     const name = useSelector((state: GlobalState) => displayNameGetter(state, true)(user));
 
     const profilePictureURL = userId ? imageURLForUser(userId) : '';
 
+    const overlay = useRef<MMOverlayTrigger>(null);
+
+    const hideProfilePopover = () => {
+        overlay.current?.hide();
+    };
+
     return (
         <OverlayTrigger
             trigger='click'
+            disabled={disableProfileOverlay}
             placement='right'
             rootClose={true}
+            ref={overlay}
             overlay={
                 <ProfilePopover
                     className='user-profile-popover'
                     userId={userId}
                     src={profilePictureURL}
+                    hide={hideProfilePopover}
                 />
             }
         >
@@ -101,6 +117,7 @@ function Avatars({
     userIds,
     totalUsers,
     fetchMissingUsers = true,
+    disableProfileOverlay = false,
 }: Props) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
@@ -134,6 +151,7 @@ function Avatars({
                     size={size}
                     tabIndex={0}
                     overlayProps={overlayProps}
+                    disableProfileOverlay={disableProfileOverlay}
                 />
             ))}
             {Boolean(nonDisplayCount) && (

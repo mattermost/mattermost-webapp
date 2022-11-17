@@ -8,19 +8,21 @@ import {Dropdown, Tooltip} from 'react-bootstrap';
 import {RootCloseWrapper} from 'react-overlays';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {Theme} from 'mattermost-redux/types/themes';
-import {AppBinding} from 'mattermost-redux/types/apps';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+import {AppBinding} from '@mattermost/types/apps';
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
 import {HandleBindingClick, OpenAppsModal, PostEphemeralCallResponseForChannel} from 'types/apps';
 
 import HeaderIconWrapper from 'components/channel_header/components/header_icon_wrapper';
 import PluginChannelHeaderIcon from 'components/widgets/icons/plugin_channel_header_icon';
-import {Constants} from 'utils/constants';
 import OverlayTrigger from 'components/overlay_trigger';
+
 import {PluginComponent} from 'types/store/plugins';
+
 import {createCallContext} from 'utils/apps';
+import {Constants} from 'utils/constants';
 
 type CustomMenuProps = {
     open?: boolean;
@@ -100,9 +102,10 @@ type ChannelHeaderPlugProps = {
     appBindings?: AppBinding[];
     appsEnabled: boolean;
     channel: Channel;
-    channelMember: ChannelMembership;
+    channelMember?: ChannelMembership;
     theme: Theme;
     sidebarOpen: boolean;
+    shouldShowAppBar: boolean;
     actions: {
         handleBindingClick: HandleBindingClick;
         postEphemeralCallResponseForChannel: PostEphemeralCallResponseForChannel;
@@ -147,7 +150,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         this.toggleDropdown(false);
     }
 
-    fireAction = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+    fireAction = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
         if (this.disableButtonsClosingRHS) {
             return;
         }
@@ -155,7 +158,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
         action(this.props.channel, this.props.channelMember);
     }
 
-    fireActionAndClose = (action: (channel: Channel, channelMember: ChannelMembership) => void) => {
+    fireActionAndClose = (action: (channel: Channel, channelMember?: ChannelMembership) => void) => {
         action(this.props.channel, this.props.channelMember);
         this.onClose();
     }
@@ -170,6 +173,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
                 buttonId={plug.id}
                 tooltipKey={'plugin'}
                 tooltipText={plug.tooltipText ? plug.tooltipText : plug.dropdownText}
+                pluginId={plug.pluginId}
             />
         );
     }
@@ -339,7 +343,7 @@ class ChannelHeaderPlug extends React.PureComponent<ChannelHeaderPlugProps, Chan
     render() {
         const components = this.props.components || [];
         const appBindings = this.props.appsEnabled ? this.props.appBindings || [] : [];
-        if (components.length === 0 && appBindings.length === 0) {
+        if (this.props.shouldShowAppBar || (components.length === 0 && appBindings.length === 0)) {
             return null;
         } else if ((components.length + appBindings.length) <= 15) {
             let componentButtons = components.filter((plug) => plug.icon && plug.action).map(this.createComponentButton);

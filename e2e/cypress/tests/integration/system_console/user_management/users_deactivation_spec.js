@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)
 // - [*] indicates an assertion (e.g. * Check the title)
@@ -94,8 +95,9 @@ describe('System Console > User Management > Deactivation', () => {
             cy.findByRole('dialog', {name: 'Direct Messages'}).should('be.visible').wait(TIMEOUTS.ONE_SEC);
 
             // # Start typing part of a username that matches previously created users
-            cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-                type(other.username).wait(TIMEOUTS.ONE_SEC);
+            cy.findByRole('textbox', {name: 'Search for people'}).
+                typeWithForce(other.username).
+                wait(TIMEOUTS.ONE_SEC);
 
             // * Verify user is marked as deactivated
             cy.get('#displayedUserName' + other.username).parent().contains('Deactivated');
@@ -125,14 +127,15 @@ describe('System Console > User Management > Deactivation', () => {
                 cy.uiAddDirectMessage().click().wait(TIMEOUTS.HALF_SEC);
 
                 // # Type the user name of user1 on Channel switcher input
-                cy.findByRole('textbox', {name: 'Search for people'}).click({force: true}).
-                    type(user1.username).wait(TIMEOUTS.ONE_SEC);
+                cy.findByRole('textbox', {name: 'Search for people'}).
+                    typeWithForce(user1.username).
+                    wait(TIMEOUTS.ONE_SEC);
 
                 // # Click on the user
                 cy.get('#displayedUserName' + user1.username).click();
 
                 // # Type the user name of user2 on Channel switcher input
-                cy.get('.more-direct-channels #selectItems').type(user2.username).wait(TIMEOUTS.HALF_SEC);
+                cy.get('.more-direct-channels #selectItems input').typeWithForce(user2.username).wait(TIMEOUTS.HALF_SEC);
 
                 // * Confirm user2 can't be added to the DM
                 cy.get('#displayedUserName' + user2.username).should('be.visible');

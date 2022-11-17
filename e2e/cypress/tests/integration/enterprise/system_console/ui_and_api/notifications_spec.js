@@ -115,7 +115,7 @@ describe('System Console', () => {
         const tests = [
             {name: 'Support Email cannot be empty', field: 'SupportSettings.SupportEmail'},
             {name: 'Notification Display Name cannot be empty', field: 'EmailSettings.FeedbackName'},
-            {name: 'Notification Email Address cannot be empty', field: 'EmailSettings.FeedbackEmail'},
+            {name: 'Notification Email Address cannot be empty', field: 'SupportSettings.SupportEmail'},
         ];
 
         tests.forEach((test) => {

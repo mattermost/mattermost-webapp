@@ -3,11 +3,13 @@
 
 import React from 'react';
 import {mount} from 'enzyme';
+import 'jest-styled-components';
+
+import {AppBinding} from '@mattermost/types/apps';
 
 import {PluginComponent} from 'types/store/plugins';
 import {GlobalState} from 'types/store';
 
-import {AppBinding} from 'mattermost-redux/types/apps';
 import {AppBindingLocations} from 'mattermost-redux/constants/apps';
 
 import AppBar from './app_bar';
@@ -19,6 +21,15 @@ jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux') as typeof import('react-redux'),
     useSelector: (selector: (state: typeof mockState) => unknown) => selector(mockState),
     useDispatch: () => mockDispatch,
+}));
+
+jest.mock('react-router-dom', () => ({
+    ...jest.requireActual('react-router-dom') as typeof import('react-router-dom'),
+    useLocation: () => {
+        return {
+            pathname: '',
+        };
+    },
 }));
 
 describe('components/app_bar/app_bar', () => {
@@ -35,6 +46,7 @@ describe('components/app_bar/app_bar', () => {
                 components: {
                     AppBar: channelHeaderComponents,
                     RightHandSidebarComponent: rhsComponents,
+                    Product: [],
                 } as {[componentName: string]: PluginComponent[]},
             },
             entities: {
@@ -42,10 +54,11 @@ describe('components/app_bar/app_bar', () => {
                     main: {
                         bindings: channelHeaderAppBindings,
                     } as {bindings: AppBinding[]},
+                    pluginEnabled: true,
                 },
                 general: {
                     config: {
-                        FeatureFlagAppBarEnabled: 'true',
+                        EnableAppBar: 'true',
                         FeatureFlagAppsEnabled: 'true',
                     } as any,
                 },
@@ -105,6 +118,16 @@ describe('components/app_bar/app_bar', () => {
     ] as AppBinding[];
 
     test('should match snapshot on mount', async () => {
+        const wrapper = mount(
+            <AppBar/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot on mount when App Bar is disabled', async () => {
+        mockState.entities.general.config.EnableAppBar = 'false';
+
         const wrapper = mount(
             <AppBar/>,
         );

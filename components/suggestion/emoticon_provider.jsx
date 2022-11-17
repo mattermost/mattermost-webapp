@@ -3,18 +3,20 @@
 
 import React from 'react';
 
+import {Preferences} from 'utils/constants';
+
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
 import {getEmojiImageUrl} from 'mattermost-redux/utils/emoji_utils';
 
-import {getEmojiMap, getRecentEmojis} from 'selectors/emojis';
+import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
 import store from 'stores/redux_store.jsx';
 
 import * as Emoticons from 'utils/emoticons';
-import {compareEmojis} from 'utils/emoji_utils';
+import {compareEmojis, emojiMatchesSkin} from 'utils/emoji_utils';
 
 import Suggestion from './suggestion.jsx';
-import Provider from './provider.jsx';
+import Provider from './provider';
 
 export const MIN_EMOTICON_LENGTH = 2;
 export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];
@@ -112,7 +114,7 @@ export default class EmoticonProvider extends Provider {
         const state = store.getState();
         const skintone = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
         const emojiMap = getEmojiMap(state);
-        const recentEmojis = getRecentEmojis(state);
+        const recentEmojis = getRecentEmojisNames(state);
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {
@@ -124,13 +126,11 @@ export default class EmoticonProvider extends Provider {
                 // This is a system emoji so it may have multiple names
                 for (const alias of emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
-                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ?
-                            recentMatched :
-                            matched;
+                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ? recentMatched : matched;
 
                         // if the emoji has skin, only add those that match with the user selected skin.
-                        if (Emoticons.emojiMatchesSkin(emoji, skintone)) {
-                            matchedArray.push({name: alias, emoji});
+                        if (emojiMatchesSkin(emoji, skintone)) {
+                            matchedArray.push({name: alias, emoji, type: Preferences.CATEGORY_EMOJI});
                         }
                         break;
                     }
@@ -142,11 +142,9 @@ export default class EmoticonProvider extends Provider {
                     continue;
                 }
 
-                const matchedArray = recentEmojis.includes(name) ?
-                    recentMatched :
-                    matched;
+                const matchedArray = recentEmojis.includes(name) ? recentMatched : matched;
 
-                matchedArray.push({name, emoji});
+                matchedArray.push({name, emoji, type: Preferences.CATEGORY_EMOJI});
             }
         }
 

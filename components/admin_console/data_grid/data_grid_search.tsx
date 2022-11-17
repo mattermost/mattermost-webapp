@@ -5,7 +5,7 @@ import React from 'react';
 
 import FaSearchIcon from 'components/widgets/icons/fa_search_icon';
 
-import * as Utils from 'utils/utils.jsx';
+import * as Utils from 'utils/utils';
 
 import Filter, {FilterOptions} from 'components/admin_console/filter/filter';
 

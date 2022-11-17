@@ -15,6 +15,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     <MenuItemAction
       icon={
         <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <i
           className="icon-star-outline"
         />
       }
@@ -90,6 +101,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -104,6 +116,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     <MenuItemAction
       icon={
         <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <i
           className="icon-star-outline"
         />
       }
@@ -179,6 +202,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -193,6 +217,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     <MenuItemAction
       icon={
         <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <i
           className="icon-star-outline"
         />
       }
@@ -268,6 +303,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -282,6 +318,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     <MenuItemAction
       icon={
         <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <i
           className="icon-star-outline"
         />
       }
@@ -357,6 +404,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -377,6 +425,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   tooltipText="Channel options"
 >
   <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
     <MenuItemAction
       icon={
         <i
@@ -432,6 +491,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={false}
       onClick={[Function]}
       show={true}
       text="Close Conversation"
@@ -452,6 +512,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   tooltipText="Channel options"
 >
   <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
     <MenuItemAction
       icon={
         <i
@@ -540,6 +611,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
     <MenuItemAction
       icon={
         <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <i
           className="icon-star"
         />
       }
@@ -615,6 +697,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -635,6 +718,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   tooltipText="Channel options"
 >
   <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
     <MenuItemAction
       icon={
         <i
@@ -713,6 +807,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -733,6 +828,17 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
   tooltipText="Channel options"
 >
   <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
     <MenuItemAction
       icon={
         <i
@@ -811,6 +917,117 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
+      onClick={[Function]}
+      show={true}
+      text="Leave Channel"
+    />
+  </MenuGroup>
+</Connect(SidebarMenu)>
+`;
+
+exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match snapshot when channel is read 1`] = `
+<Connect(SidebarMenu)
+  ariaLabel="Channel Menu"
+  buttonAriaLabel="Channel Menu"
+  id="SidebarChannelMenu-channel_id"
+  isMenuOpen={true}
+  onOpenDirectionChange={[Function]}
+  onToggleMenu={[Function]}
+  tabIndex={0}
+  tooltipText="Channel options"
+>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-mark-as-unread"
+        />
+      }
+      id="markAsUnread-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mark as Unread"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-star-outline"
+        />
+      }
+      id="favorite-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Favorite"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-bell-outline"
+        />
+      }
+      id="mute-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Mute Channel"
+    />
+  </MenuGroup>
+  <CategoryMenuItems
+    channel={
+      Object {
+        "create_at": 0,
+        "creator_id": "id",
+        "delete_at": 0,
+        "display_name": "name",
+        "group_constrained": false,
+        "header": "header",
+        "id": "channel_id",
+        "last_post_at": 0,
+        "last_root_post_at": 0,
+        "name": "DN",
+        "purpose": "purpose",
+        "scheme_id": "id",
+        "team_id": "team_id",
+        "type": "O",
+        "update_at": 0,
+      }
+    }
+    location="sidebar"
+    openUp={false}
+  />
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-link-variant"
+        />
+      }
+      id="copyLink-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Copy Link"
+    />
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-account-outline"
+        />
+      }
+      id="addMembers-channel_id"
+      onClick={[Function]}
+      show={true}
+      text="Add Members"
+    />
+  </MenuGroup>
+  <MenuGroup>
+    <MenuItemAction
+      icon={
+        <i
+          className="icon-close"
+        />
+      }
+      id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"
@@ -920,6 +1137,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_menu should match sn
         />
       }
       id="leave-channel_id"
+      isDangerous={true}
       onClick={[Function]}
       show={true}
       text="Leave Channel"

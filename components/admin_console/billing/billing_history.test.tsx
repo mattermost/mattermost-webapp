@@ -4,13 +4,11 @@
 import React from 'react';
 
 import {Provider} from 'react-redux';
-import configureStore from 'redux-mock-store';
-
-import thunk from 'redux-thunk';
 
 import {shallow} from 'enzyme';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
+import mockStore from 'tests/test_store';
 
 import BillingHistory from './billing_history';
 
@@ -30,6 +28,7 @@ describe('components/admin_console/billing/billing_history', () => {
                 },
             },
             cloud: {
+                errors: {},
                 invoices: {
                     in_1KNb3DI67GP2qpb4ueaJYBt8: {
                         id: 'in_1KNb3DI67GP2qpb4ueaJYBt8',
@@ -87,7 +86,6 @@ describe('components/admin_console/billing/billing_history', () => {
 
     const NO_INVOICES_LEGEND = 'All of your monthly payments will show here';
 
-    const mockStore = configureStore([thunk]);
     const store = mockStore(state);
 
     test('should match snapshot', () => {
@@ -102,7 +100,7 @@ describe('components/admin_console/billing/billing_history', () => {
     test('Billing history section shows template when no invoices have been emmitted yet', () => {
         const noBillingHistoryState = {
             ...state,
-            entities: {...state.entities, cloud: {invoices: {}}},
+            entities: {...state.entities, cloud: {invoices: {}, errors: {}}},
         };
         const storeNoBillingHistory = mockStore(noBillingHistoryState);
         const wrapper = mountWithIntl(

@@ -71,7 +71,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
             return (
                 <OverlayTrigger
                     ref={this.overlay}
-                    trigger='click'
+                    trigger={['click']}
                     placement={this.props.popoverPlacement}
                     rootClose={true}
                     overlay={
@@ -86,6 +86,7 @@ export default class ProfilePicture extends React.PureComponent<Props> {
                             hasMention={this.props.hasMention}
                             overwriteIcon={this.props.overwriteIcon}
                             overwriteName={this.props.overwriteName}
+                            fromWebhook={this.props.fromWebhook}
                             hideStatus={hideStatus}
                         />
                     }

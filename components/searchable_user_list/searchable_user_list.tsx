@@ -5,12 +5,12 @@ import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import Scrollbars from 'react-custom-scrollbars';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelMembership} from 'mattermost-redux/types/channels';
-import {TeamMembership} from 'mattermost-redux/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelMembership} from '@mattermost/types/channels';
+import {TeamMembership} from '@mattermost/types/teams';
 
 import QuickInput from 'components/quick_input';
-import UserList from 'components/user_list.jsx';
+import UserList from 'components/user_list';
 import LocalizedInput from 'components/localized_input/localized_input';
 
 import {t} from 'utils/i18n';

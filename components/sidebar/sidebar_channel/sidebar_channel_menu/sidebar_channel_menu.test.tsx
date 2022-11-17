@@ -5,7 +5,7 @@ import React from 'react';
 import {ShallowWrapper} from 'enzyme';
 
 import {CategoryTypes} from 'mattermost-redux/constants/channel_categories';
-import {ChannelType} from 'mattermost-redux/types/channels';
+import {ChannelType} from '@mattermost/types/channels';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 import Constants from 'utils/constants';
@@ -37,6 +37,7 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         displayedChannels: [],
         actions: {
             markChannelAsRead: jest.fn(),
+            markMostRecentPostInChannelAsUnread: jest.fn(),
             favoriteChannel: jest.fn(),
             unfavoriteChannel: jest.fn(),
             muteChannel: jest.fn(),
@@ -72,6 +73,21 @@ describe('components/sidebar/sidebar_channel/sidebar_channel_menu', () => {
         );
 
         expect(wrapper.find('#markAsRead-channel_id')).toHaveLength(1);
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot when channel is read', () => {
+        const props = {
+            ...baseProps,
+            isUnread: false,
+        };
+
+        const wrapper = shallowWithIntl(
+            <SidebarChannelMenu {...props}/>,
+        );
+
+        expect(wrapper.find('#markAsUnread-channel_id')).toHaveLength(1);
 
         expect(wrapper).toMatchSnapshot();
     });

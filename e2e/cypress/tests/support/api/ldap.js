@@ -31,7 +31,6 @@ Cypress.Commands.add('apiLDAPTest', () => {
 Cypress.Commands.add('apiSyncLDAPUser', ({
     ldapUser = {},
     bypassTutorial = true,
-    hideOnboarding = true,
 }) => {
     // # Test LDAP connection and synchronize user
     cy.apiLDAPTest();
@@ -39,14 +38,11 @@ Cypress.Commands.add('apiSyncLDAPUser', ({
 
     // # Login to sync LDAP user
     return cy.apiLogin(ldapUser).then(({user}) => {
-        if (bypassTutorial || hideOnboarding) {
+        if (bypassTutorial) {
             cy.apiAdminLogin();
         }
         if (bypassTutorial) {
             cy.apiSaveTutorialStep(user.id, '999');
-        }
-        if (hideOnboarding) {
-            cy.apiSaveOnboardingPreference(user.id, 'hide', 'true');
         }
 
         return cy.wrap(user);

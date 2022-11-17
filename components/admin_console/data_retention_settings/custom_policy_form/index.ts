@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable @typescript-eslint/naming-convention */
 
 import {connect} from 'react-redux';
 
@@ -22,8 +21,8 @@ import {
     DataRetentionCustomPolicy,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
-} from 'mattermost-redux/types/data_retention';
-import {Team} from 'mattermost-redux/types/teams';
+} from '@mattermost/types/data_retention';
+import {Team} from '@mattermost/types/teams';
 
 import {GlobalState} from 'types/store';
 

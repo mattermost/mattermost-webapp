@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable max-lines */
 
 import {batchActions} from 'redux-batched-actions';
@@ -16,8 +17,10 @@ import {
     AdminTypes,
     IntegrationTypes,
     PreferenceTypes,
+    AppsTypes,
+    CloudTypes,
 } from 'mattermost-redux/action_types';
-import {WebsocketEvents, General, Permissions, Preferences} from 'mattermost-redux/constants';
+import {General, Permissions} from 'mattermost-redux/constants';
 import {addChannelToInitialCategory, fetchMyCategories, receivedCategoryOrder} from 'mattermost-redux/actions/channel_categories';
 import {
     getChannelAndMyMember,
@@ -27,14 +30,14 @@ import {
     markChannelAsRead,
     getChannelMemberCountsByGroup,
 } from 'mattermost-redux/actions/channels';
-import {getCloudSubscription, getSubscriptionStats} from 'mattermost-redux/actions/cloud';
+import {getCloudSubscription} from 'mattermost-redux/actions/cloud';
 import {loadRolesIfNeeded} from 'mattermost-redux/actions/roles';
 
-import {getBool, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
+import {isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getNewestThreadInTeam, getThread, getThreads} from 'mattermost-redux/selectors/entities/threads';
 import {
     getThread as fetchThread,
-    getThreads as fetchThreads,
+    getCountsAndThreadsSince,
     handleAllMarkedRead,
     handleReadChanged,
     handleFollowChanged,
@@ -60,15 +63,13 @@ import {clearErrors, logError} from 'mattermost-redux/actions/errors';
 import * as TeamActions from 'mattermost-redux/actions/teams';
 import {
     checkForModifiedUsers,
-    getMissingProfilesByIds,
-    getStatusesByIds,
     getUser as loadUser,
 } from 'mattermost-redux/actions/users';
 import {removeNotVisibleUsers} from 'mattermost-redux/actions/websocket';
 import {Client4} from 'mattermost-redux/client';
-import {getCurrentUser, getCurrentUserId, getStatusForUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUser, getCurrentUserId, getUser, getIsManualStatusForUserId, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getMyTeams, getCurrentRelativeTeamUrl, getCurrentTeamId, getCurrentTeamUrl, getTeam} from 'mattermost-redux/selectors/entities/teams';
-import {getConfig, getLicense, isPerformanceDebuggingEnabled} from 'mattermost-redux/selectors/entities/general';
+import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general';
 import {
     getChannel,
     getChannelMembersInChannels,
@@ -79,7 +80,7 @@ import {
 } from 'mattermost-redux/selectors/entities/channels';
 import {getPost, getMostRecentPostIdInChannel} from 'mattermost-redux/selectors/entities/posts';
 import {haveISystemPermission, haveITeamPermission} from 'mattermost-redux/selectors/entities/roles';
-import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
+import {appsFeatureFlagEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {getStandardAnalytics} from 'mattermost-redux/actions/admin';
 
 import {fetchAppBindings, fetchRHSAppsBindings} from 'mattermost-redux/actions/apps';
@@ -93,13 +94,13 @@ import {closeRightHandSide} from 'actions/views/rhs';
 import {syncPostsInChannel} from 'actions/views/channel';
 import {updateThreadLastOpened} from 'actions/views/threads';
 
-import {browserHistory} from 'utils/browser_history';
-import {loadChannelsForCurrentUser} from 'actions/channel_actions.jsx';
+import {getHistory} from 'utils/browser_history';
+import {loadChannelsForCurrentUser} from 'actions/channel_actions';
 import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 import {redirectUserToDefaultTeam} from 'actions/global_actions';
-import {handleNewPost} from 'actions/post_actions.jsx';
-import * as StatusActions from 'actions/status_actions.jsx';
-import {loadProfilesForSidebar} from 'actions/user_actions.jsx';
+import {handleNewPost} from 'actions/post_actions';
+import * as StatusActions from 'actions/status_actions';
+import {loadProfilesForSidebar} from 'actions/user_actions';
 import store from 'stores/redux_store.jsx';
 import WebSocketClient from 'client/web_websocket_client.jsx';
 import {loadPlugin, loadPluginsIfNecessary, removePlugin} from 'plugins';
@@ -108,6 +109,9 @@ import {getSiteURL} from 'utils/url';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import RemovedFromChannelModal from 'components/removed_from_channel_modal';
 import InteractiveDialog from 'components/interactive_dialog';
+import {
+    getTeamsUsage,
+} from 'actions/cloud';
 
 const dispatch = store.dispatch;
 const getState = store.getState;
@@ -155,11 +159,12 @@ export function initialize() {
 
     connUrl += Client4.getUrlVersion() + '/websocket';
 
-    WebSocketClient.setEventCallback(handleEvent);
-    WebSocketClient.setFirstConnectCallback(handleFirstConnect);
-    WebSocketClient.setReconnectCallback(() => reconnect(false));
-    WebSocketClient.setMissedEventCallback(restart);
-    WebSocketClient.setCloseCallback(handleClose);
+    WebSocketClient.addMessageListener(handleEvent);
+    WebSocketClient.addFirstConnectListener(handleFirstConnect);
+    WebSocketClient.addReconnectListener(() => reconnect(false));
+    WebSocketClient.addMissedMessageListener(restart);
+    WebSocketClient.addCloseListener(handleClose);
+
     WebSocketClient.initialize(connUrl);
 }
 
@@ -200,19 +205,22 @@ export function reconnect(includeWebSocket = true) {
     });
 
     const state = getState();
-    const currentTeamId = state.entities.teams.currentTeamId;
+    const currentTeamId = getCurrentTeamId(state);
     if (currentTeamId) {
         const currentUserId = getCurrentUserId(state);
         const currentChannelId = getCurrentChannelId(state);
         const mostRecentId = getMostRecentPostIdInChannel(state, currentChannelId);
         const mostRecentPost = getPost(state, mostRecentId);
 
+        if (appsFeatureFlagEnabled(state)) {
+            dispatch(handleRefreshAppsBindings());
+        }
+
         dispatch(loadChannelsForCurrentUser());
-        dispatch(handleRefreshAppsBindings());
 
         if (mostRecentPost) {
             dispatch(syncPostsInChannel(currentChannelId, mostRecentPost.create_at));
-        } else {
+        } else if (currentChannelId) {
             // if network timed-out the first time when loading a channel
             // we can request for getPosts again when socket is connected
             dispatch(getPosts(currentChannelId));
@@ -222,7 +230,15 @@ export function reconnect(includeWebSocket = true) {
         const crtEnabled = isCollapsedThreadsEnabled(state);
         dispatch(TeamActions.getMyTeamUnreads(crtEnabled, true));
         if (crtEnabled) {
-            dispatch(fetchThreads(currentUserId, currentTeamId, {unread: true, perPage: 200}));
+            const teams = getMyTeams(state);
+            syncThreads(currentTeamId, currentUserId);
+
+            for (const team of teams) {
+                if (team.id === currentTeamId) {
+                    continue;
+                }
+                syncThreads(team.id, currentUserId);
+            }
         }
     }
 
@@ -242,24 +258,15 @@ export function reconnect(includeWebSocket = true) {
     dispatch(clearErrors());
 }
 
-let intervalId = '';
-const SYNC_INTERVAL_MILLISECONDS = 1000 * 60 * 15; // 15 minutes
+function syncThreads(teamId, userId) {
+    const state = getState();
+    const newestThread = getNewestThreadInTeam(state, teamId);
 
-export function startPeriodicSync() {
-    clearInterval(intervalId);
-
-    intervalId = setInterval(
-        () => {
-            if (getCurrentUser(getState()) != null) {
-                reconnect(false);
-            }
-        },
-        SYNC_INTERVAL_MILLISECONDS,
-    );
-}
-
-export function stopPeriodicSync() {
-    clearInterval(intervalId);
+    // no need to sync if we have nothing yet
+    if (!newestThread) {
+        return;
+    }
+    dispatch(getCountsAndThreadsSince(userId, teamId, newestThread.last_reply_at));
 }
 
 export function registerPluginWebSocketEvent(pluginId, event, action) {
@@ -420,10 +427,6 @@ export function handleEvent(msg) {
         handlePreferencesDeletedEvent(msg);
         break;
 
-    case SocketEvents.TYPING:
-        dispatch(handleUserTypingEvent(msg));
-        break;
-
     case SocketEvents.STATUS_CHANGED:
         handleStatusChangedEvent(msg);
         break;
@@ -470,6 +473,10 @@ export function handleEvent(msg) {
 
     case SocketEvents.PLUGIN_STATUSES_CHANGED:
         handlePluginStatusesChangedEvent(msg);
+        break;
+
+    case SocketEvents.INTEGRATIONS_USAGE_CHANGED:
+        handleIntegrationsUsageChangedEvent(msg);
         break;
 
     case SocketEvents.OPEN_DIALOG:
@@ -532,6 +539,9 @@ export function handleEvent(msg) {
     case SocketEvents.CLOUD_PAYMENT_STATUS_UPDATED:
         dispatch(handleCloudPaymentStatusUpdated(msg));
         break;
+    case SocketEvents.CLOUD_SUBSCRIPTION_CHANGED:
+        dispatch(handleCloudSubscriptionChanged(msg));
+        break;
     case SocketEvents.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED:
         handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg);
         break;
@@ -544,11 +554,15 @@ export function handleEvent(msg) {
     case SocketEvents.THREAD_UPDATED:
         dispatch(handleThreadUpdated(msg));
         break;
-
-    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS: {
-        dispatch(handleRefreshAppsBindings(msg));
+    case SocketEvents.APPS_FRAMEWORK_REFRESH_BINDINGS:
+        dispatch(handleRefreshAppsBindings());
         break;
-    }
+    case SocketEvents.APPS_FRAMEWORK_PLUGIN_ENABLED:
+        dispatch(handleAppsPluginEnabled());
+        break;
+    case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
+        dispatch(handleAppsPluginDisabled());
+        break;
     default:
     }
 
@@ -585,7 +599,7 @@ export function handleChannelUpdatedEvent(msg) {
 
         const state = doGetState();
         if (channel.id === getCurrentChannelId(state)) {
-            browserHistory.replace(`${getCurrentRelativeTeamUrl(state)}/channels/${channel.name}`);
+            getHistory().replace(`${getCurrentRelativeTeamUrl(state)}/channels/${channel.name}`);
         }
     };
 }
@@ -639,6 +653,12 @@ const handleNewPostEventDebounced = debouncePostEvent(100);
 export function handleNewPostEvent(msg) {
     return (myDispatch, myGetState) => {
         const post = JSON.parse(msg.data.post);
+
+        if (window.logPostEvents) {
+            // eslint-disable-next-line no-console
+            console.log('handleNewPostEvent - new post received', post);
+        }
+
         myDispatch(handleNewPost(post, msg));
 
         getProfilesAndStatusesForPosts([post], myDispatch, myGetState);
@@ -666,6 +686,11 @@ export function handleNewPostEvents(queue) {
         // Note that this method doesn't properly update the sidebar state for these posts
         const posts = queue.map((msg) => JSON.parse(msg.data.post));
 
+        if (window.logPostEvents) {
+            // eslint-disable-next-line no-console
+            console.log('handleNewPostEvents - new posts received', posts);
+        }
+
         // Receive the posts as one continuous block since they were received within a short period
         const crtEnabled = isCollapsedThreadsEnabled(myGetState());
         const actions = posts.map((post) => receivedNewPost(post, crtEnabled));
@@ -682,6 +707,12 @@ export function handleNewPostEvents(queue) {
 export function handlePostEditEvent(msg) {
     // Store post
     const post = JSON.parse(msg.data.post);
+
+    if (window.logPostEvents) {
+        // eslint-disable-next-line no-console
+        console.log('handlePostEditEvent - post edit received', post);
+    }
+
     const crtEnabled = isCollapsedThreadsEnabled(getState());
     dispatch(receivedPost(post, crtEnabled));
 
@@ -699,6 +730,12 @@ export function handlePostEditEvent(msg) {
 
 async function handlePostDeleteEvent(msg) {
     const post = JSON.parse(msg.data.post);
+
+    if (window.logPostEvents) {
+        // eslint-disable-next-line no-console
+        console.log('handlePostDeleteEvent - post delete received', post);
+    }
+
     const state = getState();
     const collapsedThreads = isCollapsedThreadsEnabled(state);
 
@@ -716,7 +753,7 @@ async function handlePostDeleteEvent(msg) {
             const teamId = getCurrentTeamId(state);
             dispatch(fetchThread(userId, teamId, post.root_id, true));
         } else {
-            const res = await dispatch(getPostThread(post.id));
+            const res = await dispatch(getPostThread(post.root_id));
             const {order, posts} = res.data;
             const rootPost = posts[order[0]];
             dispatch(receivedPost(rootPost));
@@ -749,6 +786,10 @@ async function handleTeamAddedEvent(msg) {
     await dispatch(TeamActions.getMyTeamMembers());
     const state = getState();
     await dispatch(TeamActions.getMyTeamUnreads(isCollapsedThreadsEnabled(state)));
+    const license = getLicense(state);
+    if (license.Cloud === 'true') {
+        dispatch(getTeamsUsage());
+    }
 }
 
 export function handleLeaveTeamEvent(msg) {
@@ -810,7 +851,12 @@ export function handleLeaveTeamEvent(msg) {
 }
 
 function handleUpdateTeamEvent(msg) {
+    const state = store.getState();
+    const license = getLicense(state);
     dispatch({type: TeamTypes.UPDATED_TEAM, data: JSON.parse(msg.data.team)});
+    if (license.Cloud === 'true') {
+        dispatch(getTeamsUsage());
+    }
 }
 
 function handleUpdateTeamSchemeEvent() {
@@ -821,6 +867,10 @@ function handleDeleteTeamEvent(msg) {
     const deletedTeam = JSON.parse(msg.data.team);
     const state = store.getState();
     const {teams} = state.entities.teams;
+    const license = getLicense(state);
+    if (license.Cloud === 'true') {
+        dispatch(getTeamsUsage());
+    }
     if (
         deletedTeam &&
         teams &&
@@ -862,17 +912,15 @@ function handleDeleteTeamEvent(msg) {
             {type: TeamTypes.UPDATED_TEAM, data: deletedTeam},
         ]));
 
-        if (browserHistory.location?.pathname === `/admin_console/user_management/teams/${deletedTeam.id}`) {
-            return;
-        }
-
-        if (newTeamId) {
-            dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
-            const globalState = getState();
-            const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
-            browserHistory.push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
-        } else {
-            browserHistory.push('/');
+        if (currentTeamId === deletedTeam.id) {
+            if (newTeamId) {
+                dispatch({type: TeamTypes.SELECT_TEAM, data: newTeamId});
+                const globalState = getState();
+                const redirectChannel = getRedirectChannelNameForTeam(globalState, newTeamId);
+                getHistory().push(`${getCurrentTeamUrl(globalState)}/channels/${redirectChannel}`);
+            } else {
+                getHistory().push('/');
+            }
         }
     }
 }
@@ -910,7 +958,7 @@ function handleUserAddedEvent(msg) {
                 type: UserTypes.RECEIVED_PROFILE_IN_CHANNEL,
                 data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
             });
-            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+            if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && config.EnableConfirmNotificationsToChannel === 'true') {
                 doDispatch(getChannelMemberCountsByGroup(currentChannelId, isTimezoneEnabled));
             }
         }
@@ -997,7 +1045,7 @@ export function handleUserRemovedEvent(msg) {
             type: UserTypes.RECEIVED_PROFILE_NOT_IN_CHANNEL,
             data: {id: msg.broadcast.channel_id, user_id: msg.data.user_id},
         });
-        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true') {
+        if (license?.IsLicensed === 'true' && license?.LDAPGroups === 'true' && config.EnableConfirmNotificationsToChannel === 'true') {
             dispatch(getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled));
         }
     }
@@ -1127,7 +1175,7 @@ function handleChannelDeletedEvent(msg) {
         const teamUrl = getCurrentRelativeTeamUrl(state);
         const currentTeamId = getCurrentTeamId(state);
         const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
-        browserHistory.push(teamUrl + '/channels/' + redirectChannel);
+        getHistory().push(teamUrl + '/channels/' + redirectChannel);
     }
 
     dispatch({type: ChannelTypes.RECEIVED_CHANNEL_DELETED, data: {id: msg.data.channel_id, team_id: msg.broadcast.team_id, deleteAt: msg.data.delete_at, viewArchivedChannels}});
@@ -1166,53 +1214,6 @@ function handlePreferencesDeletedEvent(msg) {
 
 function addedNewDmUser(preference) {
     return preference.category === Constants.Preferences.CATEGORY_DIRECT_CHANNEL_SHOW && preference.value === 'true';
-}
-
-export function handleUserTypingEvent(msg) {
-    return async (doDispatch, doGetState) => {
-        const state = doGetState();
-        const config = getConfig(state);
-        const currentUserId = getCurrentUserId(state);
-        const userId = msg.data.user_id;
-
-        if (
-            isPerformanceDebuggingEnabled(state) &&
-            getBool(state, Preferences.CATEGORY_PERFORMANCE_DEBUGGING, Preferences.NAME_DISABLE_TYPING_MESSAGES)
-        ) {
-            return;
-        }
-
-        const data = {
-            id: msg.broadcast.channel_id + msg.data.parent_id,
-            userId,
-            now: Date.now(),
-        };
-
-        doDispatch({
-            type: WebsocketEvents.TYPING,
-            data,
-        });
-
-        setTimeout(() => {
-            doDispatch({
-                type: WebsocketEvents.STOP_TYPING,
-                data,
-            });
-        }, parseInt(config.TimeBetweenUserTypingUpdatesMilliseconds, 10));
-
-        if (userId !== currentUserId) {
-            const result = await doDispatch(getMissingProfilesByIds([userId]));
-            if (result.data && result.data.length > 0) {
-                // Already loaded the user status
-                return;
-            }
-        }
-
-        const status = getStatusForUserId(state, userId);
-        if (status !== General.ONLINE) {
-            doDispatch(getStatusesByIds([userId]));
-        }
-    };
 }
 
 function handleStatusChangedEvent(msg) {
@@ -1265,6 +1266,8 @@ function handleChannelViewedEvent(msg) {
 
 export function handlePluginEnabled(msg) {
     const manifest = msg.data.manifest;
+    dispatch({type: ActionTypes.RECEIVED_WEBAPP_PLUGIN, data: manifest});
+
     loadPlugin(manifest).catch((error) => {
         console.error(error.message); //eslint-disable-line no-console
     });
@@ -1302,6 +1305,18 @@ function handleLicenseChanged(msg) {
 
 function handlePluginStatusesChangedEvent(msg) {
     store.dispatch({type: AdminTypes.RECEIVED_PLUGIN_STATUSES, data: msg.data.plugin_statuses});
+}
+
+function handleIntegrationsUsageChangedEvent(msg) {
+    const state = store.getState();
+    const license = getLicense(state);
+
+    if (license.Cloud === 'true') {
+        store.dispatch({
+            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
+            data: msg.data.usage.enabled,
+        });
+    }
 }
 
 function handleOpenDialogEvent(msg) {
@@ -1474,7 +1489,6 @@ export function handleUserActivationStatusChange() {
             if (isCurrentUserSystemAdmin(state)) {
                 doDispatch(getStandardAnalytics());
             }
-            doDispatch(getSubscriptionStats());
         }
     };
 }
@@ -1483,12 +1497,33 @@ function handleCloudPaymentStatusUpdated() {
     return (doDispatch) => doDispatch(getCloudSubscription());
 }
 
+export function handleCloudSubscriptionChanged(msg) {
+    return (doDispatch, doGetState) => {
+        const state = doGetState();
+        const license = getLicense(state);
+
+        if (license.Cloud === 'true') {
+            if (msg.data.limits) {
+                doDispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_LIMITS,
+                    data: msg.data.limits,
+                });
+            }
+
+            if (msg.data.subscription) {
+                doDispatch({
+                    type: CloudTypes.RECEIVED_CLOUD_SUBSCRIPTION,
+                    data: msg.data.subscription,
+                });
+            }
+        }
+        return {data: true};
+    };
+}
+
 function handleRefreshAppsBindings() {
     return (doDispatch, doGetState) => {
         const state = doGetState();
-        if (!appsEnabled(state)) {
-            return {data: true};
-        }
 
         doDispatch(fetchAppBindings(getCurrentChannelId(state)));
 
@@ -1517,6 +1552,18 @@ function handleRefreshAppsBindings() {
     };
 }
 
+export function handleAppsPluginEnabled() {
+    return {
+        type: AppsTypes.APPS_PLUGIN_ENABLED,
+    };
+}
+
+export function handleAppsPluginDisabled() {
+    return {
+        type: AppsTypes.APPS_PLUGIN_DISABLED,
+    };
+}
+
 function handleFirstAdminVisitMarketplaceStatusReceivedEvent(msg) {
     const receivedData = JSON.parse(msg.data.firstAdminVisitMarketplaceStatus);
     store.dispatch({type: GeneralTypes.FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED, data: receivedData});
@@ -1533,18 +1580,19 @@ function handleThreadReadChanged(msg) {
                 doDispatch(updateThreadLastOpened(thread.id, msg.data.timestamp));
             }
 
-            handleReadChanged(
-                doDispatch,
-                msg.data.thread_id,
-                msg.broadcast.team_id,
-                msg.data.channel_id,
-                {
-                    lastViewedAt: msg.data.timestamp,
-                    prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
-                    newUnreadMentions: msg.data.unread_mentions,
-                    prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
-                    newUnreadReplies: msg.data.unread_replies,
-                },
+            doDispatch(
+                handleReadChanged(
+                    msg.data.thread_id,
+                    msg.broadcast.team_id,
+                    msg.data.channel_id,
+                    {
+                        lastViewedAt: msg.data.timestamp,
+                        prevUnreadMentions: thread?.unread_mentions ?? msg.data.previous_unread_mentions,
+                        newUnreadMentions: msg.data.unread_mentions,
+                        prevUnreadReplies: thread?.unread_replies ?? msg.data.previous_unread_replies,
+                        newUnreadReplies: msg.data.unread_replies,
+                    },
+                ),
             );
         } else if (msg.broadcast.channel_id) {
             handleAllThreadsInChannelMarkedRead(doDispatch, doGetState, msg.broadcast.channel_id, msg.data.timestamp);

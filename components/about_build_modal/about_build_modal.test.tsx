@@ -4,8 +4,11 @@
 import React from 'react';
 import {Modal} from 'react-bootstrap';
 import {shallow} from 'enzyme';
+import {Provider} from 'react-redux';
 
-import {ClientConfig, ClientLicense} from 'mattermost-redux/types/config';
+import mockStore from 'tests/test_store';
+
+import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 
 import AboutBuildModal from 'components/about_build_modal/about_build_modal';
 
@@ -80,14 +83,18 @@ describe('components/AboutBuildModal', () => {
         if (license !== null) {
             license.Cloud = 'true';
         }
+        const store = mockStore();
+
         const wrapper = shallow(
-            <AboutBuildModalCloud
-                config={config}
-                license={license}
-                show={true}
-                onExited={jest.fn()}
-                doHide={jest.fn()}
-            />,
+            <Provider store={store}>
+                <AboutBuildModalCloud
+                    config={config}
+                    license={license}
+                    show={true}
+                    onExited={jest.fn()}
+                    doHide={jest.fn()}
+                />
+            </Provider>,
         );
         expect(wrapper).toMatchSnapshot();
     });

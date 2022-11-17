@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import keyMirror from 'mattermost-redux/utils/key_mirror';
 
 export default keyMirror({
@@ -90,4 +91,6 @@ export default keyMirror({
 
     INCREMENT_PINNED_POST_COUNT: null,
     DECREMENT_PINNED_POST_COUNT: null,
+
+    INCREMENT_FILE_COUNT: null,
 });

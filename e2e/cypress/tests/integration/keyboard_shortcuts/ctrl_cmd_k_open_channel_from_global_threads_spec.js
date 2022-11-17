@@ -7,7 +7,6 @@
 // - Use element ID when selecting an element. Create one if none.
 // ***************************************************************
 
-// Stage: @prod
 // Group: @keyboard_shortcuts
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
@@ -88,6 +87,8 @@ describe('Keyboard Shortcuts', () => {
 
         // # Press down arrow
         cy.wait(TIMEOUTS.HALF_SEC);
+        cy.get('body').type('{downarrow}');
+        cy.get('body').type('{downarrow}');
         cy.get('body').type('{downarrow}');
 
         // * should not select thread and switch thread in background

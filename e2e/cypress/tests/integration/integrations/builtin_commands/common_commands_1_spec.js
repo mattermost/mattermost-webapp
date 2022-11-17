@@ -46,7 +46,7 @@ describe('Integrations', () => {
 
     it('MM-T573 / autocomplete list can scroll', () => {
         // # Clear post textbox
-        cy.get('#post_textbox').clear().type('/');
+        cy.uiGetPostTextBox().clear().type('/');
 
         // * Suggestion list should be visible
         // # Scroll to bottom and verify that the last command "/shrug" is visible
@@ -85,7 +85,7 @@ describe('Integrations', () => {
         const message = getRandomId();
 
         // # Type "/echo message 3"
-        cy.get('#post_textbox').clear().type(`/echo ${message} 3{enter}`);
+        cy.uiGetPostTextBox().clear().type(`/echo ${message} 3{enter}`);
 
         // * Verify that post is not shown after 1 second
         cy.wait(TIMEOUTS.ONE_SEC);
@@ -102,17 +102,19 @@ describe('Integrations', () => {
     });
 
     it('MM-T680 /help', () => {
-        cy.visit(offTopicUrl, {
-            onLoad: (win) => {
-                cy.stub(win, 'open');
-            },
-        });
-
         // # Type "/help"
         cy.postMessage('/help ');
 
-        // * Verify that a new tag opens
-        cy.window().its('open').should('have.been.calledWithMatch', 'https://mattermost.com/default-help/');
+        // # get last posted message
+        cy.wait(TIMEOUTS.HALF_SEC).getLastPostId().then((botLastPostId) => {
+            cy.get(`#post_${botLastPostId}`).within(() => {
+                // * Check if Bot message only visible to you
+                cy.findByText('(Only visible to you)').should('exist');
+
+                // * Check if we got ephemeral message of our selection
+                cy.contains('Mattermost is an open source platform for secure communication').should('exist');
+            });
+        });
     });
 
     it('MM-T681 /invite_people error message with no text or text that is not an email address', () => {
@@ -161,6 +163,20 @@ describe('Integrations', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).find('.user-popover').should('have.text', testUser.username);
             cy.get(`#postMessageText_${postId}`).should('have.text', `${message} ¯\\_(ツ)_/¯`);
+        });
+    });
+
+    it('MM-T5100 /marketplace test', () => {
+        cy.apiAdminLogin();
+
+        cy.apiInitSetup().then(({team}) => {
+            // # Go to town square
+            cy.visit(`/${team.name}/channels/town-square`);
+
+            // # Post "/marketplace" as SystemAdmin
+            cy.postMessage('/marketplace ');
+
+            cy.get('#modal_marketplace').should('be.visible');
         });
     });
 });

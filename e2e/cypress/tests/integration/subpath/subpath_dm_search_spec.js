@@ -58,7 +58,7 @@ describe('Subpath Direct Message Search', () => {
 
                 // # Search for username from other subpath server
                 cy.get('#selectItems input').
-                    type(otherSubpathUser.username, {force: true}).
+                    typeWithForce(otherSubpathUser.username).
                     wait(TIMEOUTS.HALF_SEC);
 
                 // * Verify username does not show up in search result

@@ -10,7 +10,7 @@ import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/sele
 import {appsEnabled} from 'mattermost-redux/selectors/entities/apps';
 import {IntegrationTypes} from 'mattermost-redux/action_types';
 import {ActionFunc, DispatchFunc, GetStateFunc} from 'mattermost-redux/types/actions';
-import type {CommandArgs} from 'mattermost-redux/types/integrations';
+import type {CommandArgs} from '@mattermost/types/integrations';
 
 import {AppCallResponseTypes} from 'mattermost-redux/constants/apps';
 
@@ -18,25 +18,31 @@ import {DoAppCallResult} from 'types/apps';
 
 import {openModal} from 'actions/views/modals';
 import * as GlobalActions from 'actions/global_actions';
-import * as PostActions from 'actions/post_actions.jsx';
+import * as PostActions from 'actions/post_actions';
 
 import {isUrlSafe, getSiteURL} from 'utils/url';
-import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils.jsx';
+import {localizeMessage, getUserIdFromChannelName, localizeAndFormatMessage} from 'utils/utils';
 import * as UserAgent from 'utils/user_agent';
 import {Constants, ModalIdentifiers} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 
 import UserSettingsModal from 'components/user_settings/modal';
 import {AppCommandParser} from 'components/suggestion/command_provider/app_command_parser/app_command_parser';
 import {intlShim} from 'components/suggestion/command_provider/app_command_parser/app_command_parser_dependencies';
-import LeavePrivateChannelModal from 'components/leave_private_channel_modal';
+import LeaveChannelModal from 'components/leave_channel_modal';
 import KeyboardShortcutsModal from 'components/keyboard_shortcuts/keyboard_shortcuts_modal/keyboard_shortcuts_modal';
 
 import {GlobalState} from 'types/store';
 
 import {t} from 'utils/i18n';
+import MarketplaceModal from 'components/plugin_marketplace';
+
+import {haveICurrentTeamPermission} from 'mattermost-redux/selectors/entities/roles';
+import {Permissions} from 'mattermost-redux/constants';
+import {isMarketplaceEnabled} from 'mattermost-redux/selectors/entities/general';
 
 import {doAppSubmit, openAppsModal, postEphemeralCallResponseForCommandArgs} from './apps';
+import {trackEvent} from './telemetry_actions';
 
 export function executeCommand(message: string, args: CommandArgs): ActionFunc {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
@@ -53,6 +59,18 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trimEnd();
         } else {
             msg = cmd + ' ' + msg.substring(cmdLength, msg.length).trim();
+        }
+
+        // Add track event for certain slash commands
+        const commandsWithTelemetry = [
+            {command: '/help', telemetry: 'slash-command-help'},
+            {command: '/marketplace', telemetry: 'slash-command-marketplace'},
+        ];
+        for (const command of commandsWithTelemetry) {
+            if (msg.startsWith(command.command)) {
+                trackEvent('slash-commands', command.telemetry);
+                break;
+            }
         }
 
         switch (cmd) {
@@ -75,7 +93,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
             }
             const channel = getCurrentChannel(state) || {};
             if (channel.type === Constants.PRIVATE_CHANNEL) {
-                dispatch(openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeavePrivateChannelModal, dialogProps: {channel}}));
+                dispatch(openModal({modalId: ModalIdentifiers.LEAVE_PRIVATE_CHANNEL_MODAL, dialogType: LeaveChannelModal, dialogProps: {channel}}));
                 return {data: true};
             }
             if (
@@ -95,7 +113,7 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
                 const currentTeamId = getCurrentTeamId(state);
                 const redirectChannel = getRedirectChannelNameForTeam(state, currentTeamId);
                 const teamUrl = getCurrentRelativeTeamUrl(state);
-                browserHistory.push(`${teamUrl}/channels/${redirectChannel}`);
+                getHistory().push(`${teamUrl}/channels/${redirectChannel}`);
 
                 dispatch(savePreferences(currentUserId, [{category, name, user_id: currentUserId, value: 'false'}]));
                 if (isFavoriteChannel(state, channel.id)) {
@@ -108,6 +126,19 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
         }
         case '/settings':
             dispatch(openModal({modalId: ModalIdentifiers.USER_SETTINGS, dialogType: UserSettingsModal, dialogProps: {isContentProductSettings: true}}));
+            return {data: true};
+        case '/marketplace':
+            // check if user has permissions to access the read plugins
+            if (!haveICurrentTeamPermission(state, Permissions.SYSCONSOLE_READ_PLUGINS)) {
+                return {error: {message: localizeMessage('marketplace_command.no_permission', 'You do not have the appropriate permissions to access the marketplace.')}};
+            }
+
+            // check config to see if marketplace is enabled
+            if (!isMarketplaceEnabled(state)) {
+                return {error: {message: localizeMessage('marketplace_command.disabled', 'The marketplace is disabled. Please contact your System Administrator for details.')}};
+            }
+
+            dispatch(openModal({modalId: ModalIdentifiers.PLUGIN_MARKETPLACE, dialogType: MarketplaceModal}));
             return {data: true};
         case '/collapse':
         case '/expand':
@@ -185,9 +216,9 @@ export function executeCommand(message: string, args: CommandArgs): ActionFunc {
 
         if (hasGotoLocation) {
             if (data.goto_location.startsWith('/')) {
-                browserHistory.push(data.goto_location);
+                getHistory().push(data.goto_location);
             } else if (data.goto_location.startsWith(getSiteURL())) {
-                browserHistory.push(data.goto_location.substr(getSiteURL().length));
+                getHistory().push(data.goto_location.substr(getSiteURL().length));
             } else {
                 window.open(data.goto_location);
             }

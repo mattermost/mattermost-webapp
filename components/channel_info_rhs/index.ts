@@ -4,10 +4,10 @@
 import {connect} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
-import {getCurrentChannel, isCurrentChannelFavorite, isCurrentChannelMuted, isCurrentChannelArchived} from 'mattermost-redux/selectors/entities/channels';
+import {getCurrentChannel, isCurrentChannelFavorite, isCurrentChannelMuted, isCurrentChannelArchived, getCurrentChannelStats} from 'mattermost-redux/selectors/entities/channels';
 import {isModalOpen} from 'selectors/views/modals';
 
-import {closeRightHandSide} from 'actions/views/rhs';
+import {closeRightHandSide, showChannelFiles, showChannelMembers, showPinnedPosts} from 'actions/views/rhs';
 
 import {GlobalState} from 'types/store';
 
@@ -25,14 +25,23 @@ import {isGuest} from 'mattermost-redux/utils/user_utils';
 
 import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {Permissions} from 'mattermost-redux/constants';
-import {Channel} from 'mattermost-redux/types/channels';
+import {Channel} from '@mattermost/types/channels';
 
 import RHS, {Props} from './channel_info_rhs';
+
+const EMPTY_CHANNEL_STATS = {
+    member_count: 0,
+    guest_count: 0,
+    pinnedpost_count: 0,
+    files_count: 0,
+};
 
 function mapStateToProps(state: GlobalState) {
     const channel = getCurrentChannel(state);
     const currentUser = getCurrentUser(state);
     const currentTeam = getCurrentTeam(state);
+
+    const channelStats = getCurrentChannelStats(state) || EMPTY_CHANNEL_STATS;
 
     // When we come back from the System console,
     // there's a few ms when we don't have a current channel yet
@@ -49,6 +58,9 @@ function mapStateToProps(state: GlobalState) {
             isPrivate: false,
             canManageMembers: false,
             canManageProperties: false,
+            channelStats,
+            isMobile: false,
+            channelMembers: [],
         };
     }
 
@@ -58,13 +70,11 @@ function mapStateToProps(state: GlobalState) {
     const isInvitingPeople = isModalOpen(state, ModalIdentifiers.CHANNEL_INVITE) || isModalOpen(state, ModalIdentifiers.CREATE_DM_CHANNEL);
     const isMobile = getIsMobileView(state);
 
-    const gmUsers = getProfilesInCurrentChannel(state).filter((user) => {
-        return user.id !== currentUser.id;
-    });
-
     const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const canManageMembers = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_MEMBERS : Permissions.MANAGE_PUBLIC_CHANNEL_MEMBERS);
     const canManageProperties = haveIChannelPermission(state, currentTeam.id, channel.id, isPrivate ? Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES : Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES);
+
+    const channelMembers = getProfilesInCurrentChannel(state);
 
     const props = {
         channel,
@@ -75,9 +85,10 @@ function mapStateToProps(state: GlobalState) {
         isMuted,
         isInvitingPeople,
         isMobile,
-        gmUsers,
         canManageMembers,
         canManageProperties,
+        channelStats,
+        channelMembers,
     } as Props;
 
     if (channel.type === Constants.DM_CHANNEL) {
@@ -102,6 +113,9 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
             unmuteChannel,
             muteChannel,
             openModal,
+            showChannelFiles,
+            showPinnedPosts,
+            showChannelMembers,
         }, dispatch),
     };
 }

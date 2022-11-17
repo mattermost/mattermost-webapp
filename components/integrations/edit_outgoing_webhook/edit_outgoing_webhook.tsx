@@ -4,11 +4,11 @@
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {Team} from 'mattermost-redux/types/teams';
-import {OutgoingWebhook} from 'mattermost-redux/types/integrations';
-import {ServerError} from 'mattermost-redux/types/errors';
+import {Team} from '@mattermost/types/teams';
+import {OutgoingWebhook} from '@mattermost/types/integrations';
+import {ServerError} from '@mattermost/types/errors';
 
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import ConfirmModal from 'components/confirm_modal';
 import AbstractOutgoingWebhook from 'components/integrations/abstract_outgoing_webhook.jsx';
 import LoadingScreen from 'components/loading_screen';
@@ -123,7 +123,7 @@ export default class EditOutgoingWebhook extends React.PureComponent<Props, Stat
         const {data, error}: {data: OutgoingWebhook; error: ServerError} = await this.props.actions.updateOutgoingHook(this.newHook!);
 
         if (data) {
-            browserHistory.push(`/${this.props.team.name}/integrations/outgoing_webhooks`);
+            getHistory().push(`/${this.props.team.name}/integrations/outgoing_webhooks`);
             return;
         }
 

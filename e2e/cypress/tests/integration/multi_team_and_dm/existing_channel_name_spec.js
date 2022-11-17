@@ -44,6 +44,30 @@ describe('Channel', () => {
             verifyChannel(channel);
         });
     });
+
+    it('MM-43881 Channel name already taken for public channel and changed allows to create', () => {
+        // # Create a new public channel
+        createNewChannel('other-public', false, testTeamId).as('channel');
+        cy.reload();
+
+        cy.get('@channel').then((channel) => {
+            // * Verify new public channel cannot be created with existing public channel name
+            verifyExistingChannelError(channel.name);
+
+            // Update channel name in the input field for new channel
+            cy.get('#input_new-channel-modal-name').should('be.visible').click().type(`${channel.name}1`);
+            cy.wait(TIMEOUTS.HALF_SEC);
+
+            // * Error message saying "A channel with that name already exists" should be removed
+            cy.get('.url-input-error').should('not.exist');
+
+            // * 'Create Channel' button should be enabled
+            cy.findByText('Create channel').should('not.have.class', 'disabled');
+
+            // # Click on Cancel button to move out of New Channel Modal
+            cy.findByText('Cancel').click();
+        });
+    });
 });
 
 /**
@@ -56,22 +80,19 @@ function verifyExistingChannelError(newChannelName, makePrivate = false) {
     cy.uiBrowseOrCreateChannel('Create New Channel').click();
 
     if (makePrivate) {
-        cy.get('#private').check({force: true}).as('channelType');
+        cy.get('#public-private-selector-button-P').click();
     } else {
-        cy.get('#public').should('be.checked').as('channelType');
+        cy.get('#public-private-selector-button-O').click();
     }
 
-    cy.get('@channelType').should('be.checked');
-
     // Type `newChannelName` in the input field for new channel
-    cy.get('#newChannelName').should('be.visible').click().type(newChannelName);
-    cy.wait(TIMEOUTS.HALF_SEC);
+    cy.get('#input_new-channel-modal-name').should('be.visible').click().type(`${newChannelName}{enter}`);
 
-    // Click 'Create New Channel' button
-    cy.get('#submitNewChannel').click();
+    // * User gets a message saying "A channel with that name already exists"
+    cy.get('.url-input-error').contains('A channel with that URL already exists');
 
-    // * User gets a message saying "A channel with that name already exists on the same team"
-    cy.get('#createChannelError').contains('A channel with that name already exists on the same team');
+    // * 'Create Channel' button should be disabled
+    cy.findByText('Create channel').should('have.class', 'disabled');
 }
 
 /**
@@ -89,13 +110,13 @@ function verifyChannel(channel) {
     verifyExistingChannelError(channel.name);
 
     // # Click on Cancel button to move out of New Channel Modal
-    cy.get('#cancelNewChannel').contains('Cancel').click();
+    cy.findByText('Cancel').click();
 
     // * Verify new private channel cannot be created with existing public channel name
     verifyExistingChannelError(channel.name, true);
 
     // # Click on Cancel button to move out of New Channel Modal
-    cy.get('#cancelNewChannel').contains('Cancel').click();
+    cy.findByText('Cancel').click();
 
     // * Verify the number of channels is still the same as before
     cy.get('@origChannelLength').then((origChannelLength) => {

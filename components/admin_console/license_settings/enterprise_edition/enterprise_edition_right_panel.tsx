@@ -1,9 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import * as React from 'react';
 import {FormattedMessage} from 'react-intl';
 
-import {ClientLicense} from 'mattermost-redux/types/config';
+import {ClientLicense} from '@mattermost/types/config';
 
 import {isEnterpriseOrE20License} from 'utils/license_utils';
 import WomanUpArrowsAndCloudsSvg from 'components/common/svg_images_components/woman_up_arrows_and_clouds_svg';
@@ -16,7 +17,7 @@ export interface EnterpriseEditionProps {
     license: ClientLicense;
 }
 
-const EnterpriseEditionRightPanel: React.FC<EnterpriseEditionProps> = ({
+const EnterpriseEditionRightPanel = ({
     isTrialLicense,
     license,
 

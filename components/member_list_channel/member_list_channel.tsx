@@ -3,8 +3,8 @@
 
 import React from 'react';
 
-import {UserProfile} from 'mattermost-redux/types/users';
-import {Channel, ChannelStats, ChannelMembership} from 'mattermost-redux/types/channels';
+import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelStats, ChannelMembership} from '@mattermost/types/channels';
 
 import Constants from 'utils/constants';
 import * as UserAgent from 'utils/user_agent';

@@ -11,13 +11,14 @@
 
 const fs = require('fs');
 
+const readFile = require('util').promisify(fs.readFile);
+
 const axios = require('axios');
 const axiosRetry = require('axios-retry');
 const chalk = require('chalk');
 const mime = require('mime-types');
 
 require('dotenv').config();
-const readFile = require('util').promisify(fs.readFile);
 
 const maxRetry = 5;
 const timeout = 10 * 1000;
@@ -153,7 +154,7 @@ async function uploadScreenshot(filePath, repo, branch, build) {
             return {code: err.code};
         }
 
-        return err.response && err.response.data;
+        return {error: 'Failed to upload a screenshot.'};
     }
 }
 

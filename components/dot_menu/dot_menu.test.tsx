@@ -3,12 +3,15 @@
 
 import React from 'react';
 
-import {PostType} from 'mattermost-redux/types/posts';
+import {PostType} from '@mattermost/types/posts';
 
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
 
 import {Locations} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
+
+import * as dotUtils from './utils';
+jest.mock('./utils');
 
 import DotMenu, {DotMenuClass} from './dot_menu';
 
@@ -33,6 +36,7 @@ describe('components/dot_menu/DotMenu', () => {
             markPostAsUnread: jest.fn(),
             postEphemeralCallResponseForPost: jest.fn(),
             setThreadFollow: jest.fn(),
+            setGlobalItem: jest.fn(),
         },
         canEdit: false,
         canDelete: false,
@@ -44,6 +48,7 @@ describe('components/dot_menu/DotMenu', () => {
         threadId: 'post_id_1',
         threadReplyCount: 0,
         userId: 'user_id_1',
+        showForwardPostNewLabel: false,
     };
 
     test('should match snapshot, on Center', () => {
@@ -69,6 +74,30 @@ describe('components/dot_menu/DotMenu', () => {
             ...baseProps,
             canEdit: true,
             canDelete: true,
+        };
+        const wrapper = shallowWithIntl(
+            <DotMenu {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, show "New" badge on forward post', () => {
+        const props = {
+            ...baseProps,
+            showForwardPostNewLabel: true,
+        };
+        const wrapper = shallowWithIntl(
+            <DotMenu {...props}/>,
+        );
+
+        expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should match snapshot, hide "New" badge on forward post', () => {
+        const props = {
+            ...baseProps,
+            showForwardPostNewLabel: false,
         };
         const wrapper = shallowWithIntl(
             <DotMenu {...props}/>,
@@ -157,6 +186,7 @@ describe('components/dot_menu/DotMenu', () => {
             [true, {isFollowingThread: false}],
         ])('should call setThreadFollow with following as %s', (following, caseProps) => {
             const spySetThreadFollow = jest.fn();
+            const spy = jest.spyOn(dotUtils, 'trackDotMenuEvent');
 
             const props = {
                 ...baseProps,
@@ -174,6 +204,7 @@ describe('components/dot_menu/DotMenu', () => {
 
             wrapper.find(`#follow_post_thread_${baseProps.post.id}`).simulate('click');
 
+            expect(spy).toHaveBeenCalled();
             expect(spySetThreadFollow).toHaveBeenCalledWith(
                 'user_id_1',
                 'team_id_1',

@@ -1,43 +1,22 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable react/no-string-refs */
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
+import {RouteComponentProps} from 'react-router-dom';
 
 import deferComponentRender from 'components/deferComponentRender';
 import ChannelHeader from 'components/channel_header';
-import CreatePost from 'components/create_post';
 import FileUploadOverlay from 'components/file_upload_overlay';
 import PostView from 'components/post_view';
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
+import AdvancedCreatePost from 'components/advanced_create_post';
 
-import {browserHistory} from 'utils/browser_history';
+import type {PropsFromRedux} from './index';
 
-type Props = {
-    channelId: string;
-    deactivatedChannel: boolean;
-    channelRolesLoading: boolean;
-    showNextStepsEphemeral: boolean;
-    enableOnboardingFlow: boolean;
-    showNextSteps: boolean;
-    teamUrl: string;
-    match: {
-        url: string;
-        params: {
-            postid?: string;
-        };
-    };
-    channelIsArchived: boolean;
-    viewArchivedChannels: boolean;
-    isCloud: boolean;
-    isFirstAdmin: boolean;
-    useCaseOnboarding: boolean;
-    actions: {
-        goToLastViewedChannel: () => Promise<{data: boolean}>;
-        setShowNextStepsView: (x: boolean) => void;
-    };
-};
+export type Props = PropsFromRedux & RouteComponentProps<{
+    postid?: string;
+}>;
 
 type State = {
     channelId: string;
@@ -82,7 +61,9 @@ export default class ChannelView extends React.PureComponent<Props, State> {
 
         return null;
     }
+
     channelViewRef: React.RefObject<HTMLDivElement>;
+
     constructor(props: Props) {
         super(props);
 
@@ -101,24 +82,18 @@ export default class ChannelView extends React.PureComponent<Props, State> {
     }
 
     onClickCloseChannel = () => {
-        this.props.actions.goToLastViewedChannel();
+        this.props.goToLastViewedChannel();
     }
 
     componentDidUpdate(prevProps: Props) {
         if (prevProps.channelId !== this.props.channelId || prevProps.channelIsArchived !== this.props.channelIsArchived) {
             if (this.props.channelIsArchived && !this.props.viewArchivedChannels) {
-                this.props.actions.goToLastViewedChannel();
+                this.props.goToLastViewedChannel();
             }
         }
     }
 
     render() {
-        const {channelIsArchived, enableOnboardingFlow, showNextSteps, showNextStepsEphemeral, teamUrl} = this.props;
-        if (enableOnboardingFlow && showNextSteps && !showNextStepsEphemeral && !(this.props.useCaseOnboarding && this.props.isFirstAdmin)) {
-            this.props.actions.setShowNextStepsView(true);
-            browserHistory.push(`${teamUrl}/tips`);
-        }
-
         let createPost;
         if (this.props.deactivatedChannel) {
             createPost = (
@@ -145,7 +120,7 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else if (channelIsArchived) {
+        } else if (this.props.channelIsArchived) {
             createPost = (
                 <div
                     className='post-create__container'
@@ -171,15 +146,13 @@ export default class ChannelView extends React.PureComponent<Props, State> {
                     </div>
                 </div>
             );
-        } else if (!this.props.channelRolesLoading) {
+        } else {
             createPost = (
                 <div
-                    className='post-create__container'
+                    className='post-create__container AdvancedTextEditor__ctr'
                     id='post-create'
                 >
-                    <CreatePost
-                        getChannelView={this.getChannelView}
-                    />
+                    <AdvancedCreatePost getChannelView={this.getChannelView}/>
                 </div>
             );
         }
@@ -205,4 +178,3 @@ export default class ChannelView extends React.PureComponent<Props, State> {
         );
     }
 }
-/* eslint-enable react/no-string-refs */

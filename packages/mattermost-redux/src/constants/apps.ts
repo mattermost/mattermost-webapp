@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AppCallResponseType, AppExpandLevel, AppFieldType} from 'mattermost-redux/types/apps';
+import {AppCallResponseType, AppExpandLevel, AppFieldType} from '@mattermost/types/apps';
 
 // This file's contents belong to the Apps Framework feature.
 // Apps Framework feature is experimental, and the contents of this file are

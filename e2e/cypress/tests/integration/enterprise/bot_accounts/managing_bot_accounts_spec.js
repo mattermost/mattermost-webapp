@@ -38,6 +38,9 @@ describe('Managing bot accounts', () => {
         cy.apiLogout();
         cy.visit('/login');
 
+        // # Remove autofocus from login input
+        cy.get('.login-body-card-content').should('be.visible').focus();
+
         // # Enter bot name in the email field
         cy.findByPlaceholderText('Email, Username or AD/LDAP Username', {timeout: TIMEOUTS.ONE_MIN}).clear().type(botName);
 
@@ -45,7 +48,7 @@ describe('Managing bot accounts', () => {
         cy.findByPlaceholderText('Password').clear().type('invalidPassword@#%(^!');
 
         // # Hit enter to login
-        cy.findByText('Sign in').click();
+        cy.get('#saveSetting').should('not.be.disabled').click();
 
         // * Verify appropriate error message is displayed for bot login
         cy.findByText('Bot login is forbidden.').should('exist').and('be.visible');

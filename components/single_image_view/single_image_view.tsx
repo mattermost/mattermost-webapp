@@ -6,7 +6,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {getFilePreviewUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from 'mattermost-redux/types/files';
+import {FileInfo} from '@mattermost/types/files';
 
 import SizeAwareImage from 'components/size_aware_image';
 import {FileTypes, ModalIdentifiers} from 'utils/constants';
@@ -24,6 +24,7 @@ interface Props extends PropsFromRedux {
     postId: string;
     fileInfo: FileInfo;
     isRhsOpen: boolean;
+    enablePublicLink: boolean;
     compactDisplay?: boolean;
     isEmbedVisible?: boolean;
     isInPermalink?: boolean;
@@ -38,14 +39,13 @@ type State = {
 }
 
 export default class SingleImageView extends React.PureComponent<Props, State> {
-    private mounted: boolean;
+    private mounted = false;
     static defaultProps = {
         compactDisplay: false,
     };
 
     constructor(props: Props) {
         super(props);
-        this.mounted = true;
         this.state = {
             loaded: false,
             dimensions: {
@@ -90,12 +90,17 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
             dialogProps: {
                 fileInfos: [this.props.fileInfo],
                 postId: this.props.postId,
+                startIndex: 0,
             },
         });
     }
 
     toggleEmbedVisibility = () => {
         this.props.actions.toggleEmbedVisibility(this.props.postId);
+    }
+
+    getFilePublicLink = () => {
+        return this.props.actions.getFilePublicLink(this.props.fileInfo.id);
     }
 
     render() {
@@ -227,9 +232,12 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                                     src={previewURL}
                                     dimensions={this.state.dimensions}
                                     fileInfo={this.props.fileInfo}
+                                    fileURL={fileURL}
                                     onImageLoaded={this.imageLoaded}
                                     showLoader={this.props.isEmbedVisible}
                                     handleSmallImageContainer={true}
+                                    enablePublicLink={this.props.enablePublicLink}
+                                    getFilePublicLink={this.getFilePublicLink}
                                 />
                             </div>
                         </div>
