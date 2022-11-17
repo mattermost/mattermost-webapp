@@ -296,6 +296,7 @@ export default function ChannelNotificationsModal(props: Props) {
             onExited={handleExit}
             role='dialog'
             aria-labelledby='channelNotificationModalLabel'
+            style={{display: 'flex', placeItems: 'center'}}
         >
             <ModalHeader
                 id={'channelNotificationModalLabel'}
@@ -307,19 +308,17 @@ export default function ChannelNotificationsModal(props: Props) {
                 handleClose={handleHide}
             />
             <main className='channel-notifications-settings-modal__body'>
-                <div className='channel-notifications-settings-modal__content'>
-                    <SectionCreator
-                        title={MuteAndIgnoreSectionTitle}
-                        content={MuteIgnoreSectionContent}
-                    />
-                    {settingsAndAlertBanner}
-                    <div className='channel-notifications-settings-modal__divider'/>
-                    <SectionCreator
-                        title={AutoFollowThreadsTitle}
-                        description={AutoFollowThreadsDesc}
-                        content={AutoFollowThreadsSectionContent}
-                    />
-                </div>
+                <SectionCreator
+                    title={MuteAndIgnoreSectionTitle}
+                    content={MuteIgnoreSectionContent}
+                />
+                {settingsAndAlertBanner}
+                <div className='channel-notifications-settings-modal__divider'/>
+                <SectionCreator
+                    title={AutoFollowThreadsTitle}
+                    description={AutoFollowThreadsDesc}
+                    content={AutoFollowThreadsSectionContent}
+                />
             </main>
             <footer className='channel-notifications-settings-modal__footer'>
                 {serverError &&

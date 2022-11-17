@@ -29,6 +29,12 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
   restoreFocus={true}
   role="dialog"
   show={true}
+  style={
+    Object {
+      "display": "flex",
+      "placeItems": "center",
+    }
+  }
 >
   <ModalHeader
     handleClose={[Function]}
@@ -39,66 +45,152 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
   <main
     className="channel-notifications-settings-modal__body"
   >
+    <SectionCreator
+      content={
+        <React.Fragment>
+          <CheckboxItemCreator
+            description={
+              Object {
+                "defaultMessage": "Turns off notifications for this channel. You’ll still see badges if you’re mentioned.",
+                "id": "channel_notifications.muteChannelDesc",
+              }
+            }
+            handleChange={[Function]}
+            inputFieldData={
+              Object {
+                "dataTestId": "muteChannel",
+                "name": "mute channel",
+                "title": Object {
+                  "defaultMessage": "Mute channel",
+                  "id": "channel_notifications.muteChannelTitle",
+                },
+              }
+            }
+            inputFieldValue={false}
+          />
+          <CheckboxItemCreator
+            description={
+              Object {
+                "defaultMessage": "When enabled, @channel, @here and @all will not trigger mentions or mention notifications in this channel",
+                "id": "channel_notifications.ignoreMentionsDesc",
+              }
+            }
+            handleChange={[Function]}
+            inputFieldData={
+              Object {
+                "dataTestId": "ignoreMentions",
+                "name": "ignore mentions",
+                "title": Object {
+                  "defaultMessage": "Ignore mentions for @channel, @here and @all",
+                  "id": "channel_notifications.ignoreMentionsTitle",
+                },
+              }
+            }
+            inputFieldValue={false}
+          />
+        </React.Fragment>
+      }
+      title={
+        Object {
+          "defaultMessage": "Mute or ignore",
+          "id": "channel_notifications.muteAndIgnore",
+        }
+      }
+    />
     <div
-      className="channel-notifications-settings-modal__content"
-    >
-      <SectionCreator
-        content={
-          <React.Fragment>
-            <CheckboxItemCreator
-              description={
-                Object {
-                  "defaultMessage": "Turns off notifications for this channel. You’ll still see badges if you’re mentioned.",
-                  "id": "channel_notifications.muteChannelDesc",
-                }
-              }
-              handleChange={[Function]}
-              inputFieldData={
-                Object {
-                  "dataTestId": "muteChannel",
-                  "name": "mute channel",
-                  "title": Object {
-                    "defaultMessage": "Mute channel",
-                    "id": "channel_notifications.muteChannelTitle",
+      className="channel-notifications-settings-modal__divider"
+    />
+    <SectionCreator
+      content={
+        <React.Fragment>
+          <RadioItemCreator
+            handleChange={[Function]}
+            inputFieldData={
+              Object {
+                "options": Array [
+                  Object {
+                    "dataTestId": "desktopNotification-all",
+                    "key": "desktopNotification-all",
+                    "name": "desktopNotification-all",
+                    "suffix": <Memo(MemoizedFormattedMessage)
+                      defaultMessage="(default)"
+                      id="channel_notifications.default"
+                    />,
+                    "title": Object {
+                      "defaultMessage": "All new messages",
+                      "id": "channel_notifications.desktopNotificationAllLabel",
+                    },
+                    "value": "all",
                   },
-                }
-              }
-              inputFieldValue={false}
-            />
-            <CheckboxItemCreator
-              description={
-                Object {
-                  "defaultMessage": "When enabled, @channel, @here and @all will not trigger mentions or mention notifications in this channel",
-                  "id": "channel_notifications.ignoreMentionsDesc",
-                }
-              }
-              handleChange={[Function]}
-              inputFieldData={
-                Object {
-                  "dataTestId": "ignoreMentions",
-                  "name": "ignore mentions",
-                  "title": Object {
-                    "defaultMessage": "Ignore mentions for @channel, @here and @all",
-                    "id": "channel_notifications.ignoreMentionsTitle",
+                  Object {
+                    "dataTestId": "desktopNotification-mention",
+                    "key": "desktopNotification-mention",
+                    "name": "desktopNotification-mention",
+                    "suffix": undefined,
+                    "title": Object {
+                      "defaultMessage": "Mentions, direct messages, and keywords only",
+                      "id": "channel_notifications.desktopNotificationMentionLabel",
+                    },
+                    "value": "mention",
                   },
-                }
+                  Object {
+                    "dataTestId": "desktopNotification-none",
+                    "key": "desktopNotification-none",
+                    "name": "desktopNotification-none",
+                    "suffix": undefined,
+                    "title": Object {
+                      "defaultMessage": "Nothing",
+                      "id": "channel_notifications.desktopNotificationNothingLabel",
+                    },
+                    "value": "none",
+                  },
+                ],
               }
-              inputFieldValue={false}
-            />
-          </React.Fragment>
+            }
+            inputFieldValue="all"
+            title={
+              Object {
+                "defaultMessage": "Notify me about…",
+                "id": "channel_notifications.NotifyMeTitle",
+              }
+            }
+          />
+        </React.Fragment>
+      }
+      description={
+        Object {
+          "defaultMessage": "Available on Chrome, Edge, Firefox, and the Mattermost Desktop App.",
+          "id": "channel_notifications.desktopNotificationsDesc",
         }
-        title={
-          Object {
-            "defaultMessage": "Mute or ignore",
-            "id": "channel_notifications.muteAndIgnore",
-          }
+      }
+      title={
+        Object {
+          "defaultMessage": "Desktop Notifications",
+          "id": "channel_notifications.desktopNotificationsTitle",
         }
-      />
-      <div
-        className="channel-notifications-settings-modal__divider"
-      />
-      <SectionCreator
-        content={
+      }
+      titleSuffix={<React.Fragment />}
+    />
+    <div
+      className="channel-notifications-settings-modal__divider"
+    />
+    <SectionCreator
+      content={
+        <React.Fragment>
+          <CheckboxItemCreator
+            handleChange={[Function]}
+            inputFieldData={
+              Object {
+                "dataTestId": "sameMobileSettingsDesktop",
+                "name": "same mobile settings as Desktop",
+                "title": Object {
+                  "defaultMessage": "Use the same notification settings as desktop",
+                  "id": "channel_notifications.checkbox.sameMobileSettingsDesktop",
+                },
+              }
+            }
+            inputFieldValue={false}
+          />
           <React.Fragment>
             <RadioItemCreator
               handleChange={[Function]}
@@ -106,38 +198,35 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
                 Object {
                   "options": Array [
                     Object {
-                      "dataTestId": "desktopNotification-all",
-                      "key": "desktopNotification-all",
-                      "name": "desktopNotification-all",
-                      "suffix": <Memo(MemoizedFormattedMessage)
-                        defaultMessage="(default)"
-                        id="channel_notifications.default"
-                      />,
+                      "dataTestId": "MobileNotification-all",
+                      "key": "MobileNotification-all",
+                      "name": "MobileNotification-all",
+                      "suffix": undefined,
                       "title": Object {
                         "defaultMessage": "All new messages",
-                        "id": "channel_notifications.desktopNotificationAllLabel",
+                        "id": "channel_notifications.MobileNotificationAllLabel",
                       },
                       "value": "all",
                     },
                     Object {
-                      "dataTestId": "desktopNotification-mention",
-                      "key": "desktopNotification-mention",
-                      "name": "desktopNotification-mention",
+                      "dataTestId": "MobileNotification-mention",
+                      "key": "MobileNotification-mention",
+                      "name": "MobileNotification-mention",
                       "suffix": undefined,
                       "title": Object {
                         "defaultMessage": "Mentions, direct messages, and keywords only",
-                        "id": "channel_notifications.desktopNotificationMentionLabel",
+                        "id": "channel_notifications.MobileNotificationMentionLabel",
                       },
                       "value": "mention",
                     },
                     Object {
-                      "dataTestId": "desktopNotification-none",
-                      "key": "desktopNotification-none",
-                      "name": "desktopNotification-none",
+                      "dataTestId": "MobileNotification-none",
+                      "key": "MobileNotification-none",
+                      "name": "MobileNotification-none",
                       "suffix": undefined,
                       "title": Object {
                         "defaultMessage": "Nothing",
-                        "id": "channel_notifications.desktopNotificationNothingLabel",
+                        "id": "channel_notifications.MobileNotificationNothingLabel",
                       },
                       "value": "none",
                     },
@@ -153,155 +242,68 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
               }
             />
           </React.Fragment>
+        </React.Fragment>
+      }
+      description={
+        Object {
+          "defaultMessage": "Notification alerts are pushed to your mobile device when there is activity in Mattermost.",
+          "id": "channel_notifications.mobileNotificationsDesc",
         }
-        description={
-          Object {
-            "defaultMessage": "Available on Chrome, Edge, Firefox, and the Mattermost Desktop App.",
-            "id": "channel_notifications.desktopNotificationsDesc",
-          }
+      }
+      title={
+        Object {
+          "defaultMessage": "Mobile Notifications",
+          "id": "channel_notifications.mobileNotificationsTitle",
         }
-        title={
-          Object {
-            "defaultMessage": "Desktop Notifications",
-            "id": "channel_notifications.desktopNotificationsTitle",
-          }
-        }
-        titleSuffix={<React.Fragment />}
-      />
-      <div
-        className="channel-notifications-settings-modal__divider"
-      />
-      <SectionCreator
-        content={
-          <React.Fragment>
-            <CheckboxItemCreator
-              handleChange={[Function]}
-              inputFieldData={
-                Object {
-                  "dataTestId": "sameMobileSettingsDesktop",
-                  "name": "same mobile settings as Desktop",
-                  "title": Object {
-                    "defaultMessage": "Use the same notification settings as desktop",
-                    "id": "channel_notifications.checkbox.sameMobileSettingsDesktop",
-                  },
-                }
+      }
+      titleSuffix={
+        <button
+          className="channel-notifications-settings-modal__reset-btn"
+          onClick={[Function]}
+        >
+          <RefreshIcon
+            color="currentColor"
+            size={14}
+          />
+          Reset to default
+        </button>
+      }
+    />
+    <div
+      className="channel-notifications-settings-modal__divider"
+    />
+    <SectionCreator
+      content={
+        <React.Fragment>
+          <CheckboxItemCreator
+            handleChange={[Function]}
+            inputFieldData={
+              Object {
+                "dataTestId": "autoFollowThreads",
+                "name": "auto follow threads",
+                "title": Object {
+                  "defaultMessage": "Automatically follow threads in this channel",
+                  "id": "channel_notifications.checkbox.autoFollowThreadsTitle",
+                },
               }
-              inputFieldValue={false}
-            />
-            <React.Fragment>
-              <RadioItemCreator
-                handleChange={[Function]}
-                inputFieldData={
-                  Object {
-                    "options": Array [
-                      Object {
-                        "dataTestId": "MobileNotification-all",
-                        "key": "MobileNotification-all",
-                        "name": "MobileNotification-all",
-                        "suffix": undefined,
-                        "title": Object {
-                          "defaultMessage": "All new messages",
-                          "id": "channel_notifications.MobileNotificationAllLabel",
-                        },
-                        "value": "all",
-                      },
-                      Object {
-                        "dataTestId": "MobileNotification-mention",
-                        "key": "MobileNotification-mention",
-                        "name": "MobileNotification-mention",
-                        "suffix": undefined,
-                        "title": Object {
-                          "defaultMessage": "Mentions, direct messages, and keywords only",
-                          "id": "channel_notifications.MobileNotificationMentionLabel",
-                        },
-                        "value": "mention",
-                      },
-                      Object {
-                        "dataTestId": "MobileNotification-none",
-                        "key": "MobileNotification-none",
-                        "name": "MobileNotification-none",
-                        "suffix": undefined,
-                        "title": Object {
-                          "defaultMessage": "Nothing",
-                          "id": "channel_notifications.MobileNotificationNothingLabel",
-                        },
-                        "value": "none",
-                      },
-                    ],
-                  }
-                }
-                inputFieldValue="all"
-                title={
-                  Object {
-                    "defaultMessage": "Notify me about…",
-                    "id": "channel_notifications.NotifyMeTitle",
-                  }
-                }
-              />
-            </React.Fragment>
-          </React.Fragment>
+            }
+            inputFieldValue={false}
+          />
+        </React.Fragment>
+      }
+      description={
+        Object {
+          "defaultMessage": "When enabled, all new replies in this channel will be automatically followed and will appear in your Threads view.",
+          "id": "channel_notifications.autoFollowThreadsDesc",
         }
-        description={
-          Object {
-            "defaultMessage": "Notification alerts are pushed to your mobile device when there is activity in Mattermost.",
-            "id": "channel_notifications.mobileNotificationsDesc",
-          }
+      }
+      title={
+        Object {
+          "defaultMessage": "Follow all threads in this channel",
+          "id": "channel_notifications.autoFollowThreadsTitle",
         }
-        title={
-          Object {
-            "defaultMessage": "Mobile Notifications",
-            "id": "channel_notifications.mobileNotificationsTitle",
-          }
-        }
-        titleSuffix={
-          <button
-            className="channel-notifications-settings-modal__reset-btn"
-            onClick={[Function]}
-          >
-            <RefreshIcon
-              color="currentColor"
-              size={14}
-            />
-            Reset to default
-          </button>
-        }
-      />
-      <div
-        className="channel-notifications-settings-modal__divider"
-      />
-      <SectionCreator
-        content={
-          <React.Fragment>
-            <CheckboxItemCreator
-              handleChange={[Function]}
-              inputFieldData={
-                Object {
-                  "dataTestId": "autoFollowThreads",
-                  "name": "auto follow threads",
-                  "title": Object {
-                    "defaultMessage": "Automatically follow threads in this channel",
-                    "id": "channel_notifications.checkbox.autoFollowThreadsTitle",
-                  },
-                }
-              }
-              inputFieldValue={false}
-            />
-          </React.Fragment>
-        }
-        description={
-          Object {
-            "defaultMessage": "When enabled, all new replies in this channel will be automatically followed and will appear in your Threads view.",
-            "id": "channel_notifications.autoFollowThreadsDesc",
-          }
-        }
-        title={
-          Object {
-            "defaultMessage": "Follow all threads in this channel",
-            "id": "channel_notifications.autoFollowThreadsTitle",
-          }
-        }
-      />
-    </div>
+      }
+    />
   </main>
   <footer
     className="channel-notifications-settings-modal__footer"
@@ -317,7 +319,6 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
     </button>
     <button
       className="channel-notifications-settings-modal__save-btn"
-      disabled={true}
       onClick={[Function]}
     >
       <MemoizedFormattedMessage
