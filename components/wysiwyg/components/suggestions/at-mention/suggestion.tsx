@@ -6,7 +6,6 @@ import React from 'react';
 import {Client4} from 'mattermost-redux/client';
 import {getSuggestionsSplitBy, getSuggestionsSplitByMultiple} from 'mattermost-redux/utils/user_utils';
 
-import {ReactRenderer} from '@tiptap/react';
 import {SuggestionOptions} from '@tiptap/suggestion';
 import {PluginKey} from 'prosemirror-state';
 
@@ -14,7 +13,8 @@ import {Constants, WysiwygPluginNames} from 'utils/constants';
 
 import {Group} from '@mattermost/types/groups';
 
-import SuggestionList, {SuggestionItem, SuggestionListProps, SuggestionListRef} from '../suggestion-list';
+import {SuggestionItem} from '../suggestion-list';
+import {render} from '../suggestion-base';
 
 import {GroupMentionItem, SpecialMentionItem, UserMentionItem} from './components';
 
@@ -107,40 +107,5 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
         return results;
     },
 
-    render: () => {
-        let reactRenderer: ReactRenderer<SuggestionListRef>;
-        let savedProps: SuggestionListProps;
-
-        return {
-            onStart: (props) => {
-                savedProps = {
-                    ...props,
-                    visible: true,
-                    renderSeparators: true,
-                };
-                reactRenderer = new ReactRenderer(SuggestionList, {
-                    props: savedProps,
-                    editor: props.editor,
-                });
-            },
-
-            onUpdate(props) {
-                savedProps = {...savedProps, ...props};
-                reactRenderer.updateProps(savedProps);
-            },
-
-            onKeyDown(props) {
-                if (props.event.key === 'Escape') {
-                    savedProps = {...savedProps, visible: false};
-                    reactRenderer.updateProps(savedProps);
-                    return true;
-                }
-                return reactRenderer.ref?.onKeyDown(props) || false;
-            },
-
-            onExit() {
-                reactRenderer.destroy();
-            },
-        };
-    },
+    render,
 });

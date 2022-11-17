@@ -43,10 +43,11 @@ import type {NewPostDraft} from 'types/store/draft';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
+// import all custom components, extensions, etc.
 import Toolbar from './components/toolbar';
 import SendButton from './components/send-button';
 import CodeBlockComponent from './components/codeblockview';
-import {AtMentionSuggestions, ChannelSuggestions, EmojiSuggestions, makeAtMentionSuggestion} from './components/suggestions';
+import {AtMentionSuggestions, ChannelSuggestions, makeChannelSuggestion, EmojiSuggestions, makeAtMentionSuggestion} from './components/suggestions';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -215,7 +216,11 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     useSpecialMentions,
                 }),
             }),
-            ChannelSuggestions,
+            ChannelSuggestions.configure({
+                suggestion: makeChannelSuggestion({
+                    teamId,
+                }),
+            }),
             EmojiSuggestions,
         ],
         content: draft?.content,

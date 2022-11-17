@@ -15,7 +15,7 @@ import {WysiwygPluginNames} from 'utils/constants';
  * This can be useful if we want to have the profile overlay being available for user mentions, or the amount of people
  * getting notified by special mentions, etc.
  */
-const RenderedMention = (props: NodeViewProps) => {
+const RenderedChannel = (props: NodeViewProps) => {
     const {id, type, label} = props.node.attrs;
 
     return (
@@ -24,16 +24,16 @@ const RenderedMention = (props: NodeViewProps) => {
             data-mention-id={id}
             data-mention-type={type}
         >
-            {'@'}{label}
+            {'~'}{label}
         </NodeViewWrapper>
     );
 };
 
-const AtMentionSuggestions = Mention.extend({
-    name: WysiwygPluginNames.AT_MENTION_SUGGESTION,
+const ChannelSuggestions = Mention.extend({
+    name: WysiwygPluginNames.CHANNEL_SUGGESTION,
 
     addNodeView() {
-        return renderReactNodeView(RenderedMention);
+        return renderReactNodeView(RenderedChannel);
     },
 
     addAttributes() {
@@ -56,4 +56,4 @@ const AtMentionSuggestions = Mention.extend({
 
 export * from './suggestion';
 
-export default AtMentionSuggestions;
+export default ChannelSuggestions;
