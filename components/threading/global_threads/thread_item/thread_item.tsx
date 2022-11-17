@@ -28,7 +28,7 @@ import {manuallyMarkThreadAsUnread} from 'actions/views/threads';
 import PriorityBadge from 'components/post_priority/post_priority_badge';
 
 import {UserThread} from '@mattermost/types/threads';
-import {Post} from '@mattermost/types/posts';
+import {Post, PostPriority} from '@mattermost/types/posts';
 import {Channel} from '@mattermost/types/channels';
 
 import {THREADING_TIME} from '../../common/options';
@@ -200,7 +200,7 @@ function ThreadItem({
                         thread.is_urgent && (
                             <PriorityBadge
                                 className={postAuthor === channel?.display_name ? 'ml-2' : ''}
-                                priority={'urgent'}
+                                priority={PostPriority.URGENT}
                             />
                         )
                     )}

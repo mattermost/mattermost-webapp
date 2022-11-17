@@ -448,7 +448,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.file_ids = [];
         post.message = message;
         post.props = this.props.draft.props || {};
-        post.metadata = this.props.draft.metadata || {};
+        post.metadata = (this.props.draft.metadata || {}) as PostMetadata;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;

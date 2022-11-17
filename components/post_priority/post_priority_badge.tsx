@@ -52,4 +52,3 @@ export default function PriorityLabel({priority, className}: Props) {
         </Badge>
     );
 }
-
