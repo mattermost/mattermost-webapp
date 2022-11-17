@@ -40,8 +40,11 @@ const EmojiSuggestionItem = ({name}: {name: string}) => {
             id={name}
             aria-label={name}
         >
-            <RenderEmoji emojiName={name}/>
-            {name}
+            <RenderEmoji
+                emojiName={name}
+                size={24}
+            />
+            {`:${name}:`}
         </MentionItemRoot>
     );
 };
