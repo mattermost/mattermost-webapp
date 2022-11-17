@@ -77,7 +77,7 @@ describe('System Console - Payment Information section', () => {
                 id: 'uniqueID',
                 creator_id: '123randomId',
                 create_at: 1665763513000,
-                first_purchase_alt_payment_method: "{\"ach\":false,\"wire\":false,\"other\":true,\"otherPaymentOption\":\"Test Payment Option\"}",
+                first_purchase_alt_payment_method: '{"ach":false,"wire":false,"other":true,"otherPaymentOption":"Test Payment Option"}',
                 billing_address: {city: '',
                     country: '',
                     line1: '',

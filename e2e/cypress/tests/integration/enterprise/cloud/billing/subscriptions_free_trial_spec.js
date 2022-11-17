@@ -28,26 +28,63 @@ function simulateSubscription() {
     cy.intercept('GET', '**/api/v4/cloud/products**', {
         statusCode: 200,
         body:
-        [
-            {
-                id: 'prod_LSBESgGXq9KlLj',
-                sku: 'cloud-starter',
-                price_per_seat: 0,
-                name: 'Cloud Free',
+            [
+                {
+                    id: 'prod_LSBESgGXq9KlLj',
+                    sku: 'cloud-starter',
+                    price_per_seat: 0,
+                    name: 'Cloud Free',
+                },
+                {
+                    id: 'prod_K0AxuWCDoDD9Qq',
+                    sku: 'cloud-professional',
+                    price_per_seat: 10,
+                    name: 'Cloud Professional',
+                },
+                {
+                    id: 'prod_Jh6tBLcgWWOOog',
+                    sku: 'cloud-enterprise',
+                    price_per_seat: 30,
+                    name: 'Cloud Enterprise',
+                },
+            ],
+    });
+
+    cy.intercept('GET', '**/api/v4/cloud/customer', {
+        statusCode: 200,
+        body: {
+            name: 'Test environment ',
+            email: 'test.mattermost.com@mattermost.com',
+            num_employees: 12,
+            monthly_subscription_alt_payment_method: '',
+            id: 'oip7khhhkpbk7cjkrf7m66qyas',
+            creator_id: 'iq9xcutqp7bpdramcij939yas',
+            create_at: 1661456270000,
+            billing_address: {
+                city: 'Seattle',
+                country: 'United States',
+                line1: '123 Hello',
+                line2: '',
+                postal_code: '38383',
+                state: 'AK',
             },
-            {
-                id: 'prod_K0AxuWCDoDD9Qq',
-                sku: 'cloud-professional',
-                price_per_seat: 10,
-                name: 'Cloud Professional',
+            company_address: {
+                city: '',
+                country: '',
+                line1: '',
+                line2: '',
+                postal_code: '',
+                state: '',
             },
-            {
-                id: 'prod_Jh6tBLcgWWOOog',
-                sku: 'cloud-enterprise',
-                price_per_seat: 30,
-                name: 'Cloud Enterprise',
+            payment_method: {
+                type: 'card',
+                last_four: '4242',
+                exp_month: 4,
+                exp_year: 2028,
+                card_brand: 'visa',
+                name: '',
             },
-        ],
+        },
     });
 }
 

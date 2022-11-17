@@ -119,7 +119,7 @@ function createFilesNotificationForProfessionalFeatures() {
     cy.get('#product_switch_menu').click().then((() => {
         cy.findByText('Notify admin').should('be.visible').click();
         cy.findByText('Notified!').should('be.visible').click();
-        cy.findByText('Already notified!').should('be.visible').click();
+        cy.findByText('Already notified!').should('be.visible').should('be.disabled');
     }));
 }
 
@@ -334,7 +334,7 @@ function testFilesNotifications(subscription, limits) {
 
     cy.then(() => {
         // # Manually trigger saved notifications
-        triggerNotifications(myUrl, true);
+        triggerNotifications(myUrl, false);
     });
 
     cy.then(() => {
