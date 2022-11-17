@@ -56,6 +56,7 @@ interface State {
     cardFilled: boolean;
     seats: number;
     submitting: boolean;
+    succeeded: boolean;
 }
 
 interface UpdateAddress {
@@ -123,6 +124,10 @@ interface UpdateSubmitting {
     data: boolean;
 }
 
+interface UpdateSucceeded {
+    type: 'succeeded';
+}
+
 type Action =
     | UpdateAddress
     | UpdateAddress2
@@ -137,6 +142,7 @@ type Action =
     | UpdateCardName
     | UpdateSeats
     | UpdateSubmitting
+    | UpdateSucceeded
 
 const initialState: State = {
     address: '',
@@ -152,6 +158,7 @@ const initialState: State = {
     cardFilled: false,
     seats: 10,
     submitting: false,
+    succeeded: false,
 };
 
 function reducer(state: State, action: Action): State {
@@ -180,6 +187,10 @@ function reducer(state: State, action: Action): State {
         return {...state, organization: action.data};
     case 'update_submitting':
         return {...state, submitting: action.data};
+    case 'succeeded':
+        return {...state, submitting: false, succeeded: true};
+    case 'update_seats':
+        return {...state, seats: action.data}
     default:
         // eslint-disable-next-line
         console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`)
@@ -329,8 +340,16 @@ export default function SelfHostedPurchaseModal() {
                     seats: Math.max(state.seats,200),
                 },
             ));
-            if (finished) {
-                (function() {console.log('redirect to license page or something');})()
+            if (finished.data) {
+                (function() {console.log('redirect to license page or something. data:', finished.data);})()
+                dispatch({type: 'succeeded'})
+                reduxDispatch({
+                    type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                    data: SelfHostedSignupProgress.CREATED_LICENSE,
+                })
+            } else if (finished.error) {
+                dispatch({type: 'update_submitting', data: false});
+                
             }
             dispatch({type: 'update_submitting', data: false});
         } catch {
@@ -340,8 +359,12 @@ export default function SelfHostedPurchaseModal() {
     const canSubmitForm = canSubmit(state, progress)
 
     let buttonStep = 'Signup';
+    let buttonAction: () => void = submit;
     if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
-        buttonStep = 'Re-request license';
+        buttonStep = 'Done';
+        buttonAction = function() {
+                        reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
+        }
     }
 
     return (
@@ -362,6 +385,7 @@ export default function SelfHostedPurchaseModal() {
                         reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
                     }}
                 >
+                    {progress === SelfHostedSignupProgress.CREATED_LICENSE && 'enjoy your license'}
                     {showForm && <div style={{margin: '30px'}}>
                         <div>
                             <CardInput
@@ -509,7 +533,7 @@ export default function SelfHostedPurchaseModal() {
                     <button
                         className=''
                         disabled={!canSubmitForm}
-                        onClick={submit}
+                        onClick={buttonAction}
                     >
                         {buttonStep}
                     </button>

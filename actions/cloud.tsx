@@ -91,6 +91,8 @@ export function confirmSelfHostedSignup(
                 data: result.progress,
             });
         } catch (error) {
+            // eslint-disable-next-line no-console
+            console.error(error)
             return {data: false};
         }
 
