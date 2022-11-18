@@ -5,6 +5,7 @@ import {Channel, ChannelType} from './channels';
 import {CustomEmoji} from './emojis';
 import {FileInfo} from './files';
 import {Reaction} from './reactions';
+import {UserProfile} from './users';
 import {
     RelationOneToOne,
     RelationOneToMany,
@@ -45,6 +46,12 @@ export type PostImage = {
     width: number;
 };
 
+export type PostAcknowledgement = {
+    post_id: Post['id'];
+    user_id: UserProfile['id'];
+    acknowledged_at: number;
+}
+
 export type PostMetadata = {
     embeds: PostEmbed[];
     emojis: CustomEmoji[];
@@ -52,10 +59,11 @@ export type PostMetadata = {
     images: Record<string, PostImage>;
     reactions: Reaction[];
     priority?: {
-        priority: PostPriority;
+        priority: PostPriority|'';
         requested_ack?: boolean;
         persistent_notifications?: boolean;
     };
+    acknowledgements: PostAcknowledgement[];
 };
 
 export type Post = {
@@ -65,6 +73,7 @@ export type Post = {
     edit_at: number;
     delete_at: number;
     is_pinned: boolean;
+    has_reactions: boolean;
     user_id: string;
     channel_id: string;
     root_id: string;

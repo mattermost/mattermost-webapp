@@ -3,9 +3,6 @@
 
 import React from 'react';
 
-import {Post} from '@mattermost/types/posts';
-import {UserProfile} from '@mattermost/types/users';
-
 import {PostPluginComponent} from 'types/store/plugins';
 
 import {Posts} from 'mattermost-redux/constants';
@@ -22,6 +19,11 @@ import PostBodyAdditionalContent from 'components/post_view/post_body_additional
 import PostMessageView from 'components/post_view/post_message_view';
 import ReactionList from 'components/post_view/reaction_list';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
+import {Post} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+
+import PostAcknowledgements from '../acknowledgements';
 
 const SENDING_ANIMATION_DELAY = 3000;
 
@@ -217,7 +219,15 @@ export default class PostBody extends React.PureComponent<Props, State> {
                 >
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
-                    <ReactionList post={post}/>
+                    <div className='post__body-reactions-acks'>
+                        {post.metadata?.priority?.requested_ack && (
+                            <PostAcknowledgements
+                                list={post.metadata.acknowledgements}
+                                hasReactions={post.has_reactions}
+                            />
+                        )}
+                        <ReactionList post={post}/>
+                    </div>
                 </div>
             </>
         );
