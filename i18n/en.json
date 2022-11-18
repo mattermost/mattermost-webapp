@@ -1423,7 +1423,7 @@
   "admin.openid.select": "Select service provider:",
   "admin.openIdConvert.heading": "OAuth 2.0 is being deprecated and replaced by OpenID Connect.",
   "admin.openIdConvert.help": "Learn more",
-  "admin.openIdConvert.message": "Convert your OAuth 2.0 configuration to the new OpenID Connect standard.",
+  "admin.openIdConvert.message": "You can now convert your OAuth2.0 configuration to OpenID Connect.",
   "admin.openIdConvert.text": "Convert to OpenID Connect",
   "admin.password.lowercase": "At least one lowercase letter",
   "admin.password.minimumLength": "Minimum Password Length:",

@@ -4780,15 +4780,6 @@ const AdminDefinition = {
             url: 'authentication/oauth',
             title: t('admin.sidebar.oauth'),
             title_default: 'OAuth 2.0',
-            tag: {
-                value: (
-                    <FormattedMessage
-                        id='admin.sidebar.oauth.tag'
-                        defaultMessage='deprecated'
-                    />
-                ),
-                shouldDisplay: (license) => license.IsLicensed && license.OpenId === 'true',
-            },
             isHidden: it.any(
                 it.any(
                     it.not(it.licensed),
