@@ -25,6 +25,7 @@ import './style.scss';
 
 type Props = {
     onHide?: () => void;
+    backButtonAction?: () => void;
 };
 
 function ErrorModal(props: Props) {
@@ -38,6 +39,9 @@ function ErrorModal(props: Props) {
 
     const onHide = () => {
         dispatch(closeModal(ModalIdentifiers.ERROR_MODAL));
+        if (typeof props.backButtonAction === 'function') {
+            props.backButtonAction();
+        }
         if (typeof props.onHide === 'function') {
             props.onHide();
         }
