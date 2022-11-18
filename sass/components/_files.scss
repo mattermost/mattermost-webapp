@@ -461,16 +461,16 @@
 }
 
 .post-image__end-button {
+    display: flex;
     width: 32px;
     height: 32px;
-    display: flex;
     align-items: center;
     justify-content: center;
     border: 0;
     margin: 0 8px;
     background-color: var(--center-channel-bg);
-    color: rgba(var(--center-channel-color-rgb), 0.56);
     border-radius: 4px;
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     cursor: pointer;
 
     &:focus {

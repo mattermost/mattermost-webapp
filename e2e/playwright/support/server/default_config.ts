@@ -168,6 +168,8 @@ const defaultServerConfig: AdminConfig = {
         CollapsedThreads: CollapsedThreads.ALWAYS_ON,
         ManagedResourcePaths: '',
         EnableCustomGroups: true,
+        EnableVoiceMessages: false,
+        MaxVoiceMessagesDuration: 300,
     },
     TeamSettings: {
         SiteName: 'Mattermost',
@@ -263,7 +265,6 @@ const defaultServerConfig: AdminConfig = {
         EnableMobileUpload: true,
         EnableMobileDownload: true,
         MaxFileSize: 104857600,
-        MaxVoiceMessagesDuration: 5*60, // 5min
         MaxImageResolution: 33177600,
         MaxImageDecoderConcurrency: -1,
         DriverName: 'local',

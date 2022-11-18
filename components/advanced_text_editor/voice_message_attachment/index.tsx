@@ -44,7 +44,7 @@ interface Props {
     onUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: Channel['id'], rootId?: Post['id']) => void;
     onUploadError: (err: string | ServerError, clientId?: string, channelId?: Channel['id'], rootId?: Post['id']) => void;
     onRemoveDraft: (fileInfoIdOrClientId: FileInfo['id'] | string) => void;
-    onSubmit:(e: FormEvent<Element>) => void;
+    onSubmit: (e: FormEvent<Element>) => void;
 }
 
 const VoiceMessageAttachment = (props: Props) => {
@@ -56,8 +56,9 @@ const VoiceMessageAttachment = (props: Props) => {
 
     const audioFileRef = useRef<File>();
 
+    // eslint-disable-next-line consistent-return
     useEffect(() => {
-        if (props.vmState === VoiceMessageStates.ATTACHED){
+        if (props.vmState === VoiceMessageStates.ATTACHED) {
             function handleKeyDown(e: KeyboardEvent) {
                 if (e.key === 'Enter') {
                     e.stopPropagation();
@@ -70,9 +71,8 @@ const VoiceMessageAttachment = (props: Props) => {
 
             return () => {
                 window.removeEventListener('keydown', handleKeyDown);
-            }
+            };
         }
-
     }, [props?.draft?.fileInfos?.[0]?.id, props.vmState]);
 
     function handleOnUploadComplete(data: FileUploadResponse | undefined, channelId: string, rootId: string) {

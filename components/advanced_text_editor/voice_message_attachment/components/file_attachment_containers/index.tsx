@@ -14,7 +14,6 @@ const StyledButton = styled.button`
     align-items: center;
 `;
 
-
 export const OkButton = styled(StyledButton)`
     background-color: var(--button-bg);
     color: var(--button-color);

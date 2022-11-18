@@ -2,12 +2,15 @@
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useRef} from 'react';
+import {useSelector} from 'react-redux';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
 import {MicrophoneOutlineIcon, CloseIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
+
+import {getVoiceMessageMaxDuration} from 'selectors/views/textbox';
 
 import {convertSecondsToMSS} from 'utils/datetime';
 
@@ -27,6 +30,8 @@ interface Props {
 }
 
 function VoiceMessageRecordingStarted(props: Props) {
+    const voiceMessageMaxDuration = useSelector(getVoiceMessageMaxDuration);
+
     const canvasElemRef = useRef<HTMLCanvasElement>(null);
 
     const {startRecording, elapsedTime, stopRecording, cleanPostRecording, hasError} = useAudioRecorder({
@@ -51,7 +56,7 @@ function VoiceMessageRecordingStarted(props: Props) {
 
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
-        }
+        };
     }, []);
 
     useEffect(() => {
@@ -74,6 +79,12 @@ function VoiceMessageRecordingStarted(props: Props) {
             props.onComplete(audioFile);
         }
     }
+
+    useEffect(() => {
+        if (elapsedTime >= voiceMessageMaxDuration) {
+            handleRecordingComplete();
+        }
+    }, [elapsedTime, voiceMessageMaxDuration]);
 
     if (hasError) {
         return <VoiceMessageRecordingFailed onCancel={handleRecordingCancelled}/>;

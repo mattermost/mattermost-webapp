@@ -26,3 +26,8 @@ export function isVoiceMessagesEnabled(state: GlobalState): boolean {
 
     return (fileAttachmentsEnabled && voiceMessagesEnabled && voiceMessageFeatureFlagEnabled);
 }
+
+export function getVoiceMessageMaxDuration(state: GlobalState): number {
+    const config = getConfig(state);
+    return parseInt(config.MaxVoiceMessagesDuration as string, 10);
+}

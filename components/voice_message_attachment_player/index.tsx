@@ -1,8 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {ChangeEvent} from 'react';
-import { useIntl } from 'react-intl';
+import React from 'react';
+import {useIntl} from 'react-intl';
 
 import {
     PlayIcon,
@@ -13,8 +13,8 @@ import {
     DownloadOutlineIcon,
 } from '@mattermost/compass-icons/components';
 
-import { FileInfo } from '@mattermost/types/files';
-import { Post } from '@mattermost/types/posts';
+import {FileInfo} from '@mattermost/types/files';
+import {Post} from '@mattermost/types/posts';
 
 import {
     AudioPlayerState,
@@ -23,21 +23,21 @@ import {
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import Menu from 'components/widgets/menu/menu';
 
-import { convertSecondsToMSS } from 'utils/datetime';
+import {convertSecondsToMSS} from 'utils/datetime';
 import {copyToClipboard} from 'utils/utils';
 import {getSiteURL} from 'utils/url';
 
 interface Props {
-    postId?: Post['id']
+    postId?: Post['id'];
     fileId: FileInfo['id'];
     inPost?: boolean;
     onCancel?: () => void;
 }
 
 function VoiceMessageAttachmentPlayer(props: Props) {
-    const { formatMessage } = useIntl()
+    const {formatMessage} = useIntl();
 
-    const { playerState, duration, elapsed, togglePlayPause } = useAudioPlayer(props.fileId ? `/api/v4/files/${props.fileId}` : '');
+    const {playerState, duration, elapsed, togglePlayPause} = useAudioPlayer(props.fileId ? `/api/v4/files/${props.fileId}` : '');
 
     const progressValue = elapsed === 0 || duration === 0 ? '0' : (elapsed / duration).toFixed(2);
 
@@ -80,7 +80,7 @@ function VoiceMessageAttachmentPlayer(props: Props) {
                     {playerState === AudioPlayerState.Playing || playerState === AudioPlayerState.Paused ? convertSecondsToMSS(elapsed) : convertSecondsToMSS(duration)}
                 </div>
                 {props.inPost && (
-                    <MenuWrapper 
+                    <MenuWrapper
                         className={'dropdown-menu__dotmenu'}
                     >
                         <button className='post-image__end-button'>
@@ -92,18 +92,28 @@ function VoiceMessageAttachmentPlayer(props: Props) {
                         <Menu
                             openUp={true}
                             className={'Menu__content dropdown-menu'}
-                            ariaLabel={formatMessage({ id: 'voiceMessageAttachment.dropdownAriaLabel', defaultMessage: 'Voice message post options' })}
+                            ariaLabel={formatMessage({id: 'voiceMessageAttachment.dropdownAriaLabel', defaultMessage: 'Voice message post options'})}
                         >
                             <Menu.ItemAction
                                 id={`permalink_${props.postId}`}
                                 className={'MenuItem'}
-                                icon={<LinkVariantIcon size={18} color="currentColor"/>}
+                                icon={
+                                    <LinkVariantIcon
+                                        size={18}
+                                        color='currentColor'
+                                    />
+                                }
                                 text={formatMessage({id: 'voiceMessageAttachment.copyLink', defaultMessage: 'Copy link'})}
                                 onClick={copyLink}
                             />
                             <Menu.ItemAction
                                 id={`download_${props.postId}`}
-                                icon={<DownloadOutlineIcon size={18} color="currentColor"/>}
+                                icon={
+                                    <DownloadOutlineIcon
+                                        size={18}
+                                        color='currentColor'
+                                    />
+                                }
                                 text={formatMessage({id: 'voiceMessageAttachment.download', defaultMessage: 'Download'})}
                             />
                         </Menu>

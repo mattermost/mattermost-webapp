@@ -188,6 +188,7 @@ export type ClientConfig = {
     ExperimentalSharedChannels: string;
     EnableAppBar: string;
     EnableVoiceMessages: string;
+    MaxVoiceMessagesDuration: string;
     EnableComplianceExport: string;
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
@@ -349,7 +350,7 @@ export type ServiceSettings = {
     CollapsedThreads: CollapsedThreads;
     ThreadAutoFollow: boolean;
     PostPriority: boolean;
-    EnableVoiceMessage: boolean;
+    EnableVoiceMessages: boolean;
     MaxVoiceMessagesDuration: number;
     EnableAPIChannelDeletion: boolean;
     EnableAWSMetering: boolean;
