@@ -35,7 +35,7 @@ describe('Image attachment', () => {
         verifyFileThumbnail({
             filename,
             actualImage: {height: 24, width: 24},
-            container: {height: 48, width: 48},
+            container: {height: 45, width: 45},
         });
     });
 
@@ -56,7 +56,7 @@ describe('Image attachment', () => {
         verifyFileThumbnail({
             filename,
             actualImage: {height: 24, width: 340},
-            container: {height: 48, width: 342},
+            container: {height: 45, width: 342},
         });
     });
 
@@ -97,7 +97,7 @@ describe('Image attachment', () => {
         // # File thumbnail should have correct dimensions
         verifyFileThumbnail({
             filename,
-            actualImage: {height: 151, width: 958},
+            actualImage: {height: 151, width: 955},
         });
     });
 
@@ -117,7 +117,7 @@ describe('Image attachment', () => {
         // # File thumbnail should have correct dimensions
         verifyFileThumbnail({
             filename,
-            actualImage: {height: 151, width: 958},
+            actualImage: {height: 151, width: 955},
             clickPreview: () => cy.uiGetFileThumbnail(filename).click(),
         });
 
@@ -145,7 +145,7 @@ describe('Image attachment', () => {
         verifyFileThumbnail({
             filename,
             actualImage: {height: 24, width: 24},
-            container: {height: 48, width: 48},
+            container: {height: 45, width: 45},
             clickPreview: () => cy.uiGetFileThumbnail(filename).click(),
         });
 

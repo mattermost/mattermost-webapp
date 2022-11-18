@@ -20,6 +20,8 @@
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        // MM-45313 - Hack for issue in iOS Safari with scrolling
+        -webkit-overflow-scrolling: touch;
         overflow-y: auto;
     }
 }

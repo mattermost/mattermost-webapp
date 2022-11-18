@@ -26,7 +26,6 @@
     &__message {
         display: flex;
         align-items: center;
-        justify-content: center;
         font-family: 'Open Sans';
         font-size: 12px;
         font-weight: 600;
@@ -56,7 +55,7 @@
         text-align: center;
 
         &--has-message {
-            margin-bottom: 0;
+            margin-bottom: 4px;
         }
 
         .title {

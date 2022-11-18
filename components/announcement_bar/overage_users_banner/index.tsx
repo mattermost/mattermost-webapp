@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -51,7 +52,7 @@ const OverageUsersBanner = () => {
         seatsPurchased,
     });
     const prefixPreferences = isOver10PercerntPurchasedSeats ? 'error' : 'warn';
-    const prefixLicenseId = (license.Id || '').substring(0, 8);
+    const prefixLicenseId = license.Id.substring(0, 8);
     const preferenceName = `${prefixPreferences}_overage_seats_${prefixLicenseId}`;
 
     const overageByUsers = activeUsers - seatsPurchased;

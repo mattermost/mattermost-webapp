@@ -27,7 +27,8 @@ class App extends React.PureComponent {
                         component={Root}
                     />
                 </Router>
-            </Provider>);
+            </Provider>
+        );
     }
 }
 
