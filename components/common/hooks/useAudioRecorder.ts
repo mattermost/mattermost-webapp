@@ -28,6 +28,7 @@ interface Props {
 }
 
 export function useAudioRecorder(props: Props) {
+    const audioStream = useRef<MediaStream>();
     const audioContextRef = useRef<AudioContext>();
     const audioAnalyzerRef = useRef<AnalyserNode>();
     const audioScriptProcessorRef = useRef<ScriptProcessorNode>();
@@ -136,7 +137,7 @@ export function useAudioRecorder(props: Props) {
 
     async function startRecording() {
         try {
-            const audioStream = await navigator.mediaDevices.getUserMedia({
+            audioStream.current = await navigator.mediaDevices.getUserMedia({
                 audio: true,
             });
 
@@ -145,7 +146,7 @@ export function useAudioRecorder(props: Props) {
             const audioAnalyzer = audioContext.createAnalyser();
             audioAnalyzer.fftSize = props.audioAnalyzerFFTSize;
 
-            const audioSourceNode = audioContext.createMediaStreamSource(audioStream);
+            const audioSourceNode = audioContext.createMediaStreamSource(audioStream.current);
 
             // CHANGE LATER
             // migrate to use Audio Worklet instead.
@@ -187,7 +188,11 @@ export function useAudioRecorder(props: Props) {
     }
 
     async function cleanPostRecording(totalCleanup = false) {
-        console.log('cleanPostRecording'); // eslint-disable-line no-console
+        if (audioStream.current) {
+            audioStream.current.getTracks().forEach((audioStreamTrack) => {
+                audioStreamTrack.stop();
+            });
+        }
 
         if (audioContextRef.current && audioContextRef.current.state !== 'closed') {
             await audioContextRef.current.close();
