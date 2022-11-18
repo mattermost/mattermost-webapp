@@ -2128,6 +2128,7 @@ export enum WysiwygPluginNames {
     AT_MENTION_SUGGESTION = 'at-mention-suggestion',
     CHANNEL_SUGGESTION = 'channel-suggestion',
     EMOJI_SUGGESTION = 'emoji-suggestion',
+    SLASH_COMMAND = 'slash-command',
 }
 
 export enum ClaimErrors {

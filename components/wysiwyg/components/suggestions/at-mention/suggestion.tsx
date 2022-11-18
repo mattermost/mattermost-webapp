@@ -23,7 +23,9 @@ const SuggestionPluginKey = new PluginKey(WysiwygPluginNames.AT_MENTION_SUGGESTI
 type AtMentionSuggestionOptions = {
     teamId: string;
     channelId: string;
+    disabled?: boolean;
     useSpecialMentions?: boolean;
+    useGroupMentions?: boolean;
 }
 
 function getGroupSuggestions(group: Group): string[] {
@@ -54,15 +56,17 @@ function filterGroup(prefix: string, group: Group): boolean {
     return groupSuggestions.some((suggestion) => suggestion.startsWith(prefixLower));
 }
 
-export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, useSpecialMentions = true}) => ({
+export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => Omit<SuggestionOptions<SuggestionItem>, 'editor'> = ({teamId, channelId, disabled, useGroupMentions, useSpecialMentions = true}) => ({
     char: '@',
 
     pluginKey: SuggestionPluginKey,
 
     items: async ({query}: {query: string}) => {
+        if (disabled) {
+            return [];
+        }
+
         const {users: userInChannel, out_of_channel: userNotInChannel} = await Client4.autocompleteUsers(query, teamId, channelId, {limit: 30});
-        const groups = await Client4.getGroups();
-        const filteredGroups = groups.filter((group) => filterGroup(query, group));
         const results: SuggestionItem[] = [];
 
         // add all users that are members of the channel to the results
@@ -75,14 +79,19 @@ export const makeAtMentionSuggestion: (options: AtMentionSuggestionOptions) => O
             })));
         }
 
-        // add all found (and accessible) groups to the results
-        if (Array.isArray(filteredGroups) && filteredGroups.length > 0) {
-            results.push(...filteredGroups.map((group) => ({
-                id: group.id,
-                type: 'groups',
-                label: group.display_name,
-                content: <GroupMentionItem {...group}/>,
-            })));
+        if (useGroupMentions) {
+            const groups = await Client4.getGroups();
+            const filteredGroups = groups.filter((group) => filterGroup(query, group));
+
+            // add all found (and accessible) groups to the results
+            if (Array.isArray(filteredGroups) && filteredGroups.length > 0) {
+                results.push(...filteredGroups.map((group) => ({
+                    id: group.id,
+                    type: 'groups',
+                    label: group.display_name,
+                    content: <GroupMentionItem {...group}/>,
+                })));
+            }
         }
 
         if (useSpecialMentions) {

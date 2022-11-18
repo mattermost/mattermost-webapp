@@ -1,18 +1,18 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 import React from 'react';
-import {SuggestionOptions} from '@tiptap/suggestion';
-import {PluginKey} from 'prosemirror-state';
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
+import {PluginKey} from 'prosemirror-state';
+import {SuggestionOptions} from '@tiptap/suggestion';
 
 import store from 'stores/redux_store.jsx';
 import {getEmojiMap, getRecentEmojisNames} from 'selectors/emojis';
 
 import {WysiwygPluginNames} from 'utils/constants';
 import {compareEmojis, emojiMatchesSkin} from 'utils/emoji_utils';
+import EmojiMap from 'utils/emoji_map';
 
 import {Emoji} from '@mattermost/types/emojis';
-import EmojiMap from '../../../../../utils/emoji_map';
 
 import {SuggestionItem} from '../suggestion-list';
 import {render} from '../suggestion-base';
@@ -100,7 +100,7 @@ export const makeEmojiSuggestion: (options: ChannelSuggestionOptions) => Omit<Su
 
     pluginKey: SuggestionPluginKey,
 
-    items: async ({query}: {query: string}) => {
+    items: ({query}: {query: string}) => {
         return new Promise((resolve) => {
             if (query.length < MIN_EMOTICON_LENGTH) {
                 resolve([]);

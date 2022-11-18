@@ -2,7 +2,9 @@
 // See LICENSE.txt for license information.
 
 import {Permissions} from 'mattermost-redux/constants';
-import {haveIChannelPermission} from 'mattermost-redux/selectors/entities/roles';
+import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
@@ -159,6 +161,12 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
     const useCustomEmojis = useSelector(isCustomEmojiEnabled);
     const useSpecialMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS));
 
+    const license = useSelector(getLicense);
+    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
+    const useLDAPGroupMentions = isLDAPEnabled && useSelector((state: GlobalState) => haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS));
+    const useChannelMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS));
+    const useCustomGroupMentions = useSelector((state: GlobalState) => isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS));
+
     const editor = useEditor({
         extensions: [
             StarterKit,
@@ -222,7 +230,9 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                 suggestion: makeAtMentionSuggestion({
                     teamId,
                     channelId,
+                    disabled: !useChannelMentions,
                     useSpecialMentions,
+                    useGroupMentions: useLDAPGroupMentions || useCustomGroupMentions,
                 }),
             }),
             ChannelSuggestions.configure({

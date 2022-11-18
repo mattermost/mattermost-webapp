@@ -24,20 +24,20 @@ export const render: Omit<SuggestionOptions<SuggestionItem>, 'editor'>['render']
 
         onUpdate(props) {
             savedProps = {...savedProps, ...props};
-            reactRenderer.updateProps(savedProps);
+            reactRenderer?.updateProps(savedProps);
         },
 
         onKeyDown(props) {
             if (props.event.key === 'Escape') {
                 savedProps = {...savedProps, visible: false};
-                reactRenderer.updateProps(savedProps);
+                reactRenderer?.updateProps(savedProps);
                 return true;
             }
-            return reactRenderer.ref?.onKeyDown(props) || false;
+            return reactRenderer?.ref?.onKeyDown(props) || false;
         },
 
         onExit() {
-            reactRenderer.destroy();
+            reactRenderer?.destroy();
         },
     };
 };
