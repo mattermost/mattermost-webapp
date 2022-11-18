@@ -45,6 +45,7 @@ export default function FileAttachmentList(props: Props) {
     if (post.type === Constants.PostTypes.VOICE && fileInfos.length === 1) {
         return (
             <VoiceMessageAttachmentPlayer
+                postId={post.id}
                 fileId={fileInfos?.[0]?.id ?? ''}
                 inPost={true}
             />
