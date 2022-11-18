@@ -33,10 +33,10 @@ function VoiceMessageRecordingStarted(props: Props) {
         canvasElemRef,
         canvasBg: props.theme.centerChannelBg,
         canvasBarColor: props.theme.buttonBg,
-        canvasBarWidth: 5,
+        canvasBarWidth: 4,
         audioAnalyzerFFTSize: 32,
-        minimumAmplitudePercentage: 14,
-        reducedSampleSize: 9,
+        minimumAmplitudePercentage: 20,
+        reducedSampleSize: 13,
         audioFilePrefix: 'voice_message_',
     });
 
