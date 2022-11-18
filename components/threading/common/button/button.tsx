@@ -12,6 +12,7 @@ type Props = {
     isActive?: boolean;
     hasDot?: boolean;
     allowTextOverflow?: boolean;
+    marginExtra?: boolean;
 }
 
 type Attrs = Exclude<ButtonHTMLAttributes<HTMLButtonElement>, Props>
@@ -22,6 +23,7 @@ function Button({
     children,
     isActive,
     hasDot,
+    marginExtra,
     allowTextOverflow = false,
     ...attrs
 }: Props & Attrs) {
@@ -35,7 +37,7 @@ function Button({
                     {prepend}
                 </span>
             )}
-            <span className='Button_label'>
+            <span className={marginExtra ? 'Button_label_margin_extra' : 'Button_label'}>
                 {children}
                 {hasDot && <span className='dot'/>}
             </span>
