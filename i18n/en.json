@@ -5511,5 +5511,8 @@
   "worktemplates.preview.modal_next_button": "Next",
   "worktemplates.preview.modal_title": "Preview - {useCase}",
   "worktemplates.preview.section.included": "Included",
+  "worktemplates.preview.integrations.admin_install.single_plugin": "{plugin} will not be added until admin installs it.",
+  "worktemplates.preview.integrations.admin_install.multiple_plugin": "Integrations will not be added until admin installs them.",
+
   "yourcomputer": "Your computer"
 }

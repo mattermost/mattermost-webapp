@@ -41,6 +41,10 @@ export interface Playbook {
 }
 export interface Integration {
     id: string;
+    name?: string;
+    description?: string;
+    icon?: string;
+    installed?: boolean;
 }
 
 interface Content {
