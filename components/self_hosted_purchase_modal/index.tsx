@@ -41,7 +41,6 @@ import {COUNTRIES} from 'utils/countries';
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
-import useCWSHealthCheck from 'components/common/hooks/useCWSHealthCheck';
 
 interface State {
     address: string;

@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import PurchaseModal from 'components/purchase_modal';
+import PurchaseModal from 'components/cloud_purchase_modal';
 
 interface OpenPurchaseModalOptions{
     onClick?: () => void;

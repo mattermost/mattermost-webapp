@@ -16,7 +16,7 @@ interface OpenPurchaseModalOptions{
 }
 type TelemetryProps = Pick<OpenPurchaseModalOptions, 'trackingLocation'>
 
-export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOptions) {
+export default function useOpenSelfHostedPurchaseModal(options: OpenPurchaseModalOptions) {
     const dispatch = useDispatch();
     return async (telemetryProps: TelemetryProps) => {
         if (options.onClick) {

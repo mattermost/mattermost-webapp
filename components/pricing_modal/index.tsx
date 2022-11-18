@@ -11,7 +11,7 @@ import {isModalOpen} from 'selectors/views/modals';
 import {GlobalState} from 'types/store';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 
-import Content from './content';
+import Content from './cloud_content';
 import SelfHostedContent from './self_hosted_content';
 
 import './pricing_modal.scss';

@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux';
 export default function useCWSHealthCheck() {
 
     const cwsHealthCheck = async () => {
-        (await Client4.cwsHealthCheck()).status
+        return await Client4.cwsHealthCheck()
     } 
 
     return {

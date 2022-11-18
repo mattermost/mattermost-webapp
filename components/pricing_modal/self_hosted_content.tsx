@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -24,6 +24,9 @@ import StartTrialCaution from './start_trial_caution';
 import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
+import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
+
+import useCWSHealthCheck from 'components/common/hooks/useCWSHealthCheck';
 
 type ContentProps = {
     onHide: () => void;
@@ -32,12 +35,24 @@ type ContentProps = {
 function SelfHostedContent(props: ContentProps) {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
+    const [cwsStatus, setCWSStatus] = useState(false);
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
     }, []);
 
+    async function checkCWS() {
+        const {cwsHealthCheck} = useCWSHealthCheck();
+        let status = (await cwsHealthCheck()).status
+        setCWSStatus(status === 'OK');
+    }
+
+    useEffect(() => {
+        checkCWS();
+    }, [])
+
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
+    const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
 
     const license = useSelector(getLicense);
     const prevSelfHostedTrialLicense = useSelector((state: GlobalState) => state.entities.admin.prevTrialLicense);
@@ -181,7 +196,13 @@ function SelfHostedContent(props: ContentProps) {
                         buttonDetails={{
                             action: () => {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
-                                window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+
+                                if (cwsStatus === true) {
+                                    props.onHide();
+                                    openSelfHostedPurchaseModal({});
+                                } else {
+                                    window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');
+                                }
                             },
                             text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional,

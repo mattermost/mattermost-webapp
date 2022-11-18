@@ -15,7 +15,7 @@ import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import StartTrialBtn from 'components/learn_more_trial_modal/start_trial_btn';
 import PurchaseLink from 'components/announcement_bar/purchase_link/purchase_link';
 import ContactUsButton from 'components/announcement_bar/contact_sales/contact_us';
-import PurchaseModal from 'components/purchase_modal';
+import PurchaseModal from 'components/cloud_purchase_modal';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 
 import {ModalIdentifiers, TELEMETRY_CATEGORIES, AboutLinks, LicenseLinks, LicenseSkus} from 'utils/constants';

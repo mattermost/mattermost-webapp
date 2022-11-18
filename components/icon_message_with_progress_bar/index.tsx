@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-import IconMessage from 'components/purchase_modal/icon_message';
+import IconMessage from 'components/cloud_purchase_modal/icon_message';
 import './icon_message_with_progress_bar.scss';
 
 export const enum ProcessState {
