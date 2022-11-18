@@ -71,3 +71,7 @@ export function isCurrentLicenseCloud(state: GlobalState): boolean {
 export function getSelfHostedSignupProgress(state: GlobalState): ValueOf<typeof SelfHostedSignupProgress> {
     return state.entities.cloud.selfHostedSignup.progress;
 }
+
+export function getCWSHealthCheckResult(state: GlobalState): boolean {
+    return state.entities.cloud.healthCheck.cwsAvailable;
+}

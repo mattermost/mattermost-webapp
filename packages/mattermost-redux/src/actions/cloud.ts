@@ -4,7 +4,7 @@
 import {CloudTypes} from 'mattermost-redux/action_types';
 import {Client4} from 'mattermost-redux/client';
 
-import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/actions';
+import {DispatchFunc, GetStateFunc, ActionFunc, Action} from 'mattermost-redux/types/actions';
 import {
     Address,
     CloudCustomerPatch,
@@ -99,4 +99,11 @@ export function updateCloudCustomerAddress(address: Address): ActionFunc {
         onSuccess: [CloudTypes.RECEIVED_CLOUD_CUSTOMER],
         params: [address],
     });
+}
+
+export function cwsHealthCheck(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.cwsHealthCheck,
+        onSuccess: [CloudTypes.CWS_HEALTH_CHECK_OK]
+    })
 }

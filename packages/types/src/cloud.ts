@@ -22,6 +22,9 @@ export type CloudState = {
     selfHostedSignup: {
         progress: ValueOf<typeof SelfHostedSignupProgress>;
     };
+    healthCheck: {
+        cwsAvailable: boolean;
+    }
 }
 
 export type Subscription = {

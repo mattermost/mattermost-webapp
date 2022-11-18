@@ -72,6 +72,19 @@ function invoices(state: Record<string, Invoice> | null = null, action: GenericA
     }
 }
 
+function healthCheck(state: boolean | null = null, action: GenericAction) {
+    switch (action.type) {
+        case CloudTypes.CWS_HEALTH_CHECK_OK: {
+            return {
+                cwsAvailable: state,
+            }
+        }
+
+        default:
+            return state;
+    }
+}
+
 export interface LimitsReducer {
     limits: Limits;
     limitsLoaded: boolean;
@@ -213,5 +226,8 @@ export default combineReducers({
 
     // network errors, used to show errors in ui instead of blowing up and showing nothing
     errors,
+
     selfHostedSignup,
+
+    healthCheck,
 });

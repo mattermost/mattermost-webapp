@@ -28,4 +28,6 @@ export default keyMirror({
     CLOUD_SUBSCRIPTION_REQUEST: null,
 
     RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS: null,
+
+    CWS_HEALTH_CHECK_OK: null,
 });

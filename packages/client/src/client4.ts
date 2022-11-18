@@ -4080,6 +4080,13 @@ export default class Client4 {
         );
     }
 
+    cwsHealthCheck = () => {
+        return this.doFetch<StatusOK>(
+            `${this.getCloudRoute()}/cws-health-check`,
+            {method: 'get'}
+        )
+    }
+
     /**
      * @param query string query of graphQL, pass the json stringified version of the query
      * eg.  const query = JSON.stringify({query: `{license, config}`, operationName: 'queryForLicenseAndConfig'});
@@ -4088,6 +4095,7 @@ export default class Client4 {
     fetchWithGraphQL = async <DataResponse>(query: string) => {
         return this.doFetch<DataResponse>(this.getGraphQLUrl(), {method: 'post', body: query});
     }
+
 
     // Client Helpers
 
