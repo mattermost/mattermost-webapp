@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {memo} from 'react';
 import {useIntl, FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 
@@ -56,6 +56,8 @@ const VoiceButton = (props: Props) => {
             placement='left'
             delayShow={Constants.OVERLAY_TIME_DELAY}
             trigger={Constants.OVERLAY_DEFAULT_TRIGGER}
+            rootClose={true}
+            disabled={props.disabled}
             overlay={
                 <Tooltip id='voiceMessageButtonTooltip'>
                     <FormattedMessage
@@ -65,7 +67,7 @@ const VoiceButton = (props: Props) => {
                 </Tooltip>}
         >
             <IconContainer
-                id='PreviewInputTextButton'
+                id='voiceMessageButton'
                 type='button'
                 onClick={handleOnClick}
                 disabled={props.disabled}
@@ -80,4 +82,4 @@ const VoiceButton = (props: Props) => {
     );
 };
 
-export default VoiceButton;
+export default memo(VoiceButton);
