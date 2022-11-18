@@ -37,11 +37,15 @@ function ErrorModal(props: Props) {
         isModalOpen(state, ModalIdentifiers.ERROR_MODAL),
     );
 
-    const onHide = () => {
-        dispatch(closeModal(ModalIdentifiers.ERROR_MODAL));
-        if (typeof props.backButtonAction === 'function') {
+    const onBackButtonPress = () => {
+        if (props.backButtonAction) {
             props.backButtonAction();
         }
+        dispatch(closeModal(ModalIdentifiers.ERROR_MODAL));
+    };
+
+    const onHide = () => {
+        dispatch(closeModal(ModalIdentifiers.ERROR_MODAL));
         if (typeof props.onHide === 'function') {
             props.onHide();
         }
@@ -94,7 +98,7 @@ function ErrorModal(props: Props) {
                         />
                     }
                     tertiaryButtonHandler={openContactUs}
-                    buttonHandler={onHide}
+                    buttonHandler={onBackButtonPress}
                     className={'success'}
                 />
             </div>
