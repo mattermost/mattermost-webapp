@@ -431,7 +431,7 @@ export function makeGetMentionsFromMessage(): (state: GlobalState, post: Post) =
             const mentionsArray = post.message.match(Constants.MENTIONS_REGEX) || [];
             for (let i = 0; i < mentionsArray.length; i++) {
                 const mention = mentionsArray[i];
-                const user = getUserFromMentionName(users, mention.substring(1));
+                const user = getUserOrGroupFromMentionName(users, mention.substring(1)) as UserProfile | '';
 
                 if (user) {
                     mentions[mention] = user;
@@ -687,7 +687,7 @@ export function makeGetUniqueReactionsToPost(): (state: GlobalState, postId: Pos
     );
 }
 
-export function getUserFromMentionName(usersByUsername: Record<string, UserProfile>, mentionName: string) {
+export function getUserOrGroupFromMentionName(usersByUsername: Record<string, UserProfile | Group>, mentionName: string) {
     let mentionNameToLowerCase = mentionName.toLowerCase();
 
     while (mentionNameToLowerCase.length > 0) {

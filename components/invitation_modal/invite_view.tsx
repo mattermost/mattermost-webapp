@@ -19,9 +19,12 @@ import UsersEmailsInput from 'components/widgets/inputs/users_emails_input';
 import {getAnalyticsCategory} from 'components/onboarding_tasks';
 
 import {t} from 'utils/i18n';
+import {getTrackFlowRole, getRoleForTrackFlow} from 'utils/utils';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
+import OverageUsersBannerNotice from './overage_users_banner_notice';
+
 import './invite_view.scss';
 
 export const initializeInviteState = (initialSearchValue = '', inviteAsGuest = false): InviteState => {
@@ -78,11 +81,11 @@ export default function InviteView(props: Props) {
     const {formatMessage} = useIntl();
 
     const inviteURL = useMemo(() => {
-        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}`;
+        return `${getSiteURL()}/signup_user_complete/?id=${props.currentTeam.invite_id}&sbr=${getTrackFlowRole()}`;
     }, [props.currentTeam.invite_id]);
 
     const copyText = useCopyText({
-        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link'),
+        trackCallback: () => trackEvent(getAnalyticsCategory(props.isAdmin), 'click_copy_invite_link', getRoleForTrackFlow()),
         text: inviteURL,
     });
 
@@ -245,6 +248,7 @@ export default function InviteView(props: Props) {
                         inviteType={props.inviteType}
                     />
                 )}
+                <OverageUsersBannerNotice/>
             </Modal.Body>
             <Modal.Footer className={'InviteView__footer ' + props.footerClass}>
                 {copyButton}

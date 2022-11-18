@@ -31,7 +31,7 @@ import {
     groupsMentionedInText,
     getGroupOrUserMentions,
 } from 'utils/post_utils';
-import {getTable, formatMarkdownTableMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
+import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
 import {isMac} from 'utils/utils';
 import * as Utils from 'utils/utils';
@@ -324,6 +324,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
+            this.getChannelMemberCountsByGroup();
         }
 
         if (currentChannel.id !== prevProps.currentChannel.id) {
@@ -352,7 +353,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     getChannelMemberCountsByGroup = () => {
         const {useLDAPGroupMentions, useCustomGroupMentions, currentChannel, isTimezoneEnabled, actions, draft} = this.props;
 
-        if (useLDAPGroupMentions || useCustomGroupMentions) {
+        if ((useLDAPGroupMentions || useCustomGroupMentions) && currentChannel.id) {
             const mentions = getGroupOrUserMentions(draft.message);
 
             if (mentions.length === 1) {
@@ -857,16 +858,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const {clipboardData} = e;
+
+        const hasLinks = hasHtmlLink(clipboardData);
         let table = getTable(clipboardData);
-        if (!table) {
+        if (!table && !hasLinks) {
             return;
         }
         table = table as HTMLTableElement;
 
         e.preventDefault();
 
-        let message = this.state.message;
-        if (isGitHubCodeBlock(table.className)) {
+        const message = this.state.message;
+        if (table && isGitHubCodeBlock(table.className)) {
             const selectionStart = (e.target as any).selectionStart;
             const selectionEnd = (e.target as any).selectionEnd;
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
@@ -876,9 +879,21 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }
 
         const originalSize = message.length;
-        message = formatMarkdownTableMessage(table, message.trim(), this.state.caretPosition);
-        const newCaretPosition = message.length - (originalSize - this.state.caretPosition);
-        this.setMessageAndCaretPostion(message, newCaretPosition);
+        const formattedMessage = formatMarkdownMessage(clipboardData, message.trim(), this.state.caretPosition);
+        const newCaretPosition = formattedMessage.length - (originalSize - this.state.caretPosition);
+        this.setMessageAndCaretPostion(formattedMessage, newCaretPosition);
+        this.handlePostPasteDraft(formattedMessage);
+    }
+
+    handlePostPasteDraft = (message: string) => {
+        const draft = {
+            ...this.props.draft,
+            message,
+        };
+
+        const channelId = this.props.currentChannel.id;
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.draftsForChannel[channelId] = draft;
     }
 
     handleFileUploadChange = () => {
@@ -1473,7 +1488,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}
-                    handleEmojiClose={this.handleEmojiClose}
                     hideEmojiPicker={this.hideEmojiPicker}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}

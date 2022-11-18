@@ -12,6 +12,7 @@ import './card.scss';
 type Props = {
     expanded?: boolean;
     className?: string;
+    children?: React.ReactNode;
 }
 
 export default class Card extends React.PureComponent<Props> {

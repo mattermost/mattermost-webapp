@@ -30,9 +30,20 @@
             height: 100%;
             align-items: center;
         }
+
+        .right-anchor {
+            .Button {
+                padding: 4px 0;
+
+                &:disabled {
+                    cursor: not-allowed;
+                }
+            }
+        }
     }
 
     .threads {
+        margin-right: 5px;
         grid-area: list;
 
         .no-results__wrapper {
@@ -59,5 +70,10 @@
 
     .ThreadItem {
         border-bottom: var(--border);
+    }
+
+    .virtualized-thread-list {
+        scrollbar-color: var(--center-channel-color-32) #fff0;
+        scrollbar-width: thin;
     }
 }

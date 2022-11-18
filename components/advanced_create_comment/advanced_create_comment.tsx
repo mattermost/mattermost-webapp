@@ -24,7 +24,7 @@ import {
     groupsMentionedInText,
     getGroupOrUserMentions,
 } from 'utils/post_utils';
-import {getTable, formatMarkdownTableMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
+import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
 import NotifyConfirmModal from 'components/notify_confirm_modal';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
@@ -374,8 +374,9 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         const {clipboardData} = e;
+        const hasLinks = hasHtmlLink(clipboardData);
         let table = getTable(clipboardData);
-        if (!table) {
+        if (!table && !hasLinks) {
             return;
         }
         table = table as HTMLTableElement;
@@ -386,7 +387,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         let message = draft.message;
 
         const caretPosition = this.state.caretPosition || 0;
-        if (isGitHubCodeBlock(table.className)) {
+        if (table && isGitHubCodeBlock(table.className)) {
             const selectionStart = (e.target as any).selectionStart;
             const selectionEnd = (e.target as any).selectionEnd;
             const {formattedMessage, formattedCodeBlock} = formatGithubCodePaste({selectionStart, selectionEnd, message, clipboardData});
@@ -395,7 +396,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
             this.setCaretPosition(newCaretPosition);
         } else {
             const originalSize = draft.message.length;
-            message = formatMarkdownTableMessage(table, draft.message.trim(), this.state.caretPosition);
+            message = formatMarkdownMessage(clipboardData, draft.message.trim(), this.state.caretPosition);
             const newCaretPosition = message.length - (originalSize - caretPosition);
             this.setCaretPosition(newCaretPosition);
         }
@@ -1141,7 +1142,6 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
                     toggleEmojiPicker={this.toggleEmojiPicker}
                     handleGifClick={this.handleGifClick}
                     handleEmojiClick={this.handleEmojiClick}
-                    handleEmojiClose={this.hideEmojiPicker}
                     hideEmojiPicker={this.hideEmojiPicker}
                     toggleAdvanceTextEditor={this.toggleAdvanceTextEditor}
                     handleUploadProgress={this.handleUploadProgress}

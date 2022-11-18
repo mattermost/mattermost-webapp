@@ -6,8 +6,8 @@ import React from 'react';
 
 import {NotificationSections, NotificationLevels} from 'utils/constants';
 
-import CollapseView from './collapse_view.jsx';
-import ExpandView from './expand_view.jsx';
+import CollapseView from './collapse_view';
+import ExpandView from './expand_view';
 
 export default class NotificationSection extends React.PureComponent {
     static propTypes = {

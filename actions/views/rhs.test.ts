@@ -39,7 +39,7 @@ import {
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import mockStore from 'tests/test_store';
 import {ActionTypes, RHSStates, Constants} from 'utils/constants';
-import {getBrowserUtcOffset} from 'utils/timezone.jsx';
+import {getBrowserUtcOffset} from 'utils/timezone';
 import {GlobalState} from 'types/store';
 import {ViewsState} from 'types/store/views';
 import {RhsState} from 'types/store/rhs';

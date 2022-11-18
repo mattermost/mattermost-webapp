@@ -13,9 +13,9 @@ import {closeModal} from 'actions/views/modals';
 
 import {ModalIdentifiers, CloudProducts} from 'utils/constants';
 import {t, Message} from 'utils/i18n';
-import {fallbackStarterLimits, asGBString} from 'utils/limits';
+import {fallbackStarterLimits, asGBString, LimitTypes} from 'utils/limits';
 
-import useGetHighestThresholdCloudLimit, {LimitTypes} from 'components/common/hooks/useGetHighestThresholdCloudLimit';
+import useGetHighestThresholdCloudLimit from 'components/common/hooks/useGetHighestThresholdCloudLimit';
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
@@ -57,7 +57,7 @@ export default function LHSNearingLimitsModal() {
     };
 
     let description: Message = {
-        id: t('workspace_limits.modals.informational.description.starterLimits'),
+        id: t('workspace_limits.modals.informational.description.freeLimits'),
         defaultMessage: '{planName} is restricted to {messages} message history, {storage} file storage, {boards} board cards, and {integrations} integrations.',
         values: {
             planName: product?.name,

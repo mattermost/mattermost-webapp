@@ -76,12 +76,14 @@ describe('components/AdvancedCreateComment', () => {
         openModal: jest.fn(),
     };
 
+    const emptyDraft = {
+        message: '',
+        uploadsInProgress: [],
+        fileInfos: [],
+    };
+
     test('should match snapshot, empty comment', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
+        const draft = emptyDraft;
         const enableAddButton = false;
         const ctrlSend = true;
         const props = {...baseProps, draft, enableAddButton, ctrlSend};
@@ -206,11 +208,7 @@ describe('components/AdvancedCreateComment', () => {
 
     test('should correctly update draft when handleEmojiClick is called', () => {
         const onUpdateCommentDraft = jest.fn();
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
+        const draft = emptyDraft;
         const enableAddButton = false;
         const props = {...baseProps, draft, onUpdateCommentDraft, enableAddButton};
 
@@ -1258,12 +1256,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom one time after mount when props.draft.message is not empty', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow(
             <AdvancedCreateComment
@@ -1287,12 +1280,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     test('should the RHS thread scroll to bottom when state.draft.uploadsInProgress increases but not when it decreases', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const scrollToBottom = jest.fn();
         const wrapper = shallow(
             <AdvancedCreateComment
@@ -1315,12 +1303,50 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a pasted markdown table', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
+        const draft = emptyDraft;
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...baseProps}
+                draft={draft}
+            />,
+        );
+
+        const mockTop = () => {
+            return document.createElement('div');
         };
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted markdown table without headers', () => {
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1356,19 +1382,57 @@ describe('components/AdvancedCreateComment', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('draft').message).toBe(markdownTable);
     });
 
-    it('should be able to format a github codeblock (pasted as a table)', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
+    it('should be able to format a pasted hyperlink', () => {
+        const draft = emptyDraft;
+        const wrapper = shallow(
+            <AdvancedCreateComment
+                {...baseProps}
+                draft={draft}
+            />,
+        );
+
+        const mockTop = () => {
+            return document.createElement('div');
         };
 
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                getBoundingClientRect: jest.fn(mockTop),
+                focus: jest.fn(),
+            };
+        };
+
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'reply_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a href="https://test.domain">link text</a>';
+                },
+            },
+        };
+
+        const markdownLink = '[link text](https://test.domain)';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('draft').message).toBe(markdownLink);
+    });
+
+    it('should be able to format a github codeblock (pasted as a table)', () => {
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
@@ -1414,12 +1478,7 @@ describe('components/AdvancedCreateComment', () => {
     });
 
     it('should be able to format a github codeblock (pasted as a table) with with existing draft post', () => {
-        const draft = {
-            message: '',
-            uploadsInProgress: [],
-            fileInfos: [],
-        };
-
+        const draft = emptyDraft;
         const wrapper = shallow(
             <AdvancedCreateComment
                 {...baseProps}
