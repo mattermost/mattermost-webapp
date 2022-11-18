@@ -317,7 +317,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
 
-        if (useLDAPGroupMentions) {
+        if (useLDAPGroupMentions && currentChannel.id) {
             actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
         }
 
@@ -336,7 +336,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useLDAPGroupMentions) {
+            if (useLDAPGroupMentions && currentChannel.id) {
                 actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
             }
         }

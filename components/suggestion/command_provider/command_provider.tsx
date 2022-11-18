@@ -194,6 +194,7 @@ export default class CommandProvider extends Provider {
                             Hint: hint,
                             Description: cmd.auto_complete_desc,
                             IconData: '',
+                            type: Constants.Integrations.COMMAND,
                         });
                     }
                 });
@@ -249,6 +250,7 @@ export default class CommandProvider extends Provider {
                             Hint: s.Hint,
                             Description: s.Description,
                             IconData: s.IconData,
+                            type: Constants.Integrations.COMMAND,
                         });
                     }
                 });
@@ -272,6 +274,7 @@ export default class CommandProvider extends Provider {
                         Hint: '',
                         Description: 'Select this option or use ' + cmd + '+Enter to execute the current command.',
                         IconData: EXECUTE_CURRENT_COMMAND_ITEM_ID,
+                        type: Constants.Integrations.COMMAND,
                     });
                 }
 

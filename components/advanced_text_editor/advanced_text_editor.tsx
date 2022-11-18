@@ -16,7 +16,7 @@ import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import MessageSubmitError from 'components/message_submit_error';
 import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {SendMessageTour} from 'components/onboarding_tour';
+import {SendMessageTour} from 'components/tours/onboarding_tour';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import OverlayTrigger from 'components/overlay_trigger';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
