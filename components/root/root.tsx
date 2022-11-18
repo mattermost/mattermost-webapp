@@ -74,8 +74,8 @@ import A11yController from 'utils/a11y_controller';
 import TeamSidebar from 'components/team_sidebar';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
-
 import {UserProfile} from '@mattermost/types/users';
+
 import WelcomePostRenderer from 'components/welcome_post_renderer';
 
 import {applyLuxonDefaults} from './effects';

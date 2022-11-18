@@ -33,4 +33,14 @@
             }
         }
     }
+
+    .Grid {
+        overflow-x: hidden !important;
+
+        > div {
+            position: relative;
+            display: block;
+            margin: auto;
+        }
+    }
 }
