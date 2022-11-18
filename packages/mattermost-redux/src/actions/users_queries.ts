@@ -5,7 +5,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {ClientConfig, ClientLicense} from '@mattermost/types/config';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {Role} from '@mattermost/types/roles';
-import {Team} from '@mattermost/types/teams';
+import {Team, TeamMembership} from '@mattermost/types/teams';
 
 import {convertRolesNamesArrayToString} from 'mattermost-redux/actions/roles';
 
@@ -54,7 +54,9 @@ query gqlWebCurrentUserInfo {
         id
         display_name: displayName
         name
+        create_at: createAt
         update_at: updateAt
+        delete_at: deleteAt
         description
         email
         type
@@ -64,6 +66,8 @@ query gqlWebCurrentUserInfo {
         last_team_icon_update: lastTeamIconUpdate
         group_constrained: groupConstrained
         allow_open_invite: allowOpenInvite
+        scheme_id: schemeId
+        policy_id: policyId
       }
       roles {
         id
@@ -80,29 +84,34 @@ query gqlWebCurrentUserInfo {
 
 export const currentUserInfoQuery = JSON.stringify({query: currentUserInfoQueryString, operationName: 'gqlWebCurrentUserInfo'});
 
+type GraphQLUser = UserProfile & {
+    roles: Role[];
+    preferences: PreferenceType[];
+};
+
+type GraphQLTeamMember = {
+    team: Team;
+    user: UserProfile;
+    roles: Role[];
+    delete_at: number;
+    scheme_guest: boolean;
+    scheme_user: boolean;
+    scheme_admin: boolean;
+}
+
 export type CurrentUserInfoQueryResponseType = {
-    data: {
-        user: UserProfile & {
-            roles: Role[];
-            preferences: PreferenceType[];
-        };
+    data?: {
+        user: GraphQLUser;
         config: ClientConfig;
         license: ClientLicense;
-        teamMembers: Array<{
-            team: Team;
-            user: UserProfile;
-            roles: Role[];
-            delete_at: number;
-            scheme_guest: boolean;
-            scheme_user: boolean;
-            scheme_admin: boolean;
-        }>;
+        teamMembers: GraphQLTeamMember[];
     };
+    errors?: unknown;
 };
 
 export function transformToReceivedUserAndTeamRolesReducerPayload(
-    userRoles: CurrentUserInfoQueryResponseType['data']['user']['roles'],
-    teamMembers: CurrentUserInfoQueryResponseType['data']['teamMembers']): Role[] {
+    userRoles: GraphQLUser['roles'],
+    teamMembers: GraphQLTeamMember[]): Role[] {
     let roles: Role[] = [...userRoles];
 
     teamMembers.forEach((teamMember) => {
@@ -114,7 +123,7 @@ export function transformToReceivedUserAndTeamRolesReducerPayload(
     return roles;
 }
 
-export function transformToRecievedMeReducerPayload(user: Partial<CurrentUserInfoQueryResponseType['data']['user']>) {
+export function transformToRecievedMeReducerPayload(user: GraphQLUser): UserProfile {
     return {
         ...user,
         position: user?.position ?? '',
@@ -122,14 +131,14 @@ export function transformToRecievedMeReducerPayload(user: Partial<CurrentUserInf
     };
 }
 
-export function transformToRecievedTeamsListReducerPayload(teamsMembers: Partial<CurrentUserInfoQueryResponseType['data']['teamMembers']>) {
-    return teamsMembers.map((teamMember) => ({...teamMember?.team, delete_at: 0}));
+export function transformToRecievedTeamsListReducerPayload(teamsMembers: GraphQLTeamMember[]): Team[] {
+    return teamsMembers.map((teamMember) => ({...teamMember.team}));
 }
 
 export function transformToRecievedMyTeamMembersReducerPayload(
-    teamsMembers: Partial<CurrentUserInfoQueryResponseType['data']['teamMembers']>,
-    userId: CurrentUserInfoQueryResponseType['data']['user']['id'],
-) {
+    teamsMembers: Partial<GraphQLTeamMember[]>,
+    userId: UserProfile['id'],
+): TeamMembership[] {
     return teamsMembers.map((teamMember) => ({
         team_id: teamMember?.team?.id ?? '',
         user_id: userId || '',
@@ -139,6 +148,7 @@ export function transformToRecievedMyTeamMembersReducerPayload(
         scheme_guest: teamMember?.scheme_guest ?? false,
         scheme_user: teamMember?.scheme_user ?? false,
 
+        // Remove these fields once webapp deprecates getting unread counts from teams
         // below fields arent included in the response but were inside of TeamMembership api types
         mention_count: 0,
         mention_count_root: 0,
