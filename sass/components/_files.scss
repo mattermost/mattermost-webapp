@@ -462,18 +462,30 @@
 
 .post-image__end-button {
     width: 32px;
-    min-width: 32px;
     height: 32px;
+    display: flex;
     align-items: center;
     justify-content: center;
     border: 0;
     margin: 0 8px;
     background-color: var(--center-channel-bg);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     border-radius: 4px;
-    color: rgba(var(--center-channel-color-rgb), 0.72);
     cursor: pointer;
-    fill: rgba(var(--center-channel-color-rgb), 0.72);
-    text-decoration: none;
+
+    &:focus {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+
+    &:hover {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
+
+    &:active {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
 }
 
 .post-image__elapsed-time {

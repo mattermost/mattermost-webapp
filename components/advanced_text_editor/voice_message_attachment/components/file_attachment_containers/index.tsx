@@ -4,9 +4,7 @@
 import React, {HTMLProps, ReactNode} from 'react';
 import styled from 'styled-components';
 
-export const OkButton = styled.button`
-    background-color: var(--button-bg);
-    color: var(--button-color);
+const StyledButton = styled.button`
     border-radius: 50%;
     width: 28px;
     height: 28px;
@@ -16,16 +14,30 @@ export const OkButton = styled.button`
     align-items: center;
 `;
 
-export const CancelButton = styled.button`
-    background-color: var(--button-color);
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    border-width: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+
+export const OkButton = styled(StyledButton)`
+    background-color: var(--button-bg);
+    color: var(--button-color);
+`;
+
+export const CancelButton = styled(StyledButton)`
+    background-color: var(--center-channel-bg);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     margin-right: 4px;
+
+    &:focus {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+    }
+
+    &:hover {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
+
+    &:active {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+    }
 `;
 
 export const Duration = styled.div`
