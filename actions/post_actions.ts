@@ -128,6 +128,7 @@ export function createPost(post: Post, files: FileInfo[], filePreviews: FilePrev
 export function storePendingPosts() {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const state = getState();
+        // Send posts when their uploading files are all uploaded.
         await Promise.all(Object.entries(state.entities.files.filePreviews).map(async (entry) => {
             const pendingPostId = entry[0];
             let pendingPost = state.entities.posts.posts[pendingPostId];
@@ -140,6 +141,7 @@ export function storePendingPosts() {
             }
             const clientIds = filePreviewInfos.map((f) => f.clientId);
             const files = Object.values(state.entities.files.files).filter((f) => clientIds.includes(f.clientId));
+            // If post‘s uploading files are all uploaded, then send it.
             if (filePreviewInfos.length !== files.length) {
                 return;
             }

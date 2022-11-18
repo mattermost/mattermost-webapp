@@ -160,6 +160,7 @@ export function cancelUploadingFile(clientId: string) {
             clientId,
         });
 
+        // If this is the last uploading file, immediately send the message or delete it.
         if (pendingPostEntry[1].length !== 1) {
             return;
         }
@@ -170,8 +171,10 @@ export function cancelUploadingFile(clientId: string) {
         }
 
         if (pendingPost.message.length === 0) {
+            // If this post doesn't have message, then delete it.
             await dispatch(postRemoved(pendingPost));
         } else {
+            // otherwise send it.
             await dispatch(storePost(pendingPost, []));
         }
     };
