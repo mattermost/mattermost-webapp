@@ -477,6 +477,7 @@ export const PaidFeatures = {
     UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
     UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
+    TEAM_INSIGHTS: 'mattermost.feature.team_insights',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
     UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
