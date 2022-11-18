@@ -1504,6 +1504,12 @@
         padding: 0 0 0.2em;
         word-wrap: break-word;
 
+        &-reactions-acks {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
         &.post--ephemeral {
             padding-right: 20px !important;
         }

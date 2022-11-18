@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+@import 'utils/mixins';
+@import 'utils/variables';
+
+.AcknowledgementButton {
+    @include button-xsmall;
+
+    display: inline-flex;
+    align-items: center;
+    border: 0;
+    background: rgba(var(--denim-status-online-rgb), 0.08);
+    border-radius: 4px;
+    color: var(--denim-status-online);
+    font-weight: 600;
+    transition: all 0.15s ease-out;
+
+    > svg {
+        fill: var(--denim-status-online);
+        margin-right: 3px;
+    }
+
+    &:disabled {
+        background: rgba(var(--denim-status-online-rgb), 0.08);
+        color: rgba(var(--denim-status-online-rgb), 0.32);
+    }
+
+    &:hover:enabled {
+        background: rgba(var(--denim-status-online-rgb), 0.12);
+    }
+
+    &:active:enabled {
+        background: rgba(var(--denim-status-online-rgb), 0.16);
+    }
+
+    &--acked {
+        background: rgba(var(--denim-status-online-rgb), 0.8);
+        color: #fff;
+
+        > svg {
+            fill: #fff;
+            margin-right: 3px;
+        }
+
+        &:disabled {
+            background: rgba(var(--denim-status-online-rgb), 0.8);
+            color: rgba(255, 255, 255, 0.32);
+        }
+
+        &:hover:enabled {
+            background: rgba(var(--denim-status-online-rgb), 1);
+        }
+
+        &:active:enabled {
+            background: rgba(var(--denim-status-online-rgb), 1);
+        }
+    }
+}
