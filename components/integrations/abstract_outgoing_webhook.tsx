@@ -78,8 +78,8 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
         };
     }
 
-    handleSubmit = (e?: React.MouseEvent) => {
-        e?.preventDefault();
+    handleSubmit = (e: (React.FormEvent) | (React.MouseEvent)) => {
+        e.preventDefault();
 
         if (this.state.saving) {
             return;
@@ -239,7 +239,7 @@ export default class AbstractOutgoingWebhook extends React.PureComponent<Props, 
                 <div className='backstage-form'>
                     <form
                         className='form-horizontal'
-                        onSubmit={() => this.handleSubmit()}
+                        onSubmit={this.handleSubmit}
                     >
                         <div className='form-group'>
                             <label

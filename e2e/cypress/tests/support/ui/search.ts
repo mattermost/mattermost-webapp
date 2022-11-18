@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-Cypress.Commands.add('uiSearchPosts', (searchTerm) => {
+Cypress.Commands.add('uiSearchPosts', (searchTerm: string) => {
     // # Enter the search terms and hit enter to start the search
     cy.get('#searchBox').clear().type(searchTerm).type('{enter}');
 
