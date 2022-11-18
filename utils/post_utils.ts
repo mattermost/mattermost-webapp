@@ -706,7 +706,7 @@ export function getUserOrGroupFromMentionName(usersByUsername: Record<string, Us
     return '';
 }
 
-export function getGroupOrUserMentions(message: string) {
+export function mentionsMinusSpecialMentionsInText(message: string) {
     const allMentions = message.match(Constants.MENTIONS_REGEX) || [];
     const mentions = [];
     for (let i = 0; i < allMentions.length; i++) {

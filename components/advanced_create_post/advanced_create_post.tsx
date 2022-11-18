@@ -29,7 +29,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-    getGroupOrUserMentions,
+    mentionsMinusSpecialMentionsInText,
 } from 'utils/post_utils';
 import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
@@ -354,7 +354,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         const {useLDAPGroupMentions, useCustomGroupMentions, currentChannel, isTimezoneEnabled, actions, draft} = this.props;
 
         if ((useLDAPGroupMentions || useCustomGroupMentions) && currentChannel.id) {
-            const mentions = getGroupOrUserMentions(draft.message);
+            const mentions = mentionsMinusSpecialMentionsInText(draft.message);
 
             if (mentions.length === 1) {
                 actions.searchAssociatedGroupsForReference(mentions[0], this.props.currentTeamId, currentChannel.id);

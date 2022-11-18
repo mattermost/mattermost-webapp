@@ -22,7 +22,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
-    getGroupOrUserMentions,
+    mentionsMinusSpecialMentionsInText,
 } from 'utils/post_utils';
 import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
@@ -297,6 +297,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
+            this.getChannelMemberCountsByGroup();
             this.focusTextbox();
         }
 
@@ -315,8 +316,8 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     getChannelMemberCountsByGroup = () => {
         const {useLDAPGroupMentions, useCustomGroupMentions, channelId, isTimezoneEnabled, searchAssociatedGroupsForReference, getChannelMemberCountsByGroup, draft, currentTeamId} = this.props;
 
-        if (useLDAPGroupMentions || useCustomGroupMentions) {
-            const mentions = getGroupOrUserMentions(draft.message);
+        if ((useLDAPGroupMentions || useCustomGroupMentions) && channelId) {
+            const mentions = mentionsMinusSpecialMentionsInText(draft.message);
 
             if (mentions.length === 1) {
                 searchAssociatedGroupsForReference(mentions[0], currentTeamId, channelId);
