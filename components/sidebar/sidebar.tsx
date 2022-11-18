@@ -249,7 +249,6 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                     role='application'
                     className='a11y__region'
                     data-a11y-sort-order='6'
-                    tabIndex={0}
                     aria-label={ariaLabel}
                 >
                     <ChannelNavigator

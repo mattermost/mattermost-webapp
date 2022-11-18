@@ -60,11 +60,13 @@ export class ChannelFilter extends React.PureComponent<Props> {
     render() {
         const {intl, unreadFilterEnabled, hasMultipleTeams} = this.props;
 
-        let tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.filterByUnread', defaultMessage: 'unreads filter button'});
+        let tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.filterByUnread', defaultMessage: 'Filter by unread'});
 
         if (unreadFilterEnabled) {
             tooltipMessage = intl.formatMessage({id: 'sidebar_left.channel_filter.showAllChannels', defaultMessage: 'Show all channels'});
         }
+
+        const unreadsAriaLabel = intl.formatMessage({id: 'sidebar_left.channel_filter.filter_unread_aria', defaultMessage: 'unreads filter button'});
 
         const tooltip = (
             <Tooltip
@@ -93,7 +95,7 @@ export class ChannelFilter extends React.PureComponent<Props> {
                             active: unreadFilterEnabled,
                         })}
                         onClick={this.toggleUnreadFilter}
-                        aria-label={tooltipMessage}
+                        aria-label={unreadAriaLabel}
                     >
                         <i className='icon icon-filter-variant'/>
                     </a>
