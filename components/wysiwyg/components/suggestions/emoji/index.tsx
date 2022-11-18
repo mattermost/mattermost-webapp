@@ -41,16 +41,49 @@ const EmojiSuggestion = Mention.extend({
             id: {
                 default: null,
                 parseHTML: (element) => element.getAttribute('data-mention-id'),
+                renderHTML: (attributes) => {
+                    if (!attributes.id) {
+                        return {};
+                    }
+
+                    return {
+                        'data-mention-id': attributes.id,
+                    };
+                },
             },
             type: {
                 default: null,
                 parseHTML: (element) => element.getAttribute('data-mention-type'),
+                renderHTML: (attributes) => {
+                    if (!attributes.type) {
+                        return {};
+                    }
+
+                    return {
+                        'data-mention-type': attributes.type,
+                    };
+                },
             },
             label: {
                 default: null,
                 parseHTML: (element) => element.getAttribute('data-mention-label'),
+                renderHTML: (attributes) => {
+                    if (!attributes.label) {
+                        return {};
+                    }
+
+                    return {
+                        'data-mention-label': attributes.label,
+                    };
+                },
             },
         };
+    },
+}).configure({
+
+    // we need this so that `editor.getHtml()` does get the correct value inside of the `span` tag
+    renderLabel({options, node}) {
+        return `${options.suggestion.char}${node.attrs.label}${options.suggestion.char}`;
     },
 });
 

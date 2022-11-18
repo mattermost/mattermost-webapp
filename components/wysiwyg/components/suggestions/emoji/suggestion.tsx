@@ -46,7 +46,9 @@ function findAndSuggestEmojis(partialName: string): SuggestionItem[] {
     const emojiMap: EmojiMap = getEmojiMap(state);
     const recentEmojis = getRecentEmojisNames(state);
 
-    // Check for named emoji
+    // Disable this rule since `emojiMap` does apparently not have an Iterator (but it actually does)
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     for (const [name, emoji] of emojiMap) {
         if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(emoji.category)) {
             continue;
