@@ -18,7 +18,7 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import PaymentSuccessStandardSvg from 'components/common/svg_images_components/payment_success_standard_svg';
 import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
-import IconMessage from 'components/purchase_modal/icon_message';
+import IconMessage from 'components/purchase_modals/icon_message';
 import ProgressBar, {ProcessState} from 'components/icon_message_with_progress_bar';
 import {
     archiveAllTeamsExcept,

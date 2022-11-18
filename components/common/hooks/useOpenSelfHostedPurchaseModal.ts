@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import PurchaseModal from 'components/purchaseModals/self_hosted_purchase_modal';
+import PurchaseModal from 'components/purchase_modals/self_hosted_purchase_modal';
 
 interface OpenSelfHostedPurchaseModalOptions{
     onClick?: () => void;

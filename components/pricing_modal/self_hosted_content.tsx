@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
@@ -14,6 +14,7 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
+import {Client4} from 'mattermost-redux/client';
 
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
 import PlanLabel from 'components/common/plan_label';
@@ -32,12 +33,30 @@ type ContentProps = {
     callerCTA?: string;
 }
 
+const FALL_BACK_PROFESSIONAL_PRICE = '7.5';
+
 function SelfHostedContent(props: ContentProps) {
+    const [professionalPrice, setProfessionalPrice] = useState(' ');
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());
+    }, []);
+
+    useEffect(() => {
+        async function fetchSelfHostedProducts() {
+            try {
+                const products = await Client4.getSelfHostedProducts();
+                const professionalProduct = products.find((prod) => prod.sku === LicenseSkus.Professional);
+                const price = professionalProduct ? professionalProduct.price_per_seat.toString() : FALL_BACK_PROFESSIONAL_PRICE;
+                setProfessionalPrice(`$${price}`);
+            } catch (error) {
+                setProfessionalPrice(`$${FALL_BACK_PROFESSIONAL_PRICE}`);
+            }
+        }
+
+        fetchSelfHostedProducts();
     }, []);
 
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
@@ -72,8 +91,6 @@ function SelfHostedContent(props: ContentProps) {
         formatMessage({id: 'pricing_modal.briefing.ssoWithGitLab', defaultMessage: 'SSO with Gitlab'}),
     ];
 
-    const starterPrice = '$0';
-
     const professionalBriefing = [
         formatMessage({id: 'pricing_modal.briefing.customUserGroups', defaultMessage: 'Custom user groups'}),
         formatMessage({id: 'pricing_modal.briefing.voiceCallsScreenSharingInGroupMessagesAndChannels', defaultMessage: 'Voice calls and screen sharing in group messages and channels'}),
@@ -81,8 +98,6 @@ function SelfHostedContent(props: ContentProps) {
         formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
         formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
     ];
-
-    const professionalPrice = '$10'
 
     const enterpriseBriefing = [
         formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
@@ -156,7 +171,7 @@ function SelfHostedContent(props: ContentProps) {
                         topColor='#339970'
                         plan='Free'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams'})}
-                        price={starterPrice}
+                        price={'$0'}
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={
                             isStarter ? (
@@ -167,7 +182,7 @@ function SelfHostedContent(props: ContentProps) {
                                     firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
                         buttonDetails={{
-                            action: () => {openPurchaseModal(starterPrice);},
+                            action: () => {openPurchaseModal('$0');},
                             text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: true,
                             customClass: ButtonCustomiserClasses.secondary,

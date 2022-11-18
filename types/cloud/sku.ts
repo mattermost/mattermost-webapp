@@ -29,10 +29,10 @@ export const areBillingDetailsValid = (
 
     return Boolean(
         billingDetails.address &&
-      billingDetails.city &&
-      billingDetails.state &&
-      billingDetails.country &&
-      billingDetails.postalCode &&
-      billingDetails.name,
+        billingDetails.city &&
+        billingDetails.state &&
+        billingDetails.country &&
+        billingDetails.postalCode &&
+        billingDetails.name,
     );
 };
