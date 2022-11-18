@@ -156,6 +156,7 @@ export const Preferences = {
     DELINQUENCY_MODAL_CONFIRMED: 'delinquency_modal_confirmed',
     CONFIGURATION_BANNERS: 'configuration_banners',
     NOTIFY_ADMIN_REVOKE_DOWNGRADED_WORKSPACE: 'admin_revoke_downgraded_instance',
+    OVERAGE_USERS_BANNER: 'overage_users_banner',
 };
 
 // For one off things that have a special, attention-grabbing UI until you interact with them
@@ -477,6 +478,7 @@ export const PaidFeatures = {
     UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
     UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
+    TEAM_INSIGHTS: 'mattermost.feature.team_insights',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
     ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
     UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
@@ -2171,5 +2173,10 @@ export const DataSearchTypes = {
     FILES_SEARCH_TYPE: 'files',
     MESSAGES_SEARCH_TYPE: 'messages',
 };
+
+export const OverActiveUserLimits = {
+    MIN: 0.05,
+    MAX: 0.1,
+} as const;
 
 export default Constants;
