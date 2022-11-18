@@ -3862,9 +3862,14 @@ export default class Client4 {
         );
     };
 
-    bootstrapSelfHostedSignup = () => {
+    bootstrapSelfHostedSignup = (reset?: boolean) => {
+        let query = '';
+        // reset will drop the old token
+        if (reset) {
+            query = '?reset=true';
+        }
         return this.doFetch<{progress: ValueOf<typeof SelfHostedSignupProgress>}>(
-            `${this.getHostedCustomerRoute()}/bootstrap`,
+            `${this.getHostedCustomerRoute()}/bootstrap${query}`,
             {method: 'post'},
         );
     };

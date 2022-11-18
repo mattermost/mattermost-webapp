@@ -128,6 +128,10 @@ interface UpdateSucceeded {
     type: 'succeeded';
 }
 
+interface StartOver {
+    type: 'start_over';
+}
+
 type Action =
     | UpdateAddress
     | UpdateAddress2
@@ -143,6 +147,7 @@ type Action =
     | UpdateSeats
     | UpdateSubmitting
     | UpdateSucceeded
+    | StartOver
 
 const initialState: State = {
     address: '',
@@ -190,7 +195,9 @@ function reducer(state: State, action: Action): State {
     case 'succeeded':
         return {...state, submitting: false, succeeded: true};
     case 'update_seats':
-        return {...state, seats: action.data}
+        return {...state, seats: action.data};
+    case 'start_over':
+        return initialState;
     default:
         // eslint-disable-next-line
         console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`)
@@ -530,6 +537,18 @@ export default function SelfHostedPurchaseModal() {
                         </div>
                     </div>}
 
+                    {progress !== SelfHostedSignupProgress.PAID && (
+                        <button 
+                            onClick={() => {
+                                Client4.bootstrapSelfHostedSignup(true)
+                                    .then(() =>{
+                                         dispatch({type: 'start_over'});
+                                })
+                            }}
+                        >
+                            {'start over'}
+                        </button>
+                    )} 
                     <button
                         className=''
                         disabled={!canSubmitForm}
