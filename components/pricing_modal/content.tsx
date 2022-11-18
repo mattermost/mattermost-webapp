@@ -1,12 +1,14 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-import React from 'react';
+
+import React, {useState} from 'react';
 import {Modal} from 'react-bootstrap';
 import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES} from 'utils/constants';
+import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, TELEMETRY_CATEGORIES, RecurringIntervals} from 'utils/constants';
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
+import {findProductBySkuAndInterval} from 'utils/products';
 
 import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
@@ -28,6 +30,9 @@ import PlanLabel from 'components/common/plan_label';
 import CloudStartTrialButton from 'components/cloud_start_trial/cloud_start_trial_btn';
 import NotifyAdminCTA from 'components/notify_admin_cta/notify_admin_cta';
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
+import YearlyMonthlyToggle from 'components/yearly_monthly_toggle';
+
+import {isAnnualSubscriptionEnabled} from 'mattermost-redux/selectors/entities/preferences';
 
 import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
@@ -58,11 +63,13 @@ function Content(props: ContentProps) {
     const product = useSelector(selectSubscriptionProduct);
     const products = useSelector(selectCloudProducts);
 
+    const annualSubscriptionEnabled = useSelector(isAnnualSubscriptionEnabled);
+
     const isEnterprise = product?.sku === CloudProducts.ENTERPRISE;
     const isEnterpriseTrial = subscription?.is_free_trial === 'true';
-    const professionalProduct = Object.values(products || {}).find(((product) => {
-        return product.sku === CloudProducts.PROFESSIONAL;
-    }));
+    const monthlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.MONTH);
+    const yearlyProfessionalProduct = findProductBySkuAndInterval(products || {}, CloudProducts.PROFESSIONAL, RecurringIntervals.YEAR);
+
     const starterProduct = Object.values(products || {}).find(((product) => {
         return product.sku === CloudProducts.STARTER;
     }));
@@ -125,11 +132,11 @@ function Content(props: ContentProps) {
     const hasLimits = hasSomeLimits(limits);
 
     const starterBriefing = [
-        formatMessage({id: 'pricing_modal.briefing.starter.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+        formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
         formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
-        formatMessage({id: 'pricing_modal.briefing.starter.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
-        formatMessage({id: 'pricing_modal.briefing.starter.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
-        formatMessage({id: 'pricing_modal.extra_briefing.starter.calls', defaultMessage: '1:1 voice calls and screen share'}),
+        formatMessage({id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+        formatMessage({id: 'pricing_modal.briefing.free.integrations', defaultMessage: '{integrations} integrations with other apps like GitHub, Jira and Jenkins'}, {integrations: fallbackStarterLimits.integrations.enabled}),
+        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
     ];
 
     const legacyStarterBriefing = [
@@ -138,6 +145,19 @@ function Content(props: ContentProps) {
         formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', defaultMessage: 'Unlimited users & message history'}),
         formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
+
+    // Default professional price
+    const defaultProfessionalPrice = monthlyProfessionalProduct ? monthlyProfessionalProduct.price_per_seat : 0;
+    const [professionalPrice, setProfessionalPrice] = useState(defaultProfessionalPrice);
+
+    // Set professional price
+    const updateProfessionalPrice = (newIsMonthly: boolean) => {
+        if (newIsMonthly && monthlyProfessionalProduct) {
+            setProfessionalPrice(monthlyProfessionalProduct.price_per_seat);
+        } else if (!newIsMonthly && yearlyProfessionalProduct) {
+            setProfessionalPrice(yearlyProfessionalProduct.price_per_seat / 12);
+        }
+    };
 
     return (
         <div className='Content'>
@@ -157,26 +177,39 @@ function Content(props: ContentProps) {
                 />
             </Modal.Header>
             <Modal.Body>
-                <div className='alert-option'>
-                    <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
-                    <a
-                        onClick={() =>
-                            trackEvent(
-                                TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
-                                'click_looking_to_self_host',
-                            )
-                        }
-                        href={CloudLinks.DEPLOYMENT_OPTIONS}
-                        rel='noopener noreferrer'
-                        target='_blank'
-                    >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+                <div className='pricing-options-container'>
+                    {annualSubscriptionEnabled &&
+                        <>
+                            <div className='save-text'>
+                                {formatMessage({id: 'pricing_modal.saveWithYearly', defaultMessage: 'Save 20% with Yearly!'})}
+                            </div>
+                            <YearlyMonthlyToggle updatePrice={updateProfessionalPrice}/>
+                        </>
+                    }
+                    <div className='alert-option-container'>
+                        <div className='alert-option'>
+                            <span>{formatMessage({id: 'pricing_modal.lookingToSelfHost', defaultMessage: 'Looking to self-host?'})}</span>
+                            <a
+                                onClick={() =>
+                                    trackEvent(
+                                        TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
+                                        'click_looking_to_self_host',
+                                    )
+                                }
+                                href={CloudLinks.DEPLOYMENT_OPTIONS}
+                                rel='noopener noreferrer'
+                                target='_blank'
+                            >{formatMessage({id: 'pricing_modal.reviewDeploymentOptions', defaultMessage: 'Review deployment options'})}</a>
+                        </div>
+                    </div>
                 </div>
+
                 <div className='PricingModal__body'>
                     <Card
-                        id='starter'
+                        id='free'
                         topColor='#339970'
-                        plan='Starter'
-                        planSummary={formatMessage({id: 'pricing_modal.planSummary.starter', defaultMessage: 'Increased productivity for small teams'})}
+                        plan='Free'
+                        planSummary={formatMessage({id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams'})}
                         price='$0'
                         rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={
@@ -223,7 +256,7 @@ function Content(props: ContentProps) {
                         topColor='var(--denim-button-bg)'
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
-                        price={`$${professionalProduct ? professionalProduct.price_per_seat : '10'}`}
+                        price={`$${professionalPrice}`}
                         rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
                         planLabel={
                             isProfessional ? (

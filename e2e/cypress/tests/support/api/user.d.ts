@@ -46,12 +46,13 @@ declare namespace Cypress {
         /**
          * Login as admin via API.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
+         * @param {Object} requestOptions - cypress' request options object, see https://docs.cypress.io/api/commands/request#Arguments
          * @returns {UserProfile} out.user: `UserProfile` object
          *
          * @example
          *   cy.apiAdminLogin();
          */
-        apiAdminLogin(): Chainable<{user: UserProfile}>;
+        apiAdminLogin(requestOptions?: Record<string, any>): Chainable<UserProfile>;
 
         /**
          * Login as admin via API.
@@ -77,14 +78,14 @@ declare namespace Cypress {
         /**
          * Get current user.
          * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
-         * @returns {UserProfile} out.user: `UserProfile` object
+         * @returns {user: UserProfile} out.user: `UserProfile` object
          *
          * @example
          *   cy.apiGetMe().then(({user}) => {
          *       // do something with user
          *   });
          */
-        apiGetMe(): Chainable<UserProfile>;
+        apiGetMe(): Chainable<{user: UserProfile}>;
 
         /**
          * Get a user by ID.
@@ -192,7 +193,7 @@ declare namespace Cypress {
          *
          * @returns {UserProfile} `out.sysadmin` as `UserProfile` object
          */
-        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal: boolean}): Chainable<{sysadmin: UserProfile}>;
+        apiCreateCustomAdmin(options: {loginAfter: boolean; hideAdminTrialModal?: boolean}): Chainable<{sysadmin: UserProfile}>;
 
         /**
          * Create a new user with an options to set name prefix and be able to bypass tutorial steps.

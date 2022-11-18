@@ -1,6 +1,8 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 /* eslint-disable react/no-string-refs */
+
 import React from 'react';
 
 import deepEqual from 'fast-deep-equal';
@@ -10,10 +12,9 @@ import {PrimitiveType, FormatXMLElementFn} from 'intl-messageformat';
 
 import {Timezone} from 'timezones.json';
 
-import {ActionResult} from 'mattermost-redux/types/actions';
+import SettingItemMax from 'components/setting_item_max';
 
-import {PreferenceType} from '@mattermost/types/preferences';
-import {UserProfile, UserTimezone} from '@mattermost/types/users';
+import {ActionResult} from 'mattermost-redux/types/actions';
 
 import {trackEvent} from 'actions/telemetry_actions';
 
@@ -23,10 +24,12 @@ import {getBrowserTimezone} from 'utils/timezone';
 import * as I18n from 'i18n/i18n.jsx';
 import {t} from 'utils/i18n';
 
-import SettingItemMax from 'components/setting_item_max.jsx';
 import SettingItemMin from 'components/setting_item_min';
 import ThemeSetting from 'components/user_settings/display/user_settings_theme';
 import BackIcon from 'components/widgets/icons/fa_back_icon';
+
+import {UserProfile, UserTimezone} from '@mattermost/types/users';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import ManageTimezones from './manage_timezones';
 import ManageLanguages from './manage_languages';
@@ -617,7 +620,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                         inputs={inputs}
                         submit={submit}
                         saving={this.state.isSaving}
-                        server_error={this.state.serverError}
+                        serverError={this.state.serverError}
                         updateSection={this.updateSection}
                         extraInfo={extraInfo}
                     />
@@ -1118,10 +1121,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                     >
                         <span aria-hidden='true'>{'×'}</span>
                     </button>
-                    <h4
-                        className='modal-title'
-                        ref='title'
-                    >
+                    <h4 className='modal-title'>
                         <div className='modal-back'>
                             <span onClick={this.props.collapseModal}>
                                 <BackIcon/>
@@ -1163,4 +1163,3 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         );
     }
 }
-/* eslint-enable react/no-string-refs */

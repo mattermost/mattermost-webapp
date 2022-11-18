@@ -16,6 +16,12 @@ import {getProfiles} from 'mattermost-redux/actions/users';
 import {migrateRecentEmojis} from 'mattermost-redux/actions/emojis';
 
 import {getShowLaunchingWorkspace} from 'selectors/onboarding';
+import {
+    getIsRhsExpanded,
+    getIsRhsOpen,
+    getRhsState,
+} from 'selectors/rhs';
+import {shouldShowAppBar} from 'selectors/plugins';
 import {emitBrowserWindowResized} from 'actions/views/browser';
 import {loadConfigAndMe, registerCustomPostRenderer} from 'actions/views/root';
 
@@ -47,6 +53,10 @@ function mapStateToProps(state: GlobalState) {
         plugins,
         products,
         showLaunchingWorkspace: getShowLaunchingWorkspace(state),
+        rhsIsExpanded: getIsRhsExpanded(state),
+        rhsIsOpen: getIsRhsOpen(state),
+        rhsState: getRhsState(state),
+        shouldShowAppBar: shouldShowAppBar(state),
         isCloud: isCurrentLicenseCloud(state),
     };
 }

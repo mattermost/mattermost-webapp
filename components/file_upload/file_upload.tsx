@@ -1,6 +1,5 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
-/* eslint-disable max-lines */
 
 import React, {ChangeEvent, PureComponent, DragEvent, MouseEvent, TouchEvent, RefObject} from 'react';
 import {defineMessages, FormattedMessage, injectIntl, IntlShape} from 'react-intl';
@@ -344,7 +343,7 @@ export class FileUpload extends PureComponent<Props, State> {
         const files: File[] = [];
         Array.from(droppedFiles).forEach((file, index) => {
             const item = items[index];
-            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || item.webkitGetAsEntry().isDirectory)) {
+            if (item && item.webkitGetAsEntry && (item.webkitGetAsEntry() === null || (item.webkitGetAsEntry() as FileSystemEntry).isDirectory)) {
                 return;
             }
             files.push(file);
