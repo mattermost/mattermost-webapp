@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo, useRef} from 'react';
+import React, {FormEvent, memo, useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
@@ -44,6 +44,7 @@ interface Props {
     onUploadComplete: (fileInfos: FileInfo[], clientIds: string[], channelId: Channel['id'], rootId?: Post['id']) => void;
     onUploadError: (err: string | ServerError, clientId?: string, channelId?: Channel['id'], rootId?: Post['id']) => void;
     onRemoveDraft: (fileInfoIdOrClientId: FileInfo['id'] | string) => void;
+    onSubmit:(e: FormEvent<Element>) => void;
 }
 
 const VoiceMessageAttachment = (props: Props) => {
@@ -54,6 +55,25 @@ const VoiceMessageAttachment = (props: Props) => {
     const xmlRequestRef = useRef<XMLHttpRequest>();
 
     const audioFileRef = useRef<File>();
+
+    useEffect(() => {
+        if (props.vmState === VoiceMessageStates.ATTACHED){
+            function handleKeyDown(e: KeyboardEvent) {
+                if (e.key === 'Enter') {
+                    e.stopPropagation();
+                    e.preventDefault();
+                    props.onSubmit(e as unknown as FormEvent<Element>);
+                }
+            }
+
+            window.addEventListener('keydown', handleKeyDown);
+
+            return () => {
+                window.removeEventListener('keydown', handleKeyDown);
+            }
+        }
+
+    }, [props?.draft?.fileInfos?.[0]?.id, props.vmState]);
 
     function handleOnUploadComplete(data: FileUploadResponse | undefined, channelId: string, rootId: string) {
         if (data) {

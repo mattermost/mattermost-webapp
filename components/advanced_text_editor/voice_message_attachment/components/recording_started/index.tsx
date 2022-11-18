@@ -41,6 +41,20 @@ function VoiceMessageRecordingStarted(props: Props) {
     });
 
     useEffect(() => {
+        function handleKeyDown(e: KeyboardEvent) {
+            if (e.key === 'Enter') {
+                handleRecordingComplete();
+            }
+        }
+
+        window.addEventListener('keydown', handleKeyDown);
+
+        return () => {
+            window.removeEventListener('keydown', handleKeyDown);
+        }
+    }, []);
+
+    useEffect(() => {
         startRecording();
 
         return () => {

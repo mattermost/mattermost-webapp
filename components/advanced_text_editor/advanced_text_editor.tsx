@@ -222,6 +222,7 @@ const AdvanceTextEditor = ({
                     onUploadComplete={handleFileUploadComplete}
                     onUploadError={handleUploadError}
                     onRemoveDraft={removePreview}
+                    onSubmit={handleSubmit}
                 />
             </div>
         );
