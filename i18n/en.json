@@ -3879,6 +3879,8 @@
   "leave_team_modal.title": "Leave the team?",
   "leave_team_modal.yes": "Yes",
   "licensingPage.infoBanner.startTrialTitle": "Free 30 day trial!",
+  "licensingPage.overageUsersBanner.cta": "Contact Sales",
+  "licensingPage.overageUsersBanner.text": "Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}. Purchase additional seats to remain compliant.",
   "link_preview.image_preview": "Show Image preview",
   "link_preview.remove_link_preview": "Remove link preview",
   "list_modal.paginatorCount": "{startCount, number} - {endCount, number} of {total, number} total",
