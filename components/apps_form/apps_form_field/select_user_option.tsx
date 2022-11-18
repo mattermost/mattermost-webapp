@@ -13,9 +13,9 @@ import BotBadge from 'components/widgets/badges/bot_badge';
 import GuestBadge from 'components/widgets/badges/guest_badge';
 import {isGuest} from 'mattermost-redux/utils/user_utils';
 import {imageURLForUser} from 'utils/utils';
+import {UserProfile} from '@mattermost/types/users';
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const getDescription = (data: any): string => {
+const getDescription = (data: UserProfile): string => {
     if ((data.first_name || data.last_name) && data.nickname) {
         return ` - ${Utils.getFullName(data)} (${data.nickname})`;
     } else if (data.nickname) {
@@ -33,15 +33,18 @@ export const SelectUserOption = (props: OptionProps<AppSelectOption>) => {
     const description = getDescription(props.data);
 
     return (
-        <Option {...props}>
-            <div className='select_option_item'>
+        <Option
+            className='apps-form-select-option'
+            {...props}
+        >
+            <div className='select-option-item'>
                 <Avatar
                     size='xxs'
                     username={username}
                     url={imageURLForUser(props.data.id)}
                 />
-                <div className='select_option__item'>
-                    <span className='select_option__main'>
+                <div className='select-option-item-label'>
+                    <span className='select-option-main'>
                         {'@' + username}
                     </span>
                     <span>

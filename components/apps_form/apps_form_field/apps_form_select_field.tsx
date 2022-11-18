@@ -225,7 +225,6 @@ export default class AppsFormSelectField extends React.PureComponent<Props, Stat
 
         return (
             <div
-                id='apps_form_select_field'
                 className='form-group'
             >
                 {label && (

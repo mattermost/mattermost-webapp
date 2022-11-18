@@ -13,7 +13,7 @@ export const SelectChannelOption = (props: OptionProps<AppSelectOption>) => {
     const purpose = item.purpose;
 
     const icon = (
-        <span className='select_option__icon select_option__icon--large'>
+        <span className='select-option-icon select-option-icon--large'>
             <i className='icon icon--standard icon--no-spacing icon-globe'/>
         </span>
     );
@@ -21,11 +21,14 @@ export const SelectChannelOption = (props: OptionProps<AppSelectOption>) => {
     const description = '(~' + item.name + ')';
 
     return (
-        <Option {...props}>
-            <div className='select_option_item'>
+        <Option
+            className='apps-form-select-option'
+            {...props}
+        >
+            <div className='select-option-item'>
                 {icon}
-                <div className='select_option__item'>
-                    <span className='select_option__main'>
+                <div className='select-option-item-label'>
+                    <span className='select-option-main'>
                         {channelName}
                     </span>
                     <span className='ml-2'>
