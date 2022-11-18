@@ -2,38 +2,32 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, useIntl} from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 
 import {getCurrentUser, isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {GlobalState} from 'types/store';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import AnnouncementBar from 'components/announcement_bar/default_announcement_bar';
+import AlertBanner from 'components/alert_banner';
 import {calculateOverageUserActivated} from 'utils/overage_team';
 import {isCurrentLicenseCloud} from 'mattermost-redux/selectors/entities/cloud';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {makeGetCategory} from 'mattermost-redux/selectors/entities/preferences';
 import {PreferenceType} from '@mattermost/types/preferences';
-import {LicenseLinks, StatTypes, Preferences, AnnouncementBarTypes} from 'utils/constants';
+import {LicenseLinks, StatTypes, Preferences} from 'utils/constants';
 
-import './overage_users_banner.scss';
+import './overage_users_banner_notice.scss';
 
-type AdminHasDismissedItArgs = {
+type AdminHasDismissedArgs = {
     preferenceName: string;
     overagePreferences: PreferenceType[];
-    isWarningBanner: boolean;
 }
 
-const adminHasDismissed = ({preferenceName, overagePreferences, isWarningBanner}: AdminHasDismissedItArgs): boolean => {
-    if (isWarningBanner) {
-        return overagePreferences.find((value) => value.name === preferenceName) !== undefined;
-    }
-
-    return false;
+const adminHasDismissed = ({preferenceName, overagePreferences}: AdminHasDismissedArgs): boolean => {
+    return overagePreferences.find((value) => value.name === preferenceName) !== undefined;
 };
 
-const OverageUsersBanner = () => {
-    const {formatMessage} = useIntl();
+const OverageUsersBannerNotice = () => {
     const dispatch = useDispatch();
     const stats = useSelector((state: GlobalState) => state.entities.admin.analytics) || {};
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
@@ -59,11 +53,11 @@ const OverageUsersBanner = () => {
 
     const isOverageState = isBetween5PercerntAnd10PercentPurchasedSeats || isOver10PercerntPurchasedSeats;
 
-    if (!isAdmin || !isOverageState || isCloud || adminHasDismissed({isWarningBanner: isBetween5PercerntAnd10PercentPurchasedSeats, overagePreferences, preferenceName})) {
+    if (!isAdmin || !isOverageState || isCloud || adminHasDismissed({overagePreferences, preferenceName})) {
         return null;
     }
 
-    const handleClose = () => {
+    const handleDismiss = () => {
         dispatch(savePreferences(currentUser.id, [{
             category: Preferences.OVERAGE_USERS_BANNER,
             name: preferenceName,
@@ -72,39 +66,44 @@ const OverageUsersBanner = () => {
         }]));
     };
 
-    const handleClick = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        window.open(LicenseLinks.CONTACT_SALES, '_blank');
-    };
-
-    const message = (
-        <FormattedMessage
-            id='licensingPage.overageUsersBanner.text'
-            defaultMessage='Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}. Purchase additional seats to remain compliant.'
-            values={{
-                seats: overageByUsers,
-            }}
-        />);
-
-    const cta = formatMessage({
-        id: 'licensingPage.overageUsersBanner.cta',
-        defaultMessage: 'Contact Sales',
-    });
-
     return (
-        <AnnouncementBar
-            type={isBetween5PercerntAnd10PercentPurchasedSeats ? AnnouncementBarTypes.ADVISOR : AnnouncementBarTypes.CRITICAL}
-            showCloseButton={isBetween5PercerntAnd10PercentPurchasedSeats}
-            onButtonClick={handleClick}
-            modalButtonText={cta}
-            modalButtonDefaultText={cta}
-            message={message}
-            showLinkAsButton={true}
-            isTallBanner={true}
-            icon={<i className='icon icon-alert-outline'/>}
-            handleClose={handleClose}
+        <AlertBanner
+            mode={isOver10PercerntPurchasedSeats ? 'danger' : 'warning'}
+            onDismiss={handleDismiss}
+            className='overage_users_banner'
+            title={
+                <FormattedMessage
+                    id='licensingPage.overageUsersBanner.noticeTitle'
+                    defaultMessage='Your workspace user count has exceeded your paid license seat count by {seats, number} {seats, plural, one {seat} other {seats}}'
+                    values={{
+                        seats: overageByUsers,
+                    }}
+                />
+            }
+            message={
+                <FormattedMessage
+                    id='licensingPage.overageUsersBanner.noticeDescription'
+                    defaultMessage='Notify your Customer Success Manager on your next true-up check. <a>Contact Sales</a>'
+                    values={{
+                        a: (chunks: React.ReactNode) => {
+                            return (
+                                <a
+                                    className='overage_users_banner__button'
+                                    href={LicenseLinks.CONTACT_SALES}
+                                    target='_blank'
+                                    rel='noreferrer'
+                                >
+                                    {chunks}
+                                </a>
+                            );
+                        },
+                    }}
+                >
+                    {(text) => <p className='overage_users_banner__description'>{text}</p>}
+                </FormattedMessage>
+            }
         />
     );
 };
 
-export default OverageUsersBanner;
+export default OverageUsersBannerNotice;
