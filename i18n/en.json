@@ -84,7 +84,7 @@
   "add_command.autocompleteHint.placeholder": "Example: [Patient Name]",
   "add_command.cancel": "Cancel",
   "add_command.description": "Description",
-  "add_command.description.help": "Describe your incoming webhook.",
+  "add_command.description.help": "Describe your slash command.",
   "add_command.displayName": "Title",
   "add_command.displayName.help": "Specify a title, of up to 64 characters, for the slash command settings page.",
   "add_command.doneHelp": "Your slash command is set up. The following token will be sent in the outgoing payload. Please use it to verify the request came from your Mattermost team (details at <link>Slash Commands</link>).",
