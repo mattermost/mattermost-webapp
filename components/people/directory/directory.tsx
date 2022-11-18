@@ -29,6 +29,8 @@ const Directory = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchPeople, setSearchPeople] = useState([]);
 
+    const [filterValues, setFilterValues] = useState<FilterValues>({});
+
     const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(0);
     const [isNextPageLoading, setIsNextPageLoading] = useState(false);
@@ -84,6 +86,7 @@ const Directory = () => {
     }, Constants.SEARCH_TIMEOUT_MILLISECONDS, false, () => {});
 
     const updateValues = async (values: FilterValues, optionKey: string) => {
+        console.log(values, optionKey);
         const options = {
             ...this.state.options,
             [optionKey]: {
@@ -129,7 +132,7 @@ const Directory = () => {
                                             defaultMessage='Teams'
                                         />
                                     ),
-                                    value: [],
+                                    value: ["x9g13bezxi84dr815s1p7rcrbw"], // Use a state variable for values here
                                 },
                             },
                             keys: ['team_ids'],
