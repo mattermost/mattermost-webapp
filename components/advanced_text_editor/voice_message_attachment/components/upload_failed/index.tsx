@@ -4,7 +4,7 @@
 import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import {CloseIcon, MicrophoneIcon, RefreshIcon} from '@mattermost/compass-icons/components';
+import {CloseIcon, MicrophoneOutlineIcon, RefreshIcon} from '@mattermost/compass-icons/components';
 
 import {
     AttachmentRootContainer,
@@ -44,7 +44,7 @@ const VoiceMessageRecordingFailed = (props: Props) => {
                     color='#FFFFFF'
                 />
             ) : (
-                <MicrophoneIcon
+                <MicrophoneOutlineIcon
                     size={24}
                     color='#FFFFFF'
                 />

@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage} from 'react-intl';
 import {ProgressBar} from 'react-bootstrap';
 
-import {MicrophoneIcon, CloseIcon} from '@mattermost/compass-icons/components';
+import {MicrophoneOutlineIcon, CloseIcon} from '@mattermost/compass-icons/components';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -29,7 +29,7 @@ const VoiceMessageUploadingStarted = (props: Props) => {
     return (
         <AttachmentRootContainer
             icon={(
-                <MicrophoneIcon
+                <MicrophoneOutlineIcon
                     size={24}
                     color={props.theme.buttonBg}
                 />

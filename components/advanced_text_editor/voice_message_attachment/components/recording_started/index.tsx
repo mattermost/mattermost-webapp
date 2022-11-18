@@ -5,7 +5,7 @@ import React, {useEffect, useRef} from 'react';
 import {FormattedMessage} from 'react-intl';
 import styled from 'styled-components';
 
-import {MicrophoneIcon, CloseIcon, CheckIcon} from '@mattermost/compass-icons/components';
+import {MicrophoneOutlineIcon, CloseIcon, CheckIcon} from '@mattermost/compass-icons/components';
 
 import {Theme} from 'mattermost-redux/selectors/entities/preferences';
 
@@ -68,7 +68,7 @@ function VoiceMessageRecordingStarted(props: Props) {
     return (
         <AttachmentRootContainer
             icon={(
-                <MicrophoneIcon
+                <MicrophoneOutlineIcon
                     size={24}
                     color={props.theme.buttonBg}
                 />
