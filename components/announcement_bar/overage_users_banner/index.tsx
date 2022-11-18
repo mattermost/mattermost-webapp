@@ -52,7 +52,7 @@ const OverageUsersBanner = () => {
         seatsPurchased,
     });
     const prefixPreferences = isOver10PercerntPurchasedSeats ? 'error' : 'warn';
-    const prefixLicenseId = license.Id.substring(0, 8);
+    const prefixLicenseId = (license.Id || '').substring(0, 8);
     const preferenceName = `${prefixPreferences}_overage_seats_${prefixLicenseId}`;
 
     const overageByUsers = activeUsers - seatsPurchased;
