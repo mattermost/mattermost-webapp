@@ -6,10 +6,7 @@ import classNames from 'classnames';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {EmoticonHappyOutlineIcon} from '@mattermost/compass-icons/components';
 
-import {Emoji} from '@mattermost/types/emojis';
-import {FileInfo, FilePreviewInfo} from '@mattermost/types/files';
-import {ServerError} from '@mattermost/types/errors';
-import {Channel} from '@mattermost/types/channels';
+import {FilePreviewInfo, FileInfo} from '@mattermost/types/files';
 import {PostDraft} from 'types/store/draft';
 
 import EmojiPickerOverlay from 'components/emoji_picker/emoji_picker_overlay';
@@ -19,7 +16,7 @@ import MsgTyping from 'components/msg_typing';
 import Textbox, {TextboxElement} from 'components/textbox';
 import TextboxClass from 'components/textbox/textbox';
 import MessageSubmitError from 'components/message_submit_error';
-import {SendMessageTour} from 'components/onboarding_tour';
+import {SendMessageTour} from 'components/tours/onboarding_tour';
 import {FileUpload as FileUploadClass} from 'components/file_upload/file_upload';
 import OverlayTrigger from 'components/overlay_trigger';
 import KeyboardShortcutSequence, {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcuts_sequence';
@@ -30,7 +27,7 @@ import Constants, {Locations} from 'utils/constants';
 
 import {Channel} from '@mattermost/types/channels';
 import {ServerError} from '@mattermost/types/errors';
-import {FileInfo} from '@mattermost/types/files';
+
 import {Emoji} from '@mattermost/types/emojis';
 import AutoHeightSwitcher from '../common/auto_height_switcher';
 import RhsSuggestionList from '../suggestion/rhs_suggestion_list';
