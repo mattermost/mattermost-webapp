@@ -175,21 +175,20 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
         </Tooltip>
     );
 
-    // todo sinan fix alignment of tooltip
     const restoreButton = isCurrent ? null : (
         <OverlayTrigger
             trigger={['hover', 'focus']}
             delayShow={Constants.OVERLAY_TIME_DELAY}
-            placement='bottom'
+            placement='left'
             overlay={tooltip}
         >
             <IconButton
+                className='edit-post-history__icon__button'
                 size={'sm'}
                 icon={'refresh'} // todo update with correct icon. Restore icon is recently added to compass
                 onClick={openRestorePostModal}
                 compact={true}
                 aria-label='Select to restore an old message.'
-                className='edit-post-history__icon__button'
             />
         </OverlayTrigger>
     );
