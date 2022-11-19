@@ -59,6 +59,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
             dialogType: RestorePostModal,
             dialogProps: {
                 post,
+                postHeader,
                 actions: {
                     handleRestore,
                 },

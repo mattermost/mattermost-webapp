@@ -18,13 +18,14 @@ const modalMessages = defineMessages({
 
 type Props = {
     post: Post;
+    postHeader: JSX.Element;
     actions: {
         handleRestore: (post: Post) => void;
     };
     onExited: () => void;
 }
 
-const RestorePostModal = ({post, actions, onExited}: Props) => {
+const RestorePostModal = ({post, postHeader, actions, onExited}: Props) => {
     const {formatMessage} = useIntl();
     const onHide = () => onExited();
 
@@ -51,6 +52,7 @@ const RestorePostModal = ({post, actions, onExited}: Props) => {
             handleConfirm={handleRestore}
         >
             <div className='edit-post-history__restore__modal__content'>
+                {postHeader}
                 {post.message}
             </div>
         </GenericModal>
