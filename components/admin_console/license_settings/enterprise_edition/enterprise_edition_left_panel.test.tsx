@@ -61,11 +61,11 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         );
 
         expect(screen.getByText(Intl.NumberFormat('en').format(props.statsActiveUsers))).toHaveClass('value');
-        expect(screen.getByText(Intl.NumberFormat('en').format(props.statsActiveUsers))).not.toHaveClass('value--warning-overage-purchased');
-        expect(screen.getByText(Intl.NumberFormat('en').format(props.statsActiveUsers))).not.toHaveClass('value--overage-purchased');
+        expect(screen.getByText(Intl.NumberFormat('en').format(props.statsActiveUsers))).not.toHaveClass('value--warning-over-seats-purchased');
+        expect(screen.getByText(Intl.NumberFormat('en').format(props.statsActiveUsers))).not.toHaveClass('value--over-seats-purchased');
         expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend');
-        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--warning-overage-purchased');
-        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--overage-purchased');
+        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--warning-over-seats-purchased');
+        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--over-seats-purchased');
     });
 
     test('should add warning class to active users', () => {
@@ -78,14 +78,14 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         );
 
         expect(screen.getByText(Intl.NumberFormat('en').format(minWarning))).toHaveClass('value');
-        expect(screen.getByText(Intl.NumberFormat('en').format(minWarning))).toHaveClass('value--warning-overage-purchased');
-        expect(screen.getByText(Intl.NumberFormat('en').format(minWarning))).not.toHaveClass('value--overage-purchased');
+        expect(screen.getByText(Intl.NumberFormat('en').format(minWarning))).toHaveClass('value--warning-over-seats-purchased');
+        expect(screen.getByText(Intl.NumberFormat('en').format(minWarning))).not.toHaveClass('value--over-seats-purchased');
         expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend');
-        expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend--warning-overage-purchased');
-        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--overage-purchased');
+        expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend--warning-over-seats-purchased');
+        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--over-seats-purchased');
     });
 
-    test('should add overage-purchased class to active users', () => {
+    test('should add over-seats-purchased class to active users', () => {
         const exceedHighLimitExtraUsersError = Math.ceil(parseInt(license.Users, 10) * OverActiveUserLimits.MAX) + parseInt(license.Users, 10);
         renderWithIntl(
             <EnterpriseEditionLeftPanel
@@ -95,10 +95,10 @@ describe('components/admin_console/license_settings/enterprise_edition/enterpris
         );
 
         expect(screen.getByText(Intl.NumberFormat('en').format(exceedHighLimitExtraUsersError))).toHaveClass('value');
-        expect(screen.getByText(Intl.NumberFormat('en').format(exceedHighLimitExtraUsersError))).toHaveClass('value--overage-purchased');
-        expect(screen.getByText(Intl.NumberFormat('en').format(exceedHighLimitExtraUsersError))).not.toHaveClass('value--warning-overage-purchased');
+        expect(screen.getByText(Intl.NumberFormat('en').format(exceedHighLimitExtraUsersError))).toHaveClass('value--over-seats-purchased');
+        expect(screen.getByText(Intl.NumberFormat('en').format(exceedHighLimitExtraUsersError))).not.toHaveClass('value--warning-over-seats-purchased');
         expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend');
-        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--warning-overage-purchased');
-        expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend--overage-purchased');
+        expect(screen.getByText('ACTIVE USERS:')).not.toHaveClass('legend--warning-over-seats-purchased');
+        expect(screen.getByText('ACTIVE USERS:')).toHaveClass('legend--over-seats-purchased');
     });
 });

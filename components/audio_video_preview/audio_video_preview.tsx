@@ -32,7 +32,7 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
     }
 
     componentDidMount() {
-        this.handleFileInfoChanged(this.props.fileInfo);
+        this.handleFileInfoChanged();
 
         if (this.sourceRef.current) {
             this.sourceRef.current.addEventListener('error', this.handleLoadError, {once: true});
@@ -41,7 +41,7 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
 
     componentDidUpdate(prevProps: Props) {
         if (this.props.fileUrl !== prevProps.fileUrl) {
-            this.handleFileInfoChanged(this.props.fileInfo);
+            this.handleFileInfoChanged();
         }
 
         if (this.sourceRef.current) {
@@ -49,16 +49,14 @@ export default class AudioVideoPreview extends React.PureComponent<Props, State>
         }
     }
 
-    handleFileInfoChanged = (fileInfo: FileInfo) => {
+    handleFileInfoChanged = () => {
         let video = this.videoRef.current;
         if (!video) {
             video = document.createElement('video');
         }
 
-        const canPlayType = video.canPlayType(fileInfo.mime_type);
-
         this.setState({
-            canPlay: canPlayType === 'probably' || canPlayType === 'maybe',
+            canPlay: true,
         });
     }
 

@@ -317,7 +317,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                     removing={this.state.removing}
                     fileInputRef={this.fileInputRef}
                     handleChange={this.handleChange}
-                    statsActiveUsers={this.props.stats[StatTypes.TOTAL_USERS]}
+                    statsActiveUsers={this.props.stats[StatTypes.TOTAL_USERS] || 0}
                 />
             );
 
