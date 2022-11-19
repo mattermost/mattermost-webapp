@@ -93,7 +93,7 @@ exports[`components/post_edit_history/edited_post_item should match snapshot 1`]
             Restore this version
           </Tooltip>
         }
-        placement="bottom"
+        placement="left"
         trigger={
           Array [
             "hover",
