@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useEffect, useCallback, useState} from 'react';
+import React, {useEffect, useCallback, useState, useRef} from 'react';
 import styled from 'styled-components';
 import {FormattedMessage} from 'react-intl';
 import {debounce} from 'lodash';
@@ -13,8 +13,9 @@ import {UserProfile} from '@mattermost/types/users';
 import {Group} from '@mattermost/types/groups';
 import {ActionResult} from 'mattermost-redux/types/actions';
 
+import {shouldFocusMainTextbox} from 'utils/post_utils';
 import * as Utils from 'utils/utils';
-import Constants, {ModalIdentifiers} from 'utils/constants';
+import Constants, {A11yClassNames, A11yCustomEventTypes, A11yFocusEventDetail, ModalIdentifiers} from 'utils/constants';
 
 import {QuickInput} from 'components/quick_input/quick_input';
 import Popover from 'components/widgets/popover';
@@ -43,6 +44,11 @@ export type Props = {
     hide: () => void;
 
     /**
+     * Function to call if focus should be returned to triggering element
+     */
+    returnFocus: () => void;
+
+    /**
      * Function to call to show a profile popover and hide parent popover
      */
     showUserOverlay: (user: UserProfile) => void;
@@ -64,9 +70,12 @@ const UserGroupPopover = (props: Props) => {
         group,
         actions,
         hide,
+        returnFocus,
         searchTerm,
         showUserOverlay,
     } = props;
+
+    const closeRef = useRef<HTMLButtonElement>(null);
 
     const [searchState, setSearchState] = useState(Load.DONE);
 
@@ -80,11 +89,19 @@ const UserGroupPopover = (props: Props) => {
     }, Constants.SEARCH_TIMEOUT_MILLISECONDS), [actions.searchProfiles]);
 
     useEffect(() => {
+        // Focus the close button when the popover first opens
+        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+            A11yCustomEventTypes.FOCUS, {
+                detail: {
+                    target: closeRef.current,
+                    keyboardOnly: true,
+                },
+            },
+        ));
+
         // Unset the popover search term on mount and unmount
         // This is to prevent some odd rendering issues when quickly opening and closing popovers
-
         actions.setPopoverSearchTerm('');
-
         return () => {
             actions.setPopoverSearchTerm('');
         };
@@ -106,6 +123,7 @@ const UserGroupPopover = (props: Props) => {
             dialogType: UserGroupsModal,
             dialogProps: {
                 backButtonAction: openGroupsModal,
+                onExited: returnFocus,
             },
         });
     };
@@ -119,8 +137,14 @@ const UserGroupPopover = (props: Props) => {
                 groupId: group.id,
                 backButtonCallback: openGroupsModal,
                 backButtonAction: openViewGroupModal,
+                onExited: returnFocus,
             },
         });
+    };
+
+    const handleClose = () => {
+        hide();
+        returnFocus();
     };
 
     const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -131,12 +155,34 @@ const UserGroupPopover = (props: Props) => {
         actions.setPopoverSearchTerm('');
     };
 
+    const handleKeyDown = (e: React.KeyboardEvent) => {
+        if (shouldFocusMainTextbox(e, document.activeElement)) {
+            hide();
+        } else if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            returnFocus();
+        }
+    };
+
+    const tabCatcher = (
+        <span
+            tabIndex={0}
+            onFocus={(e) => {
+                (e.relatedTarget as HTMLElement)?.focus();
+            }}
+        />
+    );
+
     return (
         <Popover
             {...props}
             id='user-group-popover'
         >
-            <Body role='dialog'>
+            {tabCatcher}
+            <Body
+                role='dialog'
+                onKeyDown={handleKeyDown}
+                className={A11yClassNames.POPUP}
+            >
                 <Header>
                     <Heading>
                         <Title
@@ -147,7 +193,8 @@ const UserGroupPopover = (props: Props) => {
                         <CloseButton
                             className='btn-icon'
                             aria-label={Utils.localizeMessage('user_group_popover.close', 'Close')}
-                            onClick={hide}
+                            onClick={handleClose}
+                            ref={closeRef}
                         >
                             <CloseIcon/>
                         </CloseButton>
@@ -191,6 +238,7 @@ const UserGroupPopover = (props: Props) => {
                     showUserOverlay={showUserOverlay}
                 />
             </Body>
+            {tabCatcher}
         </Popover>);
 };
 

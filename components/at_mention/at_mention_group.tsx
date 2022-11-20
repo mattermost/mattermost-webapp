@@ -11,6 +11,7 @@ import {Group} from '@mattermost/types/groups';
 import ProfilePopover from 'components/profile_popover';
 import UserGroupPopover from 'components/user_group_popover';
 
+import {A11yCustomEventTypes, A11yFocusEventDetail} from 'utils/constants';
 import {popOverOverlayPosition} from 'utils/position_utils';
 import {getViewportSize} from 'utils/utils';
 
@@ -41,14 +42,14 @@ const AtMentionGroup = (props: Props) => {
         hasMention,
     } = props;
 
-    const ref = useRef<HTMLAnchorElement>(null);
+    const ref = useRef<HTMLButtonElement>(null);
 
     const [show, setShow] = useState(false);
     const [showUser, setShowUser] = useState<UserProfile | undefined>();
-    const [target, setTarget] = useState<HTMLAnchorElement | undefined>();
+    const [target, setTarget] = useState<HTMLButtonElement | undefined>();
     const [placement, setPlacement] = useState('');
 
-    const handleClick = (e: React.MouseEvent) => {
+    const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
         const targetBounds = ref.current?.getBoundingClientRect();
 
         if (targetBounds) {
@@ -58,7 +59,7 @@ const AtMentionGroup = (props: Props) => {
                 MAX_LIST_HEIGHT,
             );
             const placement = popOverOverlayPosition(targetBounds, window.innerHeight, approximatePopoverHeight);
-            setTarget(e.target as HTMLAnchorElement);
+            setTarget(e.target as HTMLButtonElement);
             setShow(!show);
             setShowUser(undefined);
             setPlacement(placement);
@@ -78,6 +79,17 @@ const AtMentionGroup = (props: Props) => {
         setShowUser(undefined);
     };
 
+    const returnFocus = () => {
+        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+            A11yCustomEventTypes.FOCUS, {
+                detail: {
+                    target: ref.current,
+                    keyboardOnly: true,
+                },
+            },
+        ));
+    };
+
     return (
         <>
             <Overlay
@@ -91,6 +103,7 @@ const AtMentionGroup = (props: Props) => {
                     group={group}
                     hide={hide}
                     showUserOverlay={showUserOverlay}
+                    returnFocus={returnFocus}
                 />
             </Overlay>
             <Overlay
@@ -109,16 +122,18 @@ const AtMentionGroup = (props: Props) => {
                         channelId={channelId}
                         hasMention={hasMention}
                         hide={hideUserOverlay}
+                        returnFocus={returnFocus}
                     />
                 ) : <span/>
                 }
             </Overlay>
-            <a
+            <button
                 onClick={handleClick}
+                className='style--link'
                 ref={ref}
             >
                 {'@' + group.name}
-            </a>
+            </button>
         </>
     );
 };
