@@ -41,6 +41,29 @@ export type SearchParams = {
     before_date?: string;
     excluded_after_date?: string;
     excluded_before_date?: string;
+    excluded_channels?: string[];
+    excluded_date?: string;
+    excluded_extensions?: string[];
+    excluded_terms?: string;
+    excluded_users?: string[];
+    extensions?: string[];
+    from_users?: string[];
+    in_channels?: string[];
+    include_deleted_channels?: boolean;
+    is_hashtag?: boolean;
+    modifier: string;
+    on_date?: string;
+    or_terms?: boolean;
+    search_without_user_id?: boolean;
+    terms?: string;
+    time_zone_offset?: number;
+}
+
+export type RecentSearchParams = {
+    after_date?: string;
+    before_date?: string;
+    excluded_after_date?: string;
+    excluded_before_date?: string;
     excluded_channels: Channel[];
     excluded_date?: string;
     excluded_extensions?: string[];
@@ -55,6 +78,6 @@ export type SearchParams = {
     on_date?: string;
     or_terms?: boolean;
     search_without_user_id?: boolean;
-    terms?: string; // done
+    terms?: string;
     time_zone_offset?: number;
 }

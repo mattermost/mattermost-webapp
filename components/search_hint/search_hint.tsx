@@ -9,7 +9,7 @@ import classNames from 'classnames';
 
 import {getConfig} from 'mattermost-redux/selectors/entities/general';
 import {isFileAttachmentsEnabled} from 'utils/file_utils';
-import {SearchParams} from '@mattermost/types/search';
+import {RecentSearchParams} from '@mattermost/types/search';
 import {formatRecentSearch} from 'components/search/search';
 
 interface SearchTerm {
@@ -30,7 +30,7 @@ type Props = {
     onElementBlur?: () => void;
     onElementFocus?: () => void;
     searchType?: 'files' | 'messages' | '';
-    recentSearches?: SearchParams[];
+    recentSearches?: RecentSearchParams[];
     onRecentSearchSelected?: (query: string) => void;
 }
 
@@ -163,7 +163,7 @@ const SearchHint = (props: Props): JSX.Element => {
                         </div>
                     </li>))}
             </ul>
-            {props.recentSearches && <>
+            {props.recentSearches && props.recentSearches.length ? <>
                 <h4 className='recent-searches__title'>
                     <FormattedMessage
                         id='search_bar.usage.recent_searches'
@@ -205,7 +205,7 @@ const SearchHint = (props: Props): JSX.Element => {
                         );
                     })}
                 </ul>
-            </>
+            </> : null
             }
         </React.Fragment>
     );
