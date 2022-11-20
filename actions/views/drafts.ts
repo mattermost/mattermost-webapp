@@ -10,7 +10,6 @@ import {setGlobalItem} from 'actions/storage';
 import {getConnectionId} from 'selectors/general';
 import type {GlobalState} from 'types/store';
 import {PostDraft} from 'types/store/draft';
-import {StoragePrefixes} from 'utils/constants';
 import {getGlobalItem} from 'selectors/storage';
 
 import type {UserProfile} from '@mattermost/types/users';
@@ -51,43 +50,6 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
         }
         dispatch(setGlobalItem(key, updatedValue));
         return {data: true};
-    };
-}
-
-export function removeFilePreview(key: string, id: string) {
-    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
-        const defaultValue = {};
-        const draft = getGlobalItem(state, key, defaultValue) as PostDraft;
-        if (draft === defaultValue) {
-            return;
-        }
-        const connectionId = getConnectionId(state);
-
-        const index = draft.fileInfos.findIndex((info) => info.id === id);
-
-        if (index !== -1) {
-            const fileInfos = [
-                ...draft.fileInfos.slice(0, index),
-                ...draft.fileInfos.slice(index + 1),
-            ];
-
-            const updatedDraft = {
-                ...draft,
-                fileInfos,
-            };
-            let rootId = '';
-            if (key.startsWith(StoragePrefixes.COMMENT_DRAFT)) {
-                rootId = id;
-            }
-
-            dispatch(setGlobalItem(key, updatedDraft));
-
-            if (syncedDraftsAreAllowedAndEnabled(state)) {
-                const userId = getCurrentUserId(state);
-                await upsertDraft(updatedDraft, userId, rootId, connectionId);
-            }
-        }
     };
 }
 
