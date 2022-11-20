@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React from 'react';
+import React, {useEffect, useCallback, useRef} from 'react';
 
 import menuItem from './menu_item';
 
@@ -15,6 +15,9 @@ type Props = {
     buttonClass?: string;
     rightDecorator?: React.ReactNode;
     isDangerous?: boolean;
+    index?: number;
+    focus?: boolean;
+    setFocus?: (e: any) => void;
     disabled?: boolean;
     sibling?: React.ReactNode;
 }
@@ -27,30 +30,54 @@ export const MenuItemActionImpl = ({
     buttonClass,
     rightDecorator,
     isDangerous,
+    index,
+    focus,
+    setFocus,
     disabled,
     sibling,
-}: Props) => (
-    <>
-        <button
-            data-testid={id}
-            id={id}
-            aria-label={ariaLabel}
-            className={classNames('style--none', buttonClass, {
-                'MenuItem__with-help': extraText,
-                'MenuItem__with-sibling': sibling,
-                disabled,
-                MenuItem__dangerous: isDangerous,
-            })}
-            onClick={onClick}
-            disabled={disabled}
-        >
-            {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}
-            {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
-        </button>
-        {sibling}
-    </>
+}: Props) => {
+    const ref = useRef<HTMLButtonElement>(null);
 
-);
+    useEffect(() => {
+        if (focus) {
+            // Move element into view when it is focused
+            ref.current?.focus();
+        }
+    }, [focus]);
+
+    useEffect(() => {
+        return (() => setFocus?.(0));
+    }, []);
+
+    const handleSelect = useCallback(() => {
+        // setting focus to that element when it is selected
+        setFocus?.(index);
+    }, [text, index, setFocus]);
+
+    return (
+        <>
+            <button
+                data-testid={id}
+                id={id}
+                aria-label={ariaLabel}
+                className={classNames('style--none', buttonClass, {
+                    'MenuItem__with-help': extraText,
+                    'MenuItem__with-sibling': sibling,
+                    disabled,
+                    MenuItem__dangerous: isDangerous,
+                })}
+                onClick={onClick}
+                disabled={disabled}
+                ref={ref}
+                onKeyPress={handleSelect}
+            >
+                {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}
+                {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
+            </button>
+            {sibling}
+        </>
+    );
+};
 
 const MenuItemAction = menuItem(MenuItemActionImpl);
 MenuItemAction.displayName = 'MenuItemAction';

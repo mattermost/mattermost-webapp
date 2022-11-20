@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback, useState, useEffect} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -11,6 +11,37 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/tours/onboarding_tour';
+import Constants from 'utils/constants';
+
+function useRoveFocus(size: number, isCompUnmounted: boolean, setIsCompUnmounted: (e: boolean) => void) {
+    const [currentFocus, setCurrentFocus] = useState(0);
+    const handleKeyDown = useCallback(
+        (e) => {
+            const {keyCode, key} = e;
+            if (keyCode === Constants.KeyCodes.DOWN[1] || (key === Constants.KeyCodes.TAB[0] && currentFocus !== size - 1 && !isCompUnmounted)) {
+                // Down arrow
+                e.preventDefault();
+                setCurrentFocus(currentFocus === size - 1 ? 0 : currentFocus + 1);
+            } else if (keyCode === Constants.KeyCodes.UP[1]) {
+                // Up arrow
+                e.preventDefault();
+                setCurrentFocus(currentFocus === 0 ? size - 1 : currentFocus - 1);
+            } else {
+                setIsCompUnmounted(true);
+            }
+        },
+        [size, currentFocus, setCurrentFocus],
+    );
+
+    useEffect(() => {
+        document.addEventListener('keydown', handleKeyDown, false);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown, false);
+        };
+    }, [handleKeyDown]);
+
+    return [currentFocus, setCurrentFocus];
+}
 
 type Props = {
     canCreateChannel: boolean;
@@ -48,92 +79,69 @@ const AddChannelDropdown = ({
 }: Props) => {
     const intl = useIntl();
 
-    const renderDropdownItems = () => {
-        const invitePeople = (
-            <Menu.Group>
-                <Menu.ItemAction
-                    id='invitePeople'
-                    onClick={invitePeopleModal}
-                    icon={<i className='icon-account-plus-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'})}
-                    extraText={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add people to the team'})}
-                />
-                {showInviteTutorialTip && <InvitePeopleTour/>}
-            </Menu.Group>
-        );
+    const renderDropdownItems: Array<{ id: string;
+        onClick: (e: Event) => void;
+        icon: string;
+        text: string;
+        shouldShowTourComponent?: boolean;
+        tourComponent?: () => JSX.Element;
+        divider?: string;
+        extraText?: string;
+        isEligible: boolean;
+    }> = [
+        {
+            id: 'showMoreChannels',
+            onClick: showMoreChannelsModal,
+            icon: 'icon-globe',
+            text: intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'}),
+            shouldShowTourComponent: showCreateTutorialTip,
+            tourComponent: CreateAndJoinChannelsTour,
+            isEligible: canJoinPublicChannel,
 
-        let joinPublicChannel;
-        if (canJoinPublicChannel) {
-            joinPublicChannel = (
-                <Menu.ItemAction
-                    id='showMoreChannels'
-                    onClick={showMoreChannelsModal}
-                    icon={<i className='icon-globe'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.browseChannels', defaultMessage: 'Browse Channels'})}
-                />
-            );
-        }
-
-        let createChannel;
-        if (canCreateChannel) {
-            createChannel = (
-                <Menu.ItemAction
-                    id='showNewChannel'
-                    onClick={showNewChannelModal}
-                    icon={<i className='icon-plus'/>}
-                    text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'})}
-                />
-            );
-        }
-
-        let createCategory;
-        if (!unreadFilterEnabled) {
-            createCategory = (
-                <Menu.Group>
-                    <Menu.ItemAction
-                        id='createCategory'
-                        onClick={showCreateCategoryModal}
-                        icon={<i className='icon-folder-plus-outline'/>}
-                        text={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createCategory', defaultMessage: 'Create New Category'})}
-                    />
-                </Menu.Group>);
-        }
-
-        const createDirectMessage = (
-            <Menu.ItemAction
-                id={'openDirectMessageMenuItem'}
-                onClick={handleOpenDirectMessagesModal}
-                icon={<i className='icon-account-outline'/>}
-                text={intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'})}
-            />
-        );
-
-        let createUserGroup;
-        if (canCreateCustomGroups) {
-            createUserGroup = (
-                <Menu.ItemAction
-                    id={'createUserGroup'}
-                    onClick={showCreateUserGroupModal}
-                    icon={<i className='icon-account-multiple-plus-outline'/>}
-                    text={intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create New User Group'})}
-                />
-            );
-        }
-
-        return (
-            <>
-                <Menu.Group>
-                    {joinPublicChannel}
-                    {createChannel}
-                    {createDirectMessage}
-                    {showCreateTutorialTip && <CreateAndJoinChannelsTour/>}
-                    {createUserGroup}
-                </Menu.Group>
-                {createCategory}
-                {invitePeople}
-            </>
-        );
-    };
+        },
+        {
+            id: 'showNewChannel',
+            onClick: showNewChannelModal,
+            icon: 'icon-plus',
+            text: intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createNewChannel', defaultMessage: 'Create New Channel'}),
+            isEligible: canCreateChannel,
+        },
+        {
+            id: 'browseDirectMessages',
+            onClick: handleOpenDirectMessagesModal,
+            icon: 'icon-account-outline',
+            text: intl.formatMessage({id: 'sidebar.openDirectMessage', defaultMessage: 'Open a direct message'}),
+            isEligible: true,
+        },
+        {
+            id: 'createUserGroup',
+            onClick: showCreateUserGroupModal,
+            icon: 'icon-account-multiple-plus-outline',
+            text: intl.formatMessage({id: 'sidebar.createUserGroup', defaultMessage: 'Create New User Group'}),
+            isEligible: canCreateCustomGroups,
+        },
+        {
+            id: 'createCategory',
+            onClick: showCreateCategoryModal,
+            icon: 'icon-folder-plus-outline',
+            text: intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.createCategory', defaultMessage: 'Create New Category'}),
+            divider: 'MenuGroup menu-divider',
+            isEligible: !unreadFilterEnabled,
+        },
+        {
+            id: 'invitePeople',
+            onClick: invitePeopleModal,
+            icon: 'icon-account-plus-outline',
+            text: intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeople', defaultMessage: 'Invite People'}),
+            extraText: intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.invitePeopleExtraText', defaultMessage: 'Add people to the team'}),
+            shouldShowTourComponent: showInviteTutorialTip,
+            tourComponent: InvitePeopleTour,
+            divider: 'MenuGroup menu-divider',
+            isEligible: true,
+        },
+    ];
+    const [isCompUnmounted, setIsCompUnmounted] = useState(true);
+    const [focus, setFocus] = useRoveFocus(renderDropdownItems.length, isCompUnmounted, setIsCompUnmounted);
 
     const trackOpen = (opened: boolean) => {
         openAddChannelOpen(opened);
@@ -182,7 +190,28 @@ const AddChannelDropdown = ({
                 id='AddChannelDropdown'
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
             >
-                {renderDropdownItems()}
+                <Menu.Group>
+                    {renderDropdownItems.map((item, index) => (
+                        <Menu.Group
+                            key={index}
+                            divider={<li className={item.divider}/>}
+                        >
+                            {item.isEligible &&
+                            <Menu.ItemAction
+                                id={item.id}
+                                onClick={item.onClick}
+                                icon={<i className={item.icon}/>}
+                                text={item.text}
+                                extraText={item.extraText}
+                                index={index}
+                                setFocus={setFocus}
+                                focus={focus === index}
+                            />
+                            }
+                            {item.shouldShowTourComponent && item.tourComponent && <item.tourComponent/>}
+                        </Menu.Group>
+                    ))}
+                </Menu.Group>
             </Menu>
         </MenuWrapper>
     );
