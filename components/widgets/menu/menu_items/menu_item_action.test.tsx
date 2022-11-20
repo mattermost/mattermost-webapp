@@ -17,13 +17,10 @@ describe('components/MenuItemAction', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
-            <button
-              className="style--none"
-              onClick={[MockFunction]}
-              onKeyPress={[Function]}
-            >
-              <span
-                className="MenuItem__primary-text"
+              <button
+                className="style--none"
+                onClick={[MockFunction]}
+                onKeyPress={[Function]}
               >
                 <span
                   className="MenuItem__primary-text"
@@ -45,13 +42,10 @@ describe('components/MenuItemAction', () => {
 
         expect(wrapper).toMatchInlineSnapshot(`
             <Fragment>
-            <button
-              className="style--none MenuItem__with-help"
-              onClick={[MockFunction]}
-              onKeyPress={[Function]}
-            >
-              <span
-                className="MenuItem__primary-text"
+              <button
+                className="style--none MenuItem__with-help"
+                onClick={[MockFunction]}
+                onKeyPress={[Function]}
               >
                 <span
                   className="MenuItem__primary-text"
