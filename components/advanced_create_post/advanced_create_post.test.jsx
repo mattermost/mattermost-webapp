@@ -1413,6 +1413,57 @@ describe('components/advanced_create_post', () => {
         expect(wrapper.state('message')).toBe(codeBlockMarkdown);
     });
 
+    it('should call handlePostPasteDraft to update the draft after pasting', () => {
+        const wrapper = shallow(advancedCreatePost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+        wrapper.instance().handlePostPasteDraft = jest.fn();
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a href="https://test.domain">link text</a>';
+                },
+            },
+        };
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.instance().handlePostPasteDraft).toHaveBeenCalledTimes(1);
+    });
+
+    it('should update draft when handlePostPasteDraft is called', () => {
+        const setDraft = jest.fn();
+
+        const wrapper = shallow(
+            advancedCreatePost({
+                actions: {
+                    ...actionsProp,
+                    setDraft,
+                },
+            }),
+        );
+
+        const testMessage = 'test';
+        const expectedDraft = {
+            ...draftProp,
+            message: testMessage,
+        };
+
+        wrapper.instance().handlePostPasteDraft(testMessage);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
+    });
+
     /**
      * TODO@all: move this test to advanced_text_editor.test.tsx and rewrite it according to the component
      *
