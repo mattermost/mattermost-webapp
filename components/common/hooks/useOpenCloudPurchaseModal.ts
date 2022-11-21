@@ -5,7 +5,7 @@ import {useDispatch} from 'react-redux';
 
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
-import {ModalIdentifiers} from 'utils/constants';
+import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
 import PurchaseModal from 'components/purchase_modal';
 
 interface OpenPurchaseModalOptions{
@@ -21,7 +21,7 @@ export default function useOpenCloudPurchaseModal(options: OpenPurchaseModalOpti
         if (options.onClick) {
             options.onClick();
         }
-        trackEvent('cloud_admin', options.isDelinquencyModal ? 'click_open_delinquency_modal' : 'click_open_purchase_modal', {
+        trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, options.isDelinquencyModal ? 'click_open_delinquency_modal' : 'click_open_purchase_modal', {
             callerInfo: telemetryProps.trackingLocation,
         });
         dispatch(openModal({

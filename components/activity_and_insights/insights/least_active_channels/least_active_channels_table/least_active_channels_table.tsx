@@ -1,8 +1,10 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
+import {useHistory} from 'react-router-dom';
 
 import classNames from 'classnames';
 
@@ -15,7 +17,6 @@ import {LeastActiveChannel, TimeFrame} from '@mattermost/types/insights';
 import {getCurrentRelativeTeamUrl, getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import Constants, {InsightsScopes} from 'utils/constants';
-import {browserHistory} from 'utils/browser_history';
 
 import Avatars from 'components/widgets/users/avatars';
 import DataGrid, {Row, Column} from 'components/admin_console/data_grid/data_grid';
@@ -35,6 +36,7 @@ type Props = {
 
 const LeastActiveChannelsTable = (props: Props) => {
     const dispatch = useDispatch();
+    const history = useHistory();
 
     const [loading, setLoading] = useState(true);
     const [leastActiveChannels, setLeastActiveChannels] = useState([] as LeastActiveChannel[]);
@@ -65,7 +67,7 @@ const LeastActiveChannelsTable = (props: Props) => {
     const goToChannel = useCallback((channel: LeastActiveChannel) => {
         props.closeModal();
         trackEvent('insights', 'open_channel_from_least_active_channels_modal');
-        browserHistory.push(`${currentTeamUrl}/channels/${channel.name}`);
+        history.push(`${currentTeamUrl}/channels/${channel.name}`);
     }, [props.closeModal]);
 
     const getColumns = useMemo((): Column[] => {
