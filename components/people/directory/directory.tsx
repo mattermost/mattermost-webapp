@@ -29,7 +29,17 @@ const Directory = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [searchPeople, setSearchPeople] = useState([]);
 
-    const [filterValues, setFilterValues] = useState<FilterValues>({});
+    const [filterValues, setFilterValues] = useState<FilterValues>({
+        team_ids: {
+            name: (
+                <FormattedMessage
+                    id='admin.team_settings.title'
+                    defaultMessage='Teams'
+                />
+            ),
+            value: [], // Use a state variable for values here
+        },
+    });
 
     const [totalCount, setTotalCount] = useState(0);
     const [page, setPage] = useState(0);
@@ -86,17 +96,10 @@ const Directory = () => {
     }, Constants.SEARCH_TIMEOUT_MILLISECONDS, false, () => {});
 
     const updateValues = async (values: FilterValues, optionKey: string) => {
-        console.log(values, optionKey);
         const options = {
-            ...this.state.options,
-            [optionKey]: {
-                ...this.state.options[optionKey],
-                values: {
-                    ...values,
-                },
-            },
+            ...values,
         };
-        // this.setState({options, optionsModified: true});
+        setFilterValues(options);
     }
 
     return (
@@ -125,17 +128,9 @@ const Directory = () => {
                         option={{
                             name: '',
                             values: {
-                                team_ids: {
-                                    name: (
-                                        <FormattedMessage
-                                            id='admin.team_settings.title'
-                                            defaultMessage='Teams'
-                                        />
-                                    ),
-                                    value: ["x9g13bezxi84dr815s1p7rcrbw"], // Use a state variable for values here
-                                },
+                                ...filterValues,
                             },
-                            keys: ['team_ids'],
+                            keys: ['teams'],
                         }}
                         optionKey='team'
                         updateValues={updateValues}
