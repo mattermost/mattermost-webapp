@@ -32,14 +32,6 @@ function simulateSubscription() {
                         quantity: 0.06451612903225806,
                         price_per_unit: 1000,
                         description: 'Cloud Professional',
-                        type: 'metered',
-                        metadata: {
-                            current_product_id: 'prod_LSBESgGXq9KlLj',
-                            'cws-date-converted-to-paid': '1660215462',
-                            'cws-dns': 'testsaid.test.mattermost.cloud',
-                            'cws-installation': 'xhp8uy46gtngfpa4ant5b8f1ho',
-                            'cws-installation-state': 'stable',
-                        },
                     },
                 ],
                 current_product_name: 'Cloud Professional',
@@ -62,14 +54,6 @@ function simulateSubscription() {
                         quantity: 0.7333333333333333,
                         price_per_unit: 999,
                         description: 'Cloud Professional',
-                        type: 'metered',
-                        metadata: {
-                            current_product_id: 'prod_LSBESgGXq9KlLj',
-                            'cws-date-converted-to-paid': '1660215462',
-                            'cws-dns': 'testsaid.test.mattermost.cloud',
-                            'cws-installation': 'xhp8uy46gtngfpa4ant5b8f1ho',
-                            'cws-installation-state': 'stable',
-                        },
                     },
                 ],
                 current_product_name: 'Cloud Professional',
@@ -92,14 +76,6 @@ function simulateSubscription() {
                         quantity: 0.7333333333333333,
                         price_per_unit: 999,
                         description: 'Cloud Professional',
-                        type: 'metered',
-                        metadata: {
-                            current_product_id: 'prod_LSBESgGXq9KlLj',
-                            'cws-date-converted-to-paid': '1660215462',
-                            'cws-dns': 'testsaid.test.mattermost.cloud',
-                            'cws-installation': 'xhp8uy46gtngfpa4ant5b8f1ho',
-                            'cws-installation-state': 'stable',
-                        },
                     },
                 ],
                 current_product_name: 'Cloud Professional',
@@ -145,8 +121,6 @@ function simulateSubscription() {
 }
 
 describe('System Console - Billing History', () => {
-    let productSubscription;
-
     before(() => {
         simulateSubscription();
 
@@ -160,7 +134,7 @@ describe('System Console - Billing History', () => {
         cy.contains('.admin-console__header', 'Billing History').should('be.visible');
     });
 
-    it.only('MM-T3491_1 Invoice is shown in a table', () => {
+    it('MM-T3491_1 Invoice is shown in a table', () => {
         cy.get('tr.BillingHistory__table-row').as('tableRows');
 
         // * Check the first row where payment is pending
@@ -180,29 +154,13 @@ describe('System Console - Billing History', () => {
     });
 
     it('MM-T3491_2 Validate the contents of downloaded PDF invoice', () => {
-        // * Check for default record's length in grid
-        cy.get('.BillingHistory__table-row').should('have.length', 1);
+        cy.get('tr.BillingHistory__table-row').as('tableRows');
 
-        // * Check the content from the downloaded pdf file
-        cy.get('.BillingHistory__table-invoice >a').then((link) => {
-            cy.request({
-                url: link.prop('href'),
-                encoding: 'binary',
-            }).then(
-                (response) => {
-                    const fileName = 'invoice';
-                    const filePath = Cypress.config('downloadsFolder') + '/' + fileName + '.pdf';
-                    cy.writeFile(filePath, response.body, 'binary');
-                    cy.task('getPdfContent', filePath).then((data) => {
-                        const allLines = data.text.split('\n');
-                        const prodLine = allLines.filter((line) => line.includes(`Trial period for ${productSubscription.name}`));
-                        expect(prodLine.length).to.be.equal(1);
-                        const amountLine = allLines.filter((line) => line.includes('Amount paid'));
-                        expect(amountLine[0].includes('$0.00')).to.be.equal(true);
-                    });
-                },
-            );
-        });
+        // * Check for default record's length in grid
+        cy.get('@tableRows').should('have.length', 3);
+
+        // * Check the invoice lins
+        cy.get('@tableRows').eq(2).find('td').eq(4).find('a').should('have.attr', 'href').and('include', 'invoices/in_1LntnKI67GP2qpb4VObu3NgV/pdf');
     });
 });
 
