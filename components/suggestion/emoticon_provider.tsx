@@ -3,6 +3,8 @@
 
 import React from 'react';
 
+import {Emoji, SystemEmoji} from '@mattermost/types/emojis.js';
+
 import {Preferences} from 'utils/constants';
 
 import {autocompleteCustomEmojis} from 'mattermost-redux/actions/emojis';
@@ -20,6 +22,13 @@ import Provider from './provider';
 
 export const MIN_EMOTICON_LENGTH = 2;
 export const EMOJI_CATEGORY_SUGGESTION_BLOCKLIST = ['skintone'];
+
+type ProviderResults = {
+    matchedPretext: string;
+    terms: string[];
+    items: Array<Record<string, any>>;
+    component?: React.ReactNode;
+};
 
 class EmoticonSuggestion extends Suggestion {
     render() {
@@ -55,12 +64,13 @@ class EmoticonSuggestion extends Suggestion {
 }
 
 export default class EmoticonProvider extends Provider {
+    triggerCharacter: string;
     constructor() {
         super();
 
         this.triggerCharacter = ':';
     }
-    handlePretextChanged(pretext, resultsCallback) {
+    handlePretextChanged(pretext: string, resultsCallback: (res: ProviderResults) => void) {
         // Look for the potential emoticons at the start of the text, after whitespace, and at the start of emoji reaction commands
         const captured = (/(^|\s|^\+|^-)(:([^:\s]*))$/g).exec(pretext.toLowerCase());
         if (!captured) {
@@ -94,7 +104,7 @@ export default class EmoticonProvider extends Provider {
         return true;
     }
 
-    formatEmojis(emojis) {
+    formatEmojis(emojis: Emoji[]) {
         return emojis.map((item) => ':' + item.name + ':');
     }
 
@@ -108,9 +118,9 @@ export default class EmoticonProvider extends Provider {
     //
     // For now, this behaviour and difference is by design.
     // See https://mattermost.atlassian.net/browse/MM-17320.
-    findAndSuggestEmojis(text, partialName, resultsCallback) {
-        const recentMatched = [];
-        const matched = [];
+    findAndSuggestEmojis(text: string, partialName: string, resultsCallback: (res: ProviderResults) => void) {
+        const recentMatched: Array<{ name: string} & SystemEmoji> = [];
+        const matched: Array<{ name: string} & any> = [];
         const state = store.getState();
         const skintone = state.entities?.preferences?.myPreferences['emoji--emoji_skintone']?.value || 'default';
         const emojiMap = getEmojiMap(state);
@@ -118,37 +128,39 @@ export default class EmoticonProvider extends Provider {
 
         // Check for named emoji
         for (const [name, emoji] of emojiMap) {
-            if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(emoji.category)) {
+            const Emoji: SystemEmoji = emoji;
+            const Name: string = name;
+            if (EMOJI_CATEGORY_SUGGESTION_BLOCKLIST.includes(Emoji.category)) {
                 continue;
             }
 
-            if (emoji.short_names) {
+            if (Emoji.short_names) {
                 // This is a system emoji so it may have multiple names
-                for (const alias of emoji.short_names) {
+                for (const alias of Emoji.short_names) {
                     if (alias.indexOf(partialName) !== -1) {
-                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(name) ? recentMatched : matched;
+                        const matchedArray = recentEmojis.includes(alias) || recentEmojis.includes(Name) ? recentMatched : matched;
 
                         // if the emoji has skin, only add those that match with the user selected skin.
-                        if (emojiMatchesSkin(emoji, skintone)) {
-                            matchedArray.push({name: alias, emoji, type: Preferences.CATEGORY_EMOJI});
+                        if (emojiMatchesSkin(Emoji, skintone)) {
+                            matchedArray.push({name: alias, emoji: Emoji, type: Preferences.CATEGORY_EMOJI});
                         }
                         break;
                     }
                 }
-            } else if (name.indexOf(partialName) !== -1) {
+            } else if (Name.indexOf(partialName) !== -1) {
                 // This is a custom emoji so it only has one name
-                if (emojiMap.hasSystemEmoji(name)) {
+                if (emojiMap.hasSystemEmoji(Name)) {
                     // System emojis take precedence over custom ones
                     continue;
                 }
 
-                const matchedArray = recentEmojis.includes(name) ? recentMatched : matched;
+                const matchedArray = recentEmojis.includes(Name) ? recentMatched : matched;
 
-                matchedArray.push({name, emoji, type: Preferences.CATEGORY_EMOJI});
+                matchedArray.push({name: Name, emoji: Emoji, type: Preferences.CATEGORY_EMOJI});
             }
         }
 
-        const sortEmojisHelper = (a, b) => {
+        const sortEmojisHelper = (a: Emoji, b: Emoji) => {
             return compareEmojis(a, b, partialName);
         };
 

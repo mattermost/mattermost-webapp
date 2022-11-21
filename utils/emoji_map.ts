@@ -66,7 +66,7 @@ export default class EmojiMap {
                     return {value: [emoji.name, emoji]};
                 }
 
-                return {done: true};
+                return {done: true, value: []};
             },
         };
     }
