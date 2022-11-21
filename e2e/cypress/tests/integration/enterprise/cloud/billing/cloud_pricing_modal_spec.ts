@@ -404,7 +404,7 @@ describe('Pricing modal', () => {
         cy.get('.PricingModal__header').contains('Select a plan');
 
         // * Check that free card Downgrade button is disabled
-        cy.get('#free > .bottom > .bottom_container').should('be.visible');;
+        cy.get('#free > .bottom > .bottom_container').should('be.visible');
         cy.get('#free_action').should('not.be.disabled').contains('Downgrade');
     });
 
