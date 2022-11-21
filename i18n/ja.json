@@ -2523,7 +2523,6 @@
   "analytics.system.totalReadDbConnections": "レプリカDB接続",
   "analytics.system.totalSessions": "総セッション数",
   "analytics.system.totalTeams": "総チーム数",
-  "analytics.system.totalUsers": "有効な全ユーザー",
   "analytics.system.totalWebsockets": "ウェブソケット接続",
   "analytics.team.activeUsers": "投稿実績のあるアクティブユーザー",
   "analytics.team.newlyCreated": "新規作成ユーザー数",

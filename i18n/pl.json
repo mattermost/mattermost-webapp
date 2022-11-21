@@ -2524,7 +2524,6 @@
   "analytics.system.totalReadDbConnections": "Połączenia z bazą danych Replica",
   "analytics.system.totalSessions": "Wszystkie Sesje",
   "analytics.system.totalTeams": "Wszystkie Zespoły",
-  "analytics.system.totalUsers": "Aktywowanych Użytkowników ogółem",
   "analytics.system.totalWebsockets": "Połączenia WebSocket",
   "analytics.team.activeUsers": "Aktywni użytkownicy z wiadomościami",
   "analytics.team.newlyCreated": "Nowi użytkownicy",

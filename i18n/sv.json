@@ -2523,7 +2523,6 @@
   "analytics.system.totalReadDbConnections": "Antal anslutningar till replikeringsdatabasen",
   "analytics.system.totalSessions": "Totalt antal sessioner",
   "analytics.system.totalTeams": "Totalt antal team",
-  "analytics.system.totalUsers": "Totalt antal aktiva användare",
   "analytics.system.totalWebsockets": "Antal Websocket-anslutningar",
   "analytics.team.activeUsers": "Aktiva användare med meddelanden",
   "analytics.team.newlyCreated": "Nyligen skapade användare",

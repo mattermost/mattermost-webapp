@@ -2523,7 +2523,6 @@
   "analytics.system.totalReadDbConnections": "Replica DB Verbindungen",
   "analytics.system.totalSessions": "Sitzungen Gesamt",
   "analytics.system.totalTeams": "Teams Gesamt",
-  "analytics.system.totalUsers": "Summe aktivierte Benutzer",
   "analytics.system.totalWebsockets": "Websocket Verbindungen",
   "analytics.team.activeUsers": "Aktive Benutzer mit Beiträgen",
   "analytics.team.newlyCreated": "Neu erstellte Benutzer",

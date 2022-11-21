@@ -2358,7 +2358,6 @@
   "analytics.system.totalReadDbConnections": "复制数据库连接数",
   "analytics.system.totalSessions": "会话总数",
   "analytics.system.totalTeams": "团队总数",
-  "analytics.system.totalUsers": "总活动用户",
   "analytics.system.totalWebsockets": "Websocket 连接",
   "analytics.team.activeUsers": "有发信息的的正常用户",
   "analytics.team.newlyCreated": "新建的用户",

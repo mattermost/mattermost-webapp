@@ -2523,7 +2523,6 @@
   "analytics.system.totalReadDbConnections": "Подключений к реплике БД",
   "analytics.system.totalSessions": "Всего сессий",
   "analytics.system.totalTeams": "Всего команд",
-  "analytics.system.totalUsers": "Всего активированных пользователей",
   "analytics.system.totalWebsockets": "Соединений Websocket",
   "analytics.team.activeUsers": "Активные пользователи с сообщениями",
   "analytics.team.newlyCreated": "Новые пользователи",
