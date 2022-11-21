@@ -56,7 +56,7 @@ const Header = ({channel, canGoBack, onClose, goBack}: Props) => {
                 )}
 
                 <HeaderTitle>
-                    <span tabIndex={0}>
+                    <span>
                         <FormattedMessage
                             id='channel_members_rhs.header.title'
                             defaultMessage='Members'
@@ -67,7 +67,6 @@ const Header = ({channel, canGoBack, onClose, goBack}: Props) => {
                 {channel.display_name &&
                     <span
                         className='style--none sidebar--right__title__subtitle'
-                        tabIndex={0}
                     >
                         {channel.display_name}
                     </span>
