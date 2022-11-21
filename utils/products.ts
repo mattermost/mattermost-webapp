@@ -6,6 +6,7 @@ import {useLocation, matchPath} from 'react-router-dom';
 import {useSelector} from 'react-redux';
 
 import {ProductIdentifier, ProductScope} from '@mattermost/types/products';
+import {Product} from '@mattermost/types/cloud';
 
 import {ProductComponent} from 'types/store/plugins';
 import {selectProducts, selectCurrentProductId, selectCurrentProduct} from 'selectors/products';
@@ -51,3 +52,9 @@ export const inScope = (scope: ProductScope, productId: ProductIdentifier, plugi
 
 export const isChannels = (productId: ProductIdentifier) => productId === null;
 
+// find a product based on its SKU an RecurringInterval
+export const findProductBySkuAndInterval = (products: Record<string, Product>, sku: string, interval: string) => {
+    return Object.values(products).find(((product) => {
+        return product.sku === sku && product.recurring_interval === interval;
+    }));
+};

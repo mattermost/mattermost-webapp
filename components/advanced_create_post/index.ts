@@ -22,7 +22,7 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getStatusForUserId, getUser, isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
@@ -59,7 +59,7 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {OnboardingTourSteps, TutorialTourName} from 'components/tours';
+import {OnboardingTourSteps, TutorialTourName, OnboardingTourStepsForGuestUsers} from 'components/tours';
 
 import {PreferenceType} from '@mattermost/types/preferences';
 
@@ -94,7 +94,11 @@ function makeMapStateToProps() {
         const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
-        const showSendTutorialTip = enableTutorial && tutorialStep === OnboardingTourSteps.SEND_MESSAGE;
+
+        // guest validation to see which point the messaging tour tip starts
+        const isGuestUser = isCurrentUserGuestUser(state);
+        const tourStep = isGuestUser ? OnboardingTourStepsForGuestUsers.SEND_MESSAGE : OnboardingTourSteps.SEND_MESSAGE;
+        const showSendTutorialTip = enableTutorial && tutorialStep === tourStep;
         const isFormattingBarHidden = getBool(state, Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.POST);
 
         return {

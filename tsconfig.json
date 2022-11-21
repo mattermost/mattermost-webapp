@@ -28,7 +28,9 @@
         "@mattermost/types/*": ["packages/types/src/*"],
         "mattermost-redux/*": ["packages/mattermost-redux/src/*"],
         "reselect": ["packages/reselect/src"],
-        "!!file-loader*": ["utils/empty-string"]
+        "!!file-loader*": ["utils/empty-string"],
+        "@e2e-support/*": ["e2e/playwright/support/*"],
+        "@e2e-test.config": ["e2e/playwright/test.config.ts"]
     }
   },
   "include": [
@@ -36,10 +38,9 @@
   ],
   "exclude": [
     "dist",
-    "e2e",
+    "e2e/cypress",
     "!node_modules/@types",
-    "coverage",
-    "packages/matermost-components"
+    "coverage"
   ],
   "references": [
     {"path": "./packages/client"},
