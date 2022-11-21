@@ -25,7 +25,7 @@ describe('Profile > Security > View and Log Out of Active Sessions', () => {
     ];
     const platformRegex = new RegExp(`${platforms.join('|')}`, 'g');
 
-    let testUser;
+    let testUser: Cypress.UserProfile;
 
     before(() => {
         // # Login as new user and visit off-topic

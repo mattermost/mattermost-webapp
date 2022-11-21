@@ -13,8 +13,8 @@
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 describe('Profile > Profile Settings', () => {
-    let otherUser;
-    let testChannel;
+    let otherUser: Cypress.UserProfile;
+    let testChannel: Cypress.Channel;
 
     before(() => {
         cy.apiInitSetup().then(({team, channel, offTopicUrl}) => {
