@@ -18,6 +18,7 @@ import AutoStartTrialModal from './show_start_trial_modal/show_start_trial_modal
 import CloudDelinquencyAnnouncementBar from './cloud_delinquency';
 import ShowThreeDaysLeftTrialModal from './show_tree_days_left_trial_modal/show_three_days_left_trial_modal';
 import NotifyAdminDowngradeDelinquencyBar from './notify_admin_downgrade_delinquency_bar';
+import OverageUsersBanner from './overage_users_banner';
 
 type Props = {
     license?: ClientLicense;
@@ -95,6 +96,7 @@ class AnnouncementBarController extends React.PureComponent<Props> {
                 {cloudTrialEndAnnouncementBar}
                 {cloudDelinquencyAnnouncementBar}
                 {notifyAdminDowngradeDelinquencyBar}
+                {this.props.license?.Cloud !== 'true' && <OverageUsersBanner/>}
                 <AutoStartTrialModal/>
                 <ShowThreeDaysLeftTrialModal/>
                 <VersionBar/>

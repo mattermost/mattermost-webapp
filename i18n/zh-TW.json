@@ -1891,7 +1891,6 @@
   "analytics.system.totalReadDbConnections": "複本資料庫連線",
   "analytics.system.totalSessions": "總工作階段數",
   "analytics.system.totalTeams": "全部團隊",
-  "analytics.system.totalUsers": "總活躍使用者",
   "analytics.system.totalWebsockets": "Websocket 連線",
   "analytics.team.activeUsers": "有發文的活躍使用者",
   "analytics.team.newlyCreated": "新建的使用者",
