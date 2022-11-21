@@ -15,7 +15,7 @@ import {imageURLForUser} from 'utils/utils';
 
 import ChannelInviteModal from 'components/channel_invite_modal';
 import ChannelMembersModal from 'components/channel_members_modal';
-import PurchaseModal from 'components/cloud_purchase_modal';
+import PurchaseModal from 'components/purchase_modals/cloud';
 import {useNotifyAdmin} from 'components/notify_admin_cta/notify_admin_cta';
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';

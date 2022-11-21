@@ -30,4 +30,5 @@ export default keyMirror({
     RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS: null,
 
     CWS_HEALTH_CHECK_OK: null,
+    RECEIVED_SELF_HOSTED_PRODUCTS: null
 });

@@ -11,6 +11,8 @@ import {
 } from '@mattermost/types/cloud';
 import {GlobalState} from '@mattermost/types/store';
 import {ValueOf} from '@mattermost/types/utilities';
+import { subscription } from 'mattermost-redux/reducers/entities/cloud';
+import { CloudProducts, SelfHostedProducts } from 'utils/constants';
 
 import {getLicense} from './general';
 
@@ -74,4 +76,81 @@ export function getSelfHostedSignupProgress(state: GlobalState): ValueOf<typeof 
 
 export function getCWSHealthCheckResult(state: GlobalState): boolean {
     return state.entities.cloud.healthCheck.cwsAvailable;
+}
+
+export function isDelinquent(state: GlobalState): boolean {
+    return Boolean(state.entities.cloud.subscription?.delinquent_since)
+}
+
+export function isFreeTrial(state: GlobalState): boolean {
+    return state.entities.cloud.subscription?.is_free_trial === 'true';
+}
+
+export function getCurrentProduct(state: GlobalState): Product | null {
+    const productId = state.entities.cloud.subscription?.product_id;
+    const products = getCloudProducts(state)
+
+    if (!products) {
+        return null
+    }
+
+    const keys = Object.keys(products);
+    if (!keys.length) {
+        return null;
+    }
+    if (!productId) {
+        return products[keys[0]];
+    }
+    let currentProduct = products[keys[0]];
+    if (keys.length > 1) {
+        // here find the product by the provided id or name, otherwise return the one with Professional in the name
+        keys.forEach((key) => {
+            if (productId && products[key].id === productId) {
+                currentProduct = products[key];
+            }
+        });
+    }
+
+    return currentProduct;
+}
+
+export function getSelectedProduct(state: GlobalState) {
+    const products = getCloudProducts(state);
+    const license = getLicense(state);
+    const isCloud = license.Cloud === 'true';
+    let currentProduct = getCurrentProduct(state)
+
+    let nextSku = SelfHostedProducts.PROFESSIONAL;
+    if (isCloud) {
+        nextSku = CloudProducts.PROFESSIONAL;
+        if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
+            nextSku = CloudProducts.ENTERPRISE;
+        }
+    } else {
+        if (currentProduct?.sku === SelfHostedProducts.PROFESSIONAL) {
+            nextSku = SelfHostedProducts.ENTERPRISE;
+        }
+    }
+
+    if (!products) {
+        return null;
+    }
+    const keys = Object.keys(products);
+    if (!keys.length) {
+        return null;
+    }
+    if (!nextSku) {
+        return products[keys[0]];
+    }
+
+    if (keys.length > 1) {
+        // here find the product by the provided id or name, otherwise return the one with Professional in the name
+        keys.forEach((key) => {
+            if (nextSku && products[key].sku === nextSku) {
+                currentProduct = products[key];
+            }
+        });
+    }
+
+    return currentProduct;
 }

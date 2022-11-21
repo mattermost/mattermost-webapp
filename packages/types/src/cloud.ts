@@ -230,7 +230,6 @@ export interface SelfHostedSignupForm {
     first_name: string;
     last_name: string;
     billing_address: Address;
-    organization: string;
 }
 
 export interface SelfHostedSignupCustomerResponse {

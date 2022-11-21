@@ -34,9 +34,9 @@ type Props = RouteComponentProps & {
         stripe: Stripe,
         billingDetails: BillingDetails,
         isDevMode: boolean
-    ) => Promise<boolean | null>;
+    ) => Promise<any>;
     subscribeCloudSubscription:
-    | ((productId: string) => Promise<boolean | null>)
+    | ((productId: string) => Promise<any>)
     | null;
     onBack: () => void;
     onClose: () => void;

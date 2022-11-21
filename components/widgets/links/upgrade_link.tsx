@@ -11,7 +11,7 @@ import {DispatchFunc} from 'mattermost-redux/types/actions';
 import {openModal} from 'actions/views/modals';
 import {trackEvent} from 'actions/telemetry_actions';
 import {ModalIdentifiers} from 'utils/constants';
-import PurchaseModal from 'components/cloud_purchase_modal';
+import PurchaseModal from 'components/purchase_modals/cloud';
 
 import './link.scss';
 

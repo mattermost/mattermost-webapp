@@ -4087,6 +4087,13 @@ export default class Client4 {
         )
     }
 
+    getSelfHostedProducts = () => {
+        return this.doFetch<Product[]>(
+            `$(this.getCloudRoute())/selfHosted/products`,
+            {method: 'get'}
+        )
+    }
+
     /**
      * @param query string query of graphQL, pass the json stringified version of the query
      * eg.  const query = JSON.stringify({query: `{license, config}`, operationName: 'queryForLicenseAndConfig'});

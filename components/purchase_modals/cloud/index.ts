@@ -27,7 +27,7 @@ import {closeModal, openModal} from 'actions/views/modals';
 import {completeStripeAddPaymentMethod, subscribeCloudSubscription} from 'actions/cloud';
 import {ModalData} from 'types/actions';
 
-const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => import('./purchase_modal')));
+const PurchaseModal = makeAsyncComponent('PurchaseModal', React.lazy(() => import('./cloud_purchase_modal')));
 
 function mapStateToProps(state: GlobalState) {
     const subscription = state.entities.cloud.subscription;

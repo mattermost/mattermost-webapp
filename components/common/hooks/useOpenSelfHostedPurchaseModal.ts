@@ -6,7 +6,7 @@ import {useDispatch} from 'react-redux';
 import {trackEvent} from 'actions/telemetry_actions';
 import {openModal} from 'actions/views/modals';
 import {ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
-import SelfHostedPurchaseModal from 'components/self_hosted_purchase_modal';
+import SelfHostedPurchaseModal from 'components/purchase_modals/self_hosted/self_hosted_purchase_modal';
 import {Client4} from 'mattermost-redux/client';
 import CloudTypes from 'mattermost-redux/action_types/cloud';
 

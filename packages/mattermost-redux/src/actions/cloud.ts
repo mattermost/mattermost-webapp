@@ -107,3 +107,10 @@ export function cwsHealthCheck(): ActionFunc {
         onSuccess: [CloudTypes.CWS_HEALTH_CHECK_OK]
     })
 }
+
+export function getSelfHostedProducts(): ActionFunc {
+    return bindClientFunc({
+        clientFunc: Client4.getSelfHostedProducts,
+        onSuccess: [CloudTypes.RECEIVED_SELF_HOSTED_PRODUCTS]
+    })
+}
