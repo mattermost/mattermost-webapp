@@ -93,7 +93,7 @@ export default function InviteView(props: Props) {
             data-testid='InviteView__copyInviteLink'
             aria-label={
                 formatMessage({
-                    id: 'invite_modal.copy_link.url',
+                    id: 'invite_modal.copy_link.url_aria',
                     defaultMessage: 'team invite link {inviteURL}',
                 }, {inviteURL})
             }
