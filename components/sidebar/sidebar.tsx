@@ -247,9 +247,9 @@ export default class Sidebar extends React.PureComponent<Props, State> {
                 <div
                     id='lhsNavigator'
                     role='application'
+                    aria-label={ariaLabel}
                     className='a11y__region'
                     data-a11y-sort-order='6'
-                    aria-label={ariaLabel}
                 >
                     <ChannelNavigator
                         showNewChannelModal={this.showNewChannelModal}
