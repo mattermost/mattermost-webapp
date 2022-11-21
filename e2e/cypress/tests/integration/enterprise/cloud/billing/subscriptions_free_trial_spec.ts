@@ -148,7 +148,7 @@ describe('System Console - Subscriptions section', () => {
         cy.get('#professional_action').click();
 
         // * Check for "Provide Your Payment Details" label
-        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
+        cy.findByText('Provide your payment details').should('be.visible');
 
         // * Check for Compare plans navigation
         cy.contains('span', 'Compare plans').click();
@@ -167,8 +167,8 @@ describe('System Console - Subscriptions section', () => {
         // # Click on Upgrade Now button on plans modal
         cy.get('#professional_action').click();
 
-        // * Check for "Provide Your Payment Details" label
-        cy.get('.title').find('span', 'Provide Your Payment Details').should('be.visible');
+        // * Check for "Provide your payment details" label
+        cy.findByText('Provide your payment details').should('be.visible');
 
         // # Enter card details
         cy.uiGetPaymentCardInput().within(() => {

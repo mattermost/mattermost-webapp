@@ -224,11 +224,13 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').find('.PricingModal__header').contains('Select a plan');
 
         // * Check that free card Downgrade button is disabled
-        cy.get('#pricingModal').get('#free').get('#free_action').should('be.disabled').contains('Downgrade');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#free > .bottom > .bottom_container').should('be.visible');
+        cy.get('#free_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professsional card Upgrade button opens purchase modal
         cy.get('#pricingModal').should('be.visible');
-        cy.get('#professional').find('#professional_action').should('be.enabled').should('have.text', 'Upgrade').click();
+        cy.get('#professional > .bottom > .bottom_container').find('#professional_action').should('be.enabled').should('have.text', 'Upgrade').click();
         cy.get('.PurchaseModal').should('exist');
 
         // * Close PurchaseModal
@@ -260,18 +262,22 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+        cy.get('#pricingModal').should('exist').should('be.visible');
+        cy.get('.PricingModal__header').contains('Select a plan');
 
         // * Check that free Downgrade card  button exists
-        cy.get('#pricingModal').get('#free').get('#free_action').contains('Downgrade');
+        cy.get('#free > .bottom > .bottom_container').should('be.visible');
+        cy.get('#free_action').contains('Downgrade');
 
         // * Check that professsional card Upgrade button is not disabled while on enterprise trial
-        cy.get('#pricingModal').get('#professional').get('#professional_action').should('not.be.disabled');
+        cy.get('#professional > .bottom > .bottom_container').should('be.visible');
+        cy.get('#professional_action').should('not.be.disabled');
 
         // * Check that enterprise card action button is disabled
-        cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').contains('Try free for 30 days');
-        cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
+        cy.get('#enterprise > .bottom > .bottom_container').should('be.visible');
+        cy.get('#start_cloud_trial_btn').contains('Try free for 30 days');
+        cy.get('#enterprise > .bottom > .bottom_container').should('be.visible');
+        cy.get('#start_cloud_trial_btn').should('be.disabled');
     });
 
     it('should open pricing modal when Upgrade button clicked while in post trial free sku', () => {
@@ -290,14 +296,17 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+        cy.get('#pricingModal').should('exist').should('be.visible');
+        cy.get('.PricingModal__header').contains('Select a plan');
 
         // * Check that free card Downgrade button is disabled
-        cy.get('#pricingModal').get('#free').get('#free_action').should('be.disabled').contains('Downgrade');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#free > .bottom > .bottom_container').should('be.visible');
+        cy.get('#free_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professsional card Upgrade button opens purchase modal
-        cy.get('#pricingModal').get('#professional').get('#professional_action').click();
+        cy.get('#professional > .bottom > .bottom_container').should('be.visible');
+        cy.get('#professional_action').click();
         cy.get('.PricingModal__body').should('exist');
 
         // * Close PurchaseModal
@@ -306,7 +315,9 @@ describe('Pricing modal', () => {
         // * Contact Sales button shows and Contact sales for quote CTA should not show
         cy.get('#UpgradeButton').should('exist').click();
         cy.get('#contact_sales_quote').should('not.exist');
-        cy.get('#pricingModal').get('#enterprise').get('#enterprise_action').contains('Contact Sales');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#enterprise > .bottom > .bottom_container').should('be.visible');
+        cy.get('#enterprise_action').contains('Contact Sales');
     });
 
     it('should open cloud limits modal when free disclaimer CTA is clicked', () => {
@@ -325,12 +336,13 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+        cy.get('#pricingModal').should('exist').should('be.visible');
+        cy.get('.PricingModal__header').contains('Select a plan');
 
         // * Open cloud limits modal
-        cy.get('#pricingModal').get('#free_plan_data_restrictions_cta').contains('This plan has data restrictions.');
-        cy.get('#pricingModal').get('#free_plan_data_restrictions_cta').click();
+        cy.get('#free_plan_data_restrictions_cta').contains('This plan has data restrictions.');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#free_plan_data_restrictions_cta').click();
 
         cy.get('.CloudUsageModal').should('exist');
         cy.get('.CloudUsageModal').contains('Cloud Free limits');
@@ -352,11 +364,11 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+        cy.get('#pricingModal').should('exist').should('be.visible');
+        cy.get('.PricingModal__header').contains('Select a plan');
 
         // * CTA should not show when there are no limits
-        cy.get('#pricingModal').get('#free_plan_data_restrictions_cta').should('not.exist');
+        cy.get('#free_plan_data_restrictions_cta').should('not.exist');
     });
 
     it('should allow downgrades from professional plans', () => {
@@ -374,11 +386,12 @@ describe('Pricing modal', () => {
         cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
 
         // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+        cy.get('#pricingModal').should('exist').should('be.visible');
+        cy.get('.PricingModal__header').contains('Select a plan');
 
         // * Check that free card Downgrade button is disabled
-        cy.get('#pricingModal').get('#free').get('#free_action').should('not.be.disabled').contains('Downgrade');
+        cy.get('#free > .bottom > .bottom_container').should('be.visible');;
+        cy.get('#free_action').should('not.be.disabled').contains('Downgrade');
     });
 
     it('should not allow downgrades from enterprise trial', () => {
@@ -396,11 +409,12 @@ describe('Pricing modal', () => {
         cy.get('#UpgradeButton').should('exist').click();
 
         // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+        cy.get('#pricingModal').should('exist').should('be.visible');
+        cy.get('.PricingModal__header').contains('Select a plan');
 
         // * Check that free card Downgrade button is disabled
-        cy.get('#pricingModal').get('#free').get('#free_action').should('be.disabled').contains('Downgrade');
+        cy.get('#free > .bottom > .bottom_container').should('be.visible');
+        cy.get('#free_action').should('be.disabled').contains('Downgrade');
     });
 
     it('should not allow downgrades from enterprise plans', () => {
@@ -422,13 +436,17 @@ describe('Pricing modal', () => {
         cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
 
         // * Check that free card Downgrade button is disabled
-        cy.get('#pricingModal').get('#free').get('#free_action').should('be.disabled').contains('Downgrade');
+        cy.get('#pricingModal').should('be.visible');
+        cy.get('#free > .bottom > .bottom_container').should('be.visible');
+        cy.get('#free_action').should('be.disabled').contains('Downgrade');
 
         // * Check that professsional card Upgrade button is disabled while on non trial enterprise
-        cy.get('#pricingModal').get('#professional').get('#professional_action').should('be.disabled');
+        cy.get('#professional > .bottom > .bottom_container').should('be.visible');
+        cy.get('#professional_action').should('be.disabled');
 
         // * Check that Trial button is disabled on enterprise trial
-        cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
+        cy.get('#enterprise > .bottom > .bottom_container').should('be.visible');
+        cy.get('#start_cloud_trial_btn').should('be.disabled');
     });
 
     it('should not allow starting a trial from professional plans', () => {
@@ -446,10 +464,11 @@ describe('Pricing modal', () => {
         cy.visit('/admin_console/billing/subscription?action=show_pricing_modal');
 
         // * Pricing modal should be open
-        cy.get('#pricingModal').should('exist');
-        cy.get('#pricingModal').get('.PricingModal__header').contains('Select a plan');
+        cy.get('#pricingModal').should('exist').should('be.visible');
+        cy.get('.PricingModal__header').contains('Select a plan');
 
         // * Check that Trial button is disabled on enterprise trial
-        cy.get('#pricingModal').get('#enterprise').get('#start_cloud_trial_btn').should('be.disabled');
+        cy.get('#enterprise > .bottom > .bottom_container').should('be.visible');
+        cy.get('#start_cloud_trial_btn').should('be.disabled');
     });
 });
