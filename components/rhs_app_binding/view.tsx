@@ -11,6 +11,7 @@ import {AppBindingButton} from './button';
 import ListBlock from './list_block';
 
 import {CommonProps} from './common_props';
+import Select from './select';
 
 export function AppBindingView(props: CommonProps) {
     const subviews = props.binding.bindings?.map((b, i) => {
@@ -35,7 +36,7 @@ export function AppBindingView(props: CommonProps) {
         case 'divider':
             return (
                 <div style={styles.containerSpacing}>
-                    <Markdown message='-----'/>
+                    <hr/>
                 </div>
             );
         case 'markdown':
@@ -44,6 +45,13 @@ export function AppBindingView(props: CommonProps) {
                     <Markdown message={b.label}/>
                 </div>
             );
+        case 'select':
+            return (
+                <div style={styles.containerSpacing}>
+                    <Select {...subviewProps}/>
+                </div>
+            );
+
         }
 
         return <p key={b.location || b.label}>{'Unsupported binding type: ' + b.type}</p>;

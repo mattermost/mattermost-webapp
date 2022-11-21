@@ -88,6 +88,8 @@ export function doAppSubmit<Res=unknown>(inCall: AppCallRequest, intl: any): Act
             switch (responseType) {
             case AppCallResponseTypes.OK:
                 return {data: res};
+            case AppCallResponseTypes.VIEW:
+                return {data: res};
             case AppCallResponseTypes.ERROR:
                 return {error: res};
             case AppCallResponseTypes.FORM:

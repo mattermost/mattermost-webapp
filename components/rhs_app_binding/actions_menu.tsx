@@ -46,9 +46,10 @@ export default function ActionsMenu(props: CommonProps) {
         setOpenUp(spaceOnTop > spaceOnBottom);
     };
 
-    const handleMenuClick = () => {
-        setMenuIsOpen(true);
-    };
+    const handleMenuClick = React.useCallback((e) => {
+        e.stopPropagation();
+        setMenuIsOpen(!isMenuOpen);
+    }, [openUp]);
 
     const onSelectedItem = async (e: React.MouseEvent, binding: AppBinding) => {
         e.stopPropagation();

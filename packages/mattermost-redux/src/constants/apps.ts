@@ -21,6 +21,7 @@ export const AppBindingPresentations = {
 
 export const AppCallResponseTypes: { [name: string]: AppCallResponseType } = {
     OK: 'ok',
+    VIEW: 'view',
     ERROR: 'error',
     FORM: 'form',
     CALL: 'call',

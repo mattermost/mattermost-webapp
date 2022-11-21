@@ -62,6 +62,14 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
             }
             break;
         }
+        case AppBindingLocations.APP_BAR: {
+            // First level of app bar icons must have an icon to show as the icon
+            if (!b.icon && depth === 0) {
+                toRemove.unshift(i);
+                return;
+            }
+            break;
+        }
         }
 
         // Must have only subbindings, a form or a submit call.
@@ -102,16 +110,22 @@ function cleanBindingRec(binding: AppBinding, topLocation: string, depth: number
 }
 
 export function validateBindings(bindings: AppBinding[] = []): AppBinding[] {
+    const appBarBindings = bindings?.filter((b) => b.location === AppBindingLocations.APP_BAR);
     const channelHeaderBindings = bindings?.filter((b) => b.location === AppBindingLocations.CHANNEL_HEADER_ICON);
     const postMenuBindings = bindings?.filter((b) => b.location === AppBindingLocations.POST_MENU_ITEM);
     const commandBindings = bindings?.filter((b) => b.location === AppBindingLocations.COMMAND);
 
+    appBarBindings.forEach((b) => cleanBinding(b, AppBindingLocations.APP_BAR));
     channelHeaderBindings.forEach((b) => cleanBinding(b, AppBindingLocations.CHANNEL_HEADER_ICON));
     postMenuBindings.forEach((b) => cleanBinding(b, AppBindingLocations.POST_MENU_ITEM));
     commandBindings.forEach((b) => cleanBinding(b, AppBindingLocations.COMMAND));
 
     const hasBindings = (b: AppBinding) => b.bindings?.length;
-    return postMenuBindings.filter(hasBindings).concat(channelHeaderBindings.filter(hasBindings), commandBindings.filter(hasBindings));
+    return appBarBindings.filter(hasBindings).concat(
+        postMenuBindings.filter(hasBindings),
+        channelHeaderBindings.filter(hasBindings),
+        commandBindings.filter(hasBindings),
+    );
 }
 
 export function cleanForm(form?: AppForm) {

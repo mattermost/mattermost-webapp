@@ -53,6 +53,7 @@ export type AppsState = {
 export type AppBinding = {
     app_id?: string;
     type?: string;
+    subtype?: string; // rename to subtype. otherwise it sounds like covid
     location?: string;
     icon?: string;
 
