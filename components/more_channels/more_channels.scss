@@ -223,7 +223,10 @@
 
     .modal-header {
         .GenericModal__header {
+            display: flex;
             width: 95%;
+            align-items: center;
+            justify-content: space-between;
             padding-right: 4px;
         }
 
