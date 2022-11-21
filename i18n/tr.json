@@ -2524,7 +2524,6 @@
   "analytics.system.totalReadDbConnections": "Kopya veritabanı bağlantıları",
   "analytics.system.totalSessions": "Toplam oturum",
   "analytics.system.totalTeams": "Toplam takım",
-  "analytics.system.totalUsers": "Toplam etkin kullanıcı sayısı",
   "analytics.system.totalWebsockets": "WebSocket bağlantıları",
   "analytics.team.activeUsers": "İleti yazmış etkin kullanıcılar",
   "analytics.team.newlyCreated": "Yeni eklenen kullanıcılar",
