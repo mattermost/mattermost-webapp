@@ -2816,6 +2816,7 @@
   "channel_info_rhs.edit_link": "Edit",
   "channel_info_rhs.header.title": "Info",
   "channel_info_rhs.menu.files": "Files",
+  "channel_info_rhs.menu.files.filter": "Filter",
   "channel_info_rhs.menu.members": "Members",
   "channel_info_rhs.menu.notification_preferences": "Notification Preferences",
   "channel_info_rhs.menu.pinned": "Pinned Messages",
