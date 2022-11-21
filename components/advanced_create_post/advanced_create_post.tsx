@@ -983,6 +983,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     removePreview = (id: string) => {
         let modifiedDraft = {} as PostDraft;
         const draft = {...this.props.draft};
+        const channelId = this.props.currentChannel.id;
 
         // Clear previous errors
         this.setState({serverError: null});
@@ -1013,8 +1014,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             };
         }
 
-        this.handleDraftChange(modifiedDraft);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, false);
+        this.draftsForChannel[channelId] = modifiedDraft;
+
         this.handleFileUploadChange();
+
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
+
+        this.saveDraftFrame = window.setTimeout(() => {}, Constants.SAVE_DRAFT_TIMEOUT);
     };
 
     focusTextboxIfNecessary = (e: KeyboardEvent) => {

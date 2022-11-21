@@ -30,9 +30,9 @@ export function removeDraft(key: string, channelId: string, rootId = '') {
 
 export function updateDraft(key: string, value: PostDraft|null, rootId = '', save = false) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState() as GlobalState;
         let updatedValue: PostDraft|null = null;
         if (value) {
-            const state = getState() as GlobalState;
             const timestamp = new Date().getTime();
             const data = getGlobalItem(state, key, {});
             updatedValue = {
@@ -41,14 +41,15 @@ export function updateDraft(key: string, value: PostDraft|null, rootId = '', sav
                 updateAt: timestamp,
                 remote: false,
             };
-
-            if (syncedDraftsAreAllowedAndEnabled(state) && save) {
-                const connectionId = getConnectionId(state);
-                const userId = getCurrentUserId(state);
-                await upsertDraft(updatedValue, userId, rootId, connectionId);
-            }
         }
+
         dispatch(setGlobalItem(key, updatedValue));
+
+        if (syncedDraftsAreAllowedAndEnabled(state) && save && updatedValue) {
+            const connectionId = getConnectionId(state);
+            const userId = getCurrentUserId(state);
+            await upsertDraft(updatedValue, userId, rootId, connectionId);
+        }
         return {data: true};
     };
 }
