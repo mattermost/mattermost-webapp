@@ -63,200 +63,214 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
           }
         }
         hide={[MockFunction]}
-        nameDisplaySetting="username"
+        members={
+          Array [
+            Object {
+              "displayName": "Name0 Surname0",
+              "user": Object {
+                "auth_service": "",
+                "bot_description": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "test0@test.com",
+                "first_name": "Name0",
+                "id": "id0",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "Surname0",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "username0",
+              },
+            },
+            Object {
+              "displayName": "Name1 Surname1",
+              "user": Object {
+                "auth_service": "",
+                "bot_description": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "test1@test.com",
+                "first_name": "Name1",
+                "id": "id1",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "Surname1",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "username1",
+              },
+            },
+            Object {
+              "displayName": "Name2 Surname2",
+              "user": Object {
+                "auth_service": "",
+                "bot_description": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "test2@test.com",
+                "first_name": "Name2",
+                "id": "id2",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "Surname2",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "username2",
+              },
+            },
+            Object {
+              "displayName": "Name3 Surname3",
+              "user": Object {
+                "auth_service": "",
+                "bot_description": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "test3@test.com",
+                "first_name": "Name3",
+                "id": "id3",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "Surname3",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "username3",
+              },
+            },
+            Object {
+              "displayName": "Name4 Surname4",
+              "user": Object {
+                "auth_service": "",
+                "bot_description": "",
+                "create_at": 0,
+                "delete_at": 0,
+                "email": "test4@test.com",
+                "first_name": "Name4",
+                "id": "id4",
+                "is_bot": false,
+                "last_activity_at": 0,
+                "last_name": "Surname4",
+                "last_password_update": 0,
+                "last_picture_update": 0,
+                "locale": "",
+                "mfa_active": false,
+                "nickname": "",
+                "notify_props": Object {
+                  "channel": "false",
+                  "comments": "never",
+                  "desktop": "default",
+                  "desktop_sound": "false",
+                  "email": "false",
+                  "first_name": "false",
+                  "mark_unread": "mention",
+                  "mention_keys": "",
+                  "push": "none",
+                  "push_status": "offline",
+                },
+                "password": "",
+                "position": "",
+                "props": Object {},
+                "roles": "",
+                "terms_of_service_create_at": 0,
+                "terms_of_service_id": "",
+                "update_at": 0,
+                "username": "username4",
+              },
+            },
+          ]
+        }
         searchState={0}
         searchTerm=""
         showUserOverlay={[MockFunction]}
         teamUrl="team"
-        users={
-          Array [
-            Object {
-              "auth_service": "",
-              "bot_description": "",
-              "create_at": 0,
-              "delete_at": 0,
-              "email": "test0@test.com",
-              "first_name": "Name0",
-              "id": "id0",
-              "is_bot": false,
-              "last_activity_at": 0,
-              "last_name": "Surname0",
-              "last_password_update": 0,
-              "last_picture_update": 0,
-              "locale": "",
-              "mfa_active": false,
-              "nickname": "",
-              "notify_props": Object {
-                "channel": "false",
-                "comments": "never",
-                "desktop": "default",
-                "desktop_sound": "false",
-                "email": "false",
-                "first_name": "false",
-                "mark_unread": "mention",
-                "mention_keys": "",
-                "push": "none",
-                "push_status": "offline",
-              },
-              "password": "",
-              "position": "",
-              "props": Object {},
-              "roles": "",
-              "terms_of_service_create_at": 0,
-              "terms_of_service_id": "",
-              "update_at": 0,
-              "username": "username0",
-            },
-            Object {
-              "auth_service": "",
-              "bot_description": "",
-              "create_at": 0,
-              "delete_at": 0,
-              "email": "test1@test.com",
-              "first_name": "Name1",
-              "id": "id1",
-              "is_bot": false,
-              "last_activity_at": 0,
-              "last_name": "Surname1",
-              "last_password_update": 0,
-              "last_picture_update": 0,
-              "locale": "",
-              "mfa_active": false,
-              "nickname": "",
-              "notify_props": Object {
-                "channel": "false",
-                "comments": "never",
-                "desktop": "default",
-                "desktop_sound": "false",
-                "email": "false",
-                "first_name": "false",
-                "mark_unread": "mention",
-                "mention_keys": "",
-                "push": "none",
-                "push_status": "offline",
-              },
-              "password": "",
-              "position": "",
-              "props": Object {},
-              "roles": "",
-              "terms_of_service_create_at": 0,
-              "terms_of_service_id": "",
-              "update_at": 0,
-              "username": "username1",
-            },
-            Object {
-              "auth_service": "",
-              "bot_description": "",
-              "create_at": 0,
-              "delete_at": 0,
-              "email": "test2@test.com",
-              "first_name": "Name2",
-              "id": "id2",
-              "is_bot": false,
-              "last_activity_at": 0,
-              "last_name": "Surname2",
-              "last_password_update": 0,
-              "last_picture_update": 0,
-              "locale": "",
-              "mfa_active": false,
-              "nickname": "",
-              "notify_props": Object {
-                "channel": "false",
-                "comments": "never",
-                "desktop": "default",
-                "desktop_sound": "false",
-                "email": "false",
-                "first_name": "false",
-                "mark_unread": "mention",
-                "mention_keys": "",
-                "push": "none",
-                "push_status": "offline",
-              },
-              "password": "",
-              "position": "",
-              "props": Object {},
-              "roles": "",
-              "terms_of_service_create_at": 0,
-              "terms_of_service_id": "",
-              "update_at": 0,
-              "username": "username2",
-            },
-            Object {
-              "auth_service": "",
-              "bot_description": "",
-              "create_at": 0,
-              "delete_at": 0,
-              "email": "test3@test.com",
-              "first_name": "Name3",
-              "id": "id3",
-              "is_bot": false,
-              "last_activity_at": 0,
-              "last_name": "Surname3",
-              "last_password_update": 0,
-              "last_picture_update": 0,
-              "locale": "",
-              "mfa_active": false,
-              "nickname": "",
-              "notify_props": Object {
-                "channel": "false",
-                "comments": "never",
-                "desktop": "default",
-                "desktop_sound": "false",
-                "email": "false",
-                "first_name": "false",
-                "mark_unread": "mention",
-                "mention_keys": "",
-                "push": "none",
-                "push_status": "offline",
-              },
-              "password": "",
-              "position": "",
-              "props": Object {},
-              "roles": "",
-              "terms_of_service_create_at": 0,
-              "terms_of_service_id": "",
-              "update_at": 0,
-              "username": "username3",
-            },
-            Object {
-              "auth_service": "",
-              "bot_description": "",
-              "create_at": 0,
-              "delete_at": 0,
-              "email": "test4@test.com",
-              "first_name": "Name4",
-              "id": "id4",
-              "is_bot": false,
-              "last_activity_at": 0,
-              "last_name": "Surname4",
-              "last_password_update": 0,
-              "last_picture_update": 0,
-              "locale": "",
-              "mfa_active": false,
-              "nickname": "",
-              "notify_props": Object {
-                "channel": "false",
-                "comments": "never",
-                "desktop": "default",
-                "desktop_sound": "false",
-                "email": "false",
-                "first_name": "false",
-                "mark_unread": "mention",
-                "mention_keys": "",
-                "push": "none",
-                "push_status": "offline",
-              },
-              "password": "",
-              "position": "",
-              "props": Object {},
-              "roles": "",
-              "terms_of_service_create_at": 0,
-              "terms_of_service_id": "",
-              "update_at": 0,
-              "username": "username4",
-            },
-          ]
-        }
       >
         <UserList
           role="list"
@@ -389,7 +403,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <span
                                     className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                   >
-                                    username0
+                                    Name0 Surname0
                                   </span>
                                 </Username>
                                 <Gap
@@ -488,7 +502,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                       }
                                     >
                                       <DMButton
-                                        aria-label="Send message to username0"
+                                        aria-label="Send message to Name0 Surname0"
                                         className="btn-icon"
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -497,7 +511,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                         onMouseOver={[Function]}
                                       >
                                         <button
-                                          aria-label="Send message to username0"
+                                          aria-label="Send message to Name0 Surname0"
                                           className="DMButton-hIFgRF ecgFEo btn-icon"
                                           onBlur={[Function]}
                                           onClick={[Function]}
@@ -602,7 +616,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <span
                                     className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                   >
-                                    username1
+                                    Name1 Surname1
                                   </span>
                                 </Username>
                                 <Gap
@@ -701,7 +715,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                       }
                                     >
                                       <DMButton
-                                        aria-label="Send message to username1"
+                                        aria-label="Send message to Name1 Surname1"
                                         className="btn-icon"
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -710,7 +724,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                         onMouseOver={[Function]}
                                       >
                                         <button
-                                          aria-label="Send message to username1"
+                                          aria-label="Send message to Name1 Surname1"
                                           className="DMButton-hIFgRF ecgFEo btn-icon"
                                           onBlur={[Function]}
                                           onClick={[Function]}
@@ -815,7 +829,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <span
                                     className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                   >
-                                    username2
+                                    Name2 Surname2
                                   </span>
                                 </Username>
                                 <Gap
@@ -914,7 +928,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                       }
                                     >
                                       <DMButton
-                                        aria-label="Send message to username2"
+                                        aria-label="Send message to Name2 Surname2"
                                         className="btn-icon"
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -923,7 +937,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                         onMouseOver={[Function]}
                                       >
                                         <button
-                                          aria-label="Send message to username2"
+                                          aria-label="Send message to Name2 Surname2"
                                           className="DMButton-hIFgRF ecgFEo btn-icon"
                                           onBlur={[Function]}
                                           onClick={[Function]}
@@ -1028,7 +1042,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <span
                                     className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                   >
-                                    username3
+                                    Name3 Surname3
                                   </span>
                                 </Username>
                                 <Gap
@@ -1127,7 +1141,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                       }
                                     >
                                       <DMButton
-                                        aria-label="Send message to username3"
+                                        aria-label="Send message to Name3 Surname3"
                                         className="btn-icon"
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -1136,7 +1150,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                         onMouseOver={[Function]}
                                       >
                                         <button
-                                          aria-label="Send message to username3"
+                                          aria-label="Send message to Name3 Surname3"
                                           className="DMButton-hIFgRF ecgFEo btn-icon"
                                           onBlur={[Function]}
                                           onClick={[Function]}
@@ -1241,7 +1255,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                   <span
                                     className="Username-hebqVM cKlgOV overflow--ellipsis text-nowrap"
                                   >
-                                    username4
+                                    Name4 Surname4
                                   </span>
                                 </Username>
                                 <Gap
@@ -1340,7 +1354,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                       }
                                     >
                                       <DMButton
-                                        aria-label="Send message to username4"
+                                        aria-label="Send message to Name4 Surname4"
                                         className="btn-icon"
                                         onBlur={[Function]}
                                         onClick={[Function]}
@@ -1349,7 +1363,7 @@ exports[`component/user_group_popover/group_member_list should match snapshot 1`
                                         onMouseOver={[Function]}
                                       >
                                         <button
-                                          aria-label="Send message to username4"
+                                          aria-label="Send message to Name4 Surname4"
                                           className="DMButton-hIFgRF ecgFEo btn-icon"
                                           onBlur={[Function]}
                                           onClick={[Function]}

@@ -7,17 +7,15 @@ import {act} from '@testing-library/react';
 import {ReactWrapper} from 'enzyme';
 import {BrowserRouter} from 'react-router-dom';
 
-import {UserProfile} from '@mattermost/types/users';
-
+import {General} from 'mattermost-redux/constants';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 import mockStore from 'tests/test_store';
 import {TestHelper} from 'utils/test_helper';
 
-import {General} from 'mattermost-redux/constants';
-
 import {Load} from '../user_group_popover';
 
-import GroupMemberList from './group_member_list';
+import GroupMemberList, {GroupMember} from './group_member_list';
 
 jest.mock('react-redux', () => ({
     ...jest.requireActual('react-redux'),
@@ -44,7 +42,7 @@ describe('component/user_group_popover/group_member_list', () => {
         member_count: 5,
     });
 
-    const users: UserProfile[] = [];
+    const members: GroupMember[] = [];
 
     for (let i = 0; i < 5; ++i) {
         const user = TestHelper.getUserMock({
@@ -54,7 +52,8 @@ describe('component/user_group_popover/group_member_list', () => {
             last_name: 'Surname' + i,
             email: 'test' + i + '@test.com',
         });
-        users.push(user);
+        const displayName = displayUsername(user, General.TEAMMATE_NAME_DISPLAY.SHOW_FULLNAME);
+        members.push({user, displayName});
     }
 
     const baseProps = {
@@ -64,8 +63,7 @@ describe('component/user_group_popover/group_member_list', () => {
         showUserOverlay: jest.fn(),
         hide: jest.fn(),
         searchState: Load.DONE,
-        users,
-        nameDisplaySetting: General.TEAMMATE_NAME_DISPLAY.SHOW_USERNAME,
+        members,
         teamUrl: 'team',
         actions: {
             getUsersInGroup: jest.fn().mockImplementation(() => Promise.resolve()),

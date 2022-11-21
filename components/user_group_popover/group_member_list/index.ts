@@ -18,7 +18,10 @@ import {getTeammateNameDisplaySetting} from 'mattermost-redux/selectors/entities
 import {openDirectChannelToUserId} from 'actions/channel_actions';
 import {closeRightHandSide} from 'actions/views/rhs';
 
-import GroupMemberList from './group_member_list';
+import {createSelector} from 'reselect';
+import {displayUsername} from 'mattermost-redux/utils/user_utils';
+
+import GroupMemberList, {GroupMember} from './group_member_list';
 
 type Actions = {
     getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{data: UserProfile[]}>;
@@ -30,22 +33,52 @@ type OwnProps = {
     group: Group;
 };
 
+const sortProfileList = (
+    profiles: UserProfile[],
+    teammateNameDisplaySetting: string,
+) => {
+    const groupMembers: GroupMember[] = [];
+    profiles.forEach((profile) => {
+        groupMembers.push({
+            user: profile,
+            displayName: displayUsername(profile, teammateNameDisplaySetting),
+        });
+    });
+
+    groupMembers.sort((a, b) => {
+        return a.displayName.localeCompare(b.displayName);
+    });
+
+    return groupMembers;
+};
+
+const getProfilesSortedByDisplayName = createSelector(
+    'getProfilesSortedByDisplayName',
+    getProfilesInGroup,
+    getTeammateNameDisplaySetting,
+    sortProfileList,
+);
+
+const searchProfilesSortedByDisplayName = createSelector(
+    'searchProfilesSortedByDisplayName',
+    searchProfilesInGroup,
+    getTeammateNameDisplaySetting,
+    sortProfileList,
+);
+
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const searchTerm = state.views.search.popoverSearch;
 
-    let users: UserProfile[] = [];
+    let members: GroupMember[] = [];
     if (searchTerm) {
-        users = searchProfilesInGroup(state, ownProps.group.id, searchTerm);
+        members = searchProfilesSortedByDisplayName(state, ownProps.group.id, searchTerm);
     } else {
-        users = getProfilesInGroup(state, ownProps.group.id);
+        members = getProfilesSortedByDisplayName(state, ownProps.group.id);
     }
 
-    const nameDisplaySetting = getTeammateNameDisplaySetting(state);
-
     return {
-        users,
+        members,
         searchTerm,
-        nameDisplaySetting,
         teamUrl: getCurrentRelativeTeamUrl(state),
     };
 }

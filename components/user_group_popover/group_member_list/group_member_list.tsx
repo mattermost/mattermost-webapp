@@ -16,7 +16,6 @@ import {Group} from '@mattermost/types/groups';
 import {ServerError} from '@mattermost/types/errors';
 
 import * as Utils from 'utils/utils';
-import {displayUsername} from 'mattermost-redux/utils/user_utils';
 
 import Avatar from 'components/widgets/users/avatar';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
@@ -26,7 +25,7 @@ import {NoResultsVariant} from 'components/no_results_indicator/types';
 
 import {Load} from '../user_group_popover';
 
-const USERS_PER_PAGE = 60;
+const USERS_PER_PAGE = 100;
 
 // These constants must be changed if user list style is modified
 export const VIEWPORT_SCALE_FACTOR = 0.4;
@@ -38,6 +37,11 @@ export const getListHeight = (num: number) => (num * ITEM_HEIGHT) + (2 * MARGIN)
 // Reasonable extrema for the user list
 const MIN_LIST_HEIGHT = 120;
 export const MAX_LIST_HEIGHT = 800;
+
+export type GroupMember = {
+    user: UserProfile;
+    displayName: string;
+}
 
 export type Props = {
 
@@ -64,8 +68,7 @@ export type Props = {
     /**
      * @internal
      */
-    users: UserProfile[];
-    nameDisplaySetting: string;
+    members: GroupMember[];
     teamUrl: string;
     searchTerm: string;
 
@@ -80,8 +83,7 @@ const GroupMemberList = (props: Props) => {
     const {
         group,
         actions,
-        users,
-        nameDisplaySetting,
+        members,
         hide,
         teamUrl,
         searchTerm,
@@ -93,7 +95,7 @@ const GroupMemberList = (props: Props) => {
 
     const {formatMessage} = useIntl();
 
-    const [nextPage, setNextPage] = useState(Math.floor(users.length / USERS_PER_PAGE));
+    const [nextPage, setNextPage] = useState(Math.floor(members.length / USERS_PER_PAGE));
     const [nextPageLoadState, setNextPageLoadState] = useState(Load.DONE);
     const [currentDMLoading, setCurrentDMLoading] = useState<string | undefined>(undefined);
 
@@ -111,7 +113,7 @@ const GroupMemberList = (props: Props) => {
             }
         }
         setHasMounted(true);
-    }, [users.length, hasMounted]);
+    }, [members.length, hasMounted]);
 
     const loadNextPage = async () => {
         setNextPageLoadState(Load.LOADING);
@@ -140,15 +142,15 @@ const GroupMemberList = (props: Props) => {
     };
 
     const isSearching = searchTerm !== '';
-    const hasNextPage = !isSearching && users.length < group.member_count;
-    const itemCount = !isSearching && hasNextPage ? users.length + 1 : users.length;
+    const hasNextPage = !isSearching && members.length < group.member_count;
+    const itemCount = !isSearching && hasNextPage ? members.length + 1 : members.length;
 
     const loadMoreItems = isSearching || nextPageLoadState === Load.LOADING ? () => {} : loadNextPage;
 
     const maxListHeight = Math.min(MAX_LIST_HEIGHT, Math.max(MIN_LIST_HEIGHT, Utils.getViewportSize().h * VIEWPORT_SCALE_FACTOR));
 
     const isUserLoaded = (index: number) => {
-        return isSearching || !hasNextPage || index < users.length;
+        return isSearching || !hasNextPage || index < members.length;
     };
 
     const Item = ({index, style}: ListChildComponentProps) => {
@@ -156,8 +158,8 @@ const GroupMemberList = (props: Props) => {
         style.height = undefined;
 
         if (isUserLoaded(index)) {
-            const user = users[index];
-            const name = displayUsername(user, nameDisplaySetting);
+            const user = members[index].user;
+            const name = members[index].displayName;
 
             return (
                 <UserListItem
@@ -203,7 +205,7 @@ const GroupMemberList = (props: Props) => {
             <LoadingItem
                 style={style}
                 first={index === 0}
-                last={index === users.length}
+                last={index === members.length}
             >
                 <LoadingSpinner/>
             </LoadingItem>
@@ -223,7 +225,7 @@ const GroupMemberList = (props: Props) => {
                     <span>{Utils.localizeMessage('group_member_list.searchError', 'There was a problem getting results. Clear your search term and try again.')}</span>
                 </LoadFailedItem>
             );
-        } else if (isSearching && users.length === 0) {
+        } else if (isSearching && members.length === 0) {
             return (
                 <NoResultsItem>
                     <NoResultsIndicator
@@ -261,7 +263,7 @@ const GroupMemberList = (props: Props) => {
                             itemCount={itemCount}
                             onItemsRendered={onItemsRendered}
                             ref={ref}
-                            itemSize={(index) => getItemHeight(index === 0 || index === group.member_count - 1 || index === users.length + 1)}
+                            itemSize={(index) => getItemHeight(index === 0 || index === group.member_count - 1 || index === members.length + 1)}
                             height={height}
                             width={width}
                         >
