@@ -125,4 +125,10 @@
             border-radius: unset;
         }
     }
+
+    @media screen and (max-height: 900px) and (min-width: 768px) {
+        .modal-content {
+            max-height: calc(100vh - 160px);
+        }
+    }
 }
