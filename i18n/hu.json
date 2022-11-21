@@ -2500,7 +2500,6 @@
   "analytics.system.totalReadDbConnections": "Másolat DB csatlakozások",
   "analytics.system.totalSessions": "Összes munkamenet",
   "analytics.system.totalTeams": "Összes csapat",
-  "analytics.system.totalUsers": "Összes aktív felhasználó",
   "analytics.system.totalWebsockets": "WebSocket csatlakozások",
   "analytics.team.activeUsers": "Aktív felhasználók bejegyzésekkel",
   "analytics.team.newlyCreated": "Újonnan létrehozott felhasználók",

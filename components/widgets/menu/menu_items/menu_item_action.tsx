@@ -15,6 +15,8 @@ type Props = {
     buttonClass?: string;
     rightDecorator?: React.ReactNode;
     isDangerous?: boolean;
+    disabled?: boolean;
+    sibling?: React.ReactNode;
 }
 export const MenuItemActionImpl = ({
     onClick,
@@ -25,20 +27,29 @@ export const MenuItemActionImpl = ({
     buttonClass,
     rightDecorator,
     isDangerous,
+    disabled,
+    sibling,
 }: Props) => (
-    <button
-        data-testid={id}
-        id={id}
-        aria-label={ariaLabel}
-        className={classNames('style--none', buttonClass, {
-            'MenuItem__with-help': extraText,
-            MenuItem__dangerous: isDangerous,
-        })}
-        onClick={onClick}
-    >
-        {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}
-        {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
-    </button>
+    <>
+        <button
+            data-testid={id}
+            id={id}
+            aria-label={ariaLabel}
+            className={classNames('style--none', buttonClass, {
+                'MenuItem__with-help': extraText,
+                'MenuItem__with-sibling': sibling,
+                disabled,
+                MenuItem__dangerous: isDangerous,
+            })}
+            onClick={onClick}
+            disabled={disabled}
+        >
+            {text && <span className='MenuItem__primary-text'>{text}{rightDecorator}</span>}
+            {extraText && <span className='MenuItem__help-text'>{extraText}</span>}
+        </button>
+        {sibling}
+    </>
+
 );
 
 const MenuItemAction = menuItem(MenuItemActionImpl);

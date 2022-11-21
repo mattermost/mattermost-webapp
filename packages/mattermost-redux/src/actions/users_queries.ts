@@ -54,7 +54,9 @@ query gqlWebCurrentUserInfo {
         id
         display_name: displayName
         name
+        create_at: createAt
         update_at: updateAt
+        delete_at: deleteAt
         description
         email
         type
@@ -64,6 +66,8 @@ query gqlWebCurrentUserInfo {
         last_team_icon_update: lastTeamIconUpdate
         group_constrained: groupConstrained
         allow_open_invite: allowOpenInvite
+        scheme_id: schemeId
+        policy_id: policyId
       }
       roles {
         id
@@ -128,7 +132,7 @@ export function transformToRecievedMeReducerPayload(user: GraphQLUser): UserProf
 }
 
 export function transformToRecievedTeamsListReducerPayload(teamsMembers: GraphQLTeamMember[]): Team[] {
-    return teamsMembers.map((teamMember) => ({...teamMember?.team, delete_at: 0}));
+    return teamsMembers.map((teamMember) => ({...teamMember.team}));
 }
 
 export function transformToRecievedMyTeamMembersReducerPayload(
@@ -144,6 +148,7 @@ export function transformToRecievedMyTeamMembersReducerPayload(
         scheme_guest: teamMember?.scheme_guest ?? false,
         scheme_user: teamMember?.scheme_user ?? false,
 
+        // Remove these fields once webapp deprecates getting unread counts from teams
         // below fields arent included in the response but were inside of TeamMembership api types
         mention_count: 0,
         mention_count_root: 0,
