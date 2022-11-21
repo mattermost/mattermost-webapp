@@ -22,6 +22,12 @@ export default class A11yController {
 
         this.mouseIsPressed = false;
 
+        // The default behaviour is to only show a visible focus if the user is currently
+        // in the middle of using the keyboard (i.e. the user is pressing a key on the keyboard).
+        // This behaviour was introduced in https://github.com/mattermost/mattermost-webapp/pull/3922.
+        // But we want to be able to manually focus elements with the custom focus event, even if
+        // no keys are currently pressed, for components that manually handle focus such as
+        // popovers and modals. So we need a distinction between these two actions.
         this.lastInputEventIsKeyDown = false;
         this.lastInputEventIsKeyboard = true;
 
@@ -845,6 +851,9 @@ export default class A11yController {
     }
 
     handleA11yFocus = (event) => {
+        if (!event.detail.target) {
+            return;
+        }
         if (!event.detail.keyboardOnly || this.lastInputEventIsKeyboard) {
             this.manualFocus = true;
             this.nextElement(event.detail.target, true);
