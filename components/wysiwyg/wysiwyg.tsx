@@ -1,11 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Permissions} from 'mattermost-redux/constants';
-import {getLicense} from 'mattermost-redux/selectors/entities/general';
-import {isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {haveIChannelPermission, haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
-import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import React, {useCallback, useEffect, useRef} from 'react';
 import type {FormEvent} from 'react';
 import styled from 'styled-components';
@@ -42,7 +37,6 @@ import {ActionTypes} from 'utils/constants';
 
 import type {GlobalState} from 'types/store';
 import type {NewPostDraft} from 'types/store/draft';
-import {isCustomEmojiEnabled} from 'selectors/emojis';
 
 import {htmlToMarkdown} from './utils/toMarkdown';
 
@@ -58,6 +52,8 @@ import {
     EmojiSuggestions,
     makeEmojiSuggestion,
 } from './components/suggestions';
+
+import {PropsFromRedux} from './index';
 
 const WysiwygContainer = styled.div`
     margin: 0 24px 24px;
@@ -125,28 +121,7 @@ function useDraft(channelId: string, rootId = ''): [NewPostDraft, (newContent: J
     return [draft, setDraftContent];
 }
 
-export const PasteHandler = Extension.create({
-    name: 'pasteHandler',
-
-    addProseMirrorPlugins() {
-        return [
-            new Plugin({
-                key: new PluginKey('pasteHandler'),
-                props: {
-                    transformPastedText(text: string) {
-                        // return String(markdownToHtml(text));
-                        return text;
-                    },
-
-                    // … and many, many more.
-                    // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
-                },
-            }),
-        ];
-    },
-});
-
-type Props = {
+type Props = PropsFromRedux & {
     channelId: string;
     rootId?: string;
     onSubmit: (e?: FormEvent) => void;
@@ -154,18 +129,51 @@ type Props = {
     readOnly?: boolean;
 }
 
-export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
+export default (props: Props) => {
+    const {
+        teamId,
+        channelId,
+        rootId,
+        onSubmit,
+        onChange,
+        readOnly,
+        useCustomEmojis,
+        useSpecialMentions,
+        useLDAPGroupMentions,
+        useChannelMentions,
+        useCustomGroupMentions,
+        ctrlSend,
+        codeBlockOnCtrlEnter,
+    } = props;
+
     const [draft, setDraftContent] = useDraft(channelId, rootId);
     const debouncedDraft = useRef<DebouncedFunc<(editor: Editor) => void>>(debounce((editor) => setDraftContent(editor.getJSON()), 500));
-    const teamId = useSelector(getCurrentTeamId);
-    const useCustomEmojis = useSelector(isCustomEmojiEnabled);
-    const useSpecialMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS));
 
-    const license = useSelector(getLicense);
-    const isLDAPEnabled = license?.IsLicensed === 'true' && license?.LDAPGroups === 'true';
-    const useLDAPGroupMentions = isLDAPEnabled && useSelector((state: GlobalState) => haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS));
-    const useChannelMentions = useSelector((state: GlobalState) => haveIChannelPermission(state, teamId, channelId, Permissions.USE_CHANNEL_MENTIONS));
-    const useCustomGroupMentions = useSelector((state: GlobalState) => isCustomGroupsEnabled(state) && haveICurrentChannelPermission(state, Permissions.USE_GROUP_MENTIONS));
+    const PasteHandler = Extension.create({
+        name: 'pasteHandler',
+
+        addProseMirrorPlugins() {
+            return [
+                new Plugin({
+                    key: new PluginKey('pasteHandler'),
+                    props: {
+                        transformPastedText(text: string) {
+                            // return String(markdownToHtml(text));
+                            return text;
+                        },
+
+                        // … and many, many more.
+                        // Here is the full list: https://prosemirror.net/docs/ref/#view.EditorProps
+                    },
+                }),
+            ];
+        },
+    });
+
+    // this is a dummy extension only to create custom keydown behavior
+    const KeyboardHandler = Extension.create({
+        name: 'keyboardHandler',
+    });
 
     const editor = useEditor({
         extensions: [
@@ -225,7 +233,6 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     lowlight,
                     defaultLanguage: 'css',
                 }),
-            PasteHandler,
             AtMentionSuggestions.configure({
                 suggestion: makeAtMentionSuggestion({
                     teamId,
@@ -245,19 +252,81 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
                     useCustomEmojis,
                 }),
             }),
+
+            /**
+             * these should always come at the end so that we are able to override behavior from
+             * other extensions with this if needed
+             */
+            PasteHandler,
+            KeyboardHandler.extend({
+                addKeyboardShortcuts() {
+                    return {
+                        Enter: () => {
+                            const isCodeBlockActive = this.editor.isActive('codeBlock');
+
+                            if (isCodeBlockActive || ctrlSend) {
+                                return false;
+                            }
+
+                            onSubmit();
+                            return this.editor.commands.clearContent();
+                        },
+
+                        'Mod-Enter': () => {
+                            const isCodeBlockActive = this.editor.isActive('codeBlock');
+
+                            /**
+                             * when inside of a codeblock and the setting for sending the message with CMD/CTRL-Enter
+                             * force calling the `onSubmit` function and clear the editor content
+                             */
+                            if (isCodeBlockActive && codeBlockOnCtrlEnter) {
+                                onSubmit();
+                                return this.editor.commands.clearContent();
+                            }
+
+                            if (!isCodeBlockActive && ctrlSend) {
+                                onSubmit();
+                                return this.editor.commands.clearContent();
+                            }
+
+                            /**
+                             * for some reason the default behavior of tiptap in this case is adding in a soft break (the
+                             * same as with pressing `SHIFT-ENTER`). Since we do not support that in posts we cannot allow
+                             * that here as well, so we overwrite the dedault behavior like this
+                             */
+                            return this.editor.commands.first(({commands}) => [
+                                () => commands.newlineInCode(),
+                                () => commands.createParagraphNear(),
+                                () => commands.liftEmptyBlock(),
+                                () => commands.splitBlock(),
+                            ]);
+                        },
+
+                        /**
+                         * currently we do not have an option to show a soft line break in the posts, so we overwrite
+                         * the behavior fom tiptap with teh default behavior on pressing enter
+                         */
+                        'Shift-Enter': () => {
+                            return this.editor.commands.first(({commands}) => [
+                                () => commands.newlineInCode(),
+                                () => commands.createParagraphNear(),
+                                () => commands.liftEmptyBlock(),
+                                () => commands.splitBlock(),
+                            ]);
+                        },
+                    };
+                },
+            }),
         ],
         content: draft?.content,
         autofocus: 'end',
         onUpdate: ({editor}) => {
             debouncedDraft.current?.(editor);
 
-            // eslint-disable-next-line no-console
-            console.log('####### current message: ', htmlToMarkdown(editor.getHTML()));
-
             // call the onChange function from the parent component (if any available)
             onChange?.(htmlToMarkdown(editor.getHTML()));
         },
-    }, [channelId, rootId]);
+    }, [channelId, rootId, ctrlSend, codeBlockOnCtrlEnter]);
 
     // focus the editor on mount
     useEffect(() => {
@@ -280,14 +349,14 @@ export default ({channelId, rootId, onSubmit, onChange, readOnly}: Props) => {
         return null;
     }
 
-    const handleSubmit = (event: React.FormEvent) => {
-        event.preventDefault();
+    function handleSubmit(event?: React.FormEvent) {
+        event?.preventDefault();
 
         // We should probably only allow submitting with the value from the editor to not create a case
         // where incorrect messages are being sent to the server
         onSubmit();
-        editor.commands.clearContent(true);
-    };
+        editor?.commands.clearContent(true);
+    }
 
     const disableSendButton = editor.isEmpty;
     const sendButton = readOnly ? null : (

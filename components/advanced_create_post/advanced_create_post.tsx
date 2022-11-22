@@ -76,7 +76,7 @@ import AdvanceTextEditor from '../advanced_text_editor/advanced_text_editor';
 import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_icon';
 
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
-import Wysiwyg from '../wysiwyg/wysiwyg';
+import Wysiwyg from '../wysiwyg';
 const KeyCodes = Constants.KeyCodes;
 
 // Temporary fix for IE-11, see MM-13423
@@ -1336,7 +1336,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (this.props.isWysiwygEnabled) {
             return (
                 <Wysiwyg
-                    channelId={this.props.currentChannel.id}
                     onSubmit={this.handleSubmit}
                     onChange={this.handleChange}
                     readOnly={!this.props.canPost}
