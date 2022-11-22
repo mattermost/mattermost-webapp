@@ -201,7 +201,7 @@ class AdminSidebar extends React.PureComponent<Props, State> {
                         }
                     }
                     const subDefinitionKey = `${key}.${subKey}`;
-                    const tag = item.tag?.shouldDisplay(license) ? item.tag.value : '';
+                    const tag = item.tag ? item.tag.value : '';
                     sidebarItems.push((
                         <AdminSidebarSection
                             key={subDefinitionKey}

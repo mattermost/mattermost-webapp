@@ -812,6 +812,7 @@ export const UserFilters = {
 
 export const SearchTypes = keyMirror({
     SET_MODAL_SEARCH: null,
+    SET_POPOVER_SEARCH: null,
     SET_MODAL_FILTERS: null,
     SET_SYSTEM_USERS_SEARCH: null,
     SET_USER_GRID_SEARCH: null,

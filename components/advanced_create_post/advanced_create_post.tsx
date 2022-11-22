@@ -29,6 +29,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
+    mentionsMinusSpecialMentionsInText,
 } from 'utils/post_utils';
 import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
@@ -222,6 +223,8 @@ type Props = {
 
         //Function used to advance the tutorial forward
         savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
+
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
     };
 
     groupsWithAllowReference: Map<string, Group> | null;
@@ -303,7 +306,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {actions} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
         actions.clearDraftUploads();
@@ -312,21 +315,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         document.addEventListener('keydown', this.documentKeyHandler);
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
-
-        if (useLDAPGroupMentions && currentChannel.id) {
-            actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
-        }
+        this.getChannelMemberCountsByGroup();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {currentChannel, actions} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useLDAPGroupMentions && currentChannel.id) {
-                actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
-            }
+            this.getChannelMemberCountsByGroup();
         }
 
         if (currentChannel.id !== prevProps.currentChannel.id) {
@@ -350,6 +348,20 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
         this.saveDraft();
+    }
+
+    getChannelMemberCountsByGroup = () => {
+        const {useLDAPGroupMentions, useCustomGroupMentions, currentChannel, isTimezoneEnabled, actions, draft} = this.props;
+
+        if ((useLDAPGroupMentions || useCustomGroupMentions) && currentChannel.id) {
+            const mentions = mentionsMinusSpecialMentionsInText(draft.message);
+
+            if (mentions.length === 1) {
+                actions.searchAssociatedGroupsForReference(mentions[0], this.props.currentTeamId, currentChannel.id);
+            } else if (mentions.length > 1) {
+                actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+            }
+        }
     }
 
     unloadHandler = () => {
