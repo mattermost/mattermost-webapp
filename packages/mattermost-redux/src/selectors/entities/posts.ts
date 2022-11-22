@@ -787,5 +787,5 @@ export const getPostAcknowledgementsWithProfiles: (state: GlobalState, postId: P
     (users, acknowledgements) => acknowledgements.map((ack) => ({
         user: users[ack.user_id],
         acknowledgedAt: ack.acknowledged_at,
-    })),
+    })).sort((a, b) => b.acknowledgedAt - a.acknowledgedAt),
 );

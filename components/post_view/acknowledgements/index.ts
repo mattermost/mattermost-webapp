@@ -31,8 +31,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
 
     return {
         acknowledgedAt,
-        list,
+        currentUserId,
         hasReactions,
+        list,
     };
 }
 

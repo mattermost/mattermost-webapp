@@ -32,6 +32,7 @@ import './post_acknowledgements.scss';
 
 type Props = {
     acknowledgedAt: number;
+    currentUserId: UserProfile['id'];
     hasReactions: boolean;
     list?: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
     postId: Post['id'];
@@ -44,6 +45,7 @@ function moreThan5minAgo(time: number) {
 
 function PostAcknowledgements({
     acknowledgedAt,
+    currentUserId,
     hasReactions,
     list,
     postId,
@@ -67,6 +69,11 @@ function PostAcknowledgements({
 
     const {getReferenceProps, getFloatingProps} = useInteractions([
         useHover(context, {
+            enabled: list && list.length > 0,
+            delay: {
+                open: 300,
+                close: 0,
+            },
             handleClose: safePolygon(),
         }),
         useRole(context),
@@ -91,15 +98,13 @@ function PostAcknowledgements({
             })}
             {...getReferenceProps()}
         >
-            <>
-                <CheckCircleOutlineIcon size={16}/>
-                {(list && list.length > 0) ? list!.length : (
-                    <FormattedMessage
-                        id={'post_priority.button.acknowledge'}
-                        defaultMessage={'Acknowledge'}
-                    />
-                )}
-            </>
+            <CheckCircleOutlineIcon size={16}/>
+            {(list && list.length > 0) ? list!.length : (
+                <FormattedMessage
+                    id={'post_priority.button.acknowledge'}
+                    defaultMessage={'Acknowledge'}
+                />
+            )}
         </button>
     );
 
@@ -127,7 +132,10 @@ function PostAcknowledgements({
                         aria-labelledby={headingId}
                         {...getFloatingProps()}
                     >
-                        <PostAcknowledgementsUserPopover list={list}/>
+                        <PostAcknowledgementsUserPopover
+                            currentUserId={currentUserId}
+                            list={list}
+                        />
                     </div>
                 </FloatingFocusManager>
             )}

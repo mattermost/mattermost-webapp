@@ -8,10 +8,10 @@ import styled from 'styled-components';
 
 import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
+import Nbsp from 'components/html_entities/nbsp';
 
 import {Client4} from 'mattermost-redux/client';
 import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
-import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
 
 import {GlobalState} from 'types/store';
 
@@ -19,6 +19,7 @@ import type {UserProfile} from '@mattermost/types/users';
 import type {PostAcknowledgement} from '@mattermost/types/posts';
 
 type Props = {
+    currentUserId: UserProfile['id'];
     list: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
 };
 
@@ -31,9 +32,6 @@ const Item = styled.div`
 const Info = styled.div`
     display: flex;
     flex-direction: column;
-`;
-
-const Body = styled.div`
 `;
 
 const Title = styled.div`
@@ -63,12 +61,17 @@ const Popover = styled.div`
 `;
 
 function Row({
-    username,
-    id,
-    last_picture_update: lastPictureUpdate,
     acknowledgedAt,
-}: UserProfile & {
+    id,
+    isMe,
+    lastPictureUpdate,
+    username,
+}: {
     acknowledgedAt: number;
+    id: UserProfile['id'];
+    isMe: boolean;
+    lastPictureUpdate: UserProfile['last_picture_update'];
+    username: UserProfile['username'];
 }) {
     const getDisplayName = useMemo(makeGetDisplayName, []);
     const displayName = useSelector((state: GlobalState) => getDisplayName(state, id));
@@ -83,10 +86,15 @@ function Row({
             <Info>
                 <div>
                     {displayName}
-                    <FormattedMessage
-                        id={'post_priority.you.acknowledge'}
-                        defaultMessage={'(you)'}
-                    />
+                    {isMe && (
+                        <>
+                            <Nbsp/>
+                            <FormattedMessage
+                                id={'post_priority.you.acknowledge'}
+                                defaultMessage={'(you)'}
+                            />
+                        </>
+                    )}
                 </div>
                 <Span>
                     <Timestamp value={acknowledgedAt}/>
@@ -96,7 +104,7 @@ function Row({
     );
 }
 
-export default function PostAcknowledgementsUserPopover({list}: Props) {
+export default function PostAcknowledgementsUserPopover({list, currentUserId}: Props) {
     return (
         <Popover>
             <Title>
@@ -105,15 +113,16 @@ export default function PostAcknowledgementsUserPopover({list}: Props) {
                     defaultMessage={'Acknowledgements'}
                 />
             </Title>
-            <Body>
-                {list.map((item) => (
-                    <Row
-                        key={item.user.id}
-                        acknowledgedAt={item.acknowledgedAt}
-                        {...item.user}
-                    />
-                ))}
-            </Body>
+            {list.map((item) => (
+                <Row
+                    key={item.user.id}
+                    acknowledgedAt={item.acknowledgedAt}
+                    isMe={currentUserId === item.user.id}
+                    id={item.user.id}
+                    lastPictureUpdate={item.user.last_picture_update}
+                    username={item.user.username}
+                />
+            ))}
         </Popover>
     );
 }
