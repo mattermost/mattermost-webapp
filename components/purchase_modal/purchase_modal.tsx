@@ -189,6 +189,7 @@ function findProductInDictionary(products: Record<string, Product> | undefined, 
 function getSelectedProduct(
     products: Record<string, Product> | undefined,
     productId?: string | null,
+    isMonthly?: boolean | null,
     isDelinquencyModal?: boolean,
     isCloudDelinquencyGreaterThan90Days?: boolean) {
     const currentProduct = findProductInDictionary(products, productId);
@@ -196,7 +197,8 @@ function getSelectedProduct(
         return currentProduct;
     }
     let nextSku = CloudProducts.PROFESSIONAL;
-    if (currentProduct?.sku === CloudProducts.PROFESSIONAL) {
+    // Don't switch the product to enterprise if the recurring interval of the selected product is yearly. This means that it can only be the yearly professional product.
+    if (currentProduct?.sku === CloudProducts.PROFESSIONAL && isMonthly) {
         nextSku = CloudProducts.ENTERPRISE;
     }
     return findProductInDictionary(products, null, nextSku, RecurringIntervals.MONTH);
@@ -589,12 +591,13 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             selectedProduct: getSelectedProduct(
                 props.products,
                 props.productId,
+                props.isInitialPlanMonthly,
                 props.isDelinquencyModal,
                 props.isCloudDelinquencyGreaterThan90Days,
             ),
             isUpgradeFromTrial: props.isFreeTrial,
             buttonClickedInfo: '',
-            selectedProductPrice: getSelectedProduct(props.products, props.productId)?.price_per_seat.toString() || null,
+            selectedProductPrice: getSelectedProduct(props.products, props.productId, props.isInitialPlanMonthly)?.price_per_seat.toString() || null,
             userCountError: false,
             isMonthly: this.props.isInitialPlanMonthly,
             usersCount: this.props.usersCount,
@@ -608,8 +611,8 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             // eslint-disable-next-line react/no-did-mount-set-state
             this.setState({
                 currentProduct: findProductInDictionary(this.props.products, this.props.productId),
-                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
-                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId)?.price_per_seat.toString() ?? null,
+                selectedProduct: getSelectedProduct(this.props.products, this.props.productId, this.props.isInitialPlanMonthly, this.props.isDelinquencyModal, this.props.isCloudDelinquencyGreaterThan90Days),
+                selectedProductPrice: getSelectedProduct(this.props.products, this.props.productId, this.props.isInitialPlanMonthly)?.price_per_seat.toString() ?? null,
             });
         }
 
