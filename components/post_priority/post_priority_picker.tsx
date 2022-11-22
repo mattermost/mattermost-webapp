@@ -2,9 +2,12 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useRef, useState, memo} from 'react';
+import {useSelector} from 'react-redux';
 import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import styled from 'styled-components';
+
+import {isProfessionalOrEnterprise} from 'mattermost-redux/selectors/entities/general';
 
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
@@ -75,7 +78,7 @@ const Picker = styled.div`
     position: absolute;
     z-index: 1100;
     display: flex;
-    width: 324px;
+    width: 220px;
     flex-direction: column;
     border: 1px solid $light-gray;
     margin-right: 3px;
@@ -107,12 +110,21 @@ function PostPriorityPicker({
         ref.current?.focus();
     }, [ref.current]);
 
+    const isProfessional = useSelector(isProfessionalOrEnterprise);
+
     const makeOnSelectPriority = useCallback((type?: PostPriority) => () => {
         setPriority(type || '');
-        if (type === PostPriority.URGENT) {
+
+        if (!isProfessional) {
+            onApply({
+                priority: type || '',
+                requested_ack: false,
+            });
+            onClose();
+        } else if (type === PostPriority.URGENT) {
             setRequestedAck(true);
         }
-    }, []);
+    }, [isProfessional]);
 
     const handleAck = useCallback(() => {
         setRequestedAck(!requestedAck);
@@ -143,6 +155,10 @@ function PostPriorityPicker({
 
         if (pickerStyle.right) {
             pickerStyle.right = Number(pickerStyle.right) + rightOffset;
+        }
+
+        if (isProfessional) {
+            pickerStyle.width = 324;
         }
     }
 
@@ -200,46 +216,50 @@ function PostPriorityPicker({
                             })}
                         />
                     </MenuGroup>
-                    <MenuGroup>
-                        <ToggleItem
-                            disabled={false}
-                            onToggle={handleAck}
-                            toggled={requestedAck}
-                            icon={<AcknowledgementIcon size={18}/>}
-                            text={formatMessage({
-                                id: 'post_priority.requested_ack.text',
-                                defaultMessage: 'Request acknowledgement',
-                            })}
-                            description={formatMessage({
-                                id: 'post_priority.requested_ack.description',
-                                defaultMessage: 'An acknowledgement button will appear with your message',
-                            })}
-                        />
-                    </MenuGroup>
+                    {isProfessional && (
+                        <MenuGroup>
+                            <ToggleItem
+                                disabled={false}
+                                onToggle={handleAck}
+                                toggled={requestedAck}
+                                icon={<AcknowledgementIcon size={18}/>}
+                                text={formatMessage({
+                                    id: 'post_priority.requested_ack.text',
+                                    defaultMessage: 'Request acknowledgement',
+                                })}
+                                description={formatMessage({
+                                    id: 'post_priority.requested_ack.description',
+                                    defaultMessage: 'An acknowledgement button will appear with your message',
+                                })}
+                            />
+                        </MenuGroup>
+                    )}
                 </Menu>
             </div>
-            <Footer>
-                <button
-                    type='button'
-                    className='PostPriorityPicker__cancel'
-                    onClick={onClose}
-                >
-                    <FormattedMessage
-                        id={'post_priority.picker.cancel'}
-                        defaultMessage={'Cancel'}
-                    />
-                </button>
-                <button
-                    type='button'
-                    className='PostPriorityPicker__apply'
-                    onClick={handleApply}
-                >
-                    <FormattedMessage
-                        id={'post_priority.picker.apply'}
-                        defaultMessage={'Apply'}
-                    />
-                </button>
-            </Footer>
+            {isProfessional && (
+                <Footer>
+                    <button
+                        type='button'
+                        className='PostPriorityPicker__cancel'
+                        onClick={onClose}
+                    >
+                        <FormattedMessage
+                            id={'post_priority.picker.cancel'}
+                            defaultMessage={'Cancel'}
+                        />
+                    </button>
+                    <button
+                        type='button'
+                        className='PostPriorityPicker__apply'
+                        onClick={handleApply}
+                    >
+                        <FormattedMessage
+                            id={'post_priority.picker.apply'}
+                            defaultMessage={'Apply'}
+                        />
+                    </button>
+                </Footer>
+            )}
         </Picker>
     );
 }

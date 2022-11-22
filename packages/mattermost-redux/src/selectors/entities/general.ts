@@ -5,10 +5,14 @@ import {createSelector} from 'reselect';
 
 import {General} from 'mattermost-redux/constants';
 
+import {CloudProducts, LicenseSkus} from 'utils/constants';
+
+import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+
 import {GlobalState} from '@mattermost/types/store';
 import {ClientConfig, FeatureFlags, ClientLicense} from '@mattermost/types/config';
 
-import {isMinimumServerVersion} from 'mattermost-redux/utils/helpers';
+import {getSubscriptionProduct, isCurrentLicenseCloud} from './cloud';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
     return state.entities.general.config;
@@ -113,3 +117,21 @@ export const isMarketplaceEnabled: (state: GlobalState) => boolean = createSelec
         return config.PluginsEnabled === 'true' && config.EnableMarketplace === 'true';
     },
 );
+
+export function isProfessionalOrEnterprise(state: GlobalState): boolean {
+    const isCloud = isCurrentLicenseCloud(state);
+
+    if (isCloud) {
+        const product = getSubscriptionProduct(state);
+        return (
+            product?.sku === CloudProducts.PROFESSIONAL ||
+            product?.sku === CloudProducts.ENTERPRISE
+        );
+    }
+
+    const license = getLicense(state);
+    return (
+        license.SkuShortName === LicenseSkus.Professional ||
+        license.SkuShortName === LicenseSkus.Enterprise
+    );
+}

@@ -73,6 +73,8 @@ export interface Props {
      * Post type components from plugins
      */
     pluginPostTypes: Record<string, PostPluginComponent>;
+
+    isPostPriorityEnabled: boolean;
 }
 
 interface State {
@@ -220,11 +222,8 @@ export default class PostBody extends React.PureComponent<Props, State> {
                     {messageWithAdditionalContent}
                     {fileAttachmentHolder}
                     <div className='post__body-reactions-acks'>
-                        {post.metadata?.priority?.requested_ack && (
-                            <PostAcknowledgements
-                                createAt={post.create_at}
-                                postId={post.id}
-                            />
+                        {this.props.isPostPriorityEnabled && post.metadata?.priority?.requested_ack && (
+                            <PostAcknowledgements postId={post.id}/>
                         )}
                         <ReactionList post={post}/>
                     </div>
