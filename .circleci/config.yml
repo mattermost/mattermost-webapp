@@ -277,10 +277,22 @@ workflows:
           context: mattermost-ci-pr-builds-s3
           requires:
             - upload-s3
+          filters:
+            branches:
+              ignore:
+                - master
+                - /^release-.*/
+                - /^count-.*/
       - build-docker:
           context: matterbuild-docker
           requires:
             - prepare-docker-build
+          filters:
+            branches:
+              ignore:
+                - master
+                - /^release-.*/
+                - /^count-.*/
       - test:
           requires:
             - type-check
