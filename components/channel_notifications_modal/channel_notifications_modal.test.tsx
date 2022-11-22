@@ -40,6 +40,7 @@ describe('components/channel_notifications_modal/ChannelNotificationsModal', () 
         actions: {
             updateChannelNotifyProps: jest.fn(),
         },
+        collapsedReplyThreads: true,
     };
 
     test('should match snapshot', () => {
