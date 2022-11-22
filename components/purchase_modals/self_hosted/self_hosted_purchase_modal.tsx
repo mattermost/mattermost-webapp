@@ -8,7 +8,7 @@ import {useIntl} from 'react-intl';
 import {Stripe, StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
-import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
+import {Product, SelfHostedSignupProgress} from '@mattermost/types/cloud';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getCurrentProduct, getSelectedProduct, getSelfHostedSignupProgress, isDelinquent, isFreeTrial} from 'mattermost-redux/selectors/entities/cloud';
@@ -45,7 +45,6 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import { BillingDetails } from 'types/cloud/sku';
-import { getCloudSubscription } from 'mattermost-redux/actions/cloud';
 import { getCloudContactUsLink, InquiryType } from 'selectors/cloud';
 import { getCurrentTeam } from 'mattermost-redux/selectors/entities/teams';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
@@ -59,18 +58,23 @@ export default function SelfHostedPurchaseModal() {
     const freeTrial = useSelector(isFreeTrial)
     const currentTeam = useSelector(getCurrentTeam)
     const isDelinquencyModal = useSelector(isDelinquent);
-    const currentProduct = useSelector(getCurrentProduct);
-    const selectedProduct = useSelector(getSelectedProduct);
+    // const currentProduct = useSelector(getCurrentProduct);
+    // const selectedProduct = useSelector(getSelectedProduct);
     const progress = useSelector(getSelfHostedSignupProgress);
     const isDevMode = useSelector(getConfig).EnableDeveloper === 'true';
     const contactSalesLink = useSelector(getCloudContactUsLink)(InquiryType.Sales);
 
+    let currentProduct: Product = {id: '', name:'self-hosted-free', description: '', price_per_seat: 0, product_family: 'self-hosted', sku: 'free', billing_scheme: 'per_seat', add_ons: [], cross_sells_to: '', recurring_interval:'month'}
+    let selectedProduct: Product = {id: 'prod_K3evf2gg2LIzrD', name:'self-hosted-professional', description: '', price_per_seat: 10, product_family: 'self-hosted', sku: 'professional', billing_scheme: 'per_seat', add_ons: [], cross_sells_to: '', recurring_interval:'month'}
+
+    console.log(selectedProduct, currentProduct);
 
     const [processing, setProcessing] = useState(false);
     const [isUpgradeFromTrial, setIsUpgradeFromTrial] = useState(freeTrial);
     const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
     const [billingDetails, setBillingDetails] = useState<BillingDetails|null>(null);
     const [seats, setSeats] = useState(0);
+    const [buttonClickedInfo, setButtonClickedInfo] = useState('');
     
     const dispatch = useDispatch();
     const reduxDispatch = useDispatch<DispatchFunc>();
@@ -143,9 +147,9 @@ export default function SelfHostedPurchaseModal() {
                 },
                 submitProgress,
                 {
-                    //TODO: Remove default
                     product_id: selectedProduct.id,
                     add_ons: [],
+                    // TODO: Get setas?
                     seats: Math.max(seats,200),
                 },
             ));
@@ -203,7 +207,6 @@ export default function SelfHostedPurchaseModal() {
                             subscribeCloudSubscription={subscribeToSubscription}
                             isDevMode={isDevMode}
                             onClose={() => {
-                                getCloudSubscription();
                                 closeModal(ModalIdentifiers.CLOUD_PURCHASE)
                             }}
                             onBack={() => setProcessing(false)}
@@ -218,11 +221,18 @@ export default function SelfHostedPurchaseModal() {
                             currentProduct={currentProduct}
                             isUpgradeFromTrial={isUpgradeFromTrial}
                             setIsUpgradeFromTrialToFalse={() => {setIsUpgradeFromTrial(false)}}
+                            telemetryProps={{
+                                callerInfo: buttonClickedInfo,
+                            }}
                         /> ) : null}
                         <PurchaseScreen
                                 callerCTA={''}
-                                setBillingDetauls={(billing: BillingDetails) => setBillingDetails(billing)}
+                                setBillingDetails={(billing: BillingDetails) => setBillingDetails(billing)}
                                 theme={theme}
+                                setButtonClickedInfo={(info) => setButtonClickedInfo(info)}
+                                onProcessingChange={(processing) => setProcessing(processing)}
+                                selectedProduct={selectedProduct}
+                                currentProduct={currentProduct}
                         />
                         <div className='background-svg'>
                             <BackgroundSvg/>

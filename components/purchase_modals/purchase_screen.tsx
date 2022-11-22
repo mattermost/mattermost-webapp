@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Invoice, Product} from '@mattermost/types/cloud';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -18,7 +18,7 @@ import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 import {useSelector} from 'react-redux';
 import {getCloudContactUsLink, InquiryType, isCloudDelinquencyGreaterThan90Days as isDelinquentMoreThan90Days} from 'selectors/cloud';
 import {areBillingDetailsValid, BillingDetails} from 'types/cloud/sku';
-import Constants, {BillingSchemes, CloudLinks, CloudProducts, ModalIdentifiers, TELEMETRY_CATEGORIES} from 'utils/constants';
+import Constants, {BillingSchemes, CloudLinks, CloudProducts, ModalIdentifiers, SelfHostedProducts, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {getNextBillingDate, localizeMessage} from 'utils/utils';
 import './purchase.scss';
 
@@ -71,7 +71,9 @@ type PurchaseScreenProps = {
     callerCTA?: string
     currentProduct?: Product | null;
     selectedProduct?: Product | null;
-    setBillingDetauls: (billing: BillingDetails) => void
+    setBillingDetails: (billing: BillingDetails) => void
+    setButtonClickedInfo: (info: string) => void;
+    onProcessingChange: (processing: boolean) => void;
 }
 
 function Card(props: CardProps) {
@@ -424,21 +426,25 @@ function PurchaseScreen(props: PurchaseScreenProps) {
     const customer = useSelector(getCloudCustomer)
     const [processing, setProcessing] = useState(false);
     const [paymentInfoIsValid, setPaymentInfoIsValid] = useState(false);
-    const [buttonClickedInfo, setButtonClickedInfo] = useState('');
     const [cardInputComplete, setCardInputComplete] = useState(false);
     const [billingDetails, setBillingDetauls] = useState<BillingDetails>();
+
+    useEffect(() => {
+        props.onProcessingChange(processing)
+    }, [processing])
+
 
     const handleSubmitClick = async () => {
         const callerInfo = props.callerCTA + '> purchase_modal > upgrade_button_click';
         setProcessing(true);
         setPaymentInfoIsValid(false);
-        setButtonClickedInfo(callerInfo);
+        props.setButtonClickedInfo(callerInfo);
     }
 
     const onPaymentInput = (billing: BillingDetails) => {
         setPaymentInfoIsValid(areBillingDetailsValid(billing) && cardInputComplete);
         setBillingDetauls(billing);
-        props.setBillingDetauls(billing);
+        props.setBillingDetails(billing);
     }
     
     const handleCardInputChange = (event: StripeCardElementChangeEvent) => {
@@ -458,7 +464,7 @@ function PurchaseScreen(props: PurchaseScreenProps) {
 
     const showPlanLabel =
                 props.selectedProduct?.sku ===
-                CloudProducts.PROFESSIONAL;
+                CloudProducts.PROFESSIONAL || props.selectedProduct?.sku === SelfHostedProducts.PROFESSIONAL;
 
     let initialBillingDetails;
     let validBillingDetails = false;
@@ -529,7 +535,7 @@ function PurchaseScreen(props: PurchaseScreenProps) {
                     isFreeTrial={isFreeTrial}
                     intl={props.intl}
                     currentProduct={props.currentProduct}
-                    selectedProduct={props.currentProduct}
+                    selectedProduct={props.selectedProduct}
                 />
             </div>
         </div>

@@ -268,9 +268,11 @@ class CloudPurchaseModal extends React.PureComponent<Props, State> {
                                 </div>
                             ) : null}
                             <PurchaseScreen
-                                callerCTA={this.props.callerCTA}
-                                setBillingDetauls={(billing) => this.setState({billingDetails: billing})}
                                 theme={this.props.theme}
+                                callerCTA={this.props.callerCTA}
+                                setButtonClickedInfo={(info) => this.setState({buttonClickedInfo: info})}
+                                setBillingDetails={(billing) => this.setState({billingDetails: billing})}
+                                onProcessingChange={(processing) => this.setState({processing: processing})}
                             />
                             <div className='background-svg'>
                                 <BackgroundSvg/>
