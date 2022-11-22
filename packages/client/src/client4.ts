@@ -2350,7 +2350,7 @@ export default class Client4 {
         this.trackEvent('api', 'api_posts_unack');
 
         return this.doFetch<null>(
-            `${this.getPostRoute(postId)}/ack?user_id=${userId}`,
+            `${this.getPostRoute(postId)}/ack/${userId}`,
             {method: 'delete'},
         );
     };
