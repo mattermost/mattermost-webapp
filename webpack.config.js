@@ -5,6 +5,7 @@
 
 const childProcess = require('child_process');
 const http = require('http');
+const https = require('https');
 const path = require('path');
 
 const url = require('url');
@@ -428,8 +429,14 @@ async function initializeModuleFederation() {
                 return;
             }
 
-            const req = http.request(`${baseUrl}/remote_entry.js`, (response) => {
+            const requestModule = baseUrl.startsWith('https:') ? https : http;
+            const req = requestModule.request(`${baseUrl}/remote_entry.js`, (response) => {
                 return resolve(response.statusCode === 200);
+            });
+
+            req.setTimeout(100, () => {
+                // If this times out, we've connected to the dev server even if it's not ready yet
+                resolve(true);
             });
 
             req.on('error', () => {
@@ -457,6 +464,9 @@ async function initializeModuleFederation() {
                 aliases: {},
             };
         }
+
+        // Wait a second for product dev servers to start up if they were started at the same time as this one
+        await new Promise((resolve) => setTimeout(resolve, 1000));
 
         // For development, identify which product dev servers are available
         const productsFound = await Promise.all(products.map((product) => isWebpackDevServerAvailable(product.baseUrl)));
@@ -486,8 +496,8 @@ async function initializeModuleFederation() {
 
     const {remotes, aliases} = await getRemoteContainers();
 
-    config.plugins.push(new ModuleFederationPlugin({
-        name: 'mattermost-webapp',
+    const moduleFederationPluginOptions = {
+        name: 'mattermost_webapp',
         remotes,
         shared: [
 
@@ -504,7 +514,9 @@ async function initializeModuleFederation() {
 
             // Other containers will be forced to use the exact versions of shared modules that the web app provides.
             makeSingletonSharedModules([
+                'history',
                 'react',
+                'react-beautiful-dnd',
                 'react-bootstrap',
                 'react-dom',
                 'react-intl',
@@ -512,7 +524,18 @@ async function initializeModuleFederation() {
                 'react-router-dom',
             ]),
         ],
-    }));
+    };
+
+    // Desktop specific code for remote module loading
+    moduleFederationPluginOptions.exposes = {
+        './app': 'components/app.jsx',
+        './store': 'stores/redux_store.jsx',
+        './styles': './sass/styles.scss',
+        './registry': 'module_registry',
+    };
+    moduleFederationPluginOptions.filename = 'remote_entry.js';
+
+    config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 
     // Add this plugin to perform the substitution of window.basename when loading remote containers
     config.plugins.push(new ExternalTemplateRemotesPlugin());

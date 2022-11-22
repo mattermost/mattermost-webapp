@@ -66,5 +66,6 @@ export default function UserUpdateActiveSessionRow({
             showUserId={showUserId}
             showIp={showIp}
             showSession={showSession}
-        />);
+        />
+    );
 }
