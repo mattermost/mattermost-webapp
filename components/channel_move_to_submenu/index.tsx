@@ -37,7 +37,7 @@ type Props = {
     inSidebar?: boolean;
 };
 
-const CategoryMenuItems = (props: Props) => {
+const ChannelMoveToSubmenu = (props: Props) => {
     const {formatMessage} = useIntl();
 
     const dispatch = useDispatch<DispatchFunc>();
@@ -143,4 +143,4 @@ const CategoryMenuItems = (props: Props) => {
     );
 };
 
-export default CategoryMenuItems;
+export default ChannelMoveToSubmenu;
