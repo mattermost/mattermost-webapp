@@ -2208,7 +2208,6 @@
   "analytics.system.totalReadDbConnections": "Conectiuni Replica DB",
   "analytics.system.totalSessions": "Sesiuni totale",
   "analytics.system.totalTeams": "Total echipe",
-  "analytics.system.totalUsers": "Total utilizatori activi",
   "analytics.system.totalWebsockets": "Conectiuni WebSocket",
   "analytics.team.activeUsers": "Utilizatori activi cu postări",
   "analytics.team.newlyCreated": "Utilizatori nou create",
