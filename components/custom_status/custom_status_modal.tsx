@@ -102,6 +102,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
     const customStatusExpired = useSelector((state: GlobalState) => isCustomStatusExpired(state, currentCustomStatus));
     const recentCustomStatuses = useSelector(getRecentCustomStatuses);
     const customStatusControlRef = useRef<HTMLDivElement>(null);
+    const emojiButtonRef = useRef<HTMLButtonElement>(null);
     const {formatMessage} = useIntl();
     const isCurrentCustomStatusSet = !customStatusExpired && (currentCustomStatus?.text || currentCustomStatus?.emoji);
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
@@ -185,10 +186,15 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     const handleEmojiClose = () => setShowEmojiPicker(false);
 
+    const handleEmojiExited = () => {
+        emojiButtonRef.current?.focus();
+    };
+
     const handleEmojiClick = (selectedEmoji: Emoji) => {
         setShowEmojiPicker(false);
         const emojiName = ('short_name' in selectedEmoji) ? selectedEmoji.short_name : selectedEmoji.name;
         setEmoji(emojiName);
+        emojiButtonRef.current?.focus();
     };
 
     const toggleEmojiPicker = (e?: React.MouseEvent<HTMLButtonElement, MouseEvent>): void => {
@@ -306,6 +312,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
 
     return (
         <GenericModal
+            enforceFocus={false}
             onExited={props.onExited}
             modalHeaderText={
                 <FormattedMessage
@@ -333,6 +340,7 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
             handleCancel={handleClearStatus}
             confirmButtonClassName='btn btn-primary'
             ariaLabel={localizeMessage('custom_status.set_status', 'Set a status')}
+            tabIndex={-1}
         >
             <div className='StatusModal__body'>
                 <div className='StatusModal__input'>
@@ -350,11 +358,13 @@ const CustomStatusModal: React.FC<Props> = (props: Props) => {
                                 leftOffset={3}
                                 topOffset={3}
                                 defaultHorizontalPosition='right'
+                                onExited={handleEmojiExited}
                             />
                         )}
                         <button
                             type='button'
                             onClick={toggleEmojiPicker}
+                            ref={emojiButtonRef}
                             className={classNames('emoji-picker__container', 'StatusModal__emoji-button', {
                                 'StatusModal__emoji-button--active': showEmojiPicker,
                             })}

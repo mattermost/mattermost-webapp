@@ -147,6 +147,13 @@ export class GenericModal extends React.PureComponent<Props, State> {
             </div>
         );
 
+        const tabCatcher = (
+            <span
+                tabIndex={0}
+                onFocus={(e) => (e.relatedTarget as HTMLElement).focus()}
+            />
+        );
+
         return (
             <Modal
                 dialogClassName={classNames('a11y__modal GenericModal', {GenericModal__compassDesign: this.props.compassDesign}, this.props.className)}
@@ -191,6 +198,7 @@ export class GenericModal extends React.PureComponent<Props, State> {
                         {confirmButton}
                     </Modal.Footer>}
                 </div>
+                {tabCatcher}
             </Modal>
         );
     }

@@ -26,6 +26,7 @@ type Props = {
     spaceRequiredBelow?: number;
     enableGifPicker?: boolean;
     defaultHorizontalPosition?: 'left' | 'right';
+    onExited?: () => void;
 }
 
 export default class EmojiPickerOverlay extends React.PureComponent<Props> {
@@ -92,6 +93,7 @@ export default class EmojiPickerOverlay extends React.PureComponent<Props> {
                 onHide={this.props.onHide}
                 target={target}
                 animation={false}
+                onExited={this.props?.onExited}
             >
                 <EmojiPickerTabs
                     enableGifPicker={this.props.enableGifPicker}
