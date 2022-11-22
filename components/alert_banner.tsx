@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback} from 'react';
+import React, {useCallback, useState} from 'react';
 import classNames from 'classnames';
 
 import {useIntl} from 'react-intl';
@@ -48,24 +48,23 @@ const AlertBanner = ({
     children,
 }: AlertBannerProps) => {
     const {formatMessage} = useIntl();
+    const [tooltipId] = useState(`alert_banner_close_btn_tooltip_${Math.random()}`);
+
     const bannerIcon = useCallback(() => {
         if (mode === 'danger' || mode === 'warning') {
             return (
                 <AlertOutlineIcon
                     size={24}
-                    color={'currentColor'}
                 />);
         } else if (mode === 'success') {
             return (
                 <CheckIcon
                     size={24}
-                    color={'currentColor'}
                 />);
         }
         return (
             <InformationOutlineIcon
                 size={24}
-                color={'currentColor'}
             />);
     }, [mode]);
 
@@ -108,7 +107,7 @@ const AlertBanner = ({
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='left'
                     overlay={closeBtnTooltip || (
-                        <Tooltip id='alert_banner_close_btn_tooltip'>
+                        <Tooltip id={tooltipId}>
                             {formatMessage({id: 'alert_banner.tooltipCloseBtn', defaultMessage: 'Close'})}
                         </Tooltip>
                     )}
@@ -119,7 +118,6 @@ const AlertBanner = ({
                     >
                         <CloseIcon
                             size={18}
-                            color={'currentColor'}
                         />
                     </button>
                 </OverlayTrigger>
