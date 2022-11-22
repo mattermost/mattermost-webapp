@@ -59,7 +59,7 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
             <PlanUpgradeButton/>
             <button
                 onClick={() => {
-                    openSelfHostedPurchaseModal({});
+                    openSelfHostedPurchaseModal({productId: 'prod_K3evf2gg2LIzrD'});
                 }}
             >
                 {'paid self hosted'}

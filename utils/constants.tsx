@@ -468,6 +468,12 @@ export const CloudProducts = {
     LEGACY: 'cloud-legacy',
 };
 
+export const SelfHostedProducts = {
+    STARTER: 'starter',
+    PROFESSIONAL: 'professional',
+    ENTERPRISE: 'enterprise',
+};
+
 export const PaidFeatures = {
     GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
     CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',

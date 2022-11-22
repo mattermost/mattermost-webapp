@@ -24,11 +24,13 @@ import {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
+    CreateSubscriptionRequest,
+} from '@mattermost/types/cloud';
+import {
     SelfHostedSignupForm,
     SelfHostedSignupCustomerResponse,
-    CreateSubscriptionRequest,
     SelfHostedSignupProgress,
-} from '@mattermost/types/cloud';
+} from '@mattermost/types/hosted_customer';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3871,6 +3873,7 @@ export default class Client4 {
 
     bootstrapSelfHostedSignup = (reset?: boolean) => {
         let query = '';
+
         // reset will drop the old token
         if (reset) {
             query = '?reset=true';
@@ -3880,6 +3883,19 @@ export default class Client4 {
             {method: 'post'},
         );
     };
+
+    getAvailabilitySelfHostedSignup = () => {
+        return this.doFetch<void>(
+            `${this.getHostedCustomerRoute()}/signup_available`,
+            {method: 'get'},
+        );
+    }
+
+    getSelfHostedProducts = () => {
+        return this.doFetch<Product[]>(
+            `${this.getCloudRoute()}/products/selfhosted`, {method: 'get'},
+        );
+    }
 
     createCustomerSelfHostedSignup = (form: SelfHostedSignupForm) => {
         return this.doFetch<SelfHostedSignupCustomerResponse>(

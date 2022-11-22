@@ -4,9 +4,6 @@
 import {Stripe} from '@stripe/stripe-js';
 import {getCode} from 'country-list';
 
-import {CreateSubscriptionRequest, SelfHostedSignupProgress} from '@mattermost/types/cloud';
-import {ValueOf} from '@mattermost/types/utilities';
-
 import {Client4} from 'mattermost-redux/client';
 import {ActionFunc, DispatchFunc} from 'mattermost-redux/types/actions';
 
@@ -16,89 +13,6 @@ import {trackEvent} from 'actions/telemetry_actions.jsx';
 
 import {StripeSetupIntent, BillingDetails} from 'types/cloud/sku';
 import {CloudTypes} from 'mattermost-redux/action_types';
-
-function selfHostedNeedsConfirmation(progress: ValueOf<typeof SelfHostedSignupProgress>): boolean {
-    switch (progress) {
-    case SelfHostedSignupProgress.START:
-    case SelfHostedSignupProgress.CREATED_CUSTOMER:
-    case SelfHostedSignupProgress.CREATED_INTENT:
-        return true;
-    default:
-        return false;
-    }
-}
-
-export function confirmSelfHostedSignup(
-    stripe: Stripe,
-    stripeSetupIntent: StripeSetupIntent,
-    isDevMode: boolean,
-    billingDetails: BillingDetails,
-    initialProgress: ValueOf<typeof SelfHostedSignupProgress>,
-    subscriptionRequest: CreateSubscriptionRequest,
-): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const cardSetupFunction = getConfirmCardSetup(isDevMode);
-        const confirmCardSetup = cardSetupFunction(stripe.confirmCardSetup);
-
-        const shouldConfirmCard = selfHostedNeedsConfirmation(initialProgress);
-        if (shouldConfirmCard) {
-            const result = await confirmCardSetup(
-                stripeSetupIntent.client_secret,
-                {
-                    payment_method: {
-                        card: billingDetails.card,
-                        billing_details: {
-                            name: billingDetails.name,
-                            address: {
-                                line1: billingDetails.address,
-                                line2: billingDetails.address2,
-                                city: billingDetails.city,
-                                state: billingDetails.state,
-                                country: getCode(billingDetails.country),
-                                postal_code: billingDetails.postalCode,
-                            },
-                        },
-                    },
-                },
-            );
-            if (!result) {
-                return {data: false};
-            }
-
-            const {setupIntent, error: stripeError} = result;
-
-            if (stripeError) {
-                return {data: false};
-            }
-
-            if (setupIntent == null) {
-                return {data: false};
-            }
-
-            if (setupIntent.status !== 'succeeded') {
-                return {data: false};
-            }
-            dispatch({
-                type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
-                data: SelfHostedSignupProgress.CONFIRMED_INTENT,
-            });
-        }
-
-        try {
-            const result = await Client4.confirmSelfHostedSignup(stripeSetupIntent.id, subscriptionRequest);
-            dispatch({
-                type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
-                data: result.progress,
-            });
-        } catch (error) {
-            // eslint-disable-next-line no-console
-            console.error(error)
-            return {data: false};
-        }
-
-        return {data: true};
-    };
-}
 
 // Returns true for success, and false for any error
 export function completeStripeAddPaymentMethod(

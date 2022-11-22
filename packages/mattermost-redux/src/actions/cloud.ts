@@ -8,8 +8,6 @@ import {DispatchFunc, GetStateFunc, ActionFunc} from 'mattermost-redux/types/act
 import {
     Address,
     CloudCustomerPatch,
-    SelfHostedSignupForm,
-    SelfHostedSignupCustomerResponse,
 } from '@mattermost/types/cloud';
 
 import {getCloudErrors} from 'mattermost-redux/selectors/entities/cloud';

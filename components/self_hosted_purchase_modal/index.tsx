@@ -8,18 +8,18 @@ import {useIntl} from 'react-intl';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
-import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
+import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
-import {getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/cloud';
+import {getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
-import {CloudTypes} from 'mattermost-redux/action_types';
+import {HostedCustomerTypes} from 'mattermost-redux/action_types';
 import {DispatchFunc} from 'mattermost-redux/types/actions';
 
 import {trackEvent, pageVisited} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
-import {confirmSelfHostedSignup} from 'actions/cloud';
+import {confirmSelfHostedSignup} from 'actions/hosted_customer';
 
 import {GlobalState} from 'types/store';
 
@@ -207,19 +207,20 @@ function reducer(state: State, action: Action): State {
 
 function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgress>) {
     if (state.submitting) {
-        return false
+        return false;
     }
 
-    if (progress === SelfHostedSignupProgress.PAID
-         || progress === SelfHostedSignupProgress.CREATED_LICENSE
-         || progress === SelfHostedSignupProgress.CREATED_SUBSCRIPTION
+    if (progress === SelfHostedSignupProgress.PAID ||
+         progress === SelfHostedSignupProgress.CREATED_LICENSE ||
+         progress === SelfHostedSignupProgress.CREATED_SUBSCRIPTION
     ) {
         // in these cases, the server has all the data it needs, all it needs is resubmit.
-        return true
+        return true;
     }
 
     if (progress === SelfHostedSignupProgress.CONFIRMED_INTENT) {
         return Boolean(
+
             // address
             state.address &&
             state.city &&
@@ -230,18 +231,19 @@ function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgre
             // product/license
             state.seats &&
             state.organization &&
-            
+
             // legal
-            state.agreedTerms
-        )
+            state.agreedTerms,
+        );
     }
 
     if (progress === SelfHostedSignupProgress.START) {
         return Boolean(
+
             // card
             state.cardName &&
             state.cardFilled &&
-                
+
             // address
             state.address &&
             state.city &&
@@ -252,16 +254,19 @@ function canSubmit(state: State, progress: ValueOf<typeof SelfHostedSignupProgre
             // product/license
             state.seats &&
             state.organization &&
-            
+
             // legal
-            state.agreedTerms
-        )
-    
+            state.agreedTerms,
+        );
     }
-    return true
+    return true;
 }
 
-export default function SelfHostedPurchaseModal() {
+interface Props {
+    productId: string;
+}
+
+export default function SelfHostedPurchaseModal(props: Props) {
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
     const progress = useSelector(getSelfHostedSignupProgress);
     const user = useSelector(getCurrentUser);
@@ -310,7 +315,7 @@ export default function SelfHostedPurchaseModal() {
         });
         if (progress === SelfHostedSignupProgress.START || progress === SelfHostedSignupProgress.CREATED_CUSTOMER) {
             reduxDispatch({
-                type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
                 data: signupCustomerResult.progress,
 
             });
@@ -318,11 +323,18 @@ export default function SelfHostedPurchaseModal() {
         }
         const isDevMode = false;
         if (stripeRef.current === null) {
-            setStripeLoadHint(Math.random())
+            setStripeLoadHint(Math.random());
             dispatch({type: 'update_submitting', data: false});
             return;
         }
         try {
+            const card = cardRef.current?.getCard();
+            if (!card) {
+                const message = 'Failed to get card when it was expected';
+                // eslint-disable-next-line no-console
+                console.error(message);
+                throw new Error(message);
+            }
             const finished = await reduxDispatch(confirmSelfHostedSignup(
                 stripeRef.current,
                 {
@@ -338,40 +350,40 @@ export default function SelfHostedPurchaseModal() {
                     country: state.country,
                     postalCode: state.postalCode,
                     name: state.cardName,
-                    card: cardRef.current?.getCard()!,
+                    card,
                 },
                 submitProgress,
                 {
-                    product_id: 'prod_K3evf2gg2LIzrD',
+                    product_id: props.productId,
                     add_ons: [],
-                    seats: Math.max(state.seats,200),
+                    seats: Math.max(state.seats, 200),
                 },
             ));
             if (finished.data) {
-                (function() {console.log('redirect to license page or something. data:', finished.data);})()
-                dispatch({type: 'succeeded'})
+                // eslint-disable-next-line
+                console.log('redirect to license page or something. data:', finished.data);
+                dispatch({type: 'succeeded'});
                 reduxDispatch({
-                    type: CloudTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
+                    type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
                     data: SelfHostedSignupProgress.CREATED_LICENSE,
-                })
+                });
             } else if (finished.error) {
                 dispatch({type: 'update_submitting', data: false});
-                
             }
             dispatch({type: 'update_submitting', data: false});
         } catch {
             dispatch({type: 'update_submitting', data: false});
         }
     }
-    const canSubmitForm = canSubmit(state, progress)
+    const canSubmitForm = canSubmit(state, progress);
 
     let buttonStep = 'Signup';
     let buttonAction: () => void = submit;
     if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
         buttonStep = 'Done';
-        buttonAction = function() {
-                        reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
-        }
+        buttonAction = function done() {
+            reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
+        };
     }
 
     return (
@@ -538,17 +550,17 @@ export default function SelfHostedPurchaseModal() {
                     </div>}
 
                     {progress !== SelfHostedSignupProgress.PAID && (
-                        <button 
+                        <button
                             onClick={() => {
-                                Client4.bootstrapSelfHostedSignup(true)
-                                    .then(() =>{
-                                         dispatch({type: 'start_over'});
-                                })
+                                Client4.bootstrapSelfHostedSignup(true).
+                                    then(() => {
+                                        dispatch({type: 'start_over'});
+                                    });
                             }}
                         >
                             {'start over'}
                         </button>
-                    )} 
+                    )}
                     <button
                         className=''
                         disabled={!canSubmitForm}
