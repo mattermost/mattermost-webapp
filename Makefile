@@ -47,8 +47,8 @@ ifeq ($(CI),false)
 	npm install
 else
 	# This runs in CI with NODE_ENV=production which doesn't install devDependencies without this flag
-	rm -rf node_modules
-	npm ci --include=dev --force
+	npm ci --include=dev
+
 endif
 
 	touch $@
