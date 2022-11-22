@@ -1015,7 +1015,6 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
               definitionKey="authentication.openid"
               key="authentication.openid"
               name="authentication/openid"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
@@ -1730,7 +1729,6 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
               definitionKey="authentication.openid"
               key="authentication.openid"
               name="authentication/openid"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
@@ -2500,7 +2498,6 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
               definitionKey="authentication.openid"
               key="authentication.openid"
               name="authentication/openid"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
@@ -3215,7 +3212,6 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
               definitionKey="authentication.openid"
               key="authentication.openid"
               name="authentication/openid"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
@@ -4905,7 +4901,6 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               definitionKey="authentication.openid"
               key="authentication.openid"
               name="authentication/openid"
-              tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="OpenID Connect"
