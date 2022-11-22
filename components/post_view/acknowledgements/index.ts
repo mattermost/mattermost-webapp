@@ -4,28 +4,35 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+import {getHasReactions, getPostAcknowledgementsWithProfiles} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
 
-import {PostAcknowledgement} from '@mattermost/types/posts';
+import {Post} from '@mattermost/types/posts';
 
 import PostAcknowledgements from './post_acknowledgements';
 
 type OwnProps = {
-    list: PostAcknowledgement[];
+    postId: Post['id'];
 };
 
 function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const currentUserId = getCurrentUserId(state);
-    const list = ownProps.list;
+    const hasReactions = getHasReactions(state, ownProps.postId);
+    const list = getPostAcknowledgementsWithProfiles(state, ownProps.postId);
 
-    let hasAcknowledged = false;
+    let acknowledgedAt = 0;
     if (list && list.length) {
-        hasAcknowledged = list.some((ack) => ack.user_id === currentUserId);
+        const ack = list.find((ack) => ack.user.id === currentUserId);
+        if (ack) {
+            acknowledgedAt = ack.acknowledgedAt;
+        }
     }
 
     return {
-        hasAcknowledged,
+        acknowledgedAt,
+        list,
+        hasReactions,
     };
 }
 

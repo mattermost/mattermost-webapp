@@ -580,7 +580,7 @@ if (targetIsDevServer) {
         ...config,
         devtool: 'eval-cheap-module-source-map',
         devServer: {
-            liveReload: true,
+            liveReload: false,
             proxy: [{
                 context: () => true,
                 bypass(req) {

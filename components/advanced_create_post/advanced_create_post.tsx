@@ -1395,23 +1395,25 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleRemovePriority = () => {
-        this.handlePostPriorityApply({priority: undefined, requested_ack: false});
+        this.handlePostPriorityApply();
     }
 
-    handlePostPriorityApply = (settings: Post['metadata']['priority']) => {
-        if (!settings || (!settings.priority && !settings?.requested_ack)) {
-            return;
-        }
-
+    handlePostPriorityApply = (settings?: Post['metadata']['priority']) => {
         const updatedDraft = {
             ...this.props.draft,
-            metadata: {
+        };
+
+        if (settings?.priority || settings?.requested_ack) {
+            updatedDraft.metadata = {
                 priority: {
                     ...settings,
-                    priority: settings?.priority || '',
+                    priority: settings!.priority || '',
+                    requested_ack: settings!.requested_ack,
                 },
-            },
-        };
+            };
+        } else {
+            updatedDraft.metadata = {};
+        }
 
         this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, updatedDraft);
         this.focusTextbox();
@@ -1537,7 +1539,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                         <Tooltip id='post-priority-picker-tooltip'>
                                             <FormattedMessage
                                                 id={'post_priority.remove'}
-                                                defaultMessage={'Remove {priority} label'}
+                                                defaultMessage={'Remove {priority}'}
                                                 values={{priority: this.props.draft.metadata!.priority!.priority}}
                                             />
                                         </Tooltip>
@@ -1552,7 +1554,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                         <span className='sr-only'>
                                             <FormattedMessage
                                                 id={'post_priority.remove'}
-                                                defaultMessage={'Remove {priority} label'}
+                                                defaultMessage={'Remove {priority}'}
                                                 values={{priority: this.props.draft.metadata!.priority!.priority}}
                                             />
                                         </span>

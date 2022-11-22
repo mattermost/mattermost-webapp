@@ -77,7 +77,7 @@ import type {
     MarketplaceApp,
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
-import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse} from '@mattermost/types/posts';
+import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement} from '@mattermost/types/posts';
 import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -2336,6 +2336,24 @@ export default class Client4 {
             {method: 'get'},
         );
     }
+
+    acknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_ack');
+
+        return this.doFetch<PostAcknowledgement>(
+            `${this.getPostRoute(postId)}/ack`,
+            {method: 'post', body: JSON.stringify({user_id: userId})},
+        );
+    };
+
+    unacknowledgePost = (postId: string, userId: string) => {
+        this.trackEvent('api', 'api_posts_unack');
+
+        return this.doFetch<null>(
+            `${this.getPostRoute(postId)}/ack?user_id=${userId}`,
+            {method: 'delete'},
+        );
+    };
 
     // Preference Routes
 
