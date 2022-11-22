@@ -142,7 +142,7 @@
                     color: var(--dnd-indicator) !important;
                 }
 
-                &:hover {
+                &:is(:hover, :active, :focus) {
                     background-color: var(--dnd-indicator) !important;
                     color: var(--button-color);
 

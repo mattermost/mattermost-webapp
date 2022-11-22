@@ -25,7 +25,7 @@ fix-style: node_modules ## Fix JS file ESLint issues
 
 	npm run fix
 
-check-types: node_modules ## Checks TS file for TypeScript confirmity
+check-types: node_modules e2e/playwright/node_modules ## Checks TS file for TypeScript confirmity
 	@echo Checking for TypeScript compliance
 
 	npm run check-types
@@ -51,6 +51,10 @@ else
 endif
 
 	touch $@
+
+e2e/playwright/node_modules:
+	@echo Install Playwright and its dependencies
+	cd e2e/playwright && npm install
 
 build: node_modules ## Builds app
 	@echo Building Mattermost Web App

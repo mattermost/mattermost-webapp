@@ -15,9 +15,9 @@ import moment from 'moment-timezone';
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Profile', () => {
-    let siteName;
-    let testUser;
-    let offTopic;
+    let siteName: string;
+    let testUser: Cypress.UserProfile;
+    let offTopic: string;
 
     before(() => {
         cy.apiGetConfig().then(({config}) => {

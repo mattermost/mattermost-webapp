@@ -9,18 +9,19 @@ import {RelationOneToOne} from '@mattermost/types/utilities';
 import {General} from 'mattermost-redux/constants';
 import {Team} from '@mattermost/types/teams';
 import {UserProfile} from '@mattermost/types/users';
+import {ClientLicense} from '@mattermost/types/config';
 
 import LoadingScreen from 'components/loading_screen';
 
 import FormattedMarkdownMessage from 'components/formatted_markdown_message';
 
 import * as AdminActions from 'actions/admin_actions';
-import BrowserStore from 'stores/browser_store';
 import {StatTypes} from 'utils/constants';
 import Banner from 'components/admin_console/banner';
 import LineChart from 'components/analytics/line_chart';
 import StatisticCount from 'components/analytics/statistic_count';
 import TableChart from 'components/analytics/table_chart';
+import {ActivatedUserCard} from 'components/analytics/activated_users_card';
 
 import {getMonthLong} from 'utils/i18n';
 
@@ -45,6 +46,8 @@ type Props = {
      */
     locale: string;
 
+    license: ClientLicense;
+
     stats: RelationOneToOne<Team, Record<string, number | AnalyticsRow[]>>;
 
     actions: {
@@ -60,6 +63,11 @@ type Props = {
         getProfilesInTeam: (teamId: string, page: number, perPage?: number, sort?: string, options?: undefined) => Promise<{
             data?: UserProfile[];
         }>;
+
+        /*
+         * Function to set a key-value pair in the local storage
+         */
+        setGlobalItem: (name: string, value: string) => void;
     };
 };
 
@@ -132,7 +140,7 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
             team,
         });
 
-        BrowserStore.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
+        this.props.actions.setGlobalItem(LAST_ANALYTICS_TEAM, teamId);
     }
 
     public render(): JSX.Element {
@@ -302,16 +310,11 @@ export default class TeamAnalytics extends React.PureComponent<Props, State> {
                 <div className='admin-console__wrapper'>
                     <div className='admin-console__content'>
                         {banner}
-                        <div className='row'>
-                            <StatisticCount
-                                title={
-                                    <FormattedMessage
-                                        id='analytics.team.totalUsers'
-                                        defaultMessage='Total Activated Users'
-                                    />
-                                }
-                                icon='fa-users'
-                                count={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
+                        <div className='grid-statistics'>
+                            <ActivatedUserCard
+                                activatedUsers={this.getStatValue(stats[StatTypes.TOTAL_USERS])}
+                                seatsPurchased={parseInt(this.props.license.Users, 10)}
+                                isCloud={this.props.license.Cloud === 'true'}
                             />
                             <StatisticCount
                                 title={

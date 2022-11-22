@@ -22,6 +22,7 @@ describe('components/AdvancedCreateComment', () => {
         window.requestAnimationFrame.mockRestore();
     });
 
+    const currentTeamId = 'current-team-id';
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
@@ -29,6 +30,7 @@ describe('components/AdvancedCreateComment', () => {
 
     const baseProps = {
         channelId,
+        currentTeamId,
         currentUserId,
         rootId,
         rootDeleted: false,
@@ -52,6 +54,7 @@ describe('components/AdvancedCreateComment', () => {
         onEditLatestPost: jest.fn(),
         resetCreatePostRequest: jest.fn(),
         setShowPreview: jest.fn(),
+        searchAssociatedGroupsForReference: jest.fn(),
         shouldShowPreview: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
@@ -115,17 +118,51 @@ describe('components/AdvancedCreateComment', () => {
         expect(onResetHistoryIndex).toHaveBeenCalled();
 
         // should load channel member counts on mount
-        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call searchAssociatedGroupsForReference if there is one mention in the draft', () => {
+        const draft = {
+            message: '@group',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const searchAssociatedGroupsForReference = jest.fn();
+        const props = {...baseProps, draft, searchAssociatedGroupsForReference};
+
+        shallow(<AdvancedCreateComment {...props}/>);
+
+        expect(searchAssociatedGroupsForReference).toHaveBeenCalled();
+    });
+
+    test('should call getChannelMemberCountsByGroup if there is more than one mention in the draft', () => {
+        const draft = {
+            message: '@group @othergroup',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+        const getChannelMemberCountsByGroup = jest.fn();
+        const props = {...baseProps, draft, getChannelMemberCountsByGroup};
+
+        shallow(<AdvancedCreateComment {...props}/>);
+
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
     test('should not call getChannelMemberCountsByGroup, without group mentions permission or license', () => {
         const useLDAPGroupMentions = false;
         const useCustomGroupMentions = false;
+        const draft = {
+            message: '@group @othergroup',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
 
         const getChannelMemberCountsByGroup = jest.fn();
-        const props = {...baseProps, useLDAPGroupMentions, useCustomGroupMentions, getChannelMemberCountsByGroup};
+        const props = {...baseProps, useLDAPGroupMentions, useCustomGroupMentions, getChannelMemberCountsByGroup, draft};
 
         shallow(<AdvancedCreateComment {...props}/>);
 

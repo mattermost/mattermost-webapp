@@ -622,7 +622,7 @@ export default class PermissionTeamSchemeSettings extends React.PureComponent<Pr
                                             ),
                                             linkSystemScheme: (msg: React.ReactNode) => (
                                                 <a
-                                                    href='https://docs.mattermost.com/onboard/advanced-permissions.htm'
+                                                    href='https://mattermost.com/pl/advanced-permissions/'
                                                     target='_blank'
                                                     rel='noreferrer'
                                                 >

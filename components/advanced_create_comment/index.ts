@@ -23,6 +23,7 @@ import {resetCreatePostRequest, resetHistoryIndex} from 'mattermost-redux/action
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {Permissions, Preferences, Posts} from 'mattermost-redux/constants';
 import {getAssociatedGroupsForReferenceByMention} from 'mattermost-redux/selectors/entities/groups';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 
@@ -43,6 +44,7 @@ import {getPostDraft, getIsRhsExpanded, getSelectedPostFocussedAt} from 'selecto
 import {showPreviewOnCreateComment} from 'selectors/views/textbox';
 import {setShowPreviewOnCreateComment} from 'actions/views/textbox';
 import {openModal} from 'actions/views/modals';
+import {searchAssociatedGroupsForReference} from 'actions/views/group';
 
 import {getEmojiMap} from 'selectors/emojis';
 import {canUploadFiles} from 'utils/file_utils';
@@ -84,8 +86,10 @@ function makeMapStateToProps() {
         const channelMemberCountsByGroup = selectChannelMemberCountsByGroup(state, ownProps.channelId);
         const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, channel.team_id, channel.id) : null;
         const isFormattingBarHidden = getBool(state, Constants.Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.COMMENT);
+        const currentTeamId = getCurrentTeamId(state);
 
         return {
+            currentTeamId,
             draft,
             messageInHistory,
             channelMembersCount,
@@ -133,9 +137,10 @@ type Actions = {
     getChannelTimezones: (channelId: string) => Promise<ActionResult>;
     emitShortcutReactToLastPostFrom: (location: string) => void;
     setShowPreview: (showPreview: boolean) => void;
-    getChannelMemberCountsByGroup: (channelID: string) => void;
+    getChannelMemberCountsByGroup: (channelID: string, includeTimezones: boolean) => void;
     openModal: <P>(modalData: ModalData<P>) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
+    searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
 };
 
 function makeMapDispatchToProps() {
@@ -198,6 +203,7 @@ function makeMapDispatchToProps() {
                 getChannelMemberCountsByGroup,
                 openModal,
                 savePreferences,
+                searchAssociatedGroupsForReference,
             },
             dispatch,
         );
