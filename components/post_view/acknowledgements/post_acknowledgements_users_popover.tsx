@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useMemo} from 'react';
+import {FormattedMessage} from 'react-intl';
 import {useSelector} from 'react-redux';
 import styled from 'styled-components';
 
@@ -10,10 +11,12 @@ import Avatar from 'components/widgets/users/avatar';
 
 import {Client4} from 'mattermost-redux/client';
 import {makeGetDisplayName} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
+
+import {GlobalState} from 'types/store';
 
 import type {UserProfile} from '@mattermost/types/users';
 import type {PostAcknowledgement} from '@mattermost/types/posts';
-import {GlobalState} from 'types/store';
 
 type Props = {
     list: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
@@ -80,6 +83,10 @@ function Row({
             <Info>
                 <div>
                     {displayName}
+                    <FormattedMessage
+                        id={'post_priority.you.acknowledge'}
+                        defaultMessage={'(you)'}
+                    />
                 </div>
                 <Span>
                     <Timestamp value={acknowledgedAt}/>
@@ -92,7 +99,12 @@ function Row({
 export default function PostAcknowledgementsUserPopover({list}: Props) {
     return (
         <Popover>
-            <Title>{'Acknowledgements'}</Title>
+            <Title>
+                <FormattedMessage
+                    id={'post_priority.acknowledgements.title'}
+                    defaultMessage={'Acknowledgements'}
+                />
+            </Title>
             <Body>
                 {list.map((item) => (
                     <Row
