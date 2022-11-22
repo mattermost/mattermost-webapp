@@ -124,7 +124,7 @@ function PostPriorityPicker({
         } else if (type === PostPriority.URGENT) {
             setRequestedAck(true);
         }
-    }, [isProfessional]);
+    }, [onApply, onClose, isProfessional]);
 
     const handleAck = useCallback(() => {
         setRequestedAck(!requestedAck);
