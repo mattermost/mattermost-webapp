@@ -6,7 +6,9 @@
 .AcknowledgementButton {
     @include button-xsmall;
 
+    position: relative;
     display: flex;
+    min-width: 0;
     align-items: center;
     border: 0;
     background: rgba(var(--denim-status-online-rgb), 0.08);
@@ -14,12 +16,10 @@
     color: var(--denim-status-online);
     font-weight: 600;
     transition: all 0.15s ease-out;
-    position: relative;
-    min-width: 0;
 
     > svg {
-        fill: var(--denim-status-online);
         margin-right: 3px;
+        fill: var(--denim-status-online);
     }
 
     &:disabled {
@@ -40,8 +40,8 @@
         color: #fff;
 
         > svg {
-            fill: #fff;
             margin-right: 3px;
+            fill: #fff;
         }
 
         &:disabled {
@@ -50,8 +50,8 @@
             cursor: not-allowed;
 
             > svg {
-                fill: #fff;
                 margin-right: 3px;
+                fill: #fff;
             }
         }
 
@@ -66,8 +66,8 @@
 }
 
 .AcknowledgementButton__divider {
-    background: rgba(var(--center-channel-text-rgb), 0.08);
+    width: 1px;
     height: 24px;
     margin: 0 4px;
-    width: 1px;
+    background: rgba(var(--center-channel-text-rgb), 0.08);
 }
