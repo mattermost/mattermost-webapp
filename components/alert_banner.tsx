@@ -1,8 +1,20 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useCallback} from 'react';
 import classNames from 'classnames';
+
+import {useIntl} from 'react-intl';
+import {
+    AlertOutlineIcon,
+    CheckIcon,
+    CloseIcon,
+    InformationOutlineIcon,
+} from '@mattermost/compass-icons/components';
+
+import OverlayTrigger from 'components/overlay_trigger';
+import Tooltip from 'components/tooltip';
+import Constants from 'utils/constants';
 
 import './alert_banner.scss';
 
@@ -17,6 +29,7 @@ export type AlertBannerProps = {
     hideIcon?: boolean;
     actionButtonLeft?: React.ReactNode;
     actionButtonRight?: React.ReactNode;
+    closeBtnTooltip?: React.ReactNode;
     onDismiss?: () => void;
     variant?: 'sys' | 'app';
 }
@@ -30,57 +43,89 @@ const AlertBanner = ({
     onDismiss,
     actionButtonLeft,
     actionButtonRight,
+    closeBtnTooltip,
     hideIcon,
     children,
-}: AlertBannerProps) => (
-    <div
-        className={classNames(
-            'AlertBanner',
-            mode,
-            className,
-            `AlertBanner--${variant}`,
-        )}
-    >
-        {!hideIcon && (
-            <div className='AlertBanner__icon'>
-                <i
-                    className={classNames({
-                        'icon-alert-outline':
-                            mode === 'danger' || mode === 'warning',
-                        'icon-check': mode === 'success',
-                        'icon-alert-circle-outline': mode === 'info',
-                    })}
-                />
-            </div>
-        )}
-        <div className='AlertBanner__body'>
-            {title && <div className='AlertBanner__title'>{title}</div>}
-            {message && (
-                <div
-                    className={classNames({
-                        AlertBanner__message: Boolean(title),
-                    })}
-                >
-                    {message}
+}: AlertBannerProps) => {
+    const {formatMessage} = useIntl();
+    const bannerIcon = useCallback(() => {
+        if (mode === 'danger' || mode === 'warning') {
+            return (
+                <AlertOutlineIcon
+                    size={24}
+                    color={'currentColor'}
+                />);
+        } else if (mode === 'success') {
+            return (
+                <CheckIcon
+                    size={24}
+                    color={'currentColor'}
+                />);
+        }
+        return (
+            <InformationOutlineIcon
+                size={24}
+                color={'currentColor'}
+            />);
+    }, [mode]);
+
+    return (
+        <div
+            className={classNames(
+                'AlertBanner',
+                mode,
+                className,
+                `AlertBanner--${variant}`,
+            )}
+        >
+            {!hideIcon && (
+                <div className='AlertBanner__icon'>
+                    {bannerIcon()}
                 </div>
             )}
-            {children}
-            {(actionButtonLeft || actionButtonRight) && (
-                <div className='AlertBanner__actionButtons'>
-                    {actionButtonLeft}
-                    {actionButtonRight}
-                </div>
+            <div className='AlertBanner__body'>
+                {title && <div className='AlertBanner__title'>{title}</div>}
+                {message && (
+                    <div
+                        className={classNames({
+                            AlertBanner__message: Boolean(title),
+                        })}
+                    >
+                        {message}
+                    </div>
+                )}
+                {children}
+                {(actionButtonLeft || actionButtonRight) && (
+                    <div className='AlertBanner__actionButtons'>
+                        {actionButtonLeft}
+                        {actionButtonRight}
+                    </div>
+                )}
+            </div>
+            {onDismiss && (
+                <OverlayTrigger
+                    trigger={['hover', 'focus']}
+                    delayShow={Constants.OVERLAY_TIME_DELAY}
+                    placement='left'
+                    overlay={closeBtnTooltip || (
+                        <Tooltip id='alert_banner_close_btn_tooltip'>
+                            {formatMessage({id: 'alert_banner.tooltipCloseBtn', defaultMessage: 'Close'})}
+                        </Tooltip>
+                    )}
+                >
+                    <button
+                        className='AlertBanner__closeButton'
+                        onClick={onDismiss}
+                    >
+                        <CloseIcon
+                            size={18}
+                            color={'currentColor'}
+                        />
+                    </button>
+                </OverlayTrigger>
             )}
         </div>
-        {onDismiss && (
-            <button
-                className='AlertBanner__closeButton'
-                onClick={onDismiss}
-            >
-                <i className='icon-close'/>
-            </button>
-        )}
-    </div>
-);
+    );
+};
 
 export default AlertBanner;
