@@ -2142,7 +2142,6 @@
   "analytics.system.totalReadDbConnections": "Replica DB Conns",
   "analytics.system.totalSessions": "Total de Sessões",
   "analytics.system.totalTeams": "Total de Equipes",
-  "analytics.system.totalUsers": "Total Usuários Ativos",
   "analytics.system.totalWebsockets": "Conexão Websocket",
   "analytics.team.activeUsers": "Usuários Ativos Com Posts",
   "analytics.team.newlyCreated": "Novos Usuários Criados",

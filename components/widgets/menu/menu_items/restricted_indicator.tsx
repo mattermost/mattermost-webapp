@@ -18,11 +18,11 @@ import './restricted_indicator.scss';
 type RestrictedIndicatorProps = {
     useModal?: boolean;
     titleAdminPreTrial?: string;
-    messageAdminPreTrial?: string;
+    messageAdminPreTrial?: string | React.ReactNode;
     titleAdminPostTrial?: string;
-    messageAdminPostTrial?: string;
+    messageAdminPostTrial?: string | React.ReactNode;
     titleEndUser?: string;
-    messageEndUser?: string;
+    messageEndUser?: string | React.ReactNode;
     blocked?: boolean;
     tooltipTitle?: string;
     tooltipMessage?: string;
