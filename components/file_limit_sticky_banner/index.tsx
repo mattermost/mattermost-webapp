@@ -42,7 +42,7 @@ border: 1px solid #FFBC1F;
 border-radius: 4px;
 background: linear-gradient(0deg, rgba(255, 212, 112, 0.16), rgba(255, 212, 112, 0.16)), #FFFFFF;
 padding: 16px 17px;
-color: var(--center-channel-color);
+color: var(--center-channel-text);
 `;
 
 const CloseIcon = styled.button`
