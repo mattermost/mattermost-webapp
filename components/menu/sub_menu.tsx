@@ -58,7 +58,10 @@ export function SubMenu(props: Props) {
                     <div>
                         {props.anchorNode}
                     </div>
-                    <ArrowForwardIosIcon size={18}/>
+                    <ArrowForwardIosIcon
+                        size={16}
+                        color='currentColor'
+                    />
                 </>
             </MenuItemAnchor>
             <Menu

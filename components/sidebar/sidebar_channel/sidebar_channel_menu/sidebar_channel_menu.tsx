@@ -261,14 +261,19 @@ const SidebarChannelMenu = (props: Props) => {
 
     return (
         <Menu
-            tooltipId={`SidebarChannelTooltip-${props.channel.id}`}
+            tooltipId={`SidebarChannelMenuTooltip-${props.channel.id}`}
             tooltipClassName='hidden-xs'
             tooltipText={formatMessage({id: 'sidebar_left.sidebar_channel_menu.editChannel', defaultMessage: 'Channel options'})}
             anchorClassName='SidebarMenu_menuButton'
-            anchorAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
-            anchorNode={<DotsVerticalIcon/>}
+            anchorNode={
+                <DotsVerticalIcon
+                    size={16}
+                    color='currentColor'
+                />
+            }
+            anchorAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
             menuId={`SidebarChannelMenu-${props.channel.id}`}
-            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Channel Menu'})}
+            menuAriaLabel={formatMessage({id: 'sidebar_left.sidebar_channel_menu.dropdownAriaLabel', defaultMessage: 'Edit channel Menu'})}
         >
             {markAsReadUnreadMenuItem}
             {favoriteUnfavoriteMenuItem}
