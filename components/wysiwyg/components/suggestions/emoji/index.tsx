@@ -10,12 +10,14 @@ import {NodeViewWrapper, ReactNodeViewRenderer as renderReactNodeView} from '@ti
 
 import {WysiwygPluginNames} from 'utils/constants';
 
+import RenderEmoji from '../../../../emoji/render_emoji';
+
 /**
  * Here it would be possibly to return different components based on the type.
  * This can be useful if we want to have the profile overlay being available for user mentions, or the amount of people
  * getting notified by special mentions, etc.
  */
-const RenderedChannel = (props: NodeViewProps) => {
+const RenderedEmoji = (props: NodeViewProps) => {
     const {id, type, label} = props.node.attrs;
 
     return (
@@ -24,7 +26,7 @@ const RenderedChannel = (props: NodeViewProps) => {
             data-mention-id={id}
             data-mention-type={type}
         >
-            {':'}{label}{':'}
+            <RenderEmoji emojiName={label}/>
         </NodeViewWrapper>
     );
 };
@@ -33,7 +35,7 @@ const EmojiSuggestion = Mention.extend({
     name: WysiwygPluginNames.EMOJI_SUGGESTION,
 
     addNodeView() {
-        return renderReactNodeView(RenderedChannel);
+        return renderReactNodeView(RenderedEmoji);
     },
 
     addAttributes() {
