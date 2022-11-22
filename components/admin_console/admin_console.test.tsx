@@ -5,7 +5,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 
 import {Team} from '@mattermost/types/teams';
-import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 import {AdminConfig, ExperimentalSettings} from '@mattermost/types/config';
 
 import AdminDefinition from 'components/admin_console/admin_definition';
@@ -37,9 +36,6 @@ describe('components/AdminConsole', () => {
                 limitsLoaded: false,
             },
             errors: {},
-            selfHostedSignup: {
-                progress: SelfHostedSignupProgress.START,
-            },
         },
         buildEnterpriseReady: true,
         match: {

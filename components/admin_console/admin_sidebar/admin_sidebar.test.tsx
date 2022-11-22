@@ -5,7 +5,6 @@ import React from 'react';
 import {IntlShape} from 'react-intl';
 
 import {ExperimentalSettings, PluginSettings, SSOSettings, Office365Settings} from '@mattermost/types/config';
-import {SelfHostedSignupProgress} from '@mattermost/types/cloud';
 
 import {RESOURCE_KEYS} from 'mattermost-redux/constants/permissions_sysconsole';
 
@@ -94,9 +93,6 @@ describe('components/AdminSidebar', () => {
                 limits: {},
             },
             errors: {},
-            selfHostedSignup: {
-                progress: SelfHostedSignupProgress.START,
-            },
         },
         showTaskList: false,
     };
