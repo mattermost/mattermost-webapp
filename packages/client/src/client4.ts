@@ -9,7 +9,6 @@ import FormData from 'form-data';
 import {SystemSetting} from '@mattermost/types/general';
 import {ClusterInfo, AnalyticsRow, SchemaMigration} from '@mattermost/types/admin';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
-import type {ValueOf} from '@mattermost/types/utilities';
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';

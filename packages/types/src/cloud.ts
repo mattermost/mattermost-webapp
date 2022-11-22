@@ -19,9 +19,6 @@ export type CloudState = {
         invoices?: true;
         limits?: true;
     };
-    selfHostedSignup: {
-        progress: ValueOf<typeof SelfHostedSignupProgress>;
-    };
 }
 
 export type Subscription = {

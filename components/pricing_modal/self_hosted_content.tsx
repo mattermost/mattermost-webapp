@@ -13,6 +13,7 @@ import {trackEvent} from 'actions/telemetry_actions';
 import {closeModal} from 'actions/views/modals';
 import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 import {getLicense} from 'mattermost-redux/selectors/entities/general';
+import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
@@ -38,7 +39,7 @@ function SelfHostedContent(props: ContentProps) {
 
     const [products, productsLoaded] = useGetSelfHostedProducts();
     const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
-    const isSelfHostedPurchaseEnabled = false;
+    const isSelfHostedPurchaseEnabled = useSelector(getConfig)?.ServiceSettings?.SelfHostedFirstTimePurchase;
 
     useEffect(() => {
         dispatch(getPrevTrialLicense());

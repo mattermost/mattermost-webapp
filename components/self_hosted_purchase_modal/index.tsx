@@ -280,9 +280,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const modalRef = useRef();
     const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
 
-    // const billingDetails = selectBillingDetails(state, cardRef.current?.getCard()!);
-    // const checkBillingDetailsValid = () => areBillingDetailsValid(selectBillingDetails(state, cardRef.current?.getCard()!));
-
     const stripeRef = useLoadStripe(stripeLoadHint);
     const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE;
 
