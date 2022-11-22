@@ -65,4 +65,3 @@ export function isCurrentLicenseCloud(state: GlobalState): boolean {
     const license = getLicense(state);
     return license?.Cloud === 'true';
 }
-

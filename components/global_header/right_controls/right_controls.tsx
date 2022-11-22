@@ -15,7 +15,6 @@ import {
     CustomizeYourExperienceTour,
     useShowOnboardingTutorialStep,
 } from 'components/tours/onboarding_tour';
-import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
 import StatusDropdown from 'components/status_dropdown';
 import {OnboardingTourSteps, OnboardingTourStepsForGuestUsers} from 'components/tours';
 
@@ -27,6 +26,7 @@ import AtMentionsButton from './at_mentions_button/at_mentions_button';
 import SavedPostsButton from './saved_posts_button/saved_posts_button';
 import SettingsButton from './settings_button';
 import PlanUpgradeButton from './plan_upgrade_button';
+import SelfHostedPurchaseButton from './self_hosted_purchase_button';
 
 const RightControlsContainer = styled.div`
     display: flex;
@@ -51,19 +51,12 @@ const RightControls = ({productId = null}: Props): JSX.Element => {
 
     const showCustomizeTip = useShowOnboardingTutorialStep(tourStep);
 
-    const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
     return (
         <RightControlsContainer
             id={'RightControlsContainer'}
         >
             <PlanUpgradeButton/>
-            <button
-                onClick={() => {
-                    openSelfHostedPurchaseModal({productId: 'prod_K3evf2gg2LIzrD'});
-                }}
-            >
-                {'paid self hosted'}
-            </button>
+            <SelfHostedPurchaseButton/>
             {isChannels(productId) ? (
                 <>
                     <AtMentionsButton/>

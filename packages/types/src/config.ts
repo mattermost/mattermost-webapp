@@ -354,6 +354,7 @@ export type ServiceSettings = {
     DebugSplit: boolean;
     ManagedResourcePaths: string;
     EnableCustomGroups: boolean;
+    SelfHostedFirstTimePurchase: boolean;
 };
 
 export type TeamSettings = {
