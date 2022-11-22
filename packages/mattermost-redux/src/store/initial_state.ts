@@ -77,6 +77,7 @@ const state: GlobalState = {
                 },
             },
             limitedViews: zeroStateLimitedViews,
+            acknowledgements: {},
         },
         threads: {
             threadsInTeam: {},

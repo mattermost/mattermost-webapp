@@ -75,7 +75,6 @@ export type Post = {
     edit_at: number;
     delete_at: number;
     is_pinned: boolean;
-    has_reactions: boolean;
     user_id: string;
     channel_id: string;
     root_id: string;

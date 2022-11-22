@@ -7,9 +7,9 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-import {isProfessionalOrEnterprise} from 'mattermost-redux/selectors/entities/general';
-
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
+
+import {isProfessionalOrEnterprise} from 'mattermost-redux/selectors/entities/general';
 
 import Badge from 'components/widgets/badges/badge';
 
