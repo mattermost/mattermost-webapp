@@ -495,8 +495,8 @@ async function initializeModuleFederation() {
 
     const {remotes, aliases} = await getRemoteContainers();
 
-    config.plugins.push(new ModuleFederationPlugin({
-        name: 'mattermost-webapp',
+    const moduleFederationPluginOptions = {
+        name: 'mattermost_webapp',
         remotes,
         shared: [
 
@@ -513,7 +513,9 @@ async function initializeModuleFederation() {
 
             // Other containers will be forced to use the exact versions of shared modules that the web app provides.
             makeSingletonSharedModules([
+                'history',
                 'react',
+                'react-beautiful-dnd',
                 'react-bootstrap',
                 'react-dom',
                 'react-intl',
@@ -521,7 +523,18 @@ async function initializeModuleFederation() {
                 'react-router-dom',
             ]),
         ],
-    }));
+    };
+
+    // Desktop specific code for remote module loading
+    moduleFederationPluginOptions.exposes = {
+        './app': 'components/app.jsx',
+        './store': 'stores/redux_store.jsx',
+        './styles': './sass/styles.scss',
+        './registry': 'module_registry',
+    };
+    moduleFederationPluginOptions.filename = 'remote_entry.js';
+
+    config.plugins.push(new ModuleFederationPlugin(moduleFederationPluginOptions));
 
     // Add this plugin to perform the substitution of window.basename when loading remote containers
     config.plugins.push(new ExternalTemplateRemotesPlugin());
