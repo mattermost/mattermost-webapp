@@ -314,12 +314,16 @@ export default function ChannelNotificationsModal(props: Props) {
                     content={MuteIgnoreSectionContent}
                 />
                 {settingsAndAlertBanner}
-                <div className='channel-notifications-settings-modal__divider'/>
-                <SectionCreator
-                    title={AutoFollowThreadsTitle}
-                    description={AutoFollowThreadsDesc}
-                    content={AutoFollowThreadsSectionContent}
-                />
+                {props.collapsedReplyThreads &&
+                    <>
+                        <div className='channel-notifications-settings-modal__divider'/>
+                        <SectionCreator
+                            title={AutoFollowThreadsTitle}
+                            description={AutoFollowThreadsDesc}
+                            content={AutoFollowThreadsSectionContent}
+                        />
+                    </>
+                }
             </main>
             <footer className='channel-notifications-settings-modal__footer'>
                 {serverError &&
