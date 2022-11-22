@@ -19,8 +19,10 @@ import MenuWrapper from 'components/widgets/menu/menu_wrapper';
 import MainMenu from 'components/main_menu';
 import AddChannelDropdown from 'components/sidebar/add_channel_dropdown';
 import {isAddChannelDropdownOpen} from 'selectors/views/add_channel_dropdown';
-import {OnboardingTourSteps, useShowOnboardingTutorialStep} from 'components/onboarding_tour';
-import {setAddChannelDropdown} from '../../../actions/views/add_channel_dropdown';
+import {useShowOnboardingTutorialStep} from 'components/tours/onboarding_tour';
+import {OnboardingTourSteps} from 'components/tours';
+
+import {setAddChannelDropdown} from 'actions/views/add_channel_dropdown';
 
 type SidebarHeaderContainerProps = {
     id?: string;
@@ -119,6 +121,7 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                 id={'sidebar-header-container'}
             >
                 <OverlayTrigger
+
                     delayShow={Constants.OVERLAY_TIME_DELAY}
                     placement='bottom'
                     overlay={currentTeam.description?.length ? (
@@ -130,8 +133,10 @@ const SidebarHeader: React.FC<Props> = (props: Props): JSX.Element => {
                         className='SidebarHeaderMenuWrapper test-team-header'
                     >
                         <SidebarHeading>
-                            <span className='title'>{currentTeam.display_name}</span>
-                            <i className='icon icon-chevron-down'/>
+                            <button className='style--none sidebar-header'>
+                                <span className='title'>{currentTeam.display_name}</span>
+                                <i className='icon icon-chevron-down'/>
+                            </button>
                         </SidebarHeading>
                         <MainMenu
                             id='sidebarDropdownMenu'
