@@ -1,34 +1,137 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
-import styled from 'styled-components';
+import React, {memo, useState} from 'react';
+import {FormattedMessage} from 'react-intl';
+import classNames from 'classnames';
+import {useDispatch} from 'react-redux';
+import {
+    useFloating,
+    autoUpdate,
+    offset,
+    flip,
+    shift,
+    useHover,
+    useRole,
+    useInteractions,
+    safePolygon,
+    FloatingFocusManager,
+    useId,
+} from '@floating-ui/react-dom-interactions';
 
-import {PostAcknowledgement} from '@mattermost/types/posts';
+import {CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
-import AcknowledgementButton from './post_acknowledgement_button';
+import {acknowledgePost, unacknowledgePost} from 'mattermost-redux/actions/posts';
+
+import {Post, PostAcknowledgement} from '@mattermost/types/posts';
+import {UserProfile} from '@mattermost/types/users';
+
+import PostAcknowledgementsUserPopover from './post_acknowledgements_users_popover';
+
+import './post_acknowledgements.scss';
 
 type Props = {
-    list: PostAcknowledgement[];
-    hasAcknowledged: boolean;
+    acknowledgedAt: number;
     hasReactions: boolean;
+    list?: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
+    postId: Post['id'];
 }
 
-const Divider = styled.div`
-    background: rgba(var(--center-channel-text-rgb), 0.08);
-    height: 24px;
-    margin: 0 4px;
-    width: 1px;
-`;
+function moreThan5minAgo(time: number) {
+    const now = new Date().getTime();
+    return now - time > 5 * 60 * 1000;
+}
 
-function PostAcknowledgements({list, hasAcknowledged, hasReactions}: Props) {
+function PostAcknowledgements({
+    acknowledgedAt,
+    hasReactions,
+    list,
+    postId,
+}: Props) {
+    const dispatch = useDispatch();
+    const [open, setOpen] = useState(false);
+
+    const {x, y, reference, floating, strategy, context} = useFloating({
+        open,
+        onOpenChange: setOpen,
+        placement: 'top-start',
+        whileElementsMounted: autoUpdate,
+        middleware: [
+            offset(5),
+            flip({fallbackPlacements: ['bottom', 'right'], padding: 5}),
+            shift(),
+        ],
+    });
+
+    const headingId = useId();
+
+    const {getReferenceProps, getFloatingProps} = useInteractions([
+        useHover(context, {
+            handleClose: safePolygon(),
+        }),
+        useRole(context),
+    ]);
+
+    const handleClick = () => {
+        if (acknowledgedAt) {
+            dispatch(unacknowledgePost(postId));
+        } else {
+            dispatch(acknowledgePost(postId));
+        }
+    };
+
+    const button = (
+        <button
+            ref={reference}
+            onClick={handleClick}
+            disabled={Boolean(acknowledgedAt) && moreThan5minAgo(acknowledgedAt)}
+            className={classNames({
+                AcknowledgementButton: true,
+                'AcknowledgementButton--acked': Boolean(acknowledgedAt),
+            })}
+            {...getReferenceProps()}
+        >
+            <>
+                <CheckCircleOutlineIcon size={16}/>
+                {(list && list.length > 0) ? list!.length : (
+                    <FormattedMessage
+                        id={'post_priority.button.acknowledge'}
+                        defaultMessage={'Acknowledge'}
+                    />
+                )}
+            </>
+        </button>
+    );
+
+    if (!list || !list.length) {
+        return button;
+    }
+
     return (
         <>
-            <AcknowledgementButton
-                count={list?.length || 0}
-                hasAcknowledged={hasAcknowledged}
-            />
-            {hasReactions && <Divider/>}
+            {button}
+            {open && (
+                <FloatingFocusManager
+                    context={context}
+                    modal={false}
+                >
+                    <div
+                        ref={floating}
+                        style={{
+                            position: strategy,
+                            top: y ?? 0,
+                            left: x ?? 0,
+                            width: 248,
+                            zIndex: 999,
+                        }}
+                        aria-labelledby={headingId}
+                        {...getFloatingProps()}
+                    >
+                        <PostAcknowledgementsUserPopover list={list}/>
+                    </div>
+                </FloatingFocusManager>
+            )}
+            {hasReactions && <div className='AcknowledgementButton__divider'/>}
         </>
     );
 }

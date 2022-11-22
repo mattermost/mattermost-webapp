@@ -222,8 +222,8 @@ export default class PostBody extends React.PureComponent<Props, State> {
                     <div className='post__body-reactions-acks'>
                         {post.metadata?.priority?.requested_ack && (
                             <PostAcknowledgements
-                                list={post.metadata.acknowledgements}
-                                hasReactions={post.has_reactions}
+                                createAt={post.create_at}
+                                postId={post.id}
                             />
                         )}
                         <ReactionList post={post}/>

@@ -99,7 +99,7 @@ function PostPriorityPicker({
 }: Props) {
     const {formatMessage} = useIntl();
     const [priority, setPriority] = useState<PostPriority|''>(settings?.priority || '');
-    const [requestedAck, setRequestedAck] = useState<boolean>(settings?.requested_ack || settings?.priority === PostPriority.URGENT || false);
+    const [requestedAck, setRequestedAck] = useState<boolean>(settings?.requested_ack || false);
 
     const ref = useRef<HTMLDivElement>(null);
 
@@ -172,7 +172,7 @@ function PostPriorityPicker({
                         <MenuItem
                             id='menu-item-priority-standard'
                             onClick={makeOnSelectPriority()}
-                            isSelected={priority === undefined}
+                            isSelected={!priority}
                             icon={<StandardIcon size={18}/>}
                             text={formatMessage({
                                 id: 'post_priority.priority.standard',
