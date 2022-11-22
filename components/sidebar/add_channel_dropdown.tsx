@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useState, useEffect} from 'react';
+import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {trackEvent} from 'actions/telemetry_actions';
@@ -11,37 +11,6 @@ import Menu from 'components/widgets/menu/menu';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import {CreateAndJoinChannelsTour, InvitePeopleTour} from 'components/tours/onboarding_tour';
-import Constants from 'utils/constants';
-
-function useRoveFocus(size: number, isCompUnmounted: boolean, setIsCompUnmounted: (e: boolean) => void) {
-    const [currentFocus, setCurrentFocus] = useState(0);
-    const handleKeyDown = useCallback(
-        (e) => {
-            const {keyCode, key} = e;
-            if (keyCode === Constants.KeyCodes.DOWN[1] || (key === Constants.KeyCodes.TAB[0] && currentFocus !== size - 1 && !isCompUnmounted)) {
-                // Down arrow
-                e.preventDefault();
-                setCurrentFocus(currentFocus === size - 1 ? 0 : currentFocus + 1);
-            } else if (keyCode === Constants.KeyCodes.UP[1]) {
-                // Up arrow
-                e.preventDefault();
-                setCurrentFocus(currentFocus === 0 ? size - 1 : currentFocus - 1);
-            } else {
-                setIsCompUnmounted(true);
-            }
-        },
-        [size, currentFocus, setCurrentFocus],
-    );
-
-    useEffect(() => {
-        document.addEventListener('keydown', handleKeyDown, false);
-        return () => {
-            document.removeEventListener('keydown', handleKeyDown, false);
-        };
-    }, [handleKeyDown]);
-
-    return [currentFocus, setCurrentFocus];
-}
 
 type Props = {
     canCreateChannel: boolean;
@@ -140,8 +109,6 @@ const AddChannelDropdown = ({
             isEligible: true,
         },
     ];
-    const [isCompUnmounted, setIsCompUnmounted] = useState(true);
-    const [focus, setFocus] = useRoveFocus(renderDropdownItems.length, isCompUnmounted, setIsCompUnmounted);
 
     const trackOpen = (opened: boolean) => {
         openAddChannelOpen(opened);
@@ -191,7 +158,7 @@ const AddChannelDropdown = ({
                 ariaLabel={intl.formatMessage({id: 'sidebar_left.add_channel_dropdown.dropdownAriaLabel', defaultMessage: 'Add Channel Dropdown'})}
             >
                 <Menu.Group>
-                    {renderDropdownItems.map((item, index) => (
+                    {renderDropdownItems.map((item, index, items) => (
                         <Menu.Group
                             key={index}
                             divider={<li className={item.divider}/>}
@@ -204,8 +171,7 @@ const AddChannelDropdown = ({
                                 text={item.text}
                                 extraText={item.extraText}
                                 index={index}
-                                setFocus={setFocus}
-                                focus={focus === index}
+                                size={items.length}
                             />
                             }
                             {item.shouldShowTourComponent && item.tourComponent && <item.tourComponent/>}

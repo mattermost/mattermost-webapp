@@ -4,6 +4,8 @@
 import React from 'react';
 import classNames from 'classnames';
 
+import Constants from 'utils/constants';
+
 import './menu_item.scss';
 
 export default function menuItem(Component: React.ComponentType<any>) {
@@ -12,11 +14,52 @@ export default function menuItem(Component: React.ComponentType<any>) {
         id?: string;
         icon?: React.ReactNode;
         text?: React.ReactNode;
-        setFocus?: number | React.Dispatch<React.SetStateAction<number>>;
-        focus?: boolean;
         index?: number;
+        size?: number;
     }
-    class MenuItem extends React.PureComponent<Props & React.ComponentProps<typeof Component>> {
+
+    type State = {
+        currentFocus: number;
+        size: number;
+        isCompUnmounted: boolean;
+        isListenerAdded: boolean;
+    }
+    class MenuItem extends React.PureComponent<Props & React.ComponentProps<typeof Component>, State> {
+        constructor(props: Props) {
+            super(props);
+
+            this.state = {
+                currentFocus: 0,
+                size: this.props.size,
+                isCompUnmounted: true,
+                isListenerAdded: true,
+            };
+        }
+
+        setRoveFocus = () => {
+            const handlKeyDown = (e: KeyboardEvent) => {
+                const {key} = e;
+                if (key === Constants.KeyCodes.DOWN[0] || (key === Constants.KeyCodes.TAB[0] && this.state.currentFocus !== this.state.size - 1)) {
+                    // Down arrow
+                    e.preventDefault();
+                    this.setState((state) => ({currentFocus: state.currentFocus === state.size - 1 ? 0 : state.currentFocus + 1, isListenerAdded: false}));
+                } else if (key === Constants.KeyCodes.UP[0]) {
+                    // Up arrow
+                    e.preventDefault();
+                    this.setState((state) => ({currentFocus: state.currentFocus === 0 ? state.size - 1 : state.currentFocus - 1, isListenerAdded: false}));
+                }
+            };
+            if (this.state.isListenerAdded) {
+                document.addEventListener('keydown', handlKeyDown, false);
+            } else {
+                document.removeEventListener('keydown', handlKeyDown, false);
+            }
+
+            return [this.state.currentFocus, (e: number) => {
+                this.setState({currentFocus: e});
+            }];
+        }
+
         public static defaultProps = {
             show: true,
         };
@@ -24,7 +67,8 @@ export default function menuItem(Component: React.ComponentType<any>) {
         public static displayName?: string;
 
         public render() {
-            const {id, show, icon, text, index, setFocus, focus, ...props} = this.props;
+            const {id, show, icon, text, index, ...props} = this.props;
+            const [focus, setFocus] = this.setRoveFocus();
             if (!show) {
                 return null;
             }
@@ -52,7 +96,7 @@ export default function menuItem(Component: React.ComponentType<any>) {
                         ariaLabel={text?.toString()}
                         index={index}
                         setFocus={setFocus}
-                        focus={focus}
+                        focus={focus === index}
                         {...props}
                     />
                 </li>

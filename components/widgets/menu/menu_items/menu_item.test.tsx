@@ -35,7 +35,9 @@ describe('components/MenuItem', () => {
             >
               <Component
                 ariaLabel="test-text"
+                focus={false}
                 otherProp="extra-prop"
+                setFocus={[Function]}
                 text={
                   <React.Fragment>
                     <span
@@ -62,7 +64,9 @@ describe('components/MenuItem', () => {
             >
               <Component
                 ariaLabel="test-text"
+                focus={false}
                 otherProp="extra-prop"
+                setFocus={[Function]}
                 text="test-text"
               />
             </li>
