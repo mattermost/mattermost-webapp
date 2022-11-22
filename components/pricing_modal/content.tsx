@@ -265,7 +265,7 @@ function Content(props: ContentProps) {
                         plan='Professional'
                         planSummary={formatMessage({id: 'pricing_modal.planSummary.professional', defaultMessage: 'Scalable solutions for growing teams'})}
                         price={`$${professionalPrice}`}
-                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: '/user/month'})}
+                        rate={formatMessage({id: 'pricing_modal.rate.userPerMonth', defaultMessage: 'USD per user/month'})}
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel

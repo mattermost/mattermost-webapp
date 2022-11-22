@@ -348,13 +348,20 @@ function Card(props: CardProps) {
     const yearlyPlan = (
         <>
             <div className='flex-grid'>
-                <div className='user_seats_container'>
+                <div
+                    className={
+                        classNames({
+                            user_seats_container: true,
+                            error: !isValid(),
+                        })
+                    }
+                >
                     <Input
                         name='UserSeats'
                         type='text'
                         value={usersCount}
                         onChange={onChange}
-                        placeholder={'User seats'}
+                        placeholder={'Seats'}
                         wrapperClassName='user_seats'
                         inputClassName='user_seats'
                         maxLength={String(Constants.MAX_PURCHASE_SEATS).length + 1}
@@ -362,6 +369,7 @@ function Card(props: CardProps) {
                             type: ItemStatus.ERROR,
                             value: errorMessage,
                         }}
+                        autoComplete='off'
                     />
                 </div>
                 <div className='icon'>
@@ -373,10 +381,22 @@ function Card(props: CardProps) {
                         <i className='icon-information-outline'/>
                     </OverlayTrigger>
                 </div>
-                <div className='monthly_price'><p>{`$${monthlyPrice}`}</p></div>
             </div>
             <table>
                 <tbody>
+                    <tr>
+                        <td className='monthly_price'>
+                            <FormattedMessage
+                                defaultMessage={`${usersCount} seats x 12 months`}
+                                id={'admin.billing.subscription.yearlyPlanEquation'}
+                                values={{
+                                    numSeats: usersCount,
+                                }}
+                            />
+                        </td>
+                        <td className='monthly_price'>{`$${monthlyPrice * 12}`}</td>
+                    </tr>
+
                     <tr>
                         <td className='yearly_savings'>
                             <FormattedMessage
@@ -384,7 +404,7 @@ function Card(props: CardProps) {
                                 id={'admin.billing.subscription.yearlySavings'}
                             />
                         </td>
-                        <td className='yearly_savings'>{`-$${priceDifference}`}</td>
+                        <td className='yearly_savings'>{`-$${priceDifference * 12}`}</td>
                     </tr>
                     <tr>
                         <td>
@@ -393,7 +413,7 @@ function Card(props: CardProps) {
                                 id={'admin.billing.subscription.total'}
                             />
                         </td>
-                        <td className='total_price'>{`$${yearlyPrice}`}</td>
+                        <td className='total_price'>{`$${yearlyPrice * 12}`}</td>
                     </tr>
                 </tbody>
             </table>
@@ -405,6 +425,10 @@ function Card(props: CardProps) {
                 >{props.buttonDetails.text}</button>
             </div>
             <div className='plan_billing_cycle'>
+                <FormattedMessage
+                    defaultMessage={'Your credit card will be charged today.'}
+                    id={'admin.billing.subscription.creditCardCharge'}
+                />
                 <a
                     onClick={seeHowBillingWorks}
                 >
@@ -460,14 +484,7 @@ function Card(props: CardProps) {
 
     const monthlyYearlyPlan = (
         <div className='PlanCard'>
-            <div
-                className={
-                    classNames({
-                        bottom: true,
-                        'bottom-yearly': !isMonthly,
-                    })
-                }
-            >
+            <div className='bottom bottom-monthly-yearly'>
                 <div className='save_text'>
                     <FormattedMessage
                         defaultMessage={'Save 20% with Yearly.'}
@@ -486,7 +503,7 @@ function Card(props: CardProps) {
                 >
                     <h4 className='plan_name'>{props.plan}</h4>
                     <h1 className={props.plan === 'Enterprise' ? 'enterprise_price' : ''}>{`$${displayPrice}`}</h1>
-                    <p className='plan_text'>{props.rate}</p>
+                    <p className='plan_text'>{isMonthly ? '/user' : '/user/month'}</p>
                 </div>
                 {isMonthly ? monthlyPlan : yearlyPlan}
             </div>

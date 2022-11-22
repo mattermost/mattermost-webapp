@@ -46,6 +46,7 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
+import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
@@ -170,6 +171,7 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
+    searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
 }
 
 function clearDraftUploads() {
@@ -205,6 +207,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setShowPreview: setShowPreviewOnCreatePost,
             getChannelMemberCountsByGroup,
             savePreferences,
+            searchAssociatedGroupsForReference,
         }, dispatch),
     };
 }
