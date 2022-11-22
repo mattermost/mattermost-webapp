@@ -54,8 +54,9 @@ const Preview = ({template, className}: PreviewProps) => {
     const nodeRefForPrior = useRef(null);
     const nodeRefForCurrent = useRef(null);
 
-    const plugins: MarketplacePlugin[] = useSelector((state: GlobalState) => state.views.marketplace.plugins);
     const [integrations, setIntegrations] = useState<Integration[]>();
+
+    const plugins: MarketplacePlugin[] = useSelector((state: GlobalState) => state.views.marketplace.plugins);
 
     const [illustrationDetails, setIllustrationDetails] = useState<IllustrationAnimations>(() => {
         const defaultIllustration = getTemplateDefaultIllustration(template);
@@ -73,7 +74,7 @@ const Preview = ({template, className}: PreviewProps) => {
 
     useEffect(() => {
         dispatch(fetchListing());
-    }, [dispatch]);
+    }, []);
 
     useEffect(() => {
         if (illustrationDetails.prior.animateIn) {
@@ -129,7 +130,6 @@ const Preview = ({template, className}: PreviewProps) => {
                             acc.push({
                                 ...integration,
                                 name: curr.manifest.name,
-                                description: curr.manifest.description,
                                 icon: curr.icon_data,
                                 installed: curr.installed_version !== '',
                             });
@@ -144,7 +144,7 @@ const Preview = ({template, className}: PreviewProps) => {
         if (intg?.length) {
             setIntegrations(intg);
         }
-    }, [plugins]);
+    }, [plugins, availableIntegrations]);
 
     // building accordion items
     const accordionItemsData: AccordionItemType[] = [];

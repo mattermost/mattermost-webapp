@@ -1,15 +1,15 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {useIntl} from 'react-intl';
 import classnames from 'classnames';
 
 import {useSelector} from 'react-redux';
 
-import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
+import styled from 'styled-components';
 
-import './section.scss';
+import {getMySystemPermissions} from 'mattermost-redux/selectors/entities/roles';
 
 interface GenericPreviewSectionProps {
     items: Array<{id: string; name?: string; illustration?: string}>;
@@ -27,7 +27,7 @@ interface IntegrationPreviewSectionProps {
     id?: string;
 }
 
-const viewIntegrations = (props: GenericPreviewSectionProps | IntegrationPreviewSectionProps) => {
+const viewPreview = (props: GenericPreviewSectionProps | IntegrationPreviewSectionProps) => {
     if (props.id === 'integrations') {
         const integrationsProps = props as IntegrationPreviewSectionProps;
         return (
@@ -51,14 +51,24 @@ const PreviewSection = (props: GenericPreviewSectionProps | IntegrationPreviewSe
                 {props.message}
             </p>
             <span className='included-title'>{formatMessage({id: 'worktemplates.preview.section.included', defaultMessage: 'Included'})}</span>
-            { viewIntegrations(props) }
+            { viewPreview(props) }
 
         </div>
     );
 };
 
 const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
-    const isAdmin = useSelector(isCurrentUserSystemAdmin);
+    const systemPermissions = useSelector(getMySystemPermissions);
+    const [pluginInstallationPossible, setPluginInstallationPossible] = useState(false);
+
+    useEffect(() => {
+        for (const systemPermission of [...systemPermissions]) {
+            if (systemPermission.includes('sysconsole_write_plugins')) {
+                setPluginInstallationPossible(true);
+            }
+        }
+    }, [systemPermissions]);
+
     const {formatMessage} = useIntl();
 
     const createWarningMessage = () => {
@@ -86,7 +96,7 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
         }
         return '';
     };
-    const warningMessage = isAdmin ? '' : createWarningMessage();
+    const warningMessage = pluginInstallationPossible ? '' : createWarningMessage();
 
     return (
         <div className='preview-integrations'>
@@ -95,7 +105,7 @@ const IntegrationsPreview = ({items}: IntegrationPreviewSectionProps) => {
                     return (
                         <div
                             key={item.id}
-                            className={classnames('preview-integrations-plugins-item', {'preview-integrations-plugins-item__uninstalled': !item.installed && !isAdmin})}
+                            className={classnames('preview-integrations-plugins-item', {'preview-integrations-plugins-item__readonly': !item.installed && !pluginInstallationPossible})}
                         >
                             <div className='preview-integrations-plugins-item__icon'>
                                 <img src={item.icon}/>
@@ -137,4 +147,89 @@ const GenericPreview = ({items, onUpdateIllustration}: GenericPreviewSectionProp
     </ul>);
 };
 
-export default PreviewSection;
+const StyledPreviewSection = styled(PreviewSection)`
+    .included-title {
+        color: rgba(var(--center-channel-color-rgb), 0.56);
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+
+    .preview-integrations {
+        &-plugins {
+            display: flex;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            gap: 8px;
+
+            &-item {
+                display: flex;
+                width: 128px;
+                height: 48px;
+                flex-basis: 45%;
+                border: 1px solid rgba(var(--center-channel-text-rgb), 0.24);
+                border-radius: 4px;
+
+                &__readonly {
+                    opacity: 65%;
+                }
+
+                &__icon {
+                    display: flex;
+                    width: 24px;
+                    height: 24px;
+                    align-items: center;
+                    margin: 12px 10px;
+
+                    img {
+                        position: relative !important;
+                        width: 100%;
+                        height: 100%;
+                    }
+
+                    &_blue {
+                        color: var(--denim-button-bg);
+                    }
+                }
+
+                &__name {
+                    flex-grow: 2;
+                    margin-top: 8px;
+                    color: var(--center-channel-text);
+                    font-family: 'Open Sans';
+                    font-size: 11px;
+                    font-style: normal;
+                    font-weight: 600;
+                    letter-spacing: 0.02em;
+                    line-height: 22px;
+                }
+            }
+        }
+
+        &-warning {
+            display: flex;
+            margin-top: 8px;
+            color: var(--error-text);
+
+            &-message {
+                margin-left: 3px;
+                font-family: 'Open Sans';
+                font-size: 11px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: 16px;
+            }
+        }
+    }
+
+    .icon-check-circle::before {
+        margin-top: 8px;
+        margin-right: 8px;
+    }
+
+    .icon-download-outline::before {
+        margin-top: 8px;
+        margin-right: 8px;
+    }
+`;
+
+export default StyledPreviewSection;
