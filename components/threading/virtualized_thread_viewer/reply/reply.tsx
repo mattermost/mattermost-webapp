@@ -18,7 +18,7 @@ type Props = {
     previousPostId: string;
     teamId: string;
     timestampProps?: Partial<TimestampProps>;
-    id?: string;
+    id?: Post['id'];
 }
 
 function Reply({

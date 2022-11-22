@@ -37,7 +37,7 @@ import {Props as TimestampProps} from 'components/timestamp/timestamp';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
-import * as Utils from 'utils/utils';
+import {getDateForUnixTicks} from 'utils/utils';
 import {getHistory} from 'utils/browser_history';
 
 import PostUserProfile from './user_profile';
@@ -108,21 +108,25 @@ const PostComponent = (props: Props): JSX.Element => {
     const [fadeOutHighlight, setFadeOutHighlight] = useState(false);
     const [alt, setAlt] = useState(false);
 
-    if (props.shouldHighlight) {
-        setTimeout(() => {
-            setFadeOutHighlight(true);
-        }, Constants.PERMALINK_FADEOUT);
-    }
+    useEffect(() => {
+        if (props.shouldHighlight) {
+            const timer = setTimeout(() => setFadeOutHighlight(true), Constants.PERMALINK_FADEOUT);
+            return () => {
+                clearInterval(timer);
+            };
+        }
+    }, [props.shouldHighlight]);
 
     useEffect(() => {
         if (postRef.current) {
             postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
             postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
+            addKeyboardListeners();
         }
         if (a11yActive) {
             postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
-    }, []);
+    }, [hover, postRef.current]);
 
     useEffect(() => {
         if (hover) {
@@ -133,7 +137,7 @@ const PostComponent = (props: Props): JSX.Element => {
             postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
             postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
         }
-    }, []);
+    }, [hover, postRef.current]);
 
     const hasSameRoot = (props: Props) => {
         const post = props.post;
@@ -235,13 +239,11 @@ const PostComponent = (props: Props): JSX.Element => {
     const handleMouseOver = (e: MouseEvent<HTMLDivElement>) => {
         setHover(true);
         setAlt(e.altKey);
-        addKeyboardListeners();
     };
 
     const handleMouseLeave = () => {
         setHover(false);
         setAlt(false);
-        removeKeyboardListeners();
     };
 
     const addKeyboardListeners = () => {
@@ -281,11 +283,11 @@ const PostComponent = (props: Props): JSX.Element => {
     const handleCommentClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
 
-        if (!post) {
+        if (!props.post) {
             return;
         }
-        props.actions.selectPost(post);
-    }, []);
+        props.actions.selectPost(props.post);
+    }, [props.post]);
 
     const {
         post,
@@ -345,7 +347,7 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
     const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
-    const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+    const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
     return (
         <div
