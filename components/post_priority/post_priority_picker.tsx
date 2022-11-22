@@ -7,9 +7,9 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
-
 import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
+
+import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
 import Badge from 'components/widgets/badges/badge';
 
