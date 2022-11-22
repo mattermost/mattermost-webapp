@@ -36,7 +36,6 @@ exports[`Components/AlertBanner should match snapshot for app variant 1`] = `
     className="AlertBanner__icon"
   >
     <InformationOutlineIcon
-      color="currentColor"
       size={24}
     />
   </div>
