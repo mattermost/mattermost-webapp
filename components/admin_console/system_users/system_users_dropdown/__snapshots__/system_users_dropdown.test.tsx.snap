@@ -249,6 +249,47 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
     }
   />
+  <ConfirmModal
+    cancelButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="No"
+        id="create_group_memberships_modal.cancel"
+      />
+    }
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Yes"
+        id="create_group_memberships_modal.create"
+      />
+    }
+    message={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. You can revert this change at any time."
+        id="create_group_memberships_modal.desc"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Re-add {username} to teams and channels"
+        id="create_group_memberships_modal.title"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+  />
   <MenuWrapper
     animationComponent={[Function]}
     className=""
@@ -343,6 +384,19 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           onClick={[Function]}
           show={true}
           text="Revoke Sessions"
+        />
+      </Connect(SystemPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_user_management_groups",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Re-sync user via LDAP groups"
         />
       </Connect(SystemPermissionGate)>
     </Menu>
@@ -503,6 +557,47 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
       />
     }
   />
+  <ConfirmModal
+    cancelButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="No"
+        id="create_group_memberships_modal.cancel"
+      />
+    }
+    confirmButtonClass="btn btn-danger"
+    confirmButtonText={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Yes"
+        id="create_group_memberships_modal.create"
+      />
+    }
+    message={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="You're about to add or re-add {username} to teams and channels based on their LDAP group membership. You can revert this change at any time."
+        id="create_group_memberships_modal.desc"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+    modalClass=""
+    onCancel={[Function]}
+    onConfirm={[Function]}
+    show={false}
+    title={
+      <Memo(MemoizedFormattedMessage)
+        defaultMessage="Re-add {username} to teams and channels"
+        id="create_group_memberships_modal.title"
+        values={
+          Object {
+            "username": "some-user",
+          }
+        }
+      />
+    }
+  />
   <MenuWrapper
     animationComponent={[Function]}
     className=""
@@ -597,6 +692,19 @@ exports[`components/admin_console/system_users/system_users_dropdown/system_user
           onClick={[Function]}
           show={true}
           text="Revoke Sessions"
+        />
+      </Connect(SystemPermissionGate)>
+      <Connect(SystemPermissionGate)
+        permissions={
+          Array [
+            "sysconsole_write_user_management_groups",
+          ]
+        }
+      >
+        <MenuItemAction
+          onClick={[Function]}
+          show={false}
+          text="Re-sync user via LDAP groups"
         />
       </Connect(SystemPermissionGate)>
     </Menu>

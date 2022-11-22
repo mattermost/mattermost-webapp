@@ -1910,7 +1910,6 @@
   "analytics.system.totalReadDbConnections": "레플리카 DB 연결",
   "analytics.system.totalSessions": "전체 세션",
   "analytics.system.totalTeams": "전체 팀",
-  "analytics.system.totalUsers": "전체 활성 사용자",
   "analytics.system.totalWebsockets": "웹소켓 연결",
   "analytics.team.activeUsers": "활성 사용자 (글 작성 기준)",
   "analytics.team.newlyCreated": "신규 사용자",

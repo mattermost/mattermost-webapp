@@ -61,7 +61,7 @@ type Props = {
         getAllGroupsAssociatedToChannelsInTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getAllGroupsAssociatedToTeam: (teamId: string, filterAllowReference: boolean) => Promise<{data: Group[]}>;
         getGroupsByUserIdPaginated: (userId: string, filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
-        getGroups: (filterAllowReference: boolean, page: number, perPage: number) => Promise<{data: Group[]}>;
+        getGroups: (filterAllowReference: boolean, page: number, perPage: number, includeMemberCount: boolean) => Promise<{data: Group[]}>;
     };
     mfaRequired: boolean;
     match: {
@@ -259,7 +259,7 @@ export default class NeedsTeam extends React.PureComponent<Props, State> {
             if (team.group_constrained && this.props.license.LDAPGroups === 'true') {
                 this.props.actions.getAllGroupsAssociatedToTeam(team.id, true);
             } else {
-                this.props.actions.getGroups(false, 0, 60);
+                this.props.actions.getGroups(false, 0, 60, true);
             }
         }
 
