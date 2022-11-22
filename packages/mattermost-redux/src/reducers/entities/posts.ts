@@ -1243,6 +1243,12 @@ export function acknowledgements(state: RelationOneToOne<Post, Record<UserProfil
             return state;
         }
 
+        // avoid a race condition
+        const acknowledgedAt = state[ack.post_id][ack.user_id];
+        if (acknowledgedAt > ack.acknowledged_at) {
+            return state;
+        }
+
         const nextState = {...(state[ack.post_id])};
         Reflect.deleteProperty(nextState, ack.user_id);
 

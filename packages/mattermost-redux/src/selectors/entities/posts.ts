@@ -768,6 +768,13 @@ export function isPostPriorityEnabled(state: GlobalState) {
     );
 }
 
+export function isPostAcknowledgementsEnabled(state: GlobalState) {
+    return (
+        isPostPriorityEnabled(state) &&
+        getConfig(state).PostAcknowledgements === 'true'
+    );
+}
+
 export function getPostAcknowledgements(state: GlobalState, postId: Post['id']): PostAcknowledgement[] {
     const acks = state.entities.posts.acknowledgements[postId] || {};
 

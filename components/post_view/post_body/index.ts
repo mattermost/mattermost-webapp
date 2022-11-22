@@ -3,8 +3,7 @@
 
 import {connect} from 'react-redux';
 
-import {getPost, isPostPriorityEnabled} from 'mattermost-redux/selectors/entities/posts';
-import {isProfessionalOrEnterprise} from 'mattermost-redux/selectors/entities/general';
+import {getPost, isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 import {getUser} from 'mattermost-redux/selectors/entities/users';
 
 import {GlobalState} from 'types/store';
@@ -29,7 +28,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         parentPost,
         parentPostUser,
         pluginPostTypes: state.plugins.postTypes,
-        isPostPriorityEnabled: isPostPriorityEnabled(state) && isProfessionalOrEnterprise(state),
+        isPostAcknowledgementsEnabled: isPostAcknowledgementsEnabled(state),
     };
 }
 

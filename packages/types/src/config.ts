@@ -189,6 +189,7 @@ export type ClientConfig = {
     EnableComplianceExport: string;
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
+    PostAcknowledgements: string;
 };
 
 export type License = {

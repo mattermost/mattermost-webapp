@@ -7,9 +7,9 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import classNames from 'classnames';
 import styled from 'styled-components';
 
-import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
+import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities/posts';
 
-import {isProfessionalOrEnterprise} from 'mattermost-redux/selectors/entities/general';
+import {AlertOutlineIcon, AlertCircleOutlineIcon, MessageTextOutlineIcon, CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import Badge from 'components/widgets/badges/badge';
 
@@ -110,12 +110,12 @@ function PostPriorityPicker({
         ref.current?.focus();
     }, [ref.current]);
 
-    const isProfessional = useSelector(isProfessionalOrEnterprise);
+    const postAcknowledgementsEnabled = useSelector(isPostAcknowledgementsEnabled);
 
     const makeOnSelectPriority = useCallback((type?: PostPriority) => () => {
         setPriority(type || '');
 
-        if (!isProfessional) {
+        if (!postAcknowledgementsEnabled) {
             onApply({
                 priority: type || '',
                 requested_ack: false,
@@ -124,7 +124,7 @@ function PostPriorityPicker({
         } else if (type === PostPriority.URGENT) {
             setRequestedAck(true);
         }
-    }, [onApply, onClose, isProfessional]);
+    }, [onApply, onClose, postAcknowledgementsEnabled]);
 
     const handleAck = useCallback(() => {
         setRequestedAck(!requestedAck);
@@ -157,7 +157,7 @@ function PostPriorityPicker({
             pickerStyle.right = Number(pickerStyle.right) + rightOffset;
         }
 
-        if (isProfessional) {
+        if (postAcknowledgementsEnabled) {
             pickerStyle.width = 324;
         }
     }
@@ -216,7 +216,7 @@ function PostPriorityPicker({
                             })}
                         />
                     </MenuGroup>
-                    {isProfessional && (
+                    {postAcknowledgementsEnabled && (
                         <MenuGroup>
                             <ToggleItem
                                 disabled={false}
@@ -236,7 +236,7 @@ function PostPriorityPicker({
                     )}
                 </Menu>
             </div>
-            {isProfessional && (
+            {postAcknowledgementsEnabled && (
                 <Footer>
                     <button
                         type='button'
