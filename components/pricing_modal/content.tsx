@@ -10,17 +10,17 @@ import {CloudLinks, CloudProducts, LicenseSkus, ModalIdentifiers, PaidFeatures, 
 import {fallbackStarterLimits, fallbackProfessionalLimits, asGBString, hasSomeLimits} from 'utils/limits';
 import {findProductBySkuAndInterval} from 'utils/products';
 
-import { getCloudContactUsLink, InquiryType } from 'selectors/cloud';
+import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
-import { trackEvent } from 'actions/telemetry_actions';
-import { closeModal, openModal } from 'actions/views/modals';
-import { subscribeCloudSubscription } from 'actions/cloud';
+import {trackEvent} from 'actions/telemetry_actions';
+import {closeModal, openModal} from 'actions/views/modals';
+import {subscribeCloudSubscription} from 'actions/cloud';
 import {
     getCloudSubscription as selectCloudSubscription,
     getSubscriptionProduct as selectSubscriptionProduct,
-    getCloudProducts as selectCloudProducts
+    getCloudProducts as selectCloudProducts,
 } from 'mattermost-redux/selectors/entities/cloud';
-import { isCurrentUserSystemAdmin } from 'mattermost-redux/selectors/entities/users';
+import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/users';
 
 import useGetUsage from 'components/common/hooks/useGetUsage';
 import useGetLimits from 'components/common/hooks/useGetLimits';
@@ -39,7 +39,7 @@ import DowngradeTeamRemovalModal from './downgrade_team_removal_modal';
 import ContactSalesCTA from './contact_sales_cta';
 import StarterDisclaimerCTA from './starter_disclaimer_cta';
 import StartTrialCaution from './start_trial_caution';
-import Card, { ButtonCustomiserClasses } from './card';
+import Card, {ButtonCustomiserClasses} from './card';
 
 import './content.scss';
 
@@ -52,7 +52,7 @@ type ContentProps = {
 }
 
 function Content(props: ContentProps) {
-    const { formatMessage, formatNumber } = useIntl();
+    const {formatMessage, formatNumber} = useIntl();
     const dispatch = useDispatch();
     const usage = useGetUsage();
     const [limits] = useGetLimits();
@@ -93,9 +93,9 @@ function Content(props: ContentProps) {
         props.onHide();
         const telemetryInfo = props.callerCTA + ' > ' + callerInfo;
         if (subscription?.delinquent_since) {
-            openCloudDelinquencyModal({ trackingLocation: telemetryInfo });
+            openCloudDelinquencyModal({trackingLocation: telemetryInfo});
         }
-        openCloudPurchaseModal({ trackingLocation: telemetryInfo });
+        openCloudPurchaseModal({trackingLocation: telemetryInfo});
     };
 
     const closePricingModal = () => {
@@ -133,17 +133,17 @@ function Content(props: ContentProps) {
     const hasLimits = hasSomeLimits(limits);
 
     const starterBriefing = [
-        formatMessage({ id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards' }, { messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards }),
-        formatMessage({ id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit' }, { storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber) }),
-        formatMessage({ id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace' }),
-        formatMessage({ id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share' }),
+        formatMessage({id: 'pricing_modal.briefing.free.recentMessageBoards', defaultMessage: 'Access to {messages} most recent messages, {boards} most recent board cards'}, {messages: formatNumber(fallbackStarterLimits.messages.history), boards: fallbackStarterLimits.boards.cards}),
+        formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackStarterLimits.files.totalStorage, formatNumber)}),
+        formatMessage({id: 'pricing_modal.briefing.free.oneTeamPerWorkspace', defaultMessage: 'One team per workspace'}),
+        formatMessage({id: 'pricing_modal.extra_briefing.free.calls', defaultMessage: '1:1 voice calls and screen share'}),
     ];
 
     const legacyStarterBriefing = [
-        formatMessage({ id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', defaultMessage: 'Group and one-to-one messaging, file sharing, and search' }),
-        formatMessage({ id: 'admin.billing.subscription.planDetails.features.incidentCollaboration', defaultMessage: 'Incident collaboration' }),
-        formatMessage({ id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', defaultMessage: 'Unlimited users & message history' }),
-        formatMessage({ id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)' }),
+        formatMessage({id: 'admin.billing.subscription.planDetails.features.groupAndOneToOneMessaging', defaultMessage: 'Group and one-to-one messaging, file sharing, and search'}),
+        formatMessage({id: 'admin.billing.subscription.planDetails.features.incidentCollaboration', defaultMessage: 'Incident collaboration'}),
+        formatMessage({id: 'admin.billing.subscription.planDetails.features.unlimittedUsersAndMessagingHistory', defaultMessage: 'Unlimited users & message history'}),
+        formatMessage({id: 'admin.billing.subscription.planDetails.features.mfa', defaultMessage: 'Multi-Factor Authentication (MFA)'}),
     ];
 
     // Default professional price
@@ -164,9 +164,9 @@ function Content(props: ContentProps) {
             <Modal.Header className='PricingModal__header'>
                 <div className='header_lhs'>
                     <h1 className='title'>
-                        {formatMessage({ id: 'pricing_modal.title', defaultMessage: 'Select a plan' })}
+                        {formatMessage({id: 'pricing_modal.title', defaultMessage: 'Select a plan'})}
                     </h1>
-                    <div>{formatMessage({ id: 'pricing_modal.subtitle', defaultMessage: 'Choose a plan to get started' })}</div>
+                    <div>{formatMessage({id: 'pricing_modal.subtitle', defaultMessage: 'Choose a plan to get started'})}</div>
                 </div>
                 <button
                     id='closeIcon'
@@ -209,18 +209,18 @@ function Content(props: ContentProps) {
                         id='free'
                         topColor='#339970'
                         plan='Free'
-                        planSummary={formatMessage({ id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams' })}
+                        planSummary={formatMessage({id: 'pricing_modal.planSummary.free', defaultMessage: 'Increased productivity for small teams'})}
                         price='$0'
-                        rate={formatMessage({ id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever' })}
+                        rate={formatMessage({id: 'pricing_modal.price.freeForever', defaultMessage: 'Free forever'})}
                         planLabel={
                             isStarter ? (
                                 <PlanLabel
-                                    text={formatMessage({ id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN' })}
+                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
                                     color='var(--denim-status-online)'
                                     bgColor='var(--center-channel-bg)'
-                                    firstSvg={<CheckMarkSvg />}
+                                    firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
-                        planExtraInformation={<StarterDisclaimerCTA />}
+                        planExtraInformation={<StarterDisclaimerCTA/>}
                         buttonDetails={{
                             action: () => {
                                 if (!starterProduct) {
@@ -241,12 +241,12 @@ function Content(props: ContentProps) {
                                     downgrade();
                                 }
                             },
-                            text: formatMessage({ id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade' }),
+                            text: formatMessage({id: 'pricing_modal.btn.downgrade', defaultMessage: 'Downgrade'}),
                             disabled: isStarter || isEnterprise || !isAdmin,
                             customClass: ButtonCustomiserClasses.secondary,
                         }}
                         briefing={{
-                            title: formatMessage({ id: 'pricing_modal.briefing.title', defaultMessage: 'Top features' }),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: hasLimits ? starterBriefing : legacyStarterBriefing,
                         }}
                     />
@@ -261,10 +261,10 @@ function Content(props: ContentProps) {
                         planLabel={
                             isProfessional ? (
                                 <PlanLabel
-                                    text={formatMessage({ id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN' })}
+                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
                                     color='var(--denim-status-online)'
                                     bgColor='var(--center-channel-bg)'
-                                    firstSvg={<CheckMarkSvg />}
+                                    firstSvg={<CheckMarkSvg/>}
                                 />) : undefined}
                         planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
                             <NotifyAdminCTA
@@ -272,35 +272,35 @@ function Content(props: ContentProps) {
                                 notifyRequestData={{
                                     required_feature: PaidFeatures.ALL_PROFESSIONAL_FEATURES,
                                     required_plan: LicenseSkus.Professional,
-                                    trial_notification: isPreTrial
+                                    trial_notification: isPreTrial,
                                 }}
                                 callerInfo='professional_plan_pricing_modal_card'
                             />) : undefined}
                         buttonDetails={{
                             action: () => openPurchaseModal('click_pricing_modal_professional_card_upgrade_button'),
-                            text: formatMessage({ id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade' }),
+                            text: formatMessage({id: 'pricing_modal.btn.upgrade', defaultMessage: 'Upgrade'}),
                             disabled: !isAdmin || isProfessional || (isEnterprise && !isEnterpriseTrial),
                             customClass: isPostTrial ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.active,
                         }}
                         briefing={{
-                            title: formatMessage({ id: 'pricing_modal.briefing.title', defaultMessage: 'Top features' }),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({ id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, and calls' }),
-                                formatMessage({ id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit' }, { storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber) }),
-                                formatMessage({ id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives' }),
-                                formatMessage({ id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS' }),
-                                formatMessage({ id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID' }),
-                                formatMessage({ id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement' }),
+                                formatMessage({id: 'pricing_modal.briefing.professional.messageBoardsIntegrationsCalls', defaultMessage: 'Unlimited access to messages and boards history, teams, and calls'}),
+                                formatMessage({id: 'pricing_modal.briefing.storage', defaultMessage: '{storage} file storage limit'}, {storage: asGBString(fallbackProfessionalLimits.files.totalStorage, formatNumber)}),
+                                formatMessage({id: 'pricing_modal.briefing.professional.advancedPlaybook', defaultMessage: 'Advanced Playbook workflows with retrospectives'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoSaml', defaultMessage: 'SSO with SAML 2.0, including Okta, OneLogin and ADFS'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.ssoadLdap', defaultMessage: 'SSO support with AD/LDAP, Google, O365, OpenID'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.professional.guestAccess', defaultMessage: 'Guest access with MFA enforcement'}),
                             ],
                         }}
                         planAddonsInfo={{
-                            title: formatMessage({ id: 'pricing_modal.addons.title', defaultMessage: 'Available Add-ons' }),
+                            title: formatMessage({id: 'pricing_modal.addons.title', defaultMessage: 'Available Add-ons'}),
                             items: [
                                 {
-                                    title: formatMessage({ id: 'pricing_modal.addons.professionalPlusSupport', defaultMessage: 'Professional-Plus Support' }),
+                                    title: formatMessage({id: 'pricing_modal.addons.professionalPlusSupport', defaultMessage: 'Professional-Plus Support'}),
                                     items: [
-                                        formatMessage({ id: 'pricing_modal.addons.247Coverage', defaultMessage: '24x7 coverage' }),
-                                        formatMessage({ id: 'pricing_modal.addons.4hourL1L2Response', defaultMessage: '4 hour L1&L2 response' }),
+                                        formatMessage({id: 'pricing_modal.addons.247Coverage', defaultMessage: '24x7 coverage'}),
+                                        formatMessage({id: 'pricing_modal.addons.4hourL1L2Response', defaultMessage: '4 hour L1&L2 response'}),
                                     ],
                                 },
                             ],
@@ -311,14 +311,14 @@ function Content(props: ContentProps) {
                         id='enterprise'
                         topColor='#E07315'
                         plan='Enterprise'
-                        planSummary={formatMessage({ id: 'pricing_modal.planSummary.enterprise', defaultMessage: 'Administration, security, and compliance for large teams' })}
+                        planSummary={formatMessage({id: 'pricing_modal.planSummary.enterprise', defaultMessage: 'Administration, security, and compliance for large teams'})}
                         planLabel={
                             isEnterprise ? (
                                 <PlanLabel
-                                    text={formatMessage({ id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN' })}
+                                    text={formatMessage({id: 'pricing_modal.planLabel.currentPlan', defaultMessage: 'CURRENT PLAN'})}
                                     color='var(--denim-status-online)'
                                     bgColor='var(--center-channel-bg)'
-                                    firstSvg={<CheckMarkSvg />}
+                                    firstSvg={<CheckMarkSvg/>}
                                     renderLastDaysOnTrial={true}
                                 />) : undefined}
                         planExtraInformation={(!isAdmin && (isStarter || isEnterpriseTrial)) ? (
@@ -328,7 +328,7 @@ function Content(props: ContentProps) {
                                 notifyRequestData={{
                                     required_feature: PaidFeatures.ALL_ENTERPRISE_FEATURES,
                                     required_plan: LicenseSkus.Enterprise,
-                                    trial_notification: isPreTrial
+                                    trial_notification: isPreTrial,
                                 }}
                             />) : undefined}
                         buttonDetails={(isPostTrial || !isAdmin) ? {
@@ -336,43 +336,43 @@ function Content(props: ContentProps) {
                                 trackEvent('cloud_pricing', 'click_enterprise_contact_sales');
                                 window.open(contactSalesLink, '_blank');
                             },
-                            text: formatMessage({ id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales' }),
+                            text: formatMessage({id: 'pricing_modal.btn.contactSales', defaultMessage: 'Contact Sales'}),
                             customClass: ButtonCustomiserClasses.active,
                         } : undefined}
                         customButtonDetails={(!isPostTrial && isAdmin) ? (
                             <CloudStartTrialButton
-                                message={formatMessage({ id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days' }, { days: '30' })}
+                                message={formatMessage({id: 'pricing_modal.btn.tryDays', defaultMessage: 'Try free for {days} days'}, {days: '30'})}
                                 telemetryId='start_cloud_trial_from_pricing_modal'
                                 disabled={isEnterprise || isEnterpriseTrial || isProfessional}
                                 extraClass={`plan_action_btn ${(isEnterprise || isEnterpriseTrial || isProfessional) ? ButtonCustomiserClasses.grayed : ButtonCustomiserClasses.special}`}
                                 afterTrialRequest={closePricingModal}
                             />
                         ) : undefined}
-                        planTrialDisclaimer={(!isPostTrial && isAdmin) ? <StartTrialCaution /> : undefined}
-                        contactSalesCTA={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA />}
+                        planTrialDisclaimer={(!isPostTrial && isAdmin) ? <StartTrialCaution/> : undefined}
+                        contactSalesCTA={(isPostTrial || !isAdmin) ? undefined : <ContactSalesCTA/>}
                         briefing={{
-                            title: formatMessage({ id: 'pricing_modal.briefing.title', defaultMessage: 'Top features' }),
+                            title: formatMessage({id: 'pricing_modal.briefing.title', defaultMessage: 'Top features'}),
                             items: [
-                                formatMessage({ id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage' }),
-                                formatMessage({ id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync' }),
-                                formatMessage({ id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications' }),
-                                formatMessage({ id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions' }),
-                                formatMessage({ id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management' }),
-                                formatMessage({ id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard' }),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.unlimitedFileStorage', defaultMessage: 'Unlimited file storage'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.groupSync', defaultMessage: 'AD/LDAP group sync'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.mobileSecurity', defaultMessage: 'Advanced mobile security via ID-only push notifications'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.rolesAndPermissions', defaultMessage: 'Advanced roles and permissions'}),
+                                formatMessage({id: 'pricing_modal.briefing.enterprise.compliance', defaultMessage: 'Advanced compliance management'}),
+                                formatMessage({id: 'pricing_modal.extra_briefing.enterprise.playBookAnalytics', defaultMessage: 'Playbook analytics dashboard'}),
                             ],
                         }}
                         planAddonsInfo={{
-                            title: formatMessage({ id: 'pricing_modal.addons.title', defaultMessage: 'Available Add-ons' }),
+                            title: formatMessage({id: 'pricing_modal.addons.title', defaultMessage: 'Available Add-ons'}),
                             items: [
-                                { title: formatMessage({ id: 'pricing_modal.addons.premiumSupport', defaultMessage: 'Premium support' }) },
-                                { title: formatMessage({ id: 'pricing_modal.addons.missionCritical', defaultMessage: 'Mission-critical 24x7' }) },
-                                { title: '1hr-L1, 2hr-L2' },
-                                { title: formatMessage({ id: 'pricing_modal.addons.USSupport', defaultMessage: 'U.S.- only based support' }) },
-                                { title: formatMessage({ id: 'pricing_modal.addons.dedicatedDeployment', defaultMessage: 'Dedicated virtual secure cloud deployment (Cloud)' }) },
-                                { title: formatMessage({ id: 'pricing_modal.addons.dedicatedK8sCluster', defaultMessage: 'Dedicated Kubernetes cluster' }) },
-                                { title: formatMessage({ id: 'pricing_modal.addons.dedicatedDB', defaultMessage: 'Dedicated database' }) },
-                                { title: formatMessage({ id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys 99%' }) },
-                                { title: formatMessage({ id: 'pricing_modal.addons.uptimeGuarantee', defaultMessage: '99% uptime guarantee' }) },
+                                {title: formatMessage({id: 'pricing_modal.addons.premiumSupport', defaultMessage: 'Premium support'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.missionCritical', defaultMessage: 'Mission-critical 24x7'})},
+                                {title: '1hr-L1, 2hr-L2'},
+                                {title: formatMessage({id: 'pricing_modal.addons.USSupport', defaultMessage: 'U.S.- only based support'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedDeployment', defaultMessage: 'Dedicated virtual secure cloud deployment (Cloud)'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedK8sCluster', defaultMessage: 'Dedicated Kubernetes cluster'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedDB', defaultMessage: 'Dedicated database'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.dedicatedEncryption', defaultMessage: 'Dedicated encryption keys 99%'})},
+                                {title: formatMessage({id: 'pricing_modal.addons.uptimeGuarantee', defaultMessage: '99% uptime guarantee'})},
                             ],
                         }}
                     />

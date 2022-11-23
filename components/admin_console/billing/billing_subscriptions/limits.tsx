@@ -2,8 +2,8 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { useIntl, FormattedMessage } from 'react-intl';
-import { useSelector } from 'react-redux';
+import {useIntl, FormattedMessage} from 'react-intl';
+import {useSelector} from 'react-redux';
 
 import {
     getCloudProducts,
@@ -11,11 +11,11 @@ import {
     getSubscriptionProduct,
 } from 'mattermost-redux/selectors/entities/cloud';
 
-import { SalesInquiryIssue } from 'selectors/cloud';
+import {SalesInquiryIssue} from 'selectors/cloud';
 
-import { CloudProducts } from 'utils/constants';
-import { FileSizes } from 'utils/file_utils';
-import { asGBString, fallbackStarterLimits, hasSomeLimits } from 'utils/limits';
+import {CloudProducts} from 'utils/constants';
+import {FileSizes} from 'utils/file_utils';
+import {asGBString, fallbackStarterLimits, hasSomeLimits} from 'utils/limits';
 
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
@@ -218,7 +218,7 @@ const Limits = (props: Props): JSX.Element | null => {
                 {subscriptionProduct.sku === CloudProducts.STARTER && (
                     <>
                         <button
-                            onClick={() => openPricingModal({ trackingLocation: 'billing_subscriptions_limits_dashboard' })}
+                            onClick={() => openPricingModal({trackingLocation: 'billing_subscriptions_limits_dashboard'})}
                             className='btn btn-primary'
                         >
                             {intl.formatMessage({

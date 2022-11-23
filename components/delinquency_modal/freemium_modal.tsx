@@ -2,19 +2,19 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { FormattedMessage } from 'react-intl';
+import {useSelector} from 'react-redux';
+import {FormattedMessage} from 'react-intl';
 
 import useOpenCloudPurchaseModal from 'components/common/hooks/useOpenCloudPurchaseModal';
 import useGetLimits from 'components/common/hooks/useGetLimits';
 import useGetUsage from 'components/common/hooks/useGetUsage';
-import { getTheme } from 'mattermost-redux/selectors/entities/preferences';
-import { t, Message } from 'utils/i18n';
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {t, Message} from 'utils/i18n';
 import CloudUsageModal from 'components/cloud_usage_modal';
 import useGetMultiplesExceededCloudLimit from 'components/common/hooks/useGetMultiplesExceededCloudLimit';
-import { LimitTypes } from 'utils/limits';
-import { TELEMETRY_CATEGORIES } from 'utils/constants';
-import { trackEvent } from 'actions/telemetry_actions';
+import {LimitTypes} from 'utils/limits';
+import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {trackEvent} from 'actions/telemetry_actions';
 
 import './delinquency_modal.scss';
 
@@ -84,8 +84,8 @@ const getDescriptionKey = (limits: Array<ValueOf<typeof LimitTypes>>): Descripti
     return 'noLimits';
 };
 
-export const FreemiumModal = ({ onClose, onExited, planName, isAdminConsole }: FreemiumModalProps) => {
-    const openPurchaseModal = useOpenCloudPurchaseModal({ isDelinquencyModal: true });
+export const FreemiumModal = ({onClose, onExited, planName, isAdminConsole}: FreemiumModalProps) => {
+    const openPurchaseModal = useOpenCloudPurchaseModal({isDelinquencyModal: true});
     const [limits] = useGetLimits();
     const usage = useGetUsage();
     useSelector(getTheme);
@@ -99,7 +99,7 @@ export const FreemiumModal = ({ onClose, onExited, planName, isAdminConsole }: F
     const handleReactivate = () => {
         handleClose();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_DELINQUENCY, 'clicked_re_activate_plan');
-        openPurchaseModal({ trackingLocation: 'delinquency_modal_freemium_admin' });
+        openPurchaseModal({trackingLocation: 'delinquency_modal_freemium_admin'});
     };
 
     const title: Message = {
