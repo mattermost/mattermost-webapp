@@ -64,7 +64,7 @@ const Header = styled.h4`
     text-align: left;
 `;
 
-const Footer = styled.h4`
+const Footer = styled.div`
     align-items: center;
     border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     display: flex;

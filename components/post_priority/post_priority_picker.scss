@@ -6,8 +6,6 @@
     &__apply {
         @include button-small;
         @include primary-button;
-
-        margin-left: 8px;
     }
 
     &__cancel {
