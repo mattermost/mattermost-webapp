@@ -297,12 +297,12 @@ function Card(props: CardProps) {
 
     const tooFewUsersErrorMessage = formatMessage({
         id: 'admin.billing.subscription.userCount.minError',
-        defaultMessage: `Your workspace currently has ${props.usersCount} users`,
+        defaultMessage: `Your workspace currently has {num} users`,
     }, {num: props.usersCount});
 
     const tooManyUsersErrorMessage = formatMessage({
         id: 'admin.billing.subscription.userCount.maxError',
-        defaultMessage: `Your workspace only supports up to ${Constants.MAX_PURCHASE_SEATS} users`,
+        defaultMessage: `Your workspace only supports up to {num} users`,
     }, {num: Constants.MAX_PURCHASE_SEATS});
 
     const isValid = () => {
