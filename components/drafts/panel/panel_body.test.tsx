@@ -15,7 +15,7 @@ import * as utils from 'utils/utils';
 
 import {mountWithIntl} from 'tests/helpers/intl-test-helper';
 
-import Body from './panel_body';
+import PanelBody from './panel_body';
 
 describe('components/drafts/panel/panel_body', () => {
     const baseProps = {
@@ -78,7 +78,7 @@ describe('components/drafts/panel/panel_body', () => {
 
         const wrapper = shallow(
             <Provider store={store}>
-                <Body
+                <PanelBody
                     {...baseProps}
                 />
             </Provider>,
@@ -92,7 +92,7 @@ describe('components/drafts/panel/panel_body', () => {
 
         const wrapper = mountWithIntl(
             <Provider store={store}>
-                <Body
+                <PanelBody
                     {...baseProps}
                 />
             </Provider>,

@@ -1688,7 +1688,7 @@ function handleUpsertDraftEvent(msg) {
         const draft = JSON.parse(msg.data.draft);
         const {key, value} = transformServerDraft(draft);
         value.show = true;
-        value.remote = true;
+        value.remote = false;
 
         if (msg.broadcast.omit_connection_id !== connectionId) {
             value.remote = true;

@@ -32,7 +32,7 @@ const OPTIONS = {
     mentionHighlight: false,
 };
 
-function Body({
+function PanelBody({
     channelId,
     displayName,
     fileInfos,
@@ -87,4 +87,4 @@ function Body({
     );
 }
 
-export default Body;
+export default PanelBody;

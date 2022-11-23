@@ -21,7 +21,7 @@ import DraftTitle from '../draft_title';
 import DraftActions from '../draft_actions';
 import Panel from '../panel/panel';
 import Header from '../panel/panel_header';
-import Body from '../panel/panel_body';
+import PanelBody from '../panel/panel_body';
 
 type Props = {
     channel: Channel;
@@ -109,7 +109,7 @@ function ThreadDraft({
                         timestamp={value.updateAt}
                         remote={value.remote || false}
                     />
-                    <Body
+                    <PanelBody
                         channelId={channel.id}
                         displayName={displayName}
                         fileInfos={value.fileInfos}

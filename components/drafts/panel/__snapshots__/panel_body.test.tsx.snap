@@ -13,7 +13,7 @@ exports[`components/drafts/panel/panel_body should have called handleFormattedTe
     }
   }
 >
-  <Body
+  <PanelBody
     channelId="channel_id"
     displayName="display_name"
     fileInfos={Array []}
@@ -263,7 +263,7 @@ exports[`components/drafts/panel/panel_body should have called handleFormattedTe
         </div>
       </div>
     </div>
-  </Body>
+  </PanelBody>
 </Provider>
 `;
 
@@ -299,7 +299,7 @@ exports[`components/drafts/panel/panel_body should match snapshot 1`] = `
     }
   }
 >
-  <Body
+  <PanelBody
     channelId="channel_id"
     displayName="display_name"
     fileInfos={Array []}
