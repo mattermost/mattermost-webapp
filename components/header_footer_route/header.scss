@@ -24,7 +24,7 @@
             @include link;
 
             display: flex;
-            color: var(--center-channel-text);
+            color: var(--center-channel-color);
             font-family: 'Metropolis';
             font-size: 20px;
             font-weight: 600;
@@ -33,7 +33,7 @@
 
             svg {
                 width: 170px;
-                fill: var(--center-channel-text);
+                fill: var(--center-channel-color);
             }
         }
     }

@@ -8,7 +8,6 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {ArchiveOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {getFileThumbnailUrl, getFileUrl} from 'mattermost-redux/utils/file_utils';
-import {FileInfo} from '@mattermost/types/files';
 
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
@@ -26,6 +25,8 @@ import {
     loadImage,
     localizeMessage,
 } from 'utils/utils';
+
+import {FileInfo} from '@mattermost/types/files';
 
 import ArchivedTooltip from './archived_tooltip';
 
@@ -296,7 +297,7 @@ export default function FileAttachment(props: Props) {
             fileThumbnail = (
                 <ArchiveOutlineIcon
                     size={48}
-                    color={'rgba(var(--center-channel-text-rgb), 0.48)'}
+                    color={'rgba(var(--center-channel-color-rgb), 0.48)'}
                     data-testid='archived-file-icon'
                 />
             );
@@ -315,18 +316,16 @@ export default function FileAttachment(props: Props) {
                     >
                         {fileInfo.name}
                     </span>
-                    {fileInfo.archived ?
-                        <span className={'post-image__archived'}>
+                    {fileInfo.archived ? <span className={'post-image__archived'}>
 
-                            <FormattedMessage
-                                id='workspace_limits.archived_file.archived'
-                                defaultMessage='This file is archived'
-                            />
-                        </span> :
-                        <>
-                            <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
-                            <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>
-                        </>
+                        <FormattedMessage
+                            id='workspace_limits.archived_file.archived'
+                            defaultMessage='This file is archived'
+                        />
+                    </span> : <>
+                        <span className='post-image__type'>{fileInfo.extension.toUpperCase()}</span>
+                        <span className='post-image__size'>{fileSizeToString(fileInfo.size)}</span>
+                    </>
                     }
                 </div>
             </div>
@@ -356,7 +355,7 @@ export default function FileAttachment(props: Props) {
         fileThumbnail = (
             <ArchiveOutlineIcon
                 size={16}
-                color={'rgba(var(--center-channel-text-rgb), 0.48)'}
+                color={'rgba(var(--center-channel-color-rgb), 0.48)'}
                 data-testid='archived-file-icon'
             />
         );

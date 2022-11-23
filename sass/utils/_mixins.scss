@@ -185,8 +185,8 @@
     }
 
     &:disabled {
-        border: rgba(var(--center-channel-text-rgb), 0.32);
-        color: rgba(var(--center-channel-text-rgb), 0.32);
+        border: rgba(var(--center-channel-color-rgb), 0.32);
+        color: rgba(var(--center-channel-color-rgb), 0.32);
         cursor: not-allowed;
     }
 

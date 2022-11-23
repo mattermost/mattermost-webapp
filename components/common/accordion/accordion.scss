@@ -6,7 +6,7 @@
 
     .accordion-card {
         box-sizing: border-box;
-        border: 1px solid rgba(var(--center-channel-text-rgb) 0.08);
+        border: 1px solid rgba(var(--center-channel-color-rgb) 0.08);
         background: var(--center-channel-bg);
         border-radius: 4px;
         box-shadow: var(--elevation-1);
@@ -69,7 +69,7 @@
 
             &__content {
                 padding: 15px 20px;
-                border-top: 1px solid rgba(var(--center-channel-text-rgb) 0.04);
+                border-top: 1px solid rgba(var(--center-channel-color-rgb) 0.04);
             }
         }
     }

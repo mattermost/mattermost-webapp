@@ -76,7 +76,7 @@ const Menu = styled.ul`
     border: 0;
     padding: 0 0 8px;
     margin: 0;
-    color: var(--center-channel-text-rgb);
+    color: var(--center-channel-color-rgb);
     list-style: none;
 `;
 
