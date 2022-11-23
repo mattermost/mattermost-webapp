@@ -49,7 +49,7 @@ function DeleteDraftModal({
             modalHeaderText={title}
             onExited={onExited}
         >
-            <div>{message}</div>
+            {message}
         </GenericModal>
     );
 }

@@ -25,18 +25,16 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onC
   onExited={[MockFunction]}
   show={true}
 >
-  <div>
-    <MemoizedFormattedMessage
-      defaultMessage="Are you sure you want to send this message to <strong>{displayName}</strong>?"
-      id="drafts.confirm.send.text"
-      values={
-        Object {
-          "displayName": "display_name",
-          "strong": [Function],
-        }
+  <MemoizedFormattedMessage
+    defaultMessage="Are you sure you want to send this message to <strong>{displayName}</strong>?"
+    id="drafts.confirm.send.text"
+    values={
+      Object {
+        "displayName": "display_name",
+        "strong": [Function],
       }
-    />
-  </div>
+    }
+  />
 </GenericModal>
 `;
 
@@ -65,18 +63,16 @@ exports[`components/drafts/draft_actions/send_draft_modal should have called onE
   }
   show={true}
 >
-  <div>
-    <MemoizedFormattedMessage
-      defaultMessage="Are you sure you want to send this message to <strong>{displayName}</strong>?"
-      id="drafts.confirm.send.text"
-      values={
-        Object {
-          "displayName": "display_name",
-          "strong": [Function],
-        }
+  <MemoizedFormattedMessage
+    defaultMessage="Are you sure you want to send this message to <strong>{displayName}</strong>?"
+    id="drafts.confirm.send.text"
+    values={
+      Object {
+        "displayName": "display_name",
+        "strong": [Function],
       }
-    />
-  </div>
+    }
+  />
 </GenericModal>
 `;
 

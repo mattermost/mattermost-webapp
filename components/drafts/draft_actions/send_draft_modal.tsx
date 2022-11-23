@@ -48,7 +48,7 @@ function SendDraftModal({
             modalHeaderText={title}
             onExited={onExited}
         >
-            <div>{message}</div>
+            {message}
         </GenericModal>
     );
 }
