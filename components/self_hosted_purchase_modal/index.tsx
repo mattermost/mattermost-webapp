@@ -9,7 +9,11 @@ import classNames from 'classnames';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
-import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
+import {
+    SelfHostedSignupProgress,
+    SelfHostedSignupCustomerResponse,
+} from '@mattermost/types/hosted_customer';
+import {UserProfile} from '@mattermost/types/users';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
@@ -49,6 +53,7 @@ import BackgroundSvg from 'components/common/svg_images_components/background_sv
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
 import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
+import PaymentFailedSvg from 'components/common/svg_images_components/payment_failed_svg';
 
 import Input from 'components/widgets/inputs/input/input';
 
@@ -81,6 +86,7 @@ interface State {
     submitting: boolean;
     succeeded: boolean;
     progressBar: number;
+    error: string;
 }
 
 interface UpdateAddress {
@@ -164,6 +170,10 @@ interface UpdateProgressBar {
 interface UpdateProgressBarFake {
     type: 'update_progress_bar_fake';
 }
+interface SetError {
+    type: 'set_error';
+    data: string;
+}
 
 type Action =
     | UpdateAddress
@@ -183,6 +193,7 @@ type Action =
     | UpdateSubmitting
     | UpdateSucceeded
     | StartOver
+    | SetError
 
 const initialState: State = {
     address: '',
@@ -200,6 +211,7 @@ const initialState: State = {
     submitting: false,
     succeeded: false,
     progressBar: 0,
+    error: '',
 };
 
 const maxFakeProgress = 90;
@@ -269,6 +281,13 @@ function reducer(state: State, action: Action): State {
             };
         }
         return newState;
+    }
+    case 'set_error': {
+        return {
+            ...state,
+            submitting: false,
+            error: action.data,
+        };
     }
     default:
         // eslint-disable-next-line
@@ -393,6 +412,17 @@ interface FakeProgress {
     intervalId?: NodeJS.Timeout;
 }
 
+function inferNames(user: UserProfile, cardName: string): [string, string] {
+    if (user.first_name) {
+        return [user.first_name, user.last_name];
+    }
+    const names = cardName.split(' ');
+    if (cardName.length === 2) {
+        return [names[0], names[1]];
+    }
+    return [names[0], names.slice(1).join(' ')];
+}
+
 export default function SelfHostedPurchaseModal(props: Props) {
     useFetchStandardAnalytics();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
@@ -420,7 +450,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
 
     const stripeRef = useLoadStripe(stripeLoadHint);
-    const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE && !state.submitting;
+    const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE && !state.submitting && !state.error;
 
     useEffect(() => {
         if (typeof totalUsers === 'number' && totalUsers > state.seats) {
@@ -466,19 +496,34 @@ export default function SelfHostedPurchaseModal(props: Props) {
     async function submit() {
         let submitProgress = progress;
         dispatch({type: 'update_submitting', data: true});
-        const signupCustomerResult = await Client4.createCustomerSelfHostedSignup({
-            first_name: user.first_name,
-            last_name: user.last_name,
-            billing_address: {
-                city: state.city,
-                country: state.country,
-                line1: state.address,
-                line2: state.address2,
-                postal_code: state.postalCode,
-                state: state.state,
-            },
-            organization: state.organization,
-        });
+        let signupCustomerResult: SelfHostedSignupCustomerResponse | null = null;
+        try {
+            const [firstName, lastName] = inferNames(user, state.cardName);
+
+            signupCustomerResult = await Client4.createCustomerSelfHostedSignup({
+                first_name: firstName,
+                last_name: lastName,
+                billing_address: {
+                    city: state.city,
+                    country: state.country,
+                    line1: state.address,
+                    line2: state.address2,
+                    postal_code: state.postalCode,
+                    state: state.state,
+                },
+                organization: state.organization,
+            });
+        } catch (e) {
+            dispatch({type: 'update_submitting', data: false});
+            dispatch({type: 'set_error', data: 'Failed to submit payment information'});
+            return;
+        }
+
+        if (signupCustomerResult === null || !signupCustomerResult.progress) {
+            dispatch({type: 'update_submitting', data: false});
+            dispatch({type: 'set_error', data: 'Failed to submit payment information'});
+            return;
+        }
         if (progress === SelfHostedSignupProgress.START || progress === SelfHostedSignupProgress.CREATED_CUSTOMER) {
             reduxDispatch({
                 type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
@@ -661,8 +706,8 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                                 dispatch({type: 'update_organization', data: e.target.value});
                                             }}
                                             placeholder={intl.formatMessage({
-                                                id: 'payment_form.organization',
-                                                defaultMessage: 'Company Name',
+                                                id: 'self_hosted_signup.organization',
+                                                defaultMessage: 'Organization Name',
                                             })}
                                             required={true}
                                         />
@@ -790,18 +835,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                             />
                                         </div>
                                     </div>
-                                    <button
-                                        onClick={() => {
-                                            Client4.bootstrapSelfHostedSignup(true).
-                                                then((data) => {
-                                                    cardRef.current?.getCard()?.clear();
-                                                    reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
-                                                    dispatch({type: 'start_over', data: {seats: typeof totalUsers === 'number' ? totalUsers : state.seats}});
-                                                });
-                                        }}
-                                    >
-                                        {'start over'}
-                                    </button>
                                 </div >
                             </div>
                             <div className='rhs'>
@@ -875,7 +908,31 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     footer={progressBar}
                                     className={'processing'}
                                 />
-
+                            </div>
+                        )}
+                        {state.error && (
+                            <div className='failed'>
+                                <IconMessage
+                                    title={t('admin.billing.subscription.paymentVerificationFailed')}
+                                    subtitle={t('admin.billing.subscription.paymentFailed')}
+                                    icon={
+                                        <PaymentFailedSvg
+                                            width={444}
+                                            height={313}
+                                        />
+                                    }
+                                    error={true}
+                                    buttonText={t('self_hosted_signup.retry')}
+                                    buttonHandler={() => {
+                                        Client4.bootstrapSelfHostedSignup(true).
+                                            then((data) => {
+                                                reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
+                                                dispatch({type: 'set_error', data: ''});
+                                            });
+                                    }}
+                                    linkText={t('admin.billing.subscription.privateCloudCard.contactSupport')}
+                                    linkURL={contactSupportLink}
+                                />
                             </div>
                         )}
                         <div className='background-svg'>
