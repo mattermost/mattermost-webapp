@@ -4353,7 +4353,6 @@
   "pricing_modal.briefing.enterprise.mobileSecurity": "Advanced mobile security via ID-only push notifications",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "Advanced roles and permissions",
   "pricing_modal.briefing.enterprise.unlimitedFileStorage": "Unlimited file storage",
-  "pricing_modal.briefing.free.integrations": "{integrations} integrations with other apps like GitHub, Jira and Jenkins",
   "pricing_modal.briefing.free.oneTeamPerWorkspace": "One team per workspace",
   "pricing_modal.briefing.free.recentMessageBoards": "Access to {messages} most recent messages, {boards} most recent board cards",
   "pricing_modal.briefing.fullMessageAndHistory": "Full message and file history",
