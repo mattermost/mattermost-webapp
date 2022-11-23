@@ -22,11 +22,11 @@ import {getConfig, getLicense} from 'mattermost-redux/selectors/entities/general
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 
 import {getCurrentChannel, getCurrentChannelStats, getChannelMemberCountsByGroup as selectChannelMemberCountsByGroup} from 'mattermost-redux/selectors/entities/channels';
-import {getCurrentUserId, getStatusForUserId, getUser} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentUserId, getStatusForUserId, getUser, isCurrentUserGuestUser} from 'mattermost-redux/selectors/entities/users';
 import {haveICurrentChannelPermission} from 'mattermost-redux/selectors/entities/roles';
 import {getChannelTimezones, getChannelMemberCountsByGroup} from 'mattermost-redux/actions/channels';
 import {get, getInt, getBool, isCustomGroupsEnabled} from 'mattermost-redux/selectors/entities/preferences';
-import {PreferenceType} from '@mattermost/types/preferences';
+
 import {savePreferences} from 'mattermost-redux/actions/preferences';
 import {
     getCurrentUsersLatestPost,
@@ -46,6 +46,7 @@ import {Permissions, Posts, Preferences as PreferencesRedux} from 'mattermost-re
 import {connectionErrorCount} from 'selectors/views/system';
 
 import {addReaction, createPost, setEditingPost, emitShortcutReactToLastPostFrom} from 'actions/post_actions';
+import {searchAssociatedGroupsForReference} from 'actions/views/group';
 import {scrollPostListToBottom} from 'actions/views/channel';
 import {selectPostFromRightHandSideSearchByPostId} from 'actions/views/rhs';
 import {setShowPreviewOnCreatePost} from 'actions/views/textbox';
@@ -59,7 +60,9 @@ import {setGlobalItem, actionOnGlobalItemsWithPrefix} from 'actions/storage';
 import {openModal} from 'actions/views/modals';
 import {AdvancedTextEditor, Constants, Preferences, StoragePrefixes, UserStatuses} from 'utils/constants';
 import {canUploadFiles} from 'utils/file_utils';
-import {OnboardingTourSteps, TutorialTourName} from 'components/onboarding_tour';
+import {OnboardingTourSteps, TutorialTourName, OnboardingTourStepsForGuestUsers} from 'components/tours';
+
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import AdvancedCreatePost from './advanced_create_post';
 
@@ -92,7 +95,11 @@ function makeMapStateToProps() {
         const groupsWithAllowReference = useLDAPGroupMentions || useCustomGroupMentions ? getAssociatedGroupsForReferenceByMention(state, currentTeamId, currentChannel.id) : null;
         const enableTutorial = config.EnableTutorial === 'true';
         const tutorialStep = getInt(state, TutorialTourName.ONBOARDING_TUTORIAL_STEP, currentUserId, 0);
-        const showSendTutorialTip = enableTutorial && tutorialStep === OnboardingTourSteps.SEND_MESSAGE;
+
+        // guest validation to see which point the messaging tour tip starts
+        const isGuestUser = isCurrentUserGuestUser(state);
+        const tourStep = isGuestUser ? OnboardingTourStepsForGuestUsers.SEND_MESSAGE : OnboardingTourSteps.SEND_MESSAGE;
+        const showSendTutorialTip = enableTutorial && tutorialStep === tourStep;
         const isFormattingBarHidden = getBool(state, Preferences.ADVANCED_TEXT_EDITOR, AdvancedTextEditor.POST);
 
         return {
@@ -164,17 +171,7 @@ type Actions = {
     emitShortcutReactToLastPostFrom: (emittedFrom: string) => void;
     getChannelMemberCountsByGroup: (channelId: string, includeTimezones: boolean) => void;
     savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
-}
-
-// Temporarily store draft manually in localStorage since the current version of redux-persist
-// we're on will not save the draft quickly enough on page unload.
-function setDraft(key: string, value: PostDraft) {
-    if (value) {
-        localStorage.setItem(key, JSON.stringify(value));
-    } else {
-        localStorage.removeItem(key);
-    }
-    return setGlobalItem(key, value);
+    searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
 }
 
 function clearDraftUploads() {
@@ -196,7 +193,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             moveHistoryIndexForward,
             addReaction,
             removeReaction,
-            setDraft,
+            setDraft: setGlobalItem,
             clearDraftUploads,
             selectPostFromRightHandSideSearchByPostId,
             setEditingPost,
@@ -210,6 +207,7 @@ function mapDispatchToProps(dispatch: Dispatch) {
             setShowPreview: setShowPreviewOnCreatePost,
             getChannelMemberCountsByGroup,
             savePreferences,
+            searchAssociatedGroupsForReference,
         }, dispatch),
     };
 }

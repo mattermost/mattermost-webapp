@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {FormattedMessage, injectIntl, IntlShape} from 'react-intl';
 
@@ -9,7 +10,7 @@ import Timestamp from 'components/timestamp';
 import OverlayTrigger from 'components/overlay_trigger';
 import Tooltip from 'components/tooltip';
 import UserSettingsModal from 'components/user_settings/modal';
-import {browserHistory} from 'utils/browser_history';
+import {getHistory} from 'utils/browser_history';
 import * as GlobalActions from 'actions/global_actions';
 import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
@@ -144,6 +145,12 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
         getMembershipForEntities: (teamId: string, userId: string, channelId?: string) => Promise<void>;
     };
     intl: IntlShape;
+
+    lastActivityTimestamp: number;
+
+    enableLastActiveTime: boolean;
+
+    timestampUnits: string[];
 }
 type ProfilePopoverState = {
     loadingDMChannel?: string;
@@ -202,7 +209,7 @@ ProfilePopoverState
                 if (this.props.hide) {
                     this.props.hide();
                 }
-                browserHistory.push(`${this.props.teamUrl}/messages/@${user.username}`);
+                getHistory().push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         });
         this.handleCloseModals();
@@ -363,6 +370,30 @@ ProfilePopoverState
                 />
             </div>,
         );
+        if (this.props.enableLastActiveTime && this.props.lastActivityTimestamp && this.props.timestampUnits) {
+            dataContent.push(
+                <div
+                    className='user-popover-last-active'
+                    key='user-popover-last-active'
+                >
+                    <FormattedMessage
+                        id='channel_header.lastActive'
+                        defaultMessage='Active {timestamp}'
+                        values={{
+                            timestamp: (
+                                <Timestamp
+                                    value={this.props.lastActivityTimestamp}
+                                    units={this.props.timestampUnits}
+                                    useTime={false}
+                                    style={'short'}
+                                />
+                            ),
+                        }}
+                    />
+                </div>,
+            );
+        }
+
         const fullname = Utils.getFullName(this.props.user);
         const haveOverrideProp =
       this.props.overwriteIcon || this.props.overwriteName;

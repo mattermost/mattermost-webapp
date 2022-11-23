@@ -69,7 +69,7 @@ export default function PriorityLabel({
                 icon={(
                     <AlertCircleOutlineIcon
                         color={'currentColor'}
-                        size={12}
+                        size={iconSize}
                     />
                 )}
             >

@@ -7,8 +7,6 @@ import classNames from 'classnames';
 
 import Pluggable from 'plugins/pluggable';
 
-import {Channel} from '@mattermost/types/channels';
-
 import {mark, trackEvent} from 'actions/telemetry_actions';
 
 import CopyUrlContextMenu from 'components/copy_url_context_menu';
@@ -19,12 +17,14 @@ import Constants from 'utils/constants';
 import {wrapEmojis} from 'utils/emoji_utils';
 import {isDesktopApp} from 'utils/user_agent';
 import {cmdOrCtrlPressed, localizeMessage} from 'utils/utils';
-import {ChannelsAndDirectMessagesTour} from 'components/onboarding_tour';
+import {ChannelsAndDirectMessagesTour} from 'components/tours/onboarding_tour';
+
+import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import ChannelMentionBadge from '../channel_mention_badge';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
-import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
+import {Channel} from '@mattermost/types/channels';
 
 type Props = {
     channel: Channel;
@@ -62,7 +62,10 @@ type Props = {
 
     showChannelsTutorialStep: boolean;
 
+    hasUrgent: boolean;
+
     actions: {
+        markMostRecentPostInChannelAsUnread: (channelId: string) => void;
         clearChannelSelection: () => void;
         multiSelectChannelTo: (channelId: string) => void;
         multiSelectChannelAdd: (channelId: string) => void;
@@ -150,8 +153,10 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         } else if (event.shiftKey) {
             event.preventDefault();
             this.props.actions.multiSelectChannelTo(this.props.channel.id);
+        } else if (event.altKey && !this.props.isUnread) {
+            event.preventDefault();
+            this.props.actions.markMostRecentPostInChannelAsUnread(this.props.channel.id);
         } else {
-            this.props.actions.unsetEditingPost();
             this.props.actions.clearChannelSelection();
         }
     }
@@ -170,6 +175,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             unreadMentions,
             firstChannelName,
             showChannelsTutorialStep,
+            hasUrgent,
         } = this.props;
 
         let channelsTutorialTip: JSX.Element | null = null;
@@ -243,14 +249,15 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 </div>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
+                    hasUrgent={hasUrgent}
                 />
                 <SidebarChannelMenu
                     channel={channel}
-                    isUnread={isUnread}
-                    isCollapsed={this.props.isCollapsed}
-                    closeHandler={this.props.closeHandler}
                     channelLink={link}
                     isMenuOpen={this.state.isMenuOpen}
+                    isCollapsed={this.props.isCollapsed}
+                    isUnread={isUnread}
+                    closeHandler={this.props.closeHandler}
                     onToggleMenu={this.handleMenuToggle}
                 />
             </>

@@ -24,9 +24,6 @@ import {Subscription, Product} from '@mattermost/types/cloud';
 import Limits from './limits';
 
 const freeLimits = {
-    integrations: {
-        enabled: 5,
-    },
     messages: {
         history: 10000,
     },
@@ -54,12 +51,12 @@ function setupStore(setupOptions: SetupOptions) {
                     limits: setupOptions.isEnterprise ? {} : freeLimits,
                 },
                 subscription: {
-                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_starter',
+                    product_id: setupOptions.isEnterprise ? 'prod_enterprise' : 'prod_free',
                 } as Subscription,
                 products: {
-                    prod_starter: {
-                        id: 'prod_starter',
-                        name: 'Cloud Starter',
+                    prod_free: {
+                        id: 'prod_free',
+                        name: 'Cloud Free',
                         sku: CloudProducts.STARTER,
                     } as Product,
                     prod_enterprise: {
@@ -81,10 +78,6 @@ function setupStore(setupOptions: SetupOptions) {
                 boards: {
                     cards: 0,
                     cardsLoaded: true,
-                },
-                integrations: {
-                    enabled: 3,
-                    enabledLoaded: true,
                 },
                 teams: {
                     active: 0,
@@ -133,14 +126,6 @@ describe('Limits', () => {
         renderWithIntl(<Provider store={store}><Limits/></Provider>);
         screen.getByText('File Storage');
         screen.getByText(/of 10GB/);
-    });
-
-    test('enabled integration count is shown', () => {
-        const store = setupStore(defaultOptions);
-
-        renderWithIntl(<Provider store={store}><Limits/></Provider>);
-        screen.getByText('Enabled Integrations');
-        screen.getByText('3 of 5 integrations (60%)');
     });
 
     test('renders nothing if on enterprise', () => {

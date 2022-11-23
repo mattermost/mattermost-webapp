@@ -132,6 +132,9 @@ export function validateWorkspaceBusinessEmail() {
 export function getCloudLimits(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {
+            dispatch({
+                type: CloudTypes.CLOUD_LIMITS_REQUEST,
+            });
             const result = await Client4.getCloudLimits();
             if (result) {
                 dispatch({
@@ -140,6 +143,9 @@ export function getCloudLimits(): ActionFunc {
                 });
             }
         } catch (error) {
+            dispatch({
+                type: CloudTypes.CLOUD_LIMITS_FAILED,
+            });
             return error;
         }
         return true;
@@ -179,18 +185,6 @@ export function getFilesUsage(): ActionFunc {
         } catch (error) {
             return error;
         }
-        return {data: true};
-    };
-}
-
-export function getIntegrationsUsage(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const data = await Client4.getIntegrationsUsage();
-        dispatch({
-            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-            data: data.enabled,
-        });
-
         return {data: true};
     };
 }

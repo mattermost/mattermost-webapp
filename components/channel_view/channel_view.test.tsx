@@ -4,30 +4,25 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 
-import ChannelView from './channel_view';
+import ChannelView, {Props} from './channel_view';
 
 describe('components/channel_view', () => {
-    const baseProps = {
+    const baseProps: Props = {
         channelId: 'channelId',
-        channelRolesLoading: false,
         deactivatedChannel: false,
+        history: {} as Props['history'],
+        location: {} as Props['location'],
         match: {
             url: '/team/channel/channelId',
             params: {},
-        },
-        showTutorial: false,
-        isOnboardingHidden: true,
+        } as Props['match'],
         enableOnboardingFlow: true,
         teamUrl: '/team',
         channelIsArchived: false,
         viewArchivedChannels: false,
         isCloud: false,
-        actions: {
-            goToLastViewedChannel: jest.fn(),
-            getProfiles: jest.fn(),
-        },
+        goToLastViewedChannel: jest.fn(),
         isFirstAdmin: false,
-        isAdvancedTextEditorEnabled: false,
     };
 
     it('Should match snapshot with base props', () => {
@@ -35,22 +30,21 @@ describe('components/channel_view', () => {
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('Should match snapshot if channel roles loading', () => {
+    it('Should match snapshot if channel is archived', () => {
         const wrapper = shallow(
             <ChannelView
                 {...baseProps}
-                channelRolesLoading={true}
+                channelIsArchived={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();
     });
 
-    it('Should match snapshot if channel is archived with roles loading', () => {
+    it('Should match snapshot if channel is deactivated', () => {
         const wrapper = shallow(
             <ChannelView
                 {...baseProps}
-                channelRolesLoading={true}
-                channelIsArchived={true}
+                deactivatedChannel={true}
             />,
         );
         expect(wrapper).toMatchSnapshot();

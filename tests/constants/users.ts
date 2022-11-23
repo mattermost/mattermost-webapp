@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import {GlobalState} from '@mattermost/types/store';
 import {General} from 'mattermost-redux/constants';
 import {TestHelper} from 'utils/test_helper';
@@ -18,6 +19,7 @@ const emptyOtherUsersState: Omit<GlobalState['entities']['users'], 'profiles' | 
     statuses: {},
     stats: {},
     myUserAccessTokens: {},
+    lastActivity: {},
 };
 
 export const adminUsersState: () => GlobalState['entities']['users'] = () => ({

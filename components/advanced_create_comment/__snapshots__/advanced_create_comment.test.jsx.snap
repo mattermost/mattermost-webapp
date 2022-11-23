@@ -37,7 +37,6 @@ exports[`components/AdvancedCreateComment should match snapshot when cannot post
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -105,7 +104,6 @@ exports[`components/AdvancedCreateComment should match snapshot, comment with me
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -180,7 +178,6 @@ exports[`components/AdvancedCreateComment should match snapshot, emoji picker di
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -248,7 +245,6 @@ exports[`components/AdvancedCreateComment should match snapshot, empty comment 1
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}
@@ -323,7 +319,6 @@ exports[`components/AdvancedCreateComment should match snapshot, non-empty messa
     handleBlur={[Function]}
     handleChange={[Function]}
     handleEmojiClick={[Function]}
-    handleEmojiClose={[Function]}
     handleFileUploadChange={[Function]}
     handleFileUploadComplete={[Function]}
     handleGifClick={[Function]}

@@ -33,9 +33,8 @@ import * as Utils from 'utils/utils';
 import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import {RhsState} from 'types/store/rhs';
 import {GlobalState} from 'types/store';
-import {getPostsByIds} from 'mattermost-redux/actions/posts';
-import {getEditingPost} from '../../selectors/posts';
-import {unsetEditingPost} from '../post_actions';
+import {getPostsByIds, getPost as fetchPost} from 'mattermost-redux/actions/posts';
+
 import {getChannel} from 'mattermost-redux/actions/channels';
 
 function selectPostFromRightHandSideSearchWithPreviousState(post: Post, previousRhsState?: RhsState) {
@@ -450,10 +449,7 @@ export function showChannelInfo(channelId: string) {
 }
 
 export function closeRightHandSide() {
-    return (dispatch: DispatchFunc, getState: GetStateFunc) => {
-        const state = getState() as GlobalState;
-        const editingPost = getEditingPost(state);
-
+    return (dispatch: DispatchFunc) => {
         const actionsBatch: AnyAction[] = [
             {
                 type: ActionTypes.UPDATE_RHS_STATE,
@@ -466,10 +462,6 @@ export function closeRightHandSide() {
                 timestamp: 0,
             },
         ];
-
-        if (editingPost?.isRHS) {
-            actionsBatch.push(unsetEditingPost());
-        }
 
         dispatch(batchActions(actionsBatch));
         return {data: true};
@@ -517,6 +509,22 @@ export function selectPost(post: Post) {
         postId: post.root_id || post.id,
         channelId: post.channel_id,
         timestamp: Date.now(),
+    };
+}
+
+export function selectPostById(postId: string) {
+    return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
+        const state = getState();
+        const post = getPost(state, postId) ?? (await dispatch(fetchPost(postId))).data;
+        if (post) {
+            const channel = getChannelSelector(state, post.channel_id);
+            if (!channel) {
+                await dispatch(getChannel(post.channel_id));
+            }
+            dispatch(selectPost(post));
+            return {data: true};
+        }
+        return {data: false};
     };
 }
 

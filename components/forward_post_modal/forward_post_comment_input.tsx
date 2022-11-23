@@ -77,8 +77,7 @@ const ForwardPostCommentInput = ({channelId, canForwardPost, comment, permaLinkL
     };
 
     const handleKeyDown = (e: React.KeyboardEvent<TextboxElement>) => {
-        const ctrlKeyCombo =
-            Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
+        const ctrlKeyCombo = Utils.cmdOrCtrlPressed(e) && !e.altKey && !e.shiftKey;
         const ctrlAltCombo = Utils.cmdOrCtrlPressed(e, true) && e.altKey;
         const ctrlShiftCombo = Utils.cmdOrCtrlPressed(e, true) && e.shiftKey;
         const markdownLinkKey = Utils.isKeyPressed(e, KeyCodes.K);

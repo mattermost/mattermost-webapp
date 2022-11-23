@@ -23,6 +23,10 @@ import OverlayTrigger from 'components/overlay_trigger';
 import {getRhsAppBinding} from 'selectors/rhs';
 import {hideRHSAppBinding, showRHSAppBinding} from 'actions/views/rhs';
 
+export const isAppBinding = (x: Record<string, any> | undefined): x is AppBinding => {
+    return Boolean(x?.app_id);
+};
+
 type BindingComponentProps = {
     binding: AppBinding;
 }

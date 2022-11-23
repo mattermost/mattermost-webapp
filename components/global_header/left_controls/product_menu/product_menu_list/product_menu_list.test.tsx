@@ -1,5 +1,6 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
+
 import React from 'react';
 import {shallow} from 'enzyme';
 
@@ -45,6 +46,7 @@ describe('components/global/product_switcher_menu', () => {
         enableCustomUserGroups: false,
         actions: {
             openModal: jest.fn(),
+            getPrevTrialLicense: jest.fn(),
         },
     };
 
@@ -106,6 +108,17 @@ describe('components/global/product_switcher_menu', () => {
         };
         const wrapper = shallow(<ProductMenuList {...props}/>);
         expect(wrapper.find('#userGroups')).toMatchSnapshot();
+    });
+
+    test('user groups button is disabled for free', () => {
+        const props = {
+            ...defaultProps,
+            enableCustomUserGroups: true,
+            isStarterFree: true,
+            isFreeTrial: false,
+        };
+        const wrapper = getMenuWrapper(props);
+        expect(wrapper.find('#userGroups').prop('disabled')).toBe(true);
     });
 
     describe('should show integrations', () => {

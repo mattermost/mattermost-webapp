@@ -156,9 +156,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -180,9 +181,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -224,9 +226,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -268,9 +271,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -292,9 +296,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -310,39 +315,16 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               }
             />
             <AdminSidebarSection
-              definitionKey="authentication.openid_feature_discovery"
-              key="authentication.openid_feature_discovery"
-              name="authentication/openid"
-              restrictedIndicator={
-                <RestrictedIndicator
-                  blocked={true}
-                  tooltipMessageBlocked={
-                    Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
-                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
-                    }
-                  }
-                  useModal={false}
-                />
-              }
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="OpenID Connect"
-                  id="admin.sidebar.openid"
-                />
-              }
-            />
-            <AdminSidebarSection
               definitionKey="authentication.guest_access_feature_discovery"
               key="authentication.guest_access_feature_discovery"
               name="authentication/guest_access"
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -421,9 +403,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -445,9 +428,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -469,9 +453,10 @@ exports[`components/AdminSidebar Plugins should match snapshot 1`] = `
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -1067,6 +1052,18 @@ exports[`components/AdminSidebar should match snapshot 1`] = `
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.openid"
+              key="authentication.openid"
+              name="authentication/openid"
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
                 />
               }
             />
@@ -1812,6 +1809,18 @@ exports[`components/AdminSidebar should match snapshot with workspace optimizati
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.openid"
+              key="authentication.openid"
+              name="authentication/openid"
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
                 />
               }
             />
@@ -2615,6 +2624,18 @@ exports[`components/AdminSidebar should match snapshot, not prevent the console 
                 />
               }
             />
+            <AdminSidebarSection
+              definitionKey="authentication.openid"
+              key="authentication.openid"
+              name="authentication/openid"
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
+                />
+              }
+            />
           </AdminSidebarCategory>
           <AdminSidebarCategory
             definitionKey="plugins"
@@ -3357,6 +3378,18 @@ exports[`components/AdminSidebar should match snapshot, render plugins without a
                 <Memo(MemoizedFormattedMessage)
                   defaultMessage="GitLab"
                   id="admin.sidebar.gitlab"
+                />
+              }
+            />
+            <AdminSidebarSection
+              definitionKey="authentication.openid"
+              key="authentication.openid"
+              name="authentication/openid"
+              tag=""
+              title={
+                <Memo(MemoizedFormattedMessage)
+                  defaultMessage="OpenID Connect"
+                  id="admin.sidebar.openid"
                 />
               }
             />
@@ -4642,9 +4675,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -4702,9 +4736,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -4946,9 +4981,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -5098,9 +5134,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -5122,9 +5159,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -5140,33 +5178,9 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               }
             />
             <AdminSidebarSection
-              definitionKey="authentication.oauth"
-              key="authentication.oauth"
-              name="authentication/oauth"
-              tag=""
-              title={
-                <Memo(MemoizedFormattedMessage)
-                  defaultMessage="OAuth 2.0"
-                  id="admin.sidebar.oauth"
-                />
-              }
-            />
-            <AdminSidebarSection
-              definitionKey="authentication.openid_feature_discovery"
-              key="authentication.openid_feature_discovery"
+              definitionKey="authentication.openid"
+              key="authentication.openid"
               name="authentication/openid"
-              restrictedIndicator={
-                <RestrictedIndicator
-                  blocked={true}
-                  tooltipMessageBlocked={
-                    Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
-                      "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
-                    }
-                  }
-                  useModal={false}
-                />
-              }
               tag=""
               title={
                 <Memo(MemoizedFormattedMessage)
@@ -5182,9 +5196,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="professional"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -5331,9 +5346,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -5355,9 +5371,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }
@@ -5379,9 +5396,10 @@ exports[`components/AdminSidebar should match snapshot, with license (without an
               restrictedIndicator={
                 <RestrictedIndicator
                   blocked={true}
+                  minimumPlanRequiredForFeature="enterprise"
                   tooltipMessageBlocked={
                     Object {
-                      "defaultMessage": "This is a professional feature, available with an upgrade or free {trialLength}-day trial",
+                      "defaultMessage": "This is {article} {minimumPlanRequiredForFeature} feature, available with an upgrade or free {trialLength}-day trial",
                       "id": "admin.sidebar.restricted_indicator.tooltip.message.blocked",
                     }
                   }

@@ -62,16 +62,10 @@ export function getRhsAppBinding(state: GlobalState): AppBinding | null {
     return state.views.rhs.appBinding;
 }
 
-export function getActivePluginId(state: GlobalState) {
+export function getActiveRhsComponent(state: GlobalState) {
     const pluggableId = getPluggableId(state);
     const components = state.plugins.components.RightHandSidebarComponent;
-    const component = components.find((c) => c.id === pluggableId);
-
-    if (component) {
-        return component.pluginId;
-    }
-
-    return '';
+    return components.find((c) => c.id === pluggableId);
 }
 
 function getRealSelectedPost(state: GlobalState) {

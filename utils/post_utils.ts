@@ -59,6 +59,10 @@ export function isFromWebhook(post: Post): boolean {
     return post.props && post.props.from_webhook === 'true';
 }
 
+export function isFromBot(post: Post): boolean {
+    return post.props && post.props.from_bot === 'true';
+}
+
 export function isPostOwner(state: GlobalState, post: Post): boolean {
     return getCurrentUserId(state) === post.user_id;
 }
@@ -427,7 +431,7 @@ export function makeGetMentionsFromMessage(): (state: GlobalState, post: Post) =
             const mentionsArray = post.message.match(Constants.MENTIONS_REGEX) || [];
             for (let i = 0; i < mentionsArray.length; i++) {
                 const mention = mentionsArray[i];
-                const user = getUserFromMentionName(users, mention.substring(1));
+                const user = getUserOrGroupFromMentionName(users, mention.substring(1)) as UserProfile | '';
 
                 if (user) {
                     mentions[mention] = user;
@@ -683,7 +687,7 @@ export function makeGetUniqueReactionsToPost(): (state: GlobalState, postId: Pos
     );
 }
 
-export function getUserFromMentionName(usersByUsername: Record<string, UserProfile>, mentionName: string) {
+export function getUserOrGroupFromMentionName(usersByUsername: Record<string, UserProfile | Group>, mentionName: string) {
     let mentionNameToLowerCase = mentionName.toLowerCase();
 
     while (mentionNameToLowerCase.length > 0) {
@@ -700,4 +704,17 @@ export function getUserFromMentionName(usersByUsername: Record<string, UserProfi
     }
 
     return '';
+}
+
+export function mentionsMinusSpecialMentionsInText(message: string) {
+    const allMentions = message.match(Constants.MENTIONS_REGEX) || [];
+    const mentions = [];
+    for (let i = 0; i < allMentions.length; i++) {
+        const mention = allMentions[i];
+        if (!Constants.SPECIAL_MENTIONS_REGEX.test(mention)) {
+            mentions.push(mention.substring(1).trim());
+        }
+    }
+
+    return mentions;
 }

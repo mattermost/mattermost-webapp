@@ -79,6 +79,7 @@ const actionsProp = {
     scrollPostListToBottom: jest.fn(),
     getChannelMemberCountsByGroup: jest.fn(),
     emitShortcutReactToLastPostFrom: jest.fn(),
+    searchAssociatedGroupsForReference: jest.fn(),
 };
 
 /* eslint-disable react/prop-types */
@@ -202,13 +203,59 @@ describe('components/advanced_create_post', () => {
         expect(wrapper.state('message')).toBe('test');
     });
 
-    it('Check for getChannelMemberCountsByGroup called on mount and when channel changed with useLDAPGroupMentions = true', () => {
+    it('Check for searchAssociatedGroupsForReference not called on mount when no mentions in the draft', () => {
+        const searchAssociatedGroupsForReference = jest.fn();
+        const draft = {
+            ...draftProp,
+            message: 'hello',
+        };
+        const actions = {
+            ...actionsProp,
+            searchAssociatedGroupsForReference,
+        };
+        const wrapper = shallow(advancedCreatePost({draft, actions}));
+        expect(searchAssociatedGroupsForReference).not.toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(searchAssociatedGroupsForReference).not.toHaveBeenCalled();
+    });
+
+    it('Check for searchAssociatedGroupsForReference called on mount when one @ mention in the draft', () => {
+        const searchAssociatedGroupsForReference = jest.fn();
+        const draft = {
+            ...draftProp,
+            message: '@group1 hello',
+        };
+        const actions = {
+            ...actionsProp,
+            searchAssociatedGroupsForReference,
+        };
+        const wrapper = shallow(advancedCreatePost({draft, actions}));
+        expect(searchAssociatedGroupsForReference).toHaveBeenCalled();
+        wrapper.setProps({
+            currentChannel: {
+                ...currentChannelProp,
+                id: 'owsyt8n43jfxjpzh9np93mx1wb',
+            },
+        });
+        expect(searchAssociatedGroupsForReference).toHaveBeenCalled();
+    });
+
+    it('Check for getChannelMemberCountsByGroup called on mount when more than one @ mention in the draft', () => {
         const getChannelMemberCountsByGroup = jest.fn();
+        const draft = {
+            ...draftProp,
+            message: '@group1 @group2 hello',
+        };
         const actions = {
             ...actionsProp,
             getChannelMemberCountsByGroup,
         };
-        const wrapper = shallow(advancedCreatePost({actions}));
+        const wrapper = shallow(advancedCreatePost({draft, actions}));
         expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
         wrapper.setProps({
             currentChannel: {
@@ -687,7 +734,7 @@ describe('components/advanced_create_post', () => {
     });
 
     it('onSubmit test for "/unknown" message ', async () => {
-        jest.mock('actions/channel_actions.jsx', () => ({
+        jest.mock('actions/channel_actions', () => ({
             executeCommand: jest.fn((message, _args, resolve) => resolve()),
         }));
 
@@ -933,6 +980,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.ENTER[0],
             keyCode: Constants.KeyCodes.ENTER[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1033,6 +1081,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.DOWN[0],
             keyCode: Constants.KeyCodes.DOWN[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1068,6 +1117,7 @@ describe('components/advanced_create_post', () => {
             key: Constants.KeyCodes.UP[0],
             keyCode: Constants.KeyCodes.UP[1],
             preventDefault: jest.fn(),
+            stopPropagation: jest.fn(),
             persist: jest.fn(),
             target,
         };
@@ -1225,15 +1275,75 @@ describe('components/advanced_create_post', () => {
                 items: [1],
                 types: ['text/html'],
                 getData: () => {
+                    return '<table><tr><th>test</th><th>test</th></tr><tr><td>test</td><td>test</td></tr></table>';
+                },
+            },
+        };
+
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted markdown table without headers', () => {
+        const wrapper = shallow(advancedCreatePost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
                     return '<table><tr><td>test</td><td>test</td></tr><tr><td>test</td><td>test</td></tr></table>';
                 },
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n';
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n';
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(markdownTable);
+    });
+
+    it('should be able to format a pasted hyperlink', () => {
+        const wrapper = shallow(advancedCreatePost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a href="https://test.domain">link text</a>';
+                },
+            },
+        };
+
+        const markdownLink = '[link text](https://test.domain)';
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.state('message')).toBe(markdownLink);
     });
 
     it('should preserve the original message after pasting a markdown table', () => {
@@ -1259,8 +1369,8 @@ describe('components/advanced_create_post', () => {
             },
         };
 
-        const markdownTable = '|test | test|\n|--- | ---|\n|test | test|\n\n';
-        const expectedMessage = `${message}\n${markdownTable}`;
+        const markdownTable = '| test | test |\n| --- | --- |\n| test | test |\n\n';
+        const expectedMessage = `${message}\n\n${markdownTable}`;
 
         const mockTop = () => {
             return document.createElement('div');
@@ -1348,6 +1458,57 @@ describe('components/advanced_create_post', () => {
 
         wrapper.instance().pasteHandler(event);
         expect(wrapper.state('message')).toBe(codeBlockMarkdown);
+    });
+
+    it('should call handlePostPasteDraft to update the draft after pasting', () => {
+        const wrapper = shallow(advancedCreatePost());
+        const mockImpl = () => {
+            return {
+                setSelectionRange: jest.fn(),
+                focus: jest.fn(),
+            };
+        };
+        wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), focus: jest.fn(), blur: jest.fn()};
+        wrapper.instance().handlePostPasteDraft = jest.fn();
+
+        const event = {
+            target: {
+                id: 'post_textbox',
+            },
+            preventDefault: jest.fn(),
+            clipboardData: {
+                items: [1],
+                types: ['text/html'],
+                getData: () => {
+                    return '<a href="https://test.domain">link text</a>';
+                },
+            },
+        };
+
+        wrapper.instance().pasteHandler(event);
+        expect(wrapper.instance().handlePostPasteDraft).toHaveBeenCalledTimes(1);
+    });
+
+    it('should update draft when handlePostPasteDraft is called', () => {
+        const setDraft = jest.fn();
+
+        const wrapper = shallow(
+            advancedCreatePost({
+                actions: {
+                    ...actionsProp,
+                    setDraft,
+                },
+            }),
+        );
+
+        const testMessage = 'test';
+        const expectedDraft = {
+            ...draftProp,
+            message: testMessage,
+        };
+
+        wrapper.instance().handlePostPasteDraft(testMessage);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
     });
 
     /**
@@ -1477,7 +1638,7 @@ describe('components/advanced_create_post', () => {
     });
 
     it('should match snapshot, post priority enabled, with priority important', () => {
-        const wrapper = shallow(advancedCreatePost({draft: {...draftProp, props: {priority: 'important'}}}));
+        const wrapper = shallow(advancedCreatePost({draft: {...draftProp, metadata: {priority: {priority: 'important'}}}}));
 
         expect(wrapper).toMatchSnapshot();
     });

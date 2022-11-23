@@ -5,9 +5,7 @@ $sidebarHeightTransitionDuration: 0.18s;
 $sidebarOpacityAnimationDuration: 0.15s;
 
 #TeamSidebar {
-    position: fixed;
     z-index: 13;
-    left: 0;
     display: flex;
     width: 65px;
     height: 100%;
@@ -26,7 +24,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
 }
 
 #SidebarContainer {
-    position: fixed;
     z-index: 16;
     left: 0;
     display: flex;
@@ -74,10 +71,6 @@ $sidebarOpacityAnimationDuration: 0.15s;
             color: inherit;
             cursor: inherit;
         }
-    }
-
-    body.announcement-bar--fixed & {
-        height: calc(100% - #{$announcement-bar-height});
     }
 
     .a11y--focused {
@@ -338,6 +331,12 @@ $sidebarOpacityAnimationDuration: 0.15s;
         outline-style: none;
     }
 
+    .sidebar-header {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
     .SidebarHeaderMenuWrapper {
         padding-left: 5px;
         background: transparent;
@@ -379,6 +378,10 @@ $sidebarOpacityAnimationDuration: 0.15s;
                 color: rgba(var(--center-channel-color-rgb), 0.72);
                 font-size: 16px;
                 line-height: 16px;
+            }
+
+            svg {
+                color: rgba(var(--center-channel-color-rgb), 0.72);
             }
         }
 
@@ -557,7 +560,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             border-radius: 4px;
             opacity: 1;
 
-            > i {
+            >i {
                 color: rgba(var(--sidebar-text-rgb), 0.6);
                 font-size: 18px;
                 line-height: 16px;
@@ -571,7 +574,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
             }
 
             &.animating {
-                transition-duration: 0.15s; /* collapse animation speed */
+                transition-duration: 0.15s;
+
+                /* collapse animation speed */
                 transition-property: height, padding, color, opacity;
                 transition-timing-function: ease-out;
             }
@@ -800,7 +805,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
                 visibility: hidden;
             }
 
-            + .SidebarChannelGroupHeader_text {
+            +.SidebarChannelGroupHeader_text {
                 padding-left: 0;
             }
         }
@@ -852,8 +857,8 @@ $sidebarOpacityAnimationDuration: 0.15s;
     .SidebarNavContainer:not(.disabled) .SidebarChannelGroup:not(.dropDisabled) .SidebarChannelGroupHeader:not(.SidebarChannelGroupHeader--static) .SidebarChannelGroupHeader_groupButton:hover {
         //cursor: pointer;
 
-        > div:not(.SidebarCategory_newLabel),
-        > i {
+        >div:not(.SidebarCategory_newLabel),
+        >i {
             color: var(--sidebar-text);
         }
     }
@@ -998,7 +1003,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
     .SidebarChannel {
         display: flex;
         overflow: hidden;
-        height: 32px; /* height required for transition animation */
+        height: 32px;
+
+        /* height required for transition animation */
         align-items: center;
 
         /* border: solid 2px transparent; */
@@ -1077,7 +1084,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             border-radius: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.12);
 
-            > span {
+            >span {
                 color: var(--center-channel-bg);
                 font-size: 12px;
                 font-weight: 600;
@@ -1085,7 +1092,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
             }
         }
 
-        > span {
+        >span {
             flex-grow: 1;
         }
 
@@ -1121,7 +1128,9 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
     /* fade out collapsing list item */
     .SidebarChannel.animating .SidebarLink {
-        transition-duration: 0.15s; /* speed should match collapse animation speed */
+        transition-duration: 0.15s;
+
+        /* speed should match collapse animation speed */
         transition-property: color;
         transition-timing-function: ease-out;
     }
@@ -1146,7 +1155,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
         &.muted {
             div.SidebarChannelLinkLabel_wrapper,
-            > i,
+            >i,
             .status.status--group,
             .badge,
             .status-wrapper {
@@ -1281,14 +1290,18 @@ $sidebarOpacityAnimationDuration: 0.15s;
         -webkit-font-smoothing: antialiased;
         -moz-osx-font-smoothing: grayscale;
         text-rendering: auto;
-        transition: transform 0.15s ease-out; /* should match collapse animation speed */
+        transition: transform 0.15s ease-out;
+
+        /* should match collapse animation speed */
     }
 
     .icon-rotate-minus-90 {
         -webkit-transform: rotate(-90deg);
         -ms-transform: rotate(-90deg);
         transform: rotate(-90deg);
-        transition: transform 0.15s ease-out; /* should match collapse animation speed */
+        transition: transform 0.15s ease-out;
+
+        /* should match collapse animation speed */
     }
 
     :root .icon-rotate-180 {
@@ -1317,7 +1330,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
         color: var(--dnd-indicator);
     }
 
-    + .inner-wrap #app-content {
+    +.inner-wrap #app-content {
         margin-left: 240px;
     }
 }
@@ -1326,7 +1339,7 @@ $sidebarOpacityAnimationDuration: 0.15s;
     #SidebarContainer {
         left: 65px;
 
-        + .inner-wrap #app-content {
+        +.inner-wrap #app-content {
             margin-left: 305px;
         }
     }
@@ -1360,19 +1373,18 @@ $sidebarOpacityAnimationDuration: 0.15s;
 
 // Manual override of the global menu (and items) styling for the sidebar dropdown menu
 #sidebarDropdownMenu .MenuItem {
-    > button,
-    > div,
-    > a {
+    >button,
+    >div,
+    >a {
         padding: 0 32px 0 24px;
     }
 }
 
 // global header style adjustments
 @media screen and (min-width: 769px) {
+
     // adjust height of sidebar to account for global header
     #SidebarContainer {
-        height: calc(100% - 40px);
-
         .SidebarChannelNavigator {
             margin-top: 0;
             margin-bottom: 11px;
