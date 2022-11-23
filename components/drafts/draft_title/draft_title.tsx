@@ -45,6 +45,8 @@ function DraftTitle({
     }, [teammate?.id, teammateId]);
 
     let you = null;
+    let title = null;
+
     if (selfDraft) {
         you = (
             <>
@@ -87,24 +89,19 @@ function DraftTitle({
             channelType !== Constants.GM_CHANNEL &&
             channelType !== Constants.DM_CHANNEL
         ) {
-            return (
-                <>
-                    <FormattedMessage
-                        id='drafts.draft_title.channel_thread'
-                        defaultMessage={'Thread in: {icon} <span>{channelName}</span>'}
-                        values={{
-                            icon,
-                            channelName,
-                            span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
-                        }}
-                    />
-                    {you}
-                </>
+            title = (
+                <FormattedMessage
+                    id='drafts.draft_title.channel_thread'
+                    defaultMessage={'Thread in: {icon} <span>{channelName}</span>'}
+                    values={{
+                        icon,
+                        channelName,
+                        span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
+                    }}
+                />
             );
-        }
-
-        return (
-            <>
+        } else {
+            title = (
                 <FormattedMessage
                     id='drafts.draft_title.direct_thread'
                     defaultMessage={'Thread to: {icon} <span>{channelName}</span>'}
@@ -114,19 +111,28 @@ function DraftTitle({
                         span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
                     }}
                 />
-                {you}
-            </>
-        );
-    }
-
-    if (
+            );
+        }
+    } else if (
         channelType !== Constants.GM_CHANNEL &&
         channelType !== Constants.DM_CHANNEL
     ) {
-        return (
+        title = (
             <FormattedMessage
                 id='drafts.draft_title.channel'
                 defaultMessage={'In: {icon} <span>{channelName}</span>'}
+                values={{
+                    icon,
+                    channelName,
+                    span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
+                }}
+            />
+        );
+    } else {
+        title = (
+            <FormattedMessage
+                id='drafts.draft_title.direct_channel'
+                defaultMessage={'To: {icon} <span>{channelName}</span>'}
                 values={{
                     icon,
                     channelName,
@@ -138,15 +144,7 @@ function DraftTitle({
 
     return (
         <>
-            <FormattedMessage
-                id='drafts.draft_title.direct_channel'
-                defaultMessage={'To: {icon} <span>{channelName}</span>'}
-                values={{
-                    icon,
-                    channelName,
-                    span: (chunks: React.ReactNode) => (<span>{chunks}</span>),
-                }}
-            />
+            {title}
             {you}
         </>
     );
