@@ -75,7 +75,6 @@ exports[`plugins/MainMenuActions should match snapshot in mobile view with some 
             "$$typeof": Symbol(react.memo),
             "WrappedComponent": [Function],
             "compare": null,
-            "displayName": "Connect(injectIntl(UserSettingsModal))",
             "type": [Function],
           }
         }
