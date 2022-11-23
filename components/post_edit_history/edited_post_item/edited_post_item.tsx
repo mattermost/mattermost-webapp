@@ -184,7 +184,7 @@ const EditedPostItem = ({post, isCurrent = false, postCurrentVersion, actions}: 
             overlay={tooltip}
         >
             <IconButton
-                className='edit-post-history__icon__button'
+                className='edit-post-history__icon__button restore-icon'
                 size={'sm'}
                 icon={'refresh'} // todo update with correct icon. Restore icon is recently added to compass
                 onClick={openRestorePostModal}

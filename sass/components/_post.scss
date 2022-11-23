@@ -2249,7 +2249,7 @@
     gap: 4px;
 
     &:not(.edit-post-history__container__background):hover {
-        background-color: rgba(var(--button-bg-rgb), 0.08);
+        background-color: rgba(var(--center-channel-color-rgb), 0.08);
         cursor: pointer;
     }
 
@@ -2290,11 +2290,16 @@
 
     .edit-post-history__icon__button {
         height: fit-content;
-        color: rgba(var(--center-channel-text-rgb), 0.56);
+        color: rgba(var(--center-channel-color-rgb), 0.56);
 
         &:hover {
-            color: rgba(var(--center-channel-text-rgb), 0.56);
+            color: rgba(var(--center-channel-color-rgb), 0.56);
             cursor: pointer;
+        }
+
+        &.restore-icon:hover {
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: rgba(var(--center-channel-color-rgb), 0.72);
         }
     }
 }
@@ -2315,10 +2320,10 @@
 
 .edit-post-history__restore__modal__content {
     padding: 16px;
-    border: 1px solid rgba(var(--center-channel-text-rgb), 0.16);
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
     border-radius: 4px;
     box-shadow: 0 2px 3px rgba(0, 0, 0, 0.08);
-    color: var(--center-channel-text);
+    color: var(--center-channel-color);
 
     .edit-post-history__header {
         margin-top: 0;
@@ -2341,6 +2346,11 @@
 
 .edit-post-history__container__background {
     background-color: rgba(var(--button-bg-rgb), 0.04);
+
+    &:hover {
+        background-color: rgba(var(--button-bg-rgb), 0.08);
+        cursor: pointer;
+    }
 }
 
 .edit-post-history__header {
