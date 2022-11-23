@@ -37,6 +37,7 @@ type Props = {
     onCollapseSection: (section: string) => void;
     onReset: () => void;
     onSubmit: (setting?: string) => void;
+    isNotificationsSettingSameAsGlobal?: boolean;
     globalNotifyLevel?: string;
     memberNotifyLevel: string;
     memberThreadsNotifyLevel?: string;
@@ -62,6 +63,7 @@ export default function ExpandView({
     memberDesktopSound,
     memberDesktopNotificationSound,
     globalNotifyLevel,
+    isNotificationsSettingSameAsGlobal,
     onChange,
     onChangeThreads,
     onChangeDesktopSound,
@@ -365,6 +367,7 @@ export default function ExpandView({
                 <SectionTitle
                     section={section}
                     isExpanded={true}
+                    isNotificationsSettingSameAsGlobal={isNotificationsSettingSameAsGlobal}
                     onClickResetButton={onReset}
                 />}
             inputs={inputs}

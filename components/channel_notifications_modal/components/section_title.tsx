@@ -9,10 +9,11 @@ import {NotificationSections} from 'utils/constants';
 type Props = {
     section: string;
     isExpanded?: boolean;
+    isNotificationsSettingSameAsGlobal?: boolean;
     onClickResetButton?: () => void;
 }
 
-export default function SectionTitle({section, isExpanded, onClickResetButton}: Props) {
+export default function SectionTitle({section, isExpanded, isNotificationsSettingSameAsGlobal, onClickResetButton}: Props) {
     if (section === NotificationSections.DESKTOP) {
         return (
             <div className='d-flex justify-content-between'>
@@ -20,7 +21,7 @@ export default function SectionTitle({section, isExpanded, onClickResetButton}: 
                     id='channel_notifications.desktopNotifications'
                     defaultMessage='Desktop notifications'
                 />
-                {isExpanded &&
+                {isExpanded && !isNotificationsSettingSameAsGlobal &&
                 <button
                     className='d-flex align-items-center color--link cursor--pointer style--none '
                     onClick={onClickResetButton}

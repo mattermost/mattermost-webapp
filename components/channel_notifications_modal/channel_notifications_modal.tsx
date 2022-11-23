@@ -53,6 +53,8 @@ type State = {
     ignoreChannelMentions: ChannelNotifyProps['ignore_channel_mentions'];
 };
 
+export type DesktopNotificationProps = Pick<State, 'desktopNotifyLevel' | 'desktopNotifySound' | 'desktopSound' | 'desktopThreadsNotifyLevel'>
+
 const getDefaultDesktopNotificationLevel = (currentUserNotifyProps: UserNotifyProps): Exclude<ChannelMemberNotifyProps['desktop'], undefined> => {
     if (currentUserNotifyProps?.desktop) {
         if (currentUserNotifyProps.desktop === 'default') {
@@ -108,6 +110,25 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
 
     resetStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: Partial<ChannelNotifyProps>) {
         this.setState(this.getStateFromNotifyProps(currentUserNotifyProps, channelMemberNotifyProps));
+    }
+
+    verifyNotificationsSettingSameAsGlobal({
+        desktopNotifyLevel,
+        desktopNotifySound,
+        desktopSound,
+        desktopThreadsNotifyLevel,
+    }: DesktopNotificationProps) {
+        const currentUserNotifyProps = this.props.currentUser.notify_props;
+
+        if (
+            desktopNotifyLevel === getDefaultDesktopNotificationLevel(currentUserNotifyProps) &&
+            desktopNotifySound === getDefaultDesktopNotificationSound(currentUserNotifyProps) &&
+            desktopSound === getDefaultDesktopSound(currentUserNotifyProps) &&
+            desktopThreadsNotifyLevel === getDefaultDesktopThreadsNotifyLevel(currentUserNotifyProps)
+        ) {
+            return true;
+        }
+        return false;
     }
 
     getStateFromNotifyProps(currentUserNotifyProps: UserNotifyProps, channelMemberNotifyProps?: ChannelMemberNotifyProps) {
@@ -281,6 +302,13 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
             sendPushNotifications,
         } = this.props;
 
+        const isNotificationsSettingSameAsGlobal = this.verifyNotificationsSettingSameAsGlobal({
+            desktopNotifyLevel,
+            desktopNotifySound,
+            desktopSound,
+            desktopThreadsNotifyLevel,
+        });
+
         let serverErrorTag = null;
         if (serverError) {
             serverErrorTag = <div className='form-group has-error'><label className='control-label'>{serverError}</label></div>;
@@ -344,6 +372,7 @@ export default class ChannelNotificationsModal extends React.PureComponent<Props
                                         memberDesktopSound={desktopSound}
                                         memberDesktopNotificationSound={desktopNotifySound}
                                         globalNotificationLevel={currentUser.notify_props ? currentUser.notify_props.desktop : NotificationLevels.ALL}
+                                        isNotificationsSettingSameAsGlobal={isNotificationsSettingSameAsGlobal}
                                         onChange={this.handleUpdateDesktopNotifyLevel}
                                         onChangeThreads={this.handleUpdateDesktopThreadsNotifyLevel}
                                         onChangeDesktopSound={this.handleUpdateDesktopSound}
