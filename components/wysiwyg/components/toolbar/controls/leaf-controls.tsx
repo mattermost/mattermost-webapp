@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {useClickAway} from '@mattermost/compass-components/shared/hooks';
+import {Mark} from 'prosemirror-model';
 import React, {FormEvent, useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {autoUpdate, flip, offset, useFloating} from '@floating-ui/react-dom';
 import {isNodeSelection, posToDOMRect} from '@tiptap/core';
@@ -170,8 +171,15 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
     const {selection: {from, to}} = state;
     const selectedText = state.doc.textBetween(from, to, ' ') || '';
 
-    const previousUrl = editor.getAttributes('link').href || '';
     const linkMarkIsActive = editor.isActive('link');
+
+    let marks: Mark[] = [];
+    state.doc.nodesBetween(from, to, (node) => {
+        marks = marks.concat(node.marks);
+    });
+
+    const mark = marks.find((markItem) => markItem.type.name === 'link');
+    const prevUrl = mark?.attrs.href ?? '';
 
     const [url, setUrl] = useState<string | null>(null);
     const [text, setText] = useState<string | null>(null);
@@ -244,7 +252,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                     event.stopPropagation();
 
                     // either we have a new url, or we take the previous one
-                    const newUrl = url || previousUrl;
+                    const newUrl = url || prevUrl;
 
                     // same goes for this: either we have something typed for it or we take the previous/selected value
                     const newText = text || selectedText || newUrl || '';
@@ -284,14 +292,14 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                     />
                     <LinkInput
                         type={'text'}
-                        value={url ?? previousUrl}
+                        value={url ?? prevUrl}
                         placeholder={formatMessage({id: 'wysiwyg.input-label.link.url', defaultMessage: 'Type or paste a link'})}
                         onChange={(event) => setUrl(event.target.value)}
                     />
-                    {url !== null && url !== previousUrl && (
+                    {url !== null && url !== prevUrl && (
                         <LinkInputHelp>{formatMessage({id: 'wysiwyg.input-label.link.hint', defaultMessage: '⏎ Enter to save'})}</LinkInputHelp>
                     )}
-                    {linkMarkIsActive && (
+                    {(linkMarkIsActive || prevUrl) && (
                         <IconButton
                             size={'sm'}
                             compact={true}
