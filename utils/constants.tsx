@@ -1022,6 +1022,10 @@ export const CloudLinks = {
     DELINQUENCY_DOCS: 'https://docs.mattermost.com/about/cloud-subscriptions.html#failed-or-late-payments',
 };
 
+export const HostedCustomerLinks = {
+    BILLING_DOCS: 'https://docs.mattermost.com/cloud/cloud-billing/cloud-billing.html',
+};
+
 export const DocLinks = {
     AD_LDAP: 'https://docs.mattermost.com/configure/configuration-settings.html#ad-ldap',
     DATA_RETENTION_POLICY: 'https://docs.mattermost.com/comply/data-retention-policy.html',

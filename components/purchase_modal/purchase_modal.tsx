@@ -79,6 +79,8 @@ type CardProps = {
     buttonDetails: ButtonDetails;
     planBriefing: JSX.Element;
     planLabel?: JSX.Element;
+    seeHowBillingWorks?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
+    hideBillingCycle?: boolean;
 }
 
 type Props = {
@@ -178,8 +180,8 @@ function getSelectedProduct(
     return findProductInDictionary(products, null, nextSku);
 }
 
-function Card(props: CardProps) {
-    const seeHowBillingWorks = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => {
+export function Card(props: CardProps) {
+    const seeHowBillingWorks = props.seeHowBillingWorks || function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         e.preventDefault();
         trackEvent(TELEMETRY_CATEGORIES.CLOUD_ADMIN, 'click_see_how_billing_works');
         window.open(CloudLinks.BILLING_DOCS, '_blank');
@@ -205,7 +207,7 @@ function Card(props: CardProps) {
                         onClick={props.buttonDetails.action}
                     >{props.buttonDetails.text}</button>
                 </div>
-                <div className='plan_billing_cycle'>
+                {!props.hideBillingCycle && <div className='plan_billing_cycle'>
                     <FormattedMessage
                         defaultMessage={
                             'Your bill is calculated at the end of the billing cycle based on the number of enabled users. '
@@ -220,7 +222,7 @@ function Card(props: CardProps) {
                             id={'admin.billing.subscription.howItWorks'}
                         />
                     </a>
-                </div>
+                </div>}
             </div>
         </div>
     );

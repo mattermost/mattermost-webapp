@@ -3,7 +3,7 @@
 
 import React, {useEffect, useRef, useReducer, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {useIntl} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 
 import classNames from 'classnames';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
@@ -13,7 +13,7 @@ import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
 import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
-import {getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
+import {getSelfHostedProducts, getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
 import {HostedCustomerTypes} from 'mattermost-redux/action_types';
@@ -26,31 +26,40 @@ import {confirmSelfHostedSignup} from 'actions/hosted_customer';
 import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
+import {getCloudContactUsLink, InquiryType} from 'selectors/cloud';
 
 import {t} from 'utils/i18n';
+import {getToday} from 'utils/utils';
 import {COUNTRIES} from 'utils/countries';
+
+import {
+    ModalIdentifiers,
+    SelfHostedProducts,
+    StatTypes,
+    TELEMETRY_CATEGORIES,
+    HostedCustomerLinks,
+} from 'utils/constants';
 
 import {STRIPE_CSS_SRC} from 'components/payment_form/stripe';
 import CardInput, {CardInputType} from 'components/payment_form/card_input';
 import StateSelector from 'components/payment_form/state_selector';
 import DropdownInput from 'components/dropdown_input';
+import PlanLabel from 'components/common/plan_label';
 import BackgroundSvg from 'components/common/svg_images_components/background_svg';
 import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
+import UpgradeSvg from 'components/common/svg_images_components/upgrade_svg';
+import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 
 import Input from 'components/widgets/inputs/input/input';
 
 import IconMessage from 'components/purchase_modal/icon_message';
-
-import {
-    ModalIdentifiers,
-    StatTypes,
-    TELEMETRY_CATEGORIES,
-} from 'utils/constants';
+import {Card} from 'components/purchase_modal/purchase_modal';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
+import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
 import './self_hosted_purchase_modal.scss';
 
@@ -194,6 +203,21 @@ const initialState: State = {
 const maxFakeProgress = 90;
 const maxFakeProgressIncrement = 5;
 const fakeProgressInterval = 1500;
+
+function getPlanNameFromProductName(productName: string): string {
+    if (productName.length > 0) {
+        const [name] = productName.split(' ').slice(-1);
+        return name;
+    }
+
+    return productName;
+}
+
+function seeHowBillingWorks(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+    e.preventDefault();
+    trackEvent(TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING, 'click_see_how_billing_works');
+    window.open(HostedCustomerLinks.BILLING_DOCS, '_blank');
+}
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -343,8 +367,11 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const progress = useSelector(getSelfHostedSignupProgress);
     const user = useSelector(getCurrentUser);
     const theme = useSelector(getTheme);
+    const contactSupportLink = useSelector((state: GlobalState) => getCloudContactUsLink(state)(InquiryType.Technical));
     const analytics = useSelector(getAdminAnalytics) || {};
+    const desiredProduct = useSelector(getSelfHostedProducts)[props.productId];
     const totalUsers = analytics[StatTypes.TOTAL_USERS];
+    const openPricingModal = useOpenPricingModal();
 
     const intl = useIntl();
     const fakeProgressRef = useRef<FakeProgress>({
@@ -498,6 +525,54 @@ export default function SelfHostedPurchaseModal(props: Props) {
         </div>
     );
 
+    const comparePlan = (
+        <button
+            className='ml-1'
+            onClick={() => {
+                trackEvent('self_hosted_pricing', 'click_compare_plans');
+                openPricingModal({trackingLocation: 'purchase_modal_compare_plans_click'});
+            }}
+        >
+            <FormattedMessage
+                id='cloud_subscribe.contact_support'
+                defaultMessage='Compare plans'
+            />
+        </button>
+    );
+
+    const showPlanLabel = desiredProduct.sku === SelfHostedProducts.PROFESSIONAL;
+    const comparePlanWrapper = (
+        <div
+            className={showPlanLabel ? 'plan_comparison show_label' : 'plan_comparison'}
+        >
+            {comparePlan}
+        </div>
+    );
+
+    const title = (
+        <FormattedMessage
+            defaultMessage={'Provide your payment details'}
+            id={'admin.billing.subscription.providePaymentDetails'}
+        />
+    );
+
+    const contactSalesLink = (
+        <a
+            className='footer-text'
+            onClick={() => {
+                trackEvent(
+                    TELEMETRY_CATEGORIES.SELF_HOSTED_PURCHASING,
+                    'click_contact_sales',
+                );
+            }}
+            href={contactSupportLink}
+            target='_blank'
+            rel='noopener noreferrer'
+        >
+            {intl.formatMessage({id: 'self_hosted_signup.contact_sales', defaultMessage: 'Contact Sales'})}
+        </a>
+    );
+
     return (
         <Elements
             options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
@@ -518,7 +593,16 @@ export default function SelfHostedPurchaseModal(props: Props) {
                 >
                     <div className='SelfHostedPurchaseModal'>
                         {<div className={classNames('form', {'form--hide': !showForm})}>
-                            <div style={{margin: '30px'}}>
+                            <div className='lhs'>
+                                <h2 className='title'>{title}</h2>
+                                <UpgradeSvg
+                                    width={267}
+                                    height={227}
+                                />
+                                <div className='footer-text'>{'Questions?'}</div>
+                                {contactSalesLink}
+                            </div>
+                            <div className='center'>
                                 <div>
                                     <CardInput
                                         forwardedRef={cardRef}
@@ -660,27 +744,74 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                         required={true}
                                     />
                                 </div>
+                                <button
+                                    onClick={() => {
+                                        Client4.bootstrapSelfHostedSignup(true).
+                                            then((data) => {
+                                                cardRef.current?.getCard()?.clear();
+                                                reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
+                                                dispatch({type: 'start_over', data: {seats: typeof totalUsers === 'number' ? totalUsers : state.seats}});
+                                            });
+                                    }}
+                                >
+                                    {'start over'}
+                                </button>
+                                <button
+                                    className=''
+                                    disabled={!canSubmitForm}
+                                    onClick={buttonAction}
+                                >
+                                    {buttonStep}
+                                </button>
                             </div>
-
-                            <button
-                                onClick={() => {
-                                    Client4.bootstrapSelfHostedSignup(true).
-                                        then((data) => {
-                                            cardRef.current?.getCard()?.clear();
-                                            reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
-                                            dispatch({type: 'start_over', data: {seats: typeof totalUsers === 'number' ? totalUsers : state.seats}});
-                                        });
-                                }}
-                            >
-                                {'start over'}
-                            </button>
-                            <button
-                                className=''
-                                disabled={!canSubmitForm}
-                                onClick={buttonAction}
-                            >
-                                {buttonStep}
-                            </button>
+                            <div className='rhs'>
+                                {comparePlanWrapper}
+                                <Card
+                                    topColor='#4A69AC'
+                                    plan={getPlanNameFromProductName(desiredProduct?.name || '')}
+                                    price={`$${desiredProduct?.price_per_seat?.toString()}`}
+                                    seeHowBillingWorks={seeHowBillingWorks}
+                                    rate='/user/month'
+                                    planBriefing={
+                                        <div className='plan_payment_commencement'>
+                                            <FormattedMessage
+                                                defaultMessage={'You will be billed {today}. Your license will be applied automatically. <a>See how billing works.</a>'}
+                                                id={'self_hosted_signup.signup_consequences'}
+                                                values={{
+                                                    today: getToday(),
+                                                    a: (chunks: React.ReactNode) => (
+                                                        <a
+                                                            onClick={seeHowBillingWorks}
+                                                        >
+                                                            {chunks}
+                                                        </a>
+                                                    ),
+                                                }}
+                                            />
+                                        </div>
+                                    }
+                                    buttonDetails={{
+                                        action: buttonAction,
+                                        disabled: !canSubmitForm,
+                                        text: intl.formatMessage({id: 'self_hosted_signup.cta', defaultMessage: 'Upgrade'}),
+                                    }}
+                                    planLabel={
+                                        showPlanLabel ? (
+                                            <PlanLabel
+                                                text={intl.formatMessage({
+                                                    id: 'pricing_modal.planLabel.mostPopular',
+                                                    defaultMessage: 'MOST POPULAR',
+                                                })}
+                                                bgColor='var(--title-color-indigo-500)'
+                                                color='var(--button-color)'
+                                                firstSvg={<StarMarkSvg/>}
+                                                secondSvg={<StarMarkSvg/>}
+                                            />
+                                        ) : undefined
+                                    }
+                                    hideBillingCycle={true}
+                                />
+                            </div>
                         </div>}
                         {progress === SelfHostedSignupProgress.CREATED_LICENSE && <div className='purchase-success'>{'enjoy your license'}</div>}
 

@@ -17,6 +17,7 @@ import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 import {GlobalState} from '@mattermost/types/store';
 import {getPrevTrialLicense} from 'mattermost-redux/actions/admin';
 
+import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
 import useGetSelfHostedProducts from 'components/common/hooks/useGetSelfHostedProducts';
 import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
 import CheckMarkSvg from 'components/widgets/icons/check_mark_icon';
@@ -34,6 +35,7 @@ type ContentProps = {
 }
 
 function SelfHostedContent(props: ContentProps) {
+    useFetchAdminConfig();
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
