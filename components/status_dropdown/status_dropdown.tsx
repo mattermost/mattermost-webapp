@@ -534,7 +534,7 @@ export class StatusDropdown extends React.PureComponent<Props, State> {
                             modalId={ModalIdentifiers.USER_SETTINGS}
                             dialogType={UserSettingsModal}
                             dialogProps={{isContentProductSettings: false}}
-                            text={localizeMessage('navbar_dropdown.accountSettings', 'Profile')}
+                            text={localizeMessage('navbar_dropdown.profileSettings', 'Profile')}
                             icon={(
                                 <Icon
                                     size={16}
