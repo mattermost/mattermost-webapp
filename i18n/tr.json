@@ -4354,7 +4354,6 @@
   "pricing_modal.briefing.enterprise.mobileSecurity": "Kimliğe özel anında bildirimler ile gelişmiş mobil güvenlik",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "Gelişmiş rol ve izinler",
   "pricing_modal.briefing.enterprise.unlimitedFileStorage": "Sınırsız dosya depolama alanı",
-  "pricing_modal.briefing.free.integrations": "GitHub, Kira ve Jenkins gibi diğer uygulamalar ile {integrations} bütünleştirme",
   "pricing_modal.briefing.free.oneTeamPerWorkspace": "Her çalışma alanı için ayrı takım",
   "pricing_modal.briefing.free.recentMessageBoards": "Son {messages} iletiye, {boards} pano kartına erişim",
   "pricing_modal.briefing.fullMessageAndHistory": "Tam ileti ve dosya geçmişi",

@@ -189,18 +189,6 @@ export function getFilesUsage(): ActionFunc {
     };
 }
 
-export function getIntegrationsUsage(): ActionFunc {
-    return async (dispatch: DispatchFunc) => {
-        const data = await Client4.getIntegrationsUsage();
-        dispatch({
-            type: CloudTypes.RECEIVED_INTEGRATIONS_USAGE,
-            data: data.enabled,
-        });
-
-        return {data: true};
-    };
-}
-
 export function getBoardsUsage(): ActionFunc {
     return async (dispatch: DispatchFunc) => {
         try {

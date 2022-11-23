@@ -134,6 +134,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user-1",
         },
         "user-2": Object {
@@ -154,6 +155,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user-2",
         },
         "user-3": Object {
@@ -174,6 +176,7 @@ exports[`admin_console/team_channel_settings/channel/ChannelMembers should match
           "roles": "channel_user",
           "scheme_admin": false,
           "scheme_user": true,
+          "urgent_mention_count": 0,
           "user_id": "user-3",
         },
       }
