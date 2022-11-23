@@ -76,6 +76,7 @@ function PostAcknowledgements({
     const {getReferenceProps, getFloatingProps} = useInteractions([
         useHover(context, {
             enabled: list && list.length > 0,
+            mouseOnly: true,
             delay: {
                 open: 300,
                 close: 0,
