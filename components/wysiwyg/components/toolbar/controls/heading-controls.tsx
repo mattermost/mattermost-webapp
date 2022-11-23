@@ -103,6 +103,11 @@ const makeHeadingToolDefinitions = (editor: Editor): HeadingToolDefinition[] => 
     },
 ];
 
+const HeadingDropdownButton = styled(DropdownContainer)`
+    min-width: 120px;
+    justify-content: space-between;
+`;
+
 const HeadingControls = ({editor}: {editor: Editor}) => {
     const {formatMessage} = useIntl();
     const [showHeadingControls, setShowHeadingControls] = useState(false);
@@ -182,7 +187,7 @@ const HeadingControls = ({editor}: {editor: Editor}) => {
 
     return (
         <>
-            <DropdownContainer
+            <HeadingDropdownButton
                 id={'HiddenControlsButton' + location}
                 ref={reference}
                 className={classNames({active: showHeadingControls})}
@@ -195,7 +200,7 @@ const HeadingControls = ({editor}: {editor: Editor}) => {
                     color={'currentColor'}
                     size={18}
                 />
-            </DropdownContainer>
+            </HeadingDropdownButton>
             <CSSTransition
                 timeout={250}
                 classNames='scale'
@@ -324,7 +329,7 @@ const StyledHeadingSelectOption = styled.button(({mode}: {mode: HeadingSelectOpt
             ${genericStyles};
             font-family: 'Open Sans', sans-serif;
             font-style: normal;
-            font-weight: 400;
+            font-weight: 600;
             font-size: 14px;
             line-height: 20px;
         `;

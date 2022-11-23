@@ -64,7 +64,23 @@ const WysiwygContainer = styled.div`
 const EditorContainer = styled.div`
     display: block;
     align-items: center;
-    padding: 8px;
+    padding: 14px 16px 0 16px;
+    max-height: 45vh;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+        width: 8px; /* Mostly for vertical scrollbars */
+        height: 8px; /* Mostly for horizontal scrollbars */
+    }
+
+    &::-webkit-scrollbar-thumb { /* Foreground */
+        background: rgba(var(--center-channel-color-rgb), 0.2);
+    }
+
+    &::-webkit-scrollbar-track { /* Background */
+        width: 12px;
+        background: transparent;
+    }
 
     .markdown__table {
         position: relative;
@@ -90,6 +106,52 @@ const EditorContainer = styled.div`
 
     .ProseMirror-gapcursor:after {
         border-color: rgb(var(--center-channel-color));
+    }
+
+    h1, h2, h3 {
+        font-family: Metropolis, sans-serif;
+    }
+
+    h1, h2, h3, h4, h5, h6 {
+        margin: 10px 0;
+        font-weight: 600;
+        line-height: 1.5;
+    }
+
+    h1 {
+        font-size: 28px;
+    }
+
+    h2 {
+        font-size: 25px;
+    }
+
+    h3 {
+        font-size: 22px;
+    }
+
+    h4 {
+        font-size: 19px;
+    }
+
+    h5 {
+        font-size: 15px;
+    }
+
+    h6 {
+        font-size: 14px;
+    }
+
+    p {
+        margin: 0.5em 0 0;
+        font-weight: 400;
+        font-size: 13.5px;
+    }
+
+    h1, h2, h3, h4, h5, h6, p {
+        &:first-child {
+            margin-top: 0;
+        }
     }
 `;
 
@@ -177,71 +239,6 @@ export default (props: Props) => {
 
     const editor = useEditor({
         extensions: [
-
-            /**
-             * these should always come at the end so that we are able to override behavior from
-             * other extensions with this if needed
-             */
-            PasteHandler,
-            KeyboardHandler.extend({
-                addKeyboardShortcuts() {
-                    return {
-                        Enter: () => {
-                            const isCodeBlockActive = this.editor.isActive('codeBlock');
-
-                            if (isCodeBlockActive || ctrlSend) {
-                                return false;
-                            }
-
-                            onSubmit();
-                            return this.editor.commands.clearContent(true);
-                        },
-
-                        'Mod-Enter': () => {
-                            const isCodeBlockActive = this.editor.isActive('codeBlock');
-
-                            /**
-                             * when inside of a codeblock and the setting for sending the message with CMD/CTRL-Enter
-                             * force calling the `onSubmit` function and clear the editor content
-                             */
-                            if (isCodeBlockActive && codeBlockOnCtrlEnter) {
-                                onSubmit();
-                                return this.editor.commands.clearContent(true);
-                            }
-
-                            if (!isCodeBlockActive && ctrlSend) {
-                                onSubmit();
-                                return this.editor.commands.clearContent(true);
-                            }
-
-                            /**
-                             * for some reason the default behavior of tiptap in this case is adding in a soft break (the
-                             * same as with pressing `SHIFT-ENTER`). Since we do not support that in posts we cannot allow
-                             * that here as well, so we overwrite the dedault behavior like this
-                             */
-                            return this.editor.commands.first(({commands}) => [
-                                () => commands.newlineInCode(),
-                                () => commands.createParagraphNear(),
-                                () => commands.liftEmptyBlock(),
-                                () => commands.splitBlock(),
-                            ]);
-                        },
-
-                        /**
-                         * currently we do not have an option to show a soft line break in the posts, so we overwrite
-                         * the behavior fom tiptap with teh default behavior on pressing enter
-                         */
-                        'Shift-Enter': () => {
-                            return this.editor.commands.first(({commands}) => [
-                                () => commands.newlineInCode(),
-                                () => commands.createParagraphNear(),
-                                () => commands.liftEmptyBlock(),
-                                () => commands.splitBlock(),
-                            ]);
-                        },
-                    };
-                },
-            }),
             StarterKit,
             Typography,
             Code,
@@ -316,6 +313,73 @@ export default (props: Props) => {
                 suggestion: makeEmojiSuggestion({
                     useCustomEmojis,
                 }),
+            }),
+
+            /**
+             * these should always come at the end so that we are able to override behavior from
+             * other extensions with this if needed
+             */
+            PasteHandler,
+            KeyboardHandler.extend({
+                addKeyboardShortcuts() {
+                    return {
+                        Enter: () => {
+                            const isCodeBlockActive = this.editor.isActive('codeBlock');
+                            const isQuoteActive = this.editor.isActive('blockquote');
+                            const isListActive = this.editor.isActive('bulletList') || this.editor.isActive('orderedList');
+                            const isTableActive = this.editor.isActive('table');
+
+                            // prevent submitting the message when one of these is active
+                            if (isCodeBlockActive || isTableActive || isQuoteActive || isListActive || ctrlSend) {
+                                return false;
+                            }
+
+                            onSubmit();
+                            return this.editor.commands.clearContent(true);
+                        },
+
+                        'Mod-Enter': () => {
+                            const isCodeBlockActive = this.editor.isActive('codeBlock');
+
+                            /**
+                             * when inside of a codeblock and the setting for sending the message with CMD/CTRL-Enter
+                             * force calling the `onSubmit` function and clear the editor content
+                             */
+                            if (isCodeBlockActive && codeBlockOnCtrlEnter) {
+                                onSubmit();
+                                return this.editor.commands.clearContent(true);
+                            }
+
+                            if (!isCodeBlockActive && ctrlSend) {
+                                onSubmit();
+                                return this.editor.commands.clearContent(true);
+                            }
+
+                            /**
+                             * for some reason the default behavior of tiptap in this case is adding in a soft break (the
+                             * same as with pressing `SHIFT-ENTER`). Since we do not support that in posts we cannot allow
+                             * that here as well, so we overwrite the dedault behavior like this
+                             */
+                            return this.editor.commands.first(({commands}) => [
+                                () => commands.createParagraphNear(),
+                                () => commands.liftEmptyBlock(),
+                                () => commands.splitBlock(),
+                            ]);
+                        },
+
+                        /**
+                         * currently we do not have an option to show a soft line break in the posts, so we overwrite
+                         * the behavior from tiptap with the default behavior on pressing enter
+                         */
+                        'Shift-Enter': () => {
+                            return this.editor.commands.first(({commands}) => [
+                                () => commands.createParagraphNear(),
+                                () => commands.liftEmptyBlock(),
+                                () => commands.splitBlock(),
+                            ]);
+                        },
+                    };
+                },
             }),
         ],
         content: draft?.content,

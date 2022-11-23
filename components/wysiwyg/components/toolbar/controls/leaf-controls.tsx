@@ -18,7 +18,8 @@ import {createPortal} from 'react-dom';
 import {useIntl} from 'react-intl';
 import styled from 'styled-components';
 
-import CCIconButton, {PIconButton} from '@mattermost/compass-components/components/icon-button';
+import CCIconButton from '@mattermost/compass-components/components/icon-button';
+import type PIconButton from '@mattermost/compass-components/components/icon-button/IconButton.props';
 
 import {t} from 'utils/i18n';
 
@@ -27,9 +28,12 @@ import {KEYBOARD_SHORTCUTS} from 'components/keyboard_shortcuts/keyboard_shortcu
 import ToolbarControl, {FloatingContainer} from '../toolbar_controls';
 import type {ToolDefinition} from '../toolbar_controls';
 
+// TODO@michel: replace this with the new components from Los Tigres once ready
 const IconButton = (props: PIconButton) => (
     <CCIconButton
         {...props}
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         type={'button'}
     />
 );
@@ -285,7 +289,7 @@ export const LinkOverlay = ({editor, open, onClose, buttonRef}: LinkOverlayProps
                         onChange={(event) => setUrl(event.target.value)}
                     />
                     {url !== null && url !== previousUrl && (
-                        <LinkInputHelp>{'⏎ Enter to send'}</LinkInputHelp>
+                        <LinkInputHelp>{formatMessage({id: 'wysiwyg.input-label.link.hint', defaultMessage: '⏎ Enter to save'})}</LinkInputHelp>
                     )}
                     {linkMarkIsActive && (
                         <IconButton
