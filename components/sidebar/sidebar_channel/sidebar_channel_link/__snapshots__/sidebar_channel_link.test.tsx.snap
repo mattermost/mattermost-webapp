@@ -50,7 +50,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={0}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <Connect(Component)
     channel={
       Object {
         "create_at": 0,
@@ -129,7 +129,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={0}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <Connect(Component)
     channel={
       Object {
         "create_at": 0,
@@ -232,7 +232,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={0}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <Connect(Component)
     channel={
       Object {
         "create_at": 0,
@@ -311,7 +311,7 @@ exports[`components/sidebar/sidebar_channel/sidebar_channel_link should match sn
   <ChannelMentionBadge
     unreadMentions={2}
   />
-  <Connect(injectIntl(SidebarChannelMenu))
+  <Connect(Component)
     channel={
       Object {
         "create_at": 0,
