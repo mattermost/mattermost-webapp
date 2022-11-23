@@ -23,6 +23,8 @@ import {getTrackFlowRole, getRoleForTrackFlow} from 'utils/utils';
 
 import AddToChannels, {CustomMessageProps, InviteChannels, defaultCustomMessage, defaultInviteChannels} from './add_to_channels';
 import InviteAs, {InviteType} from './invite_as';
+import OverageUsersBannerNotice from './overage_users_banner_notice';
+
 import './invite_view.scss';
 
 export const initializeInviteState = (initialSearchValue = '', inviteAsGuest = false): InviteState => {
@@ -246,6 +248,7 @@ export default function InviteView(props: Props) {
                         inviteType={props.inviteType}
                     />
                 )}
+                <OverageUsersBannerNotice/>
             </Modal.Body>
             <Modal.Footer className={'InviteView__footer ' + props.footerClass}>
                 {copyButton}

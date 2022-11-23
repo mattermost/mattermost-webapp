@@ -395,6 +395,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>
@@ -532,6 +533,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>
@@ -656,6 +658,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>
@@ -780,6 +783,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>
@@ -904,6 +908,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>
@@ -1028,6 +1033,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={true}
             />
           </div>
@@ -1141,6 +1147,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>
@@ -1787,6 +1794,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>
@@ -1912,6 +1920,7 @@ exports[`components/admin_console/license_settings/LicenseSettings should match 
               }
               openEELicenseModal={[Function]}
               removing={false}
+              statsActiveUsers={10}
               upgradedFromTE={false}
             />
           </div>

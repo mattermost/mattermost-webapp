@@ -22,6 +22,15 @@
             font-weight: 600;
             line-height: 24px;
 
+            i.icon {
+                width: 16px;
+                height: 16px;
+
+                &::before {
+                    margin: 0;
+                }
+            }
+
             &:hover {
                 background-color: rgba(var(--center-channel-color-rgb), 0.08);
                 cursor: pointer;
@@ -35,8 +44,19 @@
         }
 
         .MenuItem {
-            i {
+            i.icon {
+                width: 16px;
+                height: 16px;
                 color: rgba(var(--center-channel-color-rgb), 0.56);
+
+                &::before {
+                    margin: 0;
+                }
+            }
+
+            .RestrictedIndicator__icon-tooltip-container {
+                align-self: center;
+                padding: 7px 10px;
             }
         }
 

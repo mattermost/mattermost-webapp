@@ -12,7 +12,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/type
 import {Audit} from '@mattermost/types/audits';
 import {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
 import {Bot, BotPatch} from '@mattermost/types/bots';
-import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, IntegrationsUsage, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
+import {Product, CloudCustomer, Address, CloudCustomerPatch, Invoice, Limits, NotifyAdminRequest, Subscription, ValidBusinessEmail} from '@mattermost/types/cloud';
 import {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
 import {
     Channel,
@@ -3749,6 +3749,13 @@ export default class Client4 {
         );
     }
 
+    createGroupTeamsAndChannels = (userID: string) => {
+        return this.doFetch<Group>(
+            `${this.getBaseRoute()}/ldap/users/${userID}/group_sync_memberships`,
+            {method: 'post'},
+        );
+    }
+
     // Redirect Location
     getRedirectLocation = (urlParam: string) => {
         if (!urlParam.length) {
@@ -3833,12 +3840,6 @@ export default class Client4 {
         }
         return this.doFetch<Product[]>(
             `${this.getCloudRoute()}/products${query}`, {method: 'get'},
-        );
-    };
-
-    getIntegrationsUsage = () => {
-        return this.doFetch<IntegrationsUsage>(
-            `${this.getUsageRoute()}/integrations`, {method: 'get'},
         );
     };
 
