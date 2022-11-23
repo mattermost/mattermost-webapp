@@ -56,11 +56,11 @@
         }
 
         &:hover:enabled {
-            background: rgba(var(--online-indicator-rgb), 1);
+            background: rgb(var(--online-indicator-rgb));
         }
 
         &:active:enabled {
-            background: rgba(var(--online-indicator-rgb), 1);
+            background: rgb(var(--online-indicator-rgb));
         }
     }
 }
