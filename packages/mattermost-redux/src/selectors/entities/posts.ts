@@ -10,6 +10,21 @@ import {getMyPreferences} from 'mattermost-redux/selectors/entities/preferences'
 import {getUsers, getCurrentUserId, getUserStatuses} from 'mattermost-redux/selectors/entities/users';
 import {getConfig, getFeatureFlagValue} from 'mattermost-redux/selectors/entities/general';
 
+import {createIdsSelector} from 'mattermost-redux/utils/helpers';
+
+import {
+    isPostEphemeral,
+    isSystemMessage,
+    shouldFilterJoinLeavePost,
+    comparePosts,
+    isPostPendingOrFailed,
+    isPostCommentMention,
+} from 'mattermost-redux/utils/post_utils';
+
+import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
+
+import {shouldShowJoinLeaveMessages} from 'mattermost-redux/utils/post_list';
+
 import {Channel} from '@mattermost/types/channels';
 import {
     MessageHistory,
@@ -25,17 +40,6 @@ import {
     RelationOneToOne,
     RelationOneToMany,
 } from '@mattermost/types/utilities';
-
-import {createIdsSelector} from 'mattermost-redux/utils/helpers';
-import {
-    isPostEphemeral,
-    isSystemMessage,
-    shouldFilterJoinLeavePost,
-    comparePosts,
-    isPostPendingOrFailed,
-    isPostCommentMention,
-} from 'mattermost-redux/utils/post_utils';
-import {getPreferenceKey} from 'mattermost-redux/utils/preference_utils';
 
 export function getAllPosts(state: GlobalState) {
     return state.entities.posts.posts;
@@ -351,9 +355,11 @@ export function makeGetPostsForThread(): (state: GlobalState, rootId: string) =>
     return createIdsSelector(
         'makeGetPostsForThread',
         getAllPosts,
+        getCurrentUser,
         (state: GlobalState, rootId: string) => state.entities.posts.postsInThread[rootId],
         (state: GlobalState, rootId: string) => state.entities.posts.posts[rootId],
-        (posts, postsForThread, rootPost) => {
+        shouldShowJoinLeaveMessages,
+        (posts, currentUser, postsForThread, rootPost, showJoinLeave) => {
             const thread: Post[] = [];
 
             if (rootPost) {
@@ -363,7 +369,9 @@ export function makeGetPostsForThread(): (state: GlobalState, rootId: string) =>
             postsForThread?.forEach((id) => {
                 const post = posts[id];
 
-                if (post) {
+                const skip = shouldFilterJoinLeavePost(post, showJoinLeave, currentUser ? currentUser.username : '');
+
+                if (post && !skip) {
                     thread.push(post);
                 }
             });
