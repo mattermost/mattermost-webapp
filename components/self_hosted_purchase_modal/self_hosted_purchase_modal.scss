@@ -1,0 +1,69 @@
+.SelfHostedPurchaseModal {
+    overflow: hidden;
+    height: 100%;
+
+    .form {
+        width: 100%;
+        height: 100%;
+        padding: 77px 107px;
+        color: var(--center-channel-color);
+        font-family: "Open Sans";
+        font-size: 16px;
+        font-weight: 600;
+
+        &--hide {
+            display: none;
+            // width: 1;
+            // height: 1;
+            // overflow: none;
+            // position: absolute;
+            // top: calc(100vh + 20px);
+        }
+    }
+
+    .submitting {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        flex-direction: row;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        padding: 77px 107px;
+        color: var(--center-channel-color);
+        font-family: "Open Sans";
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .purchase-success {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        flex-direction: row;
+        flex-grow: 1;
+        flex-wrap: wrap;
+        align-content: center;
+        justify-content: center;
+        padding: 77px 107px;
+        color: var(--center-channel-color);
+        font-family: "Open Sans";
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .background-svg {
+        position: absolute;
+        z-index: -1;
+        top: 0;
+
+        >div {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+    }
+}

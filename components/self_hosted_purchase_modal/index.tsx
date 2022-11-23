@@ -5,6 +5,7 @@ import React, {useEffect, useRef, useReducer, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {useIntl} from 'react-intl';
 
+import classNames from 'classnames';
 import {StripeCardElementChangeEvent} from '@stripe/stripe-js';
 import {Elements} from '@stripe/react-stripe-js';
 
@@ -39,7 +40,6 @@ import CreditCardSvg from 'components/common/svg_images_components/credit_card_s
 import Input from 'components/widgets/inputs/input/input';
 
 import IconMessage from 'components/purchase_modal/icon_message';
-import 'components/purchase_modal/purchase.scss';
 
 import {
     ModalIdentifiers,
@@ -51,6 +51,8 @@ import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
+
+import './self_hosted_purchase_modal.scss';
 
 interface State {
     address: string;
@@ -141,6 +143,7 @@ interface UpdateSucceeded {
 
 interface StartOver {
     type: 'start_over';
+    data?: Partial<State>;
 }
 
 interface UpdateProgressBar {
@@ -190,6 +193,7 @@ const initialState: State = {
 
 const maxFakeProgress = 90;
 const maxFakeProgressIncrement = 5;
+const fakeProgressInterval = 1500;
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -230,8 +234,16 @@ function reducer(state: State, action: Action): State {
         return {...state, submitting: false, succeeded: true};
     case 'update_seats':
         return {...state, seats: action.data};
-    case 'start_over':
-        return initialState;
+    case 'start_over': {
+        let newState = {...initialState, seats: state.seats};
+        if (action.data) {
+            newState = {
+                ...newState,
+                ...action.data,
+            };
+        }
+        return newState;
+    }
     default:
         // eslint-disable-next-line
         console.error(`Exhaustiveness failure for self hosted purchase modal. action: ${JSON.stringify(action)}`)
@@ -346,13 +358,13 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const [stripeLoadHint, setStripeLoadHint] = useState(Math.random());
 
     const stripeRef = useLoadStripe(stripeLoadHint);
-    const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE;
+    const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE && !state.submitting;
 
     useEffect(() => {
         if (typeof totalUsers === 'number' && totalUsers > state.seats) {
             dispatch({type: 'update_seats', data: totalUsers});
         }
-    }, [totalUsers])
+    }, [totalUsers]);
     useEffect(() => {
         pageVisited(
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
@@ -374,7 +386,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
             }
             fakeProgressRef.current.intervalId = setInterval(() => {
                 dispatch({type: 'update_progress_bar_fake'});
-            });
+            }, fakeProgressInterval);
         } else if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
             clearInterval(fakeProgressRef.current.intervalId);
         }
@@ -504,26 +516,9 @@ export default function SelfHostedPurchaseModal(props: Props) {
                         reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
                     }}
                 >
-                    <div className='PurchaseModal PurchaseModal--self-hosted'>
-                        <div>
-                            {progress === SelfHostedSignupProgress.CREATED_LICENSE && 'enjoy your license'}
-
-                            {state.submitting &&
-                            <IconMessage
-                                title={t('admin.billing.subscription.verifyPaymentInformation')}
-                                subtitle={''}
-                                icon={
-                                    <CreditCardSvg
-                                        width={444}
-                                        height={313}
-                                    />
-                                }
-                                footer={progressBar}
-                                className={'processing'}
-                            />
-
-                            }
-                            {showForm && <div style={{margin: '30px'}}>
+                    <div className='SelfHostedPurchaseModal'>
+                        {<div className={classNames('form', {'form--hide': !showForm})}>
+                            <div style={{margin: '30px'}}>
                                 <div>
                                     <CardInput
                                         forwardedRef={cardRef}
@@ -665,28 +660,47 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                         required={true}
                                     />
                                 </div>
-                            </div>}
+                            </div>
 
-                            {progress !== SelfHostedSignupProgress.PAID && (
-                                <button
-                                    onClick={() => {
-                                        Client4.bootstrapSelfHostedSignup(true).
-                                            then(() => {
-                                                dispatch({type: 'start_over'});
-                                            });
-                                    }}
-                                >
-                                    {'start over'}
-                                </button>
-                            )}
+                            <button
+                                onClick={() => {
+                                    Client4.bootstrapSelfHostedSignup(true).
+                                        then((data) => {
+                                            cardRef.current?.getCard()?.clear();
+                                            reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
+                                            dispatch({type: 'start_over', data: {seats: typeof totalUsers === 'number' ? totalUsers : state.seats}});
+                                        });
+                                }}
+                            >
+                                {'start over'}
+                            </button>
+                            <button
+                                className=''
+                                disabled={!canSubmitForm}
+                                onClick={buttonAction}
+                            >
+                                {buttonStep}
+                            </button>
+                        </div>}
+                        {progress === SelfHostedSignupProgress.CREATED_LICENSE && <div className='purchase-success'>{'enjoy your license'}</div>}
+
+                        {state.submitting &&
+                        <div className='submitting'>
+                            <IconMessage
+                                title={t('admin.billing.subscription.verifyPaymentInformation')}
+                                subtitle={''}
+                                icon={
+                                    <CreditCardSvg
+                                        width={444}
+                                        height={313}
+                                    />
+                                }
+                                footer={progressBar}
+                                className={'processing'}
+                            />
+
                         </div>
-                        <button
-                            className=''
-                            disabled={!canSubmitForm}
-                            onClick={buttonAction}
-                        >
-                            {buttonStep}
-                        </button>
+                        }
                         <div className='background-svg'>
                             <BackgroundSvg/>
                         </div>

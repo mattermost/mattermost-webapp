@@ -45,8 +45,12 @@ function products(state: SelfHostedProducts = initialProducts, action: GenericAc
 type SignupProgress = ValueOf<typeof SelfHostedSignupProgress>;
 function signupProgress(state = SelfHostedSignupProgress.START, action: GenericAction): SignupProgress {
     switch (action.type) {
-    case HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS:
+    case HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS: {
+        if (!action.data) {
+            throw new Error(`uh ohh, expect action to have data but it dit not. Action: ${JSON.stringify(action, null, 2)}`);
+        }
         return action.data;
+    }
     default:
         return state;
     }
