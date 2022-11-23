@@ -1349,14 +1349,11 @@ export function acknowledgePost(postId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const userId = getCurrentUserId(getState());
 
-        dispatch({type: PostTypes.CREATE_ACK_POST_REQUEST});
-
         let data;
         try {
             data = await Client4.acknowledgePost(postId, userId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch({type: PostTypes.CREATE_ACK_POST_FAILURE, error});
             dispatch(logError(error));
             return {error};
         }
@@ -1374,13 +1371,10 @@ export function unacknowledgePost(postId: string) {
     return async (dispatch: DispatchFunc, getState: GetStateFunc) => {
         const userId = getCurrentUserId(getState());
 
-        dispatch({type: PostTypes.DELETE_ACK_POST_REQUEST});
-
         try {
             await Client4.unacknowledgePost(postId, userId);
         } catch (error) {
             forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch({type: PostTypes.DELETE_ACK_POST_FAILURE, error});
             dispatch(logError(error));
             return {error};
         }
