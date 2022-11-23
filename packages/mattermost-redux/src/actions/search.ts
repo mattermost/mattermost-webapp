@@ -80,7 +80,7 @@ export function searchPostsWithParams(teamId: string, params: SearchParameter): 
         let posts;
 
         try {
-            posts = await Client4.searchPostsWithParams(params.has_user_mention ? '' : teamId, params);
+            posts = await Client4.searchPostsWithParams(params.search_mentions ? '' : teamId, params);
 
             const profilesAndStatuses = getProfilesAndStatusesForPosts(posts.posts, dispatch, getState);
             const missingChannels = dispatch(getMissingChannelsFromPosts(posts.posts));
@@ -117,7 +117,7 @@ export function searchPostsWithParams(teamId: string, params: SearchParameter): 
 }
 
 export function searchPosts(teamId: string, terms: string, isOrSearch: boolean, includeDeletedChannels: boolean) {
-    return searchPostsWithParams(teamId, {terms, is_or_search: isOrSearch, include_deleted_channels: includeDeletedChannels, page: 0, per_page: WEBAPP_SEARCH_PER_PAGE, has_user_mention: false});
+    return searchPostsWithParams(teamId, {terms, is_or_search: isOrSearch, include_deleted_channels: includeDeletedChannels, page: 0, per_page: WEBAPP_SEARCH_PER_PAGE, search_mentions: false});
 }
 
 export function getMorePostsForSearch(): ActionFunc {
@@ -186,7 +186,7 @@ export function searchFilesWithParams(teamId: string, params: SearchParameter): 
 }
 
 export function searchFiles(teamId: string, terms: string, isOrSearch: boolean, includeDeletedChannels: boolean) {
-    return searchFilesWithParams(teamId, {terms, is_or_search: isOrSearch, include_deleted_channels: includeDeletedChannels, page: 0, per_page: WEBAPP_SEARCH_PER_PAGE, has_user_mention: false});
+    return searchFilesWithParams(teamId, {terms, is_or_search: isOrSearch, include_deleted_channels: includeDeletedChannels, page: 0, per_page: WEBAPP_SEARCH_PER_PAGE, search_mentions: false});
 }
 
 export function getMoreFilesForSearch(): ActionFunc {

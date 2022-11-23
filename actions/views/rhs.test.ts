@@ -226,13 +226,13 @@ describe('rhs view actions', () => {
             const timeZoneOffset = getBrowserUtcOffset() * 60;
 
             const compareStore = mockStore(initialState);
-            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, has_user_mention: false}));
-            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, has_user_mention: false}));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, search_mentions: false}));
+            compareStore.dispatch(SearchActions.searchFilesWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: false, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, search_mentions: false}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
 
             store.dispatch(performSearch(terms, true));
-            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, has_user_mention: true}));
+            compareStore.dispatch(SearchActions.searchPostsWithParams(currentTeamId, {include_deleted_channels: false, terms, is_or_search: true, time_zone_offset: timeZoneOffset, page: 0, per_page: 20, search_mentions: true}));
 
             expect(store.getActions()).toEqual(compareStore.getActions());
         });

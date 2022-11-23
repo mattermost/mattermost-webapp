@@ -168,11 +168,11 @@ export function performSearch(terms: string, isMentionSearch?: boolean) {
         const userTimezone = makeGetUserTimezone()(getState(), userId);
         const userCurrentTimezone = getUserCurrentTimezone(userTimezone);
         const timezoneOffset = ((userCurrentTimezone && (userCurrentTimezone.length > 0)) ? getUtcOffsetForTimeZone(userCurrentTimezone) : getBrowserUtcOffset()) * 60;
-        const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, has_user_mention: Boolean(isMentionSearch), page: 0, per_page: 20}));
+        const messagesPromise = dispatch(searchPostsWithParams(teamId, {terms, is_or_search: Boolean(isMentionSearch), include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, search_mentions: Boolean(isMentionSearch), page: 0, per_page: 20}));
         if (isMentionSearch) {
             return Promise.all([messagesPromise]);
         }
-        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilters, is_or_search: false, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, has_user_mention: false, page: 0, per_page: 20}));
+        const filesPromise = dispatch(searchFilesWithParams(teamId, {terms: termsWithExtensionsFilters, is_or_search: false, include_deleted_channels: viewArchivedChannels, time_zone_offset: timezoneOffset, search_mentions: false, page: 0, per_page: 20}));
         return Promise.all([filesPromise, messagesPromise]);
     };
 }
