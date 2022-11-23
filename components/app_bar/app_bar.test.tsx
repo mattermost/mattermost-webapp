@@ -58,7 +58,7 @@ describe('components/app_bar/app_bar', () => {
                 },
                 general: {
                     config: {
-                        EnableAppBar: 'true',
+                        DisableAppBar: 'false',
                         FeatureFlagAppsEnabled: 'true',
                     } as any,
                 },
@@ -126,7 +126,7 @@ describe('components/app_bar/app_bar', () => {
     });
 
     test('should match snapshot on mount when App Bar is disabled', async () => {
-        mockState.entities.general.config.EnableAppBar = 'false';
+        mockState.entities.general.config.DisableAppBar = 'true';
 
         const wrapper = mount(
             <AppBar/>,

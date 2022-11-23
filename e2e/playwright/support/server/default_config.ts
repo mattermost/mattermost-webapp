@@ -36,7 +36,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
             ClusterName: testConfig.haClusterName,
         },
         ExperimentalSettings: {
-            EnableAppBar: true,
+            DisableAppBar: false,
         },
         PasswordSettings: {
             MinimumLength: 5,
@@ -527,7 +527,7 @@ const defaultServerConfig: AdminConfig = {
         UseNewSAMLLibrary: false,
         EnableSharedChannels: false,
         EnableRemoteClusterService: false,
-        EnableAppBar: false,
+        DisableAppBar: true,
     },
     AnalyticsSettings: {
         MaxUsersForStatistics: 2500,
