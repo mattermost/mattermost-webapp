@@ -13,15 +13,15 @@ import {isPostAcknowledgementsEnabled} from 'mattermost-redux/selectors/entities
 
 import Badge from 'components/widgets/badges/badge';
 
-import {Post, PostPriority} from '@mattermost/types/posts';
+import {PostPriority, PostPriorityMetadata} from '@mattermost/types/posts';
 
 import Menu, {MenuGroup, MenuItem, ToggleItem} from './post_priority_picker_item';
 import './post_priority_picker.scss';
 
 type Props = {
-    settings?: Post['metadata']['priority'];
+    settings?: PostPriorityMetadata;
     onClose: () => void;
-    onApply: (props: Post['metadata']['priority']) => void;
+    onApply: (props: PostPriorityMetadata) => void;
     placement: string;
     rightOffset?: number;
     topOffset?: number;
@@ -44,11 +44,11 @@ const ImportantIcon = styled(AlertCircleOutlineIcon)`
 `;
 
 const StandardIcon = styled(MessageTextOutlineIcon)`
-    fill: var(--center-channel-color-56);
+    fill: rgba(var(--center-channel-rgb), 0.56));
 `;
 
 const AcknowledgementIcon = styled(CheckCircleOutlineIcon)`
-    fill: var(--center-channel-color-56);
+    fill: rgba(var(--center-channel-rgb), 0.56));
 `;
 
 const Header = styled.h4`

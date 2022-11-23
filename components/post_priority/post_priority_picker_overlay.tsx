@@ -7,15 +7,15 @@ import memoize from 'memoize-one';
 
 import {popOverOverlayPosition} from 'utils/position_utils';
 
-import {Post} from '@mattermost/types/posts';
+import {PostPriorityMetadata} from '@mattermost/types/posts';
 
 import PostPriorityPicker from './post_priority_picker';
 
 type Props = {
     show: boolean;
-    settings?: Post['metadata']['priority'];
+    settings?: PostPriorityMetadata;
     target: () => React.RefObject<HTMLButtonElement> | React.ReactInstance | null;
-    onApply: (props: Post['metadata']['priority']) => void;
+    onApply: (props: PostPriorityMetadata) => void;
     onHide: () => void;
     defaultHorizontalPosition: 'left'|'right';
 };

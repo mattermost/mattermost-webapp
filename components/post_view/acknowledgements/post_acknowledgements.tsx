@@ -31,7 +31,6 @@ import PostAcknowledgementsUserPopover from './post_acknowledgements_users_popov
 import './post_acknowledgements.scss';
 
 type Props = {
-    acknowledgedAt: number;
     currentUserId: UserProfile['id'];
     hasReactions: boolean;
     list?: Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}>;
@@ -44,14 +43,21 @@ function moreThan5minAgo(time: number) {
 }
 
 function PostAcknowledgements({
-    acknowledgedAt,
     currentUserId,
     hasReactions,
     list,
     postId,
 }: Props) {
+    let acknowledgedAt = 0;
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
+
+    if (list && list.length) {
+        const ack = list.find((ack) => ack.user.id === currentUserId);
+        if (ack) {
+            acknowledgedAt = ack.acknowledgedAt;
+        }
+    }
 
     const {x, y, reference, floating, strategy, context} = useFloating({
         open,

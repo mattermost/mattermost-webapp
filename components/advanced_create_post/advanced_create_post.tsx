@@ -56,7 +56,7 @@ import {ModalData} from 'types/actions';
 import {PostDraft} from 'types/store/draft';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
-import {Post, PostMetadata} from '@mattermost/types/posts';
+import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
 import {PreferenceType} from '@mattermost/types/preferences';
 import {ServerError} from '@mattermost/types/errors';
 import {CommandArgs} from '@mattermost/types/integrations';
@@ -1398,7 +1398,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         this.handlePostPriorityApply();
     }
 
-    handlePostPriorityApply = (settings?: Post['metadata']['priority']) => {
+    handlePostPriorityApply = (settings?: PostPriorityMetadata) => {
         const updatedDraft = {
             ...this.props.draft,
         };
@@ -1512,7 +1512,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
                     labels={(
-                        this.hasPrioritySet() && (
+                        this.hasPrioritySet() ? (
                             <div className='AdvancedTextEditor__priority'>
                                 {this.props.draft.metadata!.priority!.priority && (
                                     <PriorityLabel
@@ -1561,7 +1561,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     </button>
                                 </OverlayTrigger>
                             </div>
-                        )
+                        ): undefined
                     )}
                     additionalControls={[
                         this.props.isPostPriorityEnabled ? (

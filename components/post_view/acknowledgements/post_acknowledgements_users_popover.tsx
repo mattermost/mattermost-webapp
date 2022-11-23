@@ -36,15 +36,15 @@ const Info = styled.div`
 
 const Title = styled.div`
     padding: 8px 20px;
-    color: rgba(var(--center-channel-text-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     text-transform: uppercase;
     font-weight: 600;
     font-size: 12px;
     line-height: 16px;
-    `;
+`;
 
 const Span = styled.span`
-    color: rgba(var(--center-channel-text-rgb), 0.56);
+    color: rgba(var(--center-channel-color-rgb), 0.56);
     font-size: 12px;
     line-height: 18px;
 `;

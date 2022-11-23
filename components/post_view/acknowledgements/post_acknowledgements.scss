@@ -11,32 +11,32 @@
     min-width: 0;
     align-items: center;
     border: 0;
-    background: rgba(var(--denim-status-online-rgb), 0.08);
+    background: rgba(var(--online-indicator-rgb), 0.08);
     border-radius: 4px;
-    color: var(--denim-status-online);
+    color: var(--online-indicator);
     font-weight: 600;
     transition: all 0.15s ease-out;
 
     > svg {
         margin-right: 3px;
-        fill: var(--denim-status-online);
+        fill: var(--online-indicator);
     }
 
     &:disabled {
-        background: rgba(var(--denim-status-online-rgb), 0.08);
-        color: rgba(var(--denim-status-online-rgb), 0.32);
+        background: rgba(var(--online-indicator-rgb), 0.08);
+        color: rgba(var(--online-indicator-rgb), 0.32);
     }
 
     &:hover:enabled {
-        background: rgba(var(--denim-status-online-rgb), 0.12);
+        background: rgba(var(--online-indicator-rgb), 0.12);
     }
 
     &:active:enabled {
-        background: rgba(var(--denim-status-online-rgb), 0.16);
+        background: rgba(var(--online-indicator-rgb), 0.16);
     }
 
     &--acked {
-        background: rgba(var(--denim-status-online-rgb), 0.8);
+        background: rgba(var(--online-indicator-rgb), 0.8);
         color: #fff;
 
         > svg {
@@ -45,7 +45,7 @@
         }
 
         &:disabled {
-            background: rgba(var(--denim-status-online-rgb), 0.8);
+            background: rgba(var(--online-indicator-rgb), 0.8);
             color: #fff;
             cursor: not-allowed;
 
@@ -56,11 +56,11 @@
         }
 
         &:hover:enabled {
-            background: rgba(var(--denim-status-online-rgb), 1);
+            background: rgba(var(--online-indicator-rgb), 1);
         }
 
         &:active:enabled {
-            background: rgba(var(--denim-status-online-rgb), 1);
+            background: rgba(var(--online-indicator-rgb), 1);
         }
     }
 }

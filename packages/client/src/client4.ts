@@ -2341,8 +2341,8 @@ export default class Client4 {
         this.trackEvent('api', 'api_posts_ack');
 
         return this.doFetch<PostAcknowledgement>(
-            `${this.getPostRoute(postId)}/ack`,
-            {method: 'post', body: JSON.stringify({user_id: userId})},
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
+            {method: 'post'},
         );
     };
 
@@ -2350,7 +2350,7 @@ export default class Client4 {
         this.trackEvent('api', 'api_posts_unack');
 
         return this.doFetch<null>(
-            `${this.getPostRoute(postId)}/ack/${userId}`,
+            `${this.getUserRoute(userId)}/posts/${postId}/ack`,
             {method: 'delete'},
         );
     };

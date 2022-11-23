@@ -21,16 +21,7 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
     const hasReactions = getHasReactions(state, ownProps.postId);
     const list = getPostAcknowledgementsWithProfiles(state, ownProps.postId);
 
-    let acknowledgedAt = 0;
-    if (list && list.length) {
-        const ack = list.find((ack) => ack.user.id === currentUserId);
-        if (ack) {
-            acknowledgedAt = ack.acknowledgedAt;
-        }
-    }
-
     return {
-        acknowledgedAt,
         currentUserId,
         hasReactions,
         list,

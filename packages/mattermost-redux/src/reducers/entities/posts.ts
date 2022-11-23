@@ -1260,17 +1260,16 @@ export function acknowledgements(state: RelationOneToOne<Post, Record<UserProfil
         };
     }
 
-    case PostTypes.RECEIVED_NEW_POST:
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
 
-        return storeAcknoledgementsForPost(state, post);
+        return storeAcknowledgementsForPost(state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
         const posts: Post[] = Object.values(action.data.posts);
 
-        return posts.reduce(storeAcknoledgementsForPost, state);
+        return posts.reduce(storeAcknowledgementsForPost, state);
     }
 
     case PostTypes.POST_DELETED:
@@ -1312,8 +1311,13 @@ function storeReactionsForPost(state: any, post: Post) {
     };
 }
 
-function storeAcknoledgementsForPost(state: any, post: Post) {
-    if (!post.metadata || !post.metadata.acknowledgements || post.delete_at > 0) {
+function storeAcknowledgementsForPost(state: any, post: Post) {
+    if (
+        !post.metadata ||
+        !post.metadata.acknowledgements ||
+        !post.metadata.acknowledgements.length ||
+        post.delete_at > 0
+    ) {
         return state;
     }
 
