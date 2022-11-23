@@ -70,7 +70,7 @@ const Footer = styled.div`
     display: flex;
     font-family: Open Sans;
     justify-content: flex-end;
-    padding: 12px 16px 4px;
+    padding: 16px;
     gap: 8px;
 `;
 
