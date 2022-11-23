@@ -34,6 +34,7 @@ import PostPreHeader from 'components/post_view/post_pre_header';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 import EditPost from 'components/edit_post';
 import AutoHeightSwitcher, {AutoHeightSlots} from 'components/common/auto_height_switcher';
+import PostAcknowledgements from 'components/post_view/acknowledgements';
 
 export default class RhsRootPost extends React.PureComponent {
     static propTypes = {
@@ -55,6 +56,7 @@ export default class RhsRootPost extends React.PureComponent {
         channelIsArchived: PropTypes.bool.isRequired,
         isPostPriorityEnabled: PropTypes.bool.isRequired,
         handleCardClick: PropTypes.func.isRequired,
+        isPostAcknowledgementsEnabled: PropTypes.bool,
 
         /**
          * To Check if the current post is last in the list of RHS
@@ -637,9 +639,12 @@ export default class RhsRootPost extends React.PureComponent {
                                 />
                             </div>
                             {fileAttachment}
-                            <ReactionList
-                                post={post}
-                            />
+                            <div className='post__body-reactions-acks'>
+                                {this.props.isPostAcknowledgementsEnabled && post.metadata?.priority?.requested_ack && (
+                                    <PostAcknowledgements postId={post.id}/>
+                                )}
+                                <ReactionList post={post}/>
+                            </div>
                         </div>
                     </div>
                 </div>
