@@ -70,6 +70,7 @@ import {createIdsSelector} from 'mattermost-redux/utils/helpers';
 import {createSelector} from 'reselect';
 
 import {getThreadCounts, getThreadCountsIncludingDirect} from './threads';
+import {isPostPriorityEnabled} from './posts';
 
 export {getCurrentChannelId, getMyChannelMemberships, getMyCurrentChannelMembership};
 export function getAllChannels(state: GlobalState): IDMappedObjects<Channel> {
@@ -672,7 +673,7 @@ export const getUnreadStatus: (state: GlobalState) => BasicUnreadStatus = create
  * - Set of team IDs that have unread messages
  * - Map with team IDs as keys and unread mentions counts as values
  */
-export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, Map<Team['id'], number>] = createSelector(
+export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, Map<Team['id'], number>, Map<Team['id'], boolean>] = createSelector(
     'getTeamsUnreadStatuses',
     getAllChannels,
     getMyChannelMemberships,
@@ -692,6 +693,7 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
     ) => {
         const teamUnreadsSet = new Set<Team['id']>();
         const teamMentionsMap = new Map<Team['id'], number>();
+        const teamHasUrgentMap = new Map<Team['id'], boolean>();
 
         for (const [channelId, channelMembership] of Object.entries(channelMemberships)) {
             const channel = channels[channelId];
@@ -740,6 +742,14 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
                     teamMentionsMap.set(channel.team_id, unreadCountObjectForChannel.mentions + previousMentionsInTeam);
                 }
             }
+
+            // Add has urgent mentions count from channel membership
+            if (unreadCountObjectForChannel.hasUrgent) {
+                const previousHasUrgetInTeam = teamHasUrgentMap.has(channel.team_id) ? teamHasUrgentMap.get(channel.team_id) as boolean : false;
+                if (!previousHasUrgetInTeam) {
+                    teamHasUrgentMap.set(channel.team_id, unreadCountObjectForChannel.hasUrgent);
+                }
+            }
         }
 
         if (collapsedThreadsEnabled) {
@@ -760,10 +770,18 @@ export const getTeamsUnreadStatuses: (state: GlobalState) => [Set<Team['id']>, M
                         teamMentionsMap.set(teamId, threadCountsObjectForTeam.total_unread_mentions + previousMentionsInTeam);
                     }
                 }
+
+                // Add mentions count from global threads view for team
+                if (threadCountsObjectForTeam.total_unread_urgent_mentions) {
+                    const previousHasUrgetInTeam = teamHasUrgentMap.has(teamId) ? teamHasUrgentMap.get(teamId) as boolean : false;
+                    if (!previousHasUrgetInTeam) {
+                        teamHasUrgentMap.set(teamId, Boolean(threadCountsObjectForTeam.total_unread_urgent_mentions));
+                    }
+                }
             }
         }
 
-        return [teamUnreadsSet, teamMentionsMap];
+        return [teamUnreadsSet, teamMentionsMap, teamHasUrgentMap];
     },
 );
 
@@ -778,6 +796,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
     getCurrentTeamId,
     isCollapsedThreadsEnabled,
     getThreadCountsIncludingDirect,
+    isPostPriorityEnabled,
     (
         currentChannelId,
         channels,
@@ -788,6 +807,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
         currentTeamId,
         collapsedThreadsEnabled,
         threadCounts,
+        postPriorityEnabled,
     ) => {
         const {
             messages: currentTeamUnreadMessages,
@@ -809,6 +829,10 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
                 counts.mentions += mentions;
             }
 
+            if (postPriorityEnabled) {
+                counts.urgentMentions += m.urgent_mention_count;
+            }
+
             const unreadCount = calculateUnreadCount(messageCounts[channel.id], m, collapsedThreadsEnabled);
             if (unreadCount.showUnread) {
                 counts.messages += unreadCount.messages;
@@ -818,6 +842,7 @@ export const getUnreadStatusInCurrentTeam: (state: GlobalState) => BasicUnreadSt
         }, {
             messages: 0,
             mentions: 0,
+            urgentMentions: 0,
         });
 
         let totalUnreadMentions = currentTeamUnreadMentions;

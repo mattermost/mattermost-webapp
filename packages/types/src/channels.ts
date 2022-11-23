@@ -105,6 +105,9 @@ export type ChannelMembership = {
     /** The number of unread mentions in root posts in this channel */
     mention_count_root: number;
 
+    /** The number of unread urgent mentions in this channel */
+    urgent_mention_count: number;
+
     notify_props: Partial<ChannelNotifyProps>;
     last_update_at: number;
     scheme_user: boolean;
@@ -125,6 +128,9 @@ export type ChannelUnread = {
 
     /** The number of unread mentions in this channel */
     mention_count: number;
+
+    /** The number of unread urgent mentions in this channel */
+    urgent_mention_count: number;
 
     /** The number of unread mentions in root posts in this channel */
     mention_count_root: number;

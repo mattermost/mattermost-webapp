@@ -62,6 +62,8 @@ type Props = {
 
     showChannelsTutorialStep: boolean;
 
+    hasUrgent: boolean;
+
     actions: {
         markMostRecentPostInChannelAsUnread: (channelId: string) => void;
         clearChannelSelection: () => void;
@@ -173,6 +175,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
             unreadMentions,
             firstChannelName,
             showChannelsTutorialStep,
+            hasUrgent,
         } = this.props;
 
         let channelsTutorialTip: JSX.Element | null = null;
@@ -246,6 +249,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                 </div>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
+                    hasUrgent={hasUrgent}
                 />
                 <SidebarChannelMenu
                     channel={channel}

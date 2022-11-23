@@ -4338,7 +4338,6 @@
   "pricing_modal.briefing.enterprise.mobileSecurity": "Расширенная безопасность мобильных устройств с помощью push-уведомлений только для идентификаторов",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "Расширенные роли и разрешения",
   "pricing_modal.briefing.enterprise.unlimitedFileStorage": "Неограниченное файловое хранилище",
-  "pricing_modal.briefing.free.integrations": "{integrations} интеграция с другими приложениями, такими как GitHub, Jira и Jenkins",
   "pricing_modal.briefing.free.oneTeamPerWorkspace": "Одна команда на одно рабочее пространство",
   "pricing_modal.briefing.free.recentMessageBoards": "Доступ к {messages} последним сообщениям, {boards} последним карточкам досок",
   "pricing_modal.briefing.fullMessageAndHistory": "Полная история сообщений и файлов",

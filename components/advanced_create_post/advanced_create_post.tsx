@@ -29,6 +29,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
+    mentionsMinusSpecialMentionsInText,
 } from 'utils/post_utils';
 import {getTable, hasHtmlLink, formatMarkdownMessage, formatGithubCodePaste, isGitHubCodeBlock} from 'utils/paste';
 import * as UserAgent from 'utils/user_agent';
@@ -222,6 +223,8 @@ type Props = {
 
         //Function used to advance the tutorial forward
         savePreferences: (userId: string, preferences: PreferenceType[]) => ActionResult;
+
+        searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
     };
 
     groupsWithAllowReference: Map<string, Group> | null;
@@ -303,7 +306,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {actions} = this.props;
         this.onOrientationChange();
         actions.setShowPreview(false);
         actions.clearDraftUploads();
@@ -312,21 +315,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         document.addEventListener('keydown', this.documentKeyHandler);
         window.addEventListener('beforeunload', this.unloadHandler);
         this.setOrientationListeners();
-
-        if (useLDAPGroupMentions && currentChannel.id) {
-            actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
-        }
+        this.getChannelMemberCountsByGroup();
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        const {useLDAPGroupMentions, currentChannel, isTimezoneEnabled, actions} = this.props;
+        const {currentChannel, actions} = this.props;
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
             this.saveDraft(prevProps);
-            if (useLDAPGroupMentions && currentChannel.id) {
-                actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
-            }
+            this.getChannelMemberCountsByGroup();
         }
 
         if (currentChannel.id !== prevProps.currentChannel.id) {
@@ -350,6 +348,20 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
         this.saveDraft();
+    }
+
+    getChannelMemberCountsByGroup = () => {
+        const {useLDAPGroupMentions, useCustomGroupMentions, currentChannel, isTimezoneEnabled, actions, draft} = this.props;
+
+        if ((useLDAPGroupMentions || useCustomGroupMentions) && currentChannel.id) {
+            const mentions = mentionsMinusSpecialMentionsInText(draft.message);
+
+            if (mentions.length === 1) {
+                actions.searchAssociatedGroupsForReference(mentions[0], this.props.currentTeamId, currentChannel.id);
+            } else if (mentions.length > 1) {
+                actions.getChannelMemberCountsByGroup(currentChannel.id, isTimezoneEnabled);
+            }
+        }
     }
 
     unloadHandler = () => {
@@ -448,6 +460,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.file_ids = [];
         post.message = message;
         post.props = this.props.draft.props || {};
+        post.metadata = (this.props.draft.metadata || {}) as PostMetadata;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -696,7 +709,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.pending_post_id = `${userId}:${time}`;
         post.user_id = userId;
         post.create_at = time;
-        post.metadata = {} as PostMetadata;
+        post.metadata = {
+            ...originalPost.metadata,
+        } as PostMetadata;
+
         post.props = {
             ...originalPost.props,
         };
@@ -1395,9 +1411,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     handlePostPriorityApply = ({priority}: {priority?: PostPriority}) => {
         const updatedDraft = {
             ...this.props.draft,
-            props: {
-                ...this.props.draft.props,
-                priority,
+            metadata: {
+                priority: {
+                    priority,
+                    requested_ack: false,
+                    persistent_notifications: false,
+                },
             },
         };
 
@@ -1488,11 +1507,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
                     labels={(
-                        this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
+                        this.props.draft?.metadata?.priority && this.props.isPostPriorityEnabled && (
                             <div className='AdvancedTextEditor__priority'>
                                 <PriorityLabel
                                     size='xs'
-                                    priority={this.props.draft.props.priority}
+                                    priority={this.props.draft.metadata?.priority?.priority}
                                 />
                                 <OverlayTrigger
                                     placement='top'
@@ -1503,7 +1522,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                             <FormattedMessage
                                                 id={'post_priority.remove'}
                                                 defaultMessage={'Remove {priority} label'}
-                                                values={{priority: this.props.draft.props.priority}}
+                                                values={{priority: this.props.draft.metadata.priority.priority}}
                                             />
                                         </Tooltip>
                                     )}
@@ -1518,7 +1537,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                             <FormattedMessage
                                                 id={'post_priority.remove'}
                                                 defaultMessage={'Remove {priority} label'}
-                                                values={{priority: this.props.draft.props.priority}}
+                                                values={{priority: this.props.draft.metadata.priority.priority}}
                                             />
                                         </span>
                                     </button>
@@ -1530,7 +1549,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         this.props.isPostPriorityEnabled ? (
                             <React.Fragment key='PostPriorityPicker'>
                                 <PostPriorityPickerOverlay
-                                    priority={this.props.draft?.props?.priority}
+                                    priority={this.props.draft?.metadata?.priority?.priority}
                                     show={this.state.showPostPriorityPicker}
                                     target={this.getPostPriorityPickerRef}
                                     onApply={this.handlePostPriorityApply}
