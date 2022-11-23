@@ -1638,7 +1638,7 @@ describe('components/advanced_create_post', () => {
     });
 
     it('should match snapshot, post priority enabled, with priority important', () => {
-        const wrapper = shallow(advancedCreatePost({draft: {...draftProp, props: {priority: 'important'}}}));
+        const wrapper = shallow(advancedCreatePost({draft: {...draftProp, metadata: {priority: {priority: 'important'}}}}));
 
         expect(wrapper).toMatchSnapshot();
     });

@@ -51,6 +51,11 @@ export type PostMetadata = {
     files: FileInfo[];
     images: Record<string, PostImage>;
     reactions: Reaction[];
+    priority?: {
+        priority: PostPriority;
+        requested_ack?: boolean;
+        persistent_notifications?: boolean;
+    };
 };
 
 export type Post = {

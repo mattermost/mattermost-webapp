@@ -1323,11 +1323,14 @@ exports[`components/RhsRootPost should match snapshot when post priority is enab
       "id": "id",
       "is_pinned": false,
       "message": "post message",
+      "metadata": Object {
+        "priority": Object {
+          "priority": "important",
+        },
+      },
       "original_id": "",
       "pending_post_id": "",
-      "props": Object {
-        "priority": "important",
-      },
+      "props": Object {},
       "root_id": "",
       "type": "",
       "update_at": 1502715372443,
@@ -1363,11 +1366,14 @@ exports[`components/RhsRootPost should match snapshot when post priority is enab
             "id": "id",
             "is_pinned": false,
             "message": "post message",
+            "metadata": Object {
+              "priority": Object {
+                "priority": "important",
+              },
+            },
             "original_id": "",
             "pending_post_id": "",
-            "props": Object {
-              "priority": "important",
-            },
+            "props": Object {},
             "root_id": "",
             "type": "",
             "update_at": 1502715372443,
@@ -1440,11 +1446,14 @@ exports[`components/RhsRootPost should match snapshot when post priority is enab
                 "id": "id",
                 "is_pinned": false,
                 "message": "post message",
+                "metadata": Object {
+                  "priority": Object {
+                    "priority": "important",
+                  },
+                },
                 "original_id": "",
                 "pending_post_id": "",
-                "props": Object {
-                  "priority": "important",
-                },
+                "props": Object {},
                 "root_id": "",
                 "type": "",
                 "update_at": 1502715372443,
@@ -1482,11 +1491,14 @@ exports[`components/RhsRootPost should match snapshot when post priority is enab
                 "id": "id",
                 "is_pinned": false,
                 "message": "post message",
+                "metadata": Object {
+                  "priority": Object {
+                    "priority": "important",
+                  },
+                },
                 "original_id": "",
                 "pending_post_id": "",
-                "props": Object {
-                  "priority": "important",
-                },
+                "props": Object {},
                 "root_id": "",
                 "type": "",
                 "update_at": 1502715372443,
@@ -1519,11 +1531,14 @@ exports[`components/RhsRootPost should match snapshot when post priority is enab
                     "id": "id",
                     "is_pinned": false,
                     "message": "post message",
+                    "metadata": Object {
+                      "priority": Object {
+                        "priority": "important",
+                      },
+                    },
                     "original_id": "",
                     "pending_post_id": "",
-                    "props": Object {
-                      "priority": "important",
-                    },
+                    "props": Object {},
                     "root_id": "",
                     "type": "",
                     "update_at": 1502715372443,
@@ -1547,11 +1562,14 @@ exports[`components/RhsRootPost should match snapshot when post priority is enab
               "id": "id",
               "is_pinned": false,
               "message": "post message",
+              "metadata": Object {
+                "priority": Object {
+                  "priority": "important",
+                },
+              },
               "original_id": "",
               "pending_post_id": "",
-              "props": Object {
-                "priority": "important",
-              },
+              "props": Object {},
               "root_id": "",
               "type": "",
               "update_at": 1502715372443,
