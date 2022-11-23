@@ -8,7 +8,7 @@ import {
     Store,
 } from 'redux';
 import thunk from 'redux-thunk';
-import {composeWithDevTools} from 'redux-devtools-extension/developmentOnly';
+import {composeWithDevToolsDevelopmentOnly} from '@redux-devtools/extension';
 
 import {GlobalState} from '@mattermost/types/store';
 
@@ -39,20 +39,23 @@ export default function configureStore<S extends GlobalState>({
         ...preloadedState,
     };
 
-    let middleware = applyMiddleware(thunk);
-    middleware = composeWithDevTools({
-
-        // Set this to false to stop actions from being dispatched again when reducers are replaced.
-        // See https://github.com/reduxjs/redux-devtools/issues/304#issuecomment-251715413 for more information.
+    const composeEnhancers = composeWithDevToolsDevelopmentOnly({
         shouldHotReload: false,
-    })(middleware);
+        trace: true,
+        traceLimit: 25,
+        autoPause: true,
+    });
+
+    const middleware = applyMiddleware(thunk);
+
+    const enhancers = composeEnhancers(middleware);
 
     const baseReducer = createReducer(serviceReducers, appReducers);
 
     const store = legacy_createStore(
         baseReducer,
         baseState,
-        middleware,
+        enhancers,
     );
 
     reducerRegistry.setChangeListener((reducers: Record<string, Reducer>) => {

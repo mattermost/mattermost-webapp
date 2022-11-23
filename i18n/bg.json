@@ -2317,7 +2317,6 @@
   "analytics.system.totalReadDbConnections": "Връзки с репл. БД",
   "analytics.system.totalSessions": "Общо сесии",
   "analytics.system.totalTeams": "Общо екипи",
-  "analytics.system.totalUsers": "Общо активни потребители",
   "analytics.system.totalWebsockets": "Връзки на WebSocket",
   "analytics.team.activeUsers": "Активни потребители с публикации",
   "analytics.team.newlyCreated": "Новосъздадени потребители",
