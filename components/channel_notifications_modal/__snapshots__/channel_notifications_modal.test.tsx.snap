@@ -97,6 +97,7 @@ exports[`components/channel_notifications_modal/ChannelNotificationsModal should
             <NotificationSection
               expand={false}
               globalNotificationLevel="all"
+              isNotificationsSettingSameAsGlobal={true}
               memberDesktopNotificationSound="Bing"
               memberDesktopSound="on"
               memberNotificationLevel="all"
