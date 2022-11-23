@@ -4338,7 +4338,6 @@
   "pricing_modal.briefing.enterprise.mobileSecurity": "IDのみのプッシュ通知による高度なモバイルセキュリティ",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "役割と権限の高度な設定",
   "pricing_modal.briefing.enterprise.unlimitedFileStorage": "無制限のファイルストレージ",
-  "pricing_modal.briefing.free.integrations": "GitHub、Jira、Jenkinsなどと連携する {integrations} 個の統合機能",
   "pricing_modal.briefing.free.oneTeamPerWorkspace": "ワークスペースごとに1チーム",
   "pricing_modal.briefing.free.recentMessageBoards": "最新の {messages} メッセージと、{boards} ボードカードへアクセス可能",
   "pricing_modal.briefing.fullMessageAndHistory": "全てのメッセージとファイルの履歴",

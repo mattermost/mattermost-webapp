@@ -4354,7 +4354,6 @@
   "pricing_modal.briefing.enterprise.mobileSecurity": "Zaawansowane zabezpieczenia mobilne dzięki powiadomieniom push opartym wyłącznie na identyfikatorze",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "Zaawansowane role i uprawnienia",
   "pricing_modal.briefing.enterprise.unlimitedFileStorage": "Nieograniczone przechowywanie plików",
-  "pricing_modal.briefing.free.integrations": "{integrations} integracje z innymi aplikacjami, takimi jak GitHub, Jira i Jenkins",
   "pricing_modal.briefing.free.oneTeamPerWorkspace": "Jeden zespół na jeden obszar roboczy",
   "pricing_modal.briefing.free.recentMessageBoards": "Dostęp do {messages} najnowszych wiadomości, {boards} najnowszej karty na tablicy",
   "pricing_modal.briefing.fullMessageAndHistory": "Pełna historia wiadomości i plików",
