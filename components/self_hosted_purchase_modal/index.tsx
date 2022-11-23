@@ -61,6 +61,8 @@ import useLoadStripe from 'components/common/hooks/useLoadStripe';
 import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
 import useOpenPricingModal from 'components/common/hooks/useOpenPricingModal';
 
+import SuccessPage from './success_page';
+
 import './self_hosted_purchase_modal.scss';
 
 interface State {
@@ -357,6 +359,36 @@ function convertProgressToBar(progress: ValueOf<typeof SelfHostedSignupProgress>
     }
 }
 
+function useConvertProgressToWaitingExplanation(progress: ValueOf<typeof SelfHostedSignupProgress>, planName: string): React.ReactNode {
+    const intl = useIntl();
+    switch (progress) {
+    case SelfHostedSignupProgress.START:
+    case SelfHostedSignupProgress.CREATED_CUSTOMER:
+    case SelfHostedSignupProgress.CREATED_INTENT:
+        return intl.formatMessage({
+            id: 'self_hosted_signup.progress_step.submitting_payment',
+            defaultMessage: 'Submitting payment information',
+        });
+    case SelfHostedSignupProgress.CONFIRMED_INTENT:
+    case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
+        return intl.formatMessage({
+            id: 'self_hosted_signup.progress_step.verifying_payment',
+            defaultMessage: 'Verifying payment details',
+        });
+    case SelfHostedSignupProgress.PAID:
+    case SelfHostedSignupProgress.CREATED_LICENSE:
+        return intl.formatMessage({
+            id: 'self_hosted_signup.progress_step.applying_license',
+            defaultMessage: 'Applying your {planName} license to your Mattermost instance',
+        }, {planName});
+    default:
+        return intl.formatMessage({
+            id: 'self_hosted_signup.progress_step.submitting_payment',
+            defaultMessage: 'Submitting payment information',
+        });
+    }
+}
+
 interface FakeProgress {
     intervalId?: NodeJS.Timeout;
 }
@@ -370,8 +402,11 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const contactSupportLink = useSelector((state: GlobalState) => getCloudContactUsLink(state)(InquiryType.Technical));
     const analytics = useSelector(getAdminAnalytics) || {};
     const desiredProduct = useSelector(getSelfHostedProducts)[props.productId];
+    const desiredProductName = desiredProduct?.name || '';
+    const desiredPlanName = getPlanNameFromProductName(desiredProductName);
     const totalUsers = analytics[StatTypes.TOTAL_USERS];
     const openPricingModal = useOpenPricingModal();
+    const waitingExplanation = useConvertProgressToWaitingExplanation(progress, desiredPlanName);
 
     const intl = useIntl();
     const fakeProgressRef = useRef<FakeProgress>({
@@ -506,12 +541,13 @@ export default function SelfHostedPurchaseModal(props: Props) {
         }
     }
     const canSubmitForm = canSubmit(state, progress);
+    const closeModalSuccess = () => {
+        reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
+    };
 
     let buttonAction: () => void = submit;
     if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
-        buttonAction = function done() {
-            reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
-        };
+        buttonAction = closeModalSuccess;
     }
 
     const progressBar: JSX.Element | null = (
@@ -772,7 +808,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 {comparePlanWrapper}
                                 <Card
                                     topColor='#4A69AC'
-                                    plan={getPlanNameFromProductName(desiredProduct?.name || '')}
+                                    plan={desiredPlanName}
                                     price={`$${desiredProduct?.price_per_seat?.toString()}`}
                                     seeHowBillingWorks={seeHowBillingWorks}
                                     rate='/user'
@@ -819,25 +855,29 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 />
                             </div>
                         </div>}
-                        {progress === SelfHostedSignupProgress.CREATED_LICENSE && <div className='purchase-success'>{'enjoy your license'}</div>}
-
-                        {state.submitting &&
-                        <div className='submitting'>
-                            <IconMessage
-                                title={t('admin.billing.subscription.verifyPaymentInformation')}
-                                subtitle={''}
-                                icon={
-                                    <CreditCardSvg
-                                        width={444}
-                                        height={313}
-                                    />
-                                }
-                                footer={progressBar}
-                                className={'processing'}
+                        {progress === SelfHostedSignupProgress.CREATED_LICENSE && (
+                            <SuccessPage
+                                onClose={closeModalSuccess}
+                                planName={desiredPlanName}
                             />
+                        )}
+                        {state.submitting && (
+                            <div className='submitting'>
+                                <IconMessage
+                                    title={t('admin.billing.subscription.verifyPaymentInformation')}
+                                    formattedSubtitle={waitingExplanation}
+                                    icon={
+                                        <CreditCardSvg
+                                            width={444}
+                                            height={313}
+                                        />
+                                    }
+                                    footer={progressBar}
+                                    className={'processing'}
+                                />
 
-                        </div>
-                        }
+                            </div>
+                        )}
                         <div className='background-svg'>
                             <BackgroundSvg/>
                         </div>

@@ -18,7 +18,7 @@ type Props = {
     formattedButtonText?: JSX.Element;
     formattedTertiaryButonText?: JSX.Element;
     formattedTitle?: JSX.Element;
-    formattedSubtitle?: JSX.Element;
+    formattedSubtitle?: React.ReactNode;
     buttonHandler?: () => void;
     tertiaryButtonHandler?: () => void;
     linkText?: string;
