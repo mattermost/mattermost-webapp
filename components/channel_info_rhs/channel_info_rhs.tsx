@@ -83,7 +83,7 @@ const ChannelInfoRhs = ({
     actions,
 }: Props) => {
     const currentUserId = currentUser.id;
-    const channelURL = getSiteURL() + '/' + currentTeam.name + '/channels/' + channel.name;
+    const channelURL = getSiteURL() + '/' + currentTeam?.name + '/channels/' + channel?.name;
 
     const toggleFavorite = () => {
         if (isFavorite) {
