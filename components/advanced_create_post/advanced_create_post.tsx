@@ -1561,7 +1561,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                     </button>
                                 </OverlayTrigger>
                             </div>
-                        ): undefined
+                        ) : undefined
                     )}
                     additionalControls={[
                         this.props.isPostPriorityEnabled ? (
