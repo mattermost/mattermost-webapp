@@ -66,7 +66,7 @@ const Header = styled.h4`
 
 const Footer = styled.h4`
     align-items: center;
-    border-top: 1px solid rgba(var(--center-channel-text-rgb), 0.08);
+    border-top: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
     display: flex;
     font-family: Open Sans;
     justify-content: flex-end;
@@ -80,7 +80,7 @@ const Picker = styled.div`
     display: flex;
     width: 220px;
     flex-direction: column;
-    border: 1px solid $light-gray;
+    border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     margin-right: 3px;
     background: var(--center-channel-bg);
     border-radius: 4px;

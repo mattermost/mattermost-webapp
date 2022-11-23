@@ -32,15 +32,18 @@ const Item = styled.div`
 const Info = styled.div`
     display: flex;
     flex-direction: column;
+    min-width: 0;
+    overflow-x: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 `;
 
 const Title = styled.div`
-    padding: 8px 20px;
     color: rgba(var(--center-channel-color-rgb), 0.56);
-    text-transform: uppercase;
-    font-weight: 600;
     font-size: 12px;
+    font-weight: 600;
     line-height: 16px;
+    padding: 8px 20px;
 `;
 
 const Span = styled.span`
@@ -50,14 +53,15 @@ const Span = styled.span`
 `;
 
 const Popover = styled.div`
-    padding: 8px 0;
     background: var(--center-channel-bg);
     border-radius: 4px;
+    border: solid 1px rgba(var(--center-channel-color-rgb), 0.16);
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
     color: lighten($black, 25%);
     font-family: inherit;
     max-height: 400px;
     overflow-y: scroll;
+    padding: 8px 0;
 `;
 
 function Row({

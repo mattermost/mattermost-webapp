@@ -22,6 +22,11 @@
         fill: var(--online-indicator);
     }
 
+    &--default {
+        padding-right: 9px;
+    }
+
+    &--disabled,
     &:disabled {
         background: rgba(var(--online-indicator-rgb), 0.08);
         color: rgba(var(--online-indicator-rgb), 0.32);
@@ -44,6 +49,8 @@
             fill: #fff;
         }
 
+        &.AcknowledgementButton--disabled,
+        &.AcknowledgementButton--disabled:hover,
         &:disabled {
             background: rgba(var(--online-indicator-rgb), 0.8);
             color: #fff;
@@ -55,11 +62,8 @@
             }
         }
 
-        &:hover:enabled {
-            background: rgb(var(--online-indicator-rgb));
-        }
-
-        &:active:enabled {
+        &:active:enabled:not(.AcknowledgementButton--disabled),
+        &:hover:enabled:not(.AcknowledgementButton--disabled) {
             background: rgb(var(--online-indicator-rgb));
         }
     }
@@ -69,5 +73,5 @@
     width: 1px;
     height: 24px;
     margin: 0 4px;
-    background: rgba(var(--center-channel-text-rgb), 0.08);
+    background: rgba(var(--center-channel-color-rgb), 0.16);
 }

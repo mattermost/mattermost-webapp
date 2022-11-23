@@ -94,24 +94,28 @@ function PostAcknowledgements({
     };
 
     const button = (
-        <button
-            ref={reference}
-            onClick={handleClick}
-            disabled={Boolean(acknowledgedAt) && moreThan5minAgo(acknowledgedAt)}
-            className={classNames({
-                AcknowledgementButton: true,
-                'AcknowledgementButton--acked': Boolean(acknowledgedAt),
-            })}
-            {...getReferenceProps()}
-        >
-            <CheckCircleOutlineIcon size={16}/>
-            {(list && list.length > 0) ? list!.length : (
-                <FormattedMessage
-                    id={'post_priority.button.acknowledge'}
-                    defaultMessage={'Acknowledge'}
-                />
-            )}
-        </button>
+        <>
+            <button
+                ref={reference}
+                onClick={handleClick}
+                className={classNames({
+                    AcknowledgementButton: true,
+                    'AcknowledgementButton--acked': Boolean(acknowledgedAt),
+                    'AcknowledgementButton--disabled': Boolean(acknowledgedAt) && moreThan5minAgo(acknowledgedAt),
+                    'AcknowledgementButton--default': !list || list.length === 0,
+                })}
+                {...getReferenceProps()}
+            >
+                <CheckCircleOutlineIcon size={16}/>
+                {(list && list.length > 0) ? list!.length : (
+                    <FormattedMessage
+                        id={'post_priority.button.acknowledge'}
+                        defaultMessage={'Acknowledge'}
+                    />
+                )}
+            </button>
+            {hasReactions && <div className='AcknowledgementButton__divider'/>}
+        </>
     );
 
     if (!list || !list.length) {
@@ -145,7 +149,6 @@ function PostAcknowledgements({
                     </div>
                 </FloatingFocusManager>
             )}
-            {hasReactions && <div className='AcknowledgementButton__divider'/>}
         </>
     );
 }
