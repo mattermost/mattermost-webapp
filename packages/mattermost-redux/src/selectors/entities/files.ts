@@ -61,7 +61,7 @@ export const getSearchFilesResults: (state: GlobalState) => FileSearchResultItem
     },
 );
 
-export function getFilePreviews(state: GlobalState, pendingPostId: string | undefined) {
+export function getFilePreviews(state: GlobalState, pendingPostId?: string) {
     if (!pendingPostId) {
         return [];
     }
