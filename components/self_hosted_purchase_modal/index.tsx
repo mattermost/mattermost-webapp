@@ -11,6 +11,7 @@ import {Elements} from '@stripe/react-stripe-js';
 import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 import {ValueOf} from '@mattermost/types/utilities';
 import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getAdminAnalytics} from 'mattermost-redux/selectors/entities/admin';
 import {getSelfHostedSignupProgress} from 'mattermost-redux/selectors/entities/hosted_customer';
 import {getCurrentUser} from 'mattermost-redux/selectors/entities/users';
 import {Client4} from 'mattermost-redux/client';
@@ -25,22 +26,31 @@ import {GlobalState} from 'types/store';
 
 import {isModalOpen} from 'selectors/views/modals';
 
+import {t} from 'utils/i18n';
+import {COUNTRIES} from 'utils/countries';
+
 import {STRIPE_CSS_SRC} from 'components/payment_form/stripe';
 import CardInput, {CardInputType} from 'components/payment_form/card_input';
 import StateSelector from 'components/payment_form/state_selector';
 import DropdownInput from 'components/dropdown_input';
+import BackgroundSvg from 'components/common/svg_images_components/background_svg';
+import CreditCardSvg from 'components/common/svg_images_components/credit_card_svg';
 
 import Input from 'components/widgets/inputs/input/input';
 
+import IconMessage from 'components/purchase_modal/icon_message';
+import 'components/purchase_modal/purchase.scss';
+
 import {
     ModalIdentifiers,
+    StatTypes,
     TELEMETRY_CATEGORIES,
 } from 'utils/constants';
-import {COUNTRIES} from 'utils/countries';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
 import useLoadStripe from 'components/common/hooks/useLoadStripe';
+import useFetchStandardAnalytics from 'components/common/hooks/useFetchStandardAnalytics';
 
 interface State {
     address: string;
@@ -57,6 +67,7 @@ interface State {
     seats: number;
     submitting: boolean;
     succeeded: boolean;
+    progressBar: number;
 }
 
 interface UpdateAddress {
@@ -132,6 +143,14 @@ interface StartOver {
     type: 'start_over';
 }
 
+interface UpdateProgressBar {
+    type: 'update_progress_bar';
+    data: number;
+}
+interface UpdateProgressBarFake {
+    type: 'update_progress_bar_fake';
+}
+
 type Action =
     | UpdateAddress
     | UpdateAddress2
@@ -144,6 +163,8 @@ type Action =
     | UpdateAgreedTerms
     | UpdateCardFilled
     | UpdateCardName
+    | UpdateProgressBar
+    | UpdateProgressBarFake
     | UpdateSeats
     | UpdateSubmitting
     | UpdateSucceeded
@@ -161,10 +182,14 @@ const initialState: State = {
     waitingOnNetwork: false,
     agreedTerms: true,
     cardFilled: false,
-    seats: 10,
+    seats: 0,
     submitting: false,
     succeeded: false,
+    progressBar: 0,
 };
+
+const maxFakeProgress = 90;
+const maxFakeProgressIncrement = 5;
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
@@ -190,6 +215,15 @@ function reducer(state: State, action: Action): State {
         return {...state, cardName: action.data};
     case 'update_organization':
         return {...state, organization: action.data};
+    case 'update_progress_bar':
+        return {...state, progressBar: action.data};
+    case 'update_progress_bar_fake': {
+        const firstLongStep = SelfHostedSignupProgress.CONFIRMED_INTENT;
+        if (state.progressBar >= convertProgressToBar(firstLongStep) && state.progressBar <= maxFakeProgress - maxFakeProgressIncrement) {
+            return {...state, progressBar: state.progressBar + maxFakeProgressIncrement};
+        }
+        return state;
+    }
     case 'update_submitting':
         return {...state, submitting: action.data};
     case 'succeeded':
@@ -266,12 +300,43 @@ interface Props {
     productId: string;
 }
 
+function convertProgressToBar(progress: ValueOf<typeof SelfHostedSignupProgress>): number {
+    switch (progress) {
+    case SelfHostedSignupProgress.START:
+        return 0;
+    case SelfHostedSignupProgress.CREATED_CUSTOMER:
+        return 10;
+    case SelfHostedSignupProgress.CREATED_INTENT:
+        return 20;
+    case SelfHostedSignupProgress.CONFIRMED_INTENT:
+        return 30;
+    case SelfHostedSignupProgress.CREATED_SUBSCRIPTION:
+        return 50;
+    case SelfHostedSignupProgress.PAID:
+        return 90;
+    case SelfHostedSignupProgress.CREATED_LICENSE:
+        return 100;
+    default:
+        return 0;
+    }
+}
+
+interface FakeProgress {
+    intervalId?: NodeJS.Timeout;
+}
+
 export default function SelfHostedPurchaseModal(props: Props) {
+    useFetchStandardAnalytics();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.SELF_HOSTED_PURCHASE));
     const progress = useSelector(getSelfHostedSignupProgress);
     const user = useSelector(getCurrentUser);
     const theme = useSelector(getTheme);
+    const analytics = useSelector(getAdminAnalytics) || {};
+    const totalUsers = analytics[StatTypes.TOTAL_USERS];
+
     const intl = useIntl();
+    const fakeProgressRef = useRef<FakeProgress>({
+    });
 
     const [state, dispatch] = useReducer(reducer, initialState);
     const reduxDispatch = useDispatch<DispatchFunc>();
@@ -284,11 +349,41 @@ export default function SelfHostedPurchaseModal(props: Props) {
     const showForm = progress !== SelfHostedSignupProgress.PAID && progress !== SelfHostedSignupProgress.CREATED_LICENSE;
 
     useEffect(() => {
+        if (typeof totalUsers === 'number' && totalUsers > state.seats) {
+            dispatch({type: 'update_seats', data: totalUsers});
+        }
+    }, [totalUsers])
+    useEffect(() => {
         pageVisited(
             TELEMETRY_CATEGORIES.CLOUD_PURCHASING,
             'pageview_self_hosted_purchase',
         );
     }, []);
+
+    useEffect(() => {
+        const progressBar = convertProgressToBar(progress);
+        if (progressBar > state.progressBar) {
+            dispatch({type: 'update_progress_bar', data: progressBar});
+        }
+    }, [progress]);
+
+    useEffect(() => {
+        if (state.submitting) {
+            if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
+                clearInterval(fakeProgressRef.current.intervalId);
+            }
+            fakeProgressRef.current.intervalId = setInterval(() => {
+                dispatch({type: 'update_progress_bar_fake'});
+            });
+        } else if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
+            clearInterval(fakeProgressRef.current.intervalId);
+        }
+        return () => {
+            if (fakeProgressRef.current && fakeProgressRef.current.intervalId) {
+                clearInterval(fakeProgressRef.current.intervalId);
+            }
+        };
+    }, [state.submitting]);
 
     const handleCardInputChange = (event: StripeCardElementChangeEvent) => {
         dispatch({type: 'card_filled', data: event.complete});
@@ -314,7 +409,6 @@ export default function SelfHostedPurchaseModal(props: Props) {
             reduxDispatch({
                 type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS,
                 data: signupCustomerResult.progress,
-
             });
             submitProgress = signupCustomerResult.progress;
         }
@@ -383,6 +477,15 @@ export default function SelfHostedPurchaseModal(props: Props) {
         };
     }
 
+    const progressBar: JSX.Element | null = (
+        <div className='ProcessPayment-progress'>
+            <div
+                className='ProcessPayment-progress-fill'
+                style={{width: `${state.progressBar}%`}}
+            />
+        </div>
+    );
+
     return (
         <Elements
             options={{fonts: [{cssSrc: STRIPE_CSS_SRC}]}}
@@ -401,170 +504,193 @@ export default function SelfHostedPurchaseModal(props: Props) {
                         reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
                     }}
                 >
-                    {progress === SelfHostedSignupProgress.CREATED_LICENSE && 'enjoy your license'}
-                    {showForm && <div style={{margin: '30px'}}>
+                    <div className='PurchaseModal PurchaseModal--self-hosted'>
                         <div>
-                            <CardInput
-                                forwardedRef={cardRef}
-                                required={true}
-                                onCardInputChange={handleCardInputChange}
-                                theme={theme}
-                            />
-                        </div>
-                        <div>
-                            <Input
-                                name='company'
-                                type='text'
-                                value={state.organization}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    dispatch({type: 'update_organization', data: e.target.value});
-                                }}
-                                placeholder={intl.formatMessage({
-                                    id: 'payment_form.organization',
-                                    defaultMessage: 'Company Name',
-                                })}
-                                required={true}
-                            />
-                        </div>
-                        <div>
-                            <Input
-                                name='name'
-                                type='text'
-                                value={state.cardName}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    dispatch({type: 'update_card_name', data: e.target.value});
-                                }}
-                                placeholder={intl.formatMessage({
-                                    id: 'payment_form.name_on_card',
-                                    defaultMessage: 'Name on Card',
-                                })}
-                                required={true}
-                            />
-                        </div>
-                        <div>
-                            <input
-                                type='number'
-                                value={state.seats}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    dispatch({type: 'update_seats', data: parseInt(e.target.value, 10) || 42});
-                                }}
-                                min={1}
-                                max={9999999999999}
-                            />
-                        </div>
-                        <div>
+                            {progress === SelfHostedSignupProgress.CREATED_LICENSE && 'enjoy your license'}
 
-                            <DropdownInput
-                                onChange={(option: {value: string}) => {
-                                    dispatch({type: 'update_country', data: option.value});
-                                }}
-                                value={
-                                    state.country ? {value: state.country, label: state.country} : undefined
+                            {state.submitting &&
+                            <IconMessage
+                                title={t('admin.billing.subscription.verifyPaymentInformation')}
+                                subtitle={''}
+                                icon={
+                                    <CreditCardSvg
+                                        width={444}
+                                        height={313}
+                                    />
                                 }
-                                options={COUNTRIES.map((country) => ({
-                                    value: country.name,
-                                    label: country.name,
-                                }))}
-                                legend={intl.formatMessage({
-                                    id: 'payment_form.country',
-                                    defaultMessage: 'Country',
-                                })}
-                                placeholder={intl.formatMessage({
-                                    id: 'payment_form.country',
-                                    defaultMessage: 'Country',
-                                })}
-                                name={'billing_dropdown'}
+                                footer={progressBar}
+                                className={'processing'}
                             />
-                        </div>
-                        <div>
-                            <Input
-                                name='address'
-                                type='text'
-                                value={state.address}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    dispatch({type: 'update_address', data: e.target.value});
-                                }}
-                                placeholder={intl.formatMessage({
-                                    id: 'payment_form.address',
-                                    defaultMessage: 'Address',
-                                })}
-                                required={true}
-                            />
-                        </div>
-                        <div>
-                            <Input
-                                name='address2'
-                                type='text'
-                                value={state.address2}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    dispatch({type: 'update_address2', data: e.target.value});
-                                }}
-                                placeholder={intl.formatMessage({
-                                    id: 'payment_form.address_2',
-                                    defaultMessage: 'Address 2',
-                                })}
-                            />
-                        </div>
-                        <div>
-                            <Input
-                                name='city'
-                                type='text'
-                                value={state.city}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    dispatch({type: 'update_city', data: e.target.value});
-                                }}
-                                placeholder={intl.formatMessage({
-                                    id: 'payment_form.city',
-                                    defaultMessage: 'City',
-                                })}
-                                required={true}
-                            />
-                        </div>
-                        <div>
-                            <StateSelector
-                                country={state.country}
-                                state={state.state}
-                                onChange={(state: string) => {
-                                    dispatch({type: 'update_state', data: state});
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <Input
-                                name='postalCode'
-                                type='text'
-                                value={state.postalCode}
-                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                    dispatch({type: 'update_postal_code', data: e.target.value});
-                                }}
-                                placeholder={intl.formatMessage({
-                                    id: 'payment_form.zipcode',
-                                    defaultMessage: 'Zip/Postal Code',
-                                })}
-                                required={true}
-                            />
-                        </div>
-                    </div>}
 
-                    {progress !== SelfHostedSignupProgress.PAID && (
+                            }
+                            {showForm && <div style={{margin: '30px'}}>
+                                <div>
+                                    <CardInput
+                                        forwardedRef={cardRef}
+                                        required={true}
+                                        onCardInputChange={handleCardInputChange}
+                                        theme={theme}
+                                    />
+                                </div>
+                                <div>
+                                    <Input
+                                        name='company'
+                                        type='text'
+                                        value={state.organization}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            dispatch({type: 'update_organization', data: e.target.value});
+                                        }}
+                                        placeholder={intl.formatMessage({
+                                            id: 'payment_form.organization',
+                                            defaultMessage: 'Company Name',
+                                        })}
+                                        required={true}
+                                    />
+                                </div>
+                                <div>
+                                    <Input
+                                        name='name'
+                                        type='text'
+                                        value={state.cardName}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            dispatch({type: 'update_card_name', data: e.target.value});
+                                        }}
+                                        placeholder={intl.formatMessage({
+                                            id: 'payment_form.name_on_card',
+                                            defaultMessage: 'Name on Card',
+                                        })}
+                                        required={true}
+                                    />
+                                </div>
+                                <div>
+                                    <input
+                                        type='number'
+                                        value={state.seats}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            dispatch({type: 'update_seats', data: parseInt(e.target.value, 10) || 42});
+                                        }}
+                                        min={1}
+                                        max={9999999999999}
+                                    />
+                                </div>
+                                <div>
+
+                                    <DropdownInput
+                                        onChange={(option: {value: string}) => {
+                                            dispatch({type: 'update_country', data: option.value});
+                                        }}
+                                        value={
+                                            state.country ? {value: state.country, label: state.country} : undefined
+                                        }
+                                        options={COUNTRIES.map((country) => ({
+                                            value: country.name,
+                                            label: country.name,
+                                        }))}
+                                        legend={intl.formatMessage({
+                                            id: 'payment_form.country',
+                                            defaultMessage: 'Country',
+                                        })}
+                                        placeholder={intl.formatMessage({
+                                            id: 'payment_form.country',
+                                            defaultMessage: 'Country',
+                                        })}
+                                        name={'billing_dropdown'}
+                                    />
+                                </div>
+                                <div>
+                                    <Input
+                                        name='address'
+                                        type='text'
+                                        value={state.address}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            dispatch({type: 'update_address', data: e.target.value});
+                                        }}
+                                        placeholder={intl.formatMessage({
+                                            id: 'payment_form.address',
+                                            defaultMessage: 'Address',
+                                        })}
+                                        required={true}
+                                    />
+                                </div>
+                                <div>
+                                    <Input
+                                        name='address2'
+                                        type='text'
+                                        value={state.address2}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            dispatch({type: 'update_address2', data: e.target.value});
+                                        }}
+                                        placeholder={intl.formatMessage({
+                                            id: 'payment_form.address_2',
+                                            defaultMessage: 'Address 2',
+                                        })}
+                                    />
+                                </div>
+                                <div>
+                                    <Input
+                                        name='city'
+                                        type='text'
+                                        value={state.city}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            dispatch({type: 'update_city', data: e.target.value});
+                                        }}
+                                        placeholder={intl.formatMessage({
+                                            id: 'payment_form.city',
+                                            defaultMessage: 'City',
+                                        })}
+                                        required={true}
+                                    />
+                                </div>
+                                <div>
+                                    <StateSelector
+                                        country={state.country}
+                                        state={state.state}
+                                        onChange={(state: string) => {
+                                            dispatch({type: 'update_state', data: state});
+                                        }}
+                                    />
+                                </div>
+                                <div>
+                                    <Input
+                                        name='postalCode'
+                                        type='text'
+                                        value={state.postalCode}
+                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                            dispatch({type: 'update_postal_code', data: e.target.value});
+                                        }}
+                                        placeholder={intl.formatMessage({
+                                            id: 'payment_form.zipcode',
+                                            defaultMessage: 'Zip/Postal Code',
+                                        })}
+                                        required={true}
+                                    />
+                                </div>
+                            </div>}
+
+                            {progress !== SelfHostedSignupProgress.PAID && (
+                                <button
+                                    onClick={() => {
+                                        Client4.bootstrapSelfHostedSignup(true).
+                                            then(() => {
+                                                dispatch({type: 'start_over'});
+                                            });
+                                    }}
+                                >
+                                    {'start over'}
+                                </button>
+                            )}
+                        </div>
                         <button
-                            onClick={() => {
-                                Client4.bootstrapSelfHostedSignup(true).
-                                    then(() => {
-                                        dispatch({type: 'start_over'});
-                                    });
-                            }}
+                            className=''
+                            disabled={!canSubmitForm}
+                            onClick={buttonAction}
                         >
-                            {'start over'}
+                            {buttonStep}
                         </button>
-                    )}
-                    <button
-                        className=''
-                        disabled={!canSubmitForm}
-                        onClick={buttonAction}
-                    >
-                        {buttonStep}
-                    </button>
+                        <div className='background-svg'>
+                            <BackgroundSvg/>
+                        </div>
+                    </div>
                 </FullScreenModal>
             </RootPortal>
         </Elements>
