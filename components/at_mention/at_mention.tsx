@@ -95,7 +95,7 @@ export default class AtMention extends React.PureComponent<Props, State> {
         return (
             <>
                 <span
-                    className={highlightMention ? 'mention--highlight' : ''}
+                    className={highlightMention ? 'mention--highlight' : undefined}
                 >
                     <Overlay
                         placement={this.state.placement}

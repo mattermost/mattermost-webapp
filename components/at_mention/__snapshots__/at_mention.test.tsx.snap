@@ -82,9 +82,7 @@ exports[`components/AtMention should match snapshot when mentioning current user
 
 exports[`components/AtMention should match snapshot when mentioning user 1`] = `
 <Fragment>
-  <span
-    className=""
-  >
+  <span>
     <Overlay
       animation={[Function]}
       onHide={[Function]}
@@ -114,9 +112,7 @@ exports[`components/AtMention should match snapshot when mentioning user 1`] = `
 
 exports[`components/AtMention should match snapshot when mentioning user containing and followed by punctuation 1`] = `
 <Fragment>
-  <span
-    className=""
-  >
+  <span>
     <Overlay
       animation={[Function]}
       onHide={[Function]}
@@ -147,9 +143,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
 
 exports[`components/AtMention should match snapshot when mentioning user containing punctuation 1`] = `
 <Fragment>
-  <span
-    className=""
-  >
+  <span>
     <Overlay
       animation={[Function]}
       onHide={[Function]}
@@ -179,9 +173,7 @@ exports[`components/AtMention should match snapshot when mentioning user contain
 
 exports[`components/AtMention should match snapshot when mentioning user followed by punctuation 1`] = `
 <Fragment>
-  <span
-    className=""
-  >
+  <span>
     <Overlay
       animation={[Function]}
       onHide={[Function]}
@@ -212,9 +204,7 @@ exports[`components/AtMention should match snapshot when mentioning user followe
 
 exports[`components/AtMention should match snapshot when mentioning user with different teammate name display setting 1`] = `
 <Fragment>
-  <span
-    className=""
-  >
+  <span>
     <Overlay
       animation={[Function]}
       onHide={[Function]}
@@ -244,9 +234,7 @@ exports[`components/AtMention should match snapshot when mentioning user with di
 
 exports[`components/AtMention should match snapshot when mentioning user with mixed case 1`] = `
 <Fragment>
-  <span
-    className=""
-  >
+  <span>
     <Overlay
       animation={[Function]}
       onHide={[Function]}
