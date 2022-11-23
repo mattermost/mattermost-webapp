@@ -79,7 +79,7 @@ export function initializeTeam(team: Team): ActionFunc<Team, ServerError> {
             if (team.group_constrained && license.LDAPGroups === 'true') {
                 dispatch(getAllGroupsAssociatedToTeam(team.id, true));
             } else {
-                dispatch(getGroups(false, 0, 60));
+                dispatch(getGroups(false, 0, 60, true));
             }
         }
 
