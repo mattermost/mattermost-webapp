@@ -53,7 +53,7 @@ import StarMarkSvg from 'components/widgets/icons/star_mark_icon';
 import Input from 'components/widgets/inputs/input/input';
 
 import IconMessage from 'components/purchase_modal/icon_message';
-import {Card} from 'components/purchase_modal/purchase_modal';
+import {Card, ButtonCustomiserClasses} from 'components/purchase_modal/purchase_modal';
 
 import FullScreenModal from 'components/widgets/modals/full_screen_modal';
 import RootPortal from 'components/root_portal';
@@ -507,10 +507,8 @@ export default function SelfHostedPurchaseModal(props: Props) {
     }
     const canSubmitForm = canSubmit(state, progress);
 
-    let buttonStep = 'Signup';
     let buttonAction: () => void = submit;
     if (progress === SelfHostedSignupProgress.CREATED_LICENSE) {
-        buttonStep = 'Done';
         buttonAction = function done() {
             reduxDispatch(closeModal(ModalIdentifiers.SELF_HOSTED_PURCHASE));
         };
@@ -592,7 +590,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                     }}
                 >
                     <div className='SelfHostedPurchaseModal'>
-                        {<div className={classNames('form', {'form--hide': !showForm})}>
+                        {<div className={classNames('form-view', {'form-view--hide': !showForm})}>
                             <div className='lhs'>
                                 <h2 className='title'>{title}</h2>
                                 <UpgradeSvg
@@ -603,57 +601,68 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                 {contactSalesLink}
                             </div>
                             <div className='center'>
-                                <div>
-                                    <CardInput
-                                        forwardedRef={cardRef}
-                                        required={true}
-                                        onCardInputChange={handleCardInputChange}
-                                        theme={theme}
-                                    />
-                                </div>
-                                <div>
-                                    <Input
-                                        name='company'
-                                        type='text'
-                                        value={state.organization}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            dispatch({type: 'update_organization', data: e.target.value});
-                                        }}
-                                        placeholder={intl.formatMessage({
-                                            id: 'payment_form.organization',
-                                            defaultMessage: 'Company Name',
-                                        })}
-                                        required={true}
-                                    />
-                                </div>
-                                <div>
-                                    <Input
-                                        name='name'
-                                        type='text'
-                                        value={state.cardName}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            dispatch({type: 'update_card_name', data: e.target.value});
-                                        }}
-                                        placeholder={intl.formatMessage({
-                                            id: 'payment_form.name_on_card',
-                                            defaultMessage: 'Name on Card',
-                                        })}
-                                        required={true}
-                                    />
-                                </div>
-                                <div>
-                                    <input
-                                        type='number'
-                                        value={state.seats}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            dispatch({type: 'update_seats', data: parseInt(e.target.value, 10) || 42});
-                                        }}
-                                        min={1}
-                                        max={9999999999999}
-                                    />
-                                </div>
-                                <div>
-
+                                <div className='form'>
+                                    <div className='section-title'>
+                                        <FormattedMessage
+                                            id='payment_form.credit_card'
+                                            defaultMessage='Credit Card'
+                                        />
+                                    </div>
+                                    <div className='form-row'>
+                                        <CardInput
+                                            forwardedRef={cardRef}
+                                            required={true}
+                                            onCardInputChange={handleCardInputChange}
+                                            theme={theme}
+                                        />
+                                    </div>
+                                    <div className='form-row'>
+                                        <Input
+                                            name='company'
+                                            type='text'
+                                            value={state.organization}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                dispatch({type: 'update_organization', data: e.target.value});
+                                            }}
+                                            placeholder={intl.formatMessage({
+                                                id: 'payment_form.organization',
+                                                defaultMessage: 'Company Name',
+                                            })}
+                                            required={true}
+                                        />
+                                    </div>
+                                    <div className='form-row'>
+                                        <Input
+                                            name='name'
+                                            type='text'
+                                            value={state.cardName}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                dispatch({type: 'update_card_name', data: e.target.value});
+                                            }}
+                                            placeholder={intl.formatMessage({
+                                                id: 'payment_form.name_on_card',
+                                                defaultMessage: 'Name on Card',
+                                            })}
+                                            required={true}
+                                        />
+                                    </div>
+                                    <div className='form-row'>
+                                        <input
+                                            type='number'
+                                            value={state.seats}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                dispatch({type: 'update_seats', data: parseInt(e.target.value, 10) || 42});
+                                            }}
+                                            min={1}
+                                            max={9999999999999}
+                                        />
+                                    </div>
+                                    <div className='section-title'>
+                                        <FormattedMessage
+                                            id='payment_form.billing_address'
+                                            defaultMessage='Billing address'
+                                        />
+                                    </div>
                                     <DropdownInput
                                         onChange={(option: {value: string}) => {
                                             dispatch({type: 'update_country', data: option.value});
@@ -675,94 +684,89 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                         })}
                                         name={'billing_dropdown'}
                                     />
-                                </div>
-                                <div>
-                                    <Input
-                                        name='address'
-                                        type='text'
-                                        value={state.address}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            dispatch({type: 'update_address', data: e.target.value});
+                                    <div className='form-row'>
+                                        <Input
+                                            name='address'
+                                            type='text'
+                                            value={state.address}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                dispatch({type: 'update_address', data: e.target.value});
+                                            }}
+                                            placeholder={intl.formatMessage({
+                                                id: 'payment_form.address',
+                                                defaultMessage: 'Address',
+                                            })}
+                                            required={true}
+                                        />
+                                    </div>
+                                    <div className='form-row'>
+                                        <Input
+                                            name='address2'
+                                            type='text'
+                                            value={state.address2}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                dispatch({type: 'update_address2', data: e.target.value});
+                                            }}
+                                            placeholder={intl.formatMessage({
+                                                id: 'payment_form.address_2',
+                                                defaultMessage: 'Address 2',
+                                            })}
+                                        />
+                                    </div>
+                                    <div className='form-row'>
+                                        <Input
+                                            name='city'
+                                            type='text'
+                                            value={state.city}
+                                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                dispatch({type: 'update_city', data: e.target.value});
+                                            }}
+                                            placeholder={intl.formatMessage({
+                                                id: 'payment_form.city',
+                                                defaultMessage: 'City',
+                                            })}
+                                            required={true}
+                                        />
+                                    </div>
+                                    <div className='form-row'>
+                                        <div className='form-row-third-1'>
+                                            <StateSelector
+                                                country={state.country}
+                                                state={state.state}
+                                                onChange={(state: string) => {
+                                                    dispatch({type: 'update_state', data: state});
+                                                }}
+                                            />
+                                        </div>
+                                        <div className='form-row-third-2'>
+                                            <Input
+                                                name='postalCode'
+                                                type='text'
+                                                value={state.postalCode}
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                    dispatch({type: 'update_postal_code', data: e.target.value});
+                                                }}
+                                                placeholder={intl.formatMessage({
+                                                    id: 'payment_form.zipcode',
+                                                    defaultMessage: 'Zip/Postal Code',
+                                                })}
+                                                required={true}
+                                            />
+                                        </div>
+                                    </div>
+                                    <button
+                                        onClick={() => {
+                                            Client4.bootstrapSelfHostedSignup(true).
+                                                then((data) => {
+                                                    cardRef.current?.getCard()?.clear();
+                                                    reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
+                                                    dispatch({type: 'start_over', data: {seats: typeof totalUsers === 'number' ? totalUsers : state.seats}});
+                                                });
                                         }}
-                                        placeholder={intl.formatMessage({
-                                            id: 'payment_form.address',
-                                            defaultMessage: 'Address',
-                                        })}
-                                        required={true}
-                                    />
-                                </div>
-                                <div>
-                                    <Input
-                                        name='address2'
-                                        type='text'
-                                        value={state.address2}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            dispatch({type: 'update_address2', data: e.target.value});
-                                        }}
-                                        placeholder={intl.formatMessage({
-                                            id: 'payment_form.address_2',
-                                            defaultMessage: 'Address 2',
-                                        })}
-                                    />
-                                </div>
-                                <div>
-                                    <Input
-                                        name='city'
-                                        type='text'
-                                        value={state.city}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            dispatch({type: 'update_city', data: e.target.value});
-                                        }}
-                                        placeholder={intl.formatMessage({
-                                            id: 'payment_form.city',
-                                            defaultMessage: 'City',
-                                        })}
-                                        required={true}
-                                    />
-                                </div>
-                                <div>
-                                    <StateSelector
-                                        country={state.country}
-                                        state={state.state}
-                                        onChange={(state: string) => {
-                                            dispatch({type: 'update_state', data: state});
-                                        }}
-                                    />
-                                </div>
-                                <div>
-                                    <Input
-                                        name='postalCode'
-                                        type='text'
-                                        value={state.postalCode}
-                                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                                            dispatch({type: 'update_postal_code', data: e.target.value});
-                                        }}
-                                        placeholder={intl.formatMessage({
-                                            id: 'payment_form.zipcode',
-                                            defaultMessage: 'Zip/Postal Code',
-                                        })}
-                                        required={true}
-                                    />
-                                </div>
-                                <button
-                                    onClick={() => {
-                                        Client4.bootstrapSelfHostedSignup(true).
-                                            then((data) => {
-                                                cardRef.current?.getCard()?.clear();
-                                                reduxDispatch({type: HostedCustomerTypes.RECEIVED_SELF_HOSTED_SIGNUP_PROGRESS, data: data.progress});
-                                                dispatch({type: 'start_over', data: {seats: typeof totalUsers === 'number' ? totalUsers : state.seats}});
-                                            });
-                                    }}
-                                >
-                                    {'start over'}
-                                </button>
-                                <button
-                                    className=''
-                                    disabled={!canSubmitForm}
-                                    onClick={buttonAction}
-                                >
-                                    {buttonStep}
-                                </button>
+                                    >
+                                        {'start over'}
+                                    </button>
+                                </div >
                             </div>
                             <div className='rhs'>
                                 {comparePlanWrapper}
@@ -771,9 +775,10 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                     plan={getPlanNameFromProductName(desiredProduct?.name || '')}
                                     price={`$${desiredProduct?.price_per_seat?.toString()}`}
                                     seeHowBillingWorks={seeHowBillingWorks}
-                                    rate='/user/month'
-                                    planBriefing={
-                                        <div className='plan_payment_commencement'>
+                                    rate='/user'
+                                    planBriefing={<></>}
+                                    afterButtonContent={
+                                        <div className='signup-consequences'>
                                             <FormattedMessage
                                                 defaultMessage={'You will be billed {today}. Your license will be applied automatically. <a>See how billing works.</a>'}
                                                 id={'self_hosted_signup.signup_consequences'}
@@ -794,6 +799,7 @@ export default function SelfHostedPurchaseModal(props: Props) {
                                         action: buttonAction,
                                         disabled: !canSubmitForm,
                                         text: intl.formatMessage({id: 'self_hosted_signup.cta', defaultMessage: 'Upgrade'}),
+                                        customClass: canSubmitForm ? ButtonCustomiserClasses.special : ButtonCustomiserClasses.grayed,
                                     }}
                                     planLabel={
                                         showPlanLabel ? (

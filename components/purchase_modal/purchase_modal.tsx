@@ -51,7 +51,7 @@ import './purchase.scss';
 
 let stripePromise: Promise<Stripe | null>;
 
-enum ButtonCustomiserClasses {
+export enum ButtonCustomiserClasses {
     grayed = 'grayed',
     active = 'active',
     special = 'special',
@@ -81,6 +81,7 @@ type CardProps = {
     planLabel?: JSX.Element;
     seeHowBillingWorks?: (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => void;
     hideBillingCycle?: boolean;
+    afterButtonContent?: React.ReactNode;
 }
 
 type Props = {
@@ -223,6 +224,7 @@ export function Card(props: CardProps) {
                         />
                     </a>
                 </div>}
+                {props.afterButtonContent}
             </div>
         </div>
     );

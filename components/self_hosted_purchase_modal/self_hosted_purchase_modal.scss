@@ -2,7 +2,7 @@
     overflow: hidden;
     height: 100%;
 
-    .form {
+    .form-view {
         display: flex;
         overflow: hidden;
         width: 100%;
@@ -17,6 +17,63 @@
         font-family: "Open Sans";
         font-size: 16px;
         font-weight: 600;
+
+        .form {
+            padding: 0 96px;
+            margin: 0 auto;
+
+            .form-row {
+                display: flex;
+                width: 100%;
+                margin-bottom: 24px;
+            }
+
+            .form-row-third-1 {
+                width: 66%;
+                max-width: 288px;
+                margin-right: 16px;
+
+                .DropdownInput {
+                    z-index: 99999;
+                    margin-top: 0;
+                }
+            }
+
+            .DropdownInput {
+                position: relative;
+                z-index: 999999;
+                height: 36px;
+                margin-bottom: 24px;
+            }
+
+            .form-row-third-2 {
+                width: 34%;
+                max-width: 144px;
+            }
+
+            .section-title {
+                margin-bottom: 24px;
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+                font-size: 16px;
+                font-weight: 600;
+                text-align: left;
+            }
+
+            .Input_fieldset {
+                height: 40px;
+                padding: 2px 1px;
+                background: var(--center-channel-bg);
+
+                .Input {
+                    height: 32px;
+                    background: inherit;
+                }
+
+                .Input_wrapper {
+                    margin: 0;
+                }
+            }
+        }
 
         &--hide {
             display: none;
@@ -223,6 +280,15 @@
         }
     }
 
+    .signup-consequences {
+        margin-top: 24px;
+        color: rgba(var(--center-channel-color-rgb), 0.72);
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 16px;
+    }
+
     .submitting {
         display: flex;
         overflow: hidden;
@@ -261,6 +327,8 @@
         position: absolute;
         z-index: -1;
         top: 0;
+        width: 100%;
+        height: 100%;
 
         >div {
             position: absolute;
@@ -270,9 +338,9 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1020px) {
     .SelfHostedPurchaseModal {
-        .form {
+        .form-view {
             > .lhs {
                 display: none;
             }
