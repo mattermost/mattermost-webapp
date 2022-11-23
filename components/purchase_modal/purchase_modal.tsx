@@ -197,6 +197,7 @@ function getSelectedProduct(
         return currentProduct;
     }
     let nextSku = CloudProducts.PROFESSIONAL;
+
     // Don't switch the product to enterprise if the recurring interval of the selected product is yearly. This means that it can only be the yearly professional product.
     if (currentProduct?.sku === CloudProducts.PROFESSIONAL && isMonthly) {
         nextSku = CloudProducts.ENTERPRISE;
@@ -675,7 +676,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
         const update = {
             processing: true,
             paymentInfoIsValid: false,
-            buttonClickedInfo: callerInfo
+            buttonClickedInfo: callerInfo,
         } as unknown as Pick<State, keyof State>;
 
         if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.MONTH) {
