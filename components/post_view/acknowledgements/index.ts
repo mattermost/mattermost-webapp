@@ -4,7 +4,7 @@
 import {connect} from 'react-redux';
 
 import {getCurrentUserId} from 'mattermost-redux/selectors/entities/common';
-import {getHasReactions, getPostAcknowledgementsWithProfiles} from 'mattermost-redux/selectors/entities/posts';
+import {getHasReactions, makeGetPostAcknowledgementsWithProfiles} from 'mattermost-redux/selectors/entities/posts';
 
 import {GlobalState} from 'types/store';
 
@@ -16,16 +16,19 @@ type OwnProps = {
     postId: Post['id'];
 };
 
-function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
-    const currentUserId = getCurrentUserId(state);
-    const hasReactions = getHasReactions(state, ownProps.postId);
-    const list = getPostAcknowledgementsWithProfiles(state, ownProps.postId);
+function makeMapStateToProps() {
+    const getPostAcknowledgementsWithProfiles = makeGetPostAcknowledgementsWithProfiles();
+    return (state: GlobalState, ownProps: OwnProps) => {
+        const currentUserId = getCurrentUserId(state);
+        const hasReactions = getHasReactions(state, ownProps.postId);
+        const list = getPostAcknowledgementsWithProfiles(state, ownProps.postId);
 
-    return {
-        currentUserId,
-        hasReactions,
-        list,
+        return {
+            currentUserId,
+            hasReactions,
+            list,
+        };
     };
 }
 
-export default connect(mapStateToProps)(PostAcknowledgements);
+export default connect(makeMapStateToProps)(PostAcknowledgements);

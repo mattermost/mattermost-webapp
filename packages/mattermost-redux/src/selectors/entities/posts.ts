@@ -775,24 +775,22 @@ export function isPostAcknowledgementsEnabled(state: GlobalState) {
     );
 }
 
-export function getPostAcknowledgements(state: GlobalState, postId: Post['id']): PostAcknowledgement[] {
-    const acks = state.entities.posts.acknowledgements[postId] || {};
-
-    return Object.keys(acks).map((userId) => {
-        return {
-            user_id: userId,
-            post_id: postId,
-            acknowledged_at: acks[userId],
-        } as PostAcknowledgement;
-    });
+export function getPostAcknowledgements(state: GlobalState, postId: Post['id']): Record<UserProfile['id'], PostAcknowledgement['acknowledged_at']> {
+    return state.entities.posts.acknowledgements[postId];
 }
 
-export const getPostAcknowledgementsWithProfiles: (state: GlobalState, postId: Post['id']) => Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}> = createSelector(
-    'getPostAcknowledgementsWithProfiles',
-    getUsers,
-    getPostAcknowledgements,
-    (users, acknowledgements) => acknowledgements.map((ack) => ({
-        user: users[ack.user_id],
-        acknowledgedAt: ack.acknowledged_at,
-    })).sort((a, b) => b.acknowledgedAt - a.acknowledgedAt),
-);
+export function makeGetPostAcknowledgementsWithProfiles(): (state: GlobalState, postId: Post['id']) => Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}> {
+    return createSelector(
+        'makeGetPostAcknowledgementsWithProfiles',
+        getUsers,
+        getPostAcknowledgements,
+        (users, acknowledgements) => {
+            return Object.keys(acknowledgements).map((userId) => {
+                return {
+                    user: users[userId],
+                    acknowledgedAt: acknowledgements[userId],
+                };
+            }).sort((a, b) => b.acknowledgedAt - a.acknowledgedAt);
+        },
+    );
+}
