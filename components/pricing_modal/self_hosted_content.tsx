@@ -191,6 +191,7 @@ function SelfHostedContent(props: ContentProps) {
                                 trackEvent('self_hosted_pricing', 'click_upgrade_button');
                                 const professionalProduct = findSelfHostedProductBySku(products, SelfHostedProducts.PROFESSIONAL);
                                 if (isSelfHostedPurchaseEnabled && productsLoaded && professionalProduct) {
+                                    closePricingModal();
                                     openSelfHostedPurchaseModal({productId: professionalProduct.id});
                                 } else {
                                     window.open(CloudLinks.SELF_HOSTED_SIGNUP, '_blank');

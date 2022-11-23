@@ -10,7 +10,17 @@ import {GenericAction} from 'mattermost-redux/types/actions';
 import {Product} from '@mattermost/types/cloud';
 import {SelfHostedSignupProgress} from '@mattermost/types/hosted_customer';
 
-function products(state: Record<string, Product> = {}, action: GenericAction) {
+interface SelfHostedProducts {
+    products: Record<string, Product>;
+    productsLoaded: boolean;
+}
+
+const initialProducts = {
+    products: {},
+    productsLoaded: false,
+};
+
+function products(state: SelfHostedProducts = initialProducts, action: GenericAction) {
     switch (action.type) {
     case HostedCustomerTypes.RECEIVED_SELF_HOSTED_PRODUCTS: {
         const productList: Product[] = action.data;
@@ -20,7 +30,11 @@ function products(state: Record<string, Product> = {}, action: GenericAction) {
         }, {} as Record<string, Product>);
         return {
             ...state,
-            ...productDict,
+            products: {
+                ...state.products,
+                ...productDict,
+            },
+            productsLoaded: true,
         };
     }
     default:

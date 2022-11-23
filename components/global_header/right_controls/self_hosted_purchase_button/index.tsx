@@ -9,8 +9,10 @@ import {isCurrentUserSystemAdmin} from 'mattermost-redux/selectors/entities/user
 import {getConfig} from 'mattermost-redux/selectors/entities/admin';
 
 import useOpenSelfHostedPurchaseModal from 'components/common/hooks/useOpenSelfHostedPurchaseModal';
+import useFetchAdminConfig from 'components/common/hooks/useFetchAdminConfig';
 
 export default function SelfHostedPurchaseButton() {
+    useFetchAdminConfig();
     const openSelfHostedPurchaseModal = useOpenSelfHostedPurchaseModal({});
     const isAdmin = useSelector(isCurrentUserSystemAdmin);
     const isCloud = useSelector(isCurrentLicenseCloud);
