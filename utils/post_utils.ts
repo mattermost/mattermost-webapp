@@ -705,3 +705,16 @@ export function getUserOrGroupFromMentionName(usersByUsername: Record<string, Us
 
     return '';
 }
+
+export function mentionsMinusSpecialMentionsInText(message: string) {
+    const allMentions = message.match(Constants.MENTIONS_REGEX) || [];
+    const mentions = [];
+    for (let i = 0; i < allMentions.length; i++) {
+        const mention = allMentions[i];
+        if (!Constants.SPECIAL_MENTIONS_REGEX.test(mention)) {
+            mentions.push(mention.substring(1).trim());
+        }
+    }
+
+    return mentions;
+}

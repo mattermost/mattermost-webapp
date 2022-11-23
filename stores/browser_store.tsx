@@ -2,42 +2,12 @@
 // See LICENSE.txt for license information.
 
 import {getHistory} from 'utils/browser_history';
-import * as Selectors from 'selectors/storage';
-import * as Actions from 'actions/storage';
-import store from 'stores/redux_store.jsx';
 import {ErrorPageTypes, StoragePrefixes, LandingPreferenceTypes} from 'utils/constants';
 import * as Utils from 'utils/utils';
-
-const dispatch = store.dispatch;
-const getState = store.getState;
 
 class BrowserStoreClass {
     private hasCheckedLocalStorage?: boolean;
     private localStorageSupported?: boolean;
-
-    setItem(name: string, value: string) {
-        dispatch(Actions.setItem(name, value));
-    }
-
-    getItem(name: string, defaultValue: string) {
-        return Selectors.makeGetItem(name, defaultValue)(getState());
-    }
-
-    removeItem(name: string) {
-        dispatch(Actions.removeItem(name));
-    }
-
-    setGlobalItem(name: string, value: string) {
-        dispatch(Actions.setGlobalItem(name, value));
-    }
-
-    getGlobalItem(name: string, defaultValue: string | null = null) {
-        return Selectors.makeGetGlobalItem(name, defaultValue)(getState());
-    }
-
-    removeGlobalItem(name: string) {
-        dispatch(Actions.removeGlobalItem(name));
-    }
 
     signalLogout() {
         if (this.isLocalStorageSupported()) {
