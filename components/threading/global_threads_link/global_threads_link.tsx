@@ -11,6 +11,8 @@ import {
     getThreadCountsInCurrentTeam, getThreadsInCurrentTeam,
 } from 'mattermost-redux/selectors/entities/threads';
 import {getInt, isCollapsedThreadsEnabled} from 'mattermost-redux/selectors/entities/preferences';
+import {getCurrentUserId} from 'mattermost-redux/selectors/entities/users';
+import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
 import {getThreadCounts} from 'mattermost-redux/actions/threads';
 import {t} from 'utils/i18n';
 import {trackEvent} from 'actions/telemetry_actions';
@@ -31,9 +33,9 @@ import {openModal} from 'actions/views/modals';
 import {PulsatingDot} from '@mattermost/components';
 import CRTWelcomeTutorialTip
     from '../../tours/crt_tour/crt_welcome_tutorial_tip';
-import {useThreadRouting} from '../hooks';
 
 import ThreadsIcon from './threads_icon';
+
 import './global_threads_link.scss';
 
 const GlobalThreadsLink = () => {
@@ -44,7 +46,8 @@ const GlobalThreadsLink = () => {
     const {url} = useRouteMatch();
     const {pathname} = useLocation();
     const inGlobalThreads = matchPath(pathname, {path: '/:team/threads/:threadIdentifier?'}) != null;
-    const {currentTeamId, currentUserId} = useThreadRouting();
+    const currentUserId = useSelector(getCurrentUserId);
+    const currentTeamId = useSelector(getCurrentTeamId);
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
     const someUnreadThreads = counts?.total_unread_threads;

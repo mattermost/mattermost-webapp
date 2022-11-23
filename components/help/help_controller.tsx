@@ -5,6 +5,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {Switch, Route} from 'react-router-dom';
 
+import {createGlobalStyle} from 'styled-components';
+
 import Messaging from './components/messaging';
 import Composing from './components/composing';
 import Mentioning from './components/mentioning';
@@ -58,8 +60,15 @@ export default class HelpController extends React.PureComponent<Props> {
                             component={Commands}
                         />
                     </Switch>
+                    <HelpPagesGlobalStyles/>
                 </div>
             </div>
         );
     }
 }
+
+const HelpPagesGlobalStyles = createGlobalStyle`
+    #root {
+        overflow-y: auto;
+    }
+`;

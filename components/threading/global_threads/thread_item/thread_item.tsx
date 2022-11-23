@@ -73,7 +73,7 @@ function ThreadItem({
     isFirstThreadInList,
 }: Props & OwnProps): React.ReactElement|null {
     const dispatch = useDispatch();
-    const {select, goToInChannel, currentTeamId} = useThreadRouting();
+    const {select, goToInChannel, currentTeamId, clear} = useThreadRouting();
     const {formatMessage} = useIntl();
     const isMobileView = useSelector(getIsMobileView);
     const currentUserId = useSelector(getCurrentUserId);
@@ -93,6 +93,12 @@ function ThreadItem({
             dispatch(fetchChannel(thread.post.channel_id));
         }
     }, [channel, thread?.post.channel_id]);
+
+    useEffect(() => {
+        if (channel?.team_id && channel.team_id !== currentTeamId && isSelected) {
+            clear();
+        }
+    }, [currentTeamId, channel, isSelected]);
 
     const participantIds = useMemo(() => {
         const ids = (thread?.participants || []).flatMap(({id}) => {

@@ -41,17 +41,31 @@ import ChatIllustration from '../common/chat_illustration';
 
 import ThreadViewer from '../thread_viewer';
 
+import {usePathDef} from './routing';
+
 import ThreadList, {ThreadFilter, FILTER_STORAGE_KEY} from './thread_list';
 import ThreadPane from './thread_pane';
 
 import './global_threads.scss';
 
-const GlobalThreads = () => {
+type Props = {
+    className?: string;
+    pathDef?: string;
+    teamName?: string;
+}
+
+const GlobalThreads = ({className, pathDef = '/:team/threads/:threadIdentifier?', teamName}: Props) => {
     const {formatMessage} = useIntl();
     const dispatch = useDispatch();
 
     const {url, params: {threadIdentifier}} = useRouteMatch<{threadIdentifier?: string}>();
     const [filter, setFilter] = useGlobalState(ThreadFilter.none, FILTER_STORAGE_KEY);
+    const {pathDef: innerPathDef, setPathDef} = usePathDef();
+
+    useEffect(() => {
+        setPathDef?.({path: pathDef, teamName});
+    }, [pathDef, teamName]);
+
     const {currentTeamId, currentUserId, clear} = useThreadRouting();
 
     const counts = useSelector(getThreadCountsInCurrentTeam);
@@ -133,10 +147,10 @@ const GlobalThreads = () => {
     }, [fetchThreads, filter, threadIds, unreadThreadIds]);
 
     useEffect(() => {
-        if (!selectedThread && !selectedPost && !isLoading) {
+        if (innerPathDef && !selectedThread && !selectedPost && !isLoading) {
             clear();
         }
-    }, [currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
+    }, [innerPathDef, currentTeamId, selectedThread, selectedPost, isLoading, counts, filter]);
 
     // cleanup on unmount
     useEffect(() => {
@@ -152,7 +166,7 @@ const GlobalThreads = () => {
     return (
         <div
             id='app-content'
-            className={classNames('GlobalThreads app__content', {'thread-selected': Boolean(selectedThread)})}
+            className={classNames(className, 'GlobalThreads app__content', {'thread-selected': Boolean(selectedThread)})}
         >
             <Header
                 level={2}

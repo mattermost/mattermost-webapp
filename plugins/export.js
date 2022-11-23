@@ -21,6 +21,8 @@ import Timestamp from 'components/timestamp';
 import Avatar from 'components/widgets/users/avatar';
 import BotBadge from 'components/widgets/badges/bot_badge';
 
+import GlobalThreads from 'components/threading/global_threads';
+
 import {openPricingModal} from '../components/global_header/right_controls/plan_upgrade_button';
 
 import Textbox from './textbox';
@@ -81,4 +83,5 @@ window.ProductApi = {
     selectRhsPost: selectPostById,
     getRhsSelectedPostId: getSelectedPostId,
     getIsRhsOpen,
+    GlobalThreads,
 };
