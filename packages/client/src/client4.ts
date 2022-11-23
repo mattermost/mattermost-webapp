@@ -19,7 +19,6 @@ import {
     CloudCustomerPatch,
     Invoice,
     Limits,
-    IntegrationsUsage,
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
@@ -3861,12 +3860,6 @@ export default class Client4 {
         }
         return this.doFetch<Product[]>(
             `${this.getCloudRoute()}/products${query}`, {method: 'get'},
-        );
-    };
-
-    getIntegrationsUsage = () => {
-        return this.doFetch<IntegrationsUsage>(
-            `${this.getUsageRoute()}/integrations`, {method: 'get'},
         );
     };
 

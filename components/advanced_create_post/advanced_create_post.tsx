@@ -460,6 +460,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.file_ids = [];
         post.message = message;
         post.props = this.props.draft.props || {};
+        post.metadata = (this.props.draft.metadata || {}) as PostMetadata;
 
         if (post.message.trim().length === 0 && this.props.draft.fileInfos.length === 0) {
             return;
@@ -708,7 +709,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         post.pending_post_id = `${userId}:${time}`;
         post.user_id = userId;
         post.create_at = time;
-        post.metadata = {} as PostMetadata;
+        post.metadata = {
+            ...originalPost.metadata,
+        } as PostMetadata;
+
         post.props = {
             ...originalPost.props,
         };
@@ -1407,9 +1411,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     handlePostPriorityApply = ({priority}: {priority?: PostPriority}) => {
         const updatedDraft = {
             ...this.props.draft,
-            props: {
-                ...this.props.draft.props,
-                priority,
+            metadata: {
+                priority: {
+                    priority,
+                    requested_ack: false,
+                    persistent_notifications: false,
+                },
             },
         };
 
@@ -1500,11 +1507,11 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                     prefillMessage={this.prefillMessage}
                     textboxRef={this.textboxRef}
                     labels={(
-                        this.props.draft?.props?.priority && this.props.isPostPriorityEnabled && (
+                        this.props.draft?.metadata?.priority && this.props.isPostPriorityEnabled && (
                             <div className='AdvancedTextEditor__priority'>
                                 <PriorityLabel
                                     size='xs'
-                                    priority={this.props.draft.props.priority}
+                                    priority={this.props.draft.metadata?.priority?.priority}
                                 />
                                 <OverlayTrigger
                                     placement='top'
@@ -1515,7 +1522,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                             <FormattedMessage
                                                 id={'post_priority.remove'}
                                                 defaultMessage={'Remove {priority} label'}
-                                                values={{priority: this.props.draft.props.priority}}
+                                                values={{priority: this.props.draft.metadata.priority.priority}}
                                             />
                                         </Tooltip>
                                     )}
@@ -1530,7 +1537,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                                             <FormattedMessage
                                                 id={'post_priority.remove'}
                                                 defaultMessage={'Remove {priority} label'}
-                                                values={{priority: this.props.draft.props.priority}}
+                                                values={{priority: this.props.draft.metadata.priority.priority}}
                                             />
                                         </span>
                                     </button>
@@ -1542,7 +1549,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
                         this.props.isPostPriorityEnabled ? (
                             <React.Fragment key='PostPriorityPicker'>
                                 <PostPriorityPickerOverlay
-                                    priority={this.props.draft?.props?.priority}
+                                    priority={this.props.draft?.metadata?.priority?.priority}
                                     show={this.state.showPostPriorityPicker}
                                     target={this.getPostPriorityPickerRef}
                                     onApply={this.handlePostPriorityApply}

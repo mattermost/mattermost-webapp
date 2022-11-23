@@ -901,8 +901,10 @@ exports[`components/advanced_create_post should match snapshot, post priority en
       Object {
         "fileInfos": Array [],
         "message": "",
-        "props": Object {
-          "priority": "important",
+        "metadata": Object {
+          "priority": Object {
+            "priority": "important",
+          },
         },
         "uploadsInProgress": Array [],
       }
