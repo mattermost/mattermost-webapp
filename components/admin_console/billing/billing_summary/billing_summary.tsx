@@ -158,14 +158,14 @@ export const getPaymentStatus = (status: string) => {
 
 type InvoiceInfoProps = {
     invoice: Invoice;
-    product: Product;
+    product?: Product;
     fullCharges: InvoiceLineItem[];
     partialCharges: InvoiceLineItem[];
 }
 
 export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: InvoiceInfoProps) => {
     const dispatch = useDispatch();
-    const isUpcomingInvoice = invoice.id === 'upcoming';
+    const isUpcomingInvoice = invoice?.id === 'upcoming';
     const title = () => {
         if (isUpcomingInvoice) {
             return (
@@ -209,7 +209,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                     className='BillingSummary__lastInvoice-charge'
                 >
                     <div className='BillingSummary__lastInvoice-chargeDescription'>
-                        {product.billing_scheme === BillingSchemes.FLAT_FEE ?
+                        {product?.billing_scheme === BillingSchemes.FLAT_FEE ?
                             <FormattedMessage
                                 id='admin.billing.subscriptions.billing_summary.lastInvoice.monthlyFlatFee'
                                 defaultMessage='Monthly Flat Fee'
