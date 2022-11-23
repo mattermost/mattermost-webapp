@@ -193,26 +193,6 @@
         display: none;
     }
 
-    .post-list__loading {
-        padding: 1em 0;
-        font-size: 0.9em;
-        font-style: italic;
-        opacity: 0.5;
-        text-align: center;
-
-        i {
-            margin-right: 2px;
-        }
-
-        &.post-list__loading-search {
-            cursor: pointer;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-
     .post-list-holder-by-time {
         position: absolute;
         width: 100%;

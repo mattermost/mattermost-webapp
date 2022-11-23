@@ -83,8 +83,7 @@ export default class PostView extends React.PureComponent<Props, State> {
             return (
                 <div id='post-list'>
                     <LoadingScreen
-                        position='absolute'
-                        key='loading'
+                        inMiddle={true}
                     />
                 </div>
             );

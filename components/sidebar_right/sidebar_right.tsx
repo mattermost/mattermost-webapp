@@ -254,7 +254,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         if (isLoading) {
             content = (
                 <div className='sidebar-right__body'>
-                    <LoadingScreen/>
+                    <LoadingScreen inMiddle={true}/>
                 </div>
             );
         } else if (postRightVisible) {
