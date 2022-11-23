@@ -37,10 +37,7 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
     <div
       id="moreChannelsList"
     >
-      <LoadingScreen
-        position="relative"
-        style={Object {}}
-      />
+      <LoadingScreen />
     </div>
   </div>
   <div

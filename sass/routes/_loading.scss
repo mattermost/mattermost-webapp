@@ -19,9 +19,9 @@
 
     &.loading-screen--in-middle {
         display: flex;
+        height: 100%;
         align-items: center;
         justify-content: center;
-        height: 100%;
     }
 
     .loading__content {
