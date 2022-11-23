@@ -185,7 +185,7 @@ export type ClientConfig = {
     WebsocketSecurePort: string;
     WebsocketURL: string;
     ExperimentalSharedChannels: string;
-    EnableAppBar: string;
+    DisableAppBar: string;
     EnableComplianceExport: string;
     PostPriority: string;
     ReduceOnBoardingTaskList: string;
@@ -711,7 +711,7 @@ export type ExperimentalSettings = {
     UseNewSAMLLibrary: boolean;
     EnableSharedChannels: boolean;
     EnableRemoteClusterService: boolean;
-    EnableAppBar: boolean;
+    DisableAppBar: boolean;
 };
 
 export type AnalyticsSettings = {
