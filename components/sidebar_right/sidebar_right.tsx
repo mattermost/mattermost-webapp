@@ -5,6 +5,7 @@ import React from 'react';
 import classNames from 'classnames';
 
 import {ProductIdentifier} from '@mattermost/types/products';
+import {Team} from '@mattermost/types/teams';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
 import Constants from 'utils/constants';
@@ -16,6 +17,7 @@ import RhsCard from 'components/rhs_card';
 import ChannelInfoRhs from 'components/channel_info_rhs';
 import ChannelMembersRhs from 'components/channel_members_rhs';
 import Search from 'components/search/index';
+import LoadingScreen from 'components/loading_screen';
 
 import RhsPlugin from 'plugins/rhs_plugin';
 
@@ -27,7 +29,7 @@ type Props = {
     isExpanded: boolean;
     isOpen: boolean;
     channel: Channel;
-    teamId: string;
+    team: Team;
     productId: ProductIdentifier;
     postRightVisible: boolean;
     postCardVisible: boolean;
@@ -166,9 +168,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             this.props.actions.setRhsExpanded(false);
         }
 
-        // close when changing teams, close when changing products
+        // close when changing products
         if (
-            this.props.teamId !== prevProps.teamId ||
             this.props.productId !== prevProps.productId
         ) {
             this.props.actions.closeRightHandSide();
@@ -238,44 +239,54 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             isChannelInfo,
             isChannelMembers,
             isExpanded,
+            channel,
+            team,
         } = this.props;
 
-        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
+        // Sometimes the channel/team is not loaded yet, so we need to wait for it
+        const isLoading = !channel || !team;
+
+        if (!isOpen) {
+            return null;
+        }
 
         let content = null;
-        switch (true) {
-        case postRightVisible:
+        if (isLoading) {
+            content = (
+                <div className='sidebar-right__body'>
+                    <LoadingScreen/>
+                </div>
+            );
+        } else if (postRightVisible) {
             content = (
                 <div className='post-right__container'>
                     <FileUploadOverlay overlayType='right'/>
                     <RhsThread previousRhsState={previousRhsState}/>
                 </div>
             );
-            break;
-        case postCardVisible:
+        } else if (postCardVisible) {
             content = <RhsCard previousRhsState={previousRhsState}/>;
-            break;
-        case isPluginView:
+        } else if (isPluginView) {
             content = <RhsPlugin/>;
-            break;
-        case isChannelInfo:
+        } else if (isChannelInfo) {
             content = (
                 <ChannelInfoRhs/>
             );
-            break;
-        case isChannelMembers:
+        } else if (isChannelMembers) {
             content = (
                 <ChannelMembersRhs/>
             );
-            break;
         }
+
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
+
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
         const containerClassName = classNames('sidebar--right', {
             'sidebar--right--expanded expanded': isSidebarRightExpanded,
             'move--left is-open': isOpen,
         });
 
-        return isOpen && (
+        return (
             <>
                 <div className={'sidebar--right sidebar--right--width-holder'}/>
                 <div
