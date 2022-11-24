@@ -207,6 +207,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         teamDisplayName,
         displayName: getDisplayNameByUser(state, directTeammate),
         teamName,
+        isFlaggedPosts: rhsState === RHSStates.FLAG,
+        isPinnedPosts: rhsState === RHSStates.PIN,
+        clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
     };
 }
 

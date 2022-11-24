@@ -104,7 +104,7 @@ const PostOptions = (props: Props): JSX.Element => {
     const isEphemeral = isPostEphemeral(post);
     const systemMessage = isSystemMessage(post);
     const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
-    const showCommentIcon = !systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply);
+    const showCommentIcon = !systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply) && props.location === Locations.CENTER;
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
 
     let commentIcon;
@@ -114,7 +114,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 handleCommentClick={props.handleCommentClick}
                 postId={post.id}
                 extraClass={commentIconExtraClass}
-                commentCount={props.replyCount}
+                commentCount={props.collapsedThreadsEnabled ? 0 : props.replyCount}
             />
         );
     }
@@ -214,7 +214,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 {flagIcon}
                 {props.canReply && !hasCRTFooter &&
                     <CommentIcon
-                        location={Locations.SEARCH}
+                        location={props.location}
                         handleCommentClick={props.handleCommentClick}
                         commentCount={props.replyCount}
                         postId={post.id}
@@ -249,8 +249,8 @@ const PostOptions = (props: Props): JSX.Element => {
                 {postReaction}
                 {flagIcon}
                 {actionsMenu}
-                {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 {commentIcon}
+                {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 {props.isSearchResultsItem &&
                     <a
                         href='#'
