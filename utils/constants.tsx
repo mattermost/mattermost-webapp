@@ -518,7 +518,13 @@ export const A11yCustomEventTypes = {
     ACTIVATE: 'a11yactivate',
     DEACTIVATE: 'a11ydeactivate',
     UPDATE: 'a11yupdate',
+    FOCUS: 'a11yfocus',
 };
+
+export type A11yFocusEventDetail = {
+    target: HTMLElement | null;
+    keyboardOnly: boolean;
+}
 
 export const AppEvents = {
     FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
