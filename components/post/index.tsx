@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
+import {connect, ConnectedProps} from 'react-redux';
 import {AnyAction, bindActionCreators, Dispatch} from 'redux';
 
 import {showActionsDropdownPulsatingDot} from 'selectors/actions_menu';
@@ -207,6 +207,9 @@ function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         teamDisplayName,
         displayName: getDisplayNameByUser(state, directTeammate),
         teamName,
+        isFlaggedPosts: rhsState === RHSStates.FLAG,
+        isPinnedPosts: rhsState === RHSStates.PIN,
+        clickToReply: get(state, Preferences.CATEGORY_DISPLAY_SETTINGS, Preferences.CLICK_TO_REPLY, Preferences.CLICK_TO_REPLY_DEFAULT) === 'true',
     };
 }
 
@@ -225,4 +228,9 @@ function mapDispatchToProps(dispatch: Dispatch<AnyAction>) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(PostComponent);
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>
+
+export default connector(PostComponent);
+

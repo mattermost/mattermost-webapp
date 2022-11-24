@@ -37,8 +37,10 @@ import {Props as TimestampProps} from 'components/timestamp/timestamp';
 import ThreadFooter from 'components/threading/channel_threads/thread_footer';
 import PostBodyAdditionalContent from 'components/post_view/post_body_additional_content';
 import PostMessageContainer from 'components/post_view/post_message_view';
-import * as Utils from 'utils/utils';
+import {getDateForUnixTicks, makeIsEligibleForClick} from 'utils/utils';
 import {getHistory} from 'utils/browser_history';
+
+import {trackEvent} from 'actions/telemetry_actions';
 
 import PostUserProfile from './user_profile';
 import PostOptions from './post_options';
@@ -95,6 +97,9 @@ export type Props = {
     isMobileView: boolean;
     canReply?: boolean;
     replyCount?: number;
+    isFlaggedPosts?: boolean;
+    isPinnedPosts?: boolean;
+    clickToReply?: boolean;
 };
 
 const PostComponent = (props: Props): JSX.Element => {
@@ -108,21 +113,26 @@ const PostComponent = (props: Props): JSX.Element => {
     const [fadeOutHighlight, setFadeOutHighlight] = useState(false);
     const [alt, setAlt] = useState(false);
 
-    if (props.shouldHighlight) {
-        setTimeout(() => {
-            setFadeOutHighlight(true);
-        }, Constants.PERMALINK_FADEOUT);
-    }
+    useEffect(() => {
+        if (props.shouldHighlight) {
+            const timer = setTimeout(() => setFadeOutHighlight(true), Constants.PERMALINK_FADEOUT);
+            return () => {
+                clearTimeout(timer);
+            };
+        }
+        return undefined;
+    }, [props.shouldHighlight]);
 
     useEffect(() => {
         if (postRef.current) {
             postRef.current.addEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
             postRef.current.addEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
+            addKeyboardListeners();
         }
         if (a11yActive) {
             postRef.current?.dispatchEvent(new Event(A11yCustomEventTypes.UPDATE));
         }
-    }, []);
+    }, [hover, postRef.current]);
 
     useEffect(() => {
         if (hover) {
@@ -133,7 +143,7 @@ const PostComponent = (props: Props): JSX.Element => {
             postRef.current.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleA11yActivateEvent);
             postRef.current.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleA11yDeactivateEvent);
         }
-    }, []);
+    }, [hover, postRef.current]);
 
     const hasSameRoot = (props: Props) => {
         const post = props.post;
@@ -201,19 +211,18 @@ const PostComponent = (props: Props): JSX.Element => {
             'post--highlight': props.shouldHighlight && !fadeOutHighlight,
             'same--root': hasSameRoot(props),
             'post--bot': PostUtils.isFromBot(post),
-            'post--pinned-or-flagged-highlight': props.shouldHighlight && (post.is_pinned || props.isFlagged),
             'post--editing': props.isPostBeingEdited,
             'current--user': props.currentUserId === post.user_id,
             'post--system': isSystemMessage || isMeMessage,
             'post--root': props.hasReplies && !(post.root_id && post.root_id.length > 0),
-            'post--comment': post.root_id && post.root_id.length > 0,
+            'post--comment': post.root_id && post.root_id.length > 0 && !props.isCollapsedThreadsEnabled,
             'post--compact': props.compactDisplay,
             'post--hovered': hovered,
             'same--user': props.isConsecutivePost,
             'cursor--pointer': alt && !props.channelIsArchived,
             'post--hide-controls': post.failed || post.state === Posts.POST_DELETED,
             'post--comment same--root': PostUtils.fromAutoResponder(post),
-            'post--pinned-or-flagged': post.is_pinned || props.isFlagged,
+            'post--pinned-or-flagged': (post.is_pinned || props.isFlagged) && props.location === Locations.CENTER,
         });
     };
 
@@ -235,13 +244,11 @@ const PostComponent = (props: Props): JSX.Element => {
     const handleMouseOver = (e: MouseEvent<HTMLDivElement>) => {
         setHover(true);
         setAlt(e.altKey);
-        addKeyboardListeners();
     };
 
     const handleMouseLeave = () => {
         setHover(false);
         setAlt(false);
-        removeKeyboardListeners();
     };
 
     const addKeyboardListeners = () => {
@@ -258,9 +265,29 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const handleA11yDeactivateEvent = () => setA11y(false);
 
+    // When adding clickable targets within a root post to exclude from post's on click to open thread,
+    // please add to/maintain the selector below
+    const isEligibleForClick = makeIsEligibleForClick('.post-image__column, .embed-responsive-item, .attachment, .hljs, code');
+
     const handlePostClick = (e: MouseEvent<HTMLDivElement>) => {
-        if (props.channelIsArchived) {
+        const {post, clickToReply, isPostBeingEdited} = props;
+
+        if (!post || props.channelIsArchived) {
             return;
+        }
+
+        const isSystemMessage = PostUtils.isSystemMessage(post);
+        const fromAutoResponder = PostUtils.fromAutoResponder(post);
+
+        if (
+            !e.altKey &&
+            clickToReply &&
+            (fromAutoResponder || !isSystemMessage) &&
+            isEligibleForClick(e) &&
+            !isPostBeingEdited
+        ) {
+            trackEvent('crt', 'clicked_to_reply');
+            props.actions.selectPost(post);
         }
 
         if (e.altKey) {
@@ -281,11 +308,11 @@ const PostComponent = (props: Props): JSX.Element => {
     const handleCommentClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
 
-        if (!post) {
+        if (!props.post) {
             return;
         }
-        props.actions.selectPost(post);
-    }, []);
+        props.actions.selectPost(props.post);
+    }, [props.post]);
 
     const {
         post,
@@ -345,7 +372,7 @@ const PostComponent = (props: Props): JSX.Element => {
 
     const showSlot = isPostBeingEdited ? AutoHeightSlots.SLOT2 : AutoHeightSlots.SLOT1;
     const threadFooter = props.location !== Locations.RHS_ROOT && props.isCollapsedThreadsEnabled && !post.root_id && (props.hasReplies || post.is_following) ? <ThreadFooter threadId={post.id}/> : null;
-    const currentPostDay = Utils.getDateForUnixTicks(post.create_at);
+    const currentPostDay = getDateForUnixTicks(post.create_at);
     const channelDisplayName = getChannelName();
     return (
         <div
@@ -391,6 +418,8 @@ const PostComponent = (props: Props): JSX.Element => {
                 <PostPreHeader
                     isFlagged={props.isFlagged}
                     isPinned={post.is_pinned}
+                    skipPinned={props.isPinnedPosts}
+                    skipFlagged={props.isFlaggedPosts}
                     channelId={post.channel_id}
                 />
                 <div

@@ -20,6 +20,7 @@ import {isIdNotPost} from 'utils/post_utils';
 import {PostListRowListIds, Locations} from 'utils/constants';
 import CenterMessageLock from 'components/center_message_lock';
 import PostComponent from 'components/post';
+import {UserProfile} from '@mattermost/types/users';
 
 export type PostListRowProps = {
     listId: string;
@@ -30,7 +31,7 @@ export type PostListRowProps = {
     loadNewerPosts: () => void;
     togglePostMenu: (opened: boolean) => void;
     post: Post;
-    currentUserId: string;
+    currentUserId: UserProfile['id'];
 
     /**
      * To Check if the current post is last in the list

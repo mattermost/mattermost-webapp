@@ -5,7 +5,7 @@ import React, {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 
 import Constants from 'utils/constants';
-import * as PostUtils from 'utils/post_utils';
+import {fromAutoResponder} from 'utils/post_utils';
 
 import {Post} from '@mattermost/types/posts';
 
@@ -29,7 +29,7 @@ type Props = {
 
 const PostUserProfile = (props: Props): JSX.Element | null => {
     const {post, compactDisplay, isMobileView, isConsecutivePost, isBusy, enablePostUsernameOverride, isBot, isSystemMessage, colorizeUsernames} = props;
-    const fromAutoResponder = PostUtils.fromAutoResponder(post);
+    const isFromAutoResponder = fromAutoResponder(post);
     const colorize = compactDisplay && colorizeUsernames;
 
     let userProfile: ReactNode = null;
@@ -82,7 +82,7 @@ const PostUserProfile = (props: Props): JSX.Element | null => {
             );
 
             botIndicator = (<BotBadge className='col col__name'/>);
-        } else if (fromAutoResponder) {
+        } else if (isFromAutoResponder) {
             userProfile = (
                 <span className='auto-responder'>
                     <UserProfile

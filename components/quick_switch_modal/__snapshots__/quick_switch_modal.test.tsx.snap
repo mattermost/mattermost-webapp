@@ -3,7 +3,7 @@
 exports[`components/QuickSwitchModal should match snapshot 1`] = `
 <Modal
   animation={false}
-  aria-describedby="quickSwitchHint"
+  aria-describedby="quickSwitchHeader"
   aria-labelledby="quickSwitchModalLabel"
   autoFocus={true}
   backdrop={true}
@@ -42,6 +42,7 @@ exports[`components/QuickSwitchModal should match snapshot 1`] = `
   >
     <div
       className="channel-switcher__header"
+      id="quickSwitchHeader"
     >
       <h1>
         <MemoizedFormattedMessage

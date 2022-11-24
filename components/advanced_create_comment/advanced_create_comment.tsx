@@ -22,6 +22,7 @@ import {
     isErrorInvalidSlashCommand,
     splitMessageBasedOnCaretPosition,
     groupsMentionedInText,
+    mentionsMinusSpecialMentionsInText,
 } from 'utils/post_utils';
 import {getTable, hasHtmlLink, formatMarkdownMessage, isGitHubCodeBlock, formatGithubCodePaste} from 'utils/paste';
 
@@ -49,6 +50,7 @@ import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
 
 type Props = {
+    currentTeamId: string;
 
     // The channel for which this comment is a part of
     channelId: string;
@@ -168,7 +170,7 @@ type Props = {
     scrollToBottom?: () => void;
 
     // Group member mention
-    getChannelMemberCountsByGroup: (channelID: string) => void;
+    getChannelMemberCountsByGroup: (channelID: string, isTimezoneEnabled: boolean) => void;
     groupsWithAllowReference: Map<string, Group> | null;
     channelMemberCountsByGroup: ChannelMemberCountsByGroup;
     onHeightChange?: (height: number, maxHeight: number) => void;
@@ -179,6 +181,7 @@ type Props = {
     useCustomGroupMentions: boolean;
     emojiMap: EmojiMap;
     isFormattingBarHidden: boolean;
+    searchAssociatedGroupsForReference: (prefix: string, teamId: string, channelId: string | undefined) => Promise<{ data: any }>;
 }
 
 type State = {
@@ -248,7 +251,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        const {useLDAPGroupMentions, getChannelMemberCountsByGroup, channelId, clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
+        const {clearCommentDraftUploads, onResetHistoryIndex, setShowPreview, draft} = this.props;
         clearCommentDraftUploads();
         onResetHistoryIndex();
         setShowPreview(false);
@@ -260,9 +263,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         document.addEventListener('paste', this.pasteHandler);
         document.addEventListener('keydown', this.focusTextboxIfNecessary);
         window.addEventListener('beforeunload', this.saveDraft);
-        if (useLDAPGroupMentions) {
-            getChannelMemberCountsByGroup(channelId);
-        }
+        this.getChannelMemberCountsByGroup();
 
         // When draft.message is not empty, set doInitialScrollToBottom to true so that
         // on next component update, the actual this.scrollToBottom() will be called.
@@ -296,9 +297,7 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
         }
 
         if (prevProps.rootId !== this.props.rootId || prevProps.selectedPostFocussedAt !== this.props.selectedPostFocussedAt) {
-            if (this.props.useLDAPGroupMentions) {
-                this.props.getChannelMemberCountsByGroup(this.props.channelId);
-            }
+            this.getChannelMemberCountsByGroup();
             this.focusTextbox();
         }
 
@@ -311,6 +310,20 @@ class AdvancedCreateComment extends React.PureComponent<Props, State> {
 
         if (this.props.createPostErrorId === 'api.post.create_post.root_id.app_error' && this.props.createPostErrorId !== prevProps.createPostErrorId) {
             this.showPostDeletedModal();
+        }
+    }
+
+    getChannelMemberCountsByGroup = () => {
+        const {useLDAPGroupMentions, useCustomGroupMentions, channelId, isTimezoneEnabled, searchAssociatedGroupsForReference, getChannelMemberCountsByGroup, draft, currentTeamId} = this.props;
+
+        if ((useLDAPGroupMentions || useCustomGroupMentions) && channelId) {
+            const mentions = mentionsMinusSpecialMentionsInText(draft.message);
+
+            if (mentions.length === 1) {
+                searchAssociatedGroupsForReference(mentions[0], currentTeamId, channelId);
+            } else if (mentions.length > 1) {
+                getChannelMemberCountsByGroup(channelId, isTimezoneEnabled);
+            }
         }
     }
 

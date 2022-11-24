@@ -9,7 +9,7 @@ import {Posts, Preferences} from 'mattermost-redux/constants/index';
 import {isPostEphemeral} from 'mattermost-redux/utils/post_utils';
 
 import {Locations} from 'utils/constants';
-import * as PostUtils from 'utils/post_utils';
+import {isSystemMessage} from 'utils/post_utils';
 import {isMobile} from 'utils/utils';
 
 import {Post} from '@mattermost/types/posts';
@@ -71,18 +71,6 @@ const PostOptions = (props: Props): JSX.Element => {
 
     const removePost = () => props.removePost(props.post);
 
-    const createRemovePostButton = () => {
-        return (
-            <button
-                className='post__remove theme color--link style--none'
-                type='button'
-                onClick={removePost}
-            >
-                {'×'}
-            </button>
-        );
-    };
-
     const toggleEmojiPicker = () => {
         setShowEmojiPicker(!showEmojiPicker);
     };
@@ -114,11 +102,9 @@ const PostOptions = (props: Props): JSX.Element => {
 
     const isPostDeleted = post && post.state === Posts.POST_DELETED;
     const isEphemeral = isPostEphemeral(post);
-    const isSystemMessage = PostUtils.isSystemMessage(post);
-
+    const systemMessage = isSystemMessage(post);
     const hoverLocal = props.hover || showEmojiPicker || showDotMenu || showActionsMenu || showActionTip;
-
-    const showCommentIcon = !isSystemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply);
+    const showCommentIcon = !systemMessage && (isMobile || hoverLocal || (!post.root_id && Boolean(props.hasReplies)) || props.isFirstReply || props.canReply) && props.location === Locations.CENTER;
     const commentIconExtraClass = isMobileView ? '' : 'pull-right';
 
     let commentIcon;
@@ -128,12 +114,12 @@ const PostOptions = (props: Props): JSX.Element => {
                 handleCommentClick={props.handleCommentClick}
                 postId={post.id}
                 extraClass={commentIconExtraClass}
-                commentCount={props.replyCount}
+                commentCount={props.collapsedThreadsEnabled ? 0 : props.replyCount}
             />
         );
     }
 
-    const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !isSystemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
+    const showRecentlyUsedReactions = (!isReadOnly && !isEphemeral && !post.failed && !systemMessage && !channelIsArchived && oneClickReactionsEnabled && props.enableEmojiPicker && hoverLocal);
 
     let showRecentReactions: ReactNode;
     if (showRecentlyUsedReactions) {
@@ -149,7 +135,7 @@ const PostOptions = (props: Props): JSX.Element => {
         );
     }
 
-    const showReactionIcon = !isSystemMessage && !isReadOnly && !isEphemeral && !post.failed && props.enableEmojiPicker;
+    const showReactionIcon = !systemMessage && !isReadOnly && !isEphemeral && !post.failed && props.enableEmojiPicker;
     let postReaction;
     if (showReactionIcon) {
         postReaction = (
@@ -165,7 +151,7 @@ const PostOptions = (props: Props): JSX.Element => {
     }
 
     let flagIcon: ReactNode = null;
-    if (!isMobileView && (!isEphemeral && !post.failed && !isSystemMessage)) {
+    if (!isMobileView && (!isEphemeral && !post.failed && !systemMessage)) {
         flagIcon = (
             <PostFlagIcon
                 location={Locations.RHS_COMMENT}
@@ -209,7 +195,12 @@ const PostOptions = (props: Props): JSX.Element => {
     if (isEphemeral) {
         options = (
             <div className='col col__remove'>
-                {createRemovePostButton()}
+                <button
+                    className='post__remove theme color--link style--none'
+                    onClick={removePost}
+                >
+                    {'×'}
+                </button>
             </div>
         );
     } else if (isPostDeleted) {
@@ -223,7 +214,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 {flagIcon}
                 {props.canReply && !hasCRTFooter &&
                     <CommentIcon
-                        location={Locations.SEARCH}
+                        location={props.location}
                         handleCommentClick={props.handleCommentClick}
                         commentCount={props.replyCount}
                         postId={post.id}
@@ -243,7 +234,7 @@ const PostOptions = (props: Props): JSX.Element => {
                 </a>
             </div>
         );
-    } else if (!isSystemMessage &&
+    } else if (!systemMessage &&
         (isMobileView ||
         hoverLocal ||
         a11yActive)) {
@@ -258,8 +249,8 @@ const PostOptions = (props: Props): JSX.Element => {
                 {postReaction}
                 {flagIcon}
                 {actionsMenu}
-                {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 {commentIcon}
+                {(collapsedThreadsEnabled || showRecentlyUsedReactions) && dotMenu}
                 {props.isSearchResultsItem &&
                     <a
                         href='#'
