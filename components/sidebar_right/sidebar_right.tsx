@@ -6,10 +6,14 @@ import classNames from 'classnames';
 
 import {ProductIdentifier} from '@mattermost/types/products';
 import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
+
+import {RhsState} from 'types/store/rhs';
 
 import {trackEvent} from 'actions/telemetry_actions.jsx';
+
 import Constants from 'utils/constants';
-import * as Utils from 'utils/utils';
+import {isMac, cmdOrCtrlPressed, isKeyPressed} from 'utils/utils';
 
 import FileUploadOverlay from 'components/file_upload_overlay';
 import RhsThread from 'components/rhs_thread';
@@ -20,10 +24,6 @@ import Search from 'components/search/index';
 import LoadingScreen from 'components/loading_screen';
 
 import RhsPlugin from 'plugins/rhs_plugin';
-
-import {Channel} from '@mattermost/types/channels';
-
-import {RhsState} from 'types/store/rhs';
 
 type Props = {
     isExpanded: boolean;
@@ -91,11 +91,11 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
     }
 
     handleShortcut = (e: KeyboardEvent) => {
-        const channelInfoShortcutMac = Utils.isMac() && e.shiftKey;
-        const channelInfoShortcut = !Utils.isMac() && e.altKey;
+        const channelInfoShortcutMac = isMac() && e.shiftKey;
+        const channelInfoShortcut = !isMac() && e.altKey;
 
-        if (Utils.cmdOrCtrlPressed(e, true)) {
-            if (e.shiftKey && Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+        if (cmdOrCtrlPressed(e, true)) {
+            if (e.shiftKey && isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
                 if (this.props.isOpen) {
                     if (this.props.isExpanded) {
@@ -106,14 +106,14 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                 } else {
                     this.props.actions.openAtPrevious(this.previous);
                 }
-            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
+            } else if (isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
                 if (this.props.isOpen) {
                     this.props.actions.closeRightHandSide();
                 } else {
                     this.props.actions.openAtPrevious(this.previous);
                 }
-            } else if (Utils.isKeyPressed(e, Constants.KeyCodes.I) && (channelInfoShortcutMac || channelInfoShortcut)) {
+            } else if (isKeyPressed(e, Constants.KeyCodes.I) && (channelInfoShortcutMac || channelInfoShortcut)) {
                 e.preventDefault();
                 if (this.props.isOpen && this.props.isChannelInfo) {
                     this.props.actions.closeRightHandSide();
