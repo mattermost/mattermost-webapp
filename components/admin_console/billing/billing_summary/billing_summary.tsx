@@ -5,6 +5,7 @@ import React from 'react';
 import {FormattedDate, FormattedMessage, FormattedNumber} from 'react-intl';
 
 import {useDispatch} from 'react-redux';
+import {CheckCircleOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {BillingSchemes, CloudLinks, TrialPeriodDays, ModalIdentifiers} from 'utils/constants';
 
@@ -130,7 +131,7 @@ export const getPaymentStatus = (status: string) => {
                     id='admin.billing.subscriptions.billing_summary.lastInvoice.paid'
                     defaultMessage='Paid'
                 />
-                <i className='icon icon-check-circle-outline'/>
+                <CheckCircleOutlineIcon/>
             </div>
         );
     case 'upcoming':
@@ -140,7 +141,7 @@ export const getPaymentStatus = (status: string) => {
                     id='admin.billing.subscriptions.billing_summary.lastInvoice.upcoming'
                     defaultMessage='Upcoming'
                 />
-                <i className='icon icon-check-circle-outline'/>
+                <CheckCircleOutlineIcon/>
             </div>
         );
     default:
@@ -150,7 +151,7 @@ export const getPaymentStatus = (status: string) => {
                     id='admin.billing.subscriptions.billing_summary.lastInvoice.pending'
                     defaultMessage='Pending'
                 />
-                <i className='icon icon-check-circle-outline'/>
+                <CheckCircleOutlineIcon/>
             </div>
         );
     }
@@ -170,8 +171,8 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
         if (isUpcomingInvoice) {
             return (
                 <FormattedMessage
-                    id='admin.billing.subscription.invoice.upcoming'
-                    defaultMessage='Upcoming Invoice'
+                    id='admin.billing.subscription.invoice.next'
+                    defaultMessage='Next Invoice'
                 />
             );
         }
@@ -239,7 +240,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                     </div>
                 </div>
             ))}
-            {partialCharges.length ?
+            {Boolean(partialCharges.length) &&
                 <>
                     <div className='BillingSummary__lastInvoice-partialCharges'>
                         <FormattedMessage
@@ -295,8 +296,7 @@ export const InvoiceInfo = ({invoice, product, fullCharges, partialCharges}: Inv
                             </div>
                         </div>
                     ))}
-                </> :
-                null}
+                </> }
             {Boolean(invoice.tax) &&
             <div className='BillingSummary__lastInvoice-charge'>
                 <div className='BillingSummary__lastInvoice-chargeDescription'>

@@ -42,7 +42,7 @@ const BillingSummary = ({isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}
     } else if (isFreeTrial) {
         body = freeTrial(onUpgradeMattermostCloud, daysLeftOnTrial);
     } else if (subscription?.last_invoice && !subscription?.upcoming_invoice) {
-        const invoice = subscription!.last_invoice;
+        const invoice = subscription.last_invoice;
         let fullCharges = invoice.line_items.filter((item) => item.type === 'full');
         const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
         if (!partialCharges.length && !fullCharges.length) {
@@ -57,7 +57,7 @@ const BillingSummary = ({isFreeTrial, daysLeftOnTrial, onUpgradeMattermostCloud}
             />
         );
     } else if (subscription?.upcoming_invoice) {
-        const invoice = subscription!.upcoming_invoice;
+        const invoice = subscription.upcoming_invoice;
         let fullCharges = invoice.line_items.filter((item) => item.type === 'full');
         const partialCharges = invoice.line_items.filter((item) => item.type === 'partial');
         if (!partialCharges.length && !fullCharges.length) {

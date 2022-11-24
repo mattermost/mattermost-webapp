@@ -314,7 +314,7 @@
   "admin.billing.subscription.freeTrialDisclaimer": "Your bill is calculated at the end of the billing cycle based on the number of enabled users. ",
   "admin.billing.subscription.goBackTryAgain": "Go back and try again",
   "admin.billing.subscription.howItWorks": "See how billing works",
-  "admin.billing.subscription.invoice.upcoming": "Upcoming Invoice",
+  "admin.billing.subscription.invoice.next": "Next Invoice",
   "admin.billing.subscription.LearnMore": "Learn more",
   "admin.billing.subscription.mostRecentPaymentFailed": "Your most recent payment failed",
   "admin.billing.subscription.nextBillingDate": "Starting from {date}, you will be billed for the {productName} plan. You can change your plan whenever you like and we will pro-rate the charges.",
