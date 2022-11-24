@@ -125,19 +125,13 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.determineTransition);
         document.addEventListener('keydown', this.handleShortcut);
         document.addEventListener('mousedown', this.handleClickOutside);
-        this.determineTransition();
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.determineTransition);
         document.removeEventListener('keydown', this.handleShortcut);
         document.removeEventListener('mousedown', this.handleClickOutside);
-        if (this.sidebarRight.current) {
-            this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
-        }
     }
 
     componentDidUpdate(prevProps: Props) {
@@ -145,7 +139,6 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         const isOpen = this.props.searchVisible || this.props.postRightVisible;
 
         if (!wasOpen && isOpen) {
-            this.determineTransition();
             trackEvent('ui', 'ui_rhs_opened');
         }
 
@@ -188,33 +181,6 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
             !document.querySelector('.app-bar')?.contains(e.target as Element) // not within App Bar
         ) {
             this.props.actions.setRhsExpanded(false);
-        }
-    }
-
-    determineTransition = () => {
-        let transitionInfo;
-        if (this.sidebarRight.current) {
-            transitionInfo = window.getComputedStyle(this.sidebarRight.current).getPropertyValue('transition');
-        }
-        const hasTransition =
-            Boolean(transitionInfo) &&
-            transitionInfo !== 'all 0s ease 0s' &&
-            transitionInfo !== 'none 0s ease 0s';
-
-        if (this.sidebarRight.current && hasTransition) {
-            this.setState({isOpened: this.props.isOpen});
-            this.sidebarRight.current.addEventListener('transitionend', this.onFinishTransition);
-        } else {
-            this.setState({isOpened: true});
-            if (this.sidebarRight.current) {
-                this.sidebarRight.current.removeEventListener('transitionend', this.onFinishTransition);
-            }
-        }
-    }
-
-    onFinishTransition = (e: TransitionEvent) => {
-        if (e.propertyName === 'transform') {
-            this.setState({isOpened: this.props.isOpen});
         }
     }
 
