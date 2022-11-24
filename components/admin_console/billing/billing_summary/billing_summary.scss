@@ -58,12 +58,12 @@
 }
 
 .BillingSummary__lastInvoice-headerStatus {
+    display: flex;
+    align-items: center;
     margin-left: auto;
     font-size: 12px;
     font-weight: 600;
     line-height: 16px;
-    display: flex;
-    align-items: center;
 
     &.paid {
         color: var(--sys-online-indicator);
@@ -78,8 +78,8 @@
     }
 
     svg {
-        height: 16px;
         width: 16px;
+        height: 16px;
         margin-left: 4px;
         font-size: 14.4px;
 
@@ -87,7 +87,6 @@
             margin: 0 auto;
         }
     }
-
 }
 
 .BillingSummary__lastInvoice-date {
