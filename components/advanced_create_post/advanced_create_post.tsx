@@ -49,19 +49,6 @@ import ResetStatusModal from 'components/reset_status_modal';
 import TextboxClass from 'components/textbox/textbox';
 import PostPriorityPickerOverlay from 'components/post_priority/post_priority_picker_overlay';
 import PriorityLabel from 'components/post_priority/post_priority_label';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
-import EmojiMap from 'utils/emoji_map';
-
-import {ActionResult} from 'mattermost-redux/types/actions';
-
-import {ModalData} from 'types/actions';
-import {PostDraft} from 'types/store/draft';
-
-import {PostDraft} from 'types/store/draft';
-import {ModalData} from 'types/actions';
-import {FilePreviewInfo} from 'components/file_preview/file_preview';
-import {ApplyMarkdownOptions, applyMarkdown} from 'utils/markdown/apply_markdown';
 
 import {Channel, ChannelMemberCountsByGroup} from '@mattermost/types/channels';
 import {Post, PostMetadata, PostPriorityMetadata} from '@mattermost/types/posts';
