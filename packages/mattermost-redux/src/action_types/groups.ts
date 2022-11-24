@@ -49,4 +49,6 @@ export default keyMirror({
     CREATE_GROUP_SUCCESS: null,
 
     ARCHIVED_GROUP: null,
+
+    CREATED_GROUP_TEAMS_AND_CHANNELS: null,
 });
