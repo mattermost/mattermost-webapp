@@ -563,6 +563,12 @@ export function handleEvent(msg) {
     case SocketEvents.APPS_FRAMEWORK_PLUGIN_DISABLED:
         dispatch(handleAppsPluginDisabled());
         break;
+    case SocketEvents.POST_ACKNOWLEDGEMENT_ADDED:
+        dispatch(handlePostAcknowledgementAdded(msg));
+        break;
+    case SocketEvents.POST_ACKNOWLEDGEMENT_REMOVED:
+        dispatch(handlePostAcknowledgementRemoved(msg));
+        break;
     case SocketEvents.DRAFT_CREATED:
     case SocketEvents.DRAFT_UPDATED:
         dispatch(handleUpsertDraftEvent(msg));
@@ -1661,6 +1667,24 @@ function handleThreadFollowChanged(msg) {
             await doDispatch(fetchThread(getCurrentUserId(state), getCurrentTeamId(state), msg.data.thread_id, true));
         }
         handleFollowChanged(doDispatch, msg.data.thread_id, msg.broadcast.team_id, msg.data.state);
+    };
+}
+
+function handlePostAcknowledgementAdded(msg) {
+    const data = JSON.parse(msg.data.acknowledgement);
+
+    return {
+        type: PostTypes.CREATE_ACK_POST_SUCCESS,
+        data,
+    };
+}
+
+function handlePostAcknowledgementRemoved(msg) {
+    const data = JSON.parse(msg.data.acknowledgement);
+
+    return {
+        type: PostTypes.DELETE_ACK_POST_SUCCESS,
+        data,
     };
 }
 
