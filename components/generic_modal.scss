@@ -216,6 +216,32 @@
                     }
                 }
 
+                &.delete {
+                    @include primary-button;
+                    @include button-medium;
+
+                    border-color: transparent;
+                    background: $delete-color;
+                    color: $white;
+
+                    .app__body & {
+                        color: $white;
+
+                        &:hover,
+                        &:focus,
+                        &:active {
+                            color: $white;
+                        }
+                    }
+
+                    &:hover,
+                    &:focus,
+                    &:active {
+                        background: $delete-color--hover !important;
+                        color: $white;
+                    }
+                }
+
                 &.confirm {
                     @include primary-button;
                     @include button-medium;
