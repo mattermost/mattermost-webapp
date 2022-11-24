@@ -10,6 +10,7 @@ import {UserProfile} from '@mattermost/types/users';
 import {Channel, ChannelType} from '@mattermost/types/channels';
 
 import ChannelIntroMessage from './channel_intro_message';
+import { TestHelper } from 'utils/test_helper';
 
 describe('components/post_view/ChannelIntroMessages', () => {
     const channel = {
@@ -50,8 +51,12 @@ describe('components/post_view/ChannelIntroMessages', () => {
         creatorName: 'creatorName',
         stats: {},
         usersLimit: 10,
+        isFavorite: false,
+        currentUser: TestHelper.getUserMock({id: 'id1'}),
         actions: {
             getTotalUsersStats: jest.fn().mockResolvedValue([]),
+            favoriteChannel: jest.fn().mockResolvedValue([]),
+            unfavoriteChannel: jest.fn().mockResolvedValue([])
         },
     };
 

@@ -509,6 +509,9 @@
 }
 
 .channel-intro {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     padding: 110px 15px 0;
     margin: 0 auto 10px;
 
@@ -519,7 +522,6 @@
     .intro-links {
         display: flex;
         align-items: center;
-        padding: 8px 16px;
         margin-bottom: 10px;
 
         .fa,
@@ -542,9 +544,15 @@
     }
 
     .channel-intro-img {
+        display: flex;
+
         .status-wrapper {
-            height: 50px;
-            margin: 0 10px 10px 0;
+            height: 72px;
+            margin: 0 -8px 3px 0;
+        }
+
+        .status-wrapper-DM {
+            height: 96px;
         }
 
         img {
@@ -552,16 +560,41 @@
         }
     }
 
-    .channel-intro__title {
-        margin-bottom: 15px;
-        font-size: 28px;
+    .color-link {
+        background-color: rgba(28, 88, 217, 0.08);
+        color: $link-color;
+        cursor: pointer;
+
+        // &:hover,
+        // &:focus {
+        //     text-decoration: underline;
+        // }
+    }
+
+    .channel-intro__title,
+    .channel-intro-display-name {
+        margin: 15px 0;
+        font-size: 36px;
         font-weight: 600;
+        text-align: center;
+
+        @media screen and (max-width: 768px) and (min-width: 414px) {
+            font-size: 32px;
+        }
+
+        @media screen and (max-width: 414px) and (min-width: 375px) {
+            font-size: 28px;
+        }
     }
 
     .channel-intro__content {
-        padding: 10px 15px;
-        background: $bg--gray;
-        border-radius: 3px;
+        margin-bottom: 28px;
+        // padding: 10px 15px;
+        // background: $bg--gray;
+        // border-radius: 3px;
+        font-size: 14px;
+        font-weight: 400;
+        text-align: center;
     }
 }
 

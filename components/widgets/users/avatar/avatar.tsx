@@ -9,7 +9,7 @@ import './avatar.scss';
 import {Client4} from 'mattermost-redux/client';
 import BotDefaultIcon from 'images/bot_default_icon.png';
 
-export type TAvatarSizeToken = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xxl';
+export type TAvatarSizeToken = 'xxs' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'xl-custom-GM' | 'xl-custom-DM' | 'xxl';
 
 type Props = {
     url?: string;

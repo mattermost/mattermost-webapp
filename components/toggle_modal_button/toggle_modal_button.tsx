@@ -18,12 +18,13 @@ type Props = {
     disabled?: boolean;
     id?: string;
     role?: string;
+    noTransparent?: boolean;
     actions: {
         openModal: <P>(modalData: ModalData<P>) => void;
     };
 };
 
-const ToggleModalButton = ({ariaLabel, children, modalId, dialogType, dialogProps = {}, onClick, className = '', showUnread, disabled, id, actions, role}: Props) => {
+const ToggleModalButton = ({ariaLabel, children, modalId, dialogType, dialogProps = {}, onClick, className = '', showUnread, disabled, id, actions, role, noTransparent}: Props) => {
     const intl = useIntl();
 
     const show = (e: MouseEvent<HTMLButtonElement>) => {
@@ -57,7 +58,7 @@ const ToggleModalButton = ({ariaLabel, children, modalId, dialogType, dialogProp
 
     return (
         <button
-            className={'style--none ' + className}
+            className={noTransparent ? className : 'style--none ' + className}
             aria-label={ariaLabelElement}
             onClick={clickHandler}
             id={id}

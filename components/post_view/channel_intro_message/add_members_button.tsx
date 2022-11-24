@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {FormattedMessage, useIntl} from 'react-intl';
 
-import EmptyStateThemeableSvg from 'components/common/svg_images_components/empty_state_themeable_svg';
+import {EmailOutlineIcon} from '@mattermost/compass-icons/components';
 
 import {Channel} from '@mattermost/types/channels';
 import {getCurrentTeamId} from 'mattermost-redux/selectors/entities/teams';
@@ -41,8 +41,6 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     if (!totalUsers) {
         return (<LoadingSpinner/>);
     }
-
-    const isPrivate = channel.type === Constants.PRIVATE_CHANNEL;
     const inviteUsers = totalUsers < usersLimit;
 
     return (
@@ -50,7 +48,7 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
             teamId={currentTeamId}
             permissions={[Permissions.ADD_USER_TO_TEAM, Permissions.INVITE_GUEST]}
         >
-            {inviteUsers && !isPrivate ? (
+            {inviteUsers ? (
                 <LessThanMaxFreeUsers
                     createBoard={createBoard}
                     setHeader={setHeader}
@@ -66,23 +64,14 @@ const AddMembersButton: React.FC<AddMembersButtonProps> = ({totalUsers, usersLim
     );
 };
 
-const LessThanMaxFreeUsers = ({setHeader, createBoard}: {setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
+const LessThanMaxFreeUsers = ({createBoard}: {setHeader: React.ReactNode; createBoard: React.ReactNode}) => {
     const {formatMessage} = useIntl();
 
     return (
         <>
             {createBoard}
-            {setHeader}
             <div className='LessThanMaxFreeUsers'>
-                <EmptyStateThemeableSvg
-                    width={128}
-                    height={113}
-                />
                 <div className='titleAndButton'>
-                    <FormattedMessage
-                        id='intro_messages.inviteOthersToWorkspace.title'
-                        defaultMessage='Let’s add some people to the workspace!'
-                    />
                     <ToggleModalButton
                         ariaLabel={localizeMessage('intro_messages.inviteOthers', 'Invite others to the workspace')}
                         id='introTextInvite'
@@ -90,13 +79,15 @@ const LessThanMaxFreeUsers = ({setHeader, createBoard}: {setHeader: React.ReactN
                         modalId={ModalIdentifiers.INVITATION}
                         dialogType={InvitationModal}
                     >
-                        <i
-                            className='icon-email-plus-outline'
+                        <EmailOutlineIcon
+                            size={14}
+                            css={{marginRight: 7}}
+                            color={'white'}
                             title={formatMessage({id: 'generic_icons.add', defaultMessage: 'Add Icon'})}
                         />
                         <FormattedMessage
                             id='intro_messages.inviteOthersToWorkspace.button'
-                            defaultMessage='Invite others to the workspace'
+                            defaultMessage='Invite others to workspace'
                         />
                     </ToggleModalButton>
                 </div>
