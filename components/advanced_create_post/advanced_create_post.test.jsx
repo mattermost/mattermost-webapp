@@ -879,6 +879,8 @@ describe('components/advanced_create_post', () => {
         };
 
         instance.handleFileUploadComplete(fileInfos, clientIds, currentChannelProp.id);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, expectedDraft);
     });
 
@@ -956,8 +958,10 @@ describe('components/advanced_create_post', () => {
         const instance = wrapper.instance();
         instance.handleFileUploadChange = jest.fn();
         instance.removePreview('a');
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(setDraft).toHaveBeenCalledTimes(1);
-        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp);
+        expect(setDraft).toHaveBeenCalledWith(StoragePrefixes.DRAFT + currentChannelProp.id, draftProp, false);
         expect(instance.handleFileUploadChange).toHaveBeenCalledTimes(1);
     });
 

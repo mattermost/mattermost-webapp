@@ -78,6 +78,7 @@ import type {
     MarketplacePlugin,
 } from '@mattermost/types/marketplace';
 import {Post, PostList, PostSearchResults, OpenGraphMetadata, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement} from '@mattermost/types/posts';
+import {Draft} from '@mattermost/types/drafts';
 import {BoardPatch, BoardsUsageResponse, BoardTemplate, Board, CreateBoardResponse} from '@mattermost/types/boards';
 import {Reaction} from '@mattermost/types/reactions';
 import {Role} from '@mattermost/types/roles';
@@ -456,6 +457,10 @@ export default class Client4 {
 
     getSystemRoute(): string {
         return `${this.getBaseRoute()}/system`;
+    }
+
+    getDraftsRoute() {
+        return `${this.getBaseRoute()}/drafts`;
     }
 
     getCSRFFromCookie() {
@@ -4136,6 +4141,45 @@ export default class Client4 {
             this.telemetryHandler.pageVisited(this.userId, this.userRoles, category, name);
         }
     }
+
+    upsertDraft = async (draft: Draft, connectionId: string) => {
+        const result = await this.doFetch<Draft>(
+            `${this.getDraftsRoute()}`,
+            {
+                method: 'post',
+                body: JSON.stringify(draft),
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+
+        return result;
+    };
+
+    getUserDrafts = (teamId: Team['id']) => {
+        return this.doFetch<Draft[]>(
+            `${this.getUserRoute('me')}/teams/${teamId}/drafts`,
+            {method: 'get'},
+        );
+    };
+
+    deleteDraft = (channelId: Channel['id'], rootId = '', connectionId: string) => {
+        let endpoint = `${this.getUserRoute('me')}/channels/${channelId}/drafts`;
+        if (rootId !== '') {
+            endpoint += `/${rootId}`;
+        }
+
+        return this.doFetch<null>(
+            endpoint,
+            {
+                method: 'delete',
+                headers: {
+                    'Connection-Id': `${connectionId}`,
+                },
+            },
+        );
+    };
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {

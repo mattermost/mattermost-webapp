@@ -71,6 +71,10 @@ import {IconContainer} from '../advanced_text_editor/formatting_bar/formatting_i
 import FileLimitStickyBanner from '../file_limit_sticky_banner';
 const KeyCodes = Constants.KeyCodes;
 
+function isDraftEmpty(draft: PostDraft): boolean {
+    return !draft || (!draft.message && draft.fileInfos.length === 0);
+}
+
 // Temporary fix for IE-11, see MM-13423
 function trimRight(str: string) {
     if (String.prototype.trimRight as any) {
@@ -201,7 +205,7 @@ type Props = {
         runSlashCommandWillBePostedHooks: (originalMessage: string, originalArgs: CommandArgs) => ActionResult;
 
         // func called for setting drafts
-        setDraft: (name: string, value: PostDraft | null) => void;
+        setDraft: (name: string, value: PostDraft | null, save?: boolean) => void;
 
         // func called for editing posts
         setEditingPost: (postId?: string, refocusId?: string, title?: string, isRHS?: boolean) => void;
@@ -272,7 +276,10 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         let updatedState: Partial<State> = {
             currentChannel: props.currentChannel,
         };
-        if (props.currentChannel.id !== state.currentChannel.id) {
+        if (
+            props.currentChannel.id !== state.currentChannel.id ||
+            (props.draft.remote && props.draft.message !== state.message)
+        ) {
             updatedState = {
                 ...updatedState,
                 message: props.draft.message,
@@ -325,7 +332,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         if (prevProps.currentChannel.id !== currentChannel.id) {
             this.lastChannelSwitchAt = Date.now();
             this.focusTextbox();
-            this.saveDraft(prevProps);
+            this.saveDraftWithShow(prevProps);
             this.getChannelMemberCountsByGroup();
         }
 
@@ -349,7 +356,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         document.removeEventListener('keydown', this.documentKeyHandler);
         window.removeEventListener('beforeunload', this.unloadHandler);
         this.removeOrientationListeners();
-        this.saveDraft();
+        this.saveDraftWithShow();
     }
 
     getChannelMemberCountsByGroup = () => {
@@ -367,13 +374,30 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     unloadHandler = () => {
-        this.saveDraft();
+        this.saveDraftWithShow();
     }
 
-    saveDraft = (props = this.props) => {
+    saveDraftWithShow = (props = this.props) => {
         if (this.saveDraftFrame && props.currentChannel) {
             const channelId = props.currentChannel.id;
-            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId]);
+            const draft = this.draftsForChannel[channelId];
+
+            if (draft) {
+                this.draftsForChannel[channelId] = {
+                    ...draft,
+                    show: !isDraftEmpty(draft),
+                    remote: false,
+                } as PostDraft;
+            }
+        }
+
+        this.saveDraft(props, true);
+    }
+
+    saveDraft = (props = this.props, save = false) => {
+        if (this.saveDraftFrame && props.currentChannel) {
+            const channelId = props.currentChannel.id;
+            props.actions.setDraft(StoragePrefixes.DRAFT + channelId, this.draftsForChannel[channelId], save);
             clearTimeout(this.saveDraftFrame);
             this.saveDraftFrame = null;
         }
@@ -827,7 +851,6 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
 
     handleChange = (e: React.ChangeEvent<TextboxElement>) => {
         const message = e.target.value;
-        const channelId = this.props.currentChannel.id;
 
         let serverError = this.state.serverError;
         if (isErrorInvalidSlashCommand(serverError)) {
@@ -843,6 +866,12 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             ...this.props.draft,
             message,
         };
+
+        this.handleDraftChange(draft);
+    }
+
+    handleDraftChange = (draft: PostDraft) => {
+        const channelId = this.props.currentChannel.id;
 
         if (this.saveDraftFrame) {
             clearTimeout(this.saveDraftFrame);
@@ -948,8 +977,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             draft.fileInfos = sortFileInfos(draft.fileInfos.concat(fileInfos), this.props.locale);
         }
 
-        this.draftsForChannel[channelId] = draft;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
+        this.handleDraftChange(draft);
     }
 
     handleUploadError = (err: string | ServerError, clientId?: string, channelId?: string) => {
@@ -1016,10 +1044,16 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             };
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft);
+        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, modifiedDraft, false);
         this.draftsForChannel[channelId] = modifiedDraft;
 
         this.handleFileUploadChange();
+
+        if (this.saveDraftFrame) {
+            clearTimeout(this.saveDraftFrame);
+        }
+
+        this.saveDraftFrame = window.setTimeout(() => {}, Constants.SAVE_DRAFT_TIMEOUT);
     };
 
     focusTextboxIfNecessary = (e: KeyboardEvent) => {
@@ -1297,6 +1331,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         }, () => {
             const textbox = this.textboxRef.current?.getInputBox();
             Utils.setSelectionRange(textbox, res.selectionStart, res.selectionEnd);
+
+            const draft = {
+                ...this.props.draft,
+                message: this.state.message,
+            };
+
+            this.handleDraftChange(draft);
         });
     }
 
@@ -1317,6 +1358,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
     }
 
     handleBlur = () => {
+        this.saveDraftWithShow();
         this.lastBlurAt = Date.now();
     }
 
@@ -1332,19 +1374,18 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             caretPosition: newCaretPosition,
         }, () => {
             Utils.setCaretPosition(textbox, newCaretPosition);
+
+            const draft = {
+                ...this.props.draft,
+                message: this.state.message,
+            };
+
+            this.handleDraftChange(draft);
         });
     }
 
     prefillMessage = (message: string, shouldFocus?: boolean) => {
         this.setMessageAndCaretPostion(message, message.length);
-
-        const draft = {
-            ...this.props.draft,
-            message,
-        };
-        const channelId = this.props.currentChannel.id;
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + channelId, draft);
-        this.draftsForChannel[channelId] = draft;
 
         if (shouldFocus) {
             const inputBox = this.textboxRef.current?.getInputBox();
@@ -1389,6 +1430,13 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
         } else {
             const newMessage = (/\s+$/).test(this.state.message) ? this.state.message + gif : this.state.message + ' ' + gif;
             this.setState({message: newMessage});
+
+            const draft = {
+                ...this.props.draft,
+                newMessage,
+            };
+
+            this.handleDraftChange(draft);
         }
         this.handleEmojiClose();
     }
@@ -1430,7 +1478,7 @@ class AdvancedCreatePost extends React.PureComponent<Props, State> {
             updatedDraft.metadata = {};
         }
 
-        this.props.actions.setDraft(StoragePrefixes.DRAFT + this.props.currentChannel.id, updatedDraft);
+        this.handleDraftChange(updatedDraft);
         this.focusTextbox();
     };
 
