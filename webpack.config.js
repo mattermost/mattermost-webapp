@@ -499,35 +499,33 @@ if (targetIsTest) {
 }
 
 if (targetIsDevServer) {
+    const proxyToServer = {
+        logLevel: 'silent',
+        target: process.env.MM_SERVICESETTINGS_SITEURL ?? 'http://localhost:8065',
+        xfwd: true,
+    };
+
     config = {
         ...config,
         devtool: 'eval-cheap-module-source-map',
         devServer: {
             liveReload: true,
-            proxy: [{
-                context: () => true,
-                bypass(req) {
-                    if (req.url.indexOf('/api') === 0 ||
-                        req.url.indexOf('/plugins') === 0 ||
-                        req.url.indexOf('/static/plugins/') === 0 ||
-                        req.url.indexOf('/sockjs-node/') !== -1) {
-                        return null; // send through proxy to the server
-                    }
-                    if (req.url.indexOf('/static/') === 0) {
-                        return path; // return the webpacked asset
-                    }
+            proxy: {
 
-                    // redirect (root, team routes, etc)
-                    return '/static/root.html';
+                // Forward these requests to the server
+                '/api': {
+                    ...proxyToServer,
+                    ws: true,
                 },
-                logLevel: 'silent',
-                target: 'http://localhost:8065',
-                xfwd: true,
-                ws: true,
-            }],
+                '/plugins': proxyToServer,
+                '/static/plugins': proxyToServer,
+            },
             port: 9005,
             devMiddleware: {
                 writeToDisk: false,
+            },
+            historyApiFallback: {
+                index: '/static/root.html',
             },
         },
         performance: false,
