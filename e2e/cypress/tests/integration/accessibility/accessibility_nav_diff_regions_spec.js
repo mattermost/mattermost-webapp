@@ -56,7 +56,7 @@ describe('Verify Quick Navigation support across different regions in the app', 
 
     it('MM-T1460_1 Verify Navigation Support in Post List & Post Input', () => {
         // # Shift focus to the last post
-        cy.uiGetPostTextBox().focus().tab({shift: true});
+        cy.uiGetPostTextBox().focus().tab({shift: true}).tab({shift: true});
         cy.get('body').type('{uparrow}{downarrow}');
 
         // * Verify post region reads out correctly
