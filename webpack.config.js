@@ -39,95 +39,6 @@ const STANDARD_EXCLUDE = [
     path.join(__dirname, 'node_modules'),
 ];
 
-var MYSTATS = {
-
-    // Add asset Information
-    assets: false,
-
-    // Sort assets by a field
-    assetsSort: '',
-
-    // Add information about cached (not built) modules
-    cached: true,
-
-    // Show cached assets (setting this to `false` only shows emitted files)
-    cachedAssets: true,
-
-    // Add children information
-    children: true,
-
-    // Add chunk information (setting this to `false` allows for a less verbose output)
-    chunks: true,
-
-    // Add built modules information to chunk information
-    chunkModules: true,
-
-    // Add the origins of chunks and chunk merging info
-    chunkOrigins: true,
-
-    // Sort the chunks by a field
-    chunksSort: '',
-
-    // `webpack --colors` equivalent
-    colors: true,
-
-    // Display the distance from the entry point for each module
-    depth: true,
-
-    // Display the entry points with the corresponding bundles
-    entrypoints: true,
-
-    // Add errors
-    errors: true,
-
-    // Add details to errors (like resolving log)
-    errorDetails: true,
-
-    // Exclude modules which match one of the given strings or regular expressions
-    exclude: [],
-
-    // Add the hash of the compilation
-    hash: true,
-
-    // Add built modules information
-    modules: false,
-
-    // Sort the modules by a field
-    modulesSort: '!size',
-
-    // Show performance hint when file size exceeds `performance.maxAssetSize`
-    performance: true,
-
-    // Show the exports of the modules
-    providedExports: true,
-
-    // Add public path information
-    publicPath: true,
-
-    // Add information about the reasons why modules are included
-    reasons: true,
-
-    // Add the source code of modules
-    source: true,
-
-    // Add timing information
-    timings: true,
-
-    // Show which exports of a module are used
-    usedExports: true,
-
-    // Add webpack version information
-    version: true,
-
-    // Add warnings
-    warnings: true,
-
-    // Filter warnings to be shown (since webpack 2.4.0),
-    // can be a String, Regexp, a function getting the warning and returning a boolean
-    // or an Array of a combination of the above. First match wins.
-    warningsFilter: '',
-};
-
 let publicPath = '/static/';
 
 // Allow overriding the publicPath in dev from the exported SiteURL.
@@ -547,10 +458,6 @@ async function initializeModuleFederation() {
     config.plugins.push(new webpack.DefinePlugin({
         REMOTE_CONTAINERS: JSON.stringify(remotes),
     }));
-}
-
-if (!targetIsStats) {
-    config.stats = MYSTATS;
 }
 
 if (DEV) {
