@@ -315,16 +315,16 @@ function generateCSP() {
 }
 
 async function initializeModuleFederation() {
-    function makeSingletonSharedModules(packageNames) {
+    function makeSharedModules(packageNames, singleton) {
         const sharedObject = {};
 
         for (const packageName of packageNames) {
             const version = packageJson.dependencies[packageName];
 
             sharedObject[packageName] = {
-                requiredVersion: version,
-                singleton: true,
-                strictVersion: true,
+                requiredVersion: singleton ? version : undefined,
+                singleton,
+                strictVersion: singleton,
                 version,
             };
         }
@@ -419,11 +419,14 @@ async function initializeModuleFederation() {
             '@mattermost/client',
             '@mattermost/components',
             '@mattermost/types',
-            'luxon',
             'prop-types',
 
+            makeSharedModules([
+                'luxon',
+            ], false),
+
             // Other containers will be forced to use the exact versions of shared modules that the web app provides.
-            makeSingletonSharedModules([
+            makeSharedModules([
                 'history',
                 'react',
                 'react-beautiful-dnd',
@@ -432,7 +435,7 @@ async function initializeModuleFederation() {
                 'react-intl',
                 'react-redux',
                 'react-router-dom',
-            ]),
+            ], true),
         ],
     };
 
