@@ -1,0 +1,313 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`components/drafts/panel/panel_body should have called handleFormattedTextClick 1`] = `
+<Provider
+  store={
+    Object {
+      "clearActions": [Function],
+      "dispatch": [Function],
+      "getActions": [Function],
+      "getState": [Function],
+      "replaceReducer": [Function],
+      "subscribe": [Function],
+    }
+  }
+>
+  <PanelBody
+    channelId="channel_id"
+    displayName="display_name"
+    fileInfos={Array []}
+    message="message"
+    status="status"
+    uploadsInProgress={Array []}
+    userId="user_id"
+    username="username"
+  >
+    <div
+      className="DraftPanelBody post"
+    >
+      <div
+        className="DraftPanelBody__left post__img"
+      >
+        <ProfilePicture
+          channelId="channel_id"
+          hasMention={false}
+          isEmoji={false}
+          isRHS={false}
+          popoverPlacement="right"
+          size="md"
+          src="/api/v4/users/user_id/image?_=0"
+          status="status"
+          userId="user_id"
+          username="username"
+          wrapperClass=""
+        >
+          <OverlayTrigger
+            defaultOverlayShown={false}
+            overlay={
+              <Memo(Connect(injectIntl(ProfilePopover)))
+                channelId="channel_id"
+                className="user-profile-popover"
+                hasMention={false}
+                hide={[Function]}
+                isRHS={false}
+                src="/api/v4/users/user_id/image?_=0"
+                userId="user_id"
+              />
+            }
+            placement="right"
+            rootClose={true}
+            trigger={
+              Array [
+                "click",
+              ]
+            }
+          >
+            <OverlayTrigger
+              defaultOverlayShown={false}
+              overlay={
+                <OverlayWrapper
+                  channelId="channel_id"
+                  className="user-profile-popover"
+                  hasMention={false}
+                  hide={[Function]}
+                  intl={
+                    Object {
+                      "defaultFormats": Object {},
+                      "defaultLocale": "en",
+                      "defaultRichTextElements": undefined,
+                      "formatDate": [Function],
+                      "formatDateTimeRange": [Function],
+                      "formatDateToParts": [Function],
+                      "formatDisplayName": [Function],
+                      "formatList": [Function],
+                      "formatListToParts": [Function],
+                      "formatMessage": [Function],
+                      "formatNumber": [Function],
+                      "formatNumberToParts": [Function],
+                      "formatPlural": [Function],
+                      "formatRelativeTime": [Function],
+                      "formatTime": [Function],
+                      "formatTimeToParts": [Function],
+                      "formats": Object {},
+                      "formatters": Object {
+                        "getDateTimeFormat": [Function],
+                        "getDisplayNames": [Function],
+                        "getListFormat": [Function],
+                        "getMessageFormat": [Function],
+                        "getNumberFormat": [Function],
+                        "getPluralRules": [Function],
+                        "getRelativeTimeFormat": [Function],
+                      },
+                      "locale": "en",
+                      "messages": Object {},
+                      "onError": [Function],
+                      "textComponent": "span",
+                      "timeZone": "Etc/UTC",
+                      "wrapRichTextChunksInFragment": undefined,
+                    }
+                  }
+                  isRHS={false}
+                  src="/api/v4/users/user_id/image?_=0"
+                  userId="user_id"
+                />
+              }
+              placement="right"
+              rootClose={true}
+              trigger={
+                Array [
+                  "click",
+                ]
+              }
+            >
+              <button
+                className="status-wrapper style--none "
+                onClick={[Function]}
+                tabIndex={-1}
+              >
+                <span
+                  className="profile-icon "
+                >
+                  <Memo(Avatar)
+                    size="md"
+                    url="/api/v4/users/user_id/image?_=0"
+                    username="username"
+                  >
+                    <img
+                      alt="username profile image"
+                      className="Avatar Avatar-md"
+                      onError={[Function]}
+                      src="/api/v4/users/user_id/image?_=0"
+                      tabIndex={0}
+                    />
+                  </Memo(Avatar)>
+                </span>
+                <StatusIcon
+                  button={false}
+                  className=""
+                  status="status"
+                >
+                  <StatusOfflineIcon
+                    className="status "
+                  >
+                    <span
+                      className="status "
+                    >
+                      <svg
+                        aria-label="Offline Icon"
+                        className="offline--icon"
+                        height="100%"
+                        role="img"
+                        style={
+                          Object {
+                            "clipRule": "evenodd",
+                            "fillRule": "evenodd",
+                            "strokeLinejoin": "round",
+                            "strokeMiterlimit": 1.41421,
+                          }
+                        }
+                        viewBox="0 0 20 20"
+                        width="100%"
+                      >
+                        <path
+                          d="M10,0c5.519,0 10,4.481 10,10c0,5.519 -4.481,10 -10,10c-5.519,0 -10,-4.481 -10,-10c0,-5.519 4.481,-10 10,-10Zm0,2c4.415,0 8,3.585 8,8c0,4.415 -3.585,8 -8,8c-4.415,0 -8,-3.585 -8,-8c0,-4.415 3.585,-8 8,-8Z"
+                        />
+                      </svg>
+                    </span>
+                  </StatusOfflineIcon>
+                </StatusIcon>
+              </button>
+            </OverlayTrigger>
+          </OverlayTrigger>
+        </ProfilePicture>
+      </div>
+      <div
+        className="post__content"
+        onClick={[Function]}
+      >
+        <div
+          className="DraftPanelBody__right"
+        >
+          <div
+            className="post__header"
+          >
+            <strong>
+              display_name
+            </strong>
+          </div>
+          <div
+            className="post__body"
+          >
+            <Connect(Markdown)
+              message="message"
+              options={
+                Object {
+                  "disableGroupHighlight": true,
+                  "mentionHighlight": false,
+                }
+              }
+            >
+              <Markdown
+                autolinkedUrlSchemes={
+                  Array [
+                    "http",
+                    "https",
+                    "ftp",
+                    "mailto",
+                    "tel",
+                    "mattermost",
+                  ]
+                }
+                channelNamesMap={Object {}}
+                dispatch={[Function]}
+                editedAt={0}
+                emojiMap={
+                  EmojiMap {
+                    "customEmojis": Map {},
+                    "customEmojisArray": Array [],
+                  }
+                }
+                enableFormatting={true}
+                hasImageProxy={false}
+                imagesMetadata={Object {}}
+                isRHS={false}
+                managedResourcePaths={Array []}
+                mentionKeys={Array []}
+                message="message"
+                minimumHashtagLength={NaN}
+                options={
+                  Object {
+                    "disableGroupHighlight": true,
+                    "mentionHighlight": false,
+                  }
+                }
+                postId=""
+                proxyImages={true}
+                siteURL="http://localhost:8065"
+                team={
+                  Object {
+                    "display_name": "Team ID",
+                    "id": "team_id",
+                    "name": "team-id",
+                  }
+                }
+              >
+                <p
+                  key="0"
+                >
+                  message
+                </p>
+              </Markdown>
+            </Connect(Markdown)>
+          </div>
+        </div>
+      </div>
+    </div>
+  </PanelBody>
+</Provider>
+`;
+
+exports[`components/drafts/panel/panel_body should match snapshot 1`] = `
+<ContextProvider
+  value={
+    Object {
+      "store": Object {
+        "clearActions": [Function],
+        "dispatch": [Function],
+        "getActions": [Function],
+        "getState": [Function],
+        "replaceReducer": [Function],
+        "subscribe": [Function],
+      },
+      "subscription": Subscription {
+        "handleChangeWrapper": [Function],
+        "listeners": Object {
+          "notify": [Function],
+        },
+        "onStateChange": [Function],
+        "parentSub": undefined,
+        "store": Object {
+          "clearActions": [Function],
+          "dispatch": [Function],
+          "getActions": [Function],
+          "getState": [Function],
+          "replaceReducer": [Function],
+          "subscribe": [Function],
+        },
+        "unsubscribe": null,
+      },
+    }
+  }
+>
+  <PanelBody
+    channelId="channel_id"
+    displayName="display_name"
+    fileInfos={Array []}
+    message="message"
+    status="status"
+    uploadsInProgress={Array []}
+    userId="user_id"
+    username="username"
+  />
+</ContextProvider>
+`;
