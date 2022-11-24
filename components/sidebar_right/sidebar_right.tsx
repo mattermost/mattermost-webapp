@@ -251,13 +251,7 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         }
 
         let content = null;
-        if (isLoading) {
-            content = (
-                <div className='sidebar-right__body'>
-                    <LoadingScreen inMiddle={true}/>
-                </div>
-            );
-        } else if (postRightVisible) {
+        if (postRightVisible) {
             content = (
                 <div className='post-right__container'>
                     <FileUploadOverlay overlayType='right'/>
@@ -281,9 +275,8 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
         const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
 
         const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible) && isExpanded;
-        const containerClassName = classNames('sidebar--right', {
+        const containerClassName = classNames('sidebar--right', 'move--left is-open', {
             'sidebar--right--expanded expanded': isSidebarRightExpanded,
-            'move--left is-open': isOpen,
         });
 
         return (
@@ -296,14 +289,20 @@ export default class SidebarRight extends React.PureComponent<Props, State> {
                     ref={this.sidebarRight}
                 >
                     <div className='sidebar-right-container'>
-                        <Search
-                            isSideBarRight={true}
-                            isSideBarRightOpen={true}
-                            getFocus={this.getSearchBarFocus}
-                            channelDisplayName={channelDisplayName}
-                        >
-                            {content}
-                        </Search>
+                        {isLoading ? (
+                            <div className='sidebar-right__body'>
+                                <LoadingScreen inMiddle={true}/>
+                            </div>
+                        ) : (
+                            <Search
+                                isSideBarRight={true}
+                                isSideBarRightOpen={true}
+                                getFocus={this.getSearchBarFocus}
+                                channelDisplayName={channelDisplayName}
+                            >
+                                {content}
+                            </Search>
+                        )}
                     </div>
                 </div>
             </>
