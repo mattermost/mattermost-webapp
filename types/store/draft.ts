@@ -12,7 +12,7 @@ export type PostDraft = {
     caretPosition?: number;
     metadata?: {
         priority?: {
-            priority?: PostPriority;
+            priority: PostPriority|'';
             requested_ack?: boolean;
             persistent_notifications?: boolean;
         };
