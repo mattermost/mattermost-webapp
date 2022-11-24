@@ -73,7 +73,7 @@ export type Props = {
     searchTerm: string;
 
     actions: {
-        getUsersInGroup: (groupId: string, page: number, perPage: number) => Promise<{ data: UserProfile[] }>;
+        getUsersInGroup: (groupId: string, page: number, perPage: number, sort: string) => Promise<{ data: UserProfile[] }>;
         openDirectChannelToUserId: (userId?: string) => Promise<{ error: ServerError }>;
         closeRightHandSide: () => void;
     };
@@ -117,7 +117,7 @@ const GroupMemberList = (props: Props) => {
 
     const loadNextPage = async () => {
         setNextPageLoadState(Load.LOADING);
-        const res = await actions.getUsersInGroup(group.id, nextPage, USERS_PER_PAGE);
+        const res = await actions.getUsersInGroup(group.id, nextPage, USERS_PER_PAGE, 'display_name');
         if (res.data) {
             setNextPage(nextPage + 1);
             setNextPageLoadState(Load.DONE);
