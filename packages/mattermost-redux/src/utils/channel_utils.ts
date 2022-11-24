@@ -366,10 +366,11 @@ export function calculateUnreadCount(
     messageCount: ChannelMessageCount | undefined,
     member: ChannelMembership | null | undefined,
     crtEnabled: boolean,
-): {showUnread: boolean; mentions: number; messages: number} {
+): {showUnread: boolean; mentions: number; messages: number; hasUrgent: boolean} {
     if (!member || !messageCount) {
         return {
             showUnread: false,
+            hasUrgent: false,
             mentions: 0,
             messages: 0,
         };
@@ -377,6 +378,7 @@ export function calculateUnreadCount(
 
     let messages;
     let mentions;
+    let hasUrgent = false;
     if (crtEnabled) {
         messages = messageCount.root - member.msg_count_root;
         mentions = member.mention_count_root;
@@ -384,10 +386,14 @@ export function calculateUnreadCount(
         mentions = member.mention_count;
         messages = messageCount.total - member.msg_count;
     }
+    if (member.urgent_mention_count) {
+        hasUrgent = true;
+    }
 
     return {
         showUnread: mentions > 0 || (!isChannelMuted(member) && messages > 0),
         messages,
         mentions,
+        hasUrgent,
     };
 }

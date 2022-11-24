@@ -4354,7 +4354,6 @@
   "pricing_modal.briefing.enterprise.mobileSecurity": "Avancerad mobilsäkerhet via push-notiser med endast ID-uppgifter",
   "pricing_modal.briefing.enterprise.rolesAndPermissions": "Avancerade roller och behörigheter",
   "pricing_modal.briefing.enterprise.unlimitedFileStorage": "Obegränsad fillagring",
-  "pricing_modal.briefing.free.integrations": "{integrations} integrationer med andra appar som GitHub, Jira och Jenkins",
   "pricing_modal.briefing.free.oneTeamPerWorkspace": "Ett team per arbetsyta",
   "pricing_modal.briefing.free.recentMessageBoards": "Tillgång till de {messages} senaste meddelandena och {boards} senaste board-korten",
   "pricing_modal.briefing.fullMessageAndHistory": "Fullständig meddelande- och filhistorik",
