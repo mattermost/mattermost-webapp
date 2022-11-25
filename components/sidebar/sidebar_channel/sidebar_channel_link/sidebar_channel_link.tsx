@@ -22,6 +22,7 @@ import {ChannelsAndDirectMessagesTour} from 'components/tours/onboarding_tour';
 import CustomStatusEmoji from 'components/custom_status/custom_status_emoji';
 
 import ChannelMentionBadge from '../channel_mention_badge';
+import ChannelPencilIcon from '../channel_pencil_icon';
 import SidebarChannelIcon from '../sidebar_channel_icon';
 import SidebarChannelMenu from '../sidebar_channel_menu';
 import {Channel} from '@mattermost/types/channels';
@@ -233,7 +234,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
         const content = (
             <>
                 <SidebarChannelIcon
-                    channel={channel}
+                    isDeleted={channel.delete_at !== 0}
                     icon={icon}
                 />
                 <div
@@ -247,6 +248,7 @@ export default class SidebarChannelLink extends React.PureComponent<Props, State
                         channel={this.props.channel}
                     />
                 </div>
+                <ChannelPencilIcon id={channel.id}/>
                 <ChannelMentionBadge
                     unreadMentions={unreadMentions}
                     hasUrgent={hasUrgent}

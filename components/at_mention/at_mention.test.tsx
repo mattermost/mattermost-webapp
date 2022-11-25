@@ -226,37 +226,37 @@ describe('components/AtMention', () => {
 
         const instance = wrapper.instance();
 
-        instance.overlayRef = {
+        instance.buttonRef = {
             current: {
                 getBoundingClientRect: () => ({
                     top: 400,
                 }),
             },
-        }as RefObject<HTMLAnchorElement>;
+        }as RefObject<HTMLButtonElement>;
 
         wrapper.instance().handleClick({stopPropagation: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('top');
 
-        instance.overlayRef = {
+        instance.buttonRef = {
             current: {
                 getBoundingClientRect: () => ({
                     top: 200,
                     bottom: 400,
                 }),
             },
-        }as RefObject<HTMLAnchorElement>;
+        }as RefObject<HTMLButtonElement>;
 
         wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('bottom');
 
-        instance.overlayRef = {
+        instance.buttonRef = {
             current: {
                 getBoundingClientRect: () => ({
                     top: 200,
                     bottom: 1000,
                 }),
             },
-        } as RefObject<HTMLAnchorElement>;
+        } as RefObject<HTMLButtonElement>;
 
         wrapper.instance().handleClick({preventDefault: jest.fn(), target: AtMention} as any);
         expect(wrapper.state('placement')).toEqual('left');

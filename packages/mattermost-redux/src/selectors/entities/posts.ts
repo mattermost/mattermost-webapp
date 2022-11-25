@@ -30,6 +30,7 @@ import {
     MessageHistory,
     OpenGraphMetadata,
     Post,
+    PostAcknowledgement,
     PostOrderBlock,
 } from '@mattermost/types/posts';
 import {Reaction} from '@mattermost/types/reactions';
@@ -78,6 +79,11 @@ export function makeGetReactionsForPost(): (state: GlobalState, postId: Post['id
 
         return null;
     });
+}
+
+export function getHasReactions(state: GlobalState, postId: Post['id']): boolean {
+    const reactions = getReactionsForPosts(state)?.[postId] || {};
+    return Object.keys(reactions).length > 0;
 }
 
 export function getOpenGraphMetadata(state: GlobalState): RelationOneToOne<Post, Record<string, OpenGraphMetadata>> {
@@ -759,5 +765,35 @@ export function isPostPriorityEnabled(state: GlobalState) {
     return (
         getFeatureFlagValue(state, 'PostPriority') === 'true' &&
         getConfig(state).PostPriority === 'true'
+    );
+}
+
+export function isPostAcknowledgementsEnabled(state: GlobalState) {
+    return (
+        isPostPriorityEnabled(state) &&
+        getConfig(state).PostAcknowledgements === 'true'
+    );
+}
+
+export function getPostAcknowledgements(state: GlobalState, postId: Post['id']): Record<UserProfile['id'], PostAcknowledgement['acknowledged_at']> {
+    return state.entities.posts.acknowledgements[postId];
+}
+
+export function makeGetPostAcknowledgementsWithProfiles(): (state: GlobalState, postId: Post['id']) => Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}> {
+    return createSelector(
+        'makeGetPostAcknowledgementsWithProfiles',
+        getUsers,
+        getPostAcknowledgements,
+        (users, acknowledgements) => {
+            if (!acknowledgements) {
+                return [];
+            }
+            return Object.keys(acknowledgements).map((userId) => {
+                return {
+                    user: users[userId],
+                    acknowledgedAt: acknowledgements[userId],
+                };
+            }).sort((a, b) => b.acknowledgedAt - a.acknowledgedAt);
+        },
     );
 }
