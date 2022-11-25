@@ -677,6 +677,7 @@ class PurchaseModal extends React.PureComponent<Props, State> {
             processing: true,
             paymentInfoIsValid: false,
             buttonClickedInfo: callerInfo,
+            selectedProduct: this.state.selectedProduct,
         } as unknown as Pick<State, keyof State>;
 
         if (!this.state.isMonthly && this.state.selectedProduct?.recurring_interval === RecurringIntervals.MONTH) {

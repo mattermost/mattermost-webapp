@@ -8,7 +8,7 @@ import {RouteComponentProps, withRouter} from 'react-router-dom';
 
 import {BillingDetails} from 'types/cloud/sku';
 import {pageVisited, trackEvent} from 'actions/telemetry_actions';
-import {TELEMETRY_CATEGORIES} from 'utils/constants';
+import {RecurringIntervals, TELEMETRY_CATEGORIES} from 'utils/constants';
 import {Team} from '@mattermost/types/teams';
 
 import {t} from 'utils/i18n';
@@ -246,7 +246,13 @@ class ProcessPaymentSetup extends React.PureComponent<Props, State> {
             };
         }
 
-        const formattedSubtitle = (
+        const formattedSubtitle = this.props.selectedProduct?.recurring_interval === RecurringIntervals.YEAR ? (
+            <FormattedMessage
+                defaultMessage={'{productName} features are now available and ready to use.'}
+                id={'admin.billing.subscription.featuresAvailable'}
+                values={{productName}}
+            />
+        ) : (
             <FormattedMessage
                 id='admin.billing.subscription.nextBillingDate'
                 defaultMessage='Starting from {date}, you will be billed for the {productName} plan. You can change your plan whenever you like and we will pro-rate the charges.'
