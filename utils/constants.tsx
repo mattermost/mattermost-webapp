@@ -414,6 +414,8 @@ export const ModalIdentifiers = {
     GET_PUBLIC_LINK_MODAL: 'get_public_link_modal',
     KEYBOARD_SHORTCUTS_MODAL: 'keyboar_shortcuts_modal',
     USERS_TO_BE_REMOVED: 'users_to_be_removed',
+    DELETE_DRAFT: 'delete_draft_modal',
+    SEND_DRAFT: 'send_draft_modal',
     UPLOAD_LICENSE: 'upload_license',
     INSIGHTS: 'insights',
     CLOUD_LIMITS: 'cloud_limits',
@@ -475,7 +477,6 @@ export const PaidFeatures = {
     PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
     UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
     UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
-    UNLIMITED_INTEGRATIONS: 'mattermost.feature.unlimited_integrations',
     UNLIMITED_BOARD_CARDS: 'mattermost.feature.unlimited_board_cards',
     TEAM_INSIGHTS: 'mattermost.feature.team_insights',
     ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
@@ -569,7 +570,6 @@ export const SocketEvents = {
     LICENSE_CHANGED: 'license_changed',
     CONFIG_CHANGED: 'config_changed',
     PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
-    INTEGRATIONS_USAGE_CHANGED: 'integrations_usage_changed',
     OPEN_DIALOG: 'open_dialog',
     RECEIVED_GROUP: 'received_group',
     GROUP_MEMBER_ADD: 'group_member_add',
@@ -594,6 +594,11 @@ export const SocketEvents = {
     THREAD_UPDATED: 'thread_updated',
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
     THREAD_READ_CHANGED: 'thread_read_changed',
+    POST_ACKNOWLEDGEMENT_ADDED: 'post_acknowledgement_added',
+    POST_ACKNOWLEDGEMENT_REMOVED: 'post_acknowledgement_removed',
+    DRAFT_CREATED: 'draft_created',
+    DRAFT_UPDATED: 'draft_updated',
+    DRAFT_DELETED: 'draft_deleted',
 };
 
 export const TutorialSteps = {
@@ -956,6 +961,7 @@ export const AdvancedSections = {
     JOIN_LEAVE: 'joinLeave',
     PREVIEW_FEATURES: 'advancedPreviewFeatures',
     PERFORMANCE_DEBUGGING: 'performanceDebugging',
+    SYNC_DRAFTS: 'syncDrafts',
 };
 
 export const RHSStates = {

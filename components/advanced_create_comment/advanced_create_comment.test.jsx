@@ -22,6 +22,7 @@ describe('components/AdvancedCreateComment', () => {
         window.requestAnimationFrame.mockRestore();
     });
 
+    const currentTeamId = 'current-team-id';
     const channelId = 'g6139tbospd18cmxroesdk3kkc';
     const rootId = '';
     const latestPostId = '3498nv24823948v23m4nv34';
@@ -29,6 +30,7 @@ describe('components/AdvancedCreateComment', () => {
 
     const baseProps = {
         channelId,
+        currentTeamId,
         currentUserId,
         rootId,
         rootDeleted: false,
@@ -52,6 +54,7 @@ describe('components/AdvancedCreateComment', () => {
         onEditLatestPost: jest.fn(),
         resetCreatePostRequest: jest.fn(),
         setShowPreview: jest.fn(),
+        searchAssociatedGroupsForReference: jest.fn(),
         shouldShowPreview: false,
         enableEmojiPicker: true,
         enableGifPicker: true,
@@ -115,17 +118,51 @@ describe('components/AdvancedCreateComment', () => {
         expect(onResetHistoryIndex).toHaveBeenCalled();
 
         // should load channel member counts on mount
-        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
+        expect(getChannelMemberCountsByGroup).not.toHaveBeenCalled();
 
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should call searchAssociatedGroupsForReference if there is one mention in the draft', () => {
+        const draft = {
+            message: '@group',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+
+        const searchAssociatedGroupsForReference = jest.fn();
+        const props = {...baseProps, draft, searchAssociatedGroupsForReference};
+
+        shallow(<AdvancedCreateComment {...props}/>);
+
+        expect(searchAssociatedGroupsForReference).toHaveBeenCalled();
+    });
+
+    test('should call getChannelMemberCountsByGroup if there is more than one mention in the draft', () => {
+        const draft = {
+            message: '@group @othergroup',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
+        const getChannelMemberCountsByGroup = jest.fn();
+        const props = {...baseProps, draft, getChannelMemberCountsByGroup};
+
+        shallow(<AdvancedCreateComment {...props}/>);
+
+        expect(getChannelMemberCountsByGroup).toHaveBeenCalled();
     });
 
     test('should not call getChannelMemberCountsByGroup, without group mentions permission or license', () => {
         const useLDAPGroupMentions = false;
         const useCustomGroupMentions = false;
+        const draft = {
+            message: '@group @othergroup',
+            uploadsInProgress: [],
+            fileInfos: [],
+        };
 
         const getChannelMemberCountsByGroup = jest.fn();
-        const props = {...baseProps, useLDAPGroupMentions, useCustomGroupMentions, getChannelMemberCountsByGroup};
+        const props = {...baseProps, useLDAPGroupMentions, useCustomGroupMentions, getChannelMemberCountsByGroup, draft};
 
         shallow(<AdvancedCreateComment {...props}/>);
 
@@ -194,6 +231,8 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().textboxRef.current = {getInputBox: jest.fn(mockImpl), getBoundingClientRect: jest.fn(), focus: jest.fn()};
 
         wrapper.instance().handleEmojiClick({name: 'smile'});
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
 
         // Empty message case
@@ -208,6 +247,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with no space at the end
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({message: 'test :smile:  '}),
         );
@@ -219,6 +259,7 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.instance().handleEmojiClick({name: 'smile'});
 
         // Message with space at the end
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[2][0]).toEqual(
             expect.objectContaining({message: 'test  :smile:  '}),
         );
@@ -334,6 +375,8 @@ describe('components/AdvancedCreateComment', () => {
         const uploadCompleteFileInfo = [{id: '3', name: 'ccc', create_at: 300}];
         const expectedNewFileInfos = fileInfos.concat(uploadCompleteFileInfo);
         instance.handleFileUploadComplete(uploadCompleteFileInfo, [3], null, props.rootId);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(updateCommentDraftWithRootId).toHaveBeenCalled();
         expect(updateCommentDraftWithRootId.mock.calls[0][0]).toEqual(props.rootId);
         expect(updateCommentDraftWithRootId.mock.calls[0][1]).toEqual(
@@ -473,7 +516,7 @@ describe('components/AdvancedCreateComment', () => {
         expect(baseProps.onUpdateCommentDraft).not.toHaveBeenCalled();
 
         jest.runOnlyPendingTimers();
-
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(baseProps.onUpdateCommentDraft).toHaveBeenCalled();
         expect(baseProps.onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({message: testMessage}),
@@ -1049,6 +1092,8 @@ describe('components/AdvancedCreateComment', () => {
         wrapper.setState({draft});
 
         wrapper.instance().removePreview(3);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft).toHaveBeenCalled();
         expect(onUpdateCommentDraft.mock.calls[0][0]).toEqual(
             expect.objectContaining({fileInfos: [{id: 1}, {id: 2}]}),
@@ -1056,6 +1101,8 @@ describe('components/AdvancedCreateComment', () => {
         expect(wrapper.state().draft.fileInfos).toEqual([{id: 1}, {id: 2}]);
 
         wrapper.instance().removePreview(5);
+
+        jest.advanceTimersByTime(Constants.SAVE_DRAFT_TIMEOUT);
         expect(onUpdateCommentDraft.mock.calls[1][0]).toEqual(
             expect.objectContaining({uploadsInProgress: [4, 6]}),
         );

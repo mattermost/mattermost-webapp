@@ -193,26 +193,6 @@
         display: none;
     }
 
-    .post-list__loading {
-        padding: 1em 0;
-        font-size: 0.9em;
-        font-style: italic;
-        opacity: 0.5;
-        text-align: center;
-
-        i {
-            margin-right: 2px;
-        }
-
-        &.post-list__loading-search {
-            cursor: pointer;
-
-            &:hover {
-                text-decoration: underline;
-            }
-        }
-    }
-
     .post-list-holder-by-time {
         position: absolute;
         width: 100%;
@@ -1503,6 +1483,12 @@
         width: 100%;
         padding: 0 0 0.2em;
         word-wrap: break-word;
+
+        &-reactions-acks {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
 
         &.post--ephemeral {
             padding-right: 20px !important;
