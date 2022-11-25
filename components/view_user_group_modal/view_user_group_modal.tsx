@@ -13,11 +13,10 @@ import Constants from 'utils/constants';
 
 import * as Utils from 'utils/utils';
 import LoadingScreen from 'components/loading_screen';
-import {Group} from '@mattermost/types/groups';
+import {Group, GroupSource} from '@mattermost/types/groups';
 
 import './view_user_group_modal.scss';
 import {debounce} from 'mattermost-redux/actions/helpers';
-import {GroupSource} from 'mattermost-redux/constants/groups';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import Input from 'components/widgets/inputs/input/input';

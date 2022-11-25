@@ -3,10 +3,8 @@
 
 import React, {useCallback} from 'react';
 
-import {Group} from '@mattermost/types/groups';
+import {Group, GroupSource} from '@mattermost/types/groups';
 import {UserProfile} from '@mattermost/types/users';
-
-import {GroupSource} from 'mattermost-redux/constants/groups';
 
 import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils';
