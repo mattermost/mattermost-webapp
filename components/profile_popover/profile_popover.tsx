@@ -194,7 +194,7 @@ type ChannelCallsState = {
  */
 
 class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePopoverState> {
-    titleRef: React.RefObject<HTMLDivElement>;
+    closeButtonRef: React.RefObject<HTMLButtonElement>;
     returnFocus: () => void;
 
     static getComponentName() {
@@ -212,7 +212,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         this.state = {
             loadingDMChannel: undefined,
         };
-        this.titleRef = React.createRef();
+        this.closeButtonRef = React.createRef();
 
         if (this.props.returnFocus) {
             this.returnFocus = this.props.returnFocus;
@@ -244,14 +244,15 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 this.callsChannelState = data;
             });
         }
-        // Focus the title when the popover first opens, to bring the focus into the popover.
+
+        // Focus the close button when the popover first opens, to bring the focus into the popover.
         document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
             A11yCustomEventTypes.FOCUS, {
-            detail: {
-                target: this.titleRef.current,
-                keyboardOnly: true,
+                detail: {
+                    target: this.closeButtonRef.current,
+                    keyboardOnly: true,
+                },
             },
-        },
         ));
     }
     handleShowDirectChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -836,6 +837,8 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             <span data-testid={`profilePopoverTitle_${this.props.user.username}`}>
                 {roleTitle}
                 <button
+                    tabIndex={-1}
+                    ref={this.closeButtonRef}
                     className='user-popover__close'
                     onClick={this.handleClose}
                 >
@@ -867,11 +870,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     onKeyDown={this.handleKeyDown}
                     className={A11yClassNames.POPUP}
                 >
-                    <div
-                        tabIndex={-1}
-                        className='popover-title'
-                        ref={this.titleRef}
-                    >
+                    <div className='popover-title'>
                         {title}
                     </div>
                     <div className='user-profile-popover__content'>

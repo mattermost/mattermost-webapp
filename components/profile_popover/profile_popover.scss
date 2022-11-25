@@ -1,13 +1,5 @@
 @import 'utils/mixins';
 
-#user-profile-popover .popover-content {
-    padding: 0;
-}
-
-.user-profile-popover__content {
-    padding: 9px 14px;
-}
-
 .user-popover__set-custom-status-btn {
     display: flex;
     align-items: center;
@@ -45,6 +37,11 @@
     max-width: 248px;
 
     .popover-title {
+        max-width: 110%;
+        padding: 0;
+        margin-top: 8px;
+        margin-right: -8px;
+
         .user-popover__role {
             padding: 0 4px;
             background-color: rgba(var(--center-channel-text-rgb), 0.08) !important;
