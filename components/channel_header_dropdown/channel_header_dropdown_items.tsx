@@ -108,9 +108,9 @@ export default class ChannelHeaderDropdown extends React.PureComponent<Props> {
                     show={channel.type !== Constants.DM_CHANNEL && channel.type !== Constants.GM_CHANNEL}
                     channel={channel}
                 />
-                <ChannelMoveToSubmenu
+                {/* <ChannelMoveToSubmenu
                     channel={channel}
-                />
+                /> */}
                 <Menu.Group divider={divider}>
                     <MenuItemToggleFavoriteChannel
                         show={isMobile}

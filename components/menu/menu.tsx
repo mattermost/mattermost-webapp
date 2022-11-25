@@ -2,17 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React, {ReactNode, useState, MouseEvent} from 'react';
-import {Menu, MenuList} from '@mui/material';
+import {useDispatch, useSelector} from 'react-redux';
+import {Menu as MuiMenu, MenuList as MuiMenuList} from '@mui/material';
+
+import {getTheme} from 'mattermost-redux/selectors/entities/preferences';
+import {getIsMobileView} from 'selectors/views/browser';
+
+import {openModal, closeModal} from 'actions/views/modals';
 
 import Tooltip from 'components/tooltip';
 import CompassDesignProvider from 'components/compass_design_provider';
 import OverlayTrigger from 'components/overlay_trigger';
-
-import type {PropsFromRedux} from './index';
+import GenericModal from 'components/generic_modal';
 
 const OVERLAY_TIME_DELAY = 500;
 
-interface Props extends PropsFromRedux {
+interface Props {
 
     // Anchor button props
     anchorId?: string;
@@ -21,7 +26,7 @@ interface Props extends PropsFromRedux {
     anchorAriaLabel?: string;
 
     // Menu props
-    menuId?: string;
+    menuId: string;
     menuAriaLabel?: string;
 
     // Tooltip props
@@ -30,22 +35,68 @@ interface Props extends PropsFromRedux {
     tooltipText?: string;
     tooltipClassName?: string;
 
-    children: ReactNode;
+    children: ReactNode[];
 }
 
-export function MenuComponent(props: Props) {
+export function Menu(props: Props) {
+    const theme = useSelector(getTheme);
+
+    const isMobileView = useSelector(getIsMobileView);
+
+    const dispatch = useDispatch();
+
     const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
     const isMenuOpen = Boolean(anchorElement);
 
-    const handleMenuOpen = (event: MouseEvent<HTMLButtonElement>) => {
-        event.preventDefault();
-        setAnchorElement(event.currentTarget);
-    };
+    function MenuModalComponent() {
+        if (!isMobileView) {
+            return null;
+        }
 
-    const handleMenuClose = (event: MouseEvent<HTMLDivElement | HTMLUListElement>) => {
+        function handleModalExited() {
+            dispatch(closeModal(props.menuId));
+        }
+
+        return (
+            <CompassDesignProvider theme={theme}>
+                <GenericModal
+                    id={props.menuId}
+                    ariaLabel={props.menuAriaLabel}
+                    onExited={handleModalExited}
+                    backdrop={true}
+                    className='menuModal'
+                >
+                    {props.children}
+                </GenericModal>
+
+            </CompassDesignProvider>
+        );
+    }
+
+    function handleAnchorButtonClick(event: MouseEvent<HTMLButtonElement>) {
+        event.preventDefault();
+        if (isMobileView) {
+            dispatch(openModal({
+                modalId: props.menuId,
+                dialogType: MenuModalComponent,
+
+                // dialogProps: {
+                //     widgetType: props.widgetType,
+                //     title: localizeMessage('insights.newTeamMembers.title', 'New team members'),
+                //     subtitle: '',
+                //     filterType: props.filterType,
+                //     timeFrame: props.timeFrame,
+                // },
+            }));
+        } else {
+            setAnchorElement(event.currentTarget);
+        }
+    }
+
+    function handleMenuClose(event: MouseEvent<HTMLDivElement | HTMLUListElement>) {
         event.preventDefault();
         setAnchorElement(null);
-    };
+    }
 
     function renderAnchorNode() {
         const anchorNode = (
@@ -56,7 +107,7 @@ export function MenuComponent(props: Props) {
                 aria-expanded={isMenuOpen ? 'true' : undefined}
                 aria-label={props.anchorAriaLabel}
                 className={props.anchorClassName}
-                onClick={handleMenuOpen}
+                onClick={handleAnchorButtonClick}
                 tabIndex={isMenuOpen ? 0 : -1}
             >
                 {props.anchorNode}
@@ -86,23 +137,27 @@ export function MenuComponent(props: Props) {
         return anchorNode;
     }
 
+    if (isMobileView) {
+        return renderAnchorNode();
+    }
+
     return (
-        <CompassDesignProvider theme={props.theme}>
+        <CompassDesignProvider theme={theme}>
             {renderAnchorNode()}
-            <Menu
+            <MuiMenu
                 id={props.menuId}
                 anchorEl={anchorElement}
                 open={isMenuOpen}
                 onClose={handleMenuClose}
                 aria-label={props.menuAriaLabel}
             >
-                <MenuList
+                <MuiMenuList
                     aria-labelledby={props.anchorId}
                     onClick={handleMenuClose}
                 >
                     {props.children}
-                </MenuList>
-            </Menu>
+                </MuiMenuList>
+            </MuiMenu>
         </CompassDesignProvider>
     );
 }
