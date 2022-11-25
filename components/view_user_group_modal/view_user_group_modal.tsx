@@ -17,6 +17,7 @@ import {Group} from '@mattermost/types/groups';
 
 import './view_user_group_modal.scss';
 import {debounce} from 'mattermost-redux/actions/helpers';
+import {GroupSource} from 'mattermost-redux/constants/groups';
 
 import {ActionResult} from 'mattermost-redux/types/actions';
 import Input from 'components/widgets/inputs/input/input';
@@ -176,7 +177,7 @@ export default class ViewUserGroupModal extends React.PureComponent<Props, State
                 <div className='group-mention-name'>
                     <span className='group-name'>{`@ ${group.name}`}</span>
                     {
-                        group.source.toLowerCase() === 'ldap' &&
+                        group.source.toLowerCase() === GroupSource.Ldap &&
                         <span className='group-source'>
                             <FormattedMessage
                                 id='view_user_group_modal.ldapSynced'

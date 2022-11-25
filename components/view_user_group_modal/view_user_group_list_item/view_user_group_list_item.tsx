@@ -6,6 +6,8 @@ import React, {useCallback} from 'react';
 import {Group} from '@mattermost/types/groups';
 import {UserProfile} from '@mattermost/types/users';
 
+import {GroupSource} from 'mattermost-redux/constants/groups';
+
 import Avatar from 'components/widgets/users/avatar';
 import * as Utils from 'utils/utils';
 import LocalizedIcon from 'components/localized_icon';
@@ -60,7 +62,7 @@ const ViewUserGroupListItem = (props: Props) => {
                 {`@${user.username}`}
             </div>
             {
-                (group.source.toLowerCase() !== 'ldap' && props.permissionToLeaveGroup) &&
+                (group.source.toLowerCase() !== GroupSource.Ldap && props.permissionToLeaveGroup) &&
                 <button
                     type='button'
                     className='remove-group-member btn-icon'
