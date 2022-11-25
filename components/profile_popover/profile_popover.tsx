@@ -10,7 +10,7 @@ import {AccountOutlineIcon, AccountPlusOutlineIcon, CloseIcon, EmoticonHappyOutl
 import Pluggable from 'plugins/pluggable';
 import CallButton from 'plugins/call_button';
 
-import {isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
+import {displayUsername, isGuest, isSystemAdmin} from 'mattermost-redux/utils/user_utils';
 import {Client4} from 'mattermost-redux/client';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -20,9 +20,10 @@ import {ServerError} from '@mattermost/types/errors';
 import {ModalData} from 'types/actions';
 
 import {getHistory} from 'utils/browser_history';
-import Constants, {ModalIdentifiers, UserStatuses} from 'utils/constants';
+import Constants, {A11yClassNames, A11yCustomEventTypes, A11yFocusEventDetail, ModalIdentifiers, UserStatuses} from 'utils/constants';
 import {t} from 'utils/i18n';
 import * as Utils from 'utils/utils';
+import {shouldFocusMainTextbox} from 'utils/post_utils';
 
 import StatusIcon from 'components/status_icon';
 import Timestamp from 'components/timestamp';
@@ -78,6 +79,15 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
      * Function to call to hide the popover
      */
     hide?: () => void;
+
+    /**
+      * Function to call to return focus to the previously focused element when the popover closes.
+      * If not provided, the popover will automatically determine the previously focused element
+      * and focus that on close. However, if the previously focused element is not correctly detected
+      * by the popover, or the previously focused element will disappear after the popover opens,
+      * it is necessary to provide this function to focus the correct element.
+      */
+    returnFocus?: () => void;
 
     /**
      * Set to true if the popover was opened from the right-hand
@@ -141,6 +151,11 @@ interface ProfilePopoverProps extends Omit<React.ComponentProps<typeof Popover>,
     canManageAnyChannelMembersInCurrentTeam: boolean;
 
     /**
+     * @internal
+     */
+    teammateNameDisplay: string;
+
+    /**
      * The overwritten username that should be shown at the top of the popover
      */
     overwriteName?: React.ReactNode;
@@ -180,6 +195,9 @@ type ChannelCallsState = {
  * on the username or profile picture of a user.
  */
 class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePopoverState> {
+    titleRef: React.RefObject<HTMLDivElement>;
+    returnFocus: () => void;
+
     static getComponentName() {
         return 'ProfilePopover';
     }
@@ -195,6 +213,23 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
         this.state = {
             loadingDMChannel: undefined,
         };
+        this.titleRef = React.createRef();
+
+        if (this.props.returnFocus) {
+            this.returnFocus = this.props.returnFocus;
+        } else {
+            const previouslyFocused = document.activeElement;
+            this.returnFocus = () => {
+                document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+                    A11yCustomEventTypes.FOCUS, {
+                    detail: {
+                        target: previouslyFocused as HTMLElement,
+                        keyboardOnly: true,
+                    },
+                },
+                ));
+            };
+        }
     }
     componentDidMount() {
         const {currentTeamId, userId, channelId} = this.props;
@@ -210,6 +245,15 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 this.callsChannelState = data;
             });
         }
+        // Focus the title when the popover first opens, to bring the focus into the popover.
+        document.dispatchEvent(new CustomEvent<A11yFocusEventDetail>(
+            A11yCustomEventTypes.FOCUS, {
+            detail: {
+                target: this.titleRef.current,
+                keyboardOnly: true,
+            },
+        },
+        ));
     }
     handleShowDirectChannel = (e: React.MouseEvent<HTMLButtonElement>) => {
         const {actions} = this.props;
@@ -228,37 +272,30 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     GlobalActions.emitCloseRightHandSide();
                 }
                 this.setState({loadingDMChannel: undefined});
-                if (this.props.hide) {
-                    this.props.hide();
-                }
+                this.props.hide?.();
                 getHistory().push(`${this.props.teamUrl}/messages/@${user.username}`);
             }
         });
         this.handleCloseModals();
     };
-    handleEditAccountSettings = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
+    handleEditAccountSettings = () => {
         if (!this.props.user) {
             return;
         }
-        if (this.props.hide) {
-            this.props.hide();
-        }
+        this.props.hide?.();
         this.props.actions.openModal({
             modalId: ModalIdentifiers.USER_SETTINGS,
             dialogType: UserSettingsModal,
-            dialogProps: {isContentProductSettings: false},
+            dialogProps: {isContentProductSettings: false, onExited: this.returnFocus},
         });
         this.handleCloseModals();
     };
-    showCustomStatusModal = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        if (this.props.hide) {
-            this.props.hide();
-        }
+    showCustomStatusModal = () => {
+        this.props.hide?.();
         const customStatusInputModalData = {
             modalId: ModalIdentifiers.CUSTOM_STATUS,
             dialogType: CustomStatusModal,
+            dialogProps: {onExited: this.returnFocus},
         };
         this.props.actions.openModal(customStatusInputModalData);
     };
@@ -277,6 +314,13 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
             }
         }
     };
+    handleKeyDown = (e: React.KeyboardEvent) => {
+        if (shouldFocusMainTextbox(e, document.activeElement)) {
+            this.props.hide?.();
+        } else if (Utils.isKeyPressed(e, Constants.KeyCodes.ESCAPE)) {
+            this.returnFocus();
+        }
+    }
     renderCustomStatus() {
         const {
             customStatus,
@@ -380,6 +424,7 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                     size='xxl'
                     username={this.props.user?.username || ''}
                     url={urlSrc}
+                    tabIndex={-1}
                 />
                 <StatusIcon
                     className='status user-popover-status'
@@ -801,12 +846,39 @@ class ProfilePopover extends React.PureComponent<ProfilePopoverProps, ProfilePop
                 </button>
             </span>
         );
+
+        const displayName = displayUsername(this.props.user, this.props.teammateNameDisplay);
+
+        const tabCatcher = (
+            <span
+                tabIndex={0}
+                onFocus={(e) => (e.relatedTarget as HTMLElement).focus()}
+            />
+        );
         return (
             <Popover
                 {...popoverProps}
-                title={title}
                 id='user-profile-popover'
             >
+                {tabCatcher}
+                <div
+                    role='dialog'
+                    aria-label={Utils.localizeAndFormatMessage('profile_popover.profileLabel', 'Profile for {name}', { name: displayName })}
+                    onKeyDown={this.handleKeyDown}
+                    className={A11yClassNames.POPUP}
+                >
+                    <div
+                        tabIndex={-1}
+                        className='popover-title'
+                        ref={this.titleRef}
+                    >
+                        {title}
+                    </div>
+                    <div className='user-profile-popover__content'>
+                        {dataContent}
+                    </div>
+                </div>
+                {tabCatcher}
                 {dataContent}
             </Popover>
         );
