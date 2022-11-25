@@ -90,12 +90,33 @@ async function main() {
         return;
     }
 
-    const data = await createAndStartCycle({
-        repo: REPO,
-        branch: BRANCH,
-        build: BUILD_ID,
-        files: weightedTestFiles,
-    });
+    let data;
+    try {
+        data = await createAndStartCycle({
+            repo: REPO,
+            branch: BRANCH,
+            build: BUILD_ID,
+            files: weightedTestFiles,
+        });
+    } catch (e) {
+        console.error('HARRISON an error occurred');
+        console.error('---');
+        console.error('e.config', e.config);
+        console.error('---');
+        console.error('e.code', e.code);
+        console.error('---');
+        console.error('e.request', e.request);
+        console.error('---');
+        console.error('e.response', e.response);
+        console.error('---');
+        console.error('e.isAxiosError', e.isAxiosError);
+        console.error('---');
+        console.error('e.status', e.status);
+        console.error('---');
+        console.error('e', e.toJSON());
+        console.error('---');
+        throw new Error('HARRISON WAS HERE');
+    }
 
     console.log(chalk.green('Successfully generated a test cycle.'));
     console.log(data.cycle);
