@@ -87,7 +87,17 @@
             justify-content: center;
 
             .get-app__checkbox {
-                border-width: 1px;
+                display: flex;
+                width: 16px;
+                height: 16px;
+                align-items: center;
+                border: 1px solid rgba(var(--center-channel-color-rgb), 0.24);
+            }
+
+            #hideJoinedPreferenceCheckbox {
+                display: flex;
+                align-items: center;
+                cursor: pointer;
             }
 
             #channelsMoreDropdown {

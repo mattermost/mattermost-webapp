@@ -49,11 +49,11 @@ exports[`components/SearchableChannelList should match init snapshot 1`] = `
       id="modalPreferenceContainer"
     >
       <div
-        className="d-flex align-items-center"
+        id="hideJoinedPreferenceCheckbox"
+        onClick={[Function]}
       >
         <button
-          className="get-app__checkbox "
-          onClick={[Function]}
+          className="get-app__checkbox"
         />
         <MemoizedFormattedMessage
           defaultMessage="Hide Joined"

@@ -356,12 +356,13 @@ export default class SearchableChannelList extends React.PureComponent {
             );
         }
 
+        const hideJoinedButtonClass = classNames('get-app__checkbox', {checked: this.state.rememberHideJoinedChannelsChecked});
         const hideJoinedPreferenceCheckbox = (
-            <div className='d-flex align-items-center'>
-                <button
-                    className={`get-app__checkbox ${this.state.rememberHideJoinedChannelsChecked ? 'checked' : ''}`}
-                    onClick={this.handleChecked}
-                >
+            <div
+                id={'hideJoinedPreferenceCheckbox'}
+                onClick={this.handleChecked}
+            >
+                <button className={hideJoinedButtonClass}>
                     {this.state.rememberHideJoinedChannelsChecked ? <CheckboxCheckedIcon/> : null}
                 </button>
                 <FormattedMessage
